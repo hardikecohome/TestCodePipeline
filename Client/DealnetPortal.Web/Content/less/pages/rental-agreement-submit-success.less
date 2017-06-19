@@ -1,0 +1,120 @@
+.rental-successful-page{
+    max-width: 800px;
+    margin: 0 auto;
+    @media @tablet-down {
+        max-width: 528px;
+    }
+
+    .sent-contract-section{
+        margin: 20px auto 0;
+    }
+
+    @media @tablet-up {
+        margin-top: 0;
+    }
+    .icon-successfully {
+        margin: 40px 0 80px;
+        @media @mobile {
+            margin-bottom: 50px;
+        }
+    }
+    .message {
+        &-block {
+            float: none;
+            margin: 0 auto;
+
+            @media @mobile {
+                .btn {
+                    white-space: normal;
+                    height: auto;
+                }
+            }
+        }
+        &-header {
+            font-family: @usual-font-family;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        &-desc {
+            text-align: center;
+            max-width: 500px;
+            margin: 20px auto 30px;
+            @media @tablet-down {
+                margin: 40px auto 90px;
+            }
+            @media @mobile {
+                margin: 20px auto 40px;
+            }
+        }
+    }
+    .sent-email-msg{
+        margin-top: 30px;
+        margin-bottom: 20px;
+        .icon-success{
+            margin-right: 15px;
+        }
+    }
+    .links-container{
+        text-align: center;
+        margin: 25px 0;
+        .dealnet-info-link{
+            @media @mobile {
+                padding: 5px 0;
+                margin: 0 10px 5px;
+            }
+            &+.dealnet-info-link{
+                @media @tablet-up {
+                    margin-left: 50px;
+                }
+            }
+        }
+    }
+    .rental-summary-emails{
+        .rental-summary-inner{
+            max-width: 554px;
+            margin: 0 auto;
+        }
+        .btn{
+            margin: 20px auto 0;
+            @media @tablet-down {
+                width: 100%;
+                display: block;
+                max-width: 355px;
+            }
+        }
+
+        .control-group{
+            &.text-middle-group{
+                @media @desktop-up {
+                    display: table;
+                    .text-hold{
+                        display: table-cell;
+                        vertical-align: middle;
+                        height: 40px;
+                    }
+                }
+
+            }
+        }
+        @media @tablet-only {
+            .applicant-col{
+                .form-group{
+                    margin-bottom: 0;
+                    margin-top: 15px;
+                }
+                .dealnet-label,
+                .text-middle-group{
+                    display: inline-block;
+                }
+            }
+        }
+        @media @mobile {
+            .applicant-col{
+                margin-bottom: 10px;
+                .dealnet-label{
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+}

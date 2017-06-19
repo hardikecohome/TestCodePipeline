@@ -1,0 +1,13 @@
+﻿<div class="register-success-container login-container">
+	<div class="text-center">
+		<div class="align-middle registration-success-header">
+			<svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
+			<div>
+				@Resources.GreatWork<br> @Resources.YouHaveBeenRegistered <br class="br-t-min" /> @Resources.PleaseCheckEmail
+			</div>
+
+			@Html.ActionLink(Resources.Login, "Login", "Account", null, new { @class = "btn dealnet-button dealnet-success-button" })
+
+		</div>
+	</div>
+</div>

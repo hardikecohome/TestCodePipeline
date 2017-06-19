@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DealnetPortal.Api.Common.Enumeration
+{
+    public enum SignatureStatus
+    {
+        NotInitiated = 0,
+        Draft = 1,
+        //ProfileCreated = 1,
+        //FieldsMerged = 2,
+        InvitationsSent = 2,
+        Signed = 2
+    }
+}

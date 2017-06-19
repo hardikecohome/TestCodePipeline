@@ -1,0 +1,96 @@
+.customer-loan-success-page{
+  text-align: center;
+  font-size: 18px;
+  line-height: 30px;
+  .icon-success{
+    width: 40px;
+    height: 40px;
+  }
+  .page-heading{
+    margin-bottom: 0;
+    color: #404040;
+    font: 600 18px/30px @usual-font-family;
+  }
+  .contact-section{
+    margin-top: 25px;
+  }
+}
+
+.align-middle-section{
+  height: calc(~"100vh - 150px");
+  &:before{
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+    width: 1px;
+    margin-left: -5px;
+  }
+  .align-middle-inner{
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+
+
+.customer-success-page{
+  display: table;
+  width: 100%;
+  font-size: 18px;
+  line-height: 1.67;
+  &.unsubscribe-page{
+    font-size: 20px;
+    line-height: 1.5;
+  }
+
+  .dealnet-large-header{
+    margin-bottom: 20px;
+    font-size: 26px;
+    line-height: 1.3;
+  }
+  .fixed-form-section{
+    margin: 30px auto;
+    width: 320px;
+    max-width: 100%;
+  }
+}
+.customer-success-page-inner{
+    display: table-cell;
+    height: calc(~"100vh - 120px");
+    vertical-align: middle;
+
+  @media @mobile {
+    height: calc(~"100vh - 120px");
+  }
+
+  .icon-hold{
+    margin-bottom: 20px;
+  }
+
+  .customer-success-page-content{
+    padding: 25px 0;
+    @media @mobile {
+      padding:  10px 0;
+    }
+  }
+
+  .customer-decline-address{
+    text-align: center;
+    margin-top: 30px;
+    @media @mobile {
+      margin-top: 20px;
+    }
+  }
+
+  .dealnet-link-button{
+    font-size: 14px;
+  }
+
+  .btn-container{
+    &+.btn-container{
+      margin-top: 15px;
+    }
+  }
+
+}

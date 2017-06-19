@@ -1,0 +1,40 @@
+﻿
+@{
+    Layout = null;
+}
+@if (User.Identity.IsAuthenticated)
+{
+<div class="dropdown dealnet-login-buttons">
+    <a href="#" class="dropdown-toggle dealnet-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        <span class="icon-circle-hold">
+            <svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
+        </span>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <span class="dealnet-login-buttons-text">@User.Identity.Name</span>
+        }
+        else
+        {
+            @Resources.Anonymous
+                            }
+        <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <li>
+                @Html.ActionLink(Resources.Logout, "LogOff", "Account", null, new { @class = "dealnet-link" })
+            </li>
+        }
+        else
+        {
+            <li>
+                @Html.ActionLink(Resources.Login, "Login", "Account", null, new { @class = "dealnet-link" })
+            </li>
+            <li>
+                @Html.ActionLink(Resources.Register, "Register", "Account", null, new { @class = "dealnet-link" })
+            </li>
+        }
+    </ul>
+</div>
+}

@@ -1,0 +1,20 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = Resources.Error;
+}
+
+<div id="label-steps">
+    @Html.ActionLink(Resources.NewApplication, "BasicInfo", "NewRental", null, new { @class = "dealnet-action-link" }) &gt; <div class="dealnet-action-link">@Resources.Error</div>  &gt;
+</div>
+<div class="page-container">
+    <ul class="list-unstyled">
+        <li class="well danger-well error-descr">
+            <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+            Lorem ipsum dolor sit amet.
+        </li>
+    </ul>
+    <div class="text-center">
+        @Html.ActionLink(Resources.NewApplication, "BasicInfo", "NewRental", null, new { @class = "btn dealnet-button dealnet-success-button" })
+    </div>
+</div>

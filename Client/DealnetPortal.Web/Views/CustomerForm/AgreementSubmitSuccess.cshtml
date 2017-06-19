@@ -1,0 +1,64 @@
+﻿@model DealnetPortal.Web.Models.SubmittedCustomerFormViewModel
+@{
+    ViewBag.Title = Resources.ApplyForFinancing;
+    var isFullAddress = !(string.IsNullOrEmpty(Model.Street) ||
+                        string.IsNullOrEmpty(Model.City) ||
+                        string.IsNullOrEmpty(Model.Province) ||
+                        string.IsNullOrEmpty(Model.PostalCode));
+    var isContactSection = !(string.IsNullOrEmpty(Model.DealerName) &&
+                           string.IsNullOrEmpty(Model.Phone) &&
+                           string.IsNullOrEmpty(Model.Email) &&
+                           !isFullAddress);
+}
+
+<div class="customer-loan-success-page align-middle-section">
+    <div class="navbar navbar-inverse navbar-fixed-side">
+        <div class="navbar-header customer-navbar-header text-left">
+            <div class="dealnet-image-ecologo"></div>
+        </div>
+    </div>
+    <div class="align-middle-inner">
+        @if (Model.CreditAmount > 0)
+        {
+            <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
+            <h2 class="page-heading">@(Resources.CongratulationsYouBeenPreApprovedFor.Replace("{0}", $"{Model.CreditAmount:0,00}"))</h2>
+        }
+        <p>@Resources.YourFinancingApplicationWasSubmitted @Resources.WillContactYouSoon.Replace("{0}", Model.DealerName ?? Resources.Dealer)</p>
+        @if (isContactSection)
+        {
+            <div class="contact-section">
+                <div>@Resources.IfYouHaveQuestionsPleaseContact:</div>
+                <div class="vcard">
+                    @if (!string.IsNullOrEmpty(Model.DealerName))
+                    {
+                        <div class="fn org">@Model.DealerName</div>
+                    }
+                    @if (isFullAddress)
+                    {
+                        <div class="adr">
+                            <span class="street-address">@Model.Street</span>,
+                            <span class="locality">@Model.City, </span>
+                            <span class="region">@Model.Province</span>, <span class="postal-code">@Model.PostalCode</span>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Phone))
+                    {
+                        <div>
+                            <a href="tel:@Model.Phone" class="tel" rel="nofollow">
+                                <svg aria-hidden="true" class="icon icon-phone"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-phone")"></use></svg>
+                                @Model.Phone
+                            </a>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Phone))
+                    {
+                        <div>
+                            <a href="mailto:@Model.Email"><svg aria-hidden="true" class="icon icon-email2"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-email2")"></use></svg><span> @Model.Email</span></a>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

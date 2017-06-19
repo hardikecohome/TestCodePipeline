@@ -1,0 +1,270 @@
+.col-xs-5ths,
+.col-sm-5ths,
+.col-md-5ths,
+.col-lg-5ths {
+  position: relative;
+  min-height: 1px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.col-xs-5ths {
+  width: 20%;
+  float: left;
+}
+
+@media @tablet-up {
+  .col-sm-5ths {
+    width: 20%;
+    float: left;
+  }
+}
+
+@media @desktop-up {
+  .col-md-5ths {
+    width: 20%;
+    float: left;
+  }
+}
+
+@media @desktop-lg-up {
+  .col-lg-5ths {
+    width: 20%;
+    float: left;
+  }
+}
+.br-t-min{
+  @media @mobile {
+    display: none;
+  }
+}
+
+.dealnet-action-link,
+.dealnet-info-link{
+  font: 400 14px @usual-font-family;
+  color: @info-link-color;
+  display: inline-block;
+  cursor: pointer;
+  &:hover,
+  &:focus{
+    text-decoration: none;
+    color: @info-link-hover-color;
+    .icon-svg{
+      opacity: 1;
+    }
+  }
+  &:focus{
+    color: @info-link-color;
+  }
+  &:hover{
+    color: @info-link-hover-color;
+  }
+}
+
+.dealnet-action-link{
+  font-size: 12px;
+}
+.dealnet-success-link{
+  .dealnet-info-link;
+  color: @button-link-color;
+  &:focus{
+    color: @button-link-color;
+  }
+  &:hover{
+    color: @button-link-hover-color;
+  }
+}
+
+.dealnet-large-header {
+  font: 900 22px @usual-font-family;
+  color: @heading-text-color;
+}
+
+.main-heading{
+  .dealnet-large-header;
+  margin-bottom: 30px;
+  &.customer-heading{
+    margin-bottom: 20px;
+  }
+}
+.sub-heading{
+  .dealnet-middle-header;
+  margin-bottom: 30px;
+}
+
+.dealnet-middle-header {
+  font: 700 20px @usual-font-family;
+  color: @heading-text-color;
+&.no-margin-top{
+    margin-top: 0;
+  }
+}
+.equipment-number-header{
+  .owner-info-label;
+  font-size: 16px !important;
+}
+.dealnet-middle-header-2 {
+  font: 700 18px @usual-font-family;
+  color: @heading-text-color2;
+}
+.dealnet-small-header2{
+  font: 700 17px @usual-font-family;
+  color: @heading-text-color;
+  margin-bottom: 10px;
+}
+.dealnet-small-header {
+  width: 68px;
+  height: 17px;
+  font: 400 14px @usual-font-family;
+  color: @heading-text-color2;
+}
+
+.dealnet-button {
+  color: @btn-success-text-color;
+  box-sizing: border-box;
+  display: inline-block;
+  background-repeat: no-repeat;
+  &:hover {
+    color: @btn-success-text-color;
+  }
+
+  & > p {
+    margin-top: 3px;
+    & > img {
+      margin-right: 12px;
+      margin-top: -3px;
+    }
+  }
+}
+.step-item{
+  height: 50px;
+  width: 50px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 50%;
+  font: 700 20px/40px @usual-font-family;
+  border: 5px solid @white-color;
+  box-shadow: 0 0 0 1px @default-grey-color;
+  color: @default-grey-color;
+  background: @white-color;
+  text-decoration: none;
+  &:focus{
+    outline: none;
+
+  }
+  &:hover{
+    color: @default-grey-color;
+  }
+  &.step-active{
+    height: 48px;
+    width: 48px;
+    border-radius: 50%;
+    background: @btn-success-bg;
+    box-shadow: 0 0 0 1px @btn-success-bg;
+    color: @btn-success-text-color;
+    line-height: 36px;
+  }
+}
+#steps {
+  margin: 17px -15px 30px;
+  a.step-item{
+    color: @default-grey-color;
+    &.step-active{
+      color: @btn-success-text-color;
+    }
+    &:hover,
+    &:focus{
+      color: @default-grey-color;
+      text-decoration: none;
+    }
+  }
+}
+
+#step2 {
+  display: inline-block;
+  margin-left: -30px;
+}
+
+#step3 {
+  float: right;
+  margin-right: -40px;
+}
+
+#step4 {
+  float: right;
+  margin-right: -30px;
+}
+
+#step5 {
+  float: right;
+}
+
+@media @mobile {
+  #step2 {
+    margin-left: -20px;
+  }
+
+  #step4 {
+    margin-right: -20px;
+  }
+}
+
+#steps-line {
+  height: 1px;
+  background-color: #dcdcdc;
+  margin-top: 42px;
+  margin-bottom: -42px;
+}
+
+.pac-container {
+    z-index: 50 !important;
+}
+body.modal-open .pac-container{
+  position: fixed !important;
+  z-index: 1052 !important;
+}
+
+.text-semibold{
+  font-weight: 700 !important;
+}
+.text-md-sm{
+  font-size: 16px;
+}
+.text-md{
+  font-size: 18px;
+}
+.text-right-sm{
+  @media @tablet-up {
+    text-align: right;
+  }
+}
+.caret-up{
+  border-bottom: 10px solid #000000;
+  border-left: 6px solid rgba(0, 0, 0, 0);
+  border-right: 6px solid rgba(0, 0, 0, 0);
+  content: "";
+  display: inline-block;
+  height: 0;
+  vertical-align: top;
+  width: 0;
+}
+.inline-children{
+  display: inline-block;
+  .dealnet-disabled-input{
+    display: inline !important;
+    width: auto !important;
+  }
+}
+.postal-code{
+  text-transform: uppercase;
+  &+.dealnet-disabled-input{
+    text-transform: uppercase;
+  }
+}
+
+.vertical-aligned-cell{
+  height: 40px;
+  display: table-cell;
+  vertical-align: middle;
+}

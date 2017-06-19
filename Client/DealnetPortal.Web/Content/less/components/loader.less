@@ -1,0 +1,117 @@
+﻿.loader-container{
+  overflow: hidden;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+}
+html:not(.ie9){
+  //whirl base variables
+  @height: 100px;
+  @width: 100px;
+  @border-width: 7px;
+  @base-color: #555;
+  @ring-beam-color: @btn-success-bg;
+  @ring-color: transparent;
+
+  /* whirl base styling */
+  .loader,
+  #jquery-loader{
+    position: relative;
+    margin: 0 auto;
+    text-indent: -9999em;
+    min-height: @height;
+    &.hasText{
+      text-indent: 0;
+      width: 100% !important;
+      left: 0 !important;
+      height: auto !important;
+      padding-bottom: 100px;
+      padding-top: 0;
+      text-align: center;
+      .loading-text{
+        display: block;
+        margin-bottom: 20px;
+        font-weight: bold;
+      }
+    }
+    .loading-text{
+      display: none;
+    }
+    &:after {
+      z-index: 2;
+      content: "";
+      height: @height;
+      width: @width;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      margin: 0 0 0 (-@width / 2);
+      border-radius: 100%;
+      border-right: @border-width solid @ring-beam-color;
+      border-top: @border-width solid @ring-color;
+      border-left: @border-width solid @ring-color;
+      border-bottom: @border-width solid @ring-color;
+      opacity: 1;
+
+      -webkit-transition: all 1s ease 0s;
+      transition: all 1s ease 0s;
+      -webkit-transform-origin: center;
+      transform-origin: center;
+      -webkit-animation: standard 1s infinite linear;
+      animation: standard 1s infinite linear;
+    }
+  }
+
+}
+
+#jquery-loader-background{
+  position: fixed !important;
+  background-color: #f3f3f3;
+}
+#jquery-loader{
+  padding-top: 25px;
+  margin-top: 0;
+  top: 50% !important;
+  left: 50% !important;
+  margin-left: -50px !important;
+  margin-top: -70px !important;
+  position: fixed !important;
+}
+
+html.ie9{
+  .loader,
+  #jquery-loader{
+    text-indent: -999em;
+    background: url('../../images/Spinner_1.gif') 0 0 no-repeat;
+    background-size: cover;
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+  }
+}
+
+/* whirl standard rotation animation used for duo, double-up etc. */
+@-moz-keyframes standard {
+  0% {
+    -moz-transform: rotate(0deg);
+  }
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes standard {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes standard {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

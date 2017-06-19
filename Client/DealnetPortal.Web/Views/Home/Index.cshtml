@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = Resources.HomePage;
+}
+
+<div class="dealnet-home-page">
+    <div class="row">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+            <a class="dealnet-page-button new-rental" href="@Url.Action("BasicInfo", "NewRental")">
+                <span class="button-inner">
+                    <svg aria-hidden="true" class="icon icon-new-rental"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-new-rental")"></use></svg><span>@Resources.NewApplication</span>
+                </span>
+            </a>
+        </div>
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
+            <a class="dealnet-page-button" href="@Url.Action("Index", "MyDeals")">
+                <span class="button-inner">
+                    <svg class="icon icon-my-deals"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-deals")"></use></svg><span>@Resources.MyDeals</span>
+                </span>
+            </a>
+        </div>
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
+            <a class="dealnet-page-button" href="@Url.Action("Index", "Reports")">
+                <span class="button-inner">
+                  <svg aria-hidden="true" class="icon icon-reports-big"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-reports-big")"></use></svg><span>@Resources.Reports</span>
+                </span>
+            </a>
+        </div>
+    </div>
+    <!--<div class="row">
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            <span class="dealnet-caption">My Work Items</span>
+        </div>
+    </div>-->
+
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            <table id="work-items-table" class="display responsive home-page-table" width="100%">
+                <thead>
+                    <tr>
+                        <th class="all contract-cell">@Resources.Contract&nbsp;#</th>
+                        <th class="min-mobile-p customer-cell">@Resources.Customer</th>
+                        <th class="min-mobile-l status-cell">@Resources.Status</th>
+                        <th class="min-tablet action-cell">@Resources.ActionReq</th>
+                        <th class="min-desktop email-cell">@Resources.Email</th>
+                        <th class="min-desktop phone-cell">@Resources.Phone</th>
+                        <th class="min-desktop date-cell">@Resources.Date</th>
+                        <th class="hidden">RemainingDescription</th>
+                        <th class="all controls-cell"></th>
+                        <th class="id-cell hidden">@Resources.Id</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <div class="dealnet-caption">@Resources.DealFlowOverview</div>
+    <div class="dealnet-chart-switch-button-hold">
+        <div class="dealnet-chart-switch-button dealnet-chart-switch-button-selected" data-type="Week">@Resources.Week</div>
+        <div class="dealnet-chart-switch-button" data-type="Month">@Resources.Month</div>
+        <div class="dealnet-chart-switch-button" data-type="Year">@Resources.Year</div>
+    </div>
+    <div class="data-flow-container">
+        <span class="graph-label graph-label-x">$</span>
+        <span class="graph-label graph-label-y">@Resources.Time</span>
+        <div class="scrollable-container">
+            <div class="scrollable-content">
+                <canvas id="data-flow-overview"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("ContractRemove", "NewRental", FormMethod.Post, new { id = "remove-contract-form" }))
+{
+    <input type="hidden" name="contractId" id="remove-contract" />
+}
+
+<script type="text/javascript">
+    var chartUrl = '@Url.Action("GetDealFlowOverview", "Home")';
+    var itemsUrl = '@Url.Action("GetWorkItems", "Home")';
+    var editItemUrl = '@Url.Action("ContractEdit", "NewRental")';
+</script>
+
+@section Translations
+{
+    translations['Time'] = "@Resources.Time";
+    translations['Search'] = "@Resources.Search";
+    translations['Edit'] = "@Resources.Edit";
+    translations['MyWorkItems'] = "@Resources.MyWorkItems";
+    translations['Show'] = "@Resources.Show";
+    translations['Entries'] = "@Resources.Entries";
+    translations['NoMatchingRecordsFound'] = "@Resources.NoMatchingRecordsFound";
+    translations['New'] = "@Resources.New";
+    translations['Remove'] = "@Resources.Remove";
+    translations['Error'] = "@Resources.Error";
+    translations['AreYouSureYouWantToRemoveThisApplication'] = "@Resources.AreYouSureYouWantToRemoveThisApplication";
+}
+
+@section Styles
+{
+    @Styles.Render("~/bundles/data-tables-content")
+}
+
+@Scripts.Render("~/bundles/data-tables-scripts")
+@Scripts.Render("~/bundles/home-page")
+
+

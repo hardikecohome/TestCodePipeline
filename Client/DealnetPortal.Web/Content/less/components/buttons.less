@@ -1,0 +1,191 @@
+.dealnet-button{
+  height: 39px;
+  width: 235px;
+  border-radius: 4px;
+  &.big-green-button,
+  &.big-button{
+    width: 312px;
+    max-width: 100%;
+    height: 49px;
+  }
+  &.wide-button{
+    width: auto;
+    height: auto;
+    white-space: normal;
+  }
+  &.block-button{
+    width: 100%;
+    display: block;
+  }
+}
+.dealnet-success-button,
+.dealnet-green-button{
+  .dealnet-button;
+
+  height: 39px;
+  width: 235px;
+  border-radius: 4px;
+  background-color: @btn-success-bg;
+  box-shadow: @btn-success-shadow;
+  vertical-align: middle;
+  line-height: 24px;
+  font-weight: 600;
+
+  &.big-green-button,
+  &.big-button{
+    width: 312px;
+    height: 49px;
+  }
+  &.wide-button{
+    width: auto;
+  }
+  &.block-button{
+    width: 100%;
+    display: block;
+  }
+
+
+  &:focus{
+    outline: none;
+    color: @btn-success-text-color;
+    background-color: @btn-success-bg;
+    box-shadow: @btn-success-shadow;
+  }
+  &:hover {
+    background: @btn-success-hover-bg;
+    box-shadow: @btn-success-hover-shadow;
+  }
+  &:active {
+    background-color: @btn-success-active-bg;
+    box-shadow: @btn-success-active-shadow;
+    outline: none;
+    &:focus{
+      outline: none;
+      box-shadow: @btn-success-active-shadow;
+    }
+  }
+  .icon, span{
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .icon + span{
+    margin-left: 10px;
+  }
+
+  &.btn-small{
+    width: 65px;
+  }
+
+}
+.dealnet-link-button{
+  background: none;
+  font-weight: 700;
+  font-size: 16px;
+  color: @button-link-color;
+  width: auto;
+  &:hover{
+    color: @button-link-hover-color;
+    outline: none;
+    text-decoration: none;
+  }
+  &:active,
+  &:focus{
+    outline: 0 !important;
+    text-decoration: none;
+    box-shadow: none;
+    border: 0;
+    color: @button-link-active-color;
+  }
+}
+.btn-form-common{
+  @media @tablet-down {
+    width: 100%;
+    display: block;
+    max-width: 355px;
+    margin: 0 auto;
+  }
+}
+.dealnet-green-button-text {
+  font: 700 14px @usual-font-family;
+  color: @btn-success-text-color;
+}
+
+.button-container {
+  &.bttns-center{
+    text-align: center;
+    .btn{
+      display: inline-block;
+      @media @mobile {
+        display: block;
+        width: 100%;
+        height: 49px;
+        line-height: 36px;
+      }
+      &.btn-long-text{
+        @media @mobile {
+          display: table;
+          margin: 0 auto;
+          span {
+            vertical-align: middle;
+            display: table-cell;
+            line-height: 18px;
+          }
+        }
+      }
+    }
+  }
+}
+.button-proceed{
+  margin-top: 10px;
+}
+.rate-card-button-proceed{
+  margin-top: 30px;
+}
+
+button,
+.btn,
+a{
+  &.disabled{
+    opacity: 0.7 !important;
+    pointer-events: none !important;
+    input[type="file"]{
+      pointer-events: none !important;
+    }
+    &:disabled{
+      pointer-events: none !important;
+    }
+  }
+}
+a.disabled{
+  opacity: 0.7 !important;
+}
+
+
+.dealnet-button-declined {
+  .dealnet-success-button;
+  display: block;
+  width: 340px;
+  max-width: 100%;
+  margin: 0 auto 20px;
+  min-height: 39px;
+  height: auto;
+  white-space: initial;
+}
+
+#export-all-to-excel{
+  @media @tablet-up {
+    text-align: right;
+  }
+  @media @mobile {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+}
+
+.link-color-inherit{
+  color: inherit;
+  &:hover,
+  &:focus{
+    color: inherit;
+  }
+}

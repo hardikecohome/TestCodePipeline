@@ -1,0 +1,804 @@
+.preapproved-text{
+  font-size: 32px;
+}
+.editor-modal:not(.wide) .modal-footer .dealnet-button {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+
+.editor-modal .modal-body {
+  padding-top: 0px;
+}
+
+
+.dealnet-field-holder {
+  display: inline-block;
+  text-align: right;
+  margin-left: auto;
+  margin-right: 0;
+  float: right;
+  clear: right;
+  word-wrap: break-word;
+  &.text-left{
+    text-align: left !important;
+  }
+   a{
+    font: 14px @usual-font-family;
+  }
+  .icon-calendar{
+    display: none !important;
+  }
+}
+.modal-body{
+  .dealnet-field-holder {
+    .icon-calendar{
+      display: block !important;
+    }
+  }
+}
+
+.dealnet-section-title {
+  margin: 0 0 20px;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 22px;
+  color: @heading-text-color;
+  &.empty-title{
+    @media @tablet-down {
+      display: none;
+    }
+  }
+}
+.mandatory-title{
+  font-size: 14px;
+  color: #5d5d5d;
+  font-weight: normal;
+  float: right;
+  .glyphicon{
+    font-size: 7px;
+    top: -2px;
+    color: #ff9800;
+  }
+  @media (max-width: 420px) {
+    float: none;
+    display: block;
+    margin-top: 10px;
+  }
+}
+.mandatory-text{
+  position: relative;
+  .mandatory-icon{
+    position: absolute;
+    right: -12px;
+    top: 100%;
+    margin-top: -15px;
+  }
+}
+.mandatory-icon{
+  position: relative;
+  top: 5px;
+  display: inline-block;
+  height: 10px;
+  font-size: 20px;
+  line-height: 18px;
+  font-weight: bold;
+  color: #d33b4c;
+  font-style: normal;
+}
+
+.dealnet-section-edit-link{
+  .dealnet-info-link;
+  color: @button-link-color;
+
+  &:focus{
+    color: @button-link-color;
+  }
+  &:hover{
+    color: @button-link-hover-color;
+  }
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 22px;
+}
+#credit-check-form .dealnet-button {
+  margin-top: 10px;
+}
+
+.dealnet-disabled-input:not(.form-control-disabled){
+  border: none;
+  background: none;
+  text-align: right;
+  font: bold 14px @usual-font-family;
+  color: @heading-text-color2;
+  max-width: 100%;
+  width: 100%;
+  &.has-cost-sign{
+    &+.dealnet-disabled-input-value{
+      &:before{
+        content: '$ ';
+      }
+    }
+  }
+  &.dealnet-disabled-textarea{
+    &+.dealnet-disabled-input-value{
+      font-weight: 400;
+      text-align: left;
+    }
+  }
+  & ~ .caret{
+    display: none;
+  }
+}
+
+.text-left .dealnet-disabled-input:not(.form-control-disabled){
+  text-align: left;
+}
+.text-normal .dealnet-disabled-input:not(.form-control-disabled){
+  font-weight: 400;
+}
+
+input.dealnet-disabled-input,
+select.dealnet-disabled-input{
+
+}
+
+.dealnet-modal-section{
+  border: none !important;
+  margin-top: 10px !important;
+/*  padding-right: 10px !important;*/
+  & > div {
+    text-align: left !important;
+  }
+}
+
+
+
+
+@media(max-width: 480px) {
+  .dealnet-credit-check-section {
+    padding-right: 0 !important;
+    border: none !important;
+  }
+}
+
+.dealnet-modal-section input{
+  display: block !important;
+  width: 100% !important;
+}
+
+.dealnet-modal-section .dealnet-field-holder {
+  float: none !important;
+  width: 100% !important;
+}
+
+/*.dealnet-modal-section>div:first-child {
+  display: none !important;
+}*/
+
+.dealnet-credit-check-section {
+  width: 100%;
+  margin-top: 30px;
+  padding: 0;
+  border: 0 !important;
+  position: relative;
+}
+
+.right-column-info{
+  @media @desktop-up {
+    /*background: lightblue;*/
+    padding-left: 0;
+    .dealnet-credit-check-section{
+      padding-left: 10%;
+      &:before{
+        content: '';
+        position: absolute;
+        left: -1px;
+        top: 40px;
+        bottom: 8px;
+        width: 1px;
+        background: #000;
+      }
+    }
+  }
+}
+
+.left-column-info{
+  @media @desktop-up {
+    /*background: lightgoldenrodyellow;*/
+    clear: left;
+    padding-right: 0;
+    .dealnet-credit-check-section{
+      padding-right: 15%;
+      border: 0;
+    }
+    &.has-right-border{
+      .dealnet-credit-check-section{
+        &:before{
+          content: '';
+          position: absolute;
+          right: 0px;
+          top: 40px;
+          bottom: 8px;
+          width: 1px;
+          background: #000;
+        }
+      }
+      &+.col-md-6{
+        .dealnet-credit-check-section{
+          &:before{
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}
+.report-documents-list{
+  margin: 0 0 20px;
+  @media @desktop-up {
+    display: table;
+    width: 100%;
+  }
+  .document-col{
+    .dealnet-credit-check-section{
+      @media @tablet-down {
+        min-height: 0 !important;
+      }
+    }
+    &.full-height{
+      .documents-inner{
+        @media @desktop-up {
+          padding-bottom: 30px;
+        }
+      }
+    }
+  }
+  & > .col-md-6{
+/*    @media @desktop-up {
+      display: table-cell;
+      float: none;
+      vertical-align: top;
+      .table-div{
+        display: table;
+        width: 100%;
+        height: 100%;
+      }
+      .table-row{
+        display: table-row;
+        margin: 0;
+        &.full-height{
+          height: 100%;
+        }
+        &+.bottom{
+          height: 1px;
+        }
+      }
+    }*/
+  }
+  .dealnet-button{
+    margin-top: 10px;
+    @media @desktop-up {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+    }
+  }
+  .document-item{
+    padding-left: 20px;
+    padding-right: 23px;
+    display: inline-block;
+    position: relative;
+    &.block-item{
+      display: block;
+    }
+    .remove-link{
+      position: absolute;
+      left: 0;
+      top: 2px;
+      color: @heading-text-color;
+    }
+  }
+
+  .dealnet-field-caption{
+    @media @mobile {
+      width: 100%;
+    }
+  }
+
+  .dealnet-field-holder{
+    @media @mobile {
+      float: none;
+      text-align: left;
+    }
+  }
+  .icon{
+    margin-left: 0;
+    color: #989897;
+    position: absolute;
+    right: 0;
+    top: 1px;
+    &.icon-audio{
+      top: -1px;
+    }
+  }
+}
+.no-vertical-border{
+  .dealnet-credit-check-section{
+    &:before{
+      display: none !important;
+    }
+  }
+}
+.credit-check-info-hold:not(.shift-to-basic-info){
+  .grid-column:not([class*="pull-"]):not([class*="push-"]){
+    &:nth-of-type(odd) {
+      .left-column-info
+    }
+    &:nth-of-type(even) {
+      .right-column-info;
+   }
+  }
+  .grid-column[class*="pull-"]{
+    .left-column-info;
+    clear: none !important;
+  }
+  .grid-column[class*="push-"]{
+    .right-column-info;
+  }
+  &.cols-no-titles{
+    .grid-column{
+      &:nth-of-type(even) {
+        .dealnet-credit-check-section{
+          border: 0;
+          padding-right: 0;
+          &:before{
+            @media @desktop-up {
+              top: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+  &.equipment-info{
+    .grid-column{
+      .dealnet-credit-check-section{
+        @media (max-width: 992px) {
+          border-bottom: 1px solid #000 !important;
+          margin-bottom: 20px;
+        }
+      }
+    }
+  }
+  &.without-divider{
+    .grid-column:not([class*="pull-"]):not([class*="push-"]){
+      &:nth-of-type(even) {
+        .dealnet-credit-check-section:before{
+          display: none;
+        }
+      }
+    }
+  }
+  &.no-top-margin{
+    .dealnet-credit-check-section{
+      margin-top: 10px;
+      @media @desktop-up {
+        margin-top: 0;
+      }
+    }
+  }
+}
+.credit-check-info-hold.no-top-margin{
+  .dealnet-credit-check-section{
+    &:before{
+      top: 0 !important;
+    }
+  }
+}
+.summury-return-equip-item{
+  &+.summury-return-equip-item{
+    border-top: 1px solid @default-grey-color !important;
+    margin-top: 20px;
+    padding-top: 20px;
+  }
+}
+.credit-check-info-hold.shift-to-basic-info{
+  .grid-column{
+    &:nth-of-type(odd) {
+      .right-column-info;
+    }
+    &:nth-of-type(even) {
+      @media @desktop-up {
+        padding-right: 0;
+      }
+      .dealnet-credit-check-section{
+        @media @desktop-up {
+          padding: 0 15% 0 0;
+        }
+      }
+    }
+  }
+}
+
+.new-rental-credit-check{
+  width: 528px;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 20px;
+  @media @mobile {
+    font-size: 16px;
+  }
+
+  .loader-container{
+    margin: 170px auto 70px;
+    @media @mobile {
+      margin: 30px auto 20px;
+      .loader{
+        font-size: 17px;
+      }
+    }
+
+  }
+}
+
+.rejected-info{
+  margin-top: 50px;
+  font-size: 16px;
+  h3{
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+  ol{
+    padding-left: 15px;
+    li{
+      margin-bottom: 20px;
+    }
+  }
+  .button-container{
+    margin-top: 30px;
+  }
+}
+
+.new-equipment-wrap{
+  &+.new-equipment-wrap{
+    padding-top: 20px;
+    margin-top: 20px;
+    border-top: 1px solid #dcdcdc;
+    .dealnet-middle-header{
+      margin-top: 0;
+    }
+  }
+}
+
+
+.rental-summary-emails,
+.well{
+  border-radius: 0;
+  box-shadow: none;
+  border-color: @default-grey-color;
+  &.well-info{
+    background-color: @well-info-bg;
+    border: solid 1px @well-info-border-color;
+    .icon-info-well, .icon-email{
+      color: @well-info-icon-color;
+    }
+    &.position-well{
+      position: relative;
+      padding: 15px 20px 13px 60px;
+      .icon-info-well{
+        position: absolute;
+        top: 13px;
+        left: 18px;
+      }
+    }
+  }
+  &.success-well{
+    background-color: @well-success-bg;
+    border: solid 1px @well-success-border-color;
+    padding-left: 50px;
+    position: relative;
+    .icon-success{
+      color: @well-success-icon-color;
+      position: absolute;
+      left: 17px;
+      top: 50%;
+      margin-top: -14px;
+    }
+  }
+  &.danger-well{
+    position: relative;
+    font-size: 14px;
+    line-height: 1.3;
+    padding: 14px 18px 12px 45px;
+    margin: 15px 0;
+    background-color: rgba(217, 46, 0, 0.04);
+    border: solid 1px #f4b7b7;
+    color: #525251;
+    &.error-descr{
+      padding: 20px 20px 20px 60px;
+      .icon-error{
+        top: 20px;
+        left: 20px;
+      }
+    }
+    .icon-error{
+      position: absolute;
+      top: 14px;
+      left: 18px;
+      color: rgb(218, 46, 0);
+    }
+    &.over-aged-well{
+      .icon-info-well{
+        color: rgb(218, 46, 0);
+      }
+    }
+  }
+  &.over-aged-well{
+    position: relative;
+    padding: 16px 20px 14px 60px;
+    .icon-info-well{
+      position: absolute;
+      top: 13px;
+      left: 18px;
+      color: @well-info-icon-color;
+    }
+  }
+  .summary-emails-header{
+    position: relative;
+    font-size: 16px;
+    margin-bottom: 15px;
+    padding-left: 35px;
+    .icon{
+      margin: 0;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+  }
+  .summary-emails-header2{
+    font-size: 16px;
+    padding-left: 44px;
+  }
+  .btn-container{
+    .btn{
+      margin-top: 20px;
+      @media @desktop-up {
+        margin-top: 25px;
+        float: right;
+        width: 85%;
+      }
+    }
+  }
+}
+
+.summary-payment-info{
+  margin: 20px 0;
+  .dealnet-field-caption{
+    font-size: 18px;
+    text-transform: uppercase;
+    font-weight: 900;
+    opacity: 0.85;
+    @media @desktop-up {
+      margin: 10px 0;
+    }
+    @media @mobile {
+      margin: 10px 0;
+    }
+  }
+  .dealnet-field-holder{
+    text-align: left;
+    font-weight: 700;
+    font-size: 18px;
+    color: @default-dark-grey-color;
+    @media @tablet-only {
+      text-align: right;
+    }
+  }
+  .dealnet-disabled-input{
+    text-align: left;
+    font-size: 18px;
+    width: 85%;
+    float: none;
+    display: inline-block;
+    color: @default-dark-grey-color;
+    @media @tablet-only {
+      text-align: right;
+    }
+  }
+  .summary-payment-info-item{
+    @media @tablet-down {
+      margin: 5px 0 15px;
+    }
+  }
+}
+.summary-return-equipment{
+  .dealnet-section-title{
+    margin-top: 30px;
+  }
+  .dealnet-disabled-input{
+    width: 100%;
+    text-align: left;
+  }
+}
+.summary-info-hold{
+
+  .summary-tax-notification{
+    margin: 20px 0;
+  }
+
+
+
+  .btn-container-proceed{
+    margin-top: 20px;
+  }
+  .btn-finish{
+    @media @desktop-up {
+      float: left;
+      margin-right: 40px;
+    }
+  }
+
+}
+.print-link{
+  display: block;
+  text-align: center;
+  line-height: 39px;
+  padding: 10px;
+  color: @default-dark-grey-color;
+  &:hover, &:focus{
+    color: @default-dark-grey-color;
+  }
+  .icon{
+    margin-right: 10px;
+  }
+  @media @desktop-up {
+    display: inline-block;
+    text-align: left;
+    padding: 0;
+  }
+}
+/*.report-documents-list{
+  &.editable-list{
+    li{
+      padding-right: 20px;
+      .remove-link{
+        position: absolute;
+        right: 0;
+        top: 50%;
+        margin-top: -8px;
+        color: @heading-text-color;
+      }
+    }
+  }
+  li{
+    position: relative;
+  }
+  li+li{
+    margin-top: 10px;
+  }
+  .icon{
+    margin-right: 10px;
+    color: #989897;
+  }
+}*/
+
+.back-to-top-hold{
+  display: none;
+  @media @desktop-up {
+    display: none !important;
+  }
+}
+
+
+.equipment-form-container {
+  margin-top: 30px;
+  .equipment-proceed-success {
+    font-weight: bold;
+    font-size: 16px;
+    @media @mobile {
+      font-size: 14px;
+    }
+  }
+  .owner-info-label {
+    margin: 15px 0 10px;
+  }
+  .add-equip-link {
+    margin: 10px 0 0;
+  }
+  @media @desktop-only {
+    .row {
+      /*  margin-left: -10px;
+        margin-right: -10px;*/
+      & > div[class*="col-"] {
+        // padding: 0 10px;
+      }
+    }
+  }
+  &:not(.has-loan-calc) {
+    .equipment-editable-section {
+      width: 100% !important;
+    }
+  }
+
+  &.has-loan-calc {
+    max-width: 100% !important;
+    .form-section {
+      max-width: 100% !important;
+    }
+
+    .equipment-editable-section div[class*="col-"]:not(.initial-width) {
+      width: 100% !important;
+    }
+    .equipment-editable-section div[class*="col-"] {
+      &.loan-col-md-6 {
+        @media @desktop-up {
+          width: 50% !important;
+        }
+      }
+      &.loan-col-md-4 {
+        @media @desktop-up {
+          width: 33.33333333% !important;
+        }
+      }
+      &.loan-col-md-8 {
+        @media @desktop-up {
+          width: 66.66666667% !important;
+        }
+      }
+      &.loan-col-sm-4 {
+        @media @tablet-up {
+          width: 33.33333333% !important;
+        }
+      }
+      &.loan-col-sm-8 {
+        @media @tablet-up {
+          width: 66.66666667% !important;
+        }
+      }
+    }
+  }
+}
+
+
+.sticker{
+  &:not(.stick){
+    width: 100% !important;
+  }
+}
+
+body:not(.ios-device){
+  .sticker{
+    width: 100%;
+    @media @mobile {
+      position: static;
+      margin-top: 0;
+    }
+    &.stick{
+      @media @tablet-up {
+        position: fixed;
+        top: 0px;
+        padding: 0 15px 0;
+        right: 0;
+        box-sizing: content-box;
+      }
+    }
+  }
+}
+
+body.tablet-device.ios-device{
+  .sticker-parent{
+    position: relative;
+  }
+  .sticker.stick{
+    position: fixed !important;
+    top: 60px !important;
+    width: calc(~"50% - 30px") !important;
+    right: 15px;
+    &.absoluted-div{
+      position: absolute;
+      width: calc(~"100% - 30px");
+      top: 0;
+    }
+  }
+}

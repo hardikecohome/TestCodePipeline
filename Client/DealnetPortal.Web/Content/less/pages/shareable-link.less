@@ -1,0 +1,153 @@
+.shareable-link-page{
+  .controls-hold {
+    .clearfix;
+    .btn-small{
+      @media @tablet-up {
+        width: 80px;
+        float: right;
+      }
+      @media @mobile {
+        float: none;
+        display: block;
+        width: 100%;
+        max-width: 355px;
+        margin: 15px auto 0;
+      }
+    }
+    .control-group{
+      @media @tablet-up {
+        float: left;
+        width: calc(~"100% - 100px");
+      }
+      @media @mobile {
+        float: none;
+        width: 100%;
+      }
+      .dropdown-container {
+          position: relative;
+      }
+    }
+  }
+  .labels-hold{
+    margin-bottom: 7px;
+    label{
+      margin: 0;
+    }
+  }
+  .get-link-section{
+    max-width: 765px;
+    .checkbox-toggle{
+      margin-left: 20px;
+    }
+  }
+  .equipment-section{
+    @media @desktop-up {
+      max-width: 765px;
+    }
+    margin-top: 30px;
+    .nav-tabs {
+      width: auto;
+      display: inline-block;
+      & > li{
+        width: 128px;
+      }
+    }
+    .tab-content{
+      padding: 0;
+      .tab-pane{
+        padding: 0;
+      }
+    }
+      .define-equipment-input{
+        padding: 20px 0 0;
+        @media @tablet-up {
+          max-width: 420px;
+        }
+      }
+  }
+  .save-proceed-btn-hold{
+    position: relative;
+    @media @desktop-up {
+      max-width: 765px;
+    }
+    .well{
+      margin-top: 20px;
+      @media @desktop-up {
+        position: absolute;
+        top: 50%;
+        left: 255px;
+        right: 0;
+        margin-top: -30px;
+      }
+    }
+  }
+
+  .btn-save-proceed{
+    @media @tablet-down {
+      width: 100%;
+      display: block;
+      max-width: 355px;
+      margin: 0 auto;
+    }
+  }
+}
+
+.tags-list{
+  margin: 0 -5px;
+  padding: 0;
+  list-style: none;
+  li{
+    position: relative;
+    display: inline-block;
+    padding: 11px 46px 11px 20px;
+    margin: 10px 5px;
+    border-radius: 50px;
+    background: #f2f2f2;
+    color: #5d5d5d;
+    font: 14px/1.3  @usual-font-family;
+    .icon-remove{
+      position: absolute;
+      right: 17px;
+      top: 15px;
+      opacity: 0.7;
+      cursor: pointer;
+      width: 10px;
+      height: 10px;
+      &:after{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: -5px;
+        background: transparent;
+      }
+      .icon-remove-cross{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      &:hover{
+        opacity: 1;
+      }
+    }
+
+  }
+  &.customer-needs-list{
+    li{
+      height: 30px;
+      margin: 4px 5px 6px;
+      padding: 0px 28px 0px 17px;
+      line-height: 30px;
+      color: #99a2a8;
+      background: rgba(245, 246, 250, 0.7);
+      .icon-remove{
+        top: 10px;
+        right: 12px;
+      }
+    }
+  }
+}

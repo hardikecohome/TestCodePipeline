@@ -1,0 +1,514 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ContractWasDeclined" xml:space="preserve">
+    <value>Contract {0} was declined</value>
+  </data>
+  <data name="ContractWasSuccessfullyChanged" xml:space="preserve">
+    <value>Contract {0} was successfully changed</value>
+  </data>
+  <data name="ContractWasSuccessfullySubmitted" xml:space="preserve">
+    <value>Contract {0} was successfully submitted</value>
+  </data>
+  <data name="HomeOwnersName" xml:space="preserve">
+    <value>Home Owner's Name:</value>
+  </data>
+  <data name="PleaseSignAgreement" xml:space="preserve">
+    <value>Please Sign Agreement</value>
+  </data>
+  <data name="TypeOfApplication" xml:space="preserve">
+    <value>Type of Application:</value>
+  </data>
+  <data name="AirConditioner" xml:space="preserve">
+    <value>Air Conditioner</value>
+  </data>
+  <data name="AirHandler" xml:space="preserve">
+    <value>Air Handler</value>
+  </data>
+  <data name="AndThenYouPromptedToChangePass" xml:space="preserve">
+    <value>and then you will be prompted to change the password.</value>
+  </data>
+  <data name="BasementRepair" xml:space="preserve">
+    <value>Basement Repair</value>
+  </data>
+  <data name="Bathroom" xml:space="preserve">
+    <value>Bathroom</value>
+  </data>
+  <data name="Boiler" xml:space="preserve">
+    <value>Boiler</value>
+  </data>
+  <data name="Doors" xml:space="preserve">
+    <value>Doors</value>
+  </data>
+  <data name="EexternalLoginAlreadyAssociated" xml:space="preserve">
+    <value>The external login is already associated with an account.</value>
+  </data>
+  <data name="ErrorOnRegisterUser" xml:space="preserve">
+    <value>Error on Register user</value>
+  </data>
+  <data name="ExtendedWarrantyForm" xml:space="preserve">
+    <value>Extended Warranty Form</value>
+  </data>
+  <data name="ExternalLoginFailure" xml:space="preserve">
+    <value>External login failure.</value>
+  </data>
+  <data name="ExternalServiceUnavailable" xml:space="preserve">
+    <value>External service is unavailable</value>
+  </data>
+  <data name="Fireplace" xml:space="preserve">
+    <value>Fireplace</value>
+  </data>
+  <data name="Flooring" xml:space="preserve">
+    <value>Flooring</value>
+  </data>
+  <data name="Furnace" xml:space="preserve">
+    <value>Furnace</value>
+  </data>
+  <data name="Gst" xml:space="preserve">
+    <value>GST</value>
+  </data>
+  <data name="GstPst" xml:space="preserve">
+    <value>GST + PST</value>
+  </data>
+  <data name="GstQst" xml:space="preserve">
+    <value>GST + QST</value>
+  </data>
+  <data name="HeatPump" xml:space="preserve">
+    <value>Heat Pump</value>
+  </data>
+  <data name="HepaSystem" xml:space="preserve">
+    <value>Hepa System</value>
+  </data>
+  <data name="Hrv" xml:space="preserve">
+    <value>HRV</value>
+  </data>
+  <data name="Hst" xml:space="preserve">
+    <value>HST</value>
+  </data>
+  <data name="Hwt" xml:space="preserve">
+    <value>HWT</value>
+  </data>
+  <data name="InvalidUserEmail" xml:space="preserve">
+    <value>Invalid user email.</value>
+  </data>
+  <data name="Invoice" xml:space="preserve">
+    <value>Invoice</value>
+  </data>
+  <data name="Kitchen" xml:space="preserve">
+    <value>Kitchen</value>
+  </data>
+  <data name="OntimePassCorrectNowChange" xml:space="preserve">
+    <value>Your on-time password is correct, now please change the password</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="PleaseUseToLoginPortal" xml:space="preserve">
+    <value>Please use it to login the portal</value>
+    <comment>Context: This is your password. Please use it to...</comment>
+  </data>
+  <data name="Plumbing" xml:space="preserve">
+    <value>Plumbing</value>
+  </data>
+  <data name="PorchEnclosure" xml:space="preserve">
+    <value>Porch Enclosure</value>
+  </data>
+  <data name="Roofing" xml:space="preserve">
+    <value>Roofing</value>
+  </data>
+  <data name="SecuritySystem" xml:space="preserve">
+    <value>Security System</value>
+  </data>
+  <data name="Siding" xml:space="preserve">
+    <value>Siding</value>
+  </data>
+  <data name="SignedContract" xml:space="preserve">
+    <value>Signed Contract</value>
+  </data>
+  <data name="SignedInstallationCertificate" xml:space="preserve">
+    <value>Signed Installation Certificate</value>
+  </data>
+  <data name="Sunrooms" xml:space="preserve">
+    <value>Sunrooms</value>
+  </data>
+  <data name="TanklessWaterHeater" xml:space="preserve">
+    <value>Tankless Water Heater</value>
+  </data>
+  <data name="ThirdPartyVerificationCall" xml:space="preserve">
+    <value>Third Party Verification Call</value>
+  </data>
+  <data name="ThisIsYourOnetimePass" xml:space="preserve">
+    <value>This is your one-time password:</value>
+  </data>
+  <data name="ThisIsYourPass" xml:space="preserve">
+    <value>This is your password:</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="UnknownApplicationToLogIn" xml:space="preserve">
+    <value>Unknown application to log in.</value>
+  </data>
+  <data name="UnknownApplicationToRegister" xml:space="preserve">
+    <value>Unknown application to register</value>
+  </data>
+  <data name="UserNamerPasswordIncorrect" xml:space="preserve">
+    <value>The user name or password is incorrect.</value>
+  </data>
+  <data name="VoidPersonalChequeCopy" xml:space="preserve">
+    <value>Copy of Void Personal Cheque</value>
+  </data>
+  <data name="WaterTreatmentSystem" xml:space="preserve">
+    <value>Water Treatment System</value>
+  </data>
+  <data name="Windows" xml:space="preserve">
+    <value>Windows</value>
+  </data>
+  <data name="YourOneTimePassword" xml:space="preserve">
+    <value>Your one-time password</value>
+  </data>
+  <data name="YourPassword" xml:space="preserve">
+    <value>Your password</value>
+  </data>
+  <data name="ApplicationSubmitted" xml:space="preserve">
+    <value>Application submitted</value>
+  </data>
+  <data name="ClientDataInputted" xml:space="preserve">
+    <value>Client data inputted</value>
+  </data>
+  <data name="Contract" xml:space="preserve">
+    <value>Contract</value>
+  </data>
+  <data name="CreditCheckApproved" xml:space="preserve">
+    <value>Credit check approved</value>
+  </data>
+  <data name="CreditCheckDeclined" xml:space="preserve">
+    <value>Credit check declined</value>
+  </data>
+  <data name="CreditCheckInitiated" xml:space="preserve">
+    <value>Credit check initiated</value>
+  </data>
+  <data name="Customer" xml:space="preserve">
+    <value>Customer</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Equipment" xml:space="preserve">
+    <value>Equipment</value>
+  </data>
+  <data name="LoanApplication" xml:space="preserve">
+    <value>Loan</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="RentalApplication" xml:space="preserve">
+    <value>Rental</value>
+  </data>
+  <data name="RentalApplicationHwt" xml:space="preserve">
+    <value>Rental (HWT)</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Reports</value>
+  </data>
+  <data name="SalesRep" xml:space="preserve">
+    <value>SalesRep</value>
+  </data>
+  <data name="SentToAudit" xml:space="preserve">
+    <value>Sent to audit</value>
+  </data>
+  <data name="StartedToFillNewContract" xml:space="preserve">
+    <value>Started to fill new contract</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="IDNotYetGenerated" xml:space="preserve">
+    <value>ID Not yet generated</value>
+  </data>
+  <data name="BusinessPhone" xml:space="preserve">
+    <value>Business phone</value>
+  </data>
+  <data name="CellPhone" xml:space="preserve">
+    <value>Cell phone</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="ContractId" xml:space="preserve">
+    <value>Contract ID</value>
+    <comment>Dealer contract id</comment>
+  </data>
+  <data name="HomePhone" xml:space="preserve">
+    <value>Home phone</value>
+  </data>
+  <data name="InstallationAddress" xml:space="preserve">
+    <value>Installation address</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+    <comment>Customer name</comment>
+  </data>
+  <data name="NewCustomerAppliedForFinancing" xml:space="preserve">
+    <value>New customer applied for financing</value>
+  </data>
+  <data name="PreApproved" xml:space="preserve">
+    <value>Pre-approved</value>
+    <comment>Only text</comment>
+  </data>
+  <data name="SelectedTypeOfService" xml:space="preserve">
+    <value>Selected type of service</value>
+  </data>
+  <data name="Fax" xml:space="preserve">
+    <value>Fax</value>
+  </data>
+  <data name="IfYouHaveQuestionsPleaseContact" xml:space="preserve">
+    <value>If you have any question please contact</value>
+    <comment>Context: If you have any question please contact: One Fine Company</comment>
+  </data>
+  <data name="ThankYouForApplyingForFinancing" xml:space="preserve">
+    <value>Thank you for applying for financing.</value>
+  </data>
+  <data name="WillContactYouSoon" xml:space="preserve">
+    <value>{0} will contact you soon.</value>
+    <comment>Context: One Fine Company will contact you soon. </comment>
+  </data>
+  <data name="YouHaveBeenPreapprovedFor" xml:space="preserve">
+    <value>You have been pre-approved for ${0}.</value>
+    <comment>Context: You have been pre-approved for $15,000.</comment>
+  </data>
+  <data name="YourFinancingApplicationWasSubmitted" xml:space="preserve">
+    <value>Your financing application was successfully submitted.</value>
+  </data>
+  <data name="DealInfo" xml:space="preserve">
+    <value>Deal Info</value>
+  </data>
+  <data name="YouCanViewThisDealHere" xml:space="preserve">
+    <value>You can view this deal here</value>
+  </data>
+  <data name="CommentFromCustomer" xml:space="preserve">
+    <value>Comment from customer</value>
+  </data>
+  <data name="Dealer" xml:space="preserve">
+    <value>Dealer</value>
+  </data>
+  <data name="Congratulations" xml:space="preserve">
+    <value>Congratulations</value>
+  </data>
+  <data name="Hi" xml:space="preserve">
+    <value>Hi</value>
+  </data>
+  <data name="InCaseOfQuestionsPleaseContact" xml:space="preserve">
+    <value>In case of questions please contact</value>
+  </data>
+  <data name="OnThe" xml:space="preserve">
+    <value>on the</value>
+  </data>
+  <data name="PleaseSignInUsingYourEmailAddressAndFollowingPassword" xml:space="preserve">
+    <value>Please sign in using your email address and following password</value>
+  </data>
+  <data name="Support" xml:space="preserve">
+    <value>Support</value>
+  </data>
+  <data name="ThanksForYourInterestInHomeImprovementService" xml:space="preserve">
+    <value>Thanks for your interest in home improvement service</value>
+  </data>
+  <data name="WeAreNowLookingForheBest" xml:space="preserve">
+    <value>We’re now looking for the best home professional in your area - selected contractor will contact you soon.</value>
+  </data>
+  <data name="YouCanViewYourAccountOn" xml:space="preserve">
+    <value>You can view your account on</value>
+  </data>
+  <data name="YouHaveBeen" xml:space="preserve">
+    <value>You have been</value>
+  </data>
+  <data name="WeFoundHomeProfessionalForYour" xml:space="preserve">
+    <value>We found home professional for your home improvement project</value>
+  </data>
+  <data name="For" xml:space="preserve">
+    <value>for</value>
+  </data>
+  <data name="IfYouHaveQuestionsToHomeProfessionalPleaseContact" xml:space="preserve">
+    <value>If you have any question to home professional please contact</value>
+  </data>
+  <data name="InCaseRemarksAboutSelectedHomeProfessionalsPleaseContact" xml:space="preserve">
+    <value>In case remarks about selected home professionals please contact</value>
+  </data>
+  <data name="Mail" xml:space="preserve">
+    <value>Mail</value>
+  </data>
+  <data name="WeAreLookingForTheBestProfessionalForYourHomeImprovementProject" xml:space="preserve">
+    <value>We’re looking for the best professional for your home improvement project</value>
+  </data>
+  <data name="WillContactYouSoonText" xml:space="preserve">
+    <value>will contact you soon</value>
+  </data>
+  <data name="WeFoundHomeProfessionalForYourHomeImprovementProject" xml:space="preserve">
+    <value>We found home professional for your home improvement project</value>
+  </data>
+  <data name="Client" xml:space="preserve">
+    <value>Client</value>
+  </data>
+  <data name="ClientsComment" xml:space="preserve">
+    <value>Client’s comment</value>
+  </data>
+  <data name="ContactInformation" xml:space="preserve">
+    <value>Contact information</value>
+  </data>
+  <data name="EmailAddress" xml:space="preserve">
+    <value>Email address</value>
+  </data>
+  <data name="HomeImprovementType" xml:space="preserve">
+    <value>Home improvement type</value>
+  </data>
+  <data name="MobilePhone" xml:space="preserve">
+    <value>Mobile phone</value>
+  </data>
+  <data name="NoDealersMatchingCustomerLead" xml:space="preserve">
+    <value>No dealers matching customer lead (type: {0}, postal code: {1})</value>
+  </data>
+  <data name="PreferredContactMethod" xml:space="preserve">
+    <value>Preferred contact method</value>
+  </data>
+  <data name="ThereAreNoDealersMatchingFollowingLead" xml:space="preserve">
+    <value>There are no dealers matching following lead</value>
+  </data>
+  <data name="TransactionId" xml:space="preserve">
+    <value>Transaction ID</value>
+  </data>
+  <data name="FollowingLeadHasNotBeenAcceptedByAnyDealerFor12h" xml:space="preserve">
+    <value>Following lead has not been accepted by any dealer for {0}h</value>
+  </data>
+  <data name="CustomerLeadHasNotBeenAcceptedByAnyDealerFor" xml:space="preserve">
+    <value>Customer lead has not been accepted by any dealer for {0}h (type: {1}, postal code: {2})</value>
+  </data>
+  <data name="UnfortunatelyThisLeadIsNoLongerAvailable" xml:space="preserve">
+    <value>Unfortunately this lead is no longer available</value>
+  </data>
+</root>

@@ -1,0 +1,66 @@
+﻿@model DealnetPortal.Web.Models.LoginViewModel
+@{
+    ViewBag.Title = Resources.Login;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="login-container">
+        <div class="dealnet-large-header">@Resources.Login</div>
+        <section id="loginForm">
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+            {   
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(m => m.UserName, new { @class = "" })
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control dealnet-input" })
+                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })                        
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @class = "" })
+                    <div class="control-group control-group-pass">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control dealnet-input" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="pull-left">
+                                <label class="align-middle custom-checkbox">
+                                    @Html.CheckBoxFor(m => m.RememberMe)
+                                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                                    <span>@Resources.RememberMe</span>
+                                </label>
+                            </div>
+                            <div  class="pull-right">
+                                @Html.ActionLink(Resources.ForgotPassword, "ForgotPassword")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-8 col-xs-12 col-lg-12 col-md-12">
+                            <input type="submit" value="@Resources.Login" class="btn dealnet-button dealnet-success-button"/>
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                </div>
+                <div class="form-group text-center">
+                    @Html.ActionLink(Resources.Registration, "Register", "Account", null, new { @class = "" })
+                </div>
+            }
+        </section>
+    </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,285 @@
+.owner-info {
+  margin-top: 27px;
+}
+.basic-info-form .owner-info{
+  margin-top: 15px;
+}
+
+#label-steps {
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.dealnet-large-header {
+  margin-top: 6px;
+}
+
+
+
+.owner-info-label {
+  margin-top: 27px;
+  position: relative;
+  .additional-remove {
+    display: inline-block;
+    margin-left: 38px;
+    cursor: pointer;
+    @media @mobile {
+      margin-left: 0;
+      position: absolute;
+      right:  0;
+      top:  5px;
+    }
+  }
+}
+
+.scanlicense-button,
+.scanlicence-button{
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.scanlicense-notify,
+.scanlicence-notify{
+  color: #989897;
+  display: block;
+  margin: 20px 0 0 0;
+  @media ( max-width: 1023px ){
+    display: block;
+    margin: 10px 0 0;
+  }
+}
+
+
+#add-additional-applicant,
+.add-applicant-link{
+  margin-top: 26px;
+  cursor: pointer;
+  display: inline-block;
+  font: 500 14px/inherit  @usual-font-family;
+  color: @info-link-color;
+  &:hover {
+    color: @info-link-hover-color;
+  }
+  & > div > img {
+    margin-right: 9px;
+    margin-top: -2px;
+  }
+  &.add-applicant-contract-edit{
+    display: inline-block;
+    margin: 5px 0 15px;
+  }
+}
+
+.address-info-label {
+  margin-top: 37px;
+}
+.get-location-section{
+  margin-bottom: 20px;
+}
+
+#mailing-adress-different > input{
+  margin-right: 9px;
+  vertical-align: top;
+}
+
+#saveproceed-button,
+.save-proceed-btn-hold{
+  margin-top: 30px;
+}
+
+.clear-address{
+  vertical-align: middle;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 38px !important;
+  color: @clear-link-color;
+  text-decoration: none;
+  &:focus{
+    color: @clear-link-color;
+    outline: none;
+    text-decoration: none;
+  }
+  &:hover {
+    color: @clear-link-hover-color;
+    text-decoration: none;
+  }
+  @media @desktop-up {
+    margin-top: 25px;
+  }
+  & > *{
+    vertical-align: middle;
+  }
+  .icon+span{
+    margin-left: 10px;
+  }
+}
+.col-sm-6{
+  .clear-address:not(.no-top-margin){
+    @media @tablet-only {
+      margin-top: 25px;
+    }
+  }
+}
+.control-group{
+  & > .clear-address{
+    margin-top: 0 !important;
+  }
+}
+
+
+.clear-address > div {
+  margin-top: -4px;
+  margin-right: 7px;
+}
+
+.modal .modal-dialog {
+  width: 400px;
+}
+
+#you-want {
+  padding-top: 6px;
+  padding-bottom: 10px;
+  &.dealnet-middle-header-2{
+    font-weight: 400;
+  }
+}
+
+#capture-area {
+  padding-top: 20px;
+  text-align: center;
+}
+
+#big-capture-canvas {
+  display: none;
+}
+
+.capture-frame {
+  width: 100%;
+  height: auto;
+}
+
+#capture-buttons {
+  padding-top: 26px;
+  display: inline-block;
+}
+
+#retake {
+  font-family: Lato;
+  font-size: 16px;
+  color: #42a01f;
+  padding-top: 15px;
+  cursor: pointer;
+}
+
+#upload-buttons {
+  display: table-cell;
+  width: 400px;
+  height: 270px;
+  vertical-align: middle;
+  text-align: center;
+}
+
+#upload-area {
+  text-align: center;
+}
+
+
+#capture-buttons input {
+  font-family: Lato;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  color: #ffffff;
+}
+
+/*.pac-item > span:last-child {
+    display: none;
+}*/
+
+.pac-icon {
+  display: none;
+}
+
+.pac-item {
+  padding-left: 12px;
+}
+.additional-remove{
+  font-size: 14px;
+}
+.scanlicence-hold{
+  position: relative;
+  .clearfix;
+}
+.scanlicence-info-link{
+  margin: 0 0 0 17px;
+  @media @tablet-only {
+    position: absolute;
+    left: 50%;
+    top: 9px;
+    margin-left: 197px;
+    display: block;
+  }
+  @media @mobile {
+    display: none;
+/*    width:  20px;
+    margin: 20px auto 0;*/
+  }
+  &.active{
+    &+.scanlicence-info-text{
+      display: block;
+    }
+  }
+}
+.scanlicence-info-text{
+  display: none;
+
+  @media @desktop-up {
+    float: right;
+    margin: -8px 0 0 0;
+    width: calc(~"100% - 295px");
+  }
+
+  @media @tablet-down{
+    text-align: center;
+    margin: 20px 0 5px;
+  }
+
+  @media @mobile {
+    display: block;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 13px;
+  }
+}
+
+.profile-header{
+  .profile-heading{
+    margin-bottom: 15px;
+    @media @tablet-up {
+      display: inline-block;
+    }
+  }
+  .custom-checkbox{
+    @media @tablet-up {
+      margin-left:  80px;
+    }
+  }
+}
+
+.col-clear-sm-6{
+  @media @tablet-only {
+    clear: left;
+  }
+}
+.col-clear-md-4{
+  @media (min-width: 1024px) and (max-width: 1199px){
+    clear: left;
+  }
+}
+
+.col-clear-lg-3,
+.col-clear-lg-4{
+  @media (min-width: 1200px) {
+    clear: left;
+  }
+}

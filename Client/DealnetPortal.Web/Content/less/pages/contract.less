@@ -1,0 +1,168 @@
+.documents-container{
+  .no-documents{
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 36px;
+  }
+  .file-upload{
+    @media @desktop-up {
+      float: right;
+    }
+    @media @tablet-down {
+      margin: 20px auto !important
+    }
+  }
+}
+.comments-widget{
+  .comment{
+    padding: 20px 0;
+    border-bottom: 1px solid #ededed;
+    .comment-footer{
+      display: none;
+    }
+    &.active{
+      & + .child-comments-list{
+        display: block;
+      }
+    }
+    .comment-user{
+      color: #5c5c5b;
+      font-weight: 700;
+      @media @mobile {
+        display: block;
+      }
+    }
+    .icon-user{
+      margin-right: 10px;
+    }
+    .comment-update{
+      display: inline-block;
+      padding: 3px 10px;
+      margin: 0 10px;
+      background: #f0f0f0;
+      border-radius: 10px;
+      color: #626262;
+      font-size: 11px;
+      @media @mobile {
+        margin: 5px 10px 5px 0;
+      }
+      .comment-update-time{
+        margin-right: 5px;
+      }
+    }
+    .owner-comment{
+      display: inline-block;
+      color: #cacaca;
+      @media @mobile {
+        margin: 5px 0;
+      }
+    }
+    .show-comments-answers{
+      position: relative;
+      padding-right: 15px;
+      color: #525251;
+      text-decoration: none;
+      margin-right: 20px;
+      font-size: 13px;
+      &:hover{
+        text-decoration: none;
+        color: #525251;
+      }
+      &:before{
+        content: '';
+        position: absolute;
+        right: 0;
+        top:  50%;
+        margin-top: -2px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 4px 4px 0 4px;
+        border-color: #525251 transparent transparent transparent;
+      }
+      &.active{
+        &:before{
+          border-width: 0 4px 4px 4px;
+          border-color: transparent transparent #525251 transparent;
+        }
+      }
+    }
+    .dealnet-success-link{
+      font-weight: 600;
+      color: @comments-link-color;
+      opacity: 0.85;
+      &:hover{
+        opacity: 1;
+      }
+    }
+    .comment-reply-form{
+      margin: 10px 0 0;
+      .btn{
+        margin: 10px auto 0;
+      }
+    }
+  }
+  .child-comments-list{
+    padding-left: 0;
+    display: none;
+    margin: 0;
+    @media @tablet-only {
+      padding-left: 60px;
+    }
+    @media @mobile{
+      padding-left: 30px;
+    }
+  }
+}
+.comment-body{
+  position: relative;
+  padding-right: 20px;
+}
+.comment-remove-link{
+  .clear-address;
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 0 !important;
+  line-height: 20px !important;
+  color: #e04217;
+  &:focus{
+    color: #e04217;
+  }
+  &:visited{
+    color: #e04217;
+  }
+  &:hover{
+    color: #c83913;
+  }
+}
+.show-comments-answers{
+  .glyphicon{
+    font-size: 9px;
+  }
+}
+
+.common-contract-information{
+  .dealnet-field-caption{
+    font-size: 18px;
+    @media @mobile {
+      font-size: 15px;
+    }
+  }
+  .dealnet-field-holder{
+    .control-group{
+      font-weight: 700;
+      font-size: 18px;
+      @media @mobile {
+        text-align: left;
+        margin-top: 5px;
+      }
+    }
+  }
+}
+
+#new-equipment-info-section-modal{
+  .dealnet-middle-header{
+    margin-bottom: 10px;
+  }
+}

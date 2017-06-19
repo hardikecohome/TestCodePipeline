@@ -1,0 +1,279 @@
+@media @large-tablet-down{
+    .dealnet-body-container{
+        width: 100%;
+        margin: 0;
+    }
+}
+
+   .navbar{
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        height: 50px;
+        margin: 0;
+        border-radius: 0;
+        border: 0;
+        background: @navbar-header;
+
+        .dealnet-login-buttons{
+            padding-right: 15px;
+        }
+
+        .navbar-header{
+            width: 100%;
+            position: relative;
+
+            .dealnet-login-buttons{
+                margin-right: 0 !important;
+            }
+            .burger-hold{
+              width: auto;
+            }
+            .user-hold{
+                width: auto;
+                float: right;
+            }
+
+            @media @mobile {
+                width: auto;
+            }
+        }
+       .logo-container{
+         background: transparent;
+
+         @media @large-tablet-end{
+
+           background: @logo-bg-color;
+           display: block;
+           width: 16.66666667%;
+           text-align: center;
+           .main-logo{
+             margin-left: -15px;
+           }
+         }
+
+       }
+        .main-logo{
+            text-indent: -9999em;
+            @media @large-tablet-down{
+              position: absolute;
+              left: 50%;
+              margin-left: -70px;
+              width: 140px;
+              float: none;
+            }
+        }
+        .navbar-toggle{
+            @media @large-tablet-down{
+                display: block !important;
+                margin-left: -10px;
+            }
+            @media @mobile {
+                margin-left: 5px;
+            }
+        }
+        .navbar-right{
+            @media @mobile {
+                float: right !important;
+                margin: 0;
+            }
+        }
+        .dealnet-login-buttons{
+            .dealnet-login-buttons-text{
+                @media @large-tablet-down {
+                    display: none;
+                }
+            }
+            .caret{
+                @media @large-tablet-down {
+                    display: none;
+                }
+            }
+            .dropdown-toggle{
+                background: transparent !important;
+            }
+        }
+
+        .dealnet-login-buttons {
+            display: inline-block;
+        }
+
+        .dealnet-login-buttons .dropdown-toggle {
+            line-height: 50px;
+            vertical-align: middle;
+        }
+
+        .dealnet-login-buttons .dropdown-menu {
+          right: 0;
+          width: auto;
+          left: auto;
+          background-color: @navbar-header !important;
+        }
+
+    }
+
+body.ios-device.modal-open .navbar-fixed-side{
+  @media @tablet-up {
+    position: absolute;
+    top: 0;
+  }
+}
+    .dealnet-login-buttons-holder {
+        height: 50px;
+    }
+
+
+/*
+** dealnet-sidebar
+**/
+
+    .dealnet-sidebar{
+        background: @navbar-bg;
+        height: auto !important;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        padding: 50px 0 0;
+        z-index: 9;
+        border: 0;
+        box-shadow: inset -1px 1px 5px 0 rgba(0, 0, 0, 0.31);
+        @media @desktop-only {
+            width: 25%;
+        }
+        @media @desktop-up {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        @media @desktop-lg-up {
+            width: 16.66666667%;
+        }
+        @media @large-tablet-end {
+          top: 50px;
+          padding-top: 0;
+        }
+        .nav-sidebar{
+            margin: 0 -15px;
+        }
+        .dealnet-sidebar-user{
+            display: none;
+            color: #fff;
+            font-weight: 700;
+        }
+        @media @large-tablet-down{
+            padding: 0 15px;
+            margin-left: -280px;
+            z-index: 10000;
+            width: 280px; /*example + never use min-width with this solution */
+            &.collapse{
+                display: block !important;
+            }
+            &.in{
+                margin-left: 0;
+                //transition: margin-left 0.2s linear;
+            }
+            &.collapsing{
+                margin-left: -280px;
+                //transition: margin-left 0.2s linear;
+                display: block;
+            }
+            .nav-sidebar{
+                float: none;
+                margin: 7.5px -15px;
+                & > li{
+                    float: none;
+                }
+            }
+
+            .dealnet-sidebar-header{
+                display: block;
+                margin-bottom: 15px;
+            }
+            .dealnet-sidebar-header{
+                .navbar-toggle{
+                    margin-right: 0;
+                    display: block !important;
+                    .icon-bar{
+                        background: #fff;
+                    }
+                }
+            }
+            .sidebar-inner{
+              display: table;
+              min-height: 100%;
+              width: 100%;
+              .sidebar-row {
+                display: table-row;
+                height: 1px;
+              }
+
+              .sidebar-row-expanded { height: 100%; }
+            }
+            .sidebar-bottom{
+              .dealnet-sidebar-item{
+                margin-left: -15px;
+                margin-right: -15px;
+              }
+            }
+            .icon-circle-hold{
+                margin-right: 10px;
+                margin-left: -5px;
+            }
+        }
+
+    }
+
+    .burger-hold{
+        .navbar-toggle{
+            margin-left: 5px !important;
+        }
+    }
+/*    .dealnet-sidebar-user,
+    .sidebar-bottom{
+        @media @large-tablet-end {
+            display: none !important;
+        }
+    }*/
+
+
+.sidebar-bottom{
+  display: none;
+}
+
+@media @large-tablet-only {
+  body.open-menu{
+    .dealnet-sidebar-item.sidebar-lang-item{
+      display: none;
+    }
+  }
+}
+@media @large-tablet-down {
+  body.open-menu{
+    .dealnet-sidebar .dealnet-sidebar-user{
+      display: block;
+    }
+    .sidebar-bottom{
+      display: block;
+    }
+  }
+}
+
+    @media @large-tablet-end {
+        .burger-hold{
+            display: none;
+        }
+        .dealnet-sidebar-header{
+            display: none;
+        }
+    }
+
+.customer-loan-page{
+  .lang-switcher{
+    margin-right: 5px;
+    height: auto !important;
+    @media @mobile {
+      display: block;
+    }
+  }
+}
