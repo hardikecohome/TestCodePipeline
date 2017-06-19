@@ -3,7 +3,7 @@
     var state = require('state').state;
 
     var validateOnSelect = function () {
-        var isValid = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm'].every(function (field) {
+        var isValid = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm','CustomYCostVal','CustomAFee'].every(function (field) {
             return $("#" + field).valid();
         });
 
@@ -32,6 +32,7 @@
         $('#LoanTerm').val(state[option].LoanTerm);
         $('#CustomerRate').val(state[option].CustomerRate);
         $('#AdminFee').val(state[option].AdminFee);
+        $('#DealerRate').val(state[option].yourCost);
         $('#total-monthly-payment').val(customSlicedTotalMPayment);
         if (state[option].DeferralPeriod === '')
             $('#LoanDeferralType').val(state[option].DeferralPeriod);
@@ -87,31 +88,62 @@
     }
 
     $('#CustomYCostVal').rules('add', {
+        required: {
+            depends: function (element) {
+                return !$('#CustomCRate').val();
+            }
+        },
         number: true,
-        minlength: 0
+        regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/,
+        messages: {
+            regex:translations.yourCostFormat,
+            required:translations.customerOrYourCost
+        }
+    });
+
+    $('#CustomCRate').rules('add', {
+        required: {
+            depends: function (element) {
+                return !$('#CustomYCostVal').val();
+            }
+        },
+        number: true,
+        regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/,
+        messages: {
+            regex:translations.customerRateFormat,
+            required: translations.customerOrYourCost
+        }
     });
 
     $('#CustomAFee').rules('add', {
         number: true,
-        minlength: 0
-    });
-
-    $('#CustomCRate').rules('add', {
-        required: true,
-        minlength: 1,
-        regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/
+        minlength: 0,
+        regex:/(^[0]?|(^[1-9]\d{0,11}))([.,][0-9]{1,2})?$/,
+        messages: {
+            regex:translations.adminFeeFormat
+        }
     });
 
     $('#CustomAmortTerm').rules('add', {
         required: true,
         minlength: 1,
-        regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/
+        regex: /^[1-9]\d{0,2}?$/,
+        messages: {
+            required: translations.ThisFieldIsRequired,
+            regex: translations.amortTermFormat,
+            minLength: translations.amortTermMax
+        }
     });
 
     $('#CustomLoanTerm').rules('add', {
         required: true,
         minlength: 1,
-        regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/
+        regex: /^[1-9]\d{0,2}?$/,
+        messages: {
+            //required: translations.ThisFieldIsRequired,
+            regex: translations.loanTermFormat,
+            minLength: translations.loanTermMax,
+        }
     });
 
     return {
