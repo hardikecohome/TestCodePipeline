@@ -27,7 +27,7 @@
         $('#LoanTerm').val(state[option].LoanTerm);
         $('#CustomerRate').val(state[option].CustomerRate);
         $('#AdminFee').val(state[option].AdminFee);
-        $('#DealerRate').val(state[option].yourCost);
+        $('#DealerCost').val(state[option].DealerCost);
         $('#total-monthly-payment').val(customSlicedTotalMPayment);
         if (state[option].DeferralPeriod === '')
             $('#LoanDeferralType').val(state[option].DeferralPeriod);
