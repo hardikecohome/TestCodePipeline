@@ -9,6 +9,7 @@
             });
 
         if (!$('#paymentInfo').hasClass('hidden')) {
+            $('#paymentInfo').css('display', 'none');
             $('#paymentInfo').addClass('hidden');
         }
     }
@@ -22,6 +23,7 @@
             });
 
         if ($('#paymentInfo').hasClass('hidden')) {
+            $('#paymentInfo').css('display', 'block');
             $('#paymentInfo').removeClass('hidden');
         }
     }
