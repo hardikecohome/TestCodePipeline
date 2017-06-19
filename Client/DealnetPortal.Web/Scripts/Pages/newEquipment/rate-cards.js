@@ -300,16 +300,22 @@
                 });
             }
 
-            var selectedValues = $('#' + option + 'AmortizationDropdown option:selected').text().split('/');
-            var amortTerm = +(selectedValues[1]);
-
             var options = $('#' + option + 'AmortizationDropdown');
             options.empty();
+
+
+            if (option === 'Deferral') {
+                var deferralPeriod = $.grep(constants.customDeferralPeriods, function (period) { return period.name === $('#LoanDeferralType').val() })[0];
+
+                if (deferralPeriod != null && deferralPeriod !== '') {
+                    $('#DeferralPeriodDropdown').val(deferralPeriod.val.toString());
+                }
+            }
 
             $.each(dropdownValues, function (item) {
                 var optionTemplate = $("<option />").val(dropdownValues[item].AmortizationTerm).text(dropdownValues[item].LoanTerm + '/' + dropdownValues[item].AmortizationTerm);
 
-                if (option === 'Deferral' && dropdownValues[item].AmortizationTerm === amortTerm) {
+                if (state[option].AmortizationTerm === dropdownValues[item].AmortizationTerm) {
                     optionTemplate.attr('selected', 'selected');
                 }
 
