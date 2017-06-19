@@ -504,7 +504,6 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.PostalCodes, d => d.MapFrom(src => src.PostalCodesList));
             cfg.CreateMap<DealerAreaDTO, DealerAreaViewModel>();
 
-
             //New Version
             cfg.CreateMap<EquipmentInfoDTO, EquipmentInformationViewModelNew>()
                 .ForMember(x => x.ContractId, d => d.MapFrom(src => src.Id))
@@ -518,7 +517,5 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.IsAllInfoCompleted, d => d.Ignore())
                 .ForMember(x => x.IsApplicantsInfoEditAvailable, d => d.Ignore());
         }
-
-
     }
 }

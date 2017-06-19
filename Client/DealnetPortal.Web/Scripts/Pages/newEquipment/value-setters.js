@@ -67,6 +67,13 @@
         };
     };
 
+    var setCustomYourCost = function (optionKey) {
+        return function (e) {
+            state[optionKey].DealerCost = parseFloat(e.target.value);
+            recalculateValuesAndRender([{ name: optionKey }]);
+        };
+    };
+
     var setAdminFee = function (optionKey) {
         return function (e) {
             state[optionKey].AdminFee = parseFloat(e.target.value);
@@ -114,6 +121,7 @@
         setYourCost: setYourCost,
         setAdminFee: setAdminFee,
         setDownPayment: setDownPayment,
-        setRentalMPayment: setRentalMPayment
+        setRentalMPayment: setRentalMPayment,
+        setCustomYourCost: setCustomYourCost
     }
 })

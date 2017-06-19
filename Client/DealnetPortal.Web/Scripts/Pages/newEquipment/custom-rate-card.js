@@ -3,21 +3,16 @@
     var state = require('state').state;
 
     var validateOnSelect = function () {
+
+        $.grep(['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal', 'CustomAFee'], function(field) {
+            $('#' + field).valid();
+        });
+
         var isValid = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm','CustomYCostVal','CustomAFee'].every(function (field) {
             return $("#" + field).valid();
         });
 
-        if (isValid) { return true; }
-
-        var panel = $(this).parent();
-        $.grep(panel.find('input[type="text"]'), function (inp) {
-            var input = $(inp);
-            if (input.val() === '' && !(input.is('#CustomYCostVal') || input.is('#CustomAFee'))) {
-                input.addClass('input-validation-error');
-            }
-        });
-
-        return false;
+        return isValid;
     }
 
     var submitCustomRateCard = function (event, option) {
@@ -51,7 +46,7 @@
     $('#CustomCRate').on('change', setters.setCustomerRate('Custom'));
     $('#CustomCRate').on('change', validateCustomRateCardOnInput);
 
-    $('#CustomYCostVal').on('change', setters.setYourCost('Custom'));
+    $('#CustomYCostVal').on('change', setters.setCustomYourCost('Custom'));
     $('#CustomYCostVal').on('change keyup', numericHandler);
 
     $('#CustomAFee').on('change', setters.setAdminFee('Custom'));
@@ -142,7 +137,7 @@
         messages: {
             //required: translations.ThisFieldIsRequired,
             regex: translations.loanTermFormat,
-            minLength: translations.loanTermMax,
+            minLength: translations.loanTermMax
         }
     });
 

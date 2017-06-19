@@ -307,7 +307,7 @@
             if (option === 'Deferral') {
                 var deferralPeriod = $.grep(constants.customDeferralPeriods, function (period) { return period.name === $('#LoanDeferralType').val() })[0];
 
-                if (deferralPeriod != null && deferralPeriod !== '') {
+                if (deferralPeriod != null && deferralPeriod.val !== 0) {
                     $('#DeferralPeriodDropdown').val(deferralPeriod.val.toString());
                 }
             }
