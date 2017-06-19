@@ -1,4 +1,4 @@
-﻿module.exports('rate-cards-ui', function () {
+﻿module.exports('rate-cards-ui', function (require) {
 
     var showRateCardBlock = function () {
         $('#rateCardsBlock').addClass('opened')
@@ -29,7 +29,7 @@
         }
     }
 
-    var toggleRateCardBlock = function(isOpenCondition) {
+    var toggleRateCardBlock = function (isOpenCondition) {
         isOpenCondition === true ? showRateCardBlock() : hideRateCardBlock();
     }
 
@@ -143,9 +143,6 @@
         if (onlyCustomCard) {
             $('#rateCardsBlock').addClass('one-rate-card');
         }
-        $('#loanRateCardToggle').click(function () {
-            toggleRateCardBlock($('#rateCardsBlock').is('.closed'));
-        });
 
         $('#typeOfAgreementSelect').on('change', onAgreemntSelect).change();
 

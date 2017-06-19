@@ -15,6 +15,13 @@
         return isValid;
     }
 
+    var toggleDisableClassOnInputs = function (isDisable) {
+        $.grep(['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal', 'CustomAFee'], function (field) {
+            $('#' + field).prop('disabled', isDisable);
+        });
+    }
+
+
     var submitCustomRateCard = function (event, option) {
 
         if ($('#amortLoanTermError').is(':visible')) {
@@ -143,6 +150,7 @@
 
     return {
         validateOnSelect: validateOnSelect,
-        submitCustomRateCard: submitCustomRateCard
+        submitCustomRateCard: submitCustomRateCard, 
+        toggleDisableClassOnInputs: toggleDisableClassOnInputs
     }
 })
