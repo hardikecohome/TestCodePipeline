@@ -124,6 +124,8 @@ function assignDatepicker() {
         changeMonth: (viewport().width < 768) ? true : false,
         yearRange: '1900:2200',
         minDate: new Date(),
+        showButtonPanel: true,
+        closeText: translations['Cancel'],
         onClose: function(){
             onDateSelect($(this));
         }

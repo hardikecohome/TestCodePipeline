@@ -67,17 +67,6 @@
       }
     });
 
-    $('body.ios-device').on('touchend', function (event) {
-      if ($('#ui-datepicker-div').is(":visible") && $(event.target).parents('.ui-datepicker, .ui-datepicker-header').length == 0) {
-        if ($(event.target).children('input.acrive-datePicker-input').length === 0) {
-          $('#ui-datepicker-div').hide();
-          $('.acrive-datePicker-input').blur();
-          $('.acrive-datePicker-input').removeAttr('readonly');
-          $('.acrive-datePicker-input').removeClass('acrive-datePicker-input');
-        }
-      }
-    });
-
     //Apply function placeholder for ie browsers
     $("input, textarea").placeholder();
 
@@ -487,23 +476,13 @@ input.on('focus', function(){
     if(!navigator.userAgent.match(/(iPod|iPhone|iPad)/)){
       $(this).blur()
         .addClass('focus');
-    } else {
-        if (!$(this).hasClass('acrive-datePicker-input')) {
-            $(this).addClass('acrive-datePicker-input');
-            $(this).attr('readonly', 'readonly');
-            if (!$('#ui-datepicker-div').is(':visible')) {
-                $('#ui-datepicker-div').show();
-            }
-        }
     }
   });
 }
 
 function onDateSelect(input){
   input
-    .removeClass('focus')
-    .removeClass('acrive-datePicker-input')
-    .removeAttr('readonly', 'readonly');
+    .removeClass('focus');
   $('body').removeClass('bodyHasDatepicker');
 }
 
