@@ -115,15 +115,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-md-4">
-                            <div class="form-group">
-                                @Html.LabelFor(m => m.HomeOwner.Sin)
-                                <div class="control-group control-hidden-value">
-                                    @Html.TextBoxFor(m => m.HomeOwner.Sin, new { type = "password", @class = "form-control dealnet-input", placeholder = Resources.SinWithDescription, id = "sin", autocomplete = "new-password" })
-                                    @Html.ValidationMessageFor(m => m.HomeOwner.Sin, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div id="yourInfoErrors"></div>
                 </div>
