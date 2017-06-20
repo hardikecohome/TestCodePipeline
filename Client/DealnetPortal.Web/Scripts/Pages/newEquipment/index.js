@@ -6,6 +6,7 @@
         var equipment = require('equipment');
         var validateOnSelect = require('custom-rate-card').validateOnSelect;
         var submitCustomRateCard = require('custom-rate-card').submitCustomRateCard;
+        var toggleDisableClassOnInputs = require('custom-rate-card').toggleDisableClassOnInputs;
         var rateCardBlock = require('rate-cards-ui');
         var state = require('state').state;
 
@@ -24,6 +25,7 @@
                     }
                 }
             } else {
+                toggleDisableClassOnInputs(true);
                 rateCardBlock.hide();
             }
         }
@@ -53,11 +55,18 @@
             }
         }
 
+        var toggleRateCardBlock = function() {
+            rateCardBlock.toggle($('#rateCardsBlock').is('.closed'));
+            toggleDisableClassOnInputs(false);
+        }
+
         // submit
         $('#equipment-form').submit(submitForm);
 
         // handlers
         $('#addEquipment').on('click', equipment.addEquipment);
+        $('#loanRateCardToggle').on('click', toggleRateCardBlock);
+
         $('#downPayment').on('change', setters.setDownPayment);
         $('#typeOfAgreementSelect').on('change', setters.setAgreement);
         $('#total-monthly-payment').on('change', setters.setRentalMPayment);

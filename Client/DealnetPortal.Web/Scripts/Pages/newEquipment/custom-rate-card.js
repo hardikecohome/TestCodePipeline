@@ -15,6 +15,13 @@
         return isValid;
     }
 
+    var toggleDisableClassOnInputs = function (isDisable) {
+        $.grep(['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal', 'CustomAFee'], function (field) {
+            $('#' + field).prop('disabled', isDisable);
+        });
+    }
+
+
     var submitCustomRateCard = function (event, option) {
 
         if ($('#amortLoanTermError').is(':visible')) {
@@ -27,7 +34,7 @@
         $('#LoanTerm').val(state[option].LoanTerm);
         $('#CustomerRate').val(state[option].CustomerRate);
         $('#AdminFee').val(state[option].AdminFee);
-        $('#DealerRate').val(state[option].yourCost);
+        $('#DealerCost').val(state[option].DealerCost);
         $('#total-monthly-payment').val(customSlicedTotalMPayment);
         if (state[option].DeferralPeriod === '')
             $('#LoanDeferralType').val(state[option].DeferralPeriod);
@@ -143,6 +150,7 @@
 
     return {
         validateOnSelect: validateOnSelect,
-        submitCustomRateCard: submitCustomRateCard
+        submitCustomRateCard: submitCustomRateCard, 
+        toggleDisableClassOnInputs: toggleDisableClassOnInputs
     }
 })

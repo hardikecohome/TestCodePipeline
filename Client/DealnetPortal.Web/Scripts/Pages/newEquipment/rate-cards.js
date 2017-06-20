@@ -140,8 +140,8 @@
                     state[option.name].CustomerRate = Number($('#CustomerRate').val());
                     $('#CustomAFee').val($('#AdminFee').val());
                     state[option.name].AdminFee = Number($('#AdminFee').val());
-                    $('#CustomYCost').val($('#DealerRate').val());
-                    state[option.name].yourCost = Number($('#DealerRate').val());
+                    $('#CustomYCostVal').val($('#DealerCost').val());
+                    state[option.name].DealerCost = Number($('#DealerCost').val());
                     toggleSelectedRateCard('#CustomLoanTerm');
 
                     state.isInitialized = true;
