@@ -122,7 +122,7 @@
                             value += temp;
                     }
                 });
-                $('#total-monthly-payment').val(value).change();
+                $('#total-monthly-payment').val(value.toFixed(2)).change();
             });
         }
         updateEquipmentCosts(agreementType);

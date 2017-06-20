@@ -255,8 +255,8 @@
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
         if (notNan && data.equipmentSum !== 0) {
             $('#rentalMPayment').val(formatNumber(eSum));
-            $('#rentalTax').text(formatNumber(tax(data)));
-            $('#rentalTMPayment').text(formatNumber(totalPrice(data)));
+            $('#rentalTax').text(formatNumber(tax(data).toFixed(2)));
+            $('#rentalTMPayment').text(formatNumber(totalPrice(data).toFixed(2)));
         } else {
             $('#rentalMPayment').val('');
             $('#rentalTax').text('-');
@@ -272,8 +272,8 @@
 
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
         if (notNan && data.equipmentSum !== 0) {
-            $('#rentalTax').text(tax(data));
-            $('#rentalTMPayment').text(totalPrice(data));
+            $('#rentalTax').text(tax(data).toFixed(2));
+            $('#rentalTMPayment').text(totalPrice(data).toFixed(2));
         } else {
             $('#rentalTax').text('-');
             $('#rentalTMPayment').text('-');
