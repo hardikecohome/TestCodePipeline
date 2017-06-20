@@ -19,6 +19,8 @@
             changeMonth: (viewport().width < 768) ? true : false,
             yearRange: '1900:2200',
             minDate: new Date(),
+            showButtonPanel: true,
+            closeText: translations['Cancel'],
             onSelect: function (day) {
                 dispatch(createAction(clientActions.SET_IMPROVMENT_MOVE_DATE, day));
             },

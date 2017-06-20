@@ -234,10 +234,13 @@ body.bodyHasDatepicker .navbar-fixed-side{
 .datepicker-select{
   @media @mobile {
     position: relative;
-    width: 46%;
-    display: inline-block;
+    width: auto;
+    float: left;
     vertical-align: top;
-    margin: 0 2%;
+    margin: 0 15px;
+    &+.datepicker-select{
+      float: right;
+    }
   }
   @media @tablet-up {
     display: inline-block;
@@ -246,17 +249,61 @@ body.bodyHasDatepicker .navbar-fixed-side{
     padding-top: 0px;
     padding-bottom: 4px;
   }
-  & select{
+  select{
     @media @mobile {
       border-radius: 4px;
-      padding-left: 5px;
+      padding: 0 20px 0 0;
       height: 30px !important;
       position: static !important;
       width: 100% !important;
       margin: 0 !important;
-      border: solid 1px #dcdcdc !important;
+      border: 0 !important;
+    }
+  }
+  &+.datepicker-select{
+    select{
+      @media @mobile {
+        width: 60px !important;
+      }
+    }
+  }
+  .caret{
+    @media @mobile {
+      margin-top: -1px !important;
     }
   }
 }
 
+.ui-datepicker .ui-datepicker-buttonpane{
+  margin: 5px 0;
+  border: 0;
+  text-align: center;
+  @media @desktop-up {
+    display: none;
+  }
+  .ui-datepicker-current{
+    display: none;
+  }
+  .ui-datepicker-close{
+    &:extend(.dealnet-link-button);
+    margin: 0;
+    float: none;
+    width: auto;
+    font-size: 16px !important;
+    font-weight: 600 !important;
 
+    &:hover{
+      color: @button-link-hover-color;
+      outline: none;
+      text-decoration: none;
+    }
+    &:active,
+    &:focus{
+      outline: 0 !important;
+      text-decoration: none;
+      box-shadow: none;
+      border: 0;
+      color: @button-link-active-color;
+    }
+  }
+}
