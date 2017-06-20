@@ -182,7 +182,7 @@ namespace DealnetPortal.Api.Integration.Services
                                 var dealerId = _dealerRepository.GetUserIdByName(sRequest.DealerName);
                                 if (!string.IsNullOrEmpty(dealerId))
                                 {
-                                    var c = InitialyzeContract(dealerId, customerFormData.PrimaryCustomer,
+                                    var c = InitialyzeContract(dealerId, customerFormData.PrimaryCustomer, customerFormData.StartProjectDate,
                                         sRequest.PrecreatedContractId, sRequest.ServiceType,
                                         customerFormData.CustomerComment);
                                     // mark as created by customer
@@ -484,7 +484,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        private Contract InitialyzeContract(string contractOwnerId, CustomerDTO primaryCustomer, int? contractId = null, string equipmentType = null, string customerComment = null)
+        private Contract InitialyzeContract(string contractOwnerId, CustomerDTO primaryCustomer, DateTime? preferredStartDate, int? contractId = null, string equipmentType = null, string customerComment = null)
         {
             Contract contract = null;
             //update or create a brand new contract
@@ -518,6 +518,7 @@ namespace DealnetPortal.Api.Integration.Services
                     Equipment = !string.IsNullOrEmpty(equipmentType)
                         ? new EquipmentInfoDTO()
                         {
+                            PreferredStartDate = preferredStartDate,
                             NewEquipment =
                                 new List<NewEquipmentDTO> {new NewEquipmentDTO()
                                 {
