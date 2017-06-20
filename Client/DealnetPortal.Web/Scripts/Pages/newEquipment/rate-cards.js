@@ -68,6 +68,14 @@
             .reduce(function (sum, cost) { return sum + cost; }, 0);
     };
 
+    var monthlySum = function (equipments) {
+        return Object.keys(equipments)
+        .map(idToValue(equipments))
+        .map(function (equipment) { return parseFloat(equipment.monthlyCost); })
+        .filter(notNaN)
+        .reduce(function (sum, cost) { return sum + cost;},0);
+    };
+
     var renderTotalPrice = function (data) {
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
         if (notNan) {
@@ -245,8 +253,8 @@
     };
 
     var recalculateAndRenderRentalValues = function () {
-        var eSum = equipmentSum(state.equipments);
-
+        var eSum = monthlySum(state.equipments);
+        
         var data = {
             tax: state.tax,
             equipmentSum: eSum
@@ -254,11 +262,11 @@
 
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
         if (notNan && data.equipmentSum !== 0) {
-            $('#rentalMPayment').val(formatNumber(eSum));
-            $('#rentalTax').text(formatNumber(tax(data).toFixed(2)));
-            $('#rentalTMPayment').text(formatNumber(totalPrice(data).toFixed(2)));
+            $('#total-monthly-payment').val(formatNumber(eSum));
+            $('#rentalTax').text(formatNumber(tax(data)));
+            $('#rentalTMPayment').text(formatNumber(totalPrice(data)));
         } else {
-            $('#rentalMPayment').val('');
+            $('#total-monthly-payment').val('');
             $('#rentalTax').text('-');
             $('#rentalTMPayment').text('-');
         }
@@ -272,8 +280,8 @@
 
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
         if (notNan && data.equipmentSum !== 0) {
-            $('#rentalTax').text(tax(data).toFixed(2));
-            $('#rentalTMPayment').text(totalPrice(data).toFixed(2));
+            $('#rentalTax').text(tax(data));
+            $('#rentalTMPayment').text(totalPrice(data));
         } else {
             $('#rentalTax').text('-');
             $('#rentalTMPayment').text('-');
