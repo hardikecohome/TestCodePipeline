@@ -109,7 +109,7 @@
             }
             setHeight();
             $('.rental-element').show();
-            $('.downpayment-row').hide();
+            $('#loanRateCardToggle, .downpayment-row, #paymentInfo').hide();
             $('#rateCardsBlock').removeClass('opened').addClass('closed');
 
             $('#equipment-form').on('change', '.monthly-cost', function () {
