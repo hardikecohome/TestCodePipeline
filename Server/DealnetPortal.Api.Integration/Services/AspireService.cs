@@ -757,7 +757,7 @@ namespace DealnetPortal.Api.Integration.Services
                     account.ClientId = c.AccountId;
                 } 
                 
-                account.UDFs = GetCustomerUdfs(c, contract, location, portalDescriber).ToList();                
+                account.UDFs = GetCustomerUdfs(c, location, portalDescriber).ToList();                
 
                 if (!string.IsNullOrEmpty(role))
                 {
@@ -982,12 +982,12 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = contract.Equipment.SalesRep
                     });
                 }
-                if (contract.Equipment.EstimatedInstallationDate.HasValue)
+                if (contract.Equipment.PreferredStartDate.HasValue)
                 {
                     udfList.Add(new UDF()
                     {
                         Name = AspireUdfFields.PrefferedInstallationDate,
-                        Value = contract.Equipment.EstimatedInstallationDate.Value.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
+                        Value = contract.Equipment.PreferredStartDate.Value.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
                     });
                 }
                 if (contract.Equipment.NewEquipment?.Any() == true)
@@ -1054,7 +1054,7 @@ namespace DealnetPortal.Api.Integration.Services
             return udfList;
         }
 
-        private IList<UDF> GetCustomerUdfs(Domain.Customer customer, Contract contract, Location mainLocation, string portalDescriber)
+        private IList<UDF> GetCustomerUdfs(Domain.Customer customer, Location mainLocation, string portalDescriber)
         {
             var udfList = new List<UDF>();
             if (!string.IsNullOrEmpty(portalDescriber))
@@ -1153,6 +1153,15 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = AspireUdfFields.DefaultAddressCountry
                     },
                 });
+
+                if (installationAddress.MoveInDate.HasValue)
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.EstimatedMoveInDate,
+                        Value = installationAddress.MoveInDate.Value.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
+                    });
+                }
             }
 
             var mailingAddress = customer.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MailAddress);
@@ -1243,14 +1252,7 @@ namespace DealnetPortal.Api.Integration.Services
                         Name = contactMethod, Value = "Y"
                     });
                 }
-            }
-            if (contract?.Equipment?.EstimatedInstallationDate != null)
-            {
-                udfList.Add(new UDF()
-                {
-                    Name = AspireUdfFields.EstimatedMoveInDate, Value = contract.Equipment.EstimatedInstallationDate.Value.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
-                });
-            }
+            }            
 
             return udfList;
         }
