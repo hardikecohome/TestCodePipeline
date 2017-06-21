@@ -18,6 +18,7 @@ namespace DealnetPortal.Api.Models.Notification
         public string EquipmentInfoRequired = "Not Required";
         public string TemporaryPassword { get; set; }
         public string OneTimeLink { get; set; }
+        public string DealerLeadAccepted = "Waiting to accept";
 
     }
     public class MemberAddress

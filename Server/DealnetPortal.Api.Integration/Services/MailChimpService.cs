@@ -40,7 +40,7 @@ namespace DealnetPortal.Api.Integration.Services
             subscriber.MergeFields["TPASSWORD"] = member.TemporaryPassword;
             subscriber.MergeFields["CLOSINGREQ"] = member.ClosingDateRequired;
             subscriber.MergeFields["CWLINK"] = member.OneTimeLink;
-
+            subscriber.MergeFields["DEALERLEAD"] = member.DealerLeadAccepted;
             try
             {
 

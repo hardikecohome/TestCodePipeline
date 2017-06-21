@@ -514,11 +514,33 @@ namespace DealnetPortal.Api.Integration.Services
 
             var subject = $"{Resources.Resources.WeFoundHomeProfessionalForYourHomeImprovementProject}";
             var mail = GenerateMailMessage(customerEmail, subject, alternateView);
+            MailChimpMember member = new MailChimpMember()
+            {
+                Email = contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
+                FirstName = contract.PrimaryCustomer.FirstName,
+                LastName = contract.PrimaryCustomer.LastName,
+                address = new MemberAddress()
+                {
+                    Street = contract.PrimaryCustomer.Locations.FirstOrDefault().Street,
+                    Unit = contract.PrimaryCustomer.Locations.FirstOrDefault().Unit,
+                    City = contract.PrimaryCustomer.Locations.FirstOrDefault().City,
+                    State = contract.PrimaryCustomer.Locations.FirstOrDefault().State,
+                    PostalCode = contract.PrimaryCustomer.Locations.FirstOrDefault().PostalCode
+                },
+                CreditAmount = (decimal)contract.Details.CreditAmount,
+                ApplicationStatus = contract.ContractState.ToString(),
+                DealerLeadAccepted = "Accepted"
+                // TemporaryPassword = password,
+                //  EquipmentInfoRequired = "Required",
+                //  OneTimeLink = domain + "/invite/" + hashLogin
+                //EquipmentInfoRequired = (customerFormData.Equipment.NewEquipment.FirstOrDefault().Type == null) ? "Required" : "Not Required"
+
+            };
             try
             {
                 //Need to plug mailchimp 
                 //await _emailService.SendAsync(mail);
-
+                await _mailChimpService.AddNewSubscriberAsync(ConfigurationManager.AppSettings["ListID"], member);
                 var result = await _personalizedMessageService.SendMessage(contract.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
 
             }

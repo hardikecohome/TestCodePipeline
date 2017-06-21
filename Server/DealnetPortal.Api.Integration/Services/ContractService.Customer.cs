@@ -64,7 +64,7 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         creditCheckAlerts.AddRange(initAlerts);
                     }
-
+                    //Credit check
                     var checkResult = GetCreditCheckResult(contractResult.Item1.Id, contractOwnerId);
                     if (checkResult != null)
                     {
@@ -126,7 +126,9 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    _loggingService.LogWarning($"Customer contract(s) for dealer {contractOwnerId} wasn't approved on Aspire");                    
+                    _loggingService.LogWarning($"Customer contract(s) for dealer {contractOwnerId} wasn't approved on Aspire");
+                    //not approved log
+
                 }
 
                 //remove all newly created "internal" (unsubmitted to aspire) contracts here
