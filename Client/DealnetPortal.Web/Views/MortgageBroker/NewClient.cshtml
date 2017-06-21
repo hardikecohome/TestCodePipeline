@@ -521,19 +521,6 @@
     <script type="text/javascript">
         var isMobileRequest = '@ViewBag.IsMobileRequest';
         module.require('new-client-index');
-
-        $(function(){
-
-          $('.j-personal-data-used-modal').on('click', function(e){
-            var data = {
-              message: $('#personal-data-used').html(),
-              class: "consents-modal",
-              cancelBtnText: "OK"
-            };
-            dynamicAlertModal(data);
-            e.preventDefault();
-          });
-        })
     </script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=initAutocomplete" async defer></script>
 }
