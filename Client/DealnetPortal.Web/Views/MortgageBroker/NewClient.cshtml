@@ -623,7 +623,7 @@
     30, Victoria Street <br>
     Gatineau, Quebec K1A 1H3 <br>
     1-800-282- 1376 <br>
-    <a href="https://www.priv.gc.ca/" target="_blank">www.priv.gc.ca</a><br>
+    <a href="https://www.priv.gc.ca/" target="_blank" class="dealnet-info-link">www.priv.gc.ca</a><br>
   </p>
   <h3>Changes to this Privacy Policy</h3>
   <p>In order to ensure that our Privacy Policy is kept up to date, we reserve the right to change it from time to time. If we make any changes to this Privacy Policy, we will change the effective date of this Privacy Policy as indicated above. Notice of changes to this Privacy Policy will be posted on the Company’s website, <a class="link-color-inherit" href="http://ecohomefinancial.com/" target="_blank">www.ecohomefinancial.com</a>, and may also be distributed through statements, newsletters and/or other communications. Please review our website periodically for any changes to this Privacy Policy.</p>
@@ -662,18 +662,11 @@
         module.require('new-client-index');
 
         $(function(){
-          $(document).on('show.bs.modal', function () {
-            setModalMaxHeight($('.consents-modal'));
-          })
-          $(window).resize(function() {
-            if ($('.modal.in').length != 0) {
-              setModalMaxHeight($('.consents-modal.in'));
-          }
-          });
+
           $('.j-personal-data-used-modal').on('click', function(e){
             var data = {
               message: $('#personal-data-used').html(),
-              class: "consents-modal scrolled-modal-inside"
+              class: "consents-modal"
             };
             dynamicAlertModal(data);
             e.preventDefault();
@@ -683,32 +676,13 @@
           $('.j-privacy-policy-modal').on('click', function(e){
             var data = {
               message: $('#privacy-policy').html(),
-              class: "consents-modal scrolled-modal-inside"
+              class: "consents-modal"
             };
             dynamicAlertModal(data);
             e.preventDefault();
           });
 
-          function setModalMaxHeight(element) {
-            this.$element     = $(element);
-            this.$content     = this.$element.find('.modal-content');
-            var borderWidth   = this.$content.outerHeight() - this.$content.innerHeight();
-            var dialogMargin  = $(window).width() < 768 ? 20 : 60;
-            var contentHeight = $(window).height() - (dialogMargin + borderWidth);
-            var headerHeight  = this.$element.find('.modal-header').outerHeight() || 0;
-            var footerHeight  = this.$element.find('.modal-footer').outerHeight() || 0;
-            var maxHeight     = contentHeight - (headerHeight+footerHeight);
-            console.log(contentHeight);
-            this.$content.css({
-              'overflow': 'hidden'
-            });
 
-            this.$element
-                .find('.modal-body').css({
-              'max-height': maxHeight,
-              'overflow-y': 'auto'
-            });
-          }
         })
     </script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=initAutocomplete" async defer></script>
