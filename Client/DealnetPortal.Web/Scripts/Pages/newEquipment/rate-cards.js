@@ -122,10 +122,7 @@
                     togglePromoLabel(option);
 
                     //just find parent div
-                    toggleSelectedRateCard('#' + option.name + 'AFee');
-                    if (option.name === 'Deferral') {
-                        $('#DeferralPeriodDropdown').val(state[option.name].DeferralPeriod);
-                    }
+                    toggleSelectedRateCard('#' + option.name + 'AFee'); 
 
                     $('#' + option.name + 'AmortizationDropdown').val(state[option.name].AmortizationTerm);
                     $('#' + option.name + 'AFee').text(formatCurrency(state[option.name].AdminFee));
@@ -312,13 +309,7 @@
             options.empty();
 
 
-            if (option === 'Deferral') {
-                var deferralPeriod = $.grep(constants.customDeferralPeriods, function (period) { return period.name === $('#LoanDeferralType').val() })[0];
 
-                if (deferralPeriod != null && deferralPeriod.val !== 0) {
-                    $('#DeferralPeriodDropdown').val(deferralPeriod.val.toString());
-                }
-            }
 
             $.each(dropdownValues, function (item) {
                 var optionTemplate = $("<option />").val(dropdownValues[item].AmortizationTerm).text(dropdownValues[item].LoanTerm + '/' + dropdownValues[item].AmortizationTerm);
@@ -388,6 +379,14 @@
                         return card.CardType === option.id;
                     });
                 sessionStorage.setItem(state.contractId + option.name, JSON.stringify(filtred));
+            }
+
+            if (option.name === 'Deferral') {
+                var deferralPeriod = $.grep(constants.customDeferralPeriods, function (period) { return period.name === $('#LoanDeferralType').val() })[0];
+
+                if (deferralPeriod != null && deferralPeriod.val !== 0) {
+                    $('#DeferralPeriodDropdown').val(deferralPeriod.val.toString());
+                }
             }
 
             setHandlers(option);
