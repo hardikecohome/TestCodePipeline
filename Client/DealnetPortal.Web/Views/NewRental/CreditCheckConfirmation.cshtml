@@ -306,14 +306,6 @@ if (creditCheckError != null)
 			<label class="align-middle custom-checkbox">
 				@Html.CheckBox("home-owner-agrees", new { id = "home-owner-agrees" })
 				<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-				<span>@Resources.AgreesToSendPersonalDataToCreditCheck</span>
-			</label>
-		</div>
-
-		<div class="form-group">
-			<label for="agreement-checkbox-data1" class="align-middle custom-checkbox">
-				<input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data1"/>
-				<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
 				<span class="mandatory-field">@Resources.AcknowledgeAndAgreementObtainCreditReport</span>
 			</label>
 			<div class="consents-links">
@@ -536,7 +528,18 @@ if (creditCheckError != null)
 			<label class="align-middle custom-checkbox">
 				@Html.CheckBox("additional" + (i + 1) + "-agrees", new {id = "additional" + (i + 1) + "-agrees"})
 				<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-				<span>@Resources.AgreesToSendPersonalDataToCreditCheck</span>
+				<span class="mandatory-field">@Resources.AcknowledgeAndAgreementObtainCreditReport</span>
+			</label>
+			<div class="consents-links">
+				<a href="" class="dealnet-info-link j-personal-data-used-modal">@Resources.HowIsMyPersonalDataUsed</a>
+				@Html.ActionLink(@Resources.PrivacyPolicy, "PrivacyPolicy", "Info", null, new { @class="dealnet-info-link" })
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="consent-checkbox-data@(i + 1)" class="align-middle custom-checkbox">
+				<input type="checkbox" class="dealnet-checkbox address-checkbox" id="consent-checkbox-data@(i + 1)"/>
+				<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+				<span class="mandatory-field">@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
 			</label>
 		</div>
 
