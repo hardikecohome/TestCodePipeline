@@ -147,8 +147,8 @@ namespace DealnetPortal.Api.Integration.Services
             if (contractCreationRes?.Item1 != null &&
                 (contractCreationRes.Item2?.All(a => a.Type != AlertType.Error) ?? true))
             {
-                var noWarning = SendCustomerContractCreationNotifications(customerFormData,
-                        contractCreationRes.Item1);
+                await SendCustomerContractCreationNotifications(customerFormData,
+                        contractCreationRes.Item1).ConfigureAwait(false);
             }
 
             return new Tuple<CustomerContractInfoDTO, IList<Alert>>(contractCreationRes?.Item1, contractCreationRes?.Item2 ?? new List<Alert>());
@@ -364,7 +364,6 @@ namespace DealnetPortal.Api.Integration.Services
                     Id = contract.Id
                 };
                 _contractService.UpdateContractData(contractData, dealerId);
-                _unitOfWork.Save();
 
                 if (!string.IsNullOrEmpty(customerFormData.SelectedService) ||
                     !string.IsNullOrEmpty(customerFormData.CustomerComment))
@@ -459,7 +458,7 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 await
-                    _mailService.SendDealerLoanFormContractCreationNotification(customerFormData, contractData); 
+                    _mailService.SendDealerLoanFormContractCreationNotification(customerFormData, contractData).ConfigureAwait(false); 
             }
             catch (Exception ex)
             {
@@ -477,7 +476,7 @@ namespace DealnetPortal.Api.Integration.Services
                     await
                         _mailService.SendCustomerLoanFormContractCreationNotification(
                             customerFormData.PrimaryCustomer.Emails.FirstOrDefault(
-                                m => m.EmailType == EmailType.Main)?.EmailAddress, contractData, dealerColor?.StringValue, dealerLogo?.BinaryValue);
+                                m => m.EmailType == EmailType.Main)?.EmailAddress, contractData, dealerColor?.StringValue, dealerLogo?.BinaryValue).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
