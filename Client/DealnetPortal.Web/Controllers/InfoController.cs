@@ -21,5 +21,11 @@ namespace DealnetPortal.Web.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult PrivacyPolicy()
+        {
+            return View();
+        }
     }
 }

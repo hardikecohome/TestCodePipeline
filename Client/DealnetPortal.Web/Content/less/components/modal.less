@@ -232,7 +232,7 @@
   }
   h3{
     font-size: 18px;
-    line-height: 1.67;
+    line-height: 1.67 !important;
     font-weight: 800;
   }
 
@@ -247,18 +247,20 @@
   }
   .modal-dialog{
     width: 800px !important;
-    max-width: 96% !important;
+    max-width: 100% !important;
     font-size: 18px;
     line-height: 1.67;
 
     ul{
       margin: 25px 0;
-      padding-left: 50px;
+      @media @tablet-up {
+        padding-left: 50px;
+      }
     }
   }
   .modal-content{
     @media @tablet-down {
-      margin: 40px 0;
+      margin: 40px 0 50px;
     }
   }
   .modal-body{
