@@ -112,7 +112,16 @@
 @section Translations
 {
     translations['TotalMonthlyPaymentMustBeGreaterZero'] = "@Html.Raw(Resources.TotalMonthlyPaymentMustBeGreaterZero)";
-}
+    translations['loanTermMax'] = "@Resources.LoanTermMustBe3Max";
+    translations['loanTermFormat'] = "@Resources.LoanTermIncorrectFormat";
+    translations['amortTermMax'] = "@Resources.AmortizationTermMustBe3Max";
+    translations['amortTermFormat'] = "@Resources.AmortizationTermIncorrectFormat";
+    translations['adminFeeFormat'] = "@Resources.AdminFeeIncorrectFormat";
+    translations['customerRateFormat'] = "@Resources.CustomerRateIncorrectFormat";
+    translations['yourCostFormat'] = "@Resources.YourRateIncorrectFormat";
+    translations['customerOrYourCost'] = "@Resources.CustomerOrYourCostRequired";
+    translations['enterZero'] = "@Resources.PleaseEnterAtLeastZero";
+ }
 
 @Scripts.Render("~/bundles/jqueryval")
 @Scripts.Render("~/bundles/localization")
@@ -124,16 +133,6 @@
         var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
         var isCalculationValid = false;
         var onlyCustomCard = '@(!((List<RateCardType>) ViewBag.CardTypes != null && ((List<RateCardType>) ViewBag.CardTypes).Any()))' === 'True' ? true : false;
-        var translations = $.extend(translations, {
-            loanTermMax : '@Resources.LoanTermMustBe3Max',
-            loanTermFormat:'@Resources.LoanTermIncorrectFormat',
-            amortTermMax :'@Resources.AmortizationTermMustBe3Max',
-            amortTermFormat:'@Resources.AmortizationTermIncorrectFormat',
-            adminFeeFormat : '@Resources.AdminFeeIncorrectFormat',
-            customerRateFormat:'@Resources.CustomerRateIncorrectFormat',
-            yourCostFormat:'@Resources.YourRateIncorrectFormat',
-            customerOrYourCost:'@Resources.CustomerOrYourCostRequired'
-        });
     </script>
     <script type="text/javascript">
         configInitialized.then(function () {

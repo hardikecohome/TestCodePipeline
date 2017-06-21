@@ -1497,4 +1497,7 @@
   <data name="CustomerOrYourCostRequired" xml:space="preserve">
     <value>Le taux du client ou votre coût est requis</value>
   </data>
+  <data name="PleaseEnterAtLeastZero" xml:space="preserve">
+    <value>Entrez au moins 0.</value>
+  </data>
 </root>

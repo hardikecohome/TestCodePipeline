@@ -102,17 +102,17 @@
     });
 
     $('#CustomCRate').rules('add', {
-        required: {
-            depends: function (element) {
-                return !$('#CustomYCostVal').val();
-            }
-        },
+        required: true,
         min:0,
         number: true,
         regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/,
         messages: {
             regex:translations.customerRateFormat,
-            required: translations.customerOrYourCost
+            required: function (ele) {
+                if (!$('#CustomYCostVal').val())
+                    return translations.customerOrYourCost;
+                return translations.enterZero;
+            }
         }
     });
 

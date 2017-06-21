@@ -1580,4 +1580,7 @@
   <data name="CustomerOrYourCostRequired" xml:space="preserve">
     <value>Customer Rate or Your Cost is Required</value>
   </data>
+  <data name="PleaseEnterAtLeastZero" xml:space="preserve">
+    <value>Please enter at least 0.</value>
+  </data>
 </root>
