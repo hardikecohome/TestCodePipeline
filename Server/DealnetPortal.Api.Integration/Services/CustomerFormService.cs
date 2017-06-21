@@ -392,7 +392,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 }
                 //Start credit check for this contract
-                var creditCheckRes = await Task.Run(() =>
+                try
                 {
                     var creditCheckAlerts = new List<Alert>();
                     var initAlerts = _contractService.InitiateCreditCheck(contract.Id, dealerId);
@@ -404,21 +404,24 @@ namespace DealnetPortal.Api.Integration.Services
                     if (checkResult != null)
                     {
                         creditCheckAlerts.AddRange(checkResult.Item2);
-                        return new Tuple<CreditCheckDTO, IList<Alert>>(checkResult.Item1, creditCheckAlerts);
                     }
-                    return new Tuple<CreditCheckDTO, IList<Alert>>(null, creditCheckAlerts);
-                }).ConfigureAwait(false);
+                    //just log all credit check errors
+                    if (creditCheckAlerts.Any())
+                    {
+                        creditCheckAlerts.Where(a => a.Type == AlertType.Error).ForEach(a =>
+                        _loggingService.LogError($"Credit check error- {a.Header}: {a.Message}"));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _loggingService.LogError($"Error during credit check for contract [{contract.Id}]", ex);
+                }                
 
                 // mark as created by customer
                 contract.IsCreatedByCustomer = true;
                 contract.IsNewlyCreated = true;
                 contract.CreateOperator = null;
-                _unitOfWork.Save();
-
-                if (creditCheckRes?.Item2?.Any() ?? false)
-                {
-                    alerts.AddRange(creditCheckRes.Item2);
-                }
+                _unitOfWork.Save();                
                 
                 submitResult = GetCustomerContractInfo(contract.Id, customerFormData.DealerName);
 
