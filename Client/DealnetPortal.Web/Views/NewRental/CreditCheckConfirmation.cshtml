@@ -310,6 +310,25 @@ if (creditCheckError != null)
 			</label>
 		</div>
 
+		<div class="form-group">
+			<label for="agreement-checkbox-data1" class="align-middle custom-checkbox">
+				<input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data1"/>
+				<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+				<span class="mandatory-field">@Resources.AcknowledgeAndAgreementObtainCreditReport</span>
+			</label>
+			<div class="consents-links">
+				<a href="" class="dealnet-info-link j-personal-data-used-modal">@Resources.HowIsMyPersonalDataUsed</a>
+				@Html.ActionLink(@Resources.PrivacyPolicy, "PrivacyPolicy", "Info", null, new { @class="dealnet-info-link" })
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="agreement-checkbox-data2" class="align-middle custom-checkbox">
+				<input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data2"/>
+				<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+				<span class="mandatory-field">@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
+			</label>
+		</div>
+
 		@if (Model.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 0)
 		{
 
@@ -520,6 +539,9 @@ if (creditCheckError != null)
 				<span>@Resources.AgreesToSendPersonalDataToCreditCheck</span>
 			</label>
 		</div>
+
+
+
 			}
 		}
 
@@ -536,6 +558,8 @@ if (creditCheckError != null)
 		</div>
 	</div>
 </div>
+
+@Html.Partial("_AgreementPersonalData");
 }
 
 @*<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="home-owner-modal">
@@ -1155,4 +1179,20 @@ if (creditCheckError != null)
     @Scripts.Render("~/bundles/localization")
     @Scripts.Render("~/bundles/credit-check")
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=assignAutocompletes" async defer></script>
+
+<script type="text/javascript">
+
+	$(function(){
+
+		$('.j-personal-data-used-modal').on('click', function(e){
+			var data = {
+				message: $('#personal-data-used').html(),
+				class: "consents-modal",
+				cancelBtnText: "OK"
+			};
+			dynamicAlertModal(data);
+			e.preventDefault();
+		});
+	})
+</script>
 }
