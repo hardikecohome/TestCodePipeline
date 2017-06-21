@@ -41,14 +41,11 @@
 
     // custom option
     $('#CustomLoanTerm').on('change', setters.setLoanTerm('Custom'));
-    //$('#CustomLoanTerm').on('change', validateCustomRateCardOnInput);
 
     $('#CustomAmortTerm').on('change', setters.setAmortTerm('Custom'));
-    //$('#CustomAmortTerm').on('change', validateCustomRateCardOnInput);
 
     $('#CustomDeferralPeriod').on('change', setters.setDeferralPeriod('Custom'));
     $('#CustomCRate').on('change', setters.setCustomerRate('Custom'));
-    //$('#CustomCRate').on('change', validateCustomRateCardOnInput);
 
     $('#CustomYCostVal').on('change', setters.setCustomYourCost('Custom'));
     $('#CustomYCostVal').on('change keyup', numericHandler);
