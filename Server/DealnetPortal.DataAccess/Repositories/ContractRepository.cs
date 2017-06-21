@@ -231,6 +231,7 @@ namespace DealnetPortal.DataAccess.Repositories
                .Include(c => c.PrimaryCustomer.Locations)
                .FirstOrDefault(x => x.Id == contractId);            
 
+            //Change installation address to main address, and main to previous
             if (contract != null)
             {
                 if (contract.IsCreatedByBroker == true || contract.IsCreatedByCustomer == true)
@@ -239,8 +240,13 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         var mainLoc = contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress);
                         if (mainLoc != null)
-                        {
-                            _dbContext.Entry(mainLoc).State = EntityState.Deleted;                                                        
+                        {                            
+                            var prevAddress = contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.PreviousAddress);
+                            if (prevAddress != null)
+                            {
+                                _dbContext.Entry(mainLoc).State = EntityState.Deleted;
+                            }
+                            mainLoc.AddressType = AddressType.PreviousAddress;
                         }
                         //?
                         var installLoc = contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress);

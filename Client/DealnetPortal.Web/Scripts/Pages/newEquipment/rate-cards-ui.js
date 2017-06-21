@@ -91,7 +91,7 @@
                 $('#submit').parent().popover();
             }
 
-            $('#loanRateCardToggle, .downpayment-row').show();
+            $('#loanRateCardToggle, loan-element, .downpayment-row').show();
             $('.rental-element').hide();
 
             if ($('#rateCardsBlock').find('div.checked').length) {
@@ -100,7 +100,6 @@
                 $('#rateCardsBlock').addClass('opened')
                   .removeClass('closed');
             }
-            $('#equipment-form').off('change', '.monthly-cost');
         } else {
             //If rental is chosen
             if ($("#submit").hasClass('disabled')) {
@@ -109,21 +108,8 @@
             }
             setHeight();
             $('.rental-element').show();
-            $('#loanRateCardToggle, .downpayment-row, #paymentInfo').hide();
+            $('#loanRateCardToggle, .loan-element, .downpayment-row, #paymentInfo').hide();
             $('#rateCardsBlock').removeClass('opened').addClass('closed');
-
-            $('#equipment-form').on('change', '.monthly-cost', function () {
-                var value = 0;
-                $.each($('.monthly-cost'), function () {
-                    var $this = $(this);
-                    if ($this[0].form) {
-                        var temp = parseFloat($this.val());
-                        if (!isNaN(temp))
-                            value += temp;
-                    }
-                });
-                $('#total-monthly-payment').val(value).change();
-            });
         }
         updateEquipmentCosts(agreementType);
     }
