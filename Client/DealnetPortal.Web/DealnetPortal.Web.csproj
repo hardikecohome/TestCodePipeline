@@ -992,6 +992,8 @@
     <Content Include="Views\Shared\Profile\_PostalCode.cshtml" />
     <Content Include="Views\Shared\Profile\_DealerEquipment.cshtml" />
     <Content Include="Views\MortgageBroker\CustomerCreationDecline.cshtml" />
+    <Content Include="Views\Shared\_AgreementPersonalData.cshtml" />
+    <Content Include="Views\Info\PrivacyPolicy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

@@ -1,16 +1,17 @@
 ﻿configInitialized
     .then(function() {
-        $("#check-credit-button").click(function (event) {
-            var check1 = document.getElementById('home-owner-agrees');
-            var check2 = document.getElementById('additional1-agrees');
-            var check3 = document.getElementById('additional2-agrees');
-            var check4 = document.getElementById('additional3-agrees');
-            if (!(check1.checked &&
-            (check2 == null || check2.checked) &&
-            (check3 == null || check3.checked) &&
-            (check4 == null || check4.checked))) {
+        $("#check-credit-button").click(function(event) {
+
+            if (!$('#home-owner-agrees').is(':checked') || !$('#agreement-checkbox-data2').is(':checked')) {
                 event.preventDefault();
                 $("#proceed-error-message").show();
+            }
+
+            if ($('#additional1-agrees').length && $('#consent-checkbox-data1').length) {
+                if (!$('#additional1-agrees').is(':checked') || !$('#consent-checkbox-data1').is(':checked')) {
+                    event.preventDefault();
+                    $("#proceed-error-message").show();
+                }
             }
         });
     });
