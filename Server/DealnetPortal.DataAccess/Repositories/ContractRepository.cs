@@ -939,6 +939,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     equipmentInfo.RateCardId = dbEquipment.RateCardId;
                 }
+                if (!equipmentInfo.DealerCost.HasValue)
+                {
+                    equipmentInfo.DealerCost = dbEquipment.DealerCost;
+                }
 
                 _dbContext.EquipmentInfo.AddOrUpdate(equipmentInfo);
                 dbEquipment = _dbContext.EquipmentInfo.Find(equipmentInfo.Id);
