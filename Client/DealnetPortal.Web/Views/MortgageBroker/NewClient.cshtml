@@ -671,18 +671,6 @@
             dynamicAlertModal(data);
             e.preventDefault();
           });
-
-
-          $('.j-privacy-policy-modal').on('click', function(e){
-            var data = {
-              message: $('#privacy-policy').html(),
-              class: "consents-modal"
-            };
-            dynamicAlertModal(data);
-            e.preventDefault();
-          });
-
-
         })
     </script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=initAutocomplete" async defer></script>
