@@ -124,7 +124,7 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 //await _emailService.SendAsync(mail);
-                await _emailService.SendAsync(new List<string> { contractData.DealerEmail ?? string.Empty }, string.Empty, Resources.Resources.ThankYouForApplyingForFinancing, body.ToString());
+                await _emailService.SendAsync(new List<string> { contractData.DealerEmail ?? string.Empty }, string.Empty, Resources.Resources.ThankYouForApplyingForFinancing, body.ToString()).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

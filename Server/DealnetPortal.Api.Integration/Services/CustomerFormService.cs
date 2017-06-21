@@ -147,8 +147,8 @@ namespace DealnetPortal.Api.Integration.Services
             if (contractCreationRes?.Item1 != null &&
                 (contractCreationRes.Item2?.All(a => a.Type != AlertType.Error) ?? true))
             {
-                var noWarning = SendCustomerContractCreationNotifications(customerFormData,
-                        contractCreationRes.Item1);
+                await SendCustomerContractCreationNotifications(customerFormData,
+                        contractCreationRes.Item1).ConfigureAwait(false);
             }
 
             return new Tuple<CustomerContractInfoDTO, IList<Alert>>(contractCreationRes?.Item1, contractCreationRes?.Item2 ?? new List<Alert>());
@@ -238,8 +238,8 @@ namespace DealnetPortal.Api.Integration.Services
 
                         try
                         {                        
-                            //try to submit deal in Aspire
-                            var submitAlerts = _aspireService.SubmitDeal(c.Id, c.DealerId).GetAwaiter().GetResult();
+                            //try to send UDFs to Aspire
+                            var submitAlerts = _aspireService.SendDealUDFs(c.Id, c.DealerId).GetAwaiter().GetResult();
                             if (submitAlerts?.Any() == true)
                             {
                                 alerts.AddRange(submitAlerts);
@@ -364,7 +364,6 @@ namespace DealnetPortal.Api.Integration.Services
                     Id = contract.Id
                 };
                 _contractService.UpdateContractData(contractData, dealerId);
-                _unitOfWork.Save();
 
                 if (!string.IsNullOrEmpty(customerFormData.SelectedService) ||
                     !string.IsNullOrEmpty(customerFormData.CustomerComment))
@@ -392,7 +391,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 }
                 //Start credit check for this contract
-                var creditCheckRes = await Task.Run(() =>
+                try
                 {
                     var creditCheckAlerts = new List<Alert>();
                     var initAlerts = _contractService.InitiateCreditCheck(contract.Id, dealerId);
@@ -404,21 +403,24 @@ namespace DealnetPortal.Api.Integration.Services
                     if (checkResult != null)
                     {
                         creditCheckAlerts.AddRange(checkResult.Item2);
-                        return new Tuple<CreditCheckDTO, IList<Alert>>(checkResult.Item1, creditCheckAlerts);
                     }
-                    return new Tuple<CreditCheckDTO, IList<Alert>>(null, creditCheckAlerts);
-                }).ConfigureAwait(false);
+                    //just log all credit check errors
+                    if (creditCheckAlerts.Any())
+                    {
+                        creditCheckAlerts.Where(a => a.Type == AlertType.Error).ForEach(a =>
+                        _loggingService.LogError($"Credit check error- {a.Header}: {a.Message}"));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _loggingService.LogError($"Error during credit check for contract [{contract.Id}]", ex);
+                }                
 
                 // mark as created by customer
                 contract.IsCreatedByCustomer = true;
                 contract.IsNewlyCreated = true;
                 contract.CreateOperator = null;
-                _unitOfWork.Save();
-
-                if (creditCheckRes?.Item2?.Any() ?? false)
-                {
-                    alerts.AddRange(creditCheckRes.Item2);
-                }
+                _unitOfWork.Save();                
                 
                 submitResult = GetCustomerContractInfo(contract.Id, customerFormData.DealerName);
 
@@ -456,7 +458,7 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 await
-                    _mailService.SendDealerLoanFormContractCreationNotification(customerFormData, contractData); 
+                    _mailService.SendDealerLoanFormContractCreationNotification(customerFormData, contractData).ConfigureAwait(false); 
             }
             catch (Exception ex)
             {
@@ -474,7 +476,7 @@ namespace DealnetPortal.Api.Integration.Services
                     await
                         _mailService.SendCustomerLoanFormContractCreationNotification(
                             customerFormData.PrimaryCustomer.Emails.FirstOrDefault(
-                                m => m.EmailType == EmailType.Main)?.EmailAddress, contractData, dealerColor?.StringValue, dealerLogo?.BinaryValue);
+                                m => m.EmailType == EmailType.Main)?.EmailAddress, contractData, dealerColor?.StringValue, dealerLogo?.BinaryValue).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
