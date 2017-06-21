@@ -1183,19 +1183,4 @@ if (creditCheckError != null)
     @Scripts.Render("~/bundles/credit-check")
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=assignAutocompletes" async defer></script>
 
-<script type="text/javascript">
-
-	$(function(){
-
-		$('.j-personal-data-used-modal').on('click', function(e){
-			var data = {
-				message: $('#personal-data-used').html(),
-				class: "consents-modal",
-				cancelBtnText: "OK"
-			};
-			dynamicAlertModal(data);
-			e.preventDefault();
-		});
-	})
-</script>
 }
