@@ -891,6 +891,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     equipmentInfo.EstimatedInstallationDate = dbEquipment.EstimatedInstallationDate;
                 }
+                if (!equipmentInfo.PreferredStartDate.HasValue)
+                {
+                    equipmentInfo.PreferredStartDate = dbEquipment.PreferredStartDate;
+                }
 
                 _dbContext.EquipmentInfo.AddOrUpdate(equipmentInfo);
                 dbEquipment = _dbContext.EquipmentInfo.Find(equipmentInfo.Id);

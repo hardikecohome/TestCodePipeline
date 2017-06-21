@@ -11,6 +11,7 @@ namespace DealnetPortal.Api.Models.Contract
     {
         public CustomerDTO PrimaryCustomer { get; set; }
         public string CustomerComment { get; set; }
+        public DateTime StartProjectDate { get; set; }
         public IList<ServiceRequestDTO> ServiceRequests { get; set; }
     }
 }

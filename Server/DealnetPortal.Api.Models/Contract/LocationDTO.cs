@@ -24,6 +24,8 @@ namespace DealnetPortal.Api.Models.Contract
         public string State { get; set; }
         public string PostalCode { get; set; }
 
+        public DateTime? MoveInDate { get; set; }
+
         public int CustomerId { get; set; }
     }
 }

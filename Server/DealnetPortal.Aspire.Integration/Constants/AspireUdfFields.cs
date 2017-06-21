@@ -7,7 +7,7 @@
         public static string OptIn = "Opt In";
         public static string HomeOwner = "HomeOwner";
         public static string HomeImprovementType = "Home Improvement Type";
-        public static string PrefferedInstallationDate = "Preffered Installation Date";
+        public static string PreferredInstallationDate = "Preferred Installation Date";
         //Installation Address
         public static string InstallationAddress = "Installation Address";
         public static string InstallationAddressCity = "Installation Address City";

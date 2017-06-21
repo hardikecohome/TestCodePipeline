@@ -174,16 +174,19 @@ namespace DealnetPortal.Api.Integration.Services
                     HomeOwners = new List<Customer> {customer},
                     DealerId = contractOwnerId,
                     Id = contract.Id,
-                    Equipment = new EquipmentInfo
-                    {
-                        EstimatedInstallationDate = newCustomer.EstimatedMoveInDate
-                    }
+                    //Equipment = new EquipmentInfo
+                    //{
+                    //    EstimatedInstallationDate = newCustomer.EstimatedMoveInDate
+                    //}
                 };
 
                 if (!string.IsNullOrEmpty(improvmentType))
                 {
                     var eq = equipmentType.SingleOrDefault(x => x.Type == improvmentType);
-                    contractData.Equipment.NewEquipment = new List<NewEquipment> { new NewEquipment { Type = improvmentType, Description = eq.Description } };
+                    contractData.Equipment = new EquipmentInfo()
+                    {
+                        NewEquipment = new List<NewEquipment> { new NewEquipment { Type = improvmentType, Description = eq?.Description } }
+                    };
                 }
 
                 return await UpdateNewContractForCustomer(contractOwnerId, newCustomer, contractData);
