@@ -3,11 +3,11 @@
     var state = require('state').state;
 
     var validateOnSelect = function () {
-        debugger
 
-        var isValid = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm','CustomYCostVal','CustomAFee'].every(function (field) {
-            return $("#" + field).valid();
-        });
+        var isValid = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal', 'CustomAFee'].reduce(function (acc, field) {
+            var valid = $("#" + field).valid();
+            return valid && acc;
+        }, true);
 
         return isValid;
     }
