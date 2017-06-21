@@ -469,14 +469,18 @@
         <label for="agreement-checkbox-data1" class="align-middle custom-checkbox">
           <input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data1"/>
           <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-          <span class="mandatory-field">@Resources.ClientProvidesExpressConsentToCreditCheck</span>
+          <span class="mandatory-field">@Resources.AcknowledgeAndAgreementObtainCreditReport</span>
         </label>
+        <div class="consents-links">
+          <a href="" class="dealnet-info-link j-personal-data-used-modal">@Resources.HowIsMyPersonalDataUsed</a>
+          <a href="" class="dealnet-info-link  j-privacy-policy-modal">@Resources.PrivacyPolicy</a>
+        </div>
       </div>
       <div class="form-group">
         <label for="agreement-checkbox-data2" class="align-middle custom-checkbox">
           <input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data2"/>
           <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-          <span class="mandatory-field">@Resources.ClientAuthorizesReleaseToDealnetCapital</span>
+          <span class="mandatory-field">@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
         </label>
       </div>
     </div>
@@ -488,6 +492,46 @@
       <button class="btn dealnet-success-button btn-proceed  btn-form-common" id="submit">@Resources.SubmitApplication</button>
     </span>
   </div>
+</div>
+
+<div id="personal-data-used" style="display: none;">
+  <h2>Collection, Use and Disclosure of Personal Information</h2>
+  <p>EcoHome Financial may collect, use and disclose personal information provided by you on this application, obtained as part of the application process (including from credit reporting agencies and other sources) and/or, if your application is approved, obtained from time to time in the administration or operation of your account, for some or all of the following purposes:</p>
+  <ul>
+    <li>
+      to verify your identity and information provided by you, such as your employment or credit history
+    </li>
+    <li>
+      to evaluate your credit-worthiness
+    </li>
+    <li>
+      to process your application, determine your eligibility for any product or service you may request, and, if your application is approved, to open, administer and operate your account
+    </li>
+    <li>
+      to respond to your requests for products, services or other information
+    </li>
+    <li>
+      to enable us and, as applicable, our third party service providers and vendors to provide you with products and ongoing services
+    </li>
+    <li>
+      to verify your instructions
+    </li>
+    <li>
+      to protect against errors and fraud
+    </li>
+    <li>
+      to investigate complaints
+    </li>
+    <li>
+      to satisfy regulatory or legal reporting requirements
+    </li>
+    <li>
+      as otherwise permitted or required by law
+    </li>
+  </ul>
+  <p>In addition, personal information may be exchanged with credit reporting agencies, credit bureaus, credit insurers and other financial institutions to maintain the integrity of the credit-granting process and determine eligibility for financial products and services.</p>
+  <br>
+  <p>By submitting this application, you consent to and authorize such collection, use and disclosure.</p>
 </div>
 }
 
@@ -515,6 +559,56 @@
     <script type="text/javascript">
         var isMobileRequest = '@ViewBag.IsMobileRequest';
         module.require('new-client-index');
+
+        $(function(){
+          $(document).on('show.bs.modal', function () {
+            setModalMaxHeight($('.consents-modal'));
+          })
+          $(window).resize(function() {
+            if ($('.modal.in').length != 0) {
+              setModalMaxHeight($('.consents-modal.in'));
+          }
+          });
+          $('.j-personal-data-used-modal').on('click', function(e){
+            var data = {
+              message: $('#personal-data-used').html(),
+              class: "consents-modal scrolled-modal-inside"
+            };
+            dynamicAlertModal(data);
+            e.preventDefault();
+          });
+
+
+          $('.j-privacy-policy-modal').on('click', function(e){
+            var data = {
+              message: "Privacy policy",
+              class: "consents-modal scrolled-modal-inside"
+            };
+            dynamicAlertModal(data);
+            e.preventDefault();
+          });
+
+          function setModalMaxHeight(element) {
+            this.$element     = $(element);
+            this.$content     = this.$element.find('.modal-content');
+            var borderWidth   = this.$content.outerHeight() - this.$content.innerHeight();
+            var dialogMargin  = $(window).width() < 768 ? 20 : 60;
+            var contentHeight = $(window).height() - (dialogMargin + borderWidth);
+            var headerHeight  = this.$element.find('.modal-header').outerHeight() || 0;
+            var footerHeight  = this.$element.find('.modal-footer').outerHeight() || 0;
+            var maxHeight     = contentHeight - (headerHeight+footerHeight);
+            console.log(contentHeight);
+            this.$content.css({
+              'overflow': 'hidden'
+            });
+
+            this.$element
+                .find('.modal-body').css({
+              'max-height': maxHeight,
+              'overflow-y': 'auto'
+            });
+          }
+        })
     </script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=initAutocomplete" async defer></script>
 }

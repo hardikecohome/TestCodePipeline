@@ -216,3 +216,49 @@
     margin-top: 32px;
   }
 }
+
+
+.modal-open .modal.scrolled-modal-inside{
+  overflow: hidden;
+
+  .modal-dialog{
+    max-height: 100%;
+    overflow: hidden;
+
+  }
+}
+.consents-modal{
+  color: #000;
+  h1, h2, h3, h4, h5, h6{
+    font-weight: 600;
+  }
+
+  h2{
+    font-size: 1.5em;
+  }
+  h3{
+    font-size: 1.17em;
+  }
+
+  .modal-dialog, li{
+    text-align: left;
+  }
+
+  .close{
+    position: absolute;
+    right: 20px;
+    top: 10px;
+  }
+  .modal-dialog{
+    width: 98% !important;
+    max-width: 100%;
+  }
+  .modal-body{
+    *:first-child{
+      margin-top: 0;
+    }
+  }
+  .modal-footer{
+    display: none;
+  }
+}
