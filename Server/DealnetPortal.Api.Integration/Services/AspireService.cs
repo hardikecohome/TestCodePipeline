@@ -1107,7 +1107,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     udfList.Add(new UDF()
                     {
-                        Name = AspireUdfFields.PrefferedInstallationDate,
+                        Name = AspireUdfFields.PreferredInstallationDate,
                         Value = contract.Equipment.PreferredStartDate.Value.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
                     });
                 }
