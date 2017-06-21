@@ -234,10 +234,7 @@
   }
 
   h2{
-    font-size: 1.5em;
-  }
-  h3{
-    font-size: 1.17em;
+    font-size: 20px;
   }
 
   .modal-dialog, li{
@@ -250,8 +247,17 @@
     top: 10px;
   }
   .modal-dialog{
-    width: 98% !important;
-    max-width: 100%;
+    font-size: 18px;
+    line-height: 1.67;
+    @media @mobile {
+      width: 98% !important;
+      max-width: 100%;
+    }
+
+    ul{
+      margin: 30px 0;
+      padding-left: 50px;
+    }
   }
   .modal-body{
     *:first-child{
@@ -260,5 +266,8 @@
   }
   .modal-footer{
     display: none;
+  }
+  .address-info{
+    padding-left: 50px;
   }
 }
