@@ -3049,6 +3049,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter at least 0..
+        /// </summary>
+        public static string PleaseEnterAtLeastZero {
+            get {
+                return ResourceManager.GetString("PleaseEnterAtLeastZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter emails of applicants below and click Send Emails..
         /// </summary>
         public static string PleaseEnterEmailsAndClickSend {

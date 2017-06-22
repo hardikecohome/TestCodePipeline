@@ -4,19 +4,16 @@
 
     var validateOnSelect = function () {
 
-        $.grep(['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal', 'CustomAFee'], function(field) {
-            $('#' + field).valid();
-        });
-
-        var isValid = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm','CustomYCostVal','CustomAFee'].every(function (field) {
-            return $("#" + field).valid();
-        });
+        var isValid = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal', 'CustomAFee'].reduce(function (acc, field) {
+            var valid = $("#" + field).valid();
+            return valid && acc;
+        }, true);
 
         return isValid;
     }
 
     var toggleDisableClassOnInputs = function (isDisable) {
-        $.grep(['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal', 'CustomAFee'], function (field) {
+        ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal', 'CustomAFee'].forEach(function (field) {
             $('#' + field).prop('disabled', isDisable);
         });
     }
@@ -44,14 +41,11 @@
 
     // custom option
     $('#CustomLoanTerm').on('change', setters.setLoanTerm('Custom'));
-    $('#CustomLoanTerm').on('change', validateCustomRateCardOnInput);
 
     $('#CustomAmortTerm').on('change', setters.setAmortTerm('Custom'));
-    $('#CustomAmortTerm').on('change', validateCustomRateCardOnInput);
 
     $('#CustomDeferralPeriod').on('change', setters.setDeferralPeriod('Custom'));
     $('#CustomCRate').on('change', setters.setCustomerRate('Custom'));
-    $('#CustomCRate').on('change', validateCustomRateCardOnInput);
 
     $('#CustomYCostVal').on('change', setters.setCustomYourCost('Custom'));
     $('#CustomYCostVal').on('change keyup', numericHandler);
@@ -96,6 +90,7 @@
             }
         },
         number: true,
+        min:0,
         regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/,
         messages: {
             regex:translations.yourCostFormat,
@@ -104,16 +99,17 @@
     });
 
     $('#CustomCRate').rules('add', {
-        required: {
-            depends: function (element) {
-                return !$('#CustomYCostVal').val();
-            }
-        },
+        required: true,
+        min:0,
         number: true,
         regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/,
         messages: {
             regex:translations.customerRateFormat,
-            required: translations.customerOrYourCost
+            required: function (ele) {
+                if (!$('#CustomYCostVal').val())
+                    return translations.customerOrYourCost;
+                return translations.enterZero;
+            }
         }
     });
 
@@ -128,23 +124,25 @@
 
     $('#CustomAmortTerm').rules('add', {
         required: true,
-        minlength: 1,
+        min: 1,
+        max:999,
         regex: /^[1-9]\d{0,2}?$/,
         messages: {
             required: translations.ThisFieldIsRequired,
             regex: translations.amortTermFormat,
-            minLength: translations.amortTermMax
+            max: translations.amortTermMax
         }
     });
 
     $('#CustomLoanTerm').rules('add', {
         required: true,
-        minlength: 1,
+        min: 1,
+        max:999,
         regex: /^[1-9]\d{0,2}?$/,
         messages: {
-            //required: translations.ThisFieldIsRequired,
+            required: translations.ThisFieldIsRequired,
             regex: translations.loanTermFormat,
-            minLength: translations.loanTermMax
+            max: translations.loanTermMax
         }
     });
 
