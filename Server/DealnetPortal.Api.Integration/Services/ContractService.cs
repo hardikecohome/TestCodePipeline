@@ -269,7 +269,7 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 var alerts = new List<Alert>();
-                var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+                var contract = _contractRepository.GetContractAsUntracked(contractId, contractOwnerId);
 
                 if (contract == null)
                 {
