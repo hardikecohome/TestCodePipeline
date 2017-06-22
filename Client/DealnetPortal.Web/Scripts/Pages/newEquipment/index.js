@@ -25,12 +25,14 @@
                     }
                 }
             } else {
+                $('#custom-rate-card').clearErrors();
                 toggleDisableClassOnInputs(true);
                 rateCardBlock.hide();
             }
         }
 
         var submitForm = function (event) {
+            $('#equipment-form').valid();
             var agreementType = $("#typeOfAgreementSelect").find(":selected").val();
             if (agreementType === "0") {
                 var rateCard = $('.checked');
@@ -43,7 +45,14 @@
                         event.preventDefault();
                         $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
                     } else {
-                        option === 'Custom' ? submitCustomRateCard(event, option) : submitRateCard(option);
+                        if (option === 'Custom') {
+                            submitCustomRateCard(event, option);
+                        } else {
+                            $('#custom-rate-card').clearErrors();
+                            toggleDisableClassOnInputs(true);
+                            submitRateCard(option);
+                        }
+                        $('#equipment-form').submit();
                     }
                 }
             } else {
@@ -61,7 +70,7 @@
         }
 
         // submit
-        $('#equipment-form').submit(submitForm);
+        $('#submit').on('click', submitForm);
 
         // handlers
         $('#addEquipment').on('click', equipment.addEquipment);

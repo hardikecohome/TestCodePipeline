@@ -1,6 +1,6 @@
 ﻿@using DealnetPortal.Web.Models.Enumeration
 <li>
-    <div class="rate-card table-mode shown-card">
+    <div class="rate-card table-mode shown-card" id="custom-rate-card">
         <div class="rate-card-header equal-height-row-1">
             <h4 class="card-title">CUSTOM</h4>
         </div>
@@ -13,7 +13,7 @@
                             <label for="">Loan Term</label>
                             <div class="control-group">
                                 <input type="text" class="form-control" name="CustomLoanTerm" id="CustomLoanTerm">
-                                <span class="field-validation-valid text-danger" data-valmsg-for="CustomLoanTerm" data-valmsg-replace="true"></span>
+                                <span class="field-validation-error text-danger" data-valmsg-for="CustomLoanTerm" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                     </div>
@@ -23,7 +23,7 @@
                             <label for="">Amort. Term</label>
                             <div class="control-group">
                                 <input type="text" class="form-control" name="CustomAmortTerm" id="CustomAmortTerm">
-                                <span class="field-validation-valid text-danger" data-valmsg-for="CustomAmortTerm" data-valmsg-replace="true"></span>
+                                <span class="field-validation-error text-danger" data-valmsg-for="CustomAmortTerm" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                             <div class="control-group has-addon-right">
                                 <input type="text" class="form-control rate-group" name="CustomCRate" id="CustomCRate"/>
                                 <div class="control-group-addon">%</div>
-                                <span class="field-validation-valid text-danger" data-valmsg-for="CustomCRate" data-valmsg-replace="true"></span>
+                                <span class="field-validation-error text-danger" data-valmsg-for="CustomCRate" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                             <div class="control-group has-addon-right">
                                 <input type="text" class="form-control rate-group" name="CustomYCostVal" id="CustomYCostVal"/>
                                 <div class="control-group-addon">%</div>
-                                <span class="field-validation-valid text-danger" data-valmsg-for="CustomYCostVal" data-valmsg-replace="true"></span>
+                                <span class="field-validation-error text-danger" data-valmsg-for="CustomYCostVal" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                         <div class="control-group has-addon-left">
                             <div class="control-group-addon">$</div>
                             <input type="text" class="form-control dealnet-input" name="CustomAFee" id="CustomAFee">
-                            <span class="field-validation-valid text-danger" data-valmsg-for="CustomAFee" data-valmsg-replace="true"></span>
+                            <span class="field-validation-error text-danger" data-valmsg-for="CustomAFee" data-valmsg-replace="true"></span>
                         </div>
                     </div>
                 </div>
