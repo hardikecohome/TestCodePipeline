@@ -1095,19 +1095,19 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = contract.Equipment.SalesRep
                     });
                 }
-                //if (contract.Equipment.EstimatedInstallationDate.HasValue)
-                //{
-                //    udfList.Add(new UDF()
-                //    {
-                //        Name = AspireUdfFields.PrefferedInstallationDate,
-                //        Value = contract.Equipment.EstimatedInstallationDate.Value.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
-                //    });
-                //}
-                if (contract.Equipment.PreferredStartDate.HasValue)
+                if (contract.Equipment.EstimatedInstallationDate.HasValue)
                 {
                     udfList.Add(new UDF()
                     {
                         Name = AspireUdfFields.PreferredInstallationDate,
+                        Value = contract.Equipment.EstimatedInstallationDate.Value.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
+                    });
+                }
+                if (contract.Equipment.PreferredStartDate.HasValue)
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.PreferredDateToStartProject,
                         Value = contract.Equipment.PreferredStartDate.Value.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
                     });
                 }

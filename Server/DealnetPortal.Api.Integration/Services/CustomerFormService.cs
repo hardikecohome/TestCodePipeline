@@ -267,15 +267,16 @@ namespace DealnetPortal.Api.Integration.Services
                             .FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress) != null)
                     {
                         await _mailService.SendHomeImprovementMailToCustomer(newContracts).ConfigureAwait(false);
+                        newContracts.ForEach(c =>
+                        {
+                            if (_contractRepository.IsContractUnassignable(c.Id))
+                            {
+                                var nowait = _mailService.SendNotifyMailNoDealerAcceptLead(c);
+                            }
+                        });
                     }
 
-                    newContracts.ForEach(c =>
-                    {
-                        if (_contractRepository.IsContractUnassignable(c.Id))
-                        {
-                            var nowait = _mailService.SendNotifyMailNoDealerAcceptLead(c);
-                        }
-                    });
+                    
                 }               
             }
             if (alerts.Any(a => a.Type == AlertType.Error))

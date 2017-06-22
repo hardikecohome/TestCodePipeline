@@ -110,14 +110,15 @@ namespace DealnetPortal.Api.Integration.Services
                             .FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress) !=null)
                         {
                             await _mailService.SendHomeImprovementMailToCustomer(succededContracts);
-                        }
-                        foreach (var contract in succededContracts)
-                        {
-                            if (IsContractUnassignable(contract.Id))
+                            foreach (var contract in succededContracts)
                             {
-                                await _mailService.SendNotifyMailNoDealerAcceptLead(contract);
+                                if (IsContractUnassignable(contract.Id))
+                                {
+                                    await _mailService.SendNotifyMailNoDealerAcceptLead(contract);
+                                }
                             }
                         }
+                        
                     }
                     else
                     {
