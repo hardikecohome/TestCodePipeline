@@ -5,8 +5,8 @@
                             .removeClass('closed');
 
         $('#loanRateCardToggle').find('i.glyphicon')
-          .removeClass('glyphicon-chevron-right')
-          .addClass('glyphicon-chevron-down');
+          .removeClass('glyphicon-chevron-down')
+          .addClass('glyphicon-chevron-up');
 
 
         if (!$('#paymentInfo').hasClass('hidden')) {
@@ -20,8 +20,8 @@
                             .addClass('closed');
 
         $('#loanRateCardToggle').find('i.glyphicon')
-          .removeClass('glyphicon-chevron-down')
-          .addClass('glyphicon-chevron-right');
+          .removeClass('glyphicon-chevron-up')
+          .addClass('glyphicon-chevron-down');
 
         if ($('#paymentInfo').hasClass('hidden')) {
             $('#paymentInfo').css('display', 'block');
