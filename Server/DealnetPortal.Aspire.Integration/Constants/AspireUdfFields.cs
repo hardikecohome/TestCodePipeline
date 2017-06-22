@@ -8,6 +8,7 @@
         public static string HomeOwner = "HomeOwner";
         public static string HomeImprovementType = "Home Improvement Type";
         public static string PreferredInstallationDate = "Preferred Installation Date";
+        public static string PreferredDateToStartProject = "Preferred Date To Start Project";        
         //Installation Address
         public static string InstallationAddress = "Installation Address";
         public static string InstallationAddressCity = "Installation Address City";
