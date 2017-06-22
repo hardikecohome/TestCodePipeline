@@ -13,7 +13,7 @@
     }
 
     var toggleDisableClassOnInputs = function (isDisable) {
-        $.grep(['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal', 'CustomAFee'], function (field) {
+        ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal', 'CustomAFee'].forEach(function (field) {
             $('#' + field).prop('disabled', isDisable);
         });
     }
