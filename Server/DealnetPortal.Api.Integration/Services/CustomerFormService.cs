@@ -136,19 +136,19 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<Tuple<CustomerContractInfoDTO, IList<Alert>>> SubmitCustomerFormData(CustomerFormDTO customerFormData)
+        public Tuple<CustomerContractInfoDTO, IList<Alert>> SubmitCustomerFormData(CustomerFormDTO customerFormData)
         {
             if (customerFormData == null)
             {
                 throw new ArgumentNullException(nameof(customerFormData));
             }
 
-            var contractCreationRes = await CreateContractByCustomerFormData(customerFormData).ConfigureAwait(false);
+            var contractCreationRes = CreateContractByCustomerFormData(customerFormData);
             if (contractCreationRes?.Item1 != null &&
                 (contractCreationRes.Item2?.All(a => a.Type != AlertType.Error) ?? true))
             {
-                await SendCustomerContractCreationNotifications(customerFormData,
-                        contractCreationRes.Item1).ConfigureAwait(false);
+                Task.Run(async () => await SendCustomerContractCreationNotifications(customerFormData,
+                    contractCreationRes.Item1));
             }
 
             return new Tuple<CustomerContractInfoDTO, IList<Alert>>(contractCreationRes?.Item1, contractCreationRes?.Item2 ?? new List<Alert>());
@@ -343,7 +343,7 @@ namespace DealnetPortal.Api.Integration.Services
             return contractInfo;
         }
 
-        private async Task<Tuple<CustomerContractInfoDTO, IList<Alert>>> CreateContractByCustomerFormData(
+        private Tuple<CustomerContractInfoDTO, IList<Alert>> CreateContractByCustomerFormData(
             CustomerFormDTO customerFormData)
         {
             var alerts = new List<Alert>();
@@ -364,35 +364,11 @@ namespace DealnetPortal.Api.Integration.Services
                     Id = contract.Id
                 };
                 _contractService.UpdateContractData(contractData, dealerId);
-
-                if (!string.IsNullOrEmpty(customerFormData.SelectedService) ||
-                    !string.IsNullOrEmpty(customerFormData.CustomerComment))
-                {
-                    try
-                    {
-                        _customerFormRepository.AddCustomerContractData(contract.Id,
-                            $"{Resources.Resources.CommentFromCustomer}:",
-                            customerFormData.SelectedService, customerFormData.CustomerComment, dealerId);
-                        _unitOfWork.Save();
-                        _loggingService.LogInfo($"Customer's info is added to [{contract.Id}]");
-                    }
-                    catch (Exception ex)
-                    {
-                        var errorMsg =
-                            $"Cannot update contract {contract.Id} from customer loan form with customer form data";
-                        alerts.Add(new Alert()
-                        {
-                            Type = AlertType.Warning, //?
-                            Code = ErrorCodes.ContractCreateFailed,
-                            Header = "Cannot update contract",
-                            Message = errorMsg
-                        });
-                        _loggingService.LogWarning(errorMsg);
-                    }
-                }
+                
                 //Start credit check for this contract
                 try
                 {
+                    _loggingService.LogInfo($"Start credit check for contract [{contract.Id}]");
                     var creditCheckAlerts = new List<Alert>();
                     var initAlerts = _contractService.InitiateCreditCheck(contract.Id, dealerId);
                     if (initAlerts?.Any() ?? false)
@@ -420,13 +396,41 @@ namespace DealnetPortal.Api.Integration.Services
                 contract.IsCreatedByCustomer = true;
                 contract.IsNewlyCreated = true;
                 contract.CreateOperator = null;
-                _unitOfWork.Save();                
-                
+                _unitOfWork.Save();
+
+
+                //added comments at the end of CreateContractByCustomerFormData
+                if (!string.IsNullOrEmpty(customerFormData.SelectedService) ||
+                    !string.IsNullOrEmpty(customerFormData.CustomerComment))
+                {                    
+                    try
+                    {
+                        _customerFormRepository.AddCustomerContractData(contract.Id,
+                            $"{Resources.Resources.CommentFromCustomer}:",
+                            customerFormData.SelectedService, customerFormData.CustomerComment, dealerId);
+                        _unitOfWork.Save();
+                        _loggingService.LogInfo($"Customer's info is added to [{contract.Id}]");
+                    }
+                    catch (Exception ex)
+                    {
+                        var errorMsg =
+                            $"Cannot update contract {contract.Id} from customer loan form with customer form data";
+                        alerts.Add(new Alert()
+                        {
+                            Type = AlertType.Warning, //?
+                            Code = ErrorCodes.ContractCreateFailed,
+                            Header = "Cannot update contract",
+                            Message = errorMsg
+                        });
+                        _loggingService.LogWarning(errorMsg);
+                    }
+                }
+
                 submitResult = GetCustomerContractInfo(contract.Id, customerFormData.DealerName);
 
                 if (_contractRepository.IsContractUnassignable(contract.Id))
                 {
-                    await _mailService.SendNotifyMailNoDealerAcceptLead(contract);
+                    Task.Run(async () => await _mailService.SendNotifyMailNoDealerAcceptLead(contract));
                 }
             }
             else
