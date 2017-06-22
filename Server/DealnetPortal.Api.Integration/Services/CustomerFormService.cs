@@ -394,11 +394,11 @@ namespace DealnetPortal.Api.Integration.Services
                 try
                 {
                     var creditCheckAlerts = new List<Alert>();
-                    var initAlerts = _contractService.InitiateCreditCheck(contract.Id, dealerId);
-                    if (initAlerts?.Any() ?? false)
-                    {
-                        creditCheckAlerts.AddRange(initAlerts);
-                    }
+                    //var initAlerts = _contractService.InitiateCreditCheck(contract.Id, dealerId);
+                    //if (initAlerts?.Any() ?? false)
+                    //{
+                    //    creditCheckAlerts.AddRange(initAlerts);
+                    //}
                     var checkResult = _contractService.GetCreditCheckResult(contract.Id, dealerId);
                     if (checkResult != null)
                     {
