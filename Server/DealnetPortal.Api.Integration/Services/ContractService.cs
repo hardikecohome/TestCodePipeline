@@ -174,22 +174,6 @@ namespace DealnetPortal.Api.Integration.Services
                                     _aspireService.SendDealUDFs(contract.Id, contractOwnerId);
                             }
                         });
-                    //update customers on aspire
-                    //if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null)
-                    //{
-                    //    var aspireAlerts =
-                    //        _aspireService.UpdateContractCustomer(contract.Id, contractOwnerId);
-                    //    //if (aspireAlerts?.Any() ?? false)
-                    //    //{
-                    //    //    alerts.AddRange(aspireAlerts);
-                    //    //}
-                    //}
-                    //if (contract.Equipment.NewEquipment?.Any() == true &&
-                    //    updatedContract.ContractState != ContractState.Completed &&
-                    //    updatedContract.ContractState != ContractState.SentToAudit)
-                    //{
-                        
-                    //}
 
                     if (updatedContract.ContractState == ContractState.Completed)
                     {
