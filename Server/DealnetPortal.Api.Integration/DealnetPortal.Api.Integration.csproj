@@ -141,10 +141,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IMailChimpService.cs" />
     <Compile Include="Services\IMailService.cs" />
+    <Compile Include="Services\IMandrillService.cs" />
     <Compile Include="Services\IPersonalizedMessageService.cs" />
     <Compile Include="Services\ISmsSubscriptionService.cs" />
     <Compile Include="Services\IUsersService.cs" />
     <Compile Include="Services\MailChimpService.cs" />
+    <Compile Include="Services\MandrillService.cs" />
     <Compile Include="Services\PersonalizedMessageService.cs" />
     <Compile Include="Services\Signature\DocuSignSignatureEngine.cs" />
     <Compile Include="Services\Signature\EcoreSignatureEngine.cs" />

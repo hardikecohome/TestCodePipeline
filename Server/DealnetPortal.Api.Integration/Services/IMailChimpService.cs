@@ -9,5 +9,6 @@ namespace DealnetPortal.Api.Integration.Services
     {
         Task AddNewSubscriberAsync(string listid, MailChimpMember member);
         Task<Queue> SendUpdateNotification(string email);
+        Task<bool> isSubscriber(string listid, string emailid);
     }
 }

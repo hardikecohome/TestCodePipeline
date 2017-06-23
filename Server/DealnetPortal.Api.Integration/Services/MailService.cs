@@ -40,7 +40,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IPersonalizedMessageService _personalizedMessageService = new PersonalizedMessageService(ConfigurationManager.AppSettings["SMSENDPOINT"],
                                                                                                                      ConfigurationManager.AppSettings["SMSAPIKEY"]);
         private readonly IMailСhimpService _mailChimpService = new MailChimpService(ConfigurationManager.AppSettings["MailChimpApiKey"]);
-
+        private readonly IMandrillService _mandrillService = new MandrillService();
 
         public MailService(IEmailService emailService, IContractRepository contractRepository, ILoggingService loggingService)
         {
@@ -296,7 +296,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             try
             {
-              //  await _emailService.SendAsync(mail);
+                await _emailService.SendAsync(mail);
               // Hardik SMS trigger for subscription request
                 var result = await _smsSubscriptionServive.setstartsubscription(customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum,
                                                                                 customerFormData.PrimaryCustomer.Id.ToString(),
@@ -353,31 +353,39 @@ namespace DealnetPortal.Api.Integration.Services
             var subject = $"{Resources.Resources.WeAreLookingForTheBestProfessionalForYourHomeImprovementProject}";
             var mail = GenerateMailMessage(customerEmail, subject, alternateView);
             //Hardik Update MailChimp Home Improvement type
-            MailChimpMember member = new MailChimpMember()
-            {
-                Email = contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
-                FirstName = contract.PrimaryCustomer.FirstName,
-                LastName = contract.PrimaryCustomer.LastName,
-                address = new MemberAddress()
-                {
-                    Street = contract.PrimaryCustomer.Locations.FirstOrDefault().Street,
-                    Unit = contract.PrimaryCustomer.Locations.FirstOrDefault().Unit,
-                    City = contract.PrimaryCustomer.Locations.FirstOrDefault().City,
-                    State = contract.PrimaryCustomer.Locations.FirstOrDefault().State,
-                    PostalCode = contract.PrimaryCustomer.Locations.FirstOrDefault().PostalCode
-                },
-                CreditAmount = (decimal)contract.Details.CreditAmount,
-                ApplicationStatus = contract.ContractState.ToString(),
-                // TemporaryPassword = password,
-                EquipmentInfoRequired = "Updated"
-                //EquipmentInfoRequired = (contract.Equipment.NewEquipment.FirstOrDefault().Type == null) ? "Required" : "Not Required"
-            };
+            //MailChimpMember member = new MailChimpMember()
+            //{
+            //    Email = contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
+            //    FirstName = contract.PrimaryCustomer.FirstName,
+            //    LastName = contract.PrimaryCustomer.LastName,
+            //    address = new MemberAddress()
+            //    {
+            //        Street = contract.PrimaryCustomer.Locations.FirstOrDefault().Street,
+            //        Unit = contract.PrimaryCustomer.Locations.FirstOrDefault().Unit,
+            //        City = contract.PrimaryCustomer.Locations.FirstOrDefault().City,
+            //        State = contract.PrimaryCustomer.Locations.FirstOrDefault().State,
+            //        PostalCode = contract.PrimaryCustomer.Locations.FirstOrDefault().PostalCode
+            //    },
+            //    CreditAmount = (decimal)contract.Details.CreditAmount,
+            //    ApplicationStatus = contract.ContractState.ToString(),
+            //    // TemporaryPassword = password,
+            //    EquipmentInfoRequired = "Updated"
+            //    //EquipmentInfoRequired = (contract.Equipment.NewEquipment.FirstOrDefault().Type == null) ? "Required" : "Not Required"
+            //};
             try
             {
-                // await _emailService.SendAsync(mail);
+                 await _emailService.SendAsync(mail);
                 // Hardik Mailchimp trigger to update Equipment type
-                await _mailChimpService.AddNewSubscriberAsync(ConfigurationManager.AppSettings["ListID"], member);
-                
+                if (await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress))
+                {
+                    await _mandrillService.SendHomeImprovementTypeUpdatedConfirmation(contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
+                                                                                        contract.PrimaryCustomer.FirstName,
+                                                                                        contract.PrimaryCustomer.LastName,
+                                                                                        services);
+
+
+
+                }
                 var result = await _personalizedMessageService.SendMessage(contract.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
 
             }
@@ -386,7 +394,18 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError("Cannot send email", ex);
             }
         }
+        public async Task SendDeclinedConfirmation(string emailid, string firstName, string lastName)
+        {
+            try
+            {
+                await _mandrillService.SendDeclineNotificationConfirmation(emailid, firstName, lastName);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
+        }
         public async Task SendApprovedMailToCustomer(Contract customerFormData)
         {
             string customerEmail = customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
@@ -447,7 +466,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             try
             {
-               // await _emailService.SendAsync(mail);
+                await _emailService.SendAsync(mail);
                 //Hardik MailChimp Trigger to update CreditAmount
                 await _mailChimpService.AddNewSubscriberAsync(ConfigurationManager.AppSettings["ListID"], member);
                 var result = await _personalizedMessageService.SendMessage(customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
@@ -529,20 +548,23 @@ namespace DealnetPortal.Api.Integration.Services
                 },
                 CreditAmount = (decimal)contract.Details.CreditAmount,
                 ApplicationStatus = contract.ContractState.ToString(),
-                DealerLeadAccepted = "Accepted"
-                // TemporaryPassword = password,
+                DealerLeadAccepted = "Accepted",
+                TemporaryPassword = "",
                 //  EquipmentInfoRequired = "Required",
-                //  OneTimeLink = domain + "/invite/" + hashLogin
+                OneTimeLink = domain + "/invite/" + hashLogin
                 //EquipmentInfoRequired = (customerFormData.Equipment.NewEquipment.FirstOrDefault().Type == null) ? "Required" : "Not Required"
 
             };
             try
             {
                 //Need to plug mailchimp 
-                //await _emailService.SendAsync(mail);
-                await _mailChimpService.AddNewSubscriberAsync(ConfigurationManager.AppSettings["ListID"], member);
+                await _emailService.SendAsync(mail);
+                //await _mailChimpService.AddNewSubscriberAsync(ConfigurationManager.AppSettings["ListID"], member);
                 var result = await _personalizedMessageService.SendMessage(contract.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
-
+                if (await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress))
+                {
+                    await _mandrillService.SendDealerLeadAccepted(contract, dealer, services);
+                }
             }
             catch (Exception ex)
             {

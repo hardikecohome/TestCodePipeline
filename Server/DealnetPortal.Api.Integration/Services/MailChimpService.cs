@@ -55,7 +55,20 @@ namespace DealnetPortal.Api.Integration.Services
                 throw ex;
             }
         }
+        public async Task<bool> isSubscriber(string listid, string emailid)
+        {
+            Member subscriber = new Member();
+            subscriber = await manager.Members.GetAsync(listid, emailid);
+            if (subscriber.Status == Status.Subscribed)
+            {
 
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public async Task<Queue> SendUpdateNotification(string email)
         {
             try

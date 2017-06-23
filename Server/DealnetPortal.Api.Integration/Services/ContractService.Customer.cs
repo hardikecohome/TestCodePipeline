@@ -17,6 +17,7 @@ namespace DealnetPortal.Api.Integration.Services
 {
     public partial class ContractService
     {
+        private readonly IMandrillService _mandrillService = new MandrillService();
         public async Task<Tuple<ContractDTO, IList<Alert>>> CreateContractForCustomer(string contractOwnerId, NewCustomerDTO newCustomer)
         {
             try
@@ -128,7 +129,11 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     _loggingService.LogWarning($"Customer contract(s) for dealer {contractOwnerId} wasn't approved on Aspire");
                     //not approved log
-
+                    //await _mandrillService.SendDeclineNotificationConfirmation(newCustomer.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
+                    //                                                            newCustomer.PrimaryCustomer.FirstName, newCustomer.PrimaryCustomer.LastName,
+                    //                                                            newCustomer.HomeImprovementTypes.FirstOrDefault());
+                    await _mailService.SendDeclinedConfirmation(newCustomer.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
+                                                                                newCustomer.PrimaryCustomer.FirstName, newCustomer.PrimaryCustomer.LastName);
                 }
 
                 //remove all newly created "internal" (unsubmitted to aspire) contracts here
