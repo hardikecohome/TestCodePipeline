@@ -235,20 +235,6 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             alerts.AddRange(creditCheckAlerts);
                         }
-
-                        try
-                        {                        
-                            //try to send UDFs to Aspire
-                            var submitAlerts = _aspireService.SendDealUDFs(c.Id, c.DealerId).GetAwaiter().GetResult();
-                            if (submitAlerts?.Any() == true)
-                            {
-                                alerts.AddRange(submitAlerts);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            _loggingService.LogError($"Cannot submit deal {c.Id} in Aspire", ex);
-                        }
                     }
                 });
 
@@ -539,24 +525,8 @@ namespace DealnetPortal.Api.Integration.Services
                         : null
 
                 };
-                var contractData = Mapper.Map<ContractData>(contractDataDto);
-                if (!string.IsNullOrEmpty(primaryCustomer.AccountId))
-                {
-                    contractData.PrimaryCustomer.AccountId = primaryCustomer.AccountId;
-                    var updatedContract = _contractRepository.UpdateContractData(contractData, contractOwnerId);
-                    if (updatedContract != null)
-                    {
-                        _unitOfWork.Save();
-                        _loggingService.LogInfo($"A contract [{contract.Id}] updated");
 
-                        //update customers on aspire
-                        if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null)
-                        {
-                            _contractService.UpdateContractData(new ContractDataDTO() {Id = contractData.Id},
-                                contractOwnerId);
-                        }
-                    }
-                }
+                _contractService.UpdateContractData(contractDataDto, contractOwnerId);
             }
 
             return contract;
