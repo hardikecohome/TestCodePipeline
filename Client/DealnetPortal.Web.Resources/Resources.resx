@@ -1550,4 +1550,16 @@
   <data name="LeadsNoMatchingRecordsFound" xml:space="preserve">
     <value>Please configure your profile in order to view leads</value>
   </data>
+  <data name="AcknowledgeAndAgreementObtainCreditReport" xml:space="preserve">
+    <value>By submitting this application, you acknowledge and agree that EcoHome Financial is authorized to obtain your credit report from one or more consumer credit reporting agencies (e.g. Equifax or TransUnion), to verify the information in your credit report with third parties as necessary, and to periodically update your credit information with credit reporting agencies. You are hereby notified that a consumer report containing credit and/or personal information may be referred to in connection with this application. You consent to accept, receive and use in electronic form any and all agreements, notices, disclosures and other documents or information in relation to this application that EcoHome Financial may deliver to you.</value>
+  </data>
+  <data name="ConsentToReceiveCommercialElectronicMessages" xml:space="preserve">
+    <value>By checking this box, you consent to receive commercial electronic messages from EcoHome Financial at your email address and telephone number(s) provided by you in this application or from time to time in connection with your account, including electronic communications that market or promote our programs, products, services, offers, events and surveys that may be of interest to you. You may withdraw this consent at any time. You may contact EcoHome Financial Inc. at 325 Milner Avenue, Suite 300, Toronto, Ontario M1B 5N1</value>
+  </data>
+  <data name="HowIsMyPersonalDataUsed" xml:space="preserve">
+    <value>How is my personal data used?</value>
+  </data>
+  <data name="PrivacyPolicy" xml:space="preserve">
+    <value>Privacy policy</value>
+  </data>
 </root>

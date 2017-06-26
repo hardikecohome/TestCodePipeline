@@ -244,6 +244,16 @@
       });
     }
 
+    $('.j-personal-data-used-modal').on('click', function(e){
+      var data = {
+        message: $('#personal-data-used').html(),
+        class: "consents-modal",
+        cancelBtnText: "OK"
+      };
+      dynamicAlertModal(data);
+      e.preventDefault();
+    });
+
 
     addIconsToFields();
     toggleClearInputIcon();
@@ -527,8 +537,9 @@ function dynamicAlertModal(obj){
   var classes = obj.class ? obj.class : '';
   var alertModal = $('#alertModal');
   alertModal.find('.modal-body p').html(obj.message);
-  alertModal.find('.modal-title').html(obj.title);
+  alertModal.find('.modal-title').html(obj.title ? obj.title : '');
   alertModal.find('#confirmAlert').html(obj.confirmBtnText);
+  alertModal.find('.modal-footer button[data-dismiss="modal"]').html(obj.cancelBtnText);
   alertModal.addClass(classes);
   alertModal.modal('show');
 }
