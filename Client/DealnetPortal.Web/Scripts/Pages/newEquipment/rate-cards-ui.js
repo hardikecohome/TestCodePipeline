@@ -91,7 +91,7 @@
                 $('#submit').parent().popover();
             }
 
-            $('#loanRateCardToggle, loan-element, .downpayment-row').show();
+            $('#loanRateCardToggle, .loan-element, .downpayment-row').show();
             $('.rental-element').hide();
 
             if ($('#rateCardsBlock').find('div.checked').length) {
