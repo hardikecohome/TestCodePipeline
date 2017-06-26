@@ -248,7 +248,6 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 var alerts = new List<Alert>();
-                _loggingService.LogInfo($"InitiateCreditCheck.GetContractState for [{contractId}]");
                 var contractState = _contractRepository.GetContractState(contractId, contractOwnerId);
 
                 if (contractState == null)
@@ -264,10 +263,8 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     if (contractState.Value > ContractState.Started)
                     {
-                        _loggingService.LogInfo($"InitiateCreditCheck.UpdateContractState for [{contractId}]");
                         _contractRepository.UpdateContractState(contractId, contractOwnerId,
                             ContractState.CreditCheckInitiated);
-                        _loggingService.LogInfo($"InitiateCreditCheck.Save for [{contractId}]");
                         _unitOfWork.Save();
                         _loggingService.LogInfo($"Initiated credit check for contract [{contractId}]");
                     }
