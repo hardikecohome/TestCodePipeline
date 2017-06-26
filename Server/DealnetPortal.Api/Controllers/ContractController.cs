@@ -484,7 +484,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var submitResult = CustomerFormService.SubmitCustomerFormData(customerFormData).GetAwaiter().GetResult();
+                var submitResult = CustomerFormService.SubmitCustomerFormData(customerFormData);
                 return Ok(submitResult);
             }
             catch (Exception ex)

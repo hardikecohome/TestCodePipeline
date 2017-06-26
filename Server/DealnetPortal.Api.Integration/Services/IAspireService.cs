@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Domain;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -15,6 +16,7 @@ namespace DealnetPortal.Api.Integration.Services
         /// <param name="contractOwnerId">dealer Id</param>
         /// <returns></returns>
         Task<IList<Alert>> UpdateContractCustomer(int contractId, string contractOwnerId);
+        Task<IList<Alert>> UpdateContractCustomer(Contract contract, string contractOwnerId);
 
         Task<Tuple<CreditCheckDTO, IList<Alert>>> InitiateCreditCheck(int contractId, string contractOwnerId);
 
@@ -35,6 +37,7 @@ namespace DealnetPortal.Api.Integration.Services
         /// <param name="contractOwnerId"></param>
         /// <returns></returns>
         Task<IList<Alert>> SendDealUDFs(int contractId, string contractOwnerId);
+        Task<IList<Alert>> SendDealUDFs(Contract contract, string contractOwnerId);
 
         Task<IList<Alert>> UploadDocument(int contractId, ContractDocumentDTO document, string contractOwnerId);
 

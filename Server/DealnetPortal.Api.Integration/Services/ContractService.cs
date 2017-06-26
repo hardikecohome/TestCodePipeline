@@ -158,38 +158,17 @@ namespace DealnetPortal.Api.Integration.Services
                     _unitOfWork.Save();
                     _loggingService.LogInfo($"A contract [{contract.Id}] updated");
 
-                    Task.Run(
-                        async () =>
-                        {
-                            if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null)
-                            {
-                                var aspireAlerts = await
-                                    _aspireService.UpdateContractCustomer(contract.Id, contractOwnerId);                                
-                            }
-                            if (contract.Equipment.NewEquipment?.Any() == true &&
-                                updatedContract.ContractState != ContractState.Completed &&
-                                updatedContract.ContractState != ContractState.SentToAudit)
-                            {
-                                var aspireAlerts = await
-                                    _aspireService.SendDealUDFs(contract.Id, contractOwnerId);
-                            }
-                        });
-                    //update customers on aspire
-                    //if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null)
-                    //{
-                    //    var aspireAlerts =
-                    //        _aspireService.UpdateContractCustomer(contract.Id, contractOwnerId);
-                    //    //if (aspireAlerts?.Any() ?? false)
-                    //    //{
-                    //    //    alerts.AddRange(aspireAlerts);
-                    //    //}
-                    //}
-                    //if (contract.Equipment.NewEquipment?.Any() == true &&
-                    //    updatedContract.ContractState != ContractState.Completed &&
-                    //    updatedContract.ContractState != ContractState.SentToAudit)
-                    //{
-                        
-                    //}
+                    if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null)
+                    {
+                        var aspireAlerts = 
+                            _aspireService.UpdateContractCustomer(updatedContract, contractOwnerId).GetAwaiter().GetResult();
+                    }
+                    if (updatedContract.ContractState != ContractState.Completed &&
+                        updatedContract.ContractState != ContractState.SentToAudit)
+                    {
+                        var aspireAlerts = 
+                            _aspireService.SendDealUDFs(updatedContract, contractOwnerId).GetAwaiter().GetResult();
+                    }
 
                     if (updatedContract.ContractState == ContractState.Completed)
                     {
@@ -269,9 +248,10 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 var alerts = new List<Alert>();
-                var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+                _loggingService.LogInfo($"InitiateCreditCheck.GetContractState for [{contractId}]");
+                var contractState = _contractRepository.GetContractState(contractId, contractOwnerId);
 
-                if (contract == null)
+                if (contractState == null)
                 {
                     alerts.Add(new Alert()
                     {
@@ -282,11 +262,12 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    //TODO: credit check ?
-                    if (contract.ContractState > ContractState.Started)
+                    if (contractState.Value > ContractState.Started)
                     {
+                        _loggingService.LogInfo($"InitiateCreditCheck.UpdateContractState for [{contractId}]");
                         _contractRepository.UpdateContractState(contractId, contractOwnerId,
                             ContractState.CreditCheckInitiated);
+                        _loggingService.LogInfo($"InitiateCreditCheck.Save for [{contractId}]");
                         _unitOfWork.Save();
                         _loggingService.LogInfo($"Initiated credit check for contract [{contractId}]");
                     }

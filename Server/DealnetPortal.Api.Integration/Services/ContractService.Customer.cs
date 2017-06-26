@@ -17,7 +17,6 @@ namespace DealnetPortal.Api.Integration.Services
 {
     public partial class ContractService
     {
-        private readonly IMandrillService _mandrillService = new MandrillService();
         public async Task<Tuple<ContractDTO, IList<Alert>>> CreateContractForCustomer(string contractOwnerId, NewCustomerDTO newCustomer)
         {
             try
@@ -65,7 +64,7 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         creditCheckAlerts.AddRange(initAlerts);
                     }
-                    //Credit check
+
                     var checkResult = GetCreditCheckResult(contractResult.Item1.Id, contractOwnerId);
                     if (checkResult != null)
                     {
@@ -106,19 +105,20 @@ namespace DealnetPortal.Api.Integration.Services
                     if (resultAlerts.All(x => x.Type != AlertType.Error))
                     {
                         //??? - what is this?
-                        if (succededContracts.Select(x => x.Equipment.NewEquipment.FirstOrDefault()).Any(i=>i!=null) &&
+                        if (succededContracts.Select(x => x.Equipment?.NewEquipment?.FirstOrDefault()).Any(i=>i!=null) &&
                             succededContract.PrimaryCustomer.Locations
                             .FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress) !=null)
                         {
                             await _mailService.SendHomeImprovementMailToCustomer(succededContracts);
-                        }
-                        foreach (var contract in succededContracts)
-                        {
-                            if (IsContractUnassignable(contract.Id))
+                            foreach (var contract in succededContracts)
                             {
-                                await _mailService.SendNotifyMailNoDealerAcceptLead(contract);
+                                if (IsContractUnassignable(contract.Id))
+                                {
+                                    await _mailService.SendNotifyMailNoDealerAcceptLead(contract);
+                                }
                             }
                         }
+                        
                     }
                     else
                     {
@@ -127,13 +127,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    _loggingService.LogWarning($"Customer contract(s) for dealer {contractOwnerId} wasn't approved on Aspire");
-                    //not approved log
-                    //await _mandrillService.SendDeclineNotificationConfirmation(newCustomer.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
-                    //                                                            newCustomer.PrimaryCustomer.FirstName, newCustomer.PrimaryCustomer.LastName,
-                    //                                                            newCustomer.HomeImprovementTypes.FirstOrDefault());
-                    await _mailService.SendDeclinedConfirmation(newCustomer.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
-                                                                                newCustomer.PrimaryCustomer.FirstName, newCustomer.PrimaryCustomer.LastName);
+                    _loggingService.LogWarning($"Customer contract(s) for dealer {contractOwnerId} wasn't approved on Aspire");                    
                 }
 
                 //remove all newly created "internal" (unsubmitted to aspire) contracts here
@@ -181,16 +175,19 @@ namespace DealnetPortal.Api.Integration.Services
                     HomeOwners = new List<Customer> {customer},
                     DealerId = contractOwnerId,
                     Id = contract.Id,
-                    Equipment = new EquipmentInfo
-                    {
-                        EstimatedInstallationDate = newCustomer.EstimatedMoveInDate
-                    }
+                    //Equipment = new EquipmentInfo
+                    //{
+                    //    EstimatedInstallationDate = newCustomer.EstimatedMoveInDate
+                    //}
                 };
 
                 if (!string.IsNullOrEmpty(improvmentType))
                 {
                     var eq = equipmentType.SingleOrDefault(x => x.Type == improvmentType);
-                    contractData.Equipment.NewEquipment = new List<NewEquipment> { new NewEquipment { Type = improvmentType, Description = eq.Description } };
+                    contractData.Equipment = new EquipmentInfo()
+                    {
+                        NewEquipment = new List<NewEquipment> { new NewEquipment { Type = improvmentType, Description = eq?.Description } }
+                    };
                 }
 
                 return await UpdateNewContractForCustomer(contractOwnerId, newCustomer, contractData);
