@@ -3942,7 +3942,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 DeferralPeriod = 3,
                 ValidFrom = null,
                 ValidTo = null,
-                TierId = 1,
+                TierId = 2,
                 CardType = RateCardType.Deferral,
                 IsPromo = false
             });

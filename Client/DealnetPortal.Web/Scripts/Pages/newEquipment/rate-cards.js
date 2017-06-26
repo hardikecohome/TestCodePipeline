@@ -229,7 +229,7 @@
         
         var eSum = equipmentSum(state.equipments);
 
-        setBasicValues();
+        //setBasicValues();
         renderTotalPrice({
             equipmentSum: eSum !== 0 ? eSum : '-',
             tax: eSum !== 0 ? tax({ equipmentSum: eSum, tax: state.tax }) : '-',
@@ -253,7 +253,9 @@
                 totalObligation: totalObligation(data),
                 yourCost: yourCost(data)
             }), renderDropdowns);
+
         });
+        setBasicValues();
     };
 
     var recalculateAndRenderRentalValues = function () {
@@ -314,9 +316,6 @@
 
             var options = $('#' + option + 'AmortizationDropdown');
             options.empty();
-
-
-
 
             $.each(dropdownValues, function (item) {
                 var optionTemplate = $("<option />").val(dropdownValues[item].AmortizationTerm).text(dropdownValues[item].LoanTerm + '/' + dropdownValues[item].AmortizationTerm);
