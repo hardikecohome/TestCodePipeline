@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
@@ -62,12 +63,13 @@ namespace DealnetPortal.Api.Core.ApiClient
         /// <param name="cancellationToken">Allows clients to cancel a request.</param>
         /// <returns>The response and result from the api.</returns>
         Task<HttpResponseMessage> PostAsyncWithHttpResponse<T>(string requestUri, T content,
+            AuthenticationHeaderValue authenticationHeader = null, string culture = null,
             CancellationToken cancellationToken = new CancellationToken());
 
         Task<T2> PostAsyncXmlWithXmlResponce<T1, T2>(string requestUri, T1 content,
             CancellationToken cancellationToken = new CancellationToken());
 
-        Task<T2> PostAsyncWithAuth<T1, T2>(string requestUri, T1 content, AuthenticationHeaderValue authenticationHeader,
+        Task<T2> PostAsyncEx<T1, T2>(string requestUri, T1 content, AuthenticationHeaderValue authenticationHeader = null, string culture = null,
             CancellationToken cancellationToken = new CancellationToken());
 
         /// <summary>
@@ -87,7 +89,7 @@ namespace DealnetPortal.Api.Core.ApiClient
         /// <returns>Model or resource from the Get operation against the uri.</returns>
         T Get<T>(string requestUri);
 
-        Task<T> GetAsyncWithAuth<T>(string requestUri, AuthenticationHeaderValue authenticationHeader, CancellationToken cancellationToken = new CancellationToken());        
+        Task<T> GetAsyncEx<T>(string requestUri, AuthenticationHeaderValue authenticationHeader = null, string culture = null, CancellationToken cancellationToken = new CancellationToken());        
 
         /// <summary>
         /// Perform a put operation against a uri.
@@ -111,7 +113,11 @@ namespace DealnetPortal.Api.Core.ApiClient
         Task<T2> PutAsync<T1, T2>(string requestUri, T1 content,
             CancellationToken cancellationToken = new CancellationToken());
 
-        Task<T2> PutAsyncWithAuth<T1, T2>(string requestUri, T1 content, AuthenticationHeaderValue authenticationHeader,
+        Task<T2> PutAsyncEx<T1, T2>(string requestUri, T1 content, AuthenticationHeaderValue authenticationHeader = null, string culture = null,
+            MediaTypeFormatter formatter = null,
+            CancellationToken cancellationToken = new CancellationToken());
+
+        Task DeleteAsyncEx(string requestUri, AuthenticationHeaderValue authenticationHeader = null, string culture = null,
             CancellationToken cancellationToken = new CancellationToken());
     }
 }

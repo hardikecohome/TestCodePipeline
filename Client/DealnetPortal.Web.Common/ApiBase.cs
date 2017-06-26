@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Security.Claims;
+using System.Web;
 using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Web.Common.Security;
 using Microsoft.Owin.Security;
@@ -13,6 +14,8 @@ namespace DealnetPortal.Web.Common
         protected readonly string _uri;
         protected readonly string _fullUri;
         protected readonly IAuthenticationManager _authenticationManager;
+
+        protected const string CultureCookieName = "DEALNET_CULTURE_COOKIE";
 
         public ApiBase(IHttpApiClient client, string controllerName)
         {
@@ -48,6 +51,16 @@ namespace DealnetPortal.Web.Common
                     return new AuthenticationHeaderValue("Bearer", token ?? string.Empty);
                 }
                 return null;
+            }
+        }
+
+        protected string CurrentCulture
+        {
+            get
+            {
+                var culture = HttpContext.Current.Request.Cookies[CultureCookieName]?.Value ??
+                              (HttpContext.Current?.Request.RequestContext.RouteData.Values["culture"] as string);
+                return culture;
             }
         }
     }
