@@ -244,7 +244,7 @@ namespace DealnetPortal.DataAccess.Repositories
                             var prevAddress = contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.PreviousAddress);
                             if (prevAddress != null)
                             {
-                                _dbContext.Entry(mainLoc).State = EntityState.Deleted;
+                                _dbContext.Entry(prevAddress).State = EntityState.Deleted;
                             }
                             mainLoc.AddressType = AddressType.PreviousAddress;
                         }

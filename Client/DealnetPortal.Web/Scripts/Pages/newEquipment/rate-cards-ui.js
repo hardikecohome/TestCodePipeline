@@ -92,7 +92,7 @@
                 }
             }
 
-            $('#loanRateCardToggle, loan-element, .downpayment-row').show();
+            $('#loanRateCardToggle, .loan-element, .downpayment-row').show();
             $('.rental-element').hide();
 
             if (onlyCustomCard || $('#rateCardsBlock').find('div.checked').length) {
