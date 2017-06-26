@@ -134,18 +134,37 @@
 
 @section scripts
 {
-    <script type="text/javascript">
-        var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
-        var isCalculationValid = false;
-        var onlyCustomCard = '@(!((List<RateCardType>) ViewBag.CardTypes != null && ((List<RateCardType>) ViewBag.CardTypes).Any()))' === 'True' ? true : false;
-    </script>
-    <script type="text/javascript">
-        configInitialized.then(function () {
-            module.require('rate-cards-ui');
-            module.require('rate-cards').initializeRateCards(@Model.ContractId, @Html.Raw(Json.Encode(Model.DealerTier.RateCards)));
-            module.require('new-equipment');
-            module.require('equipment');
-            module.require('custom-rate-card');
+  <script type="text/javascript">
+    $(function() {
+      $.fn.clearErrors = function() {
+        var spans = $(this).find("span.field-validation-error.text-danger");
+
+        $.grep(spans, function(span) {
+          $(span).empty();
         });
-    </script>
+
+        var inputs = $(this).find('input');
+
+        $.grep(inputs, function(input) {
+          $(input).trigger('reset.unobtrusiveValidation');
+        });
+      }
+    });
+  </script>
+
+  <script type="text/javascript">
+    var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
+    var isCalculationValid = false;
+    var onlyCustomCard = '@(!((List<RateCardType>) ViewBag.CardTypes != null && ((List<RateCardType>) ViewBag.CardTypes).Any()))' === 'True' ? true : false;
+  </script>
+
+  <script type="text/javascript">
+    configInitialized.then(function () {
+      module.require('rate-cards-ui');
+      module.require('rate-cards').initializeRateCards(@Model.ContractId, @Html.Raw(Json.Encode(Model.DealerTier.RateCards)));
+      module.require('new-equipment');
+      module.require('equipment');
+      module.require('custom-rate-card');
+    });
+  </script>
 }
