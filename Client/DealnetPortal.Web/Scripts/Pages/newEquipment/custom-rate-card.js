@@ -33,8 +33,8 @@
         $('#AdminFee').val(state[option].AdminFee);
         $('#DealerCost').val(state[option].DealerCost);
         $('#total-monthly-payment').val(customSlicedTotalMPayment);
-        if (state[option].DeferralPeriod === '')
-            $('#LoanDeferralType').val(state[option].DeferralPeriod);
+        //if (state[option].DeferralPeriod === '')//ToDo: Check this
+        $('#LoanDeferralType').val(state[option].DeferralPeriod);
 
         $('#SelectedRateCardId').val(0);
     }
@@ -46,7 +46,7 @@
     $('#CustomAmortTerm').on('change', setters.setAmortTerm('Custom'));
     $('#CustomAmortTerm').on('change keyup', validateCustomRateCardOnInput);
 
-    $('#CustomDeferralPeriod').on('change', setters.setDeferralPeriod('Custom'));
+    $('#CustomDeferralPeriod').on('change', setters.setCustomDeferralPeriod('Custom'));
     $('#CustomCRate').on('change', setters.setCustomerRate('Custom'));
     $('#CustomCRate').on('change', validateCustomRateCardOnInput);
 
