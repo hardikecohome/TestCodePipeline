@@ -186,10 +186,12 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     rolesToSet.Add(UserRole.Dealer.ToString());
                 }
+                var user = await _userManager.FindByIdAsync(userId);
                 var dbRoles = await _userManager.GetRolesAsync(userId);
                 var removeRes = await _userManager.RemoveFromRolesAsync(userId, dbRoles.Except(rolesToSet).ToArray());
                 var addRes = await _userManager.AddToRolesAsync(userId, rolesToSet.Except(dbRoles).ToArray());
-                if(addRes.Succeeded && removeRes.Succeeded)
+                var updateRes  = await _userManager.UpdateAsync(user);
+                if (addRes.Succeeded && removeRes.Succeeded && updateRes.Succeeded)
                 {
                     _loggingService?.LogInfo(
                         $"Roles for Aspire user [{userId}] was updated successefully");
