@@ -79,7 +79,7 @@ namespace DealnetPortal.Api.Integration.Services
                     try
                     {
                         //try to submit deal in Aspire
-                        await _aspireService.SubmitDeal(contractResult.Item1.Id, contractOwnerId);
+                        await _aspireService.SendDealUDFs(contractResult.Item1.Id, contractOwnerId);
                     }
                     catch (Exception ex)
                     {
@@ -105,19 +105,20 @@ namespace DealnetPortal.Api.Integration.Services
                     if (resultAlerts.All(x => x.Type != AlertType.Error))
                     {
                         //??? - what is this?
-                        if (succededContracts.Select(x => x.Equipment.NewEquipment.FirstOrDefault()).Any(i=>i!=null) &&
+                        if (succededContracts.Select(x => x.Equipment?.NewEquipment?.FirstOrDefault()).Any(i=>i!=null) &&
                             succededContract.PrimaryCustomer.Locations
                             .FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress) !=null)
                         {
                             await _mailService.SendHomeImprovementMailToCustomer(succededContracts);
-                        }
-                        foreach (var contract in succededContracts)
-                        {
-                            if (IsContractUnassignable(contract.Id))
+                            foreach (var contract in succededContracts)
                             {
-                                await _mailService.SendNotifyMailNoDealerAcceptLead(contract);
+                                if (IsContractUnassignable(contract.Id))
+                                {
+                                    await _mailService.SendNotifyMailNoDealerAcceptLead(contract);
+                                }
                             }
                         }
+                        
                     }
                     else
                     {
@@ -174,16 +175,19 @@ namespace DealnetPortal.Api.Integration.Services
                     HomeOwners = new List<Customer> {customer},
                     DealerId = contractOwnerId,
                     Id = contract.Id,
-                    Equipment = new EquipmentInfo
-                    {
-                        EstimatedInstallationDate = newCustomer.EstimatedMoveInDate
-                    }
+                    //Equipment = new EquipmentInfo
+                    //{
+                    //    EstimatedInstallationDate = newCustomer.EstimatedMoveInDate
+                    //}
                 };
 
                 if (!string.IsNullOrEmpty(improvmentType))
                 {
                     var eq = equipmentType.SingleOrDefault(x => x.Type == improvmentType);
-                    contractData.Equipment.NewEquipment = new List<NewEquipment> { new NewEquipment { Type = improvmentType, Description = eq.Description } };
+                    contractData.Equipment = new EquipmentInfo()
+                    {
+                        NewEquipment = new List<NewEquipment> { new NewEquipment { Type = improvmentType, Description = eq?.Description } }
+                    };
                 }
 
                 return await UpdateNewContractForCustomer(contractOwnerId, newCustomer, contractData);

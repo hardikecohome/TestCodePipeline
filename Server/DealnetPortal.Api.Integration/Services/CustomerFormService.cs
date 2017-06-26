@@ -136,19 +136,19 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<Tuple<CustomerContractInfoDTO, IList<Alert>>> SubmitCustomerFormData(CustomerFormDTO customerFormData)
+        public Tuple<CustomerContractInfoDTO, IList<Alert>> SubmitCustomerFormData(CustomerFormDTO customerFormData)
         {
             if (customerFormData == null)
             {
                 throw new ArgumentNullException(nameof(customerFormData));
             }
 
-            var contractCreationRes = await CreateContractByCustomerFormData(customerFormData).ConfigureAwait(false);
+            var contractCreationRes = CreateContractByCustomerFormData(customerFormData);
             if (contractCreationRes?.Item1 != null &&
                 (contractCreationRes.Item2?.All(a => a.Type != AlertType.Error) ?? true))
             {
-                var noWarning = SendCustomerContractCreationNotifications(customerFormData,
-                        contractCreationRes.Item1);
+                Task.Run(async () => await SendCustomerContractCreationNotifications(customerFormData,
+                    contractCreationRes.Item1));
             }
 
             return new Tuple<CustomerContractInfoDTO, IList<Alert>>(contractCreationRes?.Item1, contractCreationRes?.Item2 ?? new List<Alert>());
@@ -182,7 +182,7 @@ namespace DealnetPortal.Api.Integration.Services
                                 var dealerId = _dealerRepository.GetUserIdByName(sRequest.DealerName);
                                 if (!string.IsNullOrEmpty(dealerId))
                                 {
-                                    var c = InitialyzeContract(dealerId, customerFormData.PrimaryCustomer,
+                                    var c = InitialyzeContract(dealerId, customerFormData.PrimaryCustomer, customerFormData.StartProjectDate,
                                         sRequest.PrecreatedContractId, sRequest.ServiceType,
                                         customerFormData.CustomerComment);
                                     // mark as created by customer
@@ -235,20 +235,6 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             alerts.AddRange(creditCheckAlerts);
                         }
-
-                        try
-                        {                        
-                            //try to submit deal in Aspire
-                            var submitAlerts = _aspireService.SubmitDeal(c.Id, c.DealerId).GetAwaiter().GetResult();
-                            if (submitAlerts?.Any() == true)
-                            {
-                                alerts.AddRange(submitAlerts);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            _loggingService.LogError($"Cannot submit deal {c.Id} in Aspire", ex);
-                        }
                     }
                 });
 
@@ -267,15 +253,16 @@ namespace DealnetPortal.Api.Integration.Services
                             .FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress) != null)
                     {
                         await _mailService.SendHomeImprovementMailToCustomer(newContracts).ConfigureAwait(false);
+                        newContracts.ForEach(c =>
+                        {
+                            if (_contractRepository.IsContractUnassignable(c.Id))
+                            {
+                                var nowait = _mailService.SendNotifyMailNoDealerAcceptLead(c);
+                            }
+                        });
                     }
 
-                    newContracts.ForEach(c =>
-                    {
-                        if (_contractRepository.IsContractUnassignable(c.Id))
-                        {
-                            var nowait = _mailService.SendNotifyMailNoDealerAcceptLead(c);
-                        }
-                    });
+                    
                 }               
             }
             if (alerts.Any(a => a.Type == AlertType.Error))
@@ -343,7 +330,7 @@ namespace DealnetPortal.Api.Integration.Services
             return contractInfo;
         }
 
-        private async Task<Tuple<CustomerContractInfoDTO, IList<Alert>>> CreateContractByCustomerFormData(
+        private Tuple<CustomerContractInfoDTO, IList<Alert>> CreateContractByCustomerFormData(
             CustomerFormDTO customerFormData)
         {
             var alerts = new List<Alert>();
@@ -364,11 +351,45 @@ namespace DealnetPortal.Api.Integration.Services
                     Id = contract.Id
                 };
                 _contractService.UpdateContractData(contractData, dealerId);
+                
+                //Start credit check for this contract
+                try
+                {
+                    _loggingService.LogInfo($"Start credit check for contract [{contract.Id}]");
+                    var creditCheckAlerts = new List<Alert>();
+                    var initAlerts = _contractService.InitiateCreditCheck(contract.Id, dealerId);
+                    if (initAlerts?.Any() ?? false)
+                    {
+                        creditCheckAlerts.AddRange(initAlerts);
+                    }
+                    var checkResult = _contractService.GetCreditCheckResult(contract.Id, dealerId);
+                    if (checkResult != null)
+                    {
+                        creditCheckAlerts.AddRange(checkResult.Item2);
+                    }
+                    //just log all credit check errors
+                    if (creditCheckAlerts.Any())
+                    {
+                        creditCheckAlerts.Where(a => a.Type == AlertType.Error).ForEach(a =>
+                        _loggingService.LogError($"Credit check error- {a.Header}: {a.Message}"));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _loggingService.LogError($"Error during credit check for contract [{contract.Id}]", ex);
+                }                
+
+                // mark as created by customer
+                contract.IsCreatedByCustomer = true;
+                contract.IsNewlyCreated = true;
+                contract.CreateOperator = null;
                 _unitOfWork.Save();
 
+
+                //added comments at the end of CreateContractByCustomerFormData
                 if (!string.IsNullOrEmpty(customerFormData.SelectedService) ||
                     !string.IsNullOrEmpty(customerFormData.CustomerComment))
-                {
+                {                    
                     try
                     {
                         _customerFormRepository.AddCustomerContractData(contract.Id,
@@ -391,40 +412,12 @@ namespace DealnetPortal.Api.Integration.Services
                         _loggingService.LogWarning(errorMsg);
                     }
                 }
-                //Start credit check for this contract
-                var creditCheckRes = await Task.Run(() =>
-                {
-                    var creditCheckAlerts = new List<Alert>();
-                    var initAlerts = _contractService.InitiateCreditCheck(contract.Id, dealerId);
-                    if (initAlerts?.Any() ?? false)
-                    {
-                        creditCheckAlerts.AddRange(initAlerts);
-                    }
-                    var checkResult = _contractService.GetCreditCheckResult(contract.Id, dealerId);
-                    if (checkResult != null)
-                    {
-                        creditCheckAlerts.AddRange(checkResult.Item2);
-                        return new Tuple<CreditCheckDTO, IList<Alert>>(checkResult.Item1, creditCheckAlerts);
-                    }
-                    return new Tuple<CreditCheckDTO, IList<Alert>>(null, creditCheckAlerts);
-                }).ConfigureAwait(false);
 
-                // mark as created by customer
-                contract.IsCreatedByCustomer = true;
-                contract.IsNewlyCreated = true;
-                contract.CreateOperator = null;
-                _unitOfWork.Save();
-
-                if (creditCheckRes?.Item2?.Any() ?? false)
-                {
-                    alerts.AddRange(creditCheckRes.Item2);
-                }
-                
                 submitResult = GetCustomerContractInfo(contract.Id, customerFormData.DealerName);
 
                 if (_contractRepository.IsContractUnassignable(contract.Id))
                 {
-                    await _mailService.SendNotifyMailNoDealerAcceptLead(contract);
+                    Task.Run(async () => await _mailService.SendNotifyMailNoDealerAcceptLead(contract));
                 }
             }
             else
@@ -456,7 +449,7 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 await
-                    _mailService.SendDealerLoanFormContractCreationNotification(customerFormData, contractData); 
+                    _mailService.SendDealerLoanFormContractCreationNotification(customerFormData, contractData).ConfigureAwait(false); 
             }
             catch (Exception ex)
             {
@@ -474,7 +467,7 @@ namespace DealnetPortal.Api.Integration.Services
                     await
                         _mailService.SendCustomerLoanFormContractCreationNotification(
                             customerFormData.PrimaryCustomer.Emails.FirstOrDefault(
-                                m => m.EmailType == EmailType.Main)?.EmailAddress, contractData, dealerColor?.StringValue, dealerLogo?.BinaryValue);
+                                m => m.EmailType == EmailType.Main)?.EmailAddress, contractData, dealerColor?.StringValue, dealerLogo?.BinaryValue).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -484,7 +477,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        private Contract InitialyzeContract(string contractOwnerId, CustomerDTO primaryCustomer, int? contractId = null, string equipmentType = null, string customerComment = null)
+        private Contract InitialyzeContract(string contractOwnerId, CustomerDTO primaryCustomer, DateTime? preferredStartDate, int? contractId = null, string equipmentType = null, string customerComment = null)
         {
             Contract contract = null;
             //update or create a brand new contract
@@ -518,6 +511,7 @@ namespace DealnetPortal.Api.Integration.Services
                     Equipment = !string.IsNullOrEmpty(equipmentType)
                         ? new EquipmentInfoDTO()
                         {
+                            PreferredStartDate = preferredStartDate,
                             NewEquipment =
                                 new List<NewEquipmentDTO> {new NewEquipmentDTO()
                                 {
@@ -531,24 +525,8 @@ namespace DealnetPortal.Api.Integration.Services
                         : null
 
                 };
-                var contractData = Mapper.Map<ContractData>(contractDataDto);
-                if (!string.IsNullOrEmpty(primaryCustomer.AccountId))
-                {
-                    contractData.PrimaryCustomer.AccountId = primaryCustomer.AccountId;
-                    var updatedContract = _contractRepository.UpdateContractData(contractData, contractOwnerId);
-                    if (updatedContract != null)
-                    {
-                        _unitOfWork.Save();
-                        _loggingService.LogInfo($"A contract [{contract.Id}] updated");
 
-                        //update customers on aspire
-                        if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null)
-                        {
-                            _contractService.UpdateContractData(new ContractDataDTO() {Id = contractData.Id},
-                                contractOwnerId);
-                        }
-                    }
-                }
+                _contractService.UpdateContractData(contractDataDto, contractOwnerId);
             }
 
             return contract;

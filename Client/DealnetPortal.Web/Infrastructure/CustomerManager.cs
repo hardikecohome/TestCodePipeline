@@ -73,7 +73,11 @@ namespace DealnetPortal.Web.Infrastructure
             {
                 var improvmentAddress = Mapper.Map<LocationDTO>(customer.ImprovmentLocation);
                 improvmentAddress.AddressType = AddressType.InstallationAddress;
-                newCustomerDto.PrimaryCustomer.Locations.Add(improvmentAddress);
+                if (customer.EstimatedMoveInDate.HasValue)
+                {
+                    improvmentAddress.MoveInDate = customer.EstimatedMoveInDate;
+                }
+                newCustomerDto.PrimaryCustomer.Locations.Add(improvmentAddress);               
             }                        
             return await _contractServiceAgent.CreateContractForCustomer(newCustomerDto);
         }

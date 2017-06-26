@@ -29,10 +29,7 @@ namespace DealnetPortal.Domain
         [MaxLength(10)]
         public string PostalCode { get; set; }
 
-        //public int ContractId { get; set; }
-        //[ForeignKey("ContractId")]
-        //[Required]
-        //public Contract Contract { get; set; }
+        public DateTime? MoveInDate { get; set; }
 
         public Customer Customer { get; set; }
 

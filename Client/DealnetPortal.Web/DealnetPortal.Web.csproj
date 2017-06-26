@@ -1038,6 +1038,8 @@
     <Content Include="Views\Shared\EquipmentInformation\Agreements\_FinancialLoan.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_NewEquipments.cshtml" />
     <Content Include="Views\Calculator\Index.cshtml" />
+    <Content Include="Views\Shared\_AgreementPersonalData.cshtml" />
+    <Content Include="Views\Info\PrivacyPolicy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

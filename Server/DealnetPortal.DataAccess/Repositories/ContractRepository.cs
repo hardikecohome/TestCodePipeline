@@ -806,14 +806,6 @@ namespace DealnetPortal.DataAccess.Repositories
             var creditReviewStates = ConfigurationManager.AppSettings["CreditReviewStatus"] != null
                 ? ConfigurationManager.AppSettings["CreditReviewStatus"].Split(',').Select(s => s.Trim()).ToArray()
                 : new string[] { "20-Credit Review" };
-            var mortgageBrokerRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.MortgageBroker.ToString())?.Id;
-            var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
-
-            if (_dbContext.Users.Any(u => u.DealerProfileId == null &&
-            !u.Roles.Select(r => r.RoleId).ToList().Contains(mortgageBrokerRoleId.ToString()) &&
-            !u.Roles.Select(r => r.RoleId).ToList().Contains(contractCreatorRoleId.ToString()) &&
-            !string.IsNullOrEmpty(u.AspireLogin)))
-                return false;
 
             var contract = _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)
@@ -830,8 +822,8 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 return false;
             }
-            var contractEquipment = contract?.Equipment?.NewEquipment.Select(e => e.Type).FirstOrDefault();
-            var contractPostalCode = contract?.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress)?.PostalCode;
+            var contractEquipment = contract.Equipment?.NewEquipment.Select(e => e.Type).FirstOrDefault();
+            var contractPostalCode = contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress)?.PostalCode;
             return !_dbContext.DealerProfiles.Any(dp => dp.Equipments.Any(e => e.Equipment.Type == contractEquipment)
                                                         && dp.Areas.Any(a => a.PostalCode.Length <= contractPostalCode.Length &&
                                                             contractPostalCode.Substring(0, a.PostalCode.Length) == a.PostalCode));
@@ -948,6 +940,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 if (!equipmentInfo.DealerCost.HasValue)
                 {
                     equipmentInfo.DealerCost = dbEquipment.DealerCost;
+                }
+                if (!equipmentInfo.PreferredStartDate.HasValue)
+                {
+                    equipmentInfo.PreferredStartDate = dbEquipment.PreferredStartDate;
                 }
 
                 _dbContext.EquipmentInfo.AddOrUpdate(equipmentInfo);

@@ -115,15 +115,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-md-4">
-                            <div class="form-group">
-                                @Html.LabelFor(m => m.HomeOwner.Sin)
-                                <div class="control-group control-hidden-value">
-                                    @Html.TextBoxFor(m => m.HomeOwner.Sin, new { type = "password", @class = "form-control dealnet-input", placeholder = Resources.SinWithDescription, id = "sin", autocomplete = "new-password" })
-                                    @Html.ValidationMessageFor(m => m.HomeOwner.Sin, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div id="yourInfoErrors"></div>
                 </div>
@@ -195,7 +186,7 @@
                         <label for="homeowner-checkbox" class="align-middle custom-checkbox">
                             @Html.CheckBoxFor(x => x.HomeOwner.IsHomeOwner, new { @class="dealnet-checkbox", id="homeowner-checkbox"})
                             <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                            <strong class="mandatory-field">@Resources.IOwnThisProperty</strong>
+                            <span class="mandatory-field">@Resources.IOwnThisProperty</span>
                         </label>
                     </div>
                     <!--Home Owner Information-->
@@ -204,7 +195,7 @@
                         <label for="living-time-checkbox" class="align-middle custom-checkbox">
                             <input type="checkbox" class="dealnet-checkbox" id="living-time-checkbox" onChange="$(this).is(':checked') ? $('#previous-address').slideDown() : $('#previous-address').slideUp()" />
                             <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                            <strong>@Resources.LivedAtCurrentLessThan</strong>
+                            <span>@Resources.LivedAtCurrentLessThan</span>
                         </label>
                     </div>
                     <div id="previous-address" style="display: none;">
@@ -324,19 +315,25 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="agreement1" class="align-middle custom-checkbox">
-                            <input type="checkbox" class="dealnet-checkbox" id="agreement1" name="agreement1"/>
-                            <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                            <strong class="mandatory-field">@Resources.IAgreeToPassInfoToCreditCheck</strong>
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label for="agreement2" class="align-middle custom-checkbox">
-                            @Html.CheckBoxFor(m => m.HomeOwnerContactInfo.AllowCommunicate, new { @class="dealnet-checkbox", id="agreement2" })
-                            <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                            <strong class="mandatory-field">@Resources.IAgreeDealerOrRepresentativesMayContact</strong>
-                        </label>
+                    <div class="consents-checkbox-hold">
+                        <div class="form-group">
+                            <label for="agreement1" class="align-middle custom-checkbox">
+                                <input type="checkbox" class="dealnet-checkbox" id="agreement1" name="agreement1"/>
+                                <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                                <span class="mandatory-field">@Resources.AcknowledgeAndAgreementObtainCreditReport</span>
+                            </label>
+                            <div class="consents-links">
+                                <a href="" class="dealnet-info-link j-personal-data-used-modal">@Resources.HowIsMyPersonalDataUsed</a>
+                                @Html.ActionLink(@Resources.PrivacyPolicy, "PrivacyPolicy", "Info", null, new { @class="dealnet-info-link", target = "_blank" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="agreement2" class="align-middle custom-checkbox">
+                                @Html.CheckBoxFor(m => m.HomeOwnerContactInfo.AllowCommunicate, new { @class="dealnet-checkbox", id="agreement2" })
+                                <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                                <span class="mandatory-field">@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
+                            </label>
+                        </div>
                     </div>
                     @if (reCaptchaEnabled)
                     {
@@ -356,6 +353,7 @@
                 </span>
             </div>
         </div>
+        @Html.Partial("_AgreementPersonalData");
     }
 </div>
 

@@ -106,6 +106,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to By submitting this application, you acknowledge and agree that EcoHome Financial is authorized to obtain your credit report from one or more consumer credit reporting agencies (e.g. Equifax or TransUnion), to verify the information in your credit report with third parties as necessary, and to periodically update your credit information with credit reporting agencies. You are hereby notified that a consumer report containing credit and/or personal information may be referred to in connection with this applic [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string AcknowledgeAndAgreementObtainCreditReport {
+            get {
+                return ResourceManager.GetString("AcknowledgeAndAgreementObtainCreditReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Action Req..
         /// </summary>
         public static string ActionReq {
@@ -1047,6 +1056,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Consents {
             get {
                 return ResourceManager.GetString("Consents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By checking this box, you consent to receive commercial electronic messages from EcoHome Financial at your email address and telephone number(s) provided by you in this application or from time to time in connection with your account, including electronic communications that market or promote our programs, products, services, offers, events and surveys that may be of interest to you. You may withdraw this consent at any time. You may contact EcoHome Financial Inc. at 325 Milner Avenue, Suite 300, Toronto, O [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string ConsentToReceiveCommercialElectronicMessages {
+            get {
+                return ResourceManager.GetString("ConsentToReceiveCommercialElectronicMessages", resourceCulture);
             }
         }
         
@@ -2131,6 +2149,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to How is my personal data used?.
+        /// </summary>
+        public static string HowIsMyPersonalDataUsed {
+            get {
+                return ResourceManager.GetString("HowIsMyPersonalDataUsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to I agree that dealer or its representatives may contact me by email or phone.
         /// </summary>
         public static string IAgreeDealerOrRepresentativesMayContact {
@@ -3189,6 +3216,15 @@ namespace DealnetPortal.Web.Resources {
         public static string PrintTheContract {
             get {
                 return ResourceManager.GetString("PrintTheContract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Privacy policy.
+        /// </summary>
+        public static string PrivacyPolicy {
+            get {
+                return ResourceManager.GetString("PrivacyPolicy", resourceCulture);
             }
         }
         

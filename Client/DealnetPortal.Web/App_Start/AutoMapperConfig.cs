@@ -205,8 +205,6 @@ namespace DealnetPortal.Web.App_Start
                     return services;
                 }))
                 .ForMember(x=>x.HashLink, d=> d.MapFrom(s=>s.HashDealerName));
-            //cfg.CreateMap(EquipmentTypeDTO, DealerEquipmentDTO)
-            //    .ForMember(XmlSiteMapProvider=>)
             cfg.CreateMap<ProfileViewModel, DealerProfileDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(src => src.ProfileId))
                 .ForMember(x => x.EquipmentList, d => d.ResolveUsing(src => src.DealerEquipments!=null ? src.DealerEquipments.Select(s=> new DealerEquipmentDTO() {Equipment = s}).ToList() : null))
@@ -219,12 +217,8 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<NewCustomerViewModel, NewCustomerDTO>()
                 .ForMember(x => x.CustomerComment, d => d.MapFrom(src => src.CustomerComment))
                 .ForMember(x => x.HomeImprovementTypes, d => d.MapFrom(src => src.HomeImprovementTypes))
-                .ForMember(x => x.EstimatedMoveInDate, d => d.MapFrom(src => src.EstimatedMoveInDate))
                 .ForMember(x => x.PrimaryCustomer, d => d.MapFrom(src => src.HomeOwnerContactInfo));
-            //cfg.CreateMap<NewCustomerViewModel, NewCustomerDTO>()
-            //    .ForMember(x => x.PrimaryCustomer, d => d.MapFrom(src => src.HomeOwner));
-            //New Version
-          
+            
             cfg.CreateMap<EquipmentInformationViewModelNew, EquipmentInfoDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(src => src.ContractId ?? 0))
                 .ForMember(x => x.ValueOfDeal, d => d.Ignore())

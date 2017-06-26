@@ -278,16 +278,6 @@
             <div class="row">
                 <div class="col-md-4 col-lg-4">
                     <div class="form-group">
-                        @Html.LabelFor(m => m.HomeOwner.Sin, new { @for = "sin-number" })
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.HomeOwner.Sin, new {@class = "form-control dealnet-input", id = "sin-number", type="text", placeholder = Resources.Sin})
-                            @Html.ValidationMessageFor(m => m.HomeOwner.Sin, "", new {@class = "text-danger"})
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 col-lg-4">
-                    <div class="form-group">
                         @Html.LabelFor(m => m.HomeOwner.DriverLicenseNumber, new { @for = "dl-number" })
                         <div class="control-group">
                             @Html.TextBoxFor(m => m.HomeOwner.DriverLicenseNumber, new {@class = "form-control dealnet-input", id = "dl-number", placeholder = Resources.DriverLicenseNumber})
@@ -609,15 +599,6 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4 col-lg-4">
-                            <div class="form-group">
-                        @Html.LabelFor(m => m.AdditionalApplicants[i].Sin, new { @for = "additional-sin-number-" + (i + 1) })
-                                <div class="control-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].Sin, new { @class = "form-control dealnet-input", id = "additional-sin-number-" + (i + 1), type="text", placeholder = Resources.Sin })
-                                    @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].Sin, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
                         <div class="col-md-4 col-lg-4">
                             <div class="form-group">
                         	@Html.LabelFor(m => m.AdditionalApplicants[i].DriverLicenseNumber, new { @for = "additional-dl-number-" + (i + 1) })

@@ -124,7 +124,7 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 //await _emailService.SendAsync(mail);
-                await _emailService.SendAsync(new List<string> { contractData.DealerEmail ?? string.Empty }, string.Empty, Resources.Resources.ThankYouForApplyingForFinancing, body.ToString());
+                await _emailService.SendAsync(new List<string> { contractData.DealerEmail ?? string.Empty }, string.Empty, Resources.Resources.ThankYouForApplyingForFinancing, body.ToString()).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -445,7 +445,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         public async Task SendNotifyMailNoDealerAcceptLead(Contract contract)
         {
-            string equipment = contract.Equipment.NewEquipment?.FirstOrDefault()?.Description.ToLower() ?? string.Empty;
+            string equipment = contract.Equipment?.NewEquipment?.FirstOrDefault()?.Description.ToLower() ?? string.Empty;
             var location = contract.PrimaryCustomer.Locations?.FirstOrDefault(l=> l.AddressType == AddressType.InstallationAddress);
             string customerEmail = contract.PrimaryCustomer.Emails?.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
             string mailTo = ConfigurationManager.AppSettings["DealNetEmail"];
