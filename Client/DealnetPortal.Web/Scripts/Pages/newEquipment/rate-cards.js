@@ -172,15 +172,22 @@
         var selectedRateCard = $('#rateCardsBlock').find('div.checked').length > 0
             ? $('#rateCardsBlock').find('div.checked').find('#hidden-option').text()
             : '';
+        
         if (selectedRateCard !== '') {
             if ($("#submit").hasClass('disabled')) {
                 $('#submit').removeClass('disabled');
                 $('#submit').parent().popover('destroy');
             }
         }
+
+        if (onlyCustomCard) {
+            selectedRateCard = 'Custom';
+        }
+
         if (notNan && validateNumber && validateNotEmpty) {
             renderDropdownValues(option, data.totalAmountFinanced, isRenderDropdowns);
 
+            
             if (option === selectedRateCard) {
                 $('#displayLoanAmortTerm').text(data["LoanTerm"]+ '/' + data["AmortizationTerm"]);
                 $('#displayCustomerRate').text(data["CustomerRate"]);
@@ -396,7 +403,9 @@
     }
 
     function toggleSelectedRateCard(selector) {
-        $(selector).parents('.rate-card').addClass('checked').siblings().removeClass('checked');
+        if (!onlyCustomCard) {
+            $(selector).parents('.rate-card').addClass('checked').siblings().removeClass('checked');
+        }
     }
 
     function setHandlers(option) {

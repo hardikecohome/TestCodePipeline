@@ -62,6 +62,10 @@
             ? $('#rateCardsBlock').find('div.checked').find('#hidden-option').text()
             : '';
 
+        if (onlyCustomCard) {
+            selectedRateCard = 'Custom';
+        }
+
         if (!validateOnSelect() && selectedRateCard === 'Custom') {
             if (!submit.hasClass('disabled')) {
                 submit.addClass('disabled');

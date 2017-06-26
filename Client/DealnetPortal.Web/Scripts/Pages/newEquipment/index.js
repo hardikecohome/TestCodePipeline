@@ -36,10 +36,15 @@
             var agreementType = $("#typeOfAgreementSelect").find(":selected").val();
             if (agreementType === "0") {
                 var rateCard = $('.checked');
-                if (rateCard.length === 0) {
+                if (rateCard.length === 0 && !onlyCustomCard) {
                     event.preventDefault();
                 } else {
                     var option = rateCard.find('#hidden-option').text();
+
+                    if (onlyCustomCard) {
+                        option = 'Custom';
+                    }
+
                     var monthPayment = Globalize.parseNumber($('#' + option + 'TMPayments').text().substring(1));
                     if (isNaN(monthPayment) || (monthPayment == 0)) {
                         event.preventDefault();
