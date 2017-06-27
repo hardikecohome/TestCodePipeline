@@ -387,7 +387,7 @@
                 sessionStorage.setItem(state.contractId + option.name, JSON.stringify(filtred));
             }
 
-            if (option.name === 'Deferral') {
+            if (option.name === 'Deferral' && (state.selectedCardId !== null && state.selectedCardId !== '0')) {
                 var deferralPeriod = $.grep(constants.customDeferralPeriods, function (period) { return period.name === $('#LoanDeferralType').val() })[0];
 
                 if (deferralPeriod != null && deferralPeriod.val !== 0) {
