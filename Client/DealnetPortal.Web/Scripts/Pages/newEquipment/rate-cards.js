@@ -9,10 +9,9 @@
     var totalBorrowingCost = require('financial-functions').totalBorrowingCost;
     var yourCost = require('financial-functions').yourCost;
     var tax = require('financial-functions').tax;
-    var rateCardBlock = require('rate-cards-ui');
-
     var constants = require('state').constants;
     var state = require('state').state;
+    var rateCardBlock = require('rate-cards-ui');
 
     var notNaN = function (num) { return !isNaN(num); };
 
@@ -89,75 +88,6 @@
         }
     };
 
-    var togglePromoLabel = function(option) {
-        var isPromo = state[option.name].IsPromo;
-        if (isPromo) {
-            if ($('#' + option.name + 'Promo').is('.hidden')) {
-                $('#' + option.name + 'Promo').removeClass('hidden');
-            }
-        } else {
-            if (!$('#' + option.name + 'Promo').is('.hidden')) {
-                $('#' + option.name + 'Promo').addClass('hidden');
-            }
-        }
-    }
-
-    var setBasicValues = function () {
-        var downPayment = $('#downPayment').val();
-        state.downPayment = downPayment ? +downPayment : 0;
-
-        constants.rateCards.forEach(function (option) {
-            var items = $.parseJSON(sessionStorage.getItem(state.contractId + option.name));
-
-            if ((state.selectedCardId !== null && state.selectedCardId !== '0') && !state.isInitialized) {
-                var selectedCard = $.grep(items,
-                    function(card) {
-                        return card.Id === Number(state.selectedCardId);
-                    })[0];
-
-                if (selectedCard !== null && selectedCard !== undefined) {
-                    state[option.name] = selectedCard;
-                    state[option.name].yourCost = '';
-
-                    togglePromoLabel(option);
-
-                    //just find parent div
-                    toggleSelectedRateCard('#' + option.name + 'AFee'); 
-
-                    $('#' + option.name + 'AmortizationDropdown').val(state[option.name].AmortizationTerm);
-                    $('#' + option.name + 'AFee').text(formatCurrency(state[option.name].AdminFee));
-                    $('#' + option.name + 'CRate').text(state[option.name].CustomerRate + ' %');
-                    $('#' + option.name + 'YCostVal').text(state[option.name].DealerCost + ' %');
-                    state.isInitialized = true;
-                } else {
-                    calculateRateCardValues(option, items);
-                }
-            } else {
-                if (option.name === 'Custom' && !state.isInitialized && !state.isNewContract) {
-                    $('#CustomLoanTerm').val($('#LoanTerm').val());
-                    state[option.name].LoanTerm = Number($('#LoanTerm').val());
-                    $('#CustomAmortTerm').val($('#AmortizationTerm').val());
-                    state[option.name].AmortizationTerm = Number($('#AmortizationTerm').val());
-                    var deferralPeriod = $.grep(constants.customDeferralPeriods, function (period) { return period.name === $('#LoanDeferralType').val() })[0];
-                    $('#CustomDeferralPeriod').val(deferralPeriod === undefined ? 0 : deferralPeriod.val);
-                    state[option.name].DeferralPeriod = deferralPeriod === undefined ? 0 : deferralPeriod.val;
-                    $('#CustomCRate').val($('#CustomerRate').val());
-                    state[option.name].CustomerRate = Number($('#CustomerRate').val());
-                    $('#CustomAFee').val($('#AdminFee').val());
-                    state[option.name].AdminFee = Number($('#AdminFee').val());
-                    $('#CustomYCostVal').val($('#DealerCost').val());
-                    state[option.name].DealerCost = Number($('#DealerCost').val());
-                    toggleSelectedRateCard('#CustomLoanTerm');
-
-                    state.isInitialized = true;
-                } else {
-                    calculateRateCardValues(option, items);
-                }
-            }
-        });
-        //constants.selectedCardId = null;
-    }
-
     var renderOption = function (option, data, isRenderDropdowns) {
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
         var validateNumber = constants.numberFields.every(function (field) {
@@ -186,11 +116,10 @@
 
         if (notNan && validateNumber && validateNotEmpty) {
             renderDropdownValues(option, data.totalAmountFinanced, isRenderDropdowns);
-
             
             if (option === selectedRateCard) {
-                $('#displayLoanAmortTerm').text(data["LoanTerm"]+ '/' + data["AmortizationTerm"]);
-                $('#displayCustomerRate').text(data["CustomerRate"]);
+                $('#displayLoanAmortTerm').text(state[option].LoanTerm + '/' + state[option].AmortizationTerm);
+                $('#displayCustomerRate').text(state[option].CustomerRate);
                 $('#displayTFinanced').text(formatCurrency(data.totalAmountFinanced));
                 $('#displayMPayment').text(formatCurrency(data.monthlyPayment));
             }
@@ -209,6 +138,7 @@
                 $('#displayTFinanced').text('-');
                 $('#displayMPayment').text('-');
             }
+
             $('#' + option + 'MPayment').text('-');
             $('#' + option + 'CBorrowing').text('-');
             $('#' + option + 'TAFinanced').text('-');
@@ -229,15 +159,26 @@
         
         var eSum = equipmentSum(state.equipments);
 
-        //setBasicValues();
         renderTotalPrice({
             equipmentSum: eSum !== 0 ? eSum : '-',
             tax: eSum !== 0 ? tax({ equipmentSum: eSum, tax: state.tax }) : '-',
             totalPrice: eSum !== 0 ? totalPrice({ equipmentSum: eSum, tax: state.tax }) : '-'
         });
 
+        var downPayment = $('#downPayment').val();
+        state.downPayment = downPayment ? +downPayment : 0;
+
         optionsToCompute.forEach(function (option) {
             var data = $.extend({}, idToValue(state)(option.name),
+                {
+                    equipmentSum: eSum,
+                    downPayment: state.downPayment,
+                    tax: state.tax
+                });
+
+            calculateRateCardValues(option, $.extend({}, data, {totalAmountFinanced: totalAmountFinanced(data)}));
+
+            data = $.extend({}, idToValue(state)(option.name),
                 {
                     equipmentSum: eSum,
                     downPayment: state.downPayment,
@@ -253,9 +194,7 @@
                 totalObligation: totalObligation(data),
                 yourCost: yourCost(data)
             }), renderDropdowns);
-
         });
-        setBasicValues();
     };
 
     var recalculateAndRenderRentalValues = function () {
@@ -329,38 +268,25 @@
         }
     }
 
-    function calculateRateCardValues(option, items) {
+    function calculateRateCardValues(option, data) {
         //minimum loan value
         var totalCash = constants.minimumLoanValue;
-        var totalAmountFinanced = +$('#' + option.name + 'TAFinanced').text().substring(1);
+        var totalAmountFinanced = data.totalAmountFinanced;
 
         if (!isNaN(totalAmountFinanced)) {
             if (totalAmountFinanced > totalCash) {
-                totalCash = totalAmountFinanced;
+                totalCash = totalAmountFinanced.toFixed(2);
             }
         }
-        
-        var selectedValues = $('#' + option.name + 'AmortizationDropdown option:selected').text().split('/');
-        var loanTerm = +(selectedValues[0]);
-        var amortTerm = +(selectedValues[1]);
-        var rateCard;
-        if (option.name === 'Deferral') {
-            var deferralPeriod = +$('#DeferralPeriodDropdown').val();
-            rateCard = $.grep(items, function (i) {
-                return i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
-            })[0];
-        } else {
-            rateCard = $.grep(items, function (i) {
-                return i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
-            })[0];
-        }
+
+        var rateCard = filterRateCardByValues(option, totalCash);
 
         if (rateCard !== null && rateCard !== undefined) {
 
             state[option.name] = rateCard;
             state[option.name].yourCost = '';
 
-            togglePromoLabel(option);
+            rateCardBlock.togglePromoLabel(option.name);
             if (option.name === 'Deferral') {
                 $('#DeferralPeriodDropdown').val(state[option.name].DeferralPeriod);
             }
@@ -369,71 +295,27 @@
             $('#' + option.name + 'CRate').text(state[option.name].CustomerRate + ' %');
             $('#' + option.name + 'YCostVal').text(state[option.name].DealerCost + ' %');
         }
-
     }
 
-    var initializeRateCards = function (id, cards) {
-        state.contractId = id;
-        state.isNewContract = $('#IsNewContract').val().toLowerCase() === 'true';
+    function filterRateCardByValues(option, totalCash) {
+        var selectedValues = $('#' + option.name + 'AmortizationDropdown option:selected').text().split('/');
+        var items = $.parseJSON(sessionStorage.getItem(state.contractId + option.name));
 
-        renderRateCardUi(state.isNewContract);
-
-        constants.rateCards.forEach(function (option) {
-            if (sessionStorage.getItem(state.contractId + option.name) === null) {
-                var filtred = $.grep(cards,
-                    function (card) {
-                        return card.CardType === option.id;
-                    });
-                sessionStorage.setItem(state.contractId + option.name, JSON.stringify(filtred));
-            }
-
-            if (option.name === 'Deferral' && (state.selectedCardId !== null && state.selectedCardId !== '0')) {
-                var deferralPeriod = $.grep(constants.customDeferralPeriods, function (period) { return period.name === $('#LoanDeferralType').val() })[0];
-
-                if (deferralPeriod != null && deferralPeriod.val !== 0) {
-                    $('#DeferralPeriodDropdown').val(deferralPeriod.val.toString());
-                }
-            }
-
-            setHandlers(option);
-        });
-
-        recalculateValuesAndRender([], true);
-    }
-
-    function toggleSelectedRateCard(selector) {
-        if (!onlyCustomCard) {
-            $(selector).parents('.rate-card').addClass('checked').siblings().removeClass('checked');
-        }
-    }
-
-    function setHandlers(option) {
-        $('#' + option.name + 'AmortizationDropdown').change(function () {
-            $(this).prop('selected', true);
-
-            recalculateValuesAndRender([], false);
-        });
-    }
-
-    function renderRateCardUi(isNewContract) {
-        rateCardBlock.toggle(isNewContract);
-
-        if ($('#SelectedRateCardId').val() === "") {
-            state.selectedCardId = null;
+        var loanTerm = +(selectedValues[0]);
+        var amortTerm = +(selectedValues[1]);
+        if (option.name === 'Deferral') {
+            var deferralPeriod = +$('#DeferralPeriodDropdown').val();
+            return $.grep(items, function (i) {
+                return i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
+            })[0];
         } else {
-            state.selectedCardId = $('#SelectedRateCardId').val();
-        }
-
-        if (state.isNewContract && state.selectedCardId === null) {
-            $('#submit').addClass('disabled');
-            $('#submit').parent().popover();
-        } else {
-            $('#submit').parent().popover('destroy');
+            return $.grep(items, function (i) {
+                return i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
+            })[0];
         }
     }
 
     return {
-        initializeRateCards: initializeRateCards,
         recalculateValuesAndRender: recalculateValuesAndRender,
         recalculateAndRenderRentalValues: recalculateAndRenderRentalValues,
         recalculateRentalTaxAndPrice: recalculateRentalTaxAndPrice,

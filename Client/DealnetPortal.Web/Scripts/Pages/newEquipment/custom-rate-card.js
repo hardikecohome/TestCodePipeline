@@ -3,7 +3,6 @@
     var state = require('state').state;
 
     var validateOnSelect = function () {
-
         var isValid = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal', 'CustomAFee'].reduce(function (acc, field) {
             var valid = $("#" + field).valid();
             return valid && acc;
@@ -17,7 +16,6 @@
             $('#' + field).prop('disabled', isDisable);
         });
     }
-
 
     var submitCustomRateCard = function (event, option) {
 
@@ -33,7 +31,6 @@
         $('#AdminFee').val(state[option].AdminFee);
         $('#DealerCost').val(state[option].DealerCost);
         $('#total-monthly-payment').val(customSlicedTotalMPayment);
-        //if (state[option].DeferralPeriod === '')
         $('#LoanDeferralType').val(state[option].DeferralPeriod);
 
         $('#SelectedRateCardId').val(0);
