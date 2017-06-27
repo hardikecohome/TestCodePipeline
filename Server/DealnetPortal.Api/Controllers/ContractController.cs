@@ -365,32 +365,18 @@ namespace DealnetPortal.Api.Controllers
 
         [Route("CreateXlsxReport")]
         [HttpPost]
-        public HttpResponseMessage CreateXlsxReport(IEnumerable<int> ids)
+        public IHttpActionResult CreateXlsxReport(IEnumerable<int> ids)
         {
             try
             {
-                var stream = new MemoryStream();
-                var contracts = ContractService.GetContracts(ids, LoggedInUser?.UserId);
-                XlsxExporter.Export(contracts, stream);
-
-                var result = new HttpResponseMessage(HttpStatusCode.OK)
-                {
-                    Content = new ByteArrayContent(stream.ToArray())
-                };
-                result.Content.Headers.ContentDisposition =
-                    new ContentDispositionHeaderValue("attachment")
-                    {
-                        FileName = $"{DateTime.Now.ToString(CultureInfo.CurrentCulture).Replace(":", ".")}-report.xlsx"
-                    };
-                result.Content.Headers.ContentType =
-                    new MediaTypeHeaderValue("application/octet-stream");
-                return result;
+                var report = ContractService.GetContractsFileReport(ids, LoggedInUser.UserId);
+                return Ok(report);
             }
             catch (Exception ex)
             {
-                return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                return InternalServerError(ex);
             }
-        }
+        }        
 
         [Route("GetCustomer")]
         [HttpGet]
