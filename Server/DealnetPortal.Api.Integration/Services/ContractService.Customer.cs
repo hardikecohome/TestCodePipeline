@@ -17,7 +17,7 @@ namespace DealnetPortal.Api.Integration.Services
 {
     public partial class ContractService
     {
-		Private readonly IMandrillService _mandrillService = new MandrillService();
+		private readonly IMandrillService _mandrillService = new MandrillService();
         public async Task<Tuple<ContractDTO, IList<Alert>>> CreateContractForCustomer(string contractOwnerId, NewCustomerDTO newCustomer)
         {
             try

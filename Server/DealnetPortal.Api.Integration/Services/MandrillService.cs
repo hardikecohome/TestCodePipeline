@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using System.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -33,6 +32,7 @@ namespace DealnetPortal.Api.Integration.Services
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 try
                 {
+                    
                     return await client.PostAsJsonAsync("/api/1.0/messages/send-template.json", request);
                 }
                 catch (Exception ex)
@@ -110,8 +110,8 @@ namespace DealnetPortal.Api.Integration.Services
             request.template_name = ConfigurationManager.AppSettings["HomeImprovementTypeUpdatedTemplate"];
             request.template_content = new List<templatecontent>() {
                     new templatecontent(){
-                        name="Home Improvement Type Updated",
-                        content = "Home Improvement Type Updated"
+                        name="We’re looking for the best professional for your home improvement project",
+                        content = "We’re looking for the best professional for your home improvement project"
                     }
                 };
 
@@ -130,8 +130,8 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                     },
                 send_at = DateTime.Now,
-                subject = "Home Improvement Type Updated.",
-                text = "Home Improvement Type Updated.",
+                subject = "We’re looking for the best professional for your home improvement project",
+                text = "We’re looking for the best professional for your home improvement project",
                 to = new List<MandrillTo>() {
                         new MandrillTo(){
                             email =emailid,

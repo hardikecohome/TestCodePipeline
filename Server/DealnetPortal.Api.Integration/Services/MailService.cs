@@ -316,6 +316,7 @@ namespace DealnetPortal.Api.Integration.Services
         {
             string domain = ConfigurationManager.AppSettings["CustomerWalletClient"];
             var contract = succededContracts.First();
+            string newemailid = _contractRepository.GetCustomer(contract.PrimaryCustomer.Id).Emails.FirstOrDefault(m => m.EmailType == EmailType.Main).EmailAddress;
             string services = string.Join(",", succededContracts.Select(i => (i.Equipment.NewEquipment.First()?.Description ?? 
                 _contractRepository.GetEquipmentTypeInfo(i.Equipment.NewEquipment.First()?.Type)?.Description)?.ToLower()));
             string customerEmail = contract.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
@@ -559,10 +560,12 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 //Need to plug mailchimp 
                 await _emailService.SendAsync(mail);
+               
                 //await _mailChimpService.AddNewSubscriberAsync(ConfigurationManager.AppSettings["ListID"], member);
                 var result = await _personalizedMessageService.SendMessage(contract.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
                 if (await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress))
                 {
+                    
                     await _mandrillService.SendDealerLeadAccepted(contract, dealer, services);
                 }
             }
