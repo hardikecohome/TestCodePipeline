@@ -30,6 +30,7 @@ namespace DealnetPortal.Api
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             DatabaseConfig.Initialize();
             AutoMapperConfig.Configure();
+            WebApiConfig.CheckConfigKeys();
 
             //GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerSelector),
             //    new LocalizedControllerSelector(GlobalConfiguration.Configuration));
