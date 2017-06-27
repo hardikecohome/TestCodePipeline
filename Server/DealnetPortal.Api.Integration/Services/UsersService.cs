@@ -97,7 +97,7 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         alerts.AddRange(rolesAlerts);
                     }
-                    if (!string.IsNullOrEmpty(aspireDealerInfo.Ratecard) && user.Tier?.Name != aspireDealerInfo.Ratecard)
+                    if (user.Tier?.Name != aspireDealerInfo.Ratecard)
                     {
                         var tierAlerts = UpdateUserTier(user.Id, aspireDealerInfo);
                         if (tierAlerts.Any())
@@ -245,15 +245,12 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 var tier = _rateCardsRepository.GetTierByName(aspireUser.Ratecard);
-                if (tier != null)
+                var user = _userManager.Users.Include(u => u.Tier).FirstOrDefault(u => u.Id == userId);
+                if (user != null)
                 {
-                    var user = _userManager.Users.Include(u => u.Tier).FirstOrDefault(u => u.Id == userId);
-                    if (user != null)
-                    {
-                        user.Tier = tier;
-                        _unitOfWork.Save();
-                        _loggingService.LogInfo($"Tier [{aspireUser.Ratecard}] was set to an user [{userId}]");
-                    }
+                    user.Tier = tier;
+                    _unitOfWork.Save();
+                    _loggingService.LogInfo($"Tier [{aspireUser.Ratecard}] was set to an user [{userId}]");
                 }
             }
             catch (Exception ex)
