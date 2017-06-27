@@ -348,12 +348,12 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }       
 
-        public async Task<byte[]> GetXlsxReport(IEnumerable<int> ids)
+        public async Task<AgreementDocument> GetXlsxReport(IEnumerable<int> ids)
         {
             try
             {
-                var response = await Client.PostAsyncWithHttpResponse($"{_fullUri}/CreateXlsxReport", ids, AuthenticationHeader, CurrentCulture);
-                return await response.Content.ReadAsByteArrayAsync();
+                var report = await Client.PostAsyncEx<IEnumerable<int>, AgreementDocument> ($"{_fullUri}/CreateXlsxReport", ids, AuthenticationHeader, CurrentCulture);
+                return report;
             }
             catch (Exception ex)
             {
