@@ -26,7 +26,7 @@
                 }
             } else {
                 $('#custom-rate-card').clearErrors();
-                toggleDisableClassOnInputs(true);
+                toggleRateCardBlock();
                 rateCardBlock.hide();
             }
         }
@@ -54,7 +54,7 @@
                             submitCustomRateCard(event, option);
                         } else {
                             $('#custom-rate-card').clearErrors();
-                            toggleDisableClassOnInputs(true);
+                            toggleCustomRateCard();
                             submitRateCard(option);
                         }
                         $('#equipment-form').submit();
@@ -74,6 +74,12 @@
             toggleDisableClassOnInputs(false);
         }
 
+        var toggleCustomRateCard = function () {
+            var isRental = $('#typeOfAgreementSelect').val() != 0;
+            var option = $('.checked > #hidden-option').text();
+            toggleDisableClassOnInputs(isRental || option !== 'Custom');
+        }
+
         // submit
         $('#submit').on('click', submitForm);
 
@@ -82,7 +88,8 @@
         $('#loanRateCardToggle').on('click', toggleRateCardBlock);
 
         $('#downPayment').on('change', setters.setDownPayment);
-        $('#typeOfAgreementSelect').on('change', setters.setAgreement);
+        $('#typeOfAgreementSelect').on('change', setters.setAgreement).on('change', toggleCustomRateCard);
+
         $('#total-monthly-payment').on('change', setters.setRentalMPayment);
 
         $('.btn-select-card').on('click', rateCardBlock.highlightCard);
