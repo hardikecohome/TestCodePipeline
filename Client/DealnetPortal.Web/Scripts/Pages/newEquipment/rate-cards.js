@@ -297,7 +297,7 @@
     function renderDropdownValues(option, totalAmountFinanced, isRenderDropdowns) {
         var totalCash = constants.minimumLoanValue;
         if (totalAmountFinanced > 1000) {
-            totalCash = totalAmountFinanced;
+            totalCash = totalAmountFinanced.toFixed(2);
         }
 
         if (isRenderDropdowns) {
