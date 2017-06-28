@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
+using DealnetPortal.Api.Core.Constants;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
@@ -503,8 +504,8 @@ namespace DealnetPortal.Api.Integration.Services
                         request.Payload = new DocumentUploadPayload()
                         {
                             TransactionId = contract.Details.TransactionId,                            
-                            //TODO: insert correct status
-                            Status = ConfigurationManager.AppSettings["DocumentUploadStatus"] ?? "32–Docs Received",                            
+                            
+                            Status = ConfigurationManager.AppSettings[WebConfigKeys.DOCUMENT_UPLOAD_STATUS_CONFIG_KEY]                            
                         };
 
                         request.Payload.Documents = new List<Document>()
@@ -584,7 +585,7 @@ namespace DealnetPortal.Api.Integration.Services
                             request.Payload = new DocumentUploadPayload()
                             {
                                 TransactionId = contract.Details.TransactionId,
-                                Status = ConfigurationManager.AppSettings["AllDocumentsUploadedStatus"]
+                                Status = ConfigurationManager.AppSettings[WebConfigKeys.ALL_DOCUMENTS_UPLOAD_STATUS_CONFIG_KEY]
                             };
 
                             var submitString = "Request to Fund";
@@ -725,24 +726,14 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         UserId = dealer.AspireLogin,
                         Password = dealer.AspirePassword
-                        //From = new From()
-                        //{
-                        //    AccountNumber = dealer.AspireLogin,
-                        //    Password = dealer.AspirePassword
-                        //}
                     };
                 }
                 else
                 {
                     header = new RequestHeader()
                     {
-                        UserId = ConfigurationManager.AppSettings["AspireUser"],
-                        Password = ConfigurationManager.AppSettings["AspirePassword"]
-                        //From = new From()
-                        //{
-                        //    AccountNumber = ConfigurationManager.AppSettings["AspireUser"],
-                        //    Password = ConfigurationManager.AppSettings["AspirePassword"]
-                        //}
+                        UserId = ConfigurationManager.AppSettings[WebConfigKeys.ASPIRE_USER_CONFIG_KEY],
+                        Password = ConfigurationManager.AppSettings[WebConfigKeys.ASPIRE_PASSWORD_CONFIG_KEY]
                     };
                 }
             }

@@ -73,7 +73,7 @@ namespace DealnetPortal.Utilities.Messaging
 
         private NetworkCredential InitCredentials()
         {
-            return new System.Net.NetworkCredential(ConfigurationManager.AppSettings[WebConfigKeys.ES_SMTPUSER_CONFIG_KEY], ConfigurationManager.AppSettings[WebConfigKeys.ES_SMTPPASSWORD_CONFIG_KEY]);
+            return new NetworkCredential(ConfigurationManager.AppSettings[WebConfigKeys.ES_SMTPUSER_CONFIG_KEY], ConfigurationManager.AppSettings[WebConfigKeys.ES_SMTPPASSWORD_CONFIG_KEY]);
         }
     }
 }
