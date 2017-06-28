@@ -31,11 +31,6 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IRateCardsRepository _rateCardsRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        #region constants
-        private const string MB_ROLE_CONFIG_KEY = "AspireMortgageBrokerRole";
-        private const string DEFAULT_MB_ROLE = "Mortgage Brokers";
-        #endregion
-
         public UsersService(IAspireStorageReader aspireStorageReader, IDatabaseFactory databaseFactory, ILoggingService loggingService, IRateCardsRepository rateCardsRepository,
             ISettingsRepository settingsRepository, IUnitOfWork unitOfWork)
         {
@@ -176,11 +171,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var dbRoles = await _userManager.GetRolesAsync(userId);
                 if (!dbRoles.Contains(aspireUser.Role))
                 {
-                    var mbRoles = ConfigurationManager.AppSettings[MB_ROLE_CONFIG_KEY] != null
-                        ? ConfigurationManager.AppSettings[MB_ROLE_CONFIG_KEY].Split(',')
-                            .Select(s => s.Trim())
-                            .ToArray()
-                        : new string[] {DEFAULT_MB_ROLE};
+                    var mbRoles = ConfigurationManager.AppSettings["AspireMortgageBrokerRole"].Split(',').Select(s => s.Trim()).ToArray();
                     var user = await _userManager.FindByIdAsync(userId);
                     var removeRes = await _userManager.RemoveFromRolesAsync(userId, dbRoles.ToArray());
                     IdentityResult addRes;
