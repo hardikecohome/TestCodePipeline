@@ -972,6 +972,7 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var alerts = new List<Alert>();
             ContractDocument doc = null;
+            document.DocumentName = document.DocumentName.Replace('-', '_');
             try
             {
                 doc = _contractRepository.AddDocumentToContract(document.ContractId, Mapper.Map<ContractDocument>(document),

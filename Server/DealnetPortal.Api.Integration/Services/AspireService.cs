@@ -470,7 +470,7 @@ namespace DealnetPortal.Api.Integration.Services
             string contractOwnerId)
         {
             var alerts = new List<Alert>();
-
+            //document.DocumentName = document.DocumentName.Replace('-', '_');
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
 
             if (contract != null && document?.DocumentBytes != null)
@@ -483,6 +483,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     if (string.IsNullOrEmpty(document.DocumentName) || !document.DocumentName.StartsWith(docType.Prefix))
                     {
+                        
                         document.DocumentName = docType.Prefix + document.DocumentName;
                     }
                 }
