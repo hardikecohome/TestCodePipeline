@@ -51,6 +51,7 @@
     <Compile Include="ApiClient\HttpApiClient.cs" />
     <Compile Include="ApiClient\HttpClientExtensions.cs" />
     <Compile Include="ApiClient\IHttpApiClient.cs" />
+    <Compile Include="Constants\WebConfigKeys.cs" />
     <Compile Include="Enums\AlertType.cs" />
     <Compile Include="Helpers\CultureHelper.cs" />
     <Compile Include="Helpers\XmlSerializerHelper.cs" />
