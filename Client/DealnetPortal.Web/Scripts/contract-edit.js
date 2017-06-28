@@ -58,15 +58,15 @@
             var form = input.parent().closest('form');
             var tabContainers = $('.documents-container .' + form.data('container'));
 			var documentNaming = form.find('.document-naming');
-			var changenameformat = documentNaming.text();
-			changenameformat = changenameformat.replace("-", "_");
+			//var changenameformat = documentNaming.text();
+			//changenameformat = changenameformat.replace("-", "_");
             var documentItem = form.find('.document-item');
             var progressContainer = form.find('.progress-container');
             var progressBar = form.find('.progress-bar');
             var progressBarValue = form.find('.progress-bar-value');
             var errorDesc = form.find('.error-descr');
-			var prevDocumentName = changenameformat;;
-			prevDocumentName = prevDocumentName.replace("-", "_");
+			var prevDocumentName = documentNaming.text();;
+			//prevDocumentName = prevDocumentName.replace("-", "_");
             var wasCancelled;
             var afterError = function(message) {
                 form.find('.error-message').text(message || translations['ErrorWhileUploadingFile']);
@@ -217,7 +217,7 @@
         $('#other-documents-upload').change(function () {
             var documentNameInput = $('#other-documents-name');
 			var documentName = documentNameInput.val();
-			documentName = documentName.replace("-", "_");
+			//documentName = documentName.replace("-", "_");
             if (!documentName) {
                 $(this).val('');
                 $('#empty-document-name-message').show();

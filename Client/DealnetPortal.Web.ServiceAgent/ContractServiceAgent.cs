@@ -378,7 +378,7 @@ namespace DealnetPortal.Web.ServiceAgent
             {
                 MediaTypeFormatter bsonFormatter = new BsonMediaTypeFormatter();
                 MediaTypeFormatter[] formatters = new MediaTypeFormatter[] { bsonFormatter, };
-                document.DocumentName = document.DocumentName.Replace('-', '_');
+                //document.DocumentName = document.DocumentName.Replace('-', '_');
                 var result = await Client.Client.PutAsync<ContractDocumentDTO>($"{_fullUri}/AddDocument", document, bsonFormatter);
                 return await result.Content.ReadAsAsync<Tuple<int?, IList<Alert>>>(formatters);
             }
