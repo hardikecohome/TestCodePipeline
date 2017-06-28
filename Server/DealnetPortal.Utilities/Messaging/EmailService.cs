@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Core.Constants;
 using Microsoft.AspNet.Identity;
 
 namespace DealnetPortal.Utilities.Messaging
@@ -31,11 +33,10 @@ namespace DealnetPortal.Utilities.Messaging
 
         public async Task SendAsync(MailMessage message)
         {
-            using (var smtpClient = new SmtpClient(ConfigurationManager.AppSettings["EmailService.SmtpHost"],
-                    Convert.ToInt32((string) ConfigurationManager.AppSettings["EmailService.SmtpPort"])))
+            var smtpClient = InitSmtpClient();
+            using (smtpClient)
             {
-                var credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["EmailService.SmtpUser"], ConfigurationManager.AppSettings["EmailService.SmtpPassword"]);
-                smtpClient.Credentials = credentials;
+                smtpClient.Credentials = InitCredentials();
                 try
                 {
                     await smtpClient.SendMailAsync(message);
@@ -55,28 +56,24 @@ namespace DealnetPortal.Utilities.Messaging
             var msg = new MailMessage
             {
                 Subject = message.Subject,
-                From = new MailAddress(ConfigurationManager.AppSettings["EmailService.FromEmailAddress"])
+                From = new MailAddress(ConfigurationManager.AppSettings[WebConfigKeys.ES_FROMEMAIL_CONFIG_KEY])
             };
             msg.To.Add(new MailAddress(message.Destination));
             msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain));
             msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));
 
-            var smtpClient = new SmtpClient(ConfigurationManager.AppSettings["EmailService.SmtpHost"], Convert.ToInt32((string) ConfigurationManager.AppSettings["EmailService.SmtpPort"]));
-            var credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["EmailService.SmtpUser"], ConfigurationManager.AppSettings["EmailService.SmtpPassword"]);
-            using (smtpClient)
-            {
-                smtpClient.Credentials = credentials;
-                try
-                {
-                    await smtpClient.SendMailAsync(msg);
-                }
-                catch (Exception ex)
-                {
-                    
-                    throw ex;
-                }                
-            }
-        }        
+            await SendAsync(msg);
+        }
         #endregion
+
+        private SmtpClient InitSmtpClient()
+        {
+            return new SmtpClient(ConfigurationManager.AppSettings[WebConfigKeys.ES_SMTPHOST_CONFIG_KEY], Convert.ToInt32((string)ConfigurationManager.AppSettings[WebConfigKeys.ES_SMTPPORT_CONFIG_KEY]));
+        }
+
+        private NetworkCredential InitCredentials()
+        {
+            return new System.Net.NetworkCredential(ConfigurationManager.AppSettings[WebConfigKeys.ES_SMTPUSER_CONFIG_KEY], ConfigurationManager.AppSettings[WebConfigKeys.ES_SMTPPASSWORD_CONFIG_KEY]);
+        }
     }
 }
