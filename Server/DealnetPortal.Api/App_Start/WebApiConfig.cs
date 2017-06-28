@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Web.Http;
-using DealnetPortal.Api.Constants;
-using DealnetPortal.Api.Infrastucture;
+using DealnetPortal.Api.Core.Constants;
 using DealnetPortal.Utilities.Logging;
 using Microsoft.Owin.Security.OAuth;
-using Newtonsoft.Json.Serialization;
 
 namespace DealnetPortal.Api
 {
