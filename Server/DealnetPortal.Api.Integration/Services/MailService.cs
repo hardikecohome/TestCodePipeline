@@ -296,7 +296,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             try
             {
-                await _emailService.SendAsync(mail);
+              //  await _emailService.SendAsync(mail);
               // Hardik SMS trigger for subscription request
                 var result = await _smsSubscriptionServive.setstartsubscription(customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum,
                                                                                 customerFormData.PrimaryCustomer.Id.ToString(),
@@ -375,7 +375,7 @@ namespace DealnetPortal.Api.Integration.Services
             //};
             try
             {
-                 await _emailService.SendAsync(mail);
+                // await _emailService.SendAsync(mail);
                 // Hardik Mailchimp trigger to update Equipment type
                 if (await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress))
                 {
@@ -467,7 +467,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             try
             {
-                await _emailService.SendAsync(mail);
+                //await _emailService.SendAsync(mail);
                 //Hardik MailChimp Trigger to update CreditAmount
                 await _mailChimpService.AddNewSubscriberAsync(ConfigurationManager.AppSettings["ListID"], member);
                 var result = await _personalizedMessageService.SendMessage(customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
@@ -559,7 +559,7 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 //Need to plug mailchimp 
-                await _emailService.SendAsync(mail);
+                //await _emailService.SendAsync(mail);
                
                 //await _mailChimpService.AddNewSubscriberAsync(ConfigurationManager.AppSettings["ListID"], member);
                 var result = await _personalizedMessageService.SendMessage(contract.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
