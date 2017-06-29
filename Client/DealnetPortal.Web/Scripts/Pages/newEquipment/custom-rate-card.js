@@ -3,7 +3,6 @@
     var state = require('state').state;
 
     var validateOnSelect = function () {
-
         var isValid = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal', 'CustomAFee'].reduce(function (acc, field) {
             var valid = $("#" + field).valid();
             return valid && acc;
@@ -17,7 +16,6 @@
             $('#' + field).prop('disabled', isDisable);
         });
     }
-
 
     var submitCustomRateCard = function (event, option) {
 
@@ -33,7 +31,6 @@
         $('#AdminFee').val(state[option].AdminFee);
         $('#DealerCost').val(state[option].DealerCost);
         $('#total-monthly-payment').val(customSlicedTotalMPayment);
-        //if (state[option].DeferralPeriod === '')
         $('#LoanDeferralType').val(state[option].DeferralPeriod);
 
         $('#SelectedRateCardId').val(0);
@@ -85,8 +82,11 @@
         sanitized = sanitized.replace(/(.)-+/g, '$1');
         // Remove the first point if there is more than one
         sanitized = sanitized.replace(/\.(?=.*\.)/g, '');
-
-        $(this).val(sanitized);
+        if (sanitized === '') {
+            $(this).val(0);
+        } else {
+            $(this).val(sanitized);
+        }
     }
 
     $('#CustomYCostVal').rules('add', {

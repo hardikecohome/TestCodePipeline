@@ -9,6 +9,7 @@
         var toggleDisableClassOnInputs = require('custom-rate-card').toggleDisableClassOnInputs;
         var rateCardBlock = require('rate-cards-ui');
         var state = require('state').state;
+        var constants = require('state').constants;
 
         var onRateCardSelect = function() {
             recalculateValuesAndRender([], false);
@@ -74,24 +75,32 @@
             toggleDisableClassOnInputs(false);
         }
 
-        var toggleCustomRateCard = function () {
+        function toggleCustomRateCard() {
             var isRental = $('#typeOfAgreementSelect').val() != 0;
-            var option= $('.checked > #hidden-option').text();
+            var option = $('.checked > #hidden-option').text();
             toggleDisableClassOnInputs(isRental || option !== 'Custom' && option !== '');
+        }
+
+        function onAmortizationDropdownChange(option) {
+            $('#' + option + 'AmortizationDropdown').change(function () {
+                $(this).prop('selected', true);
+
+                recalculateValuesAndRender([], false);
+            });
         }
 
         // submit
         $('#submit').on('click', submitForm);
 
         // handlers
+        constants.rateCards.forEach(function (option) { onAmortizationDropdownChange(option.name) });
+
         $('#addEquipment').on('click', equipment.addEquipment);
         $('#loanRateCardToggle').on('click', toggleRateCardBlock);
-
         $('#downPayment').on('change', setters.setDownPayment);
         $('#typeOfAgreementSelect').on('change', setters.setAgreement).on('change', toggleCustomRateCard);
 
         $('#total-monthly-payment').on('change', setters.setRentalMPayment);
-
         $('.btn-select-card').on('click', rateCardBlock.highlightCard);
         $('.btn-select-card').on('click', onRateCardSelect);
 
