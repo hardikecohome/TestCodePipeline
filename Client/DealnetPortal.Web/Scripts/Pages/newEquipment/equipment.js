@@ -75,6 +75,12 @@
         } else {
             state.equipments[i].cost = cost;
         }
+        cost = parseFloat($('#NewEquipment_' + i + '__MonthlyCost').val());
+        if (state.equipments[i] === undefined) {
+            state.equipments[i] = { id: i.toString(), monthlyCost: cost }
+        } else {
+            state.equipments[i].monthlyCost = cost;
+        }
 
         $('#new-equipment-' + i).find('.equipment-cost').on('change', updateCost);
         $('#new-equipment-' + i).find('.monthly-cost').on('change', updateMonthlyCost);
