@@ -76,8 +76,8 @@
 
         var toggleCustomRateCard = function () {
             var isRental = $('#typeOfAgreementSelect').val() != 0;
-            var option = $('.checked > #hidden-option').text();
-            toggleDisableClassOnInputs(isRental || option !== 'Custom');
+            var option= $('.checked > #hidden-option').text();
+            toggleDisableClassOnInputs(isRental || option !== 'Custom' && option !== '');
         }
 
         // submit
