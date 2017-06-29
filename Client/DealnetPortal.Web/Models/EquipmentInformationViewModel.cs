@@ -18,6 +18,9 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public bool IsApplicantsInfoEditAvailable { get; set; }
 
+        [Display(ResourceType = typeof(Resources.Resources), Name = "TypeOfAgreement")]
+        public AgreementType AgreementType { get; set; }
+
         [Display(ResourceType = typeof(Resources.Resources), Name = "HouseSizeSquareFeet")]
         public double? HouseSize { get; set; }
 

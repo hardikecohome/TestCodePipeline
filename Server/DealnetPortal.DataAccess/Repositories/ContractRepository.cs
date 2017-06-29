@@ -874,10 +874,6 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     equipmentInfo.SalesRep = dbEquipment.SalesRep;
                 }
-                if (equipmentInfo.AgreementType == AgreementType.LoanApplication)
-                {
-                    equipmentInfo.AgreementType = dbEquipment.AgreementType;
-                }
                 if (equipmentInfo.DownPayment == null)
                 {
                     equipmentInfo.DownPayment = dbEquipment.DownPayment;

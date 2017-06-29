@@ -59,6 +59,7 @@ namespace DealnetPortal.Web.Infrastructure
             contactAndPaymentInfo.SalesRep = contractResult.Item1.Equipment.SalesRep;
             contactAndPaymentInfo.IsApplicantsInfoEditAvailable = contractResult.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;
             contactAndPaymentInfo.ContractId = contractId;
+            contactAndPaymentInfo.AgreementType = contractResult.Item1.Equipment.AgreementType.ConvertTo<Models.Enumeration.AgreementType>();
             contactAndPaymentInfo.ExistingEquipment = Mapper.Map<List<ExistingEquipmentInformation>>(contractResult.Item1.Equipment.ExistingEquipment);
 
             return contactAndPaymentInfo;
@@ -387,7 +388,8 @@ namespace DealnetPortal.Web.Infrastructure
                 Id = equipmnetInfo.ContractId ?? 0,
                 Equipment = new EquipmentInfoDTO
                 {
-                    Id = equipmnetInfo.ContractId ?? 0
+                    Id = equipmnetInfo.ContractId ?? 0,
+                    AgreementType = equipmnetInfo.AgreementType.ConvertTo<AgreementType>()
                 }
             };
 

@@ -47,6 +47,7 @@
   {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.ContractId)
+    @Html.HiddenFor(model => model.AgreementType)
 
     <div class="row">
       <div class="col-md-4">
