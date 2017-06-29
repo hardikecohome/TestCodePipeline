@@ -15,13 +15,14 @@ using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.Utilities.Logging;
+using DealnetPortal.Web.Common;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
     using Api.Models.Contract.EquipmentInformation;
     using Api.Models.Profile;
 
-    public class DealerServiceAgent : TransientApiBase, IDealerServiceAgent
+    public class DealerServiceAgent : ApiBase, IDealerServiceAgent
     {
         private const string DealerApi = "Dealer";
         private readonly ILoggingService _loggingService;
@@ -36,7 +37,7 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return await Client.GetAsync<DealerProfileDTO>($"{_fullUri}/GetDealerProfile");
+                return await Client.GetAsyncEx<DealerProfileDTO>($"{_fullUri}/GetDealerProfile", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {
@@ -51,8 +52,8 @@ namespace DealnetPortal.Web.ServiceAgent
             {
                 return
                     await
-                        Client.PostAsync<DealerProfileDTO, IList<Alert>>(
-                            $"{_fullUri}/UpdateDealerProfile", dealerProfile);
+                        Client.PostAsyncEx<DealerProfileDTO, IList<Alert>>(
+                            $"{_fullUri}/UpdateDealerProfile", dealerProfile, AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {
