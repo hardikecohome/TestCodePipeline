@@ -43,7 +43,7 @@ namespace DealnetPortal.Web.Controllers
                 return View("CustomerCreationDecline");
             }
 
-            if (result?.Item1.ContractState == ContractState.CreditCheckDeclined || result?.Item1.OnCreditReview == true)
+            if (result?.Item1 == null || result.Item1.ContractState == ContractState.CreditCheckDeclined || result.Item1.OnCreditReview == true)
             {
                 return View("CustomerCreationDecline");
             }
