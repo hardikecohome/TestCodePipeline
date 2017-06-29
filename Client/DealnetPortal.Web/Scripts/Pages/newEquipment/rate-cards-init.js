@@ -50,7 +50,9 @@
                     $('#DeferralPeriodDropdown').val(deferralPeriod.val.toString());
                 }
             }
-        } else {
+        }
+
+        if (option === 'Custom' && state.selectedCardId === 0) {
             setSelectedCustomRateCard();
             rateCardBlock.highlightCardBySelector('#CustomLoanTerm');
         }

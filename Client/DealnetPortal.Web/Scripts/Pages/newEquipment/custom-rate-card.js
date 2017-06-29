@@ -82,8 +82,11 @@
         sanitized = sanitized.replace(/(.)-+/g, '$1');
         // Remove the first point if there is more than one
         sanitized = sanitized.replace(/\.(?=.*\.)/g, '');
-
-        $(this).val(sanitized);
+        if (sanitized === '') {
+            $(this).val(0);
+        } else {
+            $(this).val(sanitized);
+        }
     }
 
     $('#CustomYCostVal').rules('add', {
