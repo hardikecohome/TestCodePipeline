@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -149,6 +150,14 @@ namespace DealnetPortal.Api.Integration.Services
                     });
 
                 var contractDTO = Mapper.Map<ContractDTO>(succededContract ?? contractsResultList?.FirstOrDefault()?.Item1);
+                if (contractDTO != null)
+                {
+                    var creditReviewStates = ConfigurationManager.AppSettings["CreditReviewStatus"]?.Split(',').Select(s => s.Trim()).ToArray();
+                    if (creditReviewStates?.Any() == true && !string.IsNullOrEmpty(contractDTO?.Details?.Status))
+                    {
+                        contractDTO.OnCreditReview = creditReviewStates.Contains(contractDTO.Details.Status);
+                    }
+                }
                 return new Tuple<ContractDTO, IList<Alert>>(contractDTO, creditCheckAlerts);
             }
             catch (Exception ex)
