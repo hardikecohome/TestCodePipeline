@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
@@ -21,14 +22,15 @@ namespace DealnetPortal.Web.ServiceAgent
 {
     using Api.Models.Contract.EquipmentInformation;
     using Api.Models.Profile;
+    using Microsoft.Owin.Security;
 
     public class DealerServiceAgent : ApiBase, IDealerServiceAgent
     {
         private const string DealerApi = "Dealer";
         private readonly ILoggingService _loggingService;
 
-        public DealerServiceAgent(ITransientHttpApiClient client, ILoggingService loggingService)
-            : base(client, DealerApi)
+        public DealerServiceAgent(IHttpApiClient client, ILoggingService loggingService, IAuthenticationManager authenticationManager)
+            : base(client, DealerApi, authenticationManager)
         {
             _loggingService = loggingService;
         }
