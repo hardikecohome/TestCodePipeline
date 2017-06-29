@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Core.Constants;
 using DealnetPortal.Api.Integration.SMSSubscriptionManagement;
 
 namespace DealnetPortal.Api.Integration.Services

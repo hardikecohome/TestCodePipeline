@@ -9,6 +9,7 @@ using Microsoft.Practices.ObjectBuilder2;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
+using DealnetPortal.Api.Core.Constants;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Services.Signature;
@@ -65,10 +66,10 @@ namespace DealnetPortal.Api.Integration.Services
             _unitOfWork = unitOfWork;
             _aspireStorageReader = aspireStorageReader;
 
-            _eCoreSignatureRole = System.Configuration.ConfigurationManager.AppSettings["eCoreSignatureRole"];
-            _eCoreAgreementTemplate = System.Configuration.ConfigurationManager.AppSettings["eCoreAgreementTemplate"];
+            _eCoreSignatureRole = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_SIGNATUREROLE_CONFIG_KEY];
+            _eCoreAgreementTemplate = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_AGREEMENTTEMPLATE_CONFIG_KEY];
             _eCoreCustomerSecurityCode =
-                System.Configuration.ConfigurationManager.AppSettings["eCoreCustomerSecurityCode"];
+                System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_CUSTOMERSECURITYCODE_CONFIG_KEY];
 
             _signatureRoles.Add(_eCoreSignatureRole);
             _signatureRoles.Add($"{_eCoreSignatureRole}2");

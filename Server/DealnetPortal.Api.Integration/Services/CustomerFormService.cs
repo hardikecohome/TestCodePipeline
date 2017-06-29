@@ -13,6 +13,7 @@ using System.Web.UI.WebControls;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Core.Constants;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
@@ -458,7 +459,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             
             bool customerEmailNotification;
-            bool.TryParse(ConfigurationManager.AppSettings["CustomerEmailNotificationEnabled"],
+            bool.TryParse(ConfigurationManager.AppSettings[WebConfigKeys.CUSTOMER_EMAIL_NOFIFICATION_ENABLED_CONFIG_KEY],
                 out customerEmailNotification);
             if (customerEmailNotification)
             {

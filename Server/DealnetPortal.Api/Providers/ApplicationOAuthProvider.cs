@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Core.Constants;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Services;
@@ -47,7 +48,7 @@ namespace DealnetPortal.Api.Providers
 
             _publicClientId = publicClientId;
 
-            if (!Enum.TryParse(ConfigurationManager.AppSettings.Get("AuthProvider"), out _authType))
+            if (!Enum.TryParse(ConfigurationManager.AppSettings.Get(WebConfigKeys.AUTHPROVIDER_CONFIG_KEY), out _authType))
             {
                 _authType = AuthType.AuthProvider;
             }

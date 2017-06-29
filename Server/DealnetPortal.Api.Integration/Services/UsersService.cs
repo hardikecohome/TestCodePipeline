@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Core.Constants;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes;
@@ -171,7 +172,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var dbRoles = await _userManager.GetRolesAsync(userId);
                 if (!dbRoles.Contains(aspireUser.Role))
                 {
-                    var mbRoles = ConfigurationManager.AppSettings["AspireMortgageBrokerRole"].Split(',').Select(s => s.Trim()).ToArray();
+                    var mbRoles = ConfigurationManager.AppSettings[WebConfigKeys.MB_ROLE_CONFIG_KEY].Split(',').Select(s => s.Trim()).ToArray();
                     var user = await _userManager.FindByIdAsync(userId);
                     var removeRes = await _userManager.RemoveFromRolesAsync(userId, dbRoles.ToArray());
                     IdentityResult addRes;

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
+using DealnetPortal.Api.Core.Constants;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Domain;
 using Microsoft.Practices.ObjectBuilder2;
@@ -59,9 +60,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public IList<Contract> GetDealerLeads(string userId)
         {
-            var creditReviewStates = ConfigurationManager.AppSettings["CreditReviewStatus"] != null
-                ? ConfigurationManager.AppSettings["CreditReviewStatus"].Split(',').Select(s => s.Trim()).ToArray()
-                : new string[] {"20-Credit Review"};
+            var creditReviewStates = ConfigurationManager.AppSettings[WebConfigKeys.CREDIT_REVIEW_STATUS_CONFIG_KEY].Split(',').Select(s => s.Trim()).ToArray();
             
             var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
             var dealerProfile = _dbContext.DealerProfiles.FirstOrDefault(p => p.DealerId == userId);
@@ -803,9 +802,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public bool IsContractUnassignable(int contractId)
         {
-            var creditReviewStates = ConfigurationManager.AppSettings["CreditReviewStatus"] != null
-                ? ConfigurationManager.AppSettings["CreditReviewStatus"].Split(',').Select(s => s.Trim()).ToArray()
-                : new string[] { "20-Credit Review" };
+            var creditReviewStates =ConfigurationManager.AppSettings[WebConfigKeys.CREDIT_REVIEW_STATUS_CONFIG_KEY].Split(',').Select(s => s.Trim()).ToArray();
 
             var contract = _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Web.Configuration;
 using System.Web.Hosting;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
@@ -14,6 +15,7 @@ using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.DataAccess.Migrations
 {
+    using Api.Core.Constants;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -1422,7 +1424,7 @@ namespace DealnetPortal.DataAccess.Migrations
             {
                 try
                 {
-                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings["AgreementTemplatesFolder"] ?? "SeedData";
+                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY];
                     var dir = HostingEnvironment.MapPath($"~/{seedDataFolder}");
                     var path = Path.Combine(dir ?? "", t.TemplateName + ".pdf");
                     if (File.Exists(path))
@@ -1493,7 +1495,7 @@ namespace DealnetPortal.DataAccess.Migrations
             {
                 try
                 {
-                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings["AgreementTemplatesFolder"] ?? "SeedData";
+                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY];
                     var dir = HostingEnvironment.MapPath($"~/{seedDataFolder}");
                     var path = Path.Combine(dir ?? "", t.TemplateName + ".pdf");
                     if (File.Exists(path))
@@ -1797,7 +1799,7 @@ namespace DealnetPortal.DataAccess.Migrations
             {
                 try
                 {
-                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings["AgreementTemplatesFolder"] ?? "SeedData";
+                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY];
                     var dir = HostingEnvironment.MapPath($"~/{seedDataFolder}") ?? "";
 
                     var files = Directory.GetFiles(dir, $"{u.UserName}*.*");

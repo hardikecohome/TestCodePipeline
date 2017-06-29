@@ -5,6 +5,7 @@ using System.Web.Http;
 using DealnetPortal.Api.BackgroundScheduler;
 using DealnetPortal.Api.Controllers;
 using DealnetPortal.Api.Core.ApiClient;
+using DealnetPortal.Api.Core.Constants;
 using DealnetPortal.Api.Integration.ServiceAgents;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature;
 using DealnetPortal.Api.Integration.Services;
@@ -60,9 +61,9 @@ namespace DealnetPortal.Api
             container.RegisterType<IRateCardsService, RateCardsService>();
             #endregion
 
-            container.RegisterType<IHttpApiClient, HttpApiClient>("AspireClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["AspireApiUrl"]));
+            container.RegisterType<IHttpApiClient, HttpApiClient>("AspireClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ASPIRE_APIURL_CONFIG_KEY]));
             container.RegisterType<IHttpApiClient, HttpApiClient>("EcoreClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["EcoreApiUrl"]));
-            container.RegisterType<IHttpApiClient, HttpApiClient>("CustomerWalletClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["CustomerWalletApiUrl"]));
+            container.RegisterType<IHttpApiClient, HttpApiClient>("CustomerWalletClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.CW_APIURL_CONFIG_KEY]));
 
             container.RegisterType<IAspireServiceAgent, AspireServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("AspireClient")));
             container.RegisterType<IAspireService, AspireService>();
@@ -70,12 +71,12 @@ namespace DealnetPortal.Api
             container.RegisterType<ICustomerWalletServiceAgent, CustomerWalletServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("CustomerWalletClient")));
             container.RegisterType<ICustomerWalletService, CustomerWalletService>();
 
-            var queryFolderName = ConfigurationManager.AppSettings["QueriesFolder"] ?? "Queries";
+            var queryFolderName = ConfigurationManager.AppSettings[WebConfigKeys.QURIES_FOLDER_CONFIG_KEY];
             var queryFolder = HostingEnvironment.MapPath($"~/{queryFolderName}") ?? queryFolderName;
 
             container.RegisterType<IQueriesStorage, QueriesFileStorage>(new InjectionConstructor(queryFolder));
             container.RegisterType<IDatabaseService, MsSqlDatabaseService>(
-                new InjectionConstructor(System.Configuration.ConfigurationManager.ConnectionStrings["AspireConnection"].ConnectionString));
+                new InjectionConstructor(ConfigurationManager.ConnectionStrings["AspireConnection"].ConnectionString));
             container.RegisterType<IAspireStorageReader, AspireStorageReader>();
             container.RegisterType<IUsersService, UsersService>();
 
