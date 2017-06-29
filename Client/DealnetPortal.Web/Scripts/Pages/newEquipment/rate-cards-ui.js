@@ -1,5 +1,7 @@
 ﻿module.exports('rate-cards-ui', function (require) {
 
+    var state = require('state').state;
+
     var showRateCardBlock = function () {
         $('#rateCardsBlock').addClass('opened')
                             .removeClass('closed');
@@ -115,6 +117,18 @@
         updateEquipmentCosts(agreementType);
     }
 
+    var highlightCardBySelector = function (selector) {
+        if (!onlyCustomCard) {
+            $(selector).parents('.rate-card')
+                .addClass('checked')
+                .parents('li')
+                .siblings()
+                .find('div')
+                .removeClass('checked');
+        }
+        return false;
+    }
+
     var highlightCard = function () {
 
         $(this).parents('.rate-card')
@@ -125,6 +139,19 @@
             .removeClass('checked');
 
         return false;
+    }
+
+    var togglePromoLabel = function (option) {
+        var isPromo = state[option].IsPromo;
+        if (isPromo) {
+            if ($('#' + option + 'Promo').is('.hidden')) {
+                $('#' + option + 'Promo').removeClass('hidden');
+            }
+        } else {
+            if (!$('#' + option + 'Promo').is('.hidden')) {
+                $('#' + option + 'Promo').addClass('hidden');
+            }
+        }
     }
 
     $(document).ready(function () {
@@ -147,7 +174,9 @@
         hide: hideRateCardBlock,
         show: showRateCardBlock,
         toggle: toggleRateCardBlock,
-        highlightCard: highlightCard
+        highlightCard: highlightCard,
+        togglePromoLabel: togglePromoLabel,
+        highlightCardBySelector: highlightCardBySelector
     };
 });
 
