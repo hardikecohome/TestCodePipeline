@@ -867,7 +867,7 @@ namespace DealnetPortal.Api.Integration.Services
                     account.ClientId = c.AccountId;
                 } 
                 
-                account.UDFs = GetCustomerUdfs(c, location, portalDescriber).ToList();                
+                account.UDFs = GetCustomerUdfs(c, location, portalDescriber, contract.HomeOwners?.Any(hw => hw.Id == c.Id)).ToList();                
 
                 if (!string.IsNullOrEmpty(role))
                 {
@@ -1201,7 +1201,7 @@ namespace DealnetPortal.Api.Integration.Services
             return udfList;
         }
 
-        private IList<UDF> GetCustomerUdfs(Domain.Customer customer, Location mainLocation, string portalDescriber)
+        private IList<UDF> GetCustomerUdfs(Domain.Customer customer, Location mainLocation, string portalDescriber, bool? isHomeOwner = null)
         {
             var udfList = new List<UDF>();
             if (!string.IsNullOrEmpty(portalDescriber))
@@ -1341,6 +1341,15 @@ namespace DealnetPortal.Api.Integration.Services
                         Name = AspireUdfFields.MailingAddressCountry,
                         Value = AspireUdfFields.DefaultAddressCountry
                     },
+                });
+            }
+
+            if (isHomeOwner.HasValue)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.HomeOwner,
+                    Value = isHomeOwner == true ? "Y" : "N"
                 });
             }
 

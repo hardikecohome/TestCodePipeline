@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -80,6 +81,11 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         //try to submit deal in Aspire
                         await _aspireService.SendDealUDFs(contractResult.Item1.Id, contractOwnerId);
+                        //send only if HIT or Preffered start date are known
+                        //if (contractResult.Item1.Equipment?.PreferredStartDate != null || contractResult.Item1.Equipment?.NewEquipment?.Any() == true)
+                        //{
+                        //    await _aspireService.SendDealUDFs(contractResult.Item1.Id, contractOwnerId);
+                        //}                                                                            
                     }
                     catch (Exception ex)
                     {
@@ -96,7 +102,9 @@ namespace DealnetPortal.Api.Integration.Services
                 }
 
                 //select any of newly created contracts for create a new user in Customer Wallet portal
-                var succededContracts = contractsResultList.Where(r => r.Item1 != null && r.Item1.ContractState >= ContractState.CreditContirmed).Select(r => r.Item1).ToList();
+                var creditReviewStates = ConfigurationManager.AppSettings["CreditReviewStatus"]?.Split(',').Select(s => s.Trim()).ToArray();
+                var succededContracts = contractsResultList.Where(r => r.Item1 != null && r.Item1.ContractState >= ContractState.CreditContirmed
+                                                                && creditReviewStates?.Contains(r.Item1?.Details?.Status) != true).Select(r => r.Item1).ToList();
                 var succededContract = succededContracts.FirstOrDefault();
                 if (succededContract != null)
                 {
@@ -149,6 +157,13 @@ namespace DealnetPortal.Api.Integration.Services
                     });
 
                 var contractDTO = Mapper.Map<ContractDTO>(succededContract ?? contractsResultList?.FirstOrDefault()?.Item1);
+                if (contractDTO != null)
+                {                    
+                    if (creditReviewStates?.Any() == true && !string.IsNullOrEmpty(contractDTO?.Details?.Status))
+                    {
+                        contractDTO.OnCreditReview = creditReviewStates.Contains(contractDTO.Details.Status);
+                    }
+                }
                 return new Tuple<ContractDTO, IList<Alert>>(contractDTO, creditCheckAlerts);
             }
             catch (Exception ex)
