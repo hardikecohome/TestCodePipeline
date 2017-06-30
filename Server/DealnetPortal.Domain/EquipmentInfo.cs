@@ -37,6 +37,8 @@ namespace DealnetPortal.Domain
         
         public string Notes { get; set; }
 
+        public DateTime? PreferredStartDate { get; set; }
+
         public DateTime? EstimatedInstallationDate { get; set; }
 
         public DateTime? InstallationDate { get; set; }
@@ -48,5 +50,7 @@ namespace DealnetPortal.Domain
         public int? RateCardId { get; set; }
 
         public Contract Contract { get; set; }
+
+        public double? DealerCost { get; set; }
     }
 }

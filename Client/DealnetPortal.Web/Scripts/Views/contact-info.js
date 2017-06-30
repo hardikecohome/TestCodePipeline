@@ -18,6 +18,15 @@
             dispatch(createAction(customerActions.SET_CELL_PHONE, e.target.value));
         });
 
+        var businessPhone = $('#businessPhone');
+        businessPhone.on('change', function (e) {
+            dispatch(createAction(customerActions.SET_BUSINESS_PHONE, e.target.value));
+        });
+
+        phone.on('change', function (e) {
+            dispatch(createAction(customerActions.SET_PHONE, e.target.value));
+        });
+
         var comment = $('#comment');
         comment.on('change', function (e) {
             dispatch(createAction(customerActions.SET_COMMENT, e.target.value));

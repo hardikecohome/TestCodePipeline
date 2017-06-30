@@ -46,6 +46,7 @@ namespace DealnetPortal.Web
                     "~/Scripts/svgxuse.min.js",
                     "~/Scripts/jquery.loader.js",
                     "~/Scripts/slick.min.js",
+                    "~/Scripts/jquery.jcarousel.min.js",
                     "~/Scripts/layout.js", 
                     "~/Scripts/jquery-ui-1.12.0.js"));
 
@@ -118,6 +119,14 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/jquery.form.js")
                 .Include("~/Scripts/print-contract.js")
                 .Include("~/Scripts/agreement-submit-success.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/my-customers")
+                .Include("~/Scripts/datejs.js")
+                .Include("~/Scripts/my-customers.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/leads")
+                .Include("~/Scripts/datejs.js")
+                .Include("~/Scripts/leads.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/my-deals")
                 .Include("~/Scripts/datejs.js")
@@ -214,6 +223,7 @@ namespace DealnetPortal.Web
                     "~/Scripts/Utils/logMiddleware.js",
                     "~/Scripts/Utils/objectUtils.js",
                     "~/Scripts/Utils/redux.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/my-profile")
                 .Include("~/Scripts/jquery.form.js")
                 .Include("~/Scripts/Modules/index.js")
@@ -242,6 +252,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/Pages/newEquipment/custom-rate-card.js")
                 .Include("~/Scripts/Pages/newEquipment/index.js")
                 .Include("~/Scripts/Pages/newEquipment/state.js")
+                .Include("~/Scripts/Pages/newEquipment/rate-cards-init.js")
             );
 
             bundles.Add(new ScriptBundle("~/bundles/additional-equipment-information")

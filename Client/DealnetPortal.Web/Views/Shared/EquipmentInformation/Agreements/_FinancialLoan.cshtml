@@ -1,14 +1,52 @@
 ﻿@using DealnetPortal.Api.Common.Enumeration
 
-<div class="rate-cards-container rate-card-grid row loan-element" id="rateCardsBlock">
-  @if (ViewBag.CardTypes != null)
-  {
-    foreach (var rateCard in (List<RateCardType>) ViewBag.CardTypes)
-    {
-      @Html.Partial("EquipmentInformation/_" + rateCard, rateCard)
-    }
-  }
+<div class="rate-cards-container rate-card-grid row loan-element hidden" id="paymentInfo">
+  <div class="col-md-6">
+    <div class="row form-group">
+      <div class="col-sm-6">Loan/Amortization Term</div>
+      <div class="col-sm-6 text-right text-semibold">
+        <span id="displayLoanAmortTerm">-</span>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-sm-6">Customer Rate</div>
+      <div class="col-sm-6 text-right text-semibold">
+        <span id="displayCustomerRate">-</span> %
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-sm-6">Total Amount Financed</div>
+      <div class="col-sm-6 text-right text-semibold">
+        <span id="displayTFinanced">-</span>
+      </div>
+    </div>
+    <div class="row form-group monthly-payment-row">
+      <div class="col-sm-6 text-semibold">Monthly Payment</div>
+      <div class="col-sm-6 text-right text-semibold">
+        <span id="displayMPayment">-</span>
+      </div>
+    </div>
+  </div>
+</div>
 
-  @Html.Partial("EquipmentInformation/_CustomRateCard")
-
+<div class="rate-cards-padding">
+  <div class="jcarousel-wrapper rate-cards-container steps-carousel" id="rateCardsBlock">
+    <div class="jcarousel">
+      <ul>
+        @if (ViewBag.CardTypes != null)
+        {
+        foreach (var rateCard in (List<RateCardType>) ViewBag.CardTypes)
+        {
+        @Html.Partial("EquipmentInformation/_" + rateCard, rateCard)
+        }
+        }
+        @Html.Partial("EquipmentInformation/_CustomRateCard")
+      </ul>
+      <div class="jcarousel-controls">
+        <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
+        <p class="jcarousel-pagination"></p>
+        <a href="#" class="jcarousel-control-next">&rsaquo;</a>
+      </div>
+    </div>
+  </div>
 </div>

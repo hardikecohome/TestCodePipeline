@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
+using DealnetPortal.Api.Core.Constants;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Domain;
 using Microsoft.Practices.ObjectBuilder2;
@@ -59,14 +60,16 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public IList<Contract> GetDealerLeads(string userId)
         {
-            var creditReviewStates = ConfigurationManager.AppSettings["CreditReviewStatus"] != null
-                ? ConfigurationManager.AppSettings["CreditReviewStatus"].Split(',').Select(s => s.Trim()).ToArray()
-                : new string[] {"20-Credit Review"};
-            //var aspireCreditReviewState = ConfigurationManager.AppSettings["CreditReviewStatus"] ?? "20-Credit Review";
+            var creditReviewStates = ConfigurationManager.AppSettings[WebConfigKeys.CREDIT_REVIEW_STATUS_CONFIG_KEY].Split(',').Select(s => s.Trim()).ToArray();
+            
             var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
             var dealerProfile = _dbContext.DealerProfiles.FirstOrDefault(p => p.DealerId == userId);
             var eqList = dealerProfile?.Equipments.Select(e => e.Equipment.Type);
             var pcList = dealerProfile?.Areas.Select(e => e.PostalCode);
+            if (eqList?.FirstOrDefault() == null || pcList?.FirstOrDefault() == null)
+            {
+                return new List<Contract>();
+            }
             var contracts = _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
@@ -88,8 +91,10 @@ namespace DealnetPortal.DataAccess.Repositories
             }
             if (pcList!=null && pcList.Any())
             {
-                contracts = contracts.Where(c => pcList.Any(pc => 
-                    c.PrimaryCustomer.Locations?.FirstOrDefault(x => x.AddressType == AddressType.InstallationAddress)?.PostalCode.Contains(pc) ?? false)).ToList();
+                contracts = contracts.Where(c => pcList.Any(pc => c.PrimaryCustomer.Locations.FirstOrDefault(x => x.AddressType == AddressType.InstallationAddress).PostalCode.Length >= pc.Length &&
+                c.PrimaryCustomer.Locations.FirstOrDefault(x => x.AddressType == AddressType.InstallationAddress).PostalCode.Substring(0, pc.Length) == pc)).ToList();
+                //contracts = contracts.Where(c => pcList.Any(pc => 
+                //    c.PrimaryCustomer.Locations?.FirstOrDefault(x => x.AddressType == AddressType.InstallationAddress)?.PostalCode.Contains(pc) ?? false)).ToList();
             }
              
             return contracts;
@@ -225,6 +230,7 @@ namespace DealnetPortal.DataAccess.Repositories
                .Include(c => c.PrimaryCustomer.Locations)
                .FirstOrDefault(x => x.Id == contractId);            
 
+            //Change installation address to main address, and main to previous
             if (contract != null)
             {
                 if (contract.IsCreatedByBroker == true || contract.IsCreatedByCustomer == true)
@@ -233,8 +239,13 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         var mainLoc = contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress);
                         if (mainLoc != null)
-                        {
-                            _dbContext.Entry(mainLoc).State = EntityState.Deleted;                                                        
+                        {                            
+                            var prevAddress = contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.PreviousAddress);
+                            if (prevAddress != null)
+                            {
+                                _dbContext.Entry(prevAddress).State = EntityState.Deleted;
+                            }
+                            mainLoc.AddressType = AddressType.PreviousAddress;
                         }
                         //?
                         var installLoc = contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress);
@@ -791,17 +802,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public bool IsContractUnassignable(int contractId)
         {
-            var creditReviewStates = ConfigurationManager.AppSettings["CreditReviewStatus"] != null
-                ? ConfigurationManager.AppSettings["CreditReviewStatus"].Split(',').Select(s => s.Trim()).ToArray()
-                : new string[] { "20-Credit Review" };
-            var mortgageBrokerRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.MortgageBroker.ToString())?.Id;
-            var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
-
-            if (_dbContext.Users.Any(u => u.DealerProfileId == null &&
-            !u.Roles.Select(r => r.RoleId).ToList().Contains(mortgageBrokerRoleId.ToString()) &&
-            !u.Roles.Select(r => r.RoleId).ToList().Contains(contractCreatorRoleId.ToString()) &&
-            !string.IsNullOrEmpty(u.AspireLogin)))
-                return false;
+            var creditReviewStates =ConfigurationManager.AppSettings[WebConfigKeys.CREDIT_REVIEW_STATUS_CONFIG_KEY].Split(',').Select(s => s.Trim()).ToArray();
 
             var contract = _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)
@@ -818,8 +819,8 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 return false;
             }
-            var contractEquipment = contract?.Equipment?.NewEquipment.Select(e => e.Type).FirstOrDefault();
-            var contractPostalCode = contract?.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress)?.PostalCode;
+            var contractEquipment = contract.Equipment?.NewEquipment.Select(e => e.Type).FirstOrDefault();
+            var contractPostalCode = contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress)?.PostalCode;
             return !_dbContext.DealerProfiles.Any(dp => dp.Equipments.Any(e => e.Equipment.Type == contractEquipment)
                                                         && dp.Areas.Any(a => a.PostalCode.Length <= contractPostalCode.Length &&
                                                             contractPostalCode.Substring(0, a.PostalCode.Length) == a.PostalCode));
@@ -868,13 +869,14 @@ namespace DealnetPortal.DataAccess.Repositories
                 equipmentInfo.Contract = contract;
                 equipmentInfo.ExistingEquipment = dbEquipment.ExistingEquipment;
                 equipmentInfo.NewEquipment = dbEquipment.NewEquipment;
+
                 if (string.IsNullOrEmpty(equipmentInfo.SalesRep))
                 {
                     equipmentInfo.SalesRep = dbEquipment.SalesRep;
                 }
-                if (equipmentInfo.AgreementType == AgreementType.LoanApplication)
+                if (equipmentInfo.DownPayment == null)
                 {
-                    equipmentInfo.AgreementType = dbEquipment.AgreementType;
+                    equipmentInfo.DownPayment = dbEquipment.DownPayment;
                 }
                 if (equipmentInfo.CustomerRate == null)
                 {
@@ -904,10 +906,6 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     equipmentInfo.AdminFee = dbEquipment.AdminFee;
                 }
-                if (equipmentInfo.DownPayment == null)
-                {
-                    equipmentInfo.DownPayment = dbEquipment.DownPayment;
-                }
                 if (equipmentInfo.ValueOfDeal == null)
                 {
                     equipmentInfo.ValueOfDeal = dbEquipment.ValueOfDeal;
@@ -931,6 +929,14 @@ namespace DealnetPortal.DataAccess.Repositories
                 if (!equipmentInfo.RateCardId.HasValue)
                 {
                     equipmentInfo.RateCardId = dbEquipment.RateCardId;
+                }
+                if (!equipmentInfo.DealerCost.HasValue)
+                {
+                    equipmentInfo.DealerCost = dbEquipment.DealerCost;
+                }
+                if (!equipmentInfo.PreferredStartDate.HasValue)
+                {
+                    equipmentInfo.PreferredStartDate = dbEquipment.PreferredStartDate;
                 }
 
                 _dbContext.EquipmentInfo.AddOrUpdate(equipmentInfo);

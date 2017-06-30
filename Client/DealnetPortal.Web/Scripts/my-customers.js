@@ -127,6 +127,8 @@ function assignDatepicker(input) {
         yearRange: '1900:' + new Date().getFullYear(),
         minDate: Date.parse("1900-01-01"),
         maxDate: new Date(),
+        showButtonPanel: true,
+        closeText: translations['Cancel'],
         onClose: function () {
             onDateSelect($(this));
         }

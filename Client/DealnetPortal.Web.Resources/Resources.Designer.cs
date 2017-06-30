@@ -106,6 +106,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to By submitting this application, you acknowledge and agree that EcoHome Financial is authorized to obtain your credit report from one or more consumer credit reporting agencies (e.g. Equifax or TransUnion), to verify the information in your credit report with third parties as necessary, and to periodically update your credit information with credit reporting agencies. You are hereby notified that a consumer report containing credit and/or personal information may be referred to in connection with this applic [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string AcknowledgeAndAgreementObtainCreditReport {
+            get {
+                return ResourceManager.GetString("AcknowledgeAndAgreementObtainCreditReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Action Req..
         /// </summary>
         public static string ActionReq {
@@ -232,7 +241,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Additional Applicant is home owner..
+        ///   Looks up a localized string similar to Additional Applicant is a home owner.
         /// </summary>
         public static string AdditionalIsHomeOwner {
             get {
@@ -646,7 +655,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Borrower is home owner..
+        ///   Looks up a localized string similar to Borrower is a home owner.
         /// </summary>
         public static string BorrowerIsHomeOwner {
             get {
@@ -732,6 +741,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} cannot be longer than {1}..
+        /// </summary>
+        public static string CannotBeLongerThan {
+            get {
+                return ResourceManager.GetString("CannotBeLongerThan", resourceCulture);
             }
         }
         
@@ -1042,6 +1060,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to By checking this box, you consent to receive commercial electronic messages from EcoHome Financial at your email address and telephone number(s) provided by you in this application or from time to time in connection with your account, including electronic communications that market or promote our programs, products, services, offers, events and surveys that may be of interest to you. You may withdraw this consent at any time. You may contact EcoHome Financial Inc. at 325 Milner Avenue, Suite 300, Toronto, O [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string ConsentToReceiveCommercialElectronicMessages {
+            get {
+                return ResourceManager.GetString("ConsentToReceiveCommercialElectronicMessages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contact and Payment Information.
         /// </summary>
         public static string ContactAndPaymentInfo {
@@ -1254,6 +1281,15 @@ namespace DealnetPortal.Web.Resources {
         public static string CustomerComment {
             get {
                 return ResourceManager.GetString("CustomerComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customer Rate or Your Cost is Required.
+        /// </summary>
+        public static string CustomerOrYourCostRequired {
+            get {
+                return ResourceManager.GetString("CustomerOrYourCostRequired", resourceCulture);
             }
         }
         
@@ -1654,6 +1690,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to English.
+        /// </summary>
+        public static string English {
+            get {
+                return ResourceManager.GetString("English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter a valid date!.
         /// </summary>
         public static string EnterValidDate {
@@ -1906,6 +1951,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to French.
+        /// </summary>
+        public static string French {
+            get {
+                return ResourceManager.GetString("French", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Funding Checklist.
         /// </summary>
         public static string FundingChecklist {
@@ -2091,6 +2145,15 @@ namespace DealnetPortal.Web.Resources {
         public static string HouseSizeSquareFeet {
             get {
                 return ResourceManager.GetString("HouseSizeSquareFeet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How is my personal data used?.
+        /// </summary>
+        public static string HowIsMyPersonalDataUsed {
+            get {
+                return ResourceManager.GetString("HowIsMyPersonalDataUsed", resourceCulture);
             }
         }
         
@@ -2338,6 +2401,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please configure your profile in order to view leads.
+        /// </summary>
+        public static string LeadsNoMatchingRecordsFound {
+            get {
+                return ResourceManager.GetString("LeadsNoMatchingRecordsFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Selected lead was accepted by you. You can find it in {0} page (application #  {1})..
         /// </summary>
         public static string LeadWasAcceptedYouCanFind {
@@ -2577,6 +2649,15 @@ namespace DealnetPortal.Web.Resources {
         public static string MonthlyPayment {
             get {
                 return ResourceManager.GetString("MonthlyPayment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Months.
+        /// </summary>
+        public static string Months {
+            get {
+                return ResourceManager.GetString("Months", resourceCulture);
             }
         }
         
@@ -2995,6 +3076,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter at least 0..
+        /// </summary>
+        public static string PleaseEnterAtLeastZero {
+            get {
+                return ResourceManager.GetString("PleaseEnterAtLeastZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter emails of applicants below and click Send Emails..
         /// </summary>
         public static string PleaseEnterEmailsAndClickSend {
@@ -3126,6 +3216,15 @@ namespace DealnetPortal.Web.Resources {
         public static string PrintTheContract {
             get {
                 return ResourceManager.GetString("PrintTheContract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Privacy policy.
+        /// </summary>
+        public static string PrivacyPolicy {
+            get {
+                return ResourceManager.GetString("PrivacyPolicy", resourceCulture);
             }
         }
         
@@ -4314,6 +4413,24 @@ namespace DealnetPortal.Web.Resources {
         public static string YourInformation {
             get {
                 return ResourceManager.GetString("YourInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your Rate.
+        /// </summary>
+        public static string YourRate {
+            get {
+                return ResourceManager.GetString("YourRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your Rate is in incorrect format.
+        /// </summary>
+        public static string YourRateIncorrectFormat {
+            get {
+                return ResourceManager.GetString("YourRateIncorrectFormat", resourceCulture);
             }
         }
         

@@ -54,7 +54,8 @@ function showTable() {
                             "sPrevious": '<i class="glyphicon glyphicon-menu-left"></i>'
                         },
                         "sLengthMenu": translations['Show'] + " _MENU_ " + translations['Entries'],
-                        "sZeroRecords": translations['NoMatchingRecordsFound']
+                        "sZeroRecords": translations['NoMatchingRecordsFound'],
+                        "sEmptyTable": isCompletedProfile  ? translations['NoMatchingRecordsFound'] : translations['LeadsNoMatchingRecordsFound']
                     },
                     columns: [
 					    { "data": "Date", className: 'date-cell expanded-cell' },
@@ -95,7 +96,7 @@ function showTable() {
             });
             $('#expand-table-filter').html($('.expand-filter-template').detach());
             $('.filter-button').click(function () {
-                table.draw(false);
+                table.draw();
             });
             table.on('draw.dt', function () {
                 redrawDataTablesSvgIcons();
@@ -147,6 +148,8 @@ function assignDatepicker(input) {
         yearRange: '1900:' + new Date().getFullYear(),
         minDate: Date.parse("1900-01-01"),
         maxDate: new Date(),
+        showButtonPanel: true,
+        closeText: translations['Cancel'],
         onClose: function () {
             onDateSelect($(this));
         }

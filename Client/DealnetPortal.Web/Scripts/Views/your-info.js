@@ -15,6 +15,8 @@
             yearRange: '1900:' + (new Date().getFullYear() - 18),
             minDate: Date.parse("1900-01-01"),
             maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
+            showButtonPanel: true,
+            closeText: translations['Cancel'],
             onSelect: function (day) {
                 dispatch(createAction(customerActions.SET_BIRTH, day));
             },
@@ -30,6 +32,7 @@
         lastName.on('change', function (e) {
             dispatch(createAction(customerActions.SET_LAST, e.target.value));
         });
+
         $('#sin').on('change', function (e) {
             dispatch(createAction(customerActions.SET_SIN, e.target.value));
         });
@@ -37,7 +40,7 @@
         var initialStateMap = {
             name: name,
             lastName: lastName,
-            birthday: birth,
+            birthday: birth
         };
 
         dispatch(createAction(customerActions.SET_INITIAL_STATE, readInitialStateFromFields(initialStateMap)));

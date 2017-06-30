@@ -3,45 +3,55 @@
 
 @for (var i = 0; i < Model.NewEquipment.Count; i++)
 {
-<div id="new-equipment-@(i)" class="new-equipment new-equipment-wrap">
-    @Html.HiddenFor(m => m.NewEquipment[i].Id)
-    <div  class="dealnet-middle-header equipment-number-header">
-        <span class="equipment-number">№@(i + 1)</span>
-        @if (i > 0)
-        {
-            <div class="additional-remove">
-                <i class="glyphicon glyphicon-remove"></i>
-            </div>
-        }
-    </div>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-                @Html.LabelFor(m => m.NewEquipment[i].Type)
-                @Html.DropDownListFor(m => m.NewEquipment[i].Type,
-                    ((IList<EquipmentTypeDTO>) ViewBag.EquipmentTypes).Select(x => new SelectListItem {Value = x.Type, Text = x.Description, Selected = Model?.NewEquipment != null && Model.NewEquipment[i]?.Type == x.Type}),
-                    new {@class = "form-control"})
-            </div>
+    <div id="new-equipment-@(i)" class="new-equipment new-equipment-wrap">
+        @Html.HiddenFor(m => m.NewEquipment[i].Id)
+        <div class="dealnet-middle-header equipment-number-header">
+            <span class="equipment-number">№@(i + 1)</span>
+            @if (i > 0)
+            {
+                <div class="additional-remove" id="addequipment-remove-@(i)">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </div>
+            }
         </div>
-        <div class="col-xs-12 col-md-6">
-            <div class="form-group">
-                @Html.LabelFor(m => m.NewEquipment[i].Description)
-                <div class="control-group">
-                    @Html.TextBoxFor(m => m.NewEquipment[i].Description, new {@class = "form-control dealnet-input", placeholder = Resources.Description})
-                    @Html.ValidationMessageFor(m => m.NewEquipment[i].Description, "", new {@class = "text-danger"})
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.NewEquipment[i].Type)
+                    @Html.DropDownListFor(m => m.NewEquipment[i].Type,
+                    ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description, Selected = Model?.NewEquipment != null && Model.NewEquipment[i]?.Type == x.Type }),
+                    new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.NewEquipment[i].Description)
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.NewEquipment[i].Description, new { @class = "form-control dealnet-input", placeholder = Resources.Description })
+                        @Html.ValidationMessageFor(m => m.NewEquipment[i].Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-xs-12 equipment-cost-col">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.NewEquipment[i].Cost)
+                    <div class="control-group has-addon-left">
+                        <div class="control-group-addon">$</div>
+                        @Html.TextBoxFor(m => m.NewEquipment[i].Cost, new { @class = "form-control dealnet-input equipment-cost", type = "text", placeholder = Resources.Cost })
+                        @Html.ValidationMessageFor(m => m.NewEquipment[i].Cost, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-xs-12 monthly-cost-col">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.NewEquipment[i].MonthlyCost)
+                    <div class="control-group has-addon-left">
+                        <div class="control-group-addon">$</div>
+                        @Html.TextBoxFor(m => m.NewEquipment[i].MonthlyCost, new { @class = "form-control dealnet-input monthly-cost", type = "text", placeholder = Resources.MonthlyCost })
+                        @Html.ValidationMessageFor(m => m.NewEquipment[i].MonthlyCost, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                @Html.LabelFor(m => m.NewEquipment[i].Cost)
-                <div class="control-group has-addon-left">
-                    <div class="control-group-addon">$</div>
-                    @Html.TextBoxFor(m => m.NewEquipment[i].Cost, new {@class = "form-control dealnet-input equipment-cost", type = "text", placeholder = Resources.Cost })
-                    @Html.ValidationMessageFor(m => m.NewEquipment[i].Cost, "", new {@class = "text-danger"})
-                </div>
-            </div>
-        </div>
     </div>
-</div>
 }

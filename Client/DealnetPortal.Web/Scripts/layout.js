@@ -67,17 +67,6 @@
       }
     });
 
-    $('body.ios-device').on('touchend', function (event) {
-      if ($('#ui-datepicker-div').is(":visible") && $(event.target).parents('.ui-datepicker, .ui-datepicker-header').length == 0) {
-        if ($(event.target).children('input.acrive-datePicker-input').length === 0) {
-          $('#ui-datepicker-div').hide();
-          $('.acrive-datePicker-input').blur();
-          $('.acrive-datePicker-input').removeAttr('readonly');
-          $('.acrive-datePicker-input').removeClass('acrive-datePicker-input');
-        }
-      }
-    });
-
     //Apply function placeholder for ie browsers
     $("input, textarea").placeholder();
 
@@ -85,6 +74,11 @@
       .parents('.dealnet-sidebar-item')
       .addClass('dealnet-sidebar-item-selected');
 
+      // NewApplication has multiple steps with different window.location.pathname,
+      // but New Application navigation should be active on each step.
+    if (window.location.pathname.indexOf('NewApplication') !== -1) {
+        $('#sidebar-item-newrental').addClass('dealnet-sidebar-item-selected');
+    }
 
     $(document).on('show.bs.modal', function () {
       saveScrollPosition();
@@ -243,6 +237,16 @@
         }
       });
     }
+
+    $('.j-personal-data-used-modal').on('click', function(e){
+      var data = {
+        message: $('#personal-data-used').html(),
+        class: "consents-modal",
+        cancelBtnText: "OK"
+      };
+      dynamicAlertModal(data);
+      e.preventDefault();
+    });
 
 
     addIconsToFields();
@@ -482,23 +486,13 @@ input.on('focus', function(){
     if(!navigator.userAgent.match(/(iPod|iPhone|iPad)/)){
       $(this).blur()
         .addClass('focus');
-    } else {
-        if (!$(this).hasClass('acrive-datePicker-input')) {
-            $(this).addClass('acrive-datePicker-input');
-            $(this).attr('readonly', 'readonly');
-            if (!$('#ui-datepicker-div').is(':visible')) {
-                $('#ui-datepicker-div').show();
-            }
-        }
     }
   });
 }
 
 function onDateSelect(input){
   input
-    .removeClass('focus')
-    .removeClass('acrive-datePicker-input')
-    .removeAttr('readonly', 'readonly');
+    .removeClass('focus');
   $('body').removeClass('bodyHasDatepicker');
 }
 
@@ -527,8 +521,9 @@ function dynamicAlertModal(obj){
   var classes = obj.class ? obj.class : '';
   var alertModal = $('#alertModal');
   alertModal.find('.modal-body p').html(obj.message);
-  alertModal.find('.modal-title').html(obj.title);
+  alertModal.find('.modal-title').html(obj.title ? obj.title : '');
   alertModal.find('#confirmAlert').html(obj.confirmBtnText);
+  alertModal.find('.modal-footer button[data-dismiss="modal"]').html(obj.cancelBtnText);
   alertModal.addClass(classes);
   alertModal.modal('show');
 }

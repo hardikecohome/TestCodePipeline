@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using DealnetPortal.Api.Core.Constants;
 
 namespace DealnetPortal.Api.Helpers
 {
@@ -13,7 +14,7 @@ namespace DealnetPortal.Api.Helpers
     {
         public static async Task<string> GeneratePasswordAsync()
         {
-            var length = Convert.ToInt32(ConfigurationManager.AppSettings["SecurityHelper.RandomPasswordLength"]);
+            var length = Convert.ToInt32(ConfigurationManager.AppSettings[WebConfigKeys.ES_SMTPPASSLENGTH_CONFIG_KEY]);
             const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+\\/.,?|{}[]=";
             var res = new StringBuilder();
             var rnd = new Random();

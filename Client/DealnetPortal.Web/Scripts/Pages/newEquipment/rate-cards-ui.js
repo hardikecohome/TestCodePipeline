@@ -1,24 +1,37 @@
-﻿module.exports('rate-cards-ui', function () {
+﻿module.exports('rate-cards-ui', function (require) {
+
+    var state = require('state').state;
 
     var showRateCardBlock = function () {
-        $('#rateCardsBlock').show('slow',
-            function () {
-                $('#loanRateCardToggle').find('i.glyphicon')
-                    .removeClass('glyphicon-chevron-right')
-                    .addClass('glyphicon-chevron-down');
-            });
+        $('#rateCardsBlock').addClass('opened')
+                            .removeClass('closed');
+
+        $('#loanRateCardToggle').find('i.glyphicon')
+          .removeClass('glyphicon-chevron-down')
+          .addClass('glyphicon-chevron-up');
+
+
+        if (!$('#paymentInfo').hasClass('hidden')) {
+            $('#paymentInfo').css('display', 'none');
+            $('#paymentInfo').addClass('hidden');
+        }
     }
 
     var hideRateCardBlock = function () {
-        $('#rateCardsBlock').hide('slow',
-            function () {
-                $('#loanRateCardToggle').find('i.glyphicon')
-                    .removeClass('glyphicon-chevron-down')
-                    .addClass('glyphicon-chevron-right');
-            });
+        $('#rateCardsBlock').removeClass('opened')
+                            .addClass('closed');
+
+        $('#loanRateCardToggle').find('i.glyphicon')
+          .removeClass('glyphicon-chevron-up')
+          .addClass('glyphicon-chevron-down');
+
+        if ($('#paymentInfo').hasClass('hidden')) {
+            $('#paymentInfo').css('display', 'block');
+            $('#paymentInfo').removeClass('hidden');
+        }
     }
 
-    var toggleRateCardBlock = function(isOpenCondition) {
+    var toggleRateCardBlock = function (isOpenCondition) {
         isOpenCondition === true ? showRateCardBlock() : hideRateCardBlock();
     }
 
@@ -32,6 +45,36 @@
         row.height(maxHeight);
     }
 
+    var updateEquipmentCosts = function (agreementType) {
+        if (agreementType === "Loan") {
+            $(".equipment-cost").each(function () {
+                var input = $(this);
+                input.prop("disabled", false).parents('.equipment-cost-col').show();
+                input[0].form && input.rules("add", "required");
+            });
+            $(".monthly-cost").each(function () {
+                var input = $(this);
+                input.prop("disabled", true).parents('.monthly-cost-col').hide();
+                input[0].form && input.rules("remove", "required");
+                input.removeClass('input-validation-error');
+                input.next('.text-danger').empty();
+            });
+        } else {
+            $(".equipment-cost").each(function () {
+                var input = $(this);
+                input.prop("disabled", true).parents('.equipment-cost-col').hide();
+                input[0].form && input.rules("remove", "required");
+                input.removeClass('input-validation-error');
+                input.next('.text-danger').empty();
+            });
+            $(".monthly-cost").each(function () {
+                var input = $(this);
+                input.prop("disabled", false).parents('.monthly-cost-col').show();
+                input[0].form && input.rules("add", "required");
+            });
+        }
+    }
+
     var setHeight = function() {
         setEqualHeightRows($(".equal-height-row-1"));
         setEqualHeightRows($(".equal-height-row-2"));
@@ -40,81 +83,89 @@
     }
 
     var onAgreemntSelect = function () {
-        if ($(this).find("option:selected").text() === "Loan") {
+        var agreementType = $(this).find("option:selected").text();
+        if (agreementType === "Loan") {
             //If loan is chosen
             setHeight();
-
             if (!$("#submit").hasClass('disabled') && $('#rateCardsBlock').find('div.checked').length === 0) {
-                $('#submit').addClass('disabled');
+                if (!onlyCustomCard) {
+                    $('#submit').addClass('disabled');
+                    $('#submit').parent().popover();
+                }
             }
 
-            $('#loanRateCardToggle').show();
+            $('#loanRateCardToggle, .loan-element, .downpayment-row').show();
             $('.rental-element').hide();
-            $('.loan-element').show();
+
+            if (onlyCustomCard || $('#rateCardsBlock').find('div.checked').length) {
+                $('#paymentInfo').show();
+            } else {
+                $('#rateCardsBlock').addClass('opened')
+                  .removeClass('closed');
+            }
         } else {
             //If rental is chosen
             if ($("#submit").hasClass('disabled')) {
                 $('#submit').removeClass('disabled');
+                $('#submit').parent().popover('destroy');
             }
             setHeight();
-            $('#loanRateCardToggle').hide();
             $('.rental-element').show();
-            $('.loan-element').hide();
+            $('#loanRateCardToggle, .loan-element, .downpayment-row, #paymentInfo').hide();
+            $('#rateCardsBlock').removeClass('opened').addClass('closed');
         }
+        updateEquipmentCosts(agreementType);
     }
 
-    var slickRateCards = function() {
-        if (viewport().width <= 1023) {
-            $('.rate-cards-container').not('.slick-initialized').not('.one-rate-card').slick({
-                infinite: false,
-                dots: true,
-                speed: 300,
-                slidesToShow: 4,
-                slidesToScroll: 4,
-                responsive: [
-                    {
-                        breakpoint: 1024,
-                        settings: {
-                            slidesToShow: 2,
-                            slidesToScroll: 2,
-                            infinite: false
-                        }
-                    },
-                    {
-                        breakpoint: 768,
-                        settings: {
-                            slidesToShow: 1,
-                            slidesToScroll: 1,
-                            infinite: false
-                        }
-                    }
-                ]
-            });
-        } else {
-            if ($('.rate-cards-container').is('.slick-initialized')) {
-                $('.rate-cards-container').slick("unslick");
-            }
+    var highlightCardBySelector = function (selector) {
+        if (!onlyCustomCard) {
+            $(selector).parents('.rate-card')
+                .addClass('checked')
+                .parents('li')
+                .siblings()
+                .find('div')
+                .removeClass('checked');
         }
+        return false;
     }
 
-    var highlightCard = function() {
-        $(this).parents('.rate-card').addClass('checked').siblings().removeClass('checked');
+    var highlightCard = function () {
+
+        $(this).parents('.rate-card')
+            .addClass('checked')
+            .parents('li')
+            .siblings()
+            .find('div')
+            .removeClass('checked');
 
         return false;
     }
 
+    var togglePromoLabel = function (option) {
+        var isPromo = state[option].IsPromo;
+        if (isPromo) {
+            if ($('#' + option + 'Promo').is('.hidden')) {
+                $('#' + option + 'Promo').removeClass('hidden');
+            }
+        } else {
+            if (!$('#' + option + 'Promo').is('.hidden')) {
+                $('#' + option + 'Promo').addClass('hidden');
+            }
+        }
+    }
+
     $(document).ready(function () {
-        $('#loanRateCardToggle').click(function () {
-            toggleRateCardBlock(!$('#rateCardsBlock').is(':visible'));
-        });
+        if (onlyCustomCard) {
+            $('#rateCardsBlock').addClass('one-rate-card');
+        }
 
         $('#typeOfAgreementSelect').on('change', onAgreemntSelect).change();
 
         setHeight();
-        slickRateCards();
+        carouselRateCards();
 
         $(window).resize(function () {
-            slickRateCards();
+            carouselRateCards();
             setHeight();
         });
     });
@@ -123,6 +174,90 @@
         hide: hideRateCardBlock,
         show: showRateCardBlock,
         toggle: toggleRateCardBlock,
-        highlightCard: highlightCard
+        highlightCard: highlightCard,
+        togglePromoLabel: togglePromoLabel,
+        highlightCardBySelector: highlightCardBySelector
     };
-})
+});
+
+
+function  carouselRateCards(){
+    var windowWidth = $(window).width();
+    var paginationItems;
+    var targetSlides;
+    if (windowWidth >= 1024) {
+        paginationItems = 4;
+        targetSlides = 0;
+    } else if (windowWidth >= 768) {
+        paginationItems = 2;
+        targetSlides = 2;
+    }else {
+        paginationItems = 1;
+        targetSlides = 1;
+    }
+
+    if (onlyCustomCard) {
+        return;
+    }
+
+    var jcarousel = $('.rate-cards-container:not(".one-rate-card") .jcarousel');
+
+    jcarousel
+      .on('jcarousel:reload jcarousel:create', function () {
+          var carousel = $(this),
+            width = carousel.innerWidth(),
+            windowWidth = $(window).width();
+
+          if (windowWidth >= 1024) {
+              width = width / 4;
+          } else if (windowWidth >= 768) {
+              width = width / 2;
+          }else {
+              width = width / 1;
+          }
+
+          carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
+      })
+      .jcarousel();
+
+    $('.jcarousel-control-prev')
+      .jcarouselControl({
+          target: '-='+targetSlides
+      });
+
+    $('.jcarousel-control-next')
+      .jcarouselControl({
+          target: '+='+targetSlides
+      });
+
+    $('.jcarousel-pagination')
+      .on('jcarouselpagination:active', 'a', function() {
+          $(this).addClass('active');
+          if($(this).is(':first-child')){
+              $('.jcarousel-control-prev').addClass('disabled');
+          }else{
+              $('.jcarousel-control-prev').removeClass('disabled');
+          }
+          if($(this).is(':last-child')){
+              $('.jcarousel-control-next').addClass('disabled');
+          }else{
+              $('.jcarousel-control-next').removeClass('disabled');
+          }
+
+      })
+      .on('jcarouselpagination:inactive', 'a', function() {
+          $(this).removeClass('active');
+      })
+      .on('click', function(e) {
+          e.preventDefault();
+      })
+      .jcarouselPagination({
+          perPage: paginationItems,
+          item: function(page) {
+              return '<a href="#' + page + '">' + page + '</a>';
+          }
+      });
+
+
+
+}

@@ -20,9 +20,9 @@ configInitialized
     });
 
     $('#agreement-checkbox1').change(function () {
-        var isValid = checkCreditAgreeAp();
+        var isValid = checkCreditAgree();
         if (isValid) {
-            $('#proceed-error-message1').hide();
+            $('#proceed-error-message').hide();
         }
     });
 
@@ -215,6 +215,8 @@ function assignDatepicker(input) {
         yearRange: '1900:' + (new Date().getFullYear()-18),
         minDate: Date.parse("1900-01-01"),
         maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
+        showButtonPanel: true,
+        closeText: translations['Cancel'],
         onClose: function(){
             onDateSelect($(this));
         }

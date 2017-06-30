@@ -82,6 +82,30 @@
     }
   }
   &.one-rate-card{
+    &.jcarousel-wrapper{
+      margin-left: 0;
+      margin-right: 0;
+      padding-top: 0;
+      .jcarousel{
+        margin: 0 -5px;
+        padding: 5px;
+        width: auto;
+        ul{
+          max-width: 100%;
+          li{
+            display: block;
+            width: 100%;
+            padding: 0;
+          }
+        }
+      }
+    }
+    .jcarousel-controls{
+      display: none;
+    }
+    li:not(:last-child){
+      display: none;
+    }
     .rate-card:not(.shown-card){
       display: none;
     }
@@ -113,7 +137,18 @@
     left: 0;
   }
 }
-
+.financing-options{
+  .dealnet-middle-header{
+    @media @mobile {
+      padding-right: 0 !important;
+    }
+  }
+}
+.financing-arrow{
+  float: right;
+  color: @btn-success-bg;
+  cursor: pointer;
+}
 .rate-card{
   padding: 15px;
   background: #fff;
@@ -214,10 +249,6 @@
   max-width: 770px;
 }
 
-.financing-arrow {
-    color: #61c53c;
-    font-size: 12px;
+div[class*="equal-height-row"]{
+  min-height: 32px;
 }
-.financing-arrow :hover {
-                    cursor: pointer; 
-                 }

@@ -5,72 +5,73 @@
     var deferralSelectList = ((Dictionary<RateCardType, SelectList>) ViewBag.DefferalPeriod).Where(x => x.Key == Model).SelectMany(x => x.Value);
     var amortizationSelectList = ((Dictionary<RateCardType,SelectList>)ViewBag.AmortizationTerm).Where(x => x.Key == Model).SelectMany(x => x.Value);
 }
-
-<div class="rate-card table-mode">
-  <div class="rate-card-header equal-height-row-1">
-    <span class="promo-label hidden" id="DeferralPromo">Promo</span>
-    <h4 class="card-title">DEFERRAL</h4>
-  </div>
-  <hr>
-  <div class="equal-height-row-2">
-    <div class="form-group">
-      <label for="">Loan/Amortization Term</label>
-      @Html.DropDownList(Model + "Amortization", amortizationSelectList, new { @class = "form-control", id = Model + "AmortizationDropdown" })
+<li>
+  <div class="rate-card table-mode">
+    <div class="rate-card-header equal-height-row-1">
+      <span class="promo-label hidden" id="DeferralPromo">Promo</span>
+      <h4 class="card-title">DEFERRAL</h4>
     </div>
-  </div>
-  <div class="equal-height-row-3">
-    <div class="clearfix">
+    <hr>
+    <div class="equal-height-row-2">
       <div class="form-group">
-        <label for="">Deferral Period</label>
-        @Html.DropDownList(Model.ToString().ToLower() + "Deferral", deferralSelectList, new { @class = "form-control", id = "DeferralPeriodDropdown" })
+        <label for="">Loan/Amortization Term</label>
+        @Html.DropDownList(Model + "Amortization", amortizationSelectList, new { @class = "form-control", id = Model + "AmortizationDropdown" })
       </div>
     </div>
+    <div class="equal-height-row-3">
+      <div class="clearfix">
+        <div class="form-group">
+          <label for="">Deferral Period</label>
+          @Html.DropDownList(Model.ToString().ToLower() + "Deferral", deferralSelectList, new { @class = "form-control", id = "DeferralPeriodDropdown" })
+        </div>
+      </div>
+    </div>
+    <div class="equal-height-row-4">
+      <div class="row form-group">
+        <div class="col-xs-6">Customer Rate</div>
+        <div class="col-xs-6 text-right text-semibold" id="DeferralCRate"></div>
+      </div>
+      <div class="row form-group">
+        <div class="col-xs-6">Your Cost</div>
+        <div class="col-xs-6 text-right text-semibold" id="DeferralYCostVal"></div>
+      </div>
+    </div>
+    <hr>
+    <div class="">
+      <div class="row form-group align-middle">
+        <div class="col-xs-6">Admin Fee</div>
+        <div class="col-xs-6 text-right text-semibold" id="DeferralAFee"></div>
+      </div>
+      <div class="row form-group">
+        <div class="col-xs-6">Monthly Payment</div>
+        <div class="col-xs-6 text-right text-semibold" id="DeferralMPayment">-</div>
+      </div>
+      <div class="row form-group">
+        <div class="col-xs-6">Cost of Borrowing</div>
+        <div class="col-xs-6 text-right text-semibold" id="DeferralCBorrowing">-</div>
+      </div>
+      <div class="row form-group">
+        <div class="col-xs-6">Your Cost</div>
+        <div class="col-xs-6 text-right text-semibold" id="DeferralYCost">-</div>
+      </div>
+      <div class="row form-group">
+        <div class="col-xs-6">Total Amount Financed</div>
+        <div class="col-xs-6 text-right text-semibold" id="DeferralTAFinanced">-</div>
+      </div>
+      <div class="row form-group">
+        <div class="col-xs-6">Total of All Monthly Payments</div>
+        <div class="col-xs-6 text-right text-semibold" id="DeferralTMPayments">-</div>
+      </div>
+      <div class="row form-group">
+        <div class="col-xs-6">Balance Owing at the End of Monthly Payments</div>
+        <div class="col-xs-6 text-right text-semibold" id="DeferralRBalance">-</div>
+      </div>
+      <div class="row form-group">
+        <div class="col-xs-6">Total Obligation</div>
+        <div class="col-xs-6 text-right text-semibold" id="DeferralTObligation">-</div>
+      </div>
+    </div>
+    <div id="hidden-option" class="hidden">Deferral</div>
+    <button class="btn dealnet-button dealnet-success-button btn-select-card">Select</button>
   </div>
-  <div class="equal-height-row-4">
-    <div class="row form-group">
-      <div class="col-xs-6">Customer Rate</div>
-      <div class="col-xs-6 text-right text-semibold" id="DeferralCRate"></div>
-    </div>
-    <div class="row form-group">
-      <div class="col-xs-6">Your Cost</div>
-      <div class="col-xs-6 text-right text-semibold" id="DeferralYCostVal"></div>
-    </div>
-  </div>
-  <hr>
-  <div class="">
-    <div class="row form-group align-middle">
-      <div class="col-xs-6">Admin Fee</div>
-      <div class="col-xs-6 text-right text-semibold" id="DeferralAFee"></div>
-    </div>
-    <div class="row form-group">
-      <div class="col-xs-6">Monthly Payment</div>
-      <div class="col-xs-6 text-right text-semibold" id="DeferralMPayment">-</div>
-    </div>
-    <div class="row form-group">
-      <div class="col-xs-6">Cost of Borrowing</div>
-      <div class="col-xs-6 text-right text-semibold" id="DeferralCBorrowing">-</div>
-    </div>
-    <div class="row form-group">
-      <div class="col-xs-6">Your Cost</div>
-      <div class="col-xs-6 text-right text-semibold" id="DeferralYCost">-</div>
-    </div>
-    <div class="row form-group">
-      <div class="col-xs-6">Total Amount Financed</div>
-      <div class="col-xs-6 text-right text-semibold" id="DeferralTAFinanced">-</div>
-    </div>
-    <div class="row form-group">
-      <div class="col-xs-6">Total of All Monthly Payments</div>
-      <div class="col-xs-6 text-right text-semibold" id="DeferralTMPayments">-</div>
-    </div>
-    <div class="row form-group">
-      <div class="col-xs-6">Balance Owing at the End of Monthly Payments</div>
-      <div class="col-xs-6 text-right text-semibold" id="DeferralRBalance">-</div>
-    </div>
-    <div class="row form-group">
-      <div class="col-xs-6">Total Obligation</div>
-      <div class="col-xs-6 text-right text-semibold" id="DeferralTObligation">-</div>
-    </div>
-  </div>
-  <div id="hidden-option" class="hidden">Deferral</div>
-  <button class="btn dealnet-button dealnet-success-button btn-select-card">Select</button>
-</div>
+</li>

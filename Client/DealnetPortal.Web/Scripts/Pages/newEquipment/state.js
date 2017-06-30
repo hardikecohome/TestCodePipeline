@@ -11,6 +11,7 @@
             DeferralPeriod: 0,
             CustomerRate: '',
             yourCost: '',
+            DealerCost: 0,
             AdminFee: 0
         },
         contractId: 0,

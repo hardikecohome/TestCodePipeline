@@ -80,7 +80,7 @@ function checkTotalMonthlyPayment() {
         }
     });
     if (!checkCalculationValidity(sum)) {
-        $('#new-equipment-validation-message').text("<span>" + translations['TotalMonthlyPaymentMustBeGreaterZero'] + "</span>");
+        $('#new-equipment-validation-message').html("<span>" + translations['TotalMonthlyPaymentMustBeGreaterZero'] + "</span>");
         return false;
     }
     return true;
@@ -124,6 +124,8 @@ function assignDatepicker() {
         changeMonth: (viewport().width < 768) ? true : false,
         yearRange: '1900:2200',
         minDate: new Date(),
+        showButtonPanel: true,
+        closeText: translations['Cancel'],
         onClose: function(){
             onDateSelect($(this));
         }

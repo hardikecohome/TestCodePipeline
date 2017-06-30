@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DealnetPortal.Api.Integration.Services
+﻿namespace DealnetPortal.Aspire.Integration.Constants
 {
-    static class AspireUdfFields
+    public static class AspireUdfFields
     {
         public static string NumberOfEmployee = "Number Of Employee";
         public static string AuthorizedConsent = "Authorized Consent";
         public static string OptIn = "Opt In";
-        public static string HomeOwner = "HomeOwner";        
+        public static string HomeOwner = "HomeOwner";
+        public static string HomeImprovementType = "Home Improvement Type";
+        public static string PreferredInstallationDate = "Preferred Installation Date";
+        public static string PreferredDateToStartProject = "Preferred Date To Start Project";        
         //Installation Address
         public static string InstallationAddress = "Installation Address";
         public static string InstallationAddressCity = "Installation Address City";
@@ -30,6 +27,10 @@ namespace DealnetPortal.Api.Integration.Services
         public static string PreviousAddressCountry = "Previous Address Country";
         public static string PreviousAddressPostalCode = "Previous Address Postal Code";
         public static string PreviousAddressState = "Previous Address State";
+        //Phones
+        public static string HomePhoneNumber = "Home Phone Number";
+        public static string MobilePhoneNumber = "Mobile Phone Number";
+        public static string BusinessPhoneNumber = "Business Phone Number";
 
         public static string EstimatedMoveInDate = "Estimated move in date";
 

@@ -216,3 +216,77 @@
     margin-top: 32px;
   }
 }
+
+.consents-modal{
+  color: #000;
+  strong{
+    font-weight: 800;
+  }
+  h1, h2, h3, h4, h5, h6{
+    font-weight: 800;
+  }
+
+  h2{
+    font-size: 20px;
+    font-weight: 800;
+  }
+  h3{
+    font-size: 18px;
+    line-height: 1.67 !important;
+    font-weight: 800;
+  }
+
+  .modal-dialog, li{
+    text-align: left;
+  }
+
+  .close{
+    position: absolute;
+    right: 20px;
+    top: 10px;
+  }
+  .modal-dialog{
+    width: 800px !important;
+    max-width: 100% !important;
+    font-size: 18px;
+    line-height: 1.67;
+
+    ul{
+      margin: 25px 0;
+      @media @tablet-up {
+        padding-left: 50px;
+      }
+    }
+  }
+  .modal-content{
+    @media @tablet-down {
+      margin: 40px 0 50px;
+    }
+  }
+  .modal-body{
+    padding: 0 30px 20px !important;
+    *:first-child{
+      margin-top: 0;
+    }
+  }
+  .modal-content{
+    padding-bottom: 20px;
+  }
+  .modal-footer{
+    .btn-container{
+      text-align: center;
+    }
+    button#confirmAlert{
+      display: none;
+    }
+    button[data-dismiss="modal"]{
+      &:extend(.dealnet-success-button);
+    }
+  }
+  .address-info{
+    padding-left: 50px;
+  }
+  p .dealnet-info-link{
+    font-size: inherit;
+  }
+}

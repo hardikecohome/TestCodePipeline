@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Web.Configuration;
 using System.Web.Hosting;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
@@ -14,6 +15,7 @@ using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.DataAccess.Migrations
 {
+    using Api.Core.Constants;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -63,13 +65,13 @@ namespace DealnetPortal.DataAccess.Migrations
             context.Tiers.AddOrUpdate(new Tier
             {
                 Id = 1,
-                Name = "Tier1"
+                Name = "Rate Card Tier 1"
             });
 
             context.Tiers.AddOrUpdate(new Tier
             {
                 Id = 2,
-                Name = "Tier2",
+                Name = "Rate Card Tier 2",
 
             });
         }
@@ -94,45 +96,45 @@ namespace DealnetPortal.DataAccess.Migrations
 
         private void SetTestUsers(ApplicationDbContext context, Application[] applications)
         {
-            var user1 = new ApplicationUser()
-            {
-                Email = "user@user.com",
-                UserName = "user@user.com",
-                Application = applications.First(x => x.Id == EcohomeAppId),
-                ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = false,
-                TwoFactorEnabled = false,
-                LockoutEnabled = false,
-                AccessFailedCount = 0,
-                EsignatureEnabled = false,
-                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
-                //Password: 123_Qwe
-                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
-                TierId = 1
-            };
-            var user2 = new ApplicationUser()
-            {
-                Email = "user2@user.com",
-                UserName = "user2@user.com",
-                Application = applications.First(x => x.Id == OdiAppId),
-                ApplicationId = applications.First(x => x.Id == OdiAppId)?.Id,
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = false,
-                TwoFactorEnabled = false,
-                LockoutEnabled = false,
-                AccessFailedCount = 0,
-                EsignatureEnabled = false,
-                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
-                //Password: 123_Qwe
-                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
-                TierId = 1
-            };
+            //var user1 = new ApplicationUser()
+            //{
+            //    Email = "user@user.com",
+            //    UserName = "user@user.com",
+            //    Application = applications.First(x => x.Id == EcohomeAppId),
+            //    ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
+            //    EmailConfirmed = true,
+            //    PhoneNumberConfirmed = false,
+            //    TwoFactorEnabled = false,
+            //    LockoutEnabled = false,
+            //    AccessFailedCount = 0,
+            //    EsignatureEnabled = false,
+            //    PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
+            //    //Password: 123_Qwe
+            //    SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+            //    TierId = 1
+            //};
+            //var user2 = new ApplicationUser()
+            //{
+            //    Email = "user2@user.com",
+            //    UserName = "user2@user.com",
+            //    Application = applications.First(x => x.Id == OdiAppId),
+            //    ApplicationId = applications.First(x => x.Id == OdiAppId)?.Id,
+            //    EmailConfirmed = true,
+            //    PhoneNumberConfirmed = false,
+            //    TwoFactorEnabled = false,
+            //    LockoutEnabled = false,
+            //    AccessFailedCount = 0,
+            //    EsignatureEnabled = false,
+            //    PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
+            //    //Password: 123_Qwe
+            //    SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+            //    TierId = 1
+            //};
             
-            var users = new List<ApplicationUser>() {user1, user2};
-            //leave existing users data
-            users.RemoveAll(u => context.Users.Any(dbu => dbu.UserName == u.UserName));
-            context.Users.AddOrUpdate(u => u.UserName, users.ToArray());
+            //var users = new List<ApplicationUser>() {user1, user2};
+            ////leave existing users data
+            //users.RemoveAll(u => context.Users.Any(dbu => dbu.UserName == u.UserName));
+            //context.Users.AddOrUpdate(u => u.UserName, users.ToArray());
 
             //Add customer creator to group
             //var appRoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));            
@@ -655,7 +657,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 new ProvinceTaxRate {Province = "YT", Rate = 5, Description = "Gst"}
             };
             //leave existing data
-            //taxRates.RemoveAll(t => context.ProvinceTaxRates.Any(dbt => dbt.Province == t.Province));
+            taxRates.RemoveAll(t => context.ProvinceTaxRates.Any(dbt => dbt.Province == t.Province));
             context.ProvinceTaxRates.AddOrUpdate(t => t.Province, taxRates.ToArray());
         }
 
@@ -1422,7 +1424,7 @@ namespace DealnetPortal.DataAccess.Migrations
             {
                 try
                 {
-                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings["AgreementTemplatesFolder"] ?? "SeedData";
+                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY];
                     var dir = HostingEnvironment.MapPath($"~/{seedDataFolder}");
                     var path = Path.Combine(dir ?? "", t.TemplateName + ".pdf");
                     if (File.Exists(path))
@@ -1493,7 +1495,7 @@ namespace DealnetPortal.DataAccess.Migrations
             {
                 try
                 {
-                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings["AgreementTemplatesFolder"] ?? "SeedData";
+                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY];
                     var dir = HostingEnvironment.MapPath($"~/{seedDataFolder}");
                     var path = Path.Combine(dir ?? "", t.TemplateName + ".pdf");
                     if (File.Exists(path))
@@ -1797,7 +1799,7 @@ namespace DealnetPortal.DataAccess.Migrations
             {
                 try
                 {
-                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings["AgreementTemplatesFolder"] ?? "SeedData";
+                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY];
                     var dir = HostingEnvironment.MapPath($"~/{seedDataFolder}") ?? "";
 
                     var files = Directory.GetFiles(dir, $"{u.UserName}*.*");
@@ -3942,7 +3944,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 DeferralPeriod = 3,
                 ValidFrom = null,
                 ValidTo = null,
-                TierId = 1,
+                TierId = 2,
                 CardType = RateCardType.Deferral,
                 IsPromo = false
             });

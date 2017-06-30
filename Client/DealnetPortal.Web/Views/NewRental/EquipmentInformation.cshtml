@@ -1,114 +1,132 @@
 ﻿@using System.Globalization
+@using DealnetPortal.Api.Common.Enumeration
 @model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
 
 <div id="label-steps">
-  <div class="dealnet-action-link">@Resources.NewApplication</div> >
+    <div class="dealnet-action-link">@Resources.NewApplication</div> >
 </div>
 <div class="dealnet-large-header">New Equipment</div>
 @Html.Partial("EquipmentInformation/_StepsNavigation", Model)
 <div class="form-container">
-  <div class="form-section">
+    <div class="form-section">
 
-    @if (TempData["MaxCreditAmount"] != null)
-    {
-      <p class="align-middle equipment-proceed-success">
-        <svg aria-hidden="true" class="icon icon-success">
-          <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
-        </svg>
-        <span>@Resources.CreditCheckProcessedSuccessfully</span>
-      </p>
-
-      <p class="text-semibold preapproved-text">@Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")</p>
-    }
-
-    @using (Html.BeginForm("EquipmentInformation", "NewRental", null, FormMethod.Post, new {id = "equipment-form", onkeydown = "return event.keyCode!=13"}))
-    {
-      @Html.AntiForgeryToken()
-      @Html.HiddenFor(model => model.ContractId)
-      @Html.HiddenFor(model => model.FullUpdate, new {Value = true})
-      @Html.HiddenFor(x => x.CreditAmount)
-      @Html.HiddenFor(x => x.AmortizationTerm)
-      @Html.HiddenFor(x => x.AdminFee)
-      @Html.HiddenFor(x => x.CustomerRate)
-      @Html.HiddenFor(x => x.ValueOfDeal)
-      @Html.HiddenFor(x => x.LoanTerm)
-      @Html.HiddenFor(x => x.LoanDeferralType)
-      @Html.HiddenFor(x => x.SelectedRateCardId)
-      @Html.HiddenFor(x => x.IsNewContract)
-
-      <div class="row form-group">
-        <div class="col-md-3">
-          @Html.LabelFor(m => m.AgreementType)
-          @Html.EnumDropDownListFor(m => m.AgreementType, null, new {@class = "form-control", id = "typeOfAgreementSelect"})
-        </div>
-      </div>
-      <div id="new-equipments">
-        <h3 class="dealnet-middle-header">@Resources.NewEquipmentInformation</h3>
-        @if (Model?.NewEquipment != null)
+        @if (TempData["MaxCreditAmount"] != null)
         {
-          @Html.Partial("EquipmentInformation/_NewEquipments", Model)
-        }
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="align-middle dealnet-info-link add-equip-link" id="addEquipment">
-            <svg aria-hidden="true" class="icon icon-add-app">
-              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
-            </svg>
-            <span>@Resources.AddAdditionalEquipment</span>
-          </div>
-        </div>
-      </div>
-      @Html.Partial("EquipmentInformation/Agreements/_Rental", Model)
-      @Html.Partial("EquipmentInformation/Agreements/_Loan", Model)
-      <br>
-      <div class="row">
-        <div class="col-md-3">
-          <div class="form-group">
-            @Html.LabelFor(m => m.DownPayment)
-            <div class="control-group has-addon-left">
-              <div class="control-group-addon">$</div>
-              @Html.TextBoxFor(m => m.DownPayment, new {@class = "form-control", placeholder = Resources.DownPayment, type = "text", id = "downPayment"})
-              @Html.ValidationMessageFor(m => m.DownPayment, "", new {@class = "text-danger"})
-            </div>
-          </div>
-        </div>
-      </div>
+            <p class="align-middle equipment-proceed-success">
+                <svg aria-hidden="true" class="icon icon-success">
+                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
+                </svg>
+                <span>@Resources.CreditCheckProcessedSuccessfully</span>
+            </p>
 
-      <div class="financing-options">
-        <h3 class="dealnet-middle-header">
-          Financing Options
-          @*<a class="dealnet-info-link pull-right loan-element rate-card-link" href="@Url.Action("RateCard", "NewRental")">
-        <svg aria-hidden="true" class="icon icon-info-well">
-          <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
-        </svg>
-        Rate Card
-      </a>*@
-          <span class="financing-arrow" id="loanRateCardToggle">
-            <i class="glyphicon glyphicon-chevron-right"></i>
-          </span>
-        </h3>
-        @Html.Partial("EquipmentInformation/Agreements/_FinancialRental", Model)
-        @Html.Partial("EquipmentInformation/Agreements/_FinancialLoan", Model)
-      </div>
-      @Html.ValidationMessageFor(m => m.NewEquipment, "", new {@class = "text-danger", id = "new-equipment-validation-message"})
-      <div class="row">
-        <div class="col-md-12">
-          <div class="rate-card-button-proceed">
-            <input type="submit" value="@Resources.SaveAndProceed" class="btn dealnet-button dealnet-success-button" id="submit"/>
-          </div>
-        </div>
-      </div>
-    }
-  </div>
+            <p class="text-semibold preapproved-text">@Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")</p>
+        }
+
+        @using (Html.BeginForm("EquipmentInformation", "NewRental", null, FormMethod.Post, new { id = "equipment-form", onkeydown = "return event.keyCode!=13" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.ContractId)
+            @Html.HiddenFor(model => model.FullUpdate, new { Value = true })
+            @Html.HiddenFor(x => x.CreditAmount)
+            @Html.HiddenFor(x => x.AmortizationTerm)
+            @Html.HiddenFor(x => x.AdminFee)
+            @Html.HiddenFor(x => x.CustomerRate)
+            @Html.HiddenFor(x => x.ValueOfDeal)
+            @Html.HiddenFor(x => x.LoanTerm)
+            @Html.HiddenFor(x => x.LoanDeferralType)
+            @Html.HiddenFor(x => x.SelectedRateCardId)
+            @Html.HiddenFor(x => x.IsNewContract)
+            @Html.HiddenFor(x => x.DealerCost)
+
+            <div class="row form-group">
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.AgreementType)
+                    @Html.EnumDropDownListFor(m => m.AgreementType, null, new { @class = "form-control", id = "typeOfAgreementSelect" })
+                </div>
+            </div>
+            <div id="new-equipments">
+                <h3 class="dealnet-middle-header">@Resources.NewEquipmentInformation</h3>
+                @if (Model?.NewEquipment != null)
+                {
+                    @Html.Partial("EquipmentInformation/_NewEquipments", Model)
+                }
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="align-middle dealnet-info-link add-equip-link" id="addEquipment">
+                        <svg aria-hidden="true" class="icon icon-add-app">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
+                        </svg>
+                        <span>@Resources.AddAdditionalEquipment</span>
+                    </div>
+                </div>
+            </div>
+            @Html.Partial("EquipmentInformation/Agreements/_Rental", Model)
+            @Html.Partial("EquipmentInformation/Agreements/_Loan", Model)
+            <br>
+            <div class="row downpayment-row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.DownPayment)
+                        <div class="control-group has-addon-left">
+                            <div class="control-group-addon">$</div>
+                            @Html.TextBoxFor(m => m.DownPayment, new { @class = "form-control", placeholder = Resources.DownPayment, type = "text", id = "downPayment" })
+                            @Html.ValidationMessageFor(m => m.DownPayment, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="financing-options">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h3 class="dealnet-middle-header">
+                            Financing Options
+                            @*<a class="dealnet-info-link pull-right loan-element rate-card-link" href="@Url.Action("RateCard", "NewRental")">
+                            <svg aria-hidden="true" class="icon icon-info-well">
+                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
+                            </svg>
+                            Rate Card
+                            </a>*@
+                            <span class="financing-arrow" id="loanRateCardToggle">
+                                <i class="glyphicon glyphicon-chevron-down"></i>
+                            </span>
+                        </h3>
+                    </div>
+                </div>
+
+                @Html.Partial("EquipmentInformation/Agreements/_FinancialRental", Model)
+                @Html.Partial("EquipmentInformation/Agreements/_FinancialLoan", Model)
+            </div>
+            @Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="rate-card-button-proceed">
+                        <span class="btn-proceed-inline-hold btn-form-common" data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Resources.YouShouldFillAllMandatoryFields">
+                            <input type="submit" value="@Resources.SaveAndProceed" class="btn dealnet-button dealnet-success-button" id="submit" />
+                        </span>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
 
 @Html.Partial("EquipmentInformation/_EquipmentTemplates", Model)
 
 @section Translations
 {
-  translations['TotalMonthlyPaymentMustBeGreaterZero'] = "@Html.Raw(Resources.TotalMonthlyPaymentMustBeGreaterZero)";
-}
+    translations['TotalMonthlyPaymentMustBeGreaterZero'] = "@Html.Raw(Resources.TotalMonthlyPaymentMustBeGreaterZero)";
+    translations['loanTermMax'] = "@Resources.LoanTermMustBe3Max";
+    translations['loanTermFormat'] = "@Resources.LoanTermIncorrectFormat";
+    translations['amortTermMax'] = "@Resources.AmortizationTermMustBe3Max";
+    translations['amortTermFormat'] = "@Resources.AmortizationTermIncorrectFormat";
+    translations['adminFeeFormat'] = "@Resources.AdminFeeIncorrectFormat";
+    translations['customerRateFormat'] = "@Resources.CustomerRateIncorrectFormat";
+    translations['yourCostFormat'] = "@Resources.YourRateIncorrectFormat";
+    translations['customerOrYourCost'] = "@Resources.CustomerOrYourCostRequired";
+    translations['enterZero'] = "@Resources.PleaseEnterAtLeastZero";
+ }
 
 @Scripts.Render("~/bundles/jqueryval")
 @Scripts.Render("~/bundles/localization")
@@ -117,13 +135,34 @@
 @section scripts
 {
   <script type="text/javascript">
+    $(function() {
+      $.fn.clearErrors = function() {
+        var spans = $(this).find("span.field-validation-error.text-danger");
+
+        $.grep(spans, function(span) {
+          $(span).empty();
+        });
+
+        var inputs = $(this).find('input');
+
+        $.grep(inputs, function(input) {
+          $(input).trigger('reset.unobtrusiveValidation');
+        });
+      }
+    });
+  </script>
+
+  <script type="text/javascript">
     var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
     var isCalculationValid = false;
+    var onlyCustomCard = '@(!((List<RateCardType>) ViewBag.CardTypes != null && ((List<RateCardType>) ViewBag.CardTypes).Any()))' === 'True' ? true : false;
   </script>
+
   <script type="text/javascript">
     configInitialized.then(function () {
-      module.require('rate-cards-ui'); 
-      module.require('rate-cards').initializeRateCards(@Model.ContractId, @Html.Raw(Json.Encode(Model.DealerTier.RateCards)));
+      module.require('rate-cards-init').init(@Model.ContractId, @Html.Raw(Json.Encode(Model.DealerTier.RateCards)));
+      module.require('rate-cards-ui');
+      module.require('rate-cards');
       module.require('new-equipment');
       module.require('equipment');
       module.require('custom-rate-card');

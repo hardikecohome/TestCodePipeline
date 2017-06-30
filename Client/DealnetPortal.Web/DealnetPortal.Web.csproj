@@ -446,6 +446,8 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\email\email.html" />
+    <Content Include="Content\email\images\icon-success.png" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="Content\images\dataTables\details_close.png" />
     <Content Include="Content\images\dataTables\details_open.png" />
@@ -678,6 +680,8 @@
     <Content Include="Content\less\partials\navbar-fixed-side.less" />
     <Content Include="Content\less\settings\mixins.less" />
     <Content Include="Content\less\settings\variables.less" />
+    <Content Include="Content\less\slick\ajax-loader.gif" />
+    <Content Include="Content\less\slick\fonts\slick.svg" />
     <Content Include="favicon-dealer.ico" />
     <Content Include="favicon.ico" />
     <Content Include="Favicon_Eco_Energy.ico" />
@@ -757,6 +761,12 @@
     <Content Include="Content\less\components\accordion-panel.less" />
     <Content Include="Content\files\Help.pdf" />
     <Content Include="Content\less\pages\rate-cards.less" />
+    <Content Include="Content\less\slick\fonts\slick.eot" />
+    <Content Include="Content\less\slick\fonts\slick.ttf" />
+    <Content Include="Content\less\slick\fonts\slick.woff" />
+    <Content Include="Content\less\slick\slick-theme.less" />
+    <Content Include="Content\less\slick\slick.less" />
+    <Content Include="Content\less\components\carousel.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -766,6 +776,8 @@
     <Content Include="Scripts\contact-and-payment-management.js" />
     <Content Include="Scripts\contract-edit.js" />
     <Content Include="Scripts\custom-validation.js" />
+    <Content Include="Scripts\customer-form.js" />
+    <Content Include="Scripts\jquery.jcarousel.min.js" />
     <Content Include="Scripts\Pages\Clients\index.js" />
     <Content Include="Scripts\Pages\Clients\new-client-autocomplete.js" />
     <Content Include="Scripts\Pages\Clients\new-client-flow.js" />
@@ -891,6 +903,7 @@
     <Content Include="Scripts\Pages\MyProfile\postalCode-template.js" />
     <Content Include="Scripts\Pages\MyProfile\postalCode-handlers.js" />
     <Content Include="Scripts\Pages\Clients\new-client.js" />
+    <Content Include="Scripts\Pages\newEquipment\rate-cards-init.js" />
     <Content Include="Scripts\Reducers\customer.js" />
     <Content Include="Scripts\Reducers\new-client-reducer.js" />
     <Content Include="Scripts\Selectors\customer.js" />
@@ -1026,6 +1039,8 @@
     <Content Include="Views\Shared\EquipmentInformation\Agreements\_FinancialLoan.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_NewEquipments.cshtml" />
     <Content Include="Views\Calculator\Index.cshtml" />
+    <Content Include="Views\Shared\_AgreementPersonalData.cshtml" />
+    <Content Include="Views\Info\PrivacyPolicy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

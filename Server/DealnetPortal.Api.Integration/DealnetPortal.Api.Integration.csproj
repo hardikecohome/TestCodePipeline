@@ -37,7 +37,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\ClearImageNet.70.dll</HintPath>
     </Reference>
-    <Reference Include="DocuSign.eSign">
+    <Reference Include="DocuSign.eSign, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\DocuSign.eSign.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -64,6 +65,10 @@
       <HintPath>..\..\lib\Interop.VBA.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="MailChimp.Net.V3, Version=2.0.0.0, Culture=neutral, PublicKeyToken=37d26d538413c581, processorArchitecture=MSIL">
+      <HintPath>..\packages\MailChimp.Net.V3.2.0.0.0\lib\net45\MailChimp.Net.V3.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -83,7 +88,8 @@
     <Reference Include="PdfSharp">
       <HintPath>..\..\lib\PdfSharp.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp">
+    <Reference Include="RestSharp, Version=105.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -91,6 +97,12 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -100,10 +112,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Service References\SMSSubscriptionManagement\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="ServiceAgents\CustomerWalletServiceAgent.cs" />
     <Compile Include="ServiceAgents\ICustomerWalletServiceAgent.cs" />
     <Compile Include="Services\AspireService.cs" />
-    <Compile Include="Services\AspireUdfFields.cs" />
     <Compile Include="Services\ContractService.cs" />
     <Compile Include="ServiceAgents\ESignature\ECoreTypes.cs" />
     <Compile Include="ServiceAgents\ESignature\EOriginalTypes\ResponseTypes.cs" />
@@ -125,10 +141,13 @@
     <Compile Include="Services\IDealerService.cs" />
     <Compile Include="Services\ImageScanService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IMailСhimpService.cs" />
     <Compile Include="Services\IMailService.cs" />
+    <Compile Include="Services\ISmsSubscriptionService.cs" />
     <Compile Include="Services\IUsersService.cs" />
     <Compile Include="Services\IRateCardsService.cs" />
     <Compile Include="Services\RateCardsService.cs" />
+    <Compile Include="Services\MailChimpService.cs" />
     <Compile Include="Services\Signature\DocuSignSignatureEngine.cs" />
     <Compile Include="Services\Signature\EcoreSignatureEngine.cs" />
     <Compile Include="Services\Signature\IPdfEngine.cs" />
@@ -138,6 +157,7 @@
     <Compile Include="Services\PdfFormFields.cs" />
     <Compile Include="Services\SignatureService.cs" />
     <Compile Include="Services\Signature\PdfSharpEngine.cs" />
+    <Compile Include="Services\SmsSubscriptionService.cs" />
     <Compile Include="Services\UsersService.cs" />
     <Compile Include="Utility\NoTypeAttributeXmlWriter.cs" />
     <Compile Include="Utility\DriverLicenseParser.cs" />
@@ -180,8 +200,65 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Service References\SMSSubscriptionManagement\DealnetPortal.Api.Integration.SMSSubscriptionManagement.addTagsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SMSSubscriptionManagement\DealnetPortal.Api.Integration.SMSSubscriptionManagement.cancelAllSubscriptionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SMSSubscriptionManagement\DealnetPortal.Api.Integration.SMSSubscriptionManagement.cancelShortCodeSubscriptionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SMSSubscriptionManagement\DealnetPortal.Api.Integration.SMSSubscriptionManagement.cancelSubscriptionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SMSSubscriptionManagement\DealnetPortal.Api.Integration.SMSSubscriptionManagement.getSubscriptionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SMSSubscriptionManagement\DealnetPortal.Api.Integration.SMSSubscriptionManagement.getSubscriptionResultDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SMSSubscriptionManagement\DealnetPortal.Api.Integration.SMSSubscriptionManagement.getSubscriptionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SMSSubscriptionManagement\DealnetPortal.Api.Integration.SMSSubscriptionManagement.getSubscriptionsResultDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SMSSubscriptionManagement\DealnetPortal.Api.Integration.SMSSubscriptionManagement.isSubscribedResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SMSSubscriptionManagement\DealnetPortal.Api.Integration.SMSSubscriptionManagement.isSubscribedResultDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SMSSubscriptionManagement\DealnetPortal.Api.Integration.SMSSubscriptionManagement.removeTagsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SMSSubscriptionManagement\DealnetPortal.Api.Integration.SMSSubscriptionManagement.startSubscriptionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SMSSubscriptionManagement\DealnetPortal.Api.Integration.SMSSubscriptionManagement.subscriptionActionResultDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SMSSubscriptionManagement\SubscriptionManagementServiceService.wsdl" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\SMSSubscriptionManagement\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SMSSubscriptionManagement\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SMSSubscriptionManagement\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SMSSubscriptionManagement\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

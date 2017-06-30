@@ -86,32 +86,9 @@ namespace DealnetPortal.Api.Integration.Services
         public IList<ContractDTO> GetContracts(string contractOwnerId)
         {
             var contractDTOs = new List<ContractDTO>();
-
-            var aspireDeals = GetAspireDealsForDealer(contractOwnerId);
-
-            if (aspireDeals?.Any() ?? false)
-            {
-                // update dealer-sub dealers hierarchy
-                var transactionIds = aspireDeals.Select(d => d.Details?.TransactionId).ToArray();
-                var updatedDealers = _contractRepository.UpdateSubDealersHierarchyByRelatedTransactions(transactionIds,
-                    contractOwnerId);
-                if (updatedDealers > 0)
-                {
-                    try
-                    {
-                        _loggingService.LogInfo(
-                            $"Updating relashionships for {updatedDealers} SubDealers or Sales Agents");
-                        _unitOfWork.Save();
-                    }
-                    catch (Exception ex)
-                    {
-                        _loggingService.LogError("Cannot update Sub-dealers and Sales agents hierarchy", ex);
-                    }
-                }
-            }
-
             var contracts = _contractRepository.GetContracts(contractOwnerId);
 
+            var aspireDeals = GetAspireDealsForDealer(contractOwnerId);                        
             if (aspireDeals?.Any() ?? false)
             {
                 var isContractsUpdated = UpdateContractsByAspireDeals(contracts, aspireDeals);
@@ -182,16 +159,18 @@ namespace DealnetPortal.Api.Integration.Services
                     _unitOfWork.Save();
                     _loggingService.LogInfo($"A contract [{contract.Id}] updated");
 
-                    //update customers on aspire
                     if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null)
                     {
-                        var aspireAlerts =
-                            _aspireService.UpdateContractCustomer(contract.Id, contractOwnerId);
-                        //if (aspireAlerts?.Any() ?? false)
-                        //{
-                        //    alerts.AddRange(aspireAlerts);
-                        //}
+                        var aspireAlerts = 
+                            _aspireService.UpdateContractCustomer(updatedContract, contractOwnerId).GetAwaiter().GetResult();
                     }
+                    if (updatedContract.ContractState != ContractState.Completed &&
+                        updatedContract.ContractState != ContractState.SentToAudit)
+                    {
+                        var aspireAlerts = 
+                            _aspireService.SendDealUDFs(updatedContract, contractOwnerId).GetAwaiter().GetResult();
+                    }
+
                     if (updatedContract.ContractState == ContractState.Completed)
                     {
                         var contractDTO = Mapper.Map<ContractDTO>(updatedContract);
@@ -270,9 +249,9 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 var alerts = new List<Alert>();
-                var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+                var contractState = _contractRepository.GetContractState(contractId, contractOwnerId);
 
-                if (contract == null)
+                if (contractState == null)
                 {
                     alerts.Add(new Alert()
                     {
@@ -283,8 +262,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    //TODO: credit check ?
-                    if (contract.ContractState > ContractState.Started)
+                    if (contractState.Value > ContractState.Started)
                     {
                         _contractRepository.UpdateContractState(contractId, contractOwnerId,
                             ContractState.CreditCheckInitiated);

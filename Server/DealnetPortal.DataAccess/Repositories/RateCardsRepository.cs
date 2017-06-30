@@ -22,5 +22,10 @@ namespace DealnetPortal.DataAccess.Repositories
 
             return dealer.Tier;
         }
+
+        public Tier GetTierByName(string tierName)
+        {
+            return _dbContext.Tiers.FirstOrDefault(t => t.Name == tierName);
+        }
     }
 }

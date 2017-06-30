@@ -13,6 +13,7 @@
             type: '',
             description: '',
             cost: '',
+            monthlyCost:''
         };
 
         var newTemplate = equipmentTemplateFactory($('<div></div>'), { id: id });
@@ -24,6 +25,11 @@
         // equipment handlers
         newTemplate.find('.equipment-cost').on('change', updateCost);
         newTemplate.find('#addequipment-remove-' + id).on('click', removeEquipment);
+        newTemplate.find('.monthly-cost').on('change', updateMonthlyCost);
+
+        customizeSelect();
+        toggleClearInputIcon($(newTemplate).find('textarea, input'));
+        resetPlacehoder($(newTemplate).find('textarea, input'));
 
         $('#new-equipments').append(newTemplate);
 
@@ -33,7 +39,6 @@
     function removeEquipment() {
         var fullId = $(this).attr('id');
         var id = fullId.substr(fullId.lastIndexOf('-') + 1);
-
         if (!state.equipments.hasOwnProperty(id)) {
             return;
         }
@@ -70,8 +75,20 @@
         } else {
             state.equipments[i].cost = cost;
         }
+        cost = parseFloat($('#NewEquipment_' + i + '__MonthlyCost').val());
+        if (state.equipments[i] === undefined) {
+            state.equipments[i] = { id: i.toString(), monthlyCost: cost }
+        } else {
+            state.equipments[i].monthlyCost = cost;
+        }
 
         $('#new-equipment-' + i).find('.equipment-cost').on('change', updateCost);
+        $('#new-equipment-' + i).find('.monthly-cost').on('change', updateMonthlyCost);
+        customizeSelect();
+        //if not first equipment add handler (first equipment should always be visible)
+        if (i > 0) {
+            $('#addequipment-remove-' + i).on('click', removeEquipment);
+        }
     }
 
     function resetFormValidator(formId) {
@@ -90,6 +107,17 @@
             recalculateValuesAndRender();
         }
     };
+
+    function updateMonthlyCost() {
+        var mvcId = $(this).attr("id");
+        var id = mvcId.split('__MonthlyCost')[0].substr(mvcId.split('__MonthlyCost')[0].lastIndexOf('_') + 1);
+        state.equipments[id].monthlyCost = parseFloat($(this).val());
+        if (state.agreementType === 0) {
+            recalculateValuesAndRender();
+        } else {
+            recalculateAndRenderRentalValues();
+        }
+    }
 
     function updateLabelIndex(selector, index) {
         var labels = selector.find('label');

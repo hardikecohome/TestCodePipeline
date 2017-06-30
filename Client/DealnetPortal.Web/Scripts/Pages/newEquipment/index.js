@@ -6,8 +6,10 @@
         var equipment = require('equipment');
         var validateOnSelect = require('custom-rate-card').validateOnSelect;
         var submitCustomRateCard = require('custom-rate-card').submitCustomRateCard;
+        var toggleDisableClassOnInputs = require('custom-rate-card').toggleDisableClassOnInputs;
         var rateCardBlock = require('rate-cards-ui');
         var state = require('state').state;
+        var constants = require('state').constants;
 
         var onRateCardSelect = function() {
             recalculateValuesAndRender([], false);
@@ -17,25 +19,46 @@
 
                 if (isValid) {
                     rateCardBlock.hide();
+                } else {
+                    if (!$("#submit").hasClass('disabled')) {
+                        $('#submit').addClass('disabled');
+                        $('#submit').parent().popover();
+                    }
                 }
             } else {
+                $('#custom-rate-card').clearErrors();
+                toggleRateCardBlock();
                 rateCardBlock.hide();
             }
         }
+
         var submitForm = function (event) {
+            $('#equipment-form').valid();
             var agreementType = $("#typeOfAgreementSelect").find(":selected").val();
             if (agreementType === "0") {
                 var rateCard = $('.checked');
-                if (rateCard.length === 0) {
+                if (rateCard.length === 0 && !onlyCustomCard) {
                     event.preventDefault();
                 } else {
                     var option = rateCard.find('#hidden-option').text();
+
+                    if (onlyCustomCard) {
+                        option = 'Custom';
+                    }
+
                     var monthPayment = Globalize.parseNumber($('#' + option + 'TMPayments').text().substring(1));
                     if (isNaN(monthPayment) || (monthPayment == 0)) {
                         event.preventDefault();
                         $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
                     } else {
-                        option === 'Custom' ? submitCustomRateCard(event, option) : submitRateCard(option);
+                        if (option === 'Custom') {
+                            submitCustomRateCard(event, option);
+                        } else {
+                            $('#custom-rate-card').clearErrors();
+                            toggleCustomRateCard();
+                            submitRateCard(option);
+                        }
+                        $('#equipment-form').submit();
                     }
                 }
             } else {
@@ -47,15 +70,37 @@
             }
         }
 
+        var toggleRateCardBlock = function() {
+            rateCardBlock.toggle($('#rateCardsBlock').is('.closed'));
+            toggleDisableClassOnInputs(false);
+        }
+
+        function toggleCustomRateCard() {
+            var isRental = $('#typeOfAgreementSelect').val() != 0;
+            var option = $('.checked > #hidden-option').text();
+            toggleDisableClassOnInputs(isRental || option !== 'Custom' && option !== '');
+        }
+
+        function onAmortizationDropdownChange(option) {
+            $('#' + option + 'AmortizationDropdown').change(function () {
+                $(this).prop('selected', true);
+
+                recalculateValuesAndRender([], false);
+            });
+        }
+
         // submit
-        $('#equipment-form').submit(submitForm);
+        $('#submit').on('click', submitForm);
 
         // handlers
-        $('#addEquipment').on('click', equipment.addEquipment);
-        $('#downPayment').on('change', setters.setDownPayment);
-        $('#typeOfAgreementSelect').on('change', setters.setAgreement);
-        $('#total-monthly-payment').on('change', setters.setRentalMPayment);
+        constants.rateCards.forEach(function (option) { onAmortizationDropdownChange(option.name) });
 
+        $('#addEquipment').on('click', equipment.addEquipment);
+        $('#loanRateCardToggle').on('click', toggleRateCardBlock);
+        $('#downPayment').on('change', setters.setDownPayment);
+        $('#typeOfAgreementSelect').on('change', setters.setAgreement).on('change', toggleCustomRateCard);
+
+        $('#total-monthly-payment').on('change', setters.setRentalMPayment);
         $('.btn-select-card').on('click', rateCardBlock.highlightCard);
         $('.btn-select-card').on('click', onRateCardSelect);
 
