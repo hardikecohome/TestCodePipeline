@@ -241,6 +241,9 @@
 
         if (isRenderDropdowns) {
             var items = $.parseJSON(sessionStorage.getItem(state.contractId + option));
+            if (!items)
+                return;
+
             var dropdownValues;
             if (option === 'Deferral') {
                 var dealerCost = state[option].DealerCost;
