@@ -259,6 +259,35 @@ namespace DealnetPortal.Api.Core.ApiClient
             }
         }
 
+        public async Task<T> PutAsyncEx<T>(string requestUri, T content, AuthenticationHeaderValue authenticationHeader = null,
+            string culture = null,
+            CancellationToken cancellationToken = new CancellationToken())
+        {
+            try
+            {
+                var request = new HttpRequestMessage()
+                {
+                    Method = HttpMethod.Put,
+                    RequestUri = new Uri(requestUri)
+                };
+                //var formatter = new MediaTypeFormatter[] { new JsonMediaTypeFormatter() };
+                request.Content = new ObjectContent<T>(content, new JsonMediaTypeFormatter());
+                if (authenticationHeader != null)
+                {
+                    request.Headers.Authorization = authenticationHeader;
+                }
+                var response = await Client.SendAsync(request, cancellationToken);
+                response.EnsureSuccessStatusCode();
+                if (response?.Content == null)
+                    return default(T);
+                return await response.Content.ReadAsAsync<T>(cancellationToken);
+            }
+            catch (HttpRequestException)
+            {
+                throw;
+            }
+        }
+
         /// <summary>
         /// See <see cref="IHttpApiClient"/>
         /// </summary>

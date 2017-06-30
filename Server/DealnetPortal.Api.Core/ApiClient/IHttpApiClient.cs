@@ -101,6 +101,9 @@ namespace DealnetPortal.Api.Core.ApiClient
         /// <returns>Model or resource from the Put operation against the uri.</returns>
         Task<T> PutAsync<T>(string requestUri, T content, CancellationToken cancellationToken = new CancellationToken());
 
+        Task<T> PutAsyncEx<T>(string requestUri, T content, AuthenticationHeaderValue authenticationHeader = null, string culture = null, 
+            CancellationToken cancellationToken = new CancellationToken());
+
         /// <summary>
         /// Perform a put operation against a uri.
         /// </summary>
