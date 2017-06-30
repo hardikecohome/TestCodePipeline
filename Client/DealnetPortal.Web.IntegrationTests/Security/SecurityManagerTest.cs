@@ -8,6 +8,7 @@ using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Infrastructure.Managers;
 using DealnetPortal.Web.Models.Enumeration;
 using DealnetPortal.Web.ServiceAgent;
+using Microsoft.Owin.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -18,6 +19,7 @@ namespace DealnetPortal.Web.IntegrationTests.Security
     {
         private IHttpApiClient _client;
         private Mock<ILoggingService> _loggingService;
+        private Mock<IAuthenticationManager> _authenticationManagerMock;
         private const string DefUserName = "user@ya.ru";
         private const string DefUserPassword = "123_Qwe";
         private const string DefPortalId = "df460bb2-f880-42c9-aae5-9e3c76cdcd0f";
@@ -26,7 +28,7 @@ namespace DealnetPortal.Web.IntegrationTests.Security
         public void Init()
         {
             _loggingService = new Mock<ILoggingService>();
-
+            _authenticationManagerMock = new Mock<IAuthenticationManager>();
             string baseUrl = System.Configuration.ConfigurationManager.AppSettings["ApiUrl"];
             _client = new HttpApiClient(baseUrl);
         }
@@ -41,7 +43,7 @@ namespace DealnetPortal.Web.IntegrationTests.Security
         public void HttpApiClientLoginSuccess()
         {
             ISecurityServiceAgent serviceAgent = new SecurityServiceAgent(_client, _loggingService.Object);
-            IUserManagementServiceAgent userManagementService = new UserManagementServiceAgent(_client);
+            IUserManagementServiceAgent userManagementService = new UserManagementServiceAgent(_client, _authenticationManagerMock.Object);
             Mock<ILoggingService> loggingService = new Mock<ILoggingService>();
             ISecurityManager securityManager = new SecurityManager(serviceAgent, userManagementService, loggingService.Object, PortalType.Ecohome);
 
@@ -55,7 +57,7 @@ namespace DealnetPortal.Web.IntegrationTests.Security
         public void HttpApiClientLoginFail()
         {
             ISecurityServiceAgent serviceAgent = new SecurityServiceAgent(_client, _loggingService.Object);
-            IUserManagementServiceAgent userManagementService = new UserManagementServiceAgent(_client);
+            IUserManagementServiceAgent userManagementService = new UserManagementServiceAgent(_client, _authenticationManagerMock.Object);
             Mock<ILoggingService> loggingService = new Mock<ILoggingService>();
             ISecurityManager securityManager = new SecurityManager(serviceAgent, userManagementService, loggingService.Object, PortalType.Ecohome);
             var result = securityManager.Login("admin", "notadmin", "notexistingportal").GetAwaiter().GetResult();

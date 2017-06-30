@@ -22,11 +22,11 @@ namespace DealnetPortal.Web.Infrastructure
 
         private void SetAuthorizationHeader(IPrincipal principal)
         {
-            var token = (principal?.Identity as UserIdentity)?.Token ?? (principal?.Identity as ClaimsIdentity)?.Claims.FirstOrDefault(c => c.Type == "access_token")?.Value;
+            //var token = (principal?.Identity as UserIdentity)?.Token ?? (principal?.Identity as ClaimsIdentity)?.Claims.FirstOrDefault(c => c.Type == "access_token")?.Value;
 
-            //Set Authorization header
-            Client.DefaultRequestHeaders.Authorization =
-               new AuthenticationHeaderValue("Bearer", token ?? string.Empty);
+            ////Set Authorization header
+            //Client.DefaultRequestHeaders.Authorization =
+            //   new AuthenticationHeaderValue("Bearer", token ?? string.Empty);
         }
     }
 }

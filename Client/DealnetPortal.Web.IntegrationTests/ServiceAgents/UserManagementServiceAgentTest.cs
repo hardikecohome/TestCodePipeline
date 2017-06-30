@@ -7,6 +7,7 @@ using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.ServiceAgent;
+using Microsoft.Owin.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -16,6 +17,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
     public class UserManagementServiceAgentTest
     {
         private Mock<ILoggingService> _loggingService;
+        private Mock<IAuthenticationManager> _authenticationManagerMock;
         private IHttpApiClient _client;
         private const string DefUserName = "user@ya.ru";
         private const string DefUserPassword = "123_Qwe";
@@ -25,7 +27,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         public void Intialize()
         {
             _loggingService = new Mock<ILoggingService>();
-
+            _authenticationManagerMock = new Mock<IAuthenticationManager>();
             string baseUrl = System.Configuration.ConfigurationManager.AppSettings["ApiUrl"];
             _client = new HttpApiClient(baseUrl);
         }
@@ -33,7 +35,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         [TestMethod]
         public void TestNonAuthorizedLogout()
         {            
-            IUserManagementServiceAgent userManagementServiceAgent = new UserManagementServiceAgent(_client);
+            IUserManagementServiceAgent userManagementServiceAgent = new UserManagementServiceAgent(_client, _authenticationManagerMock.Object);
             var logoutRes = userManagementServiceAgent.Logout().GetAwaiter().GetResult();
             // we was not Authorized
             Assert.IsFalse(logoutRes);
@@ -50,7 +52,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
             Assert.AreEqual(result.Item2.Count, 0);
             securityServiceAgent.SetAuthorizationHeader(result.Item1);
 
-            IUserManagementServiceAgent userManagementServiceAgent = new UserManagementServiceAgent(_client);
+            IUserManagementServiceAgent userManagementServiceAgent = new UserManagementServiceAgent(_client, _authenticationManagerMock.Object);
             var logoutRes = userManagementServiceAgent.Logout().GetAwaiter().GetResult();
             Assert.IsTrue(logoutRes);
         }
@@ -60,7 +62,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         [TestMethod]
         public void TestRegisterUser()
         {
-            IUserManagementServiceAgent userManagementServiceAgent = new UserManagementServiceAgent(_client);
+            IUserManagementServiceAgent userManagementServiceAgent = new UserManagementServiceAgent(_client, _authenticationManagerMock.Object);
             RegisterBindingModel newUser = new RegisterBindingModel()
             {
                 Email = "user3@ya.ru"

@@ -41,7 +41,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
 
 
             IScanProcessingServiceAgent serviceAgent = new ScanProcessingServiceAgent(_client, _authenticationManagerMock.Object);
-            IUserManagementServiceAgent userManagementServiceAgent = new UserManagementServiceAgent(_client);
+            IUserManagementServiceAgent userManagementServiceAgent = new UserManagementServiceAgent(_client, _authenticationManagerMock.Object);
 
             var imgRaw = File.ReadAllBytes("Img//Barcode-Driver_License.CA.jpg");
             ScanningRequest scanningRequest = new ScanningRequest()
@@ -68,7 +68,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 
             IScanProcessingServiceAgent serviceAgent = new ScanProcessingServiceAgent(_client, _authenticationManagerMock.Object);
-            IUserManagementServiceAgent userManagementServiceAgent = new UserManagementServiceAgent(_client);
+            IUserManagementServiceAgent userManagementServiceAgent = new UserManagementServiceAgent(_client, _authenticationManagerMock.Object);
 
             var imgRaw = File.ReadAllBytes("Img//micr-b.jpg");
             ScanningRequest scanningRequest = new ScanningRequest()

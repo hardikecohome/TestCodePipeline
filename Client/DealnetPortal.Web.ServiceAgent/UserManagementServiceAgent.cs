@@ -10,6 +10,7 @@ using DealnetPortal.Api.Models;
 using DealnetPortal.Web.Common;
 using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Models;
+using Microsoft.Owin.Security;
 using Microsoft.Practices.ObjectBuilder2;
 using Newtonsoft.Json;
 
@@ -19,14 +20,14 @@ namespace DealnetPortal.Web.ServiceAgent
     {
         private const string AccountApi = "Account";
 
-        public UserManagementServiceAgent(IHttpApiClient client)
-            : base(client, AccountApi)
+        public UserManagementServiceAgent(IHttpApiClient client, IAuthenticationManager authenticationManager)
+            : base(client, AccountApi, authenticationManager)
         {
         }
 
         public async Task<bool> Logout()
         {
-            var result = await Client.Client.PostAsync($"{_fullUri}/Logout", null);
+            var result = await Client.PostAsyncWithHttpResponse($"{_fullUri}/Logout", "", AuthenticationHeader);
             return result.IsSuccessStatusCode;
         }
 
@@ -47,7 +48,7 @@ namespace DealnetPortal.Web.ServiceAgent
         public async Task<IList<Alert>> ChangePassword(DealnetPortal.Api.Models.ChangePasswordBindingModel changePasswordModel)
         {
             var alerts = new List<Alert>();
-            var result = await Client.PostAsyncWithHttpResponse($"{_fullUri}/ChangePassword", changePasswordModel);
+            var result = await Client.PostAsyncWithHttpResponse($"{_fullUri}/ChangePassword", changePasswordModel, AuthenticationHeader);
 
             if (!result.IsSuccessStatusCode)
             {

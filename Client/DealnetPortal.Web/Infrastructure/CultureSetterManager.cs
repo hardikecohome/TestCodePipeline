@@ -44,9 +44,9 @@ namespace DealnetPortal.Web.Infrastructure
         public void SetCulture(string culture, bool createCookie = true)
         {
             _cultureManager.SetCulture(culture);
-            var filteredCulture = CultureHelper.FilterCulture(culture);
-            _client.Client.DefaultRequestHeaders.AcceptLanguage.Clear();
-            _client.Client.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(filteredCulture));
+            //var filteredCulture = CultureHelper.FilterCulture(culture);
+            //_client.Client.DefaultRequestHeaders.AcceptLanguage.Clear();
+            //_client.Client.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(filteredCulture));
         }
     }
 }
