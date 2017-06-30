@@ -80,12 +80,11 @@ namespace DealnetPortal.Api.Integration.Services
                     try
                     {
                         //try to submit deal in Aspire
-                        await _aspireService.SendDealUDFs(contractResult.Item1.Id, contractOwnerId);
                         //send only if HIT or Preffered start date are known
-                        //if (contractResult.Item1.Equipment?.PreferredStartDate != null || contractResult.Item1.Equipment?.NewEquipment?.Any() == true)
-                        //{
-                        //    await _aspireService.SendDealUDFs(contractResult.Item1.Id, contractOwnerId);
-                        //}                                                                            
+                        if (contractResult.Item1.Equipment?.PreferredStartDate != null || contractResult.Item1.Equipment?.NewEquipment?.Any() == true)
+                        {
+                            await _aspireService.SendDealUDFs(contractResult.Item1.Id, contractOwnerId);
+                        }
                     }
                     catch (Exception ex)
                     {
