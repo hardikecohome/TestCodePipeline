@@ -48,10 +48,8 @@
     $('#CustomCRate').on('change', validateCustomRateCardOnInput);
 
     $('#CustomYCostVal').on('change', setters.setCustomYourCost('Custom'));
-    $('#CustomYCostVal').on('change keyup', numericHandler);
 
     $('#CustomAFee').on('change', setters.setAdminFee('Custom'));
-    $('#CustomAFee').on('change keyup', numericHandler);
 
     function validateCustomRateCardOnInput() {
         var submit = $('#submit');
@@ -72,20 +70,6 @@
                 submit.removeClass('disabled');
                 submit.parent().popover('destroy');
             }
-        }
-    }
-
-    function numericHandler() {
-        // Remove invalid characters
-        var sanitized = $(this).val().replace(/[^-.0-9]/g, '');
-        // Remove non-leading minus signs
-        sanitized = sanitized.replace(/(.)-+/g, '$1');
-        // Remove the first point if there is more than one
-        sanitized = sanitized.replace(/\.(?=.*\.)/g, '');
-        if (sanitized === '') {
-            $(this).val(0);
-        } else {
-            $(this).val(sanitized);
         }
     }
 
