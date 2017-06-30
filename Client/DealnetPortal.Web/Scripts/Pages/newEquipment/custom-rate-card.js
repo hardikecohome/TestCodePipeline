@@ -90,17 +90,17 @@
     }
 
     $('#CustomYCostVal').rules('add', {
-        required: {
-            depends: function (element) {
-                return !$('#CustomCRate').val();
-            }
-        },
+        required: true,
+        regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/,
         number: true,
         min:0,
-        regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/,
         messages: {
             regex:translations.yourCostFormat,
-            required:translations.customerOrYourCost
+            required: function (ele) {
+                if (!$('#CustomCRate').val())
+                    return translations.customerOrYourCost;
+                return translations.enterZero;
+            }
         }
     });
 
