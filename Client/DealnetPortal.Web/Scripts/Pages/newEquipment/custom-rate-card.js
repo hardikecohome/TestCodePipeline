@@ -90,9 +90,9 @@
 
     $('#CustomCRate').rules('add', {
         required: true,
+        regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/,
         min:0,
         number: true,
-        regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/,
         messages: {
             regex:translations.customerRateFormat,
             required: function (ele) {
@@ -104,9 +104,9 @@
     });
 
     $('#CustomAFee').rules('add', {
+        regex:/(^[0]?|(^[1-9]\d{0,11}))([.,][0-9]{1,2})?$/,
         number: true,
         minlength: 0,
-        regex:/(^[0]?|(^[1-9]\d{0,11}))([.,][0-9]{1,2})?$/,
         messages: {
             regex:translations.adminFeeFormat
         }
@@ -114,9 +114,9 @@
 
     $('#CustomAmortTerm').rules('add', {
         required: true,
+        regex: /^[1-9]\d{0,2}?$/,
         min: 1,
         max:999,
-        regex: /^[1-9]\d{0,2}?$/,
         messages: {
             required: translations.ThisFieldIsRequired,
             regex: translations.amortTermFormat,
@@ -126,9 +126,9 @@
 
     $('#CustomLoanTerm').rules('add', {
         required: true,
+        regex: /^[1-9]\d{0,2}?$/,
         min: 1,
         max:999,
-        regex: /^[1-9]\d{0,2}?$/,
         messages: {
             required: translations.ThisFieldIsRequired,
             regex: translations.loanTermFormat,
