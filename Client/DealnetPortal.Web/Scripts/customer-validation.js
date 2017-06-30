@@ -26,10 +26,12 @@ function checkHomeOwner() {
 };
 
 function checkCreditAgree() {
+    var mainCustomerAgrees = $('#home-owner-agrees').prop('checked') && $('#agreement-checkbox-data2').prop('checked');
     if ($("#additional1-section").data('active')) {
-        return $('#agreement-checkbox1').prop('checked') && $('#agreement-checkbox').prop('checked') ? true: false;
+        var additionalCustomerAgrees = $('#additional-owner-agrees').prop('checked') && $('#additional-agreement-checkbox-data2').prop('checked');
+        return mainCustomerAgrees && additionalCustomerAgrees ? true : false;
     } else {
-        return $('#agreement-checkbox').prop('checked') ? true : false;
+        return mainCustomerAgrees ? true : false;
     }
     
 }

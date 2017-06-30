@@ -20,9 +20,9 @@ configInitialized
     });
 
     $('#agreement-checkbox1').change(function () {
-        var isValid = checkCreditAgreeAp();
+        var isValid = checkCreditAgree();
         if (isValid) {
-            $('#proceed-error-message1').hide();
+            $('#proceed-error-message').hide();
         }
     });
 

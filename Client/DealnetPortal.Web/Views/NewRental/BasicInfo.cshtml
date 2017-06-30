@@ -506,14 +506,34 @@
         </div>
         <!--Home Owner Information-->
 
-        <!--Agreement section-->
-        <div id="agreement" class="form-group">
+    <!--Agreement section-->
+    <div class="consents-checkbox-hold" id="agreement-checkbox">
+      <div class="dealnet-agrees form-group">
+        <label class="align-middle custom-checkbox">
+          @Html.CheckBox("home-owner-agrees", new { id = "home-owner-agrees" })
+          <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+          <span class="mandatory-field">@Resources.AcknowledgeAndAgreementObtainCreditReport</span>
+        </label>
+        <div class="consents-links">
+          <a href="" class="dealnet-info-link j-personal-data-used-modal">@Resources.HowIsMyPersonalDataUsed</a>
+          @Html.ActionLink(@Resources.PrivacyPolicy, "PrivacyPolicy", "Info", null, new { @class="dealnet-info-link", target = "_blank" })
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="agreement-checkbox-data2" class="align-middle custom-checkbox">
+          <input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data2"/>
+          <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+          <span class="mandatory-field">@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
+        </label>
+      </div>
+    </div>
+        @*<div id="agreement" class="form-group">
             <label for="agreement-checkbox" class="align-middle custom-checkbox">
                 <input type="checkbox" class="dealnet-checkbox" id="agreement-checkbox"/>
                 <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
                 <span>Agrees to send his/her personal data to credit check</span>
             </label>
-        </div>
+        </div>*@
         <!--Agreement section-->
     </div>
 
@@ -768,13 +788,26 @@
             </div>
 
             <!--Agreement section-->
-            <div id="agreement@(i+1)" class="form-group">
-                <label for="agreement-checkbox@(i+1)" class="align-middle custom-checkbox">
-                    <input type="checkbox" class="dealnet-checkbox" id="agreement-checkbox@(i+1)"/>
-                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                    <span>Agrees to send his/her personal data to credit check</span>
-                </label>
+        <div class="consents-checkbox-hold" id="agreement-checkbox1">
+          <div class="dealnet-agrees form-group">
+            <label class="align-middle custom-checkbox">
+              @Html.CheckBox("additional-owner-agrees", new {id = "additional-owner-agrees" })
+              <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+              <span class="mandatory-field">@Resources.AcknowledgeAndAgreementObtainCreditReport</span>
+            </label>
+            <div class="consents-links">
+              <a href="" class="dealnet-info-link j-personal-data-used-modal">@Resources.HowIsMyPersonalDataUsed</a>
+              @Html.ActionLink(@Resources.PrivacyPolicy, "PrivacyPolicy", "Info", null, new { @class="dealnet-info-link", target = "_blank" })
             </div>
+          </div>
+          <div class="form-group">
+            <label for="additional-agreement-checkbox-data2" class="align-middle custom-checkbox">
+              <input type="checkbox" class="dealnet-checkbox address-checkbox" id="additional-agreement-checkbox-data2"/>
+              <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+              <span class="mandatory-field">@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
+            </label>
+          </div>
+        </div>
           <!--Agreement section-->
         </div>
     }
@@ -816,6 +849,8 @@
 }
     </div>
 </div>
+
+@Html.Partial("_AgreementPersonalData")
 
 @section Translations
 {
