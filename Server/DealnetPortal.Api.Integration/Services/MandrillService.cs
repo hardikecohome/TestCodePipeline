@@ -181,8 +181,8 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                     },
                 send_at = DateTime.Now,
-                subject = "Application Declined or Credit review.",
-                text = "Application Declined or Credit review.",
+                subject = "Unfortunately, we’re unable to process this application automatically",
+                text = "Unfortunately, we’re unable to process this application automatically",
                 to = new List<MandrillTo>() {
                         new MandrillTo(){
                             email =emailid,
