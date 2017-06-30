@@ -12,6 +12,7 @@ using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Web.Common;
 using DealnetPortal.Web.Common.Helpers;
+using Microsoft.Owin.Security;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 
@@ -20,23 +21,20 @@ namespace DealnetPortal.Web.ServiceAgent
     public class ScanProcessingServiceAgent : ApiBase, IScanProcessingServiceAgent
     {
         private const string AgentApi = "ScanProcessing";
-        public ScanProcessingServiceAgent(IHttpApiClient client) 
-            : base(client, AgentApi)
+        public ScanProcessingServiceAgent(IHttpApiClient client, IAuthenticationManager authenticationManager) 
+            : base(client, AgentApi, authenticationManager)
         {
         }
 
         public async Task<Tuple<DriverLicenseData, IList<Alert>>> ScanDriverLicense(ScanningRequest scanningRequest)
-        {
-            //DriverLicenseData driverLicenseData = null;
-            //List<Alert> alerts = new List<Alert>();            
-            //client.DefaultRequestHeaders.Accept.Clear();
-            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/bson"));
+        {           
             MediaTypeFormatter bsonFormatter = new BsonMediaTypeFormatter();
             MediaTypeFormatter[] formatters = new MediaTypeFormatter[] { bsonFormatter, };
 
-            var result = await Client.Client.PostAsync<ScanningRequest>($"{_fullUri}/PostLicenseScanProcessing", scanningRequest, bsonFormatter);
-
-            return await result.Content.ReadAsAsync<Tuple<DriverLicenseData, IList<Alert>>>(formatters);
+            var result = await Client.PostAsyncEx<ScanningRequest, Tuple<DriverLicenseData, IList<Alert>>>($"{_fullUri}/PostLicenseScanProcessing", scanningRequest, 
+                AuthenticationHeader, null, bsonFormatter);
+            return result;
+            //return await result.Content.ReadAsAsync<Tuple<DriverLicenseData, IList<Alert>>>(formatters);
         }
 
         public async Task<Tuple<VoidChequeData, IList<Alert>>> ScanVoidCheque(ScanningRequest scanningRequest)
@@ -44,9 +42,10 @@ namespace DealnetPortal.Web.ServiceAgent
             MediaTypeFormatter bsonFormatter = new BsonMediaTypeFormatter();
             MediaTypeFormatter[] formatters = new MediaTypeFormatter[] { bsonFormatter, };
 
-            var result = await Client.Client.PostAsync<ScanningRequest>($"{_fullUri}/PostChequeScanProcessing", scanningRequest, bsonFormatter);
-
-            return await result.Content.ReadAsAsync<Tuple<VoidChequeData, IList<Alert>>>(formatters);
+            var result = await Client.PostAsyncEx<ScanningRequest, Tuple<VoidChequeData, IList<Alert>>>($"{_fullUri}/PostChequeScanProcessing", scanningRequest, 
+                AuthenticationHeader, null, bsonFormatter);
+            return result;
+            //return await result.Content.ReadAsAsync<Tuple<VoidChequeData, IList<Alert>>>(formatters);
         }
     }
 }

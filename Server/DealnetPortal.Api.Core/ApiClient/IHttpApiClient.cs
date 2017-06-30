@@ -70,6 +70,7 @@ namespace DealnetPortal.Api.Core.ApiClient
             CancellationToken cancellationToken = new CancellationToken());
 
         Task<T2> PostAsyncEx<T1, T2>(string requestUri, T1 content, AuthenticationHeaderValue authenticationHeader = null, string culture = null,
+            MediaTypeFormatter formatter = null,
             CancellationToken cancellationToken = new CancellationToken());
 
         /// <summary>
