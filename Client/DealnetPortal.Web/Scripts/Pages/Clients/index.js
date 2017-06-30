@@ -204,12 +204,12 @@
             isChanged: state.isChanged
         }
     })(function (props) {
-        $('#formErrors').empty();
+        $('#ageErrors').empty();
         if (props.errors.length > 0) {
             props.errors
                 .filter(function (error) { return error.type === 'birthday' })
                 .forEach(function (error) {
-                    $('#formErrors').append(createError(window.translations[error.messageKey]));
+                    $('#ageErrors').append(createError(window.translations[error.messageKey]));
                 });
         }
 
