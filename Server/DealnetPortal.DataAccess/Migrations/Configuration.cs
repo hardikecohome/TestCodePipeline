@@ -657,7 +657,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 new ProvinceTaxRate {Province = "YT", Rate = 5, Description = "Gst"}
             };
             //leave existing data
-            //taxRates.RemoveAll(t => context.ProvinceTaxRates.Any(dbt => dbt.Province == t.Province));
+            taxRates.RemoveAll(t => context.ProvinceTaxRates.Any(dbt => dbt.Province == t.Province));
             context.ProvinceTaxRates.AddOrUpdate(t => t.Province, taxRates.ToArray());
         }
 
