@@ -300,6 +300,8 @@
     function filterRateCardByValues(option, totalCash) {
         var selectedValues = $('#' + option.name + 'AmortizationDropdown option:selected').text().split('/');
         var items = $.parseJSON(sessionStorage.getItem(state.contractId + option.name));
+        if (!items)
+            return null;
 
         var loanTerm = +(selectedValues[0]);
         var amortTerm = +(selectedValues[1]);
