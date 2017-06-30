@@ -75,7 +75,7 @@
 
     $('#CustomYCostVal').rules('add', {
         required: true,
-        regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/,
+        regex: /(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$/,
         number: true,
         min:0,
         messages: {
@@ -90,7 +90,7 @@
 
     $('#CustomCRate').rules('add', {
         required: true,
-        regex: /^[0-9]\d{0,11}([.,][0-9][0-9]?)?$/,
+        regex: /(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$/,
         min:0,
         number: true,
         messages: {
@@ -106,7 +106,7 @@
     $('#CustomAFee').rules('add', {
         regex:/(^[0]?|(^[1-9]\d{0,11}))([.,][0-9]{1,2})?$/,
         number: true,
-        minlength: 0,
+        min: 0,
         messages: {
             regex:translations.adminFeeFormat
         }
