@@ -225,8 +225,8 @@
 
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
         if (notNan && data.equipmentSum !== 0) {
-            $('#rentalTax').text(tax(data));
-            $('#rentalTMPayment').text(totalPrice(data));
+            $('#rentalTax').text(formatNumber(tax(data)));
+            $('#rentalTMPayment').text(formatNumber(totalPrice(data)));
         } else {
             $('#rentalTax').text('-');
             $('#rentalTMPayment').text('-');
