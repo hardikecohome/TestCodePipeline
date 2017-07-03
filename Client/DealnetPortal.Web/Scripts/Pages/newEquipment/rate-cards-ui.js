@@ -157,6 +157,7 @@
     $(document).ready(function () {
         if (onlyCustomCard) {
             $('#rateCardsBlock').addClass('one-rate-card');
+            $('.financing-arrow').addClass('hidden');
         }
 
         $('#typeOfAgreementSelect').on('change', onAgreemntSelect).change();
