@@ -20,15 +20,16 @@
         @Html.DropDownList(Model + "Amortization", amortizationSelectList, new { @class = "form-control", id = Model + "AmortizationDropdown" })
       </div>
     </div>
-    <div class="equal-height-row-3 equal-height-notification">
+    <div class="equal-height-row-3 equal-height-notification hidden">
       <div class="rate-card-notify clearfix">
         <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
         180 month amortization is available only on loans over $5,000
       </div>
     </div>
     <div class="equal-height-row-4">
-      <div class="clearfix">
-
+      <div class="rate-card-notify clearfix">
+        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+        180 month amortization is available only on loans over $5,000
       </div>
     </div>
     <div class="equal-height-row-5">
