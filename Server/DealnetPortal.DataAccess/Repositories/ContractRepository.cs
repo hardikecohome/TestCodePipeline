@@ -84,7 +84,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 || (contractCreatorRoleId == null || c.Dealer.Roles.Select(r => r.RoleId).Contains(contractCreatorRoleId))) &&
                 c.Equipment.NewEquipment.Any() &&
                 c.PrimaryCustomer.Locations.Any(l => l.AddressType == AddressType.InstallationAddress) &&
-                (c.ContractState >= ContractState.CreditContirmed && !creditReviewStates.Contains(c.Details.Status))).ToList();
+                (c.ContractState >= ContractState.CreditConfirmed && !creditReviewStates.Contains(c.Details.Status))).ToList();
             if (eqList!=null && eqList.Any())
             {
                 contracts = contracts.Where(c => eqList.Any(eq => eq == c.Equipment?.NewEquipment?.FirstOrDefault()?.Type)).ToList();
@@ -815,7 +815,7 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 return false;
             }
-            if (contract.ContractState < ContractState.CreditContirmed || creditReviewStates.Contains(contract.Details.Status))
+            if (contract.ContractState < ContractState.CreditConfirmed || creditReviewStates.Contains(contract.Details.Status))
             {
                 return false;
             }

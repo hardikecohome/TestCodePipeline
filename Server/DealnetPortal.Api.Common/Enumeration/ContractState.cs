@@ -17,7 +17,7 @@ namespace DealnetPortal.Api.Common.Enumeration
         [Display(ResourceType = typeof (Resources.Resources), Name = "CreditCheckDeclined")]
         CreditCheckDeclined = 3,
         [Display(ResourceType = typeof (Resources.Resources), Name = "CreditCheckApproved")]
-        CreditContirmed = 4,
+        CreditConfirmed = 4,
         [Display(ResourceType = typeof (Resources.Resources), Name = "ApplicationSubmitted")]
         Completed = 5,
         [Display(ResourceType = typeof (Resources.Resources), Name = "SentToAudit")]

@@ -218,7 +218,7 @@ namespace DealnetPortal.Api.Integration.Services
                 newContracts?.ForEach(c =>
                 {
                     //Do credit check only for new contract (not updated from CW)
-                    if (c.ContractState < ContractState.CreditContirmed)
+                    if (c.ContractState < ContractState.CreditConfirmed)
                     {
                         //Start credit check for this contract                            
                         var creditCheckAlerts = new List<Alert>();

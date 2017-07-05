@@ -453,7 +453,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     case CreditCheckState.Approved:
                         _contractRepository.UpdateContractState(contractId, contractOwnerId,
-                            ContractState.CreditContirmed);
+                            ContractState.CreditConfirmed);
                         _unitOfWork.Save();
                         break;
                     case CreditCheckState.Declined:
@@ -463,7 +463,7 @@ namespace DealnetPortal.Api.Integration.Services
                         break;
                     case CreditCheckState.MoreInfoRequired:
                         _contractRepository.UpdateContractState(contractId, contractOwnerId,
-                            ContractState.CreditContirmed);
+                            ContractState.CreditConfirmed);
                         _unitOfWork.Save();
                         break;
                 }
