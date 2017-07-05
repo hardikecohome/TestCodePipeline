@@ -43,10 +43,10 @@
                 maxHeight = $(this).children().eq(0).outerHeight(true);
             }
         });
-        if(row.is(".equal-height-row-5")){
+    /*     if(row.is(".equal-height-row-5")){
             console.log(maxHeight);
         }
-
+		*/
         row.height(maxHeight);
     }
 
@@ -191,7 +191,7 @@
 });
 
 
-function  carouselRateCards(){
+function carouselRateCards(){
     var windowWidth = $(window).width();
     var paginationItems;
     var targetSlides;
@@ -212,7 +212,7 @@ function  carouselRateCards(){
 
     var jcarousel = $('.rate-cards-container:not(".one-rate-card") .jcarousel');
 		var carouselItemsToView = viewport().width >= 768 && viewport().width < 1024 ? 2 : viewport().width < 768 ? 1 : 4;
-	jcarousel
+		jcarousel
       .on('jcarousel:reload jcarousel:create', function () {
           var carousel = $(this),
             carouselWidth = carousel.innerWidth(),
@@ -220,20 +220,24 @@ function  carouselRateCards(){
 
           carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
       })
-      .jcarousel().swipe( {
-				//Generic swipe handler for all directions
-				swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
-					if(direction === "left"){
-						jcarousel.jcarousel('scroll', '+='+carouselItemsToView);
-					} else if(direction === "right"){
-						jcarousel.jcarousel('scroll', '-='+carouselItemsToView);
-					} else {
-						event.preventDefault();
-					}
-				},
-				fingers: 'all',
-				allowPageScroll: "auto"
-			});
+
+			if(viewport().width < 1024){
+				jcarousel.jcarousel().swipe( {
+					//Generic swipe handler for all directions
+					swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+						if(direction === "left"){
+							jcarousel.jcarousel('scroll', '+='+carouselItemsToView);
+						} else if(direction === "right"){
+							jcarousel.jcarousel('scroll', '-='+carouselItemsToView);
+						} else {
+							event.preventDefault();
+						}
+					},
+					fingers: 'all',
+					allowPageScroll: "auto"
+				});
+			}
+
 
     $('.jcarousel-control-prev')
       .jcarouselControl({
