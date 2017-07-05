@@ -43,6 +43,9 @@
                 maxHeight = $(this).children().eq(0).outerHeight(true);
             }
         });
+	      if(row.children().eq(0)){
+
+	      }
         row.height(maxHeight);
     }
 
