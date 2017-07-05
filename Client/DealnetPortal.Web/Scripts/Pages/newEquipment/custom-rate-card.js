@@ -82,7 +82,7 @@
             regex:translations.yourCostFormat,
             required: function (ele) {
                 if (!$('#CustomCRate').val())
-                    return translations.customerOrYourCost;
+                    return translations.ThisFieldIsRequired;
                 return translations.enterZero;
             }
         }
@@ -97,7 +97,7 @@
             regex:translations.customerRateFormat,
             required: function (ele) {
                 if (!$('#CustomYCostVal').val())
-                    return translations.customerOrYourCost;
+                    return translations.ThisFieldIsRequired;
                 return translations.enterZero;
             }
         }
