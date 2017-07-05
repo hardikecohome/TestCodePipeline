@@ -339,13 +339,6 @@ namespace DealnetPortal.Web.Controllers
         {
             ViewBag.IsAllInfoCompleted = false;
 
-            if (!ModelState.IsValid)
-            {
-                ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
-
-                return View(equipmentInfo);
-            }
-
             var updateResult = await _contractManager.UpdateContractAsyncNew(equipmentInfo);
 
             if (updateResult.Any(r => r.Type == AlertType.Error))

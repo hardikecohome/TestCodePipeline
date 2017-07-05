@@ -94,7 +94,7 @@
     function resetFormValidator(formId) {
         $(formId).removeData('validator');
         $(formId).removeData('unobtrusiveValidation');
-        $.validator.unobtrusive.parse(formId);
+        $.validator.unobtrusive.parse($(formId));
     }
 
     function updateCost() {
