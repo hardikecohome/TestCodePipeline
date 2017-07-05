@@ -43,10 +43,9 @@
                 maxHeight = $(this).children().eq(0).outerHeight(true);
             }
         });
-    /*     if(row.is(".equal-height-row-5")){
-            console.log(maxHeight);
-        }
-		*/
+	      if(row.children().eq(0)){
+
+	      }
         row.height(maxHeight);
     }
 
@@ -178,6 +177,21 @@
             carouselRateCards();
             setHeight();
         });
+
+		    $('.link-over-notify').popover({
+			    template: '<div class="popover customer-loan-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
+			    placement: 'top',
+			    trigger: $('body').is('.tablet-device') || $('body').is('.mobile-device') ? 'click' : 'hover',
+			    content: '',
+		    }).on('shown.bs.popover', function () {
+			    if($('body').is('.tablet-device') || $('body').is('.mobile-device')){
+				    $(this).parents('div[class*="equal-height-row"]').addClass('row-auto-height');
+			    }
+		    }).on('hide.bs.popover', function () {
+			    if($('body').is('.tablet-device') || $('body').is('.mobile-device')){
+				    $(this).parents('div[class*="equal-height-row"]').removeClass('row-auto-height');
+			    }
+		    });
     });
 
     return {
@@ -225,6 +239,12 @@ function carouselRateCards(){
 				jcarousel.swipe({
 					//Generic swipe handler for all directions
 					swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+						$('.link-over-notify').each(function(){
+							if($(this).attr('aria-describedby')){
+								$(this).click();
+							}
+						});
+
 						if(direction === "left"){
 							jcarousel.jcarousel('scroll', '+='+carouselItemsToView);
 						} else if(direction === "right"){
@@ -233,7 +253,7 @@ function carouselRateCards(){
 							event.preventDefault();
 						}
 					},
-					excludedElements: "button, input, select, textarea, .noSwipe",
+					excludedElements: "button, input, select, textarea, .noSwipe, a",
 					threshold: 50,
 					allowPageScroll: "auto",
 					triggerOnTouchEnd: false

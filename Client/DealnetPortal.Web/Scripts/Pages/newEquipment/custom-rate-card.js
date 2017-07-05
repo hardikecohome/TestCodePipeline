@@ -71,6 +71,7 @@
                 submit.parent().popover('destroy');
             }
         }
+        $(window).resize();
     }
 
     $('#CustomYCostVal').rules('add', {
