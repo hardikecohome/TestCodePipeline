@@ -5,7 +5,7 @@
     var showRateCardBlock = function () {
         $('#rateCardsBlock').addClass('opened')
                             .removeClass('closed');
-        setTimeout(setHeight(), 200);
+        setTimeout(setHeight(), 500);
 
         $('#loanRateCardToggle').find('i.glyphicon')
           .removeClass('glyphicon-chevron-down')
@@ -43,7 +43,10 @@
                 maxHeight = $(this).children().eq(0).outerHeight(true);
             }
         });
-
+    /*     if(row.is(".equal-height-row-5")){
+            console.log(maxHeight);
+        }
+		*/
         row.height(maxHeight);
     }
 
@@ -82,6 +85,7 @@
         setEqualHeightRows($(".equal-height-row-2"));
         setEqualHeightRows($(".equal-height-row-3"));
         setEqualHeightRows($(".equal-height-row-4"));
+        setEqualHeightRows($(".equal-height-row-5"));
 
 
         setEqualHeightRows($(".equal-height-label-1"));
@@ -187,7 +191,7 @@
 });
 
 
-function  carouselRateCards(){
+function carouselRateCards(){
     var windowWidth = $(window).width();
     var paginationItems;
     var targetSlides;
@@ -207,24 +211,35 @@ function  carouselRateCards(){
     }
 
     var jcarousel = $('.rate-cards-container:not(".one-rate-card") .jcarousel');
-
-    jcarousel
+		var carouselItemsToView = viewport().width >= 768 && viewport().width < 1024 ? 2 : viewport().width < 768 ? 1 : 4;
+		jcarousel
       .on('jcarousel:reload jcarousel:create', function () {
           var carousel = $(this),
-            width = carousel.innerWidth(),
-            windowWidth = $(window).width();
-
-          if (windowWidth >= 1024) {
-              width = width / 4;
-          } else if (windowWidth >= 768) {
-              width = width / 2;
-          }else {
-              width = width / 1;
-          }
+            carouselWidth = carousel.innerWidth(),
+	          width = carouselWidth / carouselItemsToView;
 
           carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
-      })
-      .jcarousel();
+      }).jcarousel();
+
+			if(viewport().width < 1024){
+				jcarousel.swipe({
+					//Generic swipe handler for all directions
+					swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+						if(direction === "left"){
+							jcarousel.jcarousel('scroll', '+='+carouselItemsToView);
+						} else if(direction === "right"){
+							jcarousel.jcarousel('scroll', '-='+carouselItemsToView);
+						} else {
+							event.preventDefault();
+						}
+					},
+					excludedElements: "button, input, select, textarea, .noSwipe",
+					threshold: 50,
+					allowPageScroll: "auto",
+					triggerOnTouchEnd: false
+				});
+			}
+
 
     $('.jcarousel-control-prev')
       .jcarouselControl({
