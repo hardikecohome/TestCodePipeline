@@ -5,7 +5,7 @@
     var showRateCardBlock = function () {
         $('#rateCardsBlock').addClass('opened')
                             .removeClass('closed');
-        setTimeout(setHeight(), 200);
+        setTimeout(setHeight(), 500);
 
         $('#loanRateCardToggle').find('i.glyphicon')
           .removeClass('glyphicon-chevron-down')
@@ -43,6 +43,9 @@
                 maxHeight = $(this).children().eq(0).outerHeight(true);
             }
         });
+        if(row.is(".equal-height-row-5")){
+            console.log(maxHeight);
+        }
 
         row.height(maxHeight);
     }
@@ -82,6 +85,7 @@
         setEqualHeightRows($(".equal-height-row-2"));
         setEqualHeightRows($(".equal-height-row-3"));
         setEqualHeightRows($(".equal-height-row-4"));
+        setEqualHeightRows($(".equal-height-row-5"));
 
 
         setEqualHeightRows($(".equal-height-label-1"));
