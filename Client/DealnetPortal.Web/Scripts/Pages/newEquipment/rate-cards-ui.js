@@ -219,10 +219,10 @@ function carouselRateCards(){
 	          width = carouselWidth / carouselItemsToView;
 
           carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
-      })
+      }).jcarousel();
 
 			if(viewport().width < 1024){
-				jcarousel.jcarousel().swipe( {
+				jcarousel.swipe({
 					//Generic swipe handler for all directions
 					swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
 						if(direction === "left"){
@@ -233,8 +233,10 @@ function carouselRateCards(){
 							event.preventDefault();
 						}
 					},
-					fingers: 'all',
-					allowPageScroll: "auto"
+					excludedElements: "button, input, select, textarea, .noSwipe",
+					threshold: 50,
+					allowPageScroll: "auto",
+					triggerOnTouchEnd: false
 				});
 			}
 
