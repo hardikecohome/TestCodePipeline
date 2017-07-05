@@ -4722,7 +4722,42 @@ namespace DealnetPortal.DataAccess.Migrations
             });
             #endregion
 
+            //Missed rate cards
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 157,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 10.99,
+                DealerCost = 4.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 1,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
 
+            context.RateCards.AddOrUpdate(new RateCard
+            {
+                Id = 158,
+                LoanValueFrom = 1000,
+                LoanValueTo = 4999.99,
+                CustomerRate = 11.99,
+                DealerCost = 4.5,
+                AdminFee = 59.95,
+                LoanTerm = 60,
+                AmortizationTerm = 60,
+                DeferralPeriod = 6,
+                ValidFrom = null,
+                ValidTo = null,
+                TierId = 2,
+                CardType = RateCardType.Deferral,
+                IsPromo = false
+            });
         }
 
         public static void AddOrUpdate<TEntity>(DbContext context, Expression<Func<TEntity, object>> identifiers, params TEntity[] entities) where TEntity : class
