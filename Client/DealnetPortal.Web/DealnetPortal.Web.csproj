@@ -778,6 +778,7 @@
     <Content Include="Scripts\custom-validation.js" />
     <Content Include="Scripts\customer-form.js" />
     <Content Include="Scripts\jquery.jcarousel.min.js" />
+    <Content Include="Scripts\jquery.touchSwipe.min.js" />
     <Content Include="Scripts\Pages\Clients\index.js" />
     <Content Include="Scripts\Pages\Clients\new-client-autocomplete.js" />
     <Content Include="Scripts\Pages\Clients\new-client-flow.js" />
