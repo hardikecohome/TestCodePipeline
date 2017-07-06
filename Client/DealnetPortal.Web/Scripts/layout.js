@@ -41,6 +41,31 @@
         });
     }
 
+      $('.div-datepicker-value').on('click', function(){
+        $('.div-datepicker').removeClass('opened');
+        $(this).siblings('.div-datepicker').toggleClass('opened');
+      });
+
+      $('.div-datepicker').datepicker({
+        changeYear: true,
+        changeMonth: true,
+          onSelect: function(value, date) {
+            $(this).siblings('.div-datepicker-value').text(value);
+            $(".div-datepicker").removeClass('opened');
+          },
+          onClose: function(){
+            onDateSelect($(this));
+          }
+       }
+      );
+
+/*
+    $('*:not(.div-datepicker)').on('focus click', function(){
+      $('.div-datepicker').removeClass('opened');
+    });
+*/
+
+
     if (customerDealsCountUrl) {
         $.ajax({
             cache: false,

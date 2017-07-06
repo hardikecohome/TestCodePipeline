@@ -273,6 +273,25 @@ body.bodyHasDatepicker .navbar-fixed-side{
     }
   }
 }
+.datepicker-overlay{
+  position: absolute;
+  top: 0;
+  left:  0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0);
+  display: none;
+}
+.div-datepicker{
+  z-index: 10;
+  display: none !important;
+  &.opened{
+    display: block !important;
+    position: absolute;
+    top: 39px;
+    left: 0;
+  }
+}
 
 .ui-datepicker .ui-datepicker-buttonpane{
   margin: 5px 0;
@@ -306,4 +325,14 @@ body.bodyHasDatepicker .navbar-fixed-side{
       color: @button-link-active-color;
     }
   }
+}
+.div-datepicker-value{
+  .form-control;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.div-datepicker{
+  display: none;
 }
