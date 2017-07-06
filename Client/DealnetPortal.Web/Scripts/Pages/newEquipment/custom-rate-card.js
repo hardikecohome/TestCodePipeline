@@ -45,9 +45,10 @@
 
     $('#CustomDeferralPeriod').on('change', setters.setDeferralPeriod('Custom'));
     $('#CustomCRate').on('change', setters.setCustomerRate('Custom'));
-    $('#CustomCRate').on('change', validateCustomRateCardOnInput);
+    $('#CustomCRate').on('change keyup', validateCustomRateCardOnInput);
 
     $('#CustomYCostVal').on('change', setters.setCustomYourCost('Custom'));
+    $('#CustomYCostVal').on('change keyup', validateCustomRateCardOnInput);
 
     $('#CustomAFee').on('change', setters.setAdminFee('Custom'));
 
