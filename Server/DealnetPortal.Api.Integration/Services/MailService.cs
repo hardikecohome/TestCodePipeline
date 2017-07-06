@@ -131,7 +131,7 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 //contractData.DealerEmail ?? string.Empty
                 //await _emailService.SendAsync(mail);
-                await _emailService.SendAsync(new List<string> { "noreply@ecohomefinancial.com" }, string.Empty, Resources.Resources.ThankYouForApplyingForFinancing, body.ToString());
+                await _emailService.SendAsync(new List<string> { contractData.DealerEmail ?? string.Empty }, string.Empty, Resources.Resources.ThankYouForApplyingForFinancing, body.ToString());
             }
             catch (Exception ex)
             {
