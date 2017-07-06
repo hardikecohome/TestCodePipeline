@@ -83,7 +83,7 @@
 
         function onAmortizationDropdownChange(option) {
             $('#' + option + 'AmortizationDropdown').change(function () {
-                $(this).prop('selected', true);
+                $(this).find('option:selected').removeAttr('selected');
 
                 recalculateValuesAndRender();
             });

@@ -243,9 +243,9 @@
         var tooltip = $('a#' + option + 'Notify');
 
         if (+totalCash >= constants.totalAmountFinancedFor180amortTerm) {
-            toggleDisabledAttributeOnOption(options, tooltip, false);
+            toggleDisabledAttributeOnOption(option, options, tooltip, false);
         } else {
-            toggleDisabledAttributeOnOption(options, tooltip, true);
+            toggleDisabledAttributeOnOption(option, options, tooltip, true);
         }
     }
 
@@ -257,7 +257,7 @@
      * @param {boolean} isDisable - disable/enable option and show/hide tooltip
      * @returns {} 
      */
-    function toggleDisabledAttributeOnOption(options, tooltip, isDisable) {
+    function toggleDisabledAttributeOnOption(option, options, tooltip, isDisable) {
         if (!options.length) return;
 
         var formGroup = tooltip.closest('.form-group');
@@ -271,7 +271,7 @@
                 // if we selected max value of dropdown and totalAmountFinanced is lower then constants.amortizationValueToDisable
                 // just select first option in dropdown
                 if (options.selectedIndex === i && isDisable) {
-                    $(options[0]).attr('selected', true);
+                    $('#' + option + 'AmortizationDropdown').val(options[0].value);
                 }
 
                 var opt = $(options[i]);
