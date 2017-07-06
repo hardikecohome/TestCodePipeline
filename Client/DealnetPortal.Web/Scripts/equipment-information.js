@@ -15,7 +15,8 @@
                             event.preventDefault();
                             $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
                         }
-                    }
+					}
+					ga('send', 'event', 'Equipment Information', 'button_click', 'Step 3 from Dealer Portal', '100');
                 });
 
                 $('#existing-notes-default').text("").attr("id", "ExistingEquipment_0__Notes");
@@ -60,7 +61,8 @@
                     recalculateTotalCashPrice();
                 } else {
                     recalculateTotalMonthlyPaymentHst();
-                }
+				}
+
             });
 
 function manageAgreementElements(agreementType) {

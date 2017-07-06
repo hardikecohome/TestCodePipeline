@@ -1,7 +1,7 @@
 ﻿configInitialized
     .then(function() {
         $("#check-credit-button").click(function(event) {
-
+			ga('send', 'event', 'Credit check confirmation', 'button_click', 'Step 2 from Dealer Portal', '100');
             if (!$('#home-owner-agrees').is(':checked') || !$('#agreement-checkbox-data2').is(':checked')) {
                 event.preventDefault();
                 $("#proceed-error-message").show();

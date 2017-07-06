@@ -50,9 +50,10 @@
             modal.setAttribute('data-stToFill', 'street');
             modal.setAttribute('data-ctToFill', 'locality');
             modal.setAttribute('data-prToFill', "administrative_area_level_1");
-            modal.setAttribute('data-pcToFill', "postal_code");
-        }
+			modal.setAttribute('data-pcToFill', "postal_code");
 
+        }
+		ga('send', 'event', 'Scan License', 'button_click', 'From Mortgage Portal', '100');
         return true;
     });
 

@@ -1,5 +1,6 @@
 ﻿configInitialized
-    .then(function () {
+	.then(function () {
+		ga('send', 'event', 'Contact and Payment', 'button_click', 'Step 4 from Dealer Portal', '100');
     $(".home-phone").each(function () {
         $(this).rules("add", "required");
     });
@@ -27,7 +28,8 @@
     managePaymentElements(initPaymentType);
     $("#payment-type").change(function () {
         managePaymentElements($(this).find(":selected").val());
-    });
+	});
+	
 });
 function managePaymentElements(paymentType) {
     switch (paymentType) {

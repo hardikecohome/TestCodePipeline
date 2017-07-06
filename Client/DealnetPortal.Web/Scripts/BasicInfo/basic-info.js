@@ -103,10 +103,12 @@ configInitialized
         modal.setAttribute('data-stToFill', 'street');
         modal.setAttribute('data-ctToFill', 'locality');
         modal.setAttribute('data-prToFill', "administrative_area_level_1");
-        modal.setAttribute('data-pcToFill', "postal_code");
+		modal.setAttribute('data-pcToFill', "postal_code");
+		ga('send', 'event', 'Scan License', 'button_click', 'DrivingLicense','100');
     });
     $("#additional1-scan-button").click(function () {
-        setDataAttrInModal(1);
+		setDataAttrInModal(1);
+		ga('send', 'event', 'Scan License', 'button_click', 'DrivingLicense', '100');
     });
     $("#add-additional-applicant").click(function () {
         if (!aditional1Section.data('active')) {
@@ -117,7 +119,8 @@ configInitialized
         hideAditional1Section();
     });
 
-    $("#save-and-proceed-button").click(function (event) {
+	$("#save-and-proceed-button").click(function (event) {
+		ga('send', 'event', 'Basic Info', 'button_click', 'Step 1 from Dealer POrtal', '100');
         var isApprovalAge = checkApplicantsAge();
         var isHomeOwner = checkHomeOwner();
         if (!isApprovalAge) {
@@ -133,7 +136,8 @@ configInitialized
             if ($('#main-form').valid()) {
                 event.preventDefault();
             }
-        }
+		}
+
     });
 });
 function setDataAttrInModal (index) {
