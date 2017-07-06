@@ -1,7 +1,6 @@
 ﻿configInitialized
 	.then(function () {
-		ga('send', 'event', 'Contact and Payment', 'button_click', 'Step 4 from Dealer Portal', '100');
-    $(".home-phone").each(function () {
+	$(".home-phone").each(function () {
         $(this).rules("add", "required");
     });
     $(".cell-phone").each(function () {
