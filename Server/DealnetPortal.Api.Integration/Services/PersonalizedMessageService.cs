@@ -34,7 +34,7 @@ namespace DealnetPortal.Api.Integration.Services
                 RequestMessage request = new RequestMessage();
                 request.messages.Add(new Message()
                 {
-                    content = new Content() { body = messagebody },
+                    content = new Content() { body = "MyhomeWallet by Ecohome Financial: " + messagebody + " StdMsg&DataRtsAply Txt STOP to stop INFO for info" },
                     sendDate = DateTime.Now,
                     validUntil = DateTime.Now.AddMinutes(5),
                     to = new To() { subscriber = new Subscriber() { phone = phonenumber } },
