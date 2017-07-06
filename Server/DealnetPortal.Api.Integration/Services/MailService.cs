@@ -122,7 +122,7 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine($"Telephone : 1-866-382-7468 </br>");
             body.AppendLine($"<a href=\"http://ecohomefinancial.com/contact-us/privacy-policy/\"" +">Privacy Policy </a></br>");
             body.AppendLine($"You are receiving this email because you have subscribed to receive updates from us.<br/>");
-            body.AppendLine($"To cancel your subscription, please Click here to < a href = " +"% unsubscribe_url %" +" > unsubscribe </a></p>");
+            body.AppendLine($"To cancel your subscription, please click here to <a href=\"% unsubscribe_url %\""+" >unsubscribe</a></p>");
             body.AppendLine("</div>");
 
             //var alternateView = AlternateView.CreateAlternateViewFromString(body.ToString(), null, MediaTypeNames.Text.Html);
