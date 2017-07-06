@@ -155,12 +155,14 @@
   <script type="text/javascript">
     var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
     var isCalculationValid = false;
-    var onlyCustomCard = '@(!((List<RateCardType>) ViewBag.CardTypes != null && ((List<RateCardType>) ViewBag.CardTypes).Any()))' === 'True' ? true : false;
   </script>
 
   <script type="text/javascript">
     configInitialized.then(function () {
-      module.require('rate-cards-init').init(@Model.ContractId, @Html.Raw(Json.Encode(Model.DealerTier.RateCards)));
+      module.require('rate-cards-init').init(
+        @Model.ContractId,
+        @Html.Raw(Json.Encode(Model.DealerTier.RateCards)),
+        '@(!((List<RateCardType>) ViewBag.CardTypes != null && ((List<RateCardType>) ViewBag.CardTypes).Any()))' === 'True' ? true : false);
       module.require('rate-cards-ui');
       module.require('rate-cards');
       module.require('new-equipment');

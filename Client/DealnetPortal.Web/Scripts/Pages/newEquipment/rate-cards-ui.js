@@ -96,7 +96,7 @@
             //If loan is chosen
             setHeight();
             if (!$("#submit").hasClass('disabled') && $('#rateCardsBlock').find('div.checked').length === 0) {
-                if (!onlyCustomCard) {
+                if (!state.onlyCustomRateCard) {
                     $('#submit').addClass('disabled');
                     $('#submit').parent().popover();
                 }
@@ -105,7 +105,7 @@
             $('#loanRateCardToggle, .loan-element, .downpayment-row').show();
             $('.rental-element').hide();
 
-            if (onlyCustomCard || $('#rateCardsBlock').find('div.checked').length) {
+            if (state.onlyCustomRateCard || $('#rateCardsBlock').find('div.checked').length) {
                 $('#paymentInfo').show();
             } else {
                 $('#rateCardsBlock').addClass('opened')
@@ -126,7 +126,7 @@
     }
 
     var highlightCardBySelector = function (selector) {
-        if (!onlyCustomCard) {
+        if (!state.onlyCustomRateCard) {
             $(selector).parents('.rate-card')
                 .addClass('checked')
                 .parents('li')
@@ -163,7 +163,7 @@
     }
 
     $(document).ready(function () {
-        if (onlyCustomCard) {
+        if (state.onlyCustomRateCard) {
             $('#rateCardsBlock').addClass('one-rate-card');
             $('.financing-arrow').addClass('hidden');
         }
@@ -220,7 +220,7 @@ function carouselRateCards(){
         targetSlides = 1;
     }
 
-    if (onlyCustomCard) {
+    if (state.onlyCustomRateCard) {
         return;
     }
 

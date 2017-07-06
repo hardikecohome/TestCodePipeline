@@ -18,7 +18,7 @@
       <div class="form-group notify-hold">
         <label>Loan/Amortization Term</label>
         @Html.DropDownList(Model + "Amortization", amortizationSelectList, new { @class = "form-control", id = Model + "AmortizationDropdown" })
-        <a class="link-over-notify"
+        <a class="link-over-notify" id="FixedRateNotify"
            data-content="180 month amortization is available only on loans over $5,000">
           <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
         </a>

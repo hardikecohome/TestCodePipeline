@@ -208,7 +208,7 @@ namespace DealnetPortal.Web.Controllers
 
                 if (checkResult?.Item1 != null && checkResult.Item1.CreditCheckState != CreditCheckState.Initiated)
                 {
-                    break;                    
+                    break;
                 }
 
                 await Task.Delay(timeOut);

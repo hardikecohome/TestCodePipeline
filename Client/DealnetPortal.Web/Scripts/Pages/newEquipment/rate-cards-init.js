@@ -4,10 +4,20 @@
     var rateCardBlock = require('rate-cards-ui');
     var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
 
-    var init = function (id, cards) {
+    /**
+     * Initialize view and store rate cards in storage.
+     * @param {number} id - contract id
+     * @param {Array<>} cards - array of rate cards which specifed to dealer 
+     * @param {boolean} onlyCustomRateCard - if no available rate cards, show only custom rate card 
+     * @returns {} 
+     */
+    var init = function (id, cards, onlyCustomRateCard) {
         state.contractId = id;
+        // check if we have any prefilled values in database
+        // related to this contract, if yes contract is not new
         state.isNewContract = $('#IsNewContract').val().toLowerCase() === 'true';
         state.selectedCardId = $('#SelectedRateCardId').val() !== "" ? +$('#SelectedRateCardId').val() : null;
+        state.onlyCustomRateCard = onlyCustomRateCard;
 
         if (state.isNewContract && state.selectedCardId === null) {
             $('#submit').addClass('disabled');
@@ -16,7 +26,7 @@
             $('#submit').parent().popover('destroy');
         }
 
-        if (onlyCustomCard) {
+        if (state.onlyCustomRateCard) {
             if (state.selectedCardId !== null) {
                 renderSelectedRateCardUi('Custom');
             }
@@ -34,9 +44,15 @@
             });
         }
 
-        recalculateValuesAndRender([], true);
+        recalculateValuesAndRender();
     }
 
+    /**
+     * Hide/Show block with rate cards and highlight selected rate card on initialization
+     * @param {string} option - rate card option [NoInterest, Fixed, Deferral, Custom]
+     * @param {Array<>} items - list of rate cards for the option
+     * @returns {} 
+     */
     function renderSelectedRateCardUi(option, items) {
         rateCardBlock.toggle(state.isNewContract);
         if (option !== 'Custom' && state.selectedCardId !== 0) {
@@ -58,6 +74,12 @@
         }
     }
 
+    /**
+     * Highlight selected rate on initialization 
+    * @param {string} option - rate card option [NoInterest, Fixed, Deferral, Custom]
+     * @param {Array<>} items - list of rate cards for the option
+     * @returns {} 
+     */
     function setSelectedRateCard(option, items) {
         var selectedCard = $.grep(items, function (card) { return card.Id === Number(state.selectedCardId); })[0];
 
@@ -77,6 +99,10 @@
         }
     }
 
+    /**
+     * populate custom rate cards with values
+     * @returns {} 
+     */
     function setSelectedCustomRateCard() {
         var deferralPeriod = $.grep(constants.customDeferralPeriods, function (period) { return period.name === $('#LoanDeferralType').val() })[0];
 

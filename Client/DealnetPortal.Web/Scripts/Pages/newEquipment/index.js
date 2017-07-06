@@ -11,38 +11,17 @@
         var state = require('state').state;
         var constants = require('state').constants;
 
-        var onRateCardSelect = function() {
-            recalculateValuesAndRender([], false);
-            var option = $(this).parent().find('#hidden-option').text();
-            if (option === 'Custom') {
-                var isValid = validateOnSelect.call(this);
-
-                if (isValid) {
-                    rateCardBlock.hide();
-                } else {
-                    if (!$("#submit").hasClass('disabled')) {
-                        $('#submit').addClass('disabled');
-                        $('#submit').parent().popover();
-                    }
-                }
-            } else {
-                $('#custom-rate-card').clearErrors();
-                toggleRateCardBlock();
-                rateCardBlock.hide();
-            }
-        }
-
         var submitForm = function (event) {
             $('#equipment-form').valid();
             var agreementType = $("#typeOfAgreementSelect").find(":selected").val();
             if (agreementType === "0") {
                 var rateCard = $('.checked');
-                if (rateCard.length === 0 && !onlyCustomCard) {
+                if (rateCard.length === 0 && !state.onlyCustomRateCard) {
                     event.preventDefault();
                 } else {
                     var option = rateCard.find('#hidden-option').text();
 
-                    if (onlyCustomCard) {
+                    if (state.onlyCustomRateCard) {
                         option = 'Custom';
                     }
 
@@ -75,6 +54,27 @@
             toggleDisableClassOnInputs(false);
         }
 
+        var onRateCardSelect = function () {
+            recalculateValuesAndRender();
+            var option = $(this).parent().find('#hidden-option').text();
+            if (option === 'Custom') {
+                var isValid = validateOnSelect.call(this);
+
+                if (isValid) {
+                    rateCardBlock.hide();
+                } else {
+                    if (!$("#submit").hasClass('disabled')) {
+                        $('#submit').addClass('disabled');
+                        $('#submit').parent().popover();
+                    }
+                }
+            } else {
+                $('#custom-rate-card').clearErrors();
+                toggleRateCardBlock();
+                rateCardBlock.hide();
+            }
+        }
+
         function toggleCustomRateCard() {
             var isRental = $('#typeOfAgreementSelect').val() != 0;
             var option = $('.checked > #hidden-option').text();
@@ -85,7 +85,7 @@
             $('#' + option + 'AmortizationDropdown').change(function () {
                 $(this).prop('selected', true);
 
-                recalculateValuesAndRender([], false);
+                recalculateValuesAndRender();
             });
         }
 

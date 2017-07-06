@@ -25,7 +25,10 @@
         customDeferralPeriods: [{ val: 0, name: 'NoDeferral' }, { val: 3, name: 'ThreeMonth' }, { val: 6, name: 'SixMonth' }, { val: 9, name: 'NineMonth' }, { val: 12, name: 'TwelveMonth' }],
         numberFields: ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'DealerCost', 'AdminFee'],
         notCero: ['equipmentSum', 'LoanTerm', 'AmortizationTerm'],
-        minimumLoanValue: 1000
+        minimumLoanValue: 1000,
+        amortizationValueToDisable : 180,
+        totalAmountFinancedFor180amortTerm: 5000,
+        maxRateCardLoanValue: 50000
     }
 
     window.state = state;

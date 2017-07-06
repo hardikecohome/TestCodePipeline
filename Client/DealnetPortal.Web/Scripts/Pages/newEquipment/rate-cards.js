@@ -88,7 +88,7 @@
         }
     };
 
-    var renderOption = function (option, data, isRenderDropdowns) {
+    var renderOption = function (option, data) {
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
         var validateNumber = constants.numberFields.every(function (field) {
             var result = typeof data[field] === 'number';
@@ -110,12 +110,12 @@
             }
         }
 
-        if (onlyCustomCard) {
+        if (state.onlyCustomRateCard) {
             selectedRateCard = 'Custom';
         }
 
         if (notNan && validateNumber && validateNotEmpty) {
-            renderDropdownValues(option, data.totalAmountFinanced, isRenderDropdowns);
+            renderDropdownValues(option, data.totalAmountFinanced);
             
             if (option === selectedRateCard) {
                 $('#displayLoanAmortTerm').text(state[option].LoanTerm + '/' + state[option].AmortizationTerm);
@@ -149,9 +149,8 @@
         }
     };
 
-    var recalculateValuesAndRender = function (options, isRenderDropdowns) {
+    var recalculateValuesAndRender = function (options) {
         var optionsToCompute = constants.rateCards;
-        var renderDropdowns = isRenderDropdowns === undefined ? true : isRenderDropdowns;
 
         if (options !== undefined && options.length > 0) {
             optionsToCompute = options;
@@ -193,7 +192,7 @@
                 residualBalance: residualBalance(data),
                 totalObligation: totalObligation(data),
                 yourCost: yourCost(data)
-            }), renderDropdowns);
+            }));
         });
     };
 
@@ -233,42 +232,53 @@
         }
     };
 
-    function renderDropdownValues(option, totalAmountFinanced, isRenderDropdowns) {
+    function renderDropdownValues(option, totalAmountFinanced) {
         var totalCash = constants.minimumLoanValue;
+
         if (totalAmountFinanced > 1000) {
             totalCash = totalAmountFinanced.toFixed(2);
         }
 
-        if (isRenderDropdowns) {
-            var items = $.parseJSON(sessionStorage.getItem(state.contractId + option));
-            if (!items)
-                return;
+        var options = $('#' + option + 'AmortizationDropdown')[0].options;
+        var tooltip = $('a#' + option + 'Notify');
 
-            var dropdownValues;
-            if (option === 'Deferral') {
-                var dealerCost = state[option].DealerCost;
-                dropdownValues = $.grep(items, function (card) {
-                    return card.LoanValueFrom <= totalCash && card.LoanValueTo >= totalCash && card.DealerCost === dealerCost;
-                });
-            } else {
-                dropdownValues = $.grep(items, function (card) {
-                    return card.LoanValueFrom <= totalCash && card.LoanValueTo >= totalCash;
-                });
-            }
+        if (+totalCash >= constants.totalAmountFinancedFor180amortTerm) {
+            toggleDisabledAttributeOnOption(options, tooltip, false);
+        } else {
+            toggleDisabledAttributeOnOption(options, tooltip, true);
+        }
+    }
 
-            var options = $('#' + option + 'AmortizationDropdown');
-            options.empty();
+    /**
+     * depends on totalAmountfinanced value disable/enable options 
+     * values of Loan/Amortization dropdown
+     * @param {Array<>} options - array of available options for dropdown
+     * @param {Object<>} tooltip - tooltip jqeury object for show/hide depends on totalAmountFinancedValue
+     * @param {boolean} isDisable - disable/enable option and show/hide tooltip
+     * @returns {} 
+     */
+    function toggleDisabledAttributeOnOption(options, tooltip, isDisable) {
+        if (!options.length) return;
 
-            $.each(dropdownValues, function (item) {
-                var optionTemplate = $("<option />").val(dropdownValues[item].AmortizationTerm).text(dropdownValues[item].LoanTerm + '/' + dropdownValues[item].AmortizationTerm);
+        var formGroup = tooltip.closest('.form-group');
+        isDisable ? formGroup.addClass('notify-hold') : formGroup.removeClass('notify-hold');
+        isDisable ? tooltip.show() : tooltip.hide();
 
-                if (state[option].AmortizationTerm === dropdownValues[item].AmortizationTerm) {
-                    optionTemplate.attr('selected', 'selected');
+        $.each(options, function (i) {
+            var amortValue = +options[i].innerText.split('/')[1];
+            if (amortValue >= constants.amortizationValueToDisable) {
+
+                // if we selected max value of dropdown and totalAmountFinanced is lower then constants.amortizationValueToDisable
+                // just select first option in dropdown
+                if (options.selectedIndex === i && isDisable) {
+                    $(options[0]).attr('selected', true);
                 }
 
-                options.append(optionTemplate);
-            });
-        }
+                var opt = $(options[i]);
+                opt.attr('disabled', isDisable);
+                isDisable ? opt.addClass('disabled-opt') : opt.removeClass('disabled-opt');
+            }
+        });
     }
 
     function calculateRateCardValues(option, data) {
@@ -311,11 +321,19 @@
         if (option.name === 'Deferral') {
             var deferralPeriod = +$('#DeferralPeriodDropdown').val();
             return $.grep(items, function (i) {
-                return i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
+                if (totalCash >= constants.maxRateCardLoanValue) {
+                    return i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= constants.maxRateCardLoanValue;
+                } else {
+                    return i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
+                }
             })[0];
         } else {
             return $.grep(items, function (i) {
-                return i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
+                if (totalCash >= constants.maxRateCardLoanValue) {
+                    return i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= constants.maxRateCardLoanValue;
+                } else {
+                    return i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
+                }
             })[0];
         }
     }
