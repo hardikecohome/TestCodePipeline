@@ -56,7 +56,7 @@
         var selectedRateCard = $('#rateCardsBlock').find('div.checked').length > 0
             ? $('#rateCardsBlock').find('div.checked').find('#hidden-option').text()
             : '';
-        if (onlyCustomCard) {
+        if (state.onlyCustomRateCard) {
             selectedRateCard = 'Custom';
         }
 
