@@ -30,8 +30,10 @@ namespace DealnetPortal.Api.Controllers
         private ICustomerFormService CustomerFormService { get; set; }
         private IContractService _contractService { get; set; }
 
+        private readonly IDealerRepository _dealerRepository;
+
         public DictionaryController(IUnitOfWork unitOfWork, IContractRepository contractRepository, ISettingsRepository settingsRepository, ILoggingService loggingService, 
-            IAspireStorageReader aspireStorageReader, ICustomerFormService customerFormService, IContractService contractService)
+            IAspireStorageReader aspireStorageReader, ICustomerFormService customerFormService, IContractService contractService, IDealerRepository dealerRepository)
             : base(loggingService)
         {
             _unitOfWork = unitOfWork;
@@ -40,6 +42,7 @@ namespace DealnetPortal.Api.Controllers
             AspireStorageReader = aspireStorageReader;
             CustomerFormService = customerFormService;
             _contractService = contractService;
+            _dealerRepository = dealerRepository;
         }             
 
         [Route("DocumentTypes")]
@@ -225,6 +228,16 @@ namespace DealnetPortal.Api.Controllers
         public string GetDealerCulture()
         {
             return ContractRepository.GetDealer(LoggedInUser?.UserId).Culture;            
+        }
+
+        [HttpGet]
+        // GET api/dict/GetDealerCulture?dealer=dealer
+        [Route("GetDealerCulture")]
+        public string GetDealerCulture(string dealer)
+        {
+            var dealerId = _dealerRepository.GetUserIdByName(dealer);
+            var culture = ContractRepository.GetDealer(dealerId).Culture;
+            return culture;
         }
 
         [Authorize]
