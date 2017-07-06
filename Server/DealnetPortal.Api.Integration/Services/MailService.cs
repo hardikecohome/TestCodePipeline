@@ -72,7 +72,7 @@ namespace DealnetPortal.Api.Integration.Services
         public async Task<IList<Alert>> SendContractChangeNotification(ContractDTO contract, string dealerEmail)
         {
             var alerts = new List<Alert>();
-            
+
             var id = contract.Details?.TransactionId ?? contract.Id.ToString();
             var subject = string.Format(Resources.Resources.ContractWasSuccessfullyChanged, id);
             var body = new StringBuilder();
@@ -131,7 +131,7 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 //contractData.DealerEmail ?? string.Empty
                 //await _emailService.SendAsync(mail);
-                await _emailService.SendAsync(new List<string> { "noreply@ecohomefinancial.com" }, string.Empty, Resources.Resources.ThankYouForApplyingForFinancing, body.ToString());
+                await _emailService.SendAsync(new List<string> { contractData.DealerEmail ?? string.Empty }, string.Empty, Resources.Resources.ThankYouForApplyingForFinancing, body.ToString());
             }
             catch (Exception ex)
             {
