@@ -21,6 +21,9 @@
 
             <p class="text-semibold preapproved-text">@Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")</p>
         }
+        </div>
+    </div>
+
 
         @using (Html.BeginForm("EquipmentInformation", "NewRental", null, FormMethod.Post, new { id = "equipment-form", onkeydown = "return event.keyCode!=13" }))
         {
@@ -37,7 +40,8 @@
             @Html.HiddenFor(x => x.SelectedRateCardId)
             @Html.HiddenFor(x => x.IsNewContract)
             @Html.HiddenFor(x => x.DealerCost)
-
+<div class="form-container">
+    <div class="form-section">
             <div class="row form-group">
                 <div class="col-md-3">
                     @Html.LabelFor(m => m.AgreementType)
@@ -108,10 +112,10 @@
                     </div>
                 </div>
             </div>
-        }
     </div>
 </div>
 
+}
 @Html.Partial("EquipmentInformation/_EquipmentTemplates", Model)
 
 @section Translations
