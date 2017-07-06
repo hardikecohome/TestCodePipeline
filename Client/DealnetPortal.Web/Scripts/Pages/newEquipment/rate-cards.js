@@ -249,6 +249,14 @@
         }
     }
 
+    /**
+     * depends on totalAmountfinanced value disable/enable options 
+     * values of Loan/Amortization dropdown
+     * @param {Array<>} options - array of available options for dropdown
+     * @param {Object<>} tooltip - tooltip jqeury object for show/hide depends on totalAmountFinancedValue
+     * @param {boolean} isDisable - disable/enable option and show/hide tooltip
+     * @returns {} 
+     */
     function toggleDisabledAttributeOnOption(options, tooltip, isDisable) {
         if (!options.length) return;
 
@@ -256,10 +264,17 @@
         isDisable ? formGroup.addClass('notify-hold') : formGroup.removeClass('notify-hold');
         isDisable ? tooltip.show() : tooltip.hide();
 
-        $.each(options, function (o) {
-            var amortValue = +options[o].innerText.split('/')[1];
+        $.each(options, function (i) {
+            var amortValue = +options[i].innerText.split('/')[1];
             if (amortValue >= constants.amortizationValueToDisable) {
-                var opt = $(options[o]);
+
+                // if we selected max value of dropdown and totalAmountFinanced is lower then constants.amortizationValueToDisable
+                // just select first option in dropdown
+                if (options.selectedIndex === i && isDisable) {
+                    $(options[0]).attr('selected', true);
+                }
+
+                var opt = $(options[i]);
                 opt.attr('disabled', isDisable);
                 isDisable ? opt.addClass('disabled-opt') : opt.removeClass('disabled-opt');
             }
