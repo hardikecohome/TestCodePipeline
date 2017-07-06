@@ -206,19 +206,11 @@ function showAditional1Section() {
     addAdditionalButton.hide();
 }
 function assignDatepicker(input) {
+    var input = $('body').is('.ios-device') ? input.siblings('.div-datepicker') : input;
     inputDateFocus(input);
-
     input.datepicker({
-        dateFormat: 'mm/dd/yy',
-        changeYear: true,
-        changeMonth: (viewport().width < 768) ? true : false,
         yearRange: '1900:' + (new Date().getFullYear()-18),
         minDate: Date.parse("1900-01-01"),
-        maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
-        showButtonPanel: true,
-        closeText: translations['Cancel'],
-        onClose: function(){
-            onDateSelect($(this));
-        }
+        maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18))
     });
 }

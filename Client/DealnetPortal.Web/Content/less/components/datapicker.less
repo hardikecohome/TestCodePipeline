@@ -291,6 +291,17 @@ body.bodyHasDatepicker .navbar-fixed-side{
     top: 39px;
     left: 0;
   }
+  .ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next{
+    @media @mobile {
+      display: none;
+    }
+  }
+  .ui-datepicker .ui-datepicker-title .ui-datepicker-month,
+  .ui-datepicker .ui-datepicker-title .ui-datepicker-year{
+    @media @mobile {
+      margin: 0;
+    }
+  }
 }
 
 .ui-datepicker .ui-datepicker-buttonpane{
@@ -303,6 +314,10 @@ body.bodyHasDatepicker .navbar-fixed-side{
   .ui-datepicker-current{
     display: none;
   }
+
+}
+.ui-datepicker .ui-datepicker-buttonpane,
+.div-datepicker {
   .ui-datepicker-close{
     &:extend(.dealnet-link-button);
     margin: 0;
@@ -326,13 +341,62 @@ body.bodyHasDatepicker .navbar-fixed-side{
     }
   }
 }
+.div-datepicker{
+  &:before{
+    content: '';
+    .triangle(down, 8px, 4px, #525251);
+    position: absolute;
+    top: 24px;
+    left: 95px;
+    display: none;
+  }
+  &:after{
+    content: '';
+    .triangle(down, 8px, 4px, #525251);
+    position: absolute;
+    top: 24px;
+    right: 15px;
+  }
+  .ui-datepicker .ui-datepicker-title .ui-datepicker-year {
+    margin: 3px 10px 0 0;
+  }
+  .ui-datepicker-inline{
+    padding-bottom: 40px;
+  }
+  .ui-datepicker-close{
+    position: absolute;
+    border: 0;
+    padding: 5px;
+    bottom: 15px;
+    left: 50%;
+    -weblit-transform: translateX(-50%);
+    transform: translateX(-50%);
+  }
+}
+
 .div-datepicker-value{
   .form-control;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
+  display: none;
 }
 .div-datepicker{
   display: none;
+}
+body.ios-device{
+  .div-datepicker{
+    &:before{
+      @media @mobile {
+        display: block;
+      }
+    }
+    &:after{
+      display: block;
+    }
+  }
+  .div-datepicker-value{
+    display: block;
+  }
 }

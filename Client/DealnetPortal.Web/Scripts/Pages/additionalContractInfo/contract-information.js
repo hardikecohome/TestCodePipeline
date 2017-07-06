@@ -89,18 +89,10 @@ function resetFormValidator(formId) {
 }
 
 function assignDatepicker() {
-    var input = $(this);
+    var input = $('body').is('.ios-device') ? $(this).siblings('.div-datepicker') : $(this);
     inputDateFocus(input);
     input.datepicker({
-        dateFormat: 'mm/dd/yy',
-        changeYear: true,
-        changeMonth: (viewport().width < 768) ? true : false,
         yearRange: '1900:2200',
-        minDate: new Date(),
-        showButtonPanel: true,
-        closeText: translations['Cancel'],
-        onClose: function () {
-            onDateSelect($(this));
-        }
+        minDate: new Date()
     });
 }

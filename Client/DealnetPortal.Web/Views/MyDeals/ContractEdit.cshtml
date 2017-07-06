@@ -2623,6 +2623,8 @@ foreach (var comment in comments)
                                             <div class="control-group date-group">
                                                 @Html.TextBoxFor(m => m.InstallCertificateInformation.InstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input date-input exlude-min-date"})
                                                 @Html.ValidationMessageFor(m => m.InstallCertificateInformation.InstallationDate, "", new {@class = "text-danger"})
+	                                            <div class="div-datepicker-value"></div>
+	                                            <div class="div-datepicker"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -2651,6 +2653,7 @@ foreach (var comment in comments)
     translations['FinalCheck'] = "@Resources.FinalCheck";
     translations['Proceed'] = "@Resources.Proceed";
     translations['AnErrorWhileSendingReport'] = "@Resources.AnErrorWhileSendingReport";
+}
 }
 
 @section scripts

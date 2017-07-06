@@ -41,30 +41,50 @@
         });
     }
 
-      $('.div-datepicker-value').on('click', function(){
-        $('.div-datepicker').removeClass('opened');
-        $(this).siblings('.div-datepicker').toggleClass('opened');
-      });
+    function addCloseButonForInlineDatePicker(){
+      setTimeout(function(){
+          $( "<button>", {
+            text: translations['Cancel'],
+            class: "ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all",
+            click: function() {
+              $(".div-datepicker").removeClass('opened');
+            }
+          }).appendTo($('.div-datepicker'));
+      }, 100);
+    }
 
-      $('.div-datepicker').datepicker({
-        changeYear: true,
-        changeMonth: true,
-          onSelect: function(value, date) {
-            $(this).siblings('.div-datepicker-value').text(value);
-            $(".div-datepicker").removeClass('opened');
-          },
-          onClose: function(){
-            onDateSelect($(this));
-          }
-       }
-      );
 
-/*
-    $('*:not(.div-datepicker)').on('focus click', function(){
+    $('body').is('.ios-device') ? $('<div/>', {
+                                    class: 'div-datepicker-value',
+                                  }).appendTo('.date-group') : '';
+    $('body').is('.ios-device') ? $('<div/>', {
+                                    class: 'div-datepicker',
+                                  }).appendTo('.date-group') : '';
+
+    $('.div-datepicker-value').on('click', function(){
       $('.div-datepicker').removeClass('opened');
+      $(this).siblings('.div-datepicker').toggleClass('opened');
+      if(!$('.div-datepicker .ui-datepicker-close').length){
+        addCloseButonForInlineDatePicker();
+      }
     });
-*/
 
+
+
+    $.datepicker.setDefaults({
+      dateFormat: 'mm/dd/yy',
+      changeYear: true,
+      changeMonth: (viewport().width < 768) ? true : false,
+      showButtonPanel: true,
+      closeText: translations['Cancel'],
+      onSelect: function(value, date){
+        $(this).siblings('.div-datepicker-value').text(value);
+        $(".div-datepicker").removeClass('opened');
+      },
+      onClose: function () {
+        onDateSelect($(this));
+      }
+    });
 
     if (customerDealsCountUrl) {
         $.ajax({
@@ -350,6 +370,7 @@
     });
 
 });
+
 function panelCollapsed(elem){
   var $this = elem.closest('.panel');
   $this.find('.panel-body').slideToggle('fast', function(){
@@ -845,8 +866,8 @@ function viewport() {
   return { width : e[ a+'Width' ] , height : e[ a+'Height' ] };
 }
 
-function customDPSelect(){
-  var inp = $(this);
+function customDPSelect(elem){
+  var inp = elem || $(this);
   var selectClasses = "custom-select datepicker-select";
   if($('select.ui-datepicker-month').length && !$('.ui-datepicker-month').parents('.custom-select').length){
     $('.ui-datepicker-month')

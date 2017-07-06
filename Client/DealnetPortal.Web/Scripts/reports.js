@@ -13,19 +13,12 @@ $(document)
             $('.select-filter').val($('.select-filter > option:first').val());
 		});
 function assignDatepicker(input) {
+    var input = $('body').is('.ios-device') ? input.siblings('.div-datepicker') : input;
     inputDateFocus(input);
     input.datepicker({
-        dateFormat: 'mm/dd/yy',
-        changeYear: true,
-        changeMonth: (viewport().width < 768) ? true : false,
         yearRange: '1900:' + new Date().getFullYear(),
         minDate: Date.parse("1900-01-01"),
-        maxDate: new Date(),
-        showButtonPanel: true,
-        closeText: translations['Cancel'],
-        onClose: function(){
-          onDateSelect($(this));
-        }
+        maxDate: new Date()
     });
 }
 
