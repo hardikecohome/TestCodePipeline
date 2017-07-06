@@ -68,9 +68,7 @@
         addCloseButonForInlineDatePicker();
       }
     });
-
-
-
+    
     $.datepicker.setDefaults({
       dateFormat: 'mm/dd/yy',
       changeYear: true,

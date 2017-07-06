@@ -5,23 +5,18 @@
 
     return function (store) {
         var dispatch = store.dispatch;
-        var birth = $("#birth-date-customer");
+        var input = $('body').is('.ios-device') ? $("#birth-date-customer").siblings('.div-datepicker') : $("#birth-date-customer");
+
         inputDateFocus(birth);
 
         birth.datepicker({
-            dateFormat: 'mm/dd/yy',
-            changeYear: true,
-            changeMonth: (viewport().width < 768) ? true : false,
             yearRange: '1900:' + (new Date().getFullYear() - 18),
             minDate: Date.parse("1900-01-01"),
             maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
-            showButtonPanel: true,
-            closeText: translations['Cancel'],
-            onSelect: function (day) {
-                dispatch(createAction(customerActions.SET_BIRTH, day));
-            },
-            onClose: function(){
-                onDateSelect($(this));
+            onSelect: function(day, date){
+                ispatch(createAction(customerActions.SET_BIRTH, day));
+                $(this).siblings('.div-datepicker-value').text(day);
+                $(".div-datepicker").removeClass('opened');
             }
         });
         var name = $('#firstName');
