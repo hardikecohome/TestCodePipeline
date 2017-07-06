@@ -14,6 +14,7 @@
             onSelect: function (day) {
                 dispatch(createAction(clientActions.SET_BIRTH, day));
                 $(this).siblings('.div-datepicker-value').text(day);
+                $(this).siblings('input.form-control').val(day);
                 $(".div-datepicker").removeClass('opened');
             }
         });
