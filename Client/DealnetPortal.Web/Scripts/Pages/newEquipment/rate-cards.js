@@ -115,7 +115,8 @@
         }
 
         if (notNan && validateNumber && validateNotEmpty) {
-            renderDropdownValues(option, data.totalAmountFinanced);
+            if (option !== 'Custom')
+                renderDropdownValues(option, data.totalAmountFinanced);
             
             if (option === selectedRateCard) {
                 $('#displayLoanAmortTerm').text(state[option].LoanTerm + '/' + state[option].AmortizationTerm);
