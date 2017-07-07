@@ -5,7 +5,7 @@
 
     return function (store) {
         var dispatch = store.dispatch;
-        var input = $('body').is('.ios-device') ? $("#birth-date-customer").siblings('.div-datepicker') : $("#birth-date-customer");
+        var birth = $('body').is('.ios-device') ? $("#birth-date-customer").siblings('.div-datepicker') : $("#birth-date-customer");
 
         inputDateFocus(birth);
 
@@ -14,7 +14,7 @@
             minDate: Date.parse("1900-01-01"),
             maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
             onSelect: function(day, date){
-                ispatch(createAction(customerActions.SET_BIRTH, day));
+                dispatch(createAction(customerActions.SET_BIRTH, day));
                 $(this).siblings('.div-datepicker-value').text(day);
                 $(".div-datepicker").removeClass('opened');
             }
