@@ -131,6 +131,9 @@
 .notify-hold{
   padding-right: 34px;
   position: relative;
+  @media @mobile {
+    padding-right: 50px;
+  }
 
   .link-over-notify{
     position: absolute;
@@ -138,6 +141,9 @@
     bottom: auto;
     cursor: pointer;
     margin-top: -33px;
+    @media @mobile {
+      right: 5px;
+    }
   }
 }
 .rate-card{
