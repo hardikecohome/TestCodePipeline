@@ -165,7 +165,6 @@
     $(document).ready(function () {
         if (state.onlyCustomRateCard) {
             $('#rateCardsBlock').addClass('one-rate-card');
-            $('.financing-arrow').addClass('hidden');
         }
 
         $('#typeOfAgreementSelect').on('change', onAgreemntSelect).change();
