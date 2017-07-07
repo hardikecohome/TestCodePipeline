@@ -69,8 +69,6 @@
       }
     });
 
-
-
     $.datepicker.setDefaults({
       dateFormat: 'mm/dd/yy',
       changeYear: true,
@@ -79,6 +77,7 @@
       closeText: translations['Cancel'],
       onSelect: function(value, date){
         $(this).siblings('.div-datepicker-value').text(value);
+        $(this).siblings('input.form-control').val(value);
         $(".div-datepicker").removeClass('opened');
       },
       onClose: function () {
