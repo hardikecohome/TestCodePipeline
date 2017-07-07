@@ -115,9 +115,6 @@
         }
 
         if (notNan && validateNumber && validateNotEmpty) {
-            if (option !== 'Custom')
-                renderDropdownValues(option, data.totalAmountFinanced);
-            
             if (option === selectedRateCard) {
                 $('#displayLoanAmortTerm').text(state[option].LoanTerm + '/' + state[option].AmortizationTerm);
                 $('#displayCustomerRate').text(state[option].CustomerRate);
@@ -176,7 +173,11 @@
                     tax: state.tax
                 });
 
-            calculateRateCardValues(option, $.extend({}, data, {totalAmountFinanced: totalAmountFinanced(data)}));
+            calculateRateCardValues(option, $.extend({}, data, { totalAmountFinanced: totalAmountFinanced(data) }));
+
+            if (option.name !== 'Custom') {
+                renderDropdownValues(option.name, totalAmountFinanced(data));
+            }
 
             data = $.extend({}, idToValue(state)(option.name),
                 {

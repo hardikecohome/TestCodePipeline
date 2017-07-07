@@ -163,15 +163,15 @@
 
   <script type="text/javascript">
     configInitialized.then(function () {
+      module.require('equipment');
+      module.require('new-equipment');
+      module.require('rate-cards');
+      module.require('rate-cards-ui');
+      module.require('custom-rate-card');
       module.require('rate-cards-init').init(
         @Model.ContractId,
         @Html.Raw(Json.Encode(Model.DealerTier.RateCards)),
         '@(!((List<RateCardType>) ViewBag.CardTypes != null && ((List<RateCardType>) ViewBag.CardTypes).Any()))' === 'True' ? true : false);
-      module.require('rate-cards-ui');
-      module.require('rate-cards');
-      module.require('new-equipment');
-      module.require('equipment');
-      module.require('custom-rate-card');
     });
   </script>
 }

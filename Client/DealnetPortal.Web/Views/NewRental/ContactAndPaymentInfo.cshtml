@@ -99,12 +99,15 @@
             </div>*@
         </div>
 
-        <label class="align-middle custom-checkbox set-margin">
-            @Html.CheckBoxFor(m => m.HomeOwnerContactInfo.AllowCommunicate, new { @class = "dealnet-checkbox" })
-            @*<input type="checkbox" class="dealnet-checkbox"/>*@
-            <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-            <span>@Resources.WishToReceiveEmailsAndMessages</span>
-        </label>
+      <label class="align-middle custom-checkbox set-margin">
+        <input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox"/>
+        <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+        <span class="mandatory-field">@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
+        @Html.CheckBoxFor(m => m.HomeOwnerContactInfo.AllowCommunicate, new {@class = "dealnet-checkbox"})
+        @*<input type="checkbox" class="dealnet-checkbox"/>*@
+        @*<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+        <span>@Resources.WishToReceiveEmailsAndMessages</span>*@
+      </label>
         if (Model.CoBorrowersContactInfo?.Any() ?? false)
         {
             for (int i = 0; i < Model.CoBorrowersContactInfo.Count; i++)
@@ -153,12 +156,15 @@
                         </div>
                     </div>
                 </div>
-                <label class="align-middle custom-checkbox set-margin">
-                    @*<input type="checkbox" class="dealnet-checkbox"/>*@
-                    @Html.CheckBoxFor(m => m.CoBorrowersContactInfo[i].AllowCommunicate, new { @class = "dealnet-checkbox" })
-                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                    <span>@Resources.WishToReceiveEmailsAndMessages</span>
-                </label>
+              <label class="align-middle custom-checkbox set-margin">
+                  <input type="checkbox" class="dealnet-checkbox address-checkbox" id="additional-agreement-checkbox"/>
+                  <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                  <span class="mandatory-field">@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
+                @*<input type="checkbox" class="dealnet-checkbox"/>*@
+                @*@Html.CheckBoxFor(m => m.CoBorrowersContactInfo[i].AllowCommunicate, new {@class = "dealnet-checkbox"})
+                <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                <span>@Resources.WishToReceiveEmailsAndMessages</span>*@
+              </label>
             }
         }
 
@@ -233,27 +239,31 @@
                 </div>
             </div>
         </div>
-        <div class="row pap-payment">
-            <div class="col-xs-12 col-md-4">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.PaymentInfo.TransitNumber)
-                    <div class="control-group">
-                        @Html.TextBoxFor(m => m.PaymentInfo.TransitNumber, new {@class = "form-control dealnet-input", type="text", id = "transit-number", placeholder = Resources.TransitNumber })
-                        @Html.ValidationMessageFor(m => m.PaymentInfo.TransitNumber, "", new {@class = "text-danger"})
-                    </div>
-                </div>
+      <div class="row pap-payment">
+        <div class="col-xs-12 col-md-4">
+          <div class="form-group">
+            @Html.LabelFor(m => m.PaymentInfo.TransitNumber)
+            <div class="control-group">
+              @Html.TextBoxFor(m => m.PaymentInfo.TransitNumber, new {@class = "form-control dealnet-input", type="text", id = "transit-number", placeholder = Resources.TransitNumber })
+              @Html.ValidationMessageFor(m => m.PaymentInfo.TransitNumber, "", new {@class = "text-danger"})
             </div>
-
-            <div class="col-xs-12 col-md-4">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.PaymentInfo.AccountNumber)
-                    <div class="control-group">
-                        @Html.TextBoxFor(m => m.PaymentInfo.AccountNumber, new {@class = "form-control dealnet-input", type="text", id = "account-number", placeholder = Resources.AccountNumber })
-                        @Html.ValidationMessageFor(m => m.PaymentInfo.AccountNumber, "", new {@class = "text-danger"})
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+
+        <div class="col-xs-12 col-md-4">
+          <div class="form-group">
+            @Html.LabelFor(m => m.PaymentInfo.AccountNumber)
+            <div class="control-group">
+              @Html.TextBoxFor(m => m.PaymentInfo.AccountNumber, new {@class = "form-control dealnet-input", type="text", id = "account-number", placeholder = Resources.AccountNumber })
+              @Html.ValidationMessageFor(m => m.PaymentInfo.AccountNumber, "", new {@class = "text-danger"})
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="well danger-well over-aged-well collapse" id="proceed-error-message">
+        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+        You can't proceed until all applicants agree.
+      </div>
         <div id="saveproceed-button">
                 <button class="btn dealnet-button dealnet-success-button">
                     @Resources.SaveAndProceed
