@@ -53,7 +53,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.TypeDescription, d => d.Ignore());
             mapperConfig.CreateMap<Comment, CommentDTO>()
                 .ForMember(x => x.IsOwn, s => s.Ignore())
-                .ForMember(d => d.AuthorName, s => s.ResolveUsing(src => src.Dealer.UserName));
+                .ForMember(d => d.AuthorName, s => s.ResolveUsing(src => 
+                    src.IsCustomerComment != true ? src.Dealer.UserName : string.Empty));
             mapperConfig.CreateMap<Customer, CustomerDTO>()
                 .ForMember(x => x.IsHomeOwner, d => d.Ignore())
                 .ForMember(x => x.IsInitialCustomer, d => d.Ignore());

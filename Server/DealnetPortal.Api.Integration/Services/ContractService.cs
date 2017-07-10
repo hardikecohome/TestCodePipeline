@@ -784,7 +784,8 @@ namespace DealnetPortal.Api.Integration.Services
                 if (comment != null)
                 {
                     _unitOfWork.Save();
-                    if (comment.ContractId.HasValue)
+                    //don't send mails for Customer Comment, as we usually add these comments on contract creation (from CW or Shareble link)
+                    if (comment.ContractId.HasValue && comment.IsCustomerComment != true)
                     {
                         var contract = _contractRepository.GetContractAsUntracked(comment.ContractId.Value,
                             contractOwnerId);
