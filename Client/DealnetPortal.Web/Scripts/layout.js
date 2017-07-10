@@ -78,10 +78,16 @@
       changeMonth: (viewport().width < 768) ? true : false,
       showButtonPanel: true,
       closeText: translations['Cancel'],
-      onSelect: function(value, date){
+      onSelect: function(value){
         $(this).siblings('.div-datepicker-value').text(value);
-        $(this).siblings('input.form-control').val(value);
+        $(this).siblings('input.form-control').val(value).blur();
         $(".div-datepicker").removeClass('opened');
+
+      },
+      onChangeMonthYear: function () {
+        $('.div-datepicker select').each(function(){
+          $(this).blur();
+        });
       },
       onClose: function () {
         onDateSelect($(this));
