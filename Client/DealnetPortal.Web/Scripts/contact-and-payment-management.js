@@ -29,25 +29,33 @@
         managePaymentElements($(this).find(":selected").val());
     });
 
+    $('#agreement-checkbox').change(agreementIsChecked);
+    $('#additional-agreement-checkbox').change(agreementIsChecked);
+
     $('form').on('submit', function(e) {
         if (!$('form').valid()) {
             e.preventDefault();
         }
 
-        var isValid = $('#agreement-checkbox').prop('checked');
-
-        if ($('#additional-agreement-checkbox').length) {
-            isValid = $('#agreement-checkbox').prop('checked') && $('#additional-agreement-checkbox').prop('checked');
-        }
-
-        if (!isValid) {
-            e.preventDefault();
-            $('#proceed-error-message').show();
-        } else {
-            $('#proceed-error-message').hide();
-        }
+        agreementIsChecked(e);
     });
 });
+
+function agreementIsChecked(e) {
+    var isValid = $('#agreement-checkbox').prop('checked');
+
+    if ($('#additional-agreement-checkbox').length) {
+        isValid = $('#agreement-checkbox').prop('checked') && $('#additional-agreement-checkbox').prop('checked');
+    }
+
+    if (!isValid) {
+        if (e !== undefined && e !== null) e.preventDefault();
+
+        $('#proceed-error-message').show();
+    } else {
+        $('#proceed-error-message').hide();
+    }
+}
 
 function managePaymentElements(paymentType) {
     switch (paymentType) {
