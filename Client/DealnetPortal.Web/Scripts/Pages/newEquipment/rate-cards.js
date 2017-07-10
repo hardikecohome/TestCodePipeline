@@ -272,7 +272,11 @@
         } else {
             formGroup.removeClass('notify-hold');
             tooltip.hide();
-            tooltip.click();
+
+            //check if notifications is visible if yes emulate click to hide it.
+            if (tooltip.parent().find('.popover-content').length) {
+                tooltip.click();
+            }
         }
 
         $.each(options, function (i) {
