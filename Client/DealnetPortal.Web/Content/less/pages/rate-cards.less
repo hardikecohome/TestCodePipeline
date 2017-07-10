@@ -141,6 +141,21 @@
     bottom: auto;
     cursor: pointer;
     margin-top: -33px;
+    width: 24px;
+    height: 24px;
+    &:before{
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #000;
+      z-index: 2;
+      opacity: 0;
+      margin: -5px;
+      
+    }
     @media @mobile {
       right: 5px;
     }
