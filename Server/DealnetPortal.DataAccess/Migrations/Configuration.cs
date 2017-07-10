@@ -4747,7 +4747,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 LoanValueFrom = 1000,
                 LoanValueTo = 4999.99,
                 CustomerRate = 11.99,
-                DealerCost = 4.5,
+                DealerCost = 5,
                 AdminFee = 59.95,
                 LoanTerm = 60,
                 AmortizationTerm = 60,
