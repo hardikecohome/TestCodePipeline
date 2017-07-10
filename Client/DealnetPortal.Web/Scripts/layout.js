@@ -57,10 +57,13 @@
     $('.date-group').each(function(){
       $('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length === 0 ? $('<div/>', {
         class: 'div-datepicker-value',
+        text: $(this).find('.form-control').val()
       }).appendTo(this) : '';
       $('body').is('.ios-device') ? $('<div/>', {
         class: 'div-datepicker',
       }).appendTo(this) : '';
+
+      console.log($(this).find('input').val())
     })
 
 
