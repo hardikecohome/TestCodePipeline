@@ -516,4 +516,12 @@
         module.require('new-client-index');
     </script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=initAutocomplete" async defer></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			ga('send', 'event', 'New Application Start', 'Form Submit', 'By Broker', '50');
+		});
+		$(document).submit(function () {
+			ga('send', 'event', 'Application Submitted', 'Form Submit', 'By Broker', '50');
+		});
+	</script>
 }

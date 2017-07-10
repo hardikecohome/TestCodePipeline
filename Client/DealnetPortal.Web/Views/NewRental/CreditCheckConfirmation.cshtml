@@ -1140,4 +1140,9 @@ if (creditCheckError != null)
     @Scripts.Render("~/bundles/localization")
     @Scripts.Render("~/bundles/credit-check")
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=assignAutocompletes" async defer></script>
+	@*<script type="text/javascript">
+		$(document).ready(function () {
+			ga('send', 'event', 'Credit Check Approved', 'PreApproved Message Displayed', 'By Dealer', '20');
+		});
+	</script>*@
 }
