@@ -96,6 +96,8 @@
         constants.rateCards.forEach(function (option) { onAmortizationDropdownChange(option.name) });
 
         $('#addEquipment').on('click', equipment.addEquipment);
+        $('#addExistingEqipment').on('click', equipment.addExistingEquipment);
+
         $('#loanRateCardToggle').on('click', toggleRateCardBlock);
         $('#downPayment').on('change', setters.setDownPayment);
         $('#typeOfAgreementSelect').on('change', setters.setAgreement).on('change', toggleCustomRateCard);

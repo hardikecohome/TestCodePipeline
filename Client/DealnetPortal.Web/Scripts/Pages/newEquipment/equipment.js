@@ -1,7 +1,7 @@
 ﻿module.exports('equipment', function (require) {
 
     var state = require('state').state;
-    var equipmentTemplateFactory = require('equipment-template');
+    var templateFactory = require('equipment-template');
     var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
     var recalculateAndRenderRentalValues = require('rate-cards').recalculateAndRenderRentalValues;
 
@@ -16,10 +16,19 @@
             monthlyCost:''
         };
 
-        var newTemplate = equipmentTemplateFactory($('<div></div>'), { id: id });
+        var newTemplate = templateFactory($('<div></div>'),
+            {
+                id: id,
+                templateId: 'new-equipment-base',
+                equipmentName: 'NewEquipment',
+                equipmentIdPattern: 'new-equipment-',
+                equipmentDiv: 'div#new-equipments'
+            });
+
         if (id > 0) {
             newTemplate.find('div.additional-remove').attr('id', 'addequipment-remove-' + id);
         }
+
         state.equipments[newId].template = newTemplate;
 
         // equipment handlers
@@ -35,6 +44,36 @@
 
         resetFormValidator("#equipment-form");
     };
+
+    var addExistingEquipment = function() {
+        var id = $('div#new-equipments').find('[id^=new-equipment-]').length;
+        var newId = id.toString();
+        state.existingEquipments[newId] = {
+            id: newId,
+            type: '',
+            description: '',
+            cost: '',
+            monthlyCost: ''
+        };
+
+        var newTemplate = templateFactory($('<div></div>'),
+            {
+                id: id,
+                templateId: 'existing-equipment-base',
+                equipmentName: 'ExistingEquipment',
+                equipmentIdPattern: 'existing-equipment-',
+                equipmentDiv: 'div#existing-equipments'
+            });
+
+        state.existingEquipments[newId].template = newTemplate;
+
+        customizeSelect();
+        toggleClearInputIcon($(newTemplate).find('textarea, input'));
+        resetPlacehoder($(newTemplate).find('textarea, input'));
+
+        $('#existing-equipments').append(newTemplate);
+        resetFormValidator("#equipment-form");
+    }
 
     function removeEquipment() {
         var fullId = $(this).attr('id');
@@ -91,6 +130,9 @@
         }
     }
 
+    function initExistingEquipment(i) {
+        state.existingEquipments[i] = { id: i.toString() };
+    }
     function resetFormValidator(formId) {
         $(formId).removeData('validator');
         $(formId).removeData('unobtrusiveValidation');
@@ -153,10 +195,10 @@
     }
 
     var equipments = $('div#new-equipments').find('[id^=new-equipment-]').length;
-    var existingEquipments = $('div#new-equipments').find('[id^=new-equipment-]').length;
+    var existingEquipments = $('div#existing-equipments').find('[id^=existing-equipment-]').length;
 
     for (var j = 0; j < existingEquipments; j++) {
-        
+        initExistingEquipment(i);
     }
 
     for (var i = 0; i < equipments; i++) {
@@ -174,6 +216,7 @@
     }
 
     return {
-        addEquipment: addEquipment
+        addEquipment: addEquipment,
+        addExistingEquipment: addExistingEquipment
     }
 })
