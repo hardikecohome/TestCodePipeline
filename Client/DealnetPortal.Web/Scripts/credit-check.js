@@ -10,7 +10,7 @@
 
 			if ($('#additional1-agrees').length && $('#consent-checkbox-data1').length) {
 				// || !$('#consent-checkbox-data1').is(':checked')
-                if (!$('#additional1-agrees').is(':checked')) {
+				if (!$('#additional1-agrees').is(':checked') || !$('#consent-checkbox-data1').is(':checked')) {
                     event.preventDefault();
                     $("#proceed-error-message").show();
                 }

@@ -103,7 +103,7 @@
             @Html.CheckBoxFor(m => m.HomeOwnerContactInfo.AllowCommunicate, new { @class = "dealnet-checkbox" })
             @*<input type="checkbox" class="dealnet-checkbox"/>*@
             <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-            <span>@Resources.WishToReceiveEmailsAndMessages</span>
+			<span>@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
         </label>
         if (Model.CoBorrowersContactInfo?.Any() ?? false)
         {
