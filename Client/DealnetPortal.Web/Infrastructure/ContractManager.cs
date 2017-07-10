@@ -131,6 +131,8 @@ namespace DealnetPortal.Web.Infrastructure
             var dealerTier = await _contractServiceAgent.GetDealerTier();
             equipmentInfo.DealerTier = dealerTier ?? new TierDTO() {RateCards = new List<RateCardDTO>()};
 
+            AddAditionalContractInfo(result.Item1, equipmentInfo);
+
             return equipmentInfo;
         }
 
@@ -656,6 +658,16 @@ namespace DealnetPortal.Web.Infrastructure
                     Text = d.Description
                 }).ToList();
             }
+        }
+
+        private void AddAditionalContractInfo(ContractDTO contract, EquipmentInformationViewModelNew equipmentInfo)
+        {
+            equipmentInfo.Notes = contract.Details.Notes;
+            equipmentInfo.HouseSize = contract.Details.HouseSize;
+            equipmentInfo.EstimatedInstallationDate = contract.Equipment.EstimatedInstallationDate;
+            equipmentInfo.SalesRep = contract.Equipment.SalesRep;
+            equipmentInfo.IsApplicantsInfoEditAvailable = contract.ContractState < Api.Common.Enumeration.ContractState.Completed;
+            equipmentInfo.ExistingEquipment = Mapper.Map<List<ExistingEquipmentInformation>>(contract.Equipment.ExistingEquipment);
         }
     }
 }

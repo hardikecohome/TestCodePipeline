@@ -153,6 +153,11 @@
     }
 
     var equipments = $('div#new-equipments').find('[id^=new-equipment-]').length;
+    var existingEquipments = $('div#new-equipments').find('[id^=new-equipment-]').length;
+
+    for (var j = 0; j < existingEquipments; j++) {
+        
+    }
 
     for (var i = 0; i < equipments; i++) {
         // attatch handler to equipments

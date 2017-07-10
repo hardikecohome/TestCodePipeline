@@ -1,0 +1,109 @@
+﻿@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+
+@{
+  var yesNaming = Resources.Yes;
+  var noNaming = Resources.No;
+}
+
+@for (var i = 0; i < Model.ExistingEquipment.Count; i++)
+{
+<div id="existing-equipment-@(i)">
+  <div class="dealnet-middle-header equipment-number-header">
+    <span class="equipment-number">№@(i + 1)</span>
+    <div id="existing-equipment-remove-@(i)" class="additional-remove" onclick="removeExistingEquipment(@(i));">
+      <i class="glyphicon glyphicon-remove"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            @Html.LabelFor(m => m.ExistingEquipment[i].IsRental)
+            <div class="control-group">
+              @Html.DropDownListFor(m => m.ExistingEquipment[i].IsRental, new SelectList(
+                new[]
+                {
+                  new {Value = "true", Text = yesNaming, Selected = Model?.ExistingEquipment != null && Model.ExistingEquipment[i].IsRental},
+                  new {Value = "false", Text = noNaming, Selected = Model?.ExistingEquipment != null && !Model.ExistingEquipment[i].IsRental},
+                },
+                "Value", "Text", Model?.ExistingEquipment != null ? Model.ExistingEquipment[i].IsRental : true), new {@class = "form-control"})
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-8">
+          <div class="form-group">
+            @Html.LabelFor(m => m.ExistingEquipment[i].RentalCompany)
+            <div class="control-group">
+              @Html.TextBoxFor(m => m.ExistingEquipment[i].RentalCompany, new {@class = "form-control dealnet-input", placeholder = Resources.RentalCompany})
+              @Html.ValidationMessageFor(m => m.ExistingEquipment[i].RentalCompany, "", new {@class = "text-danger"})
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            @Html.LabelFor(m => m.ExistingEquipment[i].EstimatedAge)
+            <div class="control-group">
+              @Html.TextBoxFor(m => m.ExistingEquipment[i].EstimatedAge, new {@class = "form-control dealnet-input", type = "text", placeholder = Resources.Years})
+              @Html.ValidationMessageFor(m => m.ExistingEquipment[i].EstimatedAge, "", new {@class = "text-danger"})
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-8">
+          <div class="form-group">
+            @Html.LabelFor(m => m.ExistingEquipment[i].Make)
+            <div class="control-group">
+              @Html.TextBoxFor(m => m.ExistingEquipment[i].Make, new {@class = "form-control dealnet-input", placeholder = Resources.Make})
+              @Html.ValidationMessageFor(m => m.ExistingEquipment[i].Make, "", new {@class = "text-danger"})
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        @Html.LabelFor(m => m.ExistingEquipment[i].Model)
+        <div class="control-group">
+          @Html.TextBoxFor(m => m.ExistingEquipment[i].Model, new {@class = "form-control dealnet-input", placeholder = Resources.Model})
+          @Html.ValidationMessageFor(m => m.ExistingEquipment[i].Model, "", new {@class = "text-danger"})
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        @Html.LabelFor(m => m.ExistingEquipment[i].SerialNumber)
+        <div class="control-group">
+          @Html.TextBoxFor(m => m.ExistingEquipment[i].SerialNumber, new {@class = "form-control dealnet-input", placeholder = Resources.SerialNumber})
+          @Html.ValidationMessageFor(m => m.ExistingEquipment[i].SerialNumber, "", new {@class = "text-danger"})
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        @Html.LabelFor(m => m.ExistingEquipment[i].GeneralCondition)
+        <div class="control-group">
+          @Html.TextBoxFor(m => m.ExistingEquipment[i].GeneralCondition, new {@class = "form-control dealnet-input", placeholder = Resources.GeneralCondition})
+          @Html.ValidationMessageFor(m => m.ExistingEquipment[i].GeneralCondition, "", new {@class = "text-danger"})
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        @Html.LabelFor(m => m.ExistingEquipment[i].Notes)
+        <div class="control-group">
+          @Html.TextAreaFor(m => m.ExistingEquipment[i].Notes, new {@class = "form-control textarea-input-height", placeholder = Resources.Notes})
+          @Html.ValidationMessageFor(m => m.ExistingEquipment[i].Notes, "", new {@class = "text-danger"})
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+}
