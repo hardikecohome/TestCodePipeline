@@ -53,13 +53,16 @@
       }, 100);
     }
 
+   // if(!$('.date-group').children('.dealnet-disabled-input'))
+    $('.date-group').each(function(){
+      $('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length === 0 ? $('<div/>', {
+        class: 'div-datepicker-value',
+      }).appendTo(this) : '';
+      $('body').is('.ios-device') ? $('<div/>', {
+        class: 'div-datepicker',
+      }).appendTo(this) : '';
+    })
 
-    $('body').is('.ios-device') ? $('<div/>', {
-                                    class: 'div-datepicker-value',
-                                  }).appendTo('.date-group') : '';
-    $('body').is('.ios-device') ? $('<div/>', {
-                                    class: 'div-datepicker',
-                                  }).appendTo('.date-group') : '';
 
     $('.div-datepicker-value').on('click', function(){
       $('.div-datepicker').removeClass('opened');
