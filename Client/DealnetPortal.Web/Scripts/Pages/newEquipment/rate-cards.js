@@ -266,8 +266,14 @@
         if (!options.length) return;
 
         var formGroup = tooltip.closest('.form-group');
-        isDisable ? formGroup.addClass('notify-hold') : formGroup.removeClass('notify-hold');
-        isDisable ? tooltip.show() : tooltip.hide();
+        if (isDisable) {
+            formGroup.addClass('notify-hold');
+            tooltip.show();
+        } else {
+            formGroup.removeClass('notify-hold');
+            tooltip.hide();
+            tooltip.click();
+        }
 
         $.each(options, function (i) {
             var amortValue = +options[i].innerText.split('/')[1];

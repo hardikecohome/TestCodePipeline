@@ -494,6 +494,7 @@
     translations['CannotRecognizeDriverLicense'] = "@Html.Raw(Resources.CannotRecognizeDriverLicense)";
 }
 
+
 @section scripts
 {
   @Scripts.Render("~/bundles/jqueryval")
@@ -501,10 +502,8 @@
   @(!ViewBag.IsMobileRequest ? Scripts.Render("~/bundles/new-client") : Scripts.Render("~/bundles/new-client-mobile"))
 
     <script type="text/javascript">
-        configInitialized.then(function () {
-            var isMobileRequest = '@ViewBag.IsMobileRequest';
-            module.require('new-client-index');
-        });
+      var isMobileRequest = '@ViewBag.IsMobileRequest';
+      module.require('new-client-index');
     </script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=initAutocomplete" async defer></script>
 }
