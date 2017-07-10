@@ -141,7 +141,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (contractDTO != null)
             {
                 AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, _contractRepository.GetEquipmentTypes());
-                AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId);
+                //AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId);
             }
             return contractDTO;
         }
