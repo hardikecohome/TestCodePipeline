@@ -184,7 +184,13 @@
         customizeSelect();
         //if not first equipment add handler (first equipment should always be visible)
         if (i > 0) {
-            $('#addequipment-remove-' + i).on('click', removeEquipment);
+            $('#addequipment-remove-' + i).on('click', setRemoveEquipment(
+                {
+                    name: 'equipments',
+                    equipmentIdPattern: 'new-equipment-',
+                    equipmentName: 'NewEquipment',
+                    equipmentRemovePattern: 'addequipment-remove-'
+                }));
         }
     }
 
@@ -196,6 +202,13 @@
      */
     function initExistingEquipment(i) {
         state.existingEquipments[i] = { id: i.toString() };
+        $('#remove-existing-equipment-' + i).on('click', setRemoveEquipment(
+            {
+                name: 'existingEquipments',
+                equipmentIdPattern: 'existing-equipment-',
+                equipmentName: 'ExistingEquipment',
+                equipmentRemovePattern: 'remove-existing-equipment-'
+            }));
     }
 
     function resetFormValidator(formId) {
