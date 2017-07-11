@@ -11,9 +11,9 @@
 			//if ($('#additional1-agrees').length && $('#consent-checkbox-data1').length) {
 			//	// || !$('#consent-checkbox-data1').is(':checked')
 			//	if (!$('#additional1-agrees').is(':checked')) {
-   //                 event.preventDefault();
-   //                 $("#proceed-error-message").show();
-   //             }
-   //         }
+   //       //          event.preventDefault();
+   //         //        $("#proceed-error-message").show();
+   //           //  }
+   //         //}
         });
     });
