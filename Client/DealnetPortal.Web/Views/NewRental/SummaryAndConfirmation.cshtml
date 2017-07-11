@@ -1149,8 +1149,10 @@
                                 <div class="form-group">
                                   <div class="row">
                                     <div class="editable-label">
-                                      @Html.LabelFor(m => m.EquipmentInfo.Notes, new {@class = "dealnet-field-caption col-xs-12"})
-                                      <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#edit-add-contract-section'), $('#edit-add-contract-section-modal'), false);$('#edit-add-contract-modal').modal()">@Resources.Edit</a>
+                                      @Html.LabelFor(m => m.EquipmentInfo.Notes, new {@class = "dealnet-field-caption col-xs-9"})
+                                        <div class="col-xs-3">
+                                            <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#edit-add-contract-section'), $('#edit-add-contract-section-modal'), false);$('#edit-add-contract-modal').modal()">@Resources.Edit</a>
+                                        </div>
                                     </div>
                                     <div class="dealnet-field-holder col-xs-12">
                                       <div class="control-group">
