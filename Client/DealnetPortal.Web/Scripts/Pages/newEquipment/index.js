@@ -89,6 +89,32 @@
             });
         }
 
+        function assignDatepicker() {
+            var input = $('body').is('.ios-device') ? $(this).siblings('.div-datepicker') : $(this);
+            inputDateFocus(input);
+            input.datepicker({
+                yearRange: '1900:2200',
+                minDate: new Date()
+            });
+        }
+
+        $('.date-input').each(assignDatepicker);
+        $.validator.addMethod(
+            "date",
+            function (value, element) {
+                var minDate = Date.parse("1900-01-01");
+                var valueEntered = Date.parseExact(value, "M/d/yyyy");
+                if (!valueEntered) {
+                    return false;
+                }
+                if (valueEntered < minDate) {
+                    return false;
+                }
+                return true;
+            },
+            translations['EnterValidDate']
+        );
+
         // submit
         $('#submit').on('click', submitForm);
 
@@ -96,6 +122,8 @@
         constants.rateCards.forEach(function (option) { onAmortizationDropdownChange(option.name) });
 
         $('#addEquipment').on('click', equipment.addEquipment);
+        $('#addExistingEqipment').on('click', equipment.addExistingEquipment);
+
         $('#loanRateCardToggle').on('click', toggleRateCardBlock);
         $('#downPayment').on('change', setters.setDownPayment);
         $('#typeOfAgreementSelect').on('change', setters.setAgreement).on('change', toggleCustomRateCard);

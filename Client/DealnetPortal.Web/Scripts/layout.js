@@ -62,8 +62,6 @@
       $('body').is('.ios-device') ? $('<div/>', {
         class: 'div-datepicker',
       }).appendTo(this) : '';
-
-      console.log($(this).find('input').val())
     })
 
 
