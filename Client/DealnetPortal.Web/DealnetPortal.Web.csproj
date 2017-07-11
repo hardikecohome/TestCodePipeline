@@ -905,6 +905,7 @@
     <Content Include="Scripts\Pages\MyProfile\postalCode-handlers.js" />
     <Content Include="Scripts\Pages\Clients\new-client.js" />
     <Content Include="Scripts\Pages\newEquipment\rate-cards-init.js" />
+    <Content Include="Scripts\Pages\newEquipment\validation.js" />
     <Content Include="Scripts\Reducers\customer.js" />
     <Content Include="Scripts\Reducers\new-client-reducer.js" />
     <Content Include="Scripts\Selectors\customer.js" />

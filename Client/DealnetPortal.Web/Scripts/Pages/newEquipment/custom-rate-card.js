@@ -2,14 +2,7 @@
     var setters = require('value-setters');
     var state = require('state').state;
 
-    var validateOnSelect = function () {
-        var isValid = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal', 'CustomAFee'].reduce(function (acc, field) {
-            var valid = $("#" + field).valid();
-            return valid && acc;
-        }, true);
-
-        return isValid;
-    }
+    var validateOnSelect = require('validation').validateCustomCard;
 
     var toggleDisableClassOnInputs = function (isDisable) {
         ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal', 'CustomAFee'].forEach(function (field) {
