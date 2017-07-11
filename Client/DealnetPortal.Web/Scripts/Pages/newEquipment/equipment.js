@@ -5,6 +5,11 @@
     var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
     var recalculateAndRenderRentalValues = require('rate-cards').recalculateAndRenderRentalValues;
 
+    /**
+     * Add new equipment ot list of new equipments
+     * Takes template of equipment replace razor generated ids, names with new id index
+     * @returns {} 
+     */
     var addEquipment = function () {
         var id = $('div#new-equipments').find('[id^=new-equipment-]').length;
         var newId = id.toString();
@@ -16,6 +21,7 @@
             monthlyCost:''
         };
 
+        //create new template with appropiate id and names
         var newTemplate = templateFactory($('<div></div>'),
             {
                 id: id,
@@ -52,6 +58,11 @@
         resetFormValidator("#equipment-form");
     };
 
+    /**
+     * Add new equipment ot list of existing equipments
+     * Takes template of equipment replace razor generated ids, names with new id index
+     * @returns {} 
+     */
     var addExistingEquipment = function() {
         var id = $('div#existing-equipments').find('[id^=existing-equipment-]').length;
         var newId = id.toString();
@@ -98,6 +109,19 @@
         }
     }
 
+    /**
+     * remove equipment form list of new/existing equipments
+     * and update indexs, id, names
+     * in case of new equipment we recalculate our cost values
+     * @param {Object<>} options - object of predefinded values for 
+     *  equipment object
+     *  options.name - key in global state values [equipments, existingEquipments]
+     *  options.equipmentIdPattern - common name of id value for new/existing equipment. 
+     *      with this name and id we search for specific equipment [new-equipment-, existing-equipment- ]
+     *  options.equipmentRemovePattern - common name of id value for removing new/existing equipment [remove-existing-equipment-, addequipment-remove-]
+     *  options.equipmentName - common name of razor generated values for new/existing equipment [NewEquipment, ExistingEquipment]
+     * @returns {} 
+     */
     function removeEquipment(options) {
         var fullId = $(this).attr('id');
         var id = fullId.substr(fullId.lastIndexOf('-') + 1);
@@ -132,6 +156,12 @@
         }
     };
 
+    /**
+     * initialize and save new equipments which we get from server
+     * to our global state object
+     * @param {number} i - new id for new equipment 
+     * @returns {} 
+     */
     function initEquipment(i) {
         var cost = parseFloat($('#NewEquipment_' + i + '__Cost').val());
         if (state.equipments[i] === undefined) {
@@ -155,6 +185,12 @@
         }
     }
 
+    /**
+     * initialize and save existing equipments which we get from server
+     * to our global state object
+     * @param {number} i - new id for new equipment 
+     * @returns {} 
+     */
     function initExistingEquipment(i) {
         state.existingEquipments[i] = { id: i.toString() };
     }

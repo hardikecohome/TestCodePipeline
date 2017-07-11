@@ -16,7 +16,6 @@ namespace DealnetPortal.Web.Infrastructure
         //New Version 
         Task<EquipmentInformationViewModelNew> GetEquipmentInfoAsyncNew(int contractId);
         Task<IList<Alert>> UpdateContractAsyncNew(EquipmentInformationViewModelNew equipmnetInfo);
-        Task<IList<Alert>> UpdateContractAsyncNew(ContactAndPaymentInfoViewModelNew equipmnetInfo);
 
         Task<ContactAndPaymentInfoViewModelNew> GetAdditionalContactInfoAsyncNew(int contractId);
 

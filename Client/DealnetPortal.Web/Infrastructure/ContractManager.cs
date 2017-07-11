@@ -403,35 +403,6 @@ namespace DealnetPortal.Web.Infrastructure
             return await _contractServiceAgent.UpdateContractData(contractData);
         }
 
-        public async Task<IList<Alert>> UpdateContractAsyncNew(ContactAndPaymentInfoViewModelNew equipmnetInfo)
-        {
-            var contractData = new ContractDataDTO
-            {
-                Id = equipmnetInfo.ContractId ?? 0,
-                Equipment = new EquipmentInfoDTO
-                {
-                    Id = equipmnetInfo.ContractId ?? 0,
-                    AgreementType = equipmnetInfo.AgreementType.ConvertTo<AgreementType>()
-                }
-            };
-
-            contractData.Equipment.ExistingEquipment = Mapper.Map<List<ExistingEquipmentDTO>>(equipmnetInfo.ExistingEquipment);
-            contractData.Equipment.SalesRep = equipmnetInfo.SalesRep;
-            contractData.Equipment.EstimatedInstallationDate = equipmnetInfo.EstimatedInstallationDate;
-
-            contractData.Details = new ContractDetailsDTO
-            {
-                Notes = equipmnetInfo.Notes
-            };
-
-            if (equipmnetInfo.HouseSize.HasValue)
-            {
-                contractData.Details.HouseSize = equipmnetInfo.HouseSize;
-            }
-
-            return await _contractServiceAgent.UpdateContractData(contractData);
-        }
-
         public async Task<IList<Alert>> UpdateContractAsync(EquipmentInformationViewModel equipmnetInfo)
         {
             var contractData = new ContractDataDTO

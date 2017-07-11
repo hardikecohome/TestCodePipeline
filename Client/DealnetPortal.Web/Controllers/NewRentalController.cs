@@ -351,36 +351,6 @@ namespace DealnetPortal.Web.Controllers
             return RedirectToAction("ContactAndPaymentInfo", new { contractId = equipmentInfo.ContractId });
         }
 
-        public async Task<ActionResult> AdditionalEquipmentInformation(int contractId)
-        {
-            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
-
-            return View(await _contractManager.GetAdditionalContactInfoAsyncNew(contractId));
-        }
-        
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AdditionalEquipmentInformation(ContactAndPaymentInfoViewModelNew contactAndPaymentInfo)
-        {
-            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
-
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
-
-            var updateResult = await _contractManager.UpdateContractAsyncNew(contactAndPaymentInfo);
-
-            if (updateResult.Any(r => r.Type == AlertType.Error))
-            {
-                TempData[PortalConstants.CurrentAlerts] = updateResult;
-
-                return RedirectToAction("Error", "Info");
-            }
-
-            return RedirectToAction("ContactAndPaymentInfo", new { contractId = contactAndPaymentInfo.ContractId });
-        }
-
         [HttpGet]
         public async Task<ActionResult> ContactAndPaymentInfo(int contractId)
         {

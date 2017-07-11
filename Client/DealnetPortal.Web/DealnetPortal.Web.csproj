@@ -1027,7 +1027,6 @@
     <Content Include="Views\Calculator\Index_new.cshtml" />
     <Content Include="Views\NewRental\RateCard.cshtml" />
     <Content Include="Views\NewRental\EquipmentInformation.cshtml" />
-    <Content Include="Views\NewRental\AdditionalEquipmentInformation.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_EquipmentTemplates.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_FixedRate.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_NoInterest.cshtml" />
