@@ -41,86 +41,89 @@
             @Html.HiddenFor(x => x.IsNewContract)
             @Html.HiddenFor(x => x.DealerCost)
 <div class="form-container">
-    <div class="form-section">
-        <div class="customer-comments form-group">
-            <h3 class="dealnet-middle-header">Customers Comments:</h3>
-            <div class="customer-comments-descr">
-                Air conditioner <br>
-                Hello. I want a loan. And could you find cheaper equipment ? I don't want to spend a lot of money for it.
-            </div>
+  <div class="form-section">
+    @if (Model.CustomerComment != null)
+    {
+      <div class="customer-comments form-group">
+        <h3 class="dealnet-middle-header">Customers Comments:</h3>
+        <div class="customer-comments-descr">
+          @Model.CustomerComment
         </div>
-            <div class="row form-group">
-                <div class="col-md-3">
-                    @Html.LabelFor(m => m.AgreementType)
-                    @Html.EnumDropDownListFor(m => m.AgreementType, null, new { @class = "form-control", id = "typeOfAgreementSelect" })
-                </div>
-            </div>
-            <div id="new-equipments">
-                <h3 class="dealnet-middle-header">@Resources.NewEquipmentInformation</h3>
-                @if (Model?.NewEquipment != null)
-                {
-                    @Html.Partial("EquipmentInformation/_NewEquipments", Model)
-                }
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="align-middle dealnet-info-link add-equip-link" id="addEquipment">
-                        <svg aria-hidden="true" class="icon icon-add-app">
-                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
-                        </svg>
-                        <span>@Resources.AddAdditionalEquipment</span>
-                    </div>
-                </div>
-            </div>
-            @Html.Partial("EquipmentInformation/Agreements/_Rental", Model)
-            @Html.Partial("EquipmentInformation/Agreements/_Loan", Model)
-            <br>
-            <div class="row downpayment-row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.DownPayment)
-                        <div class="control-group has-addon-left">
-                            <div class="control-group-addon">$</div>
-                            @Html.TextBoxFor(m => m.DownPayment, new { @class = "form-control", placeholder = Resources.DownPayment, type = "text", id = "downPayment" })
-                            @Html.ValidationMessageFor(m => m.DownPayment, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-            </div>
+      </div>
+    }
 
-      <div class="financing-options">
-        <div class="row">
-          <div class="col-md-3">
-            <h3 class="dealnet-middle-header">
-              Financing Options
-              @*<a class="dealnet-info-link pull-right loan-element rate-card-link" href="@Url.Action("RateCard", "NewRental")">
+    <div class="row form-group">
+      <div class="col-md-3">
+        @Html.LabelFor(m => m.AgreementType)
+        @Html.EnumDropDownListFor(m => m.AgreementType, null, new {@class = "form-control", id = "typeOfAgreementSelect"})
+      </div>
+    </div>
+    <div id="new-equipments">
+      <h3 class="dealnet-middle-header">@Resources.NewEquipmentInformation</h3>
+      @if (Model?.NewEquipment != null)
+      {
+        @Html.Partial("EquipmentInformation/_NewEquipments", Model)
+      }
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="align-middle dealnet-info-link add-equip-link" id="addEquipment">
+          <svg aria-hidden="true" class="icon icon-add-app">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
+          </svg>
+          <span>@Resources.AddAdditionalEquipment</span>
+        </div>
+      </div>
+    </div>
+    @Html.Partial("EquipmentInformation/Agreements/_Rental", Model)
+    @Html.Partial("EquipmentInformation/Agreements/_Loan", Model)
+    <br>
+    <div class="row downpayment-row">
+      <div class="col-md-3">
+        <div class="form-group">
+          @Html.LabelFor(m => m.DownPayment)
+          <div class="control-group has-addon-left">
+            <div class="control-group-addon">$</div>
+            @Html.TextBoxFor(m => m.DownPayment, new {@class = "form-control", placeholder = Resources.DownPayment, type = "text", id = "downPayment"})
+            @Html.ValidationMessageFor(m => m.DownPayment, "", new {@class = "text-danger"})
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="financing-options">
+      <div class="row">
+        <div class="col-md-3">
+          <h3 class="dealnet-middle-header">
+            Financing Options
+            @*<a class="dealnet-info-link pull-right loan-element rate-card-link" href="@Url.Action("RateCard", "NewRental")">
                             <svg aria-hidden="true" class="icon icon-info-well">
                                 <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
                             </svg>
                             Rate Card
                             </a>*@
-              <span class="financing-arrow" id="loanRateCardToggle">
-                <i class="glyphicon glyphicon-chevron-down"></i>
-              </span>
-            </h3>
-          </div>
+            <span class="financing-arrow" id="loanRateCardToggle">
+              <i class="glyphicon glyphicon-chevron-down"></i>
+            </span>
+          </h3>
         </div>
-
-        @Html.Partial("EquipmentInformation/Agreements/_FinancialRental", Model)
-        @Html.Partial("EquipmentInformation/Agreements/_FinancialLoan", Model)
       </div>
-        @Html.Partial("EquipmentInformation/_AdditionalContractInformation", Model)
-            @Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="rate-card-button-proceed">
-                        <span class="btn-proceed-inline-hold btn-form-common" data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Resources.YouShouldFillAllMandatoryFields">
-                            <input type="submit" value="@Resources.SaveAndProceed" class="btn dealnet-button dealnet-success-button" id="submit" />
-                        </span>
-                    </div>
-                </div>
-            </div>
+
+      @Html.Partial("EquipmentInformation/Agreements/_FinancialRental", Model)
+      @Html.Partial("EquipmentInformation/Agreements/_FinancialLoan", Model)
     </div>
+    @Html.Partial("EquipmentInformation/_AdditionalContractInformation", Model)
+    @Html.ValidationMessageFor(m => m.NewEquipment, "", new {@class = "text-danger", id = "new-equipment-validation-message"})
+    <div class="row">
+      <div class="col-md-12">
+        <div class="rate-card-button-proceed">
+          <span class="btn-proceed-inline-hold btn-form-common" data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Resources.YouShouldFillAllMandatoryFields">
+            <input type="submit" value="@Resources.SaveAndProceed" class="btn dealnet-button dealnet-success-button" id="submit"/>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 }

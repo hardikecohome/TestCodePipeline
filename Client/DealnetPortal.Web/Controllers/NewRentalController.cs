@@ -348,7 +348,7 @@ namespace DealnetPortal.Web.Controllers
                 return RedirectToAction("Error", "Info");
             }
 
-            return RedirectToAction("AdditionalEquipmentInformation", new { contractId = equipmentInfo.ContractId });
+            return RedirectToAction("ContactAndPaymentInfo", new { contractId = equipmentInfo.ContractId });
         }
 
         public async Task<ActionResult> AdditionalEquipmentInformation(int contractId)

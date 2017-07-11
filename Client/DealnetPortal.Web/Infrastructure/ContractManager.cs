@@ -83,12 +83,12 @@ namespace DealnetPortal.Web.Infrastructure
         public async Task<EquipmentInformationViewModelNew> GetEquipmentInfoAsyncNew(int contractId)
         {
             Tuple<ContractDTO, IList<Alert>> result = await _contractServiceAgent.GetContract(contractId);
-
+            
             if (result.Item1 == null)
             {
                 return new EquipmentInformationViewModelNew();
             }
-
+            
             var equipmentInfo = new EquipmentInformationViewModelNew()
             {
                 ContractId = contractId,
@@ -132,6 +132,12 @@ namespace DealnetPortal.Web.Infrastructure
             equipmentInfo.DealerTier = dealerTier ?? new TierDTO() {RateCards = new List<RateCardDTO>()};
 
             AddAditionalContractInfo(result.Item1, equipmentInfo);
+
+            var customerComment = result.Item1.Comments.FirstOrDefault(x => x.IsCustomerComment == true);
+            if (customerComment != null)
+            {
+                equipmentInfo.CustomerComment = customerComment.Text;
+            }
 
             return equipmentInfo;
         }
@@ -380,6 +386,20 @@ namespace DealnetPortal.Web.Infrastructure
                 Equipment = Mapper.Map<EquipmentInfoDTO>(equipmnetInfo)
             };
 
+            contractData.Equipment.ExistingEquipment = Mapper.Map<List<ExistingEquipmentDTO>>(equipmnetInfo.ExistingEquipment);
+            contractData.Equipment.SalesRep = equipmnetInfo.SalesRep;
+            contractData.Equipment.EstimatedInstallationDate = equipmnetInfo.EstimatedInstallationDate;
+
+            contractData.Details = new ContractDetailsDTO
+            {
+                Notes = equipmnetInfo.Notes
+            };
+
+            if (equipmnetInfo.HouseSize.HasValue)
+            {
+                contractData.Details.HouseSize = equipmnetInfo.HouseSize;
+            }
+
             return await _contractServiceAgent.UpdateContractData(contractData);
         }
 
@@ -603,6 +623,11 @@ namespace DealnetPortal.Web.Infrastructure
                 summary.EquipmentInfo.Notes = contract.Details?.Notes;
             }
             summary.Notes = contract.Details?.Notes;
+            var customerComment = contract.Comments.FirstOrDefault(x => x.IsCustomerComment == true);
+            if (customerComment != null)
+            {
+                summary.CustomerComment = customerComment.Text;
+            }
 
             summary.ContactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
             summary.ContactAndPaymentInfo.ContractId = contractId;
@@ -664,10 +689,14 @@ namespace DealnetPortal.Web.Infrastructure
         {
             equipmentInfo.Notes = contract.Details.Notes;
             equipmentInfo.HouseSize = contract.Details.HouseSize;
-            equipmentInfo.EstimatedInstallationDate = contract.Equipment.EstimatedInstallationDate;
-            equipmentInfo.SalesRep = contract.Equipment.SalesRep;
             equipmentInfo.IsApplicantsInfoEditAvailable = contract.ContractState < Api.Common.Enumeration.ContractState.Completed;
-            equipmentInfo.ExistingEquipment = Mapper.Map<List<ExistingEquipmentInformation>>(contract.Equipment.ExistingEquipment);
+
+            if (contract.Equipment != null)
+            {
+                equipmentInfo.EstimatedInstallationDate = contract.Equipment.EstimatedInstallationDate;
+                equipmentInfo.SalesRep = contract.Equipment.SalesRep;
+                equipmentInfo.ExistingEquipment = Mapper.Map<List<ExistingEquipmentInformation>>(contract.Equipment.ExistingEquipment);
+            }
         }
     }
 }

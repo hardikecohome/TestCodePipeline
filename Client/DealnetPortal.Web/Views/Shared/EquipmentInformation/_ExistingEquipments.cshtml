@@ -1,16 +1,11 @@
 ﻿@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
 
-@{
-  var yesNaming = Resources.Yes;
-  var noNaming = Resources.No;
-}
-
 @for (var i = 0; i < Model.ExistingEquipment.Count; i++)
 {
 <div id="existing-equipment-@(i)">
   <div class="dealnet-middle-header equipment-number-header">
     <span class="equipment-number">№@(i + 1)</span>
-    <div id="existing-equipment-remove-@(i)" class="additional-remove" onclick="removeExistingEquipment(@(i));">
+    <div id="existing-equipment-remove-@(i)" class="additional-remove">
       <i class="glyphicon glyphicon-remove"></i>
     </div>
   </div>
@@ -24,8 +19,8 @@
               @Html.DropDownListFor(m => m.ExistingEquipment[i].IsRental, new SelectList(
                 new[]
                 {
-                  new {Value = "true", Text = yesNaming, Selected = Model?.ExistingEquipment != null && Model.ExistingEquipment[i].IsRental},
-                  new {Value = "false", Text = noNaming, Selected = Model?.ExistingEquipment != null && !Model.ExistingEquipment[i].IsRental},
+                  new {Value = "true", Text = Resources.Yes, Selected = Model?.ExistingEquipment != null && Model.ExistingEquipment[i].IsRental},
+                  new {Value = "false", Text = Resources.No, Selected = Model?.ExistingEquipment != null && !Model.ExistingEquipment[i].IsRental},
                 },
                 "Value", "Text", Model?.ExistingEquipment != null ? Model.ExistingEquipment[i].IsRental : true), new {@class = "form-control"})
             </div>
