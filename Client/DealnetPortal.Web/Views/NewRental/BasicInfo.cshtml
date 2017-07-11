@@ -44,6 +44,7 @@
 
 @if (Model.ContractWasDeclined)
 {
+    @Html.CheckBox("home-owner-agrees", new { id = "home-owner-agrees", @checked = "checked", @class="hidden" })
     <!--Show/hide warning depend on status-deal-submitted-->
     <div class="well well-info position-well">
         <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
