@@ -252,6 +252,7 @@
     <Compile Include="Infrastructure\ContractManager.cs" />
     <Compile Include="Infrastructure\CultureSetterManager.cs" />
     <Compile Include="Infrastructure\CustomerManager.cs" />
+    <Compile Include="Infrastructure\Extensions\ModelStateErrorHandler.cs" />
     <Compile Include="Infrastructure\Extensions\MvcHelpersExtensions.cs" />
     <Compile Include="Infrastructure\ICustomerManager.cs" />
     <Compile Include="Infrastructure\IProfileManager.cs" />
