@@ -376,6 +376,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You can&apos;t proceed until all applicants provide their consents..
+        /// </summary>
+        public static string AllAplicantsConsents {
+            get {
+                return ResourceManager.GetString("AllAplicantsConsents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All documents are checked.
         /// </summary>
         public static string AllDocumentsChecked {
