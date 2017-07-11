@@ -13,7 +13,6 @@
 
 
         if (!$('#paymentInfo').hasClass('hidden')) {
-            $('#paymentInfo').css('display', 'none');
             $('#paymentInfo').addClass('hidden');
         }
     }
@@ -27,7 +26,6 @@
           .addClass('glyphicon-chevron-down');
 
         if ($('#paymentInfo').hasClass('hidden')) {
-            $('#paymentInfo').css('display', 'block');
             $('#paymentInfo').removeClass('hidden');
         }
     }
@@ -106,10 +104,9 @@
             $('.rental-element').hide();
 
             if (state.onlyCustomRateCard || $('#rateCardsBlock').find('div.checked').length) {
-                $('#paymentInfo').show();
+                toggleRateCardBlock(false);
             } else {
-                $('#rateCardsBlock').addClass('opened')
-                  .removeClass('closed');
+                toggleRateCardBlock(true);
             }
         } else {
             //If rental is chosen
@@ -119,8 +116,11 @@
             }
             setHeight();
             $('.rental-element').show();
-            $('#loanRateCardToggle, .loan-element, .downpayment-row, #paymentInfo').hide();
+            $('#loanRateCardToggle, .loan-element, .downpayment-row').hide();
             $('#rateCardsBlock').removeClass('opened').addClass('closed');
+            if (!$('#paymentInfo').hasClass('hidden')) {
+                $('#paymentInfo').addClass('hidden');
+            }
         }
         updateEquipmentCosts(agreementType);
     }
