@@ -29,54 +29,17 @@
         managePaymentElements($(this).find(":selected").val());
     });
 
-    $('#agreement-checkbox').change(function () {
-        var isValid = agreementIsChecked();
-        if (isValid) {
-            $('#proceed-error-message').hide();
-        }
-    });
-
-    $('#additional-agreement-checkbox').change(function () {
-        var isValid = agreementIsChecked();
-        if (isValid) {
-            $('#proceed-error-message').hide();
-        }
-    });
+    
 
     $('form').on('submit', function(e) {
         if (!$('form').valid()) {
             e.preventDefault();
         }
 
-        agreementIsCheckedOnSubmit(e);
     });
 });
 
-function agreementIsChecked() {
-    var mainCustomerAgrees = $('#agreement-checkbox').prop('checked');
-    if ($('#additional-agreement-checkbox').length) {
-        var additionalCustomerAgrees = $('#additional-agreement-checkbox').prop('checked');
-        return mainCustomerAgrees && additionalCustomerAgrees ? true : false;
-    } else {
-        return mainCustomerAgrees ? true : false;
-    }
-}
 
-function agreementIsCheckedOnSubmit(e) {
-    var isValid = $('#agreement-checkbox').prop('checked');
-
-    if ($('#additional-agreement-checkbox').length) {
-        isValid = $('#agreement-checkbox').prop('checked') && $('#additional-agreement-checkbox').prop('checked');
-    }
-
-    if (!isValid) {
-        if (e !== undefined && e !== null) e.preventDefault();
-
-        $('#proceed-error-message').show();
-    } else {
-        $('#proceed-error-message').hide();
-    }
-}
 
 function managePaymentElements(paymentType) {
     switch (paymentType) {
