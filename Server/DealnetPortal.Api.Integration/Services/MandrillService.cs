@@ -68,7 +68,7 @@ namespace DealnetPortal.Api.Integration.Services
             request.message = new MandrillMessage()
             {
                 from_email = ConfigurationManager.AppSettings["FromEmail"],
-                from_name = "Eco Home Financial",
+                from_name = "Myhome Wallet by EcoHome Financial",
                 html = null,
                 merge_vars = new List<MergeVariable>() {
                     new MergeVariable(){
@@ -79,8 +79,8 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 },
                 send_at = DateTime.Now,
-                subject = "Dealer accepted your lead.",
-                text = "Dealer accepted your lead.",
+                subject = "Dealer accepted your lead",
+                text = "Dealer accepted your lead",
                 to = new List<MandrillTo>() {
                     new MandrillTo(){
                         email =emailid,
@@ -119,7 +119,7 @@ namespace DealnetPortal.Api.Integration.Services
             request.message = new MandrillMessage()
             {
                 from_email = ConfigurationManager.AppSettings["FromEmail"],
-                from_name = "Eco Home Financial",
+                from_name = "Myhome Wallet by EcoHome Financial",
                 html = null,
                 merge_vars = new List<MergeVariable>() {
                         new MergeVariable(){
@@ -170,7 +170,7 @@ namespace DealnetPortal.Api.Integration.Services
             request.message = new MandrillMessage()
             {
                 from_email = ConfigurationManager.AppSettings["FromEmail"],
-                from_name = "Eco Home Financial",
+                from_name = "Myhome Wallet by EcoHome Financial",
                 html = null,
                 merge_vars = new List<MergeVariable>() {
                         new MergeVariable(){

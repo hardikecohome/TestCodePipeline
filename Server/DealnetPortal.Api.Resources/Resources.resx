@@ -393,7 +393,7 @@
     <comment>Context: If you have any question please contact: One Fine Company</comment>
   </data>
   <data name="ThankYouForApplyingForFinancing" xml:space="preserve">
-    <value>Thank you for applying for financing.</value>
+    <value>EcoHome Financial Customer Financing Application - New Application Submitted</value>
   </data>
   <data name="WillContactYouSoon" xml:space="preserve">
     <value>{0} will contact you soon.</value>

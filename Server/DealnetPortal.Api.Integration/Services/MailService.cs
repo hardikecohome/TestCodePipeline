@@ -102,7 +102,7 @@ namespace DealnetPortal.Api.Integration.Services
             var body = new StringBuilder();
             body.AppendLine($"<h3>{Resources.Resources.NewCustomerAppliedForFinancing}</h3>");
             body.AppendLine("<div>");
-            body.AppendLine($"<p>{Resources.Resources.ContractId}: {contractData.ContractId}</p>");
+            body.AppendLine($"<p>{Resources.Resources.TransactionId}: {contractData.TransactionId}</p>");
             body.AppendLine($"<p><b>{Resources.Resources.Name}: {$"{customerFormData.PrimaryCustomer.FirstName} {customerFormData.PrimaryCustomer.LastName}"}</b></p>");
             if (contractData.CreditAmount > 0)
             {
@@ -116,6 +116,13 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine($"<p>{Resources.Resources.BusinessPhone}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum ?? string.Empty}</p>");
             body.AppendLine($"<p>{Resources.Resources.Email}: {customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty}</p>");
             body.AppendLine($"<p>{Resources.Resources.YouCanViewThisDealHere}: <a href=\"{customerFormData.DealUri}/{contractData.ContractId}\">{Resources.Resources.DealInfo}</a></p>");
+
+            body.AppendLine($"<p>Copyright © 2017 EcoHome Financial</p>");
+            body.AppendLine($"<p>This email was sent by Ecohome Financial, 325 Milner Avenue Suite 300, Toronto, ON, Canada, M1B 5N1</br>");
+            body.AppendLine($"Telephone : 1-866-382-7468 </br>");
+            body.AppendLine($"<a href=\"http://ecohomefinancial.com/contact-us/privacy-policy/\"" +">Privacy Policy </a></br>");
+            body.AppendLine($"You are receiving this email because you have subscribed to receive updates from us.<br/>");
+            body.AppendLine($"To cancel your subscription, please click here to <a href=\"% unsubscribe_url %\""+" >unsubscribe</a></p>");
             body.AppendLine("</div>");
 
             //var alternateView = AlternateView.CreateAlternateViewFromString(body.ToString(), null, MediaTypeNames.Text.Html);

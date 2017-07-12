@@ -952,7 +952,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Thank you for applying for financing..
+        ///   Looks up a localized string similar to EcoHome Financial Customer Financing Application - New Application Submitted.
         /// </summary>
         public static string ThankYouForApplyingForFinancing {
             get {
