@@ -88,6 +88,12 @@
         }
     };
 
+    /**
+     * Update all text field and global state object with new calculated values
+     * @param {string} option  name of the cards [FixedRate,Deferral,NoInterst, Custom]
+     * @param {Object<>} data - new values
+     * @returns {} 
+     */
     var renderOption = function (option, data) {
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
         var validateNumber = constants.numberFields.every(function (field) {
@@ -147,6 +153,12 @@
         }
     };
 
+    /**
+     * recalculate all financial values for Loan agreement type
+     * @param {Array<>} options - object of options for recalucaltion, if empty recalculate all values on form 
+     *  possible values [FixedRate,Deferral,NoInterst, Custom]
+     * @returns {} 
+     */
     var recalculateValuesAndRender = function (options) {
         var optionsToCompute = constants.rateCards;
 
@@ -198,6 +210,10 @@
         });
     };
 
+    /**
+     * recalculate all financial values for Rental/RentalHwt agreement type
+     * @returns {} 
+     */
     var recalculateAndRenderRentalValues = function () {
         var eSum = monthlySum(state.equipments);
         
@@ -234,6 +250,12 @@
         }
     };
 
+    /**
+     * Show/hide notification and disable dropdown option depending on totalAmountFinanced option
+     * @param {string} option - name of the cards [FixedRate,Deferral,NoInterst]
+     * @param {number} totalAmountFinanced - total cash value
+     * @returns {} 
+     */
     function renderDropdownValues(option, totalAmountFinanced) {
         var totalCash = constants.minimumLoanValue;
 
@@ -296,6 +318,12 @@
         });
     }
 
+    /**
+     * Update current card for each of rate card options
+     * @param {string} option - name of the cards [FixedRate,Deferral,NoInterst]
+     * @param {Object<>} data - calculated financial data
+     * @returns {} 
+     */
     function calculateRateCardValues(option, data) {
         //minimum loan value
         var totalCash = constants.minimumLoanValue;
@@ -325,6 +353,12 @@
         }
     }
 
+    /**
+     * Select reate cards by current values of dropdown and totalCash
+     * @param {string} option - name of the cards [FixedRate,Deferral,NoInterst]
+     * @param {number} totalCash - totalAmountFinancedValue for current option
+     * @returns {Object<>} - appropriate rate card object 
+     */
     function filterRateCardByValues(option, totalCash) {
         var selectedValues = $('#' + option.name + 'AmortizationDropdown option:selected').text().split('/');
         var items = $.parseJSON(sessionStorage.getItem(state.contractId + option.name));

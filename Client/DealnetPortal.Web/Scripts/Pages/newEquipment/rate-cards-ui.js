@@ -1,6 +1,7 @@
 ﻿module.exports('rate-cards-ui', function (require) {
 
     var state = require('state').state;
+    var validateCustomCard = require('validation').validateCustomCard;
 
     var showRateCardBlock = function () {
         $('#rateCardsBlock').addClass('opened')
@@ -102,11 +103,11 @@
 
             $('#loanRateCardToggle, .loan-element, .downpayment-row').show();
             $('.rental-element').hide();
-
-            if (state.onlyCustomRateCard || $('#rateCardsBlock').find('div.checked').length) {
+            if ($('#rateCardsBlock').find('div.checked').length) {                
                 toggleRateCardBlock(false);
             } else {
-                toggleRateCardBlock(true);
+                var show = state.onlyCustomRateCard ? !validateCustomCard(true) : true;
+                toggleRateCardBlock(show);
             }
         } else {
             //If rental is chosen

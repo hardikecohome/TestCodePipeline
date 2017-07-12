@@ -1138,10 +1138,6 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 contract.Details.AgreementType = contractDetails.AgreementType;
             }
-            if (contractDetails.HouseSize.HasValue)
-            {
-                contract.Details.HouseSize = contractDetails.HouseSize;
-            }
             if (contractDetails.SignatureDocumentId != null)
             {
                 contract.Details.SignatureDocumentId = contractDetails.SignatureDocumentId;
@@ -1153,10 +1149,6 @@ namespace DealnetPortal.DataAccess.Repositories
             if (contractDetails.Status != null)
             {
                 contract.Details.Status = contractDetails.Status;
-            }
-            if (contractDetails.Notes != null)
-            {
-                contract.Details.Notes = contractDetails.Notes;
             }
             if (contractDetails.TransactionId != null)
             {
@@ -1182,6 +1174,8 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 contract.Details.CreditAmount = contractDetails.CreditAmount;
             }
+            contract.Details.HouseSize = contractDetails.HouseSize;
+            contract.Details.Notes = contractDetails.Notes;
         }
 
         private void AddOrUpdatePaymentInfo(Contract contract, PaymentInfo newData)
