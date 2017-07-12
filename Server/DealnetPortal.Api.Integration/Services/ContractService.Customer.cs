@@ -155,14 +155,7 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                     });
 
-                var contractDTO = Mapper.Map<ContractDTO>(succededContract ?? contractsResultList?.FirstOrDefault()?.Item1);
-                if (contractDTO != null)
-                {                    
-                    if (creditReviewStates?.Any() == true && !string.IsNullOrEmpty(contractDTO?.Details?.Status))
-                    {
-                        contractDTO.OnCreditReview = creditReviewStates.Contains(contractDTO.Details.Status);
-                    }
-                }
+                var contractDTO = Mapper.Map<ContractDTO>(succededContract ?? contractsResultList?.FirstOrDefault()?.Item1);                
                 return new Tuple<ContractDTO, IList<Alert>>(contractDTO, creditCheckAlerts);
             }
             catch (Exception ex)
