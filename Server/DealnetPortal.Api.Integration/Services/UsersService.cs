@@ -121,26 +121,29 @@ namespace DealnetPortal.Api.Integration.Services
             if (parentUser != null)
             {
                 var updateUser = await _userManager.FindByIdAsync(userId);
-                updateUser.ParentDealer = parentUser;
-                updateUser.ParentDealerId = parentUser.Id;
-                var updateRes = await _userManager.UpdateAsync(updateUser);
-                if (updateRes.Succeeded)
+                if (updateUser.ParentDealerId != parentUser.Id)
                 {
-                    _loggingService?.LogInfo(
-                        $"Parent dealer for Aspire user [{userId}] was updated successefully");
-                }
-                else
-                {
-                    updateRes.Errors?.ForEach(e =>
+                    updateUser.ParentDealer = parentUser;
+                    updateUser.ParentDealerId = parentUser.Id;
+                    var updateRes = await _userManager.UpdateAsync(updateUser);
+                    if (updateRes.Succeeded)
                     {
-                        alerts.Add(new Alert()
+                        _loggingService?.LogInfo(
+                            $"Parent dealer for Aspire user [{userId}] was updated successefully");
+                    }
+                    else
+                    {
+                        updateRes.Errors?.ForEach(e =>
                         {
-                            Type = AlertType.Error,
-                            Header = "Error during update Aspire user",
-                            Message = e
+                            alerts.Add(new Alert()
+                            {
+                                Type = AlertType.Error,
+                                Header = "Error during update Aspire user",
+                                Message = e
+                            });
+                            _loggingService.LogError($"Error during update Aspire user: {e}");
                         });
-                        _loggingService.LogError($"Error during update Aspire user: {e}");
-                    });
+                    }
                 }
             }
             return alerts;
