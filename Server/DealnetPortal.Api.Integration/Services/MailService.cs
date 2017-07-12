@@ -72,7 +72,7 @@ namespace DealnetPortal.Api.Integration.Services
         public async Task<IList<Alert>> SendContractChangeNotification(ContractDTO contract, string dealerEmail)
         {
             var alerts = new List<Alert>();
-            
+
             var id = contract.Details?.TransactionId ?? contract.Id.ToString();
             var subject = string.Format(Resources.Resources.ContractWasSuccessfullyChanged, id);
             var body = new StringBuilder();
