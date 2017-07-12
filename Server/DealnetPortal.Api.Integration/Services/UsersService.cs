@@ -121,26 +121,29 @@ namespace DealnetPortal.Api.Integration.Services
             if (parentUser != null)
             {
                 var updateUser = await _userManager.FindByIdAsync(userId);
-                updateUser.ParentDealer = parentUser;
-                updateUser.ParentDealerId = parentUser.Id;
-                var updateRes = await _userManager.UpdateAsync(updateUser);
-                if (updateRes.Succeeded)
+                if (updateUser.ParentDealerId != parentUser.Id)
                 {
-                    _loggingService?.LogInfo(
-                        $"Parent dealer for Aspire user [{userId}] was updated successefully");
-                }
-                else
-                {
-                    updateRes.Errors?.ForEach(e =>
+                    updateUser.ParentDealer = parentUser;
+                    updateUser.ParentDealerId = parentUser.Id;
+                    var updateRes = await _userManager.UpdateAsync(updateUser);
+                    if (updateRes.Succeeded)
                     {
-                        alerts.Add(new Alert()
+                        _loggingService?.LogInfo(
+                            $"Parent dealer for Aspire user [{userId}] was updated successefully");
+                    }
+                    else
+                    {
+                        updateRes.Errors?.ForEach(e =>
                         {
-                            Type = AlertType.Error,
-                            Header = "Error during update Aspire user",
-                            Message = e
+                            alerts.Add(new Alert()
+                            {
+                                Type = AlertType.Error,
+                                Header = "Error during update Aspire user",
+                                Message = e
+                            });
+                            _loggingService.LogError($"Error during update Aspire user: {e}");
                         });
-                        _loggingService.LogError($"Error during update Aspire user: {e}");
-                    });
+                    }
                 }
             }
             return alerts;
@@ -151,49 +154,53 @@ namespace DealnetPortal.Api.Integration.Services
             var alerts = new List<Alert>();
             if (!string.IsNullOrEmpty(aspireUser.Role))
             {
-                var mbRoles = ConfigurationManager.AppSettings[MB_ROLE_CONFIG_KEY] != null
-                    ? ConfigurationManager.AppSettings[MB_ROLE_CONFIG_KEY].Split(',').Select(s => s.Trim()).ToArray()
-                    : new string[] { DEFAULT_MB_ROLE };
-                //var mbRole = ConfigurationManager.AppSettings["AspireMortgageBrokerRole"] ?? "Broker";                
-                var rolesToSet = new List<string>();
-                if (mbRoles.Contains(aspireUser.Role))
-                {
-                    rolesToSet.Add(UserRole.MortgageBroker.ToString());                    
-                }
-                else
-                {
-                    rolesToSet.Add(UserRole.Dealer.ToString());
-                }
                 var dbRoles = await _userManager.GetRolesAsync(userId);
-                var removeRes = await _userManager.RemoveFromRolesAsync(userId, dbRoles.Except(rolesToSet).ToArray());
-                var addRes = await _userManager.AddToRolesAsync(userId, rolesToSet.Except(dbRoles).ToArray());
-                if(addRes.Succeeded && removeRes.Succeeded)
+                if (!dbRoles.Contains(aspireUser.Role))
                 {
-                    _loggingService?.LogInfo(
-                        $"Roles for Aspire user [{userId}] was updated successefully");
-                }
-                else
-                {
-                    removeRes.Errors?.ForEach(e =>
+                    var mbRoles = ConfigurationManager.AppSettings[MB_ROLE_CONFIG_KEY] != null
+                        ? ConfigurationManager.AppSettings[MB_ROLE_CONFIG_KEY].Split(',').Select(s => s.Trim()).ToArray()
+                        : new string[] { DEFAULT_MB_ROLE };
+                    var user = await _userManager.FindByIdAsync(userId);
+                    var removeRes = await _userManager.RemoveFromRolesAsync(userId, dbRoles.ToArray());
+                    IdentityResult addRes;
+                    if (mbRoles.Contains(aspireUser.Role))
                     {
-                        alerts.Add(new Alert()
-                        {
-                            Type = AlertType.Error,
-                            Header = "Error during remove role",
-                            Message = e
-                        });
-                        _loggingService.LogError($"Error during remove role for an user {userId}: {e}");
-                    });
-                    addRes.Errors?.ForEach(e =>
+                        addRes = await _userManager.AddToRolesAsync(userId, new[] { UserRole.MortgageBroker.ToString() });
+                    }
+                    else
                     {
-                        alerts.Add(new Alert()
+                        addRes = await _userManager.AddToRolesAsync(userId, new[] { UserRole.Dealer.ToString() });
+                    }
+
+                    var updateRes = await _userManager.UpdateAsync(user);
+                    if (addRes.Succeeded && removeRes.Succeeded && updateRes.Succeeded)
+                    {
+                        _loggingService?.LogInfo(
+                            $"Roles for Aspire user [{userId}] was updated successefully");
+                    }
+                    else
+                    {
+                        removeRes.Errors?.ForEach(e =>
                         {
-                            Type = AlertType.Error,
-                            Header = "Error during add role",
-                            Message = e
+                            alerts.Add(new Alert()
+                            {
+                                Type = AlertType.Error,
+                                Header = "Error during remove role",
+                                Message = e
+                            });
+                            _loggingService.LogError($"Error during remove role for an user {userId}: {e}");
                         });
-                        _loggingService.LogError($"Error during add role for an user {userId}: {e}");
-                    });
+                        addRes.Errors?.ForEach(e =>
+                        {
+                            alerts.Add(new Alert()
+                            {
+                                Type = AlertType.Error,
+                                Header = "Error during add role",
+                                Message = e
+                            });
+                            _loggingService.LogError($"Error during add role for an user {userId}: {e}");
+                        });
+                    }
                 }
             }
             else
