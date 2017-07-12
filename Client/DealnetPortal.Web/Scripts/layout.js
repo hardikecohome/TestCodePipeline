@@ -80,7 +80,7 @@
       showButtonPanel: true,
       closeText: translations['Cancel'],
       onSelect: function(value){
-        $(this).siblings('.div-datepicker-value').text(value);
+        //$(this).siblings('.div-datepicker-value').text(value);
         $(this).siblings('input.form-control').val(value).blur();
         $(".div-datepicker").removeClass('opened');
 
