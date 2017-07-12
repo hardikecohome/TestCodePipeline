@@ -110,11 +110,11 @@ namespace DealnetPortal.Api.Integration.Services
                 CustomerLink updatedLink = null;
                 if (linkSettings.EnabledLanguages != null)
                 {
-                    updatedLink = _customerFormRepository.UpdateCustomerLinkLanguages(linkSettings.EnabledLanguages, dealerId);
+                    updatedLink = _customerFormRepository.UpdateCustomerLinkLanguages(linkSettings.EnabledLanguages, customerLinkSettings.HashLink, dealerId);
                 }
                 if (linkSettings.Services != null)
                 {
-                    updatedLink = _customerFormRepository.UpdateCustomerLinkServices(linkSettings.Services, dealerId) ?? updatedLink;
+                    updatedLink = _customerFormRepository.UpdateCustomerLinkServices(linkSettings.Services, customerLinkSettings.HashLink, dealerId) ?? updatedLink;
                 }
                 if (updatedLink != null)
                 {
