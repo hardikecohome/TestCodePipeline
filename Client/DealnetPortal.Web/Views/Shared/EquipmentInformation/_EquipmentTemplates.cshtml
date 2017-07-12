@@ -142,7 +142,7 @@
         <div class="form-group">
           @Html.LabelFor(m => m.ExistingEquipment[0].Notes)
           <div class="control-group">
-            @Html.TextAreaFor(m => m.ExistingEquipment[0].Notes, new { @class = "form-control textarea-input-height", placeholder = Resources.Notes, Value = "" })
+            @Html.TextAreaFor(m => m.ExistingEquipment[0].Notes, new { @class = "form-control textarea-input-height", placeholder = Resources.Notes })
             @Html.ValidationMessageFor(m => m.ExistingEquipment[0].Notes, "", new { @class = "text-danger" })
           </div>
         </div>
