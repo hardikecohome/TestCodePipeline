@@ -133,10 +133,14 @@ namespace DealnetPortal.Web.Infrastructure
 
             AddAditionalContractInfo(result.Item1, equipmentInfo);
 
-            var customerComment = result.Item1.Comments.FirstOrDefault(x => x.IsCustomerComment == true);
-            if (customerComment != null)
+            if (result.Item1.Comments.Any(x => x.IsCustomerComment == true))
             {
-                equipmentInfo.CustomerComment = customerComment.Text;
+                var comments = result.Item1.Comments
+                    .Where(x => x.IsCustomerComment == true)
+                    .Select(q => q.Text)
+                    .ToList();
+
+                equipmentInfo.CustomerComment = string.Join(Environment.NewLine, comments);
             }
 
             return equipmentInfo;

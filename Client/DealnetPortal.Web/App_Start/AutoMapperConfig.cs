@@ -428,7 +428,20 @@ namespace DealnetPortal.Web.App_Start
                         }
                         return string.Empty;
                     }))
-                    .ForMember(d => d.CustomerComment, s => s.ResolveUsing(src => src.Details?.Notes));
+                    .ForMember(d => d.CustomerComment, s => s.ResolveUsing(src => 
+                    {
+                        if (src.Comments.Any(x => x.IsCustomerComment == true))
+                        {
+                            var comments = src.Comments
+                                .Where(x => x.IsCustomerComment == true)
+                                .Select(q => q.Text)
+                                .ToList();
+
+                            return string.Join(Environment.NewLine, comments);
+                        }
+
+                        return string.Empty;
+                    }));
 
             cfg.CreateMap<CustomerDTO, ApplicantPersonalInfo>()
                 .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth))

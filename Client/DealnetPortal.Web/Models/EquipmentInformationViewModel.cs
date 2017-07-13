@@ -54,6 +54,8 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "HouseSizeSquareFeet")]
         public double? HouseSize { get; set; }
+
+        [Display(ResourceType = typeof(Resources.Resources), Name = "CustomersComment")]
         public string CustomerComment { get; set; }
         
         [CustomRequired]
