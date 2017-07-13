@@ -41,7 +41,7 @@
         });
     }
 
-    function addCloseButonForInlineDatePicker(){
+    function addCloseButtonForInlineDatePicker(){
       setTimeout(function(){
           $( "<button>", {
             text: translations['Cancel'],
@@ -69,7 +69,7 @@
       $('.div-datepicker').removeClass('opened');
       $(this).siblings('.div-datepicker').toggleClass('opened');
       if(!$('.div-datepicker .ui-datepicker-close').length){
-        addCloseButonForInlineDatePicker();
+        addCloseButtonForInlineDatePicker();
       }
     });
 
