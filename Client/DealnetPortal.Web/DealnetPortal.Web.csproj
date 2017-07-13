@@ -1025,7 +1025,7 @@
     <Content Include="Views\Shared\Profile\_PostalCode.cshtml" />
     <Content Include="Views\Shared\Profile\_DealerEquipment.cshtml" />
     <Content Include="Views\MortgageBroker\CustomerCreationDecline.cshtml" />
-    <Content Include="Views\Calculator\Index_new.cshtml" />
+    <Content Include="Views\Calculator\Index.cshtml" />
     <Content Include="Views\NewRental\RateCard.cshtml" />
     <Content Include="Views\NewRental\EquipmentInformation.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_EquipmentTemplates.cshtml" />
@@ -1039,7 +1039,7 @@
     <Content Include="Views\Shared\EquipmentInformation\Agreements\_FinancialRental.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\Agreements\_FinancialLoan.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_NewEquipments.cshtml" />
-    <Content Include="Views\Calculator\Index.cshtml" />
+    <Content Include="Views\Calculator\Index_old.cshtml" />
     <Content Include="Views\Shared\_AgreementPersonalData.cshtml" />
     <Content Include="Views\Info\PrivacyPolicy.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_AdditionalContractInformation.cshtml" />
