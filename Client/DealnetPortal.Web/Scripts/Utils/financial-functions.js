@@ -65,8 +65,10 @@
         var totalBorrowingCost = function(data) {
             var tObligation = totalObligation(data);
             var tAmountFinanced = totalAmountFinanced(data);
-
-            return tObligation - tAmountFinanced;
+            var borrowingCost = tObligation - tAmountFinanced;
+            if (borrowingCost < 0)
+                borrowingCost = 0;
+            return borrowingCost;
         };
 
         return {
