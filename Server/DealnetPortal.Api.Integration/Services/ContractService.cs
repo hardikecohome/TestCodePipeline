@@ -548,8 +548,9 @@ namespace DealnetPortal.Api.Integration.Services
                 switch (summaryType)
                 {
                     case FlowingSummaryType.Month:
+                        var firstMonthDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
                         var grDaysM =
-                            dealerContracts.Where(c => c.CreationTime >= DateTime.Today.AddDays(-DateTime.Today.Day))
+                            dealerContracts.Where(c => c.CreationTime >= firstMonthDate)
                                 .GroupBy(c => c.CreationTime.Day)
                                 .ToList();
 

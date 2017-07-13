@@ -38,20 +38,20 @@ namespace DealnetPortal.DataAccess.Repositories
             return customerLink;
         }
 
-        public CustomerLink UpdateCustomerLinkLanguages(ICollection<DealerLanguage> enabledLanguages, string dealerId)
+        public CustomerLink UpdateCustomerLinkLanguages(ICollection<DealerLanguage> enabledLanguages, string hashLink, string dealerId)
         {
             var user = _dbContext.Users
                 .Include(u => u.CustomerLink)
                 .FirstOrDefault(u => u.Id == dealerId);
             if (user != null)
             {
-                var updatedLink = user.CustomerLink;
+                var updatedLink = !string.IsNullOrEmpty(hashLink) ?
+                             _dbContext.CustomerLinks.FirstOrDefault(l => l.HashLink.Equals(hashLink)) : user.CustomerLink;
                 if (updatedLink == null)
                 {
-
-                    updatedLink = new CustomerLink();
-                    user.CustomerLink = updatedLink;
+                    updatedLink = user.CustomerLink ?? new CustomerLink();
                 }
+                user.CustomerLink = updatedLink;
 
                 updatedLink.EnabledLanguages.Where(l => enabledLanguages.All(el => el.LanguageId != l.LanguageId)).ToList().ForEach(l => _dbContext.DealerLanguages.Remove(l));
                 enabledLanguages.Where(el => updatedLink.EnabledLanguages.All(ul => ul.LanguageId != el.LanguageId)).ForEach(el =>
@@ -73,7 +73,7 @@ namespace DealnetPortal.DataAccess.Repositories
             return null;
         }
 
-        public CustomerLink UpdateCustomerLinkServices(ICollection<DealerService> dealerServices,
+        public CustomerLink UpdateCustomerLinkServices(ICollection<DealerService> dealerServices, string hashLink,
             string dealerId)
         {
             var user = _dbContext.Users
@@ -81,13 +81,13 @@ namespace DealnetPortal.DataAccess.Repositories
                .FirstOrDefault(u => u.Id == dealerId);
             if (user != null)
             {
-                var updatedLink = user.CustomerLink;
+                var updatedLink = !string.IsNullOrEmpty(hashLink) ?
+                             _dbContext.CustomerLinks.FirstOrDefault(l => l.HashLink.Equals(hashLink)) : user.CustomerLink;
                 if (updatedLink == null)
                 {
-
-                    updatedLink = new CustomerLink();
-                    user.CustomerLink = updatedLink;
+                    updatedLink = user.CustomerLink ?? new CustomerLink();
                 }
+                user.CustomerLink = updatedLink;
 
                 updatedLink.Services.Where(
                     s => dealerServices.All(dl => dl.LanguageId != s.LanguageId || dl.Service != s.Service)).ToList()
