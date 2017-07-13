@@ -80,7 +80,7 @@ function showTable() {
                         ]
                     },
                     oLanguage: {
-                        "sSearch": '<span class="label-caption">' + translations['Search'] + '</span> <span class="icon-hold"><svg aria-hidden="true" class="icon icon-search"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-search"></use></svg></span>',
+                        "sSearch": '<span class="label-caption">' + translations['Search'] + '</span><span class="icon-hold"><svg aria-hidden="true" class="icon icon-search"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-search"></use></svg></span>',
                         "oPaginate": {
                             "sNext": '<i class="glyphicon glyphicon-menu-right"></i>',
                             "sPrevious": '<i class="glyphicon glyphicon-menu-left"></i>'
