@@ -3,4 +3,4 @@
        Equipment_Description, Equipment_Type, [Amount Financed],
        Contract_Type_Code, [Customer ID], Term
 FROM sample_mydeals(NOLOCK) sd                                      
-where dealer_name LIKE '{0}%';                 
+where dealer_name = '{0}';                 
