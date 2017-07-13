@@ -38,6 +38,8 @@ namespace DealnetPortal.Api.App_Start
 
         private static void MapDomainsToModels(IMapperConfigurationExpression mapperConfig)
         {
+            var creditReviewStates = System.Configuration.ConfigurationManager.AppSettings["CreditReviewStatus"]?.Split(',').Select(s => s.Trim()).ToArray();
+
             mapperConfig.CreateMap<ApplicationUser, ApplicationUserDTO>()
                 .ForMember(x => x.SubDealers, o => o.Ignore())
                 .ForMember(x => x.UdfSubDealers, d => d.Ignore());
@@ -96,6 +98,10 @@ namespace DealnetPortal.Api.App_Start
                     if (!string.IsNullOrEmpty(c.Equipment?.SalesRep))
                     {
                         d.Equipment.SalesRep = c.Equipment?.SalesRep;
+                    }
+                    if (creditReviewStates?.Any() == true && !string.IsNullOrEmpty(c.Details?.Status))
+                    {
+                        d.OnCreditReview = creditReviewStates.Contains(c.Details?.Status);
                     }
                 });
             //.ForMember(x => x.Documents, d => d.Ignore());

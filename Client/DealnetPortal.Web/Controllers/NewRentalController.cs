@@ -58,7 +58,7 @@ namespace DealnetPortal.Web.Controllers
                     }
                 }
 
-                if (contractResult.Item1.ContractState == ContractState.CreditConfirmed && isNewlyCreated != true)
+                if (contractResult.Item1.ContractState == ContractState.CreditConfirmed && contractResult.Item1.OnCreditReview != true && isNewlyCreated != true)
                 {
                     return RedirectToAction("EquipmentInformation", new { contractId });
                 }
