@@ -430,7 +430,7 @@ namespace DealnetPortal.Web.App_Start
                     }))
                     .ForMember(d => d.CustomerComment, s => s.ResolveUsing(src => 
                     {
-                        if (src.Comments.Any(x => x.IsCustomerComment == true))
+                        if (src.Comments?.Any(x => x.IsCustomerComment == true) == true)
                         {
                             var comments = src.Comments
                                 .Where(x => x.IsCustomerComment == true)

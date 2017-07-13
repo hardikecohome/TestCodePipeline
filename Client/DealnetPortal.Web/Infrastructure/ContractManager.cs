@@ -133,7 +133,7 @@ namespace DealnetPortal.Web.Infrastructure
 
             AddAditionalContractInfo(result.Item1, equipmentInfo);
 
-            if (result.Item1.Comments.Any(x => x.IsCustomerComment == true))
+            if (result.Item1?.Comments.Any(x => x.IsCustomerComment == true) == true)
             {
                 var comments = result.Item1.Comments
                     .Where(x => x.IsCustomerComment == true)
@@ -599,12 +599,17 @@ namespace DealnetPortal.Web.Infrastructure
                 summary.EquipmentInfo.Notes = contract.Details?.Notes;
             }
             summary.Notes = contract.Details?.Notes;
-            var customerComment = contract.Comments.FirstOrDefault(x => x.IsCustomerComment == true);
-            if (customerComment != null)
-            {
-                summary.CustomerComment = customerComment.Text;
-            }
 
+            if (contract?.Comments.Any(x => x.IsCustomerComment == true) == true)
+            {
+                var comments = contract.Comments
+                    .Where(x => x.IsCustomerComment == true)
+                    .Select(q => q.Text)
+                    .ToList();
+
+                summary.CustomerComment = string.Join(Environment.NewLine, comments);
+            }
+           
             summary.ContactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
             summary.ContactAndPaymentInfo.ContractId = contractId;
             MapContactAndPaymentInfo(summary.ContactAndPaymentInfo, contract);
