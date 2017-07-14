@@ -133,7 +133,7 @@ namespace DealnetPortal.Web.Infrastructure
 
             AddAditionalContractInfo(result.Item1, equipmentInfo);
 
-            if (result.Item1?.Comments.Any(x => x.IsCustomerComment == true) == true)
+            if (result.Item1.Comments.Any(x => x.IsCustomerComment == true))
             {
                 var comments = result.Item1.Comments
                     .Where(x => x.IsCustomerComment == true)
@@ -244,9 +244,24 @@ namespace DealnetPortal.Web.Infrastructure
                 LoanCalculatorOutput = summaryViewModel.LoanCalculatorOutput,
                 Notes = summaryViewModel.Notes
             };
-            var comments = AutoMapper.Mapper.Map<List<CommentViewModel>>(contractsResult.Item1.Comments);
-            comments?.Reverse();
-            contractEditViewModel.Comments = comments;
+
+            if (contractsResult.Item1.Comments != null)
+            {
+                var notByCustomerComments = contractsResult.Item1.Comments
+                    .Where(x => x.IsCustomerComment != true)
+                    .ToList();
+
+                var byCustomerComments = contractsResult.Item1.Comments
+                    .Where(x => x.IsCustomerComment == true)
+                    .Select(q => q.Text)
+                    .ToList();
+
+                var comments = Mapper.Map<List<CommentViewModel>>(notByCustomerComments);
+                comments?.Reverse();
+
+                contractEditViewModel.Comments = comments;
+                contractEditViewModel.CustomerComment = string.Join(Environment.NewLine, byCustomerComments);
+            }
 
             contractEditViewModel.UploadDocumentsInfo = new UploadDocumentsViewModel();
             contractEditViewModel.UploadDocumentsInfo.ExistingDocuments = Mapper.Map<List<ExistingDocument>>(contractsResult.Item1.Documents);            
@@ -663,6 +678,16 @@ namespace DealnetPortal.Web.Infrastructure
                     Value = d.Id.ToString(),
                     Text = d.Description
                 }).ToList();
+            }
+
+            if (contract.Comments != null && contract.Comments.Any(x => x.IsCustomerComment == true))
+            {
+                var comments = contract.Comments
+                    .Where(x => x.IsCustomerComment == true)
+                    .Select(q => q.Text)
+                    .ToList();
+
+                contractViewModel.AdditionalInfo.CustomerComment = string.Join(Environment.NewLine, comments);
             }
         }
 

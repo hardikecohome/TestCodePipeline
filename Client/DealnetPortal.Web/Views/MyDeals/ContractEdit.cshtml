@@ -1470,13 +1470,26 @@
                         @Html.HiddenFor(m => m.BasicInfo.ContractId)                        
 
                         <div class="dealnet-credit-check-section">
-                            <h3 class="dealnet-section-title">
-                                    @Resources.AdditionalContractInformation
-                                @if (contractState <= ContractState.Completed)
-                                {
-                                    <a href="@Url.Action("EquipmentInformation", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#edit-add-contract-section'), $('#edit-add-contract-section-modal'), false); $('#edit-add-contract-modal').modal()"*@>@Resources.Edit</a>
-                                }
-                            </h3>
+                          <h3 class="dealnet-section-title">
+                            @Resources.AdditionalContractInformation
+                            @if (contractState <= ContractState.Completed)
+                            {
+                              <a href="@Url.Action("EquipmentInformation", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#edit-add-contract-section'), $('#edit-add-contract-section-modal'), false); $('#edit-add-contract-modal').modal()"*@>@Resources.Edit</a>
+                            }
+                          </h3>
+                            @if (Model.CustomerComment != null && Model.CustomerComment.Any())
+                            {
+                              <div class="form-group">
+                                <div class="row">
+                                  @Html.LabelFor(m => m.CustomerComment, new { @class = "dealnet-field-caption col-xs-12" })
+                                  <div class="dealnet-field-holder col-xs-12">
+                                    <div class="control-group">
+                                      @Html.TextBoxFor(m => m.CustomerComment, new { @class = "dealnet-disabled-input dealnet-disabled-textarea", @cols = "30", @rows = "2", })
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            }
                             <div class="form-group">
                                 <div class="row">
                                         @Html.LabelFor(m => m.Notes, new { @class = "dealnet-field-caption col-xs-12" })

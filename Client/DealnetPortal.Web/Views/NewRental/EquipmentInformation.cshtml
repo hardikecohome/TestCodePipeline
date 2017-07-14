@@ -47,7 +47,7 @@
       <div class="customer-comments form-group">
         <h3 class="dealnet-middle-header">@Resources.CustomersComment:</h3>
         <div class="customer-comments-descr">
-          @Model.CustomerComment
+        @Html.TextBoxFor(m => m.CustomerComment, new { @class = "dealnet-disabled-input dealnet-disabled-textarea", @cols = "30", @rows = "2", })
         </div>
       </div>
     }
