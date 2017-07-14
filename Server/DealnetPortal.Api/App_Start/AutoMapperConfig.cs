@@ -81,20 +81,21 @@ namespace DealnetPortal.Api.App_Start
                     {
                         d.Details.Notes = c.Equipment?.Notes;
                     }
-                });                
-                //.ForMember(x => x.Documents, d => d.Ignore());
-            mapperConfig.CreateMap<EquipmentType, EquipmentTypeDTO>().
-                ForMember(x => x.Description, s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.DescriptionResource)));
-            mapperConfig.CreateMap<ProvinceTaxRate, ProvinceTaxRateDTO>().
-                ForMember(x => x.Description, s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.Description)));
+                });
+            //.ForMember(x => x.Documents, d => d.Ignore());
+            mapperConfig.CreateMap<EquipmentType, EquipmentTypeDTO>();
+
+            // ForMember(x => x.Description, s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.DescriptionResource)));
+            mapperConfig.CreateMap<ProvinceTaxRate, ProvinceTaxRateDTO>();
+                //.ForMember(x => x.Description, s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.Description)));
 
             mapperConfig.CreateMap<AgreementTemplate, AgreementTemplateDTO>()
                 .ForMember(d => d.AgreementFormRaw, s => s.MapFrom(src => src.AgreementForm))
                 .ForMember(d => d.DealerName, s => s.ResolveUsing(src => src.Dealer?.UserName ?? string.Empty));
-                //.ForMember(d => d.EquipmentTypes, s => s.ResolveUsing(src => src.EquipmentTypes?.Select(e => e.Type)));
+            //.ForMember(d => d.EquipmentTypes, s => s.ResolveUsing(src => src.EquipmentTypes?.Select(e => e.Type)));
 
-            mapperConfig.CreateMap<DocumentType, DocumentTypeDTO>().
-                ForMember(x => x.Description, s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.DescriptionResource)));
+            mapperConfig.CreateMap<DocumentType, DocumentTypeDTO>();
+                //.ForMember(x => x.Description, s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.DescriptionResource)));
             mapperConfig.CreateMap<ContractDocument, ContractDocumentDTO>()
                 .ForMember(x => x.DocumentBytes, d => d.Ignore());
 
