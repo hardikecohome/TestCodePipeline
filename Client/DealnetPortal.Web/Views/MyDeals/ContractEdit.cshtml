@@ -1457,7 +1457,7 @@
         </div>
     }
 }
-@if (!string.IsNullOrEmpty(Model.Notes))
+@if (!string.IsNullOrEmpty(Model.Notes) || (Model.CustomerComments != null && Model.CustomerComments.Any()))
 {
     <hr>
     <div class="form-section">
@@ -1477,14 +1477,21 @@
                               <a href="@Url.Action("EquipmentInformation", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#edit-add-contract-section'), $('#edit-add-contract-section-modal'), false); $('#edit-add-contract-modal').modal()"*@>@Resources.Edit</a>
                             }
                           </h3>
-                            @if (Model.CustomerComment != null && Model.CustomerComment.Any())
+                            @if (Model.CustomerComments != null && Model.CustomerComments.Any())
                             {
                               <div class="form-group">
                                 <div class="row">
-                                  @Html.LabelFor(m => m.CustomerComment, new { @class = "dealnet-field-caption col-xs-12" })
+                                  @Html.LabelFor(m => m.CustomerComments, new { @class = "text-semibold text-md-sm col-xs-12" })
                                   <div class="dealnet-field-holder col-xs-12">
                                     <div class="control-group">
-                                      @Html.TextBoxFor(m => m.CustomerComment, new { @class = "dealnet-disabled-input dealnet-disabled-textarea", @cols = "30", @rows = "2", })
+                                      <div class="text-left">
+                                      @foreach (var comment in Model.AdditionalInfo.CustomerComments)
+                                      {
+                                        @comment
+                                        <br/>
+
+                                      }
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
@@ -1492,7 +1499,7 @@
                             }
                             <div class="form-group">
                                 <div class="row">
-                                        @Html.LabelFor(m => m.Notes, new { @class = "dealnet-field-caption col-xs-12" })
+                                        @Html.LabelFor(m => m.Notes, new { @class = "text-semibold text-md-sm col-xs-12" })
                                     <div class="dealnet-field-holder col-xs-12">
                                         <div class="control-group">
                                             @Html.TextAreaFor(m => m.Notes, new {@class = "dealnet-disabled-input dealnet-disabled-textarea", @cols = "30", @rows = "2", id = "contract-notes"})

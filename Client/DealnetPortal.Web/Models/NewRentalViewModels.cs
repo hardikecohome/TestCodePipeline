@@ -195,7 +195,7 @@ namespace DealnetPortal.Web.Models
         public bool IsCreatedByCustomer { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "CustomersComment")]
-        public string CustomerComment { get; set; }
+        public List<string> CustomerComments { get; set; }
     }
 
     public class SummaryAndConfirmationViewModel
@@ -209,9 +209,6 @@ namespace DealnetPortal.Web.Models
         [StringLength(500, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "ContractNotes")]
         public string Notes { get; set; }
-
-        [Display(ResourceType = typeof(Resources.Resources), Name = "CustomersComment")]
-        public string CustomerComment { get; set; }
     }
 
     public sealed class EligibleAgeAttribute : ValidationAttribute

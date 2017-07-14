@@ -140,7 +140,7 @@ namespace DealnetPortal.Web.Infrastructure
                     .Select(q => q.Text)
                     .ToList();
 
-                equipmentInfo.CustomerComment = string.Join(Environment.NewLine, comments);
+                equipmentInfo.CustomerComments = comments;
             }
 
             return equipmentInfo;
@@ -260,7 +260,7 @@ namespace DealnetPortal.Web.Infrastructure
                 comments?.Reverse();
 
                 contractEditViewModel.Comments = comments;
-                contractEditViewModel.CustomerComment = string.Join(Environment.NewLine, byCustomerComments);
+                contractEditViewModel.CustomerComments = byCustomerComments;
             }
 
             contractEditViewModel.UploadDocumentsInfo = new UploadDocumentsViewModel();
@@ -614,6 +614,7 @@ namespace DealnetPortal.Web.Infrastructure
                 summary.EquipmentInfo.Notes = contract.Details?.Notes;
             }
             summary.Notes = contract.Details?.Notes;
+            summary.AdditionalInfo = new AdditionalInfoViewModel();
 
             if (contract?.Comments.Any(x => x.IsCustomerComment == true) == true)
             {
@@ -622,7 +623,7 @@ namespace DealnetPortal.Web.Infrastructure
                     .Select(q => q.Text)
                     .ToList();
 
-                summary.CustomerComment = string.Join(Environment.NewLine, comments);
+                summary.AdditionalInfo.CustomerComments = comments;
             }
            
             summary.ContactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
@@ -633,7 +634,6 @@ namespace DealnetPortal.Web.Infrastructure
                 if (rate != null) { summary.ProvinceTaxRate = rate; }
             }
                         
-            summary.AdditionalInfo = new AdditionalInfoViewModel();
             summary.AdditionalInfo.ContractState = contract.ContractState.ConvertTo<ContractState>();
             summary.AdditionalInfo.Status = contract.Details?.Status ?? contract.ContractState.GetEnumDescription();
             summary.AdditionalInfo.LastUpdateTime = contract.LastUpdateTime;
@@ -687,7 +687,7 @@ namespace DealnetPortal.Web.Infrastructure
                     .Select(q => q.Text)
                     .ToList();
 
-                contractViewModel.AdditionalInfo.CustomerComment = string.Join(Environment.NewLine, comments);
+                contractViewModel.AdditionalInfo.CustomerComments = comments;
             }
         }
 

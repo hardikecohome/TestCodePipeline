@@ -26,6 +26,6 @@ namespace DealnetPortal.Web.Models
         public string Notes { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "CustomersComment")]
-        public string CustomerComment { get; set; }
+        public List<string> CustomerComments { get; set; }
     }
 }
