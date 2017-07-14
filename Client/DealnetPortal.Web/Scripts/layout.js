@@ -61,7 +61,7 @@ $(document)
       $('body').is('.ios-device') ? $('<div/>', {
         class: 'div-datepicker',
       }).appendTo(this) : '';
-    })
+    });
 
 
     $('.div-datepicker-value').on('click', function(){
