@@ -114,7 +114,7 @@
             <div class="form-group">
               @Html.LabelFor(m => m.HomeOwner.DriverLicenseNumber, new {@for = "dl-number"})
               <div class="control-group control-group-pass">
-                @Html.TextBoxFor(m => m.HomeOwner.DriverLicenseNumber, new {@class = "form-control dealnet-input", id = "dl-number", type = "password"})
+                @Html.TextBoxFor(m => m.HomeOwner.DriverLicenseNumber, new {@class = "form-control dealnet-input", id = "dl-number", autocomplete = "new-password", type = "password"})
                 @Html.ValidationMessageFor(m => m.HomeOwner.DriverLicenseNumber, "", new {@class = "text-danger"})
               </div>
             </div>
