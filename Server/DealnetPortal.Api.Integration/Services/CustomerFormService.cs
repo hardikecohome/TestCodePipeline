@@ -560,7 +560,8 @@ namespace DealnetPortal.Api.Integration.Services
                     //remove previously created MB comments
                     if (contract.Comments?.Any(c => c.IsCustomerComment == true) == true)
                     {
-                        contract.Comments?.Where(c => c.IsCustomerComment == true).ForEach(c => _contractRepository.RemoveComment(c.Id, contractOwnerId));
+                        var commentsForRemove = contract.Comments?.Where(c => c.IsCustomerComment == true).ToList();
+                        commentsForRemove.ForEach(c => _contractRepository.RemoveComment(c.Id, contractOwnerId));
                         commentsChanged = true;
                     }
 
