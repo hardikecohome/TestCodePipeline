@@ -1374,7 +1374,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             udfList.Add(new UDF()
             {
-                Name = AspireUdfFields.AllowCommunicate, Value = customer.AllowCommunicate == false ? "0" : "1"
+                Name = AspireUdfFields.AllowCommunicate, Value = customer.AllowCommunicate.HasValue && customer.AllowCommunicate.Value ? "1" : "0"
             });
 
             if (customer.PreferredContactMethod.HasValue)
