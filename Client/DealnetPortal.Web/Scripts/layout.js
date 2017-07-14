@@ -1,6 +1,4 @@
-﻿setDeviceClasses();
-
-$(document)
+﻿$(document)
   .ready(function () {
     var isMobile = {
       Android: function() {
@@ -22,6 +20,8 @@ $(document)
         return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
       }
     };
+
+    setDeviceClasses();
 
     if(detectIE()){
       $('body').addClass('ie');

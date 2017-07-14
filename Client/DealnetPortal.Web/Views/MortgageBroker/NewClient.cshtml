@@ -501,9 +501,9 @@
   @Scripts.Render("~/bundles/localization")
   @(!ViewBag.IsMobileRequest ? Scripts.Render("~/bundles/new-client") : Scripts.Render("~/bundles/new-client-mobile"))
 
-    <script type="text/javascript">
+  <script type="text/javascript">
       var isMobileRequest = '@ViewBag.IsMobileRequest';
       module.require('new-client-index');
-    </script>
+  </script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=initAutocomplete" async defer></script>
 }

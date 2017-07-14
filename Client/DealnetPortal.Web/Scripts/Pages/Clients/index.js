@@ -65,16 +65,18 @@
             }
         });
 
+
+        // init views
+        initBasicInfo(clientStore);
+        initAddressInfo(clientStore);
+        initContactInfo(clientStore);
+        initHomeImprovment(clientStore);
+        initClientConsents(clientStore);
+
+
         $('#home-phone').rules('add', 'required');
         $('#cell-phone').rules('add', 'required');
     });
-
-    // init views
-    initBasicInfo(clientStore);
-    initAddressInfo(clientStore);
-    initContactInfo(clientStore);
-    initHomeImprovment(clientStore);
-    initClientConsents(clientStore);
 
     var form = $('#main-form');
 
