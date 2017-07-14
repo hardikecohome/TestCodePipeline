@@ -182,7 +182,7 @@
                         </div>
                     </div>
                     <!--Home Owner Information-->
-                    <div id="borrower-is-homeowner" class="form-group">
+                    <div id="borrower-is-homeowner" class="form-group checkbox-hold">
                         <label for="homeowner-checkbox" class="align-middle custom-checkbox">
                             @Html.CheckBoxFor(x => x.HomeOwner.IsHomeOwner, new { @class="dealnet-checkbox", id="homeowner-checkbox"})
                             <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
@@ -191,7 +191,7 @@
                     </div>
                     <!--Home Owner Information-->
                     <!--Living time-->
-                    <div id="living-time" class="form-group">
+                    <div id="living-time" class="form-group checkbox-hold">
                         <label for="living-time-checkbox" class="align-middle custom-checkbox">
                             <input type="checkbox" class="dealnet-checkbox" id="living-time-checkbox" onChange="$(this).is(':checked') ? $('#previous-address').slideDown() : $('#previous-address').slideUp()" />
                             <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
@@ -316,7 +316,7 @@
                         </div>
                     </div>
                     <div class="consents-checkbox-hold">
-                        <div class="form-group">
+                        <div class="form-group checkbox-hold">
                             <label for="agreement1" class="align-middle custom-checkbox">
                                 <input type="checkbox" class="dealnet-checkbox" id="agreement1" name="agreement1"/>
                                 <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
@@ -327,7 +327,7 @@
                                 @Html.ActionLink(@Resources.PrivacyPolicy, "PrivacyPolicy", "Info", null, new { @class="dealnet-info-link", target = "_blank" })
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group checkbox-hold">
                             <label for="agreement2" class="align-middle custom-checkbox">
                                 @Html.CheckBoxFor(m => m.HomeOwnerContactInfo.AllowCommunicate, new { @class="dealnet-checkbox", id="agreement2" })
                                 <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
