@@ -1068,27 +1068,36 @@
 						  <h3 class="dealnet-section-title">
 						    @Resources.AdditionalContractInformation
 						  </h3>
-						  @if (Model.AdditionalInfo.CustomerComment != null)
+						  @if (Model.AdditionalInfo.CustomerComments != null && Model.AdditionalInfo.CustomerComments.Any())
 						  {
 						    <div class="form-group">
 						      <div class="row">
-						        @Html.LabelFor(m => m.AdditionalInfo.CustomerComment, new { @class = "dealnet-field-caption col-xs-12" })
+						        @Html.LabelFor(m => m.AdditionalInfo.CustomerComments, new { @class = "col-xs-12 text-semibold text-md-sm" })
 						        <div class="dealnet-field-holder col-xs-12">
 						          <div class="control-group">
-						            @Html.TextBoxFor(m => m.AdditionalInfo.CustomerComment, new { @class = "dealnet-disabled-input dealnet-disabled-textarea", @cols = "30", @rows = "2", })
+						            <div class="text-left">
+						            @foreach (var comment in Model.AdditionalInfo.CustomerComments)
+						            {
+						              @comment
+						              <br/>
+						            }
+						          </div>
 						          </div>
 						        </div>
 						      </div>
 						    </div>
 						  }
-							<div class="form-group">
-							    <div class="row">
-							        @Html.LabelFor(m => m.EquipmentInfo.Notes, new { @class = "dealnet-field-caption col-xs-12" })
-							        <div class="dealnet-field-holder text-left col-xs-12">
-							            <span style="white-space: pre-wrap">@(Model.EquipmentInfo?.Notes)</span>
-							        </div>
-							    </div>
-							</div>
+              @if (!string.IsNullOrEmpty(Model.EquipmentInfo.Notes))
+              {
+                <div class="form-group">
+                  <div class="row">
+                    @Html.LabelFor(m => m.EquipmentInfo.Notes, new { @class = "col-xs-12 text-semibold text-md-sm" })
+                    <div class="dealnet-field-holder text-left col-xs-12">
+                      <span style="white-space: pre-wrap">@(Model.EquipmentInfo?.Notes)</span>
+                    </div>
+                  </div>
+                </div>
+              }
 						</div>
 					</div>
 				</div>

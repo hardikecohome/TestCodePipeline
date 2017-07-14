@@ -56,7 +56,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public double? HouseSize { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "CustomersComment")]
-        public string CustomerComment { get; set; }
+        public List<string> CustomerComments { get; set; }
         
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "EstimatedInstallationDate")]
