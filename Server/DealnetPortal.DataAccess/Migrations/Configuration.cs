@@ -633,7 +633,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 new EquipmentType {Description = "Basement Repair", DescriptionResource = "BasementRepair", Type = "ECO55"}
             };
             //leave existing data
-            //equipmentTypes.RemoveAll(e => context.EquipmentTypes.Any(dbe => dbe.Type == e.Type));
+            equipmentTypes.RemoveAll(e => context.EquipmentTypes.Any(dbe => dbe.Type == e.Type));
             context.EquipmentTypes.AddOrUpdate(e => e.Type, equipmentTypes.ToArray());
         }
 
@@ -686,7 +686,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 new DocumentType()  {Id = (int)DocumentTemplateType.Other, Description = "Other", DescriptionResource = "Other", Prefix = ""},
             };
             //leave existing data
-            //documentTypes.RemoveAll(d => context.DocumentTypes.Any(dbd => dbd.Description == d.Description));
+            documentTypes.RemoveAll(d => context.DocumentTypes.Any(dbd => dbd.Description == d.Description));
             context.DocumentTypes.AddOrUpdate(d => d.Description, documentTypes.ToArray());
         }
 
