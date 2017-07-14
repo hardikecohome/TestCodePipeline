@@ -1372,10 +1372,14 @@ namespace DealnetPortal.Api.Integration.Services
                 }
             });
 
-            udfList.Add(new UDF()
+            if (customer.AllowCommunicate.HasValue)
             {
-                Name = AspireUdfFields.AllowCommunicate, Value = customer.AllowCommunicate.HasValue && customer.AllowCommunicate.Value ? "1" : "0"
-            });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.AllowCommunicate,
+                    Value = customer.AllowCommunicate.Value ? "1" : "0"
+                });
+            }
 
             if (customer.PreferredContactMethod.HasValue)
             {
