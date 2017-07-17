@@ -262,7 +262,6 @@
     <Compile Include="Infrastructure\Managers\SecurityManager.cs" />
     <Compile Include="Infrastructure\Managers\SettingsManager.cs" />
     <Compile Include="Infrastructure\ProfileManager.cs" />
-    <Compile Include="Infrastructure\TransientHttpApiClient.cs" />
     <Compile Include="Infrastructure\CustomRequiredAttribute.cs" />
     <Compile Include="Infrastructure\DynamicLessHandler.cs" />
     <Compile Include="Infrastructure\Extensions\BundleExtentions.cs" />

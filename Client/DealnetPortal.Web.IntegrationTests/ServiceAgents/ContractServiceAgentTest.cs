@@ -20,10 +20,8 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
 {
     [TestClass]
     public class ContractServiceAgentTest
-    {
-        private IHttpApiClient _mainClient;
-        private IHttpApiClient _anonymClient;        
-        private ITransientHttpApiClient _client;
+    {        
+        private IHttpApiClient _client;
         private Mock<ILoggingService> _loggingService;
         private Mock<IAuthenticationManager> _authenticationManagerMock;
         private const string DefUserName = "user@user.com";
@@ -35,17 +33,15 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         {
             _loggingService = new Mock<ILoggingService>();
 
-            string baseUrl = System.Configuration.ConfigurationManager.AppSettings["ApiUrl"];
-            _mainClient = new HttpApiClient(baseUrl);
-            //_anonymClient = new HttpApiClient(baseUrl);
-            _client = new TransientHttpApiClient(_mainClient, null);
+            string baseUrl = System.Configuration.ConfigurationManager.AppSettings["ApiUrl"];            
+            _client = new HttpApiClient(baseUrl);
             _authenticationManagerMock = new Mock<IAuthenticationManager>();
         }
 
         [TestMethod]
         public void TestCreateContractForNotAutorizedUser()
         {
-            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_mainClient, _loggingService.Object, _authenticationManagerMock.Object);
+            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_client, _loggingService.Object, _authenticationManagerMock.Object);
             var result = contractServiceAgent.CreateContract().GetAwaiter().GetResult();
 
             Assert.IsNotNull(result);
@@ -57,10 +53,10 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         [TestMethod]
         public async Task TestCreateContractForAutorizedUser()
         {
-            ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_mainClient, _loggingService.Object);
+            ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client, _loggingService.Object);
             var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword, DefPortalId);
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
-            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_mainClient, _loggingService.Object, _authenticationManagerMock.Object);
+            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_client, _loggingService.Object, _authenticationManagerMock.Object);
             var result = await contractServiceAgent.CreateContract();
 
             Assert.IsNotNull(result);
@@ -72,12 +68,12 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         [TestMethod]
         public async Task TestGetContract()
         {
-            ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_mainClient, _loggingService.Object);
+            ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client, _loggingService.Object);
             var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword, DefPortalId);
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 
             // Create a contract
-            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_mainClient, _loggingService.Object, _authenticationManagerMock.Object);
+            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_client, _loggingService.Object, _authenticationManagerMock.Object);
             var contractResult = await contractServiceAgent.CreateContract();
             Assert.IsNotNull(contractResult);
             Assert.IsNotNull(contractResult.Item1);
@@ -96,12 +92,12 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         [TestMethod]
         public async Task TestUpdateContract()
         {
-            ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_mainClient, _loggingService.Object);
+            ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client, _loggingService.Object);
             var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword, DefPortalId);
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 
             // Create a contract
-            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_mainClient, _loggingService.Object, _authenticationManagerMock.Object);
+            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_client, _loggingService.Object, _authenticationManagerMock.Object);
             var contractResult = await contractServiceAgent.CreateContract();
             Assert.IsNotNull(contractResult);
             Assert.IsNotNull(contractResult.Item1);
@@ -131,12 +127,12 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         [TestMethod]
         public async Task TestInitiateCreditCheck()
         {
-            ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_mainClient, _loggingService.Object);
+            ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client, _loggingService.Object);
             var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword, DefPortalId);
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 
             // Create a contract
-            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_mainClient, _loggingService.Object, _authenticationManagerMock.Object);
+            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_client, _loggingService.Object, _authenticationManagerMock.Object);
             var contractResult = await contractServiceAgent.CreateContract();
             Assert.IsNotNull(contractResult);
             Assert.IsNotNull(contractResult.Item1);
@@ -149,12 +145,12 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         [TestMethod]
         public async Task TestGetCreditCheckResult()
         {
-            ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_mainClient, _loggingService.Object);
+            ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client, _loggingService.Object);
             var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword, DefPortalId);
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 
             // Create a contract
-            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_mainClient, _loggingService.Object, _authenticationManagerMock.Object);
+            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_client, _loggingService.Object, _authenticationManagerMock.Object);
             var contractResult = await contractServiceAgent.CreateContract();
             Assert.IsNotNull(contractResult);
             Assert.IsNotNull(contractResult.Item1);
@@ -168,12 +164,12 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         [TestMethod]
         public async Task TestAddRemoveContractComment()
         {
-            ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_mainClient, _loggingService.Object);
+            ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client, _loggingService.Object);
             var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword, DefPortalId);
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 
             // Create a contract
-            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_mainClient, _loggingService.Object, _authenticationManagerMock.Object);
+            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_client, _loggingService.Object, _authenticationManagerMock.Object);
             var contractResult = await contractServiceAgent.CreateContract();
 
             //Adding comments

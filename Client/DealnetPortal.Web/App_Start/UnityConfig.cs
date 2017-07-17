@@ -53,7 +53,6 @@ namespace DealnetPortal.Web.App_Start
             container.RegisterType<IHttpApiClient, HttpApiClient>(new ContainerControlledLifetimeManager(), new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["ApiUrl"]));
 
             container.RegisterType<IHttpApiClient, HttpApiClient>("AnonymousClient", new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["ApiUrl"]));
-            container.RegisterType<ITransientHttpApiClient, TransientHttpApiClient>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>(), new ResolvedParameter<IHttpApiClient>("AnonymousClient")));
             container.RegisterType<ISecurityServiceAgent, SecurityServiceAgent>();
             container.RegisterType<IUserManagementServiceAgent, UserManagementServiceAgent>();
             container.RegisterType<IContractServiceAgent, ContractServiceAgent>();
