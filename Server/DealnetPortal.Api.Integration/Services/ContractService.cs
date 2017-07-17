@@ -994,6 +994,7 @@ namespace DealnetPortal.Api.Integration.Services
                         Header = "Failed to add document to contract",
                         Message = aspireAlerts.FirstOrDefault().Message
                     });
+                    _loggingService.LogError(aspireAlerts.FirstOrDefault().Message);
                 }
                 var contract = _contractRepository.GetContractAsUntracked(doc.ContractId, contractOwnerId);
                 var contractDTO = Mapper.Map<ContractDTO>(contract);
