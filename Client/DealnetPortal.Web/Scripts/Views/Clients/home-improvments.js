@@ -21,9 +21,6 @@
                 dispatch(createAction(clientActions.SET_IMPROVMENT_MOVE_DATE, day));
                 $(this).siblings('input.form-control').val(day);
                 $(".div-datepicker").removeClass('opened');
-            },
-            onClose: function(){
-                onDateSelect($(this));
             }
         });
         $('#ui-datepicker-div').addClass('cards-datepicker');
