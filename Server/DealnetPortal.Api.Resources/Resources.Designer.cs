@@ -898,6 +898,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Spa.
+        /// </summary>
+        public static string Spa {
+            get {
+                return ResourceManager.GetString("Spa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Started to fill new contract.
         /// </summary>
         public static string StartedToFillNewContract {
@@ -1128,6 +1137,15 @@ namespace DealnetPortal.Api.Resources {
         public static string WeFoundHomeProfessionalForYourHomeImprovementProject {
             get {
                 return ResourceManager.GetString("WeFoundHomeProfessionalForYourHomeImprovementProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Well Pump.
+        /// </summary>
+        public static string WellPump {
+            get {
+                return ResourceManager.GetString("WellPump", resourceCulture);
             }
         }
         
