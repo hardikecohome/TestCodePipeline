@@ -600,7 +600,7 @@ namespace DealnetPortal.DataAccess.Migrations
             //leave existing data
             //equipmentTypes.RemoveAll(e => context.EquipmentTypes.Any(dbe => dbe.Type == e.Type));
             context.EquipmentTypes.AddOrUpdate(e => e.Type, equipmentTypes.ToArray());
-            //context.EquipmentTypes.AddOrUpdate(e => e.Description, equ
+            
         }
 
         private void SetTestProvinceTaxRates(ApplicationDbContext context)
