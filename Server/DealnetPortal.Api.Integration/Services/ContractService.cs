@@ -453,13 +453,16 @@ namespace DealnetPortal.Api.Integration.Services
 
                 if (creditAmount.HasValue || scorecardPoints.HasValue)
                 {
+                    var contract = _contractRepository.GetContract(contractId, contractOwnerId);
                     _contractRepository.UpdateContractData(new ContractData()
                     {
                         Id = contractId,
                         Details = new ContractDetails()
                         {
                             CreditAmount = creditAmount,
-                            ScorecardPoints = scorecardPoints
+                            ScorecardPoints = scorecardPoints,
+                            HouseSize = contract.Details.HouseSize,
+                            Notes = contract.Details.Notes
                         }
                     }, contractOwnerId);
                 }

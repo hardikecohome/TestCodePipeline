@@ -28,6 +28,23 @@ textarea, textarea.form-control{
   &.textarea-input-height{
     min-height: 40px;
     height: 40px;
+    line-height: 26px !important;
+    &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+      line-height: 26px!important;
+    }
+    &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+      line-height: 26px!important;
+    }
+    &::-moz-placeholder { /* Mozilla Firefox 19+ */
+      line-height: 26px!important;
+    }
+    &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+      line-height: 26px!important;
+    }
+    &.placeholder,
+    &.pac-placeholder{ /* Internet Explorer 9 */
+      line-height: 26px!important;
+    }
   }
 }
 
