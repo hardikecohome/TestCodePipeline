@@ -525,6 +525,7 @@ namespace DealnetPortal.Api.Integration.Services
         private List<FormField> PrepareFormFields(Contract contract, string ownerUserId)
         {
             var fields = new List<FormField>();
+            //Code to add Application Id
 
             FillHomeOwnerFields(fields, contract);
             FillApplicantsFields(fields, contract);
