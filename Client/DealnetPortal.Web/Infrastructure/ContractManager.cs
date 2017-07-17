@@ -428,10 +428,6 @@ namespace DealnetPortal.Web.Infrastructure
             var contractData = new ContractDataDTO
             {
                 Id = equipmnetInfo.ContractId ?? 0,
-                Details = new ContractDetailsDTO()
-                {
-                    Notes = equipmnetInfo.Notes 
-                },
                 Equipment = Mapper.Map<EquipmentInfoDTO>(equipmnetInfo)
             };
 
