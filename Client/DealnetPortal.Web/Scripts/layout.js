@@ -23,7 +23,6 @@
 
     setDeviceClasses();
 
-
     if(detectIE()){
       $('body').addClass('ie');
     }
@@ -40,6 +39,60 @@
             }
         });
     }
+
+    function addCloseButtonForInlineDatePicker(){
+      setTimeout(function(){
+          $( "<button>", {
+            text: translations['Cancel'],
+            class: "ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all",
+            click: function() {
+              $(".div-datepicker").removeClass('opened');
+            }
+          }).appendTo($('.div-datepicker'));
+      }, 100);
+    }
+
+   // if(!$('.date-group').children('.dealnet-disabled-input'))
+    $('.date-group').each(function(){
+      $('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length === 0 ? $('<div/>', {
+        class: 'div-datepicker-value',
+        text: $(this).find('.form-control').val()
+      }).appendTo(this) : '';
+      $('body').is('.ios-device') ? $('<div/>', {
+        class: 'div-datepicker',
+      }).appendTo(this) : '';
+    });
+
+
+    $('.div-datepicker-value').on('click', function(){
+      $('.div-datepicker').removeClass('opened');
+      $(this).siblings('.div-datepicker').toggleClass('opened');
+      if(!$('.div-datepicker .ui-datepicker-close').length){
+        addCloseButtonForInlineDatePicker();
+      }
+    });
+
+    $.datepicker.setDefaults({
+      dateFormat: 'mm/dd/yy',
+      changeYear: true,
+      changeMonth: (viewport().width < 768) ? true : false,
+      showButtonPanel: true,
+      closeText: translations['Cancel'],
+      onSelect: function(value){
+        //$(this).siblings('.div-datepicker-value').text(value);
+        $(this).siblings('input.form-control').val(value).blur();
+        $(".div-datepicker").removeClass('opened');
+
+      },
+      onChangeMonthYear: function () {
+        $('.div-datepicker select').each(function(){
+          $(this).blur();
+        });
+      },
+      onClose: function () {
+        onDateSelect($(this));
+      }
+    });
 
     if (customerDealsCountUrl) {
         $.ajax({
@@ -325,6 +378,7 @@
     });
 
 });
+
 function panelCollapsed(elem){
   var $this = elem.closest('.panel');
   $this.find('.panel-body').slideToggle('fast', function(){
@@ -820,8 +874,8 @@ function viewport() {
   return { width : e[ a+'Width' ] , height : e[ a+'Height' ] };
 }
 
-function customDPSelect(){
-  var inp = $(this);
+function customDPSelect(elem){
+  var inp = elem || $(this);
   var selectClasses = "custom-select datepicker-select";
   if($('select.ui-datepicker-month').length && !$('.ui-datepicker-month').parents('.custom-select').length){
     $('.ui-datepicker-month')

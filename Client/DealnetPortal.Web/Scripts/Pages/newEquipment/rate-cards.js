@@ -88,7 +88,13 @@
         }
     };
 
-    var renderOption = function (option, data, isRenderDropdowns) {
+    /**
+     * Update all text field and global state object with new calculated values
+     * @param {string} option  name of the cards [FixedRate,Deferral,NoInterst, Custom]
+     * @param {Object<>} data - new values
+     * @returns {} 
+     */
+    var renderOption = function (option, data) {
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
         var validateNumber = constants.numberFields.every(function (field) {
             var result = typeof data[field] === 'number';
@@ -110,13 +116,11 @@
             }
         }
 
-        if (onlyCustomCard) {
+        if (state.onlyCustomRateCard) {
             selectedRateCard = 'Custom';
         }
 
         if (notNan && validateNumber && validateNotEmpty) {
-            renderDropdownValues(option, data.totalAmountFinanced, isRenderDropdowns);
-            
             if (option === selectedRateCard) {
                 $('#displayLoanAmortTerm').text(state[option].LoanTerm + '/' + state[option].AmortizationTerm);
                 $('#displayCustomerRate').text(state[option].CustomerRate);
@@ -149,9 +153,14 @@
         }
     };
 
-    var recalculateValuesAndRender = function (options, isRenderDropdowns) {
+    /**
+     * recalculate all financial values for Loan agreement type
+     * @param {Array<>} options - object of options for recalucaltion, if empty recalculate all values on form 
+     *  possible values [FixedRate,Deferral,NoInterst, Custom]
+     * @returns {} 
+     */
+    var recalculateValuesAndRender = function (options) {
         var optionsToCompute = constants.rateCards;
-        var renderDropdowns = isRenderDropdowns === undefined ? true : isRenderDropdowns;
 
         if (options !== undefined && options.length > 0) {
             optionsToCompute = options;
@@ -176,7 +185,11 @@
                     tax: state.tax
                 });
 
-            calculateRateCardValues(option, $.extend({}, data, {totalAmountFinanced: totalAmountFinanced(data)}));
+            calculateRateCardValues(option, $.extend({}, data, { totalAmountFinanced: totalAmountFinanced(data) }));
+
+            if (option.name !== 'Custom') {
+                renderDropdownValues(option.name, totalAmountFinanced(data));
+            }
 
             data = $.extend({}, idToValue(state)(option.name),
                 {
@@ -193,10 +206,14 @@
                 residualBalance: residualBalance(data),
                 totalObligation: totalObligation(data),
                 yourCost: yourCost(data)
-            }), renderDropdowns);
+            }));
         });
     };
 
+    /**
+     * recalculate all financial values for Rental/RentalHwt agreement type
+     * @returns {} 
+     */
     var recalculateAndRenderRentalValues = function () {
         var eSum = monthlySum(state.equipments);
         
@@ -233,44 +250,80 @@
         }
     };
 
-    function renderDropdownValues(option, totalAmountFinanced, isRenderDropdowns) {
+    /**
+     * Show/hide notification and disable dropdown option depending on totalAmountFinanced option
+     * @param {string} option - name of the cards [FixedRate,Deferral,NoInterst]
+     * @param {number} totalAmountFinanced - total cash value
+     * @returns {} 
+     */
+    function renderDropdownValues(option, totalAmountFinanced) {
         var totalCash = constants.minimumLoanValue;
+
         if (totalAmountFinanced > 1000) {
             totalCash = totalAmountFinanced.toFixed(2);
         }
 
-        if (isRenderDropdowns) {
-            var items = $.parseJSON(sessionStorage.getItem(state.contractId + option));
-            if (!items)
-                return;
+        var dropdown = $('#' + option + 'AmortizationDropdown')[0];
+        if (!dropdown || !dropdown.options) return;
 
-            var dropdownValues;
-            if (option === 'Deferral') {
-                var dealerCost = state[option].DealerCost;
-                dropdownValues = $.grep(items, function (card) {
-                    return card.LoanValueFrom <= totalCash && card.LoanValueTo >= totalCash && card.DealerCost === dealerCost;
-                });
-            } else {
-                dropdownValues = $.grep(items, function (card) {
-                    return card.LoanValueFrom <= totalCash && card.LoanValueTo >= totalCash;
-                });
-            }
+        var options = dropdown.options;
+        var tooltip = $('a#' + option + 'Notify');
 
-            var options = $('#' + option + 'AmortizationDropdown');
-            options.empty();
-
-            $.each(dropdownValues, function (item) {
-                var optionTemplate = $("<option />").val(dropdownValues[item].AmortizationTerm).text(dropdownValues[item].LoanTerm + '/' + dropdownValues[item].AmortizationTerm);
-
-                if (state[option].AmortizationTerm === dropdownValues[item].AmortizationTerm) {
-                    optionTemplate.attr('selected', 'selected');
-                }
-
-                options.append(optionTemplate);
-            });
+        if (+totalCash >= constants.totalAmountFinancedFor180amortTerm) {
+            toggleDisabledAttributeOnOption(option, options, tooltip, false);
+        } else {
+            toggleDisabledAttributeOnOption(option, options, tooltip, true);
         }
     }
 
+    /**
+     * depends on totalAmountfinanced value disable/enable options 
+     * values of Loan/Amortization dropdown
+     * @param {Array<>} options - array of available options for dropdown
+     * @param {Object<>} tooltip - tooltip jqeury object for show/hide depends on totalAmountFinancedValue
+     * @param {boolean} isDisable - disable/enable option and show/hide tooltip
+     * @returns {} 
+     */
+    function toggleDisabledAttributeOnOption(option, options, tooltip, isDisable) {
+        if (!options.length) return;
+
+        var formGroup = tooltip.closest('.form-group');
+        if (isDisable) {
+            formGroup.addClass('notify-hold');
+            tooltip.show();
+        } else {
+            formGroup.removeClass('notify-hold');
+            tooltip.hide();
+
+            //check if notifications is visible if yes emulate click to hide it.
+            if (tooltip.parent().find('.popover-content').length) {
+                tooltip.click();
+            }
+        }
+
+        $.each(options, function (i) {
+            var amortValue = +options[i].innerText.split('/')[1];
+            if (amortValue >= constants.amortizationValueToDisable) {
+
+                // if we selected max value of dropdown and totalAmountFinanced is lower then constants.amortizationValueToDisable
+                // just select first option in dropdown
+                if (options.selectedIndex === i && isDisable) {
+                    $('#' + option + 'AmortizationDropdown').val(options[0].value);
+                }
+
+                var opt = $(options[i]);
+                opt.attr('disabled', isDisable);
+                isDisable ? opt.addClass('disabled-opt') : opt.removeClass('disabled-opt');
+            }
+        });
+    }
+
+    /**
+     * Update current card for each of rate card options
+     * @param {string} option - name of the cards [FixedRate,Deferral,NoInterst]
+     * @param {Object<>} data - calculated financial data
+     * @returns {} 
+     */
     function calculateRateCardValues(option, data) {
         //minimum loan value
         var totalCash = constants.minimumLoanValue;
@@ -300,6 +353,12 @@
         }
     }
 
+    /**
+     * Select reate cards by current values of dropdown and totalCash
+     * @param {string} option - name of the cards [FixedRate,Deferral,NoInterst]
+     * @param {number} totalCash - totalAmountFinancedValue for current option
+     * @returns {Object<>} - appropriate rate card object 
+     */
     function filterRateCardByValues(option, totalCash) {
         var selectedValues = $('#' + option.name + 'AmortizationDropdown option:selected').text().split('/');
         var items = $.parseJSON(sessionStorage.getItem(state.contractId + option.name));
@@ -311,11 +370,19 @@
         if (option.name === 'Deferral') {
             var deferralPeriod = +$('#DeferralPeriodDropdown').val();
             return $.grep(items, function (i) {
-                return i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
+                if (totalCash >= constants.maxRateCardLoanValue) {
+                    return i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= constants.maxRateCardLoanValue;
+                } else {
+                    return i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
+                }
             })[0];
         } else {
             return $.grep(items, function (i) {
-                return i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
+                if (totalCash >= constants.maxRateCardLoanValue) {
+                    return i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= constants.maxRateCardLoanValue;
+                } else {
+                    return i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
+                }
             })[0];
         }
     }

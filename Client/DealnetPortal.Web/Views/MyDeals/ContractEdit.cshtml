@@ -1457,7 +1457,7 @@
         </div>
     }
 }
-@if (!string.IsNullOrEmpty(Model.Notes))
+@if (!string.IsNullOrEmpty(Model.Notes) || (Model.CustomerComments != null && Model.CustomerComments.Any()))
 {
     <hr>
     <div class="form-section">
@@ -1470,16 +1470,36 @@
                         @Html.HiddenFor(m => m.BasicInfo.ContractId)                        
 
                         <div class="dealnet-credit-check-section">
-                            <h3 class="dealnet-section-title">
-                                    @Resources.AdditionalContractInformation
-                                @if (contractState <= ContractState.Completed)
-                                {
-                                    <a href="@Url.Action("EquipmentInformation", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#edit-add-contract-section'), $('#edit-add-contract-section-modal'), false); $('#edit-add-contract-modal').modal()"*@>@Resources.Edit</a>
-                                }
-                            </h3>
+                          <h3 class="dealnet-section-title">
+                            @Resources.AdditionalContractInformation
+                            @if (contractState <= ContractState.Completed)
+                            {
+                              <a href="@Url.Action("EquipmentInformation", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#edit-add-contract-section'), $('#edit-add-contract-section-modal'), false); $('#edit-add-contract-modal').modal()"*@>@Resources.Edit</a>
+                            }
+                          </h3>
+                            @if (Model.CustomerComments != null && Model.CustomerComments.Any())
+                            {
+                              <div class="form-group">
+                                <div class="row">
+                                  @Html.LabelFor(m => m.CustomerComments, new { @class = "text-semibold text-md-sm col-xs-12" })
+                                  <div class="dealnet-field-holder col-xs-12">
+                                    <div class="control-group">
+                                      <div class="text-left">
+                                      @foreach (var comment in Model.AdditionalInfo.CustomerComments)
+                                      {
+                                        @comment
+                                        <br/>
+
+                                      }
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            }
                             <div class="form-group">
                                 <div class="row">
-                                        @Html.LabelFor(m => m.Notes, new { @class = "dealnet-field-caption col-xs-12" })
+                                        @Html.LabelFor(m => m.Notes, new { @class = "text-semibold text-md-sm col-xs-12" })
                                     <div class="dealnet-field-holder col-xs-12">
                                         <div class="control-group">
                                             @Html.TextAreaFor(m => m.Notes, new {@class = "dealnet-disabled-input dealnet-disabled-textarea", @cols = "30", @rows = "2", id = "contract-notes"})
@@ -2623,6 +2643,8 @@ foreach (var comment in comments)
                                             <div class="control-group date-group">
                                                 @Html.TextBoxFor(m => m.InstallCertificateInformation.InstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input date-input exlude-min-date"})
                                                 @Html.ValidationMessageFor(m => m.InstallCertificateInformation.InstallationDate, "", new {@class = "text-danger"})
+	                                            <div class="div-datepicker-value"></div>
+	                                            <div class="div-datepicker"></div>
                                             </div>
                                         </div>
                                     </div>

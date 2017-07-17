@@ -63,8 +63,16 @@
             if (!nextPostalCode.length) { break; }
 
             var updatedState = $.grep(state.postalCodes, function (i) { return i.id === id })[0];
-            updatedState.id--;
-            
+            if (updatedState !== undefined) {
+                updatedState.id--;
+            }
+
+            nextPostalCode.attr('id', 'postal-code-' + (id - 1));
+            nextPostalCode.find('a.remove-postal-code').each(function() {
+                $(this).attr('id', 'remove-postal-code-' + (id - 1));
+                $(this).attr('hidden-value', (id - 1));
+            });
+
             nextPostalCode.find('input').each(function () {
                 $(this).attr('id', $(this).attr('id').replace('PostalCodes_' + id, 'PostalCodes_' + (id - 1)));
                 $(this).attr('name', $(this).attr('name').replace('PostalCodes[' + id, 'PostalCodes[' + (id - 1)));

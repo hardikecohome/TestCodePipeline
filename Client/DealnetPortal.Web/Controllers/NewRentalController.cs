@@ -58,7 +58,7 @@ namespace DealnetPortal.Web.Controllers
                     }
                 }
 
-                if (contractResult.Item1.ContractState == ContractState.CreditContirmed && isNewlyCreated != true && contractResult.Item1.IsCreatedByCustomer != true)
+                if (contractResult.Item1.ContractState == ContractState.CreditConfirmed && contractResult.Item1.OnCreditReview != true && isNewlyCreated != true)
                 {
                     return RedirectToAction("EquipmentInformation", new { contractId });
                 }
@@ -208,7 +208,7 @@ namespace DealnetPortal.Web.Controllers
 
                 if (checkResult?.Item1 != null && checkResult.Item1.CreditCheckState != CreditCheckState.Initiated)
                 {
-                    break;                    
+                    break;
                 }
 
                 await Task.Delay(timeOut);
@@ -339,13 +339,6 @@ namespace DealnetPortal.Web.Controllers
         {
             ViewBag.IsAllInfoCompleted = false;
 
-            if (!ModelState.IsValid)
-            {
-                ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
-
-                return View(equipmentInfo);
-            }
-
             var updateResult = await _contractManager.UpdateContractAsyncNew(equipmentInfo);
 
             if (updateResult.Any(r => r.Type == AlertType.Error))
@@ -355,37 +348,7 @@ namespace DealnetPortal.Web.Controllers
                 return RedirectToAction("Error", "Info");
             }
 
-            return RedirectToAction("AdditionalEquipmentInformation", new { contractId = equipmentInfo.ContractId });
-        }
-
-        public async Task<ActionResult> AdditionalEquipmentInformation(int contractId)
-        {
-            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
-
-            return View(await _contractManager.GetAdditionalContactInfoAsyncNew(contractId));
-        }
-        
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AdditionalEquipmentInformation(ContactAndPaymentInfoViewModelNew contactAndPaymentInfo)
-        {
-            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
-
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
-
-            var updateResult = await _contractManager.UpdateContractAsyncNew(contactAndPaymentInfo);
-
-            if (updateResult.Any(r => r.Type == AlertType.Error))
-            {
-                TempData[PortalConstants.CurrentAlerts] = updateResult;
-
-                return RedirectToAction("Error", "Info");
-            }
-
-            return RedirectToAction("ContactAndPaymentInfo", new { contractId = contactAndPaymentInfo.ContractId });
+            return RedirectToAction("ContactAndPaymentInfo", new { contractId = equipmentInfo.ContractId });
         }
 
         [HttpGet]

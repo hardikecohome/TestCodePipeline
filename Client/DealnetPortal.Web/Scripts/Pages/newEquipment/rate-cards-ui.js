@@ -1,10 +1,12 @@
 ﻿module.exports('rate-cards-ui', function (require) {
 
     var state = require('state').state;
+    var validateCustomCard = require('validation').validateCustomCard;
 
     var showRateCardBlock = function () {
         $('#rateCardsBlock').addClass('opened')
                             .removeClass('closed');
+        setTimeout(setHeight(), 500);
 
         $('#loanRateCardToggle').find('i.glyphicon')
           .removeClass('glyphicon-chevron-down')
@@ -12,7 +14,6 @@
 
 
         if (!$('#paymentInfo').hasClass('hidden')) {
-            $('#paymentInfo').css('display', 'none');
             $('#paymentInfo').addClass('hidden');
         }
     }
@@ -26,7 +27,6 @@
           .addClass('glyphicon-chevron-down');
 
         if ($('#paymentInfo').hasClass('hidden')) {
-            $('#paymentInfo').css('display', 'block');
             $('#paymentInfo').removeClass('hidden');
         }
     }
@@ -38,10 +38,13 @@
     var setEqualHeightRows = function(row) {
         var maxHeight = 0;
         row.each(function () {
-            if ($(this).height() > maxHeight) {
-                maxHeight = $(this).height();
+            if ($(this).children().eq(0).outerHeight(true) > maxHeight) {
+                maxHeight = $(this).children().eq(0).outerHeight(true);
             }
         });
+	      if(row.children().eq(0)){
+
+	      }
         row.height(maxHeight);
     }
 
@@ -80,6 +83,10 @@
         setEqualHeightRows($(".equal-height-row-2"));
         setEqualHeightRows($(".equal-height-row-3"));
         setEqualHeightRows($(".equal-height-row-4"));
+        setEqualHeightRows($(".equal-height-row-5"));
+
+
+        setEqualHeightRows($(".equal-height-label-1"));
     }
 
     var onAgreemntSelect = function () {
@@ -88,7 +95,7 @@
             //If loan is chosen
             setHeight();
             if (!$("#submit").hasClass('disabled') && $('#rateCardsBlock').find('div.checked').length === 0) {
-                if (!onlyCustomCard) {
+                if (!state.onlyCustomRateCard) {
                     $('#submit').addClass('disabled');
                     $('#submit').parent().popover();
                 }
@@ -96,12 +103,11 @@
 
             $('#loanRateCardToggle, .loan-element, .downpayment-row').show();
             $('.rental-element').hide();
-
-            if (onlyCustomCard || $('#rateCardsBlock').find('div.checked').length) {
-                $('#paymentInfo').show();
+            if ($('#rateCardsBlock').find('div.checked').length) {                
+                toggleRateCardBlock(false);
             } else {
-                $('#rateCardsBlock').addClass('opened')
-                  .removeClass('closed');
+                var show = state.onlyCustomRateCard ? !validateCustomCard(true) : true;
+                toggleRateCardBlock(show);
             }
         } else {
             //If rental is chosen
@@ -111,14 +117,17 @@
             }
             setHeight();
             $('.rental-element').show();
-            $('#loanRateCardToggle, .loan-element, .downpayment-row, #paymentInfo').hide();
+            $('#loanRateCardToggle, .loan-element, .downpayment-row').hide();
             $('#rateCardsBlock').removeClass('opened').addClass('closed');
+            if (!$('#paymentInfo').hasClass('hidden')) {
+                $('#paymentInfo').addClass('hidden');
+            }
         }
         updateEquipmentCosts(agreementType);
     }
 
     var highlightCardBySelector = function (selector) {
-        if (!onlyCustomCard) {
+        if (!state.onlyCustomRateCard) {
             $(selector).parents('.rate-card')
                 .addClass('checked')
                 .parents('li')
@@ -155,7 +164,7 @@
     }
 
     $(document).ready(function () {
-        if (onlyCustomCard) {
+        if (state.onlyCustomRateCard) {
             $('#rateCardsBlock').addClass('one-rate-card');
         }
 
@@ -168,6 +177,21 @@
             carouselRateCards();
             setHeight();
         });
+
+		    $('.link-over-notify').popover({
+			    template: '<div class="popover customer-loan-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
+			    placement: 'top',
+			    trigger: $('body').is('.tablet-device') || $('body').is('.mobile-device') ? 'click' : 'hover',
+			    content: '',
+		    }).on('shown.bs.popover', function () {
+			    if($('body').is('.tablet-device') || $('body').is('.mobile-device')){
+				    $(this).parents('div[class*="equal-height-row"]').addClass('row-auto-height');
+			    }
+		    }).on('hide.bs.popover', function () {
+			    if($('body').is('.tablet-device') || $('body').is('.mobile-device')){
+				    $(this).parents('div[class*="equal-height-row"]').removeClass('row-auto-height');
+			    }
+		    });
     });
 
     return {
@@ -181,7 +205,7 @@
 });
 
 
-function  carouselRateCards(){
+function carouselRateCards(){
     var windowWidth = $(window).width();
     var paginationItems;
     var targetSlides;
@@ -196,29 +220,46 @@ function  carouselRateCards(){
         targetSlides = 1;
     }
 
-    if (onlyCustomCard) {
+    if (state.onlyCustomRateCard) {
         return;
     }
 
     var jcarousel = $('.rate-cards-container:not(".one-rate-card") .jcarousel');
-
-    jcarousel
+		var carouselItemsToView = viewport().width >= 768 && viewport().width < 1024 ? 2 : viewport().width < 768 ? 1 : 4;
+		jcarousel
       .on('jcarousel:reload jcarousel:create', function () {
           var carousel = $(this),
-            width = carousel.innerWidth(),
-            windowWidth = $(window).width();
-
-          if (windowWidth >= 1024) {
-              width = width / 4;
-          } else if (windowWidth >= 768) {
-              width = width / 2;
-          }else {
-              width = width / 1;
-          }
+            carouselWidth = carousel.innerWidth(),
+	          width = carouselWidth / carouselItemsToView;
 
           carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
-      })
-      .jcarousel();
+      }).jcarousel();
+
+			if(viewport().width < 1024){
+				jcarousel.swipe({
+					//Generic swipe handler for all directions
+					swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+						$('.link-over-notify').each(function(){
+							if($(this).attr('aria-describedby')){
+								$(this).click();
+							}
+						});
+
+						if(direction === "left"){
+							jcarousel.jcarousel('scroll', '+='+carouselItemsToView);
+						} else if(direction === "right"){
+							jcarousel.jcarousel('scroll', '-='+carouselItemsToView);
+						} else {
+							event.preventDefault();
+						}
+					},
+					excludedElements: "button, input, select, textarea, .noSwipe, a",
+					threshold: 50,
+					allowPageScroll: "auto",
+					triggerOnTouchEnd: false
+				});
+			}
+
 
     $('.jcarousel-control-prev')
       .jcarouselControl({

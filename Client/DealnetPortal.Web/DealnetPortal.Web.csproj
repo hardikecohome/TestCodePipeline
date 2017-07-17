@@ -252,6 +252,7 @@
     <Compile Include="Infrastructure\ContractManager.cs" />
     <Compile Include="Infrastructure\CultureSetterManager.cs" />
     <Compile Include="Infrastructure\CustomerManager.cs" />
+    <Compile Include="Infrastructure\Extensions\ModelStateErrorHandler.cs" />
     <Compile Include="Infrastructure\Extensions\MvcHelpersExtensions.cs" />
     <Compile Include="Infrastructure\ICustomerManager.cs" />
     <Compile Include="Infrastructure\IProfileManager.cs" />
@@ -776,8 +777,8 @@
     <Content Include="Scripts\contact-and-payment-management.js" />
     <Content Include="Scripts\contract-edit.js" />
     <Content Include="Scripts\custom-validation.js" />
-    <Content Include="Scripts\customer-form.js" />
     <Content Include="Scripts\jquery.jcarousel.min.js" />
+    <Content Include="Scripts\jquery.touchSwipe.min.js" />
     <Content Include="Scripts\Pages\Clients\index.js" />
     <Content Include="Scripts\Pages\Clients\new-client-autocomplete.js" />
     <Content Include="Scripts\Pages\Clients\new-client-flow.js" />
@@ -904,6 +905,7 @@
     <Content Include="Scripts\Pages\MyProfile\postalCode-handlers.js" />
     <Content Include="Scripts\Pages\Clients\new-client.js" />
     <Content Include="Scripts\Pages\newEquipment\rate-cards-init.js" />
+    <Content Include="Scripts\Pages\newEquipment\validation.js" />
     <Content Include="Scripts\Reducers\customer.js" />
     <Content Include="Scripts\Reducers\new-client-reducer.js" />
     <Content Include="Scripts\Selectors\customer.js" />
@@ -1026,7 +1028,6 @@
     <Content Include="Views\Calculator\Index_new.cshtml" />
     <Content Include="Views\NewRental\RateCard.cshtml" />
     <Content Include="Views\NewRental\EquipmentInformation.cshtml" />
-    <Content Include="Views\NewRental\AdditionalEquipmentInformation.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_EquipmentTemplates.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_FixedRate.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_NoInterest.cshtml" />
@@ -1041,6 +1042,8 @@
     <Content Include="Views\Calculator\Index.cshtml" />
     <Content Include="Views\Shared\_AgreementPersonalData.cshtml" />
     <Content Include="Views\Info\PrivacyPolicy.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_AdditionalContractInformation.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_ExistingEquipments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

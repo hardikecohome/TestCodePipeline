@@ -6,6 +6,6 @@
                                             on (e.oid = l.entt_oid and e.loca_oid = l.oid)
                                         LEFT JOIN Phone (nolock) as p
                                             on (e.oid = p.entt_oid)
-                                        where e.entt_id LIKE '{0}%'
+                                        where e.entt_id = '{0}'
                                         and e.fname is not null
                                         and e.lname is not null;

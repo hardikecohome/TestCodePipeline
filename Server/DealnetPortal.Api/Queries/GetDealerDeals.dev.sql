@@ -101,5 +101,5 @@
                       en.entt_id
                   FROM SecurityUser (nolock) sc
                   inner join entity (nolock) en on sc.oid = en.secu_oid
-                 where sc.user_id  LIKE '{0}%')
+                 where sc.user_id  = '{0}')
                  order by 2 desc;

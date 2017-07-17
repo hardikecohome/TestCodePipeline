@@ -47,7 +47,8 @@ namespace DealnetPortal.Web
                     "~/Scripts/jquery.loader.js",
                     "~/Scripts/slick.min.js",
                     "~/Scripts/jquery.jcarousel.min.js",
-                    "~/Scripts/layout.js", 
+                    "~/Scripts/jquery.touchSwipe.min.js",
+                    "~/Scripts/layout.js",
                     "~/Scripts/jquery-ui-1.12.0.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap")
@@ -253,6 +254,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/Pages/newEquipment/index.js")
                 .Include("~/Scripts/Pages/newEquipment/state.js")
                 .Include("~/Scripts/Pages/newEquipment/rate-cards-init.js")
+                .Include("~/Scripts/Pages/newEquipment/validation.js")
             );
 
             bundles.Add(new ScriptBundle("~/bundles/additional-equipment-information")

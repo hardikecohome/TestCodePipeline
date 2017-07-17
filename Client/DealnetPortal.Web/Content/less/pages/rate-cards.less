@@ -83,9 +83,10 @@
   }
   &.one-rate-card{
     &.jcarousel-wrapper{
-      margin-left: 0;
-      margin-right: 0;
+      margin-left: 10px;
+      margin-right: 10px;
       padding-top: 0;
+      overflow: hidden;
       .jcarousel{
         margin: 0 -5px;
         padding: 5px;
@@ -124,6 +125,57 @@
   }
   .promo-label{
     float: right;
+  }
+}
+
+.notify-hold{
+  padding-right: 34px;
+  position: relative;
+  @media @mobile {
+    padding-right: 50px;
+  }
+
+  .link-over-notify{
+    position: absolute;
+    right: 0;
+    bottom: auto;
+    cursor: pointer;
+    margin-top: -33px;
+    width: 24px;
+    height: 24px;
+    &:before{
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #000;
+      z-index: 2;
+      opacity: 0;
+      margin: -5px;
+      
+    }
+    @media @mobile {
+      right: 5px;
+    }
+  }
+}
+.rate-card{
+  .customer-loan-popover{
+    margin: 10px 0px 0 0px !important;
+    top: auto !important;
+    left: 0 !important;
+    z-index: 50 !important;
+    @media @tablet-down {
+      position: relative !important;
+      margin: 0 -45px 0 -15px !important;
+      top: 0 !important;
+      left: 0 !important;
+      border: 0;
+      box-shadow: none;
+      max-width: inherit;
+    }
   }
 }
 
@@ -174,6 +226,7 @@
 }
 
 .rate-card-notify{
+  .form-group;
   position: relative;
   padding-left: 30px;
   .icon{
@@ -181,6 +234,9 @@
     top: 0;
     left: 0;
   }
+}
+.equal-height-notification{
+  clear: both;
 }
 
 .promo-label{
@@ -251,4 +307,10 @@
 
 div[class*="equal-height-row"]{
   min-height: 32px;
+  &.row-auto-height{
+    height: auto !important;
+    &+div[class*="equal-height-row"]{
+      height: auto !important;
+    }
+  }
 }

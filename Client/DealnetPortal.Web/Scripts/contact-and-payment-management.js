@@ -8,7 +8,7 @@
     });
     $("#enbridge-gas-distribution-account").rules("add", "required");
     $("#meter-number").rules("add", "required");
-    //
+
     $('.mandatory-phones').each(function() {
         var homePhone = $(this).find('.home-phone');
         var cellPhone = $(this).find('.cell-phone');
@@ -28,7 +28,19 @@
     $("#payment-type").change(function () {
         managePaymentElements($(this).find(":selected").val());
     });
+
+    
+
+    $('form').on('submit', function(e) {
+        if (!$('form').valid()) {
+            e.preventDefault();
+        }
+
+    });
 });
+
+
+
 function managePaymentElements(paymentType) {
     switch (paymentType) {
         case '0':

@@ -20,7 +20,7 @@
 
     var log = require('logMiddleware');
 
-    var requiredFields = ['name', 'lastName', 'birthday', 'street', 'province', 'postalCode', 'email', 'creditAgreement', 'contactAgreement', 'ownership', 'captchaCode'];
+    var requiredFields = ['name', 'lastName', 'birthday', 'street', 'province', 'postalCode', 'email', 'creditAgreement', 'ownership', 'captchaCode'];
     var requiredPFields = ['birthday', 'pstreet', 'pprovince', 'ppostalCode'];
 
     var getErrors = configGetErrors(requiredFields, requiredPFields);
@@ -112,7 +112,7 @@
     if (config.reCaptchaEnabled) {
         window.onLoadCaptcha = function() {
             grecaptcha.render('gcaptcha', {
-                sitekey: '6LeqxBgUAAAAAJnAV6vqxzZ5lWOS5kzs3lfxFKEQ',
+                sitekey: window.config.reCaptchaKey,
                 callback: function(response) {
                     dispatch(createAction(customerActions.SET_CAPTCHA_CODE, response));
                 },

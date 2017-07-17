@@ -76,7 +76,7 @@
 
     var setAdminFee = function (optionKey) {
         return function (e) {
-            state[optionKey].AdminFee = parseFloat(e.target.value);
+            state[optionKey].AdminFee = Number(e.target.value);
             recalculateValuesAndRender([{ name: optionKey }]);
         };
     };

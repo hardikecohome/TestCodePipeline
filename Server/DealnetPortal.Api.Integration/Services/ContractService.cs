@@ -142,7 +142,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (contractDTO != null)
             {
                 AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, _contractRepository.GetEquipmentTypes());
-                AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId);
+                //AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId);
             }
             return contractDTO;
         }
@@ -468,7 +468,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     case CreditCheckState.Approved:
                         _contractRepository.UpdateContractState(contractId, contractOwnerId,
-                            ContractState.CreditContirmed);
+                            ContractState.CreditConfirmed);
                         _unitOfWork.Save();
                         break;
                     case CreditCheckState.Declined:
@@ -478,7 +478,7 @@ namespace DealnetPortal.Api.Integration.Services
                         break;
                     case CreditCheckState.MoreInfoRequired:
                         _contractRepository.UpdateContractState(contractId, contractOwnerId,
-                            ContractState.CreditContirmed);
+                            ContractState.CreditConfirmed);
                         _unitOfWork.Save();
                         break;
                 }
@@ -563,8 +563,9 @@ namespace DealnetPortal.Api.Integration.Services
                 switch (summaryType)
                 {
                     case FlowingSummaryType.Month:
+                        var firstMonthDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
                         var grDaysM =
-                            dealerContracts.Where(c => c.CreationTime >= DateTime.Today.AddDays(-DateTime.Today.Day))
+                            dealerContracts.Where(c => c.CreationTime >= firstMonthDate)
                                 .GroupBy(c => c.CreationTime.Day)
                                 .ToList();
 
@@ -799,7 +800,8 @@ namespace DealnetPortal.Api.Integration.Services
                 if (comment != null)
                 {
                     _unitOfWork.Save();
-                    if (comment.ContractId.HasValue)
+                    //don't send mails for Customer Comment, as we usually add these comments on contract creation (from CW or Shareble link)
+                    if (comment.ContractId.HasValue && comment.IsCustomerComment != true)
                     {
                         var contract = _contractRepository.GetContractAsUntracked(comment.ContractId.Value,
                             contractOwnerId);

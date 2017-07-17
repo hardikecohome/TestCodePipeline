@@ -88,15 +88,22 @@ input[type="password"]::-webkit-search-results-decoration { display: none; }
 }*/
 .custom-select{
   position: relative;
+  .form-control{
+    padding-right: 25px;
+  }
   .caret{
     position: absolute;
-    right: 6px;
+    right: 11px;
     top: 50%;
     margin-top: -3px;
     pointer-events: none;
   }
   select optgroup:empty{
     font-size: 1px;
+  }
+  select option.disabled-opt{
+    font-size: inherit;
+    color: #dcdcdc;
   }
 }
 .custom-select-disabled{
@@ -191,9 +198,16 @@ html.ie9{
      margin: 0 auto;
    }
   }
+  .well-info{
+    @media @desktop-up {
+      margin: 0 !important;
+    }
+  }
 }
 
-
+.checkbox-hold{
+  margin-top: 15px;
+}
 .custom-checkbox,
 .custom-radio{
   position: relative;
@@ -856,6 +870,7 @@ fieldset[disabled] .form-control{
 .monthly-payment-row{
   position: relative;
   font-size: 16px;
+  margin-bottom: 25px;
   &:before{
     margin: -9px 8px;
     content: '';

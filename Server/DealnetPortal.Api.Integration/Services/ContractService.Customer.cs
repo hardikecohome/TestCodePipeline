@@ -102,7 +102,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                 //select any of newly created contracts for create a new user in Customer Wallet portal
                 var creditReviewStates = ConfigurationManager.AppSettings["CreditReviewStatus"]?.Split(',').Select(s => s.Trim()).ToArray();
-                var succededContracts = contractsResultList.Where(r => r.Item1 != null && r.Item1.ContractState >= ContractState.CreditContirmed
+                var succededContracts = contractsResultList.Where(r => r.Item1 != null && r.Item1.ContractState >= ContractState.CreditConfirmed
                                                                 && creditReviewStates?.Contains(r.Item1?.Details?.Status) != true).Select(r => r.Item1).ToList();
                 var succededContract = succededContracts.FirstOrDefault();
                 if (succededContract != null)
@@ -155,14 +155,7 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                     });
 
-                var contractDTO = Mapper.Map<ContractDTO>(succededContract ?? contractsResultList?.FirstOrDefault()?.Item1);
-                if (contractDTO != null)
-                {                    
-                    if (creditReviewStates?.Any() == true && !string.IsNullOrEmpty(contractDTO?.Details?.Status))
-                    {
-                        contractDTO.OnCreditReview = creditReviewStates.Contains(contractDTO.Details.Status);
-                    }
-                }
+                var contractDTO = Mapper.Map<ContractDTO>(succededContract ?? contractsResultList?.FirstOrDefault()?.Item1);                
                 return new Tuple<ContractDTO, IList<Alert>>(contractDTO, creditCheckAlerts);
             }
             catch (Exception ex)
@@ -220,28 +213,24 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 return new Tuple<Contract, bool>(null, false);
             }
-
-            _unitOfWork.Save();
-
             updatedContract.IsCreatedByBroker = true;
+
+            if (!string.IsNullOrEmpty(newCustomer.CustomerComment))
+            {
+                var comment = new Comment()
+                {
+                    ContractId = contractData.Id,
+                    IsCustomerComment = true,
+                    Text = newCustomer.CustomerComment
+                };
+                _contractRepository.TryAddComment(comment, contractOwnerId);                                
+            }
             _unitOfWork.Save();
 
             if (updatedContract.PrimaryCustomer != null)
             {
                 await _aspireService.UpdateContractCustomer(updatedContract.Id, contractOwnerId);
-            }
-
-            if (updatedContract.Details != null && newCustomer.CustomerComment != null)
-            {
-                if (string.IsNullOrEmpty(updatedContract.Details.Notes))
-                {
-                    updatedContract.Details.Notes = newCustomer.CustomerComment;
-                }
-                else
-                {
-                    updatedContract.Details.Notes += newCustomer.CustomerComment;
-                }
-            }
+            }            
 
             return new Tuple<Contract, bool>(updatedContract, true);
         }

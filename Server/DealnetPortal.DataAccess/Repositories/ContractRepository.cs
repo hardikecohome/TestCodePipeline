@@ -84,7 +84,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 || (contractCreatorRoleId == null || c.Dealer.Roles.Select(r => r.RoleId).Contains(contractCreatorRoleId))) &&
                 c.Equipment.NewEquipment.Any() &&
                 c.PrimaryCustomer.Locations.Any(l => l.AddressType == AddressType.InstallationAddress) &&
-                (c.ContractState >= ContractState.CreditContirmed && !creditReviewStates.Contains(c.Details.Status))).ToList();
+                (c.ContractState >= ContractState.CreditConfirmed && !creditReviewStates.Contains(c.Details.Status))).ToList();
             if (eqList!=null && eqList.Any())
             {
                 contracts = contracts.Where(c => eqList.Any(eq => eq == c.Equipment?.NewEquipment?.FirstOrDefault()?.Type)).ToList();
@@ -815,7 +815,7 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 return false;
             }
-            if (contract.ContractState < ContractState.CreditContirmed || creditReviewStates.Contains(contract.Details.Status))
+            if (contract.ContractState < ContractState.CreditConfirmed || creditReviewStates.Contains(contract.Details.Status))
             {
                 return false;
             }
@@ -1138,10 +1138,6 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 contract.Details.AgreementType = contractDetails.AgreementType;
             }
-            if (contractDetails.HouseSize.HasValue)
-            {
-                contract.Details.HouseSize = contractDetails.HouseSize;
-            }
             if (contractDetails.SignatureDocumentId != null)
             {
                 contract.Details.SignatureDocumentId = contractDetails.SignatureDocumentId;
@@ -1153,10 +1149,6 @@ namespace DealnetPortal.DataAccess.Repositories
             if (contractDetails.Status != null)
             {
                 contract.Details.Status = contractDetails.Status;
-            }
-            if (contractDetails.Notes != null)
-            {
-                contract.Details.Notes = contractDetails.Notes;
             }
             if (contractDetails.TransactionId != null)
             {
@@ -1182,6 +1174,8 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 contract.Details.CreditAmount = contractDetails.CreditAmount;
             }
+            contract.Details.HouseSize = contractDetails.HouseSize;
+            contract.Details.Notes = contractDetails.Notes;
         }
 
         private void AddOrUpdatePaymentInfo(Contract contract, PaymentInfo newData)

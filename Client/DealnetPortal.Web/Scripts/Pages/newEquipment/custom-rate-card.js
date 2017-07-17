@@ -2,14 +2,7 @@
     var setters = require('value-setters');
     var state = require('state').state;
 
-    var validateOnSelect = function () {
-        var isValid = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal', 'CustomAFee'].reduce(function (acc, field) {
-            var valid = $("#" + field).valid();
-            return valid && acc;
-        }, true);
-
-        return isValid;
-    }
+    var validateOnSelect = require('validation').validateCustomCard;
 
     var toggleDisableClassOnInputs = function (isDisable) {
         ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal', 'CustomAFee'].forEach(function (field) {
@@ -45,9 +38,10 @@
 
     $('#CustomDeferralPeriod').on('change', setters.setDeferralPeriod('Custom'));
     $('#CustomCRate').on('change', setters.setCustomerRate('Custom'));
-    $('#CustomCRate').on('change', validateCustomRateCardOnInput);
+    $('#CustomCRate').on('change keyup', validateCustomRateCardOnInput);
 
     $('#CustomYCostVal').on('change', setters.setCustomYourCost('Custom'));
+    $('#CustomYCostVal').on('change keyup', validateCustomRateCardOnInput);
 
     $('#CustomAFee').on('change', setters.setAdminFee('Custom'));
 
@@ -56,7 +50,7 @@
         var selectedRateCard = $('#rateCardsBlock').find('div.checked').length > 0
             ? $('#rateCardsBlock').find('div.checked').find('#hidden-option').text()
             : '';
-        if (onlyCustomCard) {
+        if (state.onlyCustomRateCard) {
             selectedRateCard = 'Custom';
         }
 
@@ -71,6 +65,7 @@
                 submit.parent().popover('destroy');
             }
         }
+        $(window).resize();
     }
 
     $('#CustomYCostVal').rules('add', {
@@ -82,7 +77,7 @@
             regex:translations.yourCostFormat,
             required: function (ele) {
                 if (!$('#CustomCRate').val())
-                    return translations.customerOrYourCost;
+                    return translations.ThisFieldIsRequired;
                 return translations.enterZero;
             }
         }
@@ -97,7 +92,7 @@
             regex:translations.customerRateFormat,
             required: function (ele) {
                 if (!$('#CustomYCostVal').val())
-                    return translations.customerOrYourCost;
+                    return translations.ThisFieldIsRequired;
                 return translations.enterZero;
             }
         }

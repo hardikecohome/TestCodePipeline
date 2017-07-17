@@ -7,31 +7,36 @@
 
 <li>
   <div class="rate-card table-mode">
-    <div class="rate-card-header equal-height-row-1">
-      <span class="promo-label hidden" id="FixedRatePromo">Promo</span>
-      <h4 class="rate-card-title">FIXED RATE</h4>
+    <div class="equal-height-row-1">
+      <div class="rate-card-header">
+        <span class="promo-label hidden" id="FixedRatePromo">Promo</span>
+        <h4 class="rate-card-title">STANDARD RATE</h4>
+      </div>
     </div>
     <hr>
     <div class="equal-height-row-2">
-      <div class="form-group">
+      <div class="form-group notify-hold">
         <label>Loan/Amortization Term</label>
         @Html.DropDownList(Model + "Amortization", amortizationSelectList, new { @class = "form-control", id = Model + "AmortizationDropdown" })
+        <a class="link-over-notify" id="FixedRateNotify"
+           data-content="180 month amortization is available only on loans over $5,000">
+          <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+        </a>
       </div>
     </div>
     <div class="equal-height-row-3">
-      <div class="rate-card-notify">
-        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-        180 month amortization is available only on loans over $5,000
-      </div>
     </div>
     <div class="equal-height-row-4">
-      <div class="row form-group">
-        <div class="col-xs-6">Customer Rate</div>
-        <div class="col-xs-6 text-right text-semibold" id="FixedRateCRate"></div>
-      </div>
-      <div class="row form-group">
-        <div class="col-xs-6">Your Cost</div>
-        <div class="col-xs-6 text-right text-semibold" id="FixedRateYCostVal"></div>
+      <div class="clearfix">
+        <div class="row form-group">
+          &nbsp;
+          <div class="col-xs-6 hidden">Your Cost</div>
+          <div class="col-xs-6 text-right text-semibold hidden" id="FixedRateYCostVal"></div>
+        </div>
+        <div class="row form-group">
+          <div class="col-xs-6">Customer Rate</div>
+          <div class="col-xs-6 text-right text-semibold" id="FixedRateCRate"></div>
+        </div>
       </div>
     </div>
     <hr>

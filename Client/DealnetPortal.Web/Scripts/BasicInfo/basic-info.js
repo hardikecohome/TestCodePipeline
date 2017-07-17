@@ -36,6 +36,7 @@ configInitialized
             $('#age-warning-message').show();
         }
     });
+
     $('.check-homeowner').change(function () {
         var atLeastOneValid = false;
         $('.check-homeowner').each(function () {
@@ -206,19 +207,24 @@ function showAditional1Section() {
     addAdditionalButton.hide();
 }
 function assignDatepicker(input) {
+    var input = $('body').is('.ios-device') ? input.siblings('.div-datepicker') : input;
     inputDateFocus(input);
-
     input.datepicker({
-        dateFormat: 'mm/dd/yy',
-        changeYear: true,
-        changeMonth: (viewport().width < 768) ? true : false,
         yearRange: '1900:' + (new Date().getFullYear()-18),
         minDate: Date.parse("1900-01-01"),
         maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
-        showButtonPanel: true,
-        closeText: translations['Cancel'],
-        onClose: function(){
-            onDateSelect($(this));
+        onSelect: function (date) {
+            //$(this).siblings('.div-datepicker-value').text(date);
+            $(this).siblings('input.form-control').val(date);
+            $(".div-datepicker").removeClass('opened');
+            var isValid = checkApplicantAgeOnSelect(date);
+            if (isValid) {
+                $('#age-warning-message').hide();
+                $('#age-error-message').hide();
+            } else {
+                $('#age-error-message').hide();
+                $('#age-warning-message').show();
+            }
         }
     });
 }

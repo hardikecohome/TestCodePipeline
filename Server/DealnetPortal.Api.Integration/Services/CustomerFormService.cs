@@ -42,9 +42,12 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IContractService _contractService;
         private readonly ILoggingService _loggingService;
 
-        public CustomerFormService(IContractRepository contractRepository, ICustomerFormRepository customerFormRepository,
-            IDealerRepository dealerRepository, ISettingsRepository settingsRepository, IUnitOfWork unitOfWork, IContractService contractService,
-            ILoggingService loggingService, IMailService mailService, IAspireService aspireService, IAspireStorageReader aspireStorageReader)
+        public CustomerFormService(IContractRepository contractRepository,
+            ICustomerFormRepository customerFormRepository,
+            IDealerRepository dealerRepository, ISettingsRepository settingsRepository, IUnitOfWork unitOfWork,
+            IContractService contractService,
+            ILoggingService loggingService, IMailService mailService, IAspireService aspireService,
+            IAspireStorageReader aspireStorageReader)
         {
             _contractRepository = contractRepository;
             _customerFormRepository = customerFormRepository;
@@ -85,17 +88,20 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 var langSettings = new CustomerLinkLanguageOptionsDTO
                 {
-                    IsLanguageEnabled = linkSettings.EnabledLanguages.FirstOrDefault(l => l.Language?.Code == language) != null
+                    IsLanguageEnabled =
+                        linkSettings.EnabledLanguages.FirstOrDefault(l => l.Language?.Code == language) != null
                 };
                 if (langSettings.IsLanguageEnabled)
                 {
                     langSettings.LanguageServices =
                         linkSettings.Services.Where(
-                            s => s.LanguageId == linkSettings.EnabledLanguages.First(l => l.Language?.Code == language).LanguageId)
+                            s =>
+                                s.LanguageId ==
+                                linkSettings.EnabledLanguages.First(l => l.Language?.Code == language).LanguageId)
                             .Select(s => s.Service).ToList();
-                }                
+                }
                 langSettings.EnabledLanguages =
-                        linkSettings.EnabledLanguages.Select(l => (LanguageCode)l.LanguageId).ToList();
+                    linkSettings.EnabledLanguages.Select(l => (LanguageCode) l.LanguageId).ToList();
                 langSettings.DealerName = _dealerRepository.GetDealerNameByCustomerLinkId(linkSettings.Id);
                 return langSettings;
             }
@@ -111,11 +117,11 @@ namespace DealnetPortal.Api.Integration.Services
                 CustomerLink updatedLink = null;
                 if (linkSettings.EnabledLanguages != null)
                 {
-                    updatedLink = _customerFormRepository.UpdateCustomerLinkLanguages(linkSettings.EnabledLanguages, dealerId);
+                    updatedLink = _customerFormRepository.UpdateCustomerLinkLanguages(linkSettings.EnabledLanguages, customerLinkSettings.HashLink, dealerId);
                 }
                 if (linkSettings.Services != null)
                 {
-                    updatedLink = _customerFormRepository.UpdateCustomerLinkServices(linkSettings.Services, dealerId) ?? updatedLink;
+                    updatedLink = _customerFormRepository.UpdateCustomerLinkServices(linkSettings.Services, customerLinkSettings.HashLink, dealerId) ?? updatedLink;
                 }
                 if (updatedLink != null)
                 {
@@ -152,10 +158,12 @@ namespace DealnetPortal.Api.Integration.Services
                     contractCreationRes.Item1));
             }
 
-            return new Tuple<CustomerContractInfoDTO, IList<Alert>>(contractCreationRes?.Item1, contractCreationRes?.Item2 ?? new List<Alert>());
+            return new Tuple<CustomerContractInfoDTO, IList<Alert>>(contractCreationRes?.Item1,
+                contractCreationRes?.Item2 ?? new List<Alert>());
         }
 
-        public async Task<Tuple<IList<CustomerContractInfoDTO>, IList<Alert>>> CustomerServiceRequest(CustomerServiceRequestDTO customerFormData)
+        public async Task<Tuple<IList<CustomerContractInfoDTO>, IList<Alert>>> CustomerServiceRequest(
+            CustomerServiceRequestDTO customerFormData)
         {
             var alerts = new List<Alert>();
             IList<CustomerContractInfoDTO> submitResults = null;
@@ -183,14 +191,15 @@ namespace DealnetPortal.Api.Integration.Services
                                 var dealerId = _dealerRepository.GetUserIdByName(sRequest.DealerName);
                                 if (!string.IsNullOrEmpty(dealerId))
                                 {
-                                    var c = InitialyzeContract(dealerId, customerFormData.PrimaryCustomer, customerFormData.StartProjectDate,
+                                    var c = InitialyzeContract(dealerId, customerFormData.PrimaryCustomer,
+                                        customerFormData.StartProjectDate,
                                         sRequest.PrecreatedContractId, sRequest.ServiceType,
                                         customerFormData.CustomerComment);
                                     // mark as created by customer
                                     c.IsCreatedByCustomer = true;
                                     //check role of a dealer
                                     c.IsCreatedByBroker = _dealerRepository.GetUserRoles(dealerId)
-                                        .Contains(UserRole.MortgageBroker.ToString());                                    
+                                        .Contains(UserRole.MortgageBroker.ToString());
 
                                     return c;
                                 }
@@ -201,7 +210,7 @@ namespace DealnetPortal.Api.Integration.Services
                 catch (Exception ex)
                 {
                     var errorMsg =
-                            $"Cannot create contract from customer wallet request";
+                        $"Cannot create contract from customer wallet request";
                     alerts.Add(new Alert()
                     {
                         Type = AlertType.Warning, //?
@@ -218,7 +227,7 @@ namespace DealnetPortal.Api.Integration.Services
                 newContracts?.ForEach(c =>
                 {
                     //Do credit check only for new contract (not updated from CW)
-                    if (c.ContractState < ContractState.CreditContirmed)
+                    if (c.ContractState < ContractState.CreditConfirmed)
                     {
                         //Start credit check for this contract                            
                         var creditCheckAlerts = new List<Alert>();
@@ -263,8 +272,8 @@ namespace DealnetPortal.Api.Integration.Services
                         });
                     }
 
-                    
-                }               
+
+                }
             }
             if (alerts.Any(a => a.Type == AlertType.Error))
             {
@@ -317,7 +326,7 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 contractInfo.DealerEmail = dealer.Emails.First().EmailAddress;
                             }
-                            
+
                         }
                     }
                     catch (Exception ex)
@@ -340,9 +349,10 @@ namespace DealnetPortal.Api.Integration.Services
             var dealerId = _dealerRepository.GetUserIdByName(customerFormData.DealerName);
             if (!string.IsNullOrEmpty(dealerId))
             {
-                Contract contract = _contractRepository.CreateContract(dealerId); 
+                Contract contract = _contractRepository.CreateContract(dealerId);
                 _unitOfWork.Save();
-                _loggingService.LogInfo($"Created new contract [{contract.Id}] by customer loan form request for {customerFormData.DealerName} dealer");
+                _loggingService.LogInfo(
+                    $"Created new contract [{contract.Id}] by customer loan form request for {customerFormData.DealerName} dealer");
 
                 var contractData = new ContractDataDTO()
                 {
@@ -352,7 +362,7 @@ namespace DealnetPortal.Api.Integration.Services
                     Id = contract.Id
                 };
                 _contractService.UpdateContractData(contractData, dealerId);
-                
+
                 //Start credit check for this contract
                 try
                 {
@@ -372,13 +382,13 @@ namespace DealnetPortal.Api.Integration.Services
                     if (creditCheckAlerts.Any())
                     {
                         creditCheckAlerts.Where(a => a.Type == AlertType.Error).ForEach(a =>
-                        _loggingService.LogError($"Credit check error- {a.Header}: {a.Message}"));
+                            _loggingService.LogError($"Credit check error- {a.Header}: {a.Message}"));
                     }
                 }
                 catch (Exception ex)
                 {
                     _loggingService.LogError($"Error during credit check for contract [{contract.Id}]", ex);
-                }                
+                }
 
                 // mark as created by customer
                 contract.IsCreatedByCustomer = true;
@@ -390,27 +400,12 @@ namespace DealnetPortal.Api.Integration.Services
                 //added comments at the end of CreateContractByCustomerFormData
                 if (!string.IsNullOrEmpty(customerFormData.SelectedService) ||
                     !string.IsNullOrEmpty(customerFormData.CustomerComment))
-                {                    
-                    try
+                {
+                    var addCommentsAlerts = AddCustomerComments(contract, customerFormData.SelectedService, customerFormData.CustomerComment,
+                        dealerId);
+                    if (addCommentsAlerts?.Any() == true)
                     {
-                        _customerFormRepository.AddCustomerContractData(contract.Id,
-                            $"{Resources.Resources.CommentFromCustomer}:",
-                            customerFormData.SelectedService, customerFormData.CustomerComment, dealerId);
-                        _unitOfWork.Save();
-                        _loggingService.LogInfo($"Customer's info is added to [{contract.Id}]");
-                    }
-                    catch (Exception ex)
-                    {
-                        var errorMsg =
-                            $"Cannot update contract {contract.Id} from customer loan form with customer form data";
-                        alerts.Add(new Alert()
-                        {
-                            Type = AlertType.Warning, //?
-                            Code = ErrorCodes.ContractCreateFailed,
-                            Header = "Cannot update contract",
-                            Message = errorMsg
-                        });
-                        _loggingService.LogWarning(errorMsg);
+                        alerts.AddRange(addCommentsAlerts);
                     }
                 }
 
@@ -439,6 +434,61 @@ namespace DealnetPortal.Api.Integration.Services
             }
             return new Tuple<CustomerContractInfoDTO, IList<Alert>>(submitResult, alerts);
         }
+
+        private IList<Alert> AddCustomerComments(Contract contract, string selectedService, string customerComment, string dealerId)
+        {
+            var alerts = new List<Alert>();
+
+            try
+            {
+                bool addedComment = false;
+                if (!string.IsNullOrEmpty(selectedService))
+                {
+                    var serviceComment = new Comment()
+                    {
+                        ContractId = contract.Id,
+                        Contract = contract,
+                        IsCustomerComment = true,
+                        Text = selectedService
+                    };
+                    _contractRepository.TryAddComment(serviceComment, dealerId);
+                    addedComment = true;
+                }
+                if (!string.IsNullOrEmpty(customerComment))
+                {
+                    var comment = new Comment()
+                    {
+                        ContractId = contract.Id,
+                        Contract = contract,
+                        IsCustomerComment = true,
+                        Text = customerComment
+                    };
+                    _contractRepository.TryAddComment(comment, dealerId);
+                    addedComment = true;
+                }
+                if (addedComment)
+                {
+                    _unitOfWork.Save();
+                    _loggingService.LogInfo($"Customer's comments is added to [{contract.Id}]");
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorMsg =
+                    $"Cannot update contract {contract.Id} from customer loan form with customer form data";
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Warning, //?
+                    Code = ErrorCodes.ContractCreateFailed,
+                    Header = "Cannot update contract",
+                    Message = errorMsg
+                });
+                _loggingService.LogWarning(errorMsg);
+            }
+
+            return alerts;
+        }
+
 
         private async Task SendCustomerContractCreationNotifications(CustomerFormDTO customerFormData, CustomerContractInfoDTO contractData)
         {
@@ -496,13 +546,38 @@ namespace DealnetPortal.Api.Integration.Services
             }
             if (contract == null)
             {
-                contract = _contractRepository.CreateContract(contractOwnerId);
+                contract = _contractRepository.CreateContract(contractOwnerId);                
                 _unitOfWork.Save();
                 _loggingService.LogInfo($"Created new contract [{contract.Id}] by customer loan form request for {contractOwnerId} dealer");
-            }
+            }            
 
             if (contract != null)
             {
+                //add customer comments                
+                if (!string.IsNullOrEmpty(customerComment))
+                {                    
+                    var commentsChanged = false;
+                    //remove previously created MB comments
+                    if (contract.Comments?.Any(c => c.IsCustomerComment == true) == true)
+                    {
+                        var commentsForRemove = contract.Comments?.Where(c => c.IsCustomerComment == true).ToList();
+                        commentsForRemove.ForEach(c => _contractRepository.RemoveComment(c.Id, contractOwnerId));
+                        commentsChanged = true;
+                    }
+
+                    var comment = new Comment()
+                    {
+                        Contract = contract,
+                        IsCustomerComment = true,
+                        Text = customerComment
+                    };
+                    _contractRepository.TryAddComment(comment, contractOwnerId);
+                    if (commentsChanged)
+                    {
+                        _unitOfWork.Save();
+                    }
+                }                
+
                 var contractDataDto = new ContractDataDTO()
                 {
                     PrimaryCustomer = primaryCustomer,
@@ -520,13 +595,8 @@ namespace DealnetPortal.Api.Integration.Services
                                     Description = _contractRepository.GetEquipmentTypeInfo(equipmentType)?.Description
                                 }}
                         }
-                        : null,
-                    Details = !string.IsNullOrEmpty(customerComment)
-                        ? new ContractDetailsDTO() {Notes = customerComment}
-                        : null
-
+                        : null,                    
                 };
-
                 _contractService.UpdateContractData(contractDataDto, contractOwnerId);
             }
 
