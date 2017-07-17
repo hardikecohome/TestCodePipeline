@@ -4,7 +4,7 @@
 @using DealnetPortal.Api.Models.Contract
 @using DealnetPortal.Web.Models.Enumeration
 @using Microsoft.Ajax.Utilities
-@model DealnetPortal.Web.Models.LoanCalculatorViewModel
+@model DealnetPortal.Web.Models.StandaloneCalculatorViewModel
 
 @{
 var deferralType = LoanDeferralType.ThreeMonth;
@@ -365,7 +365,8 @@ var deferralType = LoanDeferralType.ThreeMonth;
     var app = angular.module("calculator", ['ui.bootstrap', 'ngTouch', 'ngAnimate']);
     var defaultEquipmentType = '@Model.EquipmentTypes.First().Type';
     var defaultDefferalType = '@(Convert.ChangeType((((LoanDeferralType[]) Enum.GetValues(typeof(LoanDeferralType))).First()), Enum.GetUnderlyingType(typeof(LoanDeferralType))))';
-
+    var rateCards = @Html.Raw(Json.Encode(Model.DealerTier.RateCards));
+    var rateCardsPlans = @Html.Raw(Json.Encode(Model.DealerTier.RateCards));
     var plans = {
         'fixed': {
             id: 'fixed',

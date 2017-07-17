@@ -1,0 +1,155 @@
+﻿@model DealnetPortal.Web.Models.StandaloneCalculatorViewModel
+
+<div class="row form-group">
+  <div class="col-xs-7">
+    Total Price of Equipment
+  </div>
+  <div class="col-xs-5 text-right text-semibold" id="option1-totalEquipmentPrice">$ </div>
+</div>
+<div class="row form-group">
+  <div class="col-xs-7">
+    {{ taxName }}
+  </div>
+  <div class="col-xs-5 text-right text-semibold">
+    $ {{ option.tax }}
+  </div>
+</div>
+<div class="row form-group">
+  <div class="col-xs-7">
+    Total Cash Price
+  </div>
+  <div class="col-xs-5 text-right text-semibold" id="option1-totalPrice"> $ </div>
+</div>
+<h3 class="dealnet-middle-header">Financing Options</h3>
+<div class="row form-group">
+  <div class="col-xs-6">
+    Plan
+  </div>
+  <div class="col-xs-6">
+    @Html.DropDownList("option1-plan", Model.Plans.Select(x => new SelectListItem { Value = x, Text = x}), new { @class = "form-control" })
+  </div>
+</div>
+<div class="row form-group">
+  <div class="col-xs-6">
+    Loan/Amortization Term
+  </div>
+  <div class="col-xs-6">
+    <select name="" id="option1-amortDropdown" class="form-control">
+      <option value="">- not selected -</option>
+      <option value="">36/36</option>
+    </select>
+  </div>
+</div>
+<div class="row form-group">
+  <div class="col-xs-6">
+    Down Payment
+  </div>
+  <div class="col-xs-6">
+    <div class="control-group">
+      <input type="text" class="form-control" id="option1-downPayment">
+    </div>
+  </div>
+</div>
+<div class="row form-group">
+  <div class="col-xs-6">
+    Deferral Period
+  </div>
+  <div class="col-xs-6 text-right text-semibold" id="option1-deferral">
+    -
+  </div>
+</div>
+<div class="row form-group">
+  <div class="col-xs-6">
+    Customer Rate
+  </div>
+  <div class="col-xs-6 text-right text-semibold" id="option1-cRate">
+    0%
+  </div>
+</div>
+<div class="row form-group">
+  <div class="col-xs-6">
+    Your Cost
+  </div>
+  <div class="col-xs-6 text-right text-semibold" id="option1-yCostVal">
+    -
+  </div>
+</div>
+
+<div class="row form-group">
+  <div class="col-xs-6">
+    Admin Fee
+  </div>
+  <div class="col-xs-6 text-right text-semibold" id="option1-aFee">
+    $-
+  </div>
+</div>
+<hr>
+
+<div class="table-rows-hold">
+  <div class="row form-group">
+    <div class="col-xs-6">
+      Monthly Payment
+    </div>
+    <div class="col-xs-6 text-right text-semibold" id="option1-mPayment">
+      -
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-xs-6">
+      Cost of Borrowing
+    </div>
+    <div class="col-xs-6 text-right text-semibold" id="option1-cBorrowing">
+       -
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-xs-6">
+      Your Cost
+    </div>
+    <div class="col-xs-6 text-right text-semibold" id="option1-yCost">
+       -
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-xs-6">
+      Total Amount Financed
+    </div>
+    <div class="col-xs-6 text-right text-semibold" id="option1-taFinanced">
+      -
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-xs-6">
+      Total of All Monthly Payments
+    </div>
+    <div class="col-xs-6 text-right text-semibold" id="option1-tmPayments">
+      -
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-xs-6">
+      Balance Owing at the End of Monthly Payments
+    </div>
+    <div class="col-xs-6 text-right text-semibold" id="option1-rBalance">
+      -
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-xs-6">
+      Total Obligation
+    </div>
+    <div class="col-xs-6 text-right text-semibold" id="option1-tObligation">
+      -
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-md-12">
+      <div class="text-center">
+        <a href="#" class="btn dealnet-button dealnet-link-button">Save to Draft</a>
+      </div>
+      <div class="text-center">
+        <a href="#" class="btn dealnet-button dealnet-link-button">Create new application now</a>
+      </div>
+    </div>
+  </div>
+</div>

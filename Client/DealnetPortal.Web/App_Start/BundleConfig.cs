@@ -261,6 +261,17 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/datejs.js")
                 .Include("~/Scripts/Pages/additionalContractInfo/contract-information.js")
             );
+
+            bundles.Add(new ScriptBundle("~/bundles/standalone-calculator")
+                .Include("~/Scripts/financial-functions.js")
+                .Include("~/Scripts/loan-calculator.js")
+                .Include("~/Scripts/Modules/index.js")
+                .Include("~/Scripts/Logger/log.js")
+                .Include("~/Scripts/Pages/calculator/calculator-init.js")
+                .Include("~/Scripts/Pages/calculator/calculator-index.js")
+                .Include("~/Scripts/Pages/calculator/calculator-state.js")
+                .Include("~/Scripts/Pages/calculator/calculator-option.js")
+                .Include("~/Scripts/Utils/financial-functions.js"));
         }
     }
 }

@@ -283,6 +283,7 @@
     <Compile Include="Models\MyProfile\DealerAreaViewModel.cs" />
     <Compile Include="Models\MyProfile\ProfileViewModel.cs" />
     <Compile Include="Models\NewCustomerViewModel.cs" />
+    <Compile Include="Models\StandaloneCalculatorViewModel.cs" />
     <Compile Include="Models\SubmittedCustomerFormViewModel.cs" />
     <Compile Include="Models\CustomerFormViewModel.cs" />
     <Compile Include="Models\EquipmentInformationViewModel.cs" />
@@ -779,6 +780,10 @@
     <Content Include="Scripts\custom-validation.js" />
     <Content Include="Scripts\jquery.jcarousel.min.js" />
     <Content Include="Scripts\jquery.touchSwipe.min.js" />
+    <Content Include="Scripts\Pages\calculator\calculator-index.js" />
+    <Content Include="Scripts\Pages\calculator\calculator-init.js" />
+    <Content Include="Scripts\Pages\calculator\calculator-option.js" />
+    <Content Include="Scripts\Pages\calculator\calculator-state.js" />
     <Content Include="Scripts\Pages\Clients\index.js" />
     <Content Include="Scripts\Pages\Clients\new-client-autocomplete.js" />
     <Content Include="Scripts\Pages\Clients\new-client-flow.js" />
@@ -1044,6 +1049,9 @@
     <Content Include="Views\Info\PrivacyPolicy.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_AdditionalContractInformation.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_ExistingEquipments.cshtml" />
+    <Content Include="Views\Calculator\IndexJs.cshtml" />
+    <Content Include="Views\Shared\Calculator\_Option.cshtml" />
+    <Content Include="Views\Shared\Calculator\_RateCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

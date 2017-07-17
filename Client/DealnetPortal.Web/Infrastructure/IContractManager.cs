@@ -49,5 +49,7 @@ namespace DealnetPortal.Web.Infrastructure
         /// Create a new contract (application) with a same home owner
         /// </summary>
         Task<Tuple<int?, IList<Alert>>> CreateNewCustomerContract(int contractId);
+
+        Task<StandaloneCalculatorViewModel> GetStandaloneCalculatorInfoAsync();
     }
 }

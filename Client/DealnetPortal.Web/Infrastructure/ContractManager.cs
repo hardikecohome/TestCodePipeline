@@ -219,6 +219,25 @@ namespace DealnetPortal.Web.Infrastructure
             return contracts;
         }
 
+        public async Task<StandaloneCalculatorViewModel> GetStandaloneCalculatorInfoAsync()
+        {
+            var model = new StandaloneCalculatorViewModel
+            {
+                EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList(),
+                ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1
+            };
+
+            var dealerTier = await _contractServiceAgent.GetDealerTier();
+            model.DealerTier = dealerTier ?? new TierDTO { RateCards = new List<RateCardDTO>() };
+
+            model.Plans = model.DealerTier.RateCards
+                .Select(x => x.CardType.ToString())
+                .Distinct()
+                .ToList();
+
+            return model;
+        }
+
         public async Task<ContractViewModel> GetContractAsync(int contractId)
         {
             var contractsResult = await _contractServiceAgent.GetContract(contractId);
