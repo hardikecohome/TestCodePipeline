@@ -1,6 +1,6 @@
 ﻿module.exports('calculator-init', function (require) {
 
-    var state = require('calculator-state');
+    var state = require('calculator-state').state;
 
     /**
      * Initialize rate cards, page state, available plans
@@ -9,7 +9,7 @@
      * @returns {} 
      */
     var init = function initPage(plans, rateCards) {
-        
+        state.cards = rateCards;
     }
 
     return { init: init };

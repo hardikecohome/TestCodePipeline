@@ -783,6 +783,7 @@
     <Content Include="Scripts\Pages\calculator\calculator-index.js" />
     <Content Include="Scripts\Pages\calculator\calculator-init.js" />
     <Content Include="Scripts\Pages\calculator\calculator-option.js" />
+    <Content Include="Scripts\Pages\calculator\calculator-value-setters.js" />
     <Content Include="Scripts\Pages\calculator\calculator-state.js" />
     <Content Include="Scripts\Pages\Clients\index.js" />
     <Content Include="Scripts\Pages\Clients\new-client-autocomplete.js" />

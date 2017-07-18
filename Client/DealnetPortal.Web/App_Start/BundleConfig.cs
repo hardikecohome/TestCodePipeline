@@ -271,6 +271,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/Pages/calculator/calculator-index.js")
                 .Include("~/Scripts/Pages/calculator/calculator-state.js")
                 .Include("~/Scripts/Pages/calculator/calculator-option.js")
+                .Include("~/Scripts/Pages/calculator/calculator-value-setters.js")
                 .Include("~/Scripts/Utils/financial-functions.js"));
         }
     }

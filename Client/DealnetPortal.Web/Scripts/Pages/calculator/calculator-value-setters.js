@@ -1,5 +1,6 @@
 ﻿module.exports('calculator-value-setters', function (require) {
-    var state = require('calculator-state');
+    var state = require('calculator-state').state;
+    var constants = require('calculator-state').constants;
 
     var notNaN = function (num) { return !isNaN(num); };
 
@@ -28,7 +29,7 @@
     var setDeferralPeriod = function (optionKey, callback) {
         return function (e) {
             state[optionKey].DeferralPeriod = parseFloat(e.target.value);
-            callback([{ name: optionKey }]);
+            callback([optionKey]);
         };
     };
 
@@ -52,11 +53,19 @@
             callback([{ name: optionKey }]);
         };
     };
-
     var setDownPayment = function (optionKey, callback) {
-        state[optionKey].downPayment = parseFloat(e.target.value);
-        callback();
+        return function(e) {
+            state[optionKey].downPayment = parseFloat(e.target.value);
+            callback([optionKey]);
+        }
     };
+
+    var setRateCardPlan = function(optionKey, callback) {
+        return function(e) {
+            state[optionKey].plan = $.grep(constants.rateCards, function (c) { return c.name === e.target.value; })[0].id;
+            callback([optionKey]);
+        }
+    }
 
     var setRentalMPayment = function (e) {
         state.rentalMPayment = parseFloat(e.target.value);
@@ -71,6 +80,7 @@
         setCustomerRate: setCustomerRate,
         setYourCost: setYourCost,
         setAdminFee: setAdminFee,
-        setDownPayment: setDownPayment
+        setDownPayment: setDownPayment,
+        setRateCardPlan: setRateCardPlan
     }
 });
