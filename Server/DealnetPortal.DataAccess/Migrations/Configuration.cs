@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Configuration;
 using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -36,28 +37,33 @@ namespace DealnetPortal.DataAccess.Migrations
         protected override void Seed(DealnetPortal.DataAccess.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
-            var applications = SetApplications(context);
-            SetRoles(context);
-            SetTiers(context);
-            SetTestUsers(context, context.Applications.Local.ToArray());
-            SetAspireTestUsers(context, context.Applications.Local.ToArray());
-            SetTestEquipmentTypes(context);
-            SetTestProvinceTaxRates(context);
-            SetAspireStatuses(context);
-            SetDocumentTypes(context);
-            SetLanguages(context);
-            var templates = SetDocuSignTemplates(context);
-            SetInstallationCertificateTemplates(context, context.Applications.Local.ToArray());
-            SetPdfTemplates(context, templates);
-            var seedNames = templates.Select(at => at.TemplateName).ToArray();
-            var dbTemplateNames =
-                context.AgreementTemplates.Select(at => at.TemplateName).Where(tn => seedNames.All(t => t != tn)).ToArray();           
-            SetExistingPdfTemplates(context);
 
-            SetSettingItems(context);
-            SetUserSettings(context);
-            SetUserLogos(context);
-            SetRateCards(context);
+            bool dataSeedEnabled = true;
+            bool.TryParse(ConfigurationManager.AppSettings[WebConfigKeys.INITIAL_DATA_SEED_ENABLED_CONFIG_KEY],
+                out dataSeedEnabled);
+
+            if (dataSeedEnabled)
+            {
+                var applications = SetApplications(context);
+                SetRoles(context);
+                SetTiers(context);
+                SetTestUsers(context, context.Applications.Local.ToArray());
+                SetAspireTestUsers(context, context.Applications.Local.ToArray());
+                SetTestEquipmentTypes(context);
+                SetTestProvinceTaxRates(context);
+                SetAspireStatuses(context);
+                SetDocumentTypes(context);
+                SetLanguages(context);
+                var templates = SetDocuSignTemplates(context);
+                SetInstallationCertificateTemplates(context, context.Applications.Local.ToArray());
+                SetPdfTemplates(context, templates);                                
+                SetSettingItems(context);
+                SetUserSettings(context);
+                SetUserLogos(context);
+                SetRateCards(context);
+            }
+            //read updated pdt templates anyway
+            SetExistingPdfTemplates(context);
         }
 
         public void SetTiers(ApplicationDbContext context)
@@ -633,7 +639,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 new EquipmentType {Description = "Basement Repair", DescriptionResource = "BasementRepair", Type = "ECO55"}
             };
             //leave existing data
-            //equipmentTypes.RemoveAll(e => context.EquipmentTypes.Any(dbe => dbe.Type == e.Type));
+            equipmentTypes.RemoveAll(e => context.EquipmentTypes.Any(dbe => dbe.Type == e.Type));
             context.EquipmentTypes.AddOrUpdate(e => e.Type, equipmentTypes.ToArray());
         }
 
@@ -686,7 +692,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 new DocumentType()  {Id = (int)DocumentTemplateType.Other, Description = "Other", DescriptionResource = "Other", Prefix = ""},
             };
             //leave existing data
-            //documentTypes.RemoveAll(d => context.DocumentTypes.Any(dbd => dbd.Description == d.Description));
+            documentTypes.RemoveAll(d => context.DocumentTypes.Any(dbd => dbd.Description == d.Description));
             context.DocumentTypes.AddOrUpdate(d => d.Description, documentTypes.ToArray());
         }
 

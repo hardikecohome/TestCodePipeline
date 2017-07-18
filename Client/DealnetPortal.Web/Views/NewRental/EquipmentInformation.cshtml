@@ -42,12 +42,16 @@
             @Html.HiddenFor(x => x.DealerCost)
 <div class="form-container">
   <div class="form-section">
-    @if (Model.CustomerComment != null)
+    @if (Model.CustomerComments != null && Model.CustomerComments.Any())
     {
       <div class="customer-comments form-group">
         <h3 class="dealnet-middle-header">@Resources.CustomersComment:</h3>
         <div class="customer-comments-descr">
-          @Model.CustomerComment
+          @foreach (var comment in Model.CustomerComments)
+          {
+            @comment
+            <br/>
+          }
         </div>
       </div>
     }

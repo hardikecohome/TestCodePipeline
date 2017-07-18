@@ -112,7 +112,7 @@
     if (config.reCaptchaEnabled) {
         window.onLoadCaptcha = function() {
             grecaptcha.render('gcaptcha', {
-                sitekey: '6LeqxBgUAAAAAJnAV6vqxzZ5lWOS5kzs3lfxFKEQ',
+                sitekey: window.config.reCaptchaKey,
                 callback: function(response) {
                     dispatch(createAction(customerActions.SET_CAPTCHA_CODE, response));
                 },

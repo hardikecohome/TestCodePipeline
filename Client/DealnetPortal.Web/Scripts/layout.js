@@ -23,7 +23,6 @@
 
     setDeviceClasses();
 
-
     if(detectIE()){
       $('body').addClass('ie');
     }
@@ -41,7 +40,7 @@
         });
     }
 
-    function addCloseButonForInlineDatePicker(){
+    function addCloseButtonForInlineDatePicker(){
       setTimeout(function(){
           $( "<button>", {
             text: translations['Cancel'],
@@ -62,14 +61,14 @@
       $('body').is('.ios-device') ? $('<div/>', {
         class: 'div-datepicker',
       }).appendTo(this) : '';
-    })
+    });
 
 
     $('.div-datepicker-value').on('click', function(){
       $('.div-datepicker').removeClass('opened');
       $(this).siblings('.div-datepicker').toggleClass('opened');
       if(!$('.div-datepicker .ui-datepicker-close').length){
-        addCloseButonForInlineDatePicker();
+        addCloseButtonForInlineDatePicker();
       }
     });
 

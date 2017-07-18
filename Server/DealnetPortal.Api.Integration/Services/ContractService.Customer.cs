@@ -213,28 +213,24 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 return new Tuple<Contract, bool>(null, false);
             }
-
-            _unitOfWork.Save();
-
             updatedContract.IsCreatedByBroker = true;
+
+            if (!string.IsNullOrEmpty(newCustomer.CustomerComment))
+            {
+                var comment = new Comment()
+                {
+                    ContractId = contractData.Id,
+                    IsCustomerComment = true,
+                    Text = newCustomer.CustomerComment
+                };
+                _contractRepository.TryAddComment(comment, contractOwnerId);                                
+            }
             _unitOfWork.Save();
 
             if (updatedContract.PrimaryCustomer != null)
             {
                 await _aspireService.UpdateContractCustomer(updatedContract.Id, contractOwnerId);
-            }
-
-            if (updatedContract.Details != null && newCustomer.CustomerComment != null)
-            {
-                if (string.IsNullOrEmpty(updatedContract.Details.Notes))
-                {
-                    updatedContract.Details.Notes = newCustomer.CustomerComment;
-                }
-                else
-                {
-                    updatedContract.Details.Notes += newCustomer.CustomerComment;
-                }
-            }
+            }            
 
             return new Tuple<Contract, bool>(updatedContract, true);
         }

@@ -178,6 +178,15 @@ body.modal-open .ui-datepicker{
     }
   }
 }
+.panel-body{
+  .ui-datepicker {
+    &.ui-widget-content {
+      @media (max-width: 350px) {
+        margin-left: -15px;
+      }
+    }
+  }
+}
 .ui-datepicker .ui-datepicker-prev,
 .ui-datepicker .ui-datepicker-next{
   margin-left: 15px;
@@ -308,9 +317,6 @@ body.bodyHasDatepicker .navbar-fixed-side{
   margin: 5px 0;
   border: 0;
   text-align: center;
-  @media @desktop-up {
-    display: none;
-  }
   .ui-datepicker-current{
     display: none;
   }

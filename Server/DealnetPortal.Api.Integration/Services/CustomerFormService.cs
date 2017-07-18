@@ -546,9 +546,25 @@ namespace DealnetPortal.Api.Integration.Services
             }
             if (contract == null)
             {
-                contract = _contractRepository.CreateContract(contractOwnerId);
+                contract = _contractRepository.CreateContract(contractOwnerId);                
+                _unitOfWork.Save();
+                _loggingService.LogInfo($"Created new contract [{contract.Id}] by customer loan form request for {contractOwnerId} dealer");
+            }            
+
+            if (contract != null)
+            {
+                //add customer comments                
                 if (!string.IsNullOrEmpty(customerComment))
-                {
+                {                    
+                    var commentsChanged = false;
+                    //remove previously created MB comments
+                    if (contract.Comments?.Any(c => c.IsCustomerComment == true) == true)
+                    {
+                        var commentsForRemove = contract.Comments?.Where(c => c.IsCustomerComment == true).ToList();
+                        commentsForRemove.ForEach(c => _contractRepository.RemoveComment(c.Id, contractOwnerId));
+                        commentsChanged = true;
+                    }
+
                     var comment = new Comment()
                     {
                         Contract = contract,
@@ -556,13 +572,12 @@ namespace DealnetPortal.Api.Integration.Services
                         Text = customerComment
                     };
                     _contractRepository.TryAddComment(comment, contractOwnerId);
+                    if (commentsChanged)
+                    {
+                        _unitOfWork.Save();
+                    }
                 }                
-                _unitOfWork.Save();
-                _loggingService.LogInfo($"Created new contract [{contract.Id}] by customer loan form request for {contractOwnerId} dealer");
-            }
 
-            if (contract != null)
-            {
                 var contractDataDto = new ContractDataDTO()
                 {
                     PrimaryCustomer = primaryCustomer,
@@ -580,10 +595,7 @@ namespace DealnetPortal.Api.Integration.Services
                                     Description = _contractRepository.GetEquipmentTypeInfo(equipmentType)?.Description
                                 }}
                         }
-                        : null,
-                    //Details = !string.IsNullOrEmpty(customerComment)
-                    //    ? new ContractDetailsDTO() {Notes = customerComment}
-                    //    : null
+                        : null,                    
                 };
                 _contractService.UpdateContractData(contractDataDto, contractOwnerId);
             }

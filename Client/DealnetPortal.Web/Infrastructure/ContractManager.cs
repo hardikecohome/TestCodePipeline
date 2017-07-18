@@ -133,14 +133,14 @@ namespace DealnetPortal.Web.Infrastructure
 
             AddAditionalContractInfo(result.Item1, equipmentInfo);
 
-            if (result.Item1?.Comments.Any(x => x.IsCustomerComment == true) == true)
+            if (result.Item1.Comments.Any(x => x.IsCustomerComment == true))
             {
                 var comments = result.Item1.Comments
                     .Where(x => x.IsCustomerComment == true)
                     .Select(q => q.Text)
                     .ToList();
 
-                equipmentInfo.CustomerComment = string.Join(Environment.NewLine, comments);
+                equipmentInfo.CustomerComments = comments;
             }
 
             return equipmentInfo;
@@ -263,9 +263,24 @@ namespace DealnetPortal.Web.Infrastructure
                 LoanCalculatorOutput = summaryViewModel.LoanCalculatorOutput,
                 Notes = summaryViewModel.Notes
             };
-            var comments = AutoMapper.Mapper.Map<List<CommentViewModel>>(contractsResult.Item1.Comments);
-            comments?.Reverse();
-            contractEditViewModel.Comments = comments;
+
+            if (contractsResult.Item1.Comments != null)
+            {
+                var notByCustomerComments = contractsResult.Item1.Comments
+                    .Where(x => x.IsCustomerComment != true)
+                    .ToList();
+
+                var byCustomerComments = contractsResult.Item1.Comments
+                    .Where(x => x.IsCustomerComment == true)
+                    .Select(q => q.Text)
+                    .ToList();
+
+                var comments = Mapper.Map<List<CommentViewModel>>(notByCustomerComments);
+                comments?.Reverse();
+
+                contractEditViewModel.Comments = comments;
+                contractEditViewModel.CustomerComments = byCustomerComments;
+            }
 
             contractEditViewModel.UploadDocumentsInfo = new UploadDocumentsViewModel();
             contractEditViewModel.UploadDocumentsInfo.ExistingDocuments = Mapper.Map<List<ExistingDocument>>(contractsResult.Item1.Documents);            
@@ -432,10 +447,6 @@ namespace DealnetPortal.Web.Infrastructure
             var contractData = new ContractDataDTO
             {
                 Id = equipmnetInfo.ContractId ?? 0,
-                Details = new ContractDetailsDTO()
-                {
-                    Notes = equipmnetInfo.Notes 
-                },
                 Equipment = Mapper.Map<EquipmentInfoDTO>(equipmnetInfo)
             };
 
@@ -618,6 +629,7 @@ namespace DealnetPortal.Web.Infrastructure
                 summary.EquipmentInfo.Notes = contract.Details?.Notes;
             }
             summary.Notes = contract.Details?.Notes;
+            summary.AdditionalInfo = new AdditionalInfoViewModel();
 
             if (contract?.Comments.Any(x => x.IsCustomerComment == true) == true)
             {
@@ -626,7 +638,7 @@ namespace DealnetPortal.Web.Infrastructure
                     .Select(q => q.Text)
                     .ToList();
 
-                summary.CustomerComment = string.Join(Environment.NewLine, comments);
+                summary.AdditionalInfo.CustomerComments = comments;
             }
            
             summary.ContactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
@@ -637,7 +649,6 @@ namespace DealnetPortal.Web.Infrastructure
                 if (rate != null) { summary.ProvinceTaxRate = rate; }
             }
                         
-            summary.AdditionalInfo = new AdditionalInfoViewModel();
             summary.AdditionalInfo.ContractState = contract.ContractState.ConvertTo<ContractState>();
             summary.AdditionalInfo.Status = contract.Details?.Status ?? contract.ContractState.GetEnumDescription();
             summary.AdditionalInfo.LastUpdateTime = contract.LastUpdateTime;
@@ -682,6 +693,16 @@ namespace DealnetPortal.Web.Infrastructure
                     Value = d.Id.ToString(),
                     Text = d.Description
                 }).ToList();
+            }
+
+            if (contract.Comments != null && contract.Comments.Any(x => x.IsCustomerComment == true))
+            {
+                var comments = contract.Comments
+                    .Where(x => x.IsCustomerComment == true)
+                    .Select(q => q.Text)
+                    .ToList();
+
+                contractViewModel.AdditionalInfo.CustomerComments = comments;
             }
         }
 
