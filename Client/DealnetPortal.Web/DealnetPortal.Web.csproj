@@ -246,7 +246,6 @@
     <Compile Include="Infrastructure\ApplicationSettingsManager.cs" />
     <Compile Include="Infrastructure\AuthenticationHttpModule.cs" />
     <Compile Include="Infrastructure\AuthFromContextAttribute.cs" />
-    <Compile Include="Infrastructure\AuthorizedHttpClient.cs" />
     <Compile Include="Infrastructure\ClaimsAuthorizationAttribute.cs" />
     <Compile Include="Infrastructure\ClaimsProvider.cs" />
     <Compile Include="Infrastructure\ContractManager.cs" />

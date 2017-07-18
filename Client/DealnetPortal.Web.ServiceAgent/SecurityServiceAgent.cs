@@ -90,12 +90,7 @@ namespace DealnetPortal.Web.ServiceAgent
                     else
                     {
                         claims.Add(new Claim(ClaimTypes.Name, userName));
-                    }
-                    //string userId;
-                    //if (results.TryGetValue("userId", out userId))
-                    //{
-                    //    claims.Add(new Claim(ClaimTypes.NameIdentifier, userId));
-                    //}                    
+                    }                                      
 
                     if (results.ContainsKey("roles"))
                     {

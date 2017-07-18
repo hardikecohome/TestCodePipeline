@@ -20,7 +20,7 @@ namespace DealnetPortal.Web.Infrastructure
 
         private void Authenticate(Object source, EventArgs e)
         {
-            _securityManager.SetUserFromContext();
+            //_securityManager.SetUserFromContext();
         }
 
         public void Dispose() { }

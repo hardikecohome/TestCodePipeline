@@ -58,7 +58,7 @@ namespace DealnetPortal.Web.Common
         {
             get
             {
-                var culture = HttpContext.Current.Request.Cookies[CultureCookieName]?.Value ??
+                var culture = HttpContext.Current?.Request.Cookies[CultureCookieName]?.Value ??
                               (HttpContext.Current?.Request.RequestContext.RouteData.Values["culture"] as string);
                 return culture;
             }
