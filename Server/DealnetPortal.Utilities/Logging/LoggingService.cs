@@ -16,11 +16,11 @@ namespace DealnetPortal.Utilities.Logging
         private readonly log4net.ILog _logger;
         private readonly IEmailService _emailService;
 
-        public LoggingService(IEmailService emailService)
+        public LoggingService()
         {
             //_logger = log4net.LogManager.GetLogger(GetType());
             _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            _emailService = emailService;
+            _emailService = new EmailService();
         }
 
         public void LogInfo(string info)
