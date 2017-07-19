@@ -26,7 +26,7 @@
     var currentAddressPreviousRequiredFields = ['pstreet', 'pcity', 'pprovince', 'ppostalCode'];
     var contactInfoRequiredFields = ['email'];
     var homeImprovmentsRequiredFields = ['improvmentStreet', 'improvmentCity', 'improvmentProvince', 'improvmentPostalCode'];
-    var clientConsentsRequiredFields = ['creditAgreement'];
+    var clientConsentsRequiredFields = ['creditAgreement', 'contactAgreement'];
     var trimFieldsIds = ['unit_number', 'sin-number', 'dl-number', 'previous_unit_number', 'businessPhone', 'improvment_unit_number'];
 
     var getErrors = configGetErrors(basicInfoRequiredFields, currentAddressRequiredFields, currentAddressPreviousRequiredFields, contactInfoRequiredFields, homeImprovmentsRequiredFields, clientConsentsRequiredFields);
@@ -50,9 +50,10 @@
             modal.setAttribute('data-stToFill', 'street');
             modal.setAttribute('data-ctToFill', 'locality');
             modal.setAttribute('data-prToFill', "administrative_area_level_1");
-            modal.setAttribute('data-pcToFill', "postal_code");
-        }
+			modal.setAttribute('data-pcToFill', "postal_code");
 
+        }
+		ga('send', 'event', 'Scan License', 'button_click', 'From Mortgage Portal', '100');
         return true;
     });
 
@@ -65,18 +66,16 @@
             }
         });
 
-
-        // init views
-        initBasicInfo(clientStore);
-        initAddressInfo(clientStore);
-        initContactInfo(clientStore);
-        initHomeImprovment(clientStore);
-        initClientConsents(clientStore);
-
-
         $('#home-phone').rules('add', 'required');
         $('#cell-phone').rules('add', 'required');
     });
+
+    // init views
+    initBasicInfo(clientStore);
+    initAddressInfo(clientStore);
+    initContactInfo(clientStore);
+    initHomeImprovment(clientStore);
+    initClientConsents(clientStore);
 
     var form = $('#main-form');
 
@@ -206,12 +205,12 @@
             isChanged: state.isChanged
         }
     })(function (props) {
-        $('#ageErrors').empty();
+        $('#formErrors').empty();
         if (props.errors.length > 0) {
             props.errors
                 .filter(function (error) { return error.type === 'birthday' })
                 .forEach(function (error) {
-                    $('#ageErrors').append(createError(window.translations[error.messageKey]));
+                    $('#formErrors').append(createError(window.translations[error.messageKey]));
                 });
         }
 

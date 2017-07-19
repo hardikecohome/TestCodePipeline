@@ -114,22 +114,18 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<string> GetDealerCulture(string dealerName = null)
+        public async Task<string> GetDealerCulture()
         {
             try
             {
-                var url = $"{_fullUri}/GetDealerCulture";
-                if (dealerName != null)
-                {
-                    url += $"?dealer={dealerName}";
-                }
-                return await Client.GetAsync<string>(url);                
+                return await Client.GetAsync<string>(
+                            $"{_fullUri}/GetDealerCulture");
             }
             catch (Exception ex)
             {
                 _loggingService.LogError("Can't get dealers culture", ex);
                 throw;
-            }            
+            }
         }
 
         public async Task ChangeDealerCulture(string culture)

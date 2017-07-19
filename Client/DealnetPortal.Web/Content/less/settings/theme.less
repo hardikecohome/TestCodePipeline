@@ -183,27 +183,38 @@
 
 #step2 {
   display: inline-block;
-  margin-left: -27px;
+  margin-left: -30px;
 }
 
 #step3 {
   float: right;
-  margin-right: -27px;
+  margin-right: -40px;
 }
 
 #step4 {
   float: right;
+  margin-right: -30px;
 }
 
 #step5 {
   float: right;
 }
 
+@media @mobile {
+  #step2 {
+    margin-left: -20px;
+  }
+
+  #step4 {
+    margin-right: -20px;
+  }
+}
 
 #steps-line {
   height: 1px;
-  margin: 42px 0 -42px;
   background-color: #dcdcdc;
+  margin-top: 42px;
+  margin-bottom: -42px;
 }
 
 .pac-container {

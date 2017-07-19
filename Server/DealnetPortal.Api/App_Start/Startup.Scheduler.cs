@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using DealnetPortal.Api.BackgroundScheduler;
-using DealnetPortal.Api.Core.Constants;
 using Hangfire;
 using Owin;
 
@@ -22,8 +21,8 @@ namespace DealnetPortal.Api
                 GlobalConfiguration.Configuration.UseSqlServerStorage("DefaultConnection");
                 _backgroundSchedulerService = new BackgroundSchedulerService();
                 RecurringJob.AddOrUpdate(() =>
-                _backgroundSchedulerService.CheckExpiredLeads(DateTime.Now, int.Parse(ConfigurationManager.AppSettings[WebConfigKeys.LEAD_EXPIREDMINUTES_CONFIG_KEY])),
-                    Cron.MinuteInterval(int.Parse(ConfigurationManager.AppSettings[WebConfigKeys.LEAD_CHECKPERIODMINUTES_CONFIG_KEY])));
+                _backgroundSchedulerService.CheckExpiredLeads(DateTime.Now, int.Parse(ConfigurationManager.AppSettings["LeadExpiredMinutes"])),
+                    Cron.MinuteInterval(int.Parse(ConfigurationManager.AppSettings["CheckPeriodMinutes"])));
 
                 app.UseHangfireDashboard();
                 app.UseHangfireServer();

@@ -9,7 +9,6 @@ using Microsoft.Practices.ObjectBuilder2;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
-using DealnetPortal.Api.Core.Constants;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Services.Signature;
@@ -66,10 +65,10 @@ namespace DealnetPortal.Api.Integration.Services
             _unitOfWork = unitOfWork;
             _aspireStorageReader = aspireStorageReader;
 
-            _eCoreSignatureRole = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_SIGNATUREROLE_CONFIG_KEY];
-            _eCoreAgreementTemplate = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_AGREEMENTTEMPLATE_CONFIG_KEY];
+            _eCoreSignatureRole = System.Configuration.ConfigurationManager.AppSettings["eCoreSignatureRole"];
+            _eCoreAgreementTemplate = System.Configuration.ConfigurationManager.AppSettings["eCoreAgreementTemplate"];
             _eCoreCustomerSecurityCode =
-                System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_CUSTOMERSECURITYCODE_CONFIG_KEY];
+                System.Configuration.ConfigurationManager.AppSettings["eCoreCustomerSecurityCode"];
 
             _signatureRoles.Add(_eCoreSignatureRole);
             _signatureRoles.Add($"{_eCoreSignatureRole}2");
@@ -526,7 +525,8 @@ namespace DealnetPortal.Api.Integration.Services
         private List<FormField> PrepareFormFields(Contract contract, string ownerUserId)
         {
             var fields = new List<FormField>();
-
+            //Code to add Application Id
+           
             FillHomeOwnerFields(fields, contract);
             FillApplicantsFields(fields, contract);
             FillEquipmentFields(fields, contract, ownerUserId);
@@ -708,6 +708,15 @@ namespace DealnetPortal.Api.Integration.Services
 
         private void FillHomeOwnerFields(List<FormField> formFields, Contract contract)
         {
+            if (contract.Details.TransactionId != null)
+            {
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = PdfFormFields.ApplicationId,
+                    Value = contract.Details.TransactionId
+                });
+            }
             if (contract.PrimaryCustomer != null)
             {
                 formFields.Add(new FormField()
@@ -1035,7 +1044,7 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                     formFields.Add(new FormField()
                     {
-                        FieldType = FieldType.Text,
+                        FieldType = FieldType.CheckBox,
                         Name = PdfFormFields.EquipmentMonthlyRental,
                         Value = fstEq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture)
                     });

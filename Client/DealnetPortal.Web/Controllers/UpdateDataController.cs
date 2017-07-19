@@ -59,7 +59,7 @@ namespace DealnetPortal.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> UpdateEquipmentInfo(EquipmentInformationViewModel equipmentInfo)
         {
-            if (equipmentInfo.ContractId == null)
+            if (!ModelState.IsValid || equipmentInfo.ContractId == null)
             {
                 return GetErrorJson();
             }

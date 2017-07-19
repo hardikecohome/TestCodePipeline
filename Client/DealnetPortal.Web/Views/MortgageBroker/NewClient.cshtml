@@ -79,6 +79,9 @@
                   <span>@Resources.ScanLicense</span>
                   <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'first-name', 'last-name', 'birth-date', 'dl-number', 'street', 'locality', 'administrative_area_level_1', 'postal_code')"/>
               </div>
+              <a href="#" class="scanlicence-info-link">
+                  <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
+              </a>
           }
           </div>
 
@@ -114,13 +117,12 @@
             <div class="form-group">
               @Html.LabelFor(m => m.HomeOwner.DriverLicenseNumber, new {@for = "dl-number"})
               <div class="control-group control-group-pass">
-                @Html.TextBoxFor(m => m.HomeOwner.DriverLicenseNumber, new {@class = "form-control dealnet-input", id = "dl-number", autocomplete = "new-password", type = "password"})
+                @Html.TextBoxFor(m => m.HomeOwner.DriverLicenseNumber, new {@class = "form-control dealnet-input", id = "dl-number", type = "password"})
                 @Html.ValidationMessageFor(m => m.HomeOwner.DriverLicenseNumber, "", new {@class = "text-danger"})
               </div>
             </div>
           </div>
         </div>
-        <div id="ageErrors"></div>
       </div>
     </div>
   <div class="panel accordion-panel panel-collapsed" id="additional-infomration">
@@ -297,6 +299,14 @@
             </div>
           </div>
         </div>
+        @*<div class="col-md-4 col-sm-6 col-lg-3 col-clear-lg-3 col-clear-sm-6">
+          <div class="form-group">
+            @Html.LabelFor(m => m.HomeOwnerContactInfo.PreferredContactMethod, new { @for="contact-method" })
+            <div class="control-group">
+              @Html.DropDownListFor(m => m.HomeOwnerContactInfo.PreferredContactMethod, Model.ContactMethods, "Please Select", new { @class = "form-control dealnet-input", id = "contact-method"})
+            </div>
+          </div>
+        </div>*@
       </div>
     </div>
   </div>
@@ -459,16 +469,17 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="align-middle custom-checkbox">
-            @Html.CheckBoxFor(m => m.HomeOwnerContactInfo.AllowCommunicate, new { @class = "dealnet-checkbox address-checkbox", id="agreement-checkbox-data2" })
+          <label for="agreement-checkbox-data2" class="align-middle custom-checkbox">
+            <input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data2"/>
             <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-            <span>@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
+            <span class="mandatory-field">@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
           </label>
         </div>
       </div>
     </div>
   </div>
   <div class="clearfix">
+    <div id="formErrors"></div>
     <br>
     <span class="btn-proceed-inline-hold btn-form-common" data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Resources.YouShouldFillAllMandatoryFields">
       <button class="btn dealnet-success-button btn-proceed  btn-form-common" id="submit">@Resources.SubmitApplication</button>
@@ -494,16 +505,23 @@
     translations['CannotRecognizeDriverLicense'] = "@Html.Raw(Resources.CannotRecognizeDriverLicense)";
 }
 
-
 @section scripts
 {
   @Scripts.Render("~/bundles/jqueryval")
   @Scripts.Render("~/bundles/localization")
   @(!ViewBag.IsMobileRequest ? Scripts.Render("~/bundles/new-client") : Scripts.Render("~/bundles/new-client-mobile"))
 
-  <script type="text/javascript">
-      var isMobileRequest = '@ViewBag.IsMobileRequest';
-      module.require('new-client-index');
-  </script>
+    <script type="text/javascript">
+        var isMobileRequest = '@ViewBag.IsMobileRequest';
+        module.require('new-client-index');
+    </script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=initAutocomplete" async defer></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			ga('send', 'event', 'New Application Start', 'Form Submit', 'By Broker', '50');
+		});
+		$(document).submit(function () {
+			ga('send', 'event', 'Application Submitted', 'Form Submit', 'By Broker', '50');
+		});
+	</script>
 }

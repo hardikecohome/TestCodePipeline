@@ -42,12 +42,12 @@ namespace DealnetPortal.Web.Controllers
 
                 return View("CustomerCreationDecline");
             }
-
+            // code need to be change for credit review
             if (result?.Item1 == null || result.Item1.ContractState == ContractState.CreditCheckDeclined || result.Item1.OnCreditReview == true)
             {
                 return View("CustomerCreationDecline");
             }
-            
+
             ViewBag.CreditAmount = Convert.ToInt32(result?.Item1.Details.CreditAmount).ToString("N0", CultureInfo.InvariantCulture);
             ViewBag.FullName = $"{result?.Item1.PrimaryCustomer.FirstName} {result?.Item1.PrimaryCustomer.LastName}";
 

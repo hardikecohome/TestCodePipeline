@@ -378,7 +378,7 @@ namespace DealnetPortal.Web.ServiceAgent
             {
                 MediaTypeFormatter bsonFormatter = new BsonMediaTypeFormatter();
                 MediaTypeFormatter[] formatters = new MediaTypeFormatter[] { bsonFormatter, };
-
+                //document.DocumentName = document.DocumentName.Replace('-', '_');
                 var result = await Client.Client.PutAsync<ContractDocumentDTO>($"{_fullUri}/AddDocument", document, bsonFormatter);
                 return await result.Content.ReadAsAsync<Tuple<int?, IList<Alert>>>(formatters);
             }
@@ -531,19 +531,6 @@ namespace DealnetPortal.Web.ServiceAgent
             catch (Exception ex)
             {
                 _loggingService.LogError("Can't assign contract", ex);
-                throw;
-            }
-        }
-
-        public async Task<TierDTO> GetDealerTier()
-        {
-            try
-            {
-                return await Client.GetAsync<TierDTO>($"{_fullUri}/GetDealerTier");
-            }
-            catch (Exception ex)
-            {
-                _loggingService.LogError("Can't remove contract", ex);
                 throw;
             }
         }

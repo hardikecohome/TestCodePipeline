@@ -17,34 +17,24 @@
 
 <div id="steps-line"></div>
 <div class="row" id="steps">
-    <div class="col-xs-4">
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
         <a href="@Url.Action("BasicInfo")" class="step-item step-active">1</a>
     </div>
-    <div class="col-xs-4">
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
         <div id="step2" class="step-item">2</div>
 
         <div id="step3" class="step-item">3</div>
     </div>
-    <div class="col-xs-4">
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
         <div id="step4" class="step-item">4</div>
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div id="step5" class="step-item">5</div>
     </div>
 </div>
 
-@{
-    var creditCheckError = TempData["CreditCheckErrorMessage"];
-
-    if (creditCheckError != null)
-    {
-    <div class="well danger-well error-descr">
-      <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
-      @creditCheckError
-    </div>
-  }
-}
-
 @if (Model.ContractWasDeclined)
 {
-    @Html.CheckBox("home-owner-agrees", new { id = "home-owner-agrees", @checked = "checked", @class="hidden" })
     <!--Show/hide warning depend on status-deal-submitted-->
     <div class="well well-info position-well">
         <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
@@ -503,29 +493,22 @@
             </label>
         </div>
         <!--Home Owner Information-->
-
-    <!--Agreement section-->
-    <div class="consents-checkbox-hold" id="agreement-checkbox">
-      <div class="dealnet-agrees form-group">
-        <label class="align-middle custom-checkbox">
-          @Html.CheckBox("home-owner-agrees", new { id = "home-owner-agrees" })
-          <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-          <span class="mandatory-field">@Resources.AcknowledgeAndAgreementObtainCreditReport</span>
-        </label>
-        <div class="consents-links">
-          <a href="" class="dealnet-info-link j-personal-data-used-modal">@Resources.HowIsMyPersonalDataUsed</a>
-          @Html.ActionLink(@Resources.PrivacyPolicy, "PrivacyPolicy", "Info", null, new { @class="dealnet-info-link", target = "_blank" })
+        <div class="well well-info position-well collapse" id="age-warning-message">
+            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+            @Resources.AtLeastOne75OrLess
         </div>
-      </div>
-    </div>
-        @*<div id="agreement" class="form-group">
-            <label for="agreement-checkbox" class="align-middle custom-checkbox">
-                <input type="checkbox" class="dealnet-checkbox" id="agreement-checkbox"/>
-                <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                <span>Agrees to send his/her personal data to credit check</span>
-            </label>
-        </div>*@
-        <!--Agreement section-->
+
+        <div class="well danger-well over-aged-well collapse" id="age-error-message">
+            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+            @Resources.AtLeastOne75OrLess
+        </div>
+
+        <!--Warning Section if isn't chosen homeowner checkbox-->
+        <div class="well danger-well over-aged-well collapse" id="proceed-homeowner-errormessage">
+            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+            @Resources.AtLeastOneHomeOwner
+        </div>
+        <!--End Warning Section if isn't chosen homeowner checkbox-->
     </div>
 
     <!--Add Additional Applicant-->
@@ -777,51 +760,17 @@
                     <span>@Resources.AdditionalIsHomeOwner</span>
                 </label>
             </div>
-
-            <!--Agreement section-->
-        <div class="consents-checkbox-hold" id="agreement-checkbox1">
-          <div class="dealnet-agrees form-group">
-            <label class="align-middle custom-checkbox">
-              @Html.CheckBox("additional-owner-agrees", new {id = "additional-owner-agrees" })
-              <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-              <span class="mandatory-field">@Resources.AcknowledgeAndAgreementObtainCreditReport</span>
-            </label>
-            <div class="consents-links">
-              <a href="" class="dealnet-info-link j-personal-data-used-modal">@Resources.HowIsMyPersonalDataUsed</a>
-              @Html.ActionLink(@Resources.PrivacyPolicy, "PrivacyPolicy", "Info", null, new { @class="dealnet-info-link", target = "_blank" })
-            </div>
-          </div>
-        </div>
-          <!--Agreement section-->
         </div>
     }
     <!--END Add Additional Applicant-->
 
 
     <div id="add-additional-applicant">
-      <div class="align-middle">
-        <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
-        <span>@Resources.AddAdditionalApplicant</span>
-      </div>
+        <div class="align-middle">
+            <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
+                <span>@Resources.AddAdditionalApplicant</span>
+        </div>
     </div>
-    <div class="well well-info position-well collapse" id="age-warning-message">
-      <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-      @Resources.AtLeastOne75OrLess
-    </div>
-    <div class="well danger-well over-aged-well collapse" id="age-error-message">
-      <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-      @Resources.AtLeastOne75OrLess
-    </div>
-    <!--Warning Section if isn't chosen homeowner checkbox-->
-    <div class="well danger-well over-aged-well collapse" id="proceed-homeowner-errormessage">
-      <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-      @Resources.AtLeastOneHomeOwner
-    </div>
-    <div class="well danger-well over-aged-well collapse" id="proceed-error-message">
-      <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-      @Resources.AllAplicantsConsents
-    </div>
-    <!--End Warning Section if isn't chosen homeowner checkbox-->
 
     <div class="row save-proceed-btn-hold">
         <div class="col-xs-12 col-md-3 col-lg-3">
@@ -834,8 +783,6 @@
     </div>
 </div>
 
-@Html.Partial("_AgreementPersonalData")
-
 @section Translations
 {
     translations['ProcessingImage'] = "@Resources.ProcessingImage";
@@ -846,6 +793,7 @@
     translations['TheApplicantNeedsToBeOver18'] = "@Resources.TheApplicantNeedsToBeOver18";
     translations['EnterValidDate'] = "@Resources.EnterValidDate";
 }
+
 
 @section scripts
 {
@@ -859,5 +807,10 @@
             <text>$('#subdealers').val($('#subdealers > option:first').val());</text>
         }
     </script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			ga('send', 'event', 'New Application Start', 'Basic Info page Displayed', 'By Dealer', '20');
+		});
+	</script>
 }
 

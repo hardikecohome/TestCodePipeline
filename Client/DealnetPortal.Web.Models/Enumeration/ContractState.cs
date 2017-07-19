@@ -13,7 +13,7 @@ namespace DealnetPortal.Web.Models.Enumeration
         [Display(ResourceType = typeof (Resources.Resources), Name = "CreditCheckDeclined")]
         CreditCheckDeclined = 3,
         [Display(ResourceType = typeof (Resources.Resources), Name = "CreditCheckApproved")]
-        CreditConfirmed = 4,
+        CreditContirmed = 4,
         [Display(ResourceType = typeof (Resources.Resources), Name = "ApplicationSubmitted")]
         Completed = 5,
         [Display(ResourceType = typeof (Resources.Resources), Name = "SentToAudit")]

@@ -1043,73 +1043,73 @@
                 }
 				@if (contract.EquipmentInfo?.ExistingEquipment != null && contract.EquipmentInfo.ExistingEquipment.Any())
                 {
-                    <div class="row credit-check-info-hold">
-                        <div class="col-md-6 grid-column">
-                            <div class="dealnet-credit-check-section">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="summary-return-equipment">
                                 <h3 class="dealnet-section-title">@Resources.ExistingEquipmentInformation</h3>
                                 @foreach (var equipment in contract.EquipmentInfo.ExistingEquipment)
                     {
                                     <div class="summury-return-equip-item">
                                         <div class="form-group">
                                             <div class="row">
-                                                @Html.LabelFor(m => equipment.IsRental, new { @class = "dealnet-field-caption col-xs-6" })
-                                                <div class="dealnet-field-holder col-xs-6">
+                                                @Html.LabelFor(m => equipment.IsRental, new { @class = "dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2" })
+                                                <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     @(equipment.IsRental ? Resources.Yes : Resources.No)
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="row">
-                                                @Html.LabelFor(m => equipment.RentalCompany, new { @class = "dealnet-field-caption col-xs-6" })
-                                                <div class="dealnet-field-holder col-xs-6">
+                                                @Html.LabelFor(m => equipment.RentalCompany, new { @class = "dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2" })
+                                                <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     @equipment.RentalCompany
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="row">
-                                                @Html.LabelFor(m => equipment.GeneralCondition, new { @class = "dealnet-field-caption col-xs-6" })
-                                                <div class="dealnet-field-holder col-xs-6">
+                                                @Html.LabelFor(m => equipment.GeneralCondition, new { @class = "dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2" })
+                                                <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     @equipment.GeneralCondition
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="row">
-                                                @Html.LabelFor(m => equipment.EstimatedAge, new { @class = "dealnet-field-caption col-xs-6" })
-                                                <div class="dealnet-field-holder col-xs-6">
+                                                @Html.LabelFor(m => equipment.EstimatedAge, new { @class = "dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2" })
+                                                <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     @equipment.EstimatedAge
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="row">
-                                                @Html.LabelFor(m => equipment.Make, new { @class = "dealnet-field-caption col-xs-6" })
-                                                <div class="dealnet-field-holder col-xs-6">
+                                                @Html.LabelFor(m => equipment.Make, new { @class = "dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2" })
+                                                <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     @equipment.Make
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="row">
-                                                @Html.LabelFor(m => equipment.Model, new { @class = "dealnet-field-caption col-xs-6" })
-                                                <div class="dealnet-field-holder col-xs-6">
+                                                @Html.LabelFor(m => equipment.Model, new { @class = "dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2" })
+                                                <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     @equipment.Model
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="row">
-                                                @Html.LabelFor(m => equipment.SerialNumber, new { @class = "dealnet-field-caption col-xs-6" })
-                                                <div class="dealnet-field-holder col-xs-6">
+                                                @Html.LabelFor(m => equipment.SerialNumber, new { @class = "dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2" })
+                                                <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     @equipment.SerialNumber
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="row">
-                                                @Html.LabelFor(m => equipment.Notes, new { @class = "dealnet-field-caption col-xs-6" })
-                                                <div class="dealnet-field-holder col-xs-6">
+                                                @Html.LabelFor(m => equipment.Notes, new { @class = "dealnet-field-caption col-xs-4 col-sm-3 col-md-3 col-lg-2" })
+                                                <div class="dealnet-field-holder text-left col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
                                                     <span style="white-space: pre-wrap">@equipment.Notes</span>
                                                 </div>
                                             </div>

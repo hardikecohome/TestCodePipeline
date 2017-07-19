@@ -19,6 +19,7 @@ function assignAutocompletes() {
     }
 }
 function autodetectAddress() {
+	ga('send', 'event', 'Get My Location', 'button_click', 'Step1 dealer portal', '100');
     if (geocoder) {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
@@ -59,18 +60,22 @@ function autodetectAddress() {
                                     }
 
                                     document.getElementById(addressType).value = val;
-                                    $('#'+addressType).removeClass('placeholder').removeClass('pac-placeholder');
+									$('#' + addressType).removeClass('placeholder').removeClass('pac-placeholder');
+									
                                 }
                             }
                             if (street) {
                                 $('#street').removeClass('placeholder').removeClass('pac-placeholder');
-                                document.getElementById('street').value = street;
+								document.getElementById('street').value = street;
+								ga('send', 'event', 'Get My Location', 'button_click', 'AutoFill pass', '100');
                             }
                         } else {
-                            console.log('No results by Location service');
+							console.log('No results by Location service');
+							ga('send', 'event', 'Get My Location', 'button_click', 'AutoFill Fail', '100');
                         }
                     } else {
-                        console.log('Geocoder failed due to: ' + status);
+						console.log('Geocoder failed due to: ' + status);
+						ga('send', 'event', 'Get My Location', 'button_click', 'AutoFill Fail', '100');
                     }
                 });
             });

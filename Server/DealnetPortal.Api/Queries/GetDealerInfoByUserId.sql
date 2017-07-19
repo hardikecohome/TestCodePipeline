@@ -9,4 +9,4 @@ LEFT JOIN Phone (nolock) as main
     on (e.oid = main.entt_oid and main.phone_type ='M')
 LEFT JOIN Phone (nolock) as fax
     on (e.oid = fax.entt_oid and fax.phone_type ='F')
-where sc.user_id  = '{0}';
+where sc.user_id  LIKE '{0}%';

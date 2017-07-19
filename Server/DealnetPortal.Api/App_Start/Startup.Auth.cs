@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Core.Constants;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
@@ -30,7 +29,7 @@ namespace DealnetPortal.Api
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             AuthType authType;
-            Enum.TryParse(ConfigurationManager.AppSettings.Get(WebConfigKeys.AUTHPROVIDER_CONFIG_KEY), out authType);
+            Enum.TryParse(ConfigurationManager.AppSettings.Get("AuthProvider"), out authType);
 
             // Configure the application for OAuth based flow
             PublicClientId = "self";

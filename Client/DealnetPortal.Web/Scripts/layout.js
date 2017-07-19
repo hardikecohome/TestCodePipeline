@@ -23,6 +23,7 @@
 
     setDeviceClasses();
 
+
     if(detectIE()){
       $('body').addClass('ie');
     }
@@ -39,60 +40,6 @@
             }
         });
     }
-
-    function addCloseButtonForInlineDatePicker(){
-      setTimeout(function(){
-          $( "<button>", {
-            text: translations['Cancel'],
-            class: "ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all",
-            click: function() {
-              $(".div-datepicker").removeClass('opened');
-            }
-          }).appendTo($('.div-datepicker'));
-      }, 100);
-    }
-
-   // if(!$('.date-group').children('.dealnet-disabled-input'))
-    $('.date-group').each(function(){
-      $('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length === 0 ? $('<div/>', {
-        class: 'div-datepicker-value',
-        text: $(this).find('.form-control').val()
-      }).appendTo(this) : '';
-      $('body').is('.ios-device') ? $('<div/>', {
-        class: 'div-datepicker',
-      }).appendTo(this) : '';
-    });
-
-
-    $('.div-datepicker-value').on('click', function(){
-      $('.div-datepicker').removeClass('opened');
-      $(this).siblings('.div-datepicker').toggleClass('opened');
-      if(!$('.div-datepicker .ui-datepicker-close').length){
-        addCloseButtonForInlineDatePicker();
-      }
-    });
-
-    $.datepicker.setDefaults({
-      dateFormat: 'mm/dd/yy',
-      changeYear: true,
-      changeMonth: (viewport().width < 768) ? true : false,
-      showButtonPanel: true,
-      closeText: translations['Cancel'],
-      onSelect: function(value){
-        //$(this).siblings('.div-datepicker-value').text(value);
-        $(this).siblings('input.form-control').val(value).blur();
-        $(".div-datepicker").removeClass('opened');
-
-      },
-      onChangeMonthYear: function () {
-        $('.div-datepicker select').each(function(){
-          $(this).blur();
-        });
-      },
-      onClose: function () {
-        onDateSelect($(this));
-      }
-    });
 
     if (customerDealsCountUrl) {
         $.ajax({
@@ -120,6 +67,17 @@
       }
     });
 
+    $('body.ios-device').on('touchend', function (event) {
+      if ($('#ui-datepicker-div').is(":visible") && $(event.target).parents('.ui-datepicker, .ui-datepicker-header').length == 0) {
+        if ($(event.target).children('input.acrive-datePicker-input').length === 0) {
+          $('#ui-datepicker-div').hide();
+          $('.acrive-datePicker-input').blur();
+          $('.acrive-datePicker-input').removeAttr('readonly');
+          $('.acrive-datePicker-input').removeClass('acrive-datePicker-input');
+        }
+      }
+    });
+
     //Apply function placeholder for ie browsers
     $("input, textarea").placeholder();
 
@@ -127,11 +85,6 @@
       .parents('.dealnet-sidebar-item')
       .addClass('dealnet-sidebar-item-selected');
 
-      // NewApplication has multiple steps with different window.location.pathname,
-      // but New Application navigation should be active on each step.
-    if (window.location.pathname.indexOf('NewApplication') !== -1) {
-        $('#sidebar-item-newrental').addClass('dealnet-sidebar-item-selected');
-    }
 
     $(document).on('show.bs.modal', function () {
       saveScrollPosition();
@@ -378,7 +331,6 @@
     });
 
 });
-
 function panelCollapsed(elem){
   var $this = elem.closest('.panel');
   $this.find('.panel-body').slideToggle('fast', function(){
@@ -540,13 +492,23 @@ input.on('focus', function(){
     if(!navigator.userAgent.match(/(iPod|iPhone|iPad)/)){
       $(this).blur()
         .addClass('focus');
+    } else {
+        if (!$(this).hasClass('acrive-datePicker-input')) {
+            $(this).addClass('acrive-datePicker-input');
+            $(this).attr('readonly', 'readonly');
+            if (!$('#ui-datepicker-div').is(':visible')) {
+                $('#ui-datepicker-div').show();
+            }
+        }
     }
   });
 }
 
 function onDateSelect(input){
   input
-    .removeClass('focus');
+    .removeClass('focus')
+    .removeClass('acrive-datePicker-input')
+    .removeAttr('readonly', 'readonly');
   $('body').removeClass('bodyHasDatepicker');
 }
 
@@ -874,8 +836,8 @@ function viewport() {
   return { width : e[ a+'Width' ] , height : e[ a+'Height' ] };
 }
 
-function customDPSelect(elem){
-  var inp = elem || $(this);
+function customDPSelect(){
+  var inp = $(this);
   var selectClasses = "custom-select datepicker-select";
   if($('select.ui-datepicker-month').length && !$('.ui-datepicker-month').parents('.custom-select').length){
     $('.ui-datepicker-month')

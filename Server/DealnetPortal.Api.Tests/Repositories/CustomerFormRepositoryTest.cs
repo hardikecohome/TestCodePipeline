@@ -50,12 +50,14 @@ namespace DealnetPortal.Api.Tests.Repositories
             //enable en
             var enabledLangs = new List<DealerLanguage> {new DealerLanguage() {LanguageId = (int) LanguageCode.English}};
             var updatedLink = _customerFormRepository.UpdateCustomerLinkLanguages(enabledLangs, null, _user.Id);
+            updatedLink.HashLink = _user.Id;
             _unitOfWork.Save();
             Assert.IsNotNull(updatedLink);
             Assert.AreEqual(updatedLink.EnabledLanguages.Count, 1);
             //disable all lang
             enabledLangs = new List<DealerLanguage>();
             updatedLink = _customerFormRepository.UpdateCustomerLinkLanguages(enabledLangs, null, _user.Id);
+            updatedLink.HashLink = _user.Id;
             _unitOfWork.Save();
             Assert.IsNotNull(updatedLink);
             Assert.AreEqual(updatedLink.EnabledLanguages.Count, 0);
@@ -72,6 +74,7 @@ namespace DealnetPortal.Api.Tests.Repositories
                 new DealerService() {LanguageId = (int)LanguageCode.French, Service = "ServiceFr2"},
             };
             var updatedLink = _customerFormRepository.UpdateCustomerLinkServices(newServices, null, _user.Id);
+            updatedLink.HashLink = _user.Id;
             _unitOfWork.Save();
             Assert.IsNotNull(updatedLink);
             Assert.AreEqual(updatedLink.Services.Count, 4);
@@ -82,12 +85,14 @@ namespace DealnetPortal.Api.Tests.Repositories
                 new DealerService() {LanguageId = (int)LanguageCode.French, Service = "ServiceFr1"},
             };
             updatedLink = _customerFormRepository.UpdateCustomerLinkServices(newServices, null, _user.Id);
+            updatedLink.HashLink = _user.Id;
             _unitOfWork.Save();
             Assert.IsNotNull(updatedLink);
             Assert.AreEqual(updatedLink.Services.Count, 2);
             //clean all services
             newServices = new List<DealerService>();            
             updatedLink = _customerFormRepository.UpdateCustomerLinkServices(newServices, null, _user.Id);
+            updatedLink.HashLink = _user.Id;
             _unitOfWork.Save();
             Assert.IsNotNull(updatedLink);
             Assert.AreEqual(updatedLink.Services.Count, 0);

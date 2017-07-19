@@ -474,8 +474,6 @@
                 yearRange: '1900:' + (new Date().getFullYear() - 18),
                 minDate: Date.parse("1900-01-01"),
                 maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
-                showButtonPanel: true,
-                closeText: translations['Cancel'],
                 onSelect: function (day) {
                     dispatch(createAction(SET_BIRTH, day));
                 }

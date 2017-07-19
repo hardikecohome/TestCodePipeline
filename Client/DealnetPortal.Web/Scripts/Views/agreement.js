@@ -18,7 +18,7 @@
 
         var initialStateMap = {
             creditAgreement: creditAgreement,
-            contactAgreement: contactAgreement
+            contactAgreement: contactAgreement,
         };
 
         dispatch(createAction(customerActions.SET_INITIAL_STATE, readInitialStateFromFields(initialStateMap)));

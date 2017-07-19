@@ -11,7 +11,6 @@ using System.Web.Http;
 using System.Web.UI;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Core.Constants;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -64,7 +63,7 @@ namespace DealnetPortal.Api.Controllers
 
         private void InitController()
         {
-            if (!Enum.TryParse(ConfigurationManager.AppSettings.Get(WebConfigKeys.AUTHPROVIDER_CONFIG_KEY), out _authType))
+            if (!Enum.TryParse(ConfigurationManager.AppSettings.Get("AuthProvider"), out _authType))
             {
                 _authType = AuthType.AuthProvider;
             }

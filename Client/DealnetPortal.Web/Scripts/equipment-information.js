@@ -15,7 +15,8 @@
                             event.preventDefault();
                             $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
                         }
-                    }
+					}
+					ga('send', 'event', 'Equipment Information', 'button_click', 'Step 3 from Dealer Portal', '100');
                 });
 
                 $('#existing-notes-default').text("").attr("id", "ExistingEquipment_0__Notes");
@@ -60,7 +61,8 @@
                     recalculateTotalCashPrice();
                 } else {
                     recalculateTotalMonthlyPaymentHst();
-                }
+				}
+
             });
 
 function manageAgreementElements(agreementType) {
@@ -283,10 +285,16 @@ function resetFormValidator(formId) {
 }
 
 function assignDatepicker() {
-    var input = $('body').is('.ios-device') ? $(this).siblings('.div-datepicker') : $(this);
+    var input = $(this);
     inputDateFocus(input);
     input.datepicker({
+        dateFormat: 'mm/dd/yy',
+        changeYear: true,
+        changeMonth: (viewport().width < 768) ? true : false,
         yearRange: '1900:2200',
-        minDate: new Date()
+        minDate: new Date(),
+        onClose: function(){
+            onDateSelect($(this));
+        }
     });
 }

@@ -28,23 +28,6 @@ textarea, textarea.form-control{
   &.textarea-input-height{
     min-height: 40px;
     height: 40px;
-    line-height: 26px !important;
-    &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-      line-height: 26px!important;
-    }
-    &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-      line-height: 26px!important;
-    }
-    &::-moz-placeholder { /* Mozilla Firefox 19+ */
-      line-height: 26px!important;
-    }
-    &:-ms-input-placeholder { /* Internet Explorer 10-11 */
-      line-height: 26px!important;
-    }
-    &.placeholder,
-    &.pac-placeholder{ /* Internet Explorer 9 */
-      line-height: 26px!important;
-    }
   }
 }
 
@@ -105,22 +88,15 @@ input[type="password"]::-webkit-search-results-decoration { display: none; }
 }*/
 .custom-select{
   position: relative;
-  .form-control{
-    padding-right: 25px;
-  }
   .caret{
     position: absolute;
-    right: 11px;
+    right: 6px;
     top: 50%;
     margin-top: -3px;
     pointer-events: none;
   }
   select optgroup:empty{
     font-size: 1px;
-  }
-  select option.disabled-opt{
-    font-size: inherit;
-    color: #dcdcdc;
   }
 }
 .custom-select-disabled{
@@ -215,16 +191,9 @@ html.ie9{
      margin: 0 auto;
    }
   }
-  .well-info{
-    @media @desktop-up {
-      margin: 0 !important;
-    }
-  }
 }
 
-.checkbox-hold{
-  margin-top: 15px;
-}
+
 .custom-checkbox,
 .custom-radio{
   position: relative;
@@ -882,21 +851,4 @@ fieldset[disabled] .form-control{
 .remove-postal-code{
   margin-top: 9px;
   display: inline-block;
-}
-
-.monthly-payment-row{
-  position: relative;
-  font-size: 16px;
-  margin-bottom: 25px;
-  &:before{
-    margin: -9px 8px;
-    content: '';
-    position: absolute;
-    display: block;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: #eee;
-  }
 }

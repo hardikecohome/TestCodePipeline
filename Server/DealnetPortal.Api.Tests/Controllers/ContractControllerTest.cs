@@ -27,7 +27,6 @@ namespace DealnetPortal.Api.Tests.Controllers
         private ContractController _contractController;
         private Mock<IContractService> _contractServiceMock;
         private Mock<ICustomerFormService> _customerFormServiceMock;
-        private Mock<IRateCardsService> _rateCardsServiceMock;
         private Mock<ILoggingService> _loggingServiceMock;
 
         [TestInitialize]
@@ -36,10 +35,9 @@ namespace DealnetPortal.Api.Tests.Controllers
             DealnetPortal.Api.App_Start.AutoMapperConfig.Configure();
             _contractServiceMock = new Mock<IContractService>();
             _customerFormServiceMock = new Mock<ICustomerFormService>();
-            _rateCardsServiceMock = new Mock<IRateCardsService>();
             _loggingServiceMock = new Mock<ILoggingService>();
 
-            _contractController = new ContractController(_loggingServiceMock.Object, _contractServiceMock.Object, _customerFormServiceMock.Object, _rateCardsServiceMock.Object);
+            _contractController = new ContractController(_loggingServiceMock.Object, _contractServiceMock.Object, _customerFormServiceMock.Object);
             _contractController.Request = new HttpRequestMessage();
             _contractController.Request.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
         }
@@ -48,7 +46,9 @@ namespace DealnetPortal.Api.Tests.Controllers
         public void TestCreateContract()
         {            
             // test succeeded result
-            _contractServiceMock.Setup(s => s.CreateContract(It.IsAny<string>())).Returns(new ContractDTO());
+            _contractServiceMock.Setup(s => s.CreateContract(It.IsAny<string>())).Returns(
+                new ContractDTO()
+                {});
 
             var responseRes = _contractController.CreateContract();
             Assert.IsNotNull(responseRes);

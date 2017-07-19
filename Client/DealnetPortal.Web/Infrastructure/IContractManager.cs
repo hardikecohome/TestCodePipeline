@@ -13,11 +13,7 @@ namespace DealnetPortal.Web.Infrastructure
 {
     public interface IContractManager
     {
-        //New Version 
-        Task<EquipmentInformationViewModelNew> GetEquipmentInfoAsyncNew(int contractId);
-        Task<IList<Alert>> UpdateContractAsyncNew(EquipmentInformationViewModelNew equipmnetInfo);
-
-        Task<ContactAndPaymentInfoViewModelNew> GetAdditionalContactInfoAsyncNew(int contractId);
+        Task<DealItemOverviewViewModel> GetWorkItemsAsync();
 
         Task<BasicInfoViewModel> GetBasicInfoAsync(int contractId);
 

@@ -73,7 +73,6 @@ namespace DealnetPortal.Web.Controllers
             var customerContactInfo = Mapper.Map<CustomerDataDTO>(customerForm.HomeOwnerContactInfo);
             customerFormDto.PrimaryCustomer.Emails = customerContactInfo.Emails;
             customerFormDto.PrimaryCustomer.Phones = customerContactInfo.Phones;
-            customerFormDto.PrimaryCustomer.AllowCommunicate = customerContactInfo.CustomerInfo.AllowCommunicate;
             customerFormDto.CustomerComment = customerForm.Comment;
             customerFormDto.SelectedService = customerForm.Service;
             customerFormDto.DealerName = customerForm.DealerName;
