@@ -9,7 +9,8 @@
 
     if (recalculateTotalCash) {
         recalculateTotalCashPrice();
-    }
+	}
+	ga('send', 'event', 'Summary And Confirmation', 'button_click', 'Step 5 from Dealer Portal', '100');
 });
 function managePaymentFormElements(paymentType) {
     switch (paymentType) {
