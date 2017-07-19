@@ -525,7 +525,8 @@ namespace DealnetPortal.Api.Integration.Services
         private List<FormField> PrepareFormFields(Contract contract, string ownerUserId)
         {
             var fields = new List<FormField>();
-
+            //Code to add Application Id
+           
             FillHomeOwnerFields(fields, contract);
             FillApplicantsFields(fields, contract);
             FillEquipmentFields(fields, contract, ownerUserId);
@@ -707,6 +708,15 @@ namespace DealnetPortal.Api.Integration.Services
 
         private void FillHomeOwnerFields(List<FormField> formFields, Contract contract)
         {
+            if (contract.Details.TransactionId != null)
+            {
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = PdfFormFields.ApplicationId,
+                    Value = contract.Details.TransactionId
+                });
+            }
             if (contract.PrimaryCustomer != null)
             {
                 formFields.Add(new FormField()

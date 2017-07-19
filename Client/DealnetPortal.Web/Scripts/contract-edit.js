@@ -69,7 +69,8 @@
 			//prevDocumentName = prevDocumentName.replace("-", "_");
             var wasCancelled;
             var afterError = function(message) {
-                form.find('.error-message').text(message || translations['ErrorWhileUploadingFile']);
+                //form.find('.error-message').text(message || translations['ErrorWhileUploadingFile']);
+				form.find('.error-message').text(translations['ErrorWhileUploadingFile']);
                 errorDesc.show();
                 documentNaming.text(prevDocumentName);
                 if (!prevDocumentName) {
