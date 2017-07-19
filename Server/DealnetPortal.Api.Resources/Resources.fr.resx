@@ -417,4 +417,10 @@
   <data name="Dealer" xml:space="preserve">
     <value>Courtier</value>
   </data>
+  <data name="Spa" xml:space="preserve">
+    <value>Spa</value>
+  </data>
+  <data name="WellPump" xml:space="preserve">
+    <value>Well Pump</value>
+  </data>
 </root>
