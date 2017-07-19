@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Core.Constants;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;

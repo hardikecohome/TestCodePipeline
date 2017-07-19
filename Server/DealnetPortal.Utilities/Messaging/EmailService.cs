@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using DealnetPortal.Api.Core.Constants;
+using DealnetPortal.Api.Common.Constants;
 using Microsoft.AspNet.Identity;
 
 namespace DealnetPortal.Utilities.Messaging

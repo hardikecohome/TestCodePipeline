@@ -2,7 +2,8 @@
 using System.Configuration;
 using System.Net.Http.Formatting;
 using System.Web.Http;
-using DealnetPortal.Api.Core.Constants;
+using DealnetPortal.Api.Common.Constants;
+using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
 using Microsoft.Owin.Security.OAuth;
 
@@ -34,11 +35,12 @@ namespace DealnetPortal.Api
 
         public static void CheckConfigKeys()
         {
+            var configReader = new ConfigurationReader(WebConfigSections.AdditionalSections);            
             Type type = typeof(WebConfigKeys);
             foreach (var key in type.GetFields(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public))
             {
                 var keyName = key.GetValue(null).ToString();
-                if (ConfigurationManager.AppSettings[keyName] == null)
+                if (configReader.GetSetting(keyName) == null)
                 {
                     _loggingService?.LogError($"{keyName} KEY DON'T EXIST IN WEB CONFIG.");
                 }

@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
-using DealnetPortal.Api.Core.Constants;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Domain;
 using Microsoft.Practices.ObjectBuilder2;

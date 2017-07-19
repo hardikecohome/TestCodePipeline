@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using DealnetPortal.Api.Core.Constants;
+using DealnetPortal.Api.Common.Constants;
 
 namespace DealnetPortal.Api.Helpers
 {

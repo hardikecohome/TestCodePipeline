@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Web.Configuration;
 using System.Web.Hosting;
+using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Domain;
@@ -16,7 +17,6 @@ using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.DataAccess.Migrations
 {
-    using Api.Core.Constants;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;

@@ -9,7 +9,6 @@ using Microsoft.Practices.ObjectBuilder2;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
-using DealnetPortal.Api.Core.Constants;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Services.Signature;

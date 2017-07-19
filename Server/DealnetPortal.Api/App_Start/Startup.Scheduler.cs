@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using DealnetPortal.Api.BackgroundScheduler;
-using DealnetPortal.Api.Core.Constants;
+using DealnetPortal.Api.Common.Constants;
 using Hangfire;
 using Owin;
 
