@@ -48,8 +48,7 @@
         }
 
         options.forEach(function (option) {
-            //var eSum = equipmentSum(state[option].equipments);
-            var eSum = 12;
+            var eSum = equipmentSum(state[option].equipments);
 
             var data = $.extend({}, idToValue(state)(option),
                 {
@@ -82,7 +81,16 @@
         });
     }
 
-    setup('option1', calculate);
+    var initialSetup = function () {
+        var name = 'option1';
+
+        selectRateCard(name);
+        setup(name, calculate);
+    }
+
+    $(function() {
+        initialSetup();
+    });
 
     /**
      * Update current card for each of rate card options
@@ -122,11 +130,16 @@
         if (!items)
             return null;
 
+        var selectedValues = $('#' + option + '-amortDropdown option:selected').text().split('/');
+
+        var loanTerm = +(selectedValues[0]);
+        var amortTerm = +(selectedValues[1]);
+
         return $.grep(items, function (i) {
             if (totalCash >= 50000) {
-                return i.CardType === state[option].plan && i.AmortizationTerm === 36 && i.LoanTerm === 36 && i.LoanValueFrom <= totalCash && i.LoanValueTo >= 50000;
+                return i.CardType === state[option].plan && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= 50000;
             } else {
-                return i.CardType === state[option].plan && i.AmortizationTerm === 36 && i.LoanTerm === 36 && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
+                return i.CardType === state[option].plan && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
             }
         })[0];
     }

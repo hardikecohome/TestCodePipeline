@@ -75,10 +75,12 @@
   @Scripts.Render("~/bundles/standalone-calculator");
   
   <script type="text/javascript">
+  configInitialized.then(function() {
     module.require('calculator-init').init(
       @Html.Raw(Json.Encode(Model.Plans)),
       @Html.Raw(Json.Encode(Model.DealerTier.RateCards)));
     module.require('calculator-index');
+  });
   </script>
 }
 

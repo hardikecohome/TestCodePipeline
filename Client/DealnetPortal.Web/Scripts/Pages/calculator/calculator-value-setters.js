@@ -19,10 +19,8 @@
     };
 
     var setLoanAmortTerm = function (optionKey, callback) {
-        return function (loanTerm, amortTerm) {
-            state[optionKey].LoanTerm = parseFloat(loanTerm);
-            state[optionKey].AmortizationTerm = parseFloat(amortTerm);
-            callback([{ name: optionKey }]);
+        return function (e) {
+            callback([ optionKey ]);
         };
     };
 
@@ -47,13 +45,13 @@
         };
     };
 
-    var setAdminFee = function (optionKey, callback) {
+    var setAdminFee = function(optionKey, callback) {
         return function (e) {
             state[optionKey].AdminFee = Number(e.target.value);
             callback([{ name: optionKey }]);
         };
     };
-    var setDownPayment = function (optionKey, callback) {
+    var setDownPayment = function(optionKey, callback) {
         return function(e) {
             state[optionKey].downPayment = parseFloat(e.target.value);
             callback([optionKey]);
@@ -61,16 +59,41 @@
     };
 
     var setRateCardPlan = function(optionKey, callback) {
-        return function(e) {
-            state[optionKey].plan = $.grep(constants.rateCards, function (c) { return c.name === e.target.value; })[0].id;
+        return function (e) {
+            var planType = $.grep(constants.rateCards, function (c) { return c.name === e.target.value; })[0].id;
+            state[optionKey].plan = planType;
+
+            setDropdownValues(optionKey, planType);
+
             callback([optionKey]);
         }
     }
 
+    var setEquipmentCost = function(optionKey, callback) {
+        return function (e) {
+            var mvcId = e.target.id;
+            var id = mvcId.split('__Cost')[0].substr(mvcId.split('__Cost')[0].lastIndexOf('_') + 1);
+
+            state[optionKey].equipments[id].cost = +e.target.value;
+            callback([optionKey]);
+        }
+    }
     var setRentalMPayment = function (e) {
         state.rentalMPayment = parseFloat(e.target.value);
         recalculateRentalTaxAndPrice();
     };
+
+    function setDropdownValues(optionKey, planType) {
+        var options = $('#' + optionKey + '-amortDropdown');
+        options.empty();
+        var dropdownValues = state.amortLoanPeriods[planType];
+        
+        dropdownValues.forEach(function (item) {
+            var optionTemplate = $("<option />").val(item).text(item);
+
+            options.append(optionTemplate);
+        });
+    }
 
     return {
         notNaN: notNaN,
@@ -81,6 +104,7 @@
         setYourCost: setYourCost,
         setAdminFee: setAdminFee,
         setDownPayment: setDownPayment,
-        setRateCardPlan: setRateCardPlan
+        setRateCardPlan: setRateCardPlan,
+        setEquipmentCost: setEquipmentCost
     }
 });
