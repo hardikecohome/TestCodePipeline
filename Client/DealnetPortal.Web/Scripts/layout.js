@@ -44,6 +44,7 @@
       setTimeout(function(){
           $( "<button>", {
             text: translations['Cancel'],
+            type: 'button',
             class: "ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all",
             click: function() {
               $(".div-datepicker").removeClass('opened');
