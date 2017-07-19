@@ -40,7 +40,7 @@ namespace DealnetPortal.Api
                 var keyName = key.GetValue(null).ToString();
                 if (ConfigurationManager.AppSettings[keyName] == null)
                 {
-                    _loggingService.LogError($"{keyName} KEY DON'T EXIST IN WEB CONFIG.");
+                    _loggingService?.LogError($"{keyName} KEY DON'T EXIST IN WEB CONFIG.");
                 }
             }
         }

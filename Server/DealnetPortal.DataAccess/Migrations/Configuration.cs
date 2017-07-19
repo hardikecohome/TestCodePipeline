@@ -39,8 +39,11 @@ namespace DealnetPortal.DataAccess.Migrations
             //  This method will be called after migrating to the latest version.
 
             bool dataSeedEnabled = true;
-            bool.TryParse(ConfigurationManager.AppSettings[WebConfigKeys.INITIAL_DATA_SEED_ENABLED_CONFIG_KEY],
-                out dataSeedEnabled);
+            if (ConfigurationManager.AppSettings[WebConfigKeys.INITIAL_DATA_SEED_ENABLED_CONFIG_KEY] != null)
+            {
+                bool.TryParse(ConfigurationManager.AppSettings[WebConfigKeys.INITIAL_DATA_SEED_ENABLED_CONFIG_KEY],
+                    out dataSeedEnabled);                
+            }
 
             if (dataSeedEnabled)
             {
@@ -58,12 +61,13 @@ namespace DealnetPortal.DataAccess.Migrations
                 SetInstallationCertificateTemplates(context, context.Applications.Local.ToArray());
                 SetPdfTemplates(context, templates);                                
                 SetSettingItems(context);
-                SetUserSettings(context);
-                SetUserLogos(context);
+                SetUserSettings(context);                
                 SetRateCards(context);
             }
             //read updated pdt templates anyway
             SetExistingPdfTemplates(context);
+            //read daelers logos anyway
+            SetUserLogos(context);
         }
 
         public void SetTiers(ApplicationDbContext context)
