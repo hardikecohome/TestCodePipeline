@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.DataAccess;
 using Microsoft.AspNet.Identity;
@@ -7,6 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Messaging;
 
 namespace DealnetPortal.Api
@@ -52,7 +54,7 @@ namespace DealnetPortal.Api
             {
                 manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
-            manager.EmailService = new EmailService();
+            manager.EmailService = new EmailService(new ConfigurationReader(WebConfigSections.AdditionalSections));
             return manager;
         }
     }

@@ -30,7 +30,12 @@ namespace DealnetPortal.Api
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             AuthType authType;
-            Enum.TryParse(ConfigurationManager.AppSettings.Get(WebConfigKeys.AUTHPROVIDER_CONFIG_KEY), out authType);
+            if (
+                Enum.TryParse(ConfigurationManager.AppSettings.Get(WebConfigKeys.AUTHPROVIDER_CONFIG_KEY), out authType) ==
+                false)
+            {
+                authType = AuthType.AuthProvider;                
+            }
 
             // Configure the application for OAuth based flow
             PublicClientId = "self";
