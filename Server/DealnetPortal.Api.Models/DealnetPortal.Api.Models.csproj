@@ -30,9 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=6.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.6.1.0\lib\net45\AutoMapper.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -77,6 +74,7 @@
     <Compile Include="Contract\ProvinceTaxRateDTO.cs" />
     <Compile Include="Contract\CustomerDataDTO.cs" />
     <Compile Include="Contract\ServiceRequestDTO.cs" />
+    <Compile Include="Contract\RateCardDTO.cs" />
     <Compile Include="Contract\SubDealerDTO.cs" />
     <Compile Include="CustomerWallet\TransactionInfoDTO.cs" />
     <Compile Include="CustomerWallet\CustomerProfile.cs" />
@@ -85,9 +83,7 @@
     <Compile Include="DealerProfile\DealerAreaDTO.cs" />
     <Compile Include="DealerProfile\DealerEquipmentDTO.cs" />
     <Compile Include="DealerProfile\DealerProfileDTO.cs" />
-    <Compile Include="Notification\MailChimpMember.cs" />
-    <Compile Include="Notification\MandrillRequest.cs" />
-    <Compile Include="Notification\Message.cs" />
+    <Compile Include="Contract\TierDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scanning\DriverLicenseData.cs" />
     <Compile Include="Scanning\ScanningRequest.cs" />
@@ -114,9 +110,7 @@
       <Name>DealnetPortal.Domain</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy $(TargetPath)  ..\..\..\..\lib\  /y/q/r/c</PostBuildEvent>

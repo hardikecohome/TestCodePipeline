@@ -91,7 +91,6 @@ namespace DealnetPortal.Web.Controllers
                             : Path.GetFileName(documentForUpload.File.FileName),
                     ContractId = documentForUpload.ContractId
                 };
-                //document.DocumentName = document.DocumentName.Replace('-', '_');
                 if (Session["CancelledUploadOperations"] != null &&
                     ((HashSet<string>) Session["CancelledUploadOperations"]).Contains(documentForUpload.OperationGuid))
                 {

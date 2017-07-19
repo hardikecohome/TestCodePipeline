@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Core.Constants;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
@@ -57,12 +58,12 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         {
             _loggingService = loggingService;
 
-            _baseUrl = System.Configuration.ConfigurationManager.AppSettings["DocuSignApiUrl"];
-            _dsUser = System.Configuration.ConfigurationManager.AppSettings["DocuSignUser"];
-            _dsPassword = System.Configuration.ConfigurationManager.AppSettings["DocuSignPassword"];
-            _dsIntegratorKey = System.Configuration.ConfigurationManager.AppSettings["DocuSignIntegratorKey"];
+            _baseUrl = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.DOCUSIGN_APIURL_CONFIG_KEY];
+            _dsUser = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.DOCUSIGN_USER_CONFIG_KEY];
+            _dsPassword = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.DOCUSIGN_PASSWORD_CONFIG_KEY];
+            _dsIntegratorKey = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.DOCUSIGN_INTEGRATORKEY_CONFIG_KEY];
 
-            _baseServerAddress = System.Configuration.ConfigurationManager.AppSettings["ServerBaseAddress"];
+            _baseServerAddress = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.SERVER_BASE_ADDRESS_CONFIG_KEY];
         }
 
         public async Task<IList<Alert>> ServiceLogin()

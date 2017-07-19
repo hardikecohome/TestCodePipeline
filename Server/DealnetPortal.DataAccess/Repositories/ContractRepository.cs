@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
+using DealnetPortal.Api.Core.Constants;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Domain;
 using Microsoft.Practices.ObjectBuilder2;
@@ -59,9 +60,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public IList<Contract> GetDealerLeads(string userId)
         {
-            var creditReviewStates = ConfigurationManager.AppSettings["CreditReviewStatus"] != null
-                ? ConfigurationManager.AppSettings["CreditReviewStatus"].Split(',').Select(s => s.Trim()).ToArray()
-                : new string[] {"20-Credit Review"};
+            var creditReviewStates = ConfigurationManager.AppSettings[WebConfigKeys.CREDIT_REVIEW_STATUS_CONFIG_KEY].Split(',').Select(s => s.Trim()).ToArray();
             
             var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
             var dealerProfile = _dbContext.DealerProfiles.FirstOrDefault(p => p.DealerId == userId);
@@ -85,7 +84,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 || (contractCreatorRoleId == null || c.Dealer.Roles.Select(r => r.RoleId).Contains(contractCreatorRoleId))) &&
                 c.Equipment.NewEquipment.Any() &&
                 c.PrimaryCustomer.Locations.Any(l => l.AddressType == AddressType.InstallationAddress) &&
-                (c.ContractState >= ContractState.CreditContirmed && !creditReviewStates.Contains(c.Details.Status))).ToList();
+                (c.ContractState >= ContractState.CreditConfirmed && !creditReviewStates.Contains(c.Details.Status))).ToList();
             if (eqList!=null && eqList.Any())
             {
                 contracts = contracts.Where(c => eqList.Any(eq => eq == c.Equipment?.NewEquipment?.FirstOrDefault()?.Type)).ToList();
@@ -231,6 +230,7 @@ namespace DealnetPortal.DataAccess.Repositories
                .Include(c => c.PrimaryCustomer.Locations)
                .FirstOrDefault(x => x.Id == contractId);            
 
+            //Change installation address to main address, and main to previous
             if (contract != null)
             {
                 if (contract.IsCreatedByBroker == true || contract.IsCreatedByCustomer == true)
@@ -239,8 +239,13 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         var mainLoc = contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress);
                         if (mainLoc != null)
-                        {
-                            _dbContext.Entry(mainLoc).State = EntityState.Deleted;                                                        
+                        {                            
+                            var prevAddress = contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.PreviousAddress);
+                            if (prevAddress != null)
+                            {
+                                _dbContext.Entry(prevAddress).State = EntityState.Deleted;
+                            }
+                            mainLoc.AddressType = AddressType.PreviousAddress;
                         }
                         //?
                         var installLoc = contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress);
@@ -340,7 +345,7 @@ namespace DealnetPortal.DataAccess.Repositories
                             updated = true;
                         }
                     }
-
+                    
                     if (contractData.ExternalSubDealerId != null &&
                         contract.ExternalSubDealerId != contractData.ExternalSubDealerId)
                     {
@@ -797,9 +802,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public bool IsContractUnassignable(int contractId)
         {
-            var creditReviewStates = ConfigurationManager.AppSettings["CreditReviewStatus"] != null
-                ? ConfigurationManager.AppSettings["CreditReviewStatus"].Split(',').Select(s => s.Trim()).ToArray()
-                : new string[] { "20-Credit Review" };
+            var creditReviewStates =ConfigurationManager.AppSettings[WebConfigKeys.CREDIT_REVIEW_STATUS_CONFIG_KEY].Split(',').Select(s => s.Trim()).ToArray();
 
             var contract = _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)
@@ -812,7 +815,7 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 return false;
             }
-            if (contract.ContractState < ContractState.CreditContirmed || creditReviewStates.Contains(contract.Details.Status))
+            if (contract.ContractState < ContractState.CreditConfirmed || creditReviewStates.Contains(contract.Details.Status))
             {
                 return false;
             }
@@ -867,6 +870,46 @@ namespace DealnetPortal.DataAccess.Repositories
                 equipmentInfo.ExistingEquipment = dbEquipment.ExistingEquipment;
                 equipmentInfo.NewEquipment = dbEquipment.NewEquipment;
 
+                if (string.IsNullOrEmpty(equipmentInfo.SalesRep))
+                {
+                    equipmentInfo.SalesRep = dbEquipment.SalesRep;
+                }
+                if (equipmentInfo.DownPayment == null)
+                {
+                    equipmentInfo.DownPayment = dbEquipment.DownPayment;
+                }
+                if (equipmentInfo.CustomerRate == null)
+                {
+                    equipmentInfo.CustomerRate = dbEquipment.CustomerRate;
+                }
+                if (equipmentInfo.TotalMonthlyPayment == null)
+                {
+                    equipmentInfo.TotalMonthlyPayment = dbEquipment.TotalMonthlyPayment;
+                }
+                if (equipmentInfo.RequestedTerm == null)
+                {
+                    equipmentInfo.RequestedTerm = dbEquipment.RequestedTerm;
+                }
+                if (equipmentInfo.LoanTerm == null)
+                {
+                    equipmentInfo.LoanTerm = dbEquipment.LoanTerm;
+                }
+                if (equipmentInfo.AmortizationTerm == null)
+                {
+                    equipmentInfo.AmortizationTerm = dbEquipment.AmortizationTerm;
+                }
+                if (equipmentInfo.DeferralType == 0)
+                {
+                    equipmentInfo.DeferralType = dbEquipment.DeferralType;
+                }
+                if (equipmentInfo.AdminFee == null)
+                {
+                    equipmentInfo.AdminFee = dbEquipment.AdminFee;
+                }
+                if (equipmentInfo.ValueOfDeal == null)
+                {
+                    equipmentInfo.ValueOfDeal = dbEquipment.ValueOfDeal;
+                }
                 if (string.IsNullOrEmpty(equipmentInfo.InstallerFirstName))
                 {
                     equipmentInfo.InstallerFirstName = dbEquipment.InstallerFirstName;
@@ -882,6 +925,14 @@ namespace DealnetPortal.DataAccess.Repositories
                 if (!equipmentInfo.EstimatedInstallationDate.HasValue)
                 {
                     equipmentInfo.EstimatedInstallationDate = dbEquipment.EstimatedInstallationDate;
+                }
+                if (!equipmentInfo.RateCardId.HasValue)
+                {
+                    equipmentInfo.RateCardId = dbEquipment.RateCardId;
+                }
+                if (!equipmentInfo.DealerCost.HasValue)
+                {
+                    equipmentInfo.DealerCost = dbEquipment.DealerCost;
                 }
                 if (!equipmentInfo.PreferredStartDate.HasValue)
                 {
@@ -1087,10 +1138,6 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 contract.Details.AgreementType = contractDetails.AgreementType;
             }
-            if (contractDetails.HouseSize.HasValue)
-            {
-                contract.Details.HouseSize = contractDetails.HouseSize;
-            }
             if (contractDetails.SignatureDocumentId != null)
             {
                 contract.Details.SignatureDocumentId = contractDetails.SignatureDocumentId;
@@ -1102,10 +1149,6 @@ namespace DealnetPortal.DataAccess.Repositories
             if (contractDetails.Status != null)
             {
                 contract.Details.Status = contractDetails.Status;
-            }
-            if (contractDetails.Notes != null)
-            {
-                contract.Details.Notes = contractDetails.Notes;
             }
             if (contractDetails.TransactionId != null)
             {
@@ -1131,6 +1174,8 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 contract.Details.CreditAmount = contractDetails.CreditAmount;
             }
+            contract.Details.HouseSize = contractDetails.HouseSize;
+            contract.Details.Notes = contractDetails.Notes;
         }
 
         private void AddOrUpdatePaymentInfo(Contract contract, PaymentInfo newData)

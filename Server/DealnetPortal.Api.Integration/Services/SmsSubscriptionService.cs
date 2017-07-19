@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Core.Constants;
 using DealnetPortal.Api.Integration.SMSSubscriptionManagement;
 
 namespace DealnetPortal.Api.Integration.Services
@@ -7,22 +8,22 @@ namespace DealnetPortal.Api.Integration.Services
     public class SmsSubscriptionService : ISmsSubscriptionService
     {
         private readonly subscriptionManagementAPI _smsClient = new subscriptionManagementAPIClient();
-        private readonly startSubscriptionDTO subscriber = new startSubscriptionDTO();
-        public SmsSubscriptionService()
-        {
-        }
-        public async Task<startSubscriptionResponse> setstartsubscription(string phone, string reference, string code, string contentReference)
+        private readonly startSubscriptionDTO _subscriber = new startSubscriptionDTO();
+
+        public async Task<startSubscriptionResponse> SetStartSubscription(string phone, string reference, string code)
         {
             try
             {
                 contentServiceIdDTO content = new contentServiceIdDTO();
-                content.reference = contentReference;
-                subscriber.phone = phone;
-                subscriber.reference = reference;
-                subscriber.contentService = content;
-                subscriber.affiliateCode = code;
+                content.reference = System.Configuration.ConfigurationManager.AppSettings["SubscriptionRef"];
 
-                startSubscriptionResponse response = await _smsClient.startSubscriptionAsync(new startSubscription(subscriber));
+                _subscriber.phone = phone;
+                _subscriber.reference = reference;
+                _subscriber.contentService = content;
+                _subscriber.affiliateCode = code;
+
+                startSubscriptionResponse response = await _smsClient.startSubscriptionAsync(new startSubscription(_subscriber));
+
                 return response;
             }
             catch (Exception ex)

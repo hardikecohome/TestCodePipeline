@@ -57,20 +57,16 @@
             var input = $(this);
             var form = input.parent().closest('form');
             var tabContainers = $('.documents-container .' + form.data('container'));
-			var documentNaming = form.find('.document-naming');
-			//var changenameformat = documentNaming.text();
-			//changenameformat = changenameformat.replace("-", "_");
+            var documentNaming = form.find('.document-naming');
             var documentItem = form.find('.document-item');
             var progressContainer = form.find('.progress-container');
             var progressBar = form.find('.progress-bar');
             var progressBarValue = form.find('.progress-bar-value');
             var errorDesc = form.find('.error-descr');
-			var prevDocumentName = documentNaming.text();;
-			//prevDocumentName = prevDocumentName.replace("-", "_");
+            var prevDocumentName = documentNaming.text();;
             var wasCancelled;
             var afterError = function(message) {
-                //form.find('.error-message').text(message || translations['ErrorWhileUploadingFile']);
-				form.find('.error-message').text(translations['ErrorWhileUploadingFile']);
+                form.find('.error-message').text(message || translations['ErrorWhileUploadingFile']);
                 errorDesc.show();
                 documentNaming.text(prevDocumentName);
                 if (!prevDocumentName) {
@@ -217,8 +213,7 @@
         $('.uploaded-other-document-input').change(submitOtherDocument);
         $('#other-documents-upload').change(function () {
             var documentNameInput = $('#other-documents-name');
-			var documentName = documentNameInput.val();
-			//documentName = documentName.replace("-", "_");
+            var documentName = documentNameInput.val();
             if (!documentName) {
                 $(this).val('');
                 $('#empty-document-name-message').show();
@@ -364,17 +359,11 @@ function expandReplies(button) {
 }
 
 function assignDatepicker() {
-    var input = $(this);
+    var input = $('body').is('.ios-device') ? $(this).siblings('.div-datepicker') : $(this);
     inputDateFocus(input);
     input.datepicker({
-        dateFormat: 'mm/dd/yy',
-        changeYear: true,
-        changeMonth: (viewport().width < 768) ? true : false,
         yearRange: '1900:2200',
-        minDate: (input.hasClass('exlude-min-date')) ? Date.parse("1900-01-01") : new Date(),
-        onClose: function(){
-            onDateSelect($(this));
-        }
+        minDate: (input.hasClass('exlude-min-date')) ? Date.parse("1900-01-01") : new Date()
     });
 }
 

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
+using DealnetPortal.Api.Core.Constants;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
@@ -470,7 +471,7 @@ namespace DealnetPortal.Api.Integration.Services
             string contractOwnerId)
         {
             var alerts = new List<Alert>();
-            //document.DocumentName = document.DocumentName.Replace('-', '_');
+
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
 
             if (contract != null && document?.DocumentBytes != null)
@@ -483,7 +484,6 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     if (string.IsNullOrEmpty(document.DocumentName) || !document.DocumentName.StartsWith(docType.Prefix))
                     {
-                        
                         document.DocumentName = docType.Prefix + document.DocumentName;
                     }
                 }
@@ -504,8 +504,8 @@ namespace DealnetPortal.Api.Integration.Services
                         request.Payload = new DocumentUploadPayload()
                         {
                             TransactionId = contract.Details.TransactionId,                            
-                            //TODO: insert correct status
-                            Status = ConfigurationManager.AppSettings["DocumentUploadStatus"] ?? "32–Docs Received",                            
+                            
+                            Status = ConfigurationManager.AppSettings[WebConfigKeys.DOCUMENT_UPLOAD_STATUS_CONFIG_KEY]                            
                         };
 
                         request.Payload.Documents = new List<Document>()
@@ -585,7 +585,7 @@ namespace DealnetPortal.Api.Integration.Services
                             request.Payload = new DocumentUploadPayload()
                             {
                                 TransactionId = contract.Details.TransactionId,
-                                Status = ConfigurationManager.AppSettings["AllDocumentsUploadedStatus"]
+                                Status = ConfigurationManager.AppSettings[WebConfigKeys.ALL_DOCUMENTS_UPLOAD_STATUS_CONFIG_KEY]
                             };
 
                             var submitString = "Request to Fund";
@@ -726,24 +726,14 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         UserId = dealer.AspireLogin,
                         Password = dealer.AspirePassword
-                        //From = new From()
-                        //{
-                        //    AccountNumber = dealer.AspireLogin,
-                        //    Password = dealer.AspirePassword
-                        //}
                     };
                 }
                 else
                 {
                     header = new RequestHeader()
                     {
-                        UserId = ConfigurationManager.AppSettings["AspireUser"],
-                        Password = ConfigurationManager.AppSettings["AspirePassword"]
-                        //From = new From()
-                        //{
-                        //    AccountNumber = ConfigurationManager.AppSettings["AspireUser"],
-                        //    Password = ConfigurationManager.AppSettings["AspirePassword"]
-                        //}
+                        UserId = ConfigurationManager.AppSettings[WebConfigKeys.ASPIRE_USER_CONFIG_KEY],
+                        Password = ConfigurationManager.AppSettings[WebConfigKeys.ASPIRE_PASSWORD_CONFIG_KEY]
                     };
                 }
             }
@@ -1344,6 +1334,7 @@ namespace DealnetPortal.Api.Integration.Services
                     },
                 });
             }
+
             if (isHomeOwner.HasValue)
             {
                 udfList.Add(new UDF()
@@ -1352,6 +1343,7 @@ namespace DealnetPortal.Api.Integration.Services
                     Value = isHomeOwner == true ? "Y" : "N"
                 });
             }
+
             customer.Phones?.ForEach(p =>
             {
                 switch (p.PhoneType)
@@ -1379,12 +1371,13 @@ namespace DealnetPortal.Api.Integration.Services
                         break;                    
                 }
             });
-            if (customer.AllowCommunicate != null)
+
+            if (customer.AllowCommunicate.HasValue)
             {
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.AllowCommunicate,
-                    Value = customer.AllowCommunicate == false ? "0" : "1"
+                    Value = customer.AllowCommunicate.Value ? "1" : "0"
                 });
             }
 

@@ -1077,7 +1077,7 @@
     <value>2 Months</value>
   </data>
   <data name="AdditionalIsHomeOwner" xml:space="preserve">
-    <value>Additional Applicant is home owner.</value>
+    <value>Additional Applicant is a home owner</value>
   </data>
   <data name="AddToComparison" xml:space="preserve">
     <value>Add to Comparison</value>
@@ -1095,7 +1095,7 @@
     <value>Borrower Information</value>
   </data>
   <data name="BorrowerIsHomeOwner" xml:space="preserve">
-    <value>Borrower is home owner.</value>
+    <value>Borrower is a home owner</value>
   </data>
   <data name="Calculator" xml:space="preserve">
     <value>Calculator</value>
@@ -1409,6 +1409,15 @@
   <data name="AreYouSureYouWantToRemoveThisApplication" xml:space="preserve">
     <value>Are you sure you want to remove this application</value>
   </data>
+  <data name="Defferal" xml:space="preserve">
+    <value>Defferal</value>
+  </data>
+  <data name="FixedRate" xml:space="preserve">
+    <value>Fixed Rate</value>
+  </data>
+  <data name="NoInterest" xml:space="preserve">
+    <value>No Interest</value>
+  </data>
   <data name="Help" xml:space="preserve">
     <value>Help</value>
   </data>
@@ -1547,8 +1556,32 @@
   <data name="PreApprovedLoanValueFeeWillBeApplied" xml:space="preserve">
     <value>1% of pre-approved loan value will be applied to your account as a lead fee</value>
   </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>French</value>
+  </data>
   <data name="LeadsNoMatchingRecordsFound" xml:space="preserve">
     <value>Please configure your profile in order to view leads</value>
+  </data>
+  <data name="CannotBeLongerThan" xml:space="preserve">
+    <value>{0} cannot be longer than {1}.</value>
+  </data>
+  <data name="Months" xml:space="preserve">
+    <value>Months</value>
+  </data>
+  <data name="YourRate" xml:space="preserve">
+    <value>Your Rate</value>
+  </data>
+  <data name="YourRateIncorrectFormat" xml:space="preserve">
+    <value>Your Rate is in incorrect format</value>
+  </data>
+  <data name="CustomerOrYourCostRequired" xml:space="preserve">
+    <value>Customer Rate or Your Cost is Required</value>
+  </data>
+  <data name="PleaseEnterAtLeastZero" xml:space="preserve">
+    <value>Please enter at least 0.</value>
   </data>
   <data name="AcknowledgeAndAgreementObtainCreditReport" xml:space="preserve">
     <value>By submitting this application, you acknowledge and agree that EcoHome Financial is authorized to obtain your credit report from one or more consumer credit reporting agencies (e.g. Equifax or TransUnion), to verify the information in your credit report with third parties as necessary, and to periodically update your credit information with credit reporting agencies. You are hereby notified that a consumer report containing credit and/or personal information may be referred to in connection with this application. You consent to accept, receive and use in electronic form any and all agreements, notices, disclosures and other documents or information in relation to this application that EcoHome Financial may deliver to you.</value>
@@ -1561,5 +1594,8 @@
   </data>
   <data name="PrivacyPolicy" xml:space="preserve">
     <value>Privacy policy</value>
+  </data>
+  <data name="AllAplicantsConsents" xml:space="preserve">
+    <value>You can't proceed until all applicants provide their consents.</value>
   </data>
 </root>
