@@ -70,29 +70,29 @@ namespace DealnetPortal.Web.Controllers
             if (!string.IsNullOrEmpty(returnUrl))
                 decodedUrl = Server.UrlDecode(returnUrl);
 
-            _loggingService.LogInfo(string.Format("Attemtp to login user: {0}", model.Email));
+            _loggingService.LogInfo(string.Format("Attemtp to login user: {0}", model.UserName));
             var result = await _securityManager.Login(model.UserName, model.Password, ApplicationSettingsManager.PortalId);
             if (result.Any(item => item.Type == AlertType.Error && item.Header == ErrorConstants.ResetPasswordRequired))
             {
-                _loggingService.LogInfo(string.Format("Attemtp to login user: {0}; needs change password", model.Email));
+                _loggingService.LogInfo(string.Format("Attemtp to login user: {0}; needs change password", model.UserName));
                 return RedirectToAction("ChangePasswordAfterRegistration");
             }
             if (result.Any(item => item.Type == AlertType.Error))
             {
                 var error = result.FirstOrDefault(r => r.Type == AlertType.Error);
-                _loggingService.LogError(string.Format("Invalid login attempt for user: {0} - {1}:{2}", model.Email, error?.Header, error?.Message));
+                _loggingService.LogError(string.Format("Invalid login attempt for user: {0} - {1}:{2}", model.UserName, error?.Header, error?.Message));
                 ModelState.AddModelError("", Resources.Resources.InvalidLoginAttempt);
                 return View(model);
             }
             try
             {
-                var culture = await _dictionaryServiceAgent.GetDealerCulture();
-                _loggingService.LogInfo($"Setting culture {culture} for user {model.Email}");
+                var culture = await _dictionaryServiceAgent.GetDealerCulture(model.UserName);
+                _loggingService.LogInfo($"Setting culture {culture} for user {model.UserName}");
                 _cultureManager.SetCulture(culture);
             }
             catch (Exception ex)
             {
-                _loggingService.LogError($"Can't set default culture for user: {model.Email}", ex);
+                _loggingService.LogError($"Can't set default culture for user: {model.UserName}", ex);
             }
 
             if (Url.IsLocalUrl(decodedUrl))

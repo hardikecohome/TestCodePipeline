@@ -47,6 +47,7 @@
         translations['GoToStep'] = "@Resources.GoToStep";
         translations['ThisFieldIsRequired'] = "@Resources.ThisFieldIsRequired";
         translations['EnterValidDate'] = "@Resources.EnterValidDate";
+        translations['Cancel'] = "@Resources.Cancel";
         @RenderSection("Translations", false)
     </script>
     @Scripts.Render("~/bundles/jquery")
@@ -132,13 +133,13 @@
                                     @if (CultureHelper.CurrentCultureType != CultureType.English)
                                     {
                                         <li class="lang-item active">
-                                            @Html.ActionLink("English", "ChangeCulture", "Home", new {culture = "en"}, new {@class = "lang-link"})
+                                            @Html.ActionLink(Resources.English, "ChangeCulture", "Home", new {culture = "en"}, new {@class = "lang-link"})
                                         </li>
                                     }
                                     @if (CultureHelper.CurrentCultureType != CultureType.French)
                                     {
                                         <li class="lang-item">
-                                            @Html.ActionLink("Français", "ChangeCulture", "Home", new {culture = "fr"}, new {@class = "lang-link"})
+                                            @Html.ActionLink(Resources.French, "ChangeCulture", "Home", new {culture = "fr"}, new {@class = "lang-link"})
                                         </li>
                                     }
                                 </ul>

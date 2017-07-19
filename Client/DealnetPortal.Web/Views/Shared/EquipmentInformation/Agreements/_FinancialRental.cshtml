@@ -1,0 +1,22 @@
+﻿@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+
+<div class="row rental-element">
+  <div class="col-md-3">
+    <div class="form-group">
+      @Html.LabelFor(m => m.RequestedTerm)
+      <div class="control-group">
+        @Html.TextBoxFor(m => m.RequestedTerm, new {@class = "form-control dealnet-input", type = "text", placeholder = Resources.RequestedTerm, id = "requested-term"})
+        @Html.ValidationMessageFor(m => m.RequestedTerm, "", new {@class = "text-danger"})
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="form-group">
+      @Html.LabelFor(m => m.RentalDeferralType)
+      <div class="control-group">
+        @Html.EnumDropDownListFor(m => m.RentalDeferralType, new {@class = "form-control"})
+        @Html.ValidationMessageFor(m => m.RentalDeferralType, "", new {@class = "text-danger"})
+      </div>
+    </div>
+  </div>
+</div>

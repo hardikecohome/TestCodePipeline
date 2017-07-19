@@ -1476,4 +1476,28 @@
   <data name="CreditCheckProceedSuccessfully" xml:space="preserve">
     <value>Credit check processed successfully.</value>
   </data>
+  <data name="English" xml:space="preserve">
+    <value>Anglais</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>Françias</value>
+  </data>
+  <data name="CannotBeLongerThan" xml:space="preserve">
+    <value>{0} ne peut pas dépasser {1}.</value>
+  </data>
+  <data name="Months" xml:space="preserve">
+    <value>Mois</value>
+  </data>
+  <data name="YourRate" xml:space="preserve">
+    <value>Votre taux</value>
+  </data>
+  <data name="YourRateIncorrectFormat" xml:space="preserve">
+    <value>Votre taux est en format incorrect</value>
+  </data>
+  <data name="CustomerOrYourCostRequired" xml:space="preserve">
+    <value>Le taux du client ou votre coût est requis</value>
+  </data>
+  <data name="PleaseEnterAtLeastZero" xml:space="preserve">
+    <value>Entrez au moins 0.</value>
+  </data>
 </root>

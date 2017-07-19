@@ -11,6 +11,21 @@ configInitialized
     assignDatepicker($("#additional-birth-date-1"));
     assignDatepicker($("#additional-birth-date-2"));
     assignDatepicker($("#additional-birth-date-3"));
+
+    $('#agreement-checkbox').change(function () {
+        var isValid = checkCreditAgree();
+        if (isValid) {
+            $('#proceed-error-message').hide();
+        }
+    });
+
+    $('#agreement-checkbox1').change(function () {
+        var isValid = checkCreditAgree();
+        if (isValid) {
+            $('#proceed-error-message').hide();
+        }
+    });
+
     $('.check-age').change(function () {
         var atLeastOneValid = checkApplicantsAge();
         if (atLeastOneValid) {
@@ -21,6 +36,7 @@ configInitialized
             $('#age-warning-message').show();
         }
     });
+
     $('.check-homeowner').change(function () {
         var atLeastOneValid = false;
         $('.check-homeowner').each(function () {
@@ -103,12 +119,10 @@ configInitialized
         modal.setAttribute('data-stToFill', 'street');
         modal.setAttribute('data-ctToFill', 'locality');
         modal.setAttribute('data-prToFill', "administrative_area_level_1");
-		modal.setAttribute('data-pcToFill', "postal_code");
-		ga('send', 'event', 'Scan License', 'button_click', 'DrivingLicense','100');
+        modal.setAttribute('data-pcToFill', "postal_code");
     });
     $("#additional1-scan-button").click(function () {
-		setDataAttrInModal(1);
-		ga('send', 'event', 'Scan License', 'button_click', 'DrivingLicense', '100');
+        setDataAttrInModal(1);
     });
     $("#add-additional-applicant").click(function () {
         if (!aditional1Section.data('active')) {
@@ -119,10 +133,11 @@ configInitialized
         hideAditional1Section();
     });
 
-	$("#save-and-proceed-button").click(function (event) {
-		ga('send', 'event', 'Basic Info', 'button_click', 'Step 1 from Dealer POrtal', '100');
+    $("#save-and-proceed-button").click(function (event) {
         var isApprovalAge = checkApplicantsAge();
         var isHomeOwner = checkHomeOwner();
+        var isAgreesToCreditCheck = checkCreditAgree();
+
         if (!isApprovalAge) {
             $('#age-warning-message').hide();
             $('#age-error-message').show();
@@ -132,12 +147,17 @@ configInitialized
             $("#proceed-homeowner-errormessage").show();
             scrollPageTo($("#borrower-is-homeowner"));
         }
-        if (!isHomeOwner || !isApprovalAge) {
+
+        if (!isAgreesToCreditCheck) {
+            $('#proceed-error-message').show();
+            scrollPageTo($("#proceed-error-message"));
+        }
+
+        if (!isHomeOwner || !isApprovalAge || !isAgreesToCreditCheck) {
             if ($('#main-form').valid()) {
                 event.preventDefault();
             }
-		}
-
+        }
     });
 });
 function setDataAttrInModal (index) {
@@ -187,17 +207,24 @@ function showAditional1Section() {
     addAdditionalButton.hide();
 }
 function assignDatepicker(input) {
+    var input = $('body').is('.ios-device') ? input.siblings('.div-datepicker') : input;
     inputDateFocus(input);
-
     input.datepicker({
-        dateFormat: 'mm/dd/yy',
-        changeYear: true,
-        changeMonth: (viewport().width < 768) ? true : false,
         yearRange: '1900:' + (new Date().getFullYear()-18),
         minDate: Date.parse("1900-01-01"),
         maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
-        onClose: function(){
-            onDateSelect($(this));
+        onSelect: function (date) {
+            //$(this).siblings('.div-datepicker-value').text(date);
+            $(this).siblings('input.form-control').val(date);
+            $(".div-datepicker").removeClass('opened');
+            var isValid = checkApplicantAgeOnSelect(date);
+            if (isValid) {
+                $('#age-warning-message').hide();
+                $('#age-error-message').hide();
+            } else {
+                $('#age-error-message').hide();
+                $('#age-warning-message').show();
+            }
         }
     });
 }

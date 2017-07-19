@@ -393,7 +393,7 @@
     <comment>Context: If you have any question please contact: One Fine Company</comment>
   </data>
   <data name="ThankYouForApplyingForFinancing" xml:space="preserve">
-    <value>EcoHome Financial Customer Financing Application - New Application Submitted</value>
+    <value>Thank you for applying for financing.</value>
   </data>
   <data name="WillContactYouSoon" xml:space="preserve">
     <value>{0} will contact you soon.</value>
@@ -417,6 +417,249 @@
   </data>
   <data name="Dealer" xml:space="preserve">
     <value>Dealer</value>
+  </data>
+  <data name="_10_Saved" xml:space="preserve">
+    <value>Saved</value>
+  </data>
+  <data name="_11_Quote" xml:space="preserve">
+    <value>Quote</value>
+  </data>
+  <data name="_12_Submitted" xml:space="preserve">
+    <value>Submitted</value>
+  </data>
+  <data name="_13_Submitted" xml:space="preserve">
+    <value>Submitted </value>
+  </data>
+  <data name="_14_CBRWarnings" xml:space="preserve">
+    <value>CBR Warnings</value>
+  </data>
+  <data name="_16_CBRFailure" xml:space="preserve">
+    <value>CBR Failure</value>
+  </data>
+  <data name="_18_Equipment" xml:space="preserve">
+    <value>Equipment</value>
+  </data>
+  <data name="_19_Submitthroughautomation" xml:space="preserve">
+    <value>Submit through automation</value>
+  </data>
+  <data name="_20_CreditReview" xml:space="preserve">
+    <value>Credit Review</value>
+  </data>
+  <data name="_20_CreditReviewECP" xml:space="preserve">
+    <value>Credit Review (ECP)</value>
+  </data>
+  <data name="_22_MIR" xml:space="preserve">
+    <value>MIR </value>
+  </data>
+  <data name="_22_MIRBlueChip" xml:space="preserve">
+    <value>MIR Blue Chip</value>
+  </data>
+  <data name="_22_MIRNorthstar" xml:space="preserve">
+    <value>MIR Northstar</value>
+  </data>
+  <data name="_22_MoreInfowoemailnotice" xml:space="preserve">
+    <value>More Info (w/o email notice)</value>
+  </data>
+  <data name="_23_MIRNotReceived" xml:space="preserve">
+    <value>MIR Not Received</value>
+  </data>
+  <data name="_24_Re_Submitted" xml:space="preserve">
+    <value>Re-Submitted</value>
+  </data>
+  <data name="_24_Re_SubmittedE" xml:space="preserve">
+    <value>Re-Submitted E</value>
+  </data>
+  <data name="_25_Declined" xml:space="preserve">
+    <value>Declined </value>
+  </data>
+  <data name="_25_DeclinedEnableDeals" xml:space="preserve">
+    <value>Declined Enable Deals</value>
+  </data>
+  <data name="_25_DeclinedNorthstar" xml:space="preserve">
+    <value>Declined Northstar</value>
+  </data>
+  <data name="_25_Declinedwoemailnotice" xml:space="preserve">
+    <value>Declined (wo/email notice)</value>
+  </data>
+  <data name="_26_Pre_Approved15k" xml:space="preserve">
+    <value>Pre-Approved $15k</value>
+  </data>
+  <data name="_26_Pre_ApprovedECP" xml:space="preserve">
+    <value>Pre-Approved (ECP)</value>
+  </data>
+  <data name="_27_FinalReview_RecommendApproval" xml:space="preserve">
+    <value>Final Review-Recommend Approval</value>
+  </data>
+  <data name="_28_Approved" xml:space="preserve">
+    <value>Approved </value>
+  </data>
+  <data name="_28_Approved15k" xml:space="preserve">
+    <value>Approved $15k</value>
+  </data>
+  <data name="_28_ApprovedEcoEnergy" xml:space="preserve">
+    <value>Approved (Eco Energy)</value>
+  </data>
+  <data name="_28_ApprovedECP" xml:space="preserve">
+    <value>Approved (ECP)</value>
+  </data>
+  <data name="_28_ApprovedEnable" xml:space="preserve">
+    <value>Approved Enable</value>
+  </data>
+  <data name="_28_ApprovedEnbridge" xml:space="preserve">
+    <value>Approved (Enbridge)</value>
+  </data>
+  <data name="_28_ApprovedNorthstar" xml:space="preserve">
+    <value>Approved Northstar</value>
+  </data>
+  <data name="_28_ApprovedNorthstarwoemail" xml:space="preserve">
+    <value>Approved Northstar (w/o email)</value>
+  </data>
+  <data name="_28_ApprovedSecondLook" xml:space="preserve">
+    <value>Approved Second Look</value>
+  </data>
+  <data name="_28_ApprovedUtileCredit" xml:space="preserve">
+    <value>Approved (Utile Credit)</value>
+  </data>
+  <data name="_28_ApprovedVault" xml:space="preserve">
+    <value>Approved Vault</value>
+  </data>
+  <data name="_28_Approvedwoemailnotice" xml:space="preserve">
+    <value>Approved (wo/email notice)</value>
+  </data>
+  <data name="_29_Declinedwouemailnotification" xml:space="preserve">
+    <value>Declined (w/ou email notification)</value>
+  </data>
+  <data name="_29_DWverbalapproval" xml:space="preserve">
+    <value>DW verbal approval</value>
+  </data>
+  <data name="_30_ReadytoDoc" xml:space="preserve">
+    <value>Ready to Doc</value>
+  </data>
+  <data name="_31_DocsOut" xml:space="preserve">
+    <value>Docs Out</value>
+  </data>
+  <data name="_32_DocsReceived" xml:space="preserve">
+    <value>Docs Received</value>
+  </data>
+  <data name="_34_DocsBackIncomplete" xml:space="preserve">
+    <value>Docs Back Incomplete</value>
+  </data>
+  <data name="_35_DeadDeal" xml:space="preserve">
+    <value>Dead Deal</value>
+  </data>
+  <data name="_37_PendingAuditCall" xml:space="preserve">
+    <value>Pending Audit Call</value>
+  </data>
+  <data name="_38_Awaitingdelivery" xml:space="preserve">
+    <value>Awaiting delivery</value>
+  </data>
+  <data name="_40_DealFundingRequested" xml:space="preserve">
+    <value>Deal Funding Requested</value>
+  </data>
+  <data name="_42_ReadyforAudit" xml:space="preserve">
+    <value>Ready for Audit</value>
+  </data>
+  <data name="_46_Funded_Syndicated" xml:space="preserve">
+    <value>Funded-Syndicated</value>
+  </data>
+  <data name="_48_AuditinProgress" xml:space="preserve">
+    <value>Audit in Progress</value>
+  </data>
+  <data name="_49_FundingTomorrow" xml:space="preserve">
+    <value>Funding Tomorrow</value>
+  </data>
+  <data name="_50_AuditedDeficient" xml:space="preserve">
+    <value>Audited Deficient</value>
+  </data>
+  <data name="_51_AuditedAwaitingTPV" xml:space="preserve">
+    <value>Audited Awaiting TPV</value>
+  </data>
+  <data name="_52_TPVConfirmed" xml:space="preserve">
+    <value>TPV Confirmed</value>
+  </data>
+  <data name="_53_TPVInternal" xml:space="preserve">
+    <value>TPV Internal</value>
+  </data>
+  <data name="_84_ExpiredApproval" xml:space="preserve">
+    <value>Expired Approval</value>
+  </data>
+  <data name="_85_CustomerChangedMind" xml:space="preserve">
+    <value>Customer Changed Mind</value>
+  </data>
+  <data name="_86_OpportunityLost" xml:space="preserve">
+    <value>Opportunity Lost</value>
+  </data>
+  <data name="_90_MasterLineofCreditapproval" xml:space="preserve">
+    <value>Master Line of Credit approval</value>
+  </data>
+  <data name="_91_Terminated" xml:space="preserve">
+    <value>Terminated</value>
+  </data>
+  <data name="_ApprovedBlueChip" xml:space="preserve">
+    <value>Approved Blue Chip </value>
+  </data>
+  <data name="_Booked" xml:space="preserve">
+    <value>Booked</value>
+  </data>
+  <data name="_Cancelled" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
+  <data name="_DeclinedBlueChip" xml:space="preserve">
+    <value>Declined Blue Chip</value>
+  </data>
+  <data name="_Exported" xml:space="preserve">
+    <value>Exported</value>
+  </data>
+  <data name="_PreApproved20K" xml:space="preserve">
+    <value>Pre Approved 20 K</value>
+  </data>
+  <data name="_PreApproved5K" xml:space="preserve">
+    <value>Pre Approved 5 K</value>
+  </data>
+  <data name="_Pre_Approved" xml:space="preserve">
+    <value>Pre-Approved </value>
+  </data>
+  <data name="_Pre_Approved10K" xml:space="preserve">
+    <value>Approved 10 K</value>
+  </data>
+  <data name="_S_Approved" xml:space="preserve">
+    <value>Approved</value>
+  </data>
+  <data name="_S_Creditreview" xml:space="preserve">
+    <value>Credit review</value>
+  </data>
+  <data name="_S_Dead" xml:space="preserve">
+    <value>Dead</value>
+  </data>
+  <data name="_S_Declined" xml:space="preserve">
+    <value>Declined</value>
+  </data>
+  <data name="_S_Docsin" xml:space="preserve">
+    <value>Docs in</value>
+  </data>
+  <data name="_S_Docsout" xml:space="preserve">
+    <value>Docs out</value>
+  </data>
+  <data name="_S_Funded" xml:space="preserve">
+    <value>Funded</value>
+  </data>
+  <data name="_S_Fundingrequested" xml:space="preserve">
+    <value>Funding requested</value>
+  </data>
+  <data name="_S_Moreinformation" xml:space="preserve">
+    <value>More information</value>
+  </data>
+  <data name="_S_Submitted" xml:space="preserve">
+    <value>Submitted</value>
+  </data>
+  <data name="Deferral" xml:space="preserve">
+    <value>Deferral</value>
+  </data>
+  <data name="FixedRate" xml:space="preserve">
+    <value>Fixed Rate</value>
+  </data>
+  <data name="NoInterest" xml:space="preserve">
+    <value>No Interest</value>
   </data>
   <data name="Congratulations" xml:space="preserve">
     <value>Congratulations</value>
@@ -510,11 +753,5 @@
   </data>
   <data name="UnfortunatelyThisLeadIsNoLongerAvailable" xml:space="preserve">
     <value>Unfortunately this lead is no longer available</value>
-  </data>
-  <data name="Spa" xml:space="preserve">
-    <value>Spa</value>
-  </data>
-  <data name="WellPump" xml:space="preserve">
-    <value>Well Pump</value>
   </data>
 </root>

@@ -4,7 +4,9 @@ $(document).ready(function () {
     $.when(
         $.getJSON(urlContent + 'Content/cldr/supplemental/likelySubtags.json'),
         $.getJSON(urlContent + 'Content/cldr/supplemental/numberingSystems.json'),
-        $.getJSON(urlContent + 'Content/cldr/main/' + culture + '/numbers.json')
+        $.getJSON(urlContent + 'Content/cldr/supplemental/currencyData.json'),
+        $.getJSON(urlContent + 'Content/cldr/main/' + culture + '/numbers.json'),
+        $.getJSON(urlContent + 'Content/cldr/main/' + culture + '/currencies.json')
     ).then(function() {
         return [].slice.apply(arguments, [0]).map(function(result) {
             return result[0];
@@ -22,8 +24,7 @@ $(document).ready(function () {
                 return !isNaN(Globalize.parseNumber(value));
             }
 
-            var oldParseFloat = window.parseFloat;
-
+            var parseFloat = window.parseFloat;
             window.parseFloat = function(number) {
                 if (typeof number === 'undefined') {
                     return number;
@@ -31,11 +32,21 @@ $(document).ready(function () {
                 if (typeof number === 'number') {
                     return number;
                 }
-                var res = Globalize.parseNumber(number);
-                return isNaN(res) ? oldParseFloat(number) : res;
+                if (/[a-zA-Z]*/.test(number)) {
+                    return parseFloat(number);
+                }
+
+                return Globalize.parseNumber(number);
             };
 
             window.formatNumber = Globalize.numberFormatter({
+                maximumFractionDigits: 2,
+                minimumFractionDigits: 2,
+                round: 'round',
+                useGrouping: false
+            });
+
+            window.formatCurrency = Globalize.currencyFormatter('CAD', {
                 maximumFractionDigits: 2,
                 minimumFractionDigits: 2,
                 round: 'round',

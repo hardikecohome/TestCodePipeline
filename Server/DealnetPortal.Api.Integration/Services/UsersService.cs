@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Core.Constants;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes;
@@ -27,17 +29,17 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILoggingService _loggingService;
         private readonly ISettingsRepository _settingsRepository;
+        private readonly IRateCardsRepository _rateCardsRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        #region constants
-        private const string MB_ROLE_CONFIG_KEY = "AspireMortgageBrokerRole";
-        private const string DEFAULT_MB_ROLE = "Mortgage Brokers";
-        #endregion
-
-        public UsersService(IAspireStorageReader aspireStorageReader, IDatabaseFactory databaseFactory, ILoggingService loggingService, ISettingsRepository settingsRepository)
+        public UsersService(IAspireStorageReader aspireStorageReader, IDatabaseFactory databaseFactory, ILoggingService loggingService, IRateCardsRepository rateCardsRepository,
+            ISettingsRepository settingsRepository, IUnitOfWork unitOfWork)
         {
             _aspireStorageReader = aspireStorageReader;
             _loggingService = loggingService;
             _settingsRepository = settingsRepository;
+            _rateCardsRepository = rateCardsRepository;
+            _unitOfWork = unitOfWork;
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(databaseFactory.Get()));
         }        
 
@@ -91,6 +93,22 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         alerts.AddRange(rolesAlerts);
                     }
+                    if (user.Tier?.Name != aspireDealerInfo.Ratecard)
+                    {
+                        var tierAlerts = UpdateUserTier(user.Id, aspireDealerInfo);
+                        if (tierAlerts.Any())
+                        {
+                            alerts.AddRange(tierAlerts);
+                        }
+                    }
+                    //currently email update isn't work correctly
+                    //var dealerEmail = aspireDealerInfo.Emails?.FirstOrDefault()?.EmailAddress;
+                    //if (!string.IsNullOrEmpty(dealerEmail) && dealerEmail != user.Email)
+                    //{
+                    //    await _userManager.SetEmailAsync(user.Id, dealerEmail);
+                    //    user.EmailConfirmed = true;
+                    //    await _userManager.UpdateAsync(user);
+                    //}
                 }                
             }
             catch (Exception ex)
@@ -157,21 +175,19 @@ namespace DealnetPortal.Api.Integration.Services
                 var dbRoles = await _userManager.GetRolesAsync(userId);
                 if (!dbRoles.Contains(aspireUser.Role))
                 {
-                    var mbRoles = ConfigurationManager.AppSettings[MB_ROLE_CONFIG_KEY] != null
-                        ? ConfigurationManager.AppSettings[MB_ROLE_CONFIG_KEY].Split(',').Select(s => s.Trim()).ToArray()
-                        : new string[] { DEFAULT_MB_ROLE };
+                    var mbRoles = ConfigurationManager.AppSettings[WebConfigKeys.MB_ROLE_CONFIG_KEY].Split(',').Select(s => s.Trim()).ToArray();
                     var user = await _userManager.FindByIdAsync(userId);
                     var removeRes = await _userManager.RemoveFromRolesAsync(userId, dbRoles.ToArray());
                     IdentityResult addRes;
                     if (mbRoles.Contains(aspireUser.Role))
                     {
-                        addRes = await _userManager.AddToRolesAsync(userId, new[] { UserRole.MortgageBroker.ToString() });
+                        addRes = await _userManager.AddToRolesAsync(userId, new[] {UserRole.MortgageBroker.ToString()});
                     }
                     else
                     {
-                        addRes = await _userManager.AddToRolesAsync(userId, new[] { UserRole.Dealer.ToString() });
+                        addRes = await _userManager.AddToRolesAsync(userId, new[] {UserRole.Dealer.ToString()});
                     }
-
+                    
                     var updateRes = await _userManager.UpdateAsync(user);
                     if (addRes.Succeeded && removeRes.Succeeded && updateRes.Succeeded)
                     {
@@ -201,6 +217,7 @@ namespace DealnetPortal.Api.Integration.Services
                             _loggingService.LogError($"Error during add role for an user {userId}: {e}");
                         });
                     }
+
                 }
             }
             else
@@ -213,6 +230,35 @@ namespace DealnetPortal.Api.Integration.Services
                 });
                 _loggingService.LogError($"Error during getting user role from Aspire, for an user {userId}");
             }
+            return alerts;
+        }
+
+        private IList<Alert> UpdateUserTier(string userId, DealerDTO aspireUser)
+        {
+            var alerts = new List<Alert>();
+
+            try
+            {
+                var tier = _rateCardsRepository.GetTierByName(aspireUser.Ratecard);
+                var user = _userManager.Users.Include(u => u.Tier).FirstOrDefault(u => u.Id == userId);
+                if (user != null)
+                {
+                    user.Tier = tier;
+                    _unitOfWork.Save();
+                    _loggingService.LogInfo($"Tier [{aspireUser.Ratecard}] was set to an user [{userId}]");
+                }
+            }
+            catch (Exception ex)
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "Error during update user tier",
+                    Message = $"Error during update user tier for an user {userId}"
+                });
+                _loggingService.LogError($"Error during update user tier for an user {userId}", ex);
+            }
+
             return alerts;
         }
         #endregion

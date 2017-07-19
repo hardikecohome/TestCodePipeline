@@ -141,7 +141,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (contractDTO != null)
             {
                 AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, _contractRepository.GetEquipmentTypes());
-                AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId);
+                //AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId);
             }
             return contractDTO;
         }
@@ -173,11 +173,11 @@ namespace DealnetPortal.Api.Integration.Services
                     if (updatedContract.ContractState == ContractState.Completed)
                     {
                         var contractDTO = Mapper.Map<ContractDTO>(updatedContract);
-                        //Task.Run(
-                        //    async () =>
-                        //        await
-                        //            _mailService.SendContractChangeNotification(contractDTO,
-                        //                updatedContract.Dealer.Email));
+                        Task.Run(
+                            async () =>
+                                await
+                                    _mailService.SendContractChangeNotification(contractDTO,
+                                        updatedContract.Dealer.Email));
                     }
                 }
                 else
@@ -248,7 +248,6 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 var alerts = new List<Alert>();
-                _loggingService.LogInfo($"InitiateCreditCheck.GetContractState for [{contractId}]");
                 var contractState = _contractRepository.GetContractState(contractId, contractOwnerId);
 
                 if (contractState == null)
@@ -264,10 +263,8 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     if (contractState.Value > ContractState.Started)
                     {
-                        _loggingService.LogInfo($"InitiateCreditCheck.UpdateContractState for [{contractId}]");
                         _contractRepository.UpdateContractState(contractId, contractOwnerId,
                             ContractState.CreditCheckInitiated);
-                        _loggingService.LogInfo($"InitiateCreditCheck.Save for [{contractId}]");
                         _unitOfWork.Save();
                         _loggingService.LogInfo($"Initiated credit check for contract [{contractId}]");
                     }
@@ -441,13 +438,16 @@ namespace DealnetPortal.Api.Integration.Services
 
                 if (creditAmount.HasValue || scorecardPoints.HasValue)
                 {
+                    var contract = _contractRepository.GetContract(contractId, contractOwnerId);
                     _contractRepository.UpdateContractData(new ContractData()
                     {
                         Id = contractId,
                         Details = new ContractDetails()
                         {
                             CreditAmount = creditAmount,
-                            ScorecardPoints = scorecardPoints
+                            ScorecardPoints = scorecardPoints,
+                            HouseSize = contract.Details.HouseSize,
+                            Notes = contract.Details.Notes
                         }
                     }, contractOwnerId);
                 }
@@ -456,7 +456,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     case CreditCheckState.Approved:
                         _contractRepository.UpdateContractState(contractId, contractOwnerId,
-                            ContractState.CreditContirmed);
+                            ContractState.CreditConfirmed);
                         _unitOfWork.Save();
                         break;
                     case CreditCheckState.Declined:
@@ -466,7 +466,7 @@ namespace DealnetPortal.Api.Integration.Services
                         break;
                     case CreditCheckState.MoreInfoRequired:
                         _contractRepository.UpdateContractState(contractId, contractOwnerId,
-                            ContractState.CreditContirmed);
+                            ContractState.CreditConfirmed);
                         _unitOfWork.Save();
                         break;
                 }
@@ -518,11 +518,11 @@ namespace DealnetPortal.Api.Integration.Services
                     _loggingService.LogInfo($"Contract [{contractId}] {submitState}");
 
                     var contractDTO = Mapper.Map<ContractDTO>(contract);
-                    //Task.Run(
-                    //    async () =>
-                    //        await
-                    //            _mailService.SendContractSubmitNotification(contractDTO, contract.Dealer.Email,
-                    //                creditCheckRes.Item1.CreditCheckState != CreditCheckState.Declined));
+                    Task.Run(
+                        async () =>
+                            await
+                                _mailService.SendContractSubmitNotification(contractDTO, contract.Dealer.Email,
+                                    creditCheckRes.Item1.CreditCheckState != CreditCheckState.Declined));
                     //_mailService.SendContractSubmitNotification(contractId, contractOwnerId);
                 }
                 else
@@ -551,8 +551,9 @@ namespace DealnetPortal.Api.Integration.Services
                 switch (summaryType)
                 {
                     case FlowingSummaryType.Month:
+                        var firstMonthDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
                         var grDaysM =
-                            dealerContracts.Where(c => c.CreationTime >= DateTime.Today.AddDays(-DateTime.Today.Day))
+                            dealerContracts.Where(c => c.CreationTime >= firstMonthDate)
                                 .GroupBy(c => c.CreationTime.Day)
                                 .ToList();
 
@@ -751,11 +752,11 @@ namespace DealnetPortal.Api.Integration.Services
                             if (contract.ContractState == ContractState.Completed)
                             {
                                 var contractDTO = Mapper.Map<ContractDTO>(contract);
-                                //Task.Run(
-                                //    async () =>
-                                //        await
-                                //            _mailService.SendContractChangeNotification(contractDTO,
-                                //                contract.Dealer.Email));
+                                Task.Run(
+                                    async () =>
+                                        await
+                                            _mailService.SendContractChangeNotification(contractDTO,
+                                                contract.Dealer.Email));
                             }
                             _aspireService.UpdateContractCustomer(contractId.Value, contractOwnerId);
                         }
@@ -787,14 +788,15 @@ namespace DealnetPortal.Api.Integration.Services
                 if (comment != null)
                 {
                     _unitOfWork.Save();
-                    if (comment.ContractId.HasValue)
+                    //don't send mails for Customer Comment, as we usually add these comments on contract creation (from CW or Shareble link)
+                    if (comment.ContractId.HasValue && comment.IsCustomerComment != true)
                     {
                         var contract = _contractRepository.GetContractAsUntracked(comment.ContractId.Value,
                             contractOwnerId);
                         var contractDTO = Mapper.Map<ContractDTO>(contract);
-                        //Task.Run(
-                        //    async () =>
-                        //        await _mailService.SendContractChangeNotification(contractDTO, contract.Dealer.Email));
+                        Task.Run(
+                            async () =>
+                                await _mailService.SendContractChangeNotification(contractDTO, contract.Dealer.Email));
                     }
                 }
                 else
@@ -836,9 +838,9 @@ namespace DealnetPortal.Api.Integration.Services
                     var contract = _contractRepository.GetContractAsUntracked(removedCommentContractId.Value,
                         contractOwnerId);
                     var contractDTO = Mapper.Map<ContractDTO>(contract);
-                    //Task.Run(
-                    //    async () =>
-                    //        await _mailService.SendContractChangeNotification(contractDTO, contract.Dealer.Email));
+                    Task.Run(
+                        async () =>
+                            await _mailService.SendContractChangeNotification(contractDTO, contract.Dealer.Email));
                 }
                 else
                 {
@@ -972,7 +974,6 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var alerts = new List<Alert>();
             ContractDocument doc = null;
-            document.DocumentName = document.DocumentName.Replace('-', '_');
             try
             {
                 doc = _contractRepository.AddDocumentToContract(document.ContractId, Mapper.Map<ContractDocument>(document),
@@ -980,25 +981,15 @@ namespace DealnetPortal.Api.Integration.Services
                 _unitOfWork.Save();
 
                 //run aspire upload async
-                var aspireAlerts = _aspireService.UploadDocument(document.ContractId, document, contractOwnerId).GetAwaiter().GetResult();
+                _aspireService.UploadDocument(document.ContractId, document, contractOwnerId);
                 //var aspireAlerts = _aspireService.UploadDocument(document.ContractId, document, contractOwnerId).GetAwaiter().GetResult();
                 //if (aspireAlerts?.Any() ?? false)
                 //{
                 //    alerts.AddRange(aspireAlerts);
                 //}
-                if (aspireAlerts.Any())
-                {
-                    alerts.Add(new Alert()
-                    {
-                        Type = AlertType.Error,
-                        Header = "Failed to add document to contract",
-                        Message = aspireAlerts.FirstOrDefault().Message
-                    });
-                    _loggingService.LogError(aspireAlerts.FirstOrDefault().Message);
-                }
                 var contract = _contractRepository.GetContractAsUntracked(doc.ContractId, contractOwnerId);
                 var contractDTO = Mapper.Map<ContractDTO>(contract);
-                //Task.Run(async () => await _mailService.SendContractChangeNotification(contractDTO, contract.Dealer.Email));
+                Task.Run(async () => await _mailService.SendContractChangeNotification(contractDTO, contract.Dealer.Email));
             }
             catch (Exception ex)
             {

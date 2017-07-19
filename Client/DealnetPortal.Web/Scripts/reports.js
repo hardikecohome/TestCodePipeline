@@ -13,17 +13,12 @@ $(document)
             $('.select-filter').val($('.select-filter > option:first').val());
 		});
 function assignDatepicker(input) {
+    var input = $('body').is('.ios-device') ? input.siblings('.div-datepicker') : input;
     inputDateFocus(input);
     input.datepicker({
-        dateFormat: 'mm/dd/yy',
-        changeYear: true,
-        changeMonth: (viewport().width < 768) ? true : false,
         yearRange: '1900:' + new Date().getFullYear(),
         minDate: Date.parse("1900-01-01"),
-        maxDate: new Date(),
-        onClose: function(){
-          onDateSelect($(this));
-        }
+        maxDate: new Date()
     });
 }
 
@@ -85,7 +80,7 @@ function showTable() {
                         ]
                     },
                     oLanguage: {
-                        "sSearch": '<span class="label-caption">' + translations['Search'] + '</span> <span class="icon-hold"><svg aria-hidden="true" class="icon icon-search"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-search"></use></svg></span>',
+                        "sSearch": '<span class="label-caption">' + translations['Search'] + '</span><span class="icon-hold"><svg aria-hidden="true" class="icon icon-search"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-search"></use></svg></span>',
                         "oPaginate": {
                             "sNext": '<i class="glyphicon glyphicon-menu-right"></i>',
                             "sPrevious": '<i class="glyphicon glyphicon-menu-left"></i>'

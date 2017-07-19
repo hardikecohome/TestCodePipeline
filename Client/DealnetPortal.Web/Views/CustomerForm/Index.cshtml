@@ -37,13 +37,13 @@
                         @if (CultureHelper.CurrentCultureType != CultureType.English && enabledLanguages.Any(l => l == LanguageCode.English))
                         {
                             <li class="lang-item">
-                                @Html.ActionLink("English", "Index", "CustomerForm", new { culture = "en", hashDealerName = Model.HashDealerName }, new { @class = "lang-link" })
+                                @Html.ActionLink(Resources.English, "Index", "CustomerForm", new { culture = "en", hashDealerName = Model.HashDealerName }, new { @class = "lang-link" })
                             </li>
                         }
                         @if (CultureHelper.CurrentCultureType != CultureType.French && enabledLanguages.Any(l => l == LanguageCode.French))
                         {
                             <li class="lang-item">
-                                @Html.ActionLink("Français", "Index", "CustomerForm", new { culture = "fr", hashDealerName = Model.HashDealerName }, new { @class = "lang-link" })
+                                @Html.ActionLink(Resources.French, "Index", "CustomerForm", new { culture = "fr", hashDealerName = Model.HashDealerName }, new { @class = "lang-link" })
                             </li>
                         }
                     </ul>
@@ -169,7 +169,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.HomeOwner.AddressInformation.PostalCode, new { @for = "postalCode", @class = "mandatory-field" })
                                     <div class="control-group">
-                                        @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.PostalCode, new { @class = "form-control dealnet-input", placeholder = "12345", id = "postalCode" })
+                                        @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", placeholder = "12345", id = "postalCode" })
                                         @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.PostalCode, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -182,7 +182,7 @@
                         </div>
                     </div>
                     <!--Home Owner Information-->
-                    <div id="borrower-is-homeowner" class="form-group">
+                    <div id="borrower-is-homeowner" class="form-group checkbox-hold">
                         <label for="homeowner-checkbox" class="align-middle custom-checkbox">
                             @Html.CheckBoxFor(x => x.HomeOwner.IsHomeOwner, new { @class="dealnet-checkbox", id="homeowner-checkbox"})
                             <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
@@ -191,7 +191,7 @@
                     </div>
                     <!--Home Owner Information-->
                     <!--Living time-->
-                    <div id="living-time" class="form-group">
+                    <div id="living-time" class="form-group checkbox-hold">
                         <label for="living-time-checkbox" class="align-middle custom-checkbox">
                             <input type="checkbox" class="dealnet-checkbox" id="living-time-checkbox" onChange="$(this).is(':checked') ? $('#previous-address').slideDown() : $('#previous-address').slideUp()" />
                             <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
@@ -242,7 +242,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.HomeOwner.PreviousAddressInformation.PostalCode, new { @for = "ppostalCode", @class = "mandatory-field" })
                                     <div class="control-group">
-                                        @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.PostalCode, new { @class = "form-control dealnet-input", placeholder = "12345", id = "ppostalCode" })
+                                        @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", placeholder = "12345", id = "ppostalCode" })
                                         @Html.ValidationMessageFor(m => m.HomeOwner.PreviousAddressInformation.PostalCode, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -316,7 +316,7 @@
                         </div>
                     </div>
                     <div class="consents-checkbox-hold">
-                        <div class="form-group">
+                        <div class="form-group checkbox-hold">
                             <label for="agreement1" class="align-middle custom-checkbox">
                                 <input type="checkbox" class="dealnet-checkbox" id="agreement1" name="agreement1"/>
                                 <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
@@ -327,11 +327,11 @@
                                 @Html.ActionLink(@Resources.PrivacyPolicy, "PrivacyPolicy", "Info", null, new { @class="dealnet-info-link", target = "_blank" })
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group checkbox-hold">
                             <label for="agreement2" class="align-middle custom-checkbox">
                                 @Html.CheckBoxFor(m => m.HomeOwnerContactInfo.AllowCommunicate, new { @class="dealnet-checkbox", id="agreement2" })
                                 <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                                <span class="mandatory-field">@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
+                                <span>@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
                             </label>
                         </div>
                     </div>

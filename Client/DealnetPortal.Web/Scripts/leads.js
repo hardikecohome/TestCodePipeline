@@ -96,7 +96,7 @@ function showTable() {
             });
             $('#expand-table-filter').html($('.expand-filter-template').detach());
             $('.filter-button').click(function () {
-                table.draw(false);
+                table.draw();
             });
             table.on('draw.dt', function () {
                 redrawDataTablesSvgIcons();
@@ -140,17 +140,12 @@ $.fn.dataTable.ext.search.push(
 );
 
 function assignDatepicker(input) {
+    var input = $('body').is('.ios-device') ? input.siblings('.div-datepicker') : input;
     inputDateFocus(input);
     input.datepicker({
-        dateFormat: 'mm/dd/yy',
-        changeYear: true,
-        changeMonth: (viewport().width < 768) ? true : false,
         yearRange: '1900:' + new Date().getFullYear(),
         minDate: Date.parse("1900-01-01"),
-        maxDate: new Date(),
-        onClose: function () {
-            onDateSelect($(this));
-        }
+        maxDate: new Date()
     });
 }
 

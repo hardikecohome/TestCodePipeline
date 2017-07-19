@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -12,13 +13,11 @@ using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Domain;
 using Microsoft.Practices.ObjectBuilder2;
-using System.Configuration;
 
 namespace DealnetPortal.Api.Integration.Services
 {
     public partial class ContractService
     {
-		private readonly IMandrillService _mandrillService = new MandrillService();
         public async Task<Tuple<ContractDTO, IList<Alert>>> CreateContractForCustomer(string contractOwnerId, NewCustomerDTO newCustomer)
         {
             try
@@ -81,7 +80,11 @@ namespace DealnetPortal.Api.Integration.Services
                     try
                     {
                         //try to submit deal in Aspire
-                        await _aspireService.SendDealUDFs(contractResult.Item1.Id, contractOwnerId);
+                        //send only if HIT or Preffered start date are known
+                        if (contractResult.Item1.Equipment?.PreferredStartDate != null || contractResult.Item1.Equipment?.NewEquipment?.Any() == true)
+                        {
+                            await _aspireService.SendDealUDFs(contractResult.Item1.Id, contractOwnerId);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -99,7 +102,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                 //select any of newly created contracts for create a new user in Customer Wallet portal
                 var creditReviewStates = ConfigurationManager.AppSettings["CreditReviewStatus"]?.Split(',').Select(s => s.Trim()).ToArray();
-                var succededContracts = contractsResultList.Where(r => r.Item1 != null && r.Item1.ContractState >= ContractState.CreditContirmed
+                var succededContracts = contractsResultList.Where(r => r.Item1 != null && r.Item1.ContractState >= ContractState.CreditConfirmed
                                                                 && creditReviewStates?.Contains(r.Item1?.Details?.Status) != true).Select(r => r.Item1).ToList();
                 var succededContract = succededContracts.FirstOrDefault();
                 if (succededContract != null)
@@ -132,13 +135,6 @@ namespace DealnetPortal.Api.Integration.Services
                 else
                 {
                     _loggingService.LogWarning($"Customer contract(s) for dealer {contractOwnerId} wasn't approved on Aspire");                    
-					//not approved log
-                    //await _mandrillService.SendDeclineNotificationConfirmation(newCustomer.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
-                    //                                                            newCustomer.PrimaryCustomer.FirstName, newCustomer.PrimaryCustomer.LastName,
-                    //                                                            newCustomer.HomeImprovementTypes.FirstOrDefault());
-                    await _mailService.SendDeclinedConfirmation(newCustomer.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
-                                                                                newCustomer.PrimaryCustomer.FirstName, newCustomer.PrimaryCustomer.LastName);
-
                 }
 
                 //remove all newly created "internal" (unsubmitted to aspire) contracts here
@@ -159,15 +155,7 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                     });
 
-                var contractDTO = Mapper.Map<ContractDTO>(succededContract ?? contractsResultList?.FirstOrDefault()?.Item1);
-                if (contractDTO != null)
-                {
-                    if (creditReviewStates?.Any() == true && !string.IsNullOrEmpty(contractDTO?.Details?.Status))
-                    {
-                        contractDTO.OnCreditReview = creditReviewStates.Contains(contractDTO.Details.Status);
-                    }
-                }
-
+                var contractDTO = Mapper.Map<ContractDTO>(succededContract ?? contractsResultList?.FirstOrDefault()?.Item1);                
                 return new Tuple<ContractDTO, IList<Alert>>(contractDTO, creditCheckAlerts);
             }
             catch (Exception ex)
@@ -225,28 +213,24 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 return new Tuple<Contract, bool>(null, false);
             }
-
-            _unitOfWork.Save();
-
             updatedContract.IsCreatedByBroker = true;
+
+            if (!string.IsNullOrEmpty(newCustomer.CustomerComment))
+            {
+                var comment = new Comment()
+                {
+                    ContractId = contractData.Id,
+                    IsCustomerComment = true,
+                    Text = newCustomer.CustomerComment
+                };
+                _contractRepository.TryAddComment(comment, contractOwnerId);                                
+            }
             _unitOfWork.Save();
 
             if (updatedContract.PrimaryCustomer != null)
             {
                 await _aspireService.UpdateContractCustomer(updatedContract.Id, contractOwnerId);
-            }
-
-            if (updatedContract.Details != null && newCustomer.CustomerComment != null)
-            {
-                if (string.IsNullOrEmpty(updatedContract.Details.Notes))
-                {
-                    updatedContract.Details.Notes = newCustomer.CustomerComment;
-                }
-                else
-                {
-                    updatedContract.Details.Notes += newCustomer.CustomerComment;
-                }
-            }
+            }            
 
             return new Tuple<Contract, bool>(updatedContract, true);
         }

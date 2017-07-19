@@ -303,13 +303,13 @@ if (creditCheckError != null)
 					@Html.ActionLink(@Resources.PrivacyPolicy, "PrivacyPolicy", "Info", null, new { @class="dealnet-info-link", target = "_blank" })
 				</div>
 			</div>
-			@*<div class="form-group">
+			<div class="form-group">
 				<label for="agreement-checkbox-data2" class="align-middle custom-checkbox">
 					<input type="checkbox" class="dealnet-checkbox address-checkbox" id="agreement-checkbox-data2"/>
 					<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
 					<span class="mandatory-field">@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
 				</label>
-			</div>*@
+			</div>
 		</div>
 
 		@if (Model.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 0)
@@ -516,13 +516,13 @@ if (creditCheckError != null)
 					@Html.ActionLink(@Resources.PrivacyPolicy, "PrivacyPolicy", "Info", null, new { @class="dealnet-info-link", target = "_blank" })
 				</div>
 			</div>
-			@*<div class="form-group">
+			<div class="form-group">
 				<label for="consent-checkbox-data@(i + 1)" class="align-middle custom-checkbox">
 					<input type="checkbox" class="dealnet-checkbox address-checkbox" id="consent-checkbox-data@(i + 1)"/>
 					<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-					<span>@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
+					<span class="mandatory-field">@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
 				</label>
-			</div>*@
+			</div>
 		</div>
 
 			}
@@ -1140,9 +1140,4 @@ if (creditCheckError != null)
     @Scripts.Render("~/bundles/localization")
     @Scripts.Render("~/bundles/credit-check")
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=assignAutocompletes" async defer></script>
-	@*<script type="text/javascript">
-		$(document).ready(function () {
-			ga('send', 'event', 'Credit Check Approved', 'PreApproved Message Displayed', 'By Dealer', '20');
-		});
-	</script>*@
 }

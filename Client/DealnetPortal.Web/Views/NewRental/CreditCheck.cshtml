@@ -6,19 +6,16 @@
 <div class="dealnet-large-header">@Resources.EquipmentInformation</div>
 <div id="steps-line"></div>
 <div class="row" id="steps">
-    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+    <div class="col-xs-4">
         <div class="step-item">1</div>
     </div>
-    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <div id="step2" class="step-item">2</div>
+    <div class="col-xs-4">
+        <div id="step2" class="step-item step-active">2</div>
 
-        <div id="step3" class="step-item step-active">3</div>
+        <div id="step3" class="step-item">3</div>
     </div>
-    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+    <div class="col-xs-4">
         <div id="step4" class="step-item">4</div>
-    </div>
-    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <div id="step5" class="step-item">5</div>
     </div>
 </div>
 <div class="new-rental-credit-check">
@@ -37,15 +34,13 @@
                     type: "POST",
                     url: '@Url.Action("GetCreditCheckRedirection", new {@contractId = Model })',
                     success: function (json) { 
-						window.location = json;
-						
+                        window.location = json;
                     },
                     error: function (xhr, status, p3) {
                         window.location = '@Url.Action("Error", "Info")';
                     }
                 });
                 @*window.location.href = "@Url.Action("CheckCreditStatus", new { contractId = Model })";*@
-				ga('send', 'event', 'Credit Check', 'button_click', 'Step 2 from Dealer Portal', '100');
-			});
+            });
     </script>
 }

@@ -34,6 +34,7 @@ namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
 
         //public string Notes { get; set; }
         public DateTime? PreferredStartDate { get; set; }
+        public string Notes { get; set; }
 
         public DateTime? EstimatedInstallationDate { get; set; }
 
@@ -44,5 +45,9 @@ namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
         public string InstallerLastName { get; set; }
 
         public int ContractId { get; set; }
+
+        public int? RateCardId { get; set; }
+
+        public double? DealerCost { get; set; }
     }
 }
