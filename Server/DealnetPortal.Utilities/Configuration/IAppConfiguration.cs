@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Utilities.Configuration
 {
-    public interface IConfigurationReader
+    public interface IAppConfiguration
     {
         string GetSetting(string key);
     }

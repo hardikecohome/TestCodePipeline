@@ -40,7 +40,7 @@ namespace DealnetPortal.Api
 
         public static void RegisterTypes(IUnityContainer container)
         {
-            var configReader = new ConfigurationReader(WebConfigSections.AdditionalSections);
+            var configReader = new AppConfiguration(WebConfigSections.AdditionalSections);
 
             container.RegisterType<IDatabaseFactory, DatabaseFactory>(new PerResolveLifetimeManager());
             container.RegisterType<IUnitOfWork, UnitOfWork>(new PerResolveLifetimeManager());
@@ -92,7 +92,7 @@ namespace DealnetPortal.Api
             container.RegisterType<IEmailService, EmailService>();
             container.RegisterType<IDealerService, DealerService>();
             container.RegisterType<IBackgroundSchedulerService, BackgroundSchedulerService>();
-            container.RegisterType<IConfigurationReader, ConfigurationReader>(new ContainerControlledLifetimeManager(), new InjectionConstructor(WebConfigSections.AdditionalSections as object));
+            container.RegisterType<IAppConfiguration, AppConfiguration>(new ContainerControlledLifetimeManager(), new InjectionConstructor(WebConfigSections.AdditionalSections as object));
         }
     }
 }

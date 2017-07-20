@@ -9,15 +9,15 @@ using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Utilities.Configuration
 {
-    public class ConfigurationReader : IConfigurationReader
+    public class AppConfiguration : IAppConfiguration
     {
         private readonly ICollection<string> _additionalSections;
 
-        public ConfigurationReader()
+        public AppConfiguration()
         {
             _additionalSections = null;
         }
-        public ConfigurationReader(ICollection<string> additionalSections)
+        public AppConfiguration(ICollection<string> additionalSections)
         {
             _additionalSections = additionalSections;
         }

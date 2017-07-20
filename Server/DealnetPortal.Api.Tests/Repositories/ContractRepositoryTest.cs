@@ -20,7 +20,7 @@ namespace DealnetPortal.Api.Tests.Repositories
     public class ContractRepositoryTest : BaseRepositoryTest
     {
         protected IContractRepository _contractRepository;
-        protected IConfigurationReader _configurationReader;
+        protected IAppConfiguration _сonfiguration;
         public TestContext TestContext { get; set; }
 
         [ClassInitialize]
@@ -34,8 +34,8 @@ namespace DealnetPortal.Api.Tests.Repositories
         public void Initialize()
         {
             InitializeTestDatabase();
-            _configurationReader = new Mock<IConfigurationReader>().Object;
-            _contractRepository = new ContractRepository(_databaseFactory, _configurationReader);
+            _сonfiguration = new Mock<IAppConfiguration>().Object;
+            _contractRepository = new ContractRepository(_databaseFactory, _сonfiguration);
         }
 
         [TestMethod]

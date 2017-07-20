@@ -15,7 +15,7 @@ namespace DealnetPortal.Api.Helpers
     {
         public static async Task<string> GeneratePasswordAsync()
         {
-            var length = Convert.ToInt32(new ConfigurationReader().GetSetting(WebConfigKeys.ES_SMTPPASSLENGTH_CONFIG_KEY));
+            var length = Convert.ToInt32(new Utilities.Configuration.AppConfiguration().GetSetting(WebConfigKeys.ES_SMTPPASSLENGTH_CONFIG_KEY));
             const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+\\/.,?|{}[]=";
             var res = new StringBuilder();
             var rnd = new Random();

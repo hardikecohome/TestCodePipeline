@@ -27,14 +27,14 @@ namespace DealnetPortal.DataAccess.Migrations
     {
         private const string EcohomeAppId = "df460bb2-f880-42c9-aae5-9e3c76cdcd0f";
         private const string OdiAppId = "606cfa8b-0e2c-47ef-b646-66c5f639aebd";
-        private readonly IConfigurationReader _configurationReader;
+        private readonly IAppConfiguration _ñonfiguration;
 
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = true;           
             ContextKey = "DealnetPortal.DataAccess.ApplicationDbContext";
-            _configurationReader = new ConfigurationReader(WebConfigSections.AdditionalSections);
+            _ñonfiguration = new Utilities.Configuration.AppConfiguration(WebConfigSections.AdditionalSections);
         }
 
         protected override void Seed(DealnetPortal.DataAccess.ApplicationDbContext context)
@@ -42,9 +42,9 @@ namespace DealnetPortal.DataAccess.Migrations
             //  This method will be called after migrating to the latest version.
 
             bool dataSeedEnabled = true;
-            if (_configurationReader.GetSetting(WebConfigKeys.INITIAL_DATA_SEED_ENABLED_CONFIG_KEY) != null)
+            if (_ñonfiguration.GetSetting(WebConfigKeys.INITIAL_DATA_SEED_ENABLED_CONFIG_KEY) != null)
             {
-                bool.TryParse(_configurationReader.GetSetting(WebConfigKeys.INITIAL_DATA_SEED_ENABLED_CONFIG_KEY),
+                bool.TryParse(_ñonfiguration.GetSetting(WebConfigKeys.INITIAL_DATA_SEED_ENABLED_CONFIG_KEY),
                     out dataSeedEnabled);                
             }
 
@@ -1437,7 +1437,7 @@ namespace DealnetPortal.DataAccess.Migrations
             {
                 try
                 {
-                    var seedDataFolder = _configurationReader.GetSetting(WebConfigKeys.AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY);
+                    var seedDataFolder = _ñonfiguration.GetSetting(WebConfigKeys.AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY);
                     var dir = HostingEnvironment.MapPath($"~/{seedDataFolder}");
                     var path = Path.Combine(dir ?? "", t.TemplateName + ".pdf");
                     if (File.Exists(path))
@@ -1508,7 +1508,7 @@ namespace DealnetPortal.DataAccess.Migrations
             {
                 try
                 {
-                    var seedDataFolder = _configurationReader.GetSetting(WebConfigKeys.AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY);
+                    var seedDataFolder = _ñonfiguration.GetSetting(WebConfigKeys.AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY);
                     var dir = HostingEnvironment.MapPath($"~/{seedDataFolder}");
                     var path = Path.Combine(dir ?? "", t.TemplateName + ".pdf");
                     if (File.Exists(path))
@@ -1812,7 +1812,7 @@ namespace DealnetPortal.DataAccess.Migrations
             {
                 try
                 {
-                    var seedDataFolder = _configurationReader.GetSetting(WebConfigKeys.AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY);
+                    var seedDataFolder = _ñonfiguration.GetSetting(WebConfigKeys.AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY);
                     var dir = HostingEnvironment.MapPath($"~/{seedDataFolder}") ?? "";
 
                     var files = Directory.GetFiles(dir, $"{u.UserName}*.*");

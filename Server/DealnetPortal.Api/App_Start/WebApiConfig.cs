@@ -15,7 +15,7 @@ namespace DealnetPortal.Api
 
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
+            // Web API appConfiguration and services
             // Configure Web API to use only bearer token authentication.
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));            
@@ -35,7 +35,7 @@ namespace DealnetPortal.Api
 
         public static void CheckConfigKeys()
         {
-            var configReader = new ConfigurationReader(WebConfigSections.AdditionalSections);            
+            var configReader = new AppConfiguration(WebConfigSections.AdditionalSections);            
             Type type = typeof(WebConfigKeys);
             foreach (var key in type.GetFields(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public))
             {

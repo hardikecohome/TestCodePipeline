@@ -54,7 +54,7 @@ namespace DealnetPortal.Api
             {
                 manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
-            manager.EmailService = new EmailService(new ConfigurationReader(WebConfigSections.AdditionalSections));
+            manager.EmailService = new EmailService(new AppConfiguration(WebConfigSections.AdditionalSections));
             return manager;
         }
     }

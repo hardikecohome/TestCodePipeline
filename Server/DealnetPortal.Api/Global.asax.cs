@@ -32,8 +32,8 @@ namespace DealnetPortal.Api
             AutoMapperConfig.Configure();
             WebApiConfig.CheckConfigKeys();
 
-            //GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerSelector),
-            //    new LocalizedControllerSelector(GlobalConfiguration.Configuration));
+            //GlobalConfiguration.appConfiguration.Services.Replace(typeof(IHttpControllerSelector),
+            //    new LocalizedControllerSelector(GlobalConfiguration.appConfiguration));
         }
 
         protected void Application_BeginRequest(object sender, EventArgs e)

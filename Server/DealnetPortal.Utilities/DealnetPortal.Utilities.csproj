@@ -50,8 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\ConfigurationReader.cs" />
-    <Compile Include="Configuration\IConfigurationReader.cs" />
+    <Compile Include="Configuration\AppConfiguration.cs" />
+    <Compile Include="Configuration\IAppConfiguration.cs" />
     <Compile Include="DataAccess\IDatabaseService.cs" />
     <Compile Include="DataAccess\IQueriesStorage.cs" />
     <Compile Include="DataAccess\MsSqlDatabaseService.cs" />

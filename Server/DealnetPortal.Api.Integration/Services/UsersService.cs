@@ -31,10 +31,10 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ISettingsRepository _settingsRepository;
         private readonly IRateCardsRepository _rateCardsRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IConfigurationReader _configurationReader;
+        private readonly IAppConfiguration _сonfiguration;
 
         public UsersService(IAspireStorageReader aspireStorageReader, IDatabaseFactory databaseFactory, ILoggingService loggingService, IRateCardsRepository rateCardsRepository,
-            ISettingsRepository settingsRepository, IUnitOfWork unitOfWork, IConfigurationReader configurationReader)
+            ISettingsRepository settingsRepository, IUnitOfWork unitOfWork, IAppConfiguration appConfiguration)
         {
             _aspireStorageReader = aspireStorageReader;
             _loggingService = loggingService;
@@ -42,7 +42,7 @@ namespace DealnetPortal.Api.Integration.Services
             _rateCardsRepository = rateCardsRepository;
             _unitOfWork = unitOfWork;
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(databaseFactory.Get()));
-            _configurationReader = configurationReader;
+            _сonfiguration = appConfiguration;
         }        
 
         public IList<Claim> GetUserClaims(string userId)
@@ -177,7 +177,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var dbRoles = await _userManager.GetRolesAsync(userId);
                 if (!dbRoles.Contains(aspireUser.Role))
                 {
-                    var mbRoles = _configurationReader.GetSetting(WebConfigKeys.MB_ROLE_CONFIG_KEY).Split(',').Select(s => s.Trim()).ToArray();
+                    var mbRoles = _сonfiguration.GetSetting(WebConfigKeys.MB_ROLE_CONFIG_KEY).Split(',').Select(s => s.Trim()).ToArray();
                     var user = await _userManager.FindByIdAsync(userId);
                     var removeRes = await _userManager.RemoveFromRolesAsync(userId, dbRoles.ToArray());
                     IdentityResult addRes;

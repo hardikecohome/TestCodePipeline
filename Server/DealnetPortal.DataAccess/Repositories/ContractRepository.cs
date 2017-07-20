@@ -18,10 +18,10 @@ namespace DealnetPortal.DataAccess.Repositories
 {
     public class ContractRepository : BaseRepository, IContractRepository
     {
-        private readonly IConfigurationReader _configReader;
-        public ContractRepository(IDatabaseFactory databaseFactory, IConfigurationReader configReader) : base(databaseFactory)
+        private readonly IAppConfiguration _config;
+        public ContractRepository(IDatabaseFactory databaseFactory, IAppConfiguration config) : base(databaseFactory)
         {
-            _configReader = configReader;
+            _config = config;
         }
 
         #region Public
@@ -62,7 +62,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public IList<Contract> GetDealerLeads(string userId)
         {
-            var creditReviewStates = _configReader.GetSetting(WebConfigKeys.CREDIT_REVIEW_STATUS_CONFIG_KEY).Split(',').Select(s => s.Trim()).ToArray();
+            var creditReviewStates = _config.GetSetting(WebConfigKeys.CREDIT_REVIEW_STATUS_CONFIG_KEY).Split(',').Select(s => s.Trim()).ToArray();
             
             var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
             var dealerProfile = _dbContext.DealerProfiles.FirstOrDefault(p => p.DealerId == userId);
@@ -804,7 +804,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public bool IsContractUnassignable(int contractId)
         {
-            var creditReviewStates = _configReader.GetSetting(WebConfigKeys.CREDIT_REVIEW_STATUS_CONFIG_KEY).Split(',').Select(s => s.Trim()).ToArray();
+            var creditReviewStates = _config.GetSetting(WebConfigKeys.CREDIT_REVIEW_STATUS_CONFIG_KEY).Split(',').Select(s => s.Trim()).ToArray();
 
             var contract = _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)
