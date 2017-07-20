@@ -25,6 +25,7 @@ using System.Text.RegularExpressions;
 using System.Web.Routing;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Utilities.Messaging;
 
@@ -36,16 +37,21 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ILoggingService _loggingService;
         private readonly IContractRepository _contractRepository;
 
-        private readonly string cwDomain = ConfigurationManager.AppSettings[WebConfigKeys.CW_CLIENT_CONFIG_KEY];
-        private readonly string cwEmail = ConfigurationManager.AppSettings[WebConfigKeys.CW_EMAIL_CONFIG_KEY];
-        private readonly string cwPhone = ConfigurationManager.AppSettings[WebConfigKeys.CW_PHONE_CONFIG_KEY];
+        private readonly string cwDomain;
+        private readonly string cwEmail;
+        private readonly string cwPhone;
         private readonly string dealNetEmail = ConfigurationManager.AppSettings[WebConfigKeys.DN_EMAIL_CONFIG_KEY];
 
-        public MailService(IEmailService emailService, IContractRepository contractRepository, ILoggingService loggingService)
+        public MailService(IEmailService emailService, IContractRepository contractRepository, ILoggingService loggingService, IAppConfiguration configuration)
         {
             _emailService = emailService;
             _contractRepository = contractRepository;
             _loggingService = loggingService;
+
+            cwDomain = configuration.GetSetting(WebConfigKeys.CW_CLIENT_CONFIG_KEY);
+            cwEmail = configuration.GetSetting(WebConfigKeys.CW_EMAIL_CONFIG_KEY);
+            cwPhone = configuration.GetSetting(WebConfigKeys.CW_PHONE_CONFIG_KEY);
+            dealNetEmail = configuration.GetSetting(WebConfigKeys.DN_EMAIL_CONFIG_KEY);
         }
 
         #region DP

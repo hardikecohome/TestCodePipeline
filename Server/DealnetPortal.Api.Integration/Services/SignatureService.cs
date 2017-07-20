@@ -18,6 +18,7 @@ using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
+using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
 using FormField = DealnetPortal.Api.Models.Signature.FormField;
 
@@ -36,14 +37,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IFileRepository _fileRepository;
         private readonly IDealerRepository _dealerRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IAspireStorageReader _aspireStorageReader;
-
-        private readonly string _eCoreSignatureRole;
-        private readonly string _eCoreAgreementTemplate;
-        private readonly string _eCoreCustomerSecurityCode;
-
-        private List<string> _signatureFields = new List<string>() {"Signature1", "Signature2"}; //, "Sinature3"};
-        private List<string> _signatureRoles = new List<string>();
+        private readonly IAspireStorageReader _aspireStorageReader;               
 
         public SignatureService(
             ISignatureEngine signatureEngine, 
@@ -57,22 +51,12 @@ namespace DealnetPortal.Api.Integration.Services
         {
             _signatureEngine = signatureEngine;
             _pdfEngine = pdfEngine;
-            //_signatureServiceAgent = signatureServiceAgent;
             _contractRepository = contractRepository;
             _loggingService = loggingService;
             _dealerRepository = dealerRepository;
             _fileRepository = fileRepository;
             _unitOfWork = unitOfWork;
-            _aspireStorageReader = aspireStorageReader;
-
-            _eCoreSignatureRole = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_SIGNATUREROLE_CONFIG_KEY];
-            _eCoreAgreementTemplate = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_AGREEMENTTEMPLATE_CONFIG_KEY];
-            _eCoreCustomerSecurityCode =
-                System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_CUSTOMERSECURITYCODE_CONFIG_KEY];
-
-            _signatureRoles.Add(_eCoreSignatureRole);
-            _signatureRoles.Add($"{_eCoreSignatureRole}2");
-            //_signatureRoles.Add($"{_eCoreSignatureRole}3");
+            _aspireStorageReader = aspireStorageReader;            
         }
 
         public async Task<IList<Alert>> ProcessContract(int contractId, string ownerUserId,

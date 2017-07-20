@@ -34,8 +34,9 @@ namespace DealnetPortal.Api
         }
 
         public static void CheckConfigKeys()
-        {
-            var configReader = new AppConfiguration(WebConfigSections.AdditionalSections);            
+        {            
+            var configReader = (IAppConfiguration)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAppConfiguration)) ?? 
+                                new AppConfiguration(WebConfigSections.AdditionalSections);
             Type type = typeof(WebConfigKeys);
             foreach (var key in type.GetFields(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public))
             {

@@ -18,6 +18,7 @@ using DealnetPortal.Aspire.Integration.ServiceAgents;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
+using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
 using Microsoft.Practices.ObjectBuilder2;
 using Application = DealnetPortal.Aspire.Integration.Models.Application;
@@ -31,20 +32,21 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ILoggingService _loggingService;
         private readonly IContractRepository _contractRepository;
         private readonly IUnitOfWork _unitOfWork;
-
+        private readonly IAppConfiguration _configuration;
         private readonly TimeSpan _aspireRequestTimeout;
 
         //Aspire codes
         private const string CodeSuccess = "T000";
 
         public AspireService(IAspireServiceAgent aspireServiceAgent, IContractRepository contractRepository, 
-            IUnitOfWork unitOfWork, IAspireStorageReader aspireStorageReader, ILoggingService loggingService)
+            IUnitOfWork unitOfWork, IAspireStorageReader aspireStorageReader, ILoggingService loggingService, IAppConfiguration configuration)
         {
             _aspireServiceAgent = aspireServiceAgent;
             _aspireStorageReader = aspireStorageReader;
             _contractRepository = contractRepository;
             _loggingService = loggingService;
             _unitOfWork = unitOfWork;
+            _configuration = configuration;
             _aspireRequestTimeout = TimeSpan.FromSeconds(90);
         }
 
@@ -504,7 +506,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             TransactionId = contract.Details.TransactionId,                            
                             
-                            Status = ConfigurationManager.AppSettings[WebConfigKeys.DOCUMENT_UPLOAD_STATUS_CONFIG_KEY]                            
+                            Status = _configuration.GetSetting(WebConfigKeys.DOCUMENT_UPLOAD_STATUS_CONFIG_KEY)
                         };
 
                         request.Payload.Documents = new List<Document>()
@@ -584,7 +586,7 @@ namespace DealnetPortal.Api.Integration.Services
                             request.Payload = new DocumentUploadPayload()
                             {
                                 TransactionId = contract.Details.TransactionId,
-                                Status = ConfigurationManager.AppSettings[WebConfigKeys.ALL_DOCUMENTS_UPLOAD_STATUS_CONFIG_KEY]
+                                Status = _configuration.GetSetting(WebConfigKeys.ALL_DOCUMENTS_UPLOAD_STATUS_CONFIG_KEY)
                             };
 
                             var submitString = "Request to Fund";
@@ -731,8 +733,8 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     header = new RequestHeader()
                     {
-                        UserId = ConfigurationManager.AppSettings[WebConfigKeys.ASPIRE_USER_CONFIG_KEY],
-                        Password = ConfigurationManager.AppSettings[WebConfigKeys.ASPIRE_PASSWORD_CONFIG_KEY]
+                        UserId = _configuration.GetSetting(WebConfigKeys.ASPIRE_USER_CONFIG_KEY),
+                        Password = _configuration.GetSetting(WebConfigKeys.ASPIRE_PASSWORD_CONFIG_KEY)
                     };
                 }
             }
@@ -762,7 +764,7 @@ namespace DealnetPortal.Api.Integration.Services
             const string GuarRole = "GUAR";
 
             var accounts = new List<Account>();
-            var portalDescriber = ConfigurationManager.AppSettings[$"PortalDescriber.{contract.Dealer?.ApplicationId}"];            
+            var portalDescriber = _configuration.GetSetting($"PortalDescriber.{contract.Dealer?.ApplicationId}");
 
             Func<Domain.Customer, string, Account> fillAccount = (c, role) =>
             {
@@ -1178,7 +1180,7 @@ namespace DealnetPortal.Api.Integration.Services
                     _loggingService.LogError("Failed to get subdealers from Aspire", ex);
                 }
             }
-            var portalDescriber = ConfigurationManager.AppSettings[$"PortalDescriber.{contract.Dealer?.ApplicationId}"];
+            var portalDescriber = _configuration.GetSetting($"PortalDescriber.{contract.Dealer?.ApplicationId}");
             if (!string.IsNullOrEmpty(portalDescriber))
             {
                 udfList.Add(new UDF()
