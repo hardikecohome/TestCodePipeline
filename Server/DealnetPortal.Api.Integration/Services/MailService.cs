@@ -385,6 +385,8 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 // await _emailService.SendAsync(mail);
                 // Hardik Mailchimp trigger to update Equipment type
+                var result = await _personalizedMessageService.SendMessage(contract.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
+
                 if (await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress))
                 {
                     await _mandrillService.SendHomeImprovementTypeUpdatedConfirmation(contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
@@ -395,8 +397,7 @@ namespace DealnetPortal.Api.Integration.Services
 
 
                 }
-                var result = await _personalizedMessageService.SendMessage(contract.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
-
+                
             }
             catch (Exception ex)
             {
@@ -571,7 +572,7 @@ namespace DealnetPortal.Api.Integration.Services
                
                 //await _mailChimpService.AddNewSubscriberAsync(ConfigurationManager.AppSettings["ListID"], member);
                 var result = await _personalizedMessageService.SendMessage(contract.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
-                if (await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress))
+                if (await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress.ToLower()))
                 {
                     
                     await _mandrillService.SendDealerLeadAccepted(contract, dealer, services);
