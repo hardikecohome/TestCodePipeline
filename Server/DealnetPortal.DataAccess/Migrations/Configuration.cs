@@ -583,19 +583,21 @@ namespace DealnetPortal.DataAccess.Migrations
                 new EquipmentType {Description = "Windows", DescriptionResource = "Windows", Type = "ECO13"},
                 new EquipmentType {Description = "Sunrooms", DescriptionResource = "Sunrooms", Type = "ECO38"},
                 new EquipmentType {Description = "Air Handler", DescriptionResource = "AirHandler", Type = "ECO40"},
-                new EquipmentType {Description = "Flooring", DescriptionResource = "Flooring", Type = "ECO42"},
+                //new EquipmentType {Description = "Flooring", DescriptionResource = "Flooring", Type = "ECO42"},
                 new EquipmentType {Description = "Porch Enclosure", DescriptionResource = "PorchEnclosure", Type = "ECO43"},
                 new EquipmentType {Description = "Water Treatment System", DescriptionResource = "WaterTreatmentSystem", Type = "ECO44"},
                 new EquipmentType {Description = "Heat Pump", DescriptionResource = "HeatPump", Type = "ECO45"},
                 new EquipmentType {Description = "HRV", DescriptionResource = "Hrv", Type = "ECO46"},
-                new EquipmentType {Description = "Bathroom", DescriptionResource = "Bathroom", Type = "ECO47"},
-                new EquipmentType {Description = "Kitchen", DescriptionResource = "Kitchen", Type = "ECO48"},
+               // new EquipmentType {Description = "Bathroom", DescriptionResource = "Bathroom", Type = "ECO47"},
+                //new EquipmentType {Description = "Kitchen", DescriptionResource = "Kitchen", Type = "ECO48"},
                 new EquipmentType {Description = "Hepa System", DescriptionResource = "HepaSystem", Type = "ECO49"},
                 //new EquipmentType {Description = "Unknown", DescriptionResource = "Unknown", Type = "ECO50"},
-                new EquipmentType {Description = "Security System", DescriptionResource = "SecuritySystem", Type = "ECO52"},
-                new EquipmentType {Description = "Basement Repair", DescriptionResource = "BasementRepair", Type = "ECO55"},
+               // new EquipmentType {Description = "Security System", DescriptionResource = "SecuritySystem", Type = "ECO52"},
+               // new EquipmentType {Description = "Basement Repair", DescriptionResource = "BasementRepair", Type = "ECO55"},
                 new EquipmentType {Description = "Spa", DescriptionResource = "Spa", Type = "ECO58"},
-                new EquipmentType {Description = "Well pump", DescriptionResource = "WellPump", Type = "ECO59"}
+                new EquipmentType {Description = "Well pump", DescriptionResource = "WellPump", Type = "ECO59"},
+                new EquipmentType {Description = "Air Filtration", DescriptionResource = "AirFiltration", Type = "ECO23"},
+                new EquipmentType {Description = "Vertical Fan/HRV Combo", DescriptionResource = "VerticalFanHRVCombo", Type = "ECO60"}
             };
             //leave existing data
             //equipmentTypes.RemoveAll(e => context.EquipmentTypes.Any(dbe => dbe.Type == e.Type));
