@@ -996,9 +996,12 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                     _loggingService.LogError(aspireAlerts.FirstOrDefault().Message);
                 }
-                var contract = _contractRepository.GetContractAsUntracked(doc.ContractId, contractOwnerId);
-                var contractDTO = Mapper.Map<ContractDTO>(contract);
-                //Task.Run(async () => await _mailService.SendContractChangeNotification(contractDTO, contract.Dealer.Email));
+                else
+                {
+                    var contract = _contractRepository.GetContractAsUntracked(doc.ContractId, contractOwnerId);
+                    var contractDTO = Mapper.Map<ContractDTO>(contract);
+                    //Task.Run(async () => await _mailService.SendContractChangeNotification(contractDTO, contract.Dealer.Email));
+                }
             }
             catch (Exception ex)
             {

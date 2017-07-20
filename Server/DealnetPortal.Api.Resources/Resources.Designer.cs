@@ -70,6 +70,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Air Filtration.
+        /// </summary>
+        public static string AirFiltration {
+            get {
+                return ResourceManager.GetString("AirFiltration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Air Handler.
         /// </summary>
         public static string AirHandler {
@@ -1083,6 +1092,15 @@ namespace DealnetPortal.Api.Resources {
         public static string Value {
             get {
                 return ResourceManager.GetString("Value", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vertical Fan/HRV Combo.
+        /// </summary>
+        public static string VerticalFanHRVCombo {
+            get {
+                return ResourceManager.GetString("VerticalFanHRVCombo", resourceCulture);
             }
         }
         
