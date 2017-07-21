@@ -371,7 +371,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="SeedData\AB- SHF Credit Application and Loan Agreement 2017.03.10.pdf" />
+    <Content Include="SeedData\BC- SHF Application and Loan Agreement- 2017.03.10.pdf" />
     <Content Include="SeedData\Canadian Home Efficiency HVAC.pdf" />
     <Content Include="SeedData\Eco Energy Rental App 3-18-15.pdf" />
     <Content Include="SeedData\Eco Energy Rental HWT App 4-8-15.pdf" />
@@ -388,11 +388,19 @@
     <Content Include="SeedData\EcoHome Rental Agreement - Alberta M 11.99%25 - NOV 2016.pdf" />
     <Content Include="SeedData\EcoSmart HVAC Rental.pdf" />
     <Content Include="SeedData\EnerTech Home Services H.V.A.C OTHER RENTAL AGREEMENT.pdf" />
+    <Content Include="SeedData\MB - SHF  Credit Application and Loan Agreement  2017.03.10.pdf" />
+    <Content Include="SeedData\NB- SHF Application and Loan Agreement.2017.03.10.pdf" />
+    <Content Include="SeedData\noteworkingNB- SHF Application and Loan Agreement.2017.03.10.pdf" />
+    <Content Include="SeedData\NS- SHF Credit Application and Loan Agreement -  2017.03.10.pdf" />
+    <Content Include="SeedData\ON - SHF Loan Agreement 2017.03.10.pdf" />
     <Content Include="SeedData\ON - SHF Loan Agreement 2017.05.25 %28spring promo%29.pdf" />
     <Content Include="SeedData\ONE DEALER Completion Certificate - Rental.pdf" />
+    <Content Include="SeedData\SHF HVAC Rental Agreement 12.20.2016.pdf" />
     <Content Include="SeedData\SHF HVAC Rental Agreement 12202016.pdf" />
+    <Content Include="SeedData\SK SHF Loan Agreement 2017.03.23 %2811%25 TAX%29 %28 Effective April 1st%29 .pdf" />
     <Content Include="SeedData\Smart Home HVAC agreement Nov 2016 M.PDF" />
     <Content Include="SeedData\Smart Home Ontario Loan Agreement Nov 2016.pdf" />
+    <Content Include="SeedData\AB- SHF Credit Application and Loan Agreement 2017.03.10.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
