@@ -22,6 +22,14 @@ namespace DealnetPortal.Api.Integration.Services
         {
             try
             {
+                var email = newCustomer.PrimaryCustomer.Emails.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
+                       newCustomer.PrimaryCustomer.Emails.FirstOrDefault()?.EmailAddress;
+                var checkCustomerAlerts = await _customerWalletService.CheckCustomerExisting(email);
+                if (checkCustomerAlerts.Any())
+                {
+                    return new Tuple<ContractDTO, IList<Alert>>(null, checkCustomerAlerts);
+                }
+
                 var contractsResultList = new List<Tuple<Contract, bool>>();
 
                 if (newCustomer.HomeImprovementTypes != null && newCustomer.HomeImprovementTypes.Any())
