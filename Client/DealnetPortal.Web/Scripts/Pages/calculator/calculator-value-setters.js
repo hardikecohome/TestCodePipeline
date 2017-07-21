@@ -86,6 +86,18 @@
         callback([optionKey]);
     }
 
+    var removeEquipment = function (optionKey, callback) {
+        return function (e) {
+            var id = e.target.id;
+            id = +id.substr(id.lastIndexOf('-') + 1);
+            delete state[optionKey].equipments[id];
+            $('#equipment-' + id).remove();
+            state.equipmentNextIndex--;
+
+            callback([optionKey]);
+        }
+    }
+
     var setRentalMPayment = function (e) {
         state.rentalMPayment = parseFloat(e.target.value);
         recalculateRentalTaxAndPrice();
@@ -114,6 +126,7 @@
         setDownPayment: setDownPayment,
         setRateCardPlan: setRateCardPlan,
         setEquipmentCost: setEquipmentCost,
-        setNewEquipment: setNewEquipment
+        setNewEquipment: setNewEquipment,
+        removeEquipment: removeEquipment
     }
 });

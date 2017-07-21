@@ -88,7 +88,9 @@
 
         selectRateCard(name);
         setup(name, calculate);
-        $('#add-option').on('click', add);
+        $('#add-option').on('click', function () {
+            add(calculate);
+        });
     }
 
     $(function() {

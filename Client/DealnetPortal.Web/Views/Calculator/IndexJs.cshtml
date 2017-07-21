@@ -28,7 +28,7 @@
         </h2>
         <div class="rate-card table-mode">
           <div class="equipments-hold">
-            <div class="equipment-item">
+            <div class="equipment-item" id="equipment-0">
               <div class="dealnet-middle-header equipment-heading">
                 <span>@Resources.Equipment  №1</span>
                 <div class="additional-remove">
@@ -67,15 +67,18 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-4 col-sm-6">
+      <div class="col-md-4 col-sm-6" id="first-add-button">
         <button class="btn dealnet-button dealnet-success-button btn-add-calc-option" type="button" id="add-option">Add Another Option to Compare</button>
+      </div>
+      <div class="col-md-4 col-sm-6" id="second-add-button">
+        <button class="btn dealnet-button dealnet-success-button btn-add-calc-option hidden" type="button" id="add-option">Add Another Option to Compare</button>
       </div>
     </div>
   </div>
 </div>
 
 <div class="hidden" id="equipment-template">
-  <div class="equipment-item">
+  <div class="equipment-item" id="equipment-">
     <div class="dealnet-middle-header equipment-heading">
       <span>@Resources.Equipment  №1</span>
       <div class="additional-remove">
