@@ -11,6 +11,8 @@
 
     var setup = require('calculator-option').optionSetup;
     var render = require('calculator-option').renderOption;
+    var add = require('calculator-option').addOption;
+
     var state = require('calculator-state').state;
 
     var notNaN = function (num) { return !isNaN(num); };
@@ -86,6 +88,7 @@
 
         selectRateCard(name);
         setup(name, calculate);
+        $('#add-option').on('click', add);
     }
 
     $(function() {

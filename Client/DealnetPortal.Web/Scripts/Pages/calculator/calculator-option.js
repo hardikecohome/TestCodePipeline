@@ -5,7 +5,18 @@
 
     var optionSetup = function(option, callback) {
         $('#' + option + '-addEquipment').on('click', function () {
-            console.log('add equipment for ' + option);
+            var template = $('#equipment-template').html();
+            var parentNode = $('<div></div>');
+            var result = template.split('Equipment.NewEquipment[0]')
+                .join('Equipment.NewEquipment[' + state.equipmentNextIndex + ']')
+                .split('Equipment_NewEquipment_0').join('Equipment_NewEquipment_' + state.equipmentNextIndex)
+                .replace("№1", "№" + (state.equipmentNextIndex + 1));
+            parentNode.append($.parseHTML(result));
+            // equipment handlers
+            $(parentNode).find('.equipment-cost').on('change', setters.setEquipmentCost(option, callback));
+            $('#' + option + '-container').find('.equipments-hold').append(parentNode);
+
+            setters.setNewEquipment(option, callback);
 
         });
 
@@ -16,6 +27,7 @@
         state[option].equipments[state.equipmentNextIndex] = { id: state.equipmentNextIndex.toString(), cost: '' };
 
         $('#Equipment_NewEquipment_' + state.equipmentNextIndex + '__Cost').on('change', setters.setEquipmentCost(option, callback));
+        state.equipmentNextIndex++;
         $('#' + option + '-plan').change();
     }
 
@@ -52,7 +64,16 @@
         }
     }
 
+    var addOption = function () {
+        var index = $('#options-container').find('.rate-card-col').length;
+        var optionToCopy = $('#option' + index + '-container').html();
+        var optionContainer = $('<div class="col-md-4 col-sm-6 rate-card-col"></div>');
+        optionContainer.append($.parseHTML(optionToCopy));
+        $('#options-container').append(optionContainer);
+    }
+
     return {
+        addOption: addOption,
         optionSetup: optionSetup,
         renderOption: renderOption
     }
