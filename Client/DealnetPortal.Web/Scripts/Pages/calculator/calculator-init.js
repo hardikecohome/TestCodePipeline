@@ -16,7 +16,6 @@
         });
 
         state.amortLoanPeriods = {};
-
         planIds.forEach(function (p) {
             state.amortLoanPeriods[p] = [];
 

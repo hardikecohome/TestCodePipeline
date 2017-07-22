@@ -79,31 +79,53 @@
         }
 
         var optionToCopy = $('#option' + index + '-container')
-                            .html()
-                            .replace("Option " + index, "Option " + (index + 1));;
-        var template = $.parseHTML(optionToCopy);
+            .html()
+            .replace("Option " + index, "Option " + (index + 1));
 
+        var template = $.parseHTML(optionToCopy);
         $(template).find('[id^="option' + index + '-"]').each(function () {
             $(this).attr('id', $(this).attr('id').replace('option' + index, 'option' + (index + 1)));
         });
-        var labelIndex = 0;
-        $(template).find('.equipment-item').find('label').each(function() {
-            $(this).attr('for', $(this).attr('for').replace('Equipment_NewEquipment_' + labelIndex, 'Equipment_NewEquipment_' + state.nextEquipmentId));
-            labelIndex++;
 
+        var equipmentsToUpdate = Object.keys(state['option' + index].equipments).map(function(k) {
+            return state['option' + index].equipments[k].id;
         });
 
-        $(template).find('.equipment-item').find('select, input').each(function() {
+        state['option' + (index + 1)] = $.extend({}, state['option' + index]);
+        state['option' + (index + 1)].equipments = {};
+        state['option' + (index + 1)].equipments = $.extend({}, state['option' + index].equipments);
 
+        $.grep(equipmentsToUpdate, function(eq) {
+            $(template).find('.equipment-item').find('label').each(function () {
+                $(this).attr('for', $(this).attr('for').replace('Equipment_NewEquipment_' + eq, 'Equipment_NewEquipment_' + state.equipmentNextIndex));
+            });
+
+            $(template).find('.equipment-item').find('select, input').each(function () {
+                $(this).attr('id', $(this).attr('id').replace('Equipment_NewEquipment_' + eq, 'Equipment_NewEquipment_' + state.equipmentNextIndex));
+                $(this).attr('name', $(this).attr('name').replace('Equipment.NewEquipment[' + index, 'Equipment_NewEquipment[' + state.equipmentNextIndex));
+            });
+
+            $('#Equipment_NewEquipment_' + state.equipmentNextIndex + '__Cost').on('change', setters.setEquipmentCost('option' + (index + 1), callback));
+            state['option' + (index + 1)].equipments[eq].id = state.equipmentNextIndex.toString(); 
+            state['option' + (index + 1)].equipments[state.equipmentNextIndex.toString()] = state['option' + (index + 1)].equipments[eq];
+            delete state['option' + (index + 1)].equipments[eq];
+            state.equipmentNextIndex++;
         });
+
         var header = $(template).find('h2').text();
         $(header).text($(header).text().replace('Option ' + index, 'Option ' + (index + 1)));
 
         var optionContainer = $('<div class="col-md-4 col-sm-6 rate-card-col"></div>');
+        optionContainer.attr('id', 'option' + (index + 1) + '-container');
         optionContainer.append(template);
         $('#options-container').append(optionContainer);
+        var newOptionIndexes = Object.keys(state['option' + (index + 1)].equipments).map(function (k) {
+            return state['option' + (index + 1)].equipments[k].id;
+        });
 
-        state['option' + (index + 1)] = state['option' + index];
+        $.grep(newOptionIndexes, function(ind) {
+            $('#Equipment_NewEquipment_' + ind + '__Cost').on('change', setters.setEquipmentCost('option' + (index + 1), callback));
+        });
 
         optionSetup('option' + (index + 1), callback);
 

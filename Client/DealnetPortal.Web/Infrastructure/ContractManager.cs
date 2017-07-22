@@ -235,6 +235,12 @@ namespace DealnetPortal.Web.Infrastructure
                 .Distinct()
                 .ToList();
 
+            model.DeferralPeriods = model.DealerTier.RateCards
+                .Select(q => Convert.ToInt32(q.DeferralPeriod))
+                .Distinct()
+                .Select(x => x + " " + (x == 1 ? Resources.Resources.Month : Resources.Resources.Months))
+                .ToList();
+
             return model;
         }
 

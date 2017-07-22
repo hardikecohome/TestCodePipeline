@@ -12,6 +12,7 @@ namespace DealnetPortal.Web.Controllers
     public class CalculatorController : Controller
     {
         private readonly IContractManager _contractManager;
+
         public CalculatorController(IContractManager contractManager)
         {
             _contractManager = contractManager;
