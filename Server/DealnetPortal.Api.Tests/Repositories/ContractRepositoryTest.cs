@@ -8,8 +8,10 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
+using DealnetPortal.Utilities.Configuration;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace DealnetPortal.Api.Tests.Repositories
 {
@@ -18,6 +20,7 @@ namespace DealnetPortal.Api.Tests.Repositories
     public class ContractRepositoryTest : BaseRepositoryTest
     {
         protected IContractRepository _contractRepository;
+        protected IAppConfiguration _сonfiguration;
         public TestContext TestContext { get; set; }
 
         [ClassInitialize]
@@ -31,7 +34,8 @@ namespace DealnetPortal.Api.Tests.Repositories
         public void Initialize()
         {
             InitializeTestDatabase();
-            _contractRepository = new ContractRepository(_databaseFactory);
+            _сonfiguration = new Mock<IAppConfiguration>().Object;
+            _contractRepository = new ContractRepository(_databaseFactory, _сonfiguration);
         }
 
         [TestMethod]

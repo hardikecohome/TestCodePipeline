@@ -6,13 +6,20 @@ using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using DealnetPortal.Api.Core.Constants;
+using DealnetPortal.Api.Common.Constants;
+using DealnetPortal.Utilities.Configuration;
 using Microsoft.AspNet.Identity;
 
 namespace DealnetPortal.Utilities.Messaging
 {
     public class EmailService: IEmailService, IIdentityMessageService
-    {        
+    {
+        private readonly IAppConfiguration _сonfiguration;
+        public EmailService(IAppConfiguration appConfiguration)
+        {
+            _сonfiguration = appConfiguration;
+        }
+
         public async Task SendAsync(IList<string> recipients, string from, string subject, string body)
         {
             var message = new IdentityMessage()
@@ -56,7 +63,7 @@ namespace DealnetPortal.Utilities.Messaging
             var msg = new MailMessage
             {
                 Subject = message.Subject,
-                From = new MailAddress(ConfigurationManager.AppSettings[WebConfigKeys.ES_FROMEMAIL_CONFIG_KEY])
+                From = new MailAddress(_сonfiguration.GetSetting(WebConfigKeys.ES_FROMEMAIL_CONFIG_KEY))
             };
             msg.To.Add(new MailAddress(message.Destination));
             msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain));
@@ -68,12 +75,12 @@ namespace DealnetPortal.Utilities.Messaging
 
         private SmtpClient InitSmtpClient()
         {
-            return new SmtpClient(ConfigurationManager.AppSettings[WebConfigKeys.ES_SMTPHOST_CONFIG_KEY], Convert.ToInt32((string)ConfigurationManager.AppSettings[WebConfigKeys.ES_SMTPPORT_CONFIG_KEY]));
+            return new SmtpClient(_сonfiguration.GetSetting(WebConfigKeys.ES_SMTPHOST_CONFIG_KEY), Convert.ToInt32(_сonfiguration.GetSetting(WebConfigKeys.ES_SMTPPORT_CONFIG_KEY)));
         }
 
         private NetworkCredential InitCredentials()
         {
-            return new NetworkCredential(ConfigurationManager.AppSettings[WebConfigKeys.ES_SMTPUSER_CONFIG_KEY], ConfigurationManager.AppSettings[WebConfigKeys.ES_SMTPPASSWORD_CONFIG_KEY]);
+            return new NetworkCredential(_сonfiguration.GetSetting(WebConfigKeys.ES_SMTPUSER_CONFIG_KEY), _сonfiguration.GetSetting(WebConfigKeys.ES_SMTPPASSWORD_CONFIG_KEY));
         }
     }
 }

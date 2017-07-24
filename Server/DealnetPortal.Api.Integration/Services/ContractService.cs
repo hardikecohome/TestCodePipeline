@@ -19,6 +19,7 @@ using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
+using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.Api.Integration.Services
@@ -36,6 +37,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ICustomerWalletService _customerWalletService;
         private readonly ISignatureService _signatureService;
         private readonly IMailService _mailService;
+        private readonly IAppConfiguration _configuration;
 
         public ContractService(
             IContractRepository contractRepository, 
@@ -45,7 +47,8 @@ namespace DealnetPortal.Api.Integration.Services
             ICustomerWalletService customerWalletService,
             ISignatureService signatureService, 
             IMailService mailService, 
-            ILoggingService loggingService, IDealerRepository dealerRepository)
+            ILoggingService loggingService, IDealerRepository dealerRepository,
+            IAppConfiguration configuration)
         {
             _contractRepository = contractRepository;
             _loggingService = loggingService;
@@ -56,6 +59,7 @@ namespace DealnetPortal.Api.Integration.Services
             _customerWalletService = customerWalletService;
             _signatureService = signatureService;
             _mailService = mailService;
+            _configuration = configuration;
         }
 
         public ContractDTO CreateContract(string contractOwnerId)

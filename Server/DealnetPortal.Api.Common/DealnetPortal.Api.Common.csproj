@@ -57,6 +57,8 @@
     <Compile Include="Constants\ClaimNames.cs" />
     <Compile Include="Constants\ErrorCodes.cs" />
     <Compile Include="Constants\ErrorConstants.cs" />
+    <Compile Include="Constants\WebConfigKeys.cs" />
+    <Compile Include="Constants\WebConfigSections.cs" />
     <Compile Include="Enumeration\AddressType.cs" />
     <Compile Include="Enumeration\DocumentTemplateType.cs" />
     <Compile Include="Enumeration\AgreementType.cs" />

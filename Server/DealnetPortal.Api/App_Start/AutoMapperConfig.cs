@@ -6,6 +6,7 @@ using System.Security;
 using System.Web;
 using System.Web.UI;
 using AutoMapper;
+using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Helpers;
@@ -22,6 +23,7 @@ using Contract = DealnetPortal.Domain.Contract;
 namespace DealnetPortal.Api.App_Start
 {
     using Models.Contract.EquipmentInformation;
+    using Utilities.Configuration;
 
     public static class AutoMapperConfig
     {
@@ -38,7 +40,7 @@ namespace DealnetPortal.Api.App_Start
 
         private static void MapDomainsToModels(IMapperConfigurationExpression mapperConfig)
         {
-            var creditReviewStates = System.Configuration.ConfigurationManager.AppSettings["CreditReviewStatus"]?.Split(',').Select(s => s.Trim()).ToArray();
+            var creditReviewStates = new AppConfiguration(WebConfigSections.AdditionalSections).GetSetting(WebConfigKeys.CREDIT_REVIEW_STATUS_CONFIG_KEY)?.Split(',').Select(s => s.Trim()).ToArray();
 
             mapperConfig.CreateMap<ApplicationUser, ApplicationUserDTO>()
                 .ForMember(x => x.SubDealers, o => o.Ignore())
