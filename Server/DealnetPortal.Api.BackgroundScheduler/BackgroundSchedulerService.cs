@@ -29,7 +29,9 @@ namespace DealnetPortal.Api.BackgroundScheduler
                 var contracts = _contractRepository.GetExpiredContracts(expiredDateTime);
                 foreach (var contract in contracts)
                 {
+                    _loggingService.LogInfo($"Sending infromation for contract id = {contract.Id}...");
                     _mailService.SendNotifyMailNoDealerAcceptedLead12H(contract);
+                    _loggingService.LogInfo($"Infromation for contract id = {contract.Id} has sent.");
                 }
                 _loggingService.LogInfo($"Checking expired leads finished at {DateTime.Now}. There are {contracts.Count} expired contracts");
             }
