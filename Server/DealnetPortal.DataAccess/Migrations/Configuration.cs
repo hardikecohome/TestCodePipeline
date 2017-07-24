@@ -595,9 +595,9 @@ namespace DealnetPortal.DataAccess.Migrations
                // new EquipmentType {Description = "Security System", DescriptionResource = "SecuritySystem", Type = "ECO52"},
                // new EquipmentType {Description = "Basement Repair", DescriptionResource = "BasementRepair", Type = "ECO55"},
                 new EquipmentType {Description = "Spa", DescriptionResource = "Spa", Type = "ECO58"},
-                new EquipmentType {Description = "Well pump", DescriptionResource = "WellPump", Type = "ECO59"},
+               // new EquipmentType {Description = "Well pump", DescriptionResource = "WellPump", Type = "ECO59"},
                 new EquipmentType {Description = "Air Filtration", DescriptionResource = "AirFiltration", Type = "ECO23"},
-                new EquipmentType {Description = "Vertical Fan/HRV Combo", DescriptionResource = "VerticalFanHRVCombo", Type = "ECO60"}
+               // new EquipmentType {Description = "Vertical Fan/HRV Combo", DescriptionResource = "VerticalFanHRVCombo", Type = "ECO60"}
             };
             //leave existing data
             //equipmentTypes.RemoveAll(e => context.EquipmentTypes.Any(dbe => dbe.Type == e.Type));
