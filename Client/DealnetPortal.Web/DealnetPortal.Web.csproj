@@ -527,6 +527,7 @@
     <Content Include="Content\images\sprite\icon-tooltip-info.svg" />
     <Content Include="Content\images\sprite\icon-trash.svg" />
     <Content Include="Content\images\sprite\icon-upload.svg" />
+    <Content Include="Content\images\sprite\icon-user-small.svg" />
     <Content Include="Content\images\sprite\icon-user.svg" />
     <Content Include="Content\images\sprite\new-rental.svg" />
     <Content Include="Content\images\sprite\sprite.svg" />

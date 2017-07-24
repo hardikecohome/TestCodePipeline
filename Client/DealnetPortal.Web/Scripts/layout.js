@@ -44,6 +44,7 @@
       setTimeout(function(){
           $( "<button>", {
             text: translations['Cancel'],
+            type: 'button',
             class: "ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all",
             click: function() {
               $(".div-datepicker").removeClass('opened');
@@ -119,6 +120,17 @@
         $('.lang-switcher').removeClass('open')
       }
     });
+    $('html').on('click', function (event) {
+      if( isMobile.iOS() &&
+        $(event.target).parents('.div-datepicker').length === 0 &&
+        $(event.target).parents('.ui-datepicker-header').length == 0 &&
+        $(event.target).not('.div-datepicker-value').length &&
+        $('.div-datepicker.opened').length
+      )
+      {
+        $('.div-datepicker').removeClass('opened');
+      }
+    });
 
     //Apply function placeholder for ie browsers
     $("input, textarea").placeholder();
@@ -142,6 +154,7 @@
       });
     }).on('hidden.bs.modal', function () {
       if(isMobile.iOS()){
+        $('.div-datepicker').removeClass('opened');
         resetScrollPosition();
         if(viewport().width >= 768){
           resetModalDialogMarginForIpad();
