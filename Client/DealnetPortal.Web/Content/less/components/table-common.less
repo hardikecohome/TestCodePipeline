@@ -26,9 +26,14 @@ table.dataTable thead > tr > td.sorting{
 }
 table.dataTable thead th, table.dataTable thead td{
   padding: 10px 8px;
+  background: #EDEDED;
 }
 table.dataTable tbody th, table.dataTable tbody td{
   padding: 15px 8px;
+
+  &:not(:first-child){
+    border-left: 0;
+  }
 }
 table.dataTable thead .sorting_asc,
 table.dataTable thead .sorting_desc,
@@ -218,11 +223,11 @@ table.dataTable > tbody > tr.child ul{
       &:hover{
         background: transparent !important;
         td{
-          background: rgba(141, 177, 189, 0.48) !important;
+          background: rgba(169, 216, 239, 0.25) !important;
         }
       }
       td{
-        background: rgba(141, 177, 189, 0.43) !important;
+        background: rgba(169, 216, 239, 0.17) !important;
         &.contract-cell{
           position: relative;
           .label-new-deal{
