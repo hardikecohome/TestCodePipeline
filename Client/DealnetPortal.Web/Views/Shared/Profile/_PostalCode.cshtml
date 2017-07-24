@@ -10,13 +10,6 @@
                 @Html.HiddenFor(x => x.PostalCodes[i].Id)
                 @Html.TextBoxFor(x => x.PostalCodes[i].PostalCode, new { @class = "form-control postal-code form-control-not-clear", placeholder = "12345" })
                 @Html.ValidationMessageFor(x => x.PostalCodes[i].PostalCode, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-2">
-        <div class="form-group">
-            <label for="">&nbsp;</label>
-            <div class="control-group">
                 <a href="" class="remove-postal-code link-default" id="remove-postal-code-@(i)" hidden-value="@(i)">
                     <svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg>
                 </a>

@@ -880,8 +880,26 @@ fieldset[disabled] .form-control{
 }
 
 .remove-postal-code{
-  margin-top: 9px;
-  display: inline-block;
+  position: absolute;
+  right: -30px;
+  top: 0;
+  width: 11px;
+  height: 40px;
+  color: #000;
+  &:after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0 -5px;
+  }
+
+  svg{
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .monthly-payment-row{
