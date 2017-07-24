@@ -121,12 +121,12 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (await _customerWalletServiceAgent.CheckUser(login).ConfigureAwait(false))
             {
-                _loggingService.LogInfo($"Customer {login} already registered on Customer Wallet");
+                _loggingService.LogInfo($"Customer {login} already registered on Customer Wallet.");
                 alerts.Add(new Alert()
                 {
                     Type = AlertType.Error,
                     Header = "Cannot create customer",
-                    Message = "Customer with this email address is already registered"
+                    Message = "Customer with this email address is already registered."
                 });
             }
             return alerts;
