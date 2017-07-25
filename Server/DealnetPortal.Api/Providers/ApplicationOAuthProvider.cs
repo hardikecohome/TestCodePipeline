@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Services;
@@ -65,6 +66,7 @@ namespace DealnetPortal.Api.Providers
                 if (aspireRes?.Item2?.Any(e => e.Type == AlertType.Error) ?? false)
                 {
                     user = null;
+
                     if (aspireRes?.Item2?.Any(e => e.Code == ErrorCodes.AspireConnectionFailed) ?? false)
                     {
                         context.SetError(ErrorConstants.ServiceFailed, Resources.Resources.ExternalServiceUnavailable);
@@ -111,24 +113,16 @@ namespace DealnetPortal.Api.Providers
             if (claims?.Any() ?? false)
             {
                 oAuthIdentity.AddClaims(claims);
-                cookiesIdentity.AddClaims(claims);
+                cookiesIdentity.AddClaims(claims);                
             }
-            //update user roles
-            if (claims?.Any() ?? false)
+
+            if (!string.IsNullOrEmpty(user.AspireLogin))
             {
-                var roles = claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToArray();
-                if (roles.Any())
-                {
-                    try
-                    {
-                        await userManager.AddToRolesAsync(user.Id, roles);
-                    }
-                    catch (Exception ex)
-                    {
-                        _loggingService?.LogError($"Cannot set roles for user [{user.UserName}]", ex);
-                    }
-                }
+                var userCreds = context.Password.Protect();
+                oAuthIdentity.AddClaim(new Claim(ClaimNames.AspireUser, userCreds));
+                cookiesIdentity.AddClaim(new Claim(ClaimNames.AspireUser, userCreds));
             }
+
             userManager.GetRoles(user.Id)?.ForEach(r => claims?.Add(new Claim(ClaimTypes.Role, r)));
 
             AuthenticationProperties properties = CreateProperties(user.UserName, claims);
@@ -222,19 +216,19 @@ namespace DealnetPortal.Api.Providers
                  
                     if (oldUser != null)
                     {
-                        //update password for existing aspire user
+                        //update password for existing aspire user                        
                         var updateRes = await userManager.ChangePasswordAsync(oldUser.Id, oldUser.AspirePassword,
                             context.Password);
                         if (updateRes.Succeeded)
                         {
-                            oldUser.AspirePassword = context.Password;                            
-                            updateRes = await userManager.UpdateAsync(oldUser);
-                            if (updateRes.Succeeded)
-                            {
+                            //oldUser.AspirePassword = context.Password;                            
+                            //updateRes = await userManager.UpdateAsync(oldUser);
+                            //if (updateRes.Succeeded)
+                            //{
                                 _loggingService?.LogInfo(
                                     $"Password for Aspire user [{context.UserName}] was updated successefully");
                                 user = await userManager.FindAsync(context.UserName, context.Password);
-                            }
+                            //}
                         }
                     }
                     else
