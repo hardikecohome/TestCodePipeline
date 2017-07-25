@@ -12,7 +12,7 @@
     var setup = require('calculator-option').optionSetup;
     var render = require('calculator-option').renderOption;
     var add = require('calculator-option').addOption;
-
+    var setTax = require('calculator-value-setters').setTax;
     var state = require('calculator-state').state;
 
     var notNaN = function (num) { return !isNaN(num); };
@@ -25,9 +25,13 @@
 
     var renderTotalPrice = function (option, data) {
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
+
+        $('#' + option + '-taxDescription').text(state.description);
+
         if (notNan) {
+
             $('#' + option + '-totalEquipmentPrice').text(formatNumber(data.equipmentSum));
-            $('#tax').text(formatNumber(data.tax));
+            $('#' + option + '-tax').text(formatNumber(data.tax));
             $('#' + option + '-totalPrice').text(formatNumber(data.totalPrice));
         } else {
             $('#' + option + '-totalEquipmentPrice').text('-');
@@ -46,7 +50,13 @@
 
     var calculate = function (options) {
         if (options === undefined || typeof options !== "object") {
-            options = ['option1', 'option2', 'option3'];
+            options = ['option1'];
+            if (state['option2'] !== undefined) {
+                options.push('option2');
+            }
+            if (state['option3'] !== undefined) {
+                options.push('option3');
+            }
         }
 
         options.forEach(function (option) {
@@ -86,8 +96,11 @@
     var initialSetup = function () {
         var name = 'option1';
 
+        $('#province-tax-rate').on('change', setTax(calculate));
+
         selectRateCard(name);
         setup(name, calculate);
+
         $('.btn-add-calc-option').on('click', function () {
             add(calculate);
         });

@@ -9,7 +9,7 @@
             return obj.hasOwnProperty(id) ? obj[id] : '';
         };
     };
-
+    
     var equipmentSum = function (equipments) {
         return Object.keys(equipments)
             .map(idToValue(equipments))
@@ -98,6 +98,18 @@
         }
     }
 
+    var setTax = function(callback) {
+        return function(e) {
+            var name = e.target.value;
+            var filtered = state.taxes.filter(function(tax) {
+                return tax.Province === name;
+            });
+            state.tax = filtered[0].Rate;
+            state.description = filtered[0].Description;
+            callback();
+        }
+    }
+
     var setRentalMPayment = function (e) {
         state.rentalMPayment = parseFloat(e.target.value);
         recalculateRentalTaxAndPrice();
@@ -127,6 +139,7 @@
         setRateCardPlan: setRateCardPlan,
         setEquipmentCost: setEquipmentCost,
         setNewEquipment: setNewEquipment,
-        removeEquipment: removeEquipment
+        removeEquipment: removeEquipment,
+        setTax: setTax
     }
 });

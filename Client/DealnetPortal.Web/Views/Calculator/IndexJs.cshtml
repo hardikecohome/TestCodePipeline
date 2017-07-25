@@ -22,7 +22,7 @@
     <div no-wrap="noWrapSlides" class="row rate-cards-container" id="options-container">
       <div class="col-md-4 col-sm-6 rate-card-col" id="option1-container">
         <h2 class="dealnet-middle-header calculator-heading">Option 1
-          <span class="calculator-remove">
+          <span class="calculator-remove" id="option1-remove">
             <i class="glyphicon glyphicon-remove"></i>
           </span>
         </h2>
@@ -116,7 +116,8 @@
   configInitialized.then(function() {
     module.require('calculator-init').init(
       @Html.Raw(Json.Encode(Model.Plans)),
-      @Html.Raw(Json.Encode(Model.DealerTier.RateCards)));
+      @Html.Raw(Json.Encode(Model.DealerTier.RateCards)),
+      @Html.Raw(Json.Encode(Model.ProvinceTaxRates)));
     module.require('calculator-index');
   });
   </script>

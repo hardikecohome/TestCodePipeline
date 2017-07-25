@@ -9,13 +9,19 @@
      * @param {Array<object>} rateCards - list of rate cards for current user
      * @returns {} 
      */
-    var init = function initPage(plans, rateCards) {
+    var init = function initPage(plans, rateCards, taxes) {
         state.cards = rateCards;
+        state.taxes = taxes;
+
+        state.tax = taxes[0].Rate;
+        state.description = taxes[0].Description;
+        $('#option1-taxDescription').text(state.description);
         var planIds = Object.keys(constants.rateCards).map(function(p) {
             return constants.rateCards[p].id;
         });
 
         state.amortLoanPeriods = {};
+
         planIds.forEach(function (p) {
             state.amortLoanPeriods[p] = [];
 
