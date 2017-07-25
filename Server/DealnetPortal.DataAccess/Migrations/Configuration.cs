@@ -6,17 +6,18 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Web.Configuration;
 using System.Web.Hosting;
+using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.Configuration;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.DataAccess.Migrations
 {
-    using Api.Core.Constants;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -26,12 +27,14 @@ namespace DealnetPortal.DataAccess.Migrations
     {
         private const string EcohomeAppId = "df460bb2-f880-42c9-aae5-9e3c76cdcd0f";
         private const string OdiAppId = "606cfa8b-0e2c-47ef-b646-66c5f639aebd";
+        private readonly IAppConfiguration _ñonfiguration;
 
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = true;           
             ContextKey = "DealnetPortal.DataAccess.ApplicationDbContext";
+            _ñonfiguration = new Utilities.Configuration.AppConfiguration(WebConfigSections.AdditionalSections);
         }
 
         protected override void Seed(DealnetPortal.DataAccess.ApplicationDbContext context)
@@ -39,8 +42,11 @@ namespace DealnetPortal.DataAccess.Migrations
             //  This method will be called after migrating to the latest version.
 
             bool dataSeedEnabled = true;
-            bool.TryParse(ConfigurationManager.AppSettings[WebConfigKeys.INITIAL_DATA_SEED_ENABLED_CONFIG_KEY],
-                out dataSeedEnabled);
+            if (_ñonfiguration.GetSetting(WebConfigKeys.INITIAL_DATA_SEED_ENABLED_CONFIG_KEY) != null)
+            {
+                bool.TryParse(_ñonfiguration.GetSetting(WebConfigKeys.INITIAL_DATA_SEED_ENABLED_CONFIG_KEY),
+                    out dataSeedEnabled);                
+            }
 
             if (dataSeedEnabled)
             {
@@ -58,12 +64,13 @@ namespace DealnetPortal.DataAccess.Migrations
                 SetInstallationCertificateTemplates(context, context.Applications.Local.ToArray());
                 SetPdfTemplates(context, templates);                                
                 SetSettingItems(context);
-                SetUserSettings(context);
-                SetUserLogos(context);
+                SetUserSettings(context);                
                 SetRateCards(context);
             }
             //read updated pdt templates anyway
             SetExistingPdfTemplates(context);
+            //read daelers logos anyway
+            SetUserLogos(context);
         }
 
         public void SetTiers(ApplicationDbContext context)
@@ -1430,7 +1437,7 @@ namespace DealnetPortal.DataAccess.Migrations
             {
                 try
                 {
-                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY];
+                    var seedDataFolder = _ñonfiguration.GetSetting(WebConfigKeys.AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY);
                     var dir = HostingEnvironment.MapPath($"~/{seedDataFolder}");
                     var path = Path.Combine(dir ?? "", t.TemplateName + ".pdf");
                     if (File.Exists(path))
@@ -1501,7 +1508,7 @@ namespace DealnetPortal.DataAccess.Migrations
             {
                 try
                 {
-                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY];
+                    var seedDataFolder = _ñonfiguration.GetSetting(WebConfigKeys.AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY);
                     var dir = HostingEnvironment.MapPath($"~/{seedDataFolder}");
                     var path = Path.Combine(dir ?? "", t.TemplateName + ".pdf");
                     if (File.Exists(path))
@@ -1805,7 +1812,7 @@ namespace DealnetPortal.DataAccess.Migrations
             {
                 try
                 {
-                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY];
+                    var seedDataFolder = _ñonfiguration.GetSetting(WebConfigKeys.AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY);
                     var dir = HostingEnvironment.MapPath($"~/{seedDataFolder}") ?? "";
 
                     var files = Directory.GetFiles(dir, $"{u.UserName}*.*");

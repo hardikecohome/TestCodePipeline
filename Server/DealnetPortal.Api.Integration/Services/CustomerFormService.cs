@@ -13,7 +13,6 @@ using System.Web.UI.WebControls;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Core.Constants;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
@@ -23,6 +22,7 @@ using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
 using Microsoft.AspNet.Identity;
 using Microsoft.Practices.ObjectBuilder2;
@@ -41,13 +41,14 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IDealerRepository _dealerRepository;
         private readonly IContractService _contractService;
         private readonly ILoggingService _loggingService;
+        private readonly IAppConfiguration _configuration;
 
         public CustomerFormService(IContractRepository contractRepository,
             ICustomerFormRepository customerFormRepository,
             IDealerRepository dealerRepository, ISettingsRepository settingsRepository, IUnitOfWork unitOfWork,
             IContractService contractService,
             ILoggingService loggingService, IMailService mailService, IAspireService aspireService,
-            IAspireStorageReader aspireStorageReader)
+            IAspireStorageReader aspireStorageReader, IAppConfiguration configuration)
         {
             _contractRepository = contractRepository;
             _customerFormRepository = customerFormRepository;
@@ -59,6 +60,7 @@ namespace DealnetPortal.Api.Integration.Services
             _unitOfWork = unitOfWork;
             _contractService = contractService;
             _loggingService = loggingService;
+            _configuration = configuration;
         }
 
         public CustomerLinkDTO GetCustomerLinkSettings(string dealerId)
@@ -509,7 +511,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             
             bool customerEmailNotification;
-            bool.TryParse(ConfigurationManager.AppSettings[WebConfigKeys.CUSTOMER_EMAIL_NOFIFICATION_ENABLED_CONFIG_KEY],
+            bool.TryParse(_configuration.GetSetting(WebConfigKeys.CUSTOMER_EMAIL_NOFIFICATION_ENABLED_CONFIG_KEY),
                 out customerEmailNotification);
             if (customerEmailNotification)
             {

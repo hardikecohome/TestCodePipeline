@@ -246,7 +246,6 @@
     <Compile Include="Infrastructure\ApplicationSettingsManager.cs" />
     <Compile Include="Infrastructure\AuthenticationHttpModule.cs" />
     <Compile Include="Infrastructure\AuthFromContextAttribute.cs" />
-    <Compile Include="Infrastructure\AuthorizedHttpClient.cs" />
     <Compile Include="Infrastructure\ClaimsAuthorizationAttribute.cs" />
     <Compile Include="Infrastructure\ClaimsProvider.cs" />
     <Compile Include="Infrastructure\ContractManager.cs" />
@@ -262,7 +261,6 @@
     <Compile Include="Infrastructure\Managers\SecurityManager.cs" />
     <Compile Include="Infrastructure\Managers\SettingsManager.cs" />
     <Compile Include="Infrastructure\ProfileManager.cs" />
-    <Compile Include="Infrastructure\TransientHttpApiClient.cs" />
     <Compile Include="Infrastructure\CustomRequiredAttribute.cs" />
     <Compile Include="Infrastructure\DynamicLessHandler.cs" />
     <Compile Include="Infrastructure\Extensions\BundleExtentions.cs" />
@@ -530,6 +528,7 @@
     <Content Include="Content\images\sprite\icon-tooltip-info.svg" />
     <Content Include="Content\images\sprite\icon-trash.svg" />
     <Content Include="Content\images\sprite\icon-upload.svg" />
+    <Content Include="Content\images\sprite\icon-user-small.svg" />
     <Content Include="Content\images\sprite\icon-user.svg" />
     <Content Include="Content\images\sprite\new-rental.svg" />
     <Content Include="Content\images\sprite\sprite.svg" />

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Core.Constants;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
@@ -12,6 +12,7 @@ using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
 using DocuSign.eSign.Api;
 using DocuSign.eSign.Client;
@@ -29,7 +30,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         private readonly string _baseServerAddress;
 
-        private ILoggingService _loggingService;
+        private readonly ILoggingService _loggingService;
 
         public string AccountId { get; private set; }        
 
@@ -54,16 +55,15 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         private const string NotificationEndpointName = "api/Storage/NotifySignatureStatus";
 
-        public DocuSignSignatureEngine(ILoggingService loggingService)
+        public DocuSignSignatureEngine(ILoggingService loggingService, IAppConfiguration configuration)
         {
             _loggingService = loggingService;
+            _baseUrl = configuration.GetSetting(WebConfigKeys.DOCUSIGN_APIURL_CONFIG_KEY);
+            _dsUser = configuration.GetSetting(WebConfigKeys.DOCUSIGN_USER_CONFIG_KEY);
+            _dsPassword = configuration.GetSetting(WebConfigKeys.DOCUSIGN_PASSWORD_CONFIG_KEY);
+            _dsIntegratorKey = configuration.GetSetting(WebConfigKeys.DOCUSIGN_INTEGRATORKEY_CONFIG_KEY);
 
-            _baseUrl = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.DOCUSIGN_APIURL_CONFIG_KEY];
-            _dsUser = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.DOCUSIGN_USER_CONFIG_KEY];
-            _dsPassword = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.DOCUSIGN_PASSWORD_CONFIG_KEY];
-            _dsIntegratorKey = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.DOCUSIGN_INTEGRATORKEY_CONFIG_KEY];
-
-            _baseServerAddress = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.SERVER_BASE_ADDRESS_CONFIG_KEY];
+            _baseServerAddress = configuration.GetSetting(WebConfigKeys.SERVER_BASE_ADDRESS_CONFIG_KEY);
         }
 
         public async Task<IList<Alert>> ServiceLogin()

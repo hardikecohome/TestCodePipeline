@@ -69,7 +69,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                     }
 
                     SetUser(result.Item1);
-                    _securityService.SetAuthorizationHeader(result.Item1);
+                    //_securityService.SetAuthorizationHeader(result.Item1);
                 }
                 catch (Exception ex)
                 {
@@ -113,20 +113,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             {            
                 HttpContext.Current.User = user; // ?
             }
-        }
-
-        public virtual void SetUserFromContext()
-        {
-            var user = GetUser();
-            if (user != null)
-            {
-                SetUser(user);
-                //if (!_securityService.IsAutorizated())
-                {
-                    _securityService.SetAuthorizationHeader(user);
-                }
-            }
-        }
+        }        
 
         public virtual void Logout()
         {

@@ -22,7 +22,6 @@ namespace DealnetPortal.Web.Controllers
         [OutputCache(NoStore = true, Duration = 0, Location = OutputCacheLocation.None, VaryByParam = "*")]
         public async Task<FileResult> LogoImage(string hashDealerName)
         {
-            _securityManager.SetUserFromContext();
             BinarySettingDTO image = null;
             if (HttpContext.User.Identity.IsAuthenticated || hashDealerName != null)
             {
@@ -50,7 +49,6 @@ namespace DealnetPortal.Web.Controllers
         [OutputCache(NoStore = true, Duration = 0, Location = OutputCacheLocation.None, VaryByParam = "*")]
         public async Task<FileResult> Favicon(string hashDealerName)
         {
-            _securityManager.SetUserFromContext();
             BinarySettingDTO icon = null;
             if (HttpContext.User.Identity.IsAuthenticated || hashDealerName != null)
             {

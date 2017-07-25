@@ -125,7 +125,7 @@ namespace DealnetPortal.Web.ServiceAgent
         /// </summary>
         /// <param name="ids">List od Ids</param>
         /// <returns>xlsx report in byte array</returns>
-        Task<byte[]> GetXlsxReport(IEnumerable<int> ids);
+        Task<AgreementDocument> GetXlsxReport(IEnumerable<int> ids);
 
         Task<Tuple<int?, IList<Alert>>> AddComment(CommentDTO comment);
 

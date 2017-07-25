@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using DealnetPortal.Domain;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using DealnetPortal.Domain;
 using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.DataAccess.Repositories

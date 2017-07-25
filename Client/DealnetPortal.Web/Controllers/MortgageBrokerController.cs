@@ -38,7 +38,7 @@ namespace DealnetPortal.Web.Controllers
 
             if (result?.Item2.Any(x => x.Type == AlertType.Error) ?? false)
             {
-                TempData[PortalConstants.CurrentAlerts] = result;
+                ViewBag.Errors = result.Item2;
 
                 return View("CustomerCreationDecline");
             }

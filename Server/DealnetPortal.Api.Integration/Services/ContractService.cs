@@ -1,23 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Practices.ObjectBuilder2;
-
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Api.Integration.Utility;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
+using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.Api.Integration.Services
@@ -35,6 +37,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ICustomerWalletService _customerWalletService;
         private readonly ISignatureService _signatureService;
         private readonly IMailService _mailService;
+        private readonly IAppConfiguration _configuration;
 
         public ContractService(
             IContractRepository contractRepository, 
@@ -44,7 +47,8 @@ namespace DealnetPortal.Api.Integration.Services
             ICustomerWalletService customerWalletService,
             ISignatureService signatureService, 
             IMailService mailService, 
-            ILoggingService loggingService, IDealerRepository dealerRepository)
+            ILoggingService loggingService, IDealerRepository dealerRepository,
+            IAppConfiguration configuration)
         {
             _contractRepository = contractRepository;
             _loggingService = loggingService;
@@ -55,6 +59,7 @@ namespace DealnetPortal.Api.Integration.Services
             _customerWalletService = customerWalletService;
             _signatureService = signatureService;
             _mailService = mailService;
+            _configuration = configuration;
         }
 
         public ContractDTO CreateContract(string contractOwnerId)
@@ -355,6 +360,20 @@ namespace DealnetPortal.Api.Integration.Services
         public Tuple<AgreementDocument, IList<Alert>> GetPrintAgreement(int contractId, string contractOwnerId)
         {
             return _signatureService.GetPrintAgreement(contractId, contractOwnerId).GetAwaiter().GetResult();
+        }
+
+        public AgreementDocument GetContractsFileReport(IEnumerable<int> ids,
+            string contractOwnerId)
+        {
+            var stream = new MemoryStream();
+            var contracts = GetContracts(ids, contractOwnerId);
+            XlsxExporter.Export(contracts, stream);
+            var report = new AgreementDocument()
+            {
+                DocumentRaw = stream.ToArray(),
+                Name = $"{DateTime.Now.ToString(CultureInfo.CurrentCulture).Replace(":", ".")}-report.xlsx",
+            };
+            return report;
         }
 
         public Tuple<AgreementDocument, IList<Alert>> GetInstallCertificate(int contractId, string contractOwnerId)

@@ -11,5 +11,6 @@ namespace DealnetPortal.Api.Integration.Services
     public interface ICustomerWalletService
     {
         Task<IList<Alert>> CreateCustomerByContract(DealnetPortal.Domain.Contract contract, string contractOwnerId);
+        Task<IList<Alert>> CheckCustomerExisting(string login);
     }
 }

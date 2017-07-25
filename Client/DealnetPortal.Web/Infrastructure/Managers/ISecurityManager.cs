@@ -25,7 +25,6 @@ namespace DealnetPortal.Web.Infrastructure.Managers
         /// </summary>
         /// <param name="user"></param>
         void SetUser(IPrincipal user);
-        void SetUserFromContext();
         void Logout();        
     }
 }

@@ -81,40 +81,24 @@ namespace DealnetPortal.Api.Integration.Services
             };
 
             try
-            {            
-                if (await _customerWalletServiceAgent.CheckUser(registerCustomer.RegisterInfo.Email).ConfigureAwait(false))
+            {
+                _loggingService.LogInfo(
+                    $"Registration new {registerCustomer.RegisterInfo.Email} customer on CustomerWallet portal");
+                var submitAlerts = await _customerWalletServiceAgent.RegisterCustomer(registerCustomer);
+                if (submitAlerts?.Any() ?? false)
                 {
-                    _loggingService.LogInfo($"Customer {registerCustomer.RegisterInfo.Email} already registered on Customer Wallet");
-                    registerCustomer.TransactionInfo.UserName = registerCustomer.RegisterInfo.Email;
-                    var submitAlerts = await _customerWalletServiceAgent.CreateTransaction(registerCustomer.TransactionInfo);
-                    var noWait = _mailService.SendApprovedMailToCustomer(contract);
-                    if (submitAlerts?.Any() ?? false)
-                    {
-                        alerts.AddRange(submitAlerts);
-                    }
-                    if (alerts.Any(a => a.Type == AlertType.Error))
-                    {
-                        _loggingService.LogInfo($"Failed to create a new transaction for {registerCustomer.RegisterInfo.Email} on CustomerWallet portal: {alerts.FirstOrDefault(a => a.Type == AlertType.Error)?.Header}");
-                    }
+                    alerts.AddRange(submitAlerts);
                 }
+                if (alerts.Any(a => a.Type == AlertType.Error))
+                {
+
+                    _loggingService.LogInfo(
+                        $"Failed to register new {registerCustomer.RegisterInfo.Email} on CustomerWallet portal: {alerts.FirstOrDefault(a => a.Type == AlertType.Error)?.Header}");
+                }
+                //send email notification for DEAL-1490
                 else
                 {
-                    _loggingService.LogInfo($"Registration new {registerCustomer.RegisterInfo.Email} customer on CustomerWallet portal");
-                    var submitAlerts = await _customerWalletServiceAgent.RegisterCustomer(registerCustomer);
-                    if (submitAlerts?.Any() ?? false)
-                    {
-                        alerts.AddRange(submitAlerts);
-                    }
-                    if (alerts.Any(a => a.Type == AlertType.Error))
-                    {
-                        
-                        _loggingService.LogInfo($"Failed to register new {registerCustomer.RegisterInfo.Email} on CustomerWallet portal: {alerts.FirstOrDefault(a => a.Type == AlertType.Error)?.Header}");
-                    }
-                    //send email notification for DEAL-1490
-                    else
-                    {
-                        var noWwait = _mailService.SendInviteLinkToCustomer(contract, randomPassword);
-                    }
+                    var noWwait = _mailService.SendInviteLinkToCustomer(contract, randomPassword);
                 }
             }
             catch (HttpRequestException ex)
@@ -128,6 +112,23 @@ namespace DealnetPortal.Api.Integration.Services
                 });
             }
 
+            return alerts;
+        }
+
+        public async Task<IList<Alert>> CheckCustomerExisting(string login)
+        {
+            var alerts = new List<Alert>();
+
+            if (await _customerWalletServiceAgent.CheckUser(login).ConfigureAwait(false))
+            {
+                _loggingService.LogInfo($"Customer {login} already registered on Customer Wallet.");
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "Cannot create customer",
+                    Message = "Customer with this email address is already registered."
+                });
+            }
             return alerts;
         }
     }

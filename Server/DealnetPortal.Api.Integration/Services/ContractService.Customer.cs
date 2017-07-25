@@ -22,6 +22,14 @@ namespace DealnetPortal.Api.Integration.Services
         {
             try
             {
+                var email = newCustomer.PrimaryCustomer.Emails.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
+                       newCustomer.PrimaryCustomer.Emails.FirstOrDefault()?.EmailAddress;
+                var checkCustomerAlerts = await _customerWalletService.CheckCustomerExisting(email);
+                if (checkCustomerAlerts.Any())
+                {
+                    return new Tuple<ContractDTO, IList<Alert>>(null, checkCustomerAlerts);
+                }
+
                 var contractsResultList = new List<Tuple<Contract, bool>>();
 
                 if (newCustomer.HomeImprovementTypes != null && newCustomer.HomeImprovementTypes.Any())
@@ -101,7 +109,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
 
                 //select any of newly created contracts for create a new user in Customer Wallet portal
-                var creditReviewStates = ConfigurationManager.AppSettings["CreditReviewStatus"]?.Split(',').Select(s => s.Trim()).ToArray();
+                var creditReviewStates = _configuration.GetSetting("CreditReviewStatus")?.Split(',').Select(s => s.Trim()).ToArray();
                 var succededContracts = contractsResultList.Where(r => r.Item1 != null && r.Item1.ContractState >= ContractState.CreditConfirmed
                                                                 && creditReviewStates?.Contains(r.Item1?.Details?.Status) != true).Select(r => r.Item1).ToList();
                 var succededContract = succededContracts.FirstOrDefault();

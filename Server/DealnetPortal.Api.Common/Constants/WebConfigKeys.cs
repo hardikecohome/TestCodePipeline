@@ -1,4 +1,4 @@
-﻿namespace DealnetPortal.Api.Core.Constants
+﻿namespace DealnetPortal.Api.Common.Constants
 {
     public static class WebConfigKeys
     {
