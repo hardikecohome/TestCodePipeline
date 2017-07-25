@@ -114,8 +114,7 @@ namespace DealnetPortal.Api.Core.ApiClient
             {
                 throw;
             }
-
-            return await Client.PostAsJsonAsync(requestUri, content, cancellationToken);
+            //return await Client.PostAsJsonAsync(requestUri, content, cancellationToken);
         }
 
         public async Task<T2> PostAsyncXmlWithXmlResponce<T1, T2>(string requestUri, T1 content,
