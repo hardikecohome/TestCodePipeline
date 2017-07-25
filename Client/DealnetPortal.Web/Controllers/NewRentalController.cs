@@ -48,15 +48,15 @@ namespace DealnetPortal.Web.Controllers
             {
                 var isNewlyCreated = contractResult.Item1.IsNewlyCreated;
 
-                if (contractResult.Item1.IsNewlyCreated == true)
-                {
-                    var result = await _contractServiceAgent.NotifyContractEdit(contractId);
+                //if (contractResult.Item1.IsNewlyCreated == true)
+                //{
+                //    var result = await _contractServiceAgent.NotifyContractEdit(contractId);
 
-                    if (result.All(c => c.Type != AlertType.Error))
-                    {
-                        isNewlyCreated = false;
-                    }
-                }
+                //    if (result.All(c => c.Type != AlertType.Error))
+                //    {
+                //        isNewlyCreated = false;
+                //    }
+                //}
 
                 if (contractResult.Item1.ContractState == ContractState.CreditContirmed && isNewlyCreated != true)
                 {

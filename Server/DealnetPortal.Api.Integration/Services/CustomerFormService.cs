@@ -147,8 +147,8 @@ namespace DealnetPortal.Api.Integration.Services
             if (contractCreationRes?.Item1 != null &&
                 (contractCreationRes.Item2?.All(a => a.Type != AlertType.Error) ?? true))
             {
-                Task.Run(async () => await SendCustomerContractCreationNotifications(customerFormData,
-                    contractCreationRes.Item1));
+                //Task.Run(async () => await SendCustomerContractCreationNotifications(customerFormData,
+                //    contractCreationRes.Item1));
             }
 
             return new Tuple<CustomerContractInfoDTO, IList<Alert>>(contractCreationRes?.Item1, contractCreationRes?.Item2 ?? new List<Alert>());
@@ -464,10 +464,10 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 try
                 {
-                    await
-                        _mailService.SendCustomerLoanFormContractCreationNotification(
-                            customerFormData.PrimaryCustomer.Emails.FirstOrDefault(
-                                m => m.EmailType == EmailType.Main)?.EmailAddress, contractData, dealerColor?.StringValue, dealerLogo?.BinaryValue).ConfigureAwait(false);
+                    //await
+                    //    _mailService.SendCustomerLoanFormContractCreationNotification(
+                    //        customerFormData.PrimaryCustomer.Emails.FirstOrDefault(
+                    //            m => m.EmailType == EmailType.Main)?.EmailAddress, contractData, dealerColor?.StringValue, dealerLogo?.BinaryValue).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {

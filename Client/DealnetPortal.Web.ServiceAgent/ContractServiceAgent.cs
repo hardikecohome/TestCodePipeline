@@ -462,10 +462,11 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return
-                    await
+                
+                    var result = await
                         Client.PostAsync<CustomerFormDTO, Tuple<CustomerContractInfoDTO, IList<Alert>>>(
                             $"{_fullUri}/SubmitCustomerForm", customerForm);
+                return result;
             }
             catch (Exception ex)
             {
