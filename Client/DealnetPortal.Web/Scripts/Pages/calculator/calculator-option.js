@@ -25,7 +25,8 @@
             $(equipmentTemplate).attr('id', 'equipment-' + state.equipmentNextIndex);
             $(equipmentTemplate).find('#equipment-remove-' + state.equipmentNextIndex).on('click', setters.removeEquipment(option, callback));
             $(equipmentTemplate).find('.equipment-cost').on('change', setters.setEquipmentCost(option, callback));
-            $(equipmentTemplate).find('Equipment_NewEquipment_' + state.equipmentNextIndex + '__Description').on('change', setters.setEquipmentDescription(option));
+            $(equipmentTemplate).find('#Equipment_NewEquipment_' + state.equipmentNextIndex + '__Type').on('change', setters.setEquipmentType(option));
+            $(equipmentTemplate).find('#Equipment_NewEquipment_' + state.equipmentNextIndex + '__Description').on('change', setters.setEquipmentDescription(option));
             $('#' + option + '-container').find('.equipments-hold').append(equipmentTemplate);
 
             setters.setNewEquipment(option, callback);
