@@ -1051,6 +1051,10 @@ namespace DealnetPortal.Api.Integration.Services
                 int.TryParse(response.Payload.ScorecardPoints, out scorePoints))
             {
                 checkResult.ScorecardPoints = scorePoints;
+                if (scorePoints > 0 && scorePoints <= 180)
+                {
+                    checkResult.CreditAmount = 5000;
+                }
                 if (scorePoints > 180 && scorePoints <= 220)
                 {
                     checkResult.CreditAmount = 15000;
