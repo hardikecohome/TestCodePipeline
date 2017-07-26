@@ -980,28 +980,31 @@ namespace DealnetPortal.Api.Integration.Services
                 _unitOfWork.Save();
 
                 //run aspire upload async
-                var aspireAlerts = _aspireService.UploadDocument(document.ContractId, document, contractOwnerId).GetAwaiter().GetResult();
+                //var aspireAlerts = _aspireService.UploadDocument(document.ContractId, document, contractOwnerId).GetAwaiter().GetResult();
+                _aspireService.UploadDocument(document.ContractId, document, contractOwnerId);
                 //var aspireAlerts = _aspireService.UploadDocument(document.ContractId, document, contractOwnerId).GetAwaiter().GetResult();
                 //if (aspireAlerts?.Any() ?? false)
                 //{
                 //    alerts.AddRange(aspireAlerts);
                 //}
-                if (aspireAlerts.Any())
-                {
-                    alerts.Add(new Alert()
-                    {
-                        Type = AlertType.Error,
-                        Header = "Failed to add document to contract",
-                        Message = aspireAlerts.FirstOrDefault().Message
-                    });
-                    _loggingService.LogError(aspireAlerts.FirstOrDefault().Message);
-                }
-                else
-                {
+
+
+                //if (aspireAlerts.Any())
+                //{
+                //    alerts.Add(new Alert()
+                //    {
+                //        Type = AlertType.Error,
+                //        Header = "Failed to add document to contract",
+                //        Message = aspireAlerts.FirstOrDefault().Message
+                //    });
+                //    _loggingService.LogError(aspireAlerts.FirstOrDefault().Message);
+                //}
+                //else
+                //{
                     var contract = _contractRepository.GetContractAsUntracked(doc.ContractId, contractOwnerId);
                     var contractDTO = Mapper.Map<ContractDTO>(contract);
                     //Task.Run(async () => await _mailService.SendContractChangeNotification(contractDTO, contract.Dealer.Email));
-                }
+               // }
             }
             catch (Exception ex)
             {
