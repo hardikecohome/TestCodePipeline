@@ -3,6 +3,12 @@
     var state = require('calculator-state').state;
     var constants = require('calculator-state').constants;
 
+    var idToValue = function (obj) {
+        return function (id) {
+            return obj.hasOwnProperty(id) ? obj[id] : '';
+        };
+    };
+
     var optionSetup = function(option, callback) {
         $('#' + option + '-addEquipment').on('click', function () {
             var template = $('#equipment-template').html();
@@ -27,6 +33,12 @@
         $('#' + option + '-downPayment').on('change', setters.setDownPayment(option, callback));
         $('#' + option + '-plan').on('change', setters.setRateCardPlan(option, callback));
         $('#' + option + '-amortDropdown').on('change', setters.setLoanAmortTerm(option, callback));
+        $('#' + option + '-deferralDropdown').on('change', setters.setDeferralPeriod(option, callback));
+        $('#' + option + '-customLoanTerm').on('change', setters.setLoanTerm(option, callback));
+        $('#' + option + '-customAmortTerm').on('change', setters.setAmortTerm(option, callback));
+        $('#' + option + '-customCRate').on('change', setters.setCustomerRate(option, callback));
+        $('#' + option + '-customYCostVal').on('change', setters.setYourCost(option, callback));
+        $('#' + option + '-customAFee').on('change', setters.setAdminFee(option, callback));
 
         if (option === 'option1') {
             state[option].equipments[state.equipmentNextIndex] = { id: state.equipmentNextIndex.toString(), cost: '' };
@@ -45,6 +57,11 @@
             var result = typeof data[field] === 'number';
             return result;
         });
+        var notNan = !Object.keys(data).map(idToValue(data)).some(function(val) {
+            if (typeof val !== 'object') {
+                return isNaN(val);
+            }
+        });
 
         var validateNotEmpty = constants.notCero.every(function (field) {
             return data[field] !== 0;
@@ -54,7 +71,7 @@
         $('#' + option + '-cRate').text(data.customerRate + ' %');
         $('#' + option + '-yCostVal').text(data.dealerCost + ' %');
 
-        if (validateNumber && validateNotEmpty) {
+        if (notNan && validateNumber && validateNotEmpty) {
 
             if (state[option].plan === 0 || state[option].plan === 2) {
                 renderDropdownValues(option, data.totalAmountFinanced);
@@ -88,6 +105,15 @@
             $('#' + optionToDelete + '-rBalance').text('-');
             $('#' + optionToDelete + '-tObligation').text('-');
             $('#' + optionToDelete + '-yCost').text('-');
+
+            var keys = Object.keys(state['option1'].equipments);
+            $.grep(keys, function(key) {
+                var equipment = state['option1'].equipments[key];
+                equipment.cost = '';
+                $('#Equipment_NewEquipment_' + equipment.id + '__Cost').val('');
+            });
+
+            callback(['option1']);
 
         } else {
             state.equipmentNextIndex -= Object.keys(state[optionToDelete].equipments).length;
@@ -225,6 +251,16 @@
 
         var amortDropdownValue = state[newOption].LoanTerm  + '/' + state[newOption].AmortizationTerm;
         $('#' + newOption + '-amortDropdown').val(amortDropdownValue);
+
+        $('#' + newOption + '-deferralDropdown').val(state[newOption].DeferralPeriod);
+
+        if (state[newOption].plan === 3) {
+            $('#' + newOption + '-customLoanTerm').val(state[newOption].LoanTerm);
+            $('#' + newOption + '-customAmortTerm').val(state[newOption].AmortizationTerm);
+            $('#' + newOption + '-customCRate').val(state[newOption].CustomerRate);
+            $('#' + newOption + '-customYCostVal').val(state[newOption].DealerCost);
+            $('#' + newOption + '-customAFee').val(state[newOption].AdminFee);
+        }
 
         $.grep(newOptionIndexes, function(ind) {
             $('#Equipment_NewEquipment_' + ind + '__Cost').on('change', setters.setEquipmentCost(newOption, callback));

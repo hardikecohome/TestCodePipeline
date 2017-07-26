@@ -20,7 +20,21 @@
 
     var setLoanAmortTerm = function (optionKey, callback) {
         return function (e) {
+            callback([optionKey]);
+        };
+    };
+
+    var setLoanTerm = function (optionKey, callback) {
+        return function (e) {
+            state[optionKey].LoanTerm = parseFloat(e.target.value);
             callback([ optionKey ]);
+        };
+    };
+
+    var setAmortTerm = function (optionKey, callback) {
+        return function (e) {
+            state[optionKey].AmortizationTerm = parseFloat(e.target.value);
+            callback([optionKey]);
         };
     };
 
@@ -34,21 +48,21 @@
     var setCustomerRate = function (optionKey, callback) {
         return function (e) {
             state[optionKey].CustomerRate = parseFloat(e.target.value);
-            callback([{ name: optionKey }]);
+            callback([ optionKey ]);
         };
     };
 
     var setYourCost = function (optionKey, callback) {
         return function (e) {
-            state[optionKey].yourCost = parseFloat(e.target.value);
-            callback([{ name: optionKey }]);
+            state[optionKey].DealerCost = parseFloat(e.target.value);
+            callback([optionKey]);
         };
     };
 
     var setAdminFee = function(optionKey, callback) {
         return function (e) {
             state[optionKey].AdminFee = Number(e.target.value);
-            callback([{ name: optionKey }]);
+            callback([optionKey]);
         };
     };
     var setDownPayment = function(optionKey, callback) {
@@ -63,7 +77,51 @@
             var planType = $.grep(constants.rateCards, function (c) { return c.name === e.target.value; })[0].id;
             state[optionKey].plan = planType;
 
-            setDropdownValues(optionKey, planType);
+            setAmortizationDropdownValues(optionKey, planType);
+
+            var dropdownParentDiv = $('#' + optionKey + '-deferralDropdown');
+
+            if (planType === 2 || planType === 3) {
+                if (dropdownParentDiv.is(':hidden')) {
+                    $('#' + optionKey + '-deferral').addClass('hidden');
+                    dropdownParentDiv.closest('div').removeClass('hidden');
+                    dropdownParentDiv.removeClass('hidden');
+
+                    $('#' + optionKey + '-deferralDropdown').change();
+                }
+
+                if (planType === 3) {
+                    $('#' + optionKey + '-amortDropdown').closest('.row').addClass('hidden');
+                    $.grep(constants.inputsToHide, function(field) {
+                        $('#' + optionKey + field).addClass('hidden');
+                    });
+
+                    $.grep(constants.customInputsToShow, function(field) {
+                        $('#' + optionKey + field).removeClass('hidden').attr('disabled', false);
+                    });
+                }
+
+            } else {
+                $('#' + optionKey + '-deferral').removeClass('hidden');
+                $('#' + optionKey + '-downPayment').val('');
+                $('#' + optionKey + '-customLoanTerm').val('');
+                $('#' + optionKey + '-customAmortTerm').val('');
+    
+                dropdownParentDiv.addClass('hidden');
+                dropdownParentDiv.closest('div').addClass('hidden');
+                $('#' + optionKey + '-amortDropdown').closest('.row').removeClass('hidden');
+                $.grep(constants.inputsToHide, function (field) {
+                    $('#' + optionKey + field).removeClass('hidden');
+                });
+                
+                $.grep(constants.customInputsToShow, function (field) {
+                    $('#' + optionKey + field).addClass('hidden');
+
+                    if (field !== '-deferralDropdown') {
+                        $('#' + optionKey + field).attr('disabled', true).val('');
+                    }
+                });
+            }
 
             callback([optionKey]);
         }
@@ -110,12 +168,7 @@
         }
     }
 
-    var setRentalMPayment = function (e) {
-        state.rentalMPayment = parseFloat(e.target.value);
-        recalculateRentalTaxAndPrice();
-    };
-
-    function setDropdownValues(optionKey, planType) {
+    function setAmortizationDropdownValues(optionKey, planType) {
         var options = $('#' + optionKey + '-amortDropdown');
         options.empty();
         var dropdownValues = state.amortLoanPeriods[planType];
@@ -140,6 +193,8 @@
         setEquipmentCost: setEquipmentCost,
         setNewEquipment: setNewEquipment,
         removeEquipment: removeEquipment,
-        setTax: setTax
+        setTax: setTax,
+        setLoanTerm: setLoanTerm,
+        setAmortTerm: setAmortTerm
     }
 });

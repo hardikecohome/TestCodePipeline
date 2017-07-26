@@ -235,11 +235,14 @@ namespace DealnetPortal.Web.Infrastructure
                 .Distinct()
                 .ToList();
 
+            model.Plans.Add("Custom");
+
             model.DeferralPeriods = model.DealerTier.RateCards
+                .Where(x => x.CardType == RateCardType.Deferral)
                 .Select(q => Convert.ToInt32(q.DeferralPeriod))
                 .Distinct()
-                .Select(x => x + " " + (x == 1 ? Resources.Resources.Month : Resources.Resources.Months))
-                .ToList();
+                .Select(x => new KeyValuePair<string,string>(x.ToString(),  x + " " + (x == 1 ? Resources.Resources.Month : Resources.Resources.Months)))
+                .ToDictionary(s => s.Key, s => s.Value);
 
             return model;
         }

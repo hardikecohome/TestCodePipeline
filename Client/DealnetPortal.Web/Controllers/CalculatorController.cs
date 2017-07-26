@@ -8,7 +8,8 @@ using DealnetPortal.Web.Infrastructure;
 
 namespace DealnetPortal.Web.Controllers
 {
-    [Authorize(Roles = "Dealer")]
+    //[Authorize(Roles = "Dealer")]
+    [Authorize]
     public class CalculatorController : Controller
     {
         private readonly IContractManager _contractManager;

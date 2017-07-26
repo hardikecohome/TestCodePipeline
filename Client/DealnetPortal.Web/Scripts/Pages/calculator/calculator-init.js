@@ -22,18 +22,18 @@
 
         state.amortLoanPeriods = {};
 
-        planIds.forEach(function (p) {
-            state.amortLoanPeriods[p] = [];
+        planIds.forEach(function (plan) {
+            state.amortLoanPeriods[plan] = [];
 
             var filtred = state.cards.filter(function(f) {
-                return f.CardType === p;
+                return f.CardType === plan;
             });
 
             $.grep(filtred, function(a) {
                 var key = a.LoanTerm + '/' + a.AmortizationTerm;
 
-                if (state.amortLoanPeriods[p].indexOf(key) === -1) {
-                    state.amortLoanPeriods[p].push(key);
+                if (state.amortLoanPeriods[plan].indexOf(key) === -1) {
+                    state.amortLoanPeriods[plan].push(key);
                 }
             });
         });

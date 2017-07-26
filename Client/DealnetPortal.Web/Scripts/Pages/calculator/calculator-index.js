@@ -14,6 +14,7 @@
     var add = require('calculator-option').addOption;
     var setTax = require('calculator-value-setters').setTax;
     var state = require('calculator-state').state;
+    var constants = require('calculator-state').constants;
 
     var notNaN = function (num) { return !isNaN(num); };
 
@@ -126,13 +127,13 @@
                 totalCash = totalAmountFinanced.toFixed(2);
             }
         }
-
+        
         var rateCard = filterRateCardByValues(option, totalCash);
 
         if (rateCard !== null && rateCard !== undefined) {
 
             $.extend(state[option], rateCard);
-            state[option].yourCost = '';
+            //state[option].yourCost = '';
         }
     }
 
@@ -148,17 +149,59 @@
         if (!items)
             return null;
 
+        if (state[option].plan === 3 && state[option].Id !== '')
+            return constants.emptyRateCard;
+
+        if (state[option].plan === 3)
+            return null;
+
         var selectedValues = $('#' + option + '-amortDropdown option:selected').text().split('/');
+        var selectedPlan = state[option].plan;
 
         var loanTerm = +(selectedValues[0]);
         var amortTerm = +(selectedValues[1]);
 
-        return $.grep(items, function (i) {
-            if (totalCash >= 50000) {
-                return i.CardType === state[option].plan && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= 50000;
-            } else {
-                return i.CardType === state[option].plan && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
-            }
-        })[0];
+        var card;
+        if (selectedPlan === 2) {
+            var deferralPeriod = state[option].DeferralPeriod;
+            card = $.grep(items,
+                function(i) {
+                    if (totalCash >= constants.maxRateCardLoanValue) {
+                        return i.CardType === state[option].plan &&
+                            i.AmortizationTerm === amortTerm &&
+                            i.LoanTerm === loanTerm &&
+                            i.LoanValueFrom <= totalCash &&
+                            i.LoanValueTo >= constants.maxRateCardLoanValue &&
+                            i.DeferralPeriod === deferralPeriod;
+                    } else {
+                        return i.CardType === state[option].plan &&
+                            i.AmortizationTerm === amortTerm &&
+                            i.LoanTerm === loanTerm &&
+                            i.LoanValueFrom <= totalCash &&
+                            i.LoanValueTo >= totalCash && 
+                            i.DeferralPeriod === deferralPeriod;
+                    }
+                })[0];
+        } else {
+            card = $.grep(items,
+                function(i) {
+                    if (totalCash >= constants.maxRateCardLoanValue) {
+                        return i.CardType === state[option].plan &&
+                            i.AmortizationTerm === amortTerm &&
+                            i.LoanTerm === loanTerm &&
+                            i.LoanValueFrom <= totalCash &&
+                            i.LoanValueTo >= constants.maxRateCardLoanValue;
+                    } else {
+                        return i.CardType === state[option].plan &&
+                            i.AmortizationTerm === amortTerm &&
+                            i.LoanTerm === loanTerm &&
+                            i.LoanValueFrom <= totalCash &&
+                            i.LoanValueTo >= totalCash;
+                    }
+                })[0];
+        }
+
+        return card;
+
     }
 });
