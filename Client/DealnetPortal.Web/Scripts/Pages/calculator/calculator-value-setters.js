@@ -27,6 +27,7 @@
     var setLoanTerm = function (optionKey, callback) {
         return function (e) {
             state[optionKey].LoanTerm = parseFloat(e.target.value);
+            validateLoanAmortTerm(optionKey);
             callback([ optionKey ]);
         };
     };
@@ -34,6 +35,7 @@
     var setAmortTerm = function (optionKey, callback) {
         return function (e) {
             state[optionKey].AmortizationTerm = parseFloat(e.target.value);
+            validateLoanAmortTerm(optionKey);
             callback([optionKey]);
         };
     };
@@ -65,6 +67,7 @@
             callback([optionKey]);
         };
     };
+
     var setDownPayment = function(optionKey, callback) {
         return function(e) {
             state[optionKey].downPayment = parseFloat(e.target.value);
@@ -79,12 +82,11 @@
 
             setAmortizationDropdownValues(optionKey, planType);
 
-            var dropdownParentDiv = $('#' + optionKey + '-deferralDropdown');
+            var dropdownParentDiv = $('#' + optionKey + '-deferralDropdownWrapper');
 
             if (planType === 2 || planType === 3) {
                 if (dropdownParentDiv.is(':hidden')) {
                     $('#' + optionKey + '-deferral').addClass('hidden');
-                    dropdownParentDiv.closest('div').removeClass('hidden');
                     dropdownParentDiv.removeClass('hidden');
 
                     $('#' + optionKey + '-deferralDropdown').change();
@@ -106,9 +108,11 @@
                 $('#' + optionKey + '-downPayment').val('');
                 $('#' + optionKey + '-customLoanTerm').val('');
                 $('#' + optionKey + '-customAmortTerm').val('');
-    
-                dropdownParentDiv.addClass('hidden');
-                dropdownParentDiv.closest('div').addClass('hidden');
+
+                if (dropdownParentDiv.is(':visible')) {
+                    dropdownParentDiv.addClass('hidden');
+                }
+
                 $('#' + optionKey + '-amortDropdown').closest('.row').removeClass('hidden');
                 $.grep(constants.inputsToHide, function (field) {
                     $('#' + optionKey + field).removeClass('hidden');
@@ -134,6 +138,22 @@
 
             state[optionKey].equipments[id].cost = +e.target.value;
             callback([optionKey]);
+        }
+    }
+
+    var setEquipmentType = function (optionKey) {
+        return function (e) {
+            var mvcId = e.target.id;
+            var id = mvcId.split('__Type')[0].substr(mvcId.split('__Type')[0].lastIndexOf('_') + 1);
+            state[optionKey].equipments[id].type = e.target.value;
+        }
+    }
+
+    var setEquipmentDescription = function(optionKey) {
+        return function(e) {
+            var mvcId = e.target.id;
+            var id = mvcId.split('__Description')[0].substr(mvcId.split('__Description')[0].lastIndexOf('_') + 1);
+            state[optionKey].equipments[id].description = e.target.value;
         }
     }
 
@@ -180,6 +200,27 @@
         });
     }
 
+    function validateLoanAmortTerm(optionKey) {
+        var amortTerm = state[optionKey].AmortizationTerm;
+        var loanTerm = state[optionKey].LoanTerm;
+        var error = $('#' + optionKey + '-amortLoanTermError');
+        if (typeof amortTerm == 'number' && typeof loanTerm == 'number') {
+            if (loanTerm > amortTerm) {
+                if (error.is(':hidden')) {
+                    error.show();
+                    error.parent().find('input[type="text"]')
+                        .addClass('input-validation-error');
+                }
+            } else {
+                if (error.is(':visible')) {
+                    error.hide();
+                    error.parent().find('input[type="text"]')
+                        .removeClass('input-validation-error');
+                }
+            }
+        }
+    }
+
     return {
         notNaN: notNaN,
         equipmentSum: equipmentSum,
@@ -191,6 +232,8 @@
         setDownPayment: setDownPayment,
         setRateCardPlan: setRateCardPlan,
         setEquipmentCost: setEquipmentCost,
+        setEquipmentType: setEquipmentType,
+        setEquipmentDescription: setEquipmentDescription,
         setNewEquipment: setNewEquipment,
         removeEquipment: removeEquipment,
         setTax: setTax,

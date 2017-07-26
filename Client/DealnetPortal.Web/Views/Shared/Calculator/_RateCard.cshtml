@@ -44,20 +44,21 @@
     <div class="form-group">
       <label for="">Loan Term</label>
       <div class="control-group">
-        <input type="text" class="form-control form-control-not-clear" name="customLoanTerm" id="option1-customLoanTerm">
-        <span class="field-validation-error text-danger" data-valmsg-for="customLoanTerm" data-valmsg-replace="true"></span>
+        <input type="text" class="form-control form-control-not-clear" name="option1-customLoanTerm" id="option1-customLoanTerm">
+        <span class="field-validation-error text-danger" data-valmsg-for="option1-customLoanTerm" data-valmsg-replace="true"></span>
       </div>
     </div>
   </div>
-  <div class="col-xs-6">
-    <div class="form-group">
-      <label for="">Amort. Term</label>
-      <div class="control-group">
-        <input type="text" class="form-control form-control-not-clear" name="customAmortTerm" id="option1-customAmortTerm">
-        <span class="field-validation-error text-danger" data-valmsg-for="customAmortTerm" data-valmsg-replace="true"></span>
-      </div>
+    <div class="col-xs-6">
+        <div class="form-group">
+            <label for="">Amort. Term</label>
+            <div class="control-group">
+                <input type="text" class="form-control form-control-not-clear" name="option1-customAmortTerm" id="option1-customAmortTerm">
+                <span class="field-validation-error text-danger" data-valmsg-for="option1-customAmortTerm" data-valmsg-replace="true"></span>
+            </div>
+        </div>
     </div>
-  </div>
+    <div id="option1-amortLoanTermError" class="error-message text-danger" style="display: none; margin-top: -10px; margin-left: 45px;">Amortization term cannot be shorter than Loan term.</div>
 </div>
 <div class="row form-group">
   <div class="col-xs-6">
@@ -76,8 +77,8 @@
   <div class="col-xs-6 text-right text-semibold" id="option1-deferral">
     -
   </div>
-  <div class="col-xs-6">
-    @Html.DropDownList("option1-deferralDropdown", Model.DeferralPeriods.Select(x => new SelectListItem { Value = x.Key, Text = x.Value }), new { @class = "form-control hidden" })
+  <div class="col-xs-6" id="option1-deferralDropdownWrapper">
+    @Html.DropDownList("option1-deferralDropdown", Model.DeferralPeriods.Select(x => new SelectListItem { Value = x.Key, Text = x.Value }), new { @class = "form-control" })
   </div>
 </div>
 <div class="row form-group">

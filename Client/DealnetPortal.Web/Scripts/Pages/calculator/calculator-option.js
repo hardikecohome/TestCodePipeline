@@ -25,6 +25,7 @@
             $(equipmentTemplate).attr('id', 'equipment-' + state.equipmentNextIndex);
             $(equipmentTemplate).find('#equipment-remove-' + state.equipmentNextIndex).on('click', setters.removeEquipment(option, callback));
             $(equipmentTemplate).find('.equipment-cost').on('change', setters.setEquipmentCost(option, callback));
+            $(equipmentTemplate).find('Equipment_NewEquipment_' + state.equipmentNextIndex + '__Description').on('change', setters.setEquipmentDescription(option));
             $('#' + option + '-container').find('.equipments-hold').append(equipmentTemplate);
 
             setters.setNewEquipment(option, callback);
@@ -41,9 +42,11 @@
         $('#' + option + '-customAFee').on('change', setters.setAdminFee(option, callback));
 
         if (option === 'option1') {
-            state[option].equipments[state.equipmentNextIndex] = { id: state.equipmentNextIndex.toString(), cost: '' };
-
+            state[option].equipments[state.equipmentNextIndex] = { id: state.equipmentNextIndex.toString(), cost: '', description: '' };
+            state[option].equipments[state.equipmentNextIndex].type = $('#Equipment_NewEquipment_' + state.equipmentNextIndex + '__Type').val();
             $('#Equipment_NewEquipment_' + state.equipmentNextIndex + '__Cost').on('change', setters.setEquipmentCost(option, callback));
+            $('#Equipment_NewEquipment_' + state.equipmentNextIndex + '__Description').on('change', setters.setEquipmentDescription(option));
+            $('#Equipment_NewEquipment_' + state.equipmentNextIndex + '__Type').on('change', setters.setEquipmentType(option));
             $('#option1-remove').on('click', function () {
                 removeOption.call(this, callback);
             });
@@ -71,12 +74,11 @@
         $('#' + option + '-cRate').text(data.customerRate + ' %');
         $('#' + option + '-yCostVal').text(data.dealerCost + ' %');
 
+        if (state[option].plan === 0 || state[option].plan === 2) {
+            renderDropdownValues(option, data.totalAmountFinanced);
+        }
+
         if (notNan && validateNumber && validateNotEmpty) {
-
-            if (state[option].plan === 0 || state[option].plan === 2) {
-                renderDropdownValues(option, data.totalAmountFinanced);
-            }
-
             $('#' + option + '-mPayment').text(formatCurrency(data.monthlyPayment));
             $('#' + option + '-cBorrowing').text(formatCurrency(data.costOfBorrowing));
             $('#' + option + '-taFinanced').text(formatCurrency(data.totalAmountFinanced));
@@ -105,12 +107,17 @@
             $('#' + optionToDelete + '-rBalance').text('-');
             $('#' + optionToDelete + '-tObligation').text('-');
             $('#' + optionToDelete + '-yCost').text('-');
+            $('#' + optionToDelete + '-downPayment').val('');
+            state['option1'].downPayment = 0;
 
             var keys = Object.keys(state['option1'].equipments);
             $.grep(keys, function(key) {
                 var equipment = state['option1'].equipments[key];
                 equipment.cost = '';
+                equipment.description = '';
+
                 $('#Equipment_NewEquipment_' + equipment.id + '__Cost').val('');
+                $('#Equipment_NewEquipment_' + equipment.id + '__Description').val('');
             });
 
             callback(['option1']);
@@ -118,17 +125,29 @@
         } else {
             state.equipmentNextIndex -= Object.keys(state[optionToDelete].equipments).length;
             delete state[optionToDelete];
-            
+
+            $('#' + optionToDelete + '-container').off();
             $('#' + optionToDelete + '-container').remove();
+
             if (optionToDelete === 'option2' && state['option3'] !== undefined) {
                 state['option2'] = $.extend(true, {}, state['option3']);
                 state.equipmentNextIndex -= Object.keys(state['option3'].equipments).length;
                 delete state['option3'];
 
                 var div = $('#option3-container');
+
+                $('#option3-container *').off();
+
+
                 div.find('[id^="option3"]').each(function () {
                     $(this).attr('id', $(this).attr('id').replace('option3', 'option2'));
                 });
+
+                $('#option2-header').text($('#option2-header').text().replace('3', '2'));
+                $('#option2-remove').on('click', function () {
+                    removeOption.call(this, callback);
+                });
+
                 div.attr('id', 'option2-container');
 
                 var equipmentsToUpdate = Object.keys(state['option2'].equipments).map(function (k) {
@@ -158,7 +177,7 @@
                 });
 
                 div.find('[id*="__Cost"]').each(function () {
-                    $(this).unbind('change');
+                    //$(this).off('change');
                     $(this).on('change', setters.setEquipmentCost('option2', callback));
                 });
             }
@@ -171,6 +190,8 @@
             } else {
                 $('#second-add-button').find('button').removeClass('hidden');
             }
+
+            optionSetup('option2', callback);
         }
     }
 
@@ -252,7 +273,9 @@
         var amortDropdownValue = state[newOption].LoanTerm  + '/' + state[newOption].AmortizationTerm;
         $('#' + newOption + '-amortDropdown').val(amortDropdownValue);
 
-        $('#' + newOption + '-deferralDropdown').val(state[newOption].DeferralPeriod);
+        if (state[newOption].plan === 2) {
+            $('#' + newOption + '-deferralDropdown').val(state[newOption].DeferralPeriod);
+        }
 
         if (state[newOption].plan === 3) {
             $('#' + newOption + '-customLoanTerm').val(state[newOption].LoanTerm);
@@ -265,6 +288,12 @@
         $.grep(newOptionIndexes, function(ind) {
             $('#Equipment_NewEquipment_' + ind + '__Cost').on('change', setters.setEquipmentCost(newOption, callback));
             $('#Equipment_NewEquipment_' + ind + '__Cost').val(state[newOption].equipments[ind].cost);
+
+            $('#Equipment_NewEquipment_' + ind + '__Description').on('change', setters.setEquipmentDescription(newOption));
+            $('#Equipment_NewEquipment_' + ind + '__Description').val(state[newOption].equipments[ind].description);
+
+            $('#Equipment_NewEquipment_' + ind + '__Type').on('change', setters.setEquipmentType(newOption));
+            $('#Equipment_NewEquipment_' + ind + '__Type').val(state[newOption].equipments[ind].type);
         });
 
         optionSetup(newOption, callback);
@@ -313,7 +342,7 @@
                 // if we selected max value of dropdown and totalAmountFinanced is lower then constants.amortizationValueToDisable
                 // just select first option in dropdown
                 if (options.selectedIndex === i && isDisable) {
-                    $('#' + option + 'AmortizationDropdown').val(options[0].value);
+                    $('#' + option + '-amortDropdown').val(options[0].value);
                 }
 
                 var opt = $(options[i]);

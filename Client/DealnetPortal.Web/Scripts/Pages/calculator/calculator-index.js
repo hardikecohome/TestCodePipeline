@@ -133,7 +133,6 @@
         if (rateCard !== null && rateCard !== undefined) {
 
             $.extend(state[option], rateCard);
-            //state[option].yourCost = '';
         }
     }
 
