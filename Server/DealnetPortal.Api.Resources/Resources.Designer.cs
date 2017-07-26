@@ -547,6 +547,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hot Tub.
+        /// </summary>
+        public static string HotTub {
+            get {
+                return ResourceManager.GetString("HotTub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to HRV.
         /// </summary>
         public static string Hrv {
