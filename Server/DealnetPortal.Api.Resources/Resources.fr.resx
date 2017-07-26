@@ -423,4 +423,13 @@
   <data name="WellPump" xml:space="preserve">
     <value>Well Pump</value>
   </data>
+  <data name="AirFiltration" xml:space="preserve">
+    <value>Air Filtration</value>
+  </data>
+  <data name="HotTub" xml:space="preserve">
+    <value>Hot Tub</value>
+  </data>
+  <data name="VerticalFanHRVCombo" xml:space="preserve">
+    <value>Vertical Fan/HRV Combo</value>
+  </data>
 </root>
