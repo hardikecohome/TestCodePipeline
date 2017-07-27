@@ -158,17 +158,27 @@
   position: relative;
   min-height: 600px;
 
-  /*.jcarousel ul{
+  .jcarousel-wrapper{
+    margin: 0 -11px;
+  }
+
+  .jcarousel ul{
     @media @desktop-up {
-      max-width: 100% !important;
-      width: auto !important;
+    /*  max-width: 100%;
+      width: auto;*/
     }
   }
   .jcarousel li{
     @media @desktop-up {
-      width: 33.333333333% !important;
+      width: 33.333333333%;
     }
-  }*/
+    @media @tablet-only {
+      width: 50%;
+    }
+    @media @mobile {
+      width: 100%;
+    }
+  }
 }
 
 
