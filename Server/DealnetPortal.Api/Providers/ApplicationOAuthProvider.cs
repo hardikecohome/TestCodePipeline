@@ -222,20 +222,25 @@ namespace DealnetPortal.Api.Providers
                  
                     if (oldUser != null)
                     {
-                        //update password for existing aspire user
-                        var updateRes = await userManager.ChangePasswordAsync(oldUser.Id, oldUser.AspirePassword,
-                            context.Password);
-                        if (updateRes.Succeeded)
+                        //check password
+                        if (oldUser.AspirePassword != context.Password)
                         {
-                            oldUser.AspirePassword = context.Password;                            
-                            updateRes = await userManager.UpdateAsync(oldUser);
+                            var aspirePassword = oldUser.AspirePassword;
+                            //update password for existing aspire user
+                            var resetToken = await userManager.GeneratePasswordResetTokenAsync(oldUser.Id);
+                            var updateRes = await userManager.ResetPasswordAsync(oldUser.Id, resetToken, context.Password);                                                 
                             if (updateRes.Succeeded)
                             {
-                                _loggingService?.LogInfo(
-                                    $"Password for Aspire user [{context.UserName}] was updated successefully");
-                                user = await userManager.FindAsync(context.UserName, context.Password);
+                                oldUser.AspirePassword = context.Password;
+                                updateRes = await userManager.UpdateAsync(oldUser);
+                                if (updateRes.Succeeded)
+                                {
+                                    _loggingService?.LogInfo(
+                                        $"Password for Aspire user [{context.UserName}] was updated successefully");
+                                }
                             }
                         }
+                        user = await userManager.FindAsync(context.UserName, context.Password);
                     }
                     else
                     {
@@ -266,12 +271,14 @@ namespace DealnetPortal.Api.Providers
                         }
                     }
 
-                    var syncAlerts = await _usersService.SyncAspireUser(user);
-                    if (syncAlerts?.Any() ?? false)
+                    if (user != null)
                     {
-                        outAlerts.AddRange(syncAlerts);
+                        var syncAlerts = await _usersService.SyncAspireUser(user);
+                        if (syncAlerts?.Any() ?? false)
+                        {
+                            outAlerts.AddRange(syncAlerts);
+                        }
                     }
-
                 }
                 else
                 {

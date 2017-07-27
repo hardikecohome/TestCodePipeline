@@ -50,6 +50,14 @@
       <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="CipherCore, Version=2017.3.6285.32338, Culture=neutral, PublicKeyToken=e0287981ec67bb47, processorArchitecture=MSIL">
+      <HintPath>..\packages\CipherCore.2017.3.1.2\lib\net45\CipherCore.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CipherDB.EF6, Version=2017.3.6285.32343, Culture=neutral, PublicKeyToken=e0287981ec67bb47, processorArchitecture=MSIL">
+      <HintPath>..\packages\CipherDB.EF6.2017.3.1.2\lib\net45\CipherDB.EF6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Hangfire.Core, Version=1.6.12.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Hangfire.Core.1.6.12\lib\net45\Hangfire.Core.dll</HintPath>
       <Private>True</Private>
