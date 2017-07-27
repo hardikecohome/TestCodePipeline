@@ -13,7 +13,7 @@
         rateCards: [{ id: 0, name: 'FixedRate' }, { id: 1, name: 'NoInterest' }, { id: 2, name: 'Deferral' }, { id: 3, name: 'Custom' }],
         numberFields: ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'DealerCost', 'AdminFee'],
         notCero: ['equipmentSum', 'LoanTerm', 'AmortizationTerm'],
-        customInputsToShow: ['-customYCostWrapper', '-customAFee', '-customCRate', '-deferralDropdownWrapper', '-customLoanAmortWrapper'],
+        customInputsToShow: ['-customYCostWrapper', '-customAFeeWrapper', '-customCRateWrapper', '-deferralDropdownWrapper', '-customLoanAmortWrapper'],
         inputsToHide: ['-cRate', '-yCostVal', '-aFee'],
         emptyRateCard: {
             Id: '',

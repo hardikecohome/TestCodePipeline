@@ -88,19 +88,40 @@
                 if (dropdownParentDiv.is(':hidden')) {
                     $('#' + optionKey + '-deferral').addClass('hidden');
                     dropdownParentDiv.removeClass('hidden');
-
                     $('#' + optionKey + '-deferralDropdown').change();
                 }
 
                 if (planType === 3) {
                     $('#' + optionKey + '-amortDropdown').closest('.row').addClass('hidden');
-                    $.grep(constants.inputsToHide, function(field) {
-                        $('#' + optionKey + field).addClass('hidden');
+                    $('#' + optionKey + '-deferralDropdown').prepend("<option value='0' selected='selected'>No Deferral</option>");
+                    $.grep(constants.inputsToHide,
+                        function(field) {
+                            $('#' + optionKey + field).addClass('hidden');
+                        });
+
+                    $.grep(constants.customInputsToShow,
+                        function(field) {
+                            $('#' + optionKey + field).removeClass('hidden').attr('disabled', false);
+                        });
+                } else {
+                    $('#' + optionKey + '-deferralDropdown option[value="0"]').remove();
+                    $('#' + optionKey + '-downPayment').val('');
+                    $('#' + optionKey + '-customLoanTerm').val('');
+                    $('#' + optionKey + '-customAmortTerm').val('');
+
+                    $('#' + optionKey + '-amortDropdown').closest('.row').removeClass('hidden');
+                    $.grep(constants.inputsToHide, function (field) {
+                        $('#' + optionKey + field).removeClass('hidden');
                     });
 
-                    $.grep(constants.customInputsToShow, function(field) {
-                        $('#' + optionKey + field).removeClass('hidden').attr('disabled', false);
+                    $.grep(constants.customInputsToShow, function (field) {
+                        $('#' + optionKey + field).addClass('hidden');
+                        $('#' + optionKey + field).siblings('a.clear-input').css('display', 'none');
+                        if (field !== '-deferralDropdown') {
+                            $('#' + optionKey + field).attr('disabled', true).val('');
+                        }
                     });
+                    dropdownParentDiv.removeClass('hidden');
                 }
 
             } else {
