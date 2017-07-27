@@ -19,7 +19,7 @@
     </div>
   </div>
   <div class="calculators-container">
-    <div no-wrap="noWrapSlides" class="row rate-cards-container" id="options-container">
+    <div no-wrap="noWrapSlides" class="rate-cards-container" id="options-container">
       <div class="col-md-4 col-sm-6 rate-card-col" id="option1-container">
           <h2 class="dealnet-middle-header calculator-heading"><span id="option1-header">Option 1</span>
           <span class="calculator-remove" id="option1-remove">
@@ -62,8 +62,10 @@
           @Html.Partial("Calculator/_RateCard", Model)
         </div>
       </div>
+
+
     </div>
-    <div class="row">
+    <div class="control-add-calc">
       <div class="col-md-4 col-sm-6" id="first-add-button">
         <button class="btn dealnet-button dealnet-success-button btn-add-calc-option" type="button">Add Another Option to Compare</button>
       </div>
@@ -71,6 +73,14 @@
         <button class="btn dealnet-button dealnet-success-button btn-add-calc-option hidden" type="button">Add Another Option to Compare</button>
       </div>
     </div>
+    <!--<div class="row control-add-calc">
+      <div class="col-md-4 col-sm-6" id="first-add-button">
+        <button class="btn dealnet-button dealnet-success-button btn-add-calc-option" type="button">Add Another Option to Compare</button>
+      </div>
+      <div class="col-md-4 col-sm-6" id="second-add-button">
+        <button class="btn dealnet-button dealnet-success-button btn-add-calc-option hidden" type="button">Add Another Option to Compare</button>
+      </div>
+    </div>-->
   </div>
 </div>
 

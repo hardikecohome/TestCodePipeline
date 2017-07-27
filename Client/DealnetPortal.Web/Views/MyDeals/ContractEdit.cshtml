@@ -326,7 +326,7 @@
 				    <label class="dealnet-field-caption col-xs-6">@Resources.TotalValue</label>
 	                            <div class="dealnet-field-holder col-xs-6">
 	                                <div class="control-group">
-	                                    $ @($"{Model.EquipmentInfo.ValueOfDeal:0.00}")
+	                                   <div class="dealnet-disabled-input dealnet-disabled-input-value">$ @($"{Model.EquipmentInfo.ValueOfDeal:0.00}")</div>
 	                                </div>
 	                            </div>
 	                        </div>
@@ -459,7 +459,7 @@
 							<label class="dealnet-field-caption col-xs-6">@Resources.TypeOfEquipment</label>
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
-                                        @(Model.EquipmentInfo?.NewEquipment?.Select(eq => eq.TypeDescription).ConcatWithComma())
+	                                    <div class="dealnet-disabled-input dealnet-disabled-input-value">@(Model.EquipmentInfo?.NewEquipment?.Select(eq => eq.TypeDescription).ConcatWithComma())</div>
                                     </div>
                                 </div>
                             </div>

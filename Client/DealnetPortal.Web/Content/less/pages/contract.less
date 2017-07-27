@@ -60,13 +60,13 @@
     .show-comments-answers{
       position: relative;
       padding-right: 15px;
-      color: #525251;
+      color: @default-dark-grey-color;
       text-decoration: none;
       margin-right: 20px;
       font-size: 13px;
       &:hover{
         text-decoration: none;
-        color: #525251;
+        color: @default-dark-grey-color;
       }
       &:before{
         content: '';
@@ -78,12 +78,12 @@
         height: 0;
         border-style: solid;
         border-width: 4px 4px 0 4px;
-        border-color: #525251 transparent transparent transparent;
+        border-color: @default-dark-grey-color transparent transparent transparent;
       }
       &.active{
         &:before{
           border-width: 0 4px 4px 4px;
-          border-color: transparent transparent #525251 transparent;
+          border-color: transparent transparent @default-dark-grey-color transparent;
         }
       }
     }
