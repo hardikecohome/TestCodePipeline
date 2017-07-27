@@ -779,9 +779,11 @@
     <Content Include="Scripts\custom-validation.js" />
     <Content Include="Scripts\jquery.jcarousel.min.js" />
     <Content Include="Scripts\jquery.touchSwipe.min.js" />
+    <Content Include="Scripts\Pages\calculator\calculator-conversion.js" />
     <Content Include="Scripts\Pages\calculator\calculator-index.js" />
     <Content Include="Scripts\Pages\calculator\calculator-init.js" />
     <Content Include="Scripts\Pages\calculator\calculator-option.js" />
+    <Content Include="Scripts\Pages\calculator\calculator-ui.js" />
     <Content Include="Scripts\Pages\calculator\calculator-value-setters.js" />
     <Content Include="Scripts\Pages\calculator\calculator-state.js" />
     <Content Include="Scripts\Pages\Clients\index.js" />
