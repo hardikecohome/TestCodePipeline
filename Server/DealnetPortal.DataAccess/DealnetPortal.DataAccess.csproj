@@ -70,7 +70,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Web" />
@@ -108,6 +107,8 @@
     <Compile Include="Repositories\RateCardsRepository.cs" />
     <Compile Include="Repositories\SettingsRepository.cs" />
     <Compile Include="Repositories\DealerRepository.cs" />
+    <Compile Include="SecureAppDbContext.cs" />
+    <Compile Include="SecureDatabaseFactory.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>

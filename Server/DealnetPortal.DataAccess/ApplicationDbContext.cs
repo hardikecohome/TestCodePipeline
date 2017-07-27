@@ -1,5 +1,4 @@
 using System.Data.Entity;
-using Crypteron.CipherDb;
 using DealnetPortal.Domain;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -9,8 +8,7 @@ namespace DealnetPortal.DataAccess
     {
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
-        {
-            Crypteron.CipherDb.Session.Create(this);
+        {            
         }
 
         public static ApplicationDbContext Create()
