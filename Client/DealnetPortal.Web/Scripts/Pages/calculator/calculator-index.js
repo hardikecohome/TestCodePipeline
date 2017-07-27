@@ -111,6 +111,7 @@
         initialSetup();
     });
 
+
     /**
      * Update current card for each of rate card options
      * @param {string} option - name of the cards [FixedRate,Deferral,NoInterst]
@@ -199,8 +200,8 @@
                     }
                 })[0];
         }
-
         return card;
 
     }
+
 });

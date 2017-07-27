@@ -262,6 +262,10 @@
 
         $('#option' + secondIndex + '-remove').on('click', function () {
             removeOption.call(this, callback);
+
+            carouselRateCards();
+            refreshCarouselItems();
+
         });
 
         if (state[newOption].downPayment !== 0) {
@@ -297,7 +301,14 @@
             $('#Equipment_NewEquipment_' + ind + '__Type').val(state[newOption].equipments[ind].type);
         });
 
+
+        refreshCarouselItems();
+
         optionSetup(newOption, callback);
+
+        carouselRateCards();
+        $('.jcarousel').jcarousel('scroll', '+=1');
+        refreshCarouselItems();
     }
 
 
@@ -352,12 +363,13 @@
             }
         });
     }
-
-    $(document).ready(function () {
+    $(function() {
         carouselRateCards();
-        $(window).resize(function () {
-            carouselRateCards();
-        });
+    });
+
+    $(window).resize(function () {
+        carouselRateCards();
+        refreshCarouselItems();
     });
 
     return {
@@ -367,12 +379,20 @@
     }
 });
 
+function refreshCarouselItems(){
+    var number = $('.jcarousel-pagination').find('.active').text();
+    $('.jcarousel-pagination').jcarouselPagination('reloadCarouselItems');
+    $('.jcarousel').jcarousel('reload');
+    $('.jcarousel-pagination').find('.active').removeClass('active');
+    $('.jcarousel-pagination').find('a:contains("' + number + '")').addClass('active');
+}
+
 function carouselRateCards(){
     var windowWidth = $(window).width();
     var paginationItems;
     var targetSlides;
     if (windowWidth >= 1024) {
-        paginationItems = 4;
+        paginationItems = 3;
         targetSlides = 0;
     } else if (windowWidth >= 768) {
         paginationItems = 2;
