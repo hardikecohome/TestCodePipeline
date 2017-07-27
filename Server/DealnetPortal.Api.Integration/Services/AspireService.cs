@@ -4,10 +4,8 @@ using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
@@ -722,16 +720,13 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 var dealer = _contractRepository.GetDealer(contractOwnerId);
-                var creds =
-                    (HttpContext.Current?.User as ClaimsPrincipal)?.Claims?.FirstOrDefault(
-                        c => c.Type == ClaimNames.AspireUser)?.Value;
-
-                if (dealer != null && !string.IsNullOrEmpty(dealer.AspireLogin) && !string.IsNullOrEmpty(creds))
-                {                                                            
+                if (dealer != null && !string.IsNullOrEmpty(dealer.AspireLogin) &&
+                    !string.IsNullOrEmpty(dealer.AspirePassword))
+                {
                     header = new RequestHeader()
                     {
                         UserId = dealer.AspireLogin,
-                        Password = creds.Unprotect()
+                        Password = dealer.AspirePassword
                     };
                 }
                 else
