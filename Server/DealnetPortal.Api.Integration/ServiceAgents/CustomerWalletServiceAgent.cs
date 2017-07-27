@@ -76,17 +76,29 @@ namespace DealnetPortal.Api.Integration.ServiceAgents
             return alerts;
         }
 
-        public async Task<bool> CheckUser(string userName)
+        public async Task<IList<Alert>> CheckUser(string userName)
         {
+            var alerts = new List<Alert>();
             try
             {
-                return await Client.GetAsync<bool>(
-                            $"{_fullUri}/Account/CheckUser?userName={userName}");
+                if(  await Client.GetAsync<bool>($"{_fullUri}/Account/CheckUser?userName={userName}"))
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = "Cannot create customer",
+                        Message = "Customer with this email address is already registered."
+                    });
             }
             catch (Exception ex)
-            {                
-                throw;
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = $"Creation of a new transaction on Customer Wallet portal failed",
+                    Message = ex.Message
+                });
             }
+            return alerts;
         }
     }
 }

@@ -118,15 +118,23 @@ namespace DealnetPortal.Api.Integration.Services
         public async Task<IList<Alert>> CheckCustomerExisting(string login)
         {
             var alerts = new List<Alert>();
-
-            if (await _customerWalletServiceAgent.CheckUser(login).ConfigureAwait(false))
+            try
             {
-                _loggingService.LogInfo($"Customer {login} already registered on Customer Wallet.");
+                var response = await _customerWalletServiceAgent.CheckUser(login);
+                if (response?.Any() ?? false)
+                {
+                    _loggingService.LogInfo($"Customer {login} already registered on Customer Wallet.");
+                    alerts.AddRange(response);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                _loggingService.LogError("Cannot send request to CustomerWallet", ex);
                 alerts.Add(new Alert()
                 {
                     Type = AlertType.Error,
-                    Header = "Cannot create customer",
-                    Message = "Customer with this email address is already registered."
+                    Header = "Cannot send request to CustomerWallet",
+                    Message = ex.ToString()
                 });
             }
             return alerts;
