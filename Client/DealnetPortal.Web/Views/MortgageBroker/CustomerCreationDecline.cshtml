@@ -7,17 +7,17 @@
     <div class="customer-success-page-inner">
         <div class="text-center">
             <div class="customer-success-page-content">
-                <p>
-                  <strong>@Resources.UnableToProcessApplicationAutomatically</strong>
+                <h4>
+                  @Resources.UnableToProcessApplicationAutomatically <br />
                   @if (errors?.Any(a => a.Type == AlertType.Error) ?? false)
                   {
                     var errorAlerts = errors.Where(a => a.Type == AlertType.Error).ToList();
                     for (int i = 0; i < errorAlerts.Count; i++)
                     {
-                              <p><strong>@errorAlerts[i].Message</strong></p>
+                        @errorAlerts[i].Message
                     }
                   }
-                </p>
+                </h4>
                 <p class="customer-decline-address">
                     @Resources.InCaseQuestionsContactSupport<br>
                     <span class="text-lowercase">@Resources.Phone:</span> 1-866-382-7468 <br>

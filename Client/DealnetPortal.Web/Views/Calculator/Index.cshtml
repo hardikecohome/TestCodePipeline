@@ -7,7 +7,7 @@
   <div class="dealnet-large-header">@Resources.Calculator</div>
   
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 col-sm-6">
       <div class="form-group">
         <label>@Resources.ChooseProvince</label>
         @Html.DropDownListFor(m => m.ProvinceTaxRates, Model.ProvinceTaxRates.Select(x => new SelectListItem {Value = x.Province, Text = x.Province}),
@@ -19,58 +19,69 @@
     </div>
   </div>
   <div class="calculators-container">
-    <div no-wrap="noWrapSlides" class="row rate-cards-container" id="options-container">
-      <div class="col-md-4 col-sm-6 rate-card-col" id="option1-container">
-          <h2 class="dealnet-middle-header calculator-heading"><span id="option1-header">Option 1</span>
-          <span class="calculator-remove" id="option1-remove">
-            <i class="glyphicon glyphicon-remove"></i>
-          </span>
-        </h2>
-        <div class="rate-card table-mode">
-          <div class="equipments-hold">
-            <div class="equipment-item" id="equipment-0">
-              <div class="dealnet-middle-header equipment-heading">
-                <span>@Resources.Equipment  №1</span>
-              </div>
-              <div class="form-group">
-                @Html.LabelFor(m => m.Equipment.NewEquipment[0].Type)
-                @Html.DropDownListFor(m => m.Equipment.NewEquipment[0].Type, Model.EquipmentTypes.Select(x => new SelectListItem { Value = x.Type, Text = x.Description }), new { @class = "form-control" })
-              </div>
-              <div class="form-group">
-                @Html.LabelFor(m => m.Equipment.NewEquipment[0].Description)
-                <div class="control-group">
-                  @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Description, new { @class = "form-control dealnet-input date-input", placeholder = Resources.Description })
-                  @Html.ValidationMessageFor(m => m.Equipment.NewEquipment[0].Description, "", new { @class = "text-danger" })
+    <div  class="jcarousel-wrapper rate-cards-container steps-carousel">
+      <div class="jcarousel">
+        <ul no-wrap="noWrapSlides" id="options-container">
+            <li class="rate-card-col" id="option1-container">
+              <h2 class="dealnet-middle-header calculator-heading"><span id="option1-header">Option 1</span>
+              <span class="calculator-remove" id="option1-remove">
+                <i class="glyphicon glyphicon-remove"></i>
+              </span>
+              </h2>
+              <div class="rate-card table-mode">
+                <div class="equipments-hold">
+                  <div class="equipment-item" id="equipment-0">
+                    <div class="dealnet-middle-header equipment-heading">
+                      <span>@Resources.Equipment  №1</span>
+                    </div>
+                    <div class="form-group">
+                      @Html.LabelFor(m => m.Equipment.NewEquipment[0].Type)
+                      @Html.DropDownListFor(m => m.Equipment.NewEquipment[0].Type, Model.EquipmentTypes.Select(x => new SelectListItem { Value = x.Type, Text = x.Description }), new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                      @Html.LabelFor(m => m.Equipment.NewEquipment[0].Description)
+                      <div class="control-group">
+                        @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Description, new { @class = "form-control dealnet-input date-input", placeholder = Resources.Description })
+                        @Html.ValidationMessageFor(m => m.Equipment.NewEquipment[0].Description, "", new { @class = "text-danger" })
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      @Html.LabelFor(m => m.Equipment.NewEquipment[0].Cost)
+                      <div class="control-group has-addon-left">
+                        <div class="control-group-addon">$</div>
+                        @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Cost, new { @class = "form-control dealnet-input date-input equipment-cost", type="text", placeholder = Resources.Cost })
+                        @Html.ValidationMessageFor(m => m.Equipment.NewEquipment[0].Cost, "", new { @class = "text-danger" })
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="form-group">
-                @Html.LabelFor(m => m.Equipment.NewEquipment[0].Cost)
-                <div class="control-group has-addon-left">
-                  <div class="control-group-addon">$</div>
-                  @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Cost, new { @class = "form-control dealnet-input date-input equipment-cost", type="text", placeholder = Resources.Cost })
-                  @Html.ValidationMessageFor(m => m.Equipment.NewEquipment[0].Cost, "", new { @class = "text-danger" })
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div class="align-middle dealnet-info-link add-equip-link" id="option1-addEquipment">
-            <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
-            <span>@Resources.AddAdditionalEquipment</span>
+                <div class="align-middle dealnet-info-link add-equip-link" id="option1-addEquipment">
+                  <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
+                  <span>@Resources.AddAdditionalEquipment</span>
+                </div>
+                <hr>
+                @Html.Partial("Calculator/_RateCard", Model)
+              </div>
+            </li>
+          </ul>
+          <div class="jcarousel-controls">
+            <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
+            <p class="jcarousel-pagination"></p>
+            <a href="#" class="jcarousel-control-next">&rsaquo;</a>
           </div>
-          <hr>
-          @Html.Partial("Calculator/_RateCard", Model)
+        </div>
+      </div>
+      <div class="row">
+        <div class="control-add-calc col-sm-6 col-xs-12" id="first-add-button">
+          <button class="btn dealnet-button dealnet-success-button btn-add-calc-option" type="button">Add Another Option to Compare</button>
+        </div>
+        <div class="control-add-calc col-sm-6 col-xs-12" id="second-add-button">
+          <button class="btn dealnet-button dealnet-success-button btn-add-calc-option hidden" type="button">Add Another Option to Compare</button>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-4 col-sm-6" id="first-add-button">
-        <button class="btn dealnet-button dealnet-success-button btn-add-calc-option" type="button">Add Another Option to Compare</button>
-      </div>
-      <div class="col-md-4 col-sm-6" id="second-add-button">
-        <button class="btn dealnet-button dealnet-success-button btn-add-calc-option hidden" type="button">Add Another Option to Compare</button>
-      </div>
-    </div>
+
   </div>
 </div>
 

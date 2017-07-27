@@ -53,12 +53,12 @@ body.modal-open .ui-datepicker{
     margin: 0 -10px 10px;
     background: transparent;
     border: 0;
-    color: #525251;
+    color: @default-dark-grey-color;
     border-radius: 0;
     border-bottom: 1px solid @default-grey-color;
   }
   th{
-    color: #525251;
+    color: @default-dark-grey-color;
   }
   .ui-state-default,
   .ui-widget-content .ui-state-default,
@@ -151,7 +151,7 @@ body.modal-open .ui-datepicker{
 
     &:before {
       top: 0;
-      border-color: transparent transparent transparent #525251;
+      border-color: transparent transparent transparent @default-dark-grey-color;
       border-width: 6px;
     }
   }
@@ -176,7 +176,7 @@ body.modal-open .ui-datepicker{
 
     &:before {
       top: 0;
-      border-color: transparent #525251 transparent transparent;
+      border-color: transparent @default-dark-grey-color transparent transparent;
       border-width: 6px;
     }
   }
@@ -355,7 +355,7 @@ body.bodyHasDatepicker .navbar-fixed-side{
 .div-datepicker{
   &:before{
     content: '';
-    .triangle(down, 8px, 4px, #525251);
+    .triangle(down, 8px, 4px, @default-dark-grey-color);
     position: absolute;
     top: 24px;
     left: 95px;
@@ -363,7 +363,7 @@ body.bodyHasDatepicker .navbar-fixed-side{
   }
   &:after{
     content: '';
-    .triangle(down, 8px, 4px, #525251);
+    .triangle(down, 8px, 4px, @default-dark-grey-color);
     position: absolute;
     top: 24px;
     right: 15px;

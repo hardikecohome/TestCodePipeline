@@ -76,11 +76,11 @@ namespace DealnetPortal.Api.Integration.ServiceAgents
             return alerts;
         }
 
-        public Task<bool> CheckUser(string userName)
+        public async Task<bool> CheckUser(string userName)
         {
             try
             {
-                return Client.GetAsync<bool>(
+                return await Client.GetAsync<bool>(
                             $"{_fullUri}/Account/CheckUser?userName={userName}");
             }
             catch (Exception ex)
