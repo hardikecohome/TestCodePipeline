@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -22,6 +23,9 @@ namespace DealnetPortal.Api.App_Start
                 (ILoggingService)
                     GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILoggingService));
             Database.SetInitializer(new MigrateDatabaseToLatestVersionWithLog<ApplicationDbContext, DealnetPortal.DataAccess.Migrations.Configuration>(loggingService));
+            //Force migration
+            var dbMigrator = new DbMigrator(new DealnetPortal.DataAccess.Migrations.Configuration());
+            dbMigrator.Update();
         }
     }
 }

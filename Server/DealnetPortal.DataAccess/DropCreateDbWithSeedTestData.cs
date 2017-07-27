@@ -148,9 +148,7 @@ namespace DealnetPortal.DataAccess
                 Company = "ECO",
                 DisplayName = "Eco Smart Home Services",
                 AspireAccountId = "70017",
-                AspireLogin = "ecosmart",
-                AspirePassword = "123456789"
-            };
+                AspireLogin = "ecosmart",            };
             context.Users.Add(ecosmartUser);
             var canadianhomeUser = new ApplicationUser()
             {
@@ -170,7 +168,6 @@ namespace DealnetPortal.DataAccess
                 DisplayName = "Canadian Home Efficiency Services",
                 AspireAccountId = "70122",
                 AspireLogin = "canadianhome",
-                AspirePassword = "123456789"
             };
             context.Users.Add(canadianhomeUser);
             var enertechUser = new ApplicationUser()
@@ -191,7 +188,6 @@ namespace DealnetPortal.DataAccess
                 DisplayName = "Enertech Home Services",
                 AspireAccountId = "70133",
                 AspireLogin = "enertech",
-                AspirePassword = "123456789"
             };
             context.Users.Add(enertechUser);
             var efficiencyUser = new ApplicationUser()
@@ -212,7 +208,6 @@ namespace DealnetPortal.DataAccess
                 DisplayName = "Efficiency Standard Home Services",
                 AspireAccountId = "70116",
                 AspireLogin = "efficiency",
-                AspirePassword = "123456789"
             };
             context.Users.Add(efficiencyUser);
             
@@ -235,7 +230,6 @@ namespace DealnetPortal.DataAccess
                 DisplayName = "Eco Energy Home Services",
                 AspireAccountId = "70015",
                 AspireLogin = "ecoenergy",
-                AspirePassword = "123456789"
             };
 
             ecoenergyUser.SubDealers = new HashSet<ApplicationUser>();
@@ -257,7 +251,6 @@ namespace DealnetPortal.DataAccess
                 DisplayName = "Apex Home Services",
                 AspireAccountId = "70015",
                 AspireLogin = "ecoenergy",
-                AspirePassword = "123456789"
             };
             ecoenergyUser.SubDealers.Add(ecoenergySubUser);
             ecoenergySubUser = new ApplicationUser()
@@ -278,7 +271,6 @@ namespace DealnetPortal.DataAccess
                 DisplayName = "Ontario Safety Standards",
                 AspireAccountId = "70015",
                 AspireLogin = "ecoenergy",
-                AspirePassword = "123456789"
             };
             ecoenergyUser.SubDealers.Add(ecoenergySubUser);
             ecoenergySubUser = new ApplicationUser()
@@ -299,7 +291,6 @@ namespace DealnetPortal.DataAccess
                 DisplayName = "Ikotel O/A Ontario Water Health Safety",
                 AspireAccountId = "70015",
                 AspireLogin = "ecoenergy",
-                AspirePassword = "123456789"
             };
             ecoenergyUser.SubDealers.Add(ecoenergySubUser);
             ecoenergySubUser = new ApplicationUser()
@@ -320,7 +311,6 @@ namespace DealnetPortal.DataAccess
                 DisplayName = "Ontario Green Solutions",
                 AspireAccountId = "70015",
                 AspireLogin = "ecoenergy",
-                AspirePassword = "123456789"
             };
             ecoenergyUser.SubDealers.Add(ecoenergySubUser);
             ecoenergySubUser = new ApplicationUser()
@@ -341,7 +331,6 @@ namespace DealnetPortal.DataAccess
                 DisplayName = "EcoLife",
                 AspireAccountId = "70015",
                 AspireLogin = "ecoenergy",
-                AspirePassword = "123456789"
             };
             ecoenergyUser.SubDealers.Add(ecoenergySubUser);
 

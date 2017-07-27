@@ -16,8 +16,8 @@ namespace DealnetPortal.Domain
         public virtual Application Application { get; set; }
 
         public string AspireLogin { get; set; }
-        [Secure]
         public string AspirePassword { get; set; }
+        public string Secure_AspirePassword { get; set; }
         public string AspireAccountId { get; set; }
 
         public string Company { get; set; }

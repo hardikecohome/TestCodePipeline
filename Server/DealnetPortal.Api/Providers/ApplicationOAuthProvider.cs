@@ -56,8 +56,17 @@ namespace DealnetPortal.Api.Providers
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
-            
-            ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
+            ApplicationUser user = null;
+            try
+            {            
+
+                user = await userManager.FindAsync(context.UserName, context.Password);
+            }
+            catch (Exception ex)
+            {
+
+                //throw;
+            }
 
             if (user == null || !string.IsNullOrEmpty(user.AspireLogin))
             {
@@ -223,15 +232,14 @@ namespace DealnetPortal.Api.Providers
                     if (oldUser != null)
                     {
                         //check password
-                        if (oldUser.AspirePassword != context.Password)
+                        if (oldUser.Secure_AspirePassword != context.Password)
                         {
-                            var aspirePassword = oldUser.AspirePassword;
                             //update password for existing aspire user
                             var resetToken = await userManager.GeneratePasswordResetTokenAsync(oldUser.Id);
                             var updateRes = await userManager.ResetPasswordAsync(oldUser.Id, resetToken, context.Password);                                                 
                             if (updateRes.Succeeded)
                             {
-                                oldUser.AspirePassword = context.Password;
+                                oldUser.Secure_AspirePassword = context.Password;
                                 updateRes = await userManager.UpdateAsync(oldUser);
                                 if (updateRes.Succeeded)
                                 {
@@ -252,7 +260,7 @@ namespace DealnetPortal.Api.Providers
                             EmailConfirmed = true,
                             TwoFactorEnabled = false,
                             AspireLogin = context.UserName,
-                            AspirePassword = context.Password
+                            Secure_AspirePassword = context.Password
                         };                        
 
                         try
