@@ -444,6 +444,8 @@ function refreshCarouselItems(){
 
     if(viewport().width >= 1024){
         $('.control-add-calc').css('left', $('.rate-card-col').length * $('.rate-card-col').outerWidth() - 5);
+    }else{
+        $('.control-add-calc').css('left', 'auto');
     }
 }
 
