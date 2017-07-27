@@ -240,7 +240,7 @@
                 $(this).attr('id', $(this).attr('id').replace('Equipment_NewEquipment_' + eq, 'Equipment_NewEquipment_' + state.equipmentNextIndex));
                 $(this).attr('name', $(this).attr('name').replace('Equipment.NewEquipment[' + eq, 'Equipment_NewEquipment[' + state.equipmentNextIndex));
             });
-            
+
             state[newOption].equipments[eq].id = state.equipmentNextIndex.toString();
             state[newOption].equipments[state.equipmentNextIndex.toString()] = state[newOption].equipments[eq];
 
@@ -249,6 +249,7 @@
             state.equipmentNextIndex++;
         });
 
+        $(template).find('.add-equip-link').html('<svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-add-app"></use></svg>');
         var header = $(template).find('h2').text();
         $(header).text($(header).text().replace('Option ' + index, 'Option ' + secondIndex));
 

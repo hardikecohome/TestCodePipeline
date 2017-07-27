@@ -7,7 +7,7 @@
   <div class="dealnet-large-header">@Resources.Calculator</div>
   
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 col-sm-6">
       <div class="form-group">
         <label>@Resources.ChooseProvince</label>
         @Html.DropDownListFor(m => m.ProvinceTaxRates, Model.ProvinceTaxRates.Select(x => new SelectListItem {Value = x.Province, Text = x.Province}),
@@ -18,7 +18,7 @@
       </div>
     </div>
   </div>
-  <div class="calculators-container">
+  <div class="row calculators-container">
     <div no-wrap="noWrapSlides" class="rate-cards-container" id="options-container">
       <div class="col-md-4 col-sm-6 rate-card-col" id="option1-container">
           <h2 class="dealnet-middle-header calculator-heading"><span id="option1-header">Option 1</span>
