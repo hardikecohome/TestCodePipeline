@@ -40,27 +40,36 @@
       </select>
     </div>
   </div>
-  <div class="row hidden" id="option1-customLoanAmortWrapper">
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="">Loan Term</label>
-        <div class="control-group">
-          <input type="text" class="form-control form-control-not-clear" name="option1-customLoanTerm" id="option1-customLoanTerm">
-          <span class="field-validation-error text-danger" data-valmsg-for="option1-customLoanTerm" data-valmsg-replace="true"></span>
+  <div class="hidden" id="option1-customLoanAmortWrapper">
+    <div class="row">
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="">Loan Term</label>
+          <div class="control-group">
+            <input type="text" class="form-control form-control-not-clear" name="option1-customLoanTerm" id="option1-customLoanTerm">
+            <span class="field-validation-error text-danger" data-valmsg-for="option1-customLoanTerm" data-valmsg-replace="true"></span>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="">Amort. Term</label>
+          <div class="control-group">
+            <input type="text" class="form-control form-control-not-clear" name="option1-customAmortTerm" id="option1-customAmortTerm">
+            <span class="field-validation-error text-danger" data-valmsg-for="option1-customAmortTerm" data-valmsg-replace="true"></span>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="">Amort. Term</label>
-        <div class="control-group">
-          <input type="text" class="form-control form-control-not-clear" name="option1-customAmortTerm" id="option1-customAmortTerm">
-          <span class="field-validation-error text-danger" data-valmsg-for="option1-customAmortTerm" data-valmsg-replace="true"></span>
-        </div>
+    <div class="row row-error" id="option1-amortLoanTermError" style="display: none;">
+      <div class="col-xs-12">
+        <div class="error-message text-danger">Amortization term cannot be shorter than Loan term.</div>
       </div>
     </div>
-    <div id="option1-amortLoanTermError" class="error-message text-danger" style="display: none; margin-top: -10px; margin-left: 45px;">Amortization term cannot be shorter than Loan term.</div>
   </div>
+
+
+
   <div class="row form-group align-middle">
     <div class="col-xs-6">
       Down Payment
