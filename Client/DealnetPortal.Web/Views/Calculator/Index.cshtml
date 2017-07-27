@@ -19,51 +19,53 @@
     </div>
   </div>
   <div class="row calculators-container">
-    <div no-wrap="noWrapSlides" class="rate-cards-container" id="options-container">
-      <div class="col-md-4 col-sm-6 rate-card-col" id="option1-container">
-          <h2 class="dealnet-middle-header calculator-heading"><span id="option1-header">Option 1</span>
-          <span class="calculator-remove" id="option1-remove">
-            <i class="glyphicon glyphicon-remove"></i>
-          </span>
-        </h2>
-        <div class="rate-card table-mode">
-          <div class="equipments-hold">
-            <div class="equipment-item" id="equipment-0">
-              <div class="dealnet-middle-header equipment-heading">
-                <span>@Resources.Equipment  №1</span>
-              </div>
-              <div class="form-group">
-                @Html.LabelFor(m => m.Equipment.NewEquipment[0].Type)
-                @Html.DropDownListFor(m => m.Equipment.NewEquipment[0].Type, Model.EquipmentTypes.Select(x => new SelectListItem { Value = x.Type, Text = x.Description }), new { @class = "form-control" })
-              </div>
-              <div class="form-group">
-                @Html.LabelFor(m => m.Equipment.NewEquipment[0].Description)
-                <div class="control-group">
-                  @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Description, new { @class = "form-control dealnet-input date-input", placeholder = Resources.Description })
-                  @Html.ValidationMessageFor(m => m.Equipment.NewEquipment[0].Description, "", new { @class = "text-danger" })
+    <div  class="jcarousel-wrapper rate-cards-container steps-carousel">
+      <div class="jcarousel">
+        <ul no-wrap="noWrapSlides" id="options-container">
+            <li class="rate-card-col" id="option1-container">
+              <h2 class="dealnet-middle-header calculator-heading"><span id="option1-header">Option 1</span>
+              <span class="calculator-remove" id="option1-remove">
+                <i class="glyphicon glyphicon-remove"></i>
+              </span>
+              </h2>
+              <div class="rate-card table-mode">
+                <div class="equipments-hold">
+                  <div class="equipment-item" id="equipment-0">
+                    <div class="dealnet-middle-header equipment-heading">
+                      <span>@Resources.Equipment  №1</span>
+                    </div>
+                    <div class="form-group">
+                      @Html.LabelFor(m => m.Equipment.NewEquipment[0].Type)
+                      @Html.DropDownListFor(m => m.Equipment.NewEquipment[0].Type, Model.EquipmentTypes.Select(x => new SelectListItem { Value = x.Type, Text = x.Description }), new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                      @Html.LabelFor(m => m.Equipment.NewEquipment[0].Description)
+                      <div class="control-group">
+                        @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Description, new { @class = "form-control dealnet-input date-input", placeholder = Resources.Description })
+                        @Html.ValidationMessageFor(m => m.Equipment.NewEquipment[0].Description, "", new { @class = "text-danger" })
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      @Html.LabelFor(m => m.Equipment.NewEquipment[0].Cost)
+                      <div class="control-group has-addon-left">
+                        <div class="control-group-addon">$</div>
+                        @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Cost, new { @class = "form-control dealnet-input date-input equipment-cost", type="text", placeholder = Resources.Cost })
+                        @Html.ValidationMessageFor(m => m.Equipment.NewEquipment[0].Cost, "", new { @class = "text-danger" })
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="form-group">
-                @Html.LabelFor(m => m.Equipment.NewEquipment[0].Cost)
-                <div class="control-group has-addon-left">
-                  <div class="control-group-addon">$</div>
-                  @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Cost, new { @class = "form-control dealnet-input date-input equipment-cost", type="text", placeholder = Resources.Cost })
-                  @Html.ValidationMessageFor(m => m.Equipment.NewEquipment[0].Cost, "", new { @class = "text-danger" })
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div class="align-middle dealnet-info-link add-equip-link" id="option1-addEquipment">
-            <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
-            <span>@Resources.AddAdditionalEquipment</span>
-          </div>
-          <hr>
-          @Html.Partial("Calculator/_RateCard", Model)
-        </div>
+                <div class="align-middle dealnet-info-link add-equip-link" id="option1-addEquipment">
+                  <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
+                  <span>@Resources.AddAdditionalEquipment</span>
+                </div>
+                <hr>
+                @Html.Partial("Calculator/_RateCard", Model)
+              </div>
+            </li>
+          </ul>
       </div>
-
-
     </div>
     <div class="control-add-calc">
       <div class="col-md-4 col-sm-6" id="first-add-button">
@@ -127,6 +129,106 @@
       @Html.Raw(Json.Encode(Model.ProvinceTaxRates)));
     module.require('calculator-index');
   });
+  carouselRateCards();
+
+  $(window).resize(function(){
+    console.log('resize');
+    carouselRateCards();
+  })
+
+  function carouselRateCards(){
+    var windowWidth = $(window).width();
+    var paginationItems;
+    var targetSlides;
+    if (windowWidth >= 1024) {
+      paginationItems = 4;
+      targetSlides = 0;
+    } else if (windowWidth >= 768) {
+      paginationItems = 2;
+      targetSlides = 2;
+    }else {
+      paginationItems = 1;
+      targetSlides = 1;
+    }
+
+    var jcarousel = $('.rate-cards-container:not(".one-rate-card") .jcarousel');
+    var carouselItemsToView = viewport().width >= 768 && viewport().width < 1024 ? 2 : viewport().width < 768 ? 1 : 4;
+    jcarousel
+        .on('jcarousel:reload jcarousel:create', function () {
+          var carousel = $(this),
+              carouselWidth = carousel.innerWidth(),
+              width = carouselWidth / carouselItemsToView;
+
+          carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
+        }).jcarousel();
+
+    if(viewport().width < 1024){
+      jcarousel.swipe({
+        //Generic swipe handler for all directions
+        swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+          $('.link-over-notify').each(function(){
+            if($(this).attr('aria-describedby')){
+              $(this).click();
+            }
+          });
+
+          if(direction === "left"){
+            jcarousel.jcarousel('scroll', '+='+carouselItemsToView);
+          } else if(direction === "right"){
+            jcarousel.jcarousel('scroll', '-='+carouselItemsToView);
+          } else {
+            event.preventDefault();
+          }
+        },
+        excludedElements: "button, input, select, textarea, .noSwipe, a",
+        threshold: 50,
+        allowPageScroll: "auto",
+        triggerOnTouchEnd: false
+      });
+    }
+
+
+    $('.jcarousel-control-prev')
+        .jcarouselControl({
+          target: '-='+targetSlides
+        });
+
+    $('.jcarousel-control-next')
+        .jcarouselControl({
+          target: '+='+targetSlides
+        });
+
+    $('.jcarousel-pagination')
+        .on('jcarouselpagination:active', 'a', function() {
+          $(this).addClass('active');
+          if($(this).is(':first-child')){
+            $('.jcarousel-control-prev').addClass('disabled');
+          }else{
+            $('.jcarousel-control-prev').removeClass('disabled');
+          }
+          if($(this).is(':last-child')){
+            $('.jcarousel-control-next').addClass('disabled');
+          }else{
+            $('.jcarousel-control-next').removeClass('disabled');
+          }
+
+        })
+        .on('jcarouselpagination:inactive', 'a', function() {
+          $(this).removeClass('active');
+        })
+        .on('click', function(e) {
+          e.preventDefault();
+        })
+        .jcarouselPagination({
+          perPage: paginationItems,
+          item: function(page) {
+            return '<a href="#' + page + '">' + page + '</a>';
+          }
+        });
+
+
+
+  }
   </script>
 }
 

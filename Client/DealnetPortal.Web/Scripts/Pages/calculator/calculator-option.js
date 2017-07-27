@@ -240,7 +240,7 @@
                 $(this).attr('id', $(this).attr('id').replace('Equipment_NewEquipment_' + eq, 'Equipment_NewEquipment_' + state.equipmentNextIndex));
                 $(this).attr('name', $(this).attr('name').replace('Equipment.NewEquipment[' + eq, 'Equipment_NewEquipment[' + state.equipmentNextIndex));
             });
-            
+
             state[newOption].equipments[eq].id = state.equipmentNextIndex.toString();
             state[newOption].equipments[state.equipmentNextIndex.toString()] = state[newOption].equipments[eq];
 
@@ -252,7 +252,7 @@
         var header = $(template).find('h2').text();
         $(header).text($(header).text().replace('Option ' + index, 'Option ' + secondIndex));
 
-        var optionContainer = $('<div class="col-md-4 col-sm-6 rate-card-col"></div>');
+        var optionContainer = $('<li class="rate-card-col"></li>');
         optionContainer.attr('id', newOption + '-container');
         optionContainer.append(template);
         $('#options-container').append(optionContainer);

@@ -95,11 +95,6 @@
   .dealnet-large-header{
     margin-bottom: 20px;
   }
-  .rate-card-box{
-    .dealnet-middle-header{
-      margin-bottom: 15px;
-    }
-  }
   .well{
     margin: 20px 0;
   }
@@ -162,8 +157,17 @@
 .calculators-container{
   position: relative;
   min-height: 600px;
-  @media @desktop-up {
 
+  .jcarousel ul{
+    @media @desktop-up {
+      max-width: 100%;
+      width: auto;
+    }
+  }
+  .jcarousel li{
+    @media @desktop-up {
+      width: 33.333333333%;
+    }
   }
 }
 
