@@ -19,7 +19,7 @@
         var planIds = Object.keys(constants.rateCards).map(function(p) {
             return constants.rateCards[p].id;
         });
-
+        state.defaultEquipment = $('#Equipment_NewEquipment_0__Type').val();
         state.amortLoanPeriods = {};
 
         planIds.forEach(function (plan) {

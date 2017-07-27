@@ -9,6 +9,21 @@
         };
     };
 
+    function toggleClearInputIcon(fields) {
+        var fields = fields || $('.control-group input, .control-group textarea');
+        var fieldParent = fields.parent('.control-group:not(.date-group):not(.control-group-pass)');
+        fields.each(function () {
+            toggleClickInp($(this));
+        });
+        fields.on('keyup', function () {
+            toggleClickInp($(this));
+        });
+        fieldParent.find('.clear-input').on('click', function () {
+            $(this).siblings('input, textarea').val('').change();
+            $(this).hide();
+        });
+    }
+
     var optionSetup = function(option, callback) {
         $('#' + option + '-addEquipment').on('click', function () {
             var template = $('#equipment-template').html();
@@ -28,6 +43,13 @@
             $(equipmentTemplate).find('#Equipment_NewEquipment_' + state.equipmentNextIndex + '__Type').on('change', setters.setEquipmentType(option));
             $(equipmentTemplate).find('#Equipment_NewEquipment_' + state.equipmentNextIndex + '__Description').on('change', setters.setEquipmentDescription(option));
             $('#' + option + '-container').find('.equipments-hold').append(equipmentTemplate);
+
+            $('#equipment-' + state.equipmentNextIndex)
+                .find('.clear-input')
+                .find('svg')
+                .html('<use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-remove"></use>');
+
+            toggleClearInputIcon($('#equipment-' + state.equipmentNextIndex).find('.control-group input, .control-group textarea'));
 
             setters.setNewEquipment(option, callback);
         });
@@ -215,9 +237,11 @@
             .replace("Option " + index, "Option " + secondIndex);
 
         var template = $.parseHTML(container);
+
         $(template).find('[id^="' + optionToCopy + '-"]').each(function () {
             $(this).attr('id', $(this).attr('id').replace(optionToCopy, newOption));
         });
+
         $(template).find('.calculator-remove').attr('id', newOption + '-remove');
 
         var equipmentsToUpdate = Object.keys(state[optionToCopy].equipments).map(function (k) {
@@ -240,6 +264,14 @@
                 $(this).attr('id', $(this).attr('id').replace('Equipment_NewEquipment_' + eq, 'Equipment_NewEquipment_' + state.equipmentNextIndex));
                 $(this).attr('name', $(this).attr('name').replace('Equipment.NewEquipment[' + eq, 'Equipment_NewEquipment[' + state.equipmentNextIndex));
             });
+            
+            $(template).find('#equipment-remove-' + eq).each(function() {
+                $(this).attr('id', $(this).attr('id').replace('equipment-remove-' + eq, 'equipment-remove-' + state.equipmentNextIndex));
+            });
+
+            $(template).find('#equipment-' + eq).each(function () {
+                $(this).attr('id', $(this).attr('id').replace('equipment-' + eq, 'equipment-' + state.equipmentNextIndex));
+            });
 
             state[newOption].equipments[eq].id = state.equipmentNextIndex.toString();
             state[newOption].equipments[state.equipmentNextIndex.toString()] = state[newOption].equipments[eq];
@@ -256,6 +288,19 @@
         optionContainer.attr('id', newOption + '-container');
         optionContainer.append(template);
         $('#options-container').append(optionContainer);
+
+        $('#' + newOption + '-container')
+            .find('.add-equip-link')
+            .find('svg')
+            .html('<use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-add-app"></use>');
+
+        $('#' + newOption + '-container')
+            .find('.clear-input')
+            .find('svg')
+            .html('<use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-remove"></use>');
+
+        toggleClearInputIcon($('#' + newOption + '-container').find('.control-group input, .control-group textarea'));
+
         var newOptionIndexes = Object.keys(state[newOption].equipments).map(function (k) {
             return state[newOption].equipments[k].id;
         });
@@ -299,6 +344,7 @@
 
             $('#Equipment_NewEquipment_' + ind + '__Type').on('change', setters.setEquipmentType(newOption));
             $('#Equipment_NewEquipment_' + ind + '__Type').val(state[newOption].equipments[ind].type);
+            $('#equipment-remove-' + ind).on('click', setters.removeEquipment(newOption, callback));
         });
 
 
@@ -309,6 +355,15 @@
         carouselRateCards();
         $('.jcarousel').jcarousel('scroll', '+=1');
         refreshCarouselItems();
+    }
+
+
+    function toggleClickInp(inp) {
+        if (inp.val().length !== 0) {
+            inp.siblings('.clear-input').css('display', 'block');
+        } else {
+            inp.siblings('.clear-input').hide();
+        }
     }
 
 
