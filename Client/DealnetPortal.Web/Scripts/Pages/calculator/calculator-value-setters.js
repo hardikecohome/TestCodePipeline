@@ -70,7 +70,7 @@
 
     var setDownPayment = function(optionKey, callback) {
         return function(e) {
-            state[optionKey].downPayment = parseFloat(e.target.value);
+            state[optionKey].downPayment = e.target.value !== '' ?  parseFloat(e.target.value) : 0;
             callback([optionKey]);
         }
     };
@@ -120,7 +120,7 @@
                 
                 $.grep(constants.customInputsToShow, function (field) {
                     $('#' + optionKey + field).addClass('hidden');
-
+                    $('#' + optionKey + field).siblings('a.clear-input').css('display', 'none');
                     if (field !== '-deferralDropdown') {
                         $('#' + optionKey + field).attr('disabled', true).val('');
                     }
@@ -136,7 +136,7 @@
             var mvcId = e.target.id;
             var id = mvcId.split('__Cost')[0].substr(mvcId.split('__Cost')[0].lastIndexOf('_') + 1);
 
-            state[optionKey].equipments[id].cost = +e.target.value;
+            state[optionKey].equipments[id].cost = isNaN(parseFloat(e.target.value)) ? '' : parseFloat(e.target.value);
             callback([optionKey]);
         }
     }
@@ -157,8 +157,8 @@
         }
     }
 
-    var setNewEquipment = function(optionKey, callback) {
-        state[optionKey].equipments[state.equipmentNextIndex] = { id: state.equipmentNextIndex.toString(), cost: '' };
+    var setNewEquipment = function (optionKey, callback) {
+        state[optionKey].equipments[state.equipmentNextIndex] = { id: state.equipmentNextIndex.toString(), cost: '', description: '', type: state.defaultEquipment };
         state.equipmentNextIndex++;
 
         callback([optionKey]);
