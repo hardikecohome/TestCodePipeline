@@ -721,12 +721,12 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 var dealer = _contractRepository.GetDealer(contractOwnerId);
                 if (dealer != null && !string.IsNullOrEmpty(dealer.AspireLogin) &&
-                    !string.IsNullOrEmpty(dealer.AspirePassword))
+                    !string.IsNullOrEmpty(dealer.Secure_AspirePassword))
                 {
                     header = new RequestHeader()
                     {
                         UserId = dealer.AspireLogin,
-                        Password = dealer.AspirePassword
+                        Password = dealer.Secure_AspirePassword
                     };
                 }
                 else

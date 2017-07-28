@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Crypteron;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -16,6 +17,7 @@ namespace DealnetPortal.Domain
 
         public string AspireLogin { get; set; }
         public string AspirePassword { get; set; }
+        public string Secure_AspirePassword { get; set; }
         public string AspireAccountId { get; set; }
 
         public string Company { get; set; }

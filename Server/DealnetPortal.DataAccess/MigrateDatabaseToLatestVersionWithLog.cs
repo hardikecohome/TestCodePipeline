@@ -20,20 +20,7 @@ namespace DealnetPortal.DataAccess
 
         public MigrateDatabaseToLatestVersionWithLog(ILoggingService loggingService)
         {
-            _loggingService = loggingService;
-            //_loggingService.LogInfo(Directory.Get());
-            //try
-            //{
-            //    var dir = HostingEnvironment.MapPath("~/SeedData");
-            //   //var dir = AppDomain.CurrentDomain.BaseDirectory;
-            //    var path = dir + "//test.pdf";//Path.Combine("SeedData", "test" + ".pdf");
-            //    File.ReadAllBytes(path);
-            //}
-            //catch (Exception ex)
-            //{
-            //    _loggingService.LogError("",ex);
-            //    // ignored
-            //}
+            _loggingService = loggingService;            
         }
         public override void InitializeDatabase(TContext context)
         {

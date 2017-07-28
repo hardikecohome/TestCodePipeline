@@ -56,6 +56,10 @@
         return true;
     });
 
+    $('#camera-modal').on('hidden.bs.modal', function () {
+        var test = $('#first-name').val();
+    });
+
     window.initAutocomplete = initAutocomplete;
     $(document).ready(function () {
         $(window).keydown(function (event) {

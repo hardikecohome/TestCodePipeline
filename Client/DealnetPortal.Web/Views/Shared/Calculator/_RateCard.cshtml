@@ -26,7 +26,7 @@
       Plan
     </div>
     <div class="col-xs-6">
-      @Html.DropDownList("option1-plan", Model.Plans.Select(x => new SelectListItem { Value = x, Text = x}), new { @class = "form-control" })
+      @Html.DropDownList("option1-plan", Model.Plans.Select(x => new SelectListItem { Value = x.Key, Text = x.Value}), new { @class = "form-control" })
     </div>
   </div>
   <div class="row form-group align-middle">

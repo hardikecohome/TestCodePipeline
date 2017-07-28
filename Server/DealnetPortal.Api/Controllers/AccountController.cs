@@ -193,13 +193,13 @@ namespace DealnetPortal.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var isAspireUser = !string.IsNullOrEmpty(user.AspirePassword) && !string.IsNullOrEmpty(user.AspireLogin);                        
+            var isAspireUser = !string.IsNullOrEmpty(user.Secure_AspirePassword) && !string.IsNullOrEmpty(user.AspireLogin);                        
                         
             if (isAspireUser)
             {
                 await this.UserManager.SendEmailAsync(user.Id,
                         Resources.Resources.YourPassword,
-                        Resources.Resources.ThisIsYourPass + $"{user.AspirePassword}\r\n" + Resources.Resources.PleaseUseToLoginPortal);
+                        Resources.Resources.ThisIsYourPass + $"{user.Secure_AspirePassword}\r\n" + Resources.Resources.PleaseUseToLoginPortal);
                 _loggingService.LogInfo($"Confirmation email with aspire password for user {user.UserName} was sent");
             }
             else

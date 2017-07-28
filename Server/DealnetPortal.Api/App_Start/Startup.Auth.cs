@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Web.Http;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using Microsoft.AspNet.Identity;
@@ -12,6 +13,7 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using DealnetPortal.Api.Providers;
 using DealnetPortal.DataAccess;
+using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.Api
 {
@@ -57,7 +59,10 @@ namespace DealnetPortal.Api
                 case AuthType.AuthProvider:
                 default:
                     // Configure the db context and user manager to use a single instance per request
-                    app.CreatePerOwinContext(ApplicationDbContext.Create);
+                    var logging =
+                        (ILoggingService)
+                            GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILoggingService));
+                    app.CreatePerOwinContext(() => (ApplicationDbContext) SecureAppDbContext.Create(logging));
                     app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
                     app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
                     OAuthOptions.Provider = new ApplicationOAuthProvider(PublicClientId);
