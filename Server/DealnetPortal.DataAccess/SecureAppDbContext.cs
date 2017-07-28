@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,8 +36,9 @@ namespace DealnetPortal.DataAccess
             }
             catch (Exception ex)
             {
-                _loggingService?.LogError("Cannot create secure DB context", ex);
-                //Logging exception of secure context creation here                
+                //Logging exception of secure context creation here
+                Crypteron.ErrorHandling.Logging.Logger.Log($"Cannot create secure DB context: {ex}", TraceEventType.Error);
+                _loggingService?.LogError("Cannot create secure DB context", ex);                                
             }            
         }
     }
