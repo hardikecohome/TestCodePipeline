@@ -230,12 +230,22 @@ namespace DealnetPortal.Web.Infrastructure
             var dealerTier = await _contractServiceAgent.GetDealerTier();
             model.DealerTier = dealerTier ?? new TierDTO { RateCards = new List<RateCardDTO>() };
 
+            //TODO: FOR DEMO PUROPSE ONLY REFACTOR AS SOON AS POSSIBLE!!!
+            var planDict = new Dictionary<string, string>
+            {
+                {"FixedRate", "Standard Rate"},
+                {"NoInterest", "0% Equal Payments"},
+                {"Deferral", "Deferral"},
+            };
+
             model.Plans = model.DealerTier.RateCards
                 .Select(x => x.CardType.ToString())
                 .Distinct()
-                .ToList();
+                .Where(c => planDict.ContainsKey(c))
+                .Select(card => new KeyValuePair<string, string>(card, planDict[card]))
+                .ToDictionary(card => card.Key, card => card.Value);
 
-            model.Plans.Add("Custom");
+            model.Plans.Add("Custom", "Promo/Custom");
 
             model.DeferralPeriods = model.DealerTier.RateCards
                 .Where(x => x.CardType == RateCardType.Deferral)

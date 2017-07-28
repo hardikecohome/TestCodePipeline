@@ -7,7 +7,7 @@ namespace DealnetPortal.Web.Models
 {
     public class StandaloneCalculatorViewModel
     {
-        public List<string> Plans { get; set; }
+        public Dictionary<string, string> Plans { get; set; }
         public Dictionary<string, string> DeferralPeriods { get; set; }
         public EquipmentInformationViewModel Equipment { get; set; }
         public IList<EquipmentTypeDTO> EquipmentTypes { get; set; }

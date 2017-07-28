@@ -20,6 +20,14 @@
         });
         $('#ui-datepicker-div').addClass('cards-datepicker');
 
+        $('#camera-modal').on('hidden.bs.modal', function () {
+            var firstName = $('#first-name').val();
+            var lastName = $('#last-name').val();
+            var birthDate = $('#birth-date').val();
+
+            dispatch(createAction(clientActions.DRIVER_LICENSE_UPLOADED, e.target.value));
+        });
+
         var name = $('#first-name');
         name.on('change', function (e) {
             dispatch(createAction(clientActions.SET_NAME, e.target.value));
