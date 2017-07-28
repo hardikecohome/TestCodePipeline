@@ -196,6 +196,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Additional Applicant Address Information.
+        /// </summary>
+        public static string AdditionalApplicantAddressInfo {
+            get {
+                return ResourceManager.GetString("AdditionalApplicantAddressInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Additional Applicant address is not the same as borrower&apos;s address.
+        /// </summary>
+        public static string AdditionalApplicantAddressNotSameAsBorrower {
+            get {
+                return ResourceManager.GetString("AdditionalApplicantAddressNotSameAsBorrower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Additional Applicant Email.
         /// </summary>
         public static string AdditionalApplicantEmail {

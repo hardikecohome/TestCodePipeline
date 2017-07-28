@@ -1500,4 +1500,10 @@
   <data name="PleaseEnterAtLeastZero" xml:space="preserve">
     <value>Entrez au moins 0.</value>
   </data>
+  <data name="AdditionalApplicantAddressInfo" xml:space="preserve">
+    <value>Information supplémentaire sur l'adresse du demandeur</value>
+  </data>
+  <data name="AdditionalApplicantAddressNotSameAsBorrower" xml:space="preserve">
+    <value>L'adresse du demandeur supplémentaire n'est pas la même que l'adresse de l'emprunteur</value>
+  </data>
 </root>

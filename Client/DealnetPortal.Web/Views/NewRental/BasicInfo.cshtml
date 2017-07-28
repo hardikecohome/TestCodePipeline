@@ -623,6 +623,80 @@
 
                 </div>
             </div>
+                        
+            <!-- Additional Applicant Home Address-->
+            <div id="mailing-address-different-add-app@(i+1)" class="form-group">
+                <label for="mailing-address-checkbox-add-app@(i+1)" class="align-middle custom-checkbox">
+                    <input type="checkbox" class="dealnet-checkbox address-checkbox" id="mailing-address-checkbox-add-app@(i+1)" @if (Model?.AdditionalApplicants?[i]?.AddressInformation != null) { <text> checked</text> } data-section="mailing-address-add-app@(i+1)" />
+                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                    <span>@Resources.AdditionalApplicantAddressNotSameAsBorrower</span>
+                </label>
+            </div>
+            <div id="mailing-address-add-app@(i+1)" style="display: none;">
+
+                <h2 class="dealnet-middle-header no-margin-top">@Resources.AdditionalApplicantAddressInfo</h2>
+                <!-- <div class="owner-info">
+                            <a class="dealnet-info-link" onclick="useHomeOwnerAddress(@(i+1));">Use Home Owner address information</a>
+                        </div>
+        -->
+                <div class="row address-info1">
+                    <div class="col-md-6 col-lg-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.AdditionalApplicants[i].AddressInformation.Street, new { @for = "additional-street-" + (i + 1) })
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].AddressInformation.Street, new { @class = "form-control dealnet-input", id = "additional-street-" + (i + 1), placeholder = Resources.StreetPlaceholder })
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].AddressInformation.Street, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-lg-2">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.AdditionalApplicants[i].AddressInformation.UnitNumber, new { @for = "additional-unit_number-" + (i + 1) })
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].AddressInformation.UnitNumber, new { @class = "form-control dealnet-input", type = "text", id = "additional-unit_number-" + (i + 1), placeholder = "12345" })
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].AddressInformation.UnitNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.AdditionalApplicants[i].AddressInformation.City, new { @for = "additional-locality-" + (i + 1) })
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].AddressInformation.City, new { @class = "form-control dealnet-input", id = "additional-locality-" + (i + 1), placeholder = Resources.Ottawa })
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].AddressInformation.City, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row address-info2">
+                    <div class="col-md-4 col-lg-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.AdditionalApplicants[i].AddressInformation.Province, new { @for = "additional-administrative_area_level_1-" + (i + 1) })
+                            <div class="control-group">
+                                @Html.DropDownListFor(m => m.AdditionalApplicants[i].AddressInformation.Province, (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.AdditionalApplicants?[i]?.MailingAddressInformation?.Province == x.Province }), "",
+                                        new { @class = "form-control dealnet-input", id = "additional-administrative_area_level_1-" + (i + 1) })
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].AddressInformation.Province, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.AdditionalApplicants[i].AddressInformation.PostalCode, new { @for = "additional-postal_code-" + (i + 1) })
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].AddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "additional-postal_code-" + (i + 1), placeholder = "12345" })
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].AddressInformation.PostalCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <a href="#" class="dealnet-disabled-text clear-address">
+                            <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!--End Additional Applicant Home Address-->
 
             <!--Living time-->
             <div id="living-time-add-app@(i+1)" class="form-group">
@@ -692,82 +766,6 @@
                 </div>
             </div>
             <!--End Living time-->
-
-            <!--Mailing Address-->
-            <div id="mailing-address-different-add-app@(i+1)" class="form-group">
-                <label for="mailing-address-checkbox-add-app@(i+1)" class="align-middle custom-checkbox">
-                    <input type="checkbox" class="dealnet-checkbox address-checkbox" id="mailing-address-checkbox-add-app@(i+1)" @if (Model?.AdditionalApplicants?[i]?.MailingAddressInformation != null) { <text> checked</text> } data-section="mailing-address-add-app@(i+1)"/>
-                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                    <span>@Resources.MailingAddressNotSameAsInstallation</span>
-                </label>
-            </div>
-            <div id="mailing-address-add-app@(i+1)" style="display: none;">
-
-                <h2 class="dealnet-middle-header no-margin-top">@Resources.AdditionalApplicantMailingAddressInfo</h2>
-
-
-                <!-- <div class="owner-info">
-                                    <a class="dealnet-info-link" onclick="useHomeOwnerAddress(@(i+1));">Use Home Owner address information</a>
-                                </div>
-                -->
-                <div class="row address-info1">
-                    <div class="col-md-6 col-lg-6">
-                        <div class="form-group">
-                        @Html.LabelFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Street, new { @for = "additional-street-" + (i + 1) })
-                            <div class="control-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Street, new {@class = "form-control dealnet-input", id = "additional-street-" + (i + 1), placeholder = Resources.StreetPlaceholder})
-                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Street, "", new {@class = "text-danger"})
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-lg-2">
-                        <div class="form-group">
-                        @Html.LabelFor(m => m.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new { @for = "additional-unit_number-" + (i + 1) })
-                            <div class="control-group">
-                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, new { @class = "form-control dealnet-input", type="text", id = "additional-unit_number-" + (i + 1), placeholder = "12345" })
-                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.UnitNumber, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-lg-4">
-                        <div class="form-group">
-                        @Html.LabelFor(m => m.AdditionalApplicants[i].MailingAddressInformation.City, new { @for = "additional-locality-" + (i + 1) })
-                            <div class="control-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.City, new { @class = "form-control dealnet-input", id = "additional-locality-" + (i + 1), placeholder = Resources.Ottawa })
-                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.City, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row address-info2">
-                    <div class="col-md-4 col-lg-4">
-                        <div class="form-group">
-                        @Html.LabelFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Province, new { @for = "additional-administrative_area_level_1-" + (i + 1) })
-                            <div class="control-group">
-                                @Html.DropDownListFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Province, (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.AdditionalApplicants?[i]?.MailingAddressInformation?.Province == x.Province }), "",
-                                        new { @class = "form-control dealnet-input", id = "additional-administrative_area_level_1-" + (i + 1)})
-                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.Province, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-lg-4">
-                        <div class="form-group">
-                        @Html.LabelFor(m => m.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new { @for = "additional-postal_code-" + (i + 1) })
-                            <div class="control-group">
-                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].MailingAddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "additional-postal_code-" + (i + 1), placeholder = "12345" })
-                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].MailingAddressInformation.PostalCode, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-lg-4">
-                        <a href="#" class="dealnet-disabled-text clear-address">
-                                <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <!--End Mailing Address-->
             <!--Additional Applicant Information-->
             <div id="add-applicant-is-homeowner@(i+1)" class="form-group personal-info-section">
                 <label for="add-applicant-checkbox@(i+1)" class="align-middle custom-checkbox">

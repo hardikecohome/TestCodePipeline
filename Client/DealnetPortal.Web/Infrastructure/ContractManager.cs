@@ -408,10 +408,10 @@ namespace DealnetPortal.Web.Infrastructure
             {
                 var customer = AutoMapper.Mapper.Map<CustomerDTO>(a);
                 customer.Locations = new List<LocationDTO>();
-                if (a.MailingAddressInformation != null)
+                if (a.AddressInformation != null)
                 {
-                    var mailAddress = Mapper.Map<LocationDTO>(a.MailingAddressInformation);
-                    mailAddress.AddressType = AddressType.MailAddress;
+                    var mailAddress = Mapper.Map<LocationDTO>(a.AddressInformation);
+                    mailAddress.AddressType = AddressType.MainAddress;
                     customer.Locations.Add(mailAddress);
                 }
                 if (a.PreviousAddressInformation != null)

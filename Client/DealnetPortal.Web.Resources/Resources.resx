@@ -1598,4 +1598,10 @@
   <data name="AllAplicantsConsents" xml:space="preserve">
     <value>You can't proceed until all applicants provide their consents.</value>
   </data>
+  <data name="AdditionalApplicantAddressInfo" xml:space="preserve">
+    <value>Additional Applicant Address Information</value>
+  </data>
+  <data name="AdditionalApplicantAddressNotSameAsBorrower" xml:space="preserve">
+    <value>Additional Applicant address is not the same as borrower's address</value>
+  </data>
 </root>
