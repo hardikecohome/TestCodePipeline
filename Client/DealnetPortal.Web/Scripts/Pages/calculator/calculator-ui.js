@@ -73,9 +73,6 @@
         });
 
         $('#option2-header').text($('#option2-header').text().replace('3', '2'));
-        $('#option2-remove').on('click', function () {
-            removeOption.call(this, callback);
-        });
 
         div.attr('id', 'option2-container');
 
