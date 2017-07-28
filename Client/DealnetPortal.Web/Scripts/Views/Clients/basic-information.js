@@ -21,11 +21,17 @@
         $('#ui-datepicker-div').addClass('cards-datepicker');
 
         $('#camera-modal').on('hidden.bs.modal', function () {
-            var firstName = $('#first-name').val();
-            var lastName = $('#last-name').val();
-            var birthDate = $('#birth-date').val();
+            var obj = {
+                firstName: $('#first-name').val(),
+                lastName: $('#last-name').val(),
+                birthDate: $('#birth-date').val(),
+                street: $('#street').val(),
+                locality: $('#locality').val(),
+                province: $('#province').val(),
+                postalCode: $('#postal-code').val()
+            }
 
-            dispatch(createAction(clientActions.DRIVER_LICENSE_UPLOADED, e.target.value));
+            dispatch(createAction(clientActions.DRIVER_LICENSE_UPLOADED, obj));
         });
 
         var name = $('#first-name');

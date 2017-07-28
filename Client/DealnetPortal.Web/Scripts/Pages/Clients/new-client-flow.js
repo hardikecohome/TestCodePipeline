@@ -24,6 +24,11 @@
 
                     var nextAction = next(action);
 
+                    if (action.type === clientActions.DRIVER_LICENSE_UPLOADED) {
+                        basicInfoFlow = [];
+                        additionalInfoFlow = [];
+                    }
+
                     if (state.activePanel === "basic-information") {
                         var index1 = basicInfoFlow.indexOf(action.type);
                         if (index1 >= 0) {
