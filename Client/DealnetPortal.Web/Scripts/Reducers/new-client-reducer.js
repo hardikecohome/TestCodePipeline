@@ -94,7 +94,8 @@
             province: action.payload.province,
             postalCode: action.payload.postalCode,
             birthday: action.payload.birthDate,
-            displayImprovmentInfo: true
+            displayContactInfo: true,
+            activePanel: 'contact-information'
         }
     }
 

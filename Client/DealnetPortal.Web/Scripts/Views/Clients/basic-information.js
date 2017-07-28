@@ -28,7 +28,7 @@
                 street: $('#street').val(),
                 locality: $('#locality').val(),
                 province: $('#province').val(),
-                postalCode: $('#postal-code').val()
+                postalCode: $('#postal_code').val()
             }
 
             dispatch(createAction(clientActions.DRIVER_LICENSE_UPLOADED, obj));

@@ -27,6 +27,7 @@
                     if (action.type === clientActions.DRIVER_LICENSE_UPLOADED) {
                         basicInfoFlow = [];
                         additionalInfoFlow = [];
+                        next(createAction(clientActions.DRIVER_LICENSE_UPLOADED, action.payload));
                     }
 
                     if (state.activePanel === "basic-information") {
