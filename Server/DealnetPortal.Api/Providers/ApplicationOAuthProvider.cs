@@ -56,8 +56,17 @@ namespace DealnetPortal.Api.Providers
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
-            
-            ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
+            ApplicationUser user = null;
+            try
+            {            
+
+                user = await userManager.FindAsync(context.UserName, context.Password);
+            }
+            catch (Exception ex)
+            {
+
+                //throw;
+            }
 
             if (user == null || !string.IsNullOrEmpty(user.AspireLogin))
             {
@@ -222,20 +231,24 @@ namespace DealnetPortal.Api.Providers
                  
                     if (oldUser != null)
                     {
-                        //update password for existing aspire user
-                        var updateRes = await userManager.ChangePasswordAsync(oldUser.Id, oldUser.AspirePassword,
-                            context.Password);
-                        if (updateRes.Succeeded)
+                        //check password
+                        if (oldUser.Secure_AspirePassword != context.Password)
                         {
-                            oldUser.AspirePassword = context.Password;                            
-                            updateRes = await userManager.UpdateAsync(oldUser);
+                            //update password for existing aspire user
+                            var resetToken = await userManager.GeneratePasswordResetTokenAsync(oldUser.Id);
+                            var updateRes = await userManager.ResetPasswordAsync(oldUser.Id, resetToken, context.Password);                                                 
                             if (updateRes.Succeeded)
                             {
-                                _loggingService?.LogInfo(
-                                    $"Password for Aspire user [{context.UserName}] was updated successefully");
-                                user = await userManager.FindAsync(context.UserName, context.Password);
+                                oldUser.Secure_AspirePassword = context.Password;
+                                updateRes = await userManager.UpdateAsync(oldUser);
+                                if (updateRes.Succeeded)
+                                {
+                                    _loggingService?.LogInfo(
+                                        $"Password for Aspire user [{context.UserName}] was updated successefully");
+                                }
                             }
                         }
+                        user = await userManager.FindAsync(context.UserName, context.Password);
                     }
                     else
                     {
@@ -247,7 +260,7 @@ namespace DealnetPortal.Api.Providers
                             EmailConfirmed = true,
                             TwoFactorEnabled = false,
                             AspireLogin = context.UserName,
-                            AspirePassword = context.Password
+                            Secure_AspirePassword = context.Password
                         };                        
 
                         try
@@ -266,12 +279,14 @@ namespace DealnetPortal.Api.Providers
                         }
                     }
 
-                    var syncAlerts = await _usersService.SyncAspireUser(user);
-                    if (syncAlerts?.Any() ?? false)
+                    if (user != null)
                     {
-                        outAlerts.AddRange(syncAlerts);
+                        var syncAlerts = await _usersService.SyncAspireUser(user);
+                        if (syncAlerts?.Any() ?? false)
+                        {
+                            outAlerts.AddRange(syncAlerts);
+                        }
                     }
-
                 }
                 else
                 {
