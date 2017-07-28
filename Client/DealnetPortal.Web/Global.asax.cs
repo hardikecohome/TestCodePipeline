@@ -37,6 +37,11 @@ namespace DealnetPortal.Web
             ControllerBuilder.Current.SetControllerFactory(new DefaultControllerFactory(new LocalizedControllerActivator(DependencyResolver.Current.GetService<ICultureManager>())));
         }
 
+        protected void Application_BeginRequest(object sender, EventArgs e)
+        {
+            
+        }
+
         protected void Application_Error(object sender, EventArgs e)
         {
             if (Debugger.IsAttached) { return; }
