@@ -121,6 +121,8 @@
             isMoveForward ? secondButton.removeClass('hidden') : secondButton.addClass('hidden');
         } else {
             isMoveForward ? secondButton.addClass('hidden') : secondButton.removeClass('hidden');
+
+            //isMoveForward ? firstButton.addClass('hidden') : secondButton.removeClass('hidden');
         }
     }
 
