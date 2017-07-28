@@ -80,25 +80,24 @@
       </div>
     </div>
   </div>
-</div>
 
-<div class="row form-group">
-  <div class="col-xs-6">
-    Deferral Period
+  <div class="row form-group align-middle">
+    <div class="col-xs-6">
+      Deferral Period
+    </div>
+    <div class="col-xs-6 text-right text-semibold" id="option1-deferral">
+      -
+    </div>
+    <div class="col-xs-6" id="option1-deferralDropdownWrapper">
+      @Html.DropDownList("option1-deferralDropdown", Model.DeferralPeriods.Select(x => new SelectListItem { Value = x.Key, Text = x.Value }), new { @class = "form-control" })
+    </div>
   </div>
-  <div class="col-xs-6 text-right text-semibold" id="option1-deferral">
-    -
-  </div>
-  <div class="col-xs-6" id="option1-deferralDropdownWrapper">
-    @Html.DropDownList("option1-deferralDropdown", Model.DeferralPeriods.Select(x => new SelectListItem { Value = x.Key, Text = x.Value }), new { @class = "form-control" })
-  </div>
-</div>
-<div class="row form-group">
-  <div class="col-xs-6">
-    Customer Rate
-  </div>
+  <div class="row form-group align-middle">
+    <div class="col-xs-6">
+      Customer Rate
+    </div>
     <div class="col-xs-6 text-right text-semibold" id="option1-cRate">
-        0%
+      0%
     </div>
     <div class="col-xs-6 hidden" id="option1-customCRateWrapper">
       <div class="control-group  has-addon-left">
@@ -106,13 +105,13 @@
         <input type="text" id="option1-customCRate" class="form-control"/>
       </div>
     </div>
-</div>
-<div class="row form-group hidden" id="option1-customYCostWrapper">
-  <div class="col-xs-6">
-    Your Cost
   </div>
+  <div class="row form-group align-middle hidden" id="option1-customYCostWrapper">
+    <div class="col-xs-6">
+      Your Cost
+    </div>
     <div class="col-xs-6 text-right text-semibold hidden" id="option1-yCostVal">
-        -
+      -
     </div>
     <div class="col-xs-6">
       <div class="control-group has-addon-left">
@@ -120,14 +119,13 @@
         <input type="text" id="option1-customYCostVal" class="form-control"/>
       </div>
     </div>
-</div>
-
-<div class="row form-group">
-  <div class="col-xs-6">
-    Admin Fee
   </div>
+  <div class="row form-group align-middle">
+    <div class="col-xs-6">
+      Admin Fee
+    </div>
     <div class="col-xs-6 text-right text-semibold" id="option1-aFee">
-        $-
+      $-
     </div>
     <div class="col-xs-6 hidden" id="option1-customAFeeWrapper">
       <div class="control-group has-addon-left">
@@ -135,7 +133,9 @@
         <input type="text" id="option1-customAFee" class="form-control"/>
       </div>
     </div>
+  </div>
 </div>
+
 <hr>
 
 <div class="table-rows-hold">
