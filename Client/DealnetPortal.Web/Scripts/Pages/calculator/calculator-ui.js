@@ -35,14 +35,15 @@
     }
 
     var clearFirstOption = function(callback) {
-        $('#' + optionToDelete + '-mPayment').text('-');
-        $('#' + optionToDelete + '-cBorrowing').text('-');
-        $('#' + optionToDelete + '-taFinanced').text('-');
-        $('#' + optionToDelete + '-tmPayments').text('-');
-        $('#' + optionToDelete + '-rBalance').text('-');
-        $('#' + optionToDelete + '-tObligation').text('-');
-        $('#' + optionToDelete + '-yCost').text('-');
-        $('#' + optionToDelete + '-downPayment').val('');
+        $('#option1-mPayment').text('-');
+        $('#option1-cBorrowing').text('-');
+        $('#option1-taFinanced').text('-');
+        $('#option1-tmPayments').text('-');
+        $('#option1-rBalance').text('-');
+        $('#option1-tObligation').text('-');
+        $('#option1-yCost').text('-');
+        $('#option1-downPayment').val('');
+
         state['option1'].downPayment = 0;
 
         var keys = Object.keys(state['option1'].equipments);
