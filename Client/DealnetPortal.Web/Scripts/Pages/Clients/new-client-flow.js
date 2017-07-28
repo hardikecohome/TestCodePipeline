@@ -23,6 +23,7 @@
                     var state = store.getState();
 
                     var nextAction = next(action);
+
                     if (state.activePanel === "basic-information") {
                         var index1 = basicInfoFlow.indexOf(action.type);
                         if (index1 >= 0) {
