@@ -175,13 +175,14 @@ namespace DealnetPortal.Api.Integration.Services
             if (!string.IsNullOrEmpty(aspireUser.Role))
             {
                 var dbRoles = await _userManager.GetRolesAsync(userId);
-                if (!dbRoles.Contains(aspireUser.Role))
-                {
-                    var mbRoles = _сonfiguration.GetSetting(WebConfigKeys.MB_ROLE_CONFIG_KEY).Split(',').Select(s => s.Trim()).ToArray();
+                var mbConfigRoles = _сonfiguration.GetSetting(WebConfigKeys.MB_ROLE_CONFIG_KEY).Split(',').Select(s => s.Trim()).ToArray();
+
+                if (!dbRoles.Contains(aspireUser.Role) && !(mbConfigRoles.Contains(aspireUser.Role) && dbRoles.Contains(UserRole.MortgageBroker.ToString())))
+                {                    
                     var user = await _userManager.FindByIdAsync(userId);
                     var removeRes = await _userManager.RemoveFromRolesAsync(userId, dbRoles.ToArray());
                     IdentityResult addRes;
-                    if (mbRoles.Contains(aspireUser.Role))
+                    if (mbConfigRoles.Contains(aspireUser.Role))
                     {
                         addRes = await _userManager.AddToRolesAsync(userId, new[] {UserRole.MortgageBroker.ToString()});
                     }

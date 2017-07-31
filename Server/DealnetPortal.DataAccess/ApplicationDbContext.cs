@@ -1,4 +1,6 @@
+using System;
 using System.Data.Entity;
+using System.Diagnostics;
 using DealnetPortal.Domain;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -8,13 +10,30 @@ namespace DealnetPortal.DataAccess
     {
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
-        {            
+        {
+            SetupSecureDb();
         }
 
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
+
+        #region private
+        private void SetupSecureDb()
+        {
+            try
+            {
+
+                Crypteron.CipherDb.Session.Create(this);
+            }
+            catch (Exception ex)
+            {
+                //Logging exception of secure context creation here
+                Crypteron.ErrorHandling.Logging.Logger.Log($"Cannot create secure DB context: {ex}", TraceEventType.Error);
+            }
+        }
+        #endregion
 
         public virtual DbSet<Application> Applications { get; set; }
 
