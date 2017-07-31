@@ -432,4 +432,7 @@
   <data name="VerticalFanHRVCombo" xml:space="preserve">
     <value>Vertical Fan/HRV Combo</value>
   </data>
+  <data name="Pool" xml:space="preserve">
+    <value>Pool</value>
+  </data>
 </root>

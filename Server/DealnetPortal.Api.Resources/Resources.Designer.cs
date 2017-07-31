@@ -790,6 +790,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pool.
+        /// </summary>
+        public static string Pool {
+            get {
+                return ResourceManager.GetString("Pool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Porch Enclosure.
         /// </summary>
         public static string PorchEnclosure {
