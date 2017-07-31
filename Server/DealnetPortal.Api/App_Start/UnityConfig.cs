@@ -42,7 +42,7 @@ namespace DealnetPortal.Api
         {
             var configReader = new AppConfiguration(WebConfigSections.AdditionalSections);
 
-            container.RegisterType<IDatabaseFactory, SecureDatabaseFactory>(new PerResolveLifetimeManager());
+            container.RegisterType<IDatabaseFactory, DatabaseFactory>(new PerResolveLifetimeManager());
             container.RegisterType<IUnitOfWork, UnitOfWork>(new PerResolveLifetimeManager());
 
             #region Repositories

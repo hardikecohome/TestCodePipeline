@@ -58,11 +58,8 @@ namespace DealnetPortal.Api
                 case AuthType.Aspire:
                 case AuthType.AuthProvider:
                 default:
-                    // Configure the db context and user manager to use a single instance per request
-                    var logging =
-                        (ILoggingService)
-                            GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILoggingService));
-                    app.CreatePerOwinContext(() => (ApplicationDbContext) SecureAppDbContext.Create(logging));
+                    // Configure the db context and user manager to use a single instance per request                    
+                    app.CreatePerOwinContext(ApplicationDbContext.Create);
                     app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
                     app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
                     OAuthOptions.Provider = new ApplicationOAuthProvider(PublicClientId);

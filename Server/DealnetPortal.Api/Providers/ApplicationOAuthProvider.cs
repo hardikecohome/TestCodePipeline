@@ -231,6 +231,7 @@ namespace DealnetPortal.Api.Providers
                  
                     if (oldUser != null)
                     {
+                        _loggingService?.LogInfo($"User pswrd: {oldUser.Secure_AspirePassword}");
                         //check password
                         if (oldUser.Secure_AspirePassword != context.Password)
                         {
