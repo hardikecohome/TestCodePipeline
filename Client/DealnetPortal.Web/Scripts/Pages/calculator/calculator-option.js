@@ -114,6 +114,7 @@
                 ui.deleteSecondOption(callback);
                 $('#option2-remove').on('click', function () {
                     removeOption.call(this, callback);
+                    refreshCarouselItems();
                 });
                 optionSetup('option2', callback);
             }
@@ -207,7 +208,6 @@
 
             carouselRateCards();
             refreshCarouselItems();
-
         });
 
         if (state[newOption].downPayment !== 0) {
