@@ -99,13 +99,15 @@
                 if ($('#amortLoanTermError').is(':hidden')) {
                     $('#amortLoanTermError').show();
                     $('#amortLoanTermError').parent().find('input[type="text"]')
-                        .addClass('input-validation-error');
+                        .addClass('input-validation-error')
+                        .addClass('input-has-error');
                 }
             } else {
                 if ($('#amortLoanTermError').is(':visible')) {
                     $('#amortLoanTermError').hide();
                     $('#amortLoanTermError').parent().find('input[type="text"]')
-                        .removeClass('input-validation-error');
+                        .removeClass('input-validation-error')
+                        .removeClass('input-has-error');
                 }
             }
         }
