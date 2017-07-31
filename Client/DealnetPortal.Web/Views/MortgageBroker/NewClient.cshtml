@@ -24,7 +24,7 @@
                                 <div id="capture-buttons">
                                     <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="capture-buttons-1" value="Capture"/>
                                     <div id="capture-buttons-2">
-                                        <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="upload-capture" value="Save" onclick="uploadCaptured('@Url.Action("RecognizeDriverLicense", "MortgageBroker")', 'first-name', 'last-name', 'birth-date', 'dl-number', 'street', 'locality', 'administrative_area_level_1', 'postal_code')"/>
+                                        <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="upload-capture" value="Save" onclick="uploadCaptured('@Url.Action("RecognizeDriverLicense", "NewRental")')"/>
                                         <div id="retake">@Resources.Retake</div>
                                     </div>
                                 </div>
@@ -36,7 +36,7 @@
                                     <div class="file-upload btn dealnet-button dealnet-success-button" id="upload-file-button">
                                         <svg aria-hidden="true" class="icon icon-cloud-upload"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-cloud-upload")"></use></svg>
                                         <span>@Resources.Upload Photo</span>
-                                        <input type="file" class="upload" id="upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "MortgageBroker")', 'first-name', 'last-name', 'birth-date', 'dl-number', 'street', 'locality', 'administrative_area_level_1', 'postal_code')"/>
+                                        <input type="file" class="upload" id="upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")')"/>
                                     </div>
                                 </div>
                             </div>
@@ -77,7 +77,7 @@
               <div class="file-upload btn dealnet-button dealnet-success-button" id="owner-scan-button">
                   <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
                   <span>@Resources.ScanLicense</span>
-                  <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "MortgageBroker")', 'first-name', 'last-name', 'birth-date', 'dl-number', 'street', 'locality', 'administrative_area_level_1', 'postal_code')"/>
+                  <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'first-name', 'last-name', 'birth-date', 'dl-number', 'street', 'locality', 'administrative_area_level_1', 'postal_code')"/>
               </div>
               <a href="#" class="scanlicence-info-link">
                   <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
@@ -166,7 +166,7 @@
               @Html.LabelFor(m => m.HomeOwner.AddressInformation.Province, new { @for = "province", @class = "mandatory-field" })
               <div class="control-group">
                 @Html.DropDownListFor(m => m.HomeOwner.AddressInformation.Province, Model.ProvinceTaxRates.Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.HomeOwner?.AddressInformation?.Province == x.Province }), "Please Select",
-				  new { @class = "form-control dealnet-input", id = "administrative_area_level_1" })
+                  new { @class = "form-control dealnet-input", id = "province"})
                 @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Province, "", new { @class = "text-danger" })
               </div>
             </div>
@@ -522,19 +522,6 @@
 		});
 		$(document).submit(function () {
 			ga('send', 'event', 'Application Submitted', 'Form Submit', 'By Broker', '50');
-		});
-
-		$("#owner-scan-button").click(function () {
-			var modal = document.getElementById('camera-modal');
-			modal.setAttribute('data-fnToFill', 'first-name');
-			modal.setAttribute('data-lnToFill', 'last-name');
-			modal.setAttribute('data-bdToFill', 'birth-date');
-			modal.setAttribute('data-dlToFill', 'dl-number');
-			modal.setAttribute('data-stToFill', 'street');
-			modal.setAttribute('data-ctToFill', 'locality');
-			modal.setAttribute('data-prToFill', "administrative_area_level_1");
-			modal.setAttribute('data-pcToFill', "postal_code");
-			ga('send', 'event', 'Scan License', 'button_click', 'DrivingLicense', '100');
 		});
 	</script>
 }
