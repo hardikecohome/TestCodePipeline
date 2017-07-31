@@ -317,7 +317,8 @@ html.ie9{
 
 .form-control{
   box-shadow: none !important;
-  &.input-validation-error{
+  &.input-validation-error,
+  &.input-has-error{
     border-color: @danger-color !important;
   }
   &:focus,
@@ -363,7 +364,8 @@ html.ie9{
   }
 }
 
-.input-validation-error {
+.input-validation-error,
+.input-has-error{
   border: solid 1px @danger-color;
 }
 
