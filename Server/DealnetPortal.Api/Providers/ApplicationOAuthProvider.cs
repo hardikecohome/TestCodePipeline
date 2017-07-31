@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
@@ -224,32 +225,14 @@ namespace DealnetPortal.Api.Providers
                 }
 
                 if (alerts?.All(a => a.Type != AlertType.Error) ?? false)
-                {
+                {                    
                     var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
                     var applicationId = context.OwinContext.Get<string>("portalId");
                     var oldUser = await userManager.FindByNameAsync(context.UserName);
                  
                     if (oldUser != null)
-                    {
-                        _loggingService?.LogInfo($"User pswrd: {oldUser.Secure_AspirePassword}");
-                        //check password
-                        if (oldUser.Secure_AspirePassword != context.Password)
-                        {
-                            //update password for existing aspire user
-                            var resetToken = await userManager.GeneratePasswordResetTokenAsync(oldUser.Id);
-                            var updateRes = await userManager.ResetPasswordAsync(oldUser.Id, resetToken, context.Password);                                                 
-                            if (updateRes.Succeeded)
-                            {
-                                oldUser.Secure_AspirePassword = context.Password;
-                                updateRes = await userManager.UpdateAsync(oldUser);
-                                if (updateRes.Succeeded)
-                                {
-                                    _loggingService?.LogInfo(
-                                        $"Password for Aspire user [{context.UserName}] was updated successefully");
-                                }
-                            }
-                        }
-                        user = await userManager.FindAsync(context.UserName, context.Password);
+                    {                        
+                        user = oldUser;//await userManager.FindAsync(context.UserName, context.Password);
                     }
                     else
                     {
@@ -282,10 +265,28 @@ namespace DealnetPortal.Api.Providers
 
                     if (user != null)
                     {
-                        var syncAlerts = await _usersService.SyncAspireUser(user);
+                        var syncAlerts = await _usersService.SyncAspireUser(user, userManager);
                         if (syncAlerts?.Any() ?? false)
                         {
                             outAlerts.AddRange(syncAlerts);
+                        }
+
+                        //check and update password
+                        if (user.Secure_AspirePassword != context.Password)
+                        {
+                            //update password for existing aspire user
+                            var resetToken = await userManager.GeneratePasswordResetTokenAsync(user.Id);
+                            var updateRes = await userManager.ResetPasswordAsync(user.Id, resetToken, context.Password);
+                            if (updateRes.Succeeded)
+                            {
+                                user.Secure_AspirePassword = context.Password;
+                                updateRes = await userManager.UpdateAsync(user);
+                                if (updateRes.Succeeded)
+                                {
+                                    _loggingService?.LogInfo(
+                                        $"Password for Aspire user [{context.UserName}] was updated successefully");
+                                }
+                            }
                         }
                     }
                 }
