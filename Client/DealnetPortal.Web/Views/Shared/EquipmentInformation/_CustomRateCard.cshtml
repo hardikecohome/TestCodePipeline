@@ -7,28 +7,34 @@
         <hr>
         <div class="row row-mode">
             <div class="col-md-6 col-cards-md-12 equal-height-row-2 row-mode">
-                <div class="row">
-                    <div class="col-xs-6">
-                        <div class="form-group">
-                            <label for="">Loan Term</label>
-                            <div class="control-group">
-                                <input type="text" class="form-control form-control-not-clear" name="CustomLoanTerm" id="CustomLoanTerm">
-                                <span class="field-validation-error text-danger" data-valmsg-for="CustomLoanTerm" data-valmsg-replace="true"></span>
+                <div class="clearfix row-mode">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label for="">Loan Term</label>
+                                <div class="control-group">
+                                    <input type="text" class="form-control form-control-not-clear" name="CustomLoanTerm" id="CustomLoanTerm">
+                                    <span class="field-validation-error text-danger" data-valmsg-for="CustomLoanTerm" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+
+                                <label for="">Amort. Term</label>
+                                <div class="control-group">
+                                    <input type="text" class="form-control form-control-not-clear" name="CustomAmortTerm" id="CustomAmortTerm">
+                                    <span class="field-validation-error text-danger" data-valmsg-for="CustomAmortTerm" data-valmsg-replace="true"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-6">
-                        <div class="form-group">
-
-                            <label for="">Amort. Term</label>
-                            <div class="control-group">
-                                <input type="text" class="form-control form-control-not-clear" name="CustomAmortTerm" id="CustomAmortTerm">
-                                <span class="field-validation-error text-danger" data-valmsg-for="CustomAmortTerm" data-valmsg-replace="true"></span>
-                            </div>
+                    <div class="row row-error" id="amortLoanTermError" style="display: none;">
+                        <div class="col-xs-12">
+                            <div class="error-message text-danger text-center">Amortization term cannot be shorter than Loan term.</div>
                         </div>
                     </div>
                 </div>
-                <div id="amortLoanTermError" class="error-message text-danger" style="display: none; margin-top: -10px; margin-left: 45px; position: absolute">Amortization term cannot be shorter than Loan term.</div>
             </div>
             <div class="col-md-3 col-cards-md-12 equal-height-row-3 col-sm-6">
                 <div class="clearfix">

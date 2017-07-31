@@ -110,7 +110,11 @@
             ui.moveButtonByIndex(index, false);
 
             if (optionToDelete === 'option2' && state['option3'] !== undefined) {
+               
                 ui.deleteSecondOption(callback);
+                $('#option2-remove').on('click', function () {
+                    removeOption.call(this, callback);
+                });
                 optionSetup('option2', callback);
             }
         }
