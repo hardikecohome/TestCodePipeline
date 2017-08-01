@@ -512,6 +512,7 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<JsonResult> RecognizeDriverLicense(string imgBase64)
         {
             if (imgBase64 == null)
@@ -530,6 +531,7 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<JsonResult> RecognizeDriverLicensePhoto()
         {
             if (Request.Files == null || Request.Files.Count <= 0)

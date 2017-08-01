@@ -196,13 +196,13 @@
     <value>Hepa System</value>
   </data>
   <data name="Hrv" xml:space="preserve">
-    <value>HRV</value>
+    <value>Heat Recovery Ventilator</value>
   </data>
   <data name="Hst" xml:space="preserve">
     <value>HST</value>
   </data>
   <data name="Hwt" xml:space="preserve">
-    <value>HWT</value>
+    <value>Hot Water Tank</value>
   </data>
   <data name="InvalidUserEmail" xml:space="preserve">
     <value>Invalid user email.</value>
@@ -520,7 +520,13 @@
   <data name="AirFiltration" xml:space="preserve">
     <value>Air Filtration</value>
   </data>
+  <data name="HotTub" xml:space="preserve">
+    <value>Hot Tub</value>
+  </data>
   <data name="VerticalFanHRVCombo" xml:space="preserve">
     <value>Vertical Fan/HRV Combo</value>
+  </data>
+  <data name="Pool" xml:space="preserve">
+    <value>Pool</value>
   </data>
 </root>
