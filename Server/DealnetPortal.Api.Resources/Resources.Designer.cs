@@ -772,6 +772,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Air Filtration.
+        /// </summary>
+        public static string AirFiltration {
+            get {
+                return ResourceManager.GetString("AirFiltration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Air Handler.
         /// </summary>
         public static string AirHandler {
@@ -1258,6 +1267,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hot Tub.
+        /// </summary>
+        public static string HotTub {
+            get {
+                return ResourceManager.GetString("HotTub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to HRV.
         /// </summary>
         public static string Hrv {
@@ -1420,20 +1438,20 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to on the.
-        /// </summary>
-        public static string OnThe {
-            get {
-                return ResourceManager.GetString("OnThe", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to No Interest.
         /// </summary>
         public static string NoInterest {
             get {
                 return ResourceManager.GetString("NoInterest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to on the.
+        /// </summary>
+        public static string OnThe {
+            get {
+                return ResourceManager.GetString("OnThe", resourceCulture);
             }
         }
         
@@ -1627,6 +1645,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Spa.
+        /// </summary>
+        public static string Spa {
+            get {
+                return ResourceManager.GetString("Spa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Started to fill new contract.
         /// </summary>
         public static string StartedToFillNewContract {
@@ -1807,6 +1834,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Vertical Fan/HRV Combo.
+        /// </summary>
+        public static string VerticalFanHRVCombo {
+            get {
+                return ResourceManager.GetString("VerticalFanHRVCombo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copy of Void Personal Cheque.
         /// </summary>
         public static string VoidPersonalChequeCopy {
@@ -1857,6 +1893,15 @@ namespace DealnetPortal.Api.Resources {
         public static string WeFoundHomeProfessionalForYourHomeImprovementProject {
             get {
                 return ResourceManager.GetString("WeFoundHomeProfessionalForYourHomeImprovementProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Well pump.
+        /// </summary>
+        public static string WellPump {
+            get {
+                return ResourceManager.GetString("WellPump", resourceCulture);
             }
         }
         

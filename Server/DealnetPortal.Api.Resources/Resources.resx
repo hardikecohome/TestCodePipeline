@@ -754,4 +754,19 @@
   <data name="UnfortunatelyThisLeadIsNoLongerAvailable" xml:space="preserve">
     <value>Unfortunately this lead is no longer available</value>
   </data>
+  <data name="AirFiltration" xml:space="preserve">
+    <value>Air Filtration</value>
+  </data>
+  <data name="HotTub" xml:space="preserve">
+    <value>Hot Tub</value>
+  </data>
+  <data name="Spa" xml:space="preserve">
+    <value>Spa</value>
+  </data>
+  <data name="VerticalFanHRVCombo" xml:space="preserve">
+    <value>Vertical Fan/HRV Combo</value>
+  </data>
+  <data name="WellPump" xml:space="preserve">
+    <value>Well pump</value>
+  </data>
 </root>
