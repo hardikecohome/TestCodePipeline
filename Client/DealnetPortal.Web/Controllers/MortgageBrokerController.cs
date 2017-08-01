@@ -4,24 +4,23 @@ using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Models;
-using DealnetPortal.Web.ServiceAgent;
+
 using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using DealnetPortal.Api.Models.Scanning;
+
 namespace DealnetPortal.Web.Controllers
 {
     [Authorize(Roles = "MortgageBroker")]
     public class MortgageBrokerController : Controller
     {
         private readonly ICustomerManager _customerManager;
-        private readonly IScanProcessingServiceAgent _scanProcessingServiceAgent;
-        public MortgageBrokerController(ICustomerManager customerManager, IScanProcessingServiceAgent scanProcessingServiceAgent)
+
+        public MortgageBrokerController(ICustomerManager customerManager)
         {
             _customerManager = customerManager;
-            _scanProcessingServiceAgent = scanProcessingServiceAgent;
         }
 
         public async Task<ActionResult> NewClient()
@@ -72,48 +71,6 @@ namespace DealnetPortal.Web.Controllers
             var result = await _customerManager.GetCreatedContractsAsync();
 
             return Json(result, JsonRequestBehavior.AllowGet);
-        }
-        [HttpPost]
-        public async Task<JsonResult> RecognizeDriverLicense(string imgBase64)
-        {
-            if (imgBase64 == null)
-            {
-                return GetErrorJson();
-            }
-            imgBase64 = imgBase64.Replace("data:image/png;base64,", "");
-            imgBase64 = imgBase64.Replace(' ', '+');
-            var bytes = Convert.FromBase64String(imgBase64);
-            var scanningRequest = new ScanningRequest()
-            {
-                ImageForReadRaw = bytes
-            };
-            var result = await _scanProcessingServiceAgent.ScanDriverLicense(scanningRequest);
-            return result.Item2.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : Json(result.Item1);
-        }
-
-        [HttpPost]
-        public async Task<JsonResult> RecognizeDriverLicensePhoto()
-        {
-            if (Request.Files == null || Request.Files.Count <= 0)
-            {
-                return GetErrorJson();
-            }
-            var file = Request.Files[0];
-            byte[] data = new byte[file.ContentLength];
-            file.InputStream.Read(data, 0, file.ContentLength);
-            ScanningRequest scanningRequest = new ScanningRequest() { ImageForReadRaw = data };
-            var result = await _scanProcessingServiceAgent.ScanDriverLicense(scanningRequest);
-            return result.Item2.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : Json(result.Item1);
-        }
-
-        protected JsonResult GetSuccessJson()
-        {
-            return Json(new { isSuccess = true });
-        }
-
-        protected JsonResult GetErrorJson()
-        {
-            return Json(new { isError = true });
         }
     }
 }
