@@ -556,7 +556,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to HRV.
+        ///   Looks up a localized string similar to Heat Recovery Ventilator.
         /// </summary>
         public static string Hrv {
             get {
@@ -574,7 +574,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to HWT.
+        ///   Looks up a localized string similar to Hot Water Tank.
         /// </summary>
         public static string Hwt {
             get {
