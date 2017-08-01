@@ -8,20 +8,31 @@
         var birth = $("#birth-date");
         inputDateFocus(birth);
         birth.datepicker({
-            dateFormat: 'mm/dd/yy',
-            changeYear: true,
-            changeMonth: (viewport().width < 768) ? true : false,
             yearRange: '1900:' + (new Date().getFullYear() - 18),
             minDate: Date.parse("1900-01-01"),
             maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
             onSelect: function (day) {
                 dispatch(createAction(clientActions.SET_BIRTH, day));
-            },
-            onClose: function(){
-                onDateSelect($(this));
+                //$(this).siblings('.div-datepicker-value').text(day);
+                $(this).siblings('input.form-control').val(day);
+                $(".div-datepicker").removeClass('opened');
             }
         });
         $('#ui-datepicker-div').addClass('cards-datepicker');
+
+        $('#camera-modal').on('hidden.bs.modal', function () {
+            var obj = {
+                firstName: $('#first-name').val(),
+                lastName: $('#last-name').val(),
+                birthDate: $('#birth-date').val(),
+                street: $('#street').val(),
+                locality: $('#locality').val(),
+                province: $('#province').val(),
+                postalCode: $('#postal_code').val()
+            }
+
+            dispatch(createAction(clientActions.DRIVER_LICENSE_UPLOADED, obj));
+        });
 
         var name = $('#first-name');
         name.on('change', function (e) {

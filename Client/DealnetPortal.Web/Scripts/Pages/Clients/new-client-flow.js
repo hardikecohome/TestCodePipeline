@@ -23,6 +23,13 @@
                     var state = store.getState();
 
                     var nextAction = next(action);
+
+                    if (action.type === clientActions.DRIVER_LICENSE_UPLOADED) {
+                        basicInfoFlow = [];
+                        additionalInfoFlow = [];
+                        next(createAction(clientActions.DRIVER_LICENSE_UPLOADED, action.payload));
+                    }
+
                     if (state.activePanel === "basic-information") {
                         var index1 = basicInfoFlow.indexOf(action.type);
                         if (index1 >= 0) {

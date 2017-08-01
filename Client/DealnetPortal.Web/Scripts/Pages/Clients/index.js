@@ -49,9 +49,8 @@
             modal.setAttribute('data-dlToFill', 'dl-number');
             modal.setAttribute('data-stToFill', 'street');
             modal.setAttribute('data-ctToFill', 'locality');
-            modal.setAttribute('data-prToFill', "administrative_area_level_1");
+            modal.setAttribute('data-prToFill', "province");
 			modal.setAttribute('data-pcToFill', "postal_code");
-
         }
 		ga('send', 'event', 'Scan License', 'button_click', 'From Mortgage Portal', '100');
         return true;
@@ -64,18 +63,20 @@
                 event.preventDefault();
                 return false;
             }
-        });
+        });    
+
+
+        // init views
+        initBasicInfo(clientStore);
+        initAddressInfo(clientStore);
+        initContactInfo(clientStore);
+        initHomeImprovment(clientStore);
+        initClientConsents(clientStore);
+
 
         $('#home-phone').rules('add', 'required');
         $('#cell-phone').rules('add', 'required');
     });
-
-    // init views
-    initBasicInfo(clientStore);
-    initAddressInfo(clientStore);
-    initContactInfo(clientStore);
-    initHomeImprovment(clientStore);
-    initClientConsents(clientStore);
 
     var form = $('#main-form');
 
