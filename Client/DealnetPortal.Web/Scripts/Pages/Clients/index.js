@@ -26,7 +26,7 @@
     var currentAddressPreviousRequiredFields = ['pstreet', 'pcity', 'pprovince', 'ppostalCode'];
     var contactInfoRequiredFields = ['email'];
     var homeImprovmentsRequiredFields = ['improvmentStreet', 'improvmentCity', 'improvmentProvince', 'improvmentPostalCode'];
-    var clientConsentsRequiredFields = ['creditAgreement', 'contactAgreement'];
+    var clientConsentsRequiredFields = ['creditAgreement'];
     var trimFieldsIds = ['unit_number', 'sin-number', 'dl-number', 'previous_unit_number', 'businessPhone', 'improvment_unit_number'];
 
     var getErrors = configGetErrors(basicInfoRequiredFields, currentAddressRequiredFields, currentAddressPreviousRequiredFields, contactInfoRequiredFields, homeImprovmentsRequiredFields, clientConsentsRequiredFields);
@@ -52,7 +52,7 @@
             modal.setAttribute('data-prToFill', "province");
 			modal.setAttribute('data-pcToFill', "postal_code");
         }
-		ga('send', 'event', 'Scan License', 'button_click', 'From Mortgage Portal', '100');
+		//ga('send', 'event', 'Scan License', 'button_click', 'From Mortgage Portal', '100');
         return true;
     });
 
@@ -206,12 +206,12 @@
             isChanged: state.isChanged
         }
     })(function (props) {
-        $('#formErrors').empty();
+        $('#ageErrors').empty();
         if (props.errors.length > 0) {
             props.errors
                 .filter(function (error) { return error.type === 'birthday' })
                 .forEach(function (error) {
-                    $('#formErrors').append(createError(window.translations[error.messageKey]));
+                    $('#ageErrors').append(createError(window.translations[error.messageKey]));
                 });
         }
 
