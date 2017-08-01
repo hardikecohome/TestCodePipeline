@@ -583,7 +583,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 new EquipmentType {Description = "Windows", DescriptionResource = "Windows", Type = "ECO13"},
                 new EquipmentType {Description = "Sunrooms", DescriptionResource = "Sunrooms", Type = "ECO38"},
                 new EquipmentType {Description = "Air Handler", DescriptionResource = "AirHandler", Type = "ECO40"},
-                new EquipmentType {Description = "Flooring", DescriptionResource = "Flooring", Type = "ECO42"},
+                //new EquipmentType {Description = "Flooring", DescriptionResource = "Flooring", Type = "ECO42"},
                 new EquipmentType {Description = "Porch Enclosure", DescriptionResource = "PorchEnclosure", Type = "ECO43"},
                 new EquipmentType {Description = "Water Treatment System", DescriptionResource = "WaterTreatmentSystem", Type = "ECO44"},
                 new EquipmentType {Description = "Heat Pump", DescriptionResource = "HeatPump", Type = "ECO45"},
