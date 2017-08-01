@@ -9,6 +9,8 @@
         inputDateFocus(birth);
         birth.datepicker({
             yearRange: '1900:' + (new Date().getFullYear() - 18),
+            changeYear: true,
+            changeMonth: (viewport().width < 768) ? true : false,
             minDate: Date.parse("1900-01-01"),
             maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
             onSelect: function (day) {
