@@ -30,7 +30,7 @@ namespace DealnetPortal.Api.BackgroundScheduler
                 _loggingService.LogInfo($"There are {contracts.Count} expired contracts.");
                 foreach (var contract in contracts)
                 {
-                    _loggingService.LogInfo($"Sending infromation for contract id = {contract.Id}...");
+                    //_loggingService.LogInfo($"Sending infromation for contract id = {contract.Id}...");
                     try
                     {
                         _mailService.SendNotifyMailNoDealerAcceptedLead12H(contract);
@@ -39,7 +39,7 @@ namespace DealnetPortal.Api.BackgroundScheduler
                     {
                         _loggingService.LogInfo($"Sending contract id = {contract.Id} trow exeption with message: {ex.Message}");
                     }
-                    _loggingService.LogInfo($"Infromation for contract id = {contract.Id} has sent.");
+                    //_loggingService.LogInfo($"Infromation for contract id = {contract.Id} has sent.");
                 }
                 _loggingService.LogInfo($"Checking expired leads finished at {DateTime.Now}.");
             }
