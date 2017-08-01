@@ -98,7 +98,7 @@ namespace DealnetPortal.Api.Integration.Services
                 //send email notification for DEAL-1490
                 else
                 {
-                    var noWwait = _mailService.SendInviteLinkToCustomer(contract, randomPassword);
+                    await _mailService.SendInviteLinkToCustomer(contract, randomPassword);
                 }
             }
             catch (HttpRequestException ex)

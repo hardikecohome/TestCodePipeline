@@ -14,6 +14,7 @@ using DealnetPortal.Api.App_Start;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Helpers;
 using DealnetPortal.Api.Infrastucture;
+using DealnetPortal.Utilities.Logging;
 using Microsoft.AspNet.Identity;
 
 namespace DealnetPortal.Api
@@ -41,6 +42,15 @@ namespace DealnetPortal.Api
             var userLanguage = ((HttpApplication) sender)?.Context?.Request?.UserLanguages?[0];
             Thread.CurrentThread.CurrentCulture =
                 Thread.CurrentThread.CurrentUICulture = new CultureInfo(CultureHelper.FilterCulture(userLanguage));
+        }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {            
+            Exception exception = Server.GetLastError();
+            Server.ClearError();
+
+            var loggingService = (ILoggingService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILoggingService));
+            loggingService?.LogError("Server error:", exception);
         }
     }
 }

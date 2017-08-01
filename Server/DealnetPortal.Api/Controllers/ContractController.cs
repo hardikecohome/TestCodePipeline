@@ -527,7 +527,6 @@ namespace DealnetPortal.Api.Controllers
                 {
                     alerts.AddRange(creationResult.Item2);
                 }
-
                 return Ok(creationResult);
             }
             catch (Exception ex)
@@ -538,8 +537,8 @@ namespace DealnetPortal.Api.Controllers
                     Header = ErrorConstants.ContractCreateFailed,
                     Message = ex.ToString()
                 });
+                LoggingService.LogError(ErrorConstants.ContractCreateFailed, ex);
             }
-
             return Ok(new Tuple<ContractDTO, IList<Alert>>(null, alerts));
         }                
 

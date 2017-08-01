@@ -116,10 +116,8 @@ namespace DealnetPortal.Api.Integration.Services
                 if (succededContract != null)
                 {
                     var resultAlerts = await _customerWalletService.CreateCustomerByContract(succededContract, contractOwnerId);
-                    //TODO: DEAL - 1495 analyze result here and then send invite link to customer
                     if (resultAlerts.All(x => x.Type != AlertType.Error))
                     {
-                        //??? - what is this?
                         if (succededContracts.Select(x => x.Equipment?.NewEquipment?.FirstOrDefault()).Any(i=>i!=null) &&
                             succededContract.PrimaryCustomer.Locations
                             .FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress) !=null)
@@ -133,7 +131,6 @@ namespace DealnetPortal.Api.Integration.Services
                                 }
                             }
                         }
-                        
                     }
                     else
                     {
