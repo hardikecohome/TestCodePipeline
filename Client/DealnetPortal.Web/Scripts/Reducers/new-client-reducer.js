@@ -59,6 +59,7 @@
     reducerObj[clientActions.SET_INITIAL_STATE] = function(state, action) {
         return $.extend({}, state, action.payload);
     };
+
     reducerObj[clientActions.SET_NAME] = setFormField('name');
     reducerObj[clientActions.SET_LAST] = setFormField('lastName');
     reducerObj[clientActions.SET_BIRTH] = setFormField('birthday');
@@ -84,7 +85,21 @@
         return $.extend({}, state, fieldObj);
     }
 
-    reducerObj[clientActions.SET_UNKNOWN_ADDRESS] = function(state, action) {
+    reducerObj[clientActions.DRIVER_LICENSE_UPLOADED] = function(state, action) {
+        return {
+            name: action.payload.firstName,
+            lastName: action.payload.firstName,
+            street: action.payload.street,
+            city: action.payload.locality,
+            province: action.payload.province,
+            postalCode: action.payload.postalCode,
+            birthday: action.payload.birthDate,
+            displayContactInfo: true,
+            activePanel: 'contact-information'
+        }
+    }
+
+    reducerObj[clientActions.SET_UNKNOWN_ADDRESS] = function (state, action) {
         return {
             improvmentStreet: '',
             improvmentUnit: '',
