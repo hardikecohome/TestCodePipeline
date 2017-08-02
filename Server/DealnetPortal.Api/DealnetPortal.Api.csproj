@@ -274,6 +274,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\SecurityHelper.cs" />
+    <Compile Include="Infrastucture\EnforceHttpsHandler.cs" />
     <Compile Include="Infrastucture\LocalizedControllerSelector.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
