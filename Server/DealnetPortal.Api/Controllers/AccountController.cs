@@ -449,52 +449,52 @@ namespace DealnetPortal.Api.Controllers
             return logins;
         }
         // POST api/Account/Register
-        [AllowAnonymous]
-        [Route("Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //[AllowAnonymous]
+        //[Route("Register")]
+        //public async Task<IHttpActionResult> Register(RegisterBindingModel model)
+        //{
+        //    if (!this.ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            _loggingService.LogInfo(string.Format("Recieved request for register user {0}", model.Email));
+        //    _loggingService.LogInfo(string.Format("Recieved request for register user {0}", model.Email));
 
-            var application = _applicationRepository.GetApplication(model.ApplicationId);
-            if (application == null) {
-                ModelState.AddModelError(ErrorConstants.UnknownApplication, Resources.Resources.UnknownApplicationToRegister);
-                return BadRequest(ModelState);
-            }
-            var user = new ApplicationUser() { UserName = model.UserName, Email = model.Email, ApplicationId = application.Id };            
-            try
-            {
-                var oneTimePass = await SecurityHelper.GeneratePasswordAsync();
+        //    var application = _applicationRepository.GetApplication(model.ApplicationId);
+        //    if (application == null) {
+        //        ModelState.AddModelError(ErrorConstants.UnknownApplication, Resources.Resources.UnknownApplicationToRegister);
+        //        return BadRequest(ModelState);
+        //    }
+        //    var user = new ApplicationUser() { UserName = model.UserName, Email = model.Email, ApplicationId = application.Id };            
+        //    try
+        //    {
+        //        var oneTimePass = await SecurityHelper.GeneratePasswordAsync();
 
-                string password = _authType == AuthType.AuthProviderOneStepRegister ? model.Password : oneTimePass;                
+        //        string password = _authType == AuthType.AuthProviderOneStepRegister ? model.Password : oneTimePass;                
 
-                IdentityResult result = await this.UserManager.CreateAsync(user, password);
-                _loggingService.LogInfo("DB entry for an user created");
-                if (result.Succeeded && _authType != AuthType.AuthProviderOneStepRegister)
-                {
-                    await this.UserManager.SendEmailAsync(user.Id,
-                            Resources.Resources.YourOneTimePassword,
-                            GenerateOnetimePasswordMessage(oneTimePass));
-                    _loggingService.LogInfo("Confirmation email sended");
-                }
-                else
-                {
-                    return this.GetErrorResult(result);
-                }
-            }
-            catch (Exception ex)
-            {
-                _loggingService.LogError("Error on Register user", ex);
-                ModelState.AddModelError(ErrorConstants.ServiceFailed, Resources.Resources.ErrorOnRegisterUser);
-                return BadRequest(ModelState);
-            }
-            _loggingService.LogInfo("User registered successfully");
-            return this.Ok();
-        }
+        //        IdentityResult result = await this.UserManager.CreateAsync(user, password);
+        //        _loggingService.LogInfo("DB entry for an user created");
+        //        if (result.Succeeded && _authType != AuthType.AuthProviderOneStepRegister)
+        //        {
+        //            await this.UserManager.SendEmailAsync(user.Id,
+        //                    Resources.Resources.YourOneTimePassword,
+        //                    GenerateOnetimePasswordMessage(oneTimePass));
+        //            _loggingService.LogInfo("Confirmation email sended");
+        //        }
+        //        else
+        //        {
+        //            return this.GetErrorResult(result);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _loggingService.LogError("Error on Register user", ex);
+        //        ModelState.AddModelError(ErrorConstants.ServiceFailed, Resources.Resources.ErrorOnRegisterUser);
+        //        return BadRequest(ModelState);
+        //    }
+        //    _loggingService.LogInfo("User registered successfully");
+        //    return this.Ok();
+        //}
 
 
 

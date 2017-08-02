@@ -48,13 +48,13 @@ namespace DealnetPortal.Api.Integration.Services
 
             var registerCustomer = new RegisterCustomerBindingModel()
             {
-                RegisterInfo = new RegisterInfo()
+                RegisterInfo = new RegisterBindingModel()
                 {
                     Email = email,
                     Password = randomPassword,
                     ConfirmPassword = randomPassword
                 },
-                Profile = new CustomerProfile()
+                Profile = new CustomerProfileDTO()
                 {
                     AccountId = customer.AccountId,
                     TransactionId = contract.Details?.TransactionId,
