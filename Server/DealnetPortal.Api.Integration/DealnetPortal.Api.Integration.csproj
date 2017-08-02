@@ -88,7 +88,7 @@
     <Reference Include="PdfSharp">
       <HintPath>..\..\lib\PdfSharp.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp, Version=105.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="RestSharp, Version=100.0.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\RestSharp.dll</HintPath>
     </Reference>
