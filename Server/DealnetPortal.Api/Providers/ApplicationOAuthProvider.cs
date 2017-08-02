@@ -265,7 +265,7 @@ namespace DealnetPortal.Api.Providers
 
                     if (user != null)
                     {
-                        var syncAlerts = await _usersService.SyncAspireUser(user, userManager);
+                        var syncAlerts = await _usersService.SyncAspireUser(user);
                         if (syncAlerts?.Any() ?? false)
                         {
                             outAlerts.AddRange(syncAlerts);

@@ -33,6 +33,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IRateCardsRepository _rateCardsRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAppConfiguration _сonfiguration;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public UsersService(IAspireStorageReader aspireStorageReader, IDatabaseFactory databaseFactory, ILoggingService loggingService, IRateCardsRepository rateCardsRepository,
             ISettingsRepository settingsRepository, IUnitOfWork unitOfWork, IAppConfiguration appConfiguration)
@@ -44,6 +45,7 @@ namespace DealnetPortal.Api.Integration.Services
             _rateCardsRepository = rateCardsRepository;
             _unitOfWork = unitOfWork;
             _сonfiguration = appConfiguration;
+            _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_databaseFactory.Get()));
         }        
 
         public IList<Claim> GetUserClaims(string userId)
@@ -73,11 +75,9 @@ namespace DealnetPortal.Api.Integration.Services
             return claims;
         }
 
-        public async Task<IList<Alert>> SyncAspireUser(ApplicationUser user, UserManager<ApplicationUser> userManager)
+        public async Task<IList<Alert>> SyncAspireUser(ApplicationUser user)
         {
             var alerts = new List<Alert>();
-
-            var userManagerForSync = userManager ?? new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_databaseFactory.Get()));
 
             //get user info from aspire DB
             DealerDTO aspireDealerInfo = null;
@@ -88,19 +88,19 @@ namespace DealnetPortal.Api.Integration.Services
 
                 if (aspireDealerInfo != null)
                 {
-                    var parentAlerts = await UpdateUserParent(user.Id, aspireDealerInfo, userManagerForSync);
+                    var parentAlerts = await UpdateUserParent(user.Id, aspireDealerInfo, _userManager);
                     if (parentAlerts.Any())
                     {
                         alerts.AddRange(parentAlerts);
                     }
-                    var rolesAlerts = await UpdateUserRoles(user.Id, aspireDealerInfo, userManagerForSync);
+                    var rolesAlerts = await UpdateUserRoles(user.Id, aspireDealerInfo, _userManager);
                     if (rolesAlerts.Any())
                     {
                         alerts.AddRange(rolesAlerts);
                     }
                     if (user.Tier?.Name != aspireDealerInfo.Ratecard)
                     {
-                        var tierAlerts = UpdateUserTier(user.Id, aspireDealerInfo, userManagerForSync);
+                        var tierAlerts = UpdateUserTier(user.Id, aspireDealerInfo, _userManager);
                         if (tierAlerts.Any())
                         {
                             alerts.AddRange(tierAlerts);
