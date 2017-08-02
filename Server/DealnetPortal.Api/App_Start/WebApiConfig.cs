@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 using DealnetPortal.Api.Common.Constants;
+using DealnetPortal.Api.Infrastucture;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
 using Microsoft.Owin.Security.OAuth;
@@ -31,6 +32,19 @@ namespace DealnetPortal.Api
 
             config.Formatters.Add(new BsonMediaTypeFormatter());
             config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
+
+            var configReader = (IAppConfiguration)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAppConfiguration)) ??
+                                new AppConfiguration(WebConfigSections.AdditionalSections);
+            bool httpsOn;
+            if (!bool.TryParse(configReader.GetSetting(WebConfigKeys.HTTPS_ON_PRODUCTION_CONFIG_KEY), out httpsOn))
+            {
+                httpsOn = false;
+            }
+            if (httpsOn)
+            {
+                // make all web-api requests to be sent over https
+                config.MessageHandlers.Add(new EnforceHttpsHandler());
+            }            
         }
 
         public static void CheckConfigKeys()

@@ -12,6 +12,8 @@
 
         public const string AUTHPROVIDER_CONFIG_KEY = "AuthProvider";
 
+        public const string HTTPS_ON_PRODUCTION_CONFIG_KEY = "HttpsOnProduction";
+
         //ENTER HERE Mailgun settings
         public static readonly string MG_APIURL_CONFIG_KEY = "MailGun.ApiUrl";
         public static readonly string MG_APIKEY_CONFIG_KEY = "MailGun.ApiKey";
