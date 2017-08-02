@@ -214,11 +214,10 @@ function assignDatepicker(input) {
         minDate: Date.parse("1900-01-01"),
         maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
         onSelect: function (date) {
-            //$(this).siblings('.div-datepicker-value').text(date);
             $(this).siblings('input.form-control').val(date);
             $(".div-datepicker").removeClass('opened');
-            var isValid = checkApplicantAgeOnSelect(date);
-            if (isValid) {
+            
+            if (checkApplicantsAge()) {
                 $('#age-warning-message').hide();
                 $('#age-error-message').hide();
             } else {
