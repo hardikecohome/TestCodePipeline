@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Api.Models.CustomerWallet
 {
-    public class RegisterInfo
+    public class RegisterBindingModel
     {
         [Required]
         [Display(Name = "Email")]

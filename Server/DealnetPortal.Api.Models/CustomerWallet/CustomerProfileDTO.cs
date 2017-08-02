@@ -8,10 +8,13 @@ using DealnetPortal.Api.Models.Contract;
 
 namespace DealnetPortal.Api.Models.CustomerWallet
 {
-    public class CustomerProfile
+    public class CustomerProfileDTO
     {
+        public string UserId { get; set; }
+
         public string AccountId { get; set; }
         public string TransactionId { get; set; }
+        public decimal? CreditAmount { get; set; }
 
         [MaxLength(100)]
         public string FirstName { get; set; }
