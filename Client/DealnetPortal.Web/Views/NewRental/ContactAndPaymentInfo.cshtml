@@ -1,4 +1,5 @@
-﻿@model DealnetPortal.Web.Models.ContactAndPaymentInfoViewModel
+﻿@using DealnetPortal.Api.Common.Enumeration
+@model DealnetPortal.Web.Models.ContactAndPaymentInfoViewModel
 
 <div id="label-steps">
     <div class="dealnet-action-link">@Resources.NewApplication</div> >
@@ -328,7 +329,7 @@
 	$(document)
 		.submit(function () {
 
-				ga('send', 'event', 'Contact and Payment', 'Form submit', 'Step 4 from Dealer Portal', '100');
+				ga('send', 'event', 'Contact and Payment', 'Form submit',  '@(User.IsInRole(UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
 			});
 </script>
 
