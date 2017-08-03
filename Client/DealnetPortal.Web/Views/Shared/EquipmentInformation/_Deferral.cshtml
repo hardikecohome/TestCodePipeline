@@ -10,7 +10,7 @@
     <div class="equal-height-row-1">
       <div class="rate-card-header">
         <span class="promo-label hidden" id="DeferralPromo">Promo</span>
-        <h4 class="card-title">DEFERRAL</h4>
+        <h4 class="card-title">@Resources.Deferral.ToUpper()</h4>
       </div>
     </div>
     <hr>
@@ -20,7 +20,7 @@
           @Html.DropDownList(Model + "Amortization", amortizationSelectList, new { @class = "form-control", id = Model + "AmortizationDropdown" })
 
           <a class="link-over-notify" id="DeferralNotify"
-             data-content="180 month amortization is available only on loans over $5,000">
+             data-content="@Resources.Month180AmortOnlyOver5000">
             <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
           </a>
         </div>
@@ -28,7 +28,7 @@
     <div class="equal-height-row-3">
       <div class="clearfix">
         <div class="form-group">
-          <label for="">Deferral Period</label>
+          <label for="">@Resources.DeferralPeriod</label>
           @Html.DropDownList(Model.ToString().ToLower() + "Deferral", deferralSelectList, new { @class = "form-control", id = "DeferralPeriodDropdown" })
         </div>
       </div>
@@ -37,11 +37,11 @@
       <div class="clearfix">
         <div class="row form-group">
           &nbsp;
-          <div class="col-xs-6 hidden">Your Cost</div>
+          <div class="col-xs-6 hidden">@Resources.YourCost</div>
           <div class="col-xs-6 text-right text-semibold hidden" id="DeferralYCostVal"></div>
         </div>
         <div class="row form-group">
-          <div class="col-xs-6">Customer Rate</div>
+          <div class="col-xs-6">@Resources.CustomerRate</div>
           <div class="col-xs-6 text-right text-semibold" id="DeferralCRate"></div>
         </div>
       </div>
@@ -49,39 +49,39 @@
     <hr>
     <div class="">
       <div class="row form-group align-middle">
-        <div class="col-xs-6">Admin Fee</div>
+        <div class="col-xs-6">@Resources.AdminFee</div>
         <div class="col-xs-6 text-right text-semibold" id="DeferralAFee"></div>
       </div>
       <div class="row form-group">
-        <div class="col-xs-6">Monthly Payment</div>
+        <div class="col-xs-6">@Resources.MonthlyPayment</div>
         <div class="col-xs-6 text-right text-semibold" id="DeferralMPayment">-</div>
       </div>
       <div class="row form-group">
-        <div class="col-xs-6">Cost of Borrowing</div>
+        <div class="col-xs-6">@Resources.CostOfBorrowing</div>
         <div class="col-xs-6 text-right text-semibold" id="DeferralCBorrowing">-</div>
       </div>
       <div class="row form-group">
-        <div class="col-xs-6">Your Cost</div>
+        <div class="col-xs-6">@Resources.YourCost</div>
         <div class="col-xs-6 text-right text-semibold" id="DeferralYCost">-</div>
       </div>
       <div class="row form-group">
-        <div class="col-xs-6">Total Amount Financed</div>
+        <div class="col-xs-6">@Resources.TotalAmountFinanced</div>
         <div class="col-xs-6 text-right text-semibold" id="DeferralTAFinanced">-</div>
       </div>
       <div class="row form-group">
-        <div class="col-xs-6">Total of All Monthly Payments</div>
+        <div class="col-xs-6">@Resources.TotalAllMonthlyPayments</div>
         <div class="col-xs-6 text-right text-semibold" id="DeferralTMPayments">-</div>
       </div>
       <div class="row form-group">
-        <div class="col-xs-6">Balance Owing at the End of Monthly Payments</div>
+        <div class="col-xs-6">@Resources.BalanceOwingEndOfPayments</div>
         <div class="col-xs-6 text-right text-semibold" id="DeferralRBalance">-</div>
       </div>
       <div class="row form-group">
-        <div class="col-xs-6">Total Obligation</div>
+        <div class="col-xs-6">@Resources.TotalObligation</div>
         <div class="col-xs-6 text-right text-semibold" id="DeferralTObligation">-</div>
       </div>
     </div>
     <div id="hidden-option" class="hidden">Deferral</div>
-    <button class="btn dealnet-button dealnet-success-button btn-select-card">Select</button>
+    <button class="btn dealnet-button dealnet-success-button btn-select-card">@Resources.Select</button>
   </div>
 </li>

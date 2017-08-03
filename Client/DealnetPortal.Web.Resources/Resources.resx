@@ -1604,4 +1604,46 @@
   <data name="AdditionalApplicantAddressNotSameAsBorrower" xml:space="preserve">
     <value>Additional Applicant address is not the same as borrower's address</value>
   </data>
+  <data name="AmortNotShorterThanLoan" xml:space="preserve">
+    <value>Amortization term cannot be shorter than Loan term.</value>
+  </data>
+  <data name="AmortTerm" xml:space="preserve">
+    <value>Amort. Term</value>
+  </data>
+  <data name="CostOfBorrowing" xml:space="preserve">
+    <value>Cost of Borrowing</value>
+  </data>
+  <data name="CustomerRate" xml:space="preserve">
+    <value>Customer Rate</value>
+  </data>
+  <data name="Deferral" xml:space="preserve">
+    <value>Deferral</value>
+  </data>
+  <data name="DeferralPeriod" xml:space="preserve">
+    <value>Deferral Period</value>
+  </data>
+  <data name="EqualPayments" xml:space="preserve">
+    <value>0% EQUAL PAYMENTS</value>
+  </data>
+  <data name="LoanAmortTerm" xml:space="preserve">
+    <value>Loan/Amortization Term</value>
+  </data>
+  <data name="Month180AmortOnlyOver5000" xml:space="preserve">
+    <value>180 month amortization is available only on loans over $5,000</value>
+  </data>
+  <data name="Promo" xml:space="preserve">
+    <value>Promo</value>
+  </data>
+  <data name="PromoCustom" xml:space="preserve">
+    <value>PROMO/CUSTOM</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="StandardRate" xml:space="preserve">
+    <value>STANDARD RATE</value>
+  </data>
+  <data name="YourCost" xml:space="preserve">
+    <value>Your Cost</value>
+  </data>
 </root>

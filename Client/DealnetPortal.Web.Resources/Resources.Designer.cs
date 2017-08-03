@@ -439,6 +439,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Amortization term cannot be shorter than Loan term..
+        /// </summary>
+        public static string AmortNotShorterThanLoan {
+            get {
+                return ResourceManager.GetString("AmortNotShorterThanLoan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Amort. Term.
+        /// </summary>
+        public static string AmortTerm {
+            get {
+                return ResourceManager.GetString("AmortTerm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while sending report.
         /// </summary>
         public static string AnErrorWhileSendingReport {
@@ -1186,6 +1204,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cost of Borrowing.
+        /// </summary>
+        public static string CostOfBorrowing {
+            get {
+                return ResourceManager.GetString("CostOfBorrowing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create another application for this borrower.
         /// </summary>
         public static string CreateAnotherApplicationForThis {
@@ -1317,6 +1344,15 @@ namespace DealnetPortal.Web.Resources {
         public static string CustomerOrYourCostRequired {
             get {
                 return ResourceManager.GetString("CustomerOrYourCostRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customer Rate.
+        /// </summary>
+        public static string CustomerRate {
+            get {
+                return ResourceManager.GetString("CustomerRate", resourceCulture);
             }
         }
         
@@ -1497,6 +1533,24 @@ namespace DealnetPortal.Web.Resources {
         public static string Declined {
             get {
                 return ResourceManager.GetString("Declined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deferral.
+        /// </summary>
+        public static string Deferral {
+            get {
+                return ResourceManager.GetString("Deferral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deferral Period.
+        /// </summary>
+        public static string DeferralPeriod {
+            get {
+                return ResourceManager.GetString("DeferralPeriod", resourceCulture);
             }
         }
         
@@ -1740,6 +1794,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Entries {
             get {
                 return ResourceManager.GetString("Entries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0% EQUAL PAYMENTS.
+        /// </summary>
+        public static string EqualPayments {
+            get {
+                return ResourceManager.GetString("EqualPayments", resourceCulture);
             }
         }
         
@@ -2491,6 +2554,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loan/Amortization Term.
+        /// </summary>
+        public static string LoanAmortTerm {
+            get {
+                return ResourceManager.GetString("LoanAmortTerm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loan.
         /// </summary>
         public static string LoanApplication {
@@ -2649,6 +2721,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Month {
             get {
                 return ResourceManager.GetString("Month", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 180 month amortization is available only on loans over $5,000.
+        /// </summary>
+        public static string Month180AmortOnlyOver5000 {
+            get {
+                return ResourceManager.GetString("Month180AmortOnlyOver5000", resourceCulture);
             }
         }
         
@@ -3292,6 +3373,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Promo.
+        /// </summary>
+        public static string Promo {
+            get {
+                return ResourceManager.GetString("Promo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PROMO/CUSTOM.
+        /// </summary>
+        public static string PromoCustom {
+            get {
+                return ResourceManager.GetString("PromoCustom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Province.
         /// </summary>
         public static string Province {
@@ -3598,6 +3697,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select.
+        /// </summary>
+        public static string Select {
+            get {
+                return ResourceManager.GetString("Select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select category.
         /// </summary>
         public static string SelectCategory {
@@ -3765,6 +3873,15 @@ namespace DealnetPortal.Web.Resources {
         public static string SixMonth {
             get {
                 return ResourceManager.GetString("SixMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to STANDARD RATE.
+        /// </summary>
+        public static string StandardRate {
+            get {
+                return ResourceManager.GetString("StandardRate", resourceCulture);
             }
         }
         
@@ -4422,6 +4539,15 @@ namespace DealnetPortal.Web.Resources {
         public static string YourConfigurationWasSuccessfullyUpdated {
             get {
                 return ResourceManager.GetString("YourConfigurationWasSuccessfullyUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your Cost.
+        /// </summary>
+        public static string YourCost {
+            get {
+                return ResourceManager.GetString("YourCost", resourceCulture);
             }
         }
         

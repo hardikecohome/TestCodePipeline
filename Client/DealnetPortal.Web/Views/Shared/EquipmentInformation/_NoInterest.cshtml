@@ -8,14 +8,14 @@
   <div class="rate-card table-mode">
     <div class="equal-height-row-1">
       <div class="rate-card-header">
-        <span class="promo-label hidden" id="NoInterestPromo">Promo</span>
-        <h4 class="card-title">0% EQUAL PAYMENTS</h4>
+        <span class="promo-label hidden" id="NoInterestPromo">@Resources.Promo</span>
+        <h4 class="card-title">@Resources.EqualPayments</h4>
       </div>
     </div>
     <hr>
     <div class="equal-height-row-2">
       <div class="form-group">
-        <label for="">Loan/Amortization Term</label>
+        <label for="">@Resources.LoanAmortTerm</label>
         @Html.DropDownList(Model + "Amortization", amortizationSelectList, new { @class = "form-control", id = Model + "AmortizationDropdown" })
       </div>
     </div>
@@ -26,11 +26,11 @@
       <div class="clearfix">
         <div class="row form-group">
           &nbsp;
-          <div class="col-xs-6 hidden">Your Cost</div>
+          <div class="col-xs-6 hidden">@Resources.YourCost</div>
           <div class="col-xs-6 text-right text-semibold hidden" id="NoInterestYCostVal"></div>
         </div>
         <div class="row form-group">
-          <div class="col-xs-6">Customer Rate</div>
+          <div class="col-xs-6">@Resources.CustomerRate</div>
           <div class="col-xs-6 text-right text-semibold" id="NoInterestCRate"></div>
         </div>
       </div>
@@ -38,41 +38,41 @@
     <hr>
     <div class="">
       <div class="row form-group align-middle">
-        <div class="col-xs-6">Admin Fee</div>
+        <div class="col-xs-6">@Resources.AdminFee</div>
         <div class="col-xs-6 text-right text-semibold" id="NoInterestAFee"></div>
       </div>
       <div class="row form-group">
-        <div class="col-xs-6">Monthly Payment</div>
+        <div class="col-xs-6">@Resources.MonthlyPayment</div>
         <div class="col-xs-6 text-right text-semibold" id="NoInterestMPayment">-</div>
       </div>
       <div class="row form-group">
-        <div class="col-xs-6">Cost of Borrowing</div>
+        <div class="col-xs-6">@Resources.CostOfBorrowing</div>
         <div class="col-xs-6 text-right text-semibold" id="NoInterestCBorrowing">-</div>
       </div>
       <div class="row form-group">
-        <div class="col-xs-6">Your Cost</div>
+        <div class="col-xs-6">@Resources.YourCost</div>
         <div class="col-xs-6 text-right text-semibold" id="NoInterestYCost">-</div>
       </div>
       <div class="row form-group">
-        <div class="col-xs-6">Total Amount Financed</div>
+        <div class="col-xs-6">@Resources.TotalAmountFinanced</div>
         <div class="col-xs-6 text-right text-semibold" id="NoInterestTAFinanced">-</div>
       </div>
       <div class="row form-group">
-        <div class="col-xs-6">Total of All Monthly Payments</div>
+        <div class="col-xs-6">@Resources.TotalAllMonthlyPayments</div>
         <div class="col-xs-6 text-right text-semibold" id="NoInterestTMPayments">-</div>
       </div>
       <div class="row form-group">
-        <div class="col-xs-6">Balance Owing at the End of Monthly Payments</div>
+        <div class="col-xs-6">@Resources.BalanceOwingEndOfPayments</div>
         <div class="col-xs-6 text-right text-semibold" id="NoInterestRBalance">-</div>
       </div>
       <div class="row form-group">
-        <div class="col-xs-6">Total Obligation</div>
+        <div class="col-xs-6">@Resources.TotalObligation</div>
         <div class="col-xs-6 text-right text-semibold" id="NoInterestTObligation">-</div>
       </div>
     </div>
     <div id="hidden-option" class="hidden">NoInterest</div>
     <button class="btn dealnet-button dealnet-success-button btn-select-card">
-      Select
+      @Resources.Select
     </button>
   </div>
 </li>

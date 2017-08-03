@@ -1506,4 +1506,28 @@
   <data name="AdditionalApplicantAddressNotSameAsBorrower" xml:space="preserve">
     <value>L'adresse du demandeur supplémentaire n'est pas la même que l'adresse de l'emprunteur</value>
   </data>
+  <data name="AmortNotShorterThanLoan" xml:space="preserve">
+    <value>La durée d'amortissement ne peut être inférieure à la durée du prêt.</value>
+  </data>
+  <data name="AmortTerm" xml:space="preserve">
+    <value>Terme d'Amort.</value>
+  </data>
+  <data name="CustomerRate" xml:space="preserve">
+    <value>Taux de clientèle</value>
+  </data>
+  <data name="EqualPayments" xml:space="preserve">
+    <value>0% EGAL PAYMENTS</value>
+  </data>
+  <data name="LoanAmortTerm" xml:space="preserve">
+    <value>Durée du prêt / amortissement</value>
+  </data>
+  <data name="Month180AmortOnlyOver5000" xml:space="preserve">
+    <value>180 month amortization is available only on loans over $5,000</value>
+  </data>
+  <data name="PromoCustom" xml:space="preserve">
+    <value>PROMO/CUSTOM</value>
+  </data>
+  <data name="StandardRate" xml:space="preserve">
+    <value>TAUX STANDARD</value>
+  </data>
 </root>
