@@ -1,0 +1,112 @@
+﻿@{
+    ViewBag.Title = "Apply";
+}
+<div class="onboard-page">
+    <div class="onboard-heading">
+        <div class="onboard-headers-container">
+            <h2>Apply</h2>
+            <h3>Join our growing EcoHome Financial dealer network!</h3>
+        </div>
+        <div class="onboard-contact-info">
+            <svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg>
+            Questions? <br />
+            Connect with dealer support: <br />
+            <a href="tel:+1-866-382-7468" class="tel" rel="nofollow">1-866-382-7468</a><br />
+            <a href="mailto: info@ecohomefinancial.com">info@ecohomefinancial.com</a>
+        </div>
+    </div>
+
+    <div class="onboard-steps">
+        <div class="panel customer-loan-form-panel active-panel">
+            <div class="panel-heading">
+                <span class="panel-step">1</span>
+                <h3 class="panel-title dealnet-middle-header">@Resources.Consent</h3>
+                <span class="arrow"><i class="glyphicon"></i></span>
+            </div>
+            <div class="panel-body">
+                <div class="consents-checkbox-hold">
+                    <div class="form-group checkbox-hold">
+                        <label for="agreement1" class="align-middle custom-checkbox">
+                            <input type="checkbox" class="dealnet-checkbox" id="agreement1" name="agreement1"/>
+                            <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                            <span class="mandatory-field">@Resources.AcknowledgeAndAgreementObtainCreditReport</span>
+                        </label>
+                        <div class="consents-links">
+                            <a href="" class="dealnet-info-link j-personal-data-used-modal">@Resources.HowIsMyPersonalDataUsed</a>
+                            @Html.ActionLink(@Resources.PrivacyPolicy, "PrivacyPolicy", "Info", null, new { @class="dealnet-info-link", target = "_blank" })
+                        </div>
+                    </div>
+                    <div class="form-group checkbox-hold">
+                        <label for="agreement2" class="align-middle custom-checkbox">
+                            <input type="checkbox" class="dealnet-checkbox" id="agreement2" name="agreement2"/>
+                            <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                            <span>@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+         </div>
+        <div class="panel customer-loan-form-panel panel-collapsed">
+            <div class="panel-heading">
+                <span class="panel-step">2</span>
+                <h3 class="panel-title dealnet-middle-header">@Resources.CompanyInformation</h3>
+                <span class="arrow"><i class="glyphicon"></i></span>
+            </div>
+            <div class="panel-body">
+
+            </div>
+        </div>
+        <div class="panel customer-loan-form-panel panel-collapsed">
+            <div class="panel-heading">
+                <span class="panel-step">3</span>
+                <h3 class="panel-title dealnet-middle-header">@Resources.PrincipalOwnerInformation</h3>
+                <span class="arrow"><i class="glyphicon"></i></span>
+            </div>
+            <div class="panel-body">
+
+            </div>
+        </div>
+        <div class="panel customer-loan-form-panel panel-collapsed">
+            <div class="panel-heading">
+                <span class="panel-step">4</span>
+                <h3 class="panel-title dealnet-middle-header">@Resources.ProductAndSalesInformation</h3>
+                <span class="arrow"><i class="glyphicon"></i></span>
+            </div>
+            <div class="panel-body">
+
+            </div>
+        </div>
+        <div class="panel customer-loan-form-panel panel-collapsed">
+            <div class="panel-heading">
+                <span class="panel-step">5</span>
+                <h3 class="panel-title dealnet-middle-header">@Resources.TradeReferences</h3>
+                <span class="arrow"><i class="glyphicon"></i></span>
+            </div>
+            <div class="panel-body">
+
+            </div>
+        </div>
+        <div class="panel customer-loan-form-panel panel-collapsed">
+            <div class="panel-heading">
+                <span class="panel-step">6</span>
+                <h3 class="panel-title dealnet-middle-header">@Resources.RequiredDocuments</h3>
+                <span class="arrow"><i class="glyphicon"></i></span>
+            </div>
+            <div class="panel-body">
+
+            </div>
+        </div>
+        <div class="panel customer-loan-form-panel panel-collapsed">
+            <div class="panel-heading">
+                <span class="panel-step">7</span>
+                <h3 class="panel-title dealnet-middle-header">@Resources.Acknowledgment</h3>
+                <span class="arrow"><i class="glyphicon"></i></span>
+            </div>
+            <div class="panel-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

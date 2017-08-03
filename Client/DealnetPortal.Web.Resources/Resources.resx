@@ -1649,4 +1649,25 @@
   <data name="FinancingOptions" xml:space="preserve">
     <value>Financing Options</value>
   </data>
+  <data name="Acknowledgment" xml:space="preserve">
+    <value>Acknowledgment</value>
+  </data>
+  <data name="CompanyInformation" xml:space="preserve">
+    <value>Company information</value>
+  </data>
+  <data name="Consent" xml:space="preserve">
+    <value>Consent</value>
+  </data>
+  <data name="PrincipalOwnerInformation" xml:space="preserve">
+    <value>Principal/owner information</value>
+  </data>
+  <data name="ProductAndSalesInformation" xml:space="preserve">
+    <value>Product &amp; sales information</value>
+  </data>
+  <data name="RequiredDocuments" xml:space="preserve">
+    <value>Required documents</value>
+  </data>
+  <data name="TradeReferences" xml:space="preserve">
+    <value>Trade references</value>
+  </data>
 </root>
