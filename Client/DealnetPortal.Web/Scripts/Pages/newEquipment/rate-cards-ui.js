@@ -90,8 +90,8 @@
     }
 
     var onAgreemntSelect = function () {
-        var agreementType = $(this).find("option:selected").text();
-        if (agreementType === "Loan") {
+        var agreementType = +$(this).find("option:selected").val();
+        if (agreementType === 0) {
             //If loan is chosen
             setHeight();
             if (!$("#submit").hasClass('disabled') && $('#rateCardsBlock').find('div.checked').length === 0) {
