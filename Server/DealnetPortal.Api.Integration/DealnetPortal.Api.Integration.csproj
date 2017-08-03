@@ -141,7 +141,7 @@
     <Compile Include="Services\IDealerService.cs" />
     <Compile Include="Services\ImageScanService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\IMailСhimpService.cs" />
+    <Compile Include="Services\IMailChimpService.cs" />
     <Compile Include="Services\IMailService.cs" />
     <Compile Include="Services\ISmsSubscriptionService.cs" />
     <Compile Include="Services\IUsersService.cs" />
