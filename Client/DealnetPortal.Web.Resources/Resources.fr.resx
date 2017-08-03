@@ -1518,6 +1518,9 @@
   <data name="EqualPayments" xml:space="preserve">
     <value>0% EGAL PAYMENTS</value>
   </data>
+  <data name="FinancingOptions" xml:space="preserve">
+    <value>Options de Financement</value>
+  </data>
   <data name="LoanAmortTerm" xml:space="preserve">
     <value>Durée du prêt / amortissement</value>
   </data>

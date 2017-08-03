@@ -1646,4 +1646,7 @@
   <data name="YourCost" xml:space="preserve">
     <value>Your Cost</value>
   </data>
+  <data name="FinancingOptions" xml:space="preserve">
+    <value>Financing Options</value>
+  </data>
 </root>

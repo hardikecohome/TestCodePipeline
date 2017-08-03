@@ -1960,6 +1960,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Financing Options.
+        /// </summary>
+        public static string FinancingOptions {
+            get {
+                return ResourceManager.GetString("FinancingOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Find us.
         /// </summary>
         public static string FindUs {
