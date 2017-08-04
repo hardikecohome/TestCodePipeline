@@ -861,7 +861,7 @@
     </script>
 <script type="text/javascript">
 		$(document).ready(function () {
-			ga('send', 'event', 'New Application Start', 'Basic Info page Displayed', 'By Dealer', '20');
+			ga('send', 'event', 'New Application Start', 'Basic Info page Displayed', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
 		});
 </script>
 }
