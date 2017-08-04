@@ -4,11 +4,14 @@
 <div class="onboard-page">
     <div class="onboard-heading">
         <div class="onboard-headers-container">
-            <h2>Apply</h2>
-            <h3>Join our growing EcoHome Financial dealer network!</h3>
+            <h2 class="dealnet-large-header">Apply</h2>
+            <h3 class="dealnet-md-header">Join our growing EcoHome Financial dealer network!</h3>
         </div>
         <div class="onboard-contact-info">
-            <svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg>
+            <span class="icon-help-hold">
+                <svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg>
+            </span>
+
             Questions? <br />
             Connect with dealer support: <br />
             <a href="tel:+1-866-382-7468" class="tel" rel="nofollow">1-866-382-7468</a><br />
@@ -17,11 +20,12 @@
     </div>
 
     <div class="onboard-steps">
-        <div class="panel customer-loan-form-panel active-panel">
+        <div class="panel customer-loan-form-panel panel-collapsed step-passed">
             <div class="panel-heading">
                 <span class="panel-step">1</span>
                 <h3 class="panel-title dealnet-middle-header">@Resources.Consent</h3>
                 <span class="arrow"><i class="glyphicon"></i></span>
+                <span class="passed-step-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
             </div>
             <div class="panel-body">
                 <div class="consents-checkbox-hold">
@@ -46,24 +50,271 @@
                 </div>
             </div>
          </div>
-        <div class="panel customer-loan-form-panel panel-collapsed">
+        <div class="panel customer-loan-form-panel panel-collapsed step-passed">
             <div class="panel-heading">
                 <span class="panel-step">2</span>
                 <h3 class="panel-title dealnet-middle-header">@Resources.CompanyInformation</h3>
                 <span class="arrow"><i class="glyphicon"></i></span>
+                <span class="passed-step-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
             </div>
             <div class="panel-body">
-
+                <div class="row">
+                  <div class="col-md-4 col-sm-6">
+                      <div class="form-group">
+                          <label for="full-legal-name" class="mandatory-field">Full legal name</label>
+                          <div class="control-group"><input type="text" id="full-legal-name"
+                                                            class="form-control dealnet-input" value="Improve Home Service"></div>
+                      </div>
+                  </div>
+                  <div class="col-md-4 col-sm-6">
+                      <div class="form-group">
+                          <label for="operating-name" class="mandatory-field">Operating name</label>
+                          <div class="control-group"><input type="text" id="operating-name"
+                                                            class="form-control dealnet-input" value="IHService"></div>
+                      </div>
+                  </div>
+                </div>
+                <h4 class="heading-bordered">@Resources.Contacts</h4>
+                <div class="row">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="form-group">
+                            <label for="phone-number" class="mandatory-field">@Resources.PhoneNumber</label>
+                            <div class="control-group">
+                                <input type="text" id="phone-number" class="form-control dealnet-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="form-group">
+                            <label for="email-address" class="mandatory-field">@Resources.EmailAddress</label>
+                            <div class="control-group">
+                                <input type="text" id="email-address" class="form-control dealnet-input" value="IHService@gmail.com">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-clear-sm-6">
+                        <div class="form-group">
+                            <label for="website-url" class="mandatory-field">@Resources.Website</label>
+                            <div class="control-group">
+                                <input type="text" id="website-url" class="form-control dealnet-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="heading-bordered">@Resources.Address</h4>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="street" class="mandatory-field">@Resources.Street</label>
+                            <div class="control-group">
+                                <input type="text" id="street" class="form-control dealnet-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-2">
+                        <div class="form-group">
+                            <label for="unit">@Resources.UnitNumber</label>
+                            <div class="control-group">
+                                <input type="text" id="unit" class="form-control dealnet-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                        <div class="form-group">
+                            <label for="city" class="mandatory-field">@Resources.City</label>
+                            <div class="control-group">
+                                <input type="text" id="city" class="form-control dealnet-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-clear-lg-4 col-clear-md-4 col-clear-sm-6">
+                        <div class="form-group">
+                            <label for="province" class="mandatory-field">@Resources.Province</label>
+                            <div class="control-group">
+                                <select class="form-control" id="province">
+                                    <option value="">Province</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="form-group">
+                            <label for="postal-code" class="mandatory-field">@Resources.PostalCode</label>
+                            <div class="control-group">
+                                <input type="text" id="postal-code" class="form-control dealnet-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="heading-bordered">@Resources.Other</h4>
+                <div class="row">
+                    <div class="col-md-2 col-sm-6">
+                        <div class="form-group">
+                            <label for="" class="mandatory-field">@Resources.TypeOfBusiness</label>
+                            <div class="control-group"><select name="" id="" class="form-control">
+                                <option value=""></option>
+                            </select></div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-6">
+                        <div class="form-group">
+                            <label for="" class="mandatory-field">@Resources.YearsInBusiness</label>
+                            <div class="control-group"><select name="" id="" class="form-control">
+                                <option value=""></option>
+                            </select></div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-6">
+                        <div class="form-group">
+                            <label for="">@Resources.NumberOfInstallers</label>
+                            <div class="control-group"><select name="" id="" class="form-control">
+                                <option value=""></option>
+                            </select></div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-6">
+                        <div class="form-group">
+                            <label for="">@Resources.NumberOfSalesPeople</label>
+                            <div class="control-group"><select name="" id="" class="form-control">
+                                <option value=""></option>
+                            </select></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="form-group">
+                            <label for="" class="mandatory-field">Provinces approved for business</label>
+                            <div class="control-group">
+                                <select name="" id="" class="form-control">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="customer-needs-list tags-list">
+                        <li>New Brunswick<span class="icon-remove"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
+                        <li>Nova Scotia<span class="icon-remove"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="panel customer-loan-form-panel panel-collapsed">
+        <div class="panel customer-loan-form-panel active-panel">
             <div class="panel-heading">
                 <span class="panel-step">3</span>
                 <h3 class="panel-title dealnet-middle-header">@Resources.PrincipalOwnerInformation</h3>
                 <span class="arrow"><i class="glyphicon"></i></span>
             </div>
             <div class="panel-body">
-
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="" class="mandatory-field">@Resources.FirstName</label>
+                            <div class="control-group">
+                                <input type="text" class="form-control dealnet-input" value="Improve Home Service">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="" class="mandatory-field">@Resources.LastName</label>
+                            <div class="control-group">
+                                <input type="text" class="form-control dealnet-input" value="IHService">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="" class="mandatory-field">@Resources.BirthDate</label>
+                            <div class="control-group date-group">
+                                <input type="text" class="form-control dealnet-input date-input" placeholder="mm/dd/yyyy">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="heading-bordered">@Resources.Contacts</h4>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="" class="mandatory-field">@Resources.HomePhone</label>
+                            <div class="control-group">
+                                <input type="text" class="form-control dealnet-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="" class="mandatory-field">@Resources.MobilePhone</label>
+                            <div class="control-group">
+                                <input type="text" class="form-control dealnet-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="" class="mandatory-field">@Resources.EmailAddress</label>
+                            <div class="control-group date-group">
+                                <input type="text" class="form-control dealnet-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="heading-bordered">@Resources.Address</h4>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="street" class="mandatory-field">@Resources.Street</label>
+                            <div class="control-group">
+                                <input type="text" id="street" class="form-control dealnet-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-2">
+                        <div class="form-group">
+                            <label for="unit">@Resources.UnitNumber</label>
+                            <div class="control-group">
+                                <input type="text" id="unit" class="form-control dealnet-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                        <div class="form-group">
+                            <label for="city" class="mandatory-field">@Resources.City</label>
+                            <div class="control-group">
+                                <input type="text" id="city" class="form-control dealnet-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-clear-lg-4 col-clear-md-4 col-clear-sm-6">
+                        <div class="form-group">
+                            <label for="province" class="mandatory-field">@Resources.Province</label>
+                            <div class="control-group">
+                                <select class="form-control" id="province">
+                                    <option value="">Province</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="form-group">
+                            <label for="postal-code" class="mandatory-field">@Resources.PostalCode</label>
+                            <div class="control-group">
+                                <input type="text" id="postal-code" class="form-control dealnet-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="heading-bordered">@Resources.Ownership</h4>
+                <div class="row">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="form-group">
+                            <label for="" class="mandatory-field">@Resources.PercentageOfOwnership</label>
+                            <div class="control-group">
+                                <input type="text" class="form-control dealnet-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="panel customer-loan-form-panel panel-collapsed">
