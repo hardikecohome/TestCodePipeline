@@ -21,7 +21,7 @@
 {
 	<script type="text/javascript">
 		$(document).ready(function () {
-			ga('send', 'event', 'Decline/Credit Review', 'Error Message Displayed', 'By Broker', '50');
+			ga('send', 'event', 'Decline/Credit Review', 'Error Message Displayed', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
 		});
 	</script>
 }
