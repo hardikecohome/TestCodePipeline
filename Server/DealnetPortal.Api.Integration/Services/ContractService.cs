@@ -996,11 +996,12 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    var contract = _contractRepository.GetContractAsUntracked(doc.ContractId, contractOwnerId);
-                    var contractDTO = Mapper.Map<ContractDTO>(contract);
                     doc = _contractRepository.AddDocumentToContract(document.ContractId, Mapper.Map<ContractDocument>(document),
                     contractOwnerId);
                     _unitOfWork.Save();
+                    var contract = _contractRepository.GetContractAsUntracked(doc.ContractId, contractOwnerId);
+                    var contractDTO = Mapper.Map<ContractDTO>(contract);
+                    
                 }
                     //Task.Run(async () => await _mailService.SendContractChangeNotification(contractDTO, contract.Dealer.Email));
             }
