@@ -93,7 +93,9 @@
 
                 if (planType === 3) {
                     $('#' + optionKey + '-amortDropdown').closest('.row').addClass('hidden');
-                    $('#' + optionKey + '-deferralDropdown').prepend("<option value='0' selected='selected'>No Deferral</option>");
+                    var defDropdown = $('#' + optionKey + '-deferralDropdown');
+                    if(defDropdown.find('option[value=0]').length === 0)
+                        defDropdown.prepend("<option value='0' selected='selected'>No Deferral</option>");
                     $.grep(constants.inputsToHide,
                         function(field) {
                             $('#' + optionKey + field).addClass('hidden');
