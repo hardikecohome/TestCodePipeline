@@ -48,6 +48,7 @@
         row.height(maxHeight);
     }
 
+
     var updateEquipmentCosts = function (agreementType) {
         if (agreementType === 0) {
             $(".equipment-cost").each(function () {
@@ -103,7 +104,7 @@
 
             $('#loanRateCardToggle, .loan-element, .downpayment-row').show();
             $('.rental-element').hide();
-            if ($('#rateCardsBlock').find('div.checked').length) {                
+            if ($('#rateCardsBlock').find('div.checked').length) {
                 toggleRateCardBlock(false);
             } else {
                 var show = state.onlyCustomRateCard ? !validateCustomCard(true) : true;
@@ -180,20 +181,27 @@
             setHeight();
         });
 
-		    $('.link-over-notify').popover({
-			    template: '<div class="popover customer-loan-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
-			    placement: 'top',
-			    trigger: $('body').is('.tablet-device') || $('body').is('.mobile-device') ? 'click' : 'hover',
-			    content: '',
-		    }).on('shown.bs.popover', function () {
-			    if($('body').is('.tablet-device') || $('body').is('.mobile-device')){
-				    $(this).parents('div[class*="equal-height-row"]').addClass('row-auto-height');
-			    }
-		    }).on('hide.bs.popover', function () {
-			    if($('body').is('.tablet-device') || $('body').is('.mobile-device')){
-				    $(this).parents('div[class*="equal-height-row"]').removeClass('row-auto-height');
-			    }
-		    });
+        $('.link-over-notify').popover({
+            template: '<div class="popover customer-loan-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
+            placement: 'top',
+            trigger: $('body').is('.tablet-device') || $('body').is('.mobile-device') ? 'click' : 'hover',
+            content: '',
+        }).on('shown.bs.popover', function () {
+            if($('body').is('.tablet-device') || $('body').is('.mobile-device')){
+                $(this).parents('div[class*="equal-height-row"]').addClass('row-auto-height');
+            }
+        }).on('hide.bs.popover', function () {
+            if($('body').is('.tablet-device') || $('body').is('.mobile-device')){
+                $(this).parents('div[class*="equal-height-row"]').removeClass('row-auto-height');
+            }
+        });
+
+        $('textarea').keyup(function (e) {
+            if (e.keyCode === 13) {
+                var textarea = $(this);
+                textarea.val(textarea.val() + '\n');
+            }
+        });
     });
 
     return {

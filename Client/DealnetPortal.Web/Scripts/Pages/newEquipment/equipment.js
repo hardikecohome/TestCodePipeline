@@ -56,6 +56,7 @@
         $('#new-equipments').append(newTemplate);
 
         resetFormValidator("#equipment-form");
+
     };
 
     /**
@@ -94,6 +95,12 @@
                 equipmentName: 'ExistingEquipment',
                 equipmentRemovePattern: 'remove-existing-equipment-'
             }));
+        newTemplate.find('textarea').keyup(function (e) {
+            if (e.keyCode === 13) {
+                var textarea = $(this);
+                textarea.val(textarea.val() + '\n');
+            }
+        });
 
         customizeSelect();
         toggleClearInputIcon($(newTemplate).find('textarea, input'));
