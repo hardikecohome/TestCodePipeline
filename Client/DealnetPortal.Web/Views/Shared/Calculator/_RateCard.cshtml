@@ -42,31 +42,31 @@
         </div>
     </div>
     <div class="hidden" id="option1-customLoanAmortWrapper">
-        <div class="row">
-            <div class="col-xs-6">
-                <div class="form-group">
-                    <label for="">@Resources.LoanTerm</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control form-control-not-clear" name="option1-customLoanTerm" id="option1-customLoanTerm">
-                        <span class="field-validation-error text-danger" data-valmsg-for="option1-customLoanTerm" data-valmsg-replace="true"></span>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label for="">@Resources.LoanTerm</label>
+                        <div class="control-group">
+                            <input type="text" class="form-control form-control-not-clear" name="option1-customLoanTerm" id="option1-customLoanTerm">
+                            <span class="field-validation-error text-danger" data-valmsg-for="option1-customLoanTerm" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label for="">@Resources.AmortTerm</label>
+                        <div class="control-group">
+                            <input type="text" class="form-control form-control-not-clear" name="option1-customAmortTerm" id="option1-customAmortTerm">
+                            <span class="field-validation-error text-danger" data-valmsg-for="option1-customAmortTerm" data-valmsg-replace="true"></span>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xs-6">
-                <div class="form-group">
-                    <label for="">@Resources.AmortTerm</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control form-control-not-clear" name="option1-customAmortTerm" id="option1-customAmortTerm">
-                        <span class="field-validation-error text-danger" data-valmsg-for="option1-customAmortTerm" data-valmsg-replace="true"></span>
-                    </div>
+            <div class="row row-error" id="option1-amortLoanTermError" style="display: none;">
+                <div class="col-xs-12">
+                    <div class="error-message text-danger  text-center">@Resources.AmortNotShorterThanLoan</div>
                 </div>
             </div>
-        </div>
-        <div class="row row-error" id="option1-amortLoanTermError" style="display: none;">
-            <div class="col-xs-12">
-                <div class="error-message text-danger  text-center">@Resources.AmortNotShorterThanLoan</div>
-            </div>
-        </div>
     </div>
 
 

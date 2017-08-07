@@ -232,13 +232,15 @@
                 if (error.is(':hidden')) {
                     error.show();
                     error.parent().find('input[type="text"]')
-                        .addClass('input-validation-error');
+                      .addClass('input-validation-error')
+                      .addClass('input-has-error');
                 }
             } else {
                 if (error.is(':visible')) {
                     error.hide();
                     error.parent().find('input[type="text"]')
-                        .removeClass('input-validation-error');
+                      .removeClass('input-validation-error')
+                      .removeClass('input-has-error');
                 }
             }
         }
