@@ -1652,6 +1652,9 @@
   <data name="Acknowledgment" xml:space="preserve">
     <value>Acknowledgment</value>
   </data>
+  <data name="AddAdditionalOwner" xml:space="preserve">
+    <value>Add additional owner</value>
+  </data>
   <data name="Address" xml:space="preserve">
     <value>Address</value>
   </data>
@@ -1693,6 +1696,9 @@
   </data>
   <data name="RequiredDocuments" xml:space="preserve">
     <value>Required documents</value>
+  </data>
+  <data name="ToSubmitAppProvideOwnerInfo" xml:space="preserve">
+    <value>In order to submit application please provide information about owners whose ownership is in total over 50%.</value>
   </data>
   <data name="TradeReferences" xml:space="preserve">
     <value>Trade references</value>

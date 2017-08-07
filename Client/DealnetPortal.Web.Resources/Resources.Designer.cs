@@ -160,6 +160,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add additional owner.
+        /// </summary>
+        public static string AddAdditionalOwner {
+            get {
+                return ResourceManager.GetString("AddAdditionalOwner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Another Client.
         /// </summary>
         public static string AddAnotherClient {
@@ -4224,6 +4233,15 @@ namespace DealnetPortal.Web.Resources {
         public static string ToProceedYouNeedToBe75LessPleaseContact {
             get {
                 return ResourceManager.GetString("ToProceedYouNeedToBe75LessPleaseContact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In order to submit application please provide information about owners whose ownership is in total over 50%..
+        /// </summary>
+        public static string ToSubmitAppProvideOwnerInfo {
+            get {
+                return ResourceManager.GetString("ToSubmitAppProvideOwnerInfo", resourceCulture);
             }
         }
         

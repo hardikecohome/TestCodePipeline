@@ -207,7 +207,7 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-4 col-sm-6">
                         <div class="form-group">
                             <label for="" class="mandatory-field">@Resources.FirstName</label>
                             <div class="control-group">
@@ -215,7 +215,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 col-sm-6">
                         <div class="form-group">
                             <label for="" class="mandatory-field">@Resources.LastName</label>
                             <div class="control-group">
@@ -223,7 +223,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 col-sm-6 col-clear-sm-6">
                         <div class="form-group">
                             <label for="" class="mandatory-field">@Resources.BirthDate</label>
                             <div class="control-group date-group">
@@ -234,7 +234,7 @@
                 </div>
                 <h4 class="heading-bordered">@Resources.Contacts</h4>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-4 col-sm-6">
                         <div class="form-group">
                             <label for="" class="mandatory-field">@Resources.HomePhone</label>
                             <div class="control-group">
@@ -242,7 +242,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 col-sm-6">
                         <div class="form-group">
                             <label for="" class="mandatory-field">@Resources.MobilePhone</label>
                             <div class="control-group">
@@ -250,7 +250,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 col-sm-6 col-clear-sm-6">
                         <div class="form-group">
                             <label for="" class="mandatory-field">@Resources.EmailAddress</label>
                             <div class="control-group date-group">
@@ -306,7 +306,7 @@
                 </div>
                 <h4 class="heading-bordered">@Resources.Ownership</h4>
                 <div class="row">
-                    <div class="col-md-4 col-sm-6">
+                    <div class="col-sm-4">
                         <div class="form-group">
                             <label for="" class="mandatory-field">@Resources.PercentageOfOwnership</label>
                             <div class="control-group">
@@ -314,7 +314,145 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <div class="dealnet-label hidden-xs">&nbsp;</div>
+                            <div class="control-group">
+                                <div class="info-text-success">
+                                    <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                                    In order to submit application please provide information about owners whose ownership is in total over 50%.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <div class="">
+                    <h3>Additional owner information</h3>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6">
+                            <div class="form-group">
+                                <label for="" class="mandatory-field">@Resources.FirstName</label>
+                                <div class="control-group">
+                                    <input type="text" class="form-control dealnet-input" value="Improve Home Service">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="form-group">
+                                <label for="" class="mandatory-field">@Resources.LastName</label>
+                                <div class="control-group">
+                                    <input type="text" class="form-control dealnet-input" value="IHService">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-clear-sm-6">
+                            <div class="form-group">
+                                <label for="" class="mandatory-field">@Resources.BirthDate</label>
+                                <div class="control-group date-group">
+                                    <input type="text" class="form-control dealnet-input date-input" placeholder="mm/dd/yyyy">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="heading-bordered">@Resources.Contacts</h4>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6">
+                            <div class="form-group">
+                                <label for="" class="mandatory-field">@Resources.HomePhone</label>
+                                <div class="control-group">
+                                    <input type="text" class="form-control dealnet-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="form-group">
+                                <label for="" class="mandatory-field">@Resources.MobilePhone</label>
+                                <div class="control-group">
+                                    <input type="text" class="form-control dealnet-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-clear-sm-6">
+                            <div class="form-group">
+                                <label for="" class="mandatory-field">@Resources.EmailAddress</label>
+                                <div class="control-group date-group">
+                                    <input type="text" class="form-control dealnet-input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="heading-bordered">@Resources.Address</h4>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <label for="street" class="mandatory-field">@Resources.Street</label>
+                                <div class="control-group">
+                                    <input type="text" id="street" class="form-control dealnet-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                            <div class="form-group">
+                                <label for="unit">@Resources.UnitNumber</label>
+                                <div class="control-group">
+                                    <input type="text" id="unit" class="form-control dealnet-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <label for="city" class="mandatory-field">@Resources.City</label>
+                                <div class="control-group">
+                                    <input type="text" id="city" class="form-control dealnet-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-clear-lg-4 col-clear-md-4 col-clear-sm-6">
+                            <div class="form-group">
+                                <label for="province" class="mandatory-field">@Resources.Province</label>
+                                <div class="control-group">
+                                    <select class="form-control" id="province">
+                                        <option value="">Province</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="form-group">
+                                <label for="postal-code" class="mandatory-field">@Resources.PostalCode</label>
+                                <div class="control-group">
+                                    <input type="text" id="postal-code" class="form-control dealnet-input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="heading-bordered">@Resources.Ownership</h4>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="" class="mandatory-field">@Resources.PercentageOfOwnership</label>
+                                <div class="control-group">
+                                    <input type="text" class="form-control dealnet-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-8 hidden">
+                            <div class="form-group">
+                                <div class="label hidden-xs">&nbsp;</div>
+                                <div class="control-group">
+                                    <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                                    @Resources.ToSubmitAppProvideOwnerInfo
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a class="align-middle dealnet-info-link mandatory-field">
+                    <svg aria-hidden="true" class="icon icon-add-app"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/client/Content/images/sprite/sprite.svg#icon-add-app"></use></svg>
+                    <span>@Resources.AddAdditionalOwner</span>
+                </a>
+
             </div>
         </div>
         <div class="panel customer-loan-form-panel panel-collapsed">
