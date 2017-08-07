@@ -318,7 +318,7 @@
                         <div class="form-group">
                             <div class="dealnet-label hidden-xs">&nbsp;</div>
                             <div class="control-group">
-                                <div class="info-text-success">
+                                <div class="info-text-success flex-centered-text">
                                     <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
                                     In order to submit application please provide information about owners whose ownership is in total over 50%.
                                 </div>
@@ -448,10 +448,16 @@
                     </div>
                 </div>
 
-                <a class="align-middle dealnet-info-link mandatory-field">
-                    <svg aria-hidden="true" class="icon icon-add-app"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/client/Content/images/sprite/sprite.svg#icon-add-app"></use></svg>
-                    <span>@Resources.AddAdditionalOwner</span>
-                </a>
+                <div class="action-link-holder flex-centered-text">
+                    <a class="action-link mandatory-field">
+                        <svg aria-hidden="true" class="icon icon-add-app"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/client/Content/images/sprite/sprite.svg#icon-add-app"></use></svg>
+                        <span>@Resources.AddAdditionalOwner</span>
+                    </a>
+                    <div class="well danger-well">
+                        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                        In order to submit application you need to add additional owner
+                    </div>
+                </div>
 
             </div>
         </div>

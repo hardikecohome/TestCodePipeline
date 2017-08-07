@@ -81,6 +81,15 @@
 
 }
 
+.flex-centered-text{
+  @media @tablet-up {
+    .flex-display;
+    .align-items(center);
+    height: 100%;
+    min-height: 40px;
+  }
+}
+
 .info-text-success{
   height: 100%;
   padding-left: 30px;
@@ -90,5 +99,31 @@
     top: 10px;
     color: @btn-success-bg;
 
+  }
+}
+
+.action-link{
+  .align-middle;
+  .dealnet-info-link;
+  margin: 10px 0;
+}
+.action-link-holder{
+  @media @tablet-up {
+    min-height: 50px;
+    .action-link{
+      flex: 0 0 200px;
+    }
+    .well{
+      flex: 1 1 auto;
+    }
+  }
+  .well{
+    padding-left: 60px;
+    .icon-info-well{
+      color: @danger-color;
+      position: absolute;
+      top: 10px;
+      left: 18px;
+    }
   }
 }
