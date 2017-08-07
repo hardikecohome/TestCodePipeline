@@ -49,7 +49,7 @@
     }
 
     var updateEquipmentCosts = function (agreementType) {
-        if (agreementType === "Loan") {
+        if (agreementType === 0) {
             $(".equipment-cost").each(function () {
                 var input = $(this);
                 input.prop("disabled", false).parents('.equipment-cost-col').show();
@@ -109,6 +109,7 @@
                 var show = state.onlyCustomRateCard ? !validateCustomCard(true) : true;
                 toggleRateCardBlock(show);
             }
+            $("#requested-term").rules("remove", "required");
         } else {
             //If rental is chosen
             if ($("#submit").hasClass('disabled')) {
@@ -122,6 +123,7 @@
             if (!$('#paymentInfo').hasClass('hidden')) {
                 $('#paymentInfo').addClass('hidden');
             }
+            $("#requested-term").rules("add", "required");
         }
         updateEquipmentCosts(agreementType);
     }

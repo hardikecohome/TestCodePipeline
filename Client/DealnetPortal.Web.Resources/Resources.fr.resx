@@ -1353,9 +1353,6 @@
   <data name="Select" xml:space="preserve">
     <value>Sélectionner</value>
   </data>
-  <data name="Cost of Borrowing" xml:space="preserve">
-    <value>Frais d’emprunt</value>
-  </data>
   <data name="CostOfBorrowing" xml:space="preserve">
     <value>Frais d’emprunt</value>
   </data>
@@ -1416,7 +1413,7 @@
   <data name="Settings" xml:space="preserve">
     <value>Paramètres</value>
   </data>
-  <data name="NotifyMeInCase:" xml:space="preserve">
+  <data name="NotifyMeInCase" xml:space="preserve">
     <value>Me prévenir en cas :</value>
   </data>
   <data name="DealStatusChanged" xml:space="preserve">
@@ -1425,10 +1422,10 @@
   <data name="OwnerWasNotConfirmed" xml:space="preserve">
     <value>Propriétaire non confirmé</value>
   </data>
-  <data name="New deal was submitted  by customers" xml:space="preserve">
-    <value>NouvelleTransactionSoumiseParClients</value>
+  <data name="NewDealWasSubmittedByCustomers" xml:space="preserve">
+    <value>Nouvelle transaction soumise par clients</value>
   </data>
-  <data name="Contract expiration" xml:space="preserve">
+  <data name="ContractExpiration" xml:space="preserve">
     <value>ExpirationContrat</value>
   </data>
   <data name="PaymentsReport" xml:space="preserve">
