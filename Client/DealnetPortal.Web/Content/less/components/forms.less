@@ -812,8 +812,8 @@ textarea.form-control{
   position: relative;
   display: inline-block;
   vertical-align: middle;
-  width: 30px;
-  height: 15px;
+  width: 40px;
+  height: 21px;
   margin: 0;
   @media @tablet-down {
     width: 50px;
@@ -840,8 +840,8 @@ textarea.form-control{
   .slider:before {
     position: absolute;
     content: "";
-    height: 13px;
-    width: 13px;
+    height: 19px;
+    width: 19px;
     left: 0px;
     bottom: 0px;
     background-color: #ffffff;
@@ -865,14 +865,43 @@ textarea.form-control{
   }
 
   input:checked + .slider:before {
-    -webkit-transform: translateX(15px);
-    -ms-transform: translateX(15px);
-    transform: translateX(15px);
+    -webkit-transform: translateX(19px);
+    -ms-transform: translateX(19px);
+    transform: translateX(19px);
 
     @media @tablet-down {
       -webkit-transform: translateX(20px);
       -ms-transform: translateX(20px);
       transform: translateX(20px);
+    }
+  }
+
+  .checkbox-toggle-text{
+    margin-left: 50px;
+    color: #adadad;
+    @media @tablet-down {
+      margin-left: 65px;
+      line-height: 30px;
+    }
+  }
+  input:checked{
+    & ~ .checkbox-toggle-text{
+      &.text-on{
+        display: inline-block;
+      }
+      &.text-off{
+        display: none;
+      }
+    }
+  }
+  input:not(:checked){
+    & ~ .checkbox-toggle-text{
+      &.text-on{
+        display: none;
+      }
+      &.text-off{
+        display: inline-block;
+      }
     }
   }
 }

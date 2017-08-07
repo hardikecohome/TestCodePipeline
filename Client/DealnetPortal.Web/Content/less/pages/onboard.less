@@ -42,12 +42,18 @@
     }
   }
 
-  .panel.step-passed{
-    .passed-step-icon{
-      position: absolute;
-      left: -35px;
-      top: 21px;
-      color: @btn-success-bg;
+  .panel{
+    .passed-step-icon {
+      display: none;
+    }
+    &.step-passed {
+      .passed-step-icon {
+        display: block;
+        position: absolute;
+        left: -35px;
+        top: 21px;
+        color: @btn-success-bg;
+      }
     }
   }
 
@@ -79,6 +85,16 @@
     margin-top: 24px;
   }
 
+  .checkbox-toggle{
+    margin: 10px 0;
+  }
+
+}
+.checkbox-form-group{
+  margin: 15px 0;
+}
+.additional-info-text{
+  color: #adadad;
 }
 
 .flex-centered-text{
@@ -96,9 +112,12 @@
   .icon-info-well{
     position: absolute;
     left: 0;
-    top: 10px;
+    top: 8px;
     color: @btn-success-bg;
 
+  }
+  .notification-text{
+    color: #afafaf;
   }
 }
 
