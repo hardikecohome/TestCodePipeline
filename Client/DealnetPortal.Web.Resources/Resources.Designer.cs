@@ -3157,6 +3157,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Plan.
+        /// </summary>
+        public static string Plan {
+            get {
+                return ResourceManager.GetString("Plan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Digital signature platform is preparing the document for signing. This can take up to 2 minutes. Check your emails.
         /// </summary>
         public static string PlatformIsPreparingCheck {
@@ -4188,6 +4197,15 @@ namespace DealnetPortal.Web.Resources {
         public static string TotalObligation {
             get {
                 return ResourceManager.GetString("TotalObligation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Price of Equipment.
+        /// </summary>
+        public static string TotalPriceOfEquipment {
+            get {
+                return ResourceManager.GetString("TotalPriceOfEquipment", resourceCulture);
             }
         }
         

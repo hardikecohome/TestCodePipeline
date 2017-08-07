@@ -51,6 +51,8 @@
             state.equipmentNextIndex++;
             $('#' + option + '-plan').change();
         }
+        $('#' + option + '-containe').validate();
+        initValidation(option);
     }
 
     var renderOption = function(option, data) {
@@ -323,6 +325,63 @@
         carouselRateCards();
         refreshCarouselItems();
     });
+
+    var initValidation = function initValidation(option) {
+        debugger
+        $('#' + option + '-downPayment').rules('add', {
+            regex: /(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$/,
+            messages: {
+                regex: translations.downPaymentInvalidFormat
+            }
+        });
+
+        $('#' + option + '-customYCostVal').rules('add', {
+            regex: /(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$/,
+            number: true,
+            min: 0,
+            messages: {
+                regex: translations.yourCostFormat
+            }
+        });
+
+        $('#' + option + '-customCRate').rules('add', {
+            regex: /(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$/,
+            min: 0,
+            number: true,
+            messages: {
+                regex: translations.customerRateFormat
+            }
+        });
+
+        $('#' + option + '-customAFee').rules('add', {
+            regex: /(^[0]?|(^[1-9]\d{0,11}))([.,][0-9]{1,2})?$/,
+            number: true,
+            min: 0,
+            messages: {
+                regex: translations.adminFeeFormat
+            }
+        });
+
+        $('#' + option + '-customAmortTerm').rules('add', {
+            regex: /^[1-9]\d{0,2}?$/,
+            min: 1,
+            max: 999,
+            messages: {
+                regex: translations.amortTermFormat,
+                max: translations.amortTermMax
+            }
+        });
+
+        $('#' + option + '-customLoanTerm').rules('add', {
+            regex: /^[1-9]\d{0,2}?$/,
+            min: 1,
+            max: 999,
+            messages: {
+                regex: translations.loanTermFormat,
+                max: translations.loanTermMax
+            }
+        });
+    };
 
     return {
         addOption: addOption,

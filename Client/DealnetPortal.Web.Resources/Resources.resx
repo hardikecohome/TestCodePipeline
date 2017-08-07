@@ -1649,4 +1649,10 @@
   <data name="FinancingOptions" xml:space="preserve">
     <value>Financing Options</value>
   </data>
+  <data name="Plan" xml:space="preserve">
+    <value>Plan</value>
+  </data>
+  <data name="TotalPriceOfEquipment" xml:space="preserve">
+    <value>Total Price of Equipment</value>
+  </data>
 </root>
