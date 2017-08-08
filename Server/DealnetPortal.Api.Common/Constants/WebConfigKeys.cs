@@ -65,6 +65,7 @@
 
         //Customer Wallet integration-->
         public static readonly string CW_APIURL_CONFIG_KEY = "CustomerWalletApiUrl";
+        public static readonly string CW_CLIENTURL_CONFIG_KEY = "CustomerWalletClientUrl";
         public static readonly string CW_CLIENT_CONFIG_KEY = "CustomerWalletClient";
         public static readonly string CW_PHONE_CONFIG_KEY = "CustomerWalletPhone";
         public static readonly string CW_EMAIL_CONFIG_KEY = "CustomerWalletEmail";
