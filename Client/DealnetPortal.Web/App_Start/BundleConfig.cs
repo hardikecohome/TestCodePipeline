@@ -42,6 +42,7 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/dealnet")
                 .Include(
+                    "~/Scripts/jquery.tmpl.min.js",
                     "~/Scripts/jquery.placeholder.min.js", 
                     "~/Scripts/svgxuse.min.js",
                     "~/Scripts/jquery.loader.js",

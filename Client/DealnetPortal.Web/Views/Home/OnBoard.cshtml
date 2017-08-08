@@ -192,10 +192,13 @@
                             </div>
                         </div>
                     </div>
-                    <ul class="customer-needs-list tags-list">
-                        <li>New Brunswick<span class="icon-remove"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
-                        <li>Nova Scotia<span class="icon-remove"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
-                    </ul>
+                    <div class="form-group">
+                        <ul class="customer-needs-list tags-list">
+                            <div class="dealnet-label">&nbsp;</div>
+                            <li>New Brunswick<span class="icon-remove"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
+                            <li>Nova Scotia<span class="icon-remove"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -462,7 +465,7 @@
 
             </div>
         </div>
-        <div class="panel customer-loan-form-panel active-panel">
+        <div class="panel customer-loan-form-panel panel-collapsed step-passed">
             <div class="panel-heading">
                 <span class="panel-step">4</span>
                 <h3 class="panel-title dealnet-middle-header">@Resources.ProductAndSalesInformation</h3>
@@ -668,18 +671,24 @@
                 </ul>
             </div>
         </div>
-        <div class="panel customer-loan-form-panel panel-collapsed">
+        <div class="panel customer-loan-form-panel active-panel">
             <div class="panel-heading">
                 <span class="panel-step">5</span>
                 <h3 class="panel-title dealnet-middle-header">@Resources.TradeReferences</h3>
                 <span class="arrow"><i class="glyphicon"></i></span>
+                <span class="passed-step-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
             </div>
             <div class="panel-body">
-                <div>This section is optional for you</div>
-                <a class="action-link flex-centered-text">
-                    <svg aria-hidden="true" class="icon icon-add-app"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/client/Content/images/sprite/sprite.svg#icon-add-app"></use></svg>
-                    <span>Add reference</span>
-                </a>
+                <div class="placeholder">This section is optional for you</div>
+                <div id="references-container"></div>
+                <div class="action-link-holder flex-centered-text">
+                    <a class="action-link" id="add-reference-link" onClick="addTradeReference()">
+                        <svg aria-hidden="true" class="icon icon-add-app"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/client/Content/images/sprite/sprite.svg#icon-add-app"></use></svg>
+                        <span>Add reference</span>
+                        <span class="passed-step-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                    </a>
+                </div>
+
             </div>
         </div>
         <div class="panel customer-loan-form-panel panel-collapsed">
@@ -687,6 +696,7 @@
                 <span class="panel-step">6</span>
                 <h3 class="panel-title dealnet-middle-header">@Resources.RequiredDocuments</h3>
                 <span class="arrow"><i class="glyphicon"></i></span>
+                <span class="passed-step-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
             </div>
             <div class="panel-body">
 
@@ -704,5 +714,155 @@
         </div>
     </div>
 </div>
+<script id="tradeReferenceTemplate" type="text/x-jquery-tmpl">
+    <div class="trade-reference" id="trade-reference-${refNumber}">
+        <div class="trade-reference-header">
+            <h4 class="heading-bordered">Reference #${refNumber}</h4>
+            <a href="" class="remove-reference-link" data-refNumber="${refNumber}">
+              <svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg>
+            </a>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-6">
+                <div class="form-group">
+                    <label for="" class="mandatory-field">Name of business</label>
+                    <div class="control-group">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="form-group">
+                    <label for="" class="mandatory-field">Contact name</label>
+                    <div class="control-group">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-clear-sm-6">
+                <div class="form-group">
+                    <label for="" class="mandatory-field">Phone</label>
+                    <div class="control-group">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-clear-lg-3 col-clear-md-4">
+                <div class="form-group">
+                    <label for="" class="mandatory-field">Email address</label>
+                    <div class="control-group">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row address-container">
+            <div class="col-md-6 col-sm-6">
+                <div class="form-group">
+                    <label class="mandatory-field">@Resources.Street</label>
+                    <div class="control-group">
+                        <input type="text" class="form-control dealnet-input">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-2">
+                <div class="form-group">
+                    <label >@Resources.UnitNumber</label>
+                    <div class="control-group">
+                        <input type="text" class="form-control dealnet-input">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4">
+                <div class="form-group">
+                    <label class="mandatory-field">@Resources.City</label>
+                    <div class="control-group">
+                        <input type="text" class="form-control dealnet-input">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-clear-lg-4 col-clear-md-4 col-clear-sm-6">
+                <div class="form-group">
+                    <label class="mandatory-field">@Resources.Province</label>
+                    <div class="control-group">
+                        <select class="form-control" id="province">
+                            <option value="">Province</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="form-group">
+                    <label class="mandatory-field">@Resources.PostalCode</label>
+                    <div class="control-group">
+                        <input type="text" class="form-control dealnet-input">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="form-group">
+                    <div class="dealnet-label">&nbsp;</div>
+                    <div class="control-group flex-centered-text">
+                        <a href="#" class="dealnet-disabled-text clear-address">
+                            <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/javascript">
+/*    var movies = [
+        {
+            refNumber: "1",
+
+        },
+    ];*/
+    // Render the template with the movies data and insert
+    // the rendered HTML under the "movieList" element
+
+</script>
+@section scripts {
 
 
+<script type="text/javascript">
+    $(function () {
+
+    });
+
+    var initRefNumber = 1;
+    function addTradeReference(){
+        $("#tradeReferenceTemplate").tmpl({refNumber: initRefNumber})
+            .appendTo("#references-container");
+
+        customizeSelect();
+        addIconsToFields();
+        toggleClearInputIcon();
+
+        $('.clear-address').click(function(){
+            $(this).parents('.address-container').find('input').each(function () {
+                if ($(this).not('.placeholder')) {
+                    $(this).val("");
+                }
+            });
+            return false;
+        });
+        if($('.trade-reference').length > 0 && $('.trade-reference').length < 2){
+            $('#add-reference-link').addClass('mandatory-field');
+        }else{
+            $('#add-reference-link').removeClass('mandatory-field');
+        }
+        $('.trade-reference').slice(2, $('.trade-reference').length).addClass('is-removable');
+
+
+        $('.remove-reference-link').on('click', function(){
+            $(this).parents('.trade-reference').remove();
+            return false;
+        });
+
+        initRefNumber++;
+        return false;
+    }
+</script>
+}
