@@ -196,13 +196,13 @@
     <value>Hepa System</value>
   </data>
   <data name="Hrv" xml:space="preserve">
-    <value>HRV</value>
+    <value>Heat Recovery Ventilation</value>
   </data>
   <data name="Hst" xml:space="preserve">
     <value>HST</value>
   </data>
   <data name="Hwt" xml:space="preserve">
-    <value>HWT</value>
+    <value>Hot Water Tank</value>
   </data>
   <data name="InvalidUserEmail" xml:space="preserve">
     <value>Invalid user email.</value>
