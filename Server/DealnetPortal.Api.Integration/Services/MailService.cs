@@ -38,6 +38,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IContractRepository _contractRepository;
 
         private readonly string cwDomain;
+        private readonly string cwClientUrl;
         private readonly string cwEmail;
         private readonly string cwPhone;
         private readonly string dealNetEmail = ConfigurationManager.AppSettings[WebConfigKeys.DN_EMAIL_CONFIG_KEY];
@@ -49,6 +50,7 @@ namespace DealnetPortal.Api.Integration.Services
             _loggingService = loggingService;
 
             cwDomain = configuration.GetSetting(WebConfigKeys.CW_CLIENT_CONFIG_KEY);
+            cwClientUrl = configuration.GetSetting(WebConfigKeys.CW_CLIENTURL_CONFIG_KEY);
             cwEmail = configuration.GetSetting(WebConfigKeys.CW_EMAIL_CONFIG_KEY);
             cwPhone = configuration.GetSetting(WebConfigKeys.CW_PHONE_CONFIG_KEY);
             dealNetEmail = configuration.GetSetting(WebConfigKeys.DN_EMAIL_CONFIG_KEY);
@@ -256,7 +258,7 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine($"<h3>{Resources.Resources.Hi} {customerFormData.PrimaryCustomer.FirstName},</h3>");
             body.AppendLine("<div>");
             body.AppendLine($"<p {pStyle}>{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} <b>{Resources.Resources.PreApproved.ToLower()} {Resources.Resources.For} ${customerFormData.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}</b>.</p>");
-            body.AppendLine($"<p {pStyle}>{Resources.Resources.YouCanViewYourAccountOn} <b><a href='{cwDomain}/invite/{hashLogin}'><span>{cwDomain}</span></a></b></p>");
+            body.AppendLine($"<p {pStyle}>{Resources.Resources.YouCanViewYourAccountOn} <b><a href='{cwClientUrl}/invite/{hashLogin}'><span>{cwDomain}</span></a></b></p>");
             body.AppendLine($"<p {pStyle}>{Resources.Resources.PleaseSignInUsingYourEmailAddressAndFollowingPassword}: {password}</p>");
             body.AppendLine("<br />");
             body.AppendLine("<br />");
@@ -349,7 +351,7 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine($"<h3>{Resources.Resources.Hi} {customerFormData.PrimaryCustomer.FirstName},</h3>");
             body.AppendLine("<div>");
             body.AppendLine($"<p {pStyle}>{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} <b>{Resources.Resources.PreApproved.ToLower()} {Resources.Resources.For} ${customerFormData.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}</b>.</p>");
-            body.AppendLine($"<p {pStyle}>{Resources.Resources.YouCanViewYourAccountOn} <b><a href='{cwDomain}'><span>{cwDomain}</span></a></b></p>");
+            body.AppendLine($"<p {pStyle}>{Resources.Resources.YouCanViewYourAccountOn} <b><a href='{cwClientUrl}'><span>{cwDomain}</span></a></b></p>");
             body.AppendLine("<br />");
             body.AppendLine("<br />");
             body.AppendLine($"<p>{Resources.Resources.InCaseOfQuestionsPleaseContact} <b>EcoHome Financial</b>  {Resources.Resources.Support.ToLower()}:</p>");
@@ -422,7 +424,7 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine("<br />");
             body.AppendLine($"<p {bottomStyle}><b>This email was sent by EcoHome Financial</b> | 325 Milner Avenue, Suite 300 | Toronto, Ontario | M1B 5N1 Canada</p>");
             body.AppendLine($"<p {bottomStyle}><b>Contact us:</b> {cwPhone} | {cwEmail}</p>");
-            body.AppendLine($"<p {bottomStyle}>We truly hope you found this message useful. However, if you'd rather not receive future e-mails of this sort from EcoHome Financial, please <b><a href='{cwDomain}/unsubscribe/{hashLogin}'><span>click here to unsubscribe.</span></a></b>.</p>");
+            body.AppendLine($"<p {bottomStyle}>We truly hope you found this message useful. However, if you'd rather not receive future e-mails of this sort from EcoHome Financial, please <b><a href='{cwClientUrl}/unsubscribe/{hashLogin}'><span>click here to unsubscribe.</span></a></b>.</p>");
             body.AppendLine("</div>");
 
             var alternateView = GenerateAlternateView(body, new List<LinkedResource>() { phoneIcon, emailIcon });

@@ -185,6 +185,7 @@ function hideAditional1Section() {
     });
     aditional1Section.data('active', false);
     addAdditionalButton.show();
+    $('#proceed-error-message').hide();
 }
 function enableMailingAddress(section) {
     section.find('input, select').each(function () {

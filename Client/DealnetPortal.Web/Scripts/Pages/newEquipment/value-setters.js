@@ -17,15 +17,15 @@
 
     var setLoanAmortTerm = function (optionKey) {
         return function (loanTerm, amortTerm) {
-            state[optionKey].LoanTerm = parseFloat(loanTerm);
-            state[optionKey].AmortizationTerm = parseFloat(amortTerm);
+            state[optionKey].LoanTerm = Globalize.parseNumber(loanTerm);
+            state[optionKey].AmortizationTerm = Globalize.parseNumber(amortTerm);
             recalculateValuesAndRender([{ name: optionKey }]);
         };
     };
 
     var setLoanTerm = function (optionKey) {
         return function (e) {
-            state[optionKey].LoanTerm = parseFloat(e.target.value);
+            state[optionKey].LoanTerm = Globalize.parseNumber(e.target.value);
 
             if (optionKey === 'Custom') {
                 validateLoanAmortTerm();
@@ -36,7 +36,7 @@
 
     var setAmortTerm = function (optionKey) {
         return function (e) {
-            state[optionKey].AmortizationTerm = parseFloat(e.target.value);
+            state[optionKey].AmortizationTerm = Globalize.parseNumber(e.target.value);
 
             if (optionKey === 'Custom') {
                 validateLoanAmortTerm();
@@ -48,28 +48,28 @@
 
     var setDeferralPeriod = function (optionKey) {
         return function (e) {
-            state[optionKey].DeferralPeriod = parseFloat(e.target.value);
+            state[optionKey].DeferralPeriod = Globalize.parseNumber(e.target.value);
             recalculateValuesAndRender([{ name: optionKey }]);
         };
     };
 
     var setCustomerRate = function (optionKey) {
         return function (e) {
-            state[optionKey].CustomerRate = parseFloat(e.target.value);
+            state[optionKey].CustomerRate = Globalize.parseNumber(e.target.value);
             recalculateValuesAndRender([{ name: optionKey }]);
         };
     };
 
     var setYourCost = function (optionKey) {
         return function (e) {
-            state[optionKey].yourCost = parseFloat(e.target.value);
+            state[optionKey].yourCost = Globalize.parseNumber(e.target.value);
             recalculateValuesAndRender([{ name: optionKey }]);
         };
     };
 
     var setCustomYourCost = function (optionKey) {
         return function (e) {
-            state[optionKey].DealerCost = parseFloat(e.target.value);
+            state[optionKey].DealerCost = Globalize.parseNumber(e.target.value);
             recalculateValuesAndRender([{ name: optionKey }]);
         };
     };
@@ -82,12 +82,12 @@
     };
 
     var setDownPayment = function (e) {
-        state.downPayment = parseFloat(e.target.value);
+        state.downPayment = Globalize.parseNumber(e.target.value);
         recalculateValuesAndRender();
     };
 
     var setRentalMPayment = function (e) {
-        state.rentalMPayment = parseFloat(e.target.value);
+        state.rentalMPayment = Globalize.parseNumber(e.target.value);
         recalculateRentalTaxAndPrice();
     };
 

@@ -36,15 +36,15 @@
     }
 
     var setEqualHeightRows = function(row) {
+
         var maxHeight = 0;
         row.each(function () {
             if ($(this).children().eq(0).outerHeight(true) > maxHeight) {
                 maxHeight = $(this).children().eq(0).outerHeight(true);
             }
         });
-	      if(row.children().eq(0)){
 
-	      }
+
         row.height(maxHeight);
     }
 

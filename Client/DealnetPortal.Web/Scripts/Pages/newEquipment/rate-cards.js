@@ -33,7 +33,7 @@
         var loanTerm = amortizationTerm;
 
         var slicedCustomerRate = $('#' + option + 'CRate').text().slice(0, -2);
-        var slicedAdminFee = $('#' + option + 'AFee').text().substring(1);
+        var slicedAdminFee = $('#' + option + 'AFee').text().replace('$','').trim();
         var slicedTotalMPayment = $('#' + option + 'TMPayments').text().substring(1);
         var cards = sessionStorage.getItem(state.contractId + option);
         if (cards !== null) {
