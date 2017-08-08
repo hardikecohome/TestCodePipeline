@@ -72,6 +72,11 @@
               vertical-align: middle;
             }
           }
+          &.align-top{
+            [class*="col-"]{
+              vertical-align: top;
+            }
+          }
           &+.row-error{
            margin-top: -25px;
            position: relative;
@@ -121,8 +126,6 @@
       display: none;
     }
   }
-
-
 
   .rate-card-header{
     .clearfix;
@@ -325,4 +328,9 @@ div[class*="equal-height-row"]{
       height: auto !important;
     }
   }
+}
+
+.text-stronger{
+  color: #000;
+  font-weight: 800 !important;
 }

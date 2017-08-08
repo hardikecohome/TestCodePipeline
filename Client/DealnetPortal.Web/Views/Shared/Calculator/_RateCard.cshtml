@@ -5,12 +5,12 @@
     <div class="col-xs-7">
         @Resources.TotalPriceOfEquipment
     </div>
-    <div class="col-xs-5 text-right text-semibold" id="option1-totalEquipmentPrice">$ </div>
+    <div class="col-xs-5 text-right text-stronger" id="option1-totalEquipmentPrice">$ </div>
 </div>
 <div class="row form-group">
     <div class="col-xs-7" id="option1-taxDescription">
     </div>
-    <div class="col-xs-5 text-right text-semibold">
+    <div class="col-xs-5 text-right text-stronger">
         <span id="option1-tax">$</span>
     </div>
 </div>
@@ -18,7 +18,7 @@
     <div class="col-xs-7">
         @Resources.TotalCashPrice
     </div>
-    <div class="col-xs-5 text-right text-semibold" id="option1-totalPrice"> $ </div>
+    <div class="col-xs-5 text-right text-stronger" id="option1-totalPrice"> $ </div>
 </div>
 <h3 class="dealnet-middle-header">Financing Options</h3>
 <div>
@@ -42,7 +42,7 @@
         </div>
     </div>
     <div class="hidden" id="option1-customLoanAmortWrapper">
-            <div class="row">
+            <div class="row align-top">
                 <div class="col-xs-6">
                     <div class="form-group">
                         <label for="">@Resources.LoanTerm</label>
@@ -87,7 +87,7 @@
         <div class="col-xs-6">
             @Resources.DeferralPeriod
         </div>
-        <div class="col-xs-6 text-right text-semibold @(Model.Plans.Count > 1 ? "": "hidden")" id="option1-deferral">
+        <div class="col-xs-6 text-right text-stronger @(Model.Plans.Count > 1 ? "": "hidden")" id="option1-deferral">
             -
         </div>
         <div class="col-xs-6" id="option1-deferralDropdownWrapper">
@@ -107,7 +107,7 @@
         <div class="col-xs-6">
             @Resources.CustomerRate
         </div>
-        <div class="col-xs-6 text-right text-semibold" id="option1-cRate">
+        <div class="col-xs-6 text-right text-stronger" id="option1-cRate">
             0%
         </div>
         <div class="col-xs-6 hidden" id="option1-customCRateWrapper">
@@ -122,7 +122,7 @@
         <div class="col-xs-6">
             @Resources.YourCost
         </div>
-        <div class="col-xs-6 text-right text-semibold hidden" id="option1-yCostVal">
+        <div class="col-xs-6 text-right text-stronger hidden" id="option1-yCostVal">
             -
         </div>
         <div class="col-xs-6">
@@ -133,11 +133,12 @@
             </div>
         </div>
     </div>
+<hr>
     <div class="row form-group align-middle">
         <div class="col-xs-6">
             @Resources.AdminFee
         </div>
-        <div class="col-xs-6 text-right text-semibold" id="option1-aFee">
+        <div class="col-xs-6 text-right text-stronger" id="option1-aFee">
             $-
         </div>
         <div class="col-xs-6 hidden" id="option1-customAFeeWrapper">
@@ -150,14 +151,12 @@
     </div>
 </div>
 
-<hr>
-
 <div class="table-rows-hold">
     <div class="row form-group">
-        <div class="col-xs-6">
+        <div class="col-xs-6 text-stronger">
             @Resources.MonthlyPayment
         </div>
-        <div class="col-xs-6 text-right text-semibold" id="option1-mPayment">
+        <div class="col-xs-6 text-right text-stronger" id="option1-mPayment">
             -
         </div>
     </div>
@@ -165,7 +164,7 @@
         <div class="col-xs-6">
             @Resources.CostOfBorrowing
         </div>
-        <div class="col-xs-6 text-right text-semibold" id="option1-cBorrowing">
+        <div class="col-xs-6 text-right text-stronger" id="option1-cBorrowing">
             -
         </div>
     </div>
@@ -173,15 +172,15 @@
         <div class="col-xs-6">
             @Resources.YourCost
         </div>
-        <div class="col-xs-6 text-right text-semibold" id="option1-yCost">
+        <div class="col-xs-6 text-right text-stronger" id="option1-yCost">
             -
         </div>
     </div>
     <div class="row form-group">
-        <div class="col-xs-6">
+        <div class="col-xs-6 text-stronger">
             @Resources.TotalAmountFinanced
         </div>
-        <div class="col-xs-6 text-right text-semibold" id="option1-taFinanced">
+        <div class="col-xs-6 text-right text-stronger" id="option1-taFinanced">
             -
         </div>
     </div>
@@ -189,7 +188,7 @@
         <div class="col-xs-6">
             @Resources.TotalAllMonthlyPayments
         </div>
-        <div class="col-xs-6 text-right text-semibold" id="option1-tmPayments">
+        <div class="col-xs-6 text-right text-stronger" id="option1-tmPayments">
             -
         </div>
     </div>
@@ -197,7 +196,7 @@
         <div class="col-xs-6">
             @Resources.BalanceOwingEndOfPayments
         </div>
-        <div class="col-xs-6 text-right text-semibold" id="option1-rBalance">
+        <div class="col-xs-6 text-right text-stronger" id="option1-rBalance">
             -
         </div>
     </div>
@@ -205,7 +204,7 @@
         <div class="col-xs-6">
             @Resources.TotalObligation
         </div>
-        <div class="col-xs-6 text-right text-semibold" id="option1-tObligation">
+        <div class="col-xs-6 text-right text-stronger" id="option1-tObligation">
             -
         </div>
     </div>

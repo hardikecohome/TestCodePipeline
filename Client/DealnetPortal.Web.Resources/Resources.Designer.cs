@@ -2761,7 +2761,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MONTHLY PAYMENT.
+        ///   Looks up a localized string similar to Monthly Payment.
         /// </summary>
         public static string MonthlyPayment {
             get {
