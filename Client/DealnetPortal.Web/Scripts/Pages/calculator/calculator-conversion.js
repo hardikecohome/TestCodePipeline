@@ -56,6 +56,12 @@
 
     var recalculateEquipmentId = function (optionContainer, optionToReplace, newOption) {
 
+        $(optionContainer).find('[data-valmsg-for^="' + optionToReplace + '"]').each(function () {
+            var $this = $(this);
+            var newValFor = $this.data('valmsg-for').replace(optionToReplace, newOption);
+            $this.attr('data-valmsg-for', newValFor);
+        });
+
         $(optionContainer).find('[id^="Equipment_NewEquipment_' + optionToReplace + '_"]').each(function () {
             $(this).attr('id', $(this).attr('id').replace('Equipment_NewEquipment_' + optionToReplace, 'Equipment_NewEquipment_' + newOption));
         });

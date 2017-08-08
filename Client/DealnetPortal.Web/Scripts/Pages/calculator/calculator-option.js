@@ -164,7 +164,7 @@
         var optionToCopy = 'option' + index;
 
         if (!$('#' + optionToCopy + '-container > form').valid()) {
-            return
+            return;
         }
 
         var secondIndex = index + 1;
@@ -179,30 +179,13 @@
         var template = $.parseHTML(container);
         var $template = $(template);
 
-        $template.find('[id^="' + optionToCopy + '-"]').each(function () {
-            var $this = $(this);
-            $this.attr('id', $this.attr('id').replace(optionToCopy, newOption));
-        });
-
-        $template.find('[name^="' + optionToCopy + '"]').each(function () {
-            var $this = $(this);
-            $this.attr('name', $this.attr('name').replace(optionToCopy, newOption));
-        });
-
-        $template.find('[data-valmsg-for^="'+optionToCopy+'"]').each(function () {
-            var $this = $(this);
-            var newValFor = $this.data('valmsg-for').replace(optionToCopy, newOption);
-            $this.attr('data-valmsg-for', newValFor);
-        });
         recalculateEquipmentId(template, optionToCopy, newOption);
 
         $template.find('.calculator-remove').attr('id', newOption + '-remove');
 
-        $(template).find('.calculator-remove').attr('id', newOption + '-remove');
-
         state[newOption] = $.extend(true, {}, state[optionToCopy]);
 
-        var header = $(template).find('h2').text();
+        var header = $template.find('h2').text();
         $(header).text($(header).text().replace('Option ' + index, 'Option ' + secondIndex));
 
         var optionContainer = $('<li class="rate-card-col"></li>');
@@ -344,7 +327,7 @@
 
     var initValidation = function initValidation(option) {
         $('#' + option + '-downPayment').rules('add', {
-            regex: /(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$/,
+            regex: /(^[0]?|(^[1-9]\d{0,11}))([.,][0-9]{1,2})?$/,
             messages: {
                 regex: translations.downPaymentInvalidFormat
             }
