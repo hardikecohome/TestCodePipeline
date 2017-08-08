@@ -51,7 +51,9 @@
             state.equipmentNextIndex++;
             $('#' + option + '-plan').change();
         }
-        $('#' + option + '-containe').validate();
+        $('#' + option + '-container > form').removeData("validator");
+        $('#' + option + '-container > form').removeData("unobtrusiveValidation");
+        $.validator.unobtrusive.parse("form");
         initValidation(option);
     }
 
@@ -125,9 +127,14 @@
 
     var addOption = function (callback) {
         var index = $('#options-container').find('.rate-card-col').length;
-        var secondIndex = index + 1;
 
         var optionToCopy = 'option' + index;
+
+        if (!$('#' + optionToCopy + '-container > form').valid()) {
+            return
+        }
+
+        var secondIndex = index + 1;
         var newOption = 'option' + secondIndex;
 
         ui.moveButtonByIndex(index, true);
@@ -137,12 +144,25 @@
             .replace("Option " + index, "Option " + secondIndex);
 
         var template = $.parseHTML(container);
+        var $template = $(template);
 
-        $(template).find('[id^="' + optionToCopy + '-"]').each(function () {
-            $(this).attr('id', $(this).attr('id').replace(optionToCopy, newOption));
+        $template.find('[id^="' + optionToCopy + '-"]').each(function () {
+            var $this = $(this);
+            $this.attr('id', $this.attr('id').replace(optionToCopy, newOption));
         });
 
-        $(template).find('.calculator-remove').attr('id', newOption + '-remove');
+        $template.find('[name^="' + optionToCopy + '"]').each(function () {
+            var $this = $(this);
+            $this.attr('name', $this.attr('name').replace(optionToCopy, newOption));
+        });
+
+        $template.find('[data-valmsg-for^="'+optionToCopy+'"]').each(function () {
+            var $this = $(this);
+            var newValFor = $this.data('valmsg-for').replace(optionToCopy, newOption);
+            $this.attr('data-valmsg-for', newValFor);
+        });
+
+        $template.find('.calculator-remove').attr('id', newOption + '-remove');
 
         var equipmentsToUpdate = Object.keys(state[optionToCopy].equipments).map(function (k) {
             return state[optionToCopy].equipments[k].id;
@@ -327,7 +347,6 @@
     });
 
     var initValidation = function initValidation(option) {
-        debugger
         $('#' + option + '-downPayment').rules('add', {
             regex: /(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$/,
             messages: {
@@ -336,20 +355,32 @@
         });
 
         $('#' + option + '-customYCostVal').rules('add', {
+            required: true,
             regex: /(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$/,
             number: true,
             min: 0,
             messages: {
-                regex: translations.yourCostFormat
+                regex: translations.yourCostFormat,
+                required: function (ele) {
+                    if (!$('#' + option + '-customCRate').val())
+                        return translations.ThisFieldIsRequired;
+                    return translations.enterZero;
+                }
             }
         });
 
         $('#' + option + '-customCRate').rules('add', {
+            required: true,
             regex: /(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$/,
             min: 0,
             number: true,
             messages: {
-                regex: translations.customerRateFormat
+                regex: translations.customerRateFormat,
+                required: function (ele) {
+                    if (!$('#' + option + '-customYCostVal').val())
+                        return translations.ThisFieldIsRequired;
+                    return translations.enterZero;
+                }
             }
         });
 
@@ -363,20 +394,24 @@
         });
 
         $('#' + option + '-customAmortTerm').rules('add', {
+            required: true,
             regex: /^[1-9]\d{0,2}?$/,
             min: 1,
             max: 999,
             messages: {
+                required: translations.ThisFieldIsRequired,
                 regex: translations.amortTermFormat,
                 max: translations.amortTermMax
             }
         });
 
         $('#' + option + '-customLoanTerm').rules('add', {
+            required: true,
             regex: /^[1-9]\d{0,2}?$/,
             min: 1,
             max: 999,
             messages: {
+                required: translations.ThisFieldIsRequired,
                 regex: translations.loanTermFormat,
                 max: translations.loanTermMax
             }
