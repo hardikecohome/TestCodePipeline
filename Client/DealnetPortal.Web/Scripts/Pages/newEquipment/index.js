@@ -25,7 +25,7 @@
                         option = 'Custom';
                     }
 
-                    var monthPayment = Globalize.parseNumber($('#' + option + 'TMPayments').text().substring(1));
+                    var monthPayment = Globalize.parseNumber($('#' + option + 'TMPayments').text().replace('$','').trim());
                     if (isNaN(monthPayment) || (monthPayment == 0)) {
                         event.preventDefault();
                         $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);

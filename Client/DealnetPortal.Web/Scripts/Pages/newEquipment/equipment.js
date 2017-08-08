@@ -173,13 +173,13 @@
      * @returns {} 
      */
     function initEquipment(i) {
-        var cost = parseFloat($('#NewEquipment_' + i + '__Cost').val());
+        var cost = Globalize.parseNumber($('#NewEquipment_' + i + '__Cost').val());
         if (state.equipments[i] === undefined) {
             state.equipments[i] = { id: i.toString(), cost: cost }
         } else {
             state.equipments[i].cost = cost;
         }
-        cost = parseFloat($('#NewEquipment_' + i + '__MonthlyCost').val());
+        cost = Globalize.parseNumber($('#NewEquipment_' + i + '__MonthlyCost').val());
         if (state.equipments[i] === undefined) {
             state.equipments[i] = { id: i.toString(), monthlyCost: cost }
         } else {
@@ -233,7 +233,7 @@
     function updateCost() {
         var mvcId = $(this).attr("id");
         var id = mvcId.split('__Cost')[0].substr(mvcId.split('__Cost')[0].lastIndexOf('_') + 1);
-        state.equipments[id].cost = parseFloat($(this).val());
+        state.equipments[id].cost = Globalize.parseNumber($(this).val());
         if (state.agreementType === 1 || state.agreementType === 2) {
             recalculateAndRenderRentalValues();
         } else {
@@ -250,7 +250,7 @@
     function updateMonthlyCost() {
         var mvcId = $(this).attr("id");
         var id = mvcId.split('__MonthlyCost')[0].substr(mvcId.split('__MonthlyCost')[0].lastIndexOf('_') + 1);
-        state.equipments[id].monthlyCost = parseFloat($(this).val());
+        state.equipments[id].monthlyCost = Globalize.parseNumber($(this).val());
         if (state.agreementType === 0) {
             recalculateValuesAndRender();
         } else {

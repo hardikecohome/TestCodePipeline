@@ -16,7 +16,7 @@
             event.preventDefault();
         }
 
-        var customSlicedTotalMPayment = $('#' + option + 'TMPayments').text().substring(1);
+        var customSlicedTotalMPayment = $('#' + option + 'TMPayments').text().replace('$','').trim();
 
         $('#AmortizationTerm').val(state[option].AmortizationTerm);
         $('#LoanTerm').val(state[option].LoanTerm);
