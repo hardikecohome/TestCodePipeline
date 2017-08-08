@@ -15,6 +15,7 @@
     var setTax = require('calculator-value-setters').setTax;
     var state = require('calculator-state').state;
     var constants = require('calculator-state').constants;
+    var jcarousel = require('calculator-jcarousel');
 
     var notNaN = function (num) { return !isNaN(num); };
 
@@ -107,7 +108,13 @@
         });
     }
 
-    $(function() {
+    $(window).resize(function () {
+        jcarousel.carouselRateCards();
+        jcarousel.refreshCarouselItems();
+    });
+
+    $(function () {
+        jcarousel.carouselRateCards();
         initialSetup();
     });
 

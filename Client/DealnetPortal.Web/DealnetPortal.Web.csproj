@@ -783,6 +783,7 @@
     <Content Include="Scripts\Pages\calculator\calculator-conversion.js" />
     <Content Include="Scripts\Pages\calculator\calculator-index.js" />
     <Content Include="Scripts\Pages\calculator\calculator-init.js" />
+    <Content Include="Scripts\Pages\calculator\calculator-jcarousel.js" />
     <Content Include="Scripts\Pages\calculator\calculator-option.js" />
     <Content Include="Scripts\Pages\calculator\calculator-ui.js" />
     <Content Include="Scripts\Pages\calculator\calculator-value-setters.js" />

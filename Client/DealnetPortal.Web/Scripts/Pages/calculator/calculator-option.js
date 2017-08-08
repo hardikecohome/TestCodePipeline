@@ -3,6 +3,9 @@
     var state = require('calculator-state').state;
     var constants = require('calculator-state').constants;
     var ui = require('calculator-ui');
+    var recalculateEquipmentIndex = require('calculator-conversion').recalculateEquipmentIndex;
+    var recalculateEquipmentId = require('calculator-conversion').recalculateEquipmentId;
+    var jcarousel = require('calculator-jcarousel');
 
     var idToValue = function (obj) {
         return function (id) {
@@ -40,18 +43,43 @@
         $('#' + option + '-customAFee').on('change', setters.setAdminFee(option, callback));
 
         if (option === 'option1') {
-            state[option].equipments[state.equipmentNextIndex] = { id: state.equipmentNextIndex.toString(), cost: '', description: '' };
-            state[option].equipments[state.equipmentNextIndex].type = $('#Equipment_NewEquipment_' + state.equipmentNextIndex + '__Type').val();
-            $('#Equipment_NewEquipment_' + state.equipmentNextIndex + '__Cost').on('change', setters.setEquipmentCost(option, callback));
-            $('#Equipment_NewEquipment_' + state.equipmentNextIndex + '__Description').on('change', setters.setEquipmentDescription(option));
-            $('#Equipment_NewEquipment_' + state.equipmentNextIndex + '__Type').on('change', setters.setEquipmentType(option));
+            var nextIndex = state[option].equipmentNextIndex;
+
+            state[option].equipments[nextIndex] = { id: nextIndex.toString(), cost: '', description: '' };
+            state[option].equipments[nextIndex].type = $('#Equipment_NewEquipment_' + nextIndex + '__Type').val();
+
+            var container = $('#option1-equipment-0');
+
+            container.find('input, select, textarea').each(function () {
+                $(this).attr('id', $(this).attr('id').replace('Equipment_NewEquipment_0', 'Equipment_NewEquipment_option1_0'));
+                $(this).attr('name', $(this).attr('name').replace('Equipment.NewEquipment[0', 'Equipment.NewEquipment[option1_0'));
+            });
+
+            container.find('label').each(function () {
+                $(this).attr('for', $(this).attr('for').replace('Equipment_NewEquipment_0', 'Equipment_NewEquipment_option1_0'));
+            });
+
+            container.find('span').each(function () {
+                var valFor = $(this).attr('data-valmsg-for');
+                if (valFor == null) { return; }
+
+                $(this).attr('data-valmsg-for', valFor.replace('Equipment.NewEquipment[0', 'Equipment.NewEquipment[option1_0'));
+            });
+
+            $('#Equipment_NewEquipment_option1_' + nextIndex + '__Cost').on('change', setters.setEquipmentCost(option, callback));
+            $('#Equipment_NewEquipment_option1_' + nextIndex + '__Description').on('change', setters.setEquipmentDescription(option));
+            $('#Equipment_NewEquipment_option1_' + nextIndex + '__Type').on('change', setters.setEquipmentType(option));
             $('#option1-remove').on('click', function () {
                 removeOption.call(this, callback);
             });
-            state.equipmentNextIndex++;
+
+            state[option].equipmentNextIndex++;
+
             $('#' + option + '-plan').change();
         }
-        $('#' + option + '-containe').validate();
+
+        $('#' + option + '-container').validate();
+
         initValidation(option);
     }
 
@@ -108,16 +136,21 @@
             $('#' + optionToDelete + '-container').off();
             $('#' + optionToDelete + '-container').remove();
 
+            jcarousel.carouselRateCards();
+            jcarousel.refreshCarouselItems();
+
             var index = $('#options-container').find('.rate-card-col').length;
+
             ui.moveButtonByIndex(index, false);
 
             if (optionToDelete === 'option2' && state['option3'] !== undefined) {
                
                 ui.deleteSecondOption(callback);
+
                 $('#option2-remove').on('click', function () {
                     removeOption.call(this, callback);
-                    refreshCarouselItems();
                 });
+
                 optionSetup('option2', callback);
             }
         }
@@ -142,44 +175,11 @@
             $(this).attr('id', $(this).attr('id').replace(optionToCopy, newOption));
         });
 
+        recalculateEquipmentId(template, optionToCopy, newOption);
+
         $(template).find('.calculator-remove').attr('id', newOption + '-remove');
 
-        var equipmentsToUpdate = Object.keys(state[optionToCopy].equipments).map(function (k) {
-            return state[optionToCopy].equipments[k].id;
-        });
-
         state[newOption] = $.extend(true, {}, state[optionToCopy]);
-
-        $.grep(equipmentsToUpdate, function(eq) {
-            $(template).find('.equipment-item').find('label[for^="Equipment_NewEquipment_' + eq + '"]').each(function () {
-                $(this).attr('for', $(this).attr('for').replace('Equipment_NewEquipment_' + eq, 'Equipment_NewEquipment_' + state.equipmentNextIndex));
-            });
-
-            $(template).find('.equipment-item').find('select[id^="Equipment_NewEquipment_' + eq + '"]').each(function () {
-                $(this).attr('id', $(this).attr('id').replace('Equipment_NewEquipment_' + eq, 'Equipment_NewEquipment_' + state.equipmentNextIndex));
-                $(this).attr('name', $(this).attr('name').replace('Equipment.NewEquipment[' + eq, 'Equipment_NewEquipment[' + state.equipmentNextIndex));
-            });
-
-            $(template).find('.equipment-item').find('input[id^="Equipment_NewEquipment_' + eq + '"]').each(function () {
-                $(this).attr('id', $(this).attr('id').replace('Equipment_NewEquipment_' + eq, 'Equipment_NewEquipment_' + state.equipmentNextIndex));
-                $(this).attr('name', $(this).attr('name').replace('Equipment.NewEquipment[' + eq, 'Equipment_NewEquipment[' + state.equipmentNextIndex));
-            });
-            
-            $(template).find('#equipment-remove-' + eq).each(function() {
-                $(this).attr('id', $(this).attr('id').replace('equipment-remove-' + eq, 'equipment-remove-' + state.equipmentNextIndex));
-            });
-
-            $(template).find('#equipment-' + eq).each(function () {
-                $(this).attr('id', $(this).attr('id').replace('equipment-' + eq, 'equipment-' + state.equipmentNextIndex));
-            });
-
-            state[newOption].equipments[eq].id = state.equipmentNextIndex.toString();
-            state[newOption].equipments[state.equipmentNextIndex.toString()] = state[newOption].equipments[eq];
-
-            delete state[newOption].equipments[eq];
-
-            state.equipmentNextIndex++;
-        });
 
         var header = $(template).find('h2').text();
         $(header).text($(header).text().replace('Option ' + index, 'Option ' + secondIndex));
@@ -201,15 +201,8 @@
 
         toggleClearInputIcon($('#' + newOption + '-container').find('.control-group input, .control-group textarea'));
 
-        var newOptionIndexes = Object.keys(state[newOption].equipments).map(function (k) {
-            return state[newOption].equipments[k].id;
-        });
-
         $('#option' + secondIndex + '-remove').on('click', function () {
             removeOption.call(this, callback);
-
-            carouselRateCards();
-            refreshCarouselItems();
         });
 
         if (state[newOption].downPayment !== 0) {
@@ -234,26 +227,37 @@
             $('#' + newOption + '-customAFee').val(state[newOption].AdminFee);
         }
 
-        $.grep(newOptionIndexes, function(ind) {
-            $('#Equipment_NewEquipment_' + ind + '__Cost').on('change', setters.setEquipmentCost(newOption, callback));
-            $('#Equipment_NewEquipment_' + ind + '__Cost').val(state[newOption].equipments[ind].cost);
-
-            $('#Equipment_NewEquipment_' + ind + '__Description').on('change', setters.setEquipmentDescription(newOption));
-            $('#Equipment_NewEquipment_' + ind + '__Description').val(state[newOption].equipments[ind].description);
-
-            $('#Equipment_NewEquipment_' + ind + '__Type').on('change', setters.setEquipmentType(newOption));
-            $('#Equipment_NewEquipment_' + ind + '__Type').val(state[newOption].equipments[ind].type);
-            $('#equipment-remove-' + ind).on('click', setters.removeEquipment(newOption, callback));
+        var indexes = Object.keys(state[optionToCopy].equipments).map(function (k) {
+            return state[optionToCopy].equipments[k].id;
         });
 
+        $.grep(indexes, function (id) {
+            $('#Equipment_NewEquipment_' + newOption + '_' + id + '__Cost').on('change', setters.setEquipmentCost(newOption, callback));
+            $('#Equipment_NewEquipment_' + newOption + '_' + id + '__Cost').val(state[newOption].equipments[id].cost);
 
-        refreshCarouselItems();
+            $('#Equipment_NewEquipment_' + newOption + '_' + id + '__Description').on('change', setters.setEquipmentDescription(newOption));
+            $('#Equipment_NewEquipment_' + id + '__Description').val(state[newOption].equipments[id].description);
+
+            $('#Equipment_NewEquipment_' + newOption + '_' + id + '__Type').on('change', setters.setEquipmentType(newOption));
+            $('#Equipment_NewEquipment_' + newOption + '_' + id + '__Type').val(state[newOption].equipments[id].type);
+
+            if (id > 0) {
+                $('#' + newOption + '-equipment-remove-' + id).on('click', function (e) {
+                    var id = e.target.id;
+                    id = id.substr(id.lastIndexOf('-') + 1);
+                    recalculateEquipmentIndex(newOption, id);
+
+                    setters.removeEquipment(newOption, id, callback);
+                });
+            }
+        });
+
+        jcarousel.refreshCarouselItems();
+        jcarousel.carouselRateCards();
+
+        $('.jcarousel').jcarousel('scroll', '+=1');
 
         optionSetup(newOption, callback);
-
-        carouselRateCards();
-        $('.jcarousel').jcarousel('scroll', '+=1');
-        refreshCarouselItems();
     }
 
 
@@ -264,7 +268,6 @@
             inp.siblings('.clear-input').hide();
         }
     }
-
 
     /**
     * Show/hide notification and disable dropdown option depending on totalAmountFinanced option
@@ -317,17 +320,8 @@
             }
         });
     }
-    $(function() {
-        carouselRateCards();
-    });
-
-    $(window).resize(function () {
-        carouselRateCards();
-        refreshCarouselItems();
-    });
 
     var initValidation = function initValidation(option) {
-        debugger
         $('#' + option + '-downPayment').rules('add', {
             regex: /(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$/,
             messages: {
@@ -389,112 +383,3 @@
         renderOption: renderOption
     }
 });
-
-function refreshCarouselItems(){
-    var number = $('.jcarousel-pagination').find('.active').text();
-    $('.jcarousel-pagination').jcarouselPagination('reloadCarouselItems');
-    $('.jcarousel').jcarousel('reload');
-    $('.jcarousel-pagination').find('.active').removeClass('active');
-    $('.jcarousel-pagination').find('a:contains("' + number + '")').addClass('active');
-
-
-    if(viewport().width >= 1024){
-        $('.control-add-calc').css('left', $('.rate-card-col').length * $('.rate-card-col').outerWidth() - 5);
-    }else{
-        $('.control-add-calc').css('left', 'auto');
-    }
-}
-
-function carouselRateCards(){
-    var windowWidth = $(window).width();
-    var paginationItems;
-    var targetSlides;
-    if (windowWidth >= 1024) {
-        paginationItems = 3;
-        targetSlides = 0;
-    } else if (windowWidth >= 768) {
-        paginationItems = 2;
-        targetSlides = 2;
-    }else {
-        paginationItems = 1;
-        targetSlides = 1;
-    }
-
-    var jcarousel = $('.rate-cards-container:not(".one-rate-card") .jcarousel');
-    var carouselItemsToView = viewport().width >= 768 && viewport().width < 1024 ? 2 : viewport().width < 768 ? 1 : 3;
-    jcarousel
-      .on('jcarousel:reload jcarousel:create', function () {
-          var carousel = $(this),
-            carouselWidth = carousel.innerWidth(),
-            width = carouselWidth / carouselItemsToView;
-
-          carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
-      }).jcarousel();
-
-    if(viewport().width < 1024){
-        jcarousel.swipe({
-            //Generic swipe handler for all directions
-            swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
-                $('.link-over-notify').each(function(){
-                    if($(this).attr('aria-describedby')){
-                        $(this).click();
-                    }
-                });
-
-                if(direction === "left"){
-                    jcarousel.jcarousel('scroll', '+='+carouselItemsToView);
-                } else if(direction === "right"){
-                    jcarousel.jcarousel('scroll', '-='+carouselItemsToView);
-                } else {
-                    event.preventDefault();
-                }
-            },
-            excludedElements: "button, input, select, textarea, .noSwipe, a",
-            threshold: 50,
-            allowPageScroll: "auto",
-            triggerOnTouchEnd: false
-        });
-    }
-
-
-    $('.jcarousel-control-prev')
-      .jcarouselControl({
-          target: '-='+targetSlides
-      });
-
-    $('.jcarousel-control-next')
-      .jcarouselControl({
-          target: '+='+targetSlides
-      });
-
-    $('.jcarousel-pagination')
-      .on('jcarouselpagination:active', 'a', function() {
-          $(this).addClass('active');
-          if($(this).is(':first-child')){
-              $('.jcarousel-control-prev').addClass('disabled');
-          }else{
-              $('.jcarousel-control-prev').removeClass('disabled');
-          }
-          if($(this).is(':last-child')){
-              $('.jcarousel-control-next').addClass('disabled');
-          }else{
-              $('.jcarousel-control-next').removeClass('disabled');
-          }
-
-      })
-      .on('jcarouselpagination:inactive', 'a', function() {
-          $(this).removeClass('active');
-      })
-      .on('click', function(e) {
-          e.preventDefault();
-      })
-      .jcarouselPagination({
-          perPage: paginationItems,
-          item: function(page) {
-              return '<a href="#' + page + '">' + page + '</a>';
-          }
-      });
-
-
-
-}

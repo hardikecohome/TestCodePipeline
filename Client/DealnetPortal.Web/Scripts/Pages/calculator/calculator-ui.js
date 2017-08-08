@@ -2,33 +2,44 @@
     var state = require('calculator-state').state;
     var constants = require('calculator-state').constants;
     var setters = require('calculator-value-setters');
+    var recalculateEquipmentIndex = require('calculator-conversion').recalculateEquipmentIndex;
+    var recalculateEquipmentId = require('calculator-conversion').recalculateEquipmentId;
 
     var addEquipment = function (option, callback) {
         return function(e) {
             var template = $('#equipment-template').html();
-            var equipmentNextNumber = Object.keys(state[option].equipments).length + 1;
+            var equipmentLabel = Object.keys(state[option].equipments).length + 1;
+            var nextIndex = state[option].equipmentNextIndex;
 
             var result = template.split('Equipment.NewEquipment[0]')
-                .join('Equipment.NewEquipment[' + state.equipmentNextIndex + ']')
-                .split('Equipment_NewEquipment_0').join('Equipment_NewEquipment_' + state.equipmentNextIndex)
-                .replace("№1", "№" + equipmentNextNumber);
+                .join('Equipment.NewEquipment[' + option + '_' + nextIndex + ']')
+                .split('Equipment_NewEquipment_0').join('Equipment_NewEquipment_' + option + '_' + nextIndex)
+                .replace("№1", "№" + equipmentLabel);
 
             var equipmentTemplate = $.parseHTML(result);
 
-            $(equipmentTemplate).find('div.additional-remove').attr('id', 'equipment-remove-' + state.equipmentNextIndex);
-            $(equipmentTemplate).attr('id', 'equipment-' + state.equipmentNextIndex);
-            $(equipmentTemplate).find('#equipment-remove-' + state.equipmentNextIndex).on('click', setters.removeEquipment(option, callback));
+            $(equipmentTemplate).find('div.additional-remove').attr('id', option + '-equipment-remove-' + nextIndex);
+            $(equipmentTemplate).attr('id', option + '-equipment-' + nextIndex);
+            $(equipmentTemplate).find('#' + option + '-equipment-remove-' + nextIndex).on('click', function (e) {
+                var id = e.target.id;
+                id = id.substr(id.lastIndexOf('-') + 1);
+                recalculateEquipmentIndex(option, id);
+
+                setters.removeEquipment(option, id, callback);
+            });
+
             $(equipmentTemplate).find('.equipment-cost').on('change', setters.setEquipmentCost(option, callback));
-            $(equipmentTemplate).find('#Equipment_NewEquipment_' + state.equipmentNextIndex + '__Type').on('change', setters.setEquipmentType(option));
-            $(equipmentTemplate).find('#Equipment_NewEquipment_' + state.equipmentNextIndex + '__Description').on('change', setters.setEquipmentDescription(option));
+            $(equipmentTemplate).find('#Equipment_NewEquipment_' + option + '_' + nextIndex + '__Type').on('change', setters.setEquipmentType(option));
+            $(equipmentTemplate).find('#Equipment_NewEquipment_' + option + '_' + nextIndex + '__Description').on('change', setters.setEquipmentDescription(option));
+
             $('#' + option + '-container').find('.equipments-hold').append(equipmentTemplate);
 
-            $('#equipment-' + state.equipmentNextIndex)
+            $('#equipment-' + nextIndex)
                 .find('.clear-input')
                 .find('svg')
                 .html('<use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-remove"></use>');
 
-            toggleClearInputIcon($('#equipment-' + state.equipmentNextIndex).find('.control-group input, .control-group textarea'));
+            toggleClearInputIcon($('#equipment-' + nextIndex).find('.control-group input, .control-group textarea'));
 
             setters.setNewEquipment(option, callback);
         }
@@ -68,6 +79,8 @@
 
         $('#option3-container *').off();
 
+        recalculateEquipmentId(div, 'option3', 'option2');
+
         div.find('[id^="option3"]').each(function () {
             $(this).attr('id', $(this).attr('id').replace('option3', 'option2'));
         });
@@ -76,40 +89,27 @@
 
         div.attr('id', 'option2-container');
 
-        var equipmentsToUpdate = Object.keys(state['option2'].equipments).map(function (k) {
-            return state['option2'].equipments[k].id;
-        });
-
-        $.grep(equipmentsToUpdate, function (eq) {
-            div.find('.equipment-item').find('label[for^="Equipment_NewEquipment_' + eq + '"]').each(function () {
-                $(this).attr('for', $(this).attr('for').replace('Equipment_NewEquipment_' + eq, 'Equipment_NewEquipment_' + state.equipmentNextIndex));
-            });
-
-            div.find('.equipment-item').find('select[id^="Equipment_NewEquipment_' + eq + '"]').each(function () {
-                $(this).attr('id', $(this).attr('id').replace('Equipment_NewEquipment_' + eq, 'Equipment_NewEquipment_' + state.equipmentNextIndex));
-                $(this).attr('name', $(this).attr('name').replace('Equipment.NewEquipment[' + eq, 'Equipment_NewEquipment[' + state.equipmentNextIndex));
-            });
-
-            div.find('.equipment-item').find('input[id^="Equipment_NewEquipment_' + eq + '"]').each(function () {
-                $(this).attr('id', $(this).attr('id').replace('Equipment_NewEquipment_' + eq, 'Equipment_NewEquipment_' + state.equipmentNextIndex));
-                $(this).attr('name', $(this).attr('name').replace('Equipment.NewEquipment[' + eq, 'Equipment_NewEquipment[' + state.equipmentNextIndex));
-            });
-
-            state['option2'].equipments[eq].id = state.equipmentNextIndex.toString();
-            state['option2'].equipments[state.equipmentNextIndex.toString()] = state['option2'].equipments[eq];
-            delete state['option2'].equipments[eq];
-
-            state.equipmentNextIndex++;
-        });
-
         div.find('[id*="__Cost"]').each(function () {
             $(this).on('change', setters.setEquipmentCost('option2', callback));
         });
-    }
 
+        div.find('[id*="__Description"]').each(function () {
+            $(this).on('change', setters.setEquipmentDescription('option2'));
+        });
 
-    var copyOption = function() {
-        
+        div.find('[id*="__Type"]').each(function () {
+            $(this).on('change', setters.setEquipmentType('option2'));
+        });
+
+        div.find('[id^="option2-equipment-remove-"]').each(function() {
+            $(this).on('click', function (e) {
+                var id = e.target.id;
+                id = id.substr(id.lastIndexOf('-') + 1);
+                recalculateEquipmentIndex('option2', id);
+
+                setters.removeEquipment('option2', id, callback);
+            });
+        });
     }
 
     var moveButtonByIndex = function (index, isMoveForward) {
@@ -121,8 +121,6 @@
             isMoveForward ? secondButton.removeClass('hidden') : secondButton.addClass('hidden');
         } else {
             isMoveForward ? secondButton.addClass('hidden') : secondButton.removeClass('hidden');
-
-            //isMoveForward ? firstButton.addClass('hidden') : secondButton.removeClass('hidden');
         }
     }
 

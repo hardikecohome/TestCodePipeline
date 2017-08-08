@@ -107,9 +107,12 @@
                         });
                 } else {
                     $('#' + optionKey + '-deferralDropdown option[value="0"]').remove();
-                    $('#' + optionKey + '-downPayment').val('');
+                    //$('#' + optionKey + '-downPayment').val('');
                     $('#' + optionKey + '-customLoanTerm').val('');
                     $('#' + optionKey + '-customAmortTerm').val('');
+                    $('#' + optionKey + '-customCRate').val('');
+                    $('#' + optionKey + '-customYCostVal').val('');
+                    $('#' + optionKey + '-customAFee').val('');
 
                     $('#' + optionKey + '-amortDropdown').closest('.row').removeClass('hidden');
                     $.grep(constants.inputsToHide, function (field) {
@@ -128,7 +131,7 @@
 
             } else {
                 $('#' + optionKey + '-deferral').removeClass('hidden');
-                $('#' + optionKey + '-downPayment').val('');
+                //$('#' + optionKey + '-downPayment').val('');
                 $('#' + optionKey + '-customLoanTerm').val('');
                 $('#' + optionKey + '-customAmortTerm').val('');
 
@@ -181,22 +184,18 @@
     }
 
     var setNewEquipment = function (optionKey, callback) {
-        state[optionKey].equipments[state.equipmentNextIndex] = { id: state.equipmentNextIndex.toString(), cost: '', description: '', type: state.defaultEquipment };
-        state.equipmentNextIndex++;
+        var nextIndex = state[optionKey].equipmentNextIndex;
+        state[optionKey].equipments[nextIndex] = { id: nextIndex.toString(), cost: '', description: '', type: state.defaultEquipment };
+        state[optionKey].equipmentNextIndex++;
 
         callback([optionKey]);
     }
 
-    var removeEquipment = function (optionKey, callback) {
-        return function (e) {
-            var id = e.target.id;
-            id = +id.substr(id.lastIndexOf('-') + 1);
-            delete state[optionKey].equipments[id];
-            $('#equipment-' + id).remove();
-            state.equipmentNextIndex--;
+    var removeEquipment = function (optionKey, id, callback) {
+        $('#' + optionKey + '-equipment-' + id).remove();
+        state[optionKey].equipmentNextIndex--;
 
-            callback([optionKey]);
-        }
+        callback([optionKey]);
     }
 
     var setTax = function(callback) {
@@ -205,8 +204,10 @@
             var filtered = state.taxes.filter(function(tax) {
                 return tax.Province === name;
             });
+
             state.tax = filtered[0].Rate;
             state.description = filtered[0].Description;
+
             callback();
         }
     }
