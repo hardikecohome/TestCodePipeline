@@ -671,7 +671,7 @@
                 </ul>
             </div>
         </div>
-        <div class="panel customer-loan-form-panel active-panel">
+        <div class="panel customer-loan-form-panel panel-collapsed step-passed">
             <div class="panel-heading">
                 <span class="panel-step">5</span>
                 <h3 class="panel-title dealnet-middle-header">@Resources.TradeReferences</h3>
@@ -679,7 +679,7 @@
                 <span class="passed-step-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
             </div>
             <div class="panel-body">
-                <div class="placeholder">This section is optional for you</div>
+                <div class="placeholder-text">This section is optional for you</div>
                 <div id="references-container"></div>
                 <div class="action-link-holder flex-centered-text">
                     <a class="action-link" id="add-reference-link" onClick="addTradeReference()">
@@ -691,7 +691,7 @@
 
             </div>
         </div>
-        <div class="panel customer-loan-form-panel panel-collapsed">
+        <div class="panel customer-loan-form-panel active-panel">
             <div class="panel-heading">
                 <span class="panel-step">6</span>
                 <h3 class="panel-title dealnet-middle-header">@Resources.RequiredDocuments</h3>
@@ -699,6 +699,21 @@
                 <span class="passed-step-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
             </div>
             <div class="panel-body">
+                <div class="required-documents-flex">
+                    <div class="files-container">
+                        <h4>Void cheque</h4>
+                        <div class="placeholder-text">Please upload file in format PDF, jpg or png</div>
+                        <button class="btn btn-success">Upload</button>
+                    </div>
+                    <div class="files-container">
+                        <h4>Proof of insurance</h4>
+                        <p>Ecohome Financial Inc. must be listed as additional insured</p>
+                        <div class="placeholder-text">Please upload file in format PDF, jpg or png</div>
+                        <button class="btn btn-success">Upload</button>
+                    </div>
+                </div>
+                <h4>Provincial Safety Standard Licensing</h4>
+                <div class="placeholder-text">Please upload file in format PDF, jpg or png</div>
 
             </div>
         </div>
