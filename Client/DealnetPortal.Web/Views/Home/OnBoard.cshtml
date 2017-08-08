@@ -699,16 +699,24 @@
                 <span class="passed-step-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
             </div>
             <div class="panel-body">
-                <div class="required-documents-flex">
+                <div class="onboard-required-documents">
                     <div class="files-container">
                         <h4>Void cheque</h4>
-                        <div class="placeholder-text">Please upload file in format PDF, jpg or png</div>
+                        <div class="equal-height-section equal-height-section-1">
+                            <div class="inner-div">
+                                <div class="placeholder-text">Please upload file in format PDF, jpg or png</div>
+                            </div>
+                        </div>
                         <button class="btn btn-success">Upload</button>
                     </div>
                     <div class="files-container">
                         <h4>Proof of insurance</h4>
-                        <p>Ecohome Financial Inc. must be listed as additional insured</p>
-                        <div class="placeholder-text">Please upload file in format PDF, jpg or png</div>
+                        <div class="equal-height-section equal-height-section-1">
+                            <div class="inner-div">
+                                <p>Ecohome Financial Inc. must be listed as additional insured</p>
+                                <div class="placeholder-text">Please upload file in format PDF, jpg or png</div>
+                            </div>
+                        </div>
                         <button class="btn btn-success">Upload</button>
                     </div>
                 </div>
@@ -843,7 +851,10 @@
 
 <script type="text/javascript">
     $(function () {
-
+        setEqualHeightRows($(".equal-height-section-1"));
+        $(window).on('resize', function(){
+            setEqualHeightRows($(".equal-height-section-1"));
+        });
     });
 
     var initRefNumber = 1;
@@ -878,6 +889,19 @@
 
         initRefNumber++;
         return false;
+    }
+
+   function setEqualHeightRows(row) {
+        var maxHeight = 0;
+        row.each(function () {
+            if ($(this).children().eq(0).outerHeight(true) > maxHeight) {
+                maxHeight = $(this).children().eq(0).outerHeight(true);
+            }
+        });
+        if(row.children().eq(0)){
+
+        }
+        row.height(maxHeight);
     }
 </script>
 }
