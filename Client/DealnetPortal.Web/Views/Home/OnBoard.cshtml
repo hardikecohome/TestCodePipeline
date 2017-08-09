@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <div class="onboard-steps" id="onboard-accordion" >
+    <div class="onboard-steps" >
         <div class="panel customer-loan-form-panel panel-collapsed step-passed">
             <div class="panel-heading">
                 <span class="panel-step">1</span>
@@ -846,6 +846,9 @@
             </div>
         </div>
     </div>
+    <div class="clearfix">
+        <button type="submit" class="btn dealnet-success-button btn-proceed disabled btn-form-common"  id="submit">@Resources.SubmitApplication</button>
+    </div>
 </div>
 <script id="tradeReferenceTemplate" type="text/x-jquery-tmpl">
     <div class="trade-reference" id="trade-reference-${refNumber}">
@@ -951,11 +954,6 @@
 <script type="text/javascript">
     $(function () {
         setEqualHeightRows($(".equal-height-section-1"));
-
-       /* $('.onboard-steps').on('click', '.panel-title', function(){
-            console.log('click');
-        });
-*/
 
         $(window).on('resize', function(){
             setEqualHeightRows($(".equal-height-section-1"));
