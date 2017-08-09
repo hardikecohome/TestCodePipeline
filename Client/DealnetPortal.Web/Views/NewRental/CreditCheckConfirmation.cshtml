@@ -1142,7 +1142,7 @@ if (creditCheckError != null)
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=assignAutocompletes" async defer></script>
 	@*<script type="text/javascript">
 		$(document).ready(function () {
-			ga('send', 'event', 'Credit Check Approved', 'PreApproved Message Displayed', 'By Dealer', '20');
+			ga('send', 'event', 'Credit Check Approved', 'PreApproved Message Displayed', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
 		});
 	</script>*@
 }

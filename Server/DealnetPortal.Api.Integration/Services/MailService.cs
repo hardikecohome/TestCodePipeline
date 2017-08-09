@@ -301,22 +301,35 @@ namespace DealnetPortal.Api.Integration.Services
                 OneTimeLink = domain +"/invite/"+ hashLogin 
                 //EquipmentInfoRequired = (customerFormData.Equipment.NewEquipment.FirstOrDefault().Type == null) ? "Required" : "Not Required"
             };
-
+            try
+            {
+                if (customerFormData.PrimaryCustomer.Phones.Any(c => c.PhoneType == PhoneType.Cell))
+                {
+                    var result = await _smsSubscriptionServive.setstartsubscription(customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum,
+                                                                                    customerFormData.PrimaryCustomer.Id.ToString(),
+                                                                                  "Broker",
+                                                                                ConfigurationManager.AppSettings["SubscriptionRef"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot send Sms subscription request from SendInviteLinkToCustomer", ex);
+            }
             try
             {
               //  await _emailService.SendAsync(mail);
               // Hardik SMS trigger for subscription request
-                var result = await _smsSubscriptionServive.setstartsubscription(customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum,
-                                                                                customerFormData.PrimaryCustomer.Id.ToString(),
-                                                                              "Broker",
-                                                                            ConfigurationManager.AppSettings["SubscriptionRef"]);
+                //var result = await _smsSubscriptionServive.setstartsubscription(customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum,
+                //                                                                customerFormData.PrimaryCustomer.Id.ToString(),
+                //                                                              "Broker",
+                //                                                            ConfigurationManager.AppSettings["SubscriptionRef"]);
                 // Hardik MailChimp trigger for subscription request
                 await _mailChimpService.AddNewSubscriberAsync(ConfigurationManager.AppSettings["ListID"], member);
                 //var q = await _mailChimpService.SendUpdateNotification(customerFormData.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress);
             }
             catch (Exception ex)
             {
-                _loggingService.LogError("Cannot send email", ex);
+                _loggingService.LogError("Cannot send email from SendInviteLinkToCustomer", ex);
             }
         }
 
@@ -395,12 +408,23 @@ namespace DealnetPortal.Api.Integration.Services
 
 
                 }
-                var result = await _personalizedMessageService.SendMessage(contract.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
+                
 
             }
             catch (Exception ex)
             {
-                _loggingService.LogError("Cannot send email", ex);
+                _loggingService.LogError("Cannot send email from SendHomeImprovementMailToCustomer", ex);
+            }
+            try
+            {
+                if (contract.PrimaryCustomer.Phones.Any(c => c.PhoneType == PhoneType.Cell))
+                {
+                    var result = await _personalizedMessageService.SendMessage(contract.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot send Sms from SendHomeImprovementMailToCustomer", ex);
             }
         }
         public async Task SendDeclinedConfirmation(string emailid, string firstName, string lastName)
@@ -411,7 +435,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             catch (Exception ex)
             {
-                throw ex;
+                _loggingService.LogError("Cannot send email SendDeclinedConfirmation", ex);
             }
 
         }
@@ -478,12 +502,23 @@ namespace DealnetPortal.Api.Integration.Services
                 //await _emailService.SendAsync(mail);
                 //Hardik MailChimp Trigger to update CreditAmount
                 await _mailChimpService.AddNewSubscriberAsync(ConfigurationManager.AppSettings["ListID"], member);
-                var result = await _personalizedMessageService.SendMessage(customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
+                //var result = await _personalizedMessageService.SendMessage(customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
 
             }
             catch (Exception ex)
             {
-                _loggingService.LogError("Cannot send email", ex);
+                _loggingService.LogError("Cannot send email from SendApprovedMailToCustomer", ex);
+            }
+            try
+            {
+                if (customerFormData.PrimaryCustomer.Phones.Any(c => c.PhoneType == PhoneType.Cell))
+                {
+                    var result = await _personalizedMessageService.SendMessage(customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot send Sms from SendApprovedMailToCustomer", ex);
             }
         }
 
@@ -570,16 +605,26 @@ namespace DealnetPortal.Api.Integration.Services
                 //await _emailService.SendAsync(mail);
                
                 //await _mailChimpService.AddNewSubscriberAsync(ConfigurationManager.AppSettings["ListID"], member);
-                var result = await _personalizedMessageService.SendMessage(contract.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
+                //var result = await _personalizedMessageService.SendMessage(contract.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
                 if (await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress))
-                {
-                    
+                {                    
                     await _mandrillService.SendDealerLeadAccepted(contract, dealer, services);
                 }
             }
             catch (Exception ex)
             {
-                _loggingService.LogError("Cannot send email", ex);
+                _loggingService.LogError("Cannot send Dealer Accept Lead email from SendCustomerDealerAcceptLead", ex);
+            }
+            try
+            {
+                if (contract.PrimaryCustomer.Phones.Any(c => c.PhoneType == PhoneType.Cell))
+                {
+                    var result = await _personalizedMessageService.SendMessage(contract.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot send Dealer Accept Lead SMS from SendCustomerDealerAcceptLead", ex);
             }
         }
         #endregion

@@ -328,7 +328,7 @@
 	$(document)
 		.submit(function () {
 
-				ga('send', 'event', 'Contact and Payment', 'Form submit', 'Step 4 from Dealer Portal', '100');
+				ga('send', 'event', 'Contact and Payment', 'Form submit', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
 			});
 </script>
 

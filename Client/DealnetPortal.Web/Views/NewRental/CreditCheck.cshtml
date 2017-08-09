@@ -36,16 +36,16 @@
                 $.ajax({
                     type: "POST",
                     url: '@Url.Action("GetCreditCheckRedirection", new {@contractId = Model })',
-                    success: function (json) { 
+                    success: function (json) {
 						window.location = json;
-						
+
                     },
                     error: function (xhr, status, p3) {
                         window.location = '@Url.Action("Error", "Info")';
                     }
                 });
                 @*window.location.href = "@Url.Action("CheckCreditStatus", new { contractId = Model })";*@
-				ga('send', 'event', 'Credit Check', 'button_click', 'Step 2 from Dealer Portal', '100');
+				ga('send', 'event', 'Credit Check', 'button_click', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
 			});
     </script>
 }
