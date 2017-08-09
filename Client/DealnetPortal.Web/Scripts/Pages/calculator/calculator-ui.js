@@ -41,10 +41,6 @@
 
             toggleClearInputIcon($('#equipment-' + nextIndex).find('.control-group input, .control-group textarea'));
 
-            $('#' + option + '-container > form').removeData("validator");
-            $('#' + option + '-container > form').removeData("unobtrusiveValidation");
-            $.validator.unobtrusive.parse("form");
-
             setters.setNewEquipment(option, callback);
         }
     }

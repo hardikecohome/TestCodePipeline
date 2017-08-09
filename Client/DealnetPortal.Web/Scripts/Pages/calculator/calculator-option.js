@@ -240,7 +240,7 @@
             $('#Equipment_NewEquipment_' + newOption + '_' + id + '__Cost').val(state[newOption].equipments[id].cost);
 
             $('#Equipment_NewEquipment_' + newOption + '_' + id + '__Description').on('change', setters.setEquipmentDescription(newOption));
-            $('#Equipment_NewEquipment_' + id + '__Description').val(state[newOption].equipments[id].description);
+            $('#Equipment_NewEquipment_' + newOption + '_' + id + '__Description').val(state[newOption].equipments[id].description);
 
             $('#Equipment_NewEquipment_' + newOption + '_' + id + '__Type').on('change', setters.setEquipmentType(newOption));
             $('#Equipment_NewEquipment_' + newOption + '_' + id + '__Type').val(state[newOption].equipments[id].type);

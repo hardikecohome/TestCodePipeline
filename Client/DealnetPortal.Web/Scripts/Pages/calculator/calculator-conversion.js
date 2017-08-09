@@ -56,6 +56,10 @@
 
     var recalculateEquipmentId = function (optionContainer, optionToReplace, newOption) {
 
+        $(optionContainer).find('[id^="' + optionToReplace + '-"]').each(function () {
+            $(this).attr('id', $(this).attr('id').replace(optionToReplace, newOption));
+        });
+
         $(optionContainer).find('[data-valmsg-for^="' + optionToReplace + '"]').each(function () {
             var $this = $(this);
             var newValFor = $this.data('valmsg-for').replace(optionToReplace, newOption);
