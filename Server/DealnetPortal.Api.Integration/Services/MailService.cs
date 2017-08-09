@@ -411,10 +411,6 @@ namespace DealnetPortal.Api.Integration.Services
 
                 }
                 
-<<<<<<< HEAD
-=======
-
->>>>>>> refs/remotes/origin/master
             }
             catch (Exception ex)
             {
