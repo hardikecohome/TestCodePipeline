@@ -39,7 +39,7 @@
                     alert(p3);
                 }
             });
-            sender.val("");
+            sender.val ? sender.val("") : sender.value = "";
         } else {
             alert(translations['BrowserNotSupportFileUpload']);
         }
