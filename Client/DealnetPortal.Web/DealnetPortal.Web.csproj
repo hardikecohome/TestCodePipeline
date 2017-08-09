@@ -1054,6 +1054,7 @@
     <Content Include="Views\Calculator\Index.cshtml" />
     <Content Include="Views\Shared\Calculator\_Option.cshtml" />
     <Content Include="Views\Shared\Calculator\_RateCard.cshtml" />
+    <Content Include="Views\Shared\Calculator\_EquipmentTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

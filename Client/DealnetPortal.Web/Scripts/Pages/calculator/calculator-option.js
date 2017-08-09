@@ -5,6 +5,7 @@
     var ui = require('calculator-ui');
     var recalculateEquipmentIndex = require('calculator-conversion').recalculateEquipmentIndex;
     var recalculateEquipmentId = require('calculator-conversion').recalculateEquipmentId;
+    var resetValidation = require('calculator-conversion').resetValidation;
     var jcarousel = require('calculator-jcarousel');
 
     var idToValue = function (obj) {
@@ -78,9 +79,7 @@
             $('#' + option + '-plan').change();
         }
 
-        $('#' + option + '-container > form').removeData("validator");
-        $('#' + option + '-container > form').removeData("unobtrusiveValidation");
-        $.validator.unobtrusive.parse("form");
+        resetValidation(option);
 
         initValidation(option);
     }
