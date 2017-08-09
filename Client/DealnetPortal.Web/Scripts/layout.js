@@ -398,6 +398,9 @@ function panelCollapsed(elem){
     $this.toggleClass('panel-collapsed');
   });
 
+  if($('#onboard-accordion').length){
+    setEqualHeightRows($("#onboard-accordion .equal-height-section-1"));
+  }
 };
 
 function detectSidebarHeight(){
@@ -536,6 +539,18 @@ function stickySection(elem, device){
   });
 }
 
+function setEqualHeightRows(row) {
+  var maxHeight = 0;
+  row.each(function () {
+    if ($(this).children().eq(0).outerHeight(true) > maxHeight) {
+      maxHeight = $(this).children().eq(0).outerHeight(true);
+    }
+  });
+  if(row.children().eq(0)){
+
+  }
+  row.height(maxHeight);
+}
 
 function has_scrollbar(elem, className)
 {

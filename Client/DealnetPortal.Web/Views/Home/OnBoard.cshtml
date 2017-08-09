@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <div class="onboard-steps">
+    <div class="onboard-steps" id="onboard-accordion" >
         <div class="panel customer-loan-form-panel panel-collapsed step-passed">
             <div class="panel-heading">
                 <span class="panel-step">1</span>
@@ -790,7 +790,59 @@
                 <span class="arrow"><i class="glyphicon"></i></span>
             </div>
             <div class="panel-body">
-
+                <p>By executing below, the Principal in his or her personal capacity (“I”, “me”) and the company (“We”) certify that all the information contained in this Dealer Application is true and complete. </p>
+                <div class="onboard-owners-hold">
+                    <div class="onboard-owners-row">
+                        <div class="onboard-owners-col name-col">
+                            <span class="onboard-owners-label">
+                                Owner:
+                            </span>
+                            <span class="onboard-owners-value">
+                                JOE DOE
+                            </span>
+                        </div>
+                        <div class="onboard-owners-col date-col">
+                            <span class="onboard-owners-label">
+                                Date:
+                            </span>
+                            <span class="onboard-owners-value">
+                                21.07.2017
+                            </span>
+                        </div>
+                        <div class="onboard-owners-col agree-col">
+                            <label class="align-middle custom-checkbox">
+                                <input type="checkbox" class="dealnet-checkbox" />
+                                <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                                <span class="mandatory-field">I acknowledge and agree</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="onboard-owners-row">
+                        <div class="onboard-owners-col name-col">
+                            <span class="onboard-owners-label">
+                                Owner:
+                            </span>
+                            <span class="onboard-owners-value">
+                                BEN RICHARDSON
+                            </span>
+                        </div>
+                        <div class="onboard-owners-col date-col">
+                            <span class="onboard-owners-label">
+                                Date:
+                            </span>
+                            <span class="onboard-owners-value">
+                                21.07.2017
+                            </span>
+                        </div>
+                        <div class="onboard-owners-col agree-col">
+                            <label class="align-middle custom-checkbox">
+                                <input type="checkbox" class="dealnet-checkbox" />
+                                <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                                <span class="mandatory-field">I acknowledge and agree</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -904,6 +956,7 @@
             console.log('click');
         });
 */
+
         $(window).on('resize', function(){
             setEqualHeightRows($(".equal-height-section-1"));
         });
@@ -943,17 +996,5 @@
         return false;
     }
 
-   function setEqualHeightRows(row) {
-        var maxHeight = 0;
-        row.each(function () {
-            if ($(this).children().eq(0).outerHeight(true) > maxHeight) {
-                maxHeight = $(this).children().eq(0).outerHeight(true);
-            }
-        });
-        if(row.children().eq(0)){
-
-        }
-        row.height(maxHeight);
-    }
 </script>
 }
