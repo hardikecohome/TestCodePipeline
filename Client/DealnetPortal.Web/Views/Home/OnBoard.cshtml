@@ -700,28 +700,86 @@
             </div>
             <div class="panel-body">
                 <div class="onboard-required-documents">
-                    <div class="files-container">
-                        <h4>Void cheque</h4>
-                        <div class="equal-height-section equal-height-section-1">
-                            <div class="inner-div">
-                                <div class="placeholder-text">Please upload file in format PDF, jpg or png</div>
+                    <div class="onboard-uploaded-documents clearfix">
+                        <div class="files-container">
+                            <h4 class="onboard-required-documents-heading">Void cheque</h4>
+                            <div class="equal-height-section equal-height-section-1">
+                                <div class="inner-div">
+                                    <p>
+                                        Void_cheque.pdf
+                                    </p>
+                                    <div class="placeholder-text">Please upload file in format PDF, jpg or png</div>
+                                </div>
+                            </div>
+
+                            <div class="file-upload btn dealnet-button dealnet-success-button">
+                                <span>@Resources.Upload</span>
+                                <input type="file" class="upload" />
                             </div>
                         </div>
-                        <button class="btn btn-success">Upload</button>
+                        <div class="files-container">
+                            <h4 class="onboard-required-documents-heading">Proof of insurance</h4>
+                            <div class="equal-height-section equal-height-section-1">
+                                <div class="inner-div">
+                                    <p>Ecohome Financial Inc. must be listed as additional insured</p>
+                                    <p>
+                                        Proof_of_insurance.pdf
+                                    </p>
+                                    <div class="placeholder-text">Please upload file in format PDF, jpg or png</div>
+                                </div>
+                            </div>
+                            <div class="file-upload btn dealnet-button dealnet-success-button">
+                                <span>@Resources.Upload</span>
+                                <input type="file" class="upload" />
+                            </div>
+                        </div>
                     </div>
-                    <div class="files-container">
-                        <h4>Proof of insurance</h4>
-                        <div class="equal-height-section equal-height-section-1">
-                            <div class="inner-div">
-                                <p>Ecohome Financial Inc. must be listed as additional insured</p>
-                                <div class="placeholder-text">Please upload file in format PDF, jpg or png</div>
-                            </div>
-                        </div>
-                        <button class="btn btn-success">Upload</button>
+                    <div class="onboard-uploaded-license">
+                        <h4 class="onboard-required-documents-heading">Provincial Safety Standard Licensing</h4>
+                        <div class="placeholder-text">Please upload file in format PDF, jpg or png</div>
+                        <ul class="onboard-license-list text-left list-unstyled">
+                            <li class="onboard-license-item">
+                                <label class="align-middle custom-checkbox">
+                                    <input type="checkbox" class="dealnet-checkbox" checked />
+                                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                                    <span class="mandatory-field">Certificate of Qualification as a Refrigeration and Air Conditioning Mechanic (Ontario)</span>
+                                </label>
+                                <div class="action-holder">
+                                    <div class="file-upload btn dealnet-button dealnet-link-button">
+                                        <span>Replace</span>
+                                        <input type="file" class="upload" />
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="onboard-license-item">
+                                <label class="align-middle custom-checkbox">
+                                    <input type="checkbox" class="dealnet-checkbox" />
+                                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                                    <span class="mandatory-field">Master Electrician Licence (Ontario)</span>
+                                </label>
+                                <div class="action-holder">
+                                    <div class="file-upload btn dealnet-button dealnet-link-button">
+                                        <span>@Resources.Upload</span>
+                                        <input type="file" class="upload" />
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="onboard-license-item">
+                                <label class="align-middle custom-checkbox">
+                                    <input type="checkbox" class="dealnet-checkbox" />
+                                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                                    <span class="mandatory-field">Electrical License (Manitoba)</span>
+                                </label>
+                                <div class="action-holder">
+                                    <div class="file-upload btn dealnet-button dealnet-link-button">
+                                        <span>@Resources.Upload</span>
+                                        <input type="file" class="upload" />
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <h4>Provincial Safety Standard Licensing</h4>
-                <div class="placeholder-text">Please upload file in format PDF, jpg or png</div>
 
             </div>
         </div>
