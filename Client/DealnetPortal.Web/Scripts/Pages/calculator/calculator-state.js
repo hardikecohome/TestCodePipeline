@@ -6,7 +6,8 @@
             downPayment: 0,
             equipmentNextIndex: 0
         },
-        tax: 0
+        tax: 0,
+        description: translations.tax
     };
 
     var constants = {

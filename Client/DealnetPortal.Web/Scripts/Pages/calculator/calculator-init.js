@@ -13,12 +13,12 @@
         state.cards = rateCards;
         state.taxes = taxes;
 
-        state.tax = taxes[0].Rate;
-        state.description = taxes[0].Description;
         $('#option1-taxDescription').text(state.description);
+
         var planIds = Object.keys(constants.rateCards).map(function(p) {
             return constants.rateCards[p].id;
         });
+
         state.defaultEquipment = $('#Equipment_NewEquipment_0__Type').val();
         state.amortLoanPeriods = {};
 

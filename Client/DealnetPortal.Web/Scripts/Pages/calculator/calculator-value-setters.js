@@ -201,12 +201,17 @@
     var setTax = function(callback) {
         return function(e) {
             var name = e.target.value;
-            var filtered = state.taxes.filter(function(tax) {
-                return tax.Province === name;
-            });
+            if (name === '') {
+                state.tax = 0;
+                state.description = translations.tax;
+            } else {
+                var filtered = state.taxes.filter(function (tax) {
+                    return tax.Province === name;
+                });
 
-            state.tax = filtered[0].Rate;
-            state.description = filtered[0].Description;
+                state.tax = filtered[0].Rate;
+                state.description = filtered[0].Description;
+            }
 
             callback();
         }
