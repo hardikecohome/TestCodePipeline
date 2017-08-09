@@ -329,7 +329,7 @@
 	$(document)
 		.submit(function () {
 
-				ga('send', 'event', 'Contact and Payment', 'Form submit',  '@(User.IsInRole(UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
+				ga('send', 'event', 'Contact and Payment', 'Form submit', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
 			});
 </script>
 

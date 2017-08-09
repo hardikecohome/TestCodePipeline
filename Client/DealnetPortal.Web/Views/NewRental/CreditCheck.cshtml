@@ -46,7 +46,7 @@
                     }
                 });
                 @*window.location.href = "@Url.Action("CheckCreditStatus", new { contractId = Model })";*@
-				ga('send', 'event', 'Credit Check', 'button_click', '@(User.IsInRole(UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
+				ga('send', 'event', 'Credit Check', 'button_click', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
 			});
     </script>
 }
