@@ -66,8 +66,8 @@
             equipment.cost = '';
             equipment.description = '';
 
-            $('#Equipment_NewEquipment_' + equipment.id + '__Cost').val('');
-            $('#Equipment_NewEquipment_' + equipment.id + '__Description').val('');
+            $('#Equipment_NewEquipment_option1_' + equipment.id + '__Cost').val('');
+            $('#Equipment_NewEquipment_option1_' + equipment.id + '__Description').val('');
         });
 
         callback(['option1']);
@@ -78,33 +78,33 @@
         state.equipmentNextIndex -= Object.keys(state['option3'].equipments).length;
         delete state['option3'];
 
-        var div = $('#option3-container');
+        var $container = $('#option3-container');
 
         $('#option3-container *').off();
 
-        recalculateEquipmentId(div, 'option3', 'option2');
+        recalculateEquipmentId($container, 'option3', 'option2');
 
-        div.find('[id^="option3"]').each(function () {
+        $container.find('[id^="option3"]').each(function () {
             $(this).attr('id', $(this).attr('id').replace('option3', 'option2'));
         });
 
         $('#option2-header').text($('#option2-header').text().replace('3', '2'));
 
-        div.attr('id', 'option2-container');
+        $container.attr('id', 'option2-container');
 
-        div.find('[id*="__Cost"]').each(function () {
+        $container.find('[id*="__Cost"]').each(function () {
             $(this).on('change', setters.setEquipmentCost('option2', callback));
         });
 
-        div.find('[id*="__Description"]').each(function () {
+        $container.find('[id*="__Description"]').each(function () {
             $(this).on('change', setters.setEquipmentDescription('option2'));
         });
 
-        div.find('[id*="__Type"]').each(function () {
+        $container.find('[id*="__Type"]').each(function () {
             $(this).on('change', setters.setEquipmentType('option2'));
         });
 
-        div.find('[id^="option2-equipment-remove-"]').each(function() {
+        $container.find('[id^="option2-equipment-remove-"]').each(function() {
             $(this).on('click', function (e) {
                 var id = e.target.id;
                 id = id.substr(id.lastIndexOf('-') + 1);
