@@ -499,7 +499,7 @@
 {
   @Scripts.Render("~/bundles/jqueryval")
   @Scripts.Render("~/bundles/localization")
-  @(!ViewBag.IsMobileRequest ? Scripts.Render("~/bundles/new-client") : Scripts.Render("~/bundles/new-client-mobile"))
+  @Scripts.Render("~/bundles/new-client")
 
   <script type="text/javascript">
     var isMobileRequest = '@ViewBag.IsMobileRequest';

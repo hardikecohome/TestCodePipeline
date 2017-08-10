@@ -695,7 +695,6 @@
     <Content Include="Scripts\agreement-submit-success.js" />
     <Content Include="Scripts\BasicInfo\address-autocomplete.js" />
     <Content Include="Scripts\BasicInfo\basic-info.js" />
-    <Content Include="Scripts\BasicInfo\DlScanning\dl-scanning-mobile.js" />
     <Content Include="Content\DataTables\css\semanticui.scss" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
