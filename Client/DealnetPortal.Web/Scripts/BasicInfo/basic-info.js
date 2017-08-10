@@ -111,19 +111,15 @@ configInitialized
         return false;
     });
     $("#owner-scan-button").click(function () {
-        if (!(isMobileRequest || isMobileRequest.toLowerCase() === 'true')) {
-            e.preventDefault();
-            var modal = document.getElementById('camera-modal');
-            modal.setAttribute('data-fnToFill', 'first-name');
-            modal.setAttribute('data-lnToFill', 'last-name');
-            modal.setAttribute('data-bdToFill', 'birth-date');
-            modal.setAttribute('data-dlToFill', 'dl-number');
-            modal.setAttribute('data-stToFill', 'street');
-            modal.setAttribute('data-ctToFill', 'locality');
-            modal.setAttribute('data-prToFill', "administrative_area_level_1");
-            modal.setAttribute('data-pcToFill', "postal_code");
-        }
-        return true;
+        var modal = document.getElementById('camera-modal');
+        modal.setAttribute('data-fnToFill', 'first-name');
+        modal.setAttribute('data-lnToFill', 'last-name');
+        modal.setAttribute('data-bdToFill', 'birth-date');
+        modal.setAttribute('data-dlToFill', 'dl-number');
+        modal.setAttribute('data-stToFill', 'street');
+        modal.setAttribute('data-ctToFill', 'locality');
+        modal.setAttribute('data-prToFill', "administrative_area_level_1");
+        modal.setAttribute('data-pcToFill', "postal_code");
     });
     $("#additional1-scan-button").click(function () {
         setDataAttrInModal(1);
