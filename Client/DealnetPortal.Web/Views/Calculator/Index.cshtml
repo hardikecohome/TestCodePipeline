@@ -6,20 +6,21 @@
   </div>
   <div class="dealnet-large-header">@Resources.Calculator</div>
 
-  <div class="row">
+  <form id="province-form" class="row">
     <div class="col-md-4 col-sm-6">
       <div class="form-group">
         <label>@Resources.ChooseProvince</label>
-        @Html.DropDownListFor(m => m.ProvinceTaxRates, Model.ProvinceTaxRates.Select(x => new SelectListItem { Value = x.Province, Text = x.Province }),
+        @Html.DropDownListFor(m => m.ProvinceTaxRate, Model.ProvinceTaxRates.Select(x => new SelectListItem { Value = x.Province, Text = x.Province }),
           Resources.NotSelected,
           new
           {
             @class = "form-control",
             id = "province-tax-rate"
           })
+          @Html.ValidationMessageFor(m=>m.ProvinceTaxRate, "", new { @class = "text-danger" })
       </div>
     </div>
-  </div>
+  </form>
   <div class="calculators-container">
     <div class="jcarousel-wrapper rate-cards-container steps-carousel">
       <div class="jcarousel">

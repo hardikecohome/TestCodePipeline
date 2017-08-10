@@ -158,6 +158,10 @@
     }
 
     var addOption = function (callback) {
+        if (!$('#province-form').valid()) {
+            return;
+        }
+
         var index = $('#options-container').find('.rate-card-col').length;
 
         var optionToCopy = 'option' + index;
