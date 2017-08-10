@@ -502,7 +502,14 @@
   @(!ViewBag.IsMobileRequest ? Scripts.Render("~/bundles/new-client") : Scripts.Render("~/bundles/new-client-mobile"))
 
   <script type="text/javascript">
-      var isMobileRequest = '@ViewBag.IsMobileRequest';
+    var isMobileRequest = '@ViewBag.IsMobileRequest';
+    configInitialized.then(function () {
+      module.require('basic-information-view');
+      module.require('address-information-view');
+      module.require('contact-information-view');
+      module.require('home-improvments-view');
+      module.require('client-consents-view');
+    });
       module.require('new-client-index');
   </script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=initAutocomplete" async defer></script>
