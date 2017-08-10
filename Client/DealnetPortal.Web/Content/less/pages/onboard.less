@@ -194,7 +194,7 @@
     }
   }
 }
-
+.remove-link,
 .remove-reference-link{
   .clickable-icon;
   position: absolute;
@@ -203,6 +203,11 @@
   width: 14px;
   height: 20px;
   color: #000;
+  &:hover,
+  &:visited,
+  &:focus{
+    color: #000;
+  }
   .icon{
     width: 100%;
     height: 100%;
@@ -395,5 +400,15 @@
     &.agree-col{
       .justify-content(flex-end)
     }
+  }
+}
+
+.removable-form-group{
+  position: relative;
+  padding-right: 30px;
+  .remove-link{
+    position: absolute;
+    right: 0;
+    top: 8px;
   }
 }
