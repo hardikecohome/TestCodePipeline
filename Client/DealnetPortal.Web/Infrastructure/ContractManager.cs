@@ -122,11 +122,6 @@ namespace DealnetPortal.Web.Infrastructure
             equipmentInfo.IsAllInfoCompleted = result.Item1.PaymentInfo != null && result.Item1.PrimaryCustomer?.Phones != null && result.Item1.PrimaryCustomer.Phones.Any();
             equipmentInfo.IsApplicantsInfoEditAvailable = result.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;
 
-            if (!equipmentInfo.RequestedTerm.HasValue)
-            {
-                equipmentInfo.RequestedTerm = 120;
-            }
-
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
             var dealerTier = await _contractServiceAgent.GetDealerTier();
             equipmentInfo.DealerTier = dealerTier ?? new TierDTO() {RateCards = new List<RateCardDTO>()};
