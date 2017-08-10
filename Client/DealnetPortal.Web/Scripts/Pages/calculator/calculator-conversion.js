@@ -79,8 +79,16 @@
         });
     }
 
+    var resetFormValidation = function (option) {
+        var $form = $('#' + option + '-container > form');
+        $form.removeData("validator");
+        $form.removeData("unobtrusiveValidation");
+        $.validator.unobtrusive.parse('#' + option + '-container > form');
+    }
+
     return {
         recalculateEquipmentIndex: recalculateEquipmentIndex,
-        recalculateEquipmentId: recalculateEquipmentId
-    }
+        recalculateEquipmentId: recalculateEquipmentId,
+        resetValidation: resetFormValidation
+    };
 })

@@ -4,6 +4,7 @@
     var setters = require('calculator-value-setters');
     var recalculateEquipmentIndex = require('calculator-conversion').recalculateEquipmentIndex;
     var recalculateEquipmentId = require('calculator-conversion').recalculateEquipmentId;
+    var resetValidation = require('calculator-conversion').resetValidation;
 
     var addEquipment = function (option, callback) {
         return function(e) {
@@ -42,6 +43,8 @@
             toggleClearInputIcon($('#equipment-' + nextIndex).find('.control-group input, .control-group textarea'));
 
             setters.setNewEquipment(option, callback);
+
+            resetValidation(option);
         }
     }
 
