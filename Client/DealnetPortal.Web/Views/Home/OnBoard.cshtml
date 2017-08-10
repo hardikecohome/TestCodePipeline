@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <div class="onboard-steps" >
+    <div class="onboard-steps" id="onboard-accordion">
         <div class="panel customer-loan-form-panel panel-collapsed step-passed">
             <div class="panel-heading">
                 <span class="panel-step">1</span>
@@ -685,13 +685,12 @@
                     <a class="action-link" id="add-reference-link" onClick="addTradeReference()">
                         <svg aria-hidden="true" class="icon icon-add-app"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/client/Content/images/sprite/sprite.svg#icon-add-app"></use></svg>
                         <span>Add reference</span>
-                        <span class="passed-step-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
                     </a>
                 </div>
 
             </div>
         </div>
-        <div class="panel customer-loan-form-panel panel-collapsed step-passed">
+        <div class="panel customer-loan-form-panel active-panel">
             <div class="panel-heading">
                 <span class="panel-step">6</span>
                 <h3 class="panel-title dealnet-middle-header">@Resources.RequiredDocuments</h3>
@@ -738,12 +737,11 @@
                         <h4 class="onboard-required-documents-heading">Provincial Safety Standard Licensing</h4>
                         <div class="placeholder-text">Please upload file in format PDF, jpg or png</div>
                         <ul class="onboard-license-list text-left list-unstyled">
-                            <li class="onboard-license-item">
-                                <label class="align-middle custom-checkbox">
-                                    <input type="checkbox" class="dealnet-checkbox" checked />
+                            <li class="onboard-license-item uploaded-document">
+                                <div class="align-middle document-label">
                                     <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
                                     <span class="mandatory-field">Certificate of Qualification as a Refrigeration and Air Conditioning Mechanic (Ontario)</span>
-                                </label>
+                                </div>
                                 <div class="action-holder">
                                     <div class="file-upload btn dealnet-button dealnet-link-button">
                                         <span>Replace</span>
@@ -752,11 +750,10 @@
                                 </div>
                             </li>
                             <li class="onboard-license-item">
-                                <label class="align-middle custom-checkbox">
-                                    <input type="checkbox" class="dealnet-checkbox" />
+                                <div class="align-middle document-label">
                                     <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
                                     <span class="mandatory-field">Master Electrician Licence (Ontario)</span>
-                                </label>
+                                </div>
                                 <div class="action-holder">
                                     <div class="file-upload btn dealnet-button dealnet-link-button">
                                         <span>@Resources.Upload</span>
@@ -765,11 +762,10 @@
                                 </div>
                             </li>
                             <li class="onboard-license-item">
-                                <label class="align-middle custom-checkbox">
-                                    <input type="checkbox" class="dealnet-checkbox" />
+                                <div class="align-middle document-label">
                                     <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
                                     <span class="mandatory-field">Electrical License (Manitoba)</span>
-                                </label>
+                                </div>
                                 <div class="action-holder">
                                     <div class="file-upload btn dealnet-button dealnet-link-button">
                                         <span>@Resources.Upload</span>
@@ -783,7 +779,7 @@
 
             </div>
         </div>
-        <div class="panel customer-loan-form-panel active-panel">
+        <div class="panel customer-loan-form-panel panel-collapsed">
             <div class="panel-heading">
                 <span class="panel-step">7</span>
                 <h3 class="panel-title dealnet-middle-header">@Resources.Acknowledgment</h3>
@@ -937,7 +933,7 @@
             </div>
             <div class="col-md-4 col-sm-6">
                 <div class="form-group">
-                    <div class="dealnet-label">&nbsp;</div>
+                    <div class="dealnet-label hidden-xs">&nbsp;</div>
                     <div class="control-group flex-centered-text">
                         <a href="#" class="dealnet-disabled-text clear-address">
                             <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>

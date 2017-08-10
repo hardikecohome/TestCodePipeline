@@ -40,7 +40,10 @@
 
   .panel{
     .panel-body{
-      padding-top: 10px;
+      padding: 10px 25px 15px 30px;
+      @media @mobile {
+        padding: 10px 15px 15px 15px;
+      }
     }
     .passed-step-icon {
       display: none;
@@ -67,20 +70,21 @@
       }
     }
   }
+  .clear-address{
+    margin-bottom: 0;
+  }
 
   .panel-step{
     left: 20px;
     @media @tablet-down {
       left: 30px;
-      color: #5ec72f;
-      background-color: rgba(97, 197, 60, 0.17);
-      border: 0;
-      line-height: 30px;
+      color: @btn-success-bg;
+      background-color: fade(@btn-success-bg, 12%);
     }
     @media @mobile {
       width: 26px;
       height: 26px;
-      line-height: 26px;
+      line-height: 24px;
     }
   }
   .customer-loan-form-panel .panel-heading{
@@ -224,22 +228,41 @@
   margin-bottom: 20px;
 
   .files-container{
+    @media @tablet-up {
+      float: left;
+      width: 50%;
+    }
+    @media @mobile {
+      height:  auto !important;
+    }
     position: relative;
-    width: 50%;
     text-align: center;
-    float: left;
     font-size: 12px;
     line-height: 1.2;
+
     &:nth-child(2n){
       &:before{
         content: '';
         position: absolute;
         left: 0;
         top: 0;
-        bottom: 50px;
+        height: 100px;
         width: 1px;
         background: #dcdcdc;
         opacity: 0.5;
+      }
+
+    }
+    &+.files-container{
+      @media @mobile {
+        margin-top: 30px;
+        padding-top: 20px;
+        &:before{
+          height: 1px;
+          width: 100px;
+          left: 50%;
+          margin-left: -50px;
+        }
       }
     }
     p{
@@ -269,20 +292,51 @@
 
 .onboard-license-list{
   margin-top: 30px;
+  @media @mobile {
+    margin: 30px -15px 0 ;
+  }
   .onboard-license-item{
     .flex-display;
     padding: 15px 20px;
     border-bottom: 1px solid #ededed;
+    &.uploaded-document{
+      .document-label .checkbox-icon{
+        display: block;
+      }
+    }
     &:first-child{
       border-top: 1px solid #ededed;
     }
-    .custom-checkbox{
+
+    @media @mobile {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+    .document-label{
+      position: relative;
       .flex(1 1 100%);
       margin: 0;
+      padding-left: 25px;
+
+      .checkbox-icon{
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: #626262;
+        width: 14px;
+        height: 14px;
+        .icon{
+          width: 100%;
+          height: 100%;
+        }
+      }
     }
     .action-holder{
       .flex(1 1 auto);
       padding-left: 20px;
+      .flex-display;
+      .align-items(center);
       .dealnet-link-button{
         padding: 0;
         border: 0;
