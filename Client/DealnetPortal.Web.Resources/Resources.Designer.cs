@@ -3571,6 +3571,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Requested Term must be maximum 3 digits long.
+        /// </summary>
+        public static string RequestedTermMustBe3Max {
+            get {
+                return ResourceManager.GetString("RequestedTermMustBe3Max", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Resend Emails.
         /// </summary>
         public static string ResendEmails {
