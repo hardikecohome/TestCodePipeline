@@ -152,5 +152,9 @@ namespace DealnetPortal.Web.Controllers
         {
             return View();
         }
+        public ActionResult OnBoardSuccess()
+        {
+            return View();
+        }
     }
 }
