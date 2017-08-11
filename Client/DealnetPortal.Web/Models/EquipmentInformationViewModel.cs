@@ -78,7 +78,8 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public double? TotalMonthlyPayment { get; set; }
 
         [CustomRequired]
-        [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "RequestedTermIncorrectFormat")]
+        [Range(0, 999, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "RequestedTermMustBe3Max")]
+        [RegularExpression(@"^[1-9]\d{0,2}$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "RequestedTermIncorrectFormat")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "RequestedTerm")]
         public int RequestedTerm { get; set; }
 

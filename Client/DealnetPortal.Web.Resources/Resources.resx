@@ -1655,4 +1655,7 @@
   <data name="TotalPriceOfEquipment" xml:space="preserve">
     <value>Total Price of Equipment</value>
   </data>
+  <data name="RequestedTermMustBe3Max" xml:space="preserve">
+    <value>Requested Term must be maximum 3 digits long</value>
+  </data>
 </root>
