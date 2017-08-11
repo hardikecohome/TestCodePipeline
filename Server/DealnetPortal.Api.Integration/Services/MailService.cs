@@ -317,8 +317,8 @@ namespace DealnetPortal.Api.Integration.Services
             }
             try
             {
-                //  await _emailService.SendAsync(mail);
-                // Hardik SMS trigger for subscription request
+              //  await _emailService.SendAsync(mail);
+              // Hardik SMS trigger for subscription request
                 //var result = await _smsSubscriptionServive.setstartsubscription(customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum,
                 //                                                                customerFormData.PrimaryCustomer.Id.ToString(),
                 //                                                              "Broker",
@@ -398,6 +398,8 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 // await _emailService.SendAsync(mail);
                 // Hardik Mailchimp trigger to update Equipment type
+                //var result = await _personalizedMessageService.SendMessage(contract.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
+
                 if (await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress))
                 {
                     await _mandrillService.SendHomeImprovementTypeUpdatedConfirmation(contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
@@ -408,8 +410,6 @@ namespace DealnetPortal.Api.Integration.Services
 
 
                 }
-
-
             }
             catch (Exception ex)
             {
@@ -607,8 +607,7 @@ namespace DealnetPortal.Api.Integration.Services
                 //await _mailChimpService.AddNewSubscriberAsync(ConfigurationManager.AppSettings["ListID"], member);
                 //var result = await _personalizedMessageService.SendMessage(contract.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
                 if (await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress))
-                {
-
+                {                    
                     await _mandrillService.SendDealerLeadAccepted(contract, dealer, services);
                 }
             }

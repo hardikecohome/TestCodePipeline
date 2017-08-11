@@ -196,7 +196,7 @@
     <value>Hepa System</value>
   </data>
   <data name="Hrv" xml:space="preserve">
-    <value>Heat Recovery Ventilation</value>
+    <value>Heat Recovery Ventilator</value>
   </data>
   <data name="Hst" xml:space="preserve">
     <value>HST</value>

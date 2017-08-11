@@ -26,7 +26,7 @@
     var currentAddressPreviousRequiredFields = ['pstreet', 'pcity', 'pprovince', 'ppostalCode'];
     var contactInfoRequiredFields = ['email'];
     var homeImprovmentsRequiredFields = ['improvmentStreet', 'improvmentCity', 'improvmentProvince', 'improvmentPostalCode'];
-    var clientConsentsRequiredFields = ['creditAgreement', 'contactAgreement'];
+    var clientConsentsRequiredFields = ['creditAgreement','contactAgreement'];
     var trimFieldsIds = ['unit_number', 'sin-number', 'dl-number', 'previous_unit_number', 'businessPhone', 'improvment_unit_number'];
 
     var getErrors = configGetErrors(basicInfoRequiredFields, currentAddressRequiredFields, currentAddressPreviousRequiredFields, contactInfoRequiredFields, homeImprovmentsRequiredFields, clientConsentsRequiredFields);
@@ -64,15 +64,6 @@
                 return false;
             }
         });    
-
-
-        // init views
-        initBasicInfo(clientStore);
-        initAddressInfo(clientStore);
-        initContactInfo(clientStore);
-        initHomeImprovment(clientStore);
-        initClientConsents(clientStore);
-
 
 
         // init views

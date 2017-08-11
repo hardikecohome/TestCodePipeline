@@ -58,7 +58,7 @@ namespace DealnetPortal.Api.Integration.Services
         public async Task<bool> isSubscriber(string listid, string emailid)
         {
             Member subscriber = new Member();
-            subscriber = await manager.Members.GetAsync(listid, emailid);
+            subscriber = await manager.Members.GetAsync(listid, emailid.ToLower());
             if (subscriber.Status == Status.Subscribed)
             {
 

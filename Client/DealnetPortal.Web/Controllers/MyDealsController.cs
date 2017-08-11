@@ -129,7 +129,8 @@ namespace DealnetPortal.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> CheckInstallationCertificate(int contractId)
         {
-            var result = await _contractServiceAgent.CheckContractAgreementAvailable(contractId);
+            //var result = await _contractServiceAgent.CheckContractAgreementAvailable(contractId);
+            var result = await _contractServiceAgent.CheckInstallationCertificateAvailable(contractId);
             return Json(result.Item1);
         }
 

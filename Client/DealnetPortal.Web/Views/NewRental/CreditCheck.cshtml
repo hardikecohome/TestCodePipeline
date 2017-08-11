@@ -1,4 +1,5 @@
-﻿@model int
+﻿@using DealnetPortal.Api.Common.Enumeration
+@model int
 
 <div id="label-steps">
     <div class="dealnet-action-link">@Resources.NewApplication</div> >
@@ -34,7 +35,8 @@
                     type: "POST",
                     url: '@Url.Action("GetCreditCheckRedirection", new {@contractId = Model })',
                     success: function (json) {
-                        window.location = json;
+						window.location = json;
+
                     },
                     error: function (xhr, status, p3) {
                         window.location = '@Url.Action("Error", "Info")';
@@ -42,6 +44,6 @@
                 });
                 @*window.location.href = "@Url.Action("CheckCreditStatus", new { contractId = Model })";*@
 				ga('send', 'event', 'Credit Check', 'button_click', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
-            });
+			});
     </script>
 }

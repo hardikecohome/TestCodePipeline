@@ -1789,7 +1789,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while uploading file. (Maximum file size allowed is 2MB).
+        ///   Looks up a localized string similar to An error occurred while uploading file. (Maximum file size 20 MB).
         /// </summary>
         public static string ErrorWhileUploadingFile {
             get {
