@@ -102,7 +102,7 @@
                     </div>
                 </div>
                 <h4 class="heading-bordered">@Resources.Address</h4>
-                <div class="row">
+                <div class="row address-container">
                     <div class="col-md-6 col-sm-6">
                         <div class="form-group">
                             <label for="street" class="mandatory-field">@Resources.Street</label>
@@ -142,6 +142,16 @@
                             <label for="postal-code" class="mandatory-field">@Resources.PostalCode</label>
                             <div class="control-group">
                                 <input type="text" id="postal-code" class="form-control dealnet-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-clear-sm-6">
+                        <div class="form-group">
+                            <div class="dealnet-label hidden-xs hidden-sm">&nbsp;</div>
+                            <div class="control-group flex-centered-text">
+                                <a href="#" class="dealnet-disabled-text clear-address">
+                                    <svg aria-hidden="true" class="icon icon-remove"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/client/Content/images/sprite/sprite.svg#icon-remove"></use></svg><span>Clear Address</span>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -264,7 +274,7 @@
                     </div>
                 </div>
                 <h4 class="heading-bordered">@Resources.Address</h4>
-                <div class="row">
+                <div class="row address-container">
                     <div class="col-md-6 col-sm-6">
                         <div class="form-group">
                             <label for="street" class="mandatory-field">@Resources.Street</label>
@@ -304,6 +314,16 @@
                             <label for="postal-code" class="mandatory-field">@Resources.PostalCode</label>
                             <div class="control-group">
                                 <input type="text" id="postal-code" class="form-control dealnet-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-clear-sm-6">
+                        <div class="form-group">
+                            <div class="dealnet-label hidden-xs hidden-sm">&nbsp;</div>
+                            <div class="control-group flex-centered-text">
+                                <a href="#" class="dealnet-disabled-text clear-address">
+                                    <svg aria-hidden="true" class="icon icon-remove"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/client/Content/images/sprite/sprite.svg#icon-remove"></use></svg><span>Clear Address</span>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -386,7 +406,7 @@
                         </div>
                     </div>
                     <h4 class="heading-bordered">@Resources.Address</h4>
-                    <div class="row">
+                    <div class="row address-container">
                         <div class="col-md-6 col-sm-6">
                             <div class="form-group">
                                 <label for="street" class="mandatory-field">@Resources.Street</label>
@@ -426,6 +446,16 @@
                                 <label for="postal-code" class="mandatory-field">@Resources.PostalCode</label>
                                 <div class="control-group">
                                     <input type="text" id="postal-code" class="form-control dealnet-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-clear-sm-6">
+                            <div class="form-group">
+                                <div class="dealnet-label hidden-xs hidden-sm">&nbsp;</div>
+                                <div class="control-group flex-centered-text">
+                                    <a href="#" class="dealnet-disabled-text clear-address">
+                                        <svg aria-hidden="true" class="icon icon-remove"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/client/Content/images/sprite/sprite.svg#icon-remove"></use></svg><span>Clear Address</span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -934,9 +964,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-sm-6">
+            <div class="col-md-4 col-sm-6 col-clear-sm-6">
                 <div class="form-group">
-                    <div class="dealnet-label hidden-xs">&nbsp;</div>
+                    <div class="dealnet-label hidden-xs hidden-sm">&nbsp;</div>
                     <div class="control-group flex-centered-text">
                         <a href="#" class="dealnet-disabled-text clear-address">
                             <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
@@ -972,6 +1002,7 @@
         $(window).on('resize', function(){
             setEqualHeightRows($(".equal-height-section-1"));
         });
+        clearAddress();
 
 
     });
@@ -984,15 +1015,8 @@
         customizeSelect();
         addIconsToFields();
         toggleClearInputIcon();
+        clearAddress();
 
-        $('.clear-address').click(function(){
-            $(this).parents('.address-container').find('input').each(function () {
-                if ($(this).not('.placeholder')) {
-                    $(this).val("");
-                }
-            });
-            return false;
-        });
 
         if($('.trade-reference').length > 0 && $('.trade-reference').length < 2){
             $('#add-reference-link').addClass('mandatory-field');
@@ -1025,6 +1049,17 @@
             newBrandNumber++;
             return false;
         })
+    }
+
+    function clearAddress(){
+        $('.clear-address').click(function(){
+            $(this).parents('.address-container').find('input').each(function () {
+                if ($(this).not('.placeholder')) {
+                    $(this).val("");
+                }
+            });
+            return false;
+        });
     }
 </script>
 }
