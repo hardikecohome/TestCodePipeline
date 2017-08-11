@@ -695,7 +695,6 @@
     <Content Include="Scripts\agreement-submit-success.js" />
     <Content Include="Scripts\BasicInfo\address-autocomplete.js" />
     <Content Include="Scripts\BasicInfo\basic-info.js" />
-    <Content Include="Scripts\BasicInfo\DlScanning\dl-scanning-mobile.js" />
     <Content Include="Content\DataTables\css\semanticui.scss" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
@@ -785,6 +784,7 @@
     <Content Include="Scripts\Pages\calculator\calculator-conversion.js" />
     <Content Include="Scripts\Pages\calculator\calculator-index.js" />
     <Content Include="Scripts\Pages\calculator\calculator-init.js" />
+    <Content Include="Scripts\Pages\calculator\calculator-jcarousel.js" />
     <Content Include="Scripts\Pages\calculator\calculator-option.js" />
     <Content Include="Scripts\Pages\calculator\calculator-ui.js" />
     <Content Include="Scripts\Pages\calculator\calculator-value-setters.js" />
@@ -1055,6 +1055,7 @@
     <Content Include="Views\Calculator\Index.cshtml" />
     <Content Include="Views\Shared\Calculator\_Option.cshtml" />
     <Content Include="Views\Shared\Calculator\_RateCard.cshtml" />
+    <Content Include="Views\Shared\Calculator\_EquipmentTemplate.cshtml" />
     <Content Include="Views\Home\OnBoard.cshtml" />
     <Content Include="Views\Home\OnBoardSuccess.cshtml" />
   </ItemGroup>

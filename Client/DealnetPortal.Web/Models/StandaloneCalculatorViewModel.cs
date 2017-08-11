@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Web.Mvc;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Models.EquipmentInformation;
+using DealnetPortal.Web.Infrastructure;
 
 namespace DealnetPortal.Web.Models
 {
@@ -12,6 +12,8 @@ namespace DealnetPortal.Web.Models
         public EquipmentInformationViewModel Equipment { get; set; }
         public IList<EquipmentTypeDTO> EquipmentTypes { get; set; }
         
+        [CustomRequired]
+        public string ProvinceTaxRate { get; set; }
         public IList<ProvinceTaxRateDTO> ProvinceTaxRates { get; set; }
         public TierDTO DealerTier { get; set; }
     }

@@ -3,28 +3,28 @@
 
 <div class="row form-group">
     <div class="col-xs-7">
-        Total Price of Equipment
+        @Resources.TotalPriceOfEquipment
     </div>
-    <div class="col-xs-5 text-right text-semibold" id="option1-totalEquipmentPrice">$ </div>
+    <div class="col-xs-5 text-right text-stronger" id="option1-totalEquipmentPrice">$ </div>
 </div>
 <div class="row form-group">
     <div class="col-xs-7" id="option1-taxDescription">
     </div>
-    <div class="col-xs-5 text-right text-semibold">
+    <div class="col-xs-5 text-right text-stronger">
         <span id="option1-tax">$</span>
     </div>
 </div>
 <div class="row form-group">
     <div class="col-xs-7">
-        Total Cash Price
+        @Resources.TotalCashPrice
     </div>
-    <div class="col-xs-5 text-right text-semibold" id="option1-totalPrice"> $ </div>
+    <div class="col-xs-5 text-right text-stronger" id="option1-totalPrice"> $ </div>
 </div>
 <h3 class="dealnet-middle-header">Financing Options</h3>
 <div>
     <div class="row form-group align-middle @(Model.Plans.Count > 1 ? "": "hidden")">
         <div class="col-xs-6">
-            Plan
+            @Resources.Plan
         </div>
         <div class="col-xs-6">
             @Html.DropDownList("option1-plan", Model.Plans.Select(x => new SelectListItem { Value = x.Key, Text = x.Value }), new { @class = "form-control" })
@@ -32,7 +32,7 @@
     </div>
     <div class="row form-group align-middle">
         <div class="col-xs-6">
-            Loan/Amortization Term
+            @Resources.LoanAmortTerm
         </div>
         <div class="col-xs-6">
             <select name="" id="option1-amortDropdown" class="form-control">
@@ -42,51 +42,50 @@
         </div>
     </div>
     <div class="hidden" id="option1-customLoanAmortWrapper">
-        <div class="row">
-            <div class="col-xs-6">
-                <div class="form-group">
-                    <label for="">Loan Term</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control form-control-not-clear" name="option1-customLoanTerm" id="option1-customLoanTerm">
-                        <span class="field-validation-error text-danger" data-valmsg-for="option1-customLoanTerm" data-valmsg-replace="true"></span>
+            <div class="row align-top">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label for="">@Resources.LoanTerm</label>
+                        <div class="control-group">
+                            <input type="text" class="form-control form-control-not-clear" name="option1-customLoanTerm" id="option1-customLoanTerm">
+                            <span class="field-validation-error text-danger" data-valmsg-for="option1-customLoanTerm" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label for="">@Resources.AmortTerm</label>
+                        <div class="control-group">
+                            <input type="text" class="form-control form-control-not-clear" name="option1-customAmortTerm" id="option1-customAmortTerm">
+                            <span class="field-validation-error text-danger" data-valmsg-for="option1-customAmortTerm" data-valmsg-replace="true"></span>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xs-6">
-                <div class="form-group">
-                    <label for="">Amort. Term</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control form-control-not-clear" name="option1-customAmortTerm" id="option1-customAmortTerm">
-                        <span class="field-validation-error text-danger" data-valmsg-for="option1-customAmortTerm" data-valmsg-replace="true"></span>
-                    </div>
+            <div class="row row-error" id="option1-amortLoanTermError" style="display: none;">
+                <div class="col-xs-12">
+                    <div class="error-message text-danger  text-center">@Resources.AmortNotShorterThanLoan</div>
                 </div>
             </div>
-        </div>
-        <div class="row row-error" id="option1-amortLoanTermError" style="display: none;">
-            <div class="col-xs-12">
-                <div class="error-message text-danger  text-center">Amortization term cannot be shorter than Loan term.</div>
-            </div>
-        </div>
     </div>
-
-
 
     <div class="row form-group align-middle">
         <div class="col-xs-6">
-            Down Payment
+            @Resources.DownPayment
         </div>
         <div class="col-xs-6">
             <div class="control-group">
-                <input type="text" class="form-control" id="option1-downPayment">
+                <input type="text" class="form-control form-control-not-clear" id="option1-downPayment" name="option1-downPayment">
+                <span class="field-validation-error text-danger" data-valmsg-for="option1-downPayment" data-valmsg-replace="true"></span>
             </div>
         </div>
     </div>
 
     <div class="row form-group align-middle">
         <div class="col-xs-6">
-            Deferral Period
+            @Resources.DeferralPeriod
         </div>
-        <div class="col-xs-6 text-right text-semibold @(Model.Plans.Count > 1 ? "": "hidden")" id="option1-deferral">
+        <div class="col-xs-6 text-right text-stronger @(Model.Plans.Count > 1 ? "": "hidden")" id="option1-deferral">
             -
         </div>
         <div class="col-xs-6" id="option1-deferralDropdownWrapper">
@@ -104,104 +103,106 @@
     </div>
     <div class="row form-group align-middle">
         <div class="col-xs-6">
-            Customer Rate
+            @Resources.CustomerRate
         </div>
-        <div class="col-xs-6 text-right text-semibold" id="option1-cRate">
+        <div class="col-xs-6 text-right text-stronger" id="option1-cRate">
             0%
         </div>
         <div class="col-xs-6 hidden" id="option1-customCRateWrapper">
             <div class="control-group has-addon-right">
                 <div class="control-group-addon">%</div>
-                <input type="text" id="option1-customCRate" class="form-control form-control-not-clear" />
+                <input type="text" id="option1-customCRate" name="option1-customCRate" class="form-control form-control-not-clear" />
+                <span class="field-validation-error text-danger" data-valmsg-for="option1-customCRate" data-valmsg-replace="true"></span>
             </div>
         </div>
     </div>
     <div class="row form-group align-middle hidden" id="option1-customYCostWrapper">
         <div class="col-xs-6">
-            Your Cost
+            @Resources.YourCost
         </div>
-        <div class="col-xs-6 text-right text-semibold hidden" id="option1-yCostVal">
+        <div class="col-xs-6 text-right text-stronger hidden" id="option1-yCostVal">
             -
         </div>
         <div class="col-xs-6">
             <div class="control-group has-addon-right">
                 <div class="control-group-addon">%</div>
-                <input type="text" id="option1-customYCostVal" class="form-control form-control-not-clear" />
+                <input type="text" id="option1-customYCostVal" name="option1-customYCostVal" class="form-control form-control-not-clear" />
+                <span class="field-validation-error text-danger" data-valmsg-for="option1-customYCostVal" data-valmsg-replace="true"></span>
             </div>
         </div>
     </div>
+<hr>
     <div class="row form-group align-middle">
         <div class="col-xs-6">
-            Admin Fee
+            @Resources.AdminFee
         </div>
-        <div class="col-xs-6 text-right text-semibold" id="option1-aFee">
+        <div class="col-xs-6 text-right text-stronger" id="option1-aFee">
             $-
         </div>
         <div class="col-xs-6 hidden" id="option1-customAFeeWrapper">
             <div class="control-group has-addon-left">
                 <div class="control-group-addon">$</div>
-                <input type="text" id="option1-customAFee" class="form-control form-control-not-clear" />
+                <input type="text" id="option1-customAFee" name="option1-customAFee" class="form-control form-control-not-clear" />
+                <span class="field-validation-error text-danger" data-valmsg-for="option1-customAFee" data-valmsg-replace="true"></span>
             </div>
         </div>
     </div>
 </div>
 
-<hr>
-
 <div class="table-rows-hold">
     <div class="row form-group">
-        <div class="col-xs-6">
-            Monthly Payment
+        <div class="col-xs-6 text-stronger">
+            @Resources.MonthlyPayment
         </div>
-        <div class="col-xs-6 text-right text-semibold" id="option1-mPayment">
+        <div class="col-xs-6 text-right text-stronger" id="option1-mPayment">
             -
         </div>
     </div>
     <div class="row form-group">
         <div class="col-xs-6">
-            Cost of Borrowing
+            @Resources.CostOfBorrowing
         </div>
-        <div class="col-xs-6 text-right text-semibold" id="option1-cBorrowing">
+        <div class="col-xs-6 text-right text-stronger" id="option1-cBorrowing">
             -
         </div>
     </div>
     <div class="row form-group">
         <div class="col-xs-6">
-            Your Cost
+            @Resources.YourCost
         </div>
-        <div class="col-xs-6 text-right text-semibold" id="option1-yCost">
+        <div class="col-xs-6 text-right text-stronger" id="option1-yCost">
+            -
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-6 text-stronger">
+            @Resources.TotalAmountFinanced
+        </div>
+        <div class="col-xs-6 text-right text-stronger" id="option1-taFinanced">
             -
         </div>
     </div>
     <div class="row form-group">
         <div class="col-xs-6">
-            Total Amount Financed
+            @Resources.TotalAllMonthlyPayments
         </div>
-        <div class="col-xs-6 text-right text-semibold" id="option1-taFinanced">
+        <div class="col-xs-6 text-right text-stronger" id="option1-tmPayments">
             -
         </div>
     </div>
     <div class="row form-group">
         <div class="col-xs-6">
-            Total of All Monthly Payments
+            @Resources.BalanceOwingEndOfPayments
         </div>
-        <div class="col-xs-6 text-right text-semibold" id="option1-tmPayments">
+        <div class="col-xs-6 text-right text-stronger" id="option1-rBalance">
             -
         </div>
     </div>
     <div class="row form-group">
         <div class="col-xs-6">
-            Balance Owing at the End of Monthly Payments
+            @Resources.TotalObligation
         </div>
-        <div class="col-xs-6 text-right text-semibold" id="option1-rBalance">
-            -
-        </div>
-    </div>
-    <div class="row form-group">
-        <div class="col-xs-6">
-            Total Obligation
-        </div>
-        <div class="col-xs-6 text-right text-semibold" id="option1-tObligation">
+        <div class="col-xs-6 text-right text-stronger" id="option1-tObligation">
             -
         </div>
     </div>

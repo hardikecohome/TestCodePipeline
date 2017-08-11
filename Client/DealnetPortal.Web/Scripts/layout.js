@@ -784,7 +784,7 @@ function toggleClearInputIcon(fields){
     toggleClickInp($(this));
   });
   fieldParent.find('.clear-input').on('click', function(){
-    $(this).siblings('input, textarea').val('').change();
+    $(this).siblings('input, textarea').val('').change().keyup();
     $(this).hide();
   });
 }

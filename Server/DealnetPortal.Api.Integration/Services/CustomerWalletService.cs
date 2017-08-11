@@ -45,6 +45,7 @@ namespace DealnetPortal.Api.Integration.Services
             var email = customer.Emails.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
                         customer.Emails.FirstOrDefault()?.EmailAddress;
             var randomPassword = RandomPassword.Generate();// System.Web.Security.Membership.GeneratePassword(12, 4);
+            var customerComment = contract.Comments != null && contract.Comments.Any() ? contract.Comments.First().Text : null;
 
             var registerCustomer = new RegisterCustomerBindingModel()
             {
@@ -76,7 +77,8 @@ namespace DealnetPortal.Api.Integration.Services
                     AspireTransactionId = contract.Details.TransactionId,
                     EquipmentType = contract.Equipment?.NewEquipment?.FirstOrDefault()?.Type,
                     IsIncomplete = contract.Equipment?.NewEquipment == null || !contract.Equipment.NewEquipment.Any() || customer.Locations.All(l => l.AddressType != AddressType.InstallationAddress),
-                    UpdateTime = DateTime.Now
+                    UpdateTime = DateTime.Now,
+                    CustomerComment = customerComment
                 }
             };
 

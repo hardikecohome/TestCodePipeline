@@ -310,7 +310,7 @@
     <value>Month</value>
   </data>
   <data name="MonthlyPayment" xml:space="preserve">
-    <value>MONTHLY PAYMENT</value>
+    <value>Monthly Payment</value>
   </data>
   <data name="MyDeals" xml:space="preserve">
     <value>My Deals</value>
@@ -1648,6 +1648,15 @@
   </data>
   <data name="FinancingOptions" xml:space="preserve">
     <value>Financing Options</value>
+  </data>
+  <data name="Plan" xml:space="preserve">
+    <value>Plan</value>
+  </data>
+  <data name="TotalPriceOfEquipment" xml:space="preserve">
+    <value>Total Price of Equipment</value>
+  </data>
+  <data name="RequestedTermMustBe3Max" xml:space="preserve">
+    <value>Requested Term must be maximum 3 digits long</value>
   </data>
   <data name="Acknowledgment" xml:space="preserve">
     <value>Acknowledgment</value>
