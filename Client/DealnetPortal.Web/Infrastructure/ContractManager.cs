@@ -75,6 +75,7 @@ namespace DealnetPortal.Web.Infrastructure
             }
             contactAndPaymentInfo.ContractId = contractResult.Item1.Id;
             contactAndPaymentInfo.IsApplicantsInfoEditAvailable = contractResult.Item1.ContractState <= Api.Common.Enumeration.ContractState.Completed;
+
             MapContactAndPaymentInfo(contactAndPaymentInfo, contractResult.Item1);
 
             return contactAndPaymentInfo;

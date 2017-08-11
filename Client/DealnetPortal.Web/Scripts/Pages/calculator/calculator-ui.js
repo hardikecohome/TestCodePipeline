@@ -48,7 +48,7 @@
         }
     }
 
-    var clearFirstOption = function(callback) {
+    var clearFirstOption = function (callback) {
         $('#option1-mPayment').text('-');
         $('#option1-cBorrowing').text('-');
         $('#option1-taFinanced').text('-');
@@ -57,8 +57,22 @@
         $('#option1-tObligation').text('-');
         $('#option1-yCost').text('-');
         $('#option1-downPayment').val('');
+        $('#option1-customLoanTerm').val('');
+        $('#option1-customAmortTerm').val('');
+        $('#option1-customCRate').val('');
+        $('#option1-customYCostVal').val('');
+        $('#option1-customAFee').val('');
+
+        if (state['option1'].plan === 3) {
+            $('#option1-deferralDropdown').val(0);
+        }
 
         state['option1'].downPayment = 0;
+        state['option1'].LoanTerm = '';
+        state['option1'].AmortizationTerm = '';
+        state['option1'].AdminFee = '';
+        state['option1'].DealerCost = '';
+        state['option1'].CustomerRate = '';
 
         var keys = Object.keys(state['option1'].equipments);
         $.grep(keys, function (key) {

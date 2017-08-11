@@ -206,8 +206,6 @@
             .find('svg')
             .html('<use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-remove"></use>');
 
-        toggleClearInputIcon($('#' + newOption + '-container').find('.control-group input, .control-group textarea'));
-
         $('#option' + secondIndex + '-remove').on('click', function () {
             removeOption.call(this, callback);
         });
@@ -258,6 +256,8 @@
                 });
             }
         });
+
+        toggleClearInputIcon($('#' + newOption + '-container').find('.control-group input, .control-group textarea'));
 
         jcarousel.refreshCarouselItems();
         jcarousel.carouselRateCards();
