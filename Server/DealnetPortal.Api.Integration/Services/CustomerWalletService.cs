@@ -87,7 +87,7 @@ namespace DealnetPortal.Api.Integration.Services
                     _loggingService.LogInfo($"Customer {registerCustomer.RegisterInfo.Email} already registered on Customer Wallet");
                     registerCustomer.TransactionInfo.UserName = registerCustomer.RegisterInfo.Email;
                     var submitAlerts = await _customerWalletServiceAgent.CreateTransaction(registerCustomer.TransactionInfo);
-                    var noWait = _mailService.SendApprovedMailToCustomer(contract);
+                    await _mailService.SendApprovedMailToCustomer(contract);
                     if (submitAlerts?.Any() ?? false)
                     {
                         alerts.AddRange(submitAlerts);
@@ -113,7 +113,7 @@ namespace DealnetPortal.Api.Integration.Services
                     //send email notification for DEAL-1490
                     else
                     {
-                        var noWwait = _mailService.SendInviteLinkToCustomer(contract, randomPassword);
+                        await _mailService.SendInviteLinkToCustomer(contract, randomPassword);
                     }
                 }
             }
