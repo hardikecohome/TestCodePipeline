@@ -23,7 +23,7 @@
 <div id="steps-line"></div>
 <div class="row" id="steps">
     <div class="col-xs-4">
-        @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable)
+        @if (Model.EquipmentInfo.IsFirstStepAvailable)
         {
             <a href="@Url.Action("BasicInfo", new {contractId = Model.BasicInfo.ContractId})" data-warning="true" id="step1" class="step-item">1</a>
         }
@@ -715,7 +715,8 @@
                     <div class="dealnet-credit-check-section">
 
                         <h3 class="dealnet-section-title">
-                            @Resources.NewEquipment <a href="#" onclick="copyFormData($('#new-equipment-info-section'), $('#new-equipment-info-section-modal'), false); $('#new-equipment-info-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
+                            @Resources.NewEquipment
+                            @Html.ActionLink(Resources.Edit, "EquipmentInformation", "NewRental", new { contractId = Model.BasicInfo.ContractId }, new { @class= "dealnet-section-edit-link pull-right" })
                         </h3>
 
                     </div>
@@ -1442,107 +1443,6 @@
             </div>
         </div>
     </div>
-</div>
-
-<div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="new-equipment-info-modal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <div class="modal-title dealnet-large-header">@Resources.Editing @Resources.NewEquipment</div>
-            </div>
-            <div class="modal-body">
-                <div class="dealnet-credit-check-section dealnet-modal-section">
-                    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "new-equipment-info-section-modal" }))
-                    {
-                        for (var i = 0; i < Model.EquipmentInfo.NewEquipment.Count; i++)
-                        {
-                            <div class="dealnet-middle-header">
-                                №@(i + 1)
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12 col-md-6">
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Type, new { @class = "dealnet-field-caption" })
-                                        <div class="dealnet-field-holder">
-                                            <div class="control-group">
-                                                @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].Type,
-                                                     ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description, Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type }),
-                                                     new { @class = "form-control" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-md-6">
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Description, new { @class = "dealnet-field-caption" })
-                                        <div class="dealnet-field-holder">
-                                            <div class="control-group">
-                                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Description, new { @class = "form-control dealnet-input", placeholder = Resources.Description })
-                                                @Html.ValidationMessageFor(m => m.EquipmentInfo.NewEquipment[i].Description, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
-                                {
-                                    <div class="col-sm-12 col-md-6">
-                                        <div class="form-group">
-                                            @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new { @class = "dealnet-field-caption" })
-                                            <div class="dealnet-field-holder">
-                                                <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new { @class = "form-control dealnet-input equipment-cost", type = "text", id = "", placeholder = Resources.Cost })
-                                                    @Html.ValidationMessageFor(m => m.EquipmentInfo.NewEquipment[i].Cost, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new { @class = "dealnet-field-caption" })
-                                            <div class="dealnet-field-holder">
-                                                <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new { @class = "form-control dealnet-input monthly-cost", id = "", type = "text", placeholder = Resources.MonthlyCost })
-                                                    @Html.ValidationMessageFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                        }
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.EquipmentInfo.EstimatedInstallationDate, new { @class = "dealnet-field-caption" })
-                                    <div class="dealnet-field-holder">
-                                        <div class="control-group date-group">
-                                            @Html.TextBoxFor(m => m.EquipmentInfo.EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input date-input", placeholder = Resources.DateFormat })
-                                            @Html.ValidationMessageFor(m => m.EquipmentInfo.EstimatedInstallationDate, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @Html.ValidationMessageFor(m => m.EquipmentInfo.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })
-                    }
-                </div>
-
-
-                <div class="btn-container">
-                    <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="if (saveChanges($('#new-equipment-info-section-modal'), $('#new-equipment-info-section'), '@Url.Action("UpdateEquipmentInfo", "NewRental")', $('#new-equipment-info-form'), @(Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication ? "recalculateTotalCashPrice" : "recalculateTotalMonthlyPayment") @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication) { <text>,checkTotalMonthlyPayment</text> })) { $('#new-equipment-info-modal').modal('hide'); }">@Resources.SaveChanges</button>
-                    <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
 
 <div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="payment-info-modal">

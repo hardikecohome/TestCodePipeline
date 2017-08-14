@@ -6,6 +6,30 @@
     var recalculateEquipmentId = require('calculator-conversion').recalculateEquipmentId;
     var resetValidation = require('calculator-conversion').resetValidation;
 
+
+    function toggleClearInputIcon(fields) {
+        var fields = fields || $('.control-group input, .control-group textarea');
+        var fieldParent = fields.parent('.control-group:not(.date-group):not(.control-group-pass)');
+        fields.each(function () {
+            toggleClickInp($(this));
+        });
+        fields.on('keyup', function () {
+            toggleClickInp($(this));
+        });
+        fieldParent.find('.clear-input').on('click', function () {
+            $(this).siblings('input, textarea').val('').change();
+            $(this).hide();
+        });
+    }
+
+    function toggleClickInp(inp) {
+        if (inp.val().length !== 0) {
+            inp.siblings('.clear-input').css('display', 'block');
+        } else {
+            inp.siblings('.clear-input').hide();
+        }
+    }
+
     var addEquipment = function (option, callback) {
         return function(e) {
             var template = $('#equipment-template').html();
@@ -35,12 +59,12 @@
 
             $('#' + option + '-container').find('.equipments-hold').append(equipmentTemplate);
 
-            $('#equipment-' + nextIndex)
+            $('#' + option + '-equipment-' + nextIndex)
                 .find('.clear-input')
                 .find('svg')
                 .html('<use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-remove"></use>');
 
-            toggleClearInputIcon($('#equipment-' + nextIndex).find('.control-group input, .control-group textarea'));
+            toggleClearInputIcon($('#' + option + '-equipment-' + nextIndex).find('.control-group input, .control-group textarea'));
 
             setters.setNewEquipment(option, callback);
 
@@ -145,6 +169,7 @@
         addEquipment: addEquipment,
         clearFirstOption: clearFirstOption,
         moveButtonByIndex: moveButtonByIndex,
-        deleteSecondOption: deleteSecondOption
+        deleteSecondOption: deleteSecondOption,
+        toggleClearInputIcon: toggleClearInputIcon
     }
 })

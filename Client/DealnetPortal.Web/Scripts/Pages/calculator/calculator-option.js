@@ -14,21 +14,6 @@
         };
     };
 
-    function toggleClearInputIcon(fields) {
-        var fields = fields || $('.control-group input, .control-group textarea');
-        var fieldParent = fields.parent('.control-group:not(.date-group):not(.control-group-pass)');
-        fields.each(function () {
-            toggleClickInp($(this));
-        });
-        fields.on('keyup', function () {
-            toggleClickInp($(this));
-        });
-        fieldParent.find('.clear-input').on('click', function () {
-            $(this).siblings('input, textarea').val('').change();
-            $(this).hide();
-        });
-    }
-
     var optionSetup = function (option, callback) {
 
         $('#' + option + '-addEquipment').on('click', ui.addEquipment(option, callback));
@@ -182,6 +167,22 @@
         var template = $.parseHTML(container);
         var $template = $(template);
 
+        $template.find('[id^="' + optionToCopy + '-"]').each(function () {
+            var $this = $(this);
+            $this.attr('id', $this.attr('id').replace(optionToCopy, newOption));
+        });
+
+        $template.find('[name^="' + optionToCopy + '"]').each(function () {
+            var $this = $(this);
+            $this.attr('name', $this.attr('name').replace(optionToCopy, newOption));
+        });
+
+        $template.find('[data-valmsg-for^="' + optionToCopy + '"]').each(function () {
+            var $this = $(this);
+            var newValFor = $this.data('valmsg-for').replace(optionToCopy, newOption);
+            $this.attr('data-valmsg-for', newValFor);
+        });
+
         recalculateEquipmentId(template, optionToCopy, newOption);
 
         $template.find('.calculator-remove').attr('id', newOption + '-remove');
@@ -257,7 +258,7 @@
             }
         });
 
-        toggleClearInputIcon($('#' + newOption + '-container').find('.control-group input, .control-group textarea'));
+        ui.toggleClearInputIcon($('#' + newOption + '-container').find('.control-group input, .control-group textarea'));
 
         jcarousel.refreshCarouselItems();
         jcarousel.carouselRateCards();
@@ -265,15 +266,6 @@
         $('.jcarousel').jcarousel('scroll', '+=1');
 
         optionSetup(newOption, callback);
-    }
-
-
-    function toggleClickInp(inp) {
-        if (inp.val().length !== 0) {
-            inp.siblings('.clear-input').css('display', 'block');
-        } else {
-            inp.siblings('.clear-input').hide();
-        }
     }
 
     /**
