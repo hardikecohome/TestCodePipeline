@@ -125,6 +125,8 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public bool IsApplicantsInfoEditAvailable { get; set; }
 
+        public bool IsFirstStepAvailable { get; set; }
+
         public bool IsNewContract { get; set; }
 
         public decimal? CreditAmount { get; set; }
@@ -200,6 +202,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public bool IsAllInfoCompleted { get; set; }
 
         public bool IsApplicantsInfoEditAvailable { get; set; }
+        public bool IsFirstStepAvailable { get; set; }
 
         public decimal? CreditAmount { get; set; }
 

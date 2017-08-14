@@ -23,7 +23,7 @@
 <div id="steps-line"></div>
 <div class="row" id="steps">
     <div class="col-xs-4">
-        @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable)
+        @if (Model.EquipmentInfo.IsFirstStepAvailable)
         {
             <a href="@Url.Action("BasicInfo", new {contractId = Model.BasicInfo.ContractId})" data-warning="true" id="step1" class="step-item">1</a>
         }

@@ -75,6 +75,7 @@ namespace DealnetPortal.Web.Infrastructure
             }
             contactAndPaymentInfo.ContractId = contractResult.Item1.Id;
             contactAndPaymentInfo.IsApplicantsInfoEditAvailable = contractResult.Item1.ContractState <= Api.Common.Enumeration.ContractState.Completed;
+            contactAndPaymentInfo.IsFirstStepAvailable = contractResult.Item1.ContractState != Api.Common.Enumeration.ContractState.Completed;
 
             MapContactAndPaymentInfo(contactAndPaymentInfo, contractResult.Item1);
 
@@ -122,6 +123,7 @@ namespace DealnetPortal.Web.Infrastructure
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
             equipmentInfo.IsAllInfoCompleted = result.Item1.PaymentInfo != null && result.Item1.PrimaryCustomer?.Phones != null && result.Item1.PrimaryCustomer.Phones.Any();
             equipmentInfo.IsApplicantsInfoEditAvailable = result.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;
+            equipmentInfo.IsFirstStepAvailable = result.Item1.ContractState != Api.Common.Enumeration.ContractState.Completed;
 
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
             var dealerTier = await _contractServiceAgent.GetDealerTier();
@@ -640,7 +642,8 @@ namespace DealnetPortal.Web.Infrastructure
             if (summary.EquipmentInfo != null)
             {
                 summary.EquipmentInfo.CreditAmount = contract.Details?.CreditAmount;
-                summary.EquipmentInfo.IsApplicantsInfoEditAvailable = contract.ContractState < Api.Common.Enumeration.ContractState.Completed;
+                summary.EquipmentInfo.IsApplicantsInfoEditAvailable = contract.ContractState <= Api.Common.Enumeration.ContractState.Completed;
+                summary.EquipmentInfo.IsFirstStepAvailable = contract.ContractState != Api.Common.Enumeration.ContractState.Completed;
                 summary.EquipmentInfo.Notes = contract.Details?.Notes;
             }
             summary.Notes = contract.Details?.Notes;

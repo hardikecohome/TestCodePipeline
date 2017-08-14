@@ -181,6 +181,7 @@ namespace DealnetPortal.Web.Models
         public int? ContractId { get; set; }
 
         public bool IsApplicantsInfoEditAvailable { get; set; }
+        public bool IsFirstStepAvailable { get; set; }
     }
 
     public class AdditionalInfoViewModel
