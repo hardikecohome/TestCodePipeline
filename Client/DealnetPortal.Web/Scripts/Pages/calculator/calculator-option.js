@@ -182,6 +182,22 @@
         var template = $.parseHTML(container);
         var $template = $(template);
 
+        $template.find('[id^="' + optionToCopy + '-"]').each(function () {
+            var $this = $(this);
+            $this.attr('id', $this.attr('id').replace(optionToCopy, newOption));
+        });
+
+        $template.find('[name^="' + optionToCopy + '"]').each(function () {
+            var $this = $(this);
+            $this.attr('name', $this.attr('name').replace(optionToCopy, newOption));
+        });
+
+        $template.find('[data-valmsg-for^="' + optionToCopy + '"]').each(function () {
+            var $this = $(this);
+            var newValFor = $this.data('valmsg-for').replace(optionToCopy, newOption);
+            $this.attr('data-valmsg-for', newValFor);
+        });
+
         recalculateEquipmentId(template, optionToCopy, newOption);
 
         $template.find('.calculator-remove').attr('id', newOption + '-remove');
