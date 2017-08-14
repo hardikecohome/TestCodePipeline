@@ -77,6 +77,10 @@
       display: none;
     }
     &.step-passed {
+      .panel-step{
+        border-color: fade(@btn-success-bg, 30%);
+        background-color: fade(@btn-success-bg, 12%);
+      }
       .passed-step-icon {
         display: block;
         position: absolute;
@@ -107,7 +111,6 @@
     @media @tablet-down {
       left: 30px;
       color: @btn-success-bg;
-      background-color: fade(@btn-success-bg, 12%);
     }
     @media @mobile {
       width: 26px;
