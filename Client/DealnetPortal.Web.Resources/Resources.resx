@@ -1721,4 +1721,64 @@
   <data name="YearsInBusiness" xml:space="preserve">
     <value>Years in business</value>
   </data>
+  <data name="LegalName" xml:space="preserve">
+    <value>Legal Name</value>
+  </data>
+  <data name="LegalNameIncorrectFormat" xml:space="preserve">
+    <value>Legal Name is in incorrect format</value>
+  </data>
+  <data name="NumInstallers" xml:space="preserve">
+    <value>Number Of Installers</value>
+  </data>
+  <data name="NumInstallersIncorrectFormat" xml:space="preserve">
+    <value>Number of Installers is in incorrect format</value>
+  </data>
+  <data name="NumInstallersMax3" xml:space="preserve">
+    <value>Number of Installers must be maximum 3 digits long</value>
+  </data>
+  <data name="NumSales" xml:space="preserve">
+    <value>Number Of Sales</value>
+  </data>
+  <data name="NumSalesIncorrectFormat" xml:space="preserve">
+    <value>Number of Sales is in incorrect format</value>
+  </data>
+  <data name="NumSalesMax3" xml:space="preserve">
+    <value>Number of Sales must be maximum 3 digits long</value>
+  </data>
+  <data name="OperatingName" xml:space="preserve">
+    <value>Operating Name</value>
+  </data>
+  <data name="OperatingNameIncorrectFormat" xml:space="preserve">
+    <value>Operating Name is in incorrect format</value>
+  </data>
+  <data name="PercentOwnership" xml:space="preserve">
+    <value>Percentage of Ownership</value>
+  </data>
+  <data name="PercentOwnershipRange" xml:space="preserve">
+    <value>Percentage of Ownership should be between {1} and {2}</value>
+  </data>
+  <data name="PhoneIncorrectFormat" xml:space="preserve">
+    <value>Phone is in incorrect format</value>
+  </data>
+  <data name="PhoneMustBeLong" xml:space="preserve">
+    <value>The field Phone must be a string with a length of 10</value>
+  </data>
+  <data name="Provinces" xml:space="preserve">
+    <value>Provinces</value>
+  </data>
+  <data name="ProvincesMinLength" xml:space="preserve">
+    <value>There should be at least {0} Province</value>
+  </data>
+  <data name="Site" xml:space="preserve">
+    <value>Site</value>
+  </data>
+  <data name="SiteInvalidFormat" xml:space="preserve">
+    <value>Site Url is in incorrect format</value>
+  </data>
+  <data name="YearsInBusinessIncorrectFormat" xml:space="preserve">
+    <value>Years In Business is in incorrect format</value>
+  </data>
+  <data name="YearsInBusinessMax3" xml:space="preserve">
+    <value>Years In Business must be maximum 3 digits long</value>
+  </data>
 </root>

@@ -227,6 +227,7 @@
     <Compile Include="Controllers\AsyncCancellationController.cs" />
     <Compile Include="Controllers\CalculatorController.cs" />
     <Compile Include="Controllers\CustomerFormController.cs" />
+    <Compile Include="Controllers\DealerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InfoController.cs" />
     <Compile Include="Controllers\LeadsController.cs" />
@@ -1065,6 +1066,7 @@
     <Folder Include="Resources\" />
     <Folder Include="Views\AsyncCancellation\" />
     <Folder Include="Views\Credits\" />
+    <Folder Include="Views\Dealer\" />
     <Folder Include="Views\Deals\" />
     <Folder Include="Views\UpdateData\" />
     <Folder Include="Views\Update\" />
