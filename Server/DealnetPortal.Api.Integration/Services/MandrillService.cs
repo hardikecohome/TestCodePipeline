@@ -14,7 +14,6 @@ namespace DealnetPortal.Api.Integration.Services
 {
     public class MandrillService : IMandrillService
     {
-        //public IMandrillApi _manager;
         public static string _endPoint { get; set; }
         public static string _apiKey { get; set; }
 
@@ -52,9 +51,6 @@ namespace DealnetPortal.Api.Integration.Services
             myVariables.Add(new Variable() { name = "FNAME", content = contract.PrimaryCustomer.FirstName });
             myVariables.Add(new Variable() { name = "LNAME", content = contract.PrimaryCustomer.LastName });
             myVariables.Add(new Variable() { name = "EQUIPINFO", content = services });
-            //myVariables.Add(new Variable() { name = "DADDRESS", content = addres});
-            //myVariables.Add(new Variable() { name = "DPHONE", content = dealer.Phones.First().PhoneNum != null? dealer.Phones.First().PhoneNum: "" });
-            //myVariables.Add(new Variable() { name = "DMAIL", content = dealer.Emails.FirstOrDefault().EmailAddress != null? dealer.Emails.FirstOrDefault().EmailAddress :"" });
             request.key = _apiKey;
             request.template_name = ConfigurationManager.AppSettings["DealerLeadAcceptedTemplate"];
             request.template_content = new List<templatecontent>() {
@@ -201,36 +197,6 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
         }
-
-        //    public async Task SendEmail(string myemail)
-        //{
-        //    List<EmailAddress> to = new List<EmailAddress>();
-        //    List<RcptMergeVar> mergevariables = new List<RcptMergeVar>();
-        //    List<MergeVar> myvar = new List<MergeVar>();
-        //    myvar.Add(new MergeVar() { Name="FNAME", Content = "Hardik" });
-        //    myvar.Add(new MergeVar() { Name = "LNAME", Content = "Sharma" });
-        //    List<TemplateContent> variables = new List<TemplateContent>();
-
-        //    mergevariables.Add(new RcptMergeVar() {
-        //        Rcpt = myemail,
-        //        Vars = myvar
-
-        //    });
-        //    to.Add(new EmailAddress() { Email = myemail });
-        //    EmailMessage message = new EmailMessage();
-        //    message.To = to;
-
-        //    await _manager.SendMessageTemplate(new SendMessageTemplateRequest(new EmailMessage()
-        //    {
-        //        To = to,
-        //        Subject = "Send Email From Mandrill",
-        //        FromEmail = ConfigurationManager.AppSettings["FromEamil"],
-        //        FromName = ConfigurationManager.AppSettings["FromName"],
-        //        Merge = true,
-        //        MergeLanguage = "mailchimp"
-
-        //    }, "",));
-        //}
 
     }
 }
