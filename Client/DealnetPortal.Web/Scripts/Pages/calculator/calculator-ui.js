@@ -126,6 +126,10 @@
             $(this).attr('id', $(this).attr('id').replace('option3', 'option2'));
         });
 
+        $container.find('[name^="option3"]').each(function () {
+            $(this).attr('name', $(this).attr('name').replace('option3', 'option2'));
+        });
+
         $('#option2-header').text($('#option2-header').text().replace('3', '2'));
 
         $container.attr('id', 'option2-container');
