@@ -490,6 +490,29 @@ namespace DealnetPortal.DataAccess.Migrations
                 AspirePassword = "123456"
             };
             users.Add(climatecareUser);
+
+            var clarityUser = new ApplicationUser()
+            {
+                Email = "testingclaritydealer@testdealnet.ca",
+                UserName = "tcd1",
+                Application = applications.First(x => x.Id == EcohomeAppId),
+                ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                EsignatureEnabled = true,
+                PasswordHash = SecurityUtils.HashPassword("123456"),//"ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
+                //Password: 123456789
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+                Company = "ECO",
+                DisplayName = "Clarity",
+                AspireAccountId = "11840",
+                AspireLogin = "tcd1",
+                AspirePassword = "123456"
+            };
+            users.Add(climatecareUser);
             var ecoHomeUser = new ApplicationUser()
             {
                 Email = "ecohome@eco.com",
@@ -1792,6 +1815,26 @@ namespace DealnetPortal.DataAccess.Migrations
                 { "@table-tr-hover-bg", "rgba(0, 163, 230, 0.05)" },
             };
             SetDealerStringSettings(context, "tcc1", climatecareSettings);
+            var claritySettings = new Dictionary<string, string>()
+            {
+                { "@navbar-header", "#0688d8"},
+                { "@logo-bg-color", "#007dc9"},
+                { "@logo-width", "100px"},
+                { "@logo-height", "29px"},
+                { "@navbar-bg", "#24a1df"},
+                { "@nav-item-active-bg", "#078fd2"},
+                { "@nav-item-active-box-shadow", "inset 0 -1px 0 0 rgba(255, 255, 255, 0.27)"},
+                { "@btn-success-bg", "#76c900"},
+                { "@btn-success-shadow", "0 1px 0 0 #6bb500"},
+                { "@btn-success-disabled-bg", "#76c900"},
+                { "@btn-success-hover-bg", "#6ebb00"},
+                { "@btn-success-hover-shadow", "0 1px 0 0 #61a500"},
+                { "@btn-success-active-bg", "#62a700"},
+                { "@btn-success-active-shadow", "0 1px 0 0 #599700"},
+                { "@well-success-icon-color", "#76c900"},
+                { "@table-tr-hover-bg", "rgba(118, 201, 0, 0.05)" },
+            };
+            SetDealerStringSettings(context, "tcd1", claritySettings);
 
         }
 
