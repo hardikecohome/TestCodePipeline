@@ -261,6 +261,7 @@
     <Compile Include="Infrastructure\Managers\OwinSecurityManager.cs" />
     <Compile Include="Infrastructure\Managers\SecurityManager.cs" />
     <Compile Include="Infrastructure\Managers\SettingsManager.cs" />
+    <Compile Include="Infrastructure\MinListCountAttribute.cs" />
     <Compile Include="Infrastructure\ProfileManager.cs" />
     <Compile Include="Infrastructure\CustomRequiredAttribute.cs" />
     <Compile Include="Infrastructure\DynamicLessHandler.cs" />
@@ -280,6 +281,9 @@
     <Compile Include="Models\ContractViewModel.cs" />
     <Compile Include="Models\CreditRejectedViewModel.cs" />
     <Compile Include="Models\CustomerContactInfoViewModel.cs" />
+    <Compile Include="Models\Dealer\CompanyInfoViewModel.cs" />
+    <Compile Include="Models\Dealer\DealerOnboardingViewModel.cs" />
+    <Compile Include="Models\Dealer\OwnerViewModel.cs" />
     <Compile Include="Models\MyProfile\DealerAreaViewModel.cs" />
     <Compile Include="Models\MyProfile\ProfileViewModel.cs" />
     <Compile Include="Models\NewCustomerViewModel.cs" />
@@ -1059,6 +1063,8 @@
     <Content Include="Views\Shared\Calculator\_EquipmentTemplate.cshtml" />
     <Content Include="Views\Home\OnBoard.cshtml" />
     <Content Include="Views\Home\OnBoardSuccess.cshtml" />
+    <Content Include="Views\Dealer\OnBoarding.cshtml" />
+    <Content Include="Views\Dealer\OnBoardingSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
@@ -1066,7 +1072,6 @@
     <Folder Include="Resources\" />
     <Folder Include="Views\AsyncCancellation\" />
     <Folder Include="Views\Credits\" />
-    <Folder Include="Views\Dealer\" />
     <Folder Include="Views\Deals\" />
     <Folder Include="Views\UpdateData\" />
     <Folder Include="Views\Update\" />

@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DealnetPortal.Web.Models.Dealer;
 
 namespace DealnetPortal.Web.Controllers
 {
     public class DealerController : Controller
     {
         // GET: Dealer
-        public ActionResult Index()
+        public ActionResult OnBoarding()
         {
-            return View();
+            return View(new DealerOnboardingViewModel());
         }
     }
 }
