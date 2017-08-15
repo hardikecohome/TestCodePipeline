@@ -26,6 +26,7 @@
 
     var setLoanTerm = function (optionKey, callback) {
         return function (e) {
+            $(e.target).valid();
             state[optionKey].LoanTerm = parseFloat(e.target.value);
             validateLoanAmortTerm(optionKey);
             callback([ optionKey ]);
@@ -34,6 +35,7 @@
 
     var setAmortTerm = function (optionKey, callback) {
         return function (e) {
+            $(e.target).valid();
             state[optionKey].AmortizationTerm = parseFloat(e.target.value);
             validateLoanAmortTerm(optionKey);
             callback([optionKey]);
@@ -49,6 +51,7 @@
 
     var setCustomerRate = function (optionKey, callback) {
         return function (e) {
+            $(e.target).valid();
             state[optionKey].CustomerRate = parseFloat(e.target.value);
             callback([ optionKey ]);
         };
@@ -56,6 +59,7 @@
 
     var setYourCost = function (optionKey, callback) {
         return function (e) {
+            $(e.target).valid();
             state[optionKey].DealerCost = parseFloat(e.target.value);
             callback([optionKey]);
         };
@@ -63,13 +67,15 @@
 
     var setAdminFee = function(optionKey, callback) {
         return function (e) {
+            $(e.target).valid();
             state[optionKey].AdminFee = Number(e.target.value);
             callback([optionKey]);
         };
     };
 
     var setDownPayment = function(optionKey, callback) {
-        return function(e) {
+        return function (e) {
+            $(e.target).valid();
             state[optionKey].downPayment = e.target.value !== '' ?  parseFloat(e.target.value) : 0;
             callback([optionKey]);
         }
