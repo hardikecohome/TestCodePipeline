@@ -242,7 +242,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                 item.CustomerAccountId = ConvertFromDbVal<string>(dr["Customer ID"]);
                 item.CustomerFirstName = fstName;
-                item.CustomerLastName = fstName;                
+                item.CustomerLastName = lstName;                
                 return item;
             }
             catch (Exception ex)
