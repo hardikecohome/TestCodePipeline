@@ -17,6 +17,7 @@ namespace DealnetPortal.Api.Integration.Services
             string listId = "dc1b598897";
             Member subscriber = await manager.Members.GetAsync(listId, customerData.Profile.EmailAddress);
 
+            var transactionInfo = customerData.TransactionsInfo.FirstOrDefault();
             if (subscriber != null)
             {
                 if (customerData.Profile.FirstName != null)
@@ -41,15 +42,15 @@ namespace DealnetPortal.Api.Integration.Services
                         country = "CA"
                     };
                 }
-                if (customerData.TransactionInfo.CreditAmount != null)
+                if (transactionInfo?.CreditAmount != null)
                 {
-                    subscriber.MergeFields["CREDITAMT"] = customerData.TransactionInfo.CreditAmount;
+                    subscriber.MergeFields["CREDITAMT"] = transactionInfo.CreditAmount;
                 }
-                if (customerData.TransactionInfo.AspireStatus != null)
+                if (transactionInfo?.AspireStatus != null)
                 {
-                    subscriber.MergeFields["APPSTATUS"] = customerData.TransactionInfo.AspireStatus;
+                    subscriber.MergeFields["APPSTATUS"] = transactionInfo.AspireStatus;
                 }
-                if (customerData.TransactionInfo.IsIncomplete == true)
+                if (transactionInfo?.IsIncomplete == true)
                 {
                     subscriber.MergeFields["EQUIPINFO"] = "Required";
                 }
@@ -77,9 +78,9 @@ namespace DealnetPortal.Api.Integration.Services
                     zip = location.PostalCode,
                     country = "CA"
                 };
-                subscriber.MergeFields["CREDITAMT"] = customerData.TransactionInfo.CreditAmount;
-                subscriber.MergeFields["APPSTATUS"] = customerData.TransactionInfo.AspireStatus;
-                if (customerData.TransactionInfo.IsIncomplete == true)
+                subscriber.MergeFields["CREDITAMT"] = transactionInfo?.CreditAmount;
+                subscriber.MergeFields["APPSTATUS"] = transactionInfo?.AspireStatus;
+                if (transactionInfo?.IsIncomplete == true)
                 {
                     subscriber.MergeFields["EQUIPINFO"] = "Required";
                 }

@@ -112,17 +112,21 @@ namespace DealnetPortal.Api.Integration.Services
                 var creditReviewStates = _configuration.GetSetting("CreditReviewStatus")?.Split(',').Select(s => s.Trim()).ToArray();
                 var succededContracts = contractsResultList.Where(r => r.Item1 != null && r.Item1.ContractState >= ContractState.CreditConfirmed
                                                                 && creditReviewStates?.Contains(r.Item1?.Details?.Status) != true).Select(r => r.Item1).ToList();
-                var succededContract = succededContracts.FirstOrDefault();
-                if (succededContract != null)
+                if (succededContracts != null && succededContracts.Any())
                 {
-                    var resultAlerts = await _customerWalletService.CreateCustomerByContract(succededContract, contractOwnerId);
+                    var resultAlerts = await _customerWalletService.CreateCustomerByContractList(succededContracts, contractOwnerId);
+
                     if (resultAlerts.All(x => x.Type != AlertType.Error))
                     {
-                        if (succededContracts.Select(x => x.Equipment?.NewEquipment?.FirstOrDefault()).Any(i=>i!=null) &&
-                            succededContract.PrimaryCustomer.Locations
-                            .FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress) !=null)
+                        var hasInstallationAddress = succededContracts
+                            .FirstOrDefault()
+                            .PrimaryCustomer.Locations
+                            .FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress) != null;
+
+                        if (succededContracts.Select(x => x.Equipment?.NewEquipment?.FirstOrDefault()).Any(i=>i!=null) && hasInstallationAddress)
                         {
                             await _mailService.SendHomeImprovementMailToCustomer(succededContracts);
+
                             foreach (var contract in succededContracts)
                             {
                                 if (IsContractUnassignable(contract.Id))
@@ -160,7 +164,8 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                     });
 
-                var contractDTO = Mapper.Map<ContractDTO>(succededContract ?? contractsResultList?.FirstOrDefault()?.Item1);                
+                //?
+                var contractDTO = Mapper.Map<ContractDTO>(succededContracts.FirstOrDefault() ?? contractsResultList?.FirstOrDefault()?.Item1);                
                 return new Tuple<ContractDTO, IList<Alert>>(contractDTO, creditCheckAlerts);
             }
             catch (Exception ex)
