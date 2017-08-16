@@ -40,5 +40,6 @@ namespace DealnetPortal.Api.Integration.Services
         Task SendNotifyMailNoDealerAcceptLead(Contract contract);
         void SendNotifyMailNoDealerAcceptedLead12H(Contract contract);
         Task SendApprovedMailToCustomer(Contract customerFormData);
+        Task SendDeclinedConfirmation(string emailid, string firstName, string lastName);
     }
 }

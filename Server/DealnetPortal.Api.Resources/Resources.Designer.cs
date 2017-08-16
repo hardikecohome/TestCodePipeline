@@ -1420,20 +1420,20 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to on the.
-        /// </summary>
-        public static string OnThe {
-            get {
-                return ResourceManager.GetString("OnThe", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to No Interest.
         /// </summary>
         public static string NoInterest {
             get {
                 return ResourceManager.GetString("NoInterest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to on the.
+        /// </summary>
+        public static string OnThe {
+            get {
+                return ResourceManager.GetString("OnThe", resourceCulture);
             }
         }
         
@@ -1623,6 +1623,15 @@ namespace DealnetPortal.Api.Resources {
         public static string SignedInstallationCertificate {
             get {
                 return ResourceManager.GetString("SignedInstallationCertificate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spa.
+        /// </summary>
+        public static string Spa {
+            get {
+                return ResourceManager.GetString("Spa", resourceCulture);
             }
         }
         
@@ -1857,6 +1866,15 @@ namespace DealnetPortal.Api.Resources {
         public static string WeFoundHomeProfessionalForYourHomeImprovementProject {
             get {
                 return ResourceManager.GetString("WeFoundHomeProfessionalForYourHomeImprovementProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Well Pump.
+        /// </summary>
+        public static string WellPump {
+            get {
+                return ResourceManager.GetString("WellPump", resourceCulture);
             }
         }
         

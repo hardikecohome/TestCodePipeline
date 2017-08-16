@@ -173,11 +173,11 @@ namespace DealnetPortal.Api.Integration.Services
                     if (updatedContract.ContractState == ContractState.Completed)
                     {
                         var contractDTO = Mapper.Map<ContractDTO>(updatedContract);
-                        Task.Run(
-                            async () =>
-                                await
-                                    _mailService.SendContractChangeNotification(contractDTO,
-                                        updatedContract.Dealer.Email));
+                        //Task.Run(
+                        //    async () =>
+                        //        await
+                        //            _mailService.SendContractChangeNotification(contractDTO,
+                        //                updatedContract.Dealer.Email));
                     }
                 }
                 else
@@ -518,11 +518,11 @@ namespace DealnetPortal.Api.Integration.Services
                     _loggingService.LogInfo($"Contract [{contractId}] {submitState}");
 
                     var contractDTO = Mapper.Map<ContractDTO>(contract);
-                    Task.Run(
-                        async () =>
-                            await
-                                _mailService.SendContractSubmitNotification(contractDTO, contract.Dealer.Email,
-                                    creditCheckRes.Item1.CreditCheckState != CreditCheckState.Declined));
+                    //Task.Run(
+                    //    async () =>
+                    //        await
+                    //            _mailService.SendContractSubmitNotification(contractDTO, contract.Dealer.Email,
+                    //                creditCheckRes.Item1.CreditCheckState != CreditCheckState.Declined));
                     //_mailService.SendContractSubmitNotification(contractId, contractOwnerId);
                 }
                 else
@@ -752,11 +752,11 @@ namespace DealnetPortal.Api.Integration.Services
                             if (contract.ContractState == ContractState.Completed)
                             {
                                 var contractDTO = Mapper.Map<ContractDTO>(contract);
-                                Task.Run(
-                                    async () =>
-                                        await
-                                            _mailService.SendContractChangeNotification(contractDTO,
-                                                contract.Dealer.Email));
+                                //Task.Run(
+                                //    async () =>
+                                //        await
+                                //            _mailService.SendContractChangeNotification(contractDTO,
+                                //                contract.Dealer.Email));
                             }
                             _aspireService.UpdateContractCustomer(contractId.Value, contractOwnerId);
                         }
@@ -794,9 +794,9 @@ namespace DealnetPortal.Api.Integration.Services
                         var contract = _contractRepository.GetContractAsUntracked(comment.ContractId.Value,
                             contractOwnerId);
                         var contractDTO = Mapper.Map<ContractDTO>(contract);
-                        Task.Run(
-                            async () =>
-                                await _mailService.SendContractChangeNotification(contractDTO, contract.Dealer.Email));
+                        //Task.Run(
+                        //    async () =>
+                        //        await _mailService.SendContractChangeNotification(contractDTO, contract.Dealer.Email));
                     }
                 }
                 else
@@ -838,9 +838,9 @@ namespace DealnetPortal.Api.Integration.Services
                     var contract = _contractRepository.GetContractAsUntracked(removedCommentContractId.Value,
                         contractOwnerId);
                     var contractDTO = Mapper.Map<ContractDTO>(contract);
-                    Task.Run(
-                        async () =>
-                            await _mailService.SendContractChangeNotification(contractDTO, contract.Dealer.Email));
+                    //Task.Run(
+                    //    async () =>
+                    //        await _mailService.SendContractChangeNotification(contractDTO, contract.Dealer.Email));
                 }
                 else
                 {
@@ -974,6 +974,7 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var alerts = new List<Alert>();
             ContractDocument doc = null;
+            document.DocumentName = document.DocumentName.Replace('-', '_');
             try
             {
                 doc = _contractRepository.AddDocumentToContract(document.ContractId, Mapper.Map<ContractDocument>(document),
@@ -981,15 +982,25 @@ namespace DealnetPortal.Api.Integration.Services
                 _unitOfWork.Save();
 
                 //run aspire upload async
-                _aspireService.UploadDocument(document.ContractId, document, contractOwnerId);
+                var aspireAlerts = _aspireService.UploadDocument(document.ContractId, document, contractOwnerId).GetAwaiter().GetResult();
                 //var aspireAlerts = _aspireService.UploadDocument(document.ContractId, document, contractOwnerId).GetAwaiter().GetResult();
                 //if (aspireAlerts?.Any() ?? false)
                 //{
                 //    alerts.AddRange(aspireAlerts);
                 //}
+                if (aspireAlerts.Any())
+                {
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = "Failed to add document to contract",
+                        Message = aspireAlerts.FirstOrDefault().Message
+                    });
+                    _loggingService.LogError(aspireAlerts.FirstOrDefault().Message);
+                }
                 var contract = _contractRepository.GetContractAsUntracked(doc.ContractId, contractOwnerId);
                 var contractDTO = Mapper.Map<ContractDTO>(contract);
-                Task.Run(async () => await _mailService.SendContractChangeNotification(contractDTO, contract.Dealer.Email));
+                //Task.Run(async () => await _mailService.SendContractChangeNotification(contractDTO, contract.Dealer.Email));
             }
             catch (Exception ex)
             {

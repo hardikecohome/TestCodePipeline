@@ -41,6 +41,7 @@
                     }
                 });
                 @*window.location.href = "@Url.Action("CheckCreditStatus", new { contractId = Model })";*@
+				ga('send', 'event', 'Credit Check', 'button_click', 'Step 2 from Dealer Portal', '100');
             });
     </script>
 }
