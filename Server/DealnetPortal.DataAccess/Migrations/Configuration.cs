@@ -1787,9 +1787,9 @@ namespace DealnetPortal.DataAccess.Migrations
             var climatecareSettings = new Dictionary<string, string>()
             {
                 { "@navbar-header", "#8b0000"},
-                { "@logo-bg-color", "rgba(6, 2, 34, 0.2)"},
-                { "@logo-width", "117px"},
-                { "@logo-height", "31px"},
+                { "@logo-bg-color", "#ffffff"},
+                { "@logo-width", "142px"},
+                { "@logo-height", "21px"},
                 { "@navbar-bg", "#8b0030"},
                 { "@nav-item-active-bg", "#cd5c5c"},
                 { "@nav-item-active-box-shadow", "inset 0 -1px 0 0 rgba(255, 255, 255, 0.27)"},
@@ -1817,21 +1817,21 @@ namespace DealnetPortal.DataAccess.Migrations
             SetDealerStringSettings(context, "tcc1", climatecareSettings);
             var claritySettings = new Dictionary<string, string>()
             {
-                { "@navbar-header", "#0688d8"},
-                { "@logo-bg-color", "#007dc9"},
+                { "@navbar-header", "#000066"},
+                { "@logo-bg-color", "#000066"},
                 { "@logo-width", "100px"},
                 { "@logo-height", "29px"},
-                { "@navbar-bg", "#24a1df"},
-                { "@nav-item-active-bg", "#078fd2"},
+                { "@navbar-bg", "#000066"},
+                { "@nav-item-active-bg", "#994d00"},
                 { "@nav-item-active-box-shadow", "inset 0 -1px 0 0 rgba(255, 255, 255, 0.27)"},
-                { "@btn-success-bg", "#76c900"},
-                { "@btn-success-shadow", "0 1px 0 0 #6bb500"},
-                { "@btn-success-disabled-bg", "#76c900"},
-                { "@btn-success-hover-bg", "#6ebb00"},
-                { "@btn-success-hover-shadow", "0 1px 0 0 #61a500"},
-                { "@btn-success-active-bg", "#62a700"},
-                { "@btn-success-active-shadow", "0 1px 0 0 #599700"},
-                { "@well-success-icon-color", "#76c900"},
+                { "@btn-success-bg", "#000066"},
+                { "@btn-success-shadow", "0 1px 0 0 #000033"},
+                { "@btn-success-disabled-bg", "#6666ff"},
+                { "@btn-success-hover-bg", "#994d00"},
+                { "@btn-success-hover-shadow", "0 1px 0 0 #994d00"},
+                { "@btn-success-active-bg", "#994d00"},
+                { "@btn-success-active-shadow", "0 1px 0 0 #994d00"},
+                { "@well-success-icon-color", "#000066"},
                 { "@table-tr-hover-bg", "rgba(118, 201, 0, 0.05)" },
             };
             SetDealerStringSettings(context, "tcd1", claritySettings);
