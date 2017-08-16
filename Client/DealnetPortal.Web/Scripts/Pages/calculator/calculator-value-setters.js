@@ -165,6 +165,7 @@
 
     var setEquipmentCost = function(optionKey, callback) {
         return function (e) {
+            $(e.target).valid();
             var mvcId = e.target.id;
             var id = mvcId.split('__Cost')[0].substr(mvcId.split('__Cost')[0].lastIndexOf('_') + 1);
 
@@ -182,7 +183,8 @@
     }
 
     var setEquipmentDescription = function(optionKey) {
-        return function(e) {
+        return function (e) {
+            $(e.target).valid();
             var mvcId = e.target.id;
             var id = mvcId.split('__Description')[0].substr(mvcId.split('__Description')[0].lastIndexOf('_') + 1);
             state[optionKey].equipments[id].description = e.target.value;
