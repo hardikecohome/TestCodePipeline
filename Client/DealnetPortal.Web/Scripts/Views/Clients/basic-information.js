@@ -5,7 +5,8 @@
 
     return function (store) {
         var dispatch = store.dispatch;
-        var birth = $('body').is('.ios-device') ? $("#birth-date").siblings('.div-datepicker') : $("#birth-date");
+        var birth = $("#birth-date"); //$('body').is('.ios-device') ? $("#birth-date").siblings('.div-datepicker') :
+            
         inputDateFocus(birth);
         birth.datepicker({
             yearRange: '1900:' + (new Date().getFullYear() - 18),
