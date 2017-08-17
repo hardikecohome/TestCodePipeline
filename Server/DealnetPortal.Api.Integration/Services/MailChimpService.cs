@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Models.CustomerWallet;
@@ -6,15 +7,12 @@ using MailChimp.Net;
 using MailChimp.Net.Core;
 using MailChimp.Net.Models;
 using DealnetPortal.Api.Models.Notification;
+
 namespace DealnetPortal.Api.Integration.Services
 {
     public class MailChimpService : IMailСhimpService
     {
-        public static MailChimpManager manager;
-        public MailChimpService(string apiKey)
-        {
-            manager = new MailChimpManager(apiKey);
-        }
+        private readonly MailChimpManager _manager = new MailChimpManager(ConfigurationManager.AppSettings["MailChimpApiKey"]); 
 
         public async Task AddNewSubscriberAsync(string listid, MailChimpMember member)
         {
@@ -44,7 +42,7 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
 
-                await manager.Members.AddOrUpdateAsync(listid, subscriber);
+                await _manager.Members.AddOrUpdateAsync(listid, subscriber);
             }
             catch (MailChimpException mce)
             {
@@ -58,7 +56,7 @@ namespace DealnetPortal.Api.Integration.Services
         public async Task<bool> isSubscriber(string listid, string emailid)
         {
             Member subscriber = new Member();
-            subscriber = await manager.Members.GetAsync(listid, emailid);
+            subscriber = await _manager.Members.GetAsync(listid, emailid);
             if (subscriber.Status == Status.Subscribed)
             {
 
@@ -73,7 +71,7 @@ namespace DealnetPortal.Api.Integration.Services
         {
             try
             {
-                Queue q = await manager.AutomationEmailQueues.AddSubscriberAsync("154521", "154525", email);
+                Queue q = await _manager.AutomationEmailQueues.AddSubscriberAsync("154521", "154525", email);
                 return q;
             }
             catch (MailChimpException me)

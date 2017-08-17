@@ -8,10 +8,8 @@ namespace DealnetPortal.Api.Integration.Services
     {
         private readonly subscriptionManagementAPI _smsClient = new subscriptionManagementAPIClient();
         private readonly startSubscriptionDTO subscriber = new startSubscriptionDTO();
-        public SmsSubscriptionService()
-        {
-        }
-        public async Task<startSubscriptionResponse> setstartsubscription(string phone, string reference, string code, string contentReference)
+       
+        public async Task<startSubscriptionResponse> SetStartSubscription(string phone, string reference, string code, string contentReference)
         {
             try
             {

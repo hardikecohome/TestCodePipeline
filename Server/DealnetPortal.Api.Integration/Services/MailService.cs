@@ -36,17 +36,20 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IEmailService _emailService;
         private readonly ILoggingService _loggingService;
         private readonly IContractRepository _contractRepository;
-        private readonly ISmsSubscriptionService _smsSubscriptionServive = new SmsSubscriptionService();
-        private readonly IPersonalizedMessageService _personalizedMessageService = new PersonalizedMessageService(ConfigurationManager.AppSettings["SMSENDPOINT"],
-                                                                                                                     ConfigurationManager.AppSettings["SMSAPIKEY"]);
-        private readonly IMailСhimpService _mailChimpService = new MailChimpService(ConfigurationManager.AppSettings["MailChimpApiKey"]);
-        private readonly IMandrillService _mandrillService = new MandrillService();
+        private readonly ISmsSubscriptionService _smsSubscriptionServive;
+        private readonly IPersonalizedMessageService _personalizedMessageService;
+        private readonly IMailСhimpService _mailChimpService;
+        private readonly IMandrillService _mandrillService;
 
-        public MailService(IEmailService emailService, IContractRepository contractRepository, ILoggingService loggingService)
+        public MailService(IEmailService emailService, IContractRepository contractRepository, ILoggingService loggingService, IPersonalizedMessageService personalizedMessageService, IMailСhimpService mailChimpService, IMandrillService mandrillService, ISmsSubscriptionService smsSubscriptionServive)
         {
             _emailService = emailService;
             _contractRepository = contractRepository;
             _loggingService = loggingService;
+            _personalizedMessageService = personalizedMessageService;
+            _mailChimpService = mailChimpService;
+            _mandrillService = mandrillService;
+            _smsSubscriptionServive = smsSubscriptionServive;
         }
 
         #region DP
@@ -125,19 +128,10 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine($"To cancel your subscription, please click here to <a href=\"% unsubscribe_url %\"" + " >unsubscribe</a></p>");
             body.AppendLine("</div>");
 
-            //var alternateView = AlternateView.CreateAlternateViewFromString(body.ToString(), null, MediaTypeNames.Text.Html);
-
-            //var mail = new MailMessage {IsBodyHtml = true};
-
-            //mail.AlternateViews.Add(alternateView);
-            //mail.From = new MailAddress(ConfigurationManager.AppSettings["EmailService.FromEmailAddress"]);
-            //mail.To.Add(contractData.DealerEmail);
-            //mail.Subject = Resources.Resources.ThankYouForApplyingForFinancing;
 
             try
             {
-                //contractData.DealerEmail ?? string.Empty
-                //await _emailService.SendAsync(mail);
+               
                 await _emailService.SendAsync(new List<string> { contractData.DealerEmail ?? string.Empty }, string.Empty, Resources.Resources.ThankYouForApplyingForFinancing, body.ToString());
             }
             catch (Exception ex)
@@ -247,40 +241,7 @@ namespace DealnetPortal.Api.Integration.Services
             string customerEmail = customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
             string domain = ConfigurationManager.AppSettings["CustomerWalletClient"];
             string hashLogin = SecurityUtils.Hash(customerEmail);
-            string mbPhone = ConfigurationManager.AppSettings["CustomerWalletPhone"];
-            string mbEmail = ConfigurationManager.AppSettings["CustomerWalletEmail"];
-
-            var phoneIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-phone.png"));
-            var phoneImage = GenerateIconImageCid(phoneIcon);
-            var emailIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-email.png"));
-            var emailImage = GenerateIconImageCid(emailIcon);
-
-            var bottomStyle = "style='font-size: 10px; !important'";
-            var pStyle = "style='font-size: 18px; !important'";
-
-            var body = new StringBuilder();
-            body.AppendLine($"<h3>{Resources.Resources.Hi} {customerFormData.PrimaryCustomer.FirstName},</h3>");
-            body.AppendLine("<div>");
-            body.AppendLine($"<p {pStyle}>{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} <b>{Resources.Resources.PreApproved.ToLower()} {Resources.Resources.For} ${customerFormData.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}</b>.</p>");
-            body.AppendLine($"<p {pStyle}>{Resources.Resources.YouCanViewYourAccountOn} <b><a href='{domain}/invite/{hashLogin}'><span>{domain}</span></a></b></p>");
-            body.AppendLine($"<p {pStyle}>{Resources.Resources.PleaseSignInUsingYourEmailAddressAndFollowingPassword}: {password}</p>");
-            body.AppendLine("<br />");
-            body.AppendLine("<br />");
-            body.AppendLine($"<p>{Resources.Resources.InCaseOfQuestionsPleaseContact} <b>EcoHome Financial</b>  {Resources.Resources.Support.ToLower()}:</p>");
-            body.AppendLine($"<p><img src='{phoneImage}'>{mbPhone}</p>");
-            body.AppendLine($"<p><img src='{emailImage}'/> <a href='mailto:{mbEmail}'><span>{mbEmail}</span></a></li></p>");
-            body.AppendLine("<br />");
-            body.AppendLine("<br />");
-            body.AppendLine($"<p {bottomStyle}><b>This email was sent by EcoHome Financial</b> | 325 Milner Avenue, Suite 300 | Toronto, Ontario | M1B 5N1 Canada</p>");
-            body.AppendLine($"<p {bottomStyle}><b>Contact us:</b> {mbPhone} | {mbEmail}</p>");
-            body.AppendLine($"<p {bottomStyle}>We truly hope you found this message useful. However, if you'd rather not receive future e-mails of this sort from EcoHome Financial, please <b><a href='{domain}/unsubscribe/{hashLogin}'><span>click here to unsubscribe.</span></a></b>.</p>");
-
-            body.AppendLine("</div>");
-
-            var alternateView = GenerateAlternateView(body, new List<LinkedResource>() { phoneIcon, emailIcon });
-
-            var subject = $"{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} {Resources.Resources.PreApproved.ToLower()} {Resources.Resources.For} ${customerFormData.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}";
-            var mail = GenerateMailMessage(customerEmail, subject, alternateView);
+           
             MailChimpMember member = new MailChimpMember()
             {
                 Email = customerFormData.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
@@ -299,13 +260,12 @@ namespace DealnetPortal.Api.Integration.Services
                 TemporaryPassword = password,
                 EquipmentInfoRequired = "Required",
                 OneTimeLink = domain + "/invite/" + hashLogin
-                //EquipmentInfoRequired = (customerFormData.Equipment.NewEquipment.FirstOrDefault().Type == null) ? "Required" : "Not Required"
             };
             try
             {
                 if (customerFormData.PrimaryCustomer.Phones.Any(c => c.PhoneType == PhoneType.Cell))
                 {
-                    var result = await _smsSubscriptionServive.setstartsubscription(customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum,
+                    var result = await _smsSubscriptionServive.SetStartSubscription(customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum,
                                                                                     customerFormData.PrimaryCustomer.Id.ToString(),
                                                                                   "Broker",
                                                                                 ConfigurationManager.AppSettings["SubscriptionRef"]);
@@ -317,15 +277,9 @@ namespace DealnetPortal.Api.Integration.Services
             }
             try
             {
-                //  await _emailService.SendAsync(mail);
-                // Hardik SMS trigger for subscription request
-                //var result = await _smsSubscriptionServive.setstartsubscription(customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum,
-                //                                                                customerFormData.PrimaryCustomer.Id.ToString(),
-                //                                                              "Broker",
-                //                                                            ConfigurationManager.AppSettings["SubscriptionRef"]);
+               
                 // Hardik MailChimp trigger for subscription request
                 await _mailChimpService.AddNewSubscriberAsync(ConfigurationManager.AppSettings["ListID"], member);
-                //var q = await _mailChimpService.SendUpdateNotification(customerFormData.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress);
             }
             catch (Exception ex)
             {
@@ -335,45 +289,45 @@ namespace DealnetPortal.Api.Integration.Services
 
         public async Task SendHomeImprovementMailToCustomer(IList<Contract> succededContracts)
         {
-            string domain = ConfigurationManager.AppSettings["CustomerWalletClient"];
+            //string domain = ConfigurationManager.AppSettings["CustomerWalletClient"];
             var contract = succededContracts.First();
-            string newemailid = _contractRepository.GetCustomer(contract.PrimaryCustomer.Id).Emails.FirstOrDefault(m => m.EmailType == EmailType.Main).EmailAddress;
+            //string newemailid = _contractRepository.GetCustomer(contract.PrimaryCustomer.Id).Emails.FirstOrDefault(m => m.EmailType == EmailType.Main).EmailAddress;
             string services = string.Join(",", succededContracts.Select(i => (i.Equipment.NewEquipment.First()?.Description ??
                 _contractRepository.GetEquipmentTypeInfo(i.Equipment.NewEquipment.First()?.Type)?.Description)?.ToLower()));
-            string customerEmail = contract.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
-            string hashLogin = SecurityUtils.Hash(customerEmail);
-            string mbPhone = ConfigurationManager.AppSettings["CustomerWalletPhone"];
-            string mbEmail = ConfigurationManager.AppSettings["CustomerWalletEmail"];
+            //string customerEmail = contract.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
+            //string hashLogin = SecurityUtils.Hash(customerEmail);
+            //string mbPhone = ConfigurationManager.AppSettings["CustomerWalletPhone"];
+            //string mbEmail = ConfigurationManager.AppSettings["CustomerWalletEmail"];
 
-            var phoneIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-phone.png"));
-            var phoneImage = GenerateIconImageCid(phoneIcon);
-            var emailIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-email.png"));
-            var emailImage = GenerateIconImageCid(emailIcon);
+            //var phoneIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-phone.png"));
+            //var phoneImage = GenerateIconImageCid(phoneIcon);
+            //var emailIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-email.png"));
+            //var emailImage = GenerateIconImageCid(emailIcon);
 
             var bottomStyle = "style ='font-size: 10px; !important'";
             var pStyle = "style='font-size: 18px; !important'";
 
-            var body = new StringBuilder();
-            body.AppendLine($"<h3>{Resources.Resources.Hi} {contract.PrimaryCustomer.FirstName},</h3>");
-            body.AppendLine("<div>");
-            body.AppendLine($"<p {pStyle}>{Resources.Resources.ThanksForYourInterestInHomeImprovementService} ({services}) {Resources.Resources.OnThe} {domain}.</p>");
-            body.AppendLine($"<p {pStyle}>{Resources.Resources.WeAreNowLookingForheBest}</p>");
-            body.AppendLine("<br />");
-            body.AppendLine("<br />");
-            body.AppendLine($"<p>{Resources.Resources.InCaseOfQuestionsPleaseContact} <b>EcoHome Financial</b>  {Resources.Resources.Support.ToLower()}:</p>");
-            body.AppendLine($"<p><img src='{phoneImage}'>{mbPhone}</p>");
-            body.AppendLine($"<p><img src='{emailImage}'/> <a href='mailto:{mbEmail}'><span>{mbEmail}</span></a></li></p>");
-            body.AppendLine("<br />");
-            body.AppendLine("<br />");
-            body.AppendLine($"<p {bottomStyle}><b>This email was sent by EcoHome Financial</b> | 325 Milner Avenue, Suite 300 | Toronto, Ontario | M1B 5N1 Canada</p>");
-            body.AppendLine($"<p {bottomStyle}><b>Contact us:</b> {mbPhone} | {mbEmail}</p>");
-            body.AppendLine($"<p {bottomStyle}>We truly hope you found this message useful. However, if you'd rather not receive future e-mails of this sort from EcoHome Financial, please <b><a href='{domain}/unsubscribe/{hashLogin}'><span>click here to unsubscribe.</span></a></b>.</p>");
-            body.AppendLine("</div>");
+            //var body = new StringBuilder();
+            //body.AppendLine($"<h3>{Resources.Resources.Hi} {contract.PrimaryCustomer.FirstName},</h3>");
+            //body.AppendLine("<div>");
+            //body.AppendLine($"<p {pStyle}>{Resources.Resources.ThanksForYourInterestInHomeImprovementService} ({services}) {Resources.Resources.OnThe} {domain}.</p>");
+            //body.AppendLine($"<p {pStyle}>{Resources.Resources.WeAreNowLookingForheBest}</p>");
+            //body.AppendLine("<br />");
+            //body.AppendLine("<br />");
+            //body.AppendLine($"<p>{Resources.Resources.InCaseOfQuestionsPleaseContact} <b>EcoHome Financial</b>  {Resources.Resources.Support.ToLower()}:</p>");
+            //body.AppendLine($"<p><img src='{phoneImage}'>{mbPhone}</p>");
+            //body.AppendLine($"<p><img src='{emailImage}'/> <a href='mailto:{mbEmail}'><span>{mbEmail}</span></a></li></p>");
+            //body.AppendLine("<br />");
+            //body.AppendLine("<br />");
+            //body.AppendLine($"<p {bottomStyle}><b>This email was sent by EcoHome Financial</b> | 325 Milner Avenue, Suite 300 | Toronto, Ontario | M1B 5N1 Canada</p>");
+            //body.AppendLine($"<p {bottomStyle}><b>Contact us:</b> {mbPhone} | {mbEmail}</p>");
+            //body.AppendLine($"<p {bottomStyle}>We truly hope you found this message useful. However, if you'd rather not receive future e-mails of this sort from EcoHome Financial, please <b><a href='{domain}/unsubscribe/{hashLogin}'><span>click here to unsubscribe.</span></a></b>.</p>");
+            //body.AppendLine("</div>");
 
-            var alternateView = GenerateAlternateView(body, new List<LinkedResource>() { phoneIcon, emailIcon });
+            //var alternateView = GenerateAlternateView(body, new List<LinkedResource>() { phoneIcon, emailIcon });
 
             var subject = $"{Resources.Resources.WeAreLookingForTheBestProfessionalForYourHomeImprovementProject}";
-            var mail = GenerateMailMessage(customerEmail, subject, alternateView);
+            //var mail = GenerateMailMessage(customerEmail, subject, alternateView);
             //Hardik Update MailChimp Home Improvement type
             //MailChimpMember member = new MailChimpMember()
             //{
@@ -427,6 +381,7 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError("Cannot send Sms from SendHomeImprovementMailToCustomer", ex);
             }
         }
+
         public async Task SendDeclinedConfirmation(string emailid, string firstName, string lastName)
         {
             try
@@ -439,44 +394,10 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
         }
+
         public async Task SendApprovedMailToCustomer(Contract customerFormData)
         {
-            string customerEmail = customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
-            string domain = ConfigurationManager.AppSettings["CustomerWalletClient"];
-            string hashLogin = SecurityUtils.Hash(customerEmail);
-            string mbPhone = ConfigurationManager.AppSettings["CustomerWalletPhone"];
-            string mbEmail = ConfigurationManager.AppSettings["CustomerWalletEmail"];
-
-            var phoneIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-phone.png"));
-            var phoneImage = GenerateIconImageCid(phoneIcon);
-            var emailIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-email.png"));
-            var emailImage = GenerateIconImageCid(emailIcon);
-
-            var bottomStyle = "style='font-size: 10px; !important'";
-            var pStyle = "style='font-size: 18px; !important'";
-
-            var body = new StringBuilder();
-            body.AppendLine($"<h3>{Resources.Resources.Hi} {customerFormData.PrimaryCustomer.FirstName},</h3>");
-            body.AppendLine("<div>");
-            body.AppendLine($"<p {pStyle}>{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} <b>{Resources.Resources.PreApproved.ToLower()} {Resources.Resources.For} ${customerFormData.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}</b>.</p>");
-            body.AppendLine($"<p {pStyle}>{Resources.Resources.YouCanViewYourAccountOn} <b><a href='{domain}'><span>{domain}</span></a></b></p>");
-            body.AppendLine("<br />");
-            body.AppendLine("<br />");
-            body.AppendLine($"<p>{Resources.Resources.InCaseOfQuestionsPleaseContact} <b>EcoHome Financial</b>  {Resources.Resources.Support.ToLower()}:</p>");
-            body.AppendLine($"<p><img src='{phoneImage}'>{mbPhone}</p>");
-            body.AppendLine($"<p><img src='{emailImage}'/> <a href='mailto:{mbEmail}'><span>{mbEmail}</span></a></li></p>");
-            body.AppendLine("<br />");
-            body.AppendLine("<br />");
-            body.AppendLine($"<p {bottomStyle}><b>This email was sent by EcoHome Financial</b> | 325 Milner Avenue, Suite 300 | Toronto, Ontario | M1B 5N1 Canada</p>");
-            body.AppendLine($"<p {bottomStyle}><b>Contact us:</b> {mbPhone} | {mbEmail}</p>");
-            body.AppendLine($"<p {bottomStyle}>We truly hope you found this message useful. However, if you'd rather not receive future e-mails of this sort from EcoHome Financial, please <b><a href='{domain}/unsubscribe/{hashLogin}'><span>click here to unsubscribe.</span></a></b>.</p>");
-
-            body.AppendLine("</div>");
-
-            var alternateView = GenerateAlternateView(body, new List<LinkedResource>() { phoneIcon, emailIcon });
-
             var subject = $"{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} {Resources.Resources.PreApproved.ToLower()} {Resources.Resources.For} ${customerFormData.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}";
-            var mail = GenerateMailMessage(customerEmail, subject, alternateView);
             MailChimpMember member = new MailChimpMember()
             {
                 Email = customerFormData.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
@@ -492,17 +413,12 @@ namespace DealnetPortal.Api.Integration.Services
                 },
                 CreditAmount = (decimal)customerFormData.Details.CreditAmount,
                 ApplicationStatus = customerFormData.ContractState.ToString(),
-                //TemporaryPassword = password,
-                // EquipmentInfoRequired = "Required"
-                //EquipmentInfoRequired = (customerFormData.Equipment.NewEquipment.FirstOrDefault().Type == null) ? "Required" : "Not Required"
             };
 
             try
             {
-                //await _emailService.SendAsync(mail);
                 //Hardik MailChimp Trigger to update CreditAmount
                 await _mailChimpService.AddNewSubscriberAsync(ConfigurationManager.AppSettings["ListID"], member);
-                //var result = await _personalizedMessageService.SendMessage(customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
 
             }
             catch (Exception ex)
@@ -524,89 +440,12 @@ namespace DealnetPortal.Api.Integration.Services
 
         public async Task SendCustomerDealerAcceptLead(Contract contract, DealerDTO dealer)
         {
-            var location = dealer.Locations?.FirstOrDefault();
-            var addres = location != null ? $"{location.Street}, {location.City}, {location.State}, {location.PostalCode}" : "";
-
-            string customerEmail = contract.PrimaryCustomer.Emails?.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
-            string domain = ConfigurationManager.AppSettings["CustomerWalletClient"];
-            string hashLogin = SecurityUtils.Hash(customerEmail);
             string services = contract.Equipment.NewEquipment != null ? string.Join(",", contract.Equipment.NewEquipment.Select(i => (i.Description ?? _contractRepository.GetEquipmentTypeInfo(i?.Type)?.Description)?.ToLower())) : string.Empty;
-            string mbPhone = ConfigurationManager.AppSettings["CustomerWalletPhone"];
-            string mbEmail = ConfigurationManager.AppSettings["CustomerWalletEmail"];
-
-            var phoneIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-phone.png"));
-            var phoneImage = GenerateIconImageCid(phoneIcon);
-            var emailIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-email.png"));
-            var emailImage = GenerateIconImageCid(emailIcon);
-
-            var bottomStyle = "style='font-size: 10px; !important'";
-            var pStyle = "style='font-size: 18px; !important'";
-
-            var body = new StringBuilder();
-            body.AppendLine($"<h3>{Resources.Resources.Hi} {contract.PrimaryCustomer.FirstName},</h3>");
-            body.AppendLine("<div>");
-            body.AppendLine($"<h4>{Resources.Resources.WeFoundHomeProfessionalForYour} ({services}) - {contract.Dealer.DisplayName} {Resources.Resources.WillContactYouSoonText}.</h4>");
-            body.AppendLine("<br />");
-            body.AppendLine("<br />");
-            body.AppendLine($"<p {pStyle}>{Resources.Resources.IfYouHaveQuestionsToHomeProfessionalPleaseContact} <b>{contract.Dealer.DisplayName}.</b></p>");
-            if (!string.IsNullOrEmpty(addres))
-            {
-                body.AppendLine($"<p {pStyle}>{addres}</p>");
-            }
-            if (dealer.Phones?.FirstOrDefault() != null)
-            {
-                body.AppendLine($"<p {pStyle}>{Resources.Resources.Phone}: {dealer.Phones.First().PhoneNum}</p>");
-            }
-            if (dealer.Emails?.FirstOrDefault() != null)
-            {
-                body.AppendLine($"<p {pStyle}>{Resources.Resources.Mail}: {dealer.Emails.FirstOrDefault().EmailAddress}</p>");
-            }
-            body.AppendLine("<br />");
-            body.AppendLine("<br />");
-            body.AppendLine($"<p>{Resources.Resources.InCaseRemarksAboutSelectedHomeProfessionalsPleaseContact} <b>EcoHome Financial</b>  {Resources.Resources.Support.ToLower()}:</p>");
-            body.AppendLine($"<p><img src='{phoneImage}'>{mbPhone}</p>");
-            body.AppendLine($"<p><img src='{emailImage}'/> <a href='mailto:{mbEmail}'><span>{mbEmail}</span></a></li></p>");
-            body.AppendLine("<br />");
-            body.AppendLine("<br />");
-            body.AppendLine($"<p {bottomStyle}><b>This email was sent by EcoHome Financial</b> | 325 Milner Avenue, Suite 300 | Toronto, Ontario | M1B 5N1 Canada</p>");
-            body.AppendLine($"<p {bottomStyle}><b>Contact us:</b> {mbPhone} | {mbEmail}</p>");
-            body.AppendLine($"<p {bottomStyle}>We truly hope you found this message useful. However, if you'd rather not receive future e-mails of this sort from EcoHome Financial, please <b><a href='{domain}/unsubscribe/{hashLogin}'><span>click here to unsubscribe.</span></a></b>.</p>");
-            body.AppendLine("</div>");
-
-            var alternateView = GenerateAlternateView(body, new List<LinkedResource>() { phoneIcon, emailIcon });
-
             var subject = $"{Resources.Resources.WeFoundHomeProfessionalForYourHomeImprovementProject}";
-            var mail = GenerateMailMessage(customerEmail, subject, alternateView);
-            MailChimpMember member = new MailChimpMember()
-            {
-                Email = contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
-                FirstName = contract.PrimaryCustomer.FirstName,
-                LastName = contract.PrimaryCustomer.LastName,
-                address = new MemberAddress()
-                {
-                    Street = contract.PrimaryCustomer.Locations.FirstOrDefault().Street,
-                    Unit = contract.PrimaryCustomer.Locations.FirstOrDefault().Unit,
-                    City = contract.PrimaryCustomer.Locations.FirstOrDefault().City,
-                    State = contract.PrimaryCustomer.Locations.FirstOrDefault().State,
-                    PostalCode = contract.PrimaryCustomer.Locations.FirstOrDefault().PostalCode
-                },
-                CreditAmount = (decimal)contract.Details.CreditAmount,
-                ApplicationStatus = contract.ContractState.ToString(),
-                DealerLeadAccepted = "Accepted",
-                TemporaryPassword = "",
-                //  EquipmentInfoRequired = "Required",
-                OneTimeLink = domain + "/invite/" + hashLogin
-                //EquipmentInfoRequired = (customerFormData.Equipment.NewEquipment.FirstOrDefault().Type == null) ? "Required" : "Not Required"
-
-            };
+            
             try
             {
-                //Need to plug mailchimp 
-                //await _emailService.SendAsync(mail);
-
-                //await _mailChimpService.AddNewSubscriberAsync(ConfigurationManager.AppSettings["ListID"], member);
-                //var result = await _personalizedMessageService.SendMessage(contract.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum, subject);
-                if (await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress))
+                if (await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails?.FirstOrDefault()?.EmailAddress))
                 {
 
                     await _mandrillService.SendDealerLeadAccepted(contract, dealer, services);
@@ -817,25 +656,7 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogInfo($"Email notifications for contract [{contract.Id}] was sent");
             }
         }
-
-        private AlternateView GenerateAlternateView(StringBuilder body, IList<LinkedResource> iconResources)
-        {
-            var alternateView = AlternateView.CreateAlternateViewFromString(body.ToString(), null, MediaTypeNames.Text.Html);
-            iconResources.ForEach(icon => alternateView.LinkedResources.Add(icon));
-            return alternateView;
-        }
-
-        private MailMessage GenerateMailMessage(string customerEmail, string subject, AlternateView alternateView)
-        {
-            var mail = new MailMessage();
-            mail.IsBodyHtml = true;
-            mail.AlternateViews.Add(alternateView);
-            mail.From = new MailAddress(ConfigurationManager.AppSettings["EmailService.FromEmailAddress"]);
-            mail.To.Add(customerEmail);
-            mail.Subject = subject;
-            return mail;
-        }
-
+        
         private IList<string> GetContractRecipients(ContractDTO contract, string dealerEmail)
         {
             var recipients = new List<string>();
@@ -865,14 +686,6 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return recipients;
-        }
-
-        private string GenerateIconImageCid(LinkedResource icon)
-        {
-            icon.ContentId = Guid.NewGuid().ToString();
-            icon.ContentType.MediaType = "image/png";
-            var emailImage = "cid:" + icon.ContentId;
-            return emailImage;
         }
         #endregion
     }

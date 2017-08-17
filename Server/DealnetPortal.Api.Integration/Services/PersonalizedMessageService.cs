@@ -1,6 +1,7 @@
 ﻿using DealnetPortal.Api.Models.Notification;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -11,15 +12,9 @@ namespace DealnetPortal.Api.Integration.Services
 {
     public class PersonalizedMessageService : IPersonalizedMessageService
     {
-        public static string _endPoint { get; set; }
-        public static string _apiKey { get; set; }
+        private readonly string _endPoint = ConfigurationManager.AppSettings["SMSENDPOINT"];
 
-        public PersonalizedMessageService(string endPoint, string apiKey)
-        {
-            _endPoint = endPoint;
-            _apiKey = apiKey;
-        }
-
+        private readonly string _apiKey = ConfigurationManager.AppSettings["SMSAPIKEY"];
 
         public async Task<HttpResponseMessage> SendMessage(string phonenumber, string messagebody)
         {

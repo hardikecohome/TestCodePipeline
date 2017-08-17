@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
@@ -18,7 +15,6 @@ namespace DealnetPortal.Api.Integration.Services
 {
     public partial class ContractService
     {
-        private readonly IMandrillService _mandrillService = new MandrillService();
         public async Task<Tuple<ContractDTO, IList<Alert>>> CreateContractForCustomer(string contractOwnerId, NewCustomerDTO newCustomer)
         {
             try
