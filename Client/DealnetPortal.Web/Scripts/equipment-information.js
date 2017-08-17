@@ -283,7 +283,7 @@ function resetFormValidator(formId) {
 }
 
 function assignDatepicker() {
-    var input = $('body').is('.ios-device') ? $(this).siblings('.div-datepicker') : $(this);
+    var input = $(this);// $('body').is('.ios-device') ? $(this).siblings('.div-datepicker') : ;
     inputDateFocus(input);
     input.datepicker({
         yearRange: '1900:2200',

@@ -5,7 +5,7 @@
 
     return function (store) {
         var dispatch = store.dispatch;
-        var birth = $('body').is('.ios-device') ? $("#birth-date-customer").siblings('.div-datepicker') : $("#birth-date-customer");
+        var birth = $("#birth-date-customer");// $('body').is('.ios-device') ? $("#birth-date-customer").siblings('.div-datepicker') :
 
         inputDateFocus(birth);
 
