@@ -307,7 +307,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     var result = await _smsSubscriptionServive.setstartsubscription(customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum,
                                                                                     customerFormData.PrimaryCustomer.Id.ToString(),
-                                                                                  "Broker",
+                                                                                  ConfigurationManager.AppSettings["SmsAffiliateCode"],
                                                                                 ConfigurationManager.AppSettings["SubscriptionRef"]);
                 }
             }
