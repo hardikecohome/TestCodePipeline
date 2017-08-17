@@ -77,7 +77,7 @@
               <div class="file-upload btn dealnet-button dealnet-success-button" id="owner-scan-button">
                   <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
                   <span>@Resources.ScanLicense</span>
-                  <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'first-name', 'last-name', 'birth-date', 'dl-number', 'street', 'locality', 'administrative_area_level_1', 'postal_code')"/>
+                  <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'first-name', 'last-name', 'birth-date', 'dl-number', 'street', 'locality', 'province', 'postal_code')"/>
               </div>
               @*<a href="#" class="scanlicence-info-link">
                   <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
@@ -509,7 +509,7 @@
 {
   @Scripts.Render("~/bundles/jqueryval")
   @Scripts.Render("~/bundles/localization")
-  @(!ViewBag.IsMobileRequest ? Scripts.Render("~/bundles/new-client") : Scripts.Render("~/bundles/new-client-mobile"))
+  @Scripts.Render("~/bundles/new-client")
 
     <script type="text/javascript">
         var isMobileRequest = '@ViewBag.IsMobileRequest';
@@ -518,7 +518,7 @@
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=initAutocomplete" async defer></script>
 	<script type="text/javascript">
 		$(document).ready(function () {
-			ga('send', 'event', 'New Application Start', 'Form Submit', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
+			ga('send', 'event', 'New Application Start', 'Form Open', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
 		});
 		$(document).submit(function () {
 			ga('send', 'event', 'Application Submitted', 'Form Submit', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');

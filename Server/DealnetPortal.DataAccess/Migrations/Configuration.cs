@@ -468,6 +468,51 @@ namespace DealnetPortal.DataAccess.Migrations
             };
             users.Add(smartHomeUser);
 
+            var climatecareUser = new ApplicationUser()
+            {
+                Email = "testclimatecare@testdealnet.ca",
+                UserName = "tcc1",
+                Application = applications.First(x => x.Id == EcohomeAppId),
+                ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                EsignatureEnabled = true,
+                PasswordHash = SecurityUtils.HashPassword("123456"),//"ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
+                //Password: 123456789
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+                Company = "ECO",
+                DisplayName = "Climate Care",
+                AspireAccountId = "11833",
+                AspireLogin = "tcc1",
+                AspirePassword = "123456"
+            };
+            users.Add(climatecareUser);
+
+            var clarityUser = new ApplicationUser()
+            {
+                Email = "testingclaritydealer@testdealnet.ca",
+                UserName = "tcd1",
+                Application = applications.First(x => x.Id == EcohomeAppId),
+                ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                EsignatureEnabled = true,
+                PasswordHash = SecurityUtils.HashPassword("123456"),//"ACQLO+Y4ju3euoQ4A1JEbrbGtHb8IOIDgMuTtHVMixjncpUi6OG227kzAL1sqEe5SQ==",
+                //Password: 123456789
+                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
+                Company = "ECO",
+                DisplayName = "Clarity",
+                AspireAccountId = "11840",
+                AspireLogin = "tcd1",
+                AspirePassword = "123456"
+            };
+            users.Add(climatecareUser);
             var ecoHomeUser = new ApplicationUser()
             {
                 Email = "ecohome@eco.com",
@@ -1739,6 +1784,58 @@ namespace DealnetPortal.DataAccess.Migrations
                 { "@table-tr-hover-bg", "rgba(118, 201, 0, 0.05)" },
             };
             SetDealerStringSettings(context, "lifetimewater", lifetimewaterSettings);
+            var climatecareSettings = new Dictionary<string, string>()
+            {
+                { "@navbar-header", "#8b0000"},
+                { "@logo-bg-color", "#ffffff"},
+                { "@logo-width", "142px"},
+                { "@logo-height", "21px"},
+                { "@navbar-bg", "#8b0030"},
+                { "@nav-item-active-bg", "#cd5c5c"},
+                { "@nav-item-active-box-shadow", "inset 0 -1px 0 0 rgba(255, 255, 255, 0.27)"},
+                { "@btn-success-bg", "#c94f4f"},
+                { "@btn-success-shadow", "0 1px 0 0 #752424"},
+                { "@btn-success-disabled-bg", "#52c9fa"},
+                { "@btn-success-disabled-shadow", "0 1px 0 0 #00a6ea"},
+                { "@btn-success-hover-bg", "#c33c3c"},
+                { "@btn-success-hover-shadow", "0 1px 0 0 #621e1e"},
+                { "@btn-success-active-bg", "#0075a5"},
+                { "@btn-success-active-shadow", "0 1px 0 0 #005172"},
+                { "@well-success-bg", "rgba(142, 208, 30, 0.07)"},
+                { "@well-success-border-color", "#8ed01e"},
+                { "@well-success-icon-color", "#8ed01e"},
+                { "@well-info-icon-color", "#c94f4f"},
+                { "@info-link-color", "#76bb00"},
+                { "@info-link-hover-color", "#6aa800"},
+                { "@info-link-disable-color", "rgba(150, 220, 30, 0.45)"},
+                { "@button-link-color", "#c94f4f"},
+                { "@button-link-hover-color", "#0092ce"},
+                { "@button-link-disabled-color", "#87dafc"},
+                { "@button-link-active-color", "#0075a5"},
+                { "@table-tr-hover-bg", "rgba(0, 163, 230, 0.05)" },
+            };
+            SetDealerStringSettings(context, "tcc1", climatecareSettings);
+            var claritySettings = new Dictionary<string, string>()
+            {
+                { "@navbar-header", "#000066"},
+                { "@logo-bg-color", "#000066"},
+                { "@logo-width", "100px"},
+                { "@logo-height", "29px"},
+                { "@navbar-bg", "#000066"},
+                { "@nav-item-active-bg", "#994d00"},
+                { "@nav-item-active-box-shadow", "inset 0 -1px 0 0 rgba(255, 255, 255, 0.27)"},
+                { "@btn-success-bg", "#000066"},
+                { "@btn-success-shadow", "0 1px 0 0 #000033"},
+                { "@btn-success-disabled-bg", "#6666ff"},
+                { "@btn-success-hover-bg", "#994d00"},
+                { "@btn-success-hover-shadow", "0 1px 0 0 #994d00"},
+                { "@btn-success-active-bg", "#994d00"},
+                { "@btn-success-active-shadow", "0 1px 0 0 #994d00"},
+                { "@well-success-icon-color", "#000066"},
+                { "@table-tr-hover-bg", "rgba(118, 201, 0, 0.05)" },
+            };
+            SetDealerStringSettings(context, "tcd1", claritySettings);
+
         }
 
         private void SetDealerStringSettings(ApplicationDbContext context, string userName, Dictionary<string, string> values)
