@@ -655,6 +655,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pre Approved 15 K.
+        /// </summary>
+        public static string _Pre_Approved15K {
+            get {
+                return ResourceManager.GetString("_Pre_Approved15K", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pre Approved 20 K.
         /// </summary>
         public static string _PreApproved20K {

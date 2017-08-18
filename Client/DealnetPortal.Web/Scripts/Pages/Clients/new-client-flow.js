@@ -94,6 +94,12 @@
                         }
                     }
 
+                    if (state.activePanel === 'client-consents') {
+                        if (state.improvmentOtherAddress) {
+                            next(createAction(clientActions.CHECK_VALIDATION, true));
+                        }
+                    }
+
                     var stateAfter = store.getState();
                     var errors = [{ type: "" }];
                     var installationErrors = errors.filter(function(error) { return error.type === "ownership"; });

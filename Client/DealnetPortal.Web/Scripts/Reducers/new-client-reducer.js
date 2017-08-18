@@ -216,6 +216,11 @@
     reducerObj[clientActions.DISPLAY_SUBMIT_ERRORS] = setFormField('displaySubmitErrors');
     reducerObj[clientActions.DISPLAY_INSTALLATION] = setFormField('displayInstallation');
     reducerObj[clientActions.DISPLAY_CONTACT_INFO] = setFormField('displayContactInfo');
+    reducerObj[clientActions.CHECK_VALIDATION] = function (state, action) {
+        return {
+            isChanged: !state.isChanged
+        }
+    };
     reducerObj[clientActions.ACTIVATE_ADDRESS_INFO] = function () {
         return {
             displayAddressInfo: true,

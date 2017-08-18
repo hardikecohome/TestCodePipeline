@@ -27,7 +27,7 @@ function managePaymentFormElements(paymentType) {
 function recalculateTotalMonthlyPayment() {
     var sum = 0;
     $(".monthly-cost").each(function () {
-        var numberValue = Globalize.parseNumber(this.value);
+        var numberValue = parseFloat(this.value);
         if (!isNaN(numberValue)) {
             sum += numberValue;
         }
@@ -46,7 +46,7 @@ function recalculateTotalMonthlyPayment() {
 function recalculateTotalCashPrice() {
     var sum = 0;
     $(".equipment-cost").each(function () {
-        var numberValue = Globalize.parseNumber(this.value);
+        var numberValue = parseFloat(this.value);
         if (!isNaN(numberValue)) {
             sum += numberValue;
         }
@@ -59,7 +59,7 @@ function recalculateTotalCashPrice() {
 function checkTotalEquipmentCost() {
     var sum = 0;
     $(".equipment-cost").each(function () {
-        var numberValue = Globalize.parseNumber(this.value);
+        var numberValue = parseFloat(this.value);
         if (!isNaN(numberValue)) {
             sum += numberValue;
         }
@@ -74,7 +74,7 @@ function checkTotalEquipmentCost() {
 function checkTotalMonthlyPayment() {
     var sum = 0;
     $(".equipment-cost").each(function () {
-        var numberValue = Globalize.parseNumber(this.value);
+        var numberValue = parseFloat(this.value);
         if (!isNaN(numberValue)) {
             sum += numberValue;
         }
