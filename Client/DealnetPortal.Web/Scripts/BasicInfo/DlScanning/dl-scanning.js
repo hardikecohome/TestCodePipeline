@@ -71,6 +71,7 @@ function submitUpload(sender, uploadUrl, fn, ln, bd, dl, st, ct, pr, pc) {
                         document.getElementById(pr || modal.getAttribute('data-prToFill')).value = json.State;
                         document.getElementById(pc || modal.getAttribute('data-pcToFill')).value = json.PostalCode;
                         $('#camera-modal').modal('hide');
+                        $('#' + fn).trigger('uploadSuccess');
                     }
                 },
                 error: function (xhr, status, p3) {

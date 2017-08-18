@@ -21,7 +21,7 @@
         });
         $('#ui-datepicker-div').addClass('cards-datepicker');
 
-        $('#camera-modal').on('hidden.bs.modal', function () {
+        $('#first-name').on('uploadSuccess', function () {
             var obj = {
                 firstName: $('#first-name').val(),
                 lastName: $('#last-name').val(),
