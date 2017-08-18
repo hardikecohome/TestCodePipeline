@@ -22,7 +22,10 @@
         });
         $('#ui-datepicker-div').addClass('cards-datepicker');
 
-        $('#camera-modal').on('hidden.bs.modal', function () {
+        $('#first-name').on('uploadSuccess', dispatchDl);
+        $('#camera-modal').on('hidden.bs.modal', dispatchDl);
+
+        function dispatchDl() {
             var obj = {
                 firstName: $('#first-name').val(),
                 lastName: $('#last-name').val(),
@@ -34,7 +37,7 @@
             }
 
             dispatch(createAction(clientActions.DRIVER_LICENSE_UPLOADED, obj));
-        });
+        }
 
         var name = $('#first-name');
         name.on('change', function (e) {
