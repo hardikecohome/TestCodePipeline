@@ -6,8 +6,24 @@
     return function (store) {
 		var dispatch = store.dispatch;
 		var birth = $("#birth-date");
-        //var birth = $('body').is('.ios-device') ? $("#birth-date").siblings('.div-datepicker') : $("#birth-date");
-        inputDateFocus(birth);
+    /*    inputDateFocus(birth);
+       birth.datepicker({
+            dateFormat: 'mm/dd/yy',
+            changeYear: true,
+            changeMonth: (viewport().width < 768) ? true : false,
+            yearRange: '1900:' + (new Date().getFullYear() - 18),
+            minDate: Date.parse("1900-01-01"),
+            maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
+            onSelect: function (day) {
+                dispatch(createAction(customerActions.SET_BIRTH, day));
+				$('#ui-datepicker-div').css('display','none!important');
+            },
+            onClose: function(){
+                $('#ui-datepicker-div').css('display','none!important');
+            }
+        });
+		*/
+		inputDateFocus(birth);
         birth.datepicker({
             yearRange: '1900:' + (new Date().getFullYear() - 18),
             changeYear: true,
@@ -23,7 +39,10 @@
         });
         $('#ui-datepicker-div').addClass('cards-datepicker');
 
-        $('#camera-modal').on('hidden.bs.modal', function () {
+        $('#first-name').on('uploadSuccess', dispatchDl);
+        $('#camera-modal').on('hidden.bs.modal', dispatchDl);
+
+        function dispatchDl() {
             var obj = {
                 firstName: $('#first-name').val(),
                 lastName: $('#last-name').val(),
@@ -35,7 +54,7 @@
             }
 
             dispatch(createAction(clientActions.DRIVER_LICENSE_UPLOADED, obj));
-        });
+        }
 
         var name = $('#first-name');
         name.on('change', function (e) {
