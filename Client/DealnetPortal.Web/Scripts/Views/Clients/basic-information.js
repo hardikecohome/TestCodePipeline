@@ -6,7 +6,7 @@
     return function (store) {
 		var dispatch = store.dispatch;
 		var birth = $("#birth-date");
-    /*    inputDateFocus(birth);
+        inputDateFocus(birth);
        birth.datepicker({
             dateFormat: 'mm/dd/yy',
             changeYear: true,
@@ -15,32 +15,19 @@
             minDate: Date.parse("1900-01-01"),
             maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
             onSelect: function (day) {
-                dispatch(createAction(customerActions.SET_BIRTH, day));
-				$('#ui-datepicker-div').css('display','none!important');
-            },
-            onClose: function(){
-                $('#ui-datepicker-div').css('display','none!important');
-            }
-        });
-		*/
-		inputDateFocus(birth);
-        birth.datepicker({
-            yearRange: '1900:' + (new Date().getFullYear() - 18),
-            changeYear: true,
-            changeMonth: (viewport().width < 768) ? true : false,
-            minDate: Date.parse("1900-01-01"),
-            maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
-            onSelect: function (day) {
                 dispatch(createAction(clientActions.SET_BIRTH, day));
-                //$(this).siblings('.div-datepicker-value').text(day);
-                $(this).siblings('input.form-control').val(day);
-                $(".div-datepicker").removeClass('opened');
+            },
+            onClose: function () {
+                onDateSelect($(this));
             }
         });
-        $('#ui-datepicker-div').addClass('cards-datepicker');
 
-        $('#first-name').on('uploadSuccess', dispatchDl);
-        $('#camera-modal').on('hidden.bs.modal', dispatchDl);
+        birth.on('change', function () {
+            var day = birth.val();
+            dispatch(createAction(clientActions.SET_BIRTH, day));
+        });
+
+        $('#ui-datepicker-div').addClass('cards-datepicker');
 
         function dispatchDl() {
             var obj = {
@@ -57,9 +44,14 @@
         }
 
         var name = $('#first-name');
+
+        name.on('uploadSuccess', dispatchDl);
+        $('#camera-modal').on('hidden.bs.modal', dispatchDl);
+
         name.on('change', function (e) {
             dispatch(createAction(clientActions.SET_NAME, e.target.value));
         });
+
         var lastName = $('#last-name');
         lastName.on('change',
             function (e) {
