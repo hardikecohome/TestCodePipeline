@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
+using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Web.Infrastructure;
 
 namespace DealnetPortal.Web.Models.Dealer
 {
@@ -15,5 +14,8 @@ namespace DealnetPortal.Web.Models.Dealer
         public List<OwnerViewModel> Owners { get; set; }
 
         public ProductInfoViewModel ProductInfo { get; set; }
+
+        [CustomRequired]
+        public ReasonForInterest ReasonForInterest { get; set; }
     }
 }

@@ -24,31 +24,31 @@ namespace DealnetPortal.Web.Models.Dealer
         public Channel Channel { get; set; }
 
         [MinMaxListCount(0, 3, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "LeadsGenLength")]
-        [Display(ResourceType =typeof(Resources.Resources), Name ="LeadGenMethods")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "LeadGenMethods")]
         public List<LeadGenMethod> LeadGenMethods { get; set; }
 
         [CustomRequired]
-        [Display(ResourceType =typeof(Resources.Resources), Name ="ProgramServiceRequired")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "ProgramServiceRequired")]
         public ProgramServices ProgramService { get; set; }
 
         [CustomRequired]
-        [Display(ResourceType =typeof(Resources.Resources), Name ="RelationshipStructure")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "RelationshipStructure")]
         public RelationshipStructure Relationship { get; set; }
 
-        [Display(ResourceType = typeof(Resources.Resources), Name ="OEMName")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "OEMName")]
         public string OEMName { get; set; }
 
-        [Display(ResourceType = typeof(Resources.Resources), Name ="AreYouWithProvider")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "AreYouWithProvider")]
         public bool WithCurretProvider { get; set; }
 
-        [Display(ResourceType =typeof(Resources.Resources), Name ="FinanceProviderName")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "FinanceProviderName")]
         public string FinanceProviderName { get; set; }
 
-        [Display(ResourceType =typeof(Resources.Resources), Name ="MonthlyFinancedValue")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "MonthlyFinancedValue")]
         public decimal? MonthlyFinancedValue { get; set; }
 
-        [Display(ResourceType = typeof(Resources.Resources), Name ="OfferMonthlyDeferrals")]
-        public bool OfferMonthlyDeferrals { get; set;}
+        [Display(ResourceType = typeof(Resources.Resources), Name = "OfferMonthlyDeferrals")]
+        public bool OfferMonthlyDeferrals { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "PercentMonthlyDealsDeferred")]
         public int PercentMonthlyDealsDeferred { get; set; }

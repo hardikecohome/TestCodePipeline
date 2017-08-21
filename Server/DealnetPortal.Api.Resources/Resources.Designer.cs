@@ -1510,6 +1510,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Looking for secondary.
+        /// </summary>
+        public static string LookingForSecond {
+            get {
+                return ResourceManager.GetString("LookingForSecond", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mail.
         /// </summary>
         public static string Mail {
@@ -1551,6 +1560,15 @@ namespace DealnetPortal.Api.Resources {
         public static string NewCustomerAppliedForFinancing {
             get {
                 return ResourceManager.GetString("NewCustomerAppliedForFinancing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No current financing solution.
+        /// </summary>
+        public static string NoCurrentFinancing {
+            get {
+                return ResourceManager.GetString("NoCurrentFinancing", resourceCulture);
             }
         }
         
@@ -1974,6 +1992,15 @@ namespace DealnetPortal.Api.Resources {
         public static string UnfortunatelyThisLeadIsNoLongerAvailable {
             get {
                 return ResourceManager.GetString("UnfortunatelyThisLeadIsNoLongerAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unhappy with current solution.
+        /// </summary>
+        public static string UnhappyCurrentFinancing {
+            get {
+                return ResourceManager.GetString("UnhappyCurrentFinancing", resourceCulture);
             }
         }
         

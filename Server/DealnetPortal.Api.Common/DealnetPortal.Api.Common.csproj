@@ -79,6 +79,7 @@
     <Compile Include="Enumeration\PreferredContactMethod.cs" />
     <Compile Include="Enumeration\ProgramServices.cs" />
     <Compile Include="Enumeration\RateCardType.cs" />
+    <Compile Include="Enumeration\ReasonForInterest.cs" />
     <Compile Include="Enumeration\RelationshipStructure.cs" />
     <Compile Include="Enumeration\ResidenceType.cs" />
     <Compile Include="Enumeration\SettingType.cs" />
