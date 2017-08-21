@@ -517,14 +517,18 @@ namespace DealnetPortal.Api.Integration.Services
                             //TODO: insert correct status
                             Status = ConfigurationManager.AppSettings["DocumentUploadStatus"] ?? "32–Docs Received",                            
                         };
-
+                        var extn = "";
+                        if (!String.IsNullOrWhiteSpace(Path.GetExtension(document.DocumentName)))
+                        {
+                            extn = Path.GetExtension(document.DocumentName)?.Substring(1);
+                        }
                         request.Payload.Documents = new List<Document>()
                         {
                             new Document()
                             {
                                 Name = Path.GetFileNameWithoutExtension(document.DocumentName), 
                                 Data = Convert.ToBase64String(document.DocumentBytes),
-                                Ext = Path.GetExtension(document.DocumentName)?.Substring(1)
+                                Ext = extn
                             }
                         };
 
