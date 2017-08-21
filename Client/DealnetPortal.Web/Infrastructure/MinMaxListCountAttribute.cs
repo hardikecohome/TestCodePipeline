@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace DealnetPortal.Web.Infrastructure
 {
-    public class MinListCountAttribute : ValidationAttribute
+    public class MinMaxListCountAttribute : ValidationAttribute
     {
+        private readonly int _max;
         private readonly int _min;
-        public MinListCountAttribute(int min)
+
+        public MinMaxListCountAttribute(int max, int min)
         {
+            _max = max;
             _min = min;
         }
 
@@ -19,14 +19,9 @@ namespace DealnetPortal.Web.Infrastructure
             var list = value as IList;
             if (list != null)
             {
-                return list.Count >= _min;
+                return list.Count >= _min && list.Count <= _max; 
             }
             return false;
-        }
-
-        public override string FormatErrorMessage(string name)
-        {
-            return base.FormatErrorMessage(name);
         }
     }
 }

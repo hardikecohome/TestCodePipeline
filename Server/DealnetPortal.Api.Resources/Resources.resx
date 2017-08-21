@@ -772,4 +772,64 @@
   <data name="_Pre_Approved15K" xml:space="preserve">
     <value>Pre Approved 15 K</value>
   </data>
+  <data name="Broker" xml:space="preserve">
+    <value>Broker</value>
+  </data>
+  <data name="ConsumerDirect" xml:space="preserve">
+    <value>Consumer direct</value>
+  </data>
+  <data name="Distributor" xml:space="preserve">
+    <value>Distributor</value>
+  </data>
+  <data name="DoorToDoor" xml:space="preserve">
+    <value>Door to door sales</value>
+  </data>
+  <data name="Financing" xml:space="preserve">
+    <value>Financing</value>
+  </data>
+  <data name="FinancingLeasing" xml:space="preserve">
+    <value>Financing + Leasing</value>
+  </data>
+  <data name="Incorporated" xml:space="preserve">
+    <value>Incorporated</value>
+  </data>
+  <data name="Independent" xml:space="preserve">
+    <value>Independent</value>
+  </data>
+  <data name="Leasing" xml:space="preserve">
+    <value>Leasing</value>
+  </data>
+  <data name="LessThanOne" xml:space="preserve">
+    <value>less than 1 year</value>
+  </data>
+  <data name="Limited" xml:space="preserve">
+    <value>Limited</value>
+  </data>
+  <data name="LocalAds" xml:space="preserve">
+    <value>Local Advertising</value>
+  </data>
+  <data name="MoreThanTwoYears" xml:space="preserve">
+    <value>more than 2 years</value>
+  </data>
+  <data name="OEM" xml:space="preserve">
+    <value>OEM</value>
+  </data>
+  <data name="OneToTwoYears" xml:space="preserve">
+    <value>1-2 years</value>
+  </data>
+  <data name="Partnership" xml:space="preserve">
+    <value>Partnership</value>
+  </data>
+  <data name="Referrals" xml:space="preserve">
+    <value>Referrals</value>
+  </data>
+  <data name="SoleProp" xml:space="preserve">
+    <value>Sole Prop</value>
+  </data>
+  <data name="TenOrMore" xml:space="preserve">
+    <value>10 or more</value>
+  </data>
+  <data name="TradeShows" xml:space="preserve">
+    <value>Trade Shows</value>
+  </data>
 </root>

@@ -14,9 +14,6 @@ namespace DealnetPortal.Web.Models.Dealer
 
         public List<OwnerViewModel> Owners { get; set; }
 
-        public List<string> Brands { get; set; }
-
-        public decimal AnnualSalesVolumn { get; set; }
-        public decimal AverageTransactionSize { get; set; }
+        public ProductInfoViewModel ProductInfo { get; set; }
     }
 }

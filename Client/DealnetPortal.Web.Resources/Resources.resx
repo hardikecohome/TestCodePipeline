@@ -1781,4 +1781,49 @@
   <data name="YearsInBusinessMax3" xml:space="preserve">
     <value>Years In Business must be maximum 3 digits long</value>
   </data>
+  <data name="AnnualSalesVolumn" xml:space="preserve">
+    <value>Annual sales volume</value>
+  </data>
+  <data name="AreYouWithProvider" xml:space="preserve">
+    <value>Are you with a current finance provider?</value>
+  </data>
+  <data name="AverageTransactionSize" xml:space="preserve">
+    <value>Average transaction size</value>
+  </data>
+  <data name="Brands" xml:space="preserve">
+    <value>Brands</value>
+  </data>
+  <data name="Channel" xml:space="preserve">
+    <value>Channel</value>
+  </data>
+  <data name="CheckAllThatApply" xml:space="preserve">
+    <value>(check all that apply)</value>
+  </data>
+  <data name="EquipmentTypeLength" xml:space="preserve">
+    <value>Select at least one Product</value>
+  </data>
+  <data name="FinanceProviderName" xml:space="preserve">
+    <value>Finance provider name</value>
+  </data>
+  <data name="LeadsGenMethod" xml:space="preserve">
+    <value>Lead generation method/s</value>
+  </data>
+  <data name="MonthlyFinancedValue" xml:space="preserve">
+    <value>Monthly capital value of deals financed</value>
+  </data>
+  <data name="OEMName" xml:space="preserve">
+    <value>OEM Name</value>
+  </data>
+  <data name="OfferMonthlyDeferrals" xml:space="preserve">
+    <value>Do you wish to offer deferrals?</value>
+  </data>
+  <data name="PercentMonthlyDealsDeferred" xml:space="preserve">
+    <value>Monthly deals to be deferred</value>
+  </data>
+  <data name="ProgramServiceRequired" xml:space="preserve">
+    <value>Program services required</value>
+  </data>
+  <data name="RelationshipStructure" xml:space="preserve">
+    <value>Relationship structure</value>
+  </data>
 </root>

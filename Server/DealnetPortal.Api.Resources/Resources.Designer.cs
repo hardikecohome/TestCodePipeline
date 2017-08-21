@@ -844,6 +844,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Broker.
+        /// </summary>
+        public static string Broker {
+            get {
+                return ResourceManager.GetString("Broker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Business phone.
         /// </summary>
         public static string BusinessPhone {
@@ -912,6 +921,15 @@ namespace DealnetPortal.Api.Resources {
         public static string Congratulations {
             get {
                 return ResourceManager.GetString("Congratulations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Consumer direct.
+        /// </summary>
+        public static string ConsumerDirect {
+            get {
+                return ResourceManager.GetString("ConsumerDirect", resourceCulture);
             }
         }
         
@@ -1051,11 +1069,29 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Distributor.
+        /// </summary>
+        public static string Distributor {
+            get {
+                return ResourceManager.GetString("Distributor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Doors.
         /// </summary>
         public static string Doors {
             get {
                 return ResourceManager.GetString("Doors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Door to door sales.
+        /// </summary>
+        public static string DoorToDoor {
+            get {
+                return ResourceManager.GetString("DoorToDoor", resourceCulture);
             }
         }
         
@@ -1137,6 +1173,24 @@ namespace DealnetPortal.Api.Resources {
         public static string Fax {
             get {
                 return ResourceManager.GetString("Fax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Financing.
+        /// </summary>
+        public static string Financing {
+            get {
+                return ResourceManager.GetString("Financing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Financing + Leasing.
+        /// </summary>
+        public static string FinancingLeasing {
+            get {
+                return ResourceManager.GetString("FinancingLeasing", resourceCulture);
             }
         }
         
@@ -1357,6 +1411,24 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Incorporated.
+        /// </summary>
+        public static string Incorporated {
+            get {
+                return ResourceManager.GetString("Incorporated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Independent.
+        /// </summary>
+        public static string Independent {
+            get {
+                return ResourceManager.GetString("Independent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Installation address.
         /// </summary>
         public static string InstallationAddress {
@@ -1393,11 +1465,47 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Leasing.
+        /// </summary>
+        public static string Leasing {
+            get {
+                return ResourceManager.GetString("Leasing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to less than 1 year.
+        /// </summary>
+        public static string LessThanOne {
+            get {
+                return ResourceManager.GetString("LessThanOne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Limited.
+        /// </summary>
+        public static string Limited {
+            get {
+                return ResourceManager.GetString("Limited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loan.
         /// </summary>
         public static string LoanApplication {
             get {
                 return ResourceManager.GetString("LoanApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Local Advertising.
+        /// </summary>
+        public static string LocalAds {
+            get {
+                return ResourceManager.GetString("LocalAds", resourceCulture);
             }
         }
         
@@ -1416,6 +1524,15 @@ namespace DealnetPortal.Api.Resources {
         public static string MobilePhone {
             get {
                 return ResourceManager.GetString("MobilePhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to more than 2 years.
+        /// </summary>
+        public static string MoreThanTwoYears {
+            get {
+                return ResourceManager.GetString("MoreThanTwoYears", resourceCulture);
             }
         }
         
@@ -1456,6 +1573,24 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OEM.
+        /// </summary>
+        public static string OEM {
+            get {
+                return ResourceManager.GetString("OEM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1-2 years.
+        /// </summary>
+        public static string OneToTwoYears {
+            get {
+                return ResourceManager.GetString("OneToTwoYears", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to on the.
         /// </summary>
         public static string OnThe {
@@ -1479,6 +1614,15 @@ namespace DealnetPortal.Api.Resources {
         public static string Other {
             get {
                 return ResourceManager.GetString("Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Partnership.
+        /// </summary>
+        public static string Partnership {
+            get {
+                return ResourceManager.GetString("Partnership", resourceCulture);
             }
         }
         
@@ -1551,6 +1695,15 @@ namespace DealnetPortal.Api.Resources {
         public static string PreferredContactMethod {
             get {
                 return ResourceManager.GetString("PreferredContactMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Referrals.
+        /// </summary>
+        public static string Referrals {
+            get {
+                return ResourceManager.GetString("Referrals", resourceCulture);
             }
         }
         
@@ -1654,6 +1807,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sole Prop.
+        /// </summary>
+        public static string SoleProp {
+            get {
+                return ResourceManager.GetString("SoleProp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Spa.
         /// </summary>
         public static string Spa {
@@ -1708,6 +1870,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 10 or more.
+        /// </summary>
+        public static string TenOrMore {
+            get {
+                return ResourceManager.GetString("TenOrMore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Thanks for your interest in home improvement service.
         /// </summary>
         public static string ThanksForYourInterestInHomeImprovementService {
@@ -1758,6 +1929,15 @@ namespace DealnetPortal.Api.Resources {
         public static string ThisIsYourPass {
             get {
                 return ResourceManager.GetString("ThisIsYourPass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trade Shows.
+        /// </summary>
+        public static string TradeShows {
+            get {
+                return ResourceManager.GetString("TradeShows", resourceCulture);
             }
         }
         
