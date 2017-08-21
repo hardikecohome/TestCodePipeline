@@ -145,6 +145,11 @@
                             province: place['administrative_area_level_1'] || '',
                             postalCode: postalCode
                         }));
+
+                    $('#improvment_locality').keyup();
+                    $('#improvment_street').keyup();
+                    $('#improvment_administrative_area_level_1').keyup();
+                    $('#improvment_postal_code').keyup();
                 });
 
             gImprovmentAutoCompletes.city.addListener('place_changed',
@@ -154,9 +159,14 @@
 
                     dispatch(createAction(clientActions.SET_IMPROVMENT_ADDRESS,
                         {
-                            city: place['locality'] || '',
+                            //city: place['locality'] || '',
                             province: place['administrative_area_level_1'] || ''
                         }));
+
+                    $('#improvment_locality').keyup();
+                    $('#improvment_street').keyup();
+                    $('#improvment_administrative_area_level_1').keyup();
+                    $('#improvment_postal_code').keyup();
                 });
         });
     };
