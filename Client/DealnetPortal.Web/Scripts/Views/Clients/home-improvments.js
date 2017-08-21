@@ -16,11 +16,8 @@
         inputDateFocus(improvmentMoveInDate);
 		improvmentMoveInDate.datepicker({
 			dateFormat: 'mm/dd/yy',
-			changeYear: true,
-			changeMonth: (viewport().width < 768) ? true : false,
-			yearRange: '1900:' + (new Date().getFullYear() - 18),
-			minDate: Date.parse("1900-01-01"),
-			maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
+			yearRange: '1900:2200',
+			minDate: new Date(),
 			onSelect: function (day) {
 				dispatch(createAction(clientActions.SET_IMPROVMENT_MOVE_DATE, day));
 			},
