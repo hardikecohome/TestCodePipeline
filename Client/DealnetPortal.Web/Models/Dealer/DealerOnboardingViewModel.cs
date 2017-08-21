@@ -7,6 +7,9 @@ namespace DealnetPortal.Web.Models.Dealer
     public class DealerOnboardingViewModel
     {
         public string DealerHash { get; set; }
+
+        public bool EnglishLinkEnabled { get; set; }
+
         public bool AllowCommunicate { get; set; }
 
         public CompanyInfoViewModel CompanyInfo { get; set; }

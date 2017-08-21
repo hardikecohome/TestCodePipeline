@@ -26,6 +26,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -1068,6 +1069,14 @@
     <Content Include="Views\Home\OnBoardSuccess.cshtml" />
     <Content Include="Views\Dealer\OnBoarding.cshtml" />
     <Content Include="Views\Dealer\OnBoardingSuccess.cshtml" />
+    <Content Include="Views\Shared\OnBoarding\_ClientConsent.cshtml" />
+    <Content Include="Views\Shared\OnBoarding\_CompanyInformation.cshtml" />
+    <Content Include="Views\Shared\OnBoarding\_OwnerInformation.cshtml" />
+    <Content Include="Views\Shared\OnBoarding\_ProductInformation.cshtml" />
+    <Content Include="Views\Shared\OnBoarding\_TradeReferences.cshtml" />
+    <Content Include="Views\Shared\OnBoarding\_RequiredDocuments.cshtml" />
+    <Content Include="Views\Shared\OnBoarding\_Acknowledgment.cshtml" />
+    <Content Include="Views\Dealer\OnBoardingLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

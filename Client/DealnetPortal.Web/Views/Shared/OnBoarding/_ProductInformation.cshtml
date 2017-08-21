@@ -1,0 +1,206 @@
+﻿<div class="panel customer-loan-form-panel panel-collapsed">
+<div class="panel-heading">
+    <span class="panel-step">4</span>
+    <h3 class="panel-title dealnet-middle-header">Product & sales information</h3>
+    <span class="arrow"><i class="glyphicon"></i></span>
+    <span class="passed-step-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+</div>
+<div class="panel-body">
+    <div class="row">
+        <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+                <label for="" class="mandatory-field">Manufacturer brand sold #1</label>
+                <div class="control-group">
+                    <input type="text" class="form-control dealnet-input" value="Improve Home Service">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6" id="add-brand-container">
+            <div class="form-group">
+                <div class="dealnet-label hidden-xs">&nbsp;</div>
+                <div class="control-group flex-centered-text">
+                    <a class="action-link add-new-brand-link">
+                        <svg aria-hidden="true" class="icon icon-add-app"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/client/Content/images/sprite/sprite.svg#icon-add-app"></use></svg>
+                        <span>Add another brand</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+                <label for="" class="mandatory-field">Annual sales volume</label>
+                <div class="control-group has-addon-left">
+                    <div class="control-group-addon">$</div>
+                    <input type="text" class="form-control dealnet-input">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+                <label for="" class="mandatory-field">Average transaction size</label>
+                <div class="control-group has-addon-left">
+                    <div class="control-group-addon">$</div>
+                    <input type="text" class="form-control dealnet-input">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-clear-sm-6">
+            <div class="form-group">
+                <label for="" class="mandatory-field">Channel</label>
+                <div class="control-group">
+                    <select name="" id="" class="form-control">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="checkbox-form-group">
+        <div for="" class="dealnet-label mandatory-field">
+            Lead generation method/s <span class="additional-info-text">(check all that apply)</span>
+        </div>
+        <div class="form-group checkbox-hold">
+            <label class="align-middle custom-checkbox">
+                <input type="checkbox" class="dealnet-checkbox">
+                <span class="checkbox-icon">
+                    <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
+                </span>
+                <span>Referrals</span>
+            </label>
+        </div>
+        <div class="form-group checkbox-hold">
+            <label class="align-middle custom-checkbox">
+                <input type="checkbox" class="dealnet-checkbox">
+                <span class="checkbox-icon">
+                    <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
+                </span>
+                <span>Local advertising</span>
+            </label>
+        </div>
+        <div class="form-group checkbox-hold">
+            <label class="align-middle custom-checkbox">
+                <input type="checkbox" class="dealnet-checkbox">
+                <span class="checkbox-icon">
+                    <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
+                </span>
+                <span>Trade shows</span>
+            </label>
+        </div>
+    </div>
+    <h4 class="heading-bordered">Details</h4>
+    <div class="row">
+        <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+                <label for="" class="mandatory-field">Program services required</label>
+                <div class="control-group">
+                    <select class="form-control">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+                <label for="" class="mandatory-field">Relationship structure</label>
+                <div class="control-group">
+                    <select class="form-control">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-clear-sm-6">
+            <div class="form-group">
+                <label for="" class="mandatory-field">OEM name</label>
+                <div class="control-group">
+                    <input type="text" value="Some name here" class="form-control dealnet-input">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="checkbox-form-group">
+                <div class="dealnet-label" for="">Are you with a current finance provider?</div>
+                <div class="">
+                    <label class="checkbox-toggle">
+                        <input class="toggle-language-link" @if(Model?.EnglishLinkEnabled ?? false) { <text>checked</text> } data-val="true" data-val-required="The EnglishLinkEnabled field is required." id="EnglishLinkEnabled" name="EnglishLinkEnabled" type="checkbox" value="true" />
+                        <div class="slider"></div>
+                        <span class="checkbox-toggle-text text-on">Yes</span>
+                        <span class="checkbox-toggle-text text-off">No</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="" class="mandatory-field">Finance provider name</label>
+                <div class="control-group">
+                    <input type="text" class="form-control dealnet-input">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="" class="mandatory-field">Monthly capital value of deals financed</label>
+                <div class="control-group">
+                    <input type="text" class="form-control dealnet-input">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="checkbox-form-group">
+                <div class="dealnet-label" for="">Do you wish to offer deferrals?</div>
+                <div class="">
+                    <label class="checkbox-toggle">
+                        <input class="toggle-language-link" @if(Model?.EnglishLinkEnabled ?? false) { <text>checked</text> } data-val="true" data-val-required="The EnglishLinkEnabled field is required." id="EnglishLinkEnabled" name="EnglishLinkEnabled" type="checkbox" value="true" />
+                        <div class="slider"></div>
+                        <span class="checkbox-toggle-text text-on">Yes</span>
+                        <span class="checkbox-toggle-text text-off">No</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="" class="mandatory-field">Monthly deals to be deferred</label>
+                <div class="control-group has-addon-left">
+                    <div class="control-group-addon">%</div>
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+                <label for="" class="mandatory-field">Products for financing program</label>
+                <div class="control-group">
+                    <select name="" id="" class="form-control">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-sm-6">
+            <div class="form-group">
+                <div class="dealnet-label hidden-xs">&nbsp;</div>
+                <div class="control-group">
+                    <div class="info-text-success flex-centered-text">
+                        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                        <span class="notification-text">Check all applicable items from our list</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul class="customer-needs-list tags-list">
+        <li>New Brunswick<span class="icon-remove"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
+        <li>Nova Scotia<span class="icon-remove"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
+    </ul>
+</div>
+</div>
