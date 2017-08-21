@@ -1826,4 +1826,10 @@
   <data name="RelationshipStructure" xml:space="preserve">
     <value>Relationship structure</value>
   </data>
+  <data name="BusinessNameIncorrectFormat" xml:space="preserve">
+    <value>Name of Business is in incorrect format</value>
+  </data>
+  <data name="ContactNameIncorrectFormat" xml:space="preserve">
+    <value>Contact Name is in incorrect format</value>
+  </data>
 </root>

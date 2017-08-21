@@ -286,6 +286,7 @@
     <Compile Include="Models\Dealer\DealerOnboardingViewModel.cs" />
     <Compile Include="Models\Dealer\OwnerViewModel.cs" />
     <Compile Include="Models\Dealer\ProductInfoViewModel.cs" />
+    <Compile Include="Models\Dealer\TradeReferenceViewModel.cs" />
     <Compile Include="Models\MyProfile\DealerAreaViewModel.cs" />
     <Compile Include="Models\MyProfile\ProfileViewModel.cs" />
     <Compile Include="Models\NewCustomerViewModel.cs" />

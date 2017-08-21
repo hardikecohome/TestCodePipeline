@@ -808,6 +808,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name of Business is in incorrect format.
+        /// </summary>
+        public static string BusinessNameIncorrectFormat {
+            get {
+                return ResourceManager.GetString("BusinessNameIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Business Phone.
         /// </summary>
         public static string BusinessPhone {
@@ -1227,6 +1236,15 @@ namespace DealnetPortal.Web.Resources {
         public static string ContactInformation {
             get {
                 return ResourceManager.GetString("ContactInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact Name is in incorrect format.
+        /// </summary>
+        public static string ContactNameIncorrectFormat {
+            get {
+                return ResourceManager.GetString("ContactNameIncorrectFormat", resourceCulture);
             }
         }
         
