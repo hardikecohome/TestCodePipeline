@@ -91,6 +91,10 @@ namespace DealnetPortal.Web.Controllers
                             : Path.GetFileName(documentForUpload.File.FileName),
                     ContractId = documentForUpload.ContractId
                 };
+                if (!String.IsNullOrWhiteSpace(Path.GetExtension(documentForUpload.File.FileName)))
+                {
+                    document.DocumentName += Path.GetExtension(documentForUpload.File.FileName);
+                }
                 //document.DocumentName = document.DocumentName.Replace('-', '_');
                 if (Session["CancelledUploadOperations"] != null &&
                     ((HashSet<string>) Session["CancelledUploadOperations"]).Contains(documentForUpload.OperationGuid))
