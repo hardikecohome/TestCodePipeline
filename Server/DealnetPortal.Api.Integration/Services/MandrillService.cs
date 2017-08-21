@@ -75,8 +75,8 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 },
                 send_at = DateTime.Now,
-                subject = "Dealer accepted your lead",
-                text = "Dealer accepted your lead",
+                subject = "A contractor has accepted your project request",
+                text = "A contractor has accepted your project request",
                 to = new List<MandrillTo>() {
                     new MandrillTo(){
                         email =emailid,

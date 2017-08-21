@@ -517,14 +517,18 @@ namespace DealnetPortal.Api.Integration.Services
                             
                             Status = ConfigurationManager.AppSettings[WebConfigKeys.DOCUMENT_UPLOAD_STATUS_CONFIG_KEY]                            
                         };
-
+                        var extn = "";
+                        if (!String.IsNullOrWhiteSpace(Path.GetExtension(document.DocumentName)))
+                        {
+                            extn = Path.GetExtension(document.DocumentName)?.Substring(1);
+                        }
                         request.Payload.Documents = new List<Document>()
                         {
                             new Document()
                             {
                                 Name = Path.GetFileNameWithoutExtension(document.DocumentName), 
                                 Data = Convert.ToBase64String(document.DocumentBytes),
-                                Ext = Path.GetExtension(document.DocumentName)?.Substring(1)
+                                Ext = extn
                             }
                         };
 
