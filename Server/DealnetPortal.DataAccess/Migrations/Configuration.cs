@@ -532,8 +532,8 @@ namespace DealnetPortal.DataAccess.Migrations
 
             var clarityUser = new ApplicationUser()
             {
-                Email = "claritydealer@testdealnet.ca",
-                UserName = "clarity",
+                Email = "clarityclimatecaredealer@testdealnet.ca",
+                UserName = "clarityclimatecare",
                 Application = applications.First(x => x.Id == EcohomeAppId),
                 ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
                 EmailConfirmed = true,
@@ -546,9 +546,9 @@ namespace DealnetPortal.DataAccess.Migrations
                 //Password: 123456789
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
                 Company = "ECO",
-                DisplayName = "Clarity",
+                DisplayName = "Clarityclimatecare",
                 AspireAccountId = "70356",
-                AspireLogin = "clarity",
+                AspireLogin = "clarityclimatecare",
                 AspirePassword = "123456"
             };
             users.Add(climatecareUser);
@@ -1933,7 +1933,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     { "@logo-height", "36px"}
             };
             SetDealerStringSettings(context, "climatecare", climatecareSettings);
-            SetDealerStringSettings(context, "clarity", claritySettings);
+            SetDealerStringSettings(context, "clarityclimatecare", claritySettings);
         }
 
         private void SetDealerStringSettings(ApplicationDbContext context, string userName, Dictionary<string, string> values)
