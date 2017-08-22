@@ -26,6 +26,7 @@ namespace DealnetPortal.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutoMapperConfig.Configure();
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Name;
+            MvcHandler.DisableMvcResponseHeader = true;
             ModelBinders.Binders.Add(typeof(DateTime), new DateTimeBinder());
             ModelBinders.Binders.Add(typeof(DateTime?), new NullableDateTimeBinder());
             ClientDataTypeModelValidatorProvider.ResourceClassKey = "Messages";
@@ -35,6 +36,15 @@ namespace DealnetPortal.Web
                 typeof(RequiredAttributeAdapter));
 
             ControllerBuilder.Current.SetControllerFactory(new DefaultControllerFactory(new LocalizedControllerActivator(DependencyResolver.Current.GetService<ICultureManager>())));
+        }
+
+        protected void Application_BeginRequest(object sender, EventArgs e)
+        {
+            var app = sender as HttpApplication;
+            if (app != null)
+            {
+                app.Context?.Response.Headers.Remove("Server");
+            }
         }
 
         protected void Application_Error(object sender, EventArgs e)
