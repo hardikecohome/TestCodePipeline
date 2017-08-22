@@ -106,6 +106,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to I acknowledge and agree.
+        /// </summary>
+        public static string AcknowledgeAndAgree {
+            get {
+                return ResourceManager.GetString("AcknowledgeAndAgree", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to By submitting this application, you acknowledge and agree that EcoHome Financial is authorized to obtain your credit report from one or more consumer credit reporting agencies (e.g. Equifax or TransUnion), to verify the information in your credit report with third parties as necessary, and to periodically update your credit information with credit reporting agencies. You are hereby notified that a consumer report containing credit and/or personal information may be referred to in connection with this applic [rest of string was truncated]&quot;;.
         /// </summary>
         public static string AcknowledgeAndAgreementObtainCreditReport {
@@ -565,6 +574,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply.
+        /// </summary>
+        public static string Apply {
+            get {
+                return ResourceManager.GetString("Apply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Apply for financing.
         /// </summary>
         public static string ApplyForFinancing {
@@ -943,6 +961,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to By executing below, the Principal in his or her personal capacity (“I”, “me”) and the company (“We”) certify that all the information contained in this Dealer Application is true and complete..
+        /// </summary>
+        public static string CertifyDealerInfo {
+            get {
+                return ResourceManager.GetString("CertifyDealerInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change your password.
         /// </summary>
         public static string ChangeYourPassword {
@@ -1191,6 +1218,15 @@ namespace DealnetPortal.Web.Resources {
         public static string CongratulationsYouBeenPreApprovedFor {
             get {
                 return ResourceManager.GetString("CongratulationsYouBeenPreApprovedFor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connect with dealer support:.
+        /// </summary>
+        public static string ConnectWithDealerSupport {
+            get {
+                return ResourceManager.GetString("ConnectWithDealerSupport", resourceCulture);
             }
         }
         
@@ -2617,6 +2653,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Join our growing EcoHome Financial dealer network!.
+        /// </summary>
+        public static string JoinOurNetwork {
+            get {
+                return ResourceManager.GetString("JoinOurNetwork", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Name.
         /// </summary>
         public static string LastName {
@@ -3382,6 +3427,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Owner.
+        /// </summary>
+        public static string Owner {
+            get {
+                return ResourceManager.GetString("Owner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ownership.
         /// </summary>
         public static string Ownership {
@@ -3846,6 +3900,15 @@ namespace DealnetPortal.Web.Resources {
         public static string ProvincesMinLength {
             get {
                 return ResourceManager.GetString("ProvincesMinLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Questions?.
+        /// </summary>
+        public static string Questions {
+            get {
+                return ResourceManager.GetString("Questions", resourceCulture);
             }
         }
         

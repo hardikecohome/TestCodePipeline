@@ -1832,4 +1832,25 @@
   <data name="ContactNameIncorrectFormat" xml:space="preserve">
     <value>Contact Name is in incorrect format</value>
   </data>
+  <data name="AcknowledgeAndAgree" xml:space="preserve">
+    <value>I acknowledge and agree</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="CertifyDealerInfo" xml:space="preserve">
+    <value>By executing below, the Principal in his or her personal capacity (“I”, “me”) and the company (“We”) certify that all the information contained in this Dealer Application is true and complete.</value>
+  </data>
+  <data name="ConnectWithDealerSupport" xml:space="preserve">
+    <value>Connect with dealer support:</value>
+  </data>
+  <data name="JoinOurNetwork" xml:space="preserve">
+    <value>Join our growing EcoHome Financial dealer network!</value>
+  </data>
+  <data name="Owner" xml:space="preserve">
+    <value>Owner</value>
+  </data>
+  <data name="Questions" xml:space="preserve">
+    <value>Questions?</value>
+  </data>
 </root>

@@ -8,18 +8,18 @@
 <div class="onboard-page">
     <div class="onboard-heading">
         <div class="onboard-headers-container">
-            <h2 class="dealnet-large-header">Apply</h2>
-            <h3 class="dealnet-md-header">Join our growing EcoHome Financial dealer network!</h3>
+            <h2 class="dealnet-large-header">@Resources.Apply</h2>
+            <h3 class="dealnet-md-header">@Resources.JoinOurNetwork</h3>
         </div>
         <div class="onboard-contact-info">
             <span class="icon-help-hold">
                 <svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg>
             </span>
 
-            Questions? <br class="hidden-xs" />
-            Connect with dealer support: <br />
-            <a href="tel:+1-866-382-7468" class="tel" rel="nofollow">1-866-382-7468</a><br />
-            <a href="mailto: info@ecohomefinancial.com">info@ecohomefinancial.com</a>
+            @Resources.Questions <br class="hidden-xs" />
+            @Resources.ConnectWithDealerSupport <br />
+            <a href="tel:+@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]" class="tel" rel="nofollow">@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]</a><br />
+            <a href="mailto: @System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]">@System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]</a>
         </div>
     </div>
     
@@ -30,10 +30,10 @@
             @Html.Partial("OnBoarding/_CompanyInformation", Model.CompanyInfo)
             @Html.Partial("OnBoarding/_OwnerInformation", Model.Owners)
             @Html.Partial("OnBoarding/_ProductInformation", Model.ProductInfo)
-            @Html.Partial("OnBoarding/_TradeReferences", Model.TradeReferences)
+            @*@Html.Partial("OnBoarding/_TradeReferences", Model.TradeReferences)*@
             @Html.Partial("OnBoarding/_RequiredDocuments")
             @Html.Partial("OnBoarding/_ClientConsent")
-            @Html.Partial("OnBoarding/_Acknowledgment")
+            @Html.Partial("OnBoarding/_Acknowledgment", Model.Owners)
         </div>
         <div class="clearfix">
             <button type="submit" class="btn dealnet-success-button btn-proceed disabled btn-form-common" id="submit">@Resources.SubmitApplication</button>
