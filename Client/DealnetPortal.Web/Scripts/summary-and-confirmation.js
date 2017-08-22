@@ -117,7 +117,7 @@ function applyProvinceChange() {
 }
 
 function assignDatepicker() {
-    var input = $(this);//$('body').is('.ios-device') ? $(this).siblings('.div-datepicker') : 
+    var input = $('body').is('.ios-device') ? $(this).siblings('.div-datepicker') : $(this);
     inputDateFocus(input);
     input.datepicker({
         yearRange: '1900:2200',

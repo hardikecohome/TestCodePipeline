@@ -53,25 +53,25 @@
       }, 100);
     }
 
-   // if(!$('.date-group').children('.dealnet-disabled-input'))
-    //$('.date-group').each(function(){
-    //  $('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length === 0 ? $('<div/>', {
-    //    class: 'div-datepicker-value',
-    //    text: $(this).find('.form-control').val()
-    //  }).appendTo(this) : '';
-    //  $('body').is('.ios-device') ? $('<div/>', {
-    //    class: 'div-datepicker',
-    //  }).appendTo(this) : '';
-    //});
+    //if(!$('.date-group').children('.dealnet-disabled-input'))
+    $('.date-group').each(function(){
+      $('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length === 0 ? $('<div/>', {
+        class: 'div-datepicker-value',
+        text: $(this).find('.form-control').val()
+      }).appendTo(this) : '';
+      $('body').is('.ios-device') ? $('<div/>', {
+        class: 'div-datepicker',
+      }).appendTo(this) : '';
+    });
 
 
-    //$('.div-datepicker-value').on('click', function(){
-    //  $('.div-datepicker').removeClass('opened');
-    //  $(this).siblings('.div-datepicker').toggleClass('opened');
-    //  if(!$('.div-datepicker .ui-datepicker-close').length){
-    //    addCloseButtonForInlineDatePicker();
-    //  }
-    //});
+    $('.div-datepicker-value').on('click', function(){
+      $('.div-datepicker').removeClass('opened');
+      $(this).siblings('.div-datepicker').toggleClass('opened');
+      if(!$('.div-datepicker .ui-datepicker-close').length){
+        addCloseButtonForInlineDatePicker();
+      }
+    });
 
     $.datepicker.setDefaults({
       dateFormat: 'mm/dd/yy',
