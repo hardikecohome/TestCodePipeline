@@ -11,7 +11,7 @@
             $(this).parent().remove();
         });
 
-        var improvmentMoveInDate = $("#impvoment-date");// $('body').is('.ios-device') ? $("#impvoment-date").siblings('.div-datepicker') : 
+        var improvmentMoveInDate = $('body').is('.ios-device') ? $("#impvoment-date").siblings('.div-datepicker') : $("#impvoment-date");
 
         inputDateFocus(improvmentMoveInDate);
         improvmentMoveInDate.datepicker({

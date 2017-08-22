@@ -110,8 +110,8 @@ configInitialized
         });
         return false;
     });
-    $("#owner-scan-button").click(function () {
-        if (!(isMobileRequest || isMobileRequest.toLowerCase() === 'true')) {
+    $("#owner-scan-button").click(function (e) {
+        if (!(isMobileRequest || isMobileRequest.toLowerCase && isMobileRequest.toLowerCase() === 'true')) {
             e.preventDefault();
             var modal = document.getElementById('camera-modal');
             modal.setAttribute('data-fnToFill', 'first-name');
@@ -213,7 +213,7 @@ function showAditional1Section() {
     addAdditionalButton.hide();
 }
 function assignDatepicker(input) {
-    // var input = $('body').is('.ios-device') ? input.siblings('.div-datepicker') : input;
+     var input = $('body').is('.ios-device') ? input.siblings('.div-datepicker') : input;
         
     inputDateFocus(input);
     input.datepicker({

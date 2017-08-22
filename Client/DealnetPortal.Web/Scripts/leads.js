@@ -140,7 +140,7 @@ $.fn.dataTable.ext.search.push(
 );
 
 function assignDatepicker(input) {
-    //var input = $('body').is('.ios-device') ? input.siblings('.div-datepicker') : input;
+    var input = $('body').is('.ios-device') ? input.siblings('.div-datepicker') : input;
     inputDateFocus(input);
     input.datepicker({
         yearRange: '1900:' + new Date().getFullYear(),
