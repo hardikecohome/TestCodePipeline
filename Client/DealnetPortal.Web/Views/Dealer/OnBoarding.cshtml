@@ -27,10 +27,10 @@
     {
         <div class="onboard-steps" id="onboard-accordion">
 
-            @Html.Partial("OnBoarding/_CompanyInformation")
-            @Html.Partial("OnBoarding/_OwnerInformation")
-            @Html.Partial("OnBoarding/_ProductInformation")
-            @Html.Partial("OnBoarding/_TradeReferences")
+            @Html.Partial("OnBoarding/_CompanyInformation", Model.CompanyInfo)
+            @Html.Partial("OnBoarding/_OwnerInformation", Model.Owners)
+            @Html.Partial("OnBoarding/_ProductInformation", Model.ProductInfo)
+            @Html.Partial("OnBoarding/_TradeReferences", Model.TradeReferences)
             @Html.Partial("OnBoarding/_RequiredDocuments")
             @Html.Partial("OnBoarding/_ClientConsent")
             @Html.Partial("OnBoarding/_Acknowledgment")
