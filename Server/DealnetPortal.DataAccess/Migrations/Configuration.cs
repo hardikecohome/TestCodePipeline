@@ -551,7 +551,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 AspireLogin = "clarityclimatecare",
                 AspirePassword = "123456"
             };
-            users.Add(climatecareUser);
+            users.Add(clarityUser);
 
             //var climatecareUser = new ApplicationUser()
             //{
