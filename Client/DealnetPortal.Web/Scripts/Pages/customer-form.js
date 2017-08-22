@@ -20,7 +20,7 @@
 
     var log = require('logMiddleware');
 
-    var requiredFields = ['name', 'lastName', 'birthday', 'street', 'province', 'postalCode', 'email', 'creditAgreement', 'ownership', 'captchaCode'];
+    var requiredFields = ['name', 'lastName', 'birthday', 'street', 'province', 'postalCode', 'email', 'creditAgreement', 'contactAgreement', 'ownership', 'captchaCode'];
     var requiredPFields = ['birthday', 'pstreet', 'pprovince', 'ppostalCode'];
 
     var getErrors = configGetErrors(requiredFields, requiredPFields);

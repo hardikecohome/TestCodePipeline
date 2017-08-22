@@ -66,7 +66,8 @@
             var prevDocumentName = documentNaming.text();;
             var wasCancelled;
             var afterError = function(message) {
-                form.find('.error-message').text(message || translations['ErrorWhileUploadingFile']);
+                //form.find('.error-message').text(message || translations['ErrorWhileUploadingFile']);
+				form.find('.error-message').text(translations['ErrorWhileUploadingFile']);
                 errorDesc.show();
                 documentNaming.text(prevDocumentName);
                 if (!prevDocumentName) {
@@ -359,7 +360,7 @@ function expandReplies(button) {
 }
 
 function assignDatepicker() {
-    var input = $('body').is('.ios-device') ? $(this).siblings('.div-datepicker') : $(this);
+    var input = $(this);// $('body').is('.ios-device') ? $(this).siblings('.div-datepicker') : ;
     inputDateFocus(input);
     input.datepicker({
         yearRange: '1900:2200',

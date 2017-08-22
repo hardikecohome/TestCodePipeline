@@ -238,7 +238,7 @@
     <value>An error occurred while removing comment</value>
   </data>
   <data name="ErrorWhileUploadingFile" xml:space="preserve">
-    <value>An error occurred while uploading file.</value>
+    <value>An error occurred while uploading file. (Maximum file size allowed is 2MB)</value>
   </data>
   <data name="ExistingEquipmentInformation" xml:space="preserve">
     <value>Existing Equipment Information</value>

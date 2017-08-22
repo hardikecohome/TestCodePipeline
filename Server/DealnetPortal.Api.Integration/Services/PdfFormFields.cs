@@ -8,6 +8,8 @@ namespace DealnetPortal.Api.Integration.Services
 {
     public static class PdfFormFields
     {
+        //Application/Transaction ID
+        public static string ApplicationId = "ApplicationId";
         //Customer Fields
         public static string FirstName = "FirstName";
         public static string LastName = "LastName";

@@ -691,6 +691,15 @@ namespace DealnetPortal.Api.Integration.Services
 
         private void FillHomeOwnerFields(List<FormField> formFields, Contract contract)
         {
+            if (contract.Details.TransactionId != null)
+            {
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = PdfFormFields.ApplicationId,
+                    Value = contract.Details.TransactionId
+                });
+            }
             if (contract.PrimaryCustomer != null)
             {
                 formFields.Add(new FormField()
