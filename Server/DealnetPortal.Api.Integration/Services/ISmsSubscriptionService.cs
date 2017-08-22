@@ -5,6 +5,6 @@ namespace DealnetPortal.Api.Integration.Services
 {
     public interface ISmsSubscriptionService
     {
-        Task<startSubscriptionResponse> SetStartSubscription(string phone, string reference, string code);
+        Task<startSubscriptionResponse> SetStartSubscription(string phone, string reference, string code, string contentReference);
     }
 }

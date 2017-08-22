@@ -129,4 +129,9 @@
     var checkUrl = '@Url.Action("CheckContractAgreement", "NewRental", new {contractId = Model.ContractId})';
     var downloadUrl = '@Url.Action("PrintContract", "NewRental", new { contractId = Model.ContractId})';
   </script>
+<script type="text/javascript">
+		$(document).ready(function () {
+			ga('send', 'event', 'Agreement Submit Success', 'Success Message Displayed', 'By Dealer', '20');
+		});
+</script>
 }

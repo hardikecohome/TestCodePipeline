@@ -213,7 +213,8 @@ function showAditional1Section() {
     addAdditionalButton.hide();
 }
 function assignDatepicker(input) {
-    var input = $('body').is('.ios-device') ? input.siblings('.div-datepicker') : input;
+    // var input = $('body').is('.ios-device') ? input.siblings('.div-datepicker') : input;
+        
     inputDateFocus(input);
     input.datepicker({
         yearRange: '1900:' + (new Date().getFullYear()-18),

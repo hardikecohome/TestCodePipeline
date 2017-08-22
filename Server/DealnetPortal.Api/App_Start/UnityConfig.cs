@@ -1,4 +1,4 @@
-using System.Configuration;
+﻿using System.Configuration;
 using System.Web.Hosting;
 using Microsoft.Practices.Unity;
 using System.Web.Http;
@@ -62,6 +62,10 @@ namespace DealnetPortal.Api
             container.RegisterType<IMailService, MailService>();
             container.RegisterType<IEmailService, EmailService>();
             container.RegisterType<IRateCardsService, RateCardsService>();
+            container.RegisterType<IPersonalizedMessageService, PersonalizedMessageService>();
+            container.RegisterType<IMailСhimpService, MailChimpService>();
+            container.RegisterType<ISmsSubscriptionService, SmsSubscriptionService>();
+            container.RegisterType<IMandrillService, MandrillService>();
             #endregion
 
             container.RegisterType<IHttpApiClient, HttpApiClient>("AspireClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(configReader.GetSetting(WebConfigKeys.ASPIRE_APIURL_CONFIG_KEY)));
