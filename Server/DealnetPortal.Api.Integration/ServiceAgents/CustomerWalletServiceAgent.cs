@@ -81,13 +81,18 @@ namespace DealnetPortal.Api.Integration.ServiceAgents
             var alerts = new List<Alert>();
             try
             {
-                if(  await Client.GetAsync<bool>($"{_fullUri}/Account/CheckUser?userName={userName}"))
+
+                var result =
+                    await Client.PostAsync<CheckUserRequest, bool>($"{_fullUri}/Account/CheckUser", new CheckUserRequest {UserLogin = userName});
+                if (result)
+                {
                     alerts.Add(new Alert()
                     {
                         Type = AlertType.Error,
                         Header = "Cannot create customer",
                         Message = "Customer with this email address is already registered."
                     });
+                }
             }
             catch (Exception ex)
             {

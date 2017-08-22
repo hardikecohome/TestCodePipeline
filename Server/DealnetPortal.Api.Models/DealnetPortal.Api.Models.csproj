@@ -76,6 +76,7 @@
     <Compile Include="Contract\ServiceRequestDTO.cs" />
     <Compile Include="Contract\RateCardDTO.cs" />
     <Compile Include="Contract\SubDealerDTO.cs" />
+    <Compile Include="CustomerWallet\CheckUserRequest.cs" />
     <Compile Include="CustomerWallet\TransactionInfoDTO.cs" />
     <Compile Include="CustomerWallet\CustomerProfileDTO.cs" />
     <Compile Include="CustomerWallet\RegisterCustomerBindingModel.cs" />
