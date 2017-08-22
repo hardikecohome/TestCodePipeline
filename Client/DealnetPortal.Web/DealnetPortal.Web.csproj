@@ -253,10 +253,8 @@
     <Compile Include="Infrastructure\ContractManager.cs" />
     <Compile Include="Infrastructure\CultureSetterManager.cs" />
     <Compile Include="Infrastructure\CustomerManager.cs" />
-    <Compile Include="Infrastructure\Extensions\DpPanel.cs" />
     <Compile Include="Infrastructure\Extensions\ModelStateErrorHandler.cs" />
     <Compile Include="Infrastructure\Extensions\MvcHelpersExtensions.cs" />
-    <Compile Include="Infrastructure\Extensions\PanelExtentions.cs" />
     <Compile Include="Infrastructure\ICustomerManager.cs" />
     <Compile Include="Infrastructure\IProfileManager.cs" />
     <Compile Include="Infrastructure\Managers\ISecurityManager.cs" />
@@ -927,6 +925,7 @@
     <Content Include="Scripts\Pages\Clients\new-client.js" />
     <Content Include="Scripts\Pages\newEquipment\rate-cards-init.js" />
     <Content Include="Scripts\Pages\newEquipment\validation.js" />
+    <Content Include="Scripts\Pages\onboarding\onboarding.index.js" />
     <Content Include="Scripts\Reducers\customer.js" />
     <Content Include="Scripts\Reducers\new-client-reducer.js" />
     <Content Include="Scripts\Selectors\customer.js" />
@@ -1072,13 +1071,13 @@
     <Content Include="Views\Dealer\OnBoarding.cshtml" />
     <Content Include="Views\Dealer\OnBoardingSuccess.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_ClientConsent.cshtml" />
-    <Content Include="Views\Shared\OnBoarding\_CompanyInformation.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_OwnerInformation.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_ProductInformation.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_TradeReferences.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_RequiredDocuments.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_Acknowledgment.cshtml" />
     <Content Include="Views\Dealer\OnBoardingLayout.cshtml" />
+    <Content Include="Views\Shared\OnBoarding\_CompanyInformation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
