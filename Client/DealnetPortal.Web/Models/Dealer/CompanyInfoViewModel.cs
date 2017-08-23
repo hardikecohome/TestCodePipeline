@@ -7,6 +7,11 @@ namespace DealnetPortal.Web.Models.Dealer
 {
     public class CompanyInfoViewModel
     {
+        public CompanyInfoViewModel()
+        {
+            AddressInfo = new AddressInformation();
+        }
+
         [CustomRequired]
         [Display(ResourceType =typeof(Resources.Resources),Name ="LegalName")]
         [StringLength(20, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
