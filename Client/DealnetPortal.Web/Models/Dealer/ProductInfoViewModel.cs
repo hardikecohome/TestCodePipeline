@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Common.Enumeration.Dealer;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Infrastructure;
 
