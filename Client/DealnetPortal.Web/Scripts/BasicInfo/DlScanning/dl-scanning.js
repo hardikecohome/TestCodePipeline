@@ -61,10 +61,9 @@ function submitUpload(sender, uploadUrl, fn, ln, bd, dl, st, ct, pr, pc) {
                         document.getElementById(ln || modal.getAttribute('data-lnToFill')).value = json.LastName;
                         var date = new Date(json.DateOfBirthStr);
                         date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
-                        var id = bd || modal.getAttribute('data-bdToFill');
-                        var dateInput = $('body').is('.ios-device') ? $("#" + id).siblings('.div-datepicker') : $("#" + id);
+                        var dateInput = $("#" + (bd || modal.getAttribute('data-bdToFill')));
                         dateInput.datepicker("setDate", date);
-                        dateInput.find('.ui-datepicker-current-day').click();
+                        dateInput.change();
                         document.getElementById(dl || modal.getAttribute('data-dlToFill')).value = json.Id;
                         document.getElementById(st || modal.getAttribute('data-stToFill')).value = json.Street;
                         document.getElementById(ct || modal.getAttribute('data-ctToFill')).value = json.City;

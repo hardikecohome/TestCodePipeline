@@ -286,6 +286,16 @@ namespace DealnetPortal.Api.Integration.Services
                         var eqToUpdate = (contract.Equipment?.NewEquipment?.Any() ?? false)
                             ? new List<NewEquipment> {contract.Equipment?.NewEquipment.ElementAt(i)}
                             : null;
+                        var application = new Application();
+                        // Code change to calculate down payment and admin fee on first equipment amount
+                        if (i == 0 && contract.Equipment.AgreementType == AgreementType.LoanApplication)
+                        {
+                            application = GetContractApplication(contract, eqToUpdate, 0);
+                        }
+                        else
+                        {
+                            application = GetContractApplication(contract, eqToUpdate, 1);
+                        }
                         request.Header = new RequestHeader()
                         {
                             From = new From()
@@ -298,7 +308,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             Lease = new Lease()
                             {
-                                Application = GetContractApplication(contract, eqToUpdate)
+                                Application = application
                             }
                         };
 
@@ -508,14 +518,18 @@ namespace DealnetPortal.Api.Integration.Services
                             
                             Status = _configuration.GetSetting(WebConfigKeys.DOCUMENT_UPLOAD_STATUS_CONFIG_KEY)
                         };
-
+                        var extn = "";
+                        if (!String.IsNullOrWhiteSpace(Path.GetExtension(document.DocumentName)))
+                        {
+                            extn = Path.GetExtension(document.DocumentName)?.Substring(1);
+                        }
                         request.Payload.Documents = new List<Document>()
                         {
                             new Document()
                             {
                                 Name = Path.GetFileNameWithoutExtension(document.DocumentName), 
                                 Data = Convert.ToBase64String(document.DocumentBytes),
-                                Ext = Path.GetExtension(document.DocumentName)?.Substring(1)
+                                Ext = extn
                             }
                         };
 
@@ -880,7 +894,7 @@ namespace DealnetPortal.Api.Integration.Services
             return accounts;
         }
 
-        private Application GetContractApplication(Domain.Contract contract, ICollection<NewEquipment> newEquipments = null)
+        private Application GetContractApplication(Domain.Contract contract, ICollection<NewEquipment> newEquipments = null, int equipmentcount = 1)
         {
             var application = new Application()
             {
@@ -903,14 +917,15 @@ namespace DealnetPortal.Api.Integration.Services
                         Status = "new",
                         AssetNo = string.IsNullOrEmpty(eq.AssetNumber) ? null : eq.AssetNumber,
                         Quantity = "1",
-                        Cost = contract.Equipment.AgreementType == AgreementType.LoanApplication && eq.Cost.HasValue ? (eq.Cost + Math.Round(((decimal)(eq.Cost / 100 * (decimal)(pTaxRate.Rate))), 2))?.ToString(CultureInfo.InvariantCulture) 
+                        Cost = contract.Equipment.AgreementType == AgreementType.LoanApplication && eq.Cost.HasValue ? equipmentcount == 0 ? (eq.Cost + Math.Round(((decimal)(eq.Cost / 100 * (decimal)(pTaxRate.Rate))), 2) + ((contract.Equipment.AdminFee != null)? (decimal)contract.Equipment.AdminFee : 0) - ((contract.Equipment.DownPayment != null)? (decimal)contract.Equipment.DownPayment: 0))?.ToString(CultureInfo.InvariantCulture) :
+                                                                                                        (eq.Cost + Math.Round(((decimal)(eq.Cost / 100 * (decimal)(pTaxRate.Rate))), 2))?.ToString(CultureInfo.InvariantCulture)
                                                                                                     : eq.MonthlyCost?.ToString(CultureInfo.InvariantCulture),
                         Description = eq.Description,
                         AssetClass = new AssetClass() { AssetCode = eq.Type }
                     });
                 });
-                application.AmtRequested = contract.Equipment.AmortizationTerm?.ToString();
-                application.TermRequested = contract.Equipment.RequestedTerm.ToString();
+                application.AmtRequested = contract.Equipment.ValueOfDeal.Value.ToString();
+                application.TermRequested = contract.Equipment.AmortizationTerm?.ToString();
                 application.Notes = contract.Details?.Notes ?? contract.Equipment.Notes;
                 //TODO: Implement finance program selection
                 application.FinanceProgram = contract.Dealer?.Application?.FinanceProgram;//"EcoHome Finance Program";

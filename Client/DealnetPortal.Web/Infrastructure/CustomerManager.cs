@@ -89,9 +89,15 @@ namespace DealnetPortal.Web.Infrastructure
             var contractsVms = Mapper.Map<IList<ClientsInformationViewModel>>(contracts);
 
             return contractsVms
-                .OrderByDescending(x => x.Date)
+                .OrderByDescending(x => x.TransactionId)
+                .ThenByDescending(x => x.Date)
                 .ThenByDescending(x => x.Id)
                 .ToList();
+
+            //await _contractServiceAgent.GetContracts()).OrderByDescending(x => x.IsNewlyCreated ?? false)
+            //        .ThenByDescending(x => string.IsNullOrEmpty(x.Details.TransactionId))
+            //        .ThenByDescending(x => x.LastUpdateTime)
+            //        .ToList();
         }
     }
 }

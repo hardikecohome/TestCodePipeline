@@ -1,4 +1,5 @@
-﻿@model DealnetPortal.Web.Models.ContactAndPaymentInfoViewModel
+﻿@using DealnetPortal.Api.Common.Enumeration
+@model DealnetPortal.Web.Models.ContactAndPaymentInfoViewModel
 
 <div id="label-steps">
     <div class="dealnet-action-link">@Resources.NewApplication</div> >
@@ -248,5 +249,14 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/localization")
     @Scripts.Render("~/bundles/contact-and-payment")
+
+<script type="text/javascript">
+	$(document)
+		.submit(function () {
+
+				ga('send', 'event', 'Contact and Payment', 'Form submit', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
+			});
+</script>
+
 }
 

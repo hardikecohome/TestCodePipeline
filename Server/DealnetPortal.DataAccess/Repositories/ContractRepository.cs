@@ -110,6 +110,8 @@ namespace DealnetPortal.DataAccess.Repositories
         public IList<Contract> GetContractsCreatedByUser(string userId)
         {
             var user = GetUserById(userId);
+            var subdealer = user.SubDealers.AsEnumerable();
+
             var contracts = _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
@@ -120,7 +122,28 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
                 .Include(c => c.Documents)
-                .Where(c => c.CreateOperator == user.UserName && !string.IsNullOrEmpty(c.Details.TransactionId)).ToList();
+                .Where(c =>
+                    c.CreateOperator == user.UserName && !string.IsNullOrEmpty(c.Details.TransactionId)).ToList();
+            if (subdealer.Any())
+            {
+                foreach (var dealer in subdealer)
+                {
+                    contracts.AddRange(
+                            _dbContext.Contracts
+                .Include(c => c.PrimaryCustomer)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .Include(c => c.SecondaryCustomers)
+                .Include(c => c.HomeOwners)
+                .Include(c => c.InitialCustomers)
+                .Include(c => c.Equipment)
+                .Include(c => c.Equipment.ExistingEquipment)
+                .Include(c => c.Equipment.NewEquipment)
+                .Include(c => c.Documents)
+                .Where(c =>
+                    c.CreateOperator == dealer.UserName && !string.IsNullOrEmpty(c.Details.TransactionId)).ToList()
+                        );
+                }
+            }
             return contracts;
         }
 

@@ -131,7 +131,7 @@
   </script>
 <script type="text/javascript">
 		$(document).ready(function () {
-			ga('send', 'event', 'Agreement Submit Success', 'Success Message Displayed', 'By Dealer', '20');
+			ga('send', 'event', 'Agreement Submit Success', 'Success Message Displayed', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
 		});
 </script>
 }

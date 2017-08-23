@@ -11,18 +11,24 @@
             $(this).parent().remove();
         });
 
-        var improvmentMoveInDate = $('body').is('.ios-device') ? $("#impvoment-date").siblings('.div-datepicker') : $("#impvoment-date");
+        var improvmentMoveInDate = $("#impvoment-date");
 
         inputDateFocus(improvmentMoveInDate);
-        improvmentMoveInDate.datepicker({
-            yearRange: '1900:2200',
-            minDate: new Date(),
-            onSelect: function (day) {
-                dispatch(createAction(clientActions.SET_IMPROVMENT_MOVE_DATE, day));
-                $(this).siblings('input.form-control').val(day);
-                $(".div-datepicker").removeClass('opened');
-            }
-        });
+		improvmentMoveInDate.datepicker({
+			dateFormat: 'mm/dd/yy',
+			yearRange: '1900:2200',
+			minDate: new Date(),
+			onSelect: function (day) {
+				dispatch(createAction(clientActions.SET_IMPROVMENT_MOVE_DATE, day));
+			},
+			onClose: function () {
+				onDateSelect($(this));
+			}			
+		});
+		improvmentMoveInDate.on('change', function () {
+			var day = birth.val();
+			dispatch(createAction(clientActions.SET_IMPROVMENT_MOVE_DATE, day));
+		});
         $('#ui-datepicker-div').addClass('cards-datepicker');
 
         $('#comment').on('change', function(e) {

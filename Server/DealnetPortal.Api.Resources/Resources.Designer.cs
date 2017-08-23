@@ -1285,7 +1285,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to HRV.
+        ///   Looks up a localized string similar to Heat Recovery Ventilator.
         /// </summary>
         public static string Hrv {
             get {
@@ -1303,7 +1303,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to HWT.
+        ///   Looks up a localized string similar to Hot Water Tank.
         /// </summary>
         public static string Hwt {
             get {
@@ -1524,6 +1524,15 @@ namespace DealnetPortal.Api.Resources {
         public static string Plumbing {
             get {
                 return ResourceManager.GetString("Plumbing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pool.
+        /// </summary>
+        public static string Pool {
+            get {
+                return ResourceManager.GetString("Pool", resourceCulture);
             }
         }
         

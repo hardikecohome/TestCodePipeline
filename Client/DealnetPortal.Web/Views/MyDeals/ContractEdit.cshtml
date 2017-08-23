@@ -79,37 +79,37 @@
                                 </span>
                             </a>
                         </div>
-                        <div role="tabpanel" class="tab-pane @(i == 0 ? "active" : "")" id="tab@(i + 1)">
-                            @using (Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new {enctype = "multipart/form-data", data_container = "tab-container-" + (i + 1)}))
-                            {
-                                <h3 class="document-pane-header">
-                                    @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
-                                </h3>
-                                <div class="well danger-well error-descr collapse">
-                                    <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
-                                    <span class="error-message"></span>
-                                </div>
+					    <div role="tabpanel" class="tab-pane @(i == 0 ? "active" : "")" id="tab@(i + 1)">
+					        @using (Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new {enctype = "multipart/form-data", data_container = "tab-container-" + (i + 1)}))
+					        {
+					            <h3 class="document-pane-header">
+					                @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
+					            </h3>
+					            <div class="well danger-well error-descr collapse">
+					                <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+					                <span class="error-message"></span>
+					            </div>
 
-                                if (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "2")
-                                {
-                                <div>
-                                    <a href="" onclick="$('#download-certificate-modal').modal(); return false;" class="dealnet-info-link download-certificate-link @if (contractState == ContractState.CreditCheckDeclined) { <text>disabled</text> }">
-                                        <svg aria-hidden="true" class="icon icon-download"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-upload")"></use></svg>
-                                        @Resources.DownloadCertificateTemplate
-                                    </a>
-                                </div>
-                                <div class="well danger-well error-descr collapse" id="certificate-error-message">
-                                    <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
-                                    @Resources.CannotGetCertificateForPrint
-                                </div>
-                                <hr>
-                                }
+								if (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "2")
+								{
+								<div>
+									<a href="" onclick="$('#download-certificate-modal').modal(); return false;" class="dealnet-info-link download-certificate-link @if (contractState == ContractState.CreditCheckDeclined) { <text>disabled</text> }">
+										<svg aria-hidden="true" class="icon icon-download"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-upload")"></use></svg>
+										@Resources.DownloadCertificateTemplate
+									</a>
+								</div>
+								<div class="well danger-well collapse" id="certificate-error-message">
+									<svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+									@Resources.CannotGetCertificateForPrint
+								</div>
+								<hr>
+								}
 
-                                <div class="documents-list">
-                                    <div class="document-item block-item @(document != null ? "" : "collapse")">
-                                        <svg aria-hidden="true" class="icon icon-pdf"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use></svg>
-                                        <span class="document-naming">@(document?.DocumentName)</span>
-                                        <br /> 
+					            <div class="documents-list">
+					                <div class="document-item block-item @(document != null ? "" : "collapse")">
+					                    <svg aria-hidden="true" class="icon icon-pdf"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use></svg>
+					                    <span class="document-naming">@(document?.DocumentName)</span>
+					                    <br /> 
                                         <span class="document-lastUpdateTime">@(document?.LastUpdateTime)</span>
                                     </div>
                                 </div>

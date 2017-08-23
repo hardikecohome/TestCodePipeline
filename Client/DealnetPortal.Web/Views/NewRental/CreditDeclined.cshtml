@@ -1,4 +1,5 @@
-﻿@model DealnetPortal.Web.Models.CreditRejectedViewModel
+﻿@using DealnetPortal.Api.Common.Enumeration
+@model DealnetPortal.Web.Models.CreditRejectedViewModel
 
 <div class="row">
   <div class="col-lg-3 col-md-2 col-sm-3"></div>
@@ -30,7 +31,7 @@
 {
 	<script type="text/javascript">
 		$(document).ready(function () {
-			ga('send', 'event', 'Decline/Credit Review', 'Error Message Displayed', 'By Dealer', '20');
+			ga('send', 'event', 'Decline/Credit Review', 'Error Message Displayed', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
 		});
 	</script>
 }

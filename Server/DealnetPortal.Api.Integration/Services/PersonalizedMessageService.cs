@@ -36,7 +36,7 @@ namespace DealnetPortal.Api.Integration.Services
                     tracking = new Tracking() { code = "try123" }
                 });
 
-                return await client.PostAsJsonAsync("media/ws/rest/mbox/v1/reference/ECOHOME_MRE/message", request);
+                return await client.PostAsJsonAsync("media/ws/rest/mbox/v1/reference/"+ System.Configuration.ConfigurationManager.AppSettings["SubscriptionRef"] +"/message", request);
 
             }
         }

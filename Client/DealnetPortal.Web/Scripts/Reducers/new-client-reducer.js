@@ -99,7 +99,7 @@
         }
     }
 
-    reducerObj[clientActions.SET_UNKNOWN_ADDRESS] = function(state, action) {
+    reducerObj[clientActions.SET_UNKNOWN_ADDRESS] = function (state, action) {
         return {
             improvmentStreet: '',
             improvmentUnit: '',
