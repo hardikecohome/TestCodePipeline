@@ -25,9 +25,6 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> OnBoarding()
         {
             var model = new DealerOnboardingViewModel();
-            model.CompanyInfo = new CompanyInfoViewModel();
-            model.ProductInfo = new ProductInfoViewModel();
-            model.Owners = new List<OwnerViewModel>();
 
             ViewBag.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
 
