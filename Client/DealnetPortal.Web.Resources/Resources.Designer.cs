@@ -5002,6 +5002,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to What provinces can you do business in?.
+        /// </summary>
+        public static string WhatProvincesDoBusiness {
+            get {
+                return ResourceManager.GetString("WhatProvincesDoBusiness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Where will the home improvement project take place?.
         /// </summary>
         public static string WhereHomeImprovementProjectTakePlace {

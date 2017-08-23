@@ -1476,9 +1476,9 @@ namespace DealnetPortal.Api.Resources {
         /// <summary>
         ///   Looks up a localized string similar to less than 1 year.
         /// </summary>
-        public static string LessThanOne {
+        public static string LessThanOneYear {
             get {
-                return ResourceManager.GetString("LessThanOne", resourceCulture);
+                return ResourceManager.GetString("LessThanOneYear", resourceCulture);
             }
         }
         
@@ -2113,7 +2113,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Well pump.
+        ///   Looks up a localized string similar to Well Pump.
         /// </summary>
         public static string WellPump {
             get {

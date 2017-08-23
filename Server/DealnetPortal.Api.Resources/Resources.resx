@@ -799,7 +799,7 @@
   <data name="Leasing" xml:space="preserve">
     <value>Leasing</value>
   </data>
-  <data name="LessThanOne" xml:space="preserve">
+  <data name="LessThanOneYear" xml:space="preserve">
     <value>less than 1 year</value>
   </data>
   <data name="Limited" xml:space="preserve">

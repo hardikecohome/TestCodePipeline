@@ -10,6 +10,7 @@ namespace DealnetPortal.Web.Models.Dealer
         public CompanyInfoViewModel()
         {
             AddressInfo = new AddressInformation();
+            Provinces = new List<string>();
         }
 
         [CustomRequired]
