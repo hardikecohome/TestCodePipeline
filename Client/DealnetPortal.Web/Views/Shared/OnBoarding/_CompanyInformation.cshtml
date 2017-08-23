@@ -42,7 +42,6 @@
             <div class="col-md-4 col-sm-6">
                 <div class="form-group">
                     @Html.LabelFor(m => m.EmailAddress, new { @class = "mandatory-field" })
-                    <label for="operating-name" class="mandatory-field">Operating name</label>
                     <div class="control-group">
                         @Html.TextBoxFor(m => m.EmailAddress, new { @class = "form-control dealnet-input" })
                         @Html.ValidationMessageFor(m => m.EmailAddress, "", new { @class = "text-danger" })
@@ -122,5 +121,11 @@
                 </ul>
             </div>
         </div>
+        <a class="save-and-resume pull-right">
+            <svg aria-hidden="true" class="icon icon-save">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-save")"></use>
+            </svg>
+            <span>@Resources.SaveAndResumeLater</span>
+        </a>
     </div>
 </div>

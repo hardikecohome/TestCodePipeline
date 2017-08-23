@@ -4174,6 +4174,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save and Resume later.
+        /// </summary>
+        public static string SaveAndResumeLater {
+            get {
+                return ResourceManager.GetString("SaveAndResumeLater", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save changes.
         /// </summary>
         public static string SaveChanges {

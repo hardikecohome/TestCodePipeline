@@ -1853,4 +1853,7 @@
   <data name="Questions" xml:space="preserve">
     <value>Questions?</value>
   </data>
+  <data name="SaveAndResumeLater" xml:space="preserve">
+    <value>Save and Resume later</value>
+  </data>
 </root>
