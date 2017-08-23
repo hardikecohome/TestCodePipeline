@@ -529,6 +529,7 @@
     <Content Include="Content\images\sprite\icon-remove-cross.svg" />
     <Content Include="Content\images\sprite\icon-reports-btn.svg" />
     <Content Include="Content\images\sprite\icon-reports-side.svg" />
+    <Content Include="Content\images\sprite\icon-save.svg" />
     <Content Include="Content\images\sprite\icon-scan-licen.svg" />
     <Content Include="Content\images\sprite\icon-search.svg" />
     <Content Include="Content\images\sprite\icon-shareable-link.svg" />
@@ -777,6 +778,7 @@
     <Content Include="Content\less\slick\slick-theme.less" />
     <Content Include="Content\less\slick\slick.less" />
     <Content Include="Content\less\components\carousel.less" />
+    <Content Include="Content\less\pages\onboard.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -926,6 +928,7 @@
     <Content Include="Scripts\Pages\newEquipment\rate-cards-init.js" />
     <Content Include="Scripts\Pages\newEquipment\validation.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.index.js" />
+    <Content Include="Scripts\Pages\onboarding\onboarding.state.js" />
     <Content Include="Scripts\Reducers\customer.js" />
     <Content Include="Scripts\Reducers\new-client-reducer.js" />
     <Content Include="Scripts\Selectors\customer.js" />
