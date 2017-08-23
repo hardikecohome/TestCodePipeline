@@ -1078,6 +1078,7 @@
     <Content Include="Views\Shared\OnBoarding\_Acknowledgment.cshtml" />
     <Content Include="Views\Dealer\OnBoardingLayout.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_CompanyInformation.cshtml" />
+    <Content Include="Views\Shared\OnBoarding\_AddressInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

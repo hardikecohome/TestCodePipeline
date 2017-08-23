@@ -1,0 +1,57 @@
+﻿@model DealnetPortal.Web.Models.AddressInformation
+
+<h4 class="heading-bordered">Address</h4>
+<div class="row address-container">
+    <div class="col-md-6 col-sm-6">
+        <div class="form-group">
+            <label for="street" class="mandatory-field">@Resources.Street</label>
+            <div class="control-group">
+                <input type="text" id="street" class="form-control dealnet-input">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 col-sm-2">
+        <div class="form-group">
+            <label for="unit">@Resources.UnitNumber</label>
+            <div class="control-group">
+                <input type="text" id="unit" class="form-control dealnet-input">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-4">
+        <div class="form-group">
+            <label for="city" class="mandatory-field">@Resources.City</label>
+            <div class="control-group">
+                <input type="text" id="city" class="form-control dealnet-input">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6 col-clear-lg-4 col-clear-md-4 col-clear-sm-6">
+        <div class="form-group">
+            <label for="province" class="mandatory-field">@Resources.Province</label>
+            <div class="control-group">
+                <select class="form-control" id="province">
+                    <option value="">Province</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="form-group">
+            <label for="postal-code" class="mandatory-field">@Resources.PostalCode</label>
+            <div class="control-group">
+                <input type="text" id="postal-code" class="form-control dealnet-input">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6 col-clear-sm-6">
+        <div class="form-group">
+            <div class="dealnet-label hidden-xs hidden-sm">&nbsp;</div>
+            <div class="control-group flex-centered-text">
+                <a href="#" class="dealnet-disabled-text clear-address">
+                    <svg aria-hidden="true" class="icon icon-remove"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/client/Content/images/sprite/sprite.svg#icon-remove"></use></svg><span>Clear Address</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

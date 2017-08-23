@@ -3,7 +3,7 @@
 <div class="panel customer-loan-form-panel active-panel">
     <div class="panel-heading">
         <span class="panel-step">1</span>
-        <h3 class="panel-title dealnet-middle-header">Company information</h3>
+        <h3 class="panel-title dealnet-middle-header">@Resources.CompanyInformation</h3>
         <span class="arrow"><i class="glyphicon"></i></span>
         <span class="passed-step-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
     </div>
@@ -11,16 +11,20 @@
         <div class="row">
             <div class="col-md-4 col-sm-6">
                 <div class="form-group">
-                    <label for="full-legal-name" class="mandatory-field">Full legal name</label>
-                    <div class="control-group"><input type="text" id="full-legal-name"
-                                                      class="form-control dealnet-input" value="Improve Home Service"></div>
+                    @Html.LabelFor(m => m.FullLegalName, new { @class = "mandatory-field" })
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.FullLegalName, new { @class = "form-control dealnet-input" })
+                        @Html.ValidationMessageFor(m => m.FullLegalName, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
             <div class="col-md-4 col-sm-6">
                 <div class="form-group">
-                    <label for="operating-name" class="mandatory-field">Operating name</label>
-                    <div class="control-group"><input type="text" id="operating-name"
-                                                      class="form-control dealnet-input" value="IHService"></div>
+                    @Html.LabelFor(m => m.OperatingName, new { @class = "mandatory-field" })
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.OperatingName, new { @class = "form-control dealnet-input" })
+                        @Html.ValidationMessageFor(m => m.OperatingName, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
         </div>
@@ -28,116 +32,74 @@
         <div class="row">
             <div class="col-md-4 col-sm-6">
                 <div class="form-group">
-                    <label for="phone-number" class="mandatory-field">Phone Number</label>
+                    @Html.LabelFor(m => m.Phone, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        <input type="text" id="phone-number" class="form-control dealnet-input">
+                        @Html.TextBoxFor(m => m.Phone, new { @class = "form-control dealnet-input" })
+                        @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
             <div class="col-md-4 col-sm-6">
                 <div class="form-group">
-                    <label for="email-address" class="mandatory-field">Email Address</label>
+                    @Html.LabelFor(m => m.EmailAddress, new { @class = "mandatory-field" })
+                    <label for="operating-name" class="mandatory-field">Operating name</label>
                     <div class="control-group">
-                        <input type="text" id="email-address" class="form-control dealnet-input" value="IHService@gmail.com">
+                        @Html.TextBoxFor(m => m.EmailAddress, new { @class = "form-control dealnet-input" })
+                        @Html.ValidationMessageFor(m => m.EmailAddress, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
             <div class="col-md-4 col-sm-6 col-clear-sm-6">
                 <div class="form-group">
-                    <label for="website-url" class="mandatory-field">Website</label>
+                    @Html.LabelFor(m => m.Website, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        <input type="text" id="website-url" class="form-control dealnet-input">
+                        @Html.TextBoxFor(m => m.Website, new { @class = "form-control dealnet-input" })
+                        @Html.ValidationMessageFor(m => m.Website, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
         </div>
-        <h4 class="heading-bordered">Address</h4>
-        <div class="row address-container">
-            <div class="col-md-6 col-sm-6">
-                <div class="form-group">
-                    <label for="street" class="mandatory-field">@Resources.Street</label>
-                    <div class="control-group">
-                        <input type="text" id="street" class="form-control dealnet-input">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-2">
-                <div class="form-group">
-                    <label for="unit">@Resources.UnitNumber</label>
-                    <div class="control-group">
-                        <input type="text" id="unit" class="form-control dealnet-input">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-4">
-                <div class="form-group">
-                    <label for="city" class="mandatory-field">@Resources.City</label>
-                    <div class="control-group">
-                        <input type="text" id="city" class="form-control dealnet-input">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6 col-clear-lg-4 col-clear-md-4 col-clear-sm-6">
-                <div class="form-group">
-                    <label for="province" class="mandatory-field">@Resources.Province</label>
-                    <div class="control-group">
-                        <select class="form-control" id="province">
-                            <option value="">Province</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <div class="form-group">
-                    <label for="postal-code" class="mandatory-field">@Resources.PostalCode</label>
-                    <div class="control-group">
-                        <input type="text" id="postal-code" class="form-control dealnet-input">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6 col-clear-sm-6">
-                <div class="form-group">
-                    <div class="dealnet-label hidden-xs hidden-sm">&nbsp;</div>
-                    <div class="control-group flex-centered-text">
-                        <a href="#" class="dealnet-disabled-text clear-address">
-                            <svg aria-hidden="true" class="icon icon-remove"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/client/Content/images/sprite/sprite.svg#icon-remove"></use></svg><span>Clear Address</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @Html.Partial("OnBoarding/_AddressInfo", Model.AddressInfo)
         <h4 class="heading-bordered">Other</h4>
         <div class="row">
             <div class="col-md-2 col-sm-6">
                 <div class="form-group">
                     <label for="" class="mandatory-field">Type of business</label>
-                    <div class="control-group"><select name="" id="" class="form-control">
-                        <option value=""></option>
-                    </select></div>
+                    <div class="control-group">
+                        <select name="" id="" class="form-control">
+                            <option value=""></option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="col-md-2 col-sm-6">
                 <div class="form-group">
                     <label for="" class="mandatory-field">Years in business</label>
-                    <div class="control-group"><select name="" id="" class="form-control">
-                        <option value=""></option>
-                    </select></div>
+                    <div class="control-group">
+                        <select name="" id="" class="form-control">
+                            <option value=""></option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="col-md-2 col-sm-6">
                 <div class="form-group">
                     <label for="">Number of installers</label>
-                    <div class="control-group"><select name="" id="" class="form-control">
-                        <option value=""></option>
-                    </select></div>
+                    <div class="control-group">
+                        <select name="" id="" class="form-control">
+                            <option value=""></option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="col-md-2 col-sm-6">
                 <div class="form-group">
                     <label for="">Number of sales people</label>
-                    <div class="control-group"><select name="" id="" class="form-control">
-                        <option value=""></option>
-                    </select></div>
+                    <div class="control-group">
+                        <select name="" id="" class="form-control">
+                            <option value=""></option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
