@@ -26,7 +26,7 @@
     var currentAddressPreviousRequiredFields = ['pstreet', 'pcity', 'pprovince', 'ppostalCode'];
     var contactInfoRequiredFields = ['email'];
     var homeImprovmentsRequiredFields = ['improvmentStreet', 'improvmentCity', 'improvmentProvince', 'improvmentPostalCode'];
-    var clientConsentsRequiredFields = ['creditAgreement'];
+    var clientConsentsRequiredFields = ['creditAgreement','contactAgreement'];
     var trimFieldsIds = ['unit_number', 'sin-number', 'dl-number', 'previous_unit_number', 'businessPhone', 'improvment_unit_number'];
 
     var getErrors = configGetErrors(basicInfoRequiredFields, currentAddressRequiredFields, currentAddressPreviousRequiredFields, contactInfoRequiredFields, homeImprovmentsRequiredFields, clientConsentsRequiredFields);
@@ -49,10 +49,10 @@
             modal.setAttribute('data-dlToFill', 'dl-number');
             modal.setAttribute('data-stToFill', 'street');
             modal.setAttribute('data-ctToFill', 'locality');
-            modal.setAttribute('data-prToFill', "administrative_area_level_1");
-            modal.setAttribute('data-pcToFill', "postal_code");
+            modal.setAttribute('data-prToFill', "province");
+	    modal.setAttribute('data-pcToFill', "postal_code");
         }
-
+		//ga('send', 'event', 'Scan License', 'button_click', 'From Mortgage Portal', '100');
         return true;
     });
 
@@ -63,7 +63,7 @@
                 event.preventDefault();
                 return false;
             }
-        });
+        });    
 
 
         // init views

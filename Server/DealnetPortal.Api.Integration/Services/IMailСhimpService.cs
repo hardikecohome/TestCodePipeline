@@ -7,7 +7,6 @@ namespace DealnetPortal.Api.Integration.Services
     public interface IMailСhimpService
     {
         Task AddNewSubscriberAsync(string listid, MailChimpMember member);
-        Task<Queue> SendUpdateNotification(string email);
         Task<bool> isSubscriber(string listid, string emailid);
     }
 }

@@ -35,7 +35,7 @@
     });
 }
 
-function submitUpload(sender, uploadUrl) {
+function submitUpload(sender, uploadUrl, fn, ln, bd, dl, st, ct, pr, pc) {
     
     var files = sender.files;
     if (files.length > 0) {
@@ -57,19 +57,20 @@ function submitUpload(sender, uploadUrl) {
                         alert(translations['CannotRecognizeDriverLicense']);
                     } else {
                         var modal = document.getElementById('camera-modal');
-                        document.getElementById(modal.getAttribute('data-fnToFill')).value = json.FirstName;
-                        document.getElementById(modal.getAttribute('data-lnToFill')).value = json.LastName;
+                        document.getElementById(fn || modal.getAttribute('data-fnToFill')).value = json.FirstName;
+                        document.getElementById(ln || modal.getAttribute('data-lnToFill')).value = json.LastName;
                         var date = new Date(json.DateOfBirthStr);
                         date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
-                        var dateInput = $("#" + modal.getAttribute('data-bdToFill'));
+                        var dateInput = $("#" + (bd || modal.getAttribute('data-bdToFill')));
                         dateInput.datepicker("setDate", date);
                         dateInput.change();
-                        document.getElementById(modal.getAttribute('data-dlToFill')).value = json.Id;
-                        document.getElementById(modal.getAttribute('data-stToFill')).value = json.Street;
-                        document.getElementById(modal.getAttribute('data-ctToFill')).value = json.City;
-                        document.getElementById(modal.getAttribute('data-prToFill')).value = json.State;
-                        document.getElementById(modal.getAttribute('data-pcToFill')).value = json.PostalCode;
+                        document.getElementById(dl || modal.getAttribute('data-dlToFill')).value = json.Id;
+                        document.getElementById(st || modal.getAttribute('data-stToFill')).value = json.Street;
+                        document.getElementById(ct || modal.getAttribute('data-ctToFill')).value = json.City;
+                        document.getElementById(pr || modal.getAttribute('data-prToFill')).value = json.State;
+                        document.getElementById(pc || modal.getAttribute('data-pcToFill')).value = json.PostalCode;
                         $('#camera-modal').modal('hide');
+                        $('#' + fn).trigger('uploadSuccess');
                     }
                 },
                 error: function (xhr, status, p3) {

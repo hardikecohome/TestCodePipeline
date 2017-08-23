@@ -772,6 +772,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Air Filtration.
+        /// </summary>
+        public static string AirFiltration {
+            get {
+                return ResourceManager.GetString("AirFiltration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Air Handler.
         /// </summary>
         public static string AirHandler {
@@ -1258,7 +1267,16 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to HRV.
+        ///   Looks up a localized string similar to Hot Tub.
+        /// </summary>
+        public static string HotTub {
+            get {
+                return ResourceManager.GetString("HotTub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Heat Recovery Ventilator.
         /// </summary>
         public static string Hrv {
             get {
@@ -1276,7 +1294,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to HWT.
+        ///   Looks up a localized string similar to Hot Water Tank.
         /// </summary>
         public static string Hwt {
             get {
@@ -1497,6 +1515,15 @@ namespace DealnetPortal.Api.Resources {
         public static string Plumbing {
             get {
                 return ResourceManager.GetString("Plumbing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pool.
+        /// </summary>
+        public static string Pool {
+            get {
+                return ResourceManager.GetString("Pool", resourceCulture);
             }
         }
         
@@ -1812,6 +1839,15 @@ namespace DealnetPortal.Api.Resources {
         public static string Value {
             get {
                 return ResourceManager.GetString("Value", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vertical Fan/HRV Combo.
+        /// </summary>
+        public static string VerticalFanHRVCombo {
+            get {
+                return ResourceManager.GetString("VerticalFanHRVCombo", resourceCulture);
             }
         }
         

@@ -854,14 +854,15 @@
     @(!ViewBag.IsMobileRequest ? Scripts.Render("~/bundles/basic-info") : Scripts.Render("~/bundles/basic-info-mobile"))
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=assignAutocompletes" async defer></script>
     <script type="text/javascript">
-        $('<option @(Model.SubmittingDealerId == null ? "selected" : "") value="">- @Resources.NotSelected -</option>').prependTo($('#subdealers'));
+      $('<option @(Model.SubmittingDealerId == null ? "selected" : "") value="">- @Resources.NotSelected -</option>').prependTo($('#subdealers'));
+      var isMobileRequest = @(ViewBag.IsMobileRequest ? "true" : "false");
         @if (Model.SubmittingDealerId == null) {
             <text>$('#subdealers').val($('#subdealers > option:first').val());</text>
         }
     </script>
 <script type="text/javascript">
 		$(document).ready(function () {
-			ga('send', 'event', 'New Application Start', 'Basic Info page Displayed', 'By Dealer', '20');
+			ga('send', 'event', 'New Application Start', 'Basic Info page Displayed', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
 		});
 </script>
 }

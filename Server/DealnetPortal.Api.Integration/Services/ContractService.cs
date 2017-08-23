@@ -977,10 +977,7 @@ namespace DealnetPortal.Api.Integration.Services
             document.DocumentName = document.DocumentName.Replace('-', '_');
             try
             {
-                doc = _contractRepository.AddDocumentToContract(document.ContractId, Mapper.Map<ContractDocument>(document),
-                    contractOwnerId);
-                _unitOfWork.Save();
-
+                
                 //run aspire upload async
                 var aspireAlerts = _aspireService.UploadDocument(document.ContractId, document, contractOwnerId).GetAwaiter().GetResult();
                 //var aspireAlerts = _aspireService.UploadDocument(document.ContractId, document, contractOwnerId).GetAwaiter().GetResult();
@@ -998,9 +995,16 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                     _loggingService.LogError(aspireAlerts.FirstOrDefault().Message);
                 }
-                var contract = _contractRepository.GetContractAsUntracked(doc.ContractId, contractOwnerId);
-                var contractDTO = Mapper.Map<ContractDTO>(contract);
-                //Task.Run(async () => await _mailService.SendContractChangeNotification(contractDTO, contract.Dealer.Email));
+                else
+                {
+                    doc = _contractRepository.AddDocumentToContract(document.ContractId, Mapper.Map<ContractDocument>(document),
+                    contractOwnerId);
+                    _unitOfWork.Save();
+                    var contract = _contractRepository.GetContractAsUntracked(doc.ContractId, contractOwnerId);
+                    var contractDTO = Mapper.Map<ContractDTO>(contract);
+                    
+                }
+                    //Task.Run(async () => await _mailService.SendContractChangeNotification(contractDTO, contract.Dealer.Email));
             }
             catch (Exception ex)
             {

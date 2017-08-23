@@ -15,7 +15,7 @@
 {
 	<script type="text/javascript">
 	$(document).ready(function () {
-			ga('send', 'event', 'PreApproved', 'Success Message Displayed', 'By Broker', '50');
+			ga('send', 'event', 'PreApproved', 'Success Message Displayed', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
 		});
 	</script>
 }
