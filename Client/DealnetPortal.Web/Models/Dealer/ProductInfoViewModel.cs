@@ -56,5 +56,8 @@ namespace DealnetPortal.Web.Models.Dealer
         [CustomRequired]
         [MinMaxListCount(1, int.MaxValue, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "EquipmentTypeLength")]
         public List<EquipmentTypeDTO> EquipmentTypes { get; set; }
+
+        [CustomRequired]
+        public ReasonForInterest ReasonForInterest { get; set; }
     }
 }

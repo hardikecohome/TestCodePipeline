@@ -16,8 +16,5 @@ namespace DealnetPortal.Web.Models.Dealer
         public List<OwnerViewModel> Owners { get; set; }
 
         public ProductInfoViewModel ProductInfo { get; set; }
-
-        [CustomRequired]
-        public ReasonForInterest ReasonForInterest { get; set; }
     }
 }
