@@ -245,6 +245,10 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/Pages/calculator/calculator-conversion.js")
                 .Include("~/Scripts/Pages/calculator/calculator-jcarousel.js")
                 .Include("~/Scripts/Utils/financial-functions.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/onboarding")
+                .Include("~/Scripts/Modules/index.js")
+                .Include("~/Scripts/Pages/onboarding/onboarding.index.js"));
         }
     }
 }

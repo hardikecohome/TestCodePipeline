@@ -119,7 +119,18 @@
     </div>
 </script>
 
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/localization")
+@Scripts.Render("~/bundles/onboarding")
+
 @section scripts {
+    <script type="text/javascript">
+        $(function() {
+            module.require('onboarding.index').init();
+        });
+    </script>
+
     <script type="text/javascript">
         $(function () {
             setEqualHeightRows($(".equal-height-section-1"));
