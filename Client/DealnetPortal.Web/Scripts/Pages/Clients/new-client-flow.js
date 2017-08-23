@@ -89,6 +89,10 @@
                             homeImprovmentFlow.splice(index4, 1);
                         }
 
+                        if (state.improvmentOtherAddress) {
+                            next(createAction(clientActions.CHECK_VALIDATION, true));
+                        }
+
                         if (homeImprovmentFlow.length === 0) {
                             next(createAction(clientActions.ACTIVATE_CLIENT_CONSENTS, true));
                         }

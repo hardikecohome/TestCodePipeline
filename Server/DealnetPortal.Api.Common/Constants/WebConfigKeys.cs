@@ -41,7 +41,6 @@
         public static readonly string DOCUSIGN_USER_CONFIG_KEY = "DocuSignUser";
         public static readonly string DOCUSIGN_PASSWORD_CONFIG_KEY = "DocuSignPassword";
         public static readonly string DOCUSIGN_INTEGRATORKEY_CONFIG_KEY = "DocuSignIntegratorKey";
-
         public static readonly string SERVER_BASE_ADDRESS_CONFIG_KEY = "ServerBaseAddress";
 
         //Aspire statuses
@@ -65,7 +64,6 @@
 
         //Customer Wallet integration-->
         public static readonly string CW_APIURL_CONFIG_KEY = "CustomerWalletApiUrl";
-        public static readonly string CW_CLIENTURL_CONFIG_KEY = "CustomerWalletClientUrl";
         public static readonly string CW_CLIENT_CONFIG_KEY = "CustomerWalletClient";
         public static readonly string CW_PHONE_CONFIG_KEY = "CustomerWalletPhone";
         public static readonly string CW_EMAIL_CONFIG_KEY = "CustomerWalletEmail";
