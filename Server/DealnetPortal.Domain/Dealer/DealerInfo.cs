@@ -10,6 +10,12 @@ namespace DealnetPortal.Domain.Dealer
 {
     public class DealerInfo
     {
+        public DealerInfo()
+        {
+            Owners = new HashSet<OwnerInfo>();
+            RequiredDocuments = new HashSet<RequiredDocument>();
+        }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         /// <summary>
@@ -23,5 +29,21 @@ namespace DealnetPortal.Domain.Dealer
         /// </summary>
         [Index("LinkIndex", IsUnique = true)]
         public string DraftLink { get; set; }
+
+        public DateTime CreationTime { get; set; }
+        public DateTime? LastUpdateTime { get; set; }
+
+        public int? CompanyInfoId { get; set; }
+        [ForeignKey(nameof(CompanyInfoId))]
+        public virtual CompanyInfo CompanyInfo { get; set; }
+
+        public virtual OwnerInfo PrimaryOwner { get; set; }
+        public virtual ICollection<OwnerInfo> Owners { get; set; }
+
+        public int? ProductInfoId { get; set; }
+        [ForeignKey(nameof(ProductInfoId))]
+        public virtual ProductInfo ProductInfo { get; set; }
+        
+        public ICollection<RequiredDocument> RequiredDocuments { get; set; } 
     }
 }

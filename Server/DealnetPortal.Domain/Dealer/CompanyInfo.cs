@@ -11,6 +11,11 @@ namespace DealnetPortal.Domain.Dealer
 {
     public class CompanyInfo
     {
+        public CompanyInfo()
+        {
+            Provinces = new HashSet<CompanyProvince>();
+        }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
@@ -21,10 +26,8 @@ namespace DealnetPortal.Domain.Dealer
         public string EmailAddress { get; set; }
         public string Website { get; set; }
 
-        public int? CompanyLocationId { get; set; }
-        [ForeignKey(nameof(CompanyLocationId))]
-        public Location CompanyLocation { get; set; }
-
+        public Address CompanyAddress { get; set; }
+        
         public YearsInBusiness? YearsInBusiness { get; set; }
         public NumberOfPeople? NumberOfInstallers { get; set; }        
         public NumberOfPeople? NumberOfSales { get; set; }        
@@ -32,5 +35,7 @@ namespace DealnetPortal.Domain.Dealer
         //public List<string> Provinces { get; set; }
         [Required]
         public DealerInfo DealerInfo { get; set; }
+
+        public virtual ICollection<CompanyProvince> Provinces { get; set; } 
     }
 }

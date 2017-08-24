@@ -68,9 +68,15 @@
     <Compile Include="CustomerLink.cs" />
     <Compile Include="DealerLanguage.cs" />
     <Compile Include="DealerService.cs" />
+    <Compile Include="Dealer\Address.cs" />
     <Compile Include="Dealer\CompanyInfo.cs" />
-    <Compile Include="Dealer\ContactInfo.cs" />
+    <Compile Include="Dealer\CompanyProvince.cs" />
     <Compile Include="Dealer\DealerInfo.cs" />
+    <Compile Include="Dealer\ManufacturerBrand.cs" />
+    <Compile Include="Dealer\OwnerInfo.cs" />
+    <Compile Include="Dealer\ProductInfo.cs" />
+    <Compile Include="Dealer\ProductService.cs" />
+    <Compile Include="Dealer\RequiredDocument.cs" />
     <Compile Include="DocumentType.cs" />
     <Compile Include="Email.cs" />
     <Compile Include="EquipmentInfo.cs" />
