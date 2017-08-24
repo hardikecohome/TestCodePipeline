@@ -27,8 +27,8 @@ namespace DealnetPortal.Domain.Dealer
         /// <summary>
         /// Link to a draft for continue editing
         /// </summary>
-        [Index("LinkIndex", IsUnique = true)]
-        public string DraftLink { get; set; }
+        [Index("AccessCode", IsUnique = true)]
+        public string AccessCode { get; set; }
 
         public DateTime CreationTime { get; set; }
         public DateTime? LastUpdateTime { get; set; }
