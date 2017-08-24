@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,10 @@ namespace DealnetPortal.Domain.Dealer
 {
     public class OwnerInfo
     {
+        public OwnerInfo()
+        {
+            Address = new Address();
+        }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -22,5 +27,12 @@ namespace DealnetPortal.Domain.Dealer
         public Address Address{ get; set; }
 
         public decimal? PercentOwnership { get; set; }
+
+        public int OwnerOrder { get; set; }
+
+        public int DealerInfoId { get; set; }
+        [ForeignKey("DealerInfoId")]
+        [Required]
+        public DealerInfo DealerInfo { get; set; }
     }
 }

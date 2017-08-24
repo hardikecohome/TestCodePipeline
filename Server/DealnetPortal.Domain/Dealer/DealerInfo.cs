@@ -27,21 +27,17 @@ namespace DealnetPortal.Domain.Dealer
         /// <summary>
         /// Link to a draft for continue editing
         /// </summary>
-        [Index("AccessCode", IsUnique = true)]
         public string AccessCode { get; set; }
 
         public DateTime CreationTime { get; set; }
         public DateTime? LastUpdateTime { get; set; }
 
         public int? CompanyInfoId { get; set; }
-        [ForeignKey(nameof(CompanyInfoId))]
+        [ForeignKey("CompanyInfoId")]
         public virtual CompanyInfo CompanyInfo { get; set; }
 
-        public virtual OwnerInfo PrimaryOwner { get; set; }
         public virtual ICollection<OwnerInfo> Owners { get; set; }
 
-        public int? ProductInfoId { get; set; }
-        [ForeignKey(nameof(ProductInfoId))]
         public virtual ProductInfo ProductInfo { get; set; }
         
         public ICollection<RequiredDocument> RequiredDocuments { get; set; } 

@@ -23,9 +23,8 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.DealerInfos.FirstOrDefault(di => di.AccessCode == accessCode);
         }
 
-        public bool AddOrUpdateDealerInfo(DealerInfo dealerInfo, string accessCode = null)
+        public DealerInfo AddOrUpdateDealerInfo(DealerInfo dealerInfo, string accessCode = null)
         {
-            bool isUpdated = false;
             DealerInfo dbDealer = null;
 
             if (!string.IsNullOrEmpty(accessCode))
@@ -39,6 +38,8 @@ namespace DealnetPortal.DataAccess.Repositories
             if (dbDealer == null)
             {
                 //add new
+                dealerInfo.CreationTime = DateTime.Now;
+                dealerInfo.LastUpdateTime = DateTime.Now;
                 dbDealer = _dbContext.DealerInfos.Add(dealerInfo);
             }
             else
@@ -47,7 +48,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 UpdateDealerInfo(dbDealer, dealerInfo);
             }
 
-            return dbDealer != null;
+            return dbDealer;
         }
 
         public bool DeleteDealerInfo(int dealerInfoId)
@@ -62,7 +63,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         private void UpdateDealerInfo(DealerInfo dbDealerInfo, DealerInfo updateDealerInfo)
         {
-            
+            dbDealerInfo.LastUpdateTime = DateTime.Now;
         }
     }
 }

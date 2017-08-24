@@ -12,7 +12,7 @@ namespace DealnetPortal.DataAccess.Repositories
         DealerInfo GetDealerInfoById(int id);
         DealerInfo GetDealerInfoByAccessCode(string accessCode);
 
-        bool AddOrUpdateDealerInfo(DealerInfo dealerInfo, string accessCode = null);
+        DealerInfo AddOrUpdateDealerInfo(DealerInfo dealerInfo, string accessCode = null);
         bool DeleteDealerInfo(int dealerInfoId);
         bool DeleteDealerInfo(string accessCode);
     }

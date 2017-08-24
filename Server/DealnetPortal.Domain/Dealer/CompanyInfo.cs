@@ -13,6 +13,7 @@ namespace DealnetPortal.Domain.Dealer
     {
         public CompanyInfo()
         {
+            CompanyAddress = new Address();
             Provinces = new HashSet<CompanyProvince>();
         }
 
@@ -33,8 +34,8 @@ namespace DealnetPortal.Domain.Dealer
         public NumberOfPeople? NumberOfSales { get; set; }        
         public BusinessType? BusinessType { get; set; }
         //public List<string> Provinces { get; set; }
-        [Required]
-        public DealerInfo DealerInfo { get; set; }
+        //[Required]
+        //public DealerInfo DealerInfo { get; set; }
 
         public virtual ICollection<CompanyProvince> Provinces { get; set; } 
     }
