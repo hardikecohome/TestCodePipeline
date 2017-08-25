@@ -32,8 +32,8 @@ namespace DealnetPortal.Domain.Dealer
         public DateTime CreationTime { get; set; }
         public DateTime? LastUpdateTime { get; set; }
 
-        public int? CompanyInfoId { get; set; }
-        [ForeignKey("CompanyInfoId")]
+        //public int? CompanyInfoId { get; set; }
+        //[ForeignKey("CompanyInfoId")]
         public virtual CompanyInfo CompanyInfo { get; set; }
 
         public virtual ICollection<OwnerInfo> Owners { get; set; }
