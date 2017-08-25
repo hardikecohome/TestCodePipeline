@@ -29,7 +29,7 @@
             </div>
             <div class="col-md-4 col-sm-6 col-clear-sm-6">
                 <div class="form-group">
-                    @Html.LabelFor(m => m[0].BirthDate, new {@for = "birth-date", @class = "mandatory-field"})
+                    @Html.LabelFor(m => m[0].BirthDate, new {@for = "owner1-birthdate", @class = "mandatory-field"})
                     <div class="control-group date-group">
                         @Html.TextBoxFor(m => m[0].BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input check-age", id = "owner1-birthdate", placeholder = Resources.DateFormat, data_val_date = ""})
                         @Html.ValidationMessageFor(m => m[0].BirthDate, "", new {@class = "text-danger"})

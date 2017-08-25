@@ -252,7 +252,8 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/Pages/onboarding/onboarding.index.js")
                 .Include("~/Scripts/Pages/onboarding/onboarding.state.js")
                 .Include("~/Scripts/Pages/onboarding/onboarding.autocomplete.js")
-                .Include("~/Scripts/Pages/onboarding/owner-info/onboarding.owner-info.index.js"));
+                .Include("~/Scripts/Pages/onboarding/owner-info/onboarding.owner-info.index.js")
+                .Include("~/Scripts/Pages/onboarding/owner-info/onboarding.owner-info.setters.js"));
         }
     }
 }

@@ -930,6 +930,7 @@
     <Content Include="Scripts\Pages\onboarding\onboarding.index.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.state.js" />
     <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.index.js" />
+    <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.setters.js" />
     <Content Include="Scripts\Reducers\customer.js" />
     <Content Include="Scripts\Reducers\new-client-reducer.js" />
     <Content Include="Scripts\Selectors\customer.js" />
