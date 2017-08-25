@@ -1,6 +1,12 @@
-﻿@model List<DealnetPortal.Web.Models.Dealer.OwnerViewModel>
+﻿@using DealnetPortal.Api.Models.Contract
+@model List<DealnetPortal.Web.Models.Dealer.OwnerViewModel>
 
-<div class="panel customer-loan-form-panel active-panel">
+@{
+
+    var provinces = ViewBag.ProvinceTaxRates as IList<ProvinceTaxRateDTO>;
+}
+
+<div class="panel customer-loan-form-panel active-panel" id="owner-info-section">
     <div class="panel-heading">
         <span class="panel-step">2</span>
         <h3 class="panel-title dealnet-middle-header">Principal/owner information</h3>
@@ -67,14 +73,74 @@
                 </div>
             </div>
         </div>
-        @Html.Partial("OnBoarding/_AddressInfo", Model[0].AddressInformation)
+        <h4 class="heading-bordered">Address</h4>
+        <div class="row address-container">
+            <div class="col-md-6 col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m[0].AddressInformation.Street, new { @class = "mandatory-field" })
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m[0].AddressInformation.Street, new { @class = "form-control dealnet-input", id = "owner1-street" })
+                        @Html.ValidationMessageFor(m => m[0].AddressInformation.Street, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-2">
+                <div class="form-group">
+                    @Html.LabelFor(m => m[0].AddressInformation.UnitNumber)
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m[0].AddressInformation.UnitNumber, new { @class = "form-control dealnet-input", id = "owner1-unit" })
+                        @Html.ValidationMessageFor(m => m[0].AddressInformation.UnitNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(m => m[0].AddressInformation.City, new { @class = "mandatory-field" })
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m[0].AddressInformation.City, new { @class = "form-control dealnet-input", id = "owner1-city" })
+                        @Html.ValidationMessageFor(m => m[0].AddressInformation.City, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-clear-lg-4 col-clear-md-4 col-clear-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m[0].AddressInformation.Province, new { @class = "mandatory-field" })
+                    <div class="control-group">
+                        @Html.DropDownListFor(m => m[0].AddressInformation.Province, (provinces).Select(p => new SelectListItem { Value = p.Province, Text = p.Province }), new { @class = "form-control", id = "owner1-province" })
+                        @Html.ValidationMessageFor(m => m[0].AddressInformation.Province, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m[0].AddressInformation.PostalCode, new { @class = "mandatory-field" })
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m[0].AddressInformation.PostalCode, new { @class = "form-control dealnet-input", id = "owner1-postalcode" })
+                        @Html.ValidationMessageFor(m => m[0].AddressInformation.PostalCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-clear-sm-6">
+                <div class="form-group">
+                    <div class="dealnet-label hidden-xs hidden-sm">&nbsp;</div>
+                    <div class="control-group flex-centered-text">
+                        <a href="#" class="dealnet-disabled-text clear-address">
+                            <svg aria-hidden="true" class="icon icon-remove">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
+                            </svg>
+                            <span>@Resources.ClearAddress</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <h4 class="heading-bordered">Ownership</h4>
         <div class="row">
             <div class="col-sm-4">
                 <div class="form-group">
                     @Html.LabelFor(m => m[0].PercentOwnership, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m[0].PercentOwnership, null, new { @class = "form-control dealnet-input" })
+                        @Html.TextBoxFor(m => m[0].PercentOwnership, null, new { @class = "form-control dealnet-input", id = "owner1-percentage" })
                         @Html.ValidationMessageFor(m => m[0].PercentOwnership, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -84,7 +150,7 @@
                     <div class="label hidden-xs">&nbsp;</div>
                     <div class="control-group">
                         <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-                        In order to submit application please provide information about owners whose ownership is in total over 50%.
+                        Ownership included in this application must be 50% or greater
                     </div>
                 </div>
             </div>

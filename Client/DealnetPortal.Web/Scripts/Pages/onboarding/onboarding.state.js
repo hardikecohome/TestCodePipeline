@@ -2,7 +2,7 @@
     var state = {
         'owner-info': {
             'owner1': {
-                
+                requiredFields: ['firstname', 'lastname', 'email', 'birthdate', 'homephone', 'cellphone', 'street', 'city', 'province', 'postalcode' ]
             }
         },
         selectedProvinces: [],
