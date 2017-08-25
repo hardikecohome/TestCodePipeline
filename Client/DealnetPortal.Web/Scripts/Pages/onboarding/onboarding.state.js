@@ -1,7 +1,17 @@
 ﻿module.exports('onboarding.state', function () {
-    var state = {};
+    var state = {
+        selectedProvinces: [],
+        nextProvinceId: 0
+    };
+
+    var constants = {
+
+    };
 
     window.state = state;
 
-    return state;
+    return {
+        state: state,
+        constants: constants
+    };
 });

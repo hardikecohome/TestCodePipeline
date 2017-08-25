@@ -1,7 +1,9 @@
-﻿module.exports('onboarding.index', function () {
+﻿module.exports('onboarding.index', function (require) {
+    var initCompany = require('onboarding.company').initCompany;
+
 
     function init() {
-        console.log('hello');
+        initCompany();
     }
 
     return {

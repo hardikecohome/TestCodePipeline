@@ -1,4 +1,4 @@
-﻿@using DealnetPortal.Api.Models.Contract    
+﻿@using DealnetPortal.Api.Models.Contract
 @model DealnetPortal.Web.Models.Dealer.CompanyInfoViewModel
 
 @{
@@ -108,18 +108,21 @@
                 <div class="form-group">
                     <label for="" class="mandatory-field">@Resources.WhatProvincesDoBusiness</label>
                     <div class="control-group">
-                        @Html.DropDownList("SelectedProvinces", (provinces).Select(p=>new SelectListItem { Value=p.Province, Text=p.Province }), Resources.ChooseProvince, new { @class = "form-control" })
+                        @Html.DropDownList("SelectedProvinces", (provinces).Select(p => new SelectListItem { Value = p.Province, Text = p.Province }), Resources.ChooseProvince, new { @class = "form-control" })
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="dealnet-label">&nbsp;</div>
-                <ul class="customer-needs-list tags-list">
+                <ul id="province-list" class="customer-needs-list tags-list">
+
+                    <li><input type="hidden" id="province-0" value="New Brunswick" /> <span id="province-0-display">New Brunswick</span><span class="icon-remove"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
+                    <li><input type="hidden" id="province-1" value="Nova Scotia" /> <span id="province-1-display">Nova Scotia</span><span class="icon-remove"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
                     @for (var i = 0; i < Model.Provinces.Count; i++)
                     {
                         <li>
-                            @Html.HiddenFor(m => m.Provinces[i]) @Model.Provinces[i]
-                            <span class="icon-remove">
+                            @Html.HiddenFor(m => m.Provinces[i], new {id=$"province-{i}" }) <span id="province-@i-display">@Model.Provinces[i]</span>
+                            <span id="province-@i-remove" class="icon-remove">
                                 <svg aria-hidden="true" class="icon icon-remove-cross">
                                     <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
                                 </svg>
@@ -137,3 +140,14 @@
         </a>
     </div>
 </div>
+
+@*<script type="text/html" id="province-template">
+    <li>
+        @Html.HiddenFor(m => m.Provinces[0]) <span id="province-0">@Model.Provinces[0]</span>
+        <span class="icon-remove">
+            <svg aria-hidden="true" class="icon icon-remove-cross">
+                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
+            </svg>
+        </span>
+    </li>
+</script>*@
