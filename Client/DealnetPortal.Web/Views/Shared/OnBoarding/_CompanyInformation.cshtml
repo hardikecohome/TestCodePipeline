@@ -55,7 +55,7 @@
             </div>
             <div class="col-md-4 col-sm-6 col-clear-sm-6">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Website, new { @class = "mandatory-field" })
+                    @Html.LabelFor(m => m.Website)
                     <div class="control-group">
                         @Html.TextBoxFor(m => m.Website, new { @class = "form-control dealnet-input" })
                         @Html.ValidationMessageFor(m => m.Website, "", new { @class = "text-danger" })
@@ -63,7 +63,67 @@
                 </div>
             </div>
         </div>
-        @Html.Partial("OnBoarding/_AddressInfo", Model.AddressInfo)
+        <h4 class="heading-bordered">@Resources.Address</h4>
+        <div class="row address-container">
+            <div class="col-md-6 col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.AddressInfo.Street, new { @class = "mandatory-field" })
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.AddressInfo.Street, new { id = "company-street", @class = "form-control dealnet-input" })
+                        @Html.ValidationMessageFor(m => m.AddressInfo.Street, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-2">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.AddressInfo.UnitNumber)
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.AddressInfo.UnitNumber, new { id = "company-unit", @class = "form-control dealnet-input" })
+                        @Html.ValidationMessageFor(m => m.AddressInfo.UnitNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.AddressInfo.City, new { @class = "mandatory-field" })
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.AddressInfo.City, new { id = "company-city", @class = "form-control dealnet-input" })
+                        @Html.ValidationMessageFor(m => m.AddressInfo.City, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-clear-lg-4 col-clear-md-4 col-clear-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.AddressInfo.Province, new { @class = "mandatory-field" })
+                    <div class="control-group">
+                        @Html.DropDownListFor(m => m.AddressInfo.Province, (provinces).Select(p => new SelectListItem { Value = p.Province, Text = p.Province }), new { id = "company-province", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.AddressInfo.Province, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.AddressInfo.PostalCode, new { @class = "mandatory-field" })
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.AddressInfo.PostalCode, new { id = "company-postal", @class = "form-control dealnet-input" })
+                        @Html.ValidationMessageFor(m => m.AddressInfo.PostalCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-clear-sm-6">
+                <div class="form-group">
+                    <div class="dealnet-label hidden-xs hidden-sm">&nbsp;</div>
+                    <div class="control-group flex-centered-text">
+                        <a href="#" class="dealnet-disabled-text clear-address">
+                            <svg aria-hidden="true" class="icon icon-remove">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
+                            </svg>
+                            <span>@Resources.ClearAddress</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <h4 class="heading-bordered">@Resources.Other</h4>
         <div class="row">
             <div class="col-md-2 col-sm-6">
@@ -117,14 +177,14 @@
                 <ul id="province-list" class="customer-needs-list tags-list">
                     @for (var i = 0; i < Model.Provinces.Count; i++)
                     {
-                        <li>
-                            @Html.HiddenFor(m => m.Provinces[i], new {id=$"province-{i}" }) <span id="province-@i-display">@Model.Provinces[i]</span>
-                            <span id="province-@i-remove" class="icon-remove">
-                                <svg aria-hidden="true" class="icon icon-remove-cross">
-                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
-                                </svg>
-                            </span>
-                        </li>
+                    <li id="province-@i-index">
+                        @Html.HiddenFor(m => m.Provinces[i], new {id=$"province-{i}" }) <span id="province-@i-display">@Model.Provinces[i]</span>
+                        <span id="@Model.Provinces[i]" class="icon-remove">
+                            <svg aria-hidden="true" class="icon icon-remove-cross">
+                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
+                            </svg>
+                        </span>
+                    </li>
                     }
                 </ul>
             </div>
@@ -139,9 +199,9 @@
 </div>
 
 <script type="text/html" id="province-template">
-    <li>
-        <input id="province-0" name="Provinces[0]" type="hidden" value=""/><span id="province-0-display"></span>
-        <span  id="province-0-remove" class="icon-remove">
+    <li id="province-0-index">
+        <input id="province-0" name="Provinces[0]" type="hidden" value="" /><span id="province-0-display"></span>
+        <span class="icon-remove">
             <svg aria-hidden="true" class="icon icon-remove-cross">
                 <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
             </svg>

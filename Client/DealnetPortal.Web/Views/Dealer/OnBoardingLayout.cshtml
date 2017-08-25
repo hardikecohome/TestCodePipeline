@@ -125,10 +125,9 @@
 @Scripts.Render("~/bundles/onboarding")
 
 @section scripts {
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=init" async defer></script>
     <script type="text/javascript">
-        $(function() {
-            module.require('onboarding.index').init();
-        });
+        var init = module.require('onboarding.index').init;
     </script>
 
     <script type="text/javascript">
