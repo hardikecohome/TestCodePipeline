@@ -1853,4 +1853,10 @@
   <data name="Questions" xml:space="preserve">
     <value>Questions?</value>
   </data>
+  <data name="WhatProvincesDoBusiness" xml:space="preserve">
+    <value>What provinces can you do business in?</value>
+  </data>
+  <data name="SaveAndResumeLater" xml:space="preserve">
+    <value>Save and Resume later</value>
+  </data>
 </root>

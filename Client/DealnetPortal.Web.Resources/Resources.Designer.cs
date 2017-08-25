@@ -4174,6 +4174,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save and Resume later.
+        /// </summary>
+        public static string SaveAndResumeLater {
+            get {
+                return ResourceManager.GetString("SaveAndResumeLater", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save changes.
         /// </summary>
         public static string SaveChanges {
@@ -4998,6 +5007,15 @@ namespace DealnetPortal.Web.Resources {
         public static string WhatEquipmentServiceYouInterestedIn {
             get {
                 return ResourceManager.GetString("WhatEquipmentServiceYouInterestedIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to What provinces can you do business in?.
+        /// </summary>
+        public static string WhatProvincesDoBusiness {
+            get {
+                return ResourceManager.GetString("WhatProvincesDoBusiness", resourceCulture);
             }
         }
         

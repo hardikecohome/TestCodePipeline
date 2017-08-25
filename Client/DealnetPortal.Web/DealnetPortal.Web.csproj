@@ -529,6 +529,7 @@
     <Content Include="Content\images\sprite\icon-remove-cross.svg" />
     <Content Include="Content\images\sprite\icon-reports-btn.svg" />
     <Content Include="Content\images\sprite\icon-reports-side.svg" />
+    <Content Include="Content\images\sprite\icon-save.svg" />
     <Content Include="Content\images\sprite\icon-scan-licen.svg" />
     <Content Include="Content\images\sprite\icon-search.svg" />
     <Content Include="Content\images\sprite\icon-shareable-link.svg" />
@@ -931,6 +932,7 @@
     <Content Include="Scripts\Pages\onboarding\onboarding.state.js" />
     <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.index.js" />
     <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.setters.js" />
+    <Content Include="Scripts\Pages\onboarding\onboarding.company.js" />
     <Content Include="Scripts\Reducers\customer.js" />
     <Content Include="Scripts\Reducers\new-client-reducer.js" />
     <Content Include="Scripts\Selectors\customer.js" />

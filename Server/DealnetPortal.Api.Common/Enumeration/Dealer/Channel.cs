@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DealnetPortal.Api.Common.Enumeration
+namespace DealnetPortal.Api.Common.Enumeration.Dealer
 {
     public enum Channel
     {

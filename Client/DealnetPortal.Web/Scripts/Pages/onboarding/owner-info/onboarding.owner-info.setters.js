@@ -46,6 +46,12 @@
         }
     }
 
+    var setOwnershipPercentege = function() {
+        return function(e) {
+            
+        }
+    }
+
     function _togglePhone(selector, event) {
         var label = $(selector).parent().siblings('label');
 
