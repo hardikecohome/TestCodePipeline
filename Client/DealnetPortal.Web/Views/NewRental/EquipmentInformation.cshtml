@@ -97,8 +97,7 @@
             </div>
 
                 @Html.HiddenFor(x => x.CreditAmount)
-
-
+				
                 <div id="new-equipments">
                     <h3 class="dealnet-middle-header">@Resources.NewEquipmentInformation</h3>
 
@@ -203,10 +202,20 @@
                     <div class="col-md-4 initial-width">
                         <div class="form-group">
                             @Html.LabelFor(m => m.AdminFee)
+							@if (ViewBag.AdminFee == 49.99)
+							{
+								<div class="control-group">
+									@Html.TextBoxFor(m => m.AdminFee, new { @class = "form-control", placeholder = Resources.AdminFee, type = "text", id = "admin-fee", Value = ViewBag.AdminFee, @readonly = "readonly", onchange = "calculateLoanValues();" })
+									@Html.ValidationMessageFor(m => m.AdminFee, "", new { @class = "text-danger" })
+								</div>
+							}
+							else
+							{
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.AdminFee, new { @class = "form-control", placeholder = Resources.AdminFee, type="text", id = "admin-fee", onchange = "calculateLoanValues();" })
+                                @Html.TextBoxFor(m => m.AdminFee, new { @class = "form-control", placeholder = Resources.AdminFee, type = "text", id = "admin-fee",  onchange = "calculateLoanValues();" })
                                 @Html.ValidationMessageFor(m => m.AdminFee, "", new { @class = "text-danger" })
                             </div>
+							}
                         </div>
                     </div>
                     <div class="col-md-4 initial-width">

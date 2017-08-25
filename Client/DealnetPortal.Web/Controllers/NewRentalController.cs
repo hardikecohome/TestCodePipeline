@@ -303,6 +303,10 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> EquipmentInformation(int contractId)
         {
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
+            if (!await _dictionaryServiceAgent.CheckDealerSkinExistence())
+                ViewBag.AdminFee = 49.99;
+            else
+                ViewBag.AdminFee = 0;
             return View(await _contractManager.GetEquipmentInfoAsync(contractId));
         }
 

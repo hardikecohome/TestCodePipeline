@@ -30,13 +30,13 @@
     if (isNaN(downPayment) || downPayment < 0) {
         downPayment = 0;
     }
-    var totalAmountFinanced = totalCashPrice + adminFee - downPayment;
+    var totalAmountFinanced = totalCashPrice - downPayment;
     totalAmountFinancedLabel.text(formatNumber(totalAmountFinanced));
     var loanTerm = parseInt($("#loan-term").val());
     var amortizationTerm = parseInt($("#amortization-term").val());
     var customerRate = parseFloat($("#customer-rate").val());
-    if (isNaN(loanTerm) || loanTerm <= 0 || isNaN(amortizationTerm) || amortizationTerm <= 0 || isNaN(customerRate) || customerRate < 0) { return; }
-    var totalMonthlyPayment = totalAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0);
+	if (isNaN(loanTerm) || loanTerm <= 0 || isNaN(amortizationTerm) || amortizationTerm <= 0 || isNaN(customerRate) || customerRate < 0) { return; }
+	var totalMonthlyPayment = (Math.round(totalAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0) * 100) / 100);
     isCalculationValid = totalMonthlyPayment > 0;
     loanTotalMonthlyPaymentLabel.text(formatNumber(totalMonthlyPayment));
     var totalAllMonthlyPayments = totalMonthlyPayment * loanTerm;
@@ -45,10 +45,10 @@
     if (loanTerm !== amortizationTerm) {
         residualBalance = -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, totalMonthlyPayment, 0) * (1 + customerRate / 100 / 12);
     }
-    residualBalanceLabel.text(formatNumber(residualBalance));
-    var totalObligation = totalAllMonthlyPayments + residualBalance;
-    totalObligationLabel.text(formatNumber(totalObligation));
-    var totalBorrowingCost = Math.abs(totalObligation - totalAmountFinanced);
+	residualBalanceLabel.text(formatNumber(residualBalance));
+	var totalObligation = totalAllMonthlyPayments + residualBalance + adminFee;
+	totalObligationLabel.text(formatNumber(totalObligation));
+	var totalBorrowingCost = Math.abs(totalObligation - totalAmountFinanced - adminFee);
     totalBorrowingCostLabel.text(formatNumber(totalBorrowingCost));
 }
 
@@ -66,10 +66,10 @@ function checkCalculationValidity(inputCashPrice, inputTaxRate) {
     if (isNaN(downPayment) || downPayment < 0) {
         downPayment = 0;
     }
-    var totalAmountFinanced = totalCashPrice + adminFee - downPayment;
+    var totalAmountFinanced = totalCashPrice - downPayment;
     var amortizationTerm = parseInt($("#amortization-term").val());
     var customerRate = parseFloat($("#customer-rate").val());
-    if (isNaN(amortizationTerm) || amortizationTerm <= 0 || isNaN(customerRate) || customerRate < 0) { return false; }
-    var totalMonthlyPayment = totalAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0);
+	if (isNaN(amortizationTerm) || amortizationTerm <= 0 || isNaN(customerRate) || customerRate < 0) { return false; }
+	var totalMonthlyPayment = Math.round(totalAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0) * 100) /100;
     return totalMonthlyPayment > 0;
 }
