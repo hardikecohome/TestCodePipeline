@@ -71,6 +71,7 @@ namespace DealnetPortal.DataAccess.Repositories
             UpdateBaseDealerInfo(dbDealerInfo, updateDealerInfo);
             UpdateDealerCompanyInfo(dbDealerInfo, updateDealerInfo);
             UpdateDealerProductInfo(dbDealerInfo, updateDealerInfo);
+            UpdateDealerOwners(dbDealerInfo, updateDealerInfo.Owners);
             dbDealerInfo.LastUpdateTime = DateTime.Now;
         }
 
@@ -94,6 +95,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 _dbContext.CompanyInfos.Remove(dbDealerInfo.CompanyInfo);
             }
             else
+            if (dbDealerInfo.CompanyInfo != null && updateDealerInfo.CompanyInfo != null)
             {
                 updateDealerInfo.Id = dbDealerInfo.Id;
                 var dbCompanyInfo = dbDealerInfo.CompanyInfo;
@@ -187,6 +189,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 _dbContext.ProductInfos.Remove(dbDealerInfo.ProductInfo);
             }
             else
+            if (dbDealerInfo.ProductInfo != null && updateDealerInfo.ProductInfo != null)
             {
                 updateDealerInfo.Id = dbDealerInfo.Id;
                 var dbProductInfo = dbDealerInfo.ProductInfo;
@@ -283,6 +286,81 @@ namespace DealnetPortal.DataAccess.Repositories
                     p.ProductInfo = dbProductInfo;
                     dbProductInfo.Services.Add(p);
                 });            
+        }
+
+        private void UpdateDealerOwners(DealerInfo dbDealerInfo, ICollection<OwnerInfo> updatedOwners)
+        {
+            var existingEntities =
+               dbDealerInfo.Owners.Where(
+                   ho => updatedOwners?.Any(cho => cho.Id == ho.Id) ?? false).ToList();
+
+            var entriesForDelete = dbDealerInfo.Owners.Except(existingEntities).ToList();
+            entriesForDelete.ForEach(e => dbDealerInfo.Owners.Remove(e));
+
+            updatedOwners.ForEach(ho =>
+            {
+                var dbCustomer = ho.Id == 0 ? null : _dbContext.OwnerInfos.Find(ho.Id);
+                if (dbCustomer == null)
+                {
+                    ho.DealerInfo = dbDealerInfo;
+                    dbDealerInfo.Owners.Add(ho);
+                }
+                else
+                {                    
+                    if (dbCustomer.DateOfBirth != ho.DateOfBirth)
+                    {
+                        dbCustomer.DateOfBirth = ho.DateOfBirth;
+                    }
+                    if (dbCustomer.EmailAddress != ho.EmailAddress)
+                    {
+                        dbCustomer.EmailAddress = ho.EmailAddress;
+                    }
+                    if (dbCustomer.FirstName != ho.FirstName)
+                    {
+                        dbCustomer.FirstName = ho.FirstName;
+                    }
+                    if (dbCustomer.LastName != ho.LastName)
+                    {
+                        dbCustomer.LastName = ho.LastName;
+                    }
+                    if (dbCustomer.HomePhone != ho.HomePhone)
+                    {
+                        dbCustomer.HomePhone = ho.HomePhone;
+                    }
+                    if (dbCustomer.MobilePhone != ho.MobilePhone)
+                    {
+                        dbCustomer.MobilePhone = ho.MobilePhone;
+                    }
+                    if (dbCustomer.OwnerOrder != ho.OwnerOrder)
+                    {
+                        dbCustomer.OwnerOrder = ho.OwnerOrder;
+                    }
+                    if (dbCustomer.PercentOwnership != ho.PercentOwnership)
+                    {
+                        dbCustomer.PercentOwnership = ho.PercentOwnership;
+                    }
+                    if (dbCustomer.Address.City != ho.Address?.City)
+                    {
+                        dbCustomer.Address.City = ho.Address.City;
+                    }
+                    if (dbCustomer.Address.PostalCode != ho.Address?.PostalCode)
+                    {
+                        dbCustomer.Address.PostalCode = ho.Address.PostalCode;
+                    }
+                    if (dbCustomer.Address.State != ho.Address?.State)
+                    {
+                        dbCustomer.Address.State = ho.Address.State;
+                    }
+                    if (dbCustomer.Address.Street != ho.Address?.Street)
+                    {
+                        dbCustomer.Address.Street = ho.Address.Street;
+                    }
+                    if (dbCustomer.Address.Unit != ho.Address?.Unit)
+                    {
+                        dbCustomer.Address.Unit = ho.Address.Unit;
+                    }
+                }                
+            });
         }
 
         #endregion
