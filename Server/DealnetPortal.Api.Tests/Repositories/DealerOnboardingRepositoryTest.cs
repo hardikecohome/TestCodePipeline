@@ -32,6 +32,49 @@ namespace DealnetPortal.Api.Tests.Repositories
 
         [TestMethod]
         public void AddNewDealerInfoTest()
+        {            
+            var dealerInfo = GetTestDealerInfo();            
+            var dInfo = _dealerOnboardingRepository.AddOrUpdateDealerInfo(dealerInfo);
+            _unitOfWork.Save();
+
+            Assert.IsNotNull(dInfo);
+        }
+
+        [TestMethod]
+        public void UpdateDealerInfoTest()
+        {
+            var dealerInfo = GetTestDealerInfo();
+            dealerInfo.CompanyInfo.Provinces.Add(new CompanyProvince()
+            {
+                Province = "ON"
+            });
+            dealerInfo.CompanyInfo.Provinces.Add(new CompanyProvince()
+            {
+                Province = "AB"
+            });
+            var dInfo = _dealerOnboardingRepository.AddOrUpdateDealerInfo(dealerInfo);
+            _unitOfWork.Save();
+            Assert.IsNotNull(dInfo);
+
+            var updateInfo = GetTestDealerInfo();
+            updateInfo.Id = dInfo.Id;
+            updateInfo.CompanyInfo.Id = dInfo.CompanyInfo.Id;
+            updateInfo.CompanyInfo.FullLegalName = "Updated FullName";
+            updateInfo.CompanyInfo.Provinces = new List<CompanyProvince>() {
+                new CompanyProvince()
+                {
+                    Province = "ON"
+                }, 
+                new CompanyProvince()
+                {
+                    Province = "SE"
+                }};
+            dInfo = _dealerOnboardingRepository.AddOrUpdateDealerInfo(updateInfo);
+            _unitOfWork.Save();
+            Assert.IsNotNull(dInfo);
+        }
+
+        private DealerInfo GetTestDealerInfo()
         {
             var owners = new List<OwnerInfo>();
             owners.Add(new OwnerInfo()
@@ -64,10 +107,7 @@ namespace DealnetPortal.Api.Tests.Repositories
                 },
                 Owners = owners
             };
-            var dInfo = _dealerOnboardingRepository.AddOrUpdateDealerInfo(dealerInfo);
-            _unitOfWork.Save();
-
-            Assert.IsNotNull(dInfo);
+            return dealerInfo;
         }
     }
 }
