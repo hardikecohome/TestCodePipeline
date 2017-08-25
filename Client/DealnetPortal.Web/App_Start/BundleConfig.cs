@@ -248,8 +248,10 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/onboarding")
                 .Include("~/Scripts/Modules/index.js")
+                .Include("~/Scripts/Utils/objectUtils.js")
                 .Include("~/Scripts/Pages/onboarding/onboarding.index.js")
                 .Include("~/Scripts/Pages/onboarding/onboarding.state.js")
+                .Include("~/Scripts/Pages/onboarding/onboarding.autocomplete.js")
                 .Include("~/Scripts/Pages/onboarding/owner-info/onboarding.owner-info.index.js"));
         }
     }

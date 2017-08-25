@@ -926,6 +926,7 @@
     <Content Include="Scripts\Pages\Clients\new-client.js" />
     <Content Include="Scripts\Pages\newEquipment\rate-cards-init.js" />
     <Content Include="Scripts\Pages\newEquipment\validation.js" />
+    <Content Include="Scripts\Pages\onboarding\onboarding.autocomplete.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.index.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.state.js" />
     <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.index.js" />

@@ -1,7 +1,7 @@
-﻿module.exports('onboarding.owner-info.index', function () {
-
+﻿module.exports('onboarding.owner-info.index', function (require) {
+    var autocomplete = require('onboarding.autocomplete');
     function init() {
-        console.log('hello from owner info page');
+        autocomplete.add('Street', 'City');
     }
 
     return {
