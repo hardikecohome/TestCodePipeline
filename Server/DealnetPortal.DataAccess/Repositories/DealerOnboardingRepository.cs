@@ -194,6 +194,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 updateDealerInfo.Id = dbDealerInfo.Id;
                 var dbProductInfo = dbDealerInfo.ProductInfo;
                 var updateProductInfo = updateDealerInfo.ProductInfo;
+                //_dbContext.Entry(dbProductInfo).CurrentValues.SetValues();
                 if (dbProductInfo.AnnualSalesVolume != updateProductInfo.AnnualSalesVolume)
                 {
                     dbProductInfo.AnnualSalesVolume = updateProductInfo.AnnualSalesVolume;
@@ -295,7 +296,7 @@ namespace DealnetPortal.DataAccess.Repositories
                    ho => updatedOwners?.Any(cho => cho.Id == ho.Id) ?? false).ToList();
 
             var entriesForDelete = dbDealerInfo.Owners.Except(existingEntities).ToList();
-            entriesForDelete.ForEach(e => dbDealerInfo.Owners.Remove(e));
+            entriesForDelete.ForEach(e => _dbContext.OwnerInfos.Remove(e));
 
             updatedOwners.ForEach(ho =>
             {
@@ -303,6 +304,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 if (dbCustomer == null)
                 {
                     ho.DealerInfo = dbDealerInfo;
+                    ho.DealerInfoId = dbDealerInfo.Id;
                     dbDealerInfo.Owners.Add(ho);
                 }
                 else
