@@ -1,7 +1,9 @@
 ﻿module.exports('onboarding.state', function () {
     var state = {
         selectedProvinces: [],
-        nextProvinceId: 0
+        selectedEquipment: [],
+        nextProvinceId: 0,
+        nextEquipmentId: 0
     };
 
     var constants = {

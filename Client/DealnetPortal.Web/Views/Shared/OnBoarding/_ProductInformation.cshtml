@@ -1,7 +1,12 @@
 ﻿@using DealnetPortal.Api.Common.Enumeration.Dealer
+@using DealnetPortal.Api.Models.Contract
 @model DealnetPortal.Web.Models.Dealer.ProductInfoViewModel
 
 <div class="panel customer-loan-form-panel panel-collapsed">
+@{
+    var equipmentTypes = ViewBag.EquipmentTypes as IList<EquipmentTypeDTO>;
+}
+
     <div class="panel-heading">
         <span class="panel-step">3</span>
         <h3 class="panel-title dealnet-middle-header">@Resources.ProductAndSalesInformation</h3>
@@ -247,10 +252,9 @@
         <div class="row">
             <div class="col-md-4 col-sm-6">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.EquipmentTypes, new { @class = "mandatory-field" })
-                    <label for="" class="mandatory-field">Products for financing program</label>
+                    <label for="" class="mandatory-field">@Resources.ProductsForFinancing</label>
                     <div class="control-group">
-                        @Html.DropDownList("SelectedCategories", (Model.EquipmentTypes).Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Description }), "Please select", new { @class = "form-control dealnet-input", id = "offered-service" })
+                        @Html.DropDownList("SelectedCategories", (equipmentTypes).Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Description }), "Please select", new { @class = "form-control dealnet-input", id = "offered-equipment" })
                     </div>
                 </div>
             </div>
@@ -264,30 +268,32 @@
                         </div>
                     </div>
                 </div>
-                <ul class="customer-needs-list tags-list">
-                    @for (var i = 0; i < Model.EquipmentTypes.Count; i++)
-                    {
-                        <li id="equipment-index-@(i)">
-                            @Html.HiddenFor(s => s.EquipmentTypes[i].Id)
-                            @Html.HiddenFor(s => s.EquipmentTypes[i].Type)
-                            @Html.HiddenFor(s => s.EquipmentTypes[i].Description)
-                            <input class="hidden" name="selectedEquipment" value="@Model.EquipmentTypes[i].Id">@Model.EquipmentTypes[i].Description
-                            <span class="icon-remove" id="@Model.EquipmentTypes[i].Id">
-                                <svg aria-hidden="true" class="icon icon-remove-cross">
-                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
-                                </svg>
-                            </span>
-                        </li>
-                    }
-                </ul>
             </div>
+        </div>
+        <div class="row">
+            <ul class="customer-needs-list tags-list row-tag-list" id="equipment-list">
+                @for (var i = 0; i < Model.EquipmentTypes.Count; i++)
+                {
+                    <li id="equipment-@i-index">
+                        @Html.HiddenFor(s => s.EquipmentTypes[i].Id)
+                        @Html.HiddenFor(s => s.EquipmentTypes[i].Description)
+                        <span id="equipment-@i-display">@Model.EquipmentTypes[i].Description</span>
+                        <span class="icon-remove" id="equipment-@i">
+                            <svg aria-hidden="true" class="icon icon-remove-cross">
+                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
+                            </svg>
+                        </span>
+                    </li>
+                }
+            </ul>
+
         </div>
         <div class="row">
             <div class="col-md-4 col-sm-6">
                 <div class="form-group">
-                    @Html.LabelFor(m=>m.ReasonForInterest, new { @class="mandatory-field"})
+                    @Html.LabelFor(m => m.ReasonForInterest, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.EnumDropDownListFor(m=>m.ReasonForInterest, new { @class="form-control"})
+                        @Html.EnumDropDownListFor(m => m.ReasonForInterest, new { @class = "form-control" })
                     </div>
                 </div>
             </div>
@@ -300,3 +306,16 @@
         </a>
     </div>
 </div>
+
+<script type="text/html" id="equipment-template">
+    <li id="equipment-0-index">
+        <input type="hidden" id="EquipmentTypes_0__Id" name="EquipmentTypes[0].Id" value="" />
+        <input type="hidden" id="EquipmentTypes_0__Description" name="EquipmentTypes[0].Description">
+        <span id="equipment-0-display"> </span>
+        <span class="icon-remove" id="equipment-0">
+            <svg aria-hidden="true" class="icon icon-remove-cross">
+                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
+            </svg>
+        </span>
+    </li>
+</script>

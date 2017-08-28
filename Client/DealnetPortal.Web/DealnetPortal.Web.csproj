@@ -931,6 +931,7 @@
     <Content Include="Scripts\Pages\newEquipment\validation.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.company.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.index.js" />
+    <Content Include="Scripts\Pages\onboarding\onboarding.product.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.state.js" />
     <Content Include="Scripts\Reducers\customer.js" />
     <Content Include="Scripts\Reducers\new-client-reducer.js" />

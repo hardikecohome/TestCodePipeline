@@ -511,7 +511,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Annual sales volume.
+        ///   Looks up a localized string similar to Estimated Annual sales volume.
         /// </summary>
         public static string AnnualSalesVolume {
             get {
@@ -3918,6 +3918,15 @@ namespace DealnetPortal.Web.Resources {
         public static string ProductAndSalesInformation {
             get {
                 return ResourceManager.GetString("ProductAndSalesInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Products for financing program.
+        /// </summary>
+        public static string ProductsForFinancing {
+            get {
+                return ResourceManager.GetString("ProductsForFinancing", resourceCulture);
             }
         }
         

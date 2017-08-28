@@ -32,7 +32,7 @@
                 state.selectedProvinces.push(value);
 
                 $('#province-list').append(provinceTemplate(state.nextProvinceId, value));
-                setRemoveClick(state.nextProvinceId);
+                setRemoveClick(value);
 
                 state.nextProvinceId++;
             }

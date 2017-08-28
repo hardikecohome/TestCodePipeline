@@ -1782,7 +1782,7 @@
     <value>Years In Business must be maximum 3 digits long</value>
   </data>
   <data name="AnnualSalesVolume" xml:space="preserve">
-    <value>Annual sales volume</value>
+    <value>Estimated Annual sales volume</value>
   </data>
   <data name="AreYouWithProvider" xml:space="preserve">
     <value>Are you with a current finance provider?</value>
@@ -1888,6 +1888,9 @@
   </data>
   <data name="PrimaryManufacturerBrandSold" xml:space="preserve">
     <value>Primary manufacturer brand sold</value>
+  </data>
+  <data name="ProductsForFinancing" xml:space="preserve">
+    <value>Products for financing program</value>
   </data>
   <data name="Referrals" xml:space="preserve">
     <value>Referrals</value>
