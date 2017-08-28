@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration.Dealer;
+using DealnetPortal.Api.Models.Contract;
 
 namespace DealnetPortal.Api.Models.DealerOnboarding
 {

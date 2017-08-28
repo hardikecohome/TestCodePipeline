@@ -12,11 +12,13 @@ using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Helpers;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.Profile;
 using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.Aspire.Integration.Models.AspireDb;
 using DealnetPortal.Domain;
+using DealnetPortal.Domain.Dealer;
 using Microsoft.Practices.ObjectBuilder2;
 using Contract = DealnetPortal.Domain.Contract;
 
@@ -169,6 +171,26 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.DealerId, d => d.MapFrom(src => src.DealerId))
                 .ForMember(x => x.EquipmentList, d => d.ResolveUsing(src => src.Equipments.Any() ? src.Equipments : null))
                 .ForMember(x => x.PostalCodesList, d => d.ResolveUsing(src => src.Areas.Any() ? src.Areas : null));
+
+            mapperConfig.CreateMap<AddressBase, AddressDTO>();
+            mapperConfig.CreateMap<CompanyInfo, CompanyInfoDTO>()
+                .ForMember(x => x.CompanyAddress, d => d.MapFrom(src => src.CompanyAddress))
+                .ForMember(x => x.Provinces, d => d.ResolveUsing(src =>
+                                                src.Provinces?.Select(p => p.Province).ToList()));
+            mapperConfig.CreateMap<ProductInfo, ProductInfoDTO>()
+                .ForMember(x => x.Brands, d => d.ResolveUsing(src =>
+                                                src.Brands?.Select(b => b.Brand).ToList()))
+                .ForMember(x => x.ServiceTypes, d => d.ResolveUsing(src =>
+                                                src.Services?.Select(s => s.Equipment?.Type).ToList()));
+            mapperConfig.CreateMap<OwnerInfo, OwnerInfoDTO>()
+                .ForMember(x => x.Address, d => d.MapFrom(src => src.Address));
+            mapperConfig.CreateMap<RequiredDocument, RequiredDocumentDTO>()
+                .ForMember(x => x.DocumentBytes, d => d.Ignore());
+            mapperConfig.CreateMap<DealerInfo, DealerInfoDTO>()
+                .ForMember(x => x.CompanyInfo, d => d.MapFrom(src => src.CompanyInfo))
+                .ForMember(x => x.ProductInfo, d => d.MapFrom(src => src.ProductInfo))
+                .ForMember(x => x.Owners, d => d.MapFrom(src => src.Owners))
+                .ForMember(x => x.RequiredDocuments, d => d.MapFrom(src => src.RequiredDocuments));
         }
 
         private static void MapAspireDomainsToModels(IMapperConfigurationExpression mapperConfig)
@@ -422,7 +444,26 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Equipments, d => d.MapFrom( src => src.EquipmentList.Select( s=> new DealerEquipment() {EquipmentId = s.Equipment.Id, ProfileId = src.Id})))
                 .ForMember(x => x.Areas, d => d.MapFrom( src => src.PostalCodesList.Select(s => new DealerArea() {ProfileId = src.Id, PostalCode = s.PostalCode})))
                 .ForMember(x => x.Dealer, d => d.Ignore());
-           
+
+            mapperConfig.CreateMap<AddressDTO, AddressBase>();
+            //mapperConfig.CreateMap<CompanyInfoDTO, CompanyInfo>()
+            //    .ForMember(x => x.CompanyAddress, d => d.MapFrom(src => src.CompanyAddress))
+            //    .ForMember(x => x.Provinces, d => d.ResolveUsing(src =>
+            //                                    src.Provinces?.Select(p => p.Province).ToList()));
+            //mapperConfig.CreateMap<ProductInfo, ProductInfoDTO>()
+            //    .ForMember(x => x.Brands, d => d.ResolveUsing(src =>
+            //                                    src.Brands?.Select(b => b.Brand).ToList()))
+            //    .ForMember(x => x.ServiceTypes, d => d.ResolveUsing(src =>
+            //                                    src.Services?.Select(s => s.Equipment?.Type).ToList()));
+            //mapperConfig.CreateMap<OwnerInfo, OwnerInfoDTO>()
+            //    .ForMember(x => x.Address, d => d.MapFrom(src => src.Address));
+            //mapperConfig.CreateMap<RequiredDocument, RequiredDocumentDTO>()
+            //    .ForMember(x => x.DocumentBytes, d => d.Ignore());
+            //mapperConfig.CreateMap<DealerInfo, DealerInfoDTO>()
+            //    .ForMember(x => x.CompanyInfo, d => d.MapFrom(src => src.CompanyInfo))
+            //    .ForMember(x => x.ProductInfo, d => d.MapFrom(src => src.ProductInfo))
+            //    .ForMember(x => x.Owners, d => d.MapFrom(src => src.Owners))
+            //    .ForMember(x => x.RequiredDocuments, d => d.MapFrom(src => src.RequiredDocuments));
         }
     }
 }
