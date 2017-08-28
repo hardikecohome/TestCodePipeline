@@ -29,6 +29,9 @@ namespace DealnetPortal.Domain.Dealer
         /// </summary>
         public string AccessCode { get; set; }
 
+        public string TransactionId { get; set; }
+        public string AccountId { get; set; }
+
         public DateTime CreationTime { get; set; }
         public DateTime? LastUpdateTime { get; set; }
 

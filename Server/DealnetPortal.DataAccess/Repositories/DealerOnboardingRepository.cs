@@ -43,6 +43,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 //add new
                 dealerInfo.CreationTime = DateTime.Now;
                 dealerInfo.LastUpdateTime = DateTime.Now;
+                dealerInfo.AccessCode = GenerateDealerAccessCode();
                 dbDealer = _dbContext.DealerInfos.Add(dealerInfo);
             }
             else
@@ -64,7 +65,67 @@ namespace DealnetPortal.DataAccess.Repositories
             throw new NotImplementedException();
         }
 
+        public RequiredDocument AddDocumentToDealer(int dealerInfoId, RequiredDocument document)
+        {
+            var dealerInfo = dealerInfoId != 0 ? GetDealerInfoById(dealerInfoId) : CreateDealerInfo();
+            return AddRequiredDocument(dealerInfo, document);
+        }
+
+        public RequiredDocument AddDocumentToDealer(string accessCode, RequiredDocument document)
+        {
+            var dealerInfo = string.IsNullOrEmpty(accessCode) ? GetDealerInfoByAccessCode(accessCode) : CreateDealerInfo();
+            return AddRequiredDocument(dealerInfo, document);
+        }
+
         #region Update Logic
+
+        private DealerInfo CreateDealerInfo()
+        {
+            var dealerInfo = new DealerInfo()
+            {
+                CreationTime = DateTime.Now,
+                LastUpdateTime = DateTime.Now,
+                AccessCode = GenerateDealerAccessCode()
+            };
+            _dbContext.DealerInfos.Add(dealerInfo);
+            return dealerInfo;
+        }
+
+        private string GenerateDealerAccessCode()
+        {
+            return Guid.NewGuid().ToString();
+        }
+
+        private RequiredDocument AddRequiredDocument(DealerInfo dbDealerInfo, RequiredDocument requiredDocument)
+        {
+            var dbDoc = requiredDocument.Id != 0 ? _dbContext.RequiredDocuments.Find(requiredDocument.Id) : null;
+            if (dbDoc?.DealerInfo?.Id != dbDealerInfo.Id)
+            {
+                requiredDocument.Id = 0;
+                requiredDocument.CreationDate = DateTime.Now;
+                dbDealerInfo.RequiredDocuments.Add(requiredDocument);
+                dbDoc = requiredDocument;
+            }
+            else
+            {
+                requiredDocument.CreationDate = DateTime.Now;
+                if (requiredDocument.DocumentBytes != null)
+                {
+                    dbDoc.DocumentBytes = requiredDocument.DocumentBytes;
+                }
+                if (dbDoc.DocumentName != requiredDocument.DocumentName)
+                {
+                    dbDoc.DocumentName = requiredDocument.DocumentName;
+                }
+                if (dbDoc.DocumentTypeId != requiredDocument.DocumentTypeId)
+                {
+                    dbDoc.DocumentTypeId = requiredDocument.DocumentTypeId;
+                }
+
+                dbDealerInfo.RequiredDocuments.Add(requiredDocument);
+            }
+            return dbDoc;
+        }
 
         private void UpdateDealerInfo(DealerInfo dbDealerInfo, DealerInfo updateDealerInfo)
         {

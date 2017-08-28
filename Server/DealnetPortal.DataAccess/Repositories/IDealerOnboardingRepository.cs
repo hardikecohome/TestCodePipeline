@@ -15,5 +15,8 @@ namespace DealnetPortal.DataAccess.Repositories
         DealerInfo AddOrUpdateDealerInfo(DealerInfo dealerInfo, string accessCode = null);
         bool DeleteDealerInfo(int dealerInfoId);
         bool DeleteDealerInfo(string accessCode);
+
+        RequiredDocument AddDocumentToDealer(int dealerInfoId, RequiredDocument document);
+        RequiredDocument AddDocumentToDealer(string accessCode, RequiredDocument document);
     }
 }
