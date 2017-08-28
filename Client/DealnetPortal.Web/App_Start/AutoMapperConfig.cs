@@ -11,7 +11,7 @@ using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.Api.Models.DealerOnBoarding;
+using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.Profile;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Web.Models;
@@ -526,7 +526,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.IsAllInfoCompleted, d => d.Ignore())
                 .ForMember(x => x.IsApplicantsInfoEditAvailable, d => d.Ignore());
 
-            cfg.CreateMap<DealerOnboardingDTO, DealerOnboardingViewModel>();
+            cfg.CreateMap<DealerInfoDTO, DealerOnboardingViewModel>();
         }
     }
 }
