@@ -13,7 +13,7 @@ namespace DealnetPortal.Domain.Dealer
     {
         public CompanyInfo()
         {
-            CompanyAddress = new Address();
+            CompanyAddress = new AddressBase();
             Provinces = new HashSet<CompanyProvince>();
         }
 
@@ -27,7 +27,7 @@ namespace DealnetPortal.Domain.Dealer
         public string EmailAddress { get; set; }
         public string Website { get; set; }
 
-        public Address CompanyAddress { get; set; }
+        public AddressBase CompanyAddress { get; set; }
         
         public YearsInBusiness? YearsInBusiness { get; set; }
         public NumberOfPeople? NumberOfInstallers { get; set; }        

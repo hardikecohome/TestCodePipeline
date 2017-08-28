@@ -12,7 +12,7 @@ namespace DealnetPortal.Domain.Dealer
     {
         public OwnerInfo()
         {
-            Address = new Address();
+            Address = new AddressBase();
         }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -24,7 +24,7 @@ namespace DealnetPortal.Domain.Dealer
         public string MobilePhone { get; set; }
         public string EmailAddress { get; set; }
 
-        public Address Address{ get; set; }
+        public AddressBase Address{ get; set; }
 
         public decimal? PercentOwnership { get; set; }
 

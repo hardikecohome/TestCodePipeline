@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using DealnetPortal.Aspire.Integration.Models;
 using DealnetPortal.DataAccess.Repositories;
+using DealnetPortal.Domain;
 using DealnetPortal.Domain.Dealer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -105,7 +107,7 @@ namespace DealnetPortal.Api.Tests.Repositories
             {
                 FirstName = "First1",
                 LastName = "Last1",
-                Address = new Address()
+                Address = new AddressBase()
                 {
                     Street = "Street1"
                 },
@@ -115,7 +117,7 @@ namespace DealnetPortal.Api.Tests.Repositories
             {
                 FirstName = "First2",
                 LastName = "Last2",
-                Address = new Address()
+                Address = new AddressBase()
                 {
                     Street = "Street2"
                 },

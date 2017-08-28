@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DealnetPortal.Domain.Dealer
+namespace DealnetPortal.Domain
 {
-    public class Address
+    public class AddressBase
     {
         [MaxLength(100)]
         public string Street { get; set; }

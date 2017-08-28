@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Domain.Dealer
 {
-    public class RequiredDocument
+    public class RequiredDocument : DocumentBase
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -17,10 +17,10 @@ namespace DealnetPortal.Domain.Dealer
         [ForeignKey("DocumentTypeId")]
         public DocumentType DocumentType { get; set; }
 
-        public string DocumentName { get; set; }
-        public byte[] DocumentBytes { get; set; }
+        //public string DocumentName { get; set; }
+        //public byte[] DocumentBytes { get; set; }
 
-        public DateTime CreationDate { get; set; }
+        //public DateTime CreationDate { get; set; }
 
         public int DealerInfoId { get; set; }
         [ForeignKey(nameof(DealerInfoId))]
