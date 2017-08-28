@@ -13,6 +13,7 @@ using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Integration.Utility;
 using DealnetPortal.Api.Models.Contract;
@@ -62,6 +63,23 @@ namespace DealnetPortal.Api.Controllers
             }
             catch (Exception ex)
             {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("GetDealerOnboardingForm")]
+        [HttpGet]
+        public IHttpActionResult GetDealerOnboardingForm()
+        {
+            try
+            {
+                //var dealerProfile = _dealerService.GetDealerOnboardingForm(LoggedInUser.UserId);
+                //return Ok(dealerProfile);                //var dealerProfile = _dealerService.GetDealerOnboardingForm(LoggedInUser.UserId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError($"Failed to get profile for the Dealer {LoggedInUser.UserId}", ex);
                 return InternalServerError(ex);
             }
         }

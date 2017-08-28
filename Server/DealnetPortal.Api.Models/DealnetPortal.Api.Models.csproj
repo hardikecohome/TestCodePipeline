@@ -80,6 +80,7 @@
     <Compile Include="CustomerWallet\TransactionInfoDTO.cs" />
     <Compile Include="CustomerWallet\CustomerProfileDTO.cs" />
     <Compile Include="CustomerWallet\RegisterCustomerBindingModel.cs" />
+    <Compile Include="DealerOnBoarding\DealerOnboardingDTO.cs" />
     <Compile Include="DealerProfile\DealerAreaDTO.cs" />
     <Compile Include="DealerProfile\DealerEquipmentDTO.cs" />
     <Compile Include="DealerProfile\DealerProfileDTO.cs" />
