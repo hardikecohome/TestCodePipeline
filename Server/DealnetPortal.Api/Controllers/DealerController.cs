@@ -73,8 +73,8 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                //var dealerProfile = _dealerService.GetDealerOnboardingForm(LoggedInUser.UserId);
-                //return Ok(dealerProfile);                //var dealerProfile = _dealerService.GetDealerOnboardingForm(LoggedInUser.UserId);
+                //var dealerOnboardingForm = _dealerService.GetDealerOnboardingForm(LoggedInUser.UserId);
+                //return Ok(dealerOnboardingForm);               
                 return Ok();
             }
             catch (Exception ex)
