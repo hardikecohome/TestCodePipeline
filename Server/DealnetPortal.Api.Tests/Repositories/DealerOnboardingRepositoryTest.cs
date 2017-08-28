@@ -74,6 +74,30 @@ namespace DealnetPortal.Api.Tests.Repositories
             Assert.IsNotNull(dInfo);
         }
 
+        [TestMethod]
+        public void AddAndUpdateRequiredDocumentTest()
+        {
+            var newDocument = new RequiredDocument()
+            {
+                DocumentName = "Test1",
+                DocumentTypeId = 1
+            };
+            var dbDoc = _dealerOnboardingRepository.AddDocumentToDealer(0, newDocument);
+            _unitOfWork.Save();
+            Assert.IsNotNull(dbDoc);
+
+            var updateDocument = new RequiredDocument()
+            {
+                Id = dbDoc.Id,
+                DocumentTypeId = dbDoc.DocumentTypeId,
+                DealerInfoId = dbDoc.DealerInfoId,
+                DocumentName = "Test2"
+            };
+            dbDoc = _dealerOnboardingRepository.AddDocumentToDealer(dbDoc.Id, updateDocument);
+            _unitOfWork.Save();
+            Assert.IsNotNull(dbDoc);
+        }
+
         private DealerInfo GetTestDealerInfo()
         {
             var owners = new List<OwnerInfo>();

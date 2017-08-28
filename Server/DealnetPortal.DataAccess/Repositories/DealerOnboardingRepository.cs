@@ -121,8 +121,6 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     dbDoc.DocumentTypeId = requiredDocument.DocumentTypeId;
                 }
-
-                dbDealerInfo.RequiredDocuments.Add(requiredDocument);
             }
             return dbDoc;
         }
