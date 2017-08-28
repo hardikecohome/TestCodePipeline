@@ -285,8 +285,10 @@
     <Compile Include="Models\CustomerContactInfoViewModel.cs" />
     <Compile Include="Models\Dealer\CompanyInfoViewModel.cs" />
     <Compile Include="Models\Dealer\DealerOnboardingViewModel.cs" />
+    <Compile Include="Models\Dealer\LeadsGenerationViewModel.cs" />
     <Compile Include="Models\Dealer\OwnerViewModel.cs" />
     <Compile Include="Models\Dealer\ProductInfoViewModel.cs" />
+    <Compile Include="Models\Dealer\SalesApproachViewModel.cs" />
     <Compile Include="Models\Dealer\TradeReferenceViewModel.cs" />
     <Compile Include="Models\MyProfile\DealerAreaViewModel.cs" />
     <Compile Include="Models\MyProfile\ProfileViewModel.cs" />

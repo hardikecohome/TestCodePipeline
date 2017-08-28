@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using DealnetPortal.Web.Models.Dealer;
 using DealnetPortal.Web.ServiceAgent;
 using System.Threading.Tasks;
+using DealnetPortal.Web.Models;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -30,6 +31,7 @@ namespace DealnetPortal.Web.Controllers
             model.Owners = new List<OwnerViewModel>();
 
             ViewBag.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
+            ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetAllEquipmentTypes()).Item1;
 
             return View(model);
         }
