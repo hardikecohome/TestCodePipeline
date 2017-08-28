@@ -7,6 +7,7 @@
         $('#province-select').on('change', company.addProvince);
         product.initProducts();
         $('#offered-equipment').on('change', product.addProduct);
+        $('.add-new-brand-link').on('click', product.addBrand);
     }
 
     return {

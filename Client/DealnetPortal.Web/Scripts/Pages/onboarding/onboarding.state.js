@@ -3,7 +3,8 @@
         selectedProvinces: [],
         selectedEquipment: [],
         nextProvinceId: 0,
-        nextEquipmentId: 0
+        nextEquipmentId: 0,
+        nextBrandNumber:2
     };
 
     var constants = {

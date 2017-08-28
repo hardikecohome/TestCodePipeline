@@ -1,7 +1,7 @@
 ﻿module.exports('onboarding.product', function (require) {
     var state = require('onboarding.state').state;
 
-    var equipmentTemplate = function (index, id, description) {
+    function equipmentTemplate(index, id, description) {
         var template = $('#equipment-template').html();
         var result = template.split('equipment-0')
             .join('equipment-' + index)
@@ -17,7 +17,28 @@
         return $result;
     };
 
-    var init = function () {
+    function addNewBrand() {
+        var $el = $("#manufacturerBrandTemplate").tmpl({ brandNumber: state.nextBrandNumber });
+        
+        $("#add-brand-container").before($el);
+
+        $el.find('.remove-brand-link').on('click', function () {
+            $(this).parents('.new-brand-group').remove();
+            state.nextBrandNumber--;
+            $('#add-brand-container').show();
+            return false;
+        });
+
+        
+        state.nextBrandNumber++;
+        if (state.nextBrandNumber > 3) {
+            $('#add-brand-container').hide();
+        }
+        return false;
+
+    }
+
+    function init() {
         $('#equipment-list li').each(function () {
             var $this = $(this);
             var id = $this.attr('id');
@@ -30,7 +51,7 @@
         });
     };
 
-    var add = function () {
+    function add() {
         var value = this.value;
         var description = $("#offered-equipment :selected").text();
         if (value) {
@@ -49,7 +70,7 @@
         }
     };
 
-    var remove = function () {
+    function remove() {
         var liId = $(this).parent().attr('id');
         var id = $(this).attr('id');
         var value = id.substr(id.indexOf('-') + 1);
@@ -69,7 +90,7 @@
         rebuildIndex(substrIndex);
     };
 
-    var rebuildIndex = function (id) {
+    function rebuildIndex(id) {
         while (true) {
             id++;
             var li = $('li#equipment-' + id + '-index');
@@ -93,12 +114,13 @@
         }
     }
 
-    var setRemoveClick = function (id) {
+    function setRemoveClick(id) {
         $('#equipment' + id).on('click', remove);
     };
 
     return {
         initProducts: init,
-        addProduct: add
+        addProduct: add,
+        addBrand: addNewBrand
     };
 });

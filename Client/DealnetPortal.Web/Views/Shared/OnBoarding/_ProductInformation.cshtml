@@ -319,3 +319,19 @@
         </span>
     </li>
 </script>
+
+<script id="manufacturerBrandTemplate" type="text/x-jquery-tmpl">
+    <div class="col-md-4 col-sm-6 new-brand-group">
+        <div class="form-group">
+            <label for="">@Resources.PrimaryManufacturerBrandSold #${brandNumber}</label>
+            <div class="control-group removable-form-group">
+                <input id="Brands_${brandNumber-1}" name="Brands[${brandNumber-1}]" type="text" class="form-control dealnet-input" value="">
+                <a href="" class="remove-link remove-brand-link">
+                    <svg aria-hidden="true" class="icon icon-remove-cross">
+                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</script>

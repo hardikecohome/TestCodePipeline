@@ -105,19 +105,6 @@
         </div>
     </div>
 </script>
-<script id="manufacturerBrandTemplate" type="text/x-jquery-tmpl">
-    <div class="col-md-4 col-sm-6 new-brand-group">
-        <div class="form-group">
-            <label for="">Manufacturer brand sold #${brandNumber}</label>
-            <div class="control-group removable-form-group">
-                <input type="text" class="form-control dealnet-input" value="">
-                <a href="" class="remove-link remove-brand-link">
-                    <svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg>
-                </a>
-            </div>
-        </div>
-    </div>
-</script>
 
 
 @Scripts.Render("~/bundles/jqueryval")
@@ -134,7 +121,6 @@
         $(function () {
             setEqualHeightRows($(".equal-height-section-1"));
 
-            addNewBrand();
 
             $(window).on('resize', function(){
                 setEqualHeightRows($(".equal-height-section-1"));
@@ -170,22 +156,6 @@
 
             initRefNumber++;
             return false;
-        }
-
-        function addNewBrand(){
-            var newBrandNumber = 2;
-            $('.add-new-brand-link').on('click', function(){
-                $("#add-brand-container").before($("#manufacturerBrandTemplate").tmpl({brandNumber: newBrandNumber}));
-
-
-                $('.remove-brand-link').on('click', function(){
-                    $(this).parents('.new-brand-group').remove();
-                    return false;
-                });
-
-                newBrandNumber++;
-                return false;
-            })
         }
 
         function clearAddress(){
