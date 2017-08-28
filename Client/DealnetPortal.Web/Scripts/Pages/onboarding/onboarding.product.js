@@ -17,7 +17,19 @@
             setRemoveClick(id);
             state.nextEquipmentId++;
         });
+        initRadio();
     };
+
+    function initRadio() {
+        function clearSiblings() {
+            $('.program-service').prop('checked', false);
+        }
+        $('.custom-radio').on('click', function () {
+            var $this = $(this);
+            clearSiblings($this);
+            $this.find('input').prop('checked', true);
+        })
+    }
 
     function add() {
         var value = this.value;
