@@ -1,24 +1,27 @@
 ﻿module.exports('onboarding.owner-info.index', function (require) {
     var setters = require('onboarding.owner-info.setters');
+    var additionalOwner = require('onboarding.owner-info.additional');
 
-    function _initEventHandlers() {
-        $('#owner1-firstname').on('change', setters.setFirstName('owner1'));
-        $('#owner1-lastname').on('change', setters.setLastName('owner1'));
-        $('#owner1-homephone').on('change', setters.setHomePhone('owner1'));
-        $('#owner1-cellphone').on('change', setters.setCellPhone('owner1'));
-        $('#owner1-email').on('change', setters.setEmailAddress('owner1'));
-        $('#owner1-street').on('change', setters.setStreet('owner1'));
-        $('#owner1-unit').on('change', setters.setUnit('owner1'));
-        $('#owner1-city').on('change', setters.setCity('owner1'));
-        $('#owner1-postalcode').on('change', setters.setPostalCode('owner1'));
-        $('#owner1-province').on('change', setters.setProvince('owner1'));
-        $('#owner1-percentage').on('change', setters.setOwnershipPercentege('owner1'));
+    function _setInputHandlers(ownerNumber) {
+        $('#' + ownerNumber + '-firstname').on('change', setters.setFirstName(ownerNumber));
+        $('#' + ownerNumber + '-lastname').on('change', setters.setLastName(ownerNumber));
+        $('#' + ownerNumber + '-homephone').on('change', setters.setHomePhone(ownerNumber));
+        $('#' + ownerNumber + '-cellphone').on('change', setters.setCellPhone(ownerNumber));
+        $('#' + ownerNumber + '-email').on('change', setters.setEmailAddress(ownerNumber));
+        $('#' + ownerNumber + '-street').on('change', setters.setStreet(ownerNumber));
+        $('#' + ownerNumber + '-unit').on('change', setters.setUnit(ownerNumber));
+        $('#' + ownerNumber + '-city').on('change', setters.setCity(ownerNumber));
+        $('#' + ownerNumber + '-postalcode').on('change', setters.setPostalCode(ownerNumber));
+        $('#' + ownerNumber + '-province').on('change', setters.setProvince(ownerNumber));
+        $('#' + ownerNumber + '-percentage').on('change', setters.setOwnershipPercentege(ownerNumber));
+        $('#' + ownerNumber + '-remove').on('click', function() {
+            additionalOwner.remove(ownerNumber);
+            if (ownerNumber !== 'owner1') {
+                _setInputHandlers(ownerNumber);
+            }
+        });
 
-        initGoogleServices('owner1-street', 'owner1-city', 'owner1-province', 'owner1-postalcode');
-    }
-
-    function _initDatepickers() {
-        var birth = $("#owner1-birthdate");
+        var birth = $('#' + ownerNumber + '-birthdate');
 
         inputDateFocus(birth);
         birth.datepicker({
@@ -30,14 +33,25 @@
             maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
             onSelect: function (day) {
                 $(this).siblings('input.form-control').val(day);
-                $('#owner1-birthdate').on('change', setters.setBirthDate('owner1', day));
+                $('#' + ownerNumber + '-birthdate').on('change', setters.setBirthDate(ownerNumber, day));
                 $(".div-datepicker").removeClass('opened');
             }
+        });
+
+        initGoogleServices(ownerNumber + '-street', ownerNumber + '-city', ownerNumber + '-province', ownerNumber + '-postalcode');
+    }
+
+    function _initEventHandlers() {
+        _setInputHandlers('owner1');
+
+        $('#add-additional').on('click', function () {
+            var nextOwner = 'owner' + state['owner-info']['nextOwnerIndex'];
+            additionalOwner.add(nextOwner);
+            _setInputHandlers(nextOwner);
         });
     }
 
     function init() {
-        _initDatepickers();
         _initEventHandlers();
     }
 

@@ -1,11 +1,12 @@
 ﻿module.exports('onboarding.owner-info.setters', function(require) {
     var state = require('onboarding.state').state;
+
     var stateSection = 'owner-info';
 
     var setFirstName = function(ownerNumber) {
         return function(e) {
             var firstName = e.target.value;
-            state[stateSection][ownerNumber].firstName = firstName;
+            state[stateSection]['owners'][ownerNumber].firstName = firstName;
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
@@ -15,7 +16,7 @@
     var setLastName = function (ownerNumber) {
         return function (e) {
             var lastName = e.target.value;
-            state[stateSection][ownerNumber].lastName = lastName;
+            state[stateSection]['owners'][ownerNumber].lastName = lastName;
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
@@ -23,7 +24,7 @@
     }
 
     var setBirthDate = function(ownerNumber, birthDate) {
-        state[stateSection][ownerNumber].birthDate = birthDate;
+        state[stateSection]['owners'][ownerNumber].birthDate = birthDate;
 
         _spliceRequiredField(ownerNumber, ownerNumber + '-birthdate');
         _moveTonextSection();
@@ -32,19 +33,14 @@
     var setHomePhone = function(ownerNumber) {
         return function (e) {
             var homePhone = e.target.value;
-            state[stateSection][ownerNumber].homePhone = homePhone;
-            _togglePhone('#' + ownerNumber + '-cellphone', e);
-
-            _spliceRequiredField(ownerNumber, e.target.id);
-            _moveTonextSection();
+            state[stateSection]['owners'][ownerNumber].homePhone = homePhone;
         }
     }
 
     var setCellPhone = function(ownerNumber) {
         return function (e) {
             var cellPhone = e.target.value;
-            state[stateSection][ownerNumber].cellPhone = cellPhone;
-            _togglePhone('#' + ownerNumber + '-homephone', e);
+            state[stateSection]['owners'][ownerNumber].cellPhone = cellPhone;
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
@@ -54,7 +50,7 @@
     var setEmailAddress = function(ownerNumber) {
         return function (e) {
             var email = e.target.value;
-            state[stateSection][ownerNumber].email = email;
+            state[stateSection]['owners'][ownerNumber].email = email;
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
@@ -64,7 +60,7 @@
     var setStreet = function(ownerNumber) {
         return function (e) {
             var street = e.target.value;
-            state[stateSection][ownerNumber].street = street;
+            state[stateSection]['owners'][ownerNumber].street = street;
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
@@ -74,7 +70,7 @@
     var setPostalCode = function(ownerNumber) {
         return function (e) {
             var postalCode = e.target.value;
-            state[stateSection][ownerNumber].postalCode = postalCode;
+            state[stateSection]['owners'][ownerNumber].postalCode = postalCode;
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
@@ -84,7 +80,7 @@
     var setCity = function(ownerNumber) {
         return function (e) {
             var city = e.target.value;
-            state[stateSection][ownerNumber].city = city;
+            state[stateSection]['owners'][ownerNumber].city = city;
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
@@ -94,7 +90,7 @@
     var setProvince = function(ownerNumber) {
         return function (e) {
             var province = e.target.value;
-            state[stateSection][ownerNumber].province = province;
+            state[stateSection]['owners'][ownerNumber].province = province;
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
@@ -104,14 +100,14 @@
     var setUnit = function (ownerNumber) {
         return function (e) {
             var unit = e.target.value;
-            state[stateSection][ownerNumber].unit = unit;
+            state[stateSection]['owners'][ownerNumber].unit = unit;
         }
     }
 
     var setOwnershipPercentege = function(ownerNumber) {
         return function(e) {
             var percentage = e.target.value;
-            state[stateSection][ownerNumber].percentage = percentage;
+            state[stateSection]['owners'][ownerNumber].percentage = percentage;
 
             if (ownerNumber === 'owner1') {
                 if (+percentage < 50) {
@@ -119,40 +115,34 @@
                         .closest('div.col-sm-4')
                         .siblings('div.col-sm-8')
                         .removeClass('hidden');
+
+                    $('div.action-link-holder').removeClass('hidden');
                 } else {
                     _moveTonextSection();
+                }
+            } else {
+                var totalPercetage = Object.keys(state[stateSection]['owners']).reduce((s, v) => { return s + +state[stateSection]['owners'][v].percentage; }, 0);
+
+                if (totalPercetage >= 50) {
+                    $('#add-additional').removeClass('mandatory-field');
+                    _moveTonextSection();
+                } else {
+                    if (!$('#add-additional').hasClass('mandatory-field')) {
+                        $('#add-additional').addClass('mandatory-field');
+                    }
                 }
             }
         }
     }
 
-    function _togglePhone(selector, event) {
-        var label = $(selector).parent().siblings('label');
-
-        if ($(event.currentTarget).valid() && event.currentTarget.value !== '') {
-            if (label.hasClass('mandatory-field')) {
-                label.removeClass('mandatory-field');
-            }
-
-            $(selector).rules("remove", "required");
-            $(selector).removeClass('input-validation-error');
-            $(selector).next('.text-danger').empty();
-        } else {
-            if (!label.hasClass('mandatory-field')) {
-                label.addClass('mandatory-field');
-            }
-
-            $(selector).rules("add", "required");
-        }
-    }
-
     function _moveTonextSection() {
-        var owners = Object.keys(state[stateSection]);
+        var owners = Object.keys(state[stateSection]['owners']);
         var isValidSection = owners.every(function(owner) {
-            return state[stateSection][owner].requiredFields.length === 0;
+            return state[stateSection]['owners'][owner].requiredFields.length === 0;
         });
+        var totalPercetage = Object.keys(state[stateSection]['owners']).reduce((s, v) => { return s + +state[stateSection]['owners'][v].percentage; }, 0);
 
-        if (isValidSection) {
+        if (isValidSection && totalPercetage >= 50) {
             $('#owner-info-section')
                 .removeClass('active-panel')
                 .addClass('panel-collapsed')
@@ -170,25 +160,10 @@
         }
 
         var slicedField = field.slice(field.indexOf('-') + 1);
-        var index = state[stateSection][ownerNumber].requiredFields.indexOf(slicedField);
+        var index = state[stateSection]['owners'][ownerNumber].requiredFields.indexOf(slicedField);
 
         if (index >= 0) {
-            state[stateSection][ownerNumber].requiredFields.splice(index, 1);
-
-            if (slicedField === 'homephone' || slicedField === 'cellphone') {
-                if (slicedField === 'homephone') {
-                    _removePhone(ownerNumber, 'cellphone');
-                } else {
-                    _removePhone(ownerNumber, 'homephone');
-                }
-            }
-        }
-    }
-
-    function _removePhone(ownerNumber, fieldName) {
-        var phoneIndex = state[stateSection][ownerNumber].requiredFields.indexOf(fieldName);
-        if (phoneIndex) {
-            state[stateSection][ownerNumber].requiredFields.splice(phoneIndex, 1);
+            state[stateSection]['owners'][ownerNumber].requiredFields.splice(index, 1);
         }
     }
 

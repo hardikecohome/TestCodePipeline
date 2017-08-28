@@ -1,16 +1,27 @@
 ﻿module.exports('onboarding.state', function () {
     var state = {
         'owner-info': {
-            'owner1': {
-                requiredFields: ['firstname', 'lastname', 'email', 'birthdate', 'homephone', 'cellphone', 'street', 'city', 'province', 'postalcode' ]
-            }
+            'owners': {
+                'owner1': {
+                    requiredFields: [
+                        'firstname', 'lastname', 'email', 'birthdate', 'cellphone', 'street', 'city',
+                        'province', 'postalcode'
+                    ]
+                }
+            },
+            'nextOwnerIndex': 2
+
         },
         selectedProvinces: [],
         nextProvinceId: 0
     };
 
     var constants = {
-
+        maxAdditionalOwner: 5,
+        requiredFields: [
+            'firstname', 'lastname', 'email', 'birthdate', 'cellphone', 'street', 'city',
+            'province', 'postalcode'
+        ]
     };
 
     window.state = state;
