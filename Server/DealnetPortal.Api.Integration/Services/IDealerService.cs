@@ -13,5 +13,7 @@ namespace DealnetPortal.Api.Integration.Services
         DealerProfileDTO GetDealerProfile(string dealerId);
 
         IList<Alert> UpdateDealerProfile(DealerProfileDTO dealerProfile);
+
+        //void UpdateDealerOnboardingInfo();
     }
 }

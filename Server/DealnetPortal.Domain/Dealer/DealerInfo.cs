@@ -43,6 +43,6 @@ namespace DealnetPortal.Domain.Dealer
 
         public virtual ProductInfo ProductInfo { get; set; }
         
-        public ICollection<RequiredDocument> RequiredDocuments { get; set; } 
+        public ICollection<RequiredDocument> RequiredDocuments { get; set; }        
     }
 }

@@ -66,6 +66,28 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("UpdateDealerOnboardingInfo")]
+        [HttpPost]
+        [AllowAnonymous]
+        public IHttpActionResult UpdateDealerOnboardingInfo()
+        {
+            throw new NotImplementedException();
+        }
 
+        [Route("GetDealerOnboardingInfo")]
+        [HttpGet]
+        [AllowAnonymous]
+        public IHttpActionResult GetDealerOnboardingInfo(int dealerInfoId)
+        {
+            throw new NotImplementedException();
+        }
+
+        [Route("GetDealerOnboardingInfo")]
+        [HttpGet]
+        [AllowAnonymous]
+        public IHttpActionResult GetDealerOnboardingInfo(string code)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
