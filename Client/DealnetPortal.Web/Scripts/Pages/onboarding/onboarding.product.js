@@ -2,41 +2,9 @@
     var state = require('onboarding.state').state;
 
     function equipmentTemplate(index, id, description) {
-        var template = $('#equipment-template').html();
-        var result = template.split('equipment-0')
-            .join('equipment-' + index)
-            .split('EquipmentTypes[0]')
-            .join('EquipmentTypes[' + index + ']')
-            .split("EquipmentTypes_0")
-            .join("EquipmentTypes_" + index);
-        var $result = $(result);
-        $result.find('#equipment-' + index + '-display').text(description);
-        $result.find('#EquipmentTypes_' + index + '__Id').val(id);
-        $result.find('#EquipmentTypes_' + index + '__Description').val(description);
-        $result.find('.icon-remove').attr('id', 'equipment-' + id);
-        return $result;
+        var template = $('#equipment-template').tmpl({ index: index, id: id, description: description });
+        return template;
     };
-
-    function addNewBrand() {
-        var $el = $("#manufacturerBrandTemplate").tmpl({ brandNumber: state.nextBrandNumber });
-        
-        $("#add-brand-container").before($el);
-
-        $el.find('.remove-brand-link').on('click', function () {
-            $(this).parents('.new-brand-group').remove();
-            state.nextBrandNumber--;
-            $('#add-brand-container').show();
-            return false;
-        });
-
-        
-        state.nextBrandNumber++;
-        if (state.nextBrandNumber > 3) {
-            $('#add-brand-container').hide();
-        }
-        return false;
-
-    }
 
     function init() {
         $('#equipment-list li').each(function () {
@@ -46,7 +14,7 @@
             var equipmentId = $this.find('#EquipmentTypes_' + index + '__Id').val();
             var desc = $this.find('#EquipmentTypes_' + index + '__Description').val();
             state.selectedEquipment.push({ id: equipmentId, description: desc });
-            setRemoveClick(desc.toLowerCase());
+            setRemoveClick(id);
             state.nextEquipmentId++;
         });
     };
@@ -62,13 +30,43 @@
                 state.selectedEquipment.push({ id: value, description: description });
 
                 $('#equipment-list').append(equipmentTemplate(state.nextEquipmentId, value, description));
-                setRemoveClick(state.nextEquipmentId);
+                setRemoveClick(value);
 
                 state.nextEquipmentId++;
             }
             $(this).val('');
         }
     };
+
+    function addNewBrand() {
+        var $el = $("#manufacturerBrandTemplate").tmpl({ brandNumber: state.nextBrandNumber });
+
+        $("#add-brand-container").before($el);
+
+        $el.find('.remove-brand-link').on('click', removeBrand);
+
+        state.nextBrandNumber++;
+        if (state.nextBrandNumber > 2) {
+            $('#add-brand-container').hide();
+        }
+        return false;
+
+    }
+
+    function removeBrand() {
+        $(this).parents('.new-brand-group').remove();
+        state.nextBrandNumber--;
+        if (state.nextBrandNumber === 2)
+            rebuildBrandIndex(state.nextBrandNumber);
+        $('#add-brand-container').show();
+        return false;
+    }
+    
+    function rebuildBrandIndex(index) {
+        var group = $($('.new-brand-group')[0]);
+        group.find('#brand-2-display').attr('id', 'brand-1-index').text('2');
+        group.find('#Brands_2').attr('id', 'Brands_1').attr('name', 'Brands[1]');
+    }
 
     function remove() {
         var liId = $(this).parent().attr('id');
@@ -98,12 +96,9 @@
 
             li.attr('id', 'equipment-' + (id - 1) + '-index');
 
-            var remove = li.find('#equipment-' + id);
-            input.attr('id', 'equipment-' + (id - 1));
-
-            var id = li.find('#EquipmentTypes_' + id + '__Id');
-            id.attr('id', 'EquipmentTypes_' + (id - 1) + '__Id');
-            id.attr('name', 'EquipmentTypes[' + (id - 1) + '].Id');
+            var input = li.find('#EquipmentTypes_' + id + '__Id');
+            input.attr('id', 'EquipmentTypes_' + (id - 1) + '__Id');
+            input.attr('name', 'EquipmentTypes[' + (id - 1) + '].Id');
 
             var description = li.find('#EquipmentTypes_' + id + '__Description');
             description.attr('id', 'EquipmentTypes_' + (id - 1) + '__Description');
@@ -115,7 +110,7 @@
     }
 
     function setRemoveClick(id) {
-        $('#equipment' + id).on('click', remove);
+        $('#equipment-' + id).on('click', remove);
     };
 
     return {

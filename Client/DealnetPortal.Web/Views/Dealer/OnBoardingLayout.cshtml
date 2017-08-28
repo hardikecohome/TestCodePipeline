@@ -106,13 +106,11 @@
     </div>
 </script>
 
-
-@Scripts.Render("~/bundles/jqueryval")
-@Scripts.Render("~/bundles/localization")
-@Scripts.Render("~/bundles/onboarding")
-
 @section scripts {
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=init" async defer></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/localization")
+    @Scripts.Render("~/bundles/onboarding")
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=init" async defer></script>
     <script type="text/javascript">
         var init = module.require('onboarding.index').init;
     </script>

@@ -2311,6 +2311,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Full Legal Name.
+        /// </summary>
+        public static string FullLegalName {
+            get {
+                return ResourceManager.GetString("FullLegalName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Funding Checklist.
         /// </summary>
         public static string FundingChecklist {
@@ -2793,15 +2802,6 @@ namespace DealnetPortal.Web.Resources {
         public static string Legal {
             get {
                 return ResourceManager.GetString("Legal", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Legal Name.
-        /// </summary>
-        public static string LegalName {
-            get {
-                return ResourceManager.GetString("LegalName", resourceCulture);
             }
         }
         
@@ -4341,6 +4341,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Search {
             get {
                 return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Secondary manufacturer brand sold.
+        /// </summary>
+        public static string SecondaryManufacturerBrandSold {
+            get {
+                return ResourceManager.GetString("SecondaryManufacturerBrandSold", resourceCulture);
             }
         }
         

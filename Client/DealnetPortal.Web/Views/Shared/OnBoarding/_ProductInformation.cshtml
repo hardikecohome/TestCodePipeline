@@ -307,12 +307,12 @@
     </div>
 </div>
 
-<script type="text/html" id="equipment-template">
-    <li id="equipment-0-index">
-        <input type="hidden" id="EquipmentTypes_0__Id" name="EquipmentTypes[0].Id" value="" />
-        <input type="hidden" id="EquipmentTypes_0__Description" name="EquipmentTypes[0].Description">
-        <span id="equipment-0-display"> </span>
-        <span class="icon-remove" id="equipment-0">
+<script type="text/x-jquery-tmpl" id="equipment-template">
+    <li id="equipment-${index}-index">
+        <input type="hidden" id="EquipmentTypes_${index}__Id" name="EquipmentTypes[${index}].Id" value="${id}" />
+        <input type="hidden" id="EquipmentTypes_${index}__Description" name="EquipmentTypes[${index}].Description" value="${description}">
+        <span id="equipment-${index}-display">${description}</span>
+        <span class="icon-remove" id="equipment-${id}">
             <svg aria-hidden="true" class="icon icon-remove-cross">
                 <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
             </svg>
@@ -323,9 +323,9 @@
 <script id="manufacturerBrandTemplate" type="text/x-jquery-tmpl">
     <div class="col-md-4 col-sm-6 new-brand-group">
         <div class="form-group">
-            <label for="">@Resources.PrimaryManufacturerBrandSold #${brandNumber}</label>
+            <label for="">@Resources.SecondaryManufacturerBrandSold #<span id="brand-${brandNumber}-display">${brandNumber+1}</span></label>
             <div class="control-group removable-form-group">
-                <input id="Brands_${brandNumber-1}" name="Brands[${brandNumber-1}]" type="text" class="form-control dealnet-input" value="">
+                <input id="Brands_${brandNumber}" name="Brands[${brandNumber}]" type="text" class="form-control dealnet-input" value="">
                 <a href="" class="remove-link remove-brand-link">
                     <svg aria-hidden="true" class="icon icon-remove-cross">
                         <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>

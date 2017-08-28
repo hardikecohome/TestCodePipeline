@@ -1721,8 +1721,8 @@
   <data name="YearsInBusiness" xml:space="preserve">
     <value>Years in business</value>
   </data>
-  <data name="LegalName" xml:space="preserve">
-    <value>Legal Name</value>
+  <data name="FullLegalName" xml:space="preserve">
+    <value>Full Legal Name</value>
   </data>
   <data name="LegalNameIncorrectFormat" xml:space="preserve">
     <value>Legal Name is in incorrect format</value>
@@ -1900,5 +1900,8 @@
   </data>
   <data name="TradeShows" xml:space="preserve">
     <value>Trade Shows</value>
+  </data>
+  <data name="SecondaryManufacturerBrandSold" xml:space="preserve">
+    <value>Secondary manufacturer brand sold</value>
   </data>
 </root>
