@@ -1,4 +1,5 @@
-﻿@model List<DealnetPortal.Web.Models.Dealer.OwnerViewModel>
+﻿@using System.Web.Mvc.Html
+@model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
 
 <div class="panel customer-loan-form-panel panel-collapsed">
     <div class="panel-heading">
@@ -9,15 +10,15 @@
     <div class="panel-body">
         <p>@Resources.CertifyDealerInfo </p>
         <div class="onboard-owners-hold">
-            @foreach (var owner in Model)
+            @for (int i = 0; i < Model.Owners.Count; i++)
             {
                 <div class="onboard-owners-row">
                     <div class="onboard-owners-col name-col">
                         <span class="onboard-owners-label">
                             @Resources.Owner:
                         </span>
-                        <span class="onboard-owners-value">
-                            &nbsp;@(owner.FirstName + " " + owner.LastName)
+                        <span class="onboard-owners-value" id="owner@(i)-name-holder">
+                            &nbsp;@(Model.Owners[i].FirstName + " " + Model.Owners[i].LastName)
                         </span>
                     </div>
                     <div class="onboard-owners-col date-col">
@@ -31,7 +32,11 @@
                     <div class="onboard-owners-col agree-col">
                         <label class="align-middle custom-checkbox">
                             <input type="checkbox" class="dealnet-checkbox" />
-                            <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                            <span class="checkbox-icon">
+                                <svg aria-hidden="true" class="icon icon-checked">
+                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
+                                </svg>
+                            </span>
                             <span class="mandatory-field">@Resources.AcknowledgeAndAgree </span>
                         </label>
                     </div>
@@ -44,5 +49,40 @@
             </svg>
             <span>@Resources.SaveAndResumeLater</span>
         </a>
+    </div>
+</div>
+
+
+<div class="hidden">
+    <div id="aknowledgment-owner-template">
+        <div class="onboard-owners-row">
+            <div class="onboard-owners-col name-col">
+                <span class="onboard-owners-label">
+                    @Resources.Owner:
+                </span>
+                <span class="onboard-owners-value" id="owner-name-holder">
+                    &nbsp;
+                </span>
+            </div>
+            <div class="onboard-owners-col date-col">
+                <span class="onboard-owners-label">
+                    @Resources.Date:
+                </span>
+                <span class="onboard-owners-value">
+                    &nbsp;@DateTime.Now.ToString("dd.MM.yyyy")
+                </span>
+            </div>
+            <div class="onboard-owners-col agree-col">
+                <label class="align-middle custom-checkbox">
+                    <input type="checkbox" class="dealnet-checkbox"/>
+                    <span class="checkbox-icon">
+                        <svg aria-hidden="true" class="icon icon-checked">
+                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
+                        </svg>
+                    </span>
+                    <span class="mandatory-field">@Resources.AcknowledgeAndAgree </span>
+                </label>
+            </div>
+        </div>
     </div>
 </div>
