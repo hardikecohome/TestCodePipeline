@@ -189,7 +189,7 @@
             <div class="col-md-4">
                 <div class="">
                     @Html.LabelFor(m => m.ProductInfo.WithCurrentProvider, new { @class = "dealnet-label" })
-                    <div class="">
+                    <div class="form-group">
                         <label class="checkbox-toggle">
                             @*@Html.HiddenFor(m => m.WithCurrentProvider, new { id = "with-current", @class="toggle-language-link" })*@
                             <input class="toggle-language-link" @if(Model.ProductInfo.WithCurrentProvider) { <text>checked</text> } data-val="true" id="WithCurrentProvider" name="WithCurrentProvider" type="checkbox" value="true" />
@@ -221,12 +221,12 @@
         </div>
         <div class="row">
             <div class="col-md-4">
-                <div class="checkbox-form-group">
+                <div class="c\">
                     @Html.LabelFor(m => m.ProductInfo.OfferMonthlyDeferrals, new { @class = "dealnet-label" })
-                    <div class="">
+                    <div class="form-group">
                         <label class="checkbox-toggle">
-                            @Html.HiddenFor(m => m.ProductInfo.OfferMonthlyDeferrals, new { id = "offer-deferrals" })
-                            @*<input class="toggle-language-link" @if(Model?.EnglishLinkEnabled ?? false) { <text>checked</text> } data-val="true" data-val-required="The EnglishLinkEnabled field is required." id="EnglishLinkEnabled" name="EnglishLinkEnabled" type="checkbox" value="true" />*@
+                            @*@Html.HiddenFor(m => m.ProductInfo.OfferMonthlyDeferrals, new { id = "offer-deferrals" })*@
+                            <input class="toggle-language-link" @if(Model.ProductInfo.OfferMonthlyDeferrals) { <text>checked</text> } data-val="true" id="OfferMonthlyDeferrals" name="OfferMonthlyDeferrals" type="checkbox" value="true" />
                             <div class="slider"></div>
                             <span class="checkbox-toggle-text text-on">Yes</span>
                             <span class="checkbox-toggle-text text-off">No</span>
@@ -234,7 +234,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 @(!Model.ProductInfo.OfferMonthlyDeferrals ? "hidden" : "")">
+            <div class="col-md-4 hidden-monthly-deferrals @(!Model.ProductInfo.OfferMonthlyDeferrals ? "hidden" : "")">
                 <div class="form-group">
                     @Html.LabelFor(m => m.ProductInfo.PercentMonthlyDealsDeferred, new { @class = "mandatory-field" })
                     <div class="control-group has-addon-left">

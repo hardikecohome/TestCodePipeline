@@ -18,7 +18,8 @@
             state.nextEquipmentId++;
         });
         initRadio();
-        $('#WithCurrentProvider').on('change', toggleCurrentProvider);
+        $('#WithCurrentProvider').on('change', toggleCheckGroup('.hidden-current-provider'));
+        $('#OfferMonthlyDeferrals').on('change', toggleCheckGroup('.hidden-monthly-deferrals'))
     };
 
     function initRadio() {
@@ -32,19 +33,13 @@
         })
     }
 
-    function toggleCurrentProvider() {
-        if ($(this).prop('checked')) {
-            $('.hidden-current-provider').each(function () {
-                var $this = $(this);
-                $this.removeClass('hidden');
-                $this.find('input').removeProp('disabled');
-            });
-        } else {
-            $('.hidden-current-provider').each(function () {
-                var $this = $(this);
-                $this.addClass('hidden');
-                $this.find('input').prop('disabled', true);
-            });
+    function toggleCheckGroup(selector) {
+        return function () {
+            if ($(this).prop('checked')) {
+                $(selector).removeClass('hidden').find('input').removeProp('disabled')
+            } else {
+                $(selector).addClass('hidden').find('input').prop('disabled', true);
+            }
         }
     }
 
