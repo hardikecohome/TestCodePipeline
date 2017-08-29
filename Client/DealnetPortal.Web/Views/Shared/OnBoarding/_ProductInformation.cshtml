@@ -2,7 +2,7 @@
 @using DealnetPortal.Api.Models.Contract
 @model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
 
-<div class="panel customer-loan-form-panel active-panel">
+<div class="panel customer-loan-form-panel panel-collapsed">
     <div class="panel-heading">
         <span class="panel-step">3</span>
         <h3 class="panel-title dealnet-middle-header">@Resources.ProductAndSalesInformation</h3>
@@ -171,11 +171,11 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.ProductInfo.Relationship, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.EnumDropDownListFor(m => m.ProductInfo.Relationship, new { @class = "form-control" })
+                        @Html.EnumDropDownListFor(m => m.ProductInfo.Relationship, new { @class = "form-control", id="relationship" })
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-sm-6 col-clear-sm-6 @(Model.ProductInfo.Relationship != RelationshipStructure.OEM ? "hidden" : "")">
+            <div class="col-md-4 col-sm-6 col-clear-sm-6 hidden-relationship @(Model.ProductInfo.Relationship != RelationshipStructure.OEM ? "hidden" : "")">
                 <div class="form-group">
                     @Html.LabelFor(m => m.ProductInfo.OEMName, new { @class = "mandatory-field" })
                     <div class="control-group">
@@ -221,7 +221,7 @@
         </div>
         <div class="row">
             <div class="col-md-4">
-                <div class="c\">
+                <div class="form-group">
                     @Html.LabelFor(m => m.ProductInfo.OfferMonthlyDeferrals, new { @class = "dealnet-label" })
                     <div class="form-group">
                         <label class="checkbox-toggle">

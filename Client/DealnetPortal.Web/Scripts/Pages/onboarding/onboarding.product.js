@@ -19,7 +19,8 @@
         });
         initRadio();
         $('#WithCurrentProvider').on('change', toggleCheckGroup('.hidden-current-provider'));
-        $('#OfferMonthlyDeferrals').on('change', toggleCheckGroup('.hidden-monthly-deferrals'))
+        $('#OfferMonthlyDeferrals').on('change', toggleCheckGroup('.hidden-monthly-deferrals'));
+        $('#relationship').on('change', toggleRelationship);
     };
 
     function initRadio() {
@@ -36,11 +37,28 @@
     function toggleCheckGroup(selector) {
         return function () {
             if ($(this).prop('checked')) {
-                $(selector).removeClass('hidden').find('input').removeProp('disabled')
+                hideFormGroup(selector);
             } else {
-                $(selector).addClass('hidden').find('input').prop('disabled', true);
+                showFormGroup(selector);
             }
         }
+    }
+
+    function toggleRelationship() {
+        var value = Number(this.value);
+        if (value === 1) {
+            hideFormGroup('.hidden-relationship');
+        } else {
+            showFormGroup('.hidden-relationship');
+        }
+    }
+
+    function hideFormGroup(selector) {
+        $(selector).removeClass('hidden').find('input').removeProp('disabled');
+    }
+
+    function showFormGroup(selector) {
+        $(selector).addClass('hidden').find('input').prop('disabled', true);
     }
 
     function add() {
