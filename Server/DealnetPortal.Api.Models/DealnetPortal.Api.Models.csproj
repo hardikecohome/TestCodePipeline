@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountBindingModels.cs" />
+    <Compile Include="Contract\AddressDTO.cs" />
     <Compile Include="Contract\ApplicationUserDTO.cs" />
     <Compile Include="Contract\CommentDTO.cs" />
     <Compile Include="Contract\ContractDataDTO.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Contract\DealerDTO.cs" />
     <Compile Include="Contract\CustomerLinkDTO.cs" />
     <Compile Include="Contract\CustomerLinkLanguageOptionsDTO.cs" />
+    <Compile Include="Contract\DocumentDTO.cs" />
     <Compile Include="Contract\DocumentTypeDTO.cs" />
     <Compile Include="Contract\EmailDTO.cs" />
     <Compile Include="Contract\EquipmentTypeDTO.cs" />
@@ -80,6 +82,11 @@
     <Compile Include="CustomerWallet\TransactionInfoDTO.cs" />
     <Compile Include="CustomerWallet\CustomerProfileDTO.cs" />
     <Compile Include="CustomerWallet\RegisterCustomerBindingModel.cs" />
+    <Compile Include="DealerOnboarding\CompanyInfoDTO.cs" />
+    <Compile Include="DealerOnboarding\DealerInfoDTO.cs" />
+    <Compile Include="DealerOnboarding\OwnerInfoDTO.cs" />
+    <Compile Include="DealerOnboarding\ProductInfoDTO.cs" />
+    <Compile Include="DealerOnboarding\RequiredDocumentDTO.cs" />
     <Compile Include="DealerProfile\DealerAreaDTO.cs" />
     <Compile Include="DealerProfile\DealerEquipmentDTO.cs" />
     <Compile Include="DealerProfile\DealerProfileDTO.cs" />
@@ -107,10 +114,6 @@
     <ProjectReference Include="..\DealnetPortal.Aspire.Integration\DealnetPortal.Aspire.Integration.csproj">
       <Project>{70E5423B-4DDD-4711-B56E-A28A0BBE473F}</Project>
       <Name>DealnetPortal.Aspire.Integration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DealnetPortal.Domain\DealnetPortal.Domain.csproj">
-      <Project>{E19A2AB3-216E-45E0-BA5B-9211B2D112E3}</Project>
-      <Name>DealnetPortal.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -5,7 +5,6 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Domain;
 
 namespace DealnetPortal.Api.Models.Storage
 {

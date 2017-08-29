@@ -13,6 +13,8 @@ namespace DealnetPortal.Web.Models.Dealer
             ProductInfo = new ProductInfoViewModel();
         }
 
+        public DealerOnboardingDictionariesViewModel DictionariesData { get; set; }
+
         public string DealerHash { get; set; }
 
         public bool AllowCommunicate { get; set; }
@@ -24,4 +26,6 @@ namespace DealnetPortal.Web.Models.Dealer
 
         public ProductInfoViewModel ProductInfo { get; set; }
     }
+
+    
 }
