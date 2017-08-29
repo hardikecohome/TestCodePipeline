@@ -3,8 +3,6 @@
 @{
     ViewBag.Title = "On Boarding";
     Layout = "OnBoardingLayout.cshtml";
-    ViewBag.ProvinceTaxRates = Model.DictionariesData.ProvinceTaxRates;
-    ViewBag.EquipmentTypes = Model.DictionariesData.EquipmentTypes;
 }
 
 <div class="onboard-page">
@@ -28,10 +26,9 @@
     @using (Html.BeginForm("OnBoarding", "Dealer", null, FormMethod.Post, new {id = "onboard-form", onkeydown = "return event.keyCode!=13"}))
     {
         <div class="onboard-steps" id="onboard-accordion">
-
-            @Html.Partial("OnBoarding/_CompanyInformation", Model.CompanyInfo)
-            @Html.Partial("OnBoarding/_OwnerInformation", Model.Owners)
-            @Html.Partial("OnBoarding/_ProductInformation", Model.ProductInfo)
+            @Html.Partial("OnBoarding/_CompanyInformation", Model)
+            @Html.Partial("OnBoarding/_OwnerInformation", Model)
+            @Html.Partial("OnBoarding/_ProductInformation", Model)
             @Html.Partial("OnBoarding/_RequiredDocuments")
             @Html.Partial("OnBoarding/_ClientConsent")
             @Html.Partial("OnBoarding/_Acknowledgment", Model.Owners)

@@ -6,6 +6,13 @@ namespace DealnetPortal.Web.Models.Dealer
 {
     public class DealerOnboardingViewModel
     {
+        public DealerOnboardingViewModel()
+        {
+            CompanyInfo = new CompanyInfoViewModel();
+            Owners = new List<OwnerViewModel>() { new OwnerViewModel() { AddressInformation = new AddressInformation()}};
+            ProductInfo = new ProductInfoViewModel();
+        }
+
         public DealerOnboardingDictionariesViewModel DictionariesData { get; set; }
 
         public string DealerHash { get; set; }

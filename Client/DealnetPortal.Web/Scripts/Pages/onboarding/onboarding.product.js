@@ -18,6 +18,9 @@
             state.nextEquipmentId++;
         });
         initRadio();
+        $('#WithCurrentProvider').on('change', toggleCheckGroup('.hidden-current-provider'));
+        $('#OfferMonthlyDeferrals').on('change', toggleCheckGroup('.hidden-monthly-deferrals'));
+        $('#relationship').on('change', toggleRelationship);
     };
 
     function initRadio() {
@@ -26,9 +29,36 @@
         }
         $('.custom-radio').on('click', function () {
             var $this = $(this);
-            clearSiblings($this);
+            clearSiblings();
             $this.find('input').prop('checked', true);
         })
+    }
+
+    function toggleCheckGroup(selector) {
+        return function () {
+            if ($(this).prop('checked')) {
+                hideFormGroup(selector);
+            } else {
+                showFormGroup(selector);
+            }
+        }
+    }
+
+    function toggleRelationship() {
+        var value = Number(this.value);
+        if (value === 1) {
+            hideFormGroup('.hidden-relationship');
+        } else {
+            showFormGroup('.hidden-relationship');
+        }
+    }
+
+    function hideFormGroup(selector) {
+        $(selector).removeClass('hidden').find('input').removeProp('disabled');
+    }
+
+    function showFormGroup(selector) {
+        $(selector).addClass('hidden').find('input').prop('disabled', true);
     }
 
     function add() {
@@ -73,7 +103,7 @@
         $('#add-brand-container').show();
         return false;
     }
-    
+
     function rebuildBrandIndex(index) {
         var group = $($('.new-brand-group')[0]);
         group.find('#brand-2-display').attr('id', 'brand-1-index').text('2');

@@ -26,16 +26,12 @@ namespace DealnetPortal.Web.Infrastructure
             DealerInfoDTO onboardingForm;
             DealerOnboardingViewModel model;
             onboardingForm = await _dealerServiceAgent.GetDealerOnBoardingForm();
-            model = AutoMapper.Mapper.Map<DealerOnboardingViewModel>(onboardingForm) ?? new DealerOnboardingViewModel();
+            model = new DealerOnboardingViewModel();// AutoMapper.Mapper.Map<DealerOnboardingViewModel>(onboardingForm) ?? new DealerOnboardingViewModel();
             model.DictionariesData = new DealerOnboardingDictionariesViewModel
             {
                 ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1,
                 EquipmentTypes = (await _dictionaryServiceAgent.GetAllEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList()
             };
-            
-            model.CompanyInfo = new CompanyInfoViewModel();
-            model.ProductInfo = new ProductInfoViewModel();
-            model.Owners = new List<OwnerViewModel>();
             
             return model;
         }
