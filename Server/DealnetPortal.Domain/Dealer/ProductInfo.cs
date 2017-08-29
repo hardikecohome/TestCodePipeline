@@ -21,8 +21,12 @@ namespace DealnetPortal.Domain.Dealer
 
         public decimal? AnnualSalesVolume { get; set; }
         public decimal? AverageTransactionSize { get; set; }
-        public Channel? SalesApproach { get; set; }
         public ProgramServices? ProgramService { get; set; }
+
+        public bool? SalesApproachConsumerDirect { get; set; }
+        public bool? SalesApproachBroker { get; set; }
+        public bool? SalesApproachDistributor { get; set; }
+        public bool? SalesApproachDoorToDoor { get; set; }
 
         public bool? LeadGenReferrals { get; set; }
         public bool? LeadGenLocalAdvertising { get; set; }

@@ -270,6 +270,24 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     dbProductInfo.OemName = updateProductInfo.OemName;
                 }
+
+                if (dbProductInfo.SalesApproachConsumerDirect != updateProductInfo.SalesApproachConsumerDirect)
+                {
+                    dbProductInfo.SalesApproachConsumerDirect = updateProductInfo.SalesApproachConsumerDirect;
+                }
+                if (dbProductInfo.SalesApproachBroker != updateProductInfo.SalesApproachBroker)
+                {
+                    dbProductInfo.SalesApproachBroker = updateProductInfo.SalesApproachBroker;
+                }
+                if (dbProductInfo.SalesApproachDistributor != updateProductInfo.SalesApproachDistributor)
+                {
+                    dbProductInfo.SalesApproachDistributor = updateProductInfo.SalesApproachDistributor;
+                }
+                if (dbProductInfo.SalesApproachDoorToDoor != updateProductInfo.SalesApproachDoorToDoor)
+                {
+                    dbProductInfo.SalesApproachDoorToDoor = updateProductInfo.SalesApproachDoorToDoor;
+                }
+
                 if (dbProductInfo.LeadGenLocalAdvertising != updateProductInfo.LeadGenLocalAdvertising)
                 {
                     dbProductInfo.LeadGenLocalAdvertising = updateProductInfo.LeadGenLocalAdvertising;
@@ -305,10 +323,6 @@ namespace DealnetPortal.DataAccess.Repositories
                 if (dbProductInfo.WithCurrentProvider != updateProductInfo.WithCurrentProvider)
                 {
                     dbProductInfo.WithCurrentProvider = updateProductInfo.WithCurrentProvider;
-                }
-                if (dbProductInfo.SalesApproach != updateProductInfo.SalesApproach)
-                {
-                    dbProductInfo.SalesApproach = updateProductInfo.SalesApproach;
                 }
 
                 UpdateProductBrands(dbProductInfo, updateProductInfo.Brands);
