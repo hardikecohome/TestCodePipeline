@@ -2,14 +2,14 @@
     var state = {
         'owner-info': {
             'owners': {
-                'owner1': {
+                'owner0': {
                     requiredFields: [
                         'firstname', 'lastname', 'email', 'birthdate', 'cellphone', 'street', 'city',
                         'province', 'postalcode'
                     ]
                 }
             },
-            'nextOwnerIndex': 2
+            'nextOwnerIndex': 1
 
         },
         selectedProvinces: [],
@@ -17,7 +17,7 @@
     };
 
     var constants = {
-        maxAdditionalOwner: 5,
+        maxAdditionalOwner: 4,
         requiredFields: [
             'firstname', 'lastname', 'email', 'birthdate', 'cellphone', 'street', 'city',
             'province', 'postalcode'

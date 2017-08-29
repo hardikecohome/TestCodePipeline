@@ -108,8 +108,8 @@
         return function(e) {
             var percentage = e.target.value;
             state[stateSection]['owners'][ownerNumber].percentage = percentage;
-
-            if (ownerNumber === 'owner1') {
+            state[stateSection].totalPercentage = Object.keys(state[stateSection]['owners']).reduce((s, v) => { return s + +state[stateSection]['owners'][v].percentage; }, 0);
+            if (ownerNumber === 'owner0') {
                 if (+percentage < 50) {
                     $(event.currentTarget)
                         .closest('div.col-sm-4')
@@ -117,20 +117,26 @@
                         .removeClass('hidden');
 
                     $('div.action-link-holder').removeClass('hidden');
-                } else {
-                    _moveTonextSection();
                 }
-            } else {
-                var totalPercetage = Object.keys(state[stateSection]['owners']).reduce((s, v) => { return s + +state[stateSection]['owners'][v].percentage; }, 0);
+            }
 
-                if (totalPercetage >= 50) {
-                    $('#add-additional').removeClass('mandatory-field');
-                    _moveTonextSection();
-                } else {
-                    if (!$('#add-additional').hasClass('mandatory-field')) {
-                        $('#add-additional').addClass('mandatory-field');
-                    }
-                }
+            _checkOwnershipPercentage();
+            _moveTonextSection();
+        }
+    }
+
+    var recalculateTotalPercentage = function() {
+        state[stateSection].totalPercentage = Object.keys(state[stateSection]['owners']).reduce((s, v) => { return s + +state[stateSection]['owners'][v].percentage; }, 0);
+        _checkOwnershipPercentage();
+    }
+
+    function _checkOwnershipPercentage() {
+        if (state[stateSection].totalPercentage >= 50) {
+            $('#add-additional').removeClass('mandatory-field');
+            _moveTonextSection();
+        } else {
+            if (!$('#add-additional').hasClass('mandatory-field')) {
+                $('#add-additional').addClass('mandatory-field');
             }
         }
     }
@@ -140,9 +146,8 @@
         var isValidSection = owners.every(function(owner) {
             return state[stateSection]['owners'][owner].requiredFields.length === 0;
         });
-        var totalPercetage = Object.keys(state[stateSection]['owners']).reduce((s, v) => { return s + +state[stateSection]['owners'][v].percentage; }, 0);
 
-        if (isValidSection && totalPercetage >= 50) {
+        if (isValidSection && state[stateSection].totalPercentage >= 50) {
             $('#owner-info-section')
                 .removeClass('active-panel')
                 .addClass('panel-collapsed')
@@ -179,6 +184,7 @@
         setPostalCode: setPostalCode,
         setProvince: setProvince,
         setUnit: setUnit,
-        setOwnershipPercentege: setOwnershipPercentege
+        setOwnershipPercentege: setOwnershipPercentege,
+        recalculateTotalPercentage: recalculateTotalPercentage
     }
 })

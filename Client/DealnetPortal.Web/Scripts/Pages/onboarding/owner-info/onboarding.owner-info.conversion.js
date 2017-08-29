@@ -15,15 +15,18 @@
                 break;
             }
 
+            nextOwner.off();
+
             var inputs = nextOwner.find('input, select, textarea');
 
             var fullCurrentId = 'owner' + nextId;
             var fullPreviousId = 'owner' + (nextId - 1);
-            var currentNamePattern = '[' + (nextId - 1);
-            var previousNamePattern = '[' + (nextId - 2);
+            var currentNamePattern = 'Owners[' + nextId;
+            var previousNamePattern = 'Owners[' + (nextId - 1);
 
             inputs.each(function () {
                 $(this).attr('id', $(this).attr('id').replace(fullCurrentId, fullPreviousId));
+                $(this).off();
                 $(this).attr('name', $(this).attr('name').replace(currentNamePattern, previousNamePattern));
             });
 
