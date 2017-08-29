@@ -351,7 +351,9 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 // await _emailService.SendAsync(mail);
                 // Hardik Mailchimp trigger to update Equipment type
-                if (await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress))
+                if (await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress) || await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["RegistrationListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress))
+                   // && (!await _mailChimpService.isUnsubscribed(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress) &&
+                   // ! await _mailChimpService.isUnsubscribed(ConfigurationManager.AppSettings["RegistrationListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress)))
                 {
                     await _mandrillService.SendHomeImprovementTypeUpdatedConfirmation(contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
                                                                                         contract.PrimaryCustomer.FirstName,
@@ -442,7 +444,8 @@ namespace DealnetPortal.Api.Integration.Services
             
             try
             {
-                if (await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails?.FirstOrDefault()?.EmailAddress))
+                if (await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails?.FirstOrDefault()?.EmailAddress) || await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["RegistrationListID"], contract.PrimaryCustomer.Emails?.FirstOrDefault()?.EmailAddress))
+                   // &&(!await _mailChimpService.isUnsubscribed(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails?.FirstOrDefault()?.EmailAddress) && ! await _mailChimpService.isUnsubscribed(ConfigurationManager.AppSettings["RegistrationListID"], contract.PrimaryCustomer.Emails?.FirstOrDefault()?.EmailAddress)))
                 {
 
                     await _mandrillService.SendDealerLeadAccepted(contract, dealer, services);

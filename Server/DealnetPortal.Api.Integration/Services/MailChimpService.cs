@@ -21,6 +21,9 @@ namespace DealnetPortal.Api.Integration.Services
             subscriber.MergeFields["FNAME"] = member.FirstName;
             subscriber.MergeFields["LNAME"] = member.LastName;
             subscriber.EmailType = "HTML";
+            //if (await isSubscriber(ConfigurationManager.AppSettings["RegistrationListID"],member.Email))
+            //    subscriber.StatusIfNew = Status.Subscribed;
+            //else
             subscriber.StatusIfNew = Status.Pending;
             subscriber.ListId = listid;
             subscriber.MergeFields["ADDRESS"] = new
@@ -55,17 +58,29 @@ namespace DealnetPortal.Api.Integration.Services
         }
         public async Task<bool> isSubscriber(string listid, string emailid)
         {
-            Member subscriber = new Member();
-            subscriber = await _manager.Members.GetAsync(listid, emailid.ToLower());
-            if (subscriber.Status == Status.Subscribed)
+            try
             {
-
-                return true;
+                var subscriber = await _manager.Members.GetAsync(listid, emailid);
+                return subscriber.Status == Status.Subscribed;
             }
-            else
+            catch (Exception ex)
             {
-                return false;
+                //throw ex;
             }
+            return false;
+        }
+        public async Task<bool> isUnsubscribed(string listid, string emailid)
+        {
+            try
+            {
+                var subscriber = await _manager.Members.GetAsync(listid, emailid);
+                return subscriber.Status == Status.Unsubscribed;
+            }
+            catch (Exception ex)
+            {
+                //throw ex;
+            }
+            return false;
         }
     }
 }
