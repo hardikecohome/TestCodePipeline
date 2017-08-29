@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Api.Models.DealerOnBoarding;
+using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Web.Models.Dealer;
 using DealnetPortal.Web.ServiceAgent;
 
@@ -23,7 +23,7 @@ namespace DealnetPortal.Web.Infrastructure
 
         public async Task<DealerOnboardingViewModel> GetDealerOnBoardingFormAsynch()
         {
-            DealerOnboardingDTO onboardingForm;
+            DealerInfoDTO onboardingForm;
             DealerOnboardingViewModel model;
             onboardingForm = await _dealerServiceAgent.GetDealerOnBoardingForm();
             model = AutoMapper.Mapper.Map<DealerOnboardingViewModel>(onboardingForm) ?? new DealerOnboardingViewModel();
