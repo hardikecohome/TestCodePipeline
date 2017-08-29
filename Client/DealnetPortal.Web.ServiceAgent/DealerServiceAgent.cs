@@ -1,26 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Formatting;
-using System.Text;
 using System.Threading.Tasks;
-using DealnetPortal.Api.Common.Constants;
-using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.ApiClient;
-using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Api.Models;
-using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.Api.Models.Signature;
-using DealnetPortal.Api.Models.Storage;
+using DealnetPortal.Api.Models.DealerOnBoarding;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Web.Common;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
-    using Api.Models.Contract.EquipmentInformation;
     using Api.Models.Profile;
     using Microsoft.Owin.Security;
 
@@ -62,6 +50,22 @@ namespace DealnetPortal.Web.ServiceAgent
                 _loggingService.LogError("Can't update dealer profile for an user", ex);
                 throw;
             }
+        }
+
+        public async Task<DealerOnboardingDTO> GetDealerOnBoardingForm()
+        {
+            try
+            {
+                //return  await
+                    //    Client.GetAsyncEx<DealerOnboardingDTO>($"{_fullUri}/GetDealerOnboardingForm", AuthenticationHeader,
+                    //        CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get dealer's onboarding form", ex);
+
+            }
+            return null;
         }
     }
 }

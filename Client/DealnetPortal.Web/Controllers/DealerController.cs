@@ -7,33 +7,25 @@ using System.Web.Mvc;
 using DealnetPortal.Web.Models.Dealer;
 using DealnetPortal.Web.ServiceAgent;
 using System.Threading.Tasks;
-using DealnetPortal.Web.Models;
+using DealnetPortal.Web.Infrastructure;
 
 namespace DealnetPortal.Web.Controllers
 {
     [AllowAnonymous]
     public class DealerController : Controller
     {
-        private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
+        private readonly IDealerOnBoardingManager _dealerOnBoardingManager;
 
-        public DealerController(IDictionaryServiceAgent dictionary)
+        public DealerController(IDealerOnBoardingManager dealerOnBoardingManager)
         {
-            _dictionaryServiceAgent = dictionary;
+            _dealerOnBoardingManager = dealerOnBoardingManager;
         }
 
         // GET: Dealer
         [HttpGet]
         public async Task<ActionResult> OnBoarding()
         {
-            var model = new DealerOnboardingViewModel();
-            model.CompanyInfo = new CompanyInfoViewModel();
-            model.ProductInfo = new ProductInfoViewModel();
-            model.Owners = new List<OwnerViewModel>();
-
-            ViewBag.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
-            ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetAllEquipmentTypes()).Item1;
-
-            return View(model);
+            return View(await _dealerOnBoardingManager.GetDealerOnBoardingFormAsynch());
         }
 
         [HttpPost]

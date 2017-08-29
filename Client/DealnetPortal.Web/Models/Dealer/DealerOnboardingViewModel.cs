@@ -6,6 +6,8 @@ namespace DealnetPortal.Web.Models.Dealer
 {
     public class DealerOnboardingViewModel
     {
+        public DealerOnboardingDictionariesViewModel DictionariesData { get; set; }
+
         public string DealerHash { get; set; }
 
         public bool AllowCommunicate { get; set; }
@@ -17,4 +19,6 @@ namespace DealnetPortal.Web.Models.Dealer
 
         public ProductInfoViewModel ProductInfo { get; set; }
     }
+
+    
 }

@@ -8,6 +8,7 @@ using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.DealerOnBoarding;
 using DealnetPortal.Api.Models.Profile;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
@@ -77,6 +78,11 @@ namespace DealnetPortal.Api.Integration.Services
                 });
             }
             return alerts;
+        }
+
+        public DealerOnboardingDTO GetDealerOnboardingForm(string userId)
+        {
+            throw new NotImplementedException();
         }
     }
 
