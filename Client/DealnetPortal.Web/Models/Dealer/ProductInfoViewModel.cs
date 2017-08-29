@@ -12,8 +12,6 @@ namespace DealnetPortal.Web.Models.Dealer
         {
             Brands = new List<string> {""};
             EquipmentTypes = new List<EquipmentTypeDTO>();
-            SalesApproach = new SalesApproachViewModel();
-            LeadGenMethods = new LeadsGenerationViewModel();
         }
 
         [MinMaxListCount(1, 3, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "BrandsLength")]
@@ -26,12 +24,15 @@ namespace DealnetPortal.Web.Models.Dealer
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "AverageTransactionSize")]
         public decimal AverageTransactionSize { get; set; }
-        
-        [Display(ResourceType = typeof(Resources.Resources), Name = "SalesApproach")]
-        public SalesApproachViewModel SalesApproach { get; set; }
-        
-        [Display(ResourceType = typeof(Resources.Resources), Name = "LeadGenMethods")]
-        public LeadsGenerationViewModel LeadGenMethods { get; set; }
+
+        public bool SalesApproachConsumerDirect { get; set; }
+        public bool SalesApproachBroker { get; set; }
+        public bool SalesApproachDistributor { get; set; }
+        public bool SalesApproachDoorToDoor { get; set; }
+
+        public bool LeadGenReferrals { get; set; }
+        public bool LeadGenLocalAds { get; set; }
+        public bool LeadGenTradeShows { get; set; }
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "ProgramServiceRequired")]

@@ -3,9 +3,9 @@
 @model DealnetPortal.Web.Models.Dealer.ProductInfoViewModel
 
 <div class="panel customer-loan-form-panel panel-collapsed">
-@{
-    var equipmentTypes = ViewBag.EquipmentTypes as IList<EquipmentTypeDTO>;
-}
+    @{
+        var equipmentTypes = ViewBag.EquipmentTypes as IList<EquipmentTypeDTO>;
+    }
 
     <div class="panel-heading">
         <span class="panel-step">3</span>
@@ -72,7 +72,7 @@
                     </div>
                     <div class="form-group checkbox-hold">
                         <label class="align-middle custom-checkbox">
-                            @Html.CheckBoxFor(m => m.SalesApproach.ConsumerDirect, new { @class = "dealnet-checkbox" })
+                            @Html.CheckBoxFor(m => m.SalesApproachConsumerDirect, new { @class = "dealnet-checkbox" })
                             <span class="checkbox-icon">
                                 <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                             </span>
@@ -81,7 +81,7 @@
                     </div>
                     <div class="form-group checkbox-hold">
                         <label class="align-middle custom-checkbox">
-                            @Html.CheckBoxFor(m => m.SalesApproach.Broker, new { @class = "dealnet-checkbox" })
+                            @Html.CheckBoxFor(m => m.SalesApproachBroker, new { @class = "dealnet-checkbox" })
                             <span class="checkbox-icon">
                                 <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                             </span>
@@ -90,7 +90,7 @@
                     </div>
                     <div class="form-group checkbox-hold">
                         <label class="align-middle custom-checkbox">
-                            @Html.CheckBoxFor(m => m.SalesApproach.Distributor, new { @class = "dealnet-checkbox" })
+                            @Html.CheckBoxFor(m => m.SalesApproachDistributor, new { @class = "dealnet-checkbox" })
                             <span class="checkbox-icon">
                                 <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                             </span>
@@ -99,7 +99,7 @@
                     </div>
                     <div class="form-group checkbox-hold">
                         <label class="align-middle custom-checkbox">
-                            @Html.CheckBoxFor(m => m.SalesApproach.DoorToDoor, new { @class = "dealnet-checkbox" })
+                            @Html.CheckBoxFor(m => m.SalesApproachDoorToDoor, new { @class = "dealnet-checkbox" })
                             <span class="checkbox-icon">
                                 <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                             </span>
@@ -115,7 +115,7 @@
                     </div>
                     <div class="form-group checkbox-hold">
                         <label class="align-middle custom-checkbox">
-                            @Html.CheckBoxFor(m => m.LeadGenMethods.Referrals, new { @class = "dealnet-checkbox" })
+                            @Html.CheckBoxFor(m => m.LeadGenReferrals, new { @class = "dealnet-checkbox" })
                             <span class="checkbox-icon">
                                 <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                             </span>
@@ -124,7 +124,7 @@
                     </div>
                     <div class="form-group checkbox-hold">
                         <label class="align-middle custom-checkbox">
-                            @Html.CheckBoxFor(m => m.LeadGenMethods.LocalAds, new { @class = "dealnet-checkbox" })
+                            @Html.CheckBoxFor(m => m.LeadGenLocalAds, new { @class = "dealnet-checkbox" })
                             <span class="checkbox-icon">
                                 <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                             </span>
@@ -133,7 +133,7 @@
                     </div>
                     <div class="form-group checkbox-hold">
                         <label class="align-middle custom-checkbox">
-                            @Html.CheckBoxFor(m => m.LeadGenMethods.TradeShows, new { @class = "dealnet-checkbox" })
+                            @Html.CheckBoxFor(m => m.LeadGenTradeShows, new { @class = "dealnet-checkbox" })
                             <span class="checkbox-icon">
                                 <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                             </span>
@@ -149,21 +149,21 @@
                 @Html.LabelFor(m => m.ProgramService, new { @class = "mandatory-field" })
                 <div class="form-group">
                     <label for="" class="align-middle custom-radio">
-                        @Html.RadioButtonFor(m => m.ProgramService, ProgramServices.Loan, new {@class="program-service", @checked = Model.ProgramService == ProgramServices.Loan ? "checked" : "" })
+                        @Html.RadioButtonFor(m => m.ProgramService, ProgramServices.Loan, new { @class = "program-service", @checked = Model.ProgramService == ProgramServices.Loan ? "checked" : "" })
                         <span class="custom-radio-icon"></span>
                         <span>@Resources.Loan</span>
                     </label>
                 </div>
                 <div class="form-group">
                     <label for="" class="align-middle custom-radio">
-                        @Html.RadioButtonFor(m => m.ProgramService, ProgramServices.Rental, new {@class="program-service", @checked = Model.ProgramService == ProgramServices.Rental ? "checked" : "" })
+                        @Html.RadioButtonFor(m => m.ProgramService, ProgramServices.Rental, new { @class = "program-service", @checked = Model.ProgramService == ProgramServices.Rental ? "checked" : "" })
                         <span class="custom-radio-icon"></span>
                         <span>@Resources.Rental</span>
                     </label>
                 </div>
                 <div class="form-group">
                     <label for="" class="align-middle custom-radio">
-                        @Html.RadioButtonFor(m => m.ProgramService, ProgramServices.Both, new {@class="program-service", @checked = Model.ProgramService == ProgramServices.Both ? "checked" : "" })
+                        @Html.RadioButtonFor(m => m.ProgramService, ProgramServices.Both, new { @class = "program-service", @checked = Model.ProgramService == ProgramServices.Both ? "checked" : "" })
                         <span class="custom-radio-icon"></span>
                         <span>@Resources.Both</span>
                     </label>
