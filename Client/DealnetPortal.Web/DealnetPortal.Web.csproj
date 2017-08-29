@@ -930,10 +930,14 @@
     <Content Include="Scripts\Pages\Clients\new-client.js" />
     <Content Include="Scripts\Pages\newEquipment\rate-cards-init.js" />
     <Content Include="Scripts\Pages\newEquipment\validation.js" />
-    <Content Include="Scripts\Pages\onboarding\onboarding.company.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.index.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.product.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.state.js" />
+    <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.conversion.js" />
+    <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.index.js" />
+    <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.setters.js" />
+    <Content Include="Scripts\Pages\onboarding\onboarding.company.js" />
+    <Content Include="Scripts\Pages\onboarding\owner-info\onbobarding.owner-info.additional.js" />
     <Content Include="Scripts\Reducers\customer.js" />
     <Content Include="Scripts\Reducers\new-client-reducer.js" />
     <Content Include="Scripts\Selectors\customer.js" />
@@ -1087,6 +1091,7 @@
     <Content Include="Views\Dealer\OnBoardingLayout.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_CompanyInformation.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_AddressInfo.cshtml" />
+    <Content Include="Views\Shared\OnBoarding\_AdditionalOwnerTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
