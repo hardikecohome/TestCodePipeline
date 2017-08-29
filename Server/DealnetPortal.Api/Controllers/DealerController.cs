@@ -84,9 +84,9 @@ namespace DealnetPortal.Api.Controllers
             }            
         }
 
-        [Route("AddDocumentToDealer")]
+        [Route("AddDocumentToDealerOnboarding")]
         [HttpPut]
-        public IHttpActionResult AddDocumentToDealer(RequiredDocumentDTO document)
+        public IHttpActionResult AddDocumentToDealerOnboarding(RequiredDocumentDTO document)
         {
             try
             {
