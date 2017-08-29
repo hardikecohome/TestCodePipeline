@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Domain
 {
-    public class ContractDocument : DocumentBase
+    public class ContractDocument
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -16,12 +16,12 @@ namespace DealnetPortal.Domain
         [ForeignKey("DocumentTypeId")]
         public DocumentType DocumentType { get; set; }
 
-        //public string DocumentName { get; set; }
+        public string DocumentName { get; set; }
 
         [NotMapped]
-        public override byte[] DocumentBytes { get; set; }
+        public byte[] DocumentBytes { get; set; }
 
-        //public DateTime CreationDate { get; set; }
+        public DateTime CreationDate { get; set; }
 
         public int ContractId { get; set; }
         [ForeignKey("ContractId")]

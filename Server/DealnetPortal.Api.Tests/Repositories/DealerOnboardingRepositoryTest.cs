@@ -9,6 +9,7 @@ using DealnetPortal.Domain;
 using DealnetPortal.Domain.Dealer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Address = DealnetPortal.Domain.Dealer.Address;
 
 namespace DealnetPortal.Api.Tests.Repositories
 {
@@ -107,7 +108,7 @@ namespace DealnetPortal.Api.Tests.Repositories
             {
                 FirstName = "First1",
                 LastName = "Last1",
-                Address = new AddressBase()
+                Address = new Address()
                 {
                     Street = "Street1"
                 },
@@ -117,7 +118,7 @@ namespace DealnetPortal.Api.Tests.Repositories
             {
                 FirstName = "First2",
                 LastName = "Last2",
-                Address = new AddressBase()
+                Address = new Address()
                 {
                     Street = "Street2"
                 },

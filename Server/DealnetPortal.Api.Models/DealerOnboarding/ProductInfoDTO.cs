@@ -35,6 +35,6 @@ namespace DealnetPortal.Api.Models.DealerOnboarding
         public ReasonForInterest? ReasonForInterest { get; set; }
 
         public virtual List<string> Brands { get; set; }
-        public virtual List<string> ServiceTypes { get; set; }
+        public virtual List<EquipmentTypeDTO> ServiceTypes { get; set; }
     }
 }

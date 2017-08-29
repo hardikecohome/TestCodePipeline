@@ -350,7 +350,7 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             var existingEntities =
                 dbProductInfo.Services.Where(
-                    p => updatedServices?.Any(up => up.EquipmentId == p.EquipmentId) ?? false).ToList();
+                    p => updatedServices?.Any(up => up.EquipmentId == p.EquipmentId || up.Equipment?.Type == p.Equipment?.Type) ?? false).ToList();
             var entriesForDelete = dbProductInfo.Services.Except(existingEntities).ToList();
             entriesForDelete.ForEach(e => _dbContext.Entry(e).State = EntityState.Deleted);
 
