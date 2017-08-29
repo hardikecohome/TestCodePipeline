@@ -21,10 +21,10 @@ namespace DealnetPortal.Api.Integration.Services
             subscriber.MergeFields["FNAME"] = member.FirstName;
             subscriber.MergeFields["LNAME"] = member.LastName;
             subscriber.EmailType = "HTML";
-            if (await isSubscriber(ConfigurationManager.AppSettings["RegistrationListID"],member.Email))
-                subscriber.StatusIfNew = Status.Subscribed;
-            else
-                subscriber.StatusIfNew = Status.Pending;
+            //if (await isSubscriber(ConfigurationManager.AppSettings["RegistrationListID"],member.Email))
+            //    subscriber.StatusIfNew = Status.Subscribed;
+            //else
+            subscriber.StatusIfNew = Status.Pending;
             subscriber.ListId = listid;
             subscriber.MergeFields["ADDRESS"] = new
             {
