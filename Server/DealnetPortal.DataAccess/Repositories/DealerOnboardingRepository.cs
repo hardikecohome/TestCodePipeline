@@ -26,18 +26,19 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.DealerInfos.FirstOrDefault(di => di.AccessKey == accessKey);
         }
 
-        public DealerInfo AddOrUpdateDealerInfo(DealerInfo dealerInfo, string accessCode = null)
+        public DealerInfo AddOrUpdateDealerInfo(DealerInfo dealerInfo)
         {
             DealerInfo dbDealer = null;
 
-            if (!string.IsNullOrEmpty(accessCode))
-            {
-                dbDealer = GetDealerInfoByAccessCode(accessCode);
-            }
-            if (dbDealer == null && dealerInfo.Id != 0)
+            if (dealerInfo.Id != 0)
             {
                 dbDealer = GetDealerInfoById(dealerInfo.Id);
             }
+            if (dbDealer != null && !string.IsNullOrEmpty(dealerInfo.AccessKey))
+            {
+                dbDealer = GetDealerInfoByAccessKey(dealerInfo.AccessKey);
+            }
+            
             if (dbDealer == null)
             {
                 //add new
@@ -73,7 +74,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public RequiredDocument AddDocumentToDealer(string accessCode, RequiredDocument document)
         {
-            var dealerInfo = string.IsNullOrEmpty(accessCode) ? GetDealerInfoByAccessCode(accessCode) : CreateDealerInfo();
+            var dealerInfo = string.IsNullOrEmpty(accessCode) ? GetDealerInfoByAccessKey(accessCode) : CreateDealerInfo();
             return AddRequiredDocument(dealerInfo, document);
         }
 
