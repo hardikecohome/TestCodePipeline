@@ -16,8 +16,9 @@
         $('#' + ownerNumber + '-percentage').on('change', setters.setOwnershipPercentege(ownerNumber));
         $('#' + ownerNumber + '-remove').on('click', function() {
             additionalOwner.remove(ownerNumber);
-            if (ownerNumber !== 'owner1') {
+            if (ownerNumber !== 'owner0') {
                 _setInputHandlers(ownerNumber);
+                setters.recalculateTotalPercentage();
             }
         });
 
@@ -42,7 +43,7 @@
     }
 
     function _initEventHandlers() {
-        _setInputHandlers('owner1');
+        _setInputHandlers('owner0');
 
         $('#add-additional').on('click', function () {
             var nextOwner = 'owner' + state['owner-info']['nextOwnerIndex'];

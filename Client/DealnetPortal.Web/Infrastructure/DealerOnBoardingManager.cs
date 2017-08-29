@@ -33,10 +33,6 @@ namespace DealnetPortal.Web.Infrastructure
                 EquipmentTypes = (await _dictionaryServiceAgent.GetAllEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList()
             };
             
-            model.CompanyInfo = new CompanyInfoViewModel();
-            model.ProductInfo = new ProductInfoViewModel();
-            model.Owners = new List<OwnerViewModel>();
-            
             return model;
         }
     }
