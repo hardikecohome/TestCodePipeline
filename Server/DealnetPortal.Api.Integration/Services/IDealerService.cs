@@ -13,6 +13,10 @@ namespace DealnetPortal.Api.Integration.Services
     {
         DealerProfileDTO GetDealerProfile(string dealerId);
         IList<Alert> UpdateDealerProfile(DealerProfileDTO dealerProfile);
-        DealerInfoDTO GetDealerOnboardingForm(string userKey);
+
+        DealerInfoDTO GetDealerOnboardingForm(string accessKey);
+        DealerInfoDTO GetDealerOnboardingForm(int id);
+        Tuple<DealerInfoKeyDTO, IList<Alert>> UpdateDealerOnboardingForm(DealerInfoDTO dealerInfo);
+        Tuple<DealerInfoKeyDTO, IList<Alert>> AddDocumentToOnboardingForm(RequiredDocumentDTO document);
     }
 }

@@ -21,9 +21,9 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.DealerInfos.Find(id);
         }
 
-        public DealerInfo GetDealerInfoByAccessCode(string accessCode)
+        public DealerInfo GetDealerInfoByAccessKey(string accessKey)
         {
-            return _dbContext.DealerInfos.FirstOrDefault(di => di.AccessCode == accessCode);
+            return _dbContext.DealerInfos.FirstOrDefault(di => di.AccessKey == accessKey);
         }
 
         public DealerInfo AddOrUpdateDealerInfo(DealerInfo dealerInfo, string accessCode = null)
@@ -43,7 +43,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 //add new
                 dealerInfo.CreationTime = DateTime.Now;
                 dealerInfo.LastUpdateTime = DateTime.Now;
-                dealerInfo.AccessCode = GenerateDealerAccessCode();
+                dealerInfo.AccessKey = GenerateDealerAccessCode();
                 dbDealer = _dbContext.DealerInfos.Add(dealerInfo);
             }
             else
@@ -85,7 +85,7 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 CreationTime = DateTime.Now,
                 LastUpdateTime = DateTime.Now,
-                AccessCode = GenerateDealerAccessCode()
+                AccessKey = GenerateDealerAccessCode()
             };
             _dbContext.DealerInfos.Add(dealerInfo);
             return dealerInfo;
@@ -136,9 +136,9 @@ namespace DealnetPortal.DataAccess.Repositories
 
         private void UpdateBaseDealerInfo(DealerInfo dbDealerInfo, DealerInfo updateDealerInfo)
         {
-            if (dbDealerInfo.AccessCode != updateDealerInfo.AccessCode)
+            if (dbDealerInfo.AccessKey != updateDealerInfo.AccessKey)
             {
-                dbDealerInfo.AccessCode = updateDealerInfo.AccessCode;
+                dbDealerInfo.AccessKey = updateDealerInfo.AccessKey;
             }            
         }
 

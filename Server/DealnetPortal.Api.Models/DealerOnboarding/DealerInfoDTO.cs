@@ -10,7 +10,7 @@ namespace DealnetPortal.Api.Models.DealerOnboarding
     public class DealerInfoDTO
     {
         public int Id { get; set; }
-        public string AccessCode { get; set; }
+        public string AccessKey { get; set; }
 
         public string ParentSalesRepId { get; set; }        
 

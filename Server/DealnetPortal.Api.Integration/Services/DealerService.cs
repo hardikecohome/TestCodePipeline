@@ -20,14 +20,16 @@ namespace DealnetPortal.Api.Integration.Services
     public class DealerService : IDealerService
     {
         private readonly IDealerRepository _dealerRepository;
+        private readonly IDealerOnboardingRepository _dealerOnboardingRepository;
         private readonly IContractRepository _contractRepository;
         private readonly ILoggingService _loggingService;
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public DealerService(IDealerRepository dealerRepository, ILoggingService loggingService, IUnitOfWork unitOfWork, IContractRepository contractRepository)
+        public DealerService(IDealerRepository dealerRepository, IDealerOnboardingRepository dealerOnboardingRepository, ILoggingService loggingService, IUnitOfWork unitOfWork, IContractRepository contractRepository)
         {
             _dealerRepository = dealerRepository;
+            _dealerOnboardingRepository = dealerOnboardingRepository;
             _loggingService = loggingService;
             _unitOfWork = unitOfWork;
             _contractRepository = contractRepository;
@@ -80,9 +82,24 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public DealerInfoDTO GetDealerOnboardingForm(string userId)
+        public DealerInfoDTO GetDealerOnboardingForm(string accessKey)
         {
-            return null;
+            throw new NotImplementedException();
+        }
+
+        public DealerInfoDTO GetDealerOnboardingForm(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Tuple<DealerInfoKeyDTO, IList<Alert>> UpdateDealerOnboardingForm(DealerInfoDTO dealerInfo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Tuple<DealerInfoKeyDTO, IList<Alert>> AddDocumentToOnboardingForm(RequiredDocumentDTO document)
+        {
+            throw new NotImplementedException();
         }
     }
 
