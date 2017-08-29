@@ -1,11 +1,13 @@
 ﻿module.exports('onboarding.index', function (require) {
-    var initCompany = require('onboarding.company').initCompany;
-    var addProvince = require('onboarding.company').addProvince;
-
+    var company = require('onboarding.company');
+    var product = require('onboarding.product');
 
     function init() {
-        initCompany();
-        $('#province-select').on('change', addProvince);
+        company.initCompany();
+        $('#province-select').on('change', company.addProvince);
+        product.initProducts();
+        $('#offered-equipment').on('change', product.addProduct);
+        $('.add-new-brand-link').on('click', product.addBrand);
     }
 
     return {

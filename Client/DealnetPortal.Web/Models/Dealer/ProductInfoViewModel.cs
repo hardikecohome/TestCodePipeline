@@ -8,28 +8,35 @@ namespace DealnetPortal.Web.Models.Dealer
 {
     public class ProductInfoViewModel
     {
+        public ProductInfoViewModel()
+        {
+            Brands = new List<string> {""};
+            EquipmentTypes = new List<EquipmentTypeDTO>();
+        }
+
         [MinMaxListCount(1, 3, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "BrandsLength")]
         public List<string> Brands { get; set; }
 
         [CustomRequired]
-        [Display(ResourceType = typeof(Resources.Resources), Name = "AnnualSalesVolumn")]
-        public decimal AnnualSalesVolumn { get; set; }
+        [Display(ResourceType = typeof(Resources.Resources), Name = "AnnualSalesVolume")]
+        public decimal AnnualSalesVolume { get; set; }
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "AverageTransactionSize")]
         public decimal AverageTransactionSize { get; set; }
 
-        [CustomRequired]
-        [Display(ResourceType = typeof(Resources.Resources), Name = "Channel")]
-        public Channel Channel { get; set; }
+        public bool SalesApproachConsumerDirect { get; set; }
+        public bool SalesApproachBroker { get; set; }
+        public bool SalesApproachDistributor { get; set; }
+        public bool SalesApproachDoorToDoor { get; set; }
 
-        [MinMaxListCount(0, 3, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "LeadsGenLength")]
-        [Display(ResourceType = typeof(Resources.Resources), Name = "LeadGenMethods")]
-        public List<LeadGenMethod> LeadGenMethods { get; set; }
+        public bool LeadGenReferrals { get; set; }
+        public bool LeadGenLocalAds { get; set; }
+        public bool LeadGenTradeShows { get; set; }
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "ProgramServiceRequired")]
-        public ProgramServices ProgramService { get; set; }
+        public ProgramServices? ProgramService { get; set; }
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "RelationshipStructure")]
@@ -39,7 +46,7 @@ namespace DealnetPortal.Web.Models.Dealer
         public string OEMName { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "AreYouWithProvider")]
-        public bool WithCurretProvider { get; set; }
+        public bool WithCurrentProvider { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "FinanceProviderName")]
         public string FinanceProviderName { get; set; }

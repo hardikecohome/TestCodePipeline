@@ -14,7 +14,7 @@ namespace DealnetPortal.Web.Models.Dealer
         }
 
         [CustomRequired]
-        [Display(ResourceType =typeof(Resources.Resources),Name ="LegalName")]
+        [Display(ResourceType =typeof(Resources.Resources),Name ="FullLegalName")]
         [StringLength(20, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "LegalNameIncorrectFormat")]
         public string FullLegalName { get; set; }

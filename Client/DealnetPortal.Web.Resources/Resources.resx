@@ -1721,8 +1721,8 @@
   <data name="YearsInBusiness" xml:space="preserve">
     <value>Years in business</value>
   </data>
-  <data name="LegalName" xml:space="preserve">
-    <value>Legal Name</value>
+  <data name="FullLegalName" xml:space="preserve">
+    <value>Full Legal Name</value>
   </data>
   <data name="LegalNameIncorrectFormat" xml:space="preserve">
     <value>Legal Name is in incorrect format</value>
@@ -1781,8 +1781,8 @@
   <data name="YearsInBusinessMax3" xml:space="preserve">
     <value>Years In Business must be maximum 3 digits long</value>
   </data>
-  <data name="AnnualSalesVolumn" xml:space="preserve">
-    <value>Annual sales volume</value>
+  <data name="AnnualSalesVolume" xml:space="preserve">
+    <value>Estimated Annual sales volume</value>
   </data>
   <data name="AreYouWithProvider" xml:space="preserve">
     <value>Are you with a current finance provider?</value>
@@ -1858,5 +1858,50 @@
   </data>
   <data name="SaveAndResumeLater" xml:space="preserve">
     <value>Save and Resume later</value>
+  </data>
+  <data name="AddAnotherBrand" xml:space="preserve">
+    <value>Add another brand</value>
+  </data>
+  <data name="Both" xml:space="preserve">
+    <value>Both</value>
+  </data>
+  <data name="Broker" xml:space="preserve">
+    <value>Broker</value>
+  </data>
+  <data name="CheckApplicableItemsFromList" xml:space="preserve">
+    <value>Check all applicable items from our list</value>
+  </data>
+  <data name="ConsumerDirect" xml:space="preserve">
+    <value>Consumer direct</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Distributor" xml:space="preserve">
+    <value>Distributor</value>
+  </data>
+  <data name="DoorToDoor" xml:space="preserve">
+    <value>Door to door sales</value>
+  </data>
+  <data name="LocalAds" xml:space="preserve">
+    <value>Local Advertising</value>
+  </data>
+  <data name="PrimaryManufacturerBrandSold" xml:space="preserve">
+    <value>Primary manufacturer brand sold</value>
+  </data>
+  <data name="ProductsForFinancing" xml:space="preserve">
+    <value>Products for financing program</value>
+  </data>
+  <data name="Referrals" xml:space="preserve">
+    <value>Referrals</value>
+  </data>
+  <data name="SalesApproach" xml:space="preserve">
+    <value>Sales approach</value>
+  </data>
+  <data name="TradeShows" xml:space="preserve">
+    <value>Trade Shows</value>
+  </data>
+  <data name="SecondaryManufacturerBrandSold" xml:space="preserve">
+    <value>Secondary manufacturer brand sold</value>
   </data>
 </root>

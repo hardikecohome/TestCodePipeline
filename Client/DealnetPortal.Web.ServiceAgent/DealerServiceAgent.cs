@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Api.Models.DealerOnBoarding;
+using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Web.Common;
 
@@ -52,13 +52,11 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<DealerOnboardingDTO> GetDealerOnBoardingForm()
+        public async Task<DealerInfoDTO> GetDealerOnBoardingForm()
         {
             try
             {
-                //return  await
-                    //    Client.GetAsyncEx<DealerOnboardingDTO>($"{_fullUri}/GetDealerOnboardingForm", AuthenticationHeader,
-                    //        CurrentCulture);
+                return await Client.GetAsyncEx<DealerInfoDTO>($"{_fullUri}/GetDealerOnboardingForm", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {

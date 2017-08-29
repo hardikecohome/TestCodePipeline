@@ -87,7 +87,6 @@
     <Compile Include="DealerOnboarding\OwnerInfoDTO.cs" />
     <Compile Include="DealerOnboarding\ProductInfoDTO.cs" />
     <Compile Include="DealerOnboarding\RequiredDocumentDTO.cs" />
-    <Compile Include="DealerOnBoarding\DealerOnboardingDTO.cs" />
     <Compile Include="DealerProfile\DealerAreaDTO.cs" />
     <Compile Include="DealerProfile\DealerEquipmentDTO.cs" />
     <Compile Include="DealerProfile\DealerProfileDTO.cs" />
