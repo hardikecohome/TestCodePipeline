@@ -116,7 +116,13 @@
                         .siblings('div.col-sm-8')
                         .removeClass('hidden');
 
+                    if ($('#additional-owner-warning').is(':hidden')) {
+                        $('#additional-owner-warning').removeClass('hidden');
+                    }
+
                     $('div.action-link-holder').removeClass('hidden');
+                } else {
+                    $('#additional-owner-warning').addClass('hidden');
                 }
             }
 
