@@ -1,10 +1,14 @@
 ﻿module.exports('onboarding.owner-info.index', function (require) {
     var setters = require('onboarding.owner-info.setters');
+    var aknwoledgmentSetters = require('onboarding.ackonwledgment.setters');
     var additionalOwner = require('onboarding.owner-info.additional');
+    var aknwoledgmentOwner = require('onboarding.ackonwledgment.owners');
 
     function _setInputHandlers(ownerNumber) {
         $('#' + ownerNumber + '-firstname').on('change', setters.setFirstName(ownerNumber));
+        $('#' + ownerNumber + '-firstname').on('change', aknwoledgmentSetters.setFirstName(ownerNumber));
         $('#' + ownerNumber + '-lastname').on('change', setters.setLastName(ownerNumber));
+        $('#' + ownerNumber + '-lastname').on('change', aknwoledgmentSetters.setLastName(ownerNumber));
         $('#' + ownerNumber + '-homephone').on('change', setters.setHomePhone(ownerNumber));
         $('#' + ownerNumber + '-cellphone').on('change', setters.setCellPhone(ownerNumber));
         $('#' + ownerNumber + '-email').on('change', setters.setEmailAddress(ownerNumber));
@@ -14,8 +18,11 @@
         $('#' + ownerNumber + '-postalcode').on('change', setters.setPostalCode(ownerNumber));
         $('#' + ownerNumber + '-province').on('change', setters.setProvince(ownerNumber));
         $('#' + ownerNumber + '-percentage').on('change', setters.setOwnershipPercentege(ownerNumber));
+        $('#' + ownerNumber + '-agreement').on('click', aknwoledgmentSetters.setAgreement(ownerNumber));
+
         $('#' + ownerNumber + '-remove').on('click', function() {
             additionalOwner.remove(ownerNumber);
+            aknwoledgmentOwner.remove(ownerNumber);
             if (ownerNumber !== 'owner0') {
                 _setInputHandlers(ownerNumber);
                 setters.recalculateTotalPercentage();
@@ -48,6 +55,7 @@
         $('#add-additional').on('click', function () {
             var nextOwner = 'owner' + state['owner-info']['nextOwnerIndex'];
             additionalOwner.add(nextOwner);
+            aknwoledgmentOwner.add(nextOwner);
             _setInputHandlers(nextOwner);
         });
     }

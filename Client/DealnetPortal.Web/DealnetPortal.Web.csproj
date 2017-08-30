@@ -930,10 +930,9 @@
     <Content Include="Scripts\Pages\Clients\new-client.js" />
     <Content Include="Scripts\Pages\newEquipment\rate-cards-init.js" />
     <Content Include="Scripts\Pages\newEquipment\validation.js" />
-    <Content Include="Scripts\Pages\onboarding\onboarding.common.js" />
-    <Content Include="Scripts\Pages\onboarding\onboarding.form.handlers.js" />
+    <Content Include="Scripts\Pages\onboarding\acknowledgment\onboarding.ackonwledgment.index.js" />
+    <Content Include="Scripts\Pages\onboarding\acknowledgment\onboarding.ackonwledgment.owners.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.index.js" />
-    <Content Include="Scripts\Pages\onboarding\onboarding.product.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.state.js" />
     <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.conversion.js" />
     <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.index.js" />
@@ -1094,6 +1093,7 @@
     <Content Include="Views\Shared\OnBoarding\_CompanyInformation.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_AddressInfo.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_AdditionalOwnerTemplate.cshtml" />
+    <Content Include="Scripts\Pages\onboarding\acknowledgment\onboarding.ackonwledgment.setters.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
