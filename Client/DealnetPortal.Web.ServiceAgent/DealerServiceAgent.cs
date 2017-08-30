@@ -92,6 +92,23 @@ namespace DealnetPortal.Web.ServiceAgent
                 throw;
             }
         }
+
+        public async Task<IList<Alert>> SubmitDealerOnboardingForm(DealerInfoDTO dealerInfo)
+        {
+            try
+            {
+                return
+                    await
+                        Client.PostAsyncEx<DealerInfoDTO, IList<Alert>>(
+                            $"{_fullUri}/SubmitDealerOnboardingInfo", dealerInfo, null, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't update dealer onboarding info for an user", ex);
+                throw;
+            }
+        }
+
         public async Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> AddDocumentToOnboardingForm(
             RequiredDocumentDTO document)
         {

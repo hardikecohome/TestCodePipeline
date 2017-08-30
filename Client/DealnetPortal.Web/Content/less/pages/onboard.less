@@ -183,9 +183,10 @@
 
 
     .tags-list {
-        &.row-tag-list{
-            margin-bottom:30px;
+        &.row-tag-list {
+            margin-bottom: 30px;
         }
+
         li {
             @media @tablet-down {
                 height: 40px;
@@ -659,7 +660,7 @@
 }
 
 .additional-owner-remove :hover {
-    cursor: pointer
+    cursor: pointer;
 }
 
 .additional-owner-header {
@@ -696,4 +697,97 @@
 
 .onboard-standart-doc-item{
     padding: 0 10px;
+}
+.onboard-modal {
+    .modal-dialog {
+        width: 800px;
+
+        @media @tablet-down {
+            width: 728px;
+        }
+
+        @media @mobile {
+            width: 300px;
+        }
+    }
+
+    .modal-header {
+        padding-bottom: 0;
+    }
+
+    .modal-title, h4 {
+        padding-bottom: 14px;
+    }
+
+    .modal-body {
+        padding: 0 30px 15px;
+
+        .well {
+            padding: 15px 20px;
+            margin: 20px 0;
+        }
+
+        hr {
+            margin: 30px 0 40px 0;
+        }
+
+        .controls-hold {
+            .clearfix;
+
+            .btn-small {
+                @media @tablet-up {
+                    width: 80px;
+                    float: right;
+                }
+
+                @media @mobile {
+                    float: none;
+                    display: block;
+                    width: 100%;
+                    max-width: 355px;
+                    margin: 15px auto 0;
+                }
+            }
+
+            .control-group {
+                @media @tablet-up {
+                    float: left;
+                    width: calc(~"100% - 100px");
+                }
+
+                @media @mobile {
+                    float: none;
+                    width: 100%;
+                }
+
+                .dropdown-container {
+                    position: relative;
+                }
+            }
+        }
+
+        .email-sent-success {
+            font-size: 18px;
+
+            .icon.icon-success {
+                height: 40px;
+                width: 43px;
+
+                @media @mobile {
+                    display: block;
+                    margin: auto;
+                }
+            }
+
+            span {
+                margin-left: 15px;
+
+                @media @mobile {
+                    display: block;
+                    margin: auto;
+                    width: 35%;
+                }
+            }
+        }
+    }
 }

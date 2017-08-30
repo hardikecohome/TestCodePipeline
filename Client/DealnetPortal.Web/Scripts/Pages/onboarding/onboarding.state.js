@@ -10,13 +10,20 @@
                 }
             },
             'nextOwnerIndex': 1
-
+        },
+        'aknowledgment': {
+            'owners': {
+                'owner0': {
+                    
+                }
+            }
+        },
+        'consent' : {
+            'creditAgreement': false,
+            'contactAgreement': false
         },
         selectedProvinces: [],
-        selectedEquipment: [],
-        nextProvinceId: 0,
-        nextEquipmentId: 0,
-        nextBrandNumber:1
+        nextProvinceId: 0
     };
 
     var constants = {
