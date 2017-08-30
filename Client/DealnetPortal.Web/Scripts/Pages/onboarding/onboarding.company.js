@@ -39,6 +39,7 @@
             }
             $(this).val('');
         }
+        $('#work-province-error').removeClass('field-validation-error').text('');
     };
 
     var remove = function () {

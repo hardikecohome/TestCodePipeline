@@ -4390,6 +4390,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Secondary Brand is in incorrect format.
+        /// </summary>
+        public static string SecondaryBrandIncorrectFormat {
+            get {
+                return ResourceManager.GetString("SecondaryBrandIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Secondary manufacturer brand sold.
         /// </summary>
         public static string SecondaryManufacturerBrandSold {
@@ -4431,6 +4440,15 @@ namespace DealnetPortal.Web.Resources {
         public static string SelectOneProduct {
             get {
                 return ResourceManager.GetString("SelectOneProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please, select at lease one Province.
+        /// </summary>
+        public static string SelectOneProvince {
+            get {
+                return ResourceManager.GetString("SelectOneProvince", resourceCulture);
             }
         }
         

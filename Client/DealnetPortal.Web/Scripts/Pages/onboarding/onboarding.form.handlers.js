@@ -22,20 +22,20 @@
 
     function validateEquipment() {
         if (state.selectedEquipment.length > 1) {
-            $('#equipment-error').text(translations.SelectOneProduct);
+            $('#equipment-error').removeClass('field-validation-error').text('');
+        }else {
+            $('#equipment-error').addClass('field-validation-error').text(translations.SelectOneProduct);
             return false;
-        } else {
-            $('#equipment-error').text('');
-        }
+        } 
         return true;
     }
 
     function validateWorkProvinces() {
         if (state.selectedProvinces.length > 1) {
-            $('#work-province-error').text(translations.SelectOneProvince);
-            return false;
+            $('#work-province-error').removeClass('field-validation-error').text('');
         } else {
-            $('#work-province-error').text('');
+            $('#work-province-error').addClass('field-validation-error').text(translations.SelectOneProvince);
+            return false;
         }
         return true;
     }

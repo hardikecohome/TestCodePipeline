@@ -81,6 +81,7 @@
             }
             $(this).val('');
         }
+        $('#equipment-error').removeClass('field-validation-error').text('');
     };
 
     function addNewBrand() {
@@ -91,7 +92,14 @@
         $el.find('.remove-brand-link').on('click', removeBrand);
 
         $el.find('input').rules('add', {
-            maxLength:1
+            minLength: 2,
+            maxLength: 50,
+            regex: /^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$/,
+            messages: {
+                minLength: translations.TheFieldMustBeMinimumAndMaximum,
+                maxLength: translations.TheFieldMustBeMinimumAndMaximum,
+                regex: translations.SecondaryBrandIncorrectFormat
+            }
         });
 
         state.nextBrandNumber++;

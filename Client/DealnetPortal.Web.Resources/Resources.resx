@@ -1922,4 +1922,10 @@
   <data name="SelectOneProduct" xml:space="preserve">
     <value>Please, select at least one Product</value>
   </data>
+  <data name="SecondaryBrandIncorrectFormat" xml:space="preserve">
+    <value>Secondary Brand is in incorrect format</value>
+  </data>
+  <data name="SelectOneProvince" xml:space="preserve">
+    <value>Please, select at lease one Province</value>
+  </data>
 </root>
