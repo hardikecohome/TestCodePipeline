@@ -12,6 +12,11 @@ namespace DealnetPortal.Api.Models.DealerOnboarding
         public int Id { get; set; }
         public string AccessKey { get; set; }
 
+        /// <summary>
+        /// part of a unique sales rep link
+        /// </summary>
+        public string SalesRepCode { get; set; }
+
         public string ParentSalesRepId { get; set; }        
 
         public string TransactionId { get; set; }
