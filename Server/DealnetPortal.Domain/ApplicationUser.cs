@@ -42,6 +42,11 @@ namespace DealnetPortal.Domain
         [ForeignKey("CustomerLinkId")]
         public virtual CustomerLink CustomerLink { get; set; }
 
+        /// <summary>
+        /// link for onboarding form
+        /// </summary>
+        public string OnboardingLink { get; set; }
+
         public int? DealerProfileId { get; set; }
 
         public int? TierId { get; set; }

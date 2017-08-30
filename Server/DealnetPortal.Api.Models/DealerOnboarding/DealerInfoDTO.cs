@@ -15,7 +15,7 @@ namespace DealnetPortal.Api.Models.DealerOnboarding
         /// <summary>
         /// part of a unique sales rep link
         /// </summary>
-        public string SalesRepCode { get; set; }
+        public string SalesRepLink { get; set; }
 
         public string ParentSalesRepId { get; set; }        
 
