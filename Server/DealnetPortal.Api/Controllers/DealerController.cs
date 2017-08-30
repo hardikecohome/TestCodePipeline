@@ -87,11 +87,11 @@ namespace DealnetPortal.Api.Controllers
         [Route("SubmitDealerOnboardingInfo")]
         [HttpPost]
         [AllowAnonymous]
-        public IHttpActionResult SubmitDealerOnboardingInfo(DealerInfoDTO dealerInfo)
+        public async Task<IHttpActionResult> SubmitDealerOnboardingInfo(DealerInfoDTO dealerInfo)
         {
             try
             {
-                var result = _dealerService.SubmitDealerOnboardingForm(dealerInfo);
+                var result = await _dealerService.SubmitDealerOnboardingForm(dealerInfo);
                 return Ok(result);
             }
             catch (Exception ex)

@@ -22,15 +22,18 @@ namespace DealnetPortal.Api.Integration.Services
     {
         private readonly IDealerRepository _dealerRepository;
         private readonly IDealerOnboardingRepository _dealerOnboardingRepository;
+        private readonly IAspireService _aspireService;
         private readonly IContractRepository _contractRepository;
         private readonly ILoggingService _loggingService;
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public DealerService(IDealerRepository dealerRepository, IDealerOnboardingRepository dealerOnboardingRepository, ILoggingService loggingService, IUnitOfWork unitOfWork, IContractRepository contractRepository)
+        public DealerService(IDealerRepository dealerRepository, IDealerOnboardingRepository dealerOnboardingRepository, 
+            IAspireService aspireService, ILoggingService loggingService, IUnitOfWork unitOfWork, IContractRepository contractRepository)
         {
             _dealerRepository = dealerRepository;
             _dealerOnboardingRepository = dealerOnboardingRepository;
+            _aspireService = aspireService;
             _loggingService = loggingService;
             _unitOfWork = unitOfWork;
             _contractRepository = contractRepository;
@@ -124,9 +127,35 @@ namespace DealnetPortal.Api.Integration.Services
             return new Tuple<DealerInfoKeyDTO, IList<Alert>>(resultKey, alerts);
         }
 
-        public IList<Alert> SubmitDealerOnboardingForm(DealerInfoDTO dealerInfo)
+        public async Task<IList<Alert>> SubmitDealerOnboardingForm(DealerInfoDTO dealerInfo)
         {
-            throw new NotImplementedException();
+            var alerts = new List<Alert>();
+            try
+            {
+                //update draft in a database as we should have it with required documents 
+                var mappedInfo = Mapper.Map<DealerInfo>(dealerInfo);
+                var updatedInfo = _dealerOnboardingRepository.AddOrUpdateDealerInfo(mappedInfo);
+                _unitOfWork.Save();
+                //submit form to Aspire
+                var submitResult = await _aspireService.SubmitDealerOnboarding(updatedInfo.Id);
+                if (submitResult?.Any() ?? false)
+                {
+                    alerts.AddRange(submitResult);
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorMsg = $"Cannot submit dealer onboarding form";
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Code = ErrorCodes.FailedToUpdateContract,
+                    Header = ErrorConstants.SubmitFailed,
+                    Message = errorMsg
+                });
+                _loggingService.LogError(errorMsg);
+            }
+            return alerts;
         }
 
         public Tuple<DealerInfoKeyDTO, IList<Alert>> AddDocumentToOnboardingForm(RequiredDocumentDTO document)
