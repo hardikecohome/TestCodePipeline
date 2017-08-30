@@ -120,7 +120,6 @@
 
     function rebuildBrandIndex(index) {
         var group = $($('.new-brand-group')[0]);
-        group.find('#brand-2-display').attr('id', 'brand-1-index').text('2');
         group.find('#Brands_2').attr('id', 'Brands_1').attr('name', 'Brands[1]');
     }
 

@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-md-4 col-sm-6">
                 <div class="form-group">
-                    <label for="" class="mandatory-field">@Resources.PrimaryManufacturerBrandSold #1</label>
+                    <label for="" class="mandatory-field">@Resources.PrimaryManufacturerBrandSold</label>
                     <div class="control-group">
                         @Html.TextBoxFor(m => m.ProductInfo.PrimaryBrand, new { @class = "form-control dealnet-input" })
                         @Html.ValidationMessageFor(m => m.ProductInfo.PrimaryBrand, "", new { @class = "text-danger" })
@@ -25,7 +25,7 @@
             {
                 <div class="col-md-4 col-sm-6">
                     <div class="form-group">
-                        <label for="">@Resources.SecondaryManufacturerBrandSold #@(i + 1)</label>
+                        <label for="">@Resources.SecondaryManufacturerBrandSold</label>
                         <div class="control-group">
                             @Html.TextBoxFor(m => m.ProductInfo.Brands[i], new { @class = "form-control dealnet-input" })
                             @Html.ValidationMessageFor(m => m.ProductInfo.Brands[i], "", new { @class = "text-danger" })
@@ -328,7 +328,7 @@
 <script id="manufacturerBrandTemplate" type="text/x-jquery-tmpl">
     <div class="col-md-4 col-sm-6 new-brand-group">
         <div class="form-group">
-            <label for="">@Resources.SecondaryManufacturerBrandSold #<span id="brand-${brandNumber}-display">${brandNumber+1}</span></label>
+            <label for="">@Resources.SecondaryManufacturerBrandSold</label>
             <div class="control-group removable-form-group">
                 <input id="ProductInfo_Brands_${brandNumber}" name="ProductInfo.Brands[${brandNumber}]" type="text" class="form-control dealnet-input" value="">
                 <a href="" class="remove-link remove-brand-link">
