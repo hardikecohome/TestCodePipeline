@@ -932,6 +932,8 @@
     <Content Include="Scripts\Pages\newEquipment\validation.js" />
     <Content Include="Scripts\Pages\onboarding\acknowledgment\onboarding.ackonwledgment.index.js" />
     <Content Include="Scripts\Pages\onboarding\acknowledgment\onboarding.ackonwledgment.owners.js" />
+    <Content Include="Scripts\Pages\onboarding\consent\onboarding.consent.index.js" />
+    <Content Include="Scripts\Pages\onboarding\consent\onboarding.consent.setters.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.common.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.form.handlers.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.index.js" />

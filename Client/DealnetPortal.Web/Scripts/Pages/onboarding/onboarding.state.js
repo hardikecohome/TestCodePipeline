@@ -18,6 +18,10 @@
                 }
             }
         },
+        'consent' : {
+            'creditAgreement': false,
+            'contactAgreement': false
+        },
         selectedProvinces: [],
         nextProvinceId: 0
     };
