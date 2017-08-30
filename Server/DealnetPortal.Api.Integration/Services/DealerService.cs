@@ -124,6 +124,11 @@ namespace DealnetPortal.Api.Integration.Services
             return new Tuple<DealerInfoKeyDTO, IList<Alert>>(resultKey, alerts);
         }
 
+        public IList<Alert> SubmitDealerOnboardingForm(DealerInfoDTO dealerInfo)
+        {
+            throw new NotImplementedException();
+        }
+
         public Tuple<DealerInfoKeyDTO, IList<Alert>> AddDocumentToOnboardingForm(RequiredDocumentDTO document)
         {
             var alerts = new List<Alert>();

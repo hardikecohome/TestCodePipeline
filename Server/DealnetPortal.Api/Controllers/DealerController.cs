@@ -84,6 +84,22 @@ namespace DealnetPortal.Api.Controllers
             }            
         }
 
+        [Route("SubmitDealerOnboardingInfo")]
+        [HttpPost]
+        [AllowAnonymous]
+        public IHttpActionResult SubmitDealerOnboardingInfo(DealerInfoDTO dealerInfo)
+        {
+            try
+            {
+                var result = _dealerService.SubmitDealerOnboardingForm(dealerInfo);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("AddDocumentToDealerOnboarding")]
         [HttpPut]
         public IHttpActionResult AddDocumentToDealerOnboarding(RequiredDocumentDTO document)
