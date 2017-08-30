@@ -3022,6 +3022,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mail Sent.
+        /// </summary>
+        public static string MailSent {
+            get {
+                return ResourceManager.GetString("MailSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Make.
         /// </summary>
         public static string Make {

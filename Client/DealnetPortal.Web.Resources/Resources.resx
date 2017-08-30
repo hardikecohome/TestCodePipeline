@@ -1931,6 +1931,9 @@
   <data name="Link" xml:space="preserve">
     <value>Link</value>
   </data>
+  <data name="MailSent" xml:space="preserve">
+    <value>Mail Sent</value>
+  </data>
   <data name="SecondaryBrandIncorrectFormat" xml:space="preserve">
     <value>Secondary Brand is in incorrect format</value>
   </data>

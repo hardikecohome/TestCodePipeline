@@ -143,17 +143,28 @@
                                 <span>@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
                             </label>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="send-resume-email">@Resources.EmailAddress</label>
-                            <div class="control-group">
-                                <input id="send-resume-email" type="email" class="form-control dealnet-input" />
-                                <span class="field-validation-valid text-danger" data-valmsg-for="send-resume-email" data-valmsg-replace="true"></span>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="send-resume-email">@Resources.EmailAddress</label>
+                                <div class="control-group">
+                                    <input id="send-resume-email" type="email" class="form-control dealnet-input" />
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="send-resume-email" data-valmsg-replace="true"></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="">&nbsp;</label>
-                            <div class="control-group">
-                                <button type="submit" class="btn dealnet-success-button" id="send-email-submit">@Resources.SendMeLink</button>
+                            <div class="form-group col-md-4">
+                                <label for="">&nbsp;</label>
+                                <div class="control-group">
+                                    <button type="submit" class="btn dealnet-success-button" id="send-email-submit">@Resources.SendMeLink</button>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="">&nbsp;</label>
+                                <div class="email-sent-success flex-centered-text">
+                                    <svg aria-hidden="true" class="icon icon-success">
+                                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success-gray-circle")"></use>
+                                    </svg>
+                                    <span>@Resources.MailSent</span>
+                                </div>
                             </div>
                         </div>
                     }
@@ -200,7 +211,7 @@
     @Scripts.Render("~/bundles/onboarding")
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=init" async defer></script>
     <script type="text/javascript">
-        var init = module.require('onboarding.index').init;
+        module.require('onboarding.index');
     </script>
 
     <script type="text/javascript">

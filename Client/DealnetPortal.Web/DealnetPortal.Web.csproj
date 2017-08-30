@@ -932,7 +932,10 @@
     <Content Include="Scripts\Pages\newEquipment\validation.js" />
     <Content Include="Scripts\Pages\onboarding\acknowledgment\onboarding.ackonwledgment.index.js" />
     <Content Include="Scripts\Pages\onboarding\acknowledgment\onboarding.ackonwledgment.owners.js" />
+    <Content Include="Scripts\Pages\onboarding\onboarding.common.js" />
+    <Content Include="Scripts\Pages\onboarding\onboarding.form.handlers.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.index.js" />
+    <Content Include="Scripts\Pages\onboarding\onboarding.product.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.state.js" />
     <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.conversion.js" />
     <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.index.js" />
