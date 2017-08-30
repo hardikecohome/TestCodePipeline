@@ -7,7 +7,7 @@
     </div>
     <div class="panel-body">
         <div class="onboard-required-documents">
-            <div class="onboard-uploaded-documents clearfix">
+            <!--<div class="onboard-uploaded-documents clearfix">
                 <div class="files-container">
                     <h4 class="onboard-required-documents-heading">Void cheque</h4>
                     <div class="equal-height-section equal-height-section-1">
@@ -40,15 +40,56 @@
                         <input type="file" class="upload" />
                     </div>
                 </div>
-            </div>
+            </div>-->
             <div class="onboard-uploaded-license">
-                <h4 class="onboard-required-documents-heading">Provincial Safety Standard Licensing</h4>
-                <div class="placeholder-text">Please upload file in format PDF, jpg or png</div>
-                <ul class="onboard-license-list text-left list-unstyled">
-                    <li class="onboard-license-item uploaded-document">
+<!--                <h4 class="onboard-required-documents-heading">Provincial Safety Standard Licensing</h4>
+                <div class="placeholder-text">Please upload file in format PDF, jpg or png</div>-->
+                <div class="onboard-license-list text-left list-unstyled">
+                    <div class="onboard-license-item uploaded-document">
                         <div class="align-middle document-label">
-                            <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                            <span class="mandatory-field">Certificate of Qualification as a Refrigeration and Air Conditioning Mechanic (Ontario)</span>
+                            <span class="checkbox-icon">
+                                <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
+                            </span>
+                            <h4 class="onboard-required-documents-heading">Business void cheque  — Account to receive Ecohome funding</h4>
+                            <div class="placeholder-text">Please upload file in format PDF, Word, PNG, JPG</div>
+                            <ul class="uploaded-docs-list">
+                                <li>
+                                    <span class="uploaded-docs-title">
+                                        Void_cheque.pdf
+                                        <a href="" class="remove-link remove-docs">
+                                            <svg aria-hidden="true" class="icon icon-remove-cross">
+                                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
+                                            </svg>
+                                        </a>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="uploaded-docs-title">
+                                        Void_cheque.png
+                                        <a href="" class="remove-link remove-docs">
+                                            <svg aria-hidden="true" class="icon icon-remove-cross">
+                                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
+                                            </svg>
+                                        </a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="action-holder">
+                            <div class="file-upload btn dealnet-button dealnet-link-button">
+                                <span>Upload another file</span>
+                                <input type="file" class="upload" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="onboard-license-item">
+                        <div class="align-middle document-label">
+                            <span class="checkbox-icon">
+                                <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
+                            </span>
+                            <h4 class="onboard-required-documents-heading">Proof of insurance</h4>
+                            <div>Ecohome Financial Inc. must be listed as additional insured</div>
+                            <div class="placeholder-text">Please upload file in format PDF, Word, PNG, JPG</div>
                         </div>
                         <div class="action-holder">
                             <div class="file-upload btn dealnet-button dealnet-link-button">
@@ -56,35 +97,11 @@
                                 <input type="file" class="upload" />
                             </div>
                         </div>
-                    </li>
-                    <li class="onboard-license-item">
-                        <div class="align-middle document-label">
-                            <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                            <span class="mandatory-field">Master Electrician Licence (Ontario)</span>
-                        </div>
-                        <div class="action-holder">
-                            <div class="file-upload btn dealnet-button dealnet-link-button">
-                                <span>@Resources.Upload</span>
-                                <input type="file" class="upload" />
-                            </div>
-                        </div>
-                    </li>
-                    <li class="onboard-license-item">
-                        <div class="align-middle document-label">
-                            <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                            <span class="mandatory-field">Electrical License (Manitoba)</span>
-                        </div>
-                        <div class="action-holder">
-                            <div class="file-upload btn dealnet-button dealnet-link-button">
-                                <span>@Resources.Upload</span>
-                                <input type="file" class="upload" />
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+                    </div>
+                </div>
             </div>
         </div>
-        <a class="save-and-resume pull-right">
+        <a class="save-and-resume pull-right dealnet-info-link">
             <svg aria-hidden="true" class="icon icon-save">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-save")"></use>
             </svg>

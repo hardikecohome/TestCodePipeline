@@ -325,8 +325,12 @@
 }
 
 .onboard-required-documents-heading {
+    margin: 0;
     font-size: 16px;
     color: #000;
+    &+.placeholder-text{
+        margin-top: 10px;
+    }
 }
 
 .onboard-uploaded-documents {
@@ -395,15 +399,16 @@
 }
 
 .onboard-uploaded-license {
-    margin: 40px 0 20px;
+    margin: 0 0 20px;
     text-align: center;
 }
 
 .onboard-license-list {
-    margin-top: 30px;
+    margin-top: 0;
+    font-size: 12px;
 
     @media @mobile {
-        margin: 30px -15px 0;
+        margin: 0 -15px 0;
     }
 
     .onboard-license-item {
@@ -414,6 +419,9 @@
         &.uploaded-document {
             .document-label .checkbox-icon {
                 display: block;
+            }
+            .action-holder{
+                .align-items(flex-start);
             }
         }
 
@@ -464,7 +472,27 @@
         }
     }
 }
-
+.uploaded-docs-list{
+    .list-unstyled;
+    li{
+        margin: 10px 0;
+    }
+    .uploaded-docs-title{
+        display: inline-block;
+        position: relative;
+        padding-right: 24px;
+        line-height: 24px;
+        .remove-link{
+            width: 12px;
+            height: 12px;
+            top: 50%;
+            margin-top: -5px;
+            .icon{
+                vertical-align: top;
+            }
+        }
+    }
+}
 .onboard-owners-hold {
     margin-top: 20px;
 }
