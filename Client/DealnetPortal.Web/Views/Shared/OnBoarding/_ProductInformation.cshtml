@@ -11,17 +11,24 @@
     </div>
     <div class="panel-body">
         <div class="row">
+            <div class="col-md-4 col-sm-6">
+                <div class="form-group">
+                    <label for="" class="mandatory-field">@Resources.PrimaryManufacturerBrandSold</label>
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.ProductInfo.PrimaryBrand, new { @class = "form-control dealnet-input" })
+                        @Html.ValidationMessageFor(m => m.ProductInfo.PrimaryBrand, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
             @for (var i = 0; i < Model.ProductInfo.Brands.Count; i++)
             {
                 <div class="col-md-4 col-sm-6">
                     <div class="form-group">
-                        <label for="" class="@(i==0?"mandatory-field":"")">@Resources.PrimaryManufacturerBrandSold #@(i + 1)</label>
+                        <label for="">@Resources.SecondaryManufacturerBrandSold</label>
                         <div class="control-group">
                             @Html.TextBoxFor(m => m.ProductInfo.Brands[i], new { @class = "form-control dealnet-input" })
-                            @if (i == 0)
-                            {
-                                @Html.ValidationMessageFor(m => m.ProductInfo.Brands, "", new { @class = "text-danger" })
-                            }
+                            @Html.ValidationMessageFor(m => m.ProductInfo.Brands[i], "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
@@ -171,7 +178,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.ProductInfo.Relationship, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.EnumDropDownListFor(m => m.ProductInfo.Relationship, new { @class = "form-control", id="relationship" })
+                        @Html.EnumDropDownListFor(m => m.ProductInfo.Relationship, new { @class = "form-control", id = "relationship" })
                     </div>
                 </div>
             </div>
@@ -191,8 +198,7 @@
                     @Html.LabelFor(m => m.ProductInfo.WithCurrentProvider, new { @class = "dealnet-label" })
                     <div class="form-group">
                         <label class="checkbox-toggle">
-                            @*@Html.HiddenFor(m => m.WithCurrentProvider, new { id = "with-current", @class="toggle-language-link" })*@
-                            <input class="toggle-language-link" @if(Model.ProductInfo.WithCurrentProvider) { <text>checked</text> } data-val="true" id="WithCurrentProvider" name="WithCurrentProvider" type="checkbox" value="true" />
+                            <input class="toggle-language-link" @if (Model.ProductInfo.WithCurrentProvider) { <text> checked</text> } data-val="true" id="WithCurrentProvider" name="WithCurrentProvider" type="checkbox" value="true" />
                             <div class="slider"></div>
                             <span class="checkbox-toggle-text text-on">Yes</span>
                             <span class="checkbox-toggle-text text-off">No</span>
@@ -212,7 +218,8 @@
             <div class="col-md-4 hidden-current-provider @(!Model.ProductInfo.WithCurrentProvider ? "hidden" : "")">
                 <div class="form-group">
                     @Html.LabelFor(m => m.ProductInfo.MonthlyFinancedValue, new { @class = "mandatory-field" })
-                    <div class="control-group">
+                    <div class="control-group has-addon-left">
+                        <div class="control-group-addon">$</div>
                         @Html.TextBoxFor(m => m.ProductInfo.MonthlyFinancedValue, new { @class = "form-control dealnet-input" })
                         @Html.ValidationMessageFor(m => m.ProductInfo.MonthlyFinancedValue, "", new { @class = "text-danger" })
                     </div>
@@ -225,8 +232,7 @@
                     @Html.LabelFor(m => m.ProductInfo.OfferMonthlyDeferrals, new { @class = "dealnet-label" })
                     <div class="form-group">
                         <label class="checkbox-toggle">
-                            @*@Html.HiddenFor(m => m.ProductInfo.OfferMonthlyDeferrals, new { id = "offer-deferrals" })*@
-                            <input class="toggle-language-link" @if(Model.ProductInfo.OfferMonthlyDeferrals) { <text>checked</text> } data-val="true" id="OfferMonthlyDeferrals" name="OfferMonthlyDeferrals" type="checkbox" value="true" />
+                            <input class="toggle-language-link" @if (Model.ProductInfo.OfferMonthlyDeferrals) { <text> checked</text> } data-val="true" id="OfferMonthlyDeferrals" name="OfferMonthlyDeferrals" type="checkbox" value="true" />
                             <div class="slider"></div>
                             <span class="checkbox-toggle-text text-on">Yes</span>
                             <span class="checkbox-toggle-text text-off">No</span>
@@ -282,7 +288,9 @@
                     </li>
                 }
             </ul>
-
+        </div>
+        <div class="row">
+            @Html.ValidationMessageFor(m => m.ProductInfo.EquipmentTypes, "", new { @class = "text-danger", id="equipment-error" })
         </div>
         <div class="row">
             <div class="col-md-4 col-sm-6">
@@ -290,7 +298,7 @@
                     @Html.LabelFor(m => m.ProductInfo.ReasonForInterest, new { @class = "mandatory-field" })
                     <div class="control-group">
                         @Html.EnumDropDownListFor(m => m.ProductInfo.ReasonForInterest, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m=>m.ProductInfo.ReasonForInterest, "",new { @class="text-danger"})
+                        @Html.ValidationMessageFor(m => m.ProductInfo.ReasonForInterest, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
@@ -320,7 +328,7 @@
 <script id="manufacturerBrandTemplate" type="text/x-jquery-tmpl">
     <div class="col-md-4 col-sm-6 new-brand-group">
         <div class="form-group">
-            <label for="">@Resources.SecondaryManufacturerBrandSold #<span id="brand-${brandNumber}-display">${brandNumber+1}</span></label>
+            <label for="">@Resources.SecondaryManufacturerBrandSold</label>
             <div class="control-group removable-form-group">
                 <input id="ProductInfo_Brands_${brandNumber}" name="ProductInfo.Brands[${brandNumber}]" type="text" class="form-control dealnet-input" value="">
                 <a href="" class="remove-link remove-brand-link">

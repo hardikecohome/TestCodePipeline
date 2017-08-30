@@ -34,6 +34,7 @@ namespace DealnetPortal.Api.Models.DealerOnboarding
         public decimal? PercentMonthlyDealsDeferred { get; set; }
         public ReasonForInterest? ReasonForInterest { get; set; }
 
+        public string PrimaryBrand { get; set; }
         public virtual List<string> Brands { get; set; }
         public virtual List<EquipmentTypeDTO> ServiceTypes { get; set; }
     }

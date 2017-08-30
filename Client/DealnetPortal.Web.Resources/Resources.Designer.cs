@@ -511,6 +511,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Estimated Annual Sales is in incorrect format.
+        /// </summary>
+        public static string AnnualSalesIncorrectFormat {
+            get {
+                return ResourceManager.GetString("AnnualSalesIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Estimated Annual sales volume.
         /// </summary>
         public static string AnnualSalesVolume {
@@ -678,6 +687,15 @@ namespace DealnetPortal.Web.Resources {
         public static string AverageTransactionSize {
             get {
                 return ResourceManager.GetString("AverageTransactionSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Average Transaction Size is in incorrect format.
+        /// </summary>
+        public static string AverageTransactionSizeIncorrectFormat {
+            get {
+                return ResourceManager.GetString("AverageTransactionSizeIncorrectFormat", resourceCulture);
             }
         }
         
@@ -2203,6 +2221,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Finance Provider is in incorrect format.
+        /// </summary>
+        public static string FinanceProviderIncorrectFormat {
+            get {
+                return ResourceManager.GetString("FinanceProviderIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Finance provider name.
         /// </summary>
         public static string FinanceProviderName {
@@ -3076,6 +3103,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Monthly Financed Value is in incorrect format.
+        /// </summary>
+        public static string MonthlyFinancedValueIncorrectFormat {
+            get {
+                return ResourceManager.GetString("MonthlyFinancedValueIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Monthly Payment.
         /// </summary>
         public static string MonthlyPayment {
@@ -3850,6 +3886,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Primary Brand is in incorrect format.
+        /// </summary>
+        public static string PrimaryBrandIncorrectFormat {
+            get {
+                return ResourceManager.GetString("PrimaryBrandIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Primary manufacturer brand sold.
         /// </summary>
         public static string PrimaryManufacturerBrandSold {
@@ -4345,6 +4390,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Secondary Brand is in incorrect format.
+        /// </summary>
+        public static string SecondaryBrandIncorrectFormat {
+            get {
+                return ResourceManager.GetString("SecondaryBrandIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Secondary manufacturer brand sold.
         /// </summary>
         public static string SecondaryManufacturerBrandSold {
@@ -4377,6 +4431,24 @@ namespace DealnetPortal.Web.Resources {
         public static string SelectCategory {
             get {
                 return ResourceManager.GetString("SelectCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please, select at least one Product.
+        /// </summary>
+        public static string SelectOneProduct {
+            get {
+                return ResourceManager.GetString("SelectOneProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please, select at lease one Province.
+        /// </summary>
+        public static string SelectOneProvince {
+            get {
+                return ResourceManager.GetString("SelectOneProvince", resourceCulture);
             }
         }
         

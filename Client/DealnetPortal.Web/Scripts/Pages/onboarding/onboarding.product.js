@@ -1,5 +1,6 @@
 ﻿module.exports('onboarding.product', function (require) {
     var state = require('onboarding.state').state;
+    var resetForm = require('onboarding.common').resetFormValidation;
 
     function equipmentTemplate(index, id, description) {
         var template = $('#equipment-template').tmpl({ index: index, id: id, description: description });
@@ -21,6 +22,8 @@
         $('#WithCurrentProvider').on('change', toggleCheckGroup('.hidden-current-provider'));
         $('#OfferMonthlyDeferrals').on('change', toggleCheckGroup('.hidden-monthly-deferrals'));
         $('#relationship').on('change', toggleRelationship);
+        $('#offered-equipment').on('change', addEquipment);
+        $('.add-new-brand-link').on('click', addNewBrand);
     };
 
     function initRadio() {
@@ -61,7 +64,7 @@
         $(selector).addClass('hidden').find('input').prop('disabled', true);
     }
 
-    function add() {
+    function addEquipment() {
         var value = this.value;
         var description = $("#offered-equipment :selected").text();
         if (value) {
@@ -78,6 +81,7 @@
             }
             $(this).val('');
         }
+        $('#equipment-error').removeClass('field-validation-error').text('');
     };
 
     function addNewBrand() {
@@ -87,12 +91,22 @@
 
         $el.find('.remove-brand-link').on('click', removeBrand);
 
+        $el.find('input').rules('add', {
+            minLength: 2,
+            maxLength: 50,
+            regex: /^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$/,
+            messages: {
+                minLength: translations.TheFieldMustBeMinimumAndMaximum,
+                maxLength: translations.TheFieldMustBeMinimumAndMaximum,
+                regex: translations.SecondaryBrandIncorrectFormat
+            }
+        });
+
         state.nextBrandNumber++;
         if (state.nextBrandNumber > 2) {
             $('#add-brand-container').hide();
         }
         return false;
-
     }
 
     function removeBrand() {
@@ -106,11 +120,10 @@
 
     function rebuildBrandIndex(index) {
         var group = $($('.new-brand-group')[0]);
-        group.find('#brand-2-display').attr('id', 'brand-1-index').text('2');
         group.find('#Brands_2').attr('id', 'Brands_1').attr('name', 'Brands[1]');
     }
 
-    function remove() {
+    function removeEquipment() {
         var liId = $(this).parent().attr('id');
         var id = $(this).attr('id');
         var value = id.substr(id.indexOf('-') + 1);
@@ -152,12 +165,12 @@
     }
 
     function setRemoveClick(id) {
-        $('#equipment-' + id).on('click', remove);
+        $('#equipment-' + id).on('click', removeEquipment);
     };
 
     return {
         initProducts: init,
-        addProduct: add,
+        addProduct: addEquipment,
         addBrand: addNewBrand
     };
 });

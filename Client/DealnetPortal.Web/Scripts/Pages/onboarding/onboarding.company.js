@@ -22,6 +22,7 @@
             setRemoveClick($this.val());
             state.nextProvinceId++;
         });
+        $('#province-select').on('change', add);
         initGoogleServices('company-street', 'company-city', 'company-province', 'company-postal');
     };
 
@@ -38,6 +39,7 @@
             }
             $(this).val('');
         }
+        $('#work-province-error').removeClass('field-validation-error').text('');
     };
 
     var remove = function () {

@@ -2,15 +2,13 @@
     var company = require('onboarding.company');
     var product = require('onboarding.product');
     var ownerInfo = require('onboarding.owner-info.index');
+    var validateAndSubmit = require('onboarding.form.handlers');
 
     function init() {
         company.initCompany();
-        $('#province-select').on('change', company.addProvince);
         product.initProducts();
-        $('#offered-equipment').on('change', product.addProduct);
-        $('.add-new-brand-link').on('click', product.addBrand);
         ownerInfo.init();
-        $('#province-select').on('change', addProvince);
+        $('#submit').on('click', validateAndSubmit);
     }
 
     return {
