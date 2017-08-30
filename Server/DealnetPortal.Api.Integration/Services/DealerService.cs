@@ -102,11 +102,18 @@ namespace DealnetPortal.Api.Integration.Services
 
         public Tuple<DealerInfoKeyDTO, IList<Alert>> UpdateDealerOnboardingForm(DealerInfoDTO dealerInfo)
         {
+            if (dealerInfo == null)
+            {
+                throw new ArgumentNullException(nameof(dealerInfo));
+            }
+
             var alerts = new List<Alert>();
             DealerInfoKeyDTO resultKey = null;
             try
             {
                 var mappedInfo = Mapper.Map<DealerInfo>(dealerInfo);
+                mappedInfo.ParentSalesRepId = mappedInfo.ParentSalesRepId ??
+                                              _dealerRepository.GetUserIdByOnboardingLink(dealerInfo.SalesRepLink);
                 var updatedInfo = _dealerOnboardingRepository.AddOrUpdateDealerInfo(mappedInfo);
                 _unitOfWork.Save();
                 resultKey = new DealerInfoKeyDTO()
@@ -129,11 +136,18 @@ namespace DealnetPortal.Api.Integration.Services
 
         public async Task<IList<Alert>> SubmitDealerOnboardingForm(DealerInfoDTO dealerInfo)
         {
+            if (dealerInfo == null)
+            {
+                throw new ArgumentNullException(nameof(dealerInfo));
+            }
+
             var alerts = new List<Alert>();
             try
             {
                 //update draft in a database as we should have it with required documents 
                 var mappedInfo = Mapper.Map<DealerInfo>(dealerInfo);
+                mappedInfo.ParentSalesRepId = mappedInfo.ParentSalesRepId ??
+                                              _dealerRepository.GetUserIdByOnboardingLink(dealerInfo.SalesRepLink);
                 var updatedInfo = _dealerOnboardingRepository.AddOrUpdateDealerInfo(mappedInfo);
                 _unitOfWork.Save();
                 //submit form to Aspire

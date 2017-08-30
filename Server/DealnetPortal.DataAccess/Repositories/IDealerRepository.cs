@@ -9,6 +9,8 @@ namespace DealnetPortal.DataAccess.Repositories
 
         string GetUserIdByName(string userName);
 
+        string GetUserIdByOnboardingLink(string link);
+
         IList<string> GetUserRoles(string dealerId);
 
         string GetDealerNameByCustomerLinkId(int customerLinkId);

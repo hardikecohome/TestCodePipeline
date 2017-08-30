@@ -189,7 +189,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.CompanyInfo, d => d.MapFrom(src => src.CompanyInfo))
                 .ForMember(x => x.ProductInfo, d => d.MapFrom(src => src.ProductInfo))
                 .ForMember(x => x.Owners, d => d.MapFrom(src => src.Owners))
-                .ForMember(x => x.RequiredDocuments, d => d.MapFrom(src => src.RequiredDocuments));
+                .ForMember(x => x.RequiredDocuments, d => d.MapFrom(src => src.RequiredDocuments))
+                .ForMember(x => x.SalesRepLink, d => d.Ignore());
         }
 
         private static void MapAspireDomainsToModels(IMapperConfigurationExpression mapperConfig)
@@ -472,8 +473,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.ProductInfo, d => d.MapFrom(src => src.ProductInfo))
                 .ForMember(x => x.Owners, d => d.MapFrom(src => src.Owners))
                 .ForMember(x => x.RequiredDocuments, d => d.MapFrom(src => src.RequiredDocuments))
-                .ForMember(x => x.ParentSalesRep, d => d.Ignore())
-                .ForMember(x => x.ParentSalesRepId, d => d.Ignore());
+                .ForMember(x => x.ParentSalesRep, d => d.Ignore());
         }
     }
 }
