@@ -590,8 +590,13 @@
 .onboard-modal {
     .modal-dialog {
         width: 800px;
+
         @media @tablet-down {
-            width:  728px;
+            width: 728px;
+        }
+
+        @media @mobile {
+            width: 300px;
         }
     }
 
@@ -651,13 +656,26 @@
         }
 
         .email-sent-success {
-            font-size:18px;
+            font-size: 18px;
+
             .icon.icon-success {
                 height: 40px;
-                width:43px;
+                width: 43px;
+
+                @media @mobile {
+                    display: block;
+                    margin: auto;
+                }
             }
+
             span {
-                margin-left:15px;
+                margin-left: 15px;
+
+                @media @mobile {
+                    display: block;
+                    margin: auto;
+                    width: 35%;
+                }
             }
         }
     }
