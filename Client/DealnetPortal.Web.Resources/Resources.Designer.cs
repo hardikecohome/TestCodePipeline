@@ -1213,6 +1213,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Comments.
         /// </summary>
         public static string Comments {
@@ -1407,6 +1416,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Copy {
             get {
                 return ResourceManager.GetString("Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please copy the link below and save to resume your application later..
+        /// </summary>
+        public static string CopyLinkResumeLater {
+            get {
+                return ResourceManager.GetString("CopyLinkResumeLater", resourceCulture);
             }
         }
         
@@ -2838,6 +2856,15 @@ namespace DealnetPortal.Web.Resources {
         public static string LegalNameIncorrectFormat {
             get {
                 return ResourceManager.GetString("LegalNameIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Link.
+        /// </summary>
+        public static string Link {
+            get {
+                return ResourceManager.GetString("Link", resourceCulture);
             }
         }
         
@@ -4489,6 +4516,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Send me link.
+        /// </summary>
+        public static string SendMeLink {
+            get {
+                return ResourceManager.GetString("SendMeLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Send to Audit.
         /// </summary>
         public static string SendToAudit {
@@ -5191,6 +5227,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Want us to email you this link? Enter your email below and click “Send me link”..
+        /// </summary>
+        public static string WantToSendLink {
+            get {
+                return ResourceManager.GetString("WantToSendLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Website.
         /// </summary>
         public static string Website {
@@ -5259,6 +5304,15 @@ namespace DealnetPortal.Web.Resources {
         public static string WishToReceiveEmailsAndMessages {
             get {
                 return ResourceManager.GetString("WishToReceiveEmailsAndMessages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Without the link, the data you have entered cannot be retrieved and you will have to start filling out your application at the beginning..
+        /// </summary>
+        public static string WithoutLinkDataLost {
+            get {
+                return ResourceManager.GetString("WithoutLinkDataLost", resourceCulture);
             }
         }
         

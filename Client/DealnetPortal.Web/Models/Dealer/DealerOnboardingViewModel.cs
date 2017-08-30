@@ -13,6 +13,10 @@ namespace DealnetPortal.Web.Models.Dealer
             ProductInfo = new ProductInfoViewModel();
         }
 
+        public int Id { get; set; }
+
+        public string AccessKey { get; set; }
+
         public DealerOnboardingDictionariesViewModel DictionariesData { get; set; }
 
         public string DealerHash { get; set; }
