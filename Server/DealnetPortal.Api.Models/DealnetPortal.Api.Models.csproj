@@ -84,6 +84,7 @@
     <Compile Include="CustomerWallet\RegisterCustomerBindingModel.cs" />
     <Compile Include="DealerOnboarding\CompanyInfoDTO.cs" />
     <Compile Include="DealerOnboarding\DealerInfoDTO.cs" />
+    <Compile Include="DealerOnboarding\DealerInfoKeyDTO.cs" />
     <Compile Include="DealerOnboarding\OwnerInfoDTO.cs" />
     <Compile Include="DealerOnboarding\ProductInfoDTO.cs" />
     <Compile Include="DealerOnboarding\RequiredDocumentDTO.cs" />

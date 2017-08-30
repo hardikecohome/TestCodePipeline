@@ -1,12 +1,14 @@
 ﻿module.exports('onboarding.index', function (require) {
+    var company = require('onboarding.company');
+    var product = require('onboarding.product');
     var ownerInfo = require('onboarding.owner-info.index');
-    var initCompany = require('onboarding.company').initCompany;
-    var addProvince = require('onboarding.company').addProvince;
+    var validateAndSubmit = require('onboarding.form.handlers');
 
     function init() {
+        company.initCompany();
+        product.initProducts();
         ownerInfo.init();
-        initCompany();
-        $('#province-select').on('change', addProvince);
+        $('#submit').on('click', validateAndSubmit);
     }
 
     return {

@@ -10,7 +10,13 @@
                 }
             },
             'nextOwnerIndex': 1
-
+        },
+        'aknowledgment': {
+            'owners': {
+                'owner0': {
+                    
+                }
+            }
         },
         selectedProvinces: [],
         nextProvinceId: 0

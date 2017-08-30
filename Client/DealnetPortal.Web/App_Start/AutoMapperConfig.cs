@@ -526,6 +526,12 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.IsAllInfoCompleted, d => d.Ignore())
                 .ForMember(x => x.IsApplicantsInfoEditAvailable, d => d.Ignore());
 
+            cfg.CreateMap<ProductInfoDTO, ProductInfoViewModel>();
+
+            cfg.CreateMap<CompanyInfoDTO, CompanyInfoViewModel>();
+
+            cfg.CreateMap<OwnerInfoDTO, OwnerViewModel>();
+
             cfg.CreateMap<DealerInfoDTO, DealerOnboardingViewModel>();
         }
     }

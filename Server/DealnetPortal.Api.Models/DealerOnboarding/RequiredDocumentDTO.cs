@@ -11,5 +11,7 @@ namespace DealnetPortal.Api.Models.DealerOnboarding
     {
         public int Id { get; set; }
         public int DocumentTypeId { get; set; }
+
+        public int? DealerInfoId { get; set; }
     }
 }

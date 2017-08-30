@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration.Dealer;
+using DealnetPortal.Api.Models.Contract;
 
 namespace DealnetPortal.Api.Models.DealerOnboarding
 {
@@ -12,8 +13,13 @@ namespace DealnetPortal.Api.Models.DealerOnboarding
         public int Id { get; set; }
         public decimal? AnnualSalesVolume { get; set; }
         public decimal? AverageTransactionSize { get; set; }
-        public Channel? SalesApproach { get; set; }
+        
         public ProgramServices? ProgramService { get; set; }
+
+        public bool? SalesApproachConsumerDirect { get; set; }
+        public bool? SalesApproachBroker { get; set; }
+        public bool? SalesApproachDistributor { get; set; }
+        public bool? SalesApproachDoorToDoor { get; set; }
 
         public bool? LeadGenReferrals { get; set; }
         public bool? LeadGenLocalAdvertising { get; set; }
@@ -28,7 +34,8 @@ namespace DealnetPortal.Api.Models.DealerOnboarding
         public decimal? PercentMonthlyDealsDeferred { get; set; }
         public ReasonForInterest? ReasonForInterest { get; set; }
 
+        public string PrimaryBrand { get; set; }
         public virtual List<string> Brands { get; set; }
-        public virtual List<string> ServiceTypes { get; set; }
+        public virtual List<EquipmentTypeDTO> ServiceTypes { get; set; }
     }
 }

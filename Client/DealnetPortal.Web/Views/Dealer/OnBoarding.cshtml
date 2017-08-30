@@ -28,13 +28,13 @@
         <div class="onboard-steps" id="onboard-accordion">
             @Html.Partial("OnBoarding/_CompanyInformation", Model)
             @Html.Partial("OnBoarding/_OwnerInformation", Model)
-            @Html.Partial("OnBoarding/_ProductInformation", Model.ProductInfo)
+            @Html.Partial("OnBoarding/_ProductInformation", Model)
             @Html.Partial("OnBoarding/_RequiredDocuments")
             @Html.Partial("OnBoarding/_ClientConsent")
             @Html.Partial("OnBoarding/_Acknowledgment", Model)
         </div>
         <div class="clearfix">
-            <button type="submit" class="btn dealnet-success-button btn-proceed disabled btn-form-common" id="submit">@Resources.SubmitApplication</button>
+            <button type="submit" class="btn dealnet-success-button btn-proceed btn-form-common" id="submit">@Resources.SubmitApplication</button>
         </div>
     }
 </div>

@@ -7,7 +7,11 @@
         $.extend(state['aknowledgment']['owners'], newOwnerState);
 
         var template = document.getElementById('aknowledgment-owner-template').innerHTML;
-        var nextOwnerIndex = state['owner-info']['nextOwnerIndex'];
+
+        var $result = $.parseHTML(template);
+
+        $result.find('')
+
     }
 
     var removeFromAknowledgment = function(ownerNumber) {

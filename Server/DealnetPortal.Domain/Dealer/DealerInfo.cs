@@ -27,7 +27,7 @@ namespace DealnetPortal.Domain.Dealer
         /// <summary>
         /// Link to a draft for continue editing
         /// </summary>
-        public string AccessCode { get; set; }
+        public string AccessKey { get; set; }
 
         public string TransactionId { get; set; }
         public string AccountId { get; set; }

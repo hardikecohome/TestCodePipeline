@@ -17,6 +17,7 @@ using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Integration.Utility;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.Profile;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Utilities.Logging;
@@ -67,29 +68,35 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("GetDealerOnboardingForm")]
-        [HttpGet]
-        public IHttpActionResult GetDealerOnboardingForm()
-        {
-            try
-            {
-                //var dealerOnboardingForm = _dealerService.GetDealerOnboardingForm(LoggedInUser.UserId);
-                //return Ok(dealerOnboardingForm);               
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                LoggingService.LogError($"Failed to get profile for the Dealer {LoggedInUser.UserId}", ex);
-                return InternalServerError(ex);
-            }
-        }
-
         [Route("UpdateDealerOnboardingInfo")]
         [HttpPost]
         [AllowAnonymous]
-        public IHttpActionResult UpdateDealerOnboardingInfo()
+        public IHttpActionResult UpdateDealerOnboardingInfo(DealerInfoDTO dealerInfo)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = _dealerService.UpdateDealerOnboardingForm(dealerInfo);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }            
+        }
+
+        [Route("AddDocumentToDealerOnboarding")]
+        [HttpPut]
+        public IHttpActionResult AddDocumentToDealerOnboarding(RequiredDocumentDTO document)
+        {
+            try
+            {
+                var result = _dealerService.AddDocumentToOnboardingForm(document);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
 
         [Route("GetDealerOnboardingInfo")]
@@ -97,15 +104,33 @@ namespace DealnetPortal.Api.Controllers
         [AllowAnonymous]
         public IHttpActionResult GetDealerOnboardingInfo(int dealerInfoId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var dealerForm = _dealerService.GetDealerOnboardingForm(dealerInfoId);
+                return Ok(dealerForm);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError($"Failed to get dealer onboarding form with Id {dealerInfoId}", ex);
+                return InternalServerError(ex);
+            }
         }
 
         [Route("GetDealerOnboardingInfo")]
         [HttpGet]
         [AllowAnonymous]
-        public IHttpActionResult GetDealerOnboardingInfo(string code)
+        public IHttpActionResult GetDealerOnboardingInfo(string accessKey)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var dealerForm = _dealerService.GetDealerOnboardingForm(accessKey);
+                return Ok(dealerForm);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError($"Failed to get dealer onboarding form with access key {accessKey}", ex);
+                return InternalServerError(ex);
+            }
         }
     }
 }

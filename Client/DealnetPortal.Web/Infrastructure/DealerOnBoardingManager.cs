@@ -21,12 +21,12 @@ namespace DealnetPortal.Web.Infrastructure
             _dealerServiceAgent = dealerServiceAgent;
         }
 
-        public async Task<DealerOnboardingViewModel> GetDealerOnBoardingFormAsynch()
+        public async Task<DealerOnboardingViewModel> GetDealerOnBoardingFormAsynch(string accessKey)
         {
             DealerInfoDTO onboardingForm;
             DealerOnboardingViewModel model;
-            onboardingForm = await _dealerServiceAgent.GetDealerOnBoardingForm();
-            model = AutoMapper.Mapper.Map<DealerOnboardingViewModel>(onboardingForm) ?? new DealerOnboardingViewModel();
+            onboardingForm = await _dealerServiceAgent.GetDealerOnboardingForm(accessKey);
+            model = new DealerOnboardingViewModel();// AutoMapper.Mapper.Map<DealerOnboardingViewModel>(onboardingForm) ?? new DealerOnboardingViewModel();
             model.DictionariesData = new DealerOnboardingDictionariesViewModel
             {
                 ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1,

@@ -22,6 +22,7 @@
             setRemoveClick($this.val());
             state.nextProvinceId++;
         });
+        $('#province-select').on('change', add);
         initGoogleServices('company-street', 'company-city', 'company-province', 'company-postal');
     };
 
@@ -32,12 +33,13 @@
                 state.selectedProvinces.push(value);
 
                 $('#province-list').append(provinceTemplate(state.nextProvinceId, value));
-                setRemoveClick(state.nextProvinceId);
+                setRemoveClick(value);
 
                 state.nextProvinceId++;
             }
             $(this).val('');
         }
+        $('#work-province-error').removeClass('field-validation-error').text('');
     };
 
     var remove = function () {

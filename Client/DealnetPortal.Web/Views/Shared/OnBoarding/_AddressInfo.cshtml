@@ -3,7 +3,7 @@
 
 @{
 
-    var provinces = ViewBag.ProvinceTaxRates as IList<ProvinceTaxRateDTO>;
+    var provinces = ViewContext.ParentActionViewContext.ViewBag.ProvinceTaxRates as IList<ProvinceTaxRateDTO>;
 }
 
 <h4 class="heading-bordered">Address</h4>

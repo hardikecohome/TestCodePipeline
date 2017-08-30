@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using DealnetPortal.Aspire.Integration.Models;
 using DealnetPortal.DataAccess.Repositories;
+using DealnetPortal.Domain;
 using DealnetPortal.Domain.Dealer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Address = DealnetPortal.Domain.Dealer.Address;
 
 namespace DealnetPortal.Api.Tests.Repositories
 {
