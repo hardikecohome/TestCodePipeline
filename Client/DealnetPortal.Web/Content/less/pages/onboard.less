@@ -409,7 +409,9 @@
 }
 
 .onboard-license-item {
-    .flex-display;
+    @media @tablet-up {
+        .flex-display;
+    }
     padding: 15px 20px;
     border-bottom: 1px solid #ededed;
     font-size: 12px;
@@ -419,7 +421,9 @@
             display: block;
         }
         .action-holder{
-            .align-items(flex-start);
+            @media @tablet-up {
+                .align-items(flex-start);
+            }
         }
     }
 
@@ -434,7 +438,9 @@
 
     .document-label {
         position: relative;
-        .flex(1 1 100%);
+        @media @tablet-up {
+            .flex(1 1 100%);
+        }
         margin: 0;
         padding-left: 25px;
 
@@ -455,10 +461,16 @@
     }
 
     .action-holder {
-        .flex(1 1 auto);
+        @media @tablet-up {
+            .flex(1 1 auto);
+            .flex-display;
+            .align-items(center);
+        }
         padding-left: 20px;
-        .flex-display;
-        .align-items(center);
+        @media @mobile {
+            margin-top: 10px;
+            text-align: right;
+        }
 
         .dealnet-link-button {
             padding: 0;
@@ -608,4 +620,17 @@
 
 .owner-notify-label {
     color: #61c53c;
+}
+
+.onboard-standart-license{
+    hr{
+        margin-top: 15px;
+        border-color: #ededed;
+        @media @mobile {
+            margin-top: 0;
+        }
+    }
+}
+.onboard-standart-license-title{
+    font-size: 16px;
 }
