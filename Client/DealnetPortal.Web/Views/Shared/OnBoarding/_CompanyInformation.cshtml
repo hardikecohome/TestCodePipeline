@@ -169,7 +169,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="dealnet-label">&nbsp;</div>
+                <div class="dealnet-label hidden-xs">&nbsp;</div>
                 <ul id="province-list" class="customer-needs-list tags-list">
                     @for (var i = 0; i < Model.CompanyInfo.Provinces.Count; i++)
                     {
@@ -186,12 +186,16 @@
                 @Html.ValidationMessageFor(m => m.CompanyInfo.Provinces, "", new { @class = "text-danger", id="work-province-error" })
             </div>
         </div>
-        <a class="save-and-resume pull-right dealnet-info-link">
-            <svg aria-hidden="true" class="icon icon-save">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-save")"></use>
-            </svg>
-            <span>@Resources.SaveAndResumeLater</span>
-        </a>
+        <div class="save-and-resume-hold">
+            <a class="save-and-resume dealnet-info-link">
+            <span class="icon-hold">
+                <svg aria-hidden="true" class="icon icon-save">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-save")"></use>
+                </svg>
+            </span>
+                <span>@Resources.SaveAndResumeLater</span>
+            </a>
+        </div>
     </div>
 </div>
 

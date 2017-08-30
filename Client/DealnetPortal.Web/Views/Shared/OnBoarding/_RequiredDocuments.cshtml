@@ -9,10 +9,10 @@
         <div class="onboard-required-documents">
             <div class="onboard-uploaded-license">
                 <div class="onboard-license-item uploaded-document">
+                    <span class="checkbox-icon">
+                        <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
+                    </span>
                     <div class="align-middle document-label">
-                        <span class="checkbox-icon">
-                            <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
-                        </span>
                         <h4 class="onboard-license-heading">Business void cheque  — Account to receive Ecohome funding</h4>
                         <div class="placeholder-text">Please upload file in format PDF, Word, PNG, JPG</div>
                         <ul class="uploaded-docs-list">
@@ -65,116 +65,122 @@
             <div class="onboard-standart-license">
                 <h4 class="onboard-required-documents-heading text-center">Provincial Safety Standard Licensing</h4>
                 <hr>
-                <div class="row">
-                    <div class="col-xs-12 col-md-4">
-                        <div class="form-group">
-                            <div class="dealnet-label hidden-sm hidden-xs">&nbsp;</div>
-                            <div class="onboard-standart-license-title">Apprenticeship Manitoba</div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-4">
-                       <div class="form-group">
-                           <label for="" class="mandatory-field">Registration Number</label>
-                           <div class="control-group">
-                               <input type="text" value="1234567891234567" class="form-control">
-                           </div>
-                       </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-3 col-md-2">
-                        <div class="form-group">
-                            <label for="" class="mandatory-field">Expiry Date</label>
-                            <div class="control-group date-group">
-                                <input type="text" class="form-control dealnet-input control-disabled" disabled>
+                <div class="onboard-standart-doc-item">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-4">
+                            <div class="form-group">
+                                <div class="dealnet-label hidden-sm hidden-xs">&nbsp;</div>
+                                <div class="onboard-standart-license-title">Apprenticeship Manitoba</div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-3 col-md-2">
-                        <div class="form-group">
-                            <div class="dealnet-label hidden-xs">&nbsp;</div>
-                            <div class="control-group flex-centered-text">
-                                <label class="align-middle custom-checkbox">
-                                    <input type="checkbox" class="dealnet-checkbox" checked/>
+                        <div class="col-xs-12 col-sm-6 col-md-4">
+                            <div class="form-group">
+                                <label for="" class="mandatory-field">Registration Number</label>
+                                <div class="control-group">
+                                    <input type="text" value="1234567891234567" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 col-md-2">
+                            <div class="form-group">
+                                <label for="" class="mandatory-field">Expiry Date</label>
+                                <div class="control-group date-group">
+                                    <input type="text" class="form-control dealnet-input control-disabled" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 col-md-2">
+                            <div class="form-group">
+                                <div class="dealnet-label hidden-xs">&nbsp;</div>
+                                <div class="control-group flex-centered-text">
+                                    <label class="align-middle custom-checkbox">
+                                        <input type="checkbox" class="dealnet-checkbox" checked/>
                                     <span class="checkbox-icon">
                                         <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                                     </span>
-                                    <span>No expiry</span>
-                                </label>
+                                        <span>No expiry</span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <hr>
-                <div class="row">
-                    <div class="col-xs-12 col-md-4">
-                        <div class="form-group">
-                            <div class="dealnet-label hidden-sm hidden-xs">&nbsp;</div>
-                            <div class="onboard-standart-license-title">Ontario Colleges of Trades</div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-4">
-                       <div class="form-group">
-                           <label for="" class="mandatory-field">Registration Number</label>
-                           <div class="control-group">
-                               <input type="text" value="1234567891234567" class="form-control">
-                           </div>
-                       </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-3 col-md-2">
-                        <div class="form-group">
-                            <label for="" class="mandatory-field">Expiry Date</label>
-                            <div class="control-group date-group">
-                                <input type="text" class="form-control dealnet-input">
+                <div class="onboard-standart-doc-item">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-4">
+                            <div class="form-group">
+                                <div class="dealnet-label hidden-sm hidden-xs">&nbsp;</div>
+                                <div class="onboard-standart-license-title">Ontario Colleges of Trades</div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-3 col-md-2">
-                        <div class="form-group">
-                            <div class="dealnet-label hidden-xs">&nbsp;</div>
-                            <div class="control-group flex-centered-text">
-                                <label class="align-middle custom-checkbox">
-                                    <input type="checkbox" class="dealnet-checkbox"/>
-                                <span class="checkbox-icon">
-                                    <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                                    <span>No expiry</span>
-                                </label>
+                        <div class="col-xs-12 col-sm-6 col-md-4">
+                           <div class="form-group">
+                               <label for="" class="mandatory-field">Registration Number</label>
+                               <div class="control-group">
+                                   <input type="text" value="1234567891234567" class="form-control">
+                               </div>
+                           </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 col-md-2">
+                            <div class="form-group">
+                                <label for="" class="mandatory-field">Expiry Date</label>
+                                <div class="control-group date-group">
+                                    <input type="text" class="form-control dealnet-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 col-md-2">
+                            <div class="form-group">
+                                <div class="dealnet-label hidden-xs">&nbsp;</div>
+                                <div class="control-group flex-centered-text">
+                                    <label class="align-middle custom-checkbox">
+                                        <input type="checkbox" class="dealnet-checkbox"/>
+                                    <span class="checkbox-icon">
+                                        <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                                        <span>No expiry</span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <hr>
-                <div class="row">
-                    <div class="col-xs-12 col-md-4">
-                        <div class="form-group">
-                            <div class="dealnet-label hidden-sm hidden-xs">&nbsp;</div>
-                            <div class="onboard-standart-license-title">Emploi-Quebec</div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-4">
-                       <div class="form-group">
-                           <label for="" class="mandatory-field">Registration Number</label>
-                           <div class="control-group">
-                               <input type="text" value="1234567891234567" class="form-control">
-                           </div>
-                       </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-3 col-md-2">
-                        <div class="form-group">
-                            <label for="" class="mandatory-field">Expiry Date</label>
-                            <div class="control-group date-group">
-                                <input type="text" class="form-control dealnet-input">
+                <div class="onboard-standart-doc-item">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-4">
+                            <div class="form-group">
+                                <div class="dealnet-label hidden-sm hidden-xs">&nbsp;</div>
+                                <div class="onboard-standart-license-title">Emploi-Quebec</div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-3 col-md-2">
-                        <div class="form-group">
-                            <div class="dealnet-label hidden-xs">&nbsp;</div>
-                            <div class="control-group flex-centered-text">
-                                <label class="align-middle custom-checkbox">
-                                    <input type="checkbox" class="dealnet-checkbox"/>
-                                <span class="checkbox-icon">
-                                    <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                                    <span>No expiry</span>
-                                </label>
+                        <div class="col-xs-12 col-sm-6 col-md-4">
+                           <div class="form-group">
+                               <label for="" class="mandatory-field">Registration Number</label>
+                               <div class="control-group">
+                                   <input type="text" value="1234567891234567" class="form-control">
+                               </div>
+                           </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 col-md-2">
+                            <div class="form-group">
+                                <label for="" class="mandatory-field">Expiry Date</label>
+                                <div class="control-group date-group">
+                                    <input type="text" class="form-control dealnet-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 col-md-2">
+                            <div class="form-group">
+                                <div class="dealnet-label hidden-xs">&nbsp;</div>
+                                <div class="control-group flex-centered-text">
+                                    <label class="align-middle custom-checkbox">
+                                        <input type="checkbox" class="dealnet-checkbox"/>
+                                    <span class="checkbox-icon">
+                                        <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                                        <span>No expiry</span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -182,12 +188,15 @@
                 <hr>
             </div>
         </div>
-        <a class="save-and-resume pull-right dealnet-info-link">
-            <svg aria-hidden="true" class="icon icon-save">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-save")"></use>
-            </svg>
-            <span>@Resources.SaveAndResumeLater</span>
-        </a>
-
+        <div class="save-and-resume-hold">
+            <a class="save-and-resume dealnet-info-link">
+            <span class="icon-hold">
+                <svg aria-hidden="true" class="icon icon-save">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-save")"></use>
+                </svg>
+            </span>
+                <span>@Resources.SaveAndResumeLater</span>
+            </a>
+        </div>
     </div>
 </div>

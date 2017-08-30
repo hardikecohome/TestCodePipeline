@@ -327,21 +327,23 @@
 }
 
 .onboard-required-documents {
+    padding-top: 20px;
     .placeholder-text {
         font-size: 12px;
     }
 }
 .onboard-license-heading{
-    margin: 0;
+    margin: 0 0 5px;
     font-size: 16px;
     color: #000;
     font-weight: 400;
     &+.placeholder-text{
-        margin-top: 10px;
+        margin-top: 12px;
+        line-height: 24px;
     }
 }
 .onboard-required-documents-heading {
-    margin: 30px 0;
+    margin: 54px 0 37px;
     font-size: 18px;
     color: #000;
     font-weight: 400;
@@ -420,10 +422,20 @@
     @media @tablet-up {
         .flex-display;
     }
-    padding: 15px 20px;
+    @media @tablet-only {
+        margin: 0 -25px 0 -30px;
+    }
+    @media @mobile {
+        margin: 0 -15px 0 -15px;
+        padding-left: 38px;
+        padding-right: 26px;
+
+    }
+    position: relative;
+    padding: 13px 31px 13px 41px;
     border-bottom: 1px solid #ededed;
     font-size: 12px;
-
+    line-height: 20px;
     &.uploaded-document {
         .document-label .checkbox-icon {
             display: block;
@@ -439,9 +451,20 @@
         border-top: 1px solid #ededed;
     }
 
-    @media @mobile {
-        padding-left: 15px;
-        padding-right: 15px;
+    .checkbox-icon{
+        position: absolute;
+        left: 7px;
+        top: 16px;
+        width: 17px;
+        height: 17px;
+        @media @tablet-down {
+            left: 12px;
+        }
+        svg{
+            width: 100%;
+            height: 100%;
+            vertical-align: top;
+        }
     }
 
     .document-label {
@@ -450,7 +473,6 @@
             .flex(1 1 100%);
         }
         margin: 0;
-        padding-left: 25px;
 
         .checkbox-icon {
             display: none;
@@ -492,13 +514,16 @@
 
 .uploaded-docs-list{
     .list-unstyled;
+    margin-top: 15px;
     li{
-        margin: 10px 0;
+       &+li{
+           margin-top: 16px;
+       }
     }
     .uploaded-docs-title{
         display: inline-block;
         position: relative;
-        padding-right: 24px;
+        padding-right: 34px;
         line-height: 24px;
         .remove-link{
             width: 12px;
@@ -591,13 +616,30 @@
         line-height: 1.39;
     }
 }
-
+.save-and-resume-hold{
+    text-align: right;
+    @media @mobile {
+        margin: 10px 0;
+        text-align: center;
+    }
+}
 .save-and-resume {
+    position: relative;
+    display: inline-block;
+    padding: 0 5px 0 37px;
     color: #38aaee;
     font-size: 16px;
+    line-height: 28px;
+
     &:hover{
         text-decoration:none;
         cursor:pointer;
+    }
+    .icon-hold{
+        vertical-align: top;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
     .icon-save + span {
         margin-left: 15px;
@@ -632,10 +674,13 @@
 
 .onboard-standart-license{
     hr{
-        margin-top: 15px;
+        margin: 15px 0 23px;
         border-color: #ededed;
+        @media @tablet-only {
+            margin: 15px -25px 23px -30px;
+        }
         @media @mobile {
-            margin-top: 0;
+            margin: 15px -15px 23px -15px;
         }
     }
     label.custom-checkbox{
@@ -644,4 +689,8 @@
 }
 .onboard-standart-license-title{
     font-size: 16px;
+}
+
+.onboard-standart-doc-item{
+    padding: 0 10px;
 }
