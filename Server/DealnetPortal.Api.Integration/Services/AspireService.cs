@@ -18,9 +18,11 @@ using DealnetPortal.Aspire.Integration.ServiceAgents;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
+using DealnetPortal.Domain.Dealer;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
 using Microsoft.Practices.ObjectBuilder2;
+using Address = DealnetPortal.Aspire.Integration.Models.Address;
 using Application = DealnetPortal.Aspire.Integration.Models.Application;
 
 namespace DealnetPortal.Api.Integration.Services
@@ -31,6 +33,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IAspireStorageReader _aspireStorageReader;
         private readonly ILoggingService _loggingService;
         private readonly IContractRepository _contractRepository;
+        private readonly IDealerOnboardingRepository _dealerOnboardingRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAppConfiguration _configuration;
         private readonly TimeSpan _aspireRequestTimeout;
@@ -39,11 +42,13 @@ namespace DealnetPortal.Api.Integration.Services
         private const string CodeSuccess = "T000";
 
         public AspireService(IAspireServiceAgent aspireServiceAgent, IContractRepository contractRepository, 
+            IDealerOnboardingRepository dealerOnboardingRepository,
             IUnitOfWork unitOfWork, IAspireStorageReader aspireStorageReader, ILoggingService loggingService, IAppConfiguration configuration)
         {
             _aspireServiceAgent = aspireServiceAgent;
             _aspireStorageReader = aspireStorageReader;
             _contractRepository = contractRepository;
+            _dealerOnboardingRepository = dealerOnboardingRepository;
             _loggingService = loggingService;
             _unitOfWork = unitOfWork;
             _configuration = configuration;
@@ -667,6 +672,93 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
+        public async Task<IList<Alert>> SubmitDealerOnboarding(int dealerInfoId)
+        {
+            var alerts = new List<Alert>();
+
+            var dealerInfo = _dealerOnboardingRepository.GetDealerInfoById(dealerInfoId);
+
+            if (dealerInfo != null)
+            {
+                CustomerRequest request = new CustomerRequest();
+
+                var userResult = GetAspireUser(dealerInfo.ParentSalesRepId);
+                if (userResult.Item2.Any())
+                {
+                    alerts.AddRange(userResult.Item2);
+                }
+                if (alerts.All(a => a.Type != AlertType.Error))
+                {
+                    request.Header = userResult.Item1;
+                    request.Payload = new Payload
+                    {
+                        Lease = new Lease()
+                        {
+                            Application = new Application()
+                            {
+                                TransactionId = dealerInfo.TransactionId
+                            },
+                            //Accounts = GetCustomersInfo(contract)
+                        }
+                    };
+
+                    try
+                    {
+                        Task timeoutTask = Task.Delay(_aspireRequestTimeout);
+                        var aspireRequestTask = _aspireServiceAgent.CustomerUploadSubmission(request);
+                        DecisionCustomerResponse response = null;
+
+                        if (await Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false) == aspireRequestTask)
+                        {
+                            response = await aspireRequestTask.ConfigureAwait(false);
+                        }
+                        else
+                        {
+                            throw new TimeoutException("External system operation has timed out.");
+                        }
+
+                        var rAlerts = AnalyzeDealerUploadResponse(response, dealerInfo);
+                        if (rAlerts.Any())
+                        {
+                            alerts.AddRange(rAlerts);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Code = ErrorCodes.AspireConnectionFailed,
+                            Header = ErrorConstants.AspireConnectionFailed,
+                            Type = AlertType.Error,
+                            Message = ex.ToString()
+                        });
+                        _loggingService.LogError("Failed to communicate with Aspire", ex);
+                    }
+                }
+            }
+            else
+            {
+                alerts.Add(new Alert()
+                {
+                    Code = ErrorCodes.CantGetContractFromDb,
+                    Header = "Can't get dealer onboarding info",
+                    Message = $"Can't get dealer onboarding info with id {dealerInfoId}",
+                    Type = AlertType.Error
+                });
+                _loggingService.LogError($"Can't get dealer onboarding info with id {dealerInfoId}");
+            }
+
+            alerts.Where(a => a.Type == AlertType.Error).ForEach(a =>
+                _loggingService.LogError($"Aspire issue: {a.Header} {a.Message}"));
+
+            if (alerts.All(a => a.Type != AlertType.Error))
+            {
+                _loggingService.LogInfo($"Dealer onboarding info [{dealerInfoId}] submitted to Aspire successfully with transaction Id [{dealerInfo?.TransactionId}], account Id [{dealerInfo?.AccountId}]");
+            }
+
+            return alerts;
+        }
+
         public async Task<IList<Alert>> LoginUser(string userName, string password)
         {
             var alerts = new List<Alert>();
@@ -1038,6 +1130,43 @@ namespace DealnetPortal.Api.Integration.Services
                 }
             }      
 
+            return alerts;
+        }
+
+
+        private IList<Alert> AnalyzeDealerUploadResponse(DealUploadResponse response, DealerInfo dealerInfo)
+        {
+            var alerts = new List<Alert>();
+
+            if (response?.Header == null || response.Header.Code != CodeSuccess ||
+                !string.IsNullOrEmpty(response.Header.ErrorMsg))
+            {
+                alerts.Add(new Alert()
+                {
+                    Header = response.Header.Status,
+                    Message = response.Header.Message ?? response.Header.ErrorMsg,
+                    Type = AlertType.Error
+                });
+            }
+            else
+            {
+                if (response.Payload != null)
+                {
+                    if (!string.IsNullOrEmpty(response.Payload.TransactionId))
+                    {
+                        dealerInfo.TransactionId = response.Payload?.TransactionId;
+                        _unitOfWork.Save();
+                        _loggingService.LogInfo($"Aspire transaction Id [{response.Payload?.TransactionId}] created for dealer onboarding form");
+                    }
+                    var aspireAccount = response.Payload.Accounts?.FirstOrDefault();
+                    if (aspireAccount != null)
+                    {
+                        dealerInfo.AccountId = aspireAccount.Id;
+                        _unitOfWork.Save();
+                        _loggingService.LogInfo($"Aspire account Id [{aspireAccount.Id}] created for dealer onboarding form");
+                    }                    
+                }
+            }
             return alerts;
         }
 
