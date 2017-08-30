@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -10,6 +11,6 @@ namespace DealnetPortal.Web.Infrastructure
 {
     public interface IDealerOnBoardingManager
     {
-        Task<DealerOnboardingViewModel> GetDealerOnBoardingFormAsynch();
+        Task<DealerOnboardingViewModel> GetDealerOnBoardingFormAsynch(string accessKey);
     }
 }

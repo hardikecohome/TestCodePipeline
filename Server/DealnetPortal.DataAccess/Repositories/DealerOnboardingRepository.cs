@@ -21,29 +21,30 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.DealerInfos.Find(id);
         }
 
-        public DealerInfo GetDealerInfoByAccessCode(string accessCode)
+        public DealerInfo GetDealerInfoByAccessKey(string accessKey)
         {
-            return _dbContext.DealerInfos.FirstOrDefault(di => di.AccessCode == accessCode);
+            return _dbContext.DealerInfos.FirstOrDefault(di => di.AccessKey == accessKey);
         }
 
-        public DealerInfo AddOrUpdateDealerInfo(DealerInfo dealerInfo, string accessCode = null)
+        public DealerInfo AddOrUpdateDealerInfo(DealerInfo dealerInfo)
         {
             DealerInfo dbDealer = null;
 
-            if (!string.IsNullOrEmpty(accessCode))
-            {
-                dbDealer = GetDealerInfoByAccessCode(accessCode);
-            }
-            if (dbDealer == null && dealerInfo.Id != 0)
+            if (dealerInfo.Id != 0)
             {
                 dbDealer = GetDealerInfoById(dealerInfo.Id);
             }
+            if (dbDealer != null && !string.IsNullOrEmpty(dealerInfo.AccessKey))
+            {
+                dbDealer = GetDealerInfoByAccessKey(dealerInfo.AccessKey);
+            }
+            
             if (dbDealer == null)
             {
                 //add new
                 dealerInfo.CreationTime = DateTime.Now;
                 dealerInfo.LastUpdateTime = DateTime.Now;
-                dealerInfo.AccessCode = GenerateDealerAccessCode();
+                dealerInfo.AccessKey = GenerateDealerAccessCode();
                 dbDealer = _dbContext.DealerInfos.Add(dealerInfo);
             }
             else
@@ -73,7 +74,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public RequiredDocument AddDocumentToDealer(string accessCode, RequiredDocument document)
         {
-            var dealerInfo = string.IsNullOrEmpty(accessCode) ? GetDealerInfoByAccessCode(accessCode) : CreateDealerInfo();
+            var dealerInfo = string.IsNullOrEmpty(accessCode) ? GetDealerInfoByAccessKey(accessCode) : CreateDealerInfo();
             return AddRequiredDocument(dealerInfo, document);
         }
 
@@ -85,7 +86,7 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 CreationTime = DateTime.Now,
                 LastUpdateTime = DateTime.Now,
-                AccessCode = GenerateDealerAccessCode()
+                AccessKey = GenerateDealerAccessCode()
             };
             _dbContext.DealerInfos.Add(dealerInfo);
             return dealerInfo;
@@ -136,9 +137,9 @@ namespace DealnetPortal.DataAccess.Repositories
 
         private void UpdateBaseDealerInfo(DealerInfo dbDealerInfo, DealerInfo updateDealerInfo)
         {
-            if (dbDealerInfo.AccessCode != updateDealerInfo.AccessCode)
+            if (dbDealerInfo.AccessKey != updateDealerInfo.AccessKey)
             {
-                dbDealerInfo.AccessCode = updateDealerInfo.AccessCode;
+                dbDealerInfo.AccessKey = updateDealerInfo.AccessKey;
             }            
         }
 
@@ -270,6 +271,24 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     dbProductInfo.OemName = updateProductInfo.OemName;
                 }
+
+                if (dbProductInfo.SalesApproachConsumerDirect != updateProductInfo.SalesApproachConsumerDirect)
+                {
+                    dbProductInfo.SalesApproachConsumerDirect = updateProductInfo.SalesApproachConsumerDirect;
+                }
+                if (dbProductInfo.SalesApproachBroker != updateProductInfo.SalesApproachBroker)
+                {
+                    dbProductInfo.SalesApproachBroker = updateProductInfo.SalesApproachBroker;
+                }
+                if (dbProductInfo.SalesApproachDistributor != updateProductInfo.SalesApproachDistributor)
+                {
+                    dbProductInfo.SalesApproachDistributor = updateProductInfo.SalesApproachDistributor;
+                }
+                if (dbProductInfo.SalesApproachDoorToDoor != updateProductInfo.SalesApproachDoorToDoor)
+                {
+                    dbProductInfo.SalesApproachDoorToDoor = updateProductInfo.SalesApproachDoorToDoor;
+                }
+
                 if (dbProductInfo.LeadGenLocalAdvertising != updateProductInfo.LeadGenLocalAdvertising)
                 {
                     dbProductInfo.LeadGenLocalAdvertising = updateProductInfo.LeadGenLocalAdvertising;
@@ -306,10 +325,6 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     dbProductInfo.WithCurrentProvider = updateProductInfo.WithCurrentProvider;
                 }
-                if (dbProductInfo.SalesApproach != updateProductInfo.SalesApproach)
-                {
-                    dbProductInfo.SalesApproach = updateProductInfo.SalesApproach;
-                }
 
                 UpdateProductBrands(dbProductInfo, updateProductInfo.Brands);
                 UpdateProductServices(dbProductInfo, updateProductInfo.Services);
@@ -336,7 +351,7 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             var existingEntities =
                 dbProductInfo.Services.Where(
-                    p => updatedServices?.Any(up => up.EquipmentId == p.EquipmentId) ?? false).ToList();
+                    p => updatedServices?.Any(up => up.EquipmentId == p.EquipmentId || up.Equipment?.Type == p.Equipment?.Type) ?? false).ToList();
             var entriesForDelete = dbProductInfo.Services.Except(existingEntities).ToList();
             entriesForDelete.ForEach(e => _dbContext.Entry(e).State = EntityState.Deleted);
 

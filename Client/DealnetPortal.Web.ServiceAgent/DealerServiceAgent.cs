@@ -51,12 +51,12 @@ namespace DealnetPortal.Web.ServiceAgent
                 throw;
             }
         }
-
-        public async Task<DealerInfoDTO> GetDealerOnBoardingForm()
+        
+        public async Task<DealerInfoDTO> GetDealerOnboardingForm(string accessKey)
         {
             try
             {
-                return await Client.GetAsyncEx<DealerInfoDTO>($"{_fullUri}/GetDealerOnboardingForm", AuthenticationHeader, CurrentCulture);
+                return await Client.GetAsyncEx<DealerInfoDTO>($"{_fullUri}/GetDealerOnboardingForm?accessKey={accessKey}", null, CurrentCulture);
             }
             catch (Exception ex)
             {
@@ -64,6 +64,49 @@ namespace DealnetPortal.Web.ServiceAgent
 
             }
             return null;
+        }
+        public async Task<DealerInfoDTO> GetDealerOnboardingForm(int id)
+        {
+            try
+            {
+                return await Client.GetAsyncEx<DealerInfoDTO>($"{_fullUri}/GetDealerOnboardingForm?dealerInfoId={id}", null, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get dealer's onboarding form", ex);
+            }
+            return null;
+        }
+        public async Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> UpdateDealerOnboardingForm(DealerInfoDTO dealerInfo)
+        {
+            try
+            {
+                return
+                    await
+                        Client.PostAsyncEx<DealerInfoDTO, Tuple<DealerInfoKeyDTO, IList<Alert>>>(
+                            $"{_fullUri}/UpdateDealerOnboardingInfo", dealerInfo, null, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't update dealer onboarding info for an user", ex);
+                throw;
+            }
+        }
+        public async Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> AddDocumentToOnboardingForm(
+            RequiredDocumentDTO document)
+        {
+            try
+            {
+                return
+                    await
+                        Client.PutAsyncEx<RequiredDocumentDTO, Tuple<DealerInfoKeyDTO, IList<Alert>>>(
+                            $"{_fullUri}/AddDocumentToDealerOnboarding", document, null, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't add document to dealer onboarding", ex);
+                throw;
+            }
         }
     }
 }

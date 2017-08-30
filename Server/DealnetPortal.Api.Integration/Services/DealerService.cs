@@ -13,6 +13,7 @@ using DealnetPortal.Api.Models.Profile;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
+using DealnetPortal.Domain.Dealer;
 using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.Api.Integration.Services
@@ -20,14 +21,16 @@ namespace DealnetPortal.Api.Integration.Services
     public class DealerService : IDealerService
     {
         private readonly IDealerRepository _dealerRepository;
+        private readonly IDealerOnboardingRepository _dealerOnboardingRepository;
         private readonly IContractRepository _contractRepository;
         private readonly ILoggingService _loggingService;
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public DealerService(IDealerRepository dealerRepository, ILoggingService loggingService, IUnitOfWork unitOfWork, IContractRepository contractRepository)
+        public DealerService(IDealerRepository dealerRepository, IDealerOnboardingRepository dealerOnboardingRepository, ILoggingService loggingService, IUnitOfWork unitOfWork, IContractRepository contractRepository)
         {
             _dealerRepository = dealerRepository;
+            _dealerOnboardingRepository = dealerOnboardingRepository;
             _loggingService = loggingService;
             _unitOfWork = unitOfWork;
             _contractRepository = contractRepository;
@@ -80,9 +83,73 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public DealerInfoDTO GetDealerOnboardingForm(string userId)
+        public DealerInfoDTO GetDealerOnboardingForm(string accessKey)
         {
-            return null;
+            var dealerInfo = _dealerOnboardingRepository.GetDealerInfoByAccessKey(accessKey);
+            var mappedInfo = Mapper.Map<DealerInfoDTO>(dealerInfo);
+            return mappedInfo;
+        }
+
+        public DealerInfoDTO GetDealerOnboardingForm(int id)
+        {
+            var dealerInfo = _dealerOnboardingRepository.GetDealerInfoById(id);
+            var mappedInfo = Mapper.Map<DealerInfoDTO>(dealerInfo);
+            return mappedInfo;
+        }
+
+        public Tuple<DealerInfoKeyDTO, IList<Alert>> UpdateDealerOnboardingForm(DealerInfoDTO dealerInfo)
+        {
+            var alerts = new List<Alert>();
+            DealerInfoKeyDTO resultKey = null;
+            try
+            {
+                var mappedInfo = Mapper.Map<DealerInfo>(dealerInfo);
+                var updatedInfo = _dealerOnboardingRepository.AddOrUpdateDealerInfo(mappedInfo);
+                _unitOfWork.Save();
+                resultKey = new DealerInfoKeyDTO()
+                {
+                    AccessKey = updatedInfo.AccessKey,
+                    DealerInfoId = updatedInfo.Id
+                };
+            }
+            catch (Exception ex)
+            {
+                alerts.Add(new Alert()
+                {
+                    Header = "Cannot update dealer onboarding info",
+                    Type = AlertType.Error,
+                    Message = ex.ToString()
+                });                
+            }
+            return new Tuple<DealerInfoKeyDTO, IList<Alert>>(resultKey, alerts);
+        }
+
+        public Tuple<DealerInfoKeyDTO, IList<Alert>> AddDocumentToOnboardingForm(RequiredDocumentDTO document)
+        {
+            var alerts = new List<Alert>();
+            DealerInfoKeyDTO resultKey = null;
+            try
+            {
+                var mappedDoc = Mapper.Map<RequiredDocument>(document);
+                var updatedDoc = _dealerOnboardingRepository.AddDocumentToDealer(mappedDoc.Id, mappedDoc);
+                _unitOfWork.Save();
+                resultKey = new DealerInfoKeyDTO()
+                {
+                    AccessKey = updatedDoc.DealerInfo?.AccessKey,
+                    DealerInfoId = updatedDoc.DealerInfo?.Id ?? 0,
+                    ItemId = updatedDoc.Id
+                };
+            }
+            catch (Exception ex)
+            {
+                alerts.Add(new Alert()
+                {
+                    Header = "Cannot add document to a dealer onboarding info",
+                    Type = AlertType.Error,
+                    Message = ex.ToString()
+                });
+            }
+            return new Tuple<DealerInfoKeyDTO, IList<Alert>>(resultKey, alerts);
         }
     }
 

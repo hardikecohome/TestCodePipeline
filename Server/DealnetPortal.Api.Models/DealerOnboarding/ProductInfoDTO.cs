@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration.Dealer;
+using DealnetPortal.Api.Models.Contract;
 
 namespace DealnetPortal.Api.Models.DealerOnboarding
 {
@@ -35,6 +36,6 @@ namespace DealnetPortal.Api.Models.DealerOnboarding
 
         public string PrimaryBrand { get; set; }
         public virtual List<string> Brands { get; set; }
-        public virtual List<string> ServiceTypes { get; set; }
+        public virtual List<EquipmentTypeDTO> ServiceTypes { get; set; }
     }
 }

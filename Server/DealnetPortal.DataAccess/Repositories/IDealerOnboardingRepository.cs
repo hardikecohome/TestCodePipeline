@@ -10,9 +10,9 @@ namespace DealnetPortal.DataAccess.Repositories
     public interface IDealerOnboardingRepository
     {
         DealerInfo GetDealerInfoById(int id);
-        DealerInfo GetDealerInfoByAccessCode(string accessCode);
+        DealerInfo GetDealerInfoByAccessKey(string accessKey);
 
-        DealerInfo AddOrUpdateDealerInfo(DealerInfo dealerInfo, string accessCode = null);
+        DealerInfo AddOrUpdateDealerInfo(DealerInfo dealerInfo);
         bool DeleteDealerInfo(int dealerInfoId);
         bool DeleteDealerInfo(string accessCode);
 
