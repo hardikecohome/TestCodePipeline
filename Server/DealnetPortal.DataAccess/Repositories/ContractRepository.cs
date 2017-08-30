@@ -638,7 +638,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         var loanCalculatorInput = new LoanCalculator.Input
                         {
-                            TaxRate = rate.Rate,
+                            TaxRate = 0, //rate.Rate,
                             LoanTerm = contract.Equipment.LoanTerm ?? 0,
                             AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
                             EquipmentCashPrice = (double?) contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,

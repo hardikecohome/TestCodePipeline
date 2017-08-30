@@ -120,26 +120,33 @@ function manageAgreementElements(agreementType) {
 }
 
 function addNewEquipment() {
-    var nextNumber = Number(sessionStorage.newEquipmets) + 1;
-    var newDiv = document.createElement('div');
-    newDiv.className = 'new-equipment-wrap';
-    newDiv.innerHTML = sessionStorage.newEquipmetTemplate.split("NewEquipment[0]").join("NewEquipment[" + sessionStorage.newEquipmets + "]")
-        .split("NewEquipment_0").join("NewEquipment_" + sessionStorage.newEquipmets).split("estimated-installation-date-0").join("estimated-installation-date-" + sessionStorage.newEquipmets)
-        .replace("removeNewEquipment(0)", "removeNewEquipment(" + sessionStorage.newEquipmets + ")")
-        .replace("new-equipment-remove-0", "new-equipment-remove-" + sessionStorage.newEquipmets)
-        .replace("№1", "№" + (nextNumber));
-    //console.log(newDiv.innerHTML);
-    newDiv.id = "new-equipment-" + sessionStorage.newEquipmets;
-    document.getElementById('new-equipments').appendChild(newDiv);
-    assignDatepicker.call($("#estimated-installation-date-" + sessionStorage.newEquipmets));
-    resetFormValidator("#equipment-form");
-    manageAgreementElements($("#agreement-type").find(":selected").val());
-    customizeSelect();
-    sessionStorage.newEquipmets = nextNumber;
-    resetPlacehoder($(newDiv).find('textarea, input'));
+	if (Number(sessionStorage.newEquipmets) < 3) {
+		//To map new contract check if new equipment is less than 3
+		var nextNumber = Number(sessionStorage.newEquipmets) + 1;
+		var newDiv = document.createElement('div');
+		newDiv.className = 'new-equipment-wrap';
+		newDiv.innerHTML = sessionStorage.newEquipmetTemplate.split("NewEquipment[0]").join("NewEquipment[" + sessionStorage.newEquipmets + "]")
+			.split("NewEquipment_0").join("NewEquipment_" + sessionStorage.newEquipmets).split("estimated-installation-date-0").join("estimated-installation-date-" + sessionStorage.newEquipmets)
+			.replace("removeNewEquipment(0)", "removeNewEquipment(" + sessionStorage.newEquipmets + ")")
+			.replace("new-equipment-remove-0", "new-equipment-remove-" + sessionStorage.newEquipmets)
+			.replace("№1", "№" + (nextNumber));
+		//console.log(newDiv.innerHTML);
+		newDiv.id = "new-equipment-" + sessionStorage.newEquipmets;
+		document.getElementById('new-equipments').appendChild(newDiv);
+		assignDatepicker.call($("#estimated-installation-date-" + sessionStorage.newEquipmets));
+		resetFormValidator("#equipment-form");
+		manageAgreementElements($("#agreement-type").find(":selected").val());
+		customizeSelect();
+		sessionStorage.newEquipmets = nextNumber;
+		resetPlacehoder($(newDiv).find('textarea, input'));
 
-    addIconsToFields();
-    toggleClearInputIcon();
+		addIconsToFields();
+		toggleClearInputIcon();
+		if (nextNumber == 3) {
+			//To map new contract max equipment allowed = 3
+			$('.add-equip-link').addClass("hidden");
+		}
+	}
 }
 
 function addExistingEquipment() {
@@ -189,7 +196,9 @@ function removeNewEquipment(id) {
         nextEquipment.attr('id', 'new-equipment-' + (nextNumber - 1));
         resetFormValidator("#equipment-form");
     }
-    sessionStorage.newEquipmets = Number(sessionStorage.newEquipmets) - 1;
+	sessionStorage.newEquipmets = Number(sessionStorage.newEquipmets) - 1;
+	//Allow 3 new equipments to map new contract
+	$('.add-equip-link').removeClass("hidden");
 }
 
 function removeExistingEquipment(id) {

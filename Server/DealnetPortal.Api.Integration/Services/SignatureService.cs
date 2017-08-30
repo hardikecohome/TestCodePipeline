@@ -1250,8 +1250,24 @@ namespace DealnetPortal.Api.Integration.Services
                         });
                     }
                 }
-                // support old contracts with EstimatedInstallationDate in Equipment
-                if (contract.Equipment.EstimatedInstallationDate.HasValue ||
+                for (int i = 0; i < newEquipments.Count; i++)
+                {
+                
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = $"{PdfFormFields.EquipmentQuantity}_{i}",
+                        Value = "1"
+                    });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = $"{PdfFormFields.EquipmentDescription}_{i}",
+                        Value = newEquipments.ElementAt(i).Description
+                    });
+                }
+                    // support old contracts with EstimatedInstallationDate in Equipment
+                    if (contract.Equipment.EstimatedInstallationDate.HasValue ||
                     ((contract.Equipment.NewEquipment?.First()?.EstimatedInstallationDate.HasValue) ?? false))
                 {
                     formFields.Add(new FormField()

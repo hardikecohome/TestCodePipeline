@@ -1150,6 +1150,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cost (including all taxes).
+        /// </summary>
+        public static string CostWithTaxes {
+            get {
+                return ResourceManager.GetString("CostWithTaxes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create another application for this borrower.
         /// </summary>
         public static string CreateAnotherApplicationForThis {
@@ -1348,6 +1357,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dealer Invoice Amount.
+        /// </summary>
+        public static string DealerInvoiceAmount {
+            get {
+                return ResourceManager.GetString("DealerInvoiceAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dealer Name.
         /// </summary>
         public static string DealerName {
@@ -1488,6 +1506,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Description {
             get {
                 return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description (including make and model).
+        /// </summary>
+        public static string DescriptionWithMakeModel {
+            get {
+                return ResourceManager.GetString("DescriptionWithMakeModel", resourceCulture);
             }
         }
         

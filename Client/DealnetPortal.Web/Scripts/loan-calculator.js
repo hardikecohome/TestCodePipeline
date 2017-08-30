@@ -18,7 +18,9 @@
     //
     var equipmentCashPrice = parseFloat($("#equipment-cash-price").text());
     if (isNaN(equipmentCashPrice) || equipmentCashPrice <= 0) { return; }
-    var hst = taxRate / 100 * equipmentCashPrice;
+	var hst = 0;
+	//Matt's request to map new contract
+	//var hst = taxRate / 100 * equipmentCashPrice;
     hstLabel.text(formatNumber(hst));
     var totalCashPrice = equipmentCashPrice + hst;
     totalCashPriceLabel.text(formatNumber(totalCashPrice));

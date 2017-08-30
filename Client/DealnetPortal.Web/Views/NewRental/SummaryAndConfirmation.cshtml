@@ -806,10 +806,10 @@
                 <div class="col-md-6 grid-column">
                     <div class="dealnet-credit-check-section">
                         <div class="row form-group">
-                            <div class="col-xs-8 col-sm-9">@Resources.CashPriceOfEquipment</div>
+                            <div class="col-xs-8 col-sm-9">@Resources.DealerInvoiceAmount</div>@*to map new contract*@
                             <div class="col-xs-4 col-sm-3 text-right text-semibold">$ <span id="equipment-cash-price">-</span></div>
                         </div>
-                        <div class="row form-group">
+                        <div class="row form-group hidden">@*To map new contract*@
                             <div class="col-xs-8 col-sm-9"><span id="tax-label">@(Model.ProvinceTaxRate?.Description ?? @Resources.Tax)</span></div>
                             <div class="col-xs-4 col-sm-3 text-right text-semibold">$ <span id="hst">-</span></div>
                         </div>

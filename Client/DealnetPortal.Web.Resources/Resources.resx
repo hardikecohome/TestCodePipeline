@@ -1562,4 +1562,13 @@
   <data name="PrivacyPolicy" xml:space="preserve">
     <value>Privacy policy</value>
   </data>
+  <data name="CostWithTaxes" xml:space="preserve">
+    <value>Cost (including all taxes)</value>
+  </data>
+  <data name="DescriptionWithMakeModel" xml:space="preserve">
+    <value>Description (including make and model)</value>
+  </data>
+  <data name="DealerInvoiceAmount" xml:space="preserve">
+    <value>Dealer Invoice Amount</value>
+  </data>
 </root>
