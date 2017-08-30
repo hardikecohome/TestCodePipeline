@@ -195,6 +195,14 @@
             }
         }
     }
+
+    .control-disabled{
+        background-color: #fff;
+        opacity: 0.4;
+        & + .icon-calendar{
+            opacity: 0.4;
+        }
+    }
 }
 
 .checkbox-form-group {
@@ -629,6 +637,9 @@
         @media @mobile {
             margin-top: 0;
         }
+    }
+    label.custom-checkbox{
+        margin-bottom: 0;
     }
 }
 .onboard-standart-license-title{
