@@ -6,12 +6,9 @@
 
         $.extend(state['aknowledgment']['owners'], newOwnerState);
 
-        var template = document.getElementById('aknowledgment-owner-template').innerHTML;
-
-        var $result = $.parseHTML(template);
-
-        $result.find('')
-
+        $('#aknowledgmentTemplate')
+            .tmpl({ 'owner': ownerNumber })
+            .appendTo('#onboard-owners-hold');
     }
 
     var removeFromAknowledgment = function(ownerNumber) {
