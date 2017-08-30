@@ -14,15 +14,15 @@ namespace DealnetPortal.Domain
 
         public int ProvinceId { get; set; }
         [ForeignKey("ProvinceId")]
-        public ProvinceTaxRate Province { get; set; }
+        public virtual ProvinceTaxRate Province { get; set; }
 
         public int EquipmentTypeId { get; set; }
         [ForeignKey("EquipmentTypeId")]
-        public EquipmentType Equipment { get; set; }
+        public virtual EquipmentType Equipment { get; set; }
 
         public int LicenseId { get; set; }
         [ForeignKey("LicenseId")]
-        public LicenseType License { get; set; }
+        public virtual LicenseType License { get; set; }
 
     }
 }
