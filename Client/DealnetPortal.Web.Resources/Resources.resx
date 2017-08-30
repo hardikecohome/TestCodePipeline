@@ -1904,4 +1904,22 @@
   <data name="SecondaryManufacturerBrandSold" xml:space="preserve">
     <value>Secondary manufacturer brand sold</value>
   </data>
+  <data name="AnnualSalesIncorrectFormat" xml:space="preserve">
+    <value>Estimated Annual Sales is in incorrect format</value>
+  </data>
+  <data name="AverageTransactionSizeIncorrectFormat" xml:space="preserve">
+    <value>Average Transaction Size is in incorrect format</value>
+  </data>
+  <data name="FinanceProviderIncorrectFormat" xml:space="preserve">
+    <value>Finance Provider is in incorrect format</value>
+  </data>
+  <data name="MonthlyFinancedValueIncorrectFormat" xml:space="preserve">
+    <value>Monthly Financed Value is in incorrect format</value>
+  </data>
+  <data name="PrimaryBrandIncorrectFormat" xml:space="preserve">
+    <value>Primary Brand is in incorrect format</value>
+  </data>
+  <data name="SelectOneProduct" xml:space="preserve">
+    <value>Please, select at least one Product</value>
+  </data>
 </root>

@@ -1,10 +1,6 @@
 ﻿@using DealnetPortal.Api.Models.Contract
 @model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
 
-@{
-    var provinces = ViewBag.ProvinceTaxRates as IList<ProvinceTaxRateDTO>;
-}
-
 <div class="panel customer-loan-form-panel active-panel">
     <div class="panel-heading">
         <span class="panel-step">1</span>
@@ -187,6 +183,7 @@
                     </li>
                     }
                 </ul>
+                @Html.ValidationMessageFor(m => m.CompanyInfo.Provinces, "", new { @class = "text-danger", id="work-porvince-error" })
             </div>
         </div>
         <a class="save-and-resume pull-right">
