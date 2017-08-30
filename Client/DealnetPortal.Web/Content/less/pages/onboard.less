@@ -84,6 +84,10 @@
     .panel {
         .panel-body {
             padding: 10px 25px 15px 30px;
+            @media @desktop-up {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
 
             @media @mobile {
                 padding: 10px 15px 15px 15px;
@@ -420,9 +424,11 @@
 
 .onboard-uploaded-license {
     margin: 0 0 20px;
+    padding: 0 10px;
 }
 
 .onboard-license-item {
+
     @media @tablet-up {
         .flex-display;
     }
@@ -436,7 +442,7 @@
 
     }
     position: relative;
-    padding: 13px 31px 13px 41px;
+    padding: 13px 25px 13px 41px;
     border-bottom: 1px solid #ededed;
     font-size: 12px;
     line-height: 20px;
@@ -696,7 +702,7 @@
 }
 
 .onboard-standart-doc-item{
-    padding: 0 10px;
+    padding: 0 20px;
 }
 .onboard-modal {
     .modal-dialog {
