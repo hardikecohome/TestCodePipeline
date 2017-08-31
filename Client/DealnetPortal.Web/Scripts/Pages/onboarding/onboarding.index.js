@@ -3,16 +3,20 @@
     var product = require('onboarding.product');
     var ownerInfo = require('onboarding.owner-info.index');
     var consent = require('onboarding.consent.index');
+    var aknowledgement = require('onboarding.ackonwledgment.index');
     var validateAndSubmit = require('onboarding.form.handlers');
 
-    function init() {
+    function init(model) {
         company.initCompany();
         product.initProducts();
-        ownerInfo.init();
+        aknowledgement.init(model !== undefined ? model.Owners : []);
+        ownerInfo.init(model !== undefined ? model.Owners : []);
         consent.init();
 
         $('#submit').on('click', validateAndSubmit);
     }
+
+    window.init = init;
 
     return {
         init: init

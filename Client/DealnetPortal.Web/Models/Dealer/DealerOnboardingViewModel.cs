@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Web.Infrastructure;
+using ResidenceType = DealnetPortal.Web.Models.Enumeration.ResidenceType;
 
 namespace DealnetPortal.Web.Models.Dealer
 {
@@ -30,6 +32,4 @@ namespace DealnetPortal.Web.Models.Dealer
 
         public ProductInfoViewModel ProductInfo { get; set; }
     }
-
-    
 }

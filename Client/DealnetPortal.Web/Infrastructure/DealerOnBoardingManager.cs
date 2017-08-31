@@ -21,7 +21,7 @@ namespace DealnetPortal.Web.Infrastructure
             _dealerServiceAgent = dealerServiceAgent;
         }
 
-        public async Task<DealerOnboardingViewModel> GetDealerOnBoardingFormAsynch(string accessKey)
+        public async Task<DealerOnboardingViewModel> GetDealerOnBoardingFormAsync(string accessKey)
         {
             DealerInfoDTO onboardingForm;
             DealerOnboardingViewModel model;
@@ -32,7 +32,7 @@ namespace DealnetPortal.Web.Infrastructure
                 ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1,
                 EquipmentTypes = (await _dictionaryServiceAgent.GetAllEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList()
             };
-            
+           
             return model;
         }
     }

@@ -23,7 +23,10 @@
             state.nextProvinceId++;
         });
         $('#province-select').on('change', add);
-        initGoogleServices('company-street', 'company-city', 'company-province', 'company-postal');
+
+        if (typeof google === 'object' && typeof google.maps === 'object') {
+            initGoogleServices('company-street', 'company-city', 'company-province', 'company-postal');
+        }
     };
 
     var add = function () {

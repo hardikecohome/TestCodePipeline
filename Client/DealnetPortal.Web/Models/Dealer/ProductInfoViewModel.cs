@@ -42,11 +42,11 @@ namespace DealnetPortal.Web.Models.Dealer
         public bool LeadGenTradeShows { get; set; }
 
         [CustomRequired]
-        [Display(ResourceType = typeof(Resources.Resources), Name = "ProgramServiceRequired")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "PreferredFinancingProductsRequired")]
         public ProgramServices? ProgramService { get; set; }
 
         [CustomRequired]
-        [Display(ResourceType = typeof(Resources.Resources), Name = "RelationshipStructure")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "RelationshipTo")]
         public RelationshipStructure Relationship { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "OEMName")]
@@ -76,6 +76,7 @@ namespace DealnetPortal.Web.Models.Dealer
         public List<EquipmentTypeDTO> EquipmentTypes { get; set; }
 
         [CustomRequired]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "ReasonForInterestWithEcohome")]
         public ReasonForInterest ReasonForInterest { get; set; }
     }
 }

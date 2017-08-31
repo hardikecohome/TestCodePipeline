@@ -1949,4 +1949,31 @@
   <data name="WithoutLinkDataLost" xml:space="preserve">
     <value>Without the link, the data you have entered cannot be retrieved and you will have to start filling out your application at the beginning.</value>
   </data>
+  <data name="MobilePhoneIncorrectFormat" xml:space="preserve">
+    <value>Mobile Phone is in incorrect format</value>
+  </data>
+  <data name="MobilePhoneMustBeLong" xml:space="preserve">
+    <value>The field Mobile Phone must be a string with a length of 10</value>
+  </data>
+  <data name="PreferredFinancingProductsRequired" xml:space="preserve">
+    <value>Preferred financing products required</value>
+  </data>
+  <data name="ReasonForInterest" xml:space="preserve">
+    <value>Reason For Interest</value>
+  </data>
+  <data name="ReasonForInterestWithEcohome" xml:space="preserve">
+    <value>Reason for interest with Ecohome</value>
+  </data>
+  <data name="RelationshipTo" xml:space="preserve">
+    <value>Relationship to</value>
+  </data>
+  <data name="AdditionalOwnerInformation" xml:space="preserve">
+    <value>Additional owner information</value>
+  </data>
+  <data name="OwnershipPercentage" xml:space="preserve">
+    <value>Ownership included in this application must be 50% or greater</value>
+  </data>
+  <data name="OwnershipSubmit" xml:space="preserve">
+    <value>In order to submit application you need to add additional owner</value>
+  </data>
 </root>

@@ -19,7 +19,7 @@ namespace DealnetPortal.Web.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -309,6 +309,15 @@ namespace DealnetPortal.Web.Resources {
         public static string AdditionalIsOwnerOfProperty {
             get {
                 return ResourceManager.GetString("AdditionalIsOwnerOfProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Additional owner information.
+        /// </summary>
+        public static string AdditionalOwnerInformation {
+            get {
+                return ResourceManager.GetString("AdditionalOwnerInformation", resourceCulture);
             }
         }
         
@@ -3085,6 +3094,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mobile Phone is in incorrect format.
+        /// </summary>
+        public static string MobilePhoneIncorrectFormat {
+            get {
+                return ResourceManager.GetString("MobilePhoneIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The field Mobile Phone must be a string with a length of 10.
+        /// </summary>
+        public static string MobilePhoneMustBeLong {
+            get {
+                return ResourceManager.GetString("MobilePhoneMustBeLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Model.
         /// </summary>
         public static string Model {
@@ -3598,6 +3625,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ownership included in this application must be 50% or greater.
+        /// </summary>
+        public static string OwnershipPercentage {
+            get {
+                return ResourceManager.GetString("OwnershipPercentage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In order to submit application you need to add additional owner.
+        /// </summary>
+        public static string OwnershipSubmit {
+            get {
+                return ResourceManager.GetString("OwnershipSubmit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PAP.
         /// </summary>
         public static string PapCapital {
@@ -3886,6 +3931,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Preferred financing products required.
+        /// </summary>
+        public static string PreferredFinancingProductsRequired {
+            get {
+                return ResourceManager.GetString("PreferredFinancingProductsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Preferred Withdrawal Date.
         /// </summary>
         public static string PrefferedWithdrawalDateIncorrectFormat {
@@ -4102,6 +4156,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reason For Interest.
+        /// </summary>
+        public static string ReasonForInterest {
+            get {
+                return ResourceManager.GetString("ReasonForInterest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reason for interest with Ecohome.
+        /// </summary>
+        public static string ReasonForInterestWithEcohome {
+            get {
+                return ResourceManager.GetString("ReasonForInterestWithEcohome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Referrals.
         /// </summary>
         public static string Referrals {
@@ -4134,6 +4206,15 @@ namespace DealnetPortal.Web.Resources {
         public static string RelationshipStructure {
             get {
                 return ResourceManager.GetString("RelationshipStructure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relationship to.
+        /// </summary>
+        public static string RelationshipTo {
+            get {
+                return ResourceManager.GetString("RelationshipTo", resourceCulture);
             }
         }
         
