@@ -33,9 +33,9 @@ namespace DealnetPortal.Web.Models.Dealer
         [Display(ResourceType = typeof(Resources.Resources), Name = "HomePhone")]
         public string HomePhone { get; set; }
 
-        [StringLength(10, MinimumLength = 10, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "CellPhoneMustBeLong")]
-        [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "CellPhoneIncorrectFormat")]
-        [Display(ResourceType = typeof(Resources.Resources), Name = "CellPhone")]
+        [StringLength(10, MinimumLength = 10, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "MobilePhoneMustBeLong")]
+        [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "MobilePhoneIncorrectFormat")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "MobilePhone")]
         public string CellPhone { get; set; }
 
         [StringLength(256, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]

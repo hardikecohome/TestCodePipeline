@@ -18,8 +18,7 @@ namespace DealnetPortal.Web.Models.Dealer
         [StringLength(50, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "PrimaryBrandIncorrectFormat")]
         public string PrimaryBrand { get; set; }
-
-        [MinMaxListCount(0, 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "BrandsLength")]
+        
         public List<string> Brands { get; set; }
 
         [CustomRequired]
@@ -42,11 +41,11 @@ namespace DealnetPortal.Web.Models.Dealer
         public bool LeadGenTradeShows { get; set; }
 
         [CustomRequired]
-        [Display(ResourceType = typeof(Resources.Resources), Name = "ProgramServiceRequired")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "PreferredFinancingProductsRequired")]
         public ProgramServices? ProgramService { get; set; }
 
         [CustomRequired]
-        [Display(ResourceType = typeof(Resources.Resources), Name = "RelationshipStructure")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "RelationshipTo")]
         public RelationshipStructure Relationship { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "OEMName")]
@@ -72,10 +71,10 @@ namespace DealnetPortal.Web.Models.Dealer
         public int? PercentMonthlyDealsDeferred { get; set; }
 
         [CustomRequired]
-        [MinMaxListCount(1, int.MaxValue, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "EquipmentTypeLength")]
         public List<EquipmentTypeDTO> EquipmentTypes { get; set; }
 
         [CustomRequired]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "ReasonForInterestWithEcohome")]
         public ReasonForInterest ReasonForInterest { get; set; }
     }
 }

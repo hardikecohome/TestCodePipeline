@@ -27,9 +27,13 @@
             <a href="mailto: @System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]">@System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]</a>
         </div>
     </div>
-    
-    @using (Html.BeginForm("OnBoarding", "Dealer", null, FormMethod.Post, new {id = "onboard-form", onkeydown = "return event.keyCode!=13"}))
+
+    @using (Html.BeginForm("OnBoarding", "Dealer", null, FormMethod.Post, new { id = "onboard-form", onkeydown = "return event.keyCode!=13" }))
     {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.AccessKey)
+        @Html.HiddenFor(m => m.OnBoardingLink)
         <div class="onboard-steps" id="onboard-accordion">
             @Html.Partial("OnBoarding/_CompanyInformation", Model)
             @Html.Partial("OnBoarding/_OwnerInformation", Model)

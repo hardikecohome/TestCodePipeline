@@ -149,7 +149,9 @@
         <h4 class="heading-bordered">@Resources.Details</h4>
         <div class="row">
             <div class="col-md-4">
+                <div class="form-group">
                 @Html.LabelFor(m => m.ProductInfo.ProgramService, new { @class = "mandatory-field" })
+                </div>
                 <div class="form-group">
                     <label for="" class="align-middle custom-radio">
                         @Html.RadioButtonFor(m => m.ProductInfo.ProgramService, ProgramServices.Loan, new { @class = "program-service", @checked = Model.ProductInfo.ProgramService == ProgramServices.Loan ? "checked" : "" })
