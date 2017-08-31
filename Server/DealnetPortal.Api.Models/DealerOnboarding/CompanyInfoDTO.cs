@@ -13,6 +13,9 @@ namespace DealnetPortal.Api.Models.DealerOnboarding
         public int Id { get; set; }
         public string FullLegalName { get; set; }
         public string OperatingName { get; set; }
+
+        public string AccountId { get; set; }
+
         public string Phone { get; set; }
         public string EmailAddress { get; set; }
         public string Website { get; set; }

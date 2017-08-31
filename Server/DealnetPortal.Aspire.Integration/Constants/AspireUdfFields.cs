@@ -32,6 +32,8 @@
         public static string MobilePhoneNumber = "Mobile Phone Number";
         public static string BusinessPhoneNumber = "Business Phone Number";
 
+        public static string Website = "Website";
+
         public static string EstimatedMoveInDate = "Estimated move in date";
 
         public static string AllowCommunicate = "AllowCommunicate";

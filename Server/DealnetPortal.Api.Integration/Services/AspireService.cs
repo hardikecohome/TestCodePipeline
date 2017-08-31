@@ -699,7 +699,7 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 TransactionId = dealerInfo.TransactionId
                             },
-                            Accounts = GetOwnersInfo(dealerInfo)
+                            Accounts = GetDealerOnboardingAccounts(dealerInfo)
                         }
                     };
 
@@ -973,20 +973,74 @@ namespace DealnetPortal.Api.Integration.Services
             return accounts;
         }
 
-        private List<Account> GetOwnersInfo(DealerInfo dealerInfo)
-        {
-            const string ownerRole = "OTHER";
+        private List<Account> GetDealerOnboardingAccounts(DealerInfo dealerInfo)
+        {            
+            var accounts = new List<Account>();
+            accounts.Add(GetCompanyAccount(dealerInfo));
+            accounts.AddRange(GetCompanyOwnersAccounts(dealerInfo));            
+            return accounts;
+        }
 
+        private Account GetCompanyAccount(DealerInfo dealerInfo)
+        {
+            var companyInfo = dealerInfo.CompanyInfo;
+            const string companyRole = "OTHER";
+            var account = new Account
+            {
+                ClientId = companyInfo.AccountId,
+                Role = companyRole,
+                IsIndividual = false,
+                IsPrimary = true,
+                Legalname = companyInfo.FullLegalName,
+                EmailAddress = companyInfo.EmailAddress,
+                CreditReleaseObtained = true,
+                Address = new Address()
+                {
+                    City = companyInfo.CompanyAddress?.City,
+                    Province = new Province()
+                    {
+                        Abbrev = companyInfo.CompanyAddress?.State.ToProvinceCode()
+                    },
+                    Postalcode = companyInfo.CompanyAddress?.PostalCode,
+                    Country = new Country()
+                    {
+                        Abbrev = AspireUdfFields.DefaultAddressCountry
+                    },
+                    StreetName = companyInfo.CompanyAddress?.Street,
+                    SuiteNo = companyInfo.CompanyAddress?.Unit,
+                    StreetNo = string.Empty
+                },
+                Telecomm = new Telecomm()
+                {
+                    Phone = companyInfo.Phone,
+                    Email = companyInfo.EmailAddress,
+                    Website = companyInfo.Website
+                },
+                UDFs = GetCompanyUdfs(dealerInfo).ToList()
+            };
+            return account;
+        }
+
+        private IList<Account> GetCompanyOwnersAccounts(DealerInfo dealerInfo)
+        {
+            const string ownerRole = "CUST";
             var accounts = dealerInfo.Owners?.OrderBy(o => o.OwnerOrder).Select(owner =>
             {
                 var account = new Account
                 {
                     Role = ownerRole,
-                    IsIndividual = false,
-                    IsPrimary = true,
+                    IsIndividual = true,
+                    IsPrimary = true,                    
                     Legalname = $"{owner.FirstName} {owner.LastName}",
                     EmailAddress = owner.EmailAddress,
-                    CreditReleaseObtained = true,                                        
+                    CreditReleaseObtained = true,
+
+                    Personal = new Personal()
+                    {
+                        Firstname = owner.FirstName,
+                        Lastname = owner.LastName,
+                        Dob = owner.DateOfBirth?.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
+                    },
                     Address = new Address()
                     {
                         City = owner.Address?.City,
@@ -1005,10 +1059,55 @@ namespace DealnetPortal.Api.Integration.Services
                     },
                     Telecomm = new Telecomm()
                     {
-                        Phone = owner.MobilePhone ?? owner.HomePhone
-                    },
-                    UDFs = owner.OwnerOrder == 0 ? GetOwnerUdfs(dealerInfo, owner).ToList() : null
+                        Phone = owner.MobilePhone ?? owner.HomePhone,
+                        Email = owner.EmailAddress
+                    }
                 };
+
+                if (string.IsNullOrEmpty(owner.AccountId))
+                {
+                    //check user on Aspire
+                    var postalCode = owner.Address?.PostalCode;
+                    try
+                    {
+                        var aspireCustomer = AutoMapper.Mapper.Map<CustomerDTO>(_aspireStorageReader.FindCustomer(owner.FirstName, owner.LastName, owner.DateOfBirth ?? new DateTime(), postalCode));
+                        if (aspireCustomer != null)
+                        {
+                            account.ClientId = aspireCustomer.AccountId?.Trim();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _loggingService.LogError("Failed to get customer from Aspire", ex);
+                        account.ClientId = null;
+                    }
+                }
+                else
+                {
+                    account.ClientId = owner.AccountId;
+                }
+
+                var UDFs = new List<UDF>();
+                if (!string.IsNullOrEmpty(owner.HomePhone))
+                {
+                    UDFs.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.HomePhoneNumber,
+                        Value = owner.HomePhone
+                    });
+                }
+                if (!string.IsNullOrEmpty(owner.MobilePhone))
+                {
+                    UDFs.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.MobilePhoneNumber,
+                        Value = owner.HomePhone
+                    });
+                }
+                if (UDFs.Any())
+                {
+                    account.UDFs = UDFs;
+                }
                 return account;
             }).ToList();
             return accounts ?? new List<Account>();
@@ -1222,7 +1321,36 @@ namespace DealnetPortal.Api.Integration.Services
                             _unitOfWork.Save();                            
                             _loggingService.LogInfo($"Aspire accounts created for {response.Payload.Accounts.Count} dealer onboarding owners");
                         }
-                    }                             
+                    }
+
+                    if (response.Payload.Accounts?.Any() ?? false)
+                    {
+                        var idUpdated = false;
+                        response.Payload.Accounts.ForEach(a =>
+                        {
+                            if (dealerInfo.CompanyInfo != null && a.Name.Contains(dealerInfo.CompanyInfo?.FullLegalName) && dealerInfo.CompanyInfo?.AccountId != a.Id)
+                            {
+                                dealerInfo.CompanyInfo.AccountId = a.Id;
+                                idUpdated = true;
+                            }
+
+                            dealerInfo?.Owners.ForEach(c =>
+                            {
+                                if (a.Name.Contains(c.FirstName) &&
+                                    a.Name.Contains(c.LastName) && c.AccountId != a.Id)
+                                {
+                                    c.AccountId = a.Id;
+                                    idUpdated = true;
+                                }
+                            });                            
+                        });
+
+                        if (idUpdated)
+                        {
+                            _unitOfWork.Save();
+                            _loggingService.LogInfo($"Aspire accounts created for {response.Payload.Accounts.Count} dealer onboarding");
+                        }
+                    }
                 }
             }
             return alerts;
@@ -1600,10 +1728,18 @@ namespace DealnetPortal.Api.Integration.Services
             return udfList;
         }
 
-        private IList<UDF> GetOwnerUdfs(DealerInfo dealerInfo, OwnerInfo ownerInfo)
+        private IList<UDF> GetCompanyUdfs(DealerInfo dealerInfo)
         {
             var udfList = new List<UDF>();
 
+            if (string.IsNullOrEmpty(dealerInfo?.CompanyInfo?.Website))
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.Website,
+                    Value = dealerInfo.CompanyInfo.Website
+                });
+            }
             if (dealerInfo.ProductInfo?.Brands?.Any() == true)
             {
                 udfList.Add(new UDF()
