@@ -698,7 +698,7 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 TransactionId = dealerInfo.TransactionId
                             },
-                            //Accounts = GetCustomersInfo(contract)
+                            Accounts = GetOwnersInfo(dealerInfo)
                         }
                     };
 
@@ -753,7 +753,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (alerts.All(a => a.Type != AlertType.Error))
             {
-                _loggingService.LogInfo($"Dealer onboarding info [{dealerInfoId}] submitted to Aspire successfully with transaction Id [{dealerInfo?.TransactionId}], account Id [{dealerInfo?.AccountId}]");
+                _loggingService.LogInfo($"Dealer onboarding info [{dealerInfoId}] submitted to Aspire successfully with transaction Id [{dealerInfo?.TransactionId}]");
             }
 
             return alerts;
@@ -972,6 +972,47 @@ namespace DealnetPortal.Api.Integration.Services
             return accounts;
         }
 
+        private List<Account> GetOwnersInfo(DealerInfo dealerInfo)
+        {
+            const string ownerRole = "OTHER";
+
+            var accounts = dealerInfo.Owners?.OrderBy(o => o.OwnerOrder).Select(owner =>
+            {
+                var account = new Account
+                {
+                    Role = ownerRole,
+                    IsIndividual = false,
+                    IsPrimary = true,
+                    Legalname = $"{owner.FirstName} {owner.LastName}",
+                    EmailAddress = owner.EmailAddress,
+                    CreditReleaseObtained = true,                                        
+                    Address = new Address()
+                    {
+                        City = owner.Address?.City,
+                        Province = new Province()
+                        {
+                            Abbrev = owner.Address?.State.ToProvinceCode()
+                        },
+                        Postalcode = owner.Address?.PostalCode,
+                        Country = new Country()
+                        {
+                            Abbrev = "CAN"
+                        },
+                        StreetName = owner.Address?.Street,
+                        SuiteNo = owner.Address?.Unit,
+                        StreetNo = string.Empty
+                    },
+                    Telecomm = new Telecomm()
+                    {
+                        Phone = owner.MobilePhone ?? owner.HomePhone
+                    },
+                    UDFs = owner.OwnerOrder == 0 ? GetOwnerUdfs(dealerInfo, owner).ToList() : null
+                };
+                return account;
+            }).ToList();
+            return accounts ?? new List<Account>();
+        }
+
         private Application GetContractApplication(Domain.Contract contract, ICollection<NewEquipment> newEquipments = null)
         {
             var application = new Application()
@@ -1158,13 +1199,29 @@ namespace DealnetPortal.Api.Integration.Services
                         _unitOfWork.Save();
                         _loggingService.LogInfo($"Aspire transaction Id [{response.Payload?.TransactionId}] created for dealer onboarding form");
                     }
-                    var aspireAccount = response.Payload.Accounts?.FirstOrDefault();
-                    if (aspireAccount != null)
+
+                    if (response.Payload.Accounts?.Any() ?? false)
                     {
-                        dealerInfo.AccountId = aspireAccount.Id;
-                        _unitOfWork.Save();
-                        _loggingService.LogInfo($"Aspire account Id [{aspireAccount.Id}] created for dealer onboarding form");
-                    }                    
+                        var idUpdated = false;
+                        response.Payload.Accounts.ForEach(a =>
+                        {                            
+                            dealerInfo?.Owners.ForEach(c =>
+                            {
+                                if (a.Name.Contains(c.FirstName) &&
+                                    a.Name.Contains(c.LastName) && c.AccountId != a.Id)
+                                {
+                                    c.AccountId = a.Id;
+                                    idUpdated = true;
+                                }
+                            });
+                        });
+
+                        if (idUpdated)
+                        {
+                            _unitOfWork.Save();                            
+                            _loggingService.LogInfo($"Aspire accounts created for {response.Payload.Accounts.Count} dealer onboarding owners");
+                        }
+                    }                             
                 }
             }
             return alerts;
@@ -1538,6 +1595,15 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                 }
             }            
+
+            return udfList;
+        }
+
+        private IList<UDF> GetOwnerUdfs(DealerInfo dealerInfo, OwnerInfo ownerInfo)
+        {
+            var udfList = new List<UDF>();
+
+
 
             return udfList;
         }
