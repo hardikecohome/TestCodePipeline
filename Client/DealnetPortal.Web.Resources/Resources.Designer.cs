@@ -3085,6 +3085,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mobile Phone is in incorrect format.
+        /// </summary>
+        public static string MobilePhoneIncorrectFormat {
+            get {
+                return ResourceManager.GetString("MobilePhoneIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The field Mobile Phone must be a string with a length of 10.
+        /// </summary>
+        public static string MobilePhoneMustBeLong {
+            get {
+                return ResourceManager.GetString("MobilePhoneMustBeLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Model.
         /// </summary>
         public static string Model {
@@ -3886,6 +3904,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Preferred financing products required.
+        /// </summary>
+        public static string PreferredFinancingProductsRequired {
+            get {
+                return ResourceManager.GetString("PreferredFinancingProductsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Preferred Withdrawal Date.
         /// </summary>
         public static string PrefferedWithdrawalDateIncorrectFormat {
@@ -4102,6 +4129,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reason For Interest.
+        /// </summary>
+        public static string ReasonForInterest {
+            get {
+                return ResourceManager.GetString("ReasonForInterest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reason for interest with Ecohome.
+        /// </summary>
+        public static string ReasonForInterestWithEcohome {
+            get {
+                return ResourceManager.GetString("ReasonForInterestWithEcohome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Referrals.
         /// </summary>
         public static string Referrals {
@@ -4134,6 +4179,15 @@ namespace DealnetPortal.Web.Resources {
         public static string RelationshipStructure {
             get {
                 return ResourceManager.GetString("RelationshipStructure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relationship to.
+        /// </summary>
+        public static string RelationshipTo {
+            get {
+                return ResourceManager.GetString("RelationshipTo", resourceCulture);
             }
         }
         
