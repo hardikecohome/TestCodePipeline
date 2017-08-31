@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Common.Enumeration.Dealer;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
@@ -1603,7 +1604,166 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var udfList = new List<UDF>();
 
-
+            if (dealerInfo.ProductInfo?.Brands?.Any() == true)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.ManufacturerBrandsSold,
+                    Value = string.Join(", ", dealerInfo.ProductInfo.Brands)
+                });
+            }
+            if (dealerInfo.ProductInfo?.AnnualSalesVolume != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.AnnualSalesVolume,
+                    Value = dealerInfo.ProductInfo.AnnualSalesVolume?.ToString(CultureInfo.InvariantCulture)
+                });
+            }
+            if (dealerInfo.ProductInfo?.AverageTransactionSize != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.AverageTransactionSize,
+                    Value = dealerInfo.ProductInfo.AverageTransactionSize?.ToString(CultureInfo.InvariantCulture)
+                });
+            }
+            if (dealerInfo.ProductInfo?.LeadGenReferrals != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.LeadGeneratedWithReferrals,
+                    Value = dealerInfo.ProductInfo.LeadGenReferrals == true ? "Y" : "N"
+                });
+            }
+            if (dealerInfo.ProductInfo?.LeadGenLocalAdvertising != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.LeadGeneratedWithLocalAdvertising,
+                    Value = dealerInfo.ProductInfo.LeadGenLocalAdvertising == true ? "Y" : "N"
+                });
+            }
+            if (dealerInfo.ProductInfo?.LeadGenTradeShows != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.LeadGeneratedWithTradeShows,
+                    Value = dealerInfo.ProductInfo.LeadGenTradeShows == true ? "Y" : "N"
+                });
+            }
+            if (dealerInfo.ProductInfo?.SalesApproachBroker != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.ChannelTypeBroker,
+                    Value = dealerInfo.ProductInfo.SalesApproachBroker == true ? "Y" : "N"
+                });
+            }
+            if (dealerInfo.ProductInfo?.SalesApproachConsumerDirect != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.ChannelTypeConsumerDirect,
+                    Value = dealerInfo.ProductInfo.SalesApproachConsumerDirect == true ? "Y" : "N"
+                });
+            }
+            if (dealerInfo.ProductInfo?.SalesApproachDistributor != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.ChannelTypeDistributor,
+                    Value = dealerInfo.ProductInfo.SalesApproachDistributor == true ? "Y" : "N"
+                });
+            }
+            if (dealerInfo.ProductInfo?.SalesApproachDoorToDoor != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.ChannelTypeDoorToDoorSales,
+                    Value = dealerInfo.ProductInfo.SalesApproachDoorToDoor == true ? "Y" : "N"
+                });
+            }            
+            if (dealerInfo.ProductInfo?.ProgramService != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.ProgramServicesRequired,
+                    Value = dealerInfo.ProductInfo.ProgramService.ToString()
+                });
+            }
+            if (dealerInfo.ProductInfo?.Relationship != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.RelationshipStructure,
+                    Value = dealerInfo.ProductInfo.Relationship.ToString()
+                });
+            }
+            if (dealerInfo.ProductInfo?.WithCurrentProvider != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.CurrentFinanceProvider,
+                    Value = dealerInfo.ProductInfo.WithCurrentProvider == true ? "Y" : "N"
+                });
+            }
+            if (dealerInfo.ProductInfo?.OfferMonthlyDeferrals != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.OfferDeferrals,
+                    Value = dealerInfo.ProductInfo.OfferMonthlyDeferrals == true ? "Y" : "N"
+                });
+            }
+            if (dealerInfo.ProductInfo?.ReasonForInterest != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.ReasonForInterest,
+                    Value = dealerInfo.ProductInfo.ReasonForInterest.ToString()
+                });
+            }
+            if (dealerInfo.ProductInfo?.Services?.Any() == true)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.ProductsForFinancingProgram,
+                    Value = string.Join(", ", dealerInfo.ProductInfo.Services.Select(s => s.Equipment?.Type))
+                });
+            }
+            if (!string.IsNullOrEmpty(dealerInfo.ProductInfo?.OemName))
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.OemName,
+                    Value = dealerInfo.ProductInfo.OemName
+                });
+            }
+            if (!string.IsNullOrEmpty(dealerInfo.ProductInfo?.FinanceProviderName))
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.FinanceProviderName,
+                    Value = dealerInfo.ProductInfo.FinanceProviderName
+                });
+            }
+            if (dealerInfo.ProductInfo?.MonthlyFinancedValue != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.MonthlyCapitalValue,
+                    Value = dealerInfo.ProductInfo.MonthlyFinancedValue?.ToString(CultureInfo.InvariantCulture)
+                });
+            }
+            if (dealerInfo.ProductInfo?.PercentMonthlyDealsDeferred != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.MonthlyDealsToBeDeferred,
+                    Value = dealerInfo.ProductInfo.PercentMonthlyDealsDeferred?.ToString(CultureInfo.InvariantCulture)
+                });
+            }
 
             return udfList;
         }

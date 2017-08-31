@@ -447,7 +447,7 @@ namespace DealnetPortal.Api.App_Start
 
             mapperConfig.CreateMap<AddressDTO, Address>();
             mapperConfig.CreateMap<CompanyInfoDTO, CompanyInfo>()
-                .ForMember(x => x.CompanyAddress, d => d.MapFrom(src => src.CompanyAddress))
+                .ForMember(x => x.CompanyAddress, d => d.ResolveUsing(src => src.CompanyAddress))
                 .ForMember(x => x.Provinces, d => d.ResolveUsing(src =>
                                                 src.Provinces?.Select(p => new CompanyProvince() {Province = p}).ToList()));
             mapperConfig.CreateMap<EquipmentTypeDTO, ProductService>()
