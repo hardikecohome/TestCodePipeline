@@ -32,7 +32,7 @@ namespace DealnetPortal.Web.Infrastructure
                 ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1,
                 EquipmentTypes = (await _dictionaryServiceAgent.GetAllEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList()
             };
-            
+           
             return model;
         }
     }

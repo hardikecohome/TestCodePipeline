@@ -1967,4 +1967,13 @@
   <data name="RelationshipTo" xml:space="preserve">
     <value>Relationship to</value>
   </data>
+  <data name="AdditionalOwnerInformation" xml:space="preserve">
+    <value>Additional owner information</value>
+  </data>
+  <data name="OwnershipPercentage" xml:space="preserve">
+    <value>Ownership included in this application must be 50% or greater</value>
+  </data>
+  <data name="OwnershipSubmit" xml:space="preserve">
+    <value>In order to submit application you need to add additional owner</value>
+  </data>
 </root>

@@ -211,8 +211,8 @@
     @Scripts.Render("~/bundles/onboarding")
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=init" async defer></script>
     <script type="text/javascript">
-        //module.require('onboarding.index').init(@Html.Raw(Json.Encode(Model)));
-        module.require('onboarding.index').init();
+        module.require('onboarding.index').init(@Html.Raw(Json.Encode(Model)));
+        //module.require('onboarding.index');
     </script>
 
     <script type="text/javascript">
@@ -274,4 +274,5 @@
     translations['SelectOneProvince']= '@Resources.SelectOneProvince';
     translations['TheFieldMustBeMinimumAndMaximum'] = '@Resources.TheFieldMustBeMinimumAndMaximum';
     translations['SecondaryBrandIncorrectFormat'] = '@Resources.SecondaryBrandIncorrectFormat';
+    translations[]
 }

@@ -5,7 +5,7 @@
 <div class="panel customer-loan-form-panel panel-collapsed" id="owner-info-section">
     <div class="panel-heading">
         <span class="panel-step">2</span>
-        <h3 class="panel-title dealnet-middle-header">Principal/owner information</h3>
+        <h3 class="panel-title dealnet-middle-header">@Resources.PrincipalOwnerInformation</h3>
         <span class="arrow">
             <i class="glyphicon"></i>
         </span>
@@ -22,7 +22,7 @@
                 @if (i > 0)
                 {
                     <div class="dealnet-middle-header">
-                        <span>Additional owner information</span>
+                        <span>@Resources.AdditionalOwnerInformation</span>
                         <span class="additional-remove" id="owner@(i)-remove">
                             <i class="glyphicon glyphicon-remove"></i>
                         </span>
@@ -57,7 +57,7 @@
                         </div>
                     </div>
                 </div>
-                <h4 class="heading-bordered">Contacts</h4>
+                <h4 class="heading-bordered">@Resources.Contacts</h4>
                 <div class="row">
                     <div class="col-md-4 col-sm-6">
                         <div class="form-group">
@@ -87,7 +87,7 @@
                         </div>
                     </div>
                 </div>
-                <h4 class="heading-bordered">Address</h4>
+                <h4 class="heading-bordered">@Resources.Address</h4>
                 <div class="row address-container">
                     <div class="col-md-6 col-sm-6">
                         <div class="form-group">
@@ -148,25 +148,25 @@
                         </div>
                     </div>
                 </div>
-                <h4 class="heading-bordered">Ownership</h4>
+                <h4 class="heading-bordered">@Resources.Ownership</h4>
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="form-group">
                             @Html.LabelFor(m => m.Owners[i].PercentOwnership, new {@class = "mandatory-field"})
                             <div class="control-group has-addon-left">
                                 <div class="control-group-addon placeholder-text">%</div>
-                                @Html.TextBoxFor(m => m.Owners[i].PercentOwnership, null, new {@class = "form-control form-control-not-clear dealnet-input", type = "text", id = "owner" + i + "-percentage", @Value = ""})
+                                @Html.TextBoxFor(m => m.Owners[i].PercentOwnership, null, new {@class = "form-control form-control-not-clear dealnet-input", type = "text", id = "owner" + i + "-percentage" })
                                 @Html.ValidationMessageFor(m => m.Owners[i].PercentOwnership, "", new {@class = "text-danger"})
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-8 hidden">
+                    <div class="col-sm-8 hidden" id="owner-notify">
                         <div class="form-group">
                             <div class="dealnet-label  hidden-xs">&nbsp;</div>
                             <div class="control-group owner-notify">
                                 <div class="info-text-success flex-centered-text">
                                     <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-                                    <span class="notification-text">Ownership included in this application must be 50% or greatert</span>
+                                    <span class="notification-text">@Resources.OwnershipPercentage</span>
                                 </div>
                             </div>
                         </div>
@@ -180,13 +180,13 @@
                 <svg aria-hidden="true" class="icon icon-add-app">
                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
                 </svg>
-                <span>Add additional owner</span>
+                <span>@Resources.AddAdditionalOwner</span>
             </a>
             <div class="well danger-well" id="additional-owner-warning">
                 <svg aria-hidden="true" class="icon icon-info-well">
                     <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
                 </svg>
-                In order to submit application you need to add additional owner
+                @Resources.OwnershipSubmit
             </div>
         </div>
         <div class="save-and-resume-hold">

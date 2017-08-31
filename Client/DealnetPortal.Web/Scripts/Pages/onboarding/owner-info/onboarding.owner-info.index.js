@@ -1,5 +1,6 @@
 ﻿module.exports('onboarding.owner-info.index', function (require) {
     var setters = require('onboarding.owner-info.setters');
+    var constants = require('onboarding.state').constants;
     var aknwoledgmentSetters = require('onboarding.ackonwledgment.setters');
     var additionalOwner = require('onboarding.owner-info.additional');
     var aknwoledgmentOwner = require('onboarding.ackonwledgment.owners');
@@ -45,12 +46,19 @@
                 $(".div-datepicker").removeClass('opened');
             }
         });
-
-        initGoogleServices(ownerNumber + '-street', ownerNumber + '-city', ownerNumber + '-province', ownerNumber + '-postalcode');
+        if (typeof google === 'object' && typeof google.maps === 'object') {
+            initGoogleServices(ownerNumber + '-street',
+                ownerNumber + '-city',
+                ownerNumber + '-province',
+                ownerNumber + '-postalcode');
+        }
     }
 
-    function _initEventHandlers() {
-        _setInputHandlers('owner0');
+    function _initEventHandlers(nubmerOfOwners) {
+        for (var i = 0; i < nubmerOfOwners; i++) {
+            _setInputHandlers('owner' + i);
+            state['owner-info']['nextOwnerIndex']++;
+        }
 
         $('#add-additional').on('click', function () {
             var nextOwner = 'owner' + state['owner-info']['nextOwnerIndex'];
@@ -61,11 +69,25 @@
     }
 
     function _setLoadedData(owners) {
-        
+        for (var i = 0; i < owners.length; i++) {
+            var owner = 'owner' + i;
+            var newOwnerState = {};
+            newOwnerState[owner] = { requiredFields: constants.requiredFields.slice() };
+            $.extend(state['owner-info']['owners'], newOwnerState);
+
+            $.grep(constants.requiredFields, function (field) {
+
+                if (field === 'birthdate' && owners[i]['BirthDate'] !== null) {
+                    setters.setBirthDate(owner, owners[i]['BirthDate']);
+                }
+
+                $('#' + owner + '-' + field).change();
+            });
+        }
     }
 
     function init(owners) {
-        _initEventHandlers();
+        _initEventHandlers(owners !== undefined ? owners.length : 1);
 
         if (Array.isArray(owners) && owners.length > 0) {
             _setLoadedData(owners);
