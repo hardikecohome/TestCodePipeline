@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Web.Infrastructure;
 
 namespace DealnetPortal.Web.Models.Dealer
 {
@@ -12,6 +13,9 @@ namespace DealnetPortal.Web.Models.Dealer
         public IEnumerable<Alert> Alerts { get; set; }
 
         public string AccessKey { get; set; }
+
+        [CustomRequired]
+        public bool AllowCommunicate { get; set; }
 
         [StringLength(256, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "EmailAddress")]

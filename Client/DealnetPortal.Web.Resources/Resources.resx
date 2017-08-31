@@ -1967,4 +1967,10 @@
   <data name="RelationshipTo" xml:space="preserve">
     <value>Relationship to</value>
   </data>
+  <data name="ApplicationSuccessfullySubmitted" xml:space="preserve">
+    <value>Thank you, your application was successfully submitted.</value>
+  </data>
+  <data name="WellContactSoon" xml:space="preserve">
+    <value>We will contact you soon.</value>
+  </data>
 </root>

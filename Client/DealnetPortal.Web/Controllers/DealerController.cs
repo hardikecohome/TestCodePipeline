@@ -48,7 +48,12 @@ namespace DealnetPortal.Web.Controllers
 
                 return View(model);
             }
-            return View();
+            var result = await _dealerOnBoardingManager.SubmitOnBoarding(model);
+            if(result != null ||(result?.Any(x => x.Type == AlertType.Error) ?? false))
+            {
+                return RedirectToAction("AnonymousError", "Info");
+            }
+            return RedirectToAction("OnBoardingSuccess");
         }
 
         [HttpPost]
@@ -68,6 +73,19 @@ namespace DealnetPortal.Web.Controllers
                                             : String.Empty
             };
             return PartialView("OnBoarding/_SaveAndResumeModal", modal);
+        }
+
+        public ActionResult OnBoardingSuccess()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SendLink(SaveAndResumeViewModel model)
+        {
+            var result = await _dealerOnBoardingManager.SendEmail(model);
+            if (result == null || !result.Any()) { return Json(new { success = true }); }
+            return Json(new { success = false });
         }
     }
 }

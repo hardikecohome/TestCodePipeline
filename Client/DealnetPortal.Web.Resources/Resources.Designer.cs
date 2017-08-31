@@ -592,6 +592,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Thank you, your application was successfully submitted..
+        /// </summary>
+        public static string ApplicationSuccessfullySubmitted {
+            get {
+                return ResourceManager.GetString("ApplicationSuccessfullySubmitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Apply.
         /// </summary>
         public static string Apply {
@@ -5313,6 +5322,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Week {
             get {
                 return ResourceManager.GetString("Week", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We will contact you soon..
+        /// </summary>
+        public static string WellContactSoon {
+            get {
+                return ResourceManager.GetString("WellContactSoon", resourceCulture);
             }
         }
         

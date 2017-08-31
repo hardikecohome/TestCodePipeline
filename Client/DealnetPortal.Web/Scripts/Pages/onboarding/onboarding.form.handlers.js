@@ -9,8 +9,9 @@
             url: saveDraftUrl,
             data: formData
         })).done(function (data) {
-            $('#save-resume-modal').html(data);
-            $('#save-resume-modal').modal('show');
+            $('#save-resume-modal').html(data).modal('show');
+            var key = $('#save-resume-modal #access-key').val();
+            $('#AccessKey').val(key);
             initSendEmail();
             initCopyLink();
         });
@@ -18,7 +19,10 @@
 
     function initSendEmail() {
         $('#send-draft-email').on('submit', function () {
-
+            debugger
+            //$.ajax({
+            //    url: sendEmailUrl,
+            //})
         });
     }
 

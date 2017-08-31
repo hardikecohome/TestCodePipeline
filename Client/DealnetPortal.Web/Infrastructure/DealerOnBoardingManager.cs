@@ -61,5 +61,10 @@ namespace DealnetPortal.Web.Infrastructure
         {
             throw new NotImplementedException();
         }
+
+        public async Task<IList<Alert>> SendEmail(SaveAndResumeViewModel model)
+        {
+            return new List<Alert>();
+        }
     }
 }
