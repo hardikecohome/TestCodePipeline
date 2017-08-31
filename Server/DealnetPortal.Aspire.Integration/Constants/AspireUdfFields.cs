@@ -53,6 +53,30 @@
         public static string Residence = "Residence";
         public static string ExistingCustomer = "Existing Customer";
 
+        #region Dealer onboarding UDFs
+        public static string ManufacturerBrandsSold = "Manufacturer Brands Sold";
+        public static string AnnualSalesVolume = "Annual Sales Volume";
+        public static string AverageTransactionSize = "Average Transaction Size";
+        public static string ChannelTypeConsumerDirect = "ChannelType Consumer direct";
+        public static string ChannelTypeBroker = "ChannelType Broker";
+        public static string ChannelTypeDistributor = "ChannelTypeDistributor";
+        public static string ChannelTypeDoorToDoorSales = "ChannelType Door to door sales";
+        public static string LeadGeneratedWithReferrals = "Lead Generated with Referrals";
+        public static string LeadGeneratedWithLocalAdvertising = "Lead Generated with Local advertising";
+        public static string LeadGeneratedWithTradeShows = "Lead Generated with Trade Shows";
+        public static string ProgramServicesRequired = "Program Services Required";
+        public static string RelationshipStructure = "Relationship Structure";
+        public static string OemName = "OEM Name";
+        public static string CurrentFinanceProvider = "Current finance provider";
+        public static string FinanceProviderName = "Finance provider name";
+        public static string MonthlyCapitalValue = "Monthly capital value";
+        public static string OfferDeferrals = "Offer deferrals";
+        public static string MonthlyDealsToBeDeferred = "Monthly deals to be deferred";
+        public static string ProductsForFinancingProgram = "Products for financing program";
+        public static string ReasonForInterest = "Reason for interest";
+        #endregion
+
+
         public static string DefaultAddressCountry = "CAN";
     }
 }

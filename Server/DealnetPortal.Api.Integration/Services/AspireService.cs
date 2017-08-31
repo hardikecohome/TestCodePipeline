@@ -897,7 +897,7 @@ namespace DealnetPortal.Api.Integration.Services
                         Postalcode = location.PostalCode,
                         Country = new Country()
                         {
-                            Abbrev = "CAN"
+                            Abbrev = AspireUdfFields.DefaultAddressCountry
                         },
                         StreetName = location.Street,
                         SuiteNo = location.Unit,
@@ -996,7 +996,7 @@ namespace DealnetPortal.Api.Integration.Services
                         Postalcode = owner.Address?.PostalCode,
                         Country = new Country()
                         {
-                            Abbrev = "CAN"
+                            Abbrev = AspireUdfFields.DefaultAddressCountry
                         },
                         StreetName = owner.Address?.Street,
                         SuiteNo = owner.Address?.Unit,
