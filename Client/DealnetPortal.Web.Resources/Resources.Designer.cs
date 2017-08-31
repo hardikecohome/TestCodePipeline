@@ -3085,6 +3085,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mobile Phone is in incorrect format.
+        /// </summary>
+        public static string MobilePhoneIncorrectFormat {
+            get {
+                return ResourceManager.GetString("MobilePhoneIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The field Mobile Phone must be a string with a length of 10.
+        /// </summary>
+        public static string MobilePhoneMustBeLong {
+            get {
+                return ResourceManager.GetString("MobilePhoneMustBeLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Model.
         /// </summary>
         public static string Model {
@@ -4098,6 +4116,15 @@ namespace DealnetPortal.Web.Resources {
         public static string ReadyForAudit {
             get {
                 return ResourceManager.GetString("ReadyForAudit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reason For Interest.
+        /// </summary>
+        public static string ReasonForInterest {
+            get {
+                return ResourceManager.GetString("ReasonForInterest", resourceCulture);
             }
         }
         

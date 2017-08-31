@@ -76,6 +76,7 @@ namespace DealnetPortal.Web.Models.Dealer
         public List<EquipmentTypeDTO> EquipmentTypes { get; set; }
 
         [CustomRequired]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "ReasonForInterest")]
         public ReasonForInterest ReasonForInterest { get; set; }
     }
 }

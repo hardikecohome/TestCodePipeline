@@ -153,8 +153,8 @@
                     <div class="col-sm-4">
                         <div class="form-group">
                             @Html.LabelFor(m => m.Owners[i].PercentOwnership, new {@class = "mandatory-field"})
-                            <div class="control-group has-addon-right">
-                                <div class="control-group-addon">%</div>
+                            <div class="control-group has-addon-left">
+                                <div class="control-group-addon placeholder-text">%</div>
                                 @Html.TextBoxFor(m => m.Owners[i].PercentOwnership, null, new {@class = "form-control form-control-not-clear dealnet-input", type = "text", id = "owner" + i + "-percentage", @Value = ""})
                                 @Html.ValidationMessageFor(m => m.Owners[i].PercentOwnership, "", new {@class = "text-danger"})
                             </div>
@@ -162,12 +162,12 @@
                     </div>
                     <div class="col-sm-8 hidden">
                         <div class="form-group">
-                            <div class="label hidden-xs">&nbsp;</div>
+                            <div class="dealnet-label  hidden-xs">&nbsp;</div>
                             <div class="control-group owner-notify">
-                                <svg aria-hidden="true" class="icon icon-info-well owner-notify-label">
-                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
-                                </svg>
-                                Ownership included in this application must be 50% or greater
+                                <div class="info-text-success flex-centered-text">
+                                    <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                                    <span class="notification-text">Ownership included in this application must be 50% or greatert</span>
+                                </div>
                             </div>
                         </div>
                     </div>
