@@ -156,6 +156,8 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     alerts.AddRange(submitResult);
                 }
+                //upload required documents
+
             }
             catch (Exception ex)
             {
