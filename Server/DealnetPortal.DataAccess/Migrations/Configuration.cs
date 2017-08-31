@@ -84,70 +84,70 @@ namespace DealnetPortal.DataAccess.Migrations
                     #region Air Conditioner
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Alberta"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Industry Training Certification")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="British Columbia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Manitoba"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Manitoba")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="New Brunswick"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Post-Secondary Education, Training And Labour")
                     },new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Newfoundland and Labrador"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Trades Certification Division")
                     },new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Northwest Territories"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Education, Culture & Employment")
                     },new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nova Scotia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour And Advanced Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nunavut"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Family Services, Apprenticeship, Trade And Occupations")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Ontario"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges Of Trades")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Prince Edward Island"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Section Department Of Innovation And Advanced Leaning Post Secondary And Continuing Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Quebec"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Saskatchewan"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Saskatchewan Apprenticeship And Trade Certification Commission")
                     },
@@ -155,97 +155,97 @@ namespace DealnetPortal.DataAccess.Migrations
                     #region  Boilers
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Alberta"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Industry Training Certification")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="British Columbia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="British Columbia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Safety Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Manitoba"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office Of The Fire Commissioner")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="New Brunswick"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Public Safety")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Newfoundland and Labrador"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Trades Certification Division")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Northwest Territories"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Education, Culture & Employment")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nova Scotia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour And Advanced Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nunavut"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Family Services, Apprenticeship, Trade And Occupations")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Ontario"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges Of Trades")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Ontario"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Technical Standards And Safety Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Prince Edward Island"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Section Department Of Innovation And Advanced Leaning Post Secondary And Continuing Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Quebec"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Saskatchewan"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Gas And Electrical Licensing")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Yukon"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry Of Education Certificate")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Saskatchewan"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Saskatchewan Apprenticeship And Trade Certification Commission")
                     },
@@ -253,19 +253,19 @@ namespace DealnetPortal.DataAccess.Migrations
                     #region Doors
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO3"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO3") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO3"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Alberta"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Industry Training Certification")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO3"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO3") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO3"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="British Columbia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO3"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO3") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO3"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Quebec"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
                     },
@@ -273,91 +273,91 @@ namespace DealnetPortal.DataAccess.Migrations
                     #region Fireplace
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Alberta"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Industry Training Certification")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="British Columbia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="British Columbia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Safety Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Manitoba"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office Of The Fire Commissioner")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="New Brunswick"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Public Safety")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Newfoundland and Labrador"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Trades Certification Division")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Northwest Territories"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Education, Culture & Employment")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nova Scotia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour And Advanced Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nunavut"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Family Services, Apprenticeship, Trade And Occupations")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Ontario"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges Of Trades")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Ontario"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Technical Standards And Safety Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Prince Edward Island"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Section Department Of Innovation And Advanced Leaning Post Secondary And Continuing Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Quebec"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Saskatchewan"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Gas And Electrical Licensing")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Yukon"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry Of Education Certificate")
                     },
@@ -365,91 +365,91 @@ namespace DealnetPortal.DataAccess.Migrations
                     #region Furnace
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Alberta"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Industry Training Certification")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="British Columbia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="British Columbia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Safety Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Manitoba"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office Of The Fire Commissioner")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="New Brunswick"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Public Safety")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Newfoundland and Labrador"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Trades Certification Division")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Northwest Territories"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Education, Culture & Employment")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nova Scotia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour And Advanced Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nunavut"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Family Services, Apprenticeship, Trade And Occupations")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Ontario"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges Of Trades")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Ontario"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Technical Standards And Safety Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Prince Edward Island"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Section Department Of Innovation And Advanced Leaning Post Secondary And Continuing Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Quebec"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Saskatchewan"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Gas And Electrical Licensing")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Yukon"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry Of Education Certificate")
                     },
@@ -457,85 +457,85 @@ namespace DealnetPortal.DataAccess.Migrations
                     #region HWT
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Alberta"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Industry Training Certification")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="British Columbia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Manitoba"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office Of The Fire Commissioner")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="New Brunswick"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Public Safety")
                     },
 
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Newfoundland and Labrador"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Trades Certification Division")
                     },new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Northwest Territories"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Education, Culture & Employment")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nova Scotia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour And Advanced Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nunavut"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Family Services, Apprenticeship, Trade And Occupations")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Ontario"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges Of Trades")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Ontario"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Technical Standards And Safety Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Prince Edward Island"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Section Department Of Innovation And Advanced Leaning Post Secondary And Continuing Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Quebec"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Saskatchewan"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Gas And Electrical Licensing")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Yukon"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry Of Education Certificate")
                     },
@@ -543,67 +543,67 @@ namespace DealnetPortal.DataAccess.Migrations
                     #region Plumbing
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO7"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Alberta"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Industry Training Certification")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO7"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="British Columbia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO7"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Manitoba"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Manitoba")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO7"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="New Brunswick"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Post-Secondary Education, Training And Labour")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO7"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Northwest Territories"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Education, Culture & Employment")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO7"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nova Scotia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour And Advanced Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO7"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nunavut"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Family Services, Apprenticeship, Trade And Occupations")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO7"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Ontario"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges Of Trades")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO7"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Prince Edward Island"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Workforce And Advanced Learning")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO7"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Quebec"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO7"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Saskatchewan"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Saskatchewan Apprenticeship And Trade Certification Commission")
                     },
@@ -611,7 +611,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     #region Roofing
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO9"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO9") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO9"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Quebec"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
                     },
@@ -619,91 +619,91 @@ namespace DealnetPortal.DataAccess.Migrations
                     #region Tankless Water Heater
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Alberta"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Industry Training Certification")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="British Columbia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="British Columbia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Safety Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Manitoba"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office Of The Fire Commissioner")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="New Brunswick"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Public Safety")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Newfoundland and Labrador"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Trades Certification Division")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Northwest Territories"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Education, Culture & Employment")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nova Scotia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour And Advanced Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nunavut"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Family Services, Apprenticeship, Trade And Occupations")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Ontario"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges Of Trades")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Ontario"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Technical Standards And Safety Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Prince Edward Island"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Section Department Of Innovation And Advanced Leaning Post Secondary And Continuing Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Quebec"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Saskatchewan"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Gas And Electrical Licensing")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Yukon"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry Of Education Certificate")
                     },
@@ -711,19 +711,19 @@ namespace DealnetPortal.DataAccess.Migrations
                     #region Windows
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO13"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO13") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO13"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Alberta"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Industry Training Certification")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO13"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO13") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO13"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="British Columbia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO13"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO13") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO13"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Quebec"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
                     },
@@ -731,37 +731,37 @@ namespace DealnetPortal.DataAccess.Migrations
                     #region Sunrooms
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO38"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Alberta"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Industry Training Certification")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO38"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="British Columbia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO38"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Manitoba"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Manitoba")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO38"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="New Brunswick"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Post-Secondary Education, Training And Labour")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO38"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Quebec"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO38"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Saskatchewan"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Saskatchewan Apprenticeship And Trade Certification Commission")
                     },
@@ -769,67 +769,67 @@ namespace DealnetPortal.DataAccess.Migrations
                     #region Air Handler
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO40"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Alberta"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Industry Training Certification")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO40"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="British Columbia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO40"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Manitoba"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Manitoba")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO40"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="New Brunswick"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Post-Secondary Education, Training And Labour")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO40"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Newfoundland and Labrador"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Trades Certification Division")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO40"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Northwest Territories"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Education, Culture & Employment")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO40"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nova Scotia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour And Advanced Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO40"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nunavut"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Family Services, Apprenticeship, Trade And Occupations")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO40"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Prince Edward Island"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Section Department Of Innovation And Advanced Leaning Post Secondary And Continuing Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO40"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Quebec"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO40"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Saskatchewan"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Saskatchewan Apprenticeship And Trade Certification Commission")
                     },
@@ -837,25 +837,25 @@ namespace DealnetPortal.DataAccess.Migrations
                     #region Flooring
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO42"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO42") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO42"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Alberta"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Industry Training Certification")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO42"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO42") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO42"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="British Columbia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO42"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO42") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO42"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Quebec"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO42"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO42") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO42"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Saskatchewan"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Gas And Electrical Licensing")
                     },
@@ -863,19 +863,19 @@ namespace DealnetPortal.DataAccess.Migrations
                     #region Porch Enclosure
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO43"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO43") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO43"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Alberta"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Industry Training Certification")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO43"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO43") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO43"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="British Columbia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO43"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO43") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO43"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Quebec"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
                     },
@@ -883,91 +883,91 @@ namespace DealnetPortal.DataAccess.Migrations
                     #region Heat Pump
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Alberta"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Industry Training Certification")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="British Columbia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="British Columbia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Safety Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Manitoba"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office Of The Fire Commissioner")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="New Brunswick"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Public Safety")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Newfoundland and Labrador"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Trades Certification Division")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Northwest Territories"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Education, Culture & Employment")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nova Scotia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour And Advanced Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nunavut"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Family Services, Apprenticeship, Trade And Occupations")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Ontario"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges Of Trades")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Ontario"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Technical Standards And Safety Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Prince Edward Island"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Section Department Of Innovation And Advanced Leaning Post Secondary And Continuing Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Quebec"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Saskatchewan"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Gas And Electrical Licensing")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Yukon"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry Of Education Certificate")
                     },
@@ -975,79 +975,79 @@ namespace DealnetPortal.DataAccess.Migrations
                     #region HRW
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Alberta"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Industry Training Certification")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="British Columbia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Manitoba"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office Of The Fire Commissioner")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="New Brunswick"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Public Safety")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Newfoundland and Labrador"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Trades Certification Division")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Northwest Territories"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Education, Culture & Employment")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nova Scotia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour And Advanced Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nunavut"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Family Services, Apprenticeship, Trade And Occupations")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Ontario"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges Of Trades")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Prince Edward Island"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Section Department Of Innovation And Advanced Leaning Post Secondary And Continuing Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Quebec"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Saskatchewan"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Gas And Electrical Licensing")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Yukon"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry Of Education Certificate")
                     },
@@ -1055,43 +1055,43 @@ namespace DealnetPortal.DataAccess.Migrations
                     #region Bathroom
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO47"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="New Brunswick"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Post-Secondary Education, Training And Labour")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO47"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Northwest Territories"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Education, Culture & Employment")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO47"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nova Scotia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour And Advanced Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO47"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nunavut"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Family Services, Apprenticeship, Trade And Occupations")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO47"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Ontario"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges Of Trades")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO47"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Quebec"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO47"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Saskatchewan"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Saskatchewan Apprenticeship And Trade Certification Commission")
                     },
@@ -1099,49 +1099,49 @@ namespace DealnetPortal.DataAccess.Migrations
                     #region Kitchen
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO48"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="New Brunswick"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Post-Secondary Education, Training And Labour")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO48"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Northwest Territories"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Education, Culture & Employment")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO48"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nova Scotia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour And Advanced Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO48"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nunavut"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Family Services, Apprenticeship, Trade And Occupations")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO48"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Ontario"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges Of Trades")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO48"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Quebec"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO48"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Saskatchewan"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Saskatchewan Apprenticeship And Trade Certification Commission")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO48"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Yukon"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry Of Education Certificate")
                     },
@@ -1149,37 +1149,37 @@ namespace DealnetPortal.DataAccess.Migrations
                     #region Basement Repair
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO55"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO55") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO55"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Northwest Territories"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Education, Culture & Employment")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO55"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO55") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO55"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nova Scotia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour And Advanced Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO55"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO55") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO55"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nunavut"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Family Services, Apprenticeship, Trade And Occupations")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO55"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO55") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO55"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Ontario"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges Of Trades")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO55"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO55") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO55"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Quebec"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO55"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO55") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO55"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Saskatchewan"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Saskatchewan Apprenticeship And Trade Certification Commission")
                     },
@@ -1187,55 +1187,55 @@ namespace DealnetPortal.DataAccess.Migrations
                     #region Spa
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Northwest Territories"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Education, Culture & Employment")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nova Scotia"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour And Advanced Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Nunavut"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department Of Family Services, Apprenticeship, Trade And Occupations")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Ontario"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges Of Trades")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Ontario"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Technical Standards And Safety Authority")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Prince Edward Island"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Section Department Of Innovation And Advanced Leaning Post Secondary And Continuing Education")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Quebec"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Saskatchewan"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Gas And Electrical Licensing")
                     },
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Yukon"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry Of Education Certificate")
                     },
@@ -1243,7 +1243,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     #region Siding
                     new LicenseDocument
                     {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO10"),
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO10") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO10"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Name=="Alberta"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship And Industry Training Certification")
                     },
