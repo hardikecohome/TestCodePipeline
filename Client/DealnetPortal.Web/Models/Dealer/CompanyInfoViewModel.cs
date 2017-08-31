@@ -56,8 +56,7 @@ namespace DealnetPortal.Web.Models.Dealer
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name= "TypeOfBusiness")]
         public BusinessType BusinessType { get; set; }
-
-        [MinListCount(1, ErrorMessageResourceName = "ProvincesMinLength", ErrorMessageResourceType =typeof(Resources.Resources))]
+        
         [Display(ResourceType =typeof(Resources.Resources), Name = "Provinces")]
         public List<string> Provinces { get; set; }
     }
