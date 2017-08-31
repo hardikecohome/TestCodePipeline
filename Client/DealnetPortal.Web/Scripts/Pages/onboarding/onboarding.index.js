@@ -12,6 +12,19 @@
         consent.init();
 
         $('#submit').on('click', validateAndSubmit);
+        $('.save-and-resume').on('click', submitDraft);
+    }
+
+    function submitDraft(e) {
+        var form = $('form')
+        $.when($.ajax({
+            type: 'POST',
+            url: saveDraftUrl,
+
+        })).done(function(data) {
+            $('#save-resume-modal-hold').innerHTML(data);
+            $('#save-resume-modal').modal('show');
+        });
     }
 
     return {
