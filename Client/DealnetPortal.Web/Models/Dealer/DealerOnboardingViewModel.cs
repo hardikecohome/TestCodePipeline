@@ -19,7 +19,7 @@ namespace DealnetPortal.Web.Models.Dealer
 
         public DealerOnboardingDictionariesViewModel DictionariesData { get; set; }
 
-        public string DealerHash { get; set; }
+        public string OnBoardingLink { get; set; }
 
         public bool AllowCommunicate { get; set; }
 

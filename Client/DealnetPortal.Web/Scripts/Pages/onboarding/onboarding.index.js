@@ -16,14 +16,21 @@
     }
 
     function submitDraft(e) {
-        var form = $('form')
+        var formData = $('form').serialize();
         $.when($.ajax({
             type: 'POST',
             url: saveDraftUrl,
-
+            data:formData
         })).done(function(data) {
-            $('#save-resume-modal-hold').innerHTML(data);
+            $('#save-resume-modal').html(data);
             $('#save-resume-modal').modal('show');
+            initSendEmail();
+        });
+    }
+
+    function initSendEmail() {
+        $('#send-draft-email').on('submit', function () {
+
         });
     }
 

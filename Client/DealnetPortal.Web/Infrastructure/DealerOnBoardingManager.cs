@@ -24,7 +24,7 @@ namespace DealnetPortal.Web.Infrastructure
         {
             return new DealerOnboardingViewModel
                    {
-                       DealerHash = onboardingLink,
+                       OnBoardingLink = onboardingLink,
                        DictionariesData = new DealerOnboardingDictionariesViewModel
                                           {
                                               ProvinceTaxRates =

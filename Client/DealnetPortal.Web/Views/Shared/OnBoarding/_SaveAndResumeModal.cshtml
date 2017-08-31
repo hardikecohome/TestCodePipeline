@@ -1,6 +1,5 @@
 ﻿@model DealnetPortal.Web.Models.Dealer.SaveAndResumeViewModel
 
-<div class="modal onboard-modal fade" tabindex="-1" role="dialog" id="save-resume-modal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -16,7 +15,7 @@
                             <label for="">@Resources.Link</label>
                             <div class="controls-hold">
                                 <div class="control-group">
-                                    <input type="url" id="resume-link" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("OnBoarding", "Dealer", new {culture = "en", key = Model.AccessKey}, Request.Url.Scheme)" />
+                                    <input type="url" id="resume-link" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("ResumeOnBoarding", "Dealer", new { key = Model.AccessKey}, Request.Url.Scheme)" />
                                 </div>
                                 <button type="button" class="btn dealnet-success-button btn-small" id="copy-resume-link">@Resources.Copy</button>
                             </div>
@@ -54,7 +53,7 @@
                                         <button type="submit" class="btn dealnet-success-button" id="send-email-submit">@Resources.SendMeLink</button>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-3 col-sm-3 col-sm-offset-4 col-md-offset-0">
+                                <div class="form-group col-md-3 col-sm-3 col-sm-offset-4 col-md-offset-0 hidden">
                                     <label for="">&nbsp;</label>
                                     <div class="email-sent-success flex-centered-text">
                                         <svg aria-hidden="true" class="icon icon-success">
@@ -89,4 +88,3 @@
             </div>
         </div>
     </div>
-</div>
