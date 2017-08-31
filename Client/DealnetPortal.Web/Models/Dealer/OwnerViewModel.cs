@@ -26,7 +26,7 @@ namespace DealnetPortal.Web.Models.Dealer
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? BirthDate { get; set; }
 
-        public AddressInformation AddressInformation { get; set; }
+        public AddressInformation Address { get; set; }
 
         [StringLength(10, MinimumLength = 10, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "HomePhoneMustBeLong")]
         [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "HomePhoneIncorrectFormat")]

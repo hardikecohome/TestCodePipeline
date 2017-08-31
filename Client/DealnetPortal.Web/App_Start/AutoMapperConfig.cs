@@ -231,9 +231,12 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.RateCardId, s=>s.MapFrom( d=>d.SelectedRateCardId))
                 .ForMember(x => x.DeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.LoanDeferralType.ConvertTo<DeferralType>() : src.RentalDeferralType.ConvertTo<DeferralType>()));
 
+            cfg.CreateMap<AddressInformation, AddressDTO>()
+                .ForMember(x => x.State, d => d.MapFrom(src => src.Province));
+
             cfg.CreateMap<ProductInfoViewModel, ProductInfoDTO>();
 
-            cfg.CreateMap<CompanyInfoViewModel,CompanyInfoDTO>();
+            cfg.CreateMap<CompanyInfoViewModel, CompanyInfoDTO>();
 
             cfg.CreateMap<OwnerViewModel, OwnerInfoDTO>();
 
@@ -533,6 +536,9 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.FullUpdate, d => d.Ignore())
                 .ForMember(x => x.IsAllInfoCompleted, d => d.Ignore())
                 .ForMember(x => x.IsApplicantsInfoEditAvailable, d => d.Ignore());
+
+            cfg.CreateMap<AddressDTO, AddressInformation>()
+                .ForMember(x => x.Province, d => d.MapFrom(src => src.State));
 
             cfg.CreateMap<ProductInfoDTO, ProductInfoViewModel>();
 

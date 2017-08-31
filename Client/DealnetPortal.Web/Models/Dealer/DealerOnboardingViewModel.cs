@@ -9,7 +9,7 @@ namespace DealnetPortal.Web.Models.Dealer
         public DealerOnboardingViewModel()
         {
             CompanyInfo = new CompanyInfoViewModel();
-            Owners = new List<OwnerViewModel>() { new OwnerViewModel() { AddressInformation = new AddressInformation()}};
+            Owners = new List<OwnerViewModel>() { new OwnerViewModel() { Address = new AddressInformation()}};
             ProductInfo = new ProductInfoViewModel();
         }
 
