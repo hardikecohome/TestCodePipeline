@@ -25,7 +25,7 @@ namespace DealnetPortal.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> OnBoarding()
         {
-            return View(await _dealerOnBoardingManager.GetDealerOnBoardingFormAsynch(null));
+            return View(await _dealerOnBoardingManager.GetDealerOnBoardingFormAsync(null));
         }
 
         [HttpPost]

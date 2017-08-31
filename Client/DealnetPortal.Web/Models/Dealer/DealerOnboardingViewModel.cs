@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Web.Infrastructure;
+using ResidenceType = DealnetPortal.Web.Models.Enumeration.ResidenceType;
 
 namespace DealnetPortal.Web.Models.Dealer
 {
@@ -9,7 +11,26 @@ namespace DealnetPortal.Web.Models.Dealer
         public DealerOnboardingViewModel()
         {
             CompanyInfo = new CompanyInfoViewModel();
-            Owners = new List<OwnerViewModel>() { new OwnerViewModel() { AddressInformation = new AddressInformation()}};
+            var oneOwner = new OwnerViewModel
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                AddressInformation = new AddressInformation
+                {
+                    City = "Toronto",
+                    PostalCode = "54H5H",
+                    Province = "BC",
+                    ResidenceType = ResidenceType.Own,
+                    Street = "42 test",
+                    UnitNumber = "12345"
+                },
+                BirthDate = new DateTime(1995, 05, 02),
+                CellPhone = "1234567890",
+                EmailAddress = "ws@ws.com",
+                PercentOwnership = 50
+            };
+            //Owners = new List<OwnerViewModel>() { new OwnerViewModel() { AddressInformation = new AddressInformation()}};
+            Owners = new List<OwnerViewModel>() { oneOwner };
             ProductInfo = new ProductInfoViewModel();
         }
 

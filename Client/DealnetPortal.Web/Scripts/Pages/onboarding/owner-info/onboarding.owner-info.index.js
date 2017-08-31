@@ -60,8 +60,16 @@
         });
     }
 
-    function init() {
+    function _setLoadedData(owners) {
+        
+    }
+
+    function init(owners) {
         _initEventHandlers();
+
+        if (Array.isArray(owners) && owners.length > 0) {
+            _setLoadedData(owners);
+        }
     }
 
     return {

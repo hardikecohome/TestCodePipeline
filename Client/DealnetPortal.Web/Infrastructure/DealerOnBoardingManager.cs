@@ -21,7 +21,7 @@ namespace DealnetPortal.Web.Infrastructure
             _dealerServiceAgent = dealerServiceAgent;
         }
 
-        public async Task<DealerOnboardingViewModel> GetDealerOnBoardingFormAsynch(string accessKey)
+        public async Task<DealerOnboardingViewModel> GetDealerOnBoardingFormAsync(string accessKey)
         {
             DealerInfoDTO onboardingForm;
             DealerOnboardingViewModel model;

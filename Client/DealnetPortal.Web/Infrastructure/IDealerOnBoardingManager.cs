@@ -11,6 +11,6 @@ namespace DealnetPortal.Web.Infrastructure
 {
     public interface IDealerOnBoardingManager
     {
-        Task<DealerOnboardingViewModel> GetDealerOnBoardingFormAsynch(string accessKey);
+        Task<DealerOnboardingViewModel> GetDealerOnBoardingFormAsync(string accessKey);
     }
 }

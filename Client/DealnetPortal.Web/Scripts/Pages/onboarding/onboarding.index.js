@@ -7,9 +7,9 @@
 
     function init() {
         company.initCompany();
-        product.initProducts();
-        ownerInfo.init();
-        consent.init();
+        //product.initProducts();
+        //ownerInfo.init(model.Owners);
+        //consent.init();
 
         $('#submit').on('click', validateAndSubmit);
     }
