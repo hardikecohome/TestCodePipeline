@@ -1955,7 +1955,16 @@
   <data name="MobilePhoneMustBeLong" xml:space="preserve">
     <value>The field Mobile Phone must be a string with a length of 10</value>
   </data>
+  <data name="PreferredFinancingProductsRequired" xml:space="preserve">
+    <value>Preferred financing products required</value>
+  </data>
   <data name="ReasonForInterest" xml:space="preserve">
     <value>Reason For Interest</value>
+  </data>
+  <data name="ReasonForInterestWithEcohome" xml:space="preserve">
+    <value>Reason for interest with Ecohome</value>
+  </data>
+  <data name="RelationshipTo" xml:space="preserve">
+    <value>Relationship to</value>
   </data>
 </root>
