@@ -27,6 +27,8 @@
         });
     }
 
+    window.init = init;
+
     return {
         init: init
     }
