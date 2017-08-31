@@ -14,6 +14,8 @@
         $('#submit').on('click', validateAndSubmit);
     }
 
+    window.init = init;
+
     return {
         init: init
     }

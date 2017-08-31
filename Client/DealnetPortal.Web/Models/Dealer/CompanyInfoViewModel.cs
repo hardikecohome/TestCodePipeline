@@ -37,7 +37,7 @@ namespace DealnetPortal.Web.Models.Dealer
         [EmailAddress(ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         public string EmailAddress { get; set; }
 
-        [Display(ResourceType = typeof(Resources.Resources), Name = "Site")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "Website")]
         [DataType(DataType.Url, ErrorMessageResourceType =typeof(Resources.Resources),ErrorMessageResourceName = "SiteInvalidFormat")]
         public string Website { get; set; }
 
