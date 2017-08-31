@@ -31,7 +31,7 @@ namespace DealnetPortal.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> ResumeOnBoarding(string key)
         {
-            return View("OnBoarding",await _dealerOnBoardingManager.GetDealerOnBoardingFormAsynch(key));
+            return View("OnBoarding",await _dealerOnBoardingManager.GetDealerOnBoardingFormAsync(key));
         }
 
         [HttpPost]
