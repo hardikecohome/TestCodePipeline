@@ -1,5 +1,6 @@
 ﻿module.exports('onboarding.form.handlers', function (require) {
     var state = require('onboarding.state').state;
+    var resetForm = require('onboarding.common').resetFormValidation;
     var isIOS = navigator.userAgent.match(/ipad|ipod|iphone/i);
 
     function submitDraft(e) {
@@ -12,6 +13,7 @@
             $('#save-resume-modal').html(data).modal('show');
             var key = $('#save-resume-modal #access-key').val();
             $('#AccessKey').val(key);
+            resetForm('#send-draft-email');
             initSendEmail();
             initCopyLink();
         });
@@ -19,10 +21,19 @@
 
     function initSendEmail() {
         $('#send-draft-email').on('submit', function () {
-            debugger
-            //$.ajax({
-            //    url: sendEmailUrl,
-            //})
+            var $this = $(this);
+            if ($this.valid()) {
+                $.ajax({
+                    url: sendEmailUrl,
+                    type:'POST',
+                    data:$this.serialize(),
+                    success: function (data) {
+                        if (data.success) {
+                            $('#sent-success').removeClass('hidden');
+                        }
+                    }
+                });
+            }
         });
     }
 

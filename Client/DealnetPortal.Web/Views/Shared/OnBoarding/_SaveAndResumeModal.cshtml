@@ -8,9 +8,6 @@
         <div class="modal-body">
             @if (Model.Success)
             {
-                using (Html.BeginForm("SendDraftLink", "Dealer", FormMethod.Post, new { id = "send-draft-email" }))
-                {
-                    <input id="access-key" name="AccessKey" value="@Model.AccessKey" type="hidden"/>
                     <div class="dealnet-modal-section">
                         <div class="modal-title">@Resources.SaveAndResumeLater</div>
                         <h4>@Resources.CopyLinkResumeLater</h4>
@@ -27,7 +24,9 @@
                     </div>
                     <hr />
                     <div class="dealnet-modal-section">
-
+                        @using (Html.BeginForm("SendDraftLink", "Dealer", FormMethod.Post, new { id = "send-draft-email" }))
+                        {
+                        <input id="access-key" name="AccessKey" value="@Model.AccessKey" type="hidden" />
                         <h4>@Resources.WantToSendLink</h4>
                         <div class="form-group checkbox-hold">
                             <label for="agreement-email" class="mandatory-field align-middle custom-checkbox">
@@ -65,8 +64,8 @@
                                 </div>
                             </div>
                         </div>
+                        }
                     </div>
-                }
             }
             else
             {

@@ -106,6 +106,7 @@
         if (state.nextBrandNumber > 2) {
             $('#add-brand-container').hide();
         }
+        resetForm('#onboard-form');
         return false;
     }
 
