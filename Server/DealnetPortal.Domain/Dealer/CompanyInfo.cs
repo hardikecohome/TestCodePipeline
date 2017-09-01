@@ -23,6 +23,8 @@ namespace DealnetPortal.Domain.Dealer
         public string FullLegalName { get; set; }
         public string OperatingName { get; set; }
 
+        public string AccountId { get; set; }
+
         public string Phone { get; set; }        
         public string EmailAddress { get; set; }
         public string Website { get; set; }

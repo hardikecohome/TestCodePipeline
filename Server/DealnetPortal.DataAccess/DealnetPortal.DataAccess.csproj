@@ -96,6 +96,8 @@
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\ContractRepository.cs" />
     <Compile Include="Repositories\CustomerFormRepository.cs" />
+    <Compile Include="Repositories\ILicenseDocumentRepository.cs" />
+    <Compile Include="Repositories\LicenseDocumentRepository.cs" />
     <Compile Include="Repositories\DealerOnboardingRepository.cs" />
     <Compile Include="Repositories\FileRepository.cs" />
     <Compile Include="Repositories\IApplicationRepository.cs" />

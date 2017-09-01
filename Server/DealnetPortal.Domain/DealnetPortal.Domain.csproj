@@ -80,6 +80,8 @@
     <Compile Include="DocumentType.cs" />
     <Compile Include="Email.cs" />
     <Compile Include="EquipmentInfo.cs" />
+    <Compile Include="LicenseDocument.cs" />
+    <Compile Include="LicenseType.cs" />
     <Compile Include="EquipmentType.cs" />
     <Compile Include="ExistingEquipment.cs" />
     <Compile Include="Language.cs" />
