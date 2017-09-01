@@ -1100,6 +1100,7 @@
     <Content Include="Views\Shared\OnBoarding\_AddressInfo.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_AdditionalOwnerTemplate.cshtml" />
     <Content Include="Scripts\Pages\onboarding\acknowledgment\onboarding.ackonwledgment.setters.js" />
+    <Content Include="Scripts\Pages\onboarding\documents\onboarding.documents.index.js" />
     <Content Include="Views\Shared\OnBoarding\_SaveAndResumeModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
