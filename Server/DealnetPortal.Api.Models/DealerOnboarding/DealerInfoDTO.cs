@@ -28,5 +28,6 @@ namespace DealnetPortal.Api.Models.DealerOnboarding
         public List<OwnerInfoDTO> Owners { get; set; }
         public ProductInfoDTO ProductInfo { get; set; }
         public List<RequiredDocumentDTO> RequiredDocuments { get; set; }
+        public List<AdditionalDocumentDTO> AdditionalDocuments { get; set; }
     }
 }

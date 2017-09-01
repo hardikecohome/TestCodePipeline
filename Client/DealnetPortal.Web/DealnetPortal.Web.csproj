@@ -18,7 +18,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44341</IISExpressSSLPort>
+    <IISExpressSSLPort>44322</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -285,9 +285,11 @@
     <Compile Include="Models\ContractViewModel.cs" />
     <Compile Include="Models\CreditRejectedViewModel.cs" />
     <Compile Include="Models\CustomerContactInfoViewModel.cs" />
+    <Compile Include="Models\Dealer\RequiredDocumentViewModel.cs" />
     <Compile Include="Models\Dealer\CompanyInfoViewModel.cs" />
     <Compile Include="Models\Dealer\DealerOnboardingDictionariesViewModel.cs" />
     <Compile Include="Models\Dealer\DealerOnboardingViewModel.cs" />
+    <Compile Include="Models\Dealer\AdditionalDocumentViewModel.cs" />
     <Compile Include="Models\Dealer\OwnerViewModel.cs" />
     <Compile Include="Models\Dealer\ProductInfoViewModel.cs" />
     <Compile Include="Models\Dealer\SaveAndResumeViewModel.cs" />

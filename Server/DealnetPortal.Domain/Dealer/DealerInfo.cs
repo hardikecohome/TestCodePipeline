@@ -14,6 +14,7 @@ namespace DealnetPortal.Domain.Dealer
         {
             Owners = new HashSet<OwnerInfo>();
             RequiredDocuments = new HashSet<RequiredDocument>();
+            AdditionalDocuments = new HashSet<AdditionalDocument>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -42,6 +43,8 @@ namespace DealnetPortal.Domain.Dealer
 
         public virtual ProductInfo ProductInfo { get; set; }
         
-        public ICollection<RequiredDocument> RequiredDocuments { get; set; }        
+        public ICollection<RequiredDocument> RequiredDocuments { get; set; }      
+          
+        public ICollection<AdditionalDocument> AdditionalDocuments { get; set; }        
     }
 }

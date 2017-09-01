@@ -76,6 +76,7 @@
     <Compile Include="Dealer\OwnerInfo.cs" />
     <Compile Include="Dealer\ProductInfo.cs" />
     <Compile Include="Dealer\ProductService.cs" />
+    <Compile Include="Dealer\AdditionalDocument.cs" />
     <Compile Include="Dealer\RequiredDocument.cs" />
     <Compile Include="DocumentType.cs" />
     <Compile Include="Email.cs" />
