@@ -12,6 +12,7 @@ using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
@@ -31,9 +32,10 @@ namespace DealnetPortal.Api.Controllers
         private IContractService _contractService { get; set; }
 
         private readonly IDealerRepository _dealerRepository;
+        private readonly ILicenseDocumentRepository _licenseDocumentRepository;
 
         public DictionaryController(IUnitOfWork unitOfWork, IContractRepository contractRepository, ISettingsRepository settingsRepository, ILoggingService loggingService, 
-            IAspireStorageReader aspireStorageReader, ICustomerFormService customerFormService, IContractService contractService, IDealerRepository dealerRepository)
+            IAspireStorageReader aspireStorageReader, ICustomerFormService customerFormService, IContractService contractService, IDealerRepository dealerRepository, ILicenseDocumentRepository licenseDocumentRepository)
             : base(loggingService)
         {
             _unitOfWork = unitOfWork;
@@ -43,6 +45,7 @@ namespace DealnetPortal.Api.Controllers
             CustomerFormService = customerFormService;
             _contractService = contractService;
             _dealerRepository = dealerRepository;
+            _licenseDocumentRepository = licenseDocumentRepository;
         }             
 
         [Route("DocumentTypes")]
@@ -129,6 +132,36 @@ namespace DealnetPortal.Api.Controllers
             catch (Exception ex)
             {
                 LoggingService.LogError("Failed to retrieve Equipment Types", ex);
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("AllLicenseDocuments")]
+        [HttpGet]
+        public IHttpActionResult GetAllLicenseDocuments()
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var licenseDocuments = _licenseDocumentRepository.GetAllLicenseDocuments();
+                var licenseDocumentDtos = Mapper.Map<IList<LicenseDocumentDTO>>(licenseDocuments);
+                if (licenseDocuments == null)
+                {
+                    var errorMsg = "Cannot retrieve License documents";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.LicenseDocumentsRetrievalFailed,
+                        Message = errorMsg
+                    });
+                    LoggingService.LogError(errorMsg);
+                }
+                var result = new Tuple<IList<LicenseDocumentDTO>, IList<Alert>>(licenseDocumentDtos, alerts);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError("Failed to retrieve License documents", ex);
                 return InternalServerError(ex);
             }
         }

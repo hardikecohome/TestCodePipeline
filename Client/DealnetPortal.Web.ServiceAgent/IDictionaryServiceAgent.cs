@@ -7,6 +7,7 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.UserSettings;
 
 namespace DealnetPortal.Web.ServiceAgent
@@ -24,6 +25,8 @@ namespace DealnetPortal.Web.ServiceAgent
         /// </summary>
         /// <returns>List of Equipment Type</returns>
         Task<Tuple<IList<EquipmentTypeDTO>, IList<Alert>>> GetAllEquipmentTypes();
+
+        Task<Tuple<IList<LicenseDocumentDTO>, IList<Alert>>> GetAllLicenseDocuments();
 
         /// <summary>
         /// Get Province Tax Rate

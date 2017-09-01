@@ -290,6 +290,7 @@
     <Compile Include="Models\Dealer\DealerOnboardingViewModel.cs" />
     <Compile Include="Models\Dealer\OwnerViewModel.cs" />
     <Compile Include="Models\Dealer\ProductInfoViewModel.cs" />
+    <Compile Include="Models\Dealer\SaveAndResumeViewModel.cs" />
     <Compile Include="Models\Dealer\TradeReferenceViewModel.cs" />
     <Compile Include="Models\MyProfile\DealerAreaViewModel.cs" />
     <Compile Include="Models\MyProfile\ProfileViewModel.cs" />
@@ -1007,6 +1008,8 @@
     <Content Include="Scripts\Views\installation-address.js" />
     <Content Include="Scripts\Views\your-info.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Dealer\OnBoarding.cshtml" />
+    <Content Include="Views\Dealer\OnBoardingLayout.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1086,7 +1089,6 @@
     <Content Include="Views\Shared\Calculator\_EquipmentTemplate.cshtml" />
     <Content Include="Views\Home\OnBoard.cshtml" />
     <Content Include="Views\Home\OnBoardSuccess.cshtml" />
-    <Content Include="Views\Dealer\OnBoarding.cshtml" />
     <Content Include="Views\Dealer\OnBoardingSuccess.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_ClientConsent.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_OwnerInformation.cshtml" />
@@ -1094,11 +1096,12 @@
     <Content Include="Views\Shared\OnBoarding\_TradeReferences.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_RequiredDocuments.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_Acknowledgment.cshtml" />
-    <Content Include="Views\Dealer\OnBoardingLayout.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_CompanyInformation.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_AddressInfo.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_AdditionalOwnerTemplate.cshtml" />
     <Content Include="Scripts\Pages\onboarding\acknowledgment\onboarding.ackonwledgment.setters.js" />
+    <Content Include="Scripts\Pages\onboarding\documents\onboarding.documents.index.js" />
+    <Content Include="Views\Shared\OnBoarding\_SaveAndResumeModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
