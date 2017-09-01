@@ -16,6 +16,11 @@ namespace DealnetPortal.Domain.Dealer
         }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        /// <summary>
+        /// Aspire account Id
+        /// </summary>
+        public string AccountId { get; set; }
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime? DateOfBirth { get; set; }
