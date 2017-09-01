@@ -9,7 +9,7 @@
         }
 
         var newOwnerState = {};
-        newOwnerState[ownerIndex] = { requiredFields: constants.requiredFields };
+        newOwnerState[ownerIndex] = { requiredFields: constants.requiredFields.slice() };
 
         $.extend(state['owner-info']['owners'], newOwnerState);
 

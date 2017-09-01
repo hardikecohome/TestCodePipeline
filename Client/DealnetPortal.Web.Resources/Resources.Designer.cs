@@ -19,7 +19,7 @@ namespace DealnetPortal.Web.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -309,6 +309,15 @@ namespace DealnetPortal.Web.Resources {
         public static string AdditionalIsOwnerOfProperty {
             get {
                 return ResourceManager.GetString("AdditionalIsOwnerOfProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Additional owner information.
+        /// </summary>
+        public static string AdditionalOwnerInformation {
+            get {
+                return ResourceManager.GetString("AdditionalOwnerInformation", resourceCulture);
             }
         }
         
@@ -3621,6 +3630,24 @@ namespace DealnetPortal.Web.Resources {
         public static string Ownership {
             get {
                 return ResourceManager.GetString("Ownership", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ownership included in this application must be 50% or greater.
+        /// </summary>
+        public static string OwnershipPercentage {
+            get {
+                return ResourceManager.GetString("OwnershipPercentage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In order to submit application you need to add additional owner.
+        /// </summary>
+        public static string OwnershipSubmit {
+            get {
+                return ResourceManager.GetString("OwnershipSubmit", resourceCulture);
             }
         }
         

@@ -9,7 +9,7 @@
                     ]
                 }
             },
-            'nextOwnerIndex': 1
+            'nextOwnerIndex': 0
         },
         'aknowledgment': {
             'owners': {
@@ -33,11 +33,12 @@
         maxAdditionalOwner: 4,
         requiredFields: [
             'firstname', 'lastname', 'email', 'birthdate', 'cellphone', 'street', 'city',
-            'province', 'postalcode'
+            'province', 'postalcode', 'percentage'
         ]
     };
 
     window.state = state;
+    window.constants = constants;
 
     return {
         state: state,

@@ -13,7 +13,7 @@ namespace DealnetPortal.Web.Infrastructure
     public interface IDealerOnBoardingManager
     {
         Task<DealerOnboardingViewModel> GetNewDealerOnBoardingForm(string onboardingLink);
-        Task<DealerOnboardingViewModel> GetDealerOnBoardingFormAsynch(string accessKey);
+        Task<DealerOnboardingViewModel> GetDealerOnBoardingFormAsync(string accessKey);
         Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> SaveDraft(DealerOnboardingViewModel model);
         Task<IList<Alert>> SendEmail(SaveAndResumeViewModel model);
         Task<IList<Alert>> SubmitOnBoarding(DealerOnboardingViewModel model);

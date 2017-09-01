@@ -109,23 +109,8 @@
             var percentage = e.target.value;
             state[stateSection]['owners'][ownerNumber].percentage = percentage;
             state[stateSection].totalPercentage = Object.keys(state[stateSection]['owners']).reduce((s, v) => { return s + +state[stateSection]['owners'][v].percentage; }, 0);
-            if (ownerNumber === 'owner0') {
-                if (+percentage < 50) {
-                    $(event.currentTarget)
-                        .closest('div.col-sm-4')
-                        .siblings('div.col-sm-8')
-                        .removeClass('hidden');
 
-                    if ($('#additional-owner-warning').is(':hidden')) {
-                        $('#additional-owner-warning').removeClass('hidden');
-                    }
-
-                    $('div.action-link-holder').removeClass('hidden');
-                } else {
-                    $('#additional-owner-warning').addClass('hidden');
-                }
-            }
-
+            _spliceRequiredField(ownerNumber, e.target.id);
             _checkOwnershipPercentage();
             _moveTonextSection();
         }
@@ -138,12 +123,29 @@
 
     function _checkOwnershipPercentage() {
         if (state[stateSection].totalPercentage >= 50) {
+
+            $('#owner-notify')
+                .addClass('hidden');
+
             $('#add-additional').removeClass('mandatory-field');
+            $('#additional-owner-warning').addClass('hidden');
+
             _moveTonextSection();
         } else {
+
+            $('#owner-notify')
+                .removeClass('hidden');
+
+            $('div.action-link-holder').removeClass('hidden');
+
+            if ($('#additional-owner-warning').is(':hidden')) {
+                $('#additional-owner-warning').removeClass('hidden');
+            }
+
             if (!$('#add-additional').hasClass('mandatory-field')) {
                 $('#add-additional').addClass('mandatory-field');
             }
+  
         }
     }
 
