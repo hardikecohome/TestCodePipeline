@@ -51,7 +51,7 @@ namespace DealnetPortal.Web.Controllers
                 return View(model);
             }
             var result = await _dealerOnBoardingManager.SubmitOnBoarding(model);
-            if(result != null ||(result?.Any(x => x.Type == AlertType.Error) ?? false))
+            if(result != null && result.Any(x => x.Type == AlertType.Error))
             {
                 return RedirectToAction("AnonymousError", "Info");
             }

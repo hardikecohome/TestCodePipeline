@@ -234,13 +234,17 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<AddressInformation, AddressDTO>()
                 .ForMember(x => x.State, d => d.MapFrom(src => src.Province));
 
-            cfg.CreateMap<ProductInfoViewModel, ProductInfoDTO>();
+            cfg.CreateMap<ProductInfoViewModel, ProductInfoDTO>()
+                .ForMember(x => x.ServiceTypes, d => d.MapFrom(src => src.EquipmentTypes));
 
             cfg.CreateMap<CompanyInfoViewModel, CompanyInfoDTO>();
 
-            cfg.CreateMap<OwnerViewModel, OwnerInfoDTO>();
+            cfg.CreateMap<OwnerViewModel, OwnerInfoDTO>()
+                .ForMember(x => x.DateOfBirth, d => d.MapFrom(src => src.BirthDate))
+                .ForMember(x => x.MobilePhone, d => d.MapFrom(src => src.CellPhone));
 
-            cfg.CreateMap<DealerOnboardingViewModel, DealerInfoDTO>();
+            cfg.CreateMap<DealerOnboardingViewModel, DealerInfoDTO>()
+                .ForMember(x => x.SalesRepLink, d => d.MapFrom(src => src.OnBoardingLink));
         }
 
         private static void MapModelsToVMs(IMapperConfigurationExpression cfg)
@@ -540,13 +544,17 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<AddressDTO, AddressInformation>()
                 .ForMember(x => x.Province, d => d.MapFrom(src => src.State));
 
-            cfg.CreateMap<ProductInfoDTO, ProductInfoViewModel>();
+            cfg.CreateMap<ProductInfoDTO, ProductInfoViewModel>()
+                .ForMember(x => x.EquipmentTypes, d => d.MapFrom(src => src.ServiceTypes));
 
             cfg.CreateMap<CompanyInfoDTO, CompanyInfoViewModel>();
 
-            cfg.CreateMap<OwnerInfoDTO, OwnerViewModel>();
+            cfg.CreateMap<OwnerInfoDTO, OwnerViewModel>()
+                .ForMember(x => x.CellPhone, d => d.MapFrom(src => src.MobilePhone))
+                .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth));
 
-            cfg.CreateMap<DealerInfoDTO, DealerOnboardingViewModel>();
+            cfg.CreateMap<DealerInfoDTO, DealerOnboardingViewModel>()
+                .ForMember(x => x.OnBoardingLink, d => d.MapFrom(src => src.SalesRepLink));
         }
     }
 }
