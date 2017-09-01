@@ -1834,12 +1834,12 @@ namespace DealnetPortal.Api.Integration.Services
                     Value = dealerInfo.CompanyInfo.Website
                 });
             }
-            if (dealerInfo.ProductInfo?.Brands?.Any() == true)
+            if (dealerInfo.ProductInfo?.Brands?.Any() == true || !string.IsNullOrEmpty(dealerInfo.ProductInfo?.PrimaryBrand))
             {
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.ManufacturerBrandsSold,
-                    Value = string.Join(", ", dealerInfo.ProductInfo.Brands)
+                    Value = string.Join(", ", dealerInfo.ProductInfo?.PrimaryBrand, dealerInfo.ProductInfo.Brands)
                 });
             }
             if (dealerInfo.ProductInfo?.AnnualSalesVolume != null)
