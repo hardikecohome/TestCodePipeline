@@ -27,6 +27,7 @@ namespace DealnetPortal.Web.Models
         public string CustomerComment { get; set; }
 
         public IList<ProvinceTaxRateDTO> ProvinceTaxRates { get; set; }
+        public IList<VarificationIdsDTO> VerificationIds { get; set; }
         public IList<EquipmentTypeDTO> EquipmentTypes { get; set; }
         public SelectList ContactMethods { get; set; }
     }

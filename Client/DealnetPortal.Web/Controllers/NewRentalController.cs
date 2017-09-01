@@ -97,6 +97,7 @@ namespace DealnetPortal.Web.Controllers
 
             var viewModel = await _contractManager.GetBasicInfoAsync(contractId.Value);
             viewModel.ProvinceTaxRates = ( await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
+            viewModel.VarificationIds = (await _dictionaryServiceAgent.GetAllVerificationIds()).Item1;
             if (viewModel?.ContractState >= ContractState.Completed)
             {
                 var alerts = new List<Alert>()

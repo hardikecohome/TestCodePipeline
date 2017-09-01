@@ -70,6 +70,8 @@ namespace DealnetPortal.Api.Integration.Services
 
         Tuple<ProvinceTaxRateDTO, IList<Alert>> GetProvinceTaxRate(string province);
 
+        Tuple<ProvinceTaxRateDTO, IList<Alert>> GetVerificationId(int id);
+
         CustomerDTO GetCustomer(int customerId);
 
         IList<Alert> UpdateCustomers(CustomerDataDTO[] customers, string contractOwnerId);

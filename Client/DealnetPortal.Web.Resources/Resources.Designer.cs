@@ -322,7 +322,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Admin Fee.
+        ///   Looks up a localized string similar to Customer Fee.
         /// </summary>
         public static string AdminFee {
             get {
@@ -961,7 +961,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Client has lived at current address for less than 6 months.
+        ///   Looks up a localized string similar to Client has lived at current address for less than 2 years.
         /// </summary>
         public static string ClientLivedCurrentAddressLessThenSixMonth {
             get {
@@ -1353,6 +1353,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Dealer {
             get {
                 return ResourceManager.GetString("Dealer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dealer&apos;s Initial.
+        /// </summary>
+        public static string DealerInitial {
+            get {
+                return ResourceManager.GetString("DealerInitial", resourceCulture);
             }
         }
         
@@ -2401,7 +2410,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lived at current address less than 6 month.
+        ///   Looks up a localized string similar to Lived at current address less than 2 years.
         /// </summary>
         public static string LivedAtCurrentLessThan {
             get {
@@ -2410,7 +2419,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lived at Installation address less than 6 month.
+        ///   Looks up a localized string similar to Lived at Installation address less than 2 years.
         /// </summary>
         public static string LivedAtInstallationAddressLessThan {
             get {
@@ -4188,6 +4197,15 @@ namespace DealnetPortal.Web.Resources {
         public static string ValueOfDeal {
             get {
                 return ResourceManager.GetString("ValueOfDeal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customer&apos;s Verfication Id.
+        /// </summary>
+        public static string VerificationId {
+            get {
+                return ResourceManager.GetString("VerificationId", resourceCulture);
             }
         }
         

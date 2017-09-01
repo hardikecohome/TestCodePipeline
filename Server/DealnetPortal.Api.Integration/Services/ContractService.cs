@@ -702,6 +702,33 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
+        public Tuple<ProvinceTaxRateDTO, IList<Alert>> GetVerificationId(int id)
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var verificationid = _contractRepository.GetVerficationId(id);
+                var verificationidsDto = Mapper.Map<ProvinceTaxRateDTO>(verificationid);
+                if (verificationid == null)
+                {
+                    var errorMsg = "Cannot retrieve Verification Id";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.ProvinceTaxRateRetrievalFailed,
+                        Message = errorMsg
+                    });
+                    _loggingService.LogError(errorMsg);
+                }
+                return new Tuple<ProvinceTaxRateDTO, IList<Alert>>(verificationidsDto, alerts);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Failed to retrieve Province Tax Rate", ex);
+                throw;
+            }
+        }
+
         public CustomerDTO GetCustomer(int customerId)
         {
             var customer = _contractRepository.GetCustomer(customerId);
