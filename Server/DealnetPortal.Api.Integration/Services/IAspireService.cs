@@ -40,6 +40,7 @@ namespace DealnetPortal.Api.Integration.Services
         Task<IList<Alert>> SendDealUDFs(Contract contract, string contractOwnerId);
 
         Task<IList<Alert>> UploadDocument(int contractId, ContractDocumentDTO document, string contractOwnerId);
+        Task<IList<Alert>> UploadDocument(string aspireTransactionId, ContractDocumentDTO document, string contractOwnerId);
 
         Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId, string contractOwnerId);
         /// <summary>
