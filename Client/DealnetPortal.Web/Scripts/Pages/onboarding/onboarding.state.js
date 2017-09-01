@@ -11,6 +11,10 @@
             },
             'nextOwnerIndex': 0
         },
+        'documents': {
+            'void-cheque-files': [],
+            'insurence-files': []
+        },
         'aknowledgment': {
             'owners': {
                 'owner0': {
@@ -28,6 +32,7 @@
 
     var constants = {
         maxAdditionalOwner: 4,
+        maxVoidChequeFiles: 3,
         requiredFields: [
             'firstname', 'lastname', 'email', 'birthdate', 'cellphone', 'street', 'city',
             'province', 'postalcode', 'percentage'

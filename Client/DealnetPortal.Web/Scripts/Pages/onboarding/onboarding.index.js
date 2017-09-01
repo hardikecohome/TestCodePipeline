@@ -5,6 +5,7 @@
     var consent = require('onboarding.consent.index');
     var aknowledgement = require('onboarding.ackonwledgment.index');
     var validateAndSubmit = require('onboarding.form.handlers');
+    var documents = require('onboarding.documents.index');
 
     function init(model) {
         company.initCompany();
@@ -12,6 +13,7 @@
         aknowledgement.init(model !== undefined ? model.Owners : []);
         ownerInfo.init(model !== undefined ? model.Owners : []);
         consent.init();
+        documents.init();
 
         $('#submit').on('click', validateAndSubmit);
         $('.save-and-resume').on('click', submitDraft);

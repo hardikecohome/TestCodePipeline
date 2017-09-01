@@ -22,13 +22,13 @@ namespace DealnetPortal.Web.Infrastructure
 
         public async Task<DealerOnboardingViewModel> GetNewDealerOnBoardingForm(string onboardingLink)
         {
+            var taxRate = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
             return new DealerOnboardingViewModel
                    {
                        OnBoardingLink = onboardingLink,
                        DictionariesData = new DealerOnboardingDictionariesViewModel
                                           {
-                                              ProvinceTaxRates =
-                                                      (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1,
+                                              ProvinceTaxRates = taxRate,
                                               EquipmentTypes =
                                                       (await _dictionaryServiceAgent.GetAllEquipmentTypes()).Item1
                                                       ?.OrderBy(x => x.Description).ToList()
