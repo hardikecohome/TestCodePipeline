@@ -23,17 +23,16 @@ namespace DealnetPortal.Web.Infrastructure
         public async Task<DealerOnboardingViewModel> GetNewDealerOnBoardingForm(string onboardingLink)
         {
             return new DealerOnboardingViewModel
-                   {
-                       OnBoardingLink = onboardingLink,
-                       DictionariesData = new DealerOnboardingDictionariesViewModel
-                                          {
-                                              ProvinceTaxRates =
-                                                      (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1,
-                                              EquipmentTypes =
-                                                      (await _dictionaryServiceAgent.GetAllEquipmentTypes()).Item1
-                                                      ?.OrderBy(x => x.Description).ToList()
-                                          }
-                   };
+            {
+                OnBoardingLink = onboardingLink,
+                DictionariesData = new DealerOnboardingDictionariesViewModel
+                {
+                    ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1,
+                    EquipmentTypes = (await _dictionaryServiceAgent.GetAllEquipmentTypes()).Item1
+                                                      ?.OrderBy(x => x.Description).ToList(),
+                    LicenseDocuments = (await _dictionaryServiceAgent.GetAllLicenseDocuments()).Item1.ToList()
+                }
+            };
         }
 
         public async Task<DealerOnboardingViewModel> GetDealerOnBoardingFormAsync(string accessKey)
@@ -60,7 +59,13 @@ namespace DealnetPortal.Web.Infrastructure
 
         public async Task<IList<Alert>> SubmitOnBoarding(DealerOnboardingViewModel model)
         {
-            throw new NotImplementedException();
+            DealerInfoDTO dto = AutoMapper.Mapper.Map<DealerInfoDTO>(model);
+            return await _dealerServiceAgent.SubmitDealerOnboardingForm(dto);
+        }
+
+        public async Task<IList<Alert>> SendEmail(SaveAndResumeViewModel model)
+        {
+            return new List<Alert>();
         }
     }
 }

@@ -6,6 +6,7 @@ using DealnetPortal.Web.ServiceAgent;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Infrastructure.Extensions;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -40,6 +41,7 @@ namespace DealnetPortal.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                var errors = ModelState.GetModelErrors();
                 model.DictionariesData = new DealerOnboardingDictionariesViewModel
                 {
                     ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1,
@@ -49,7 +51,12 @@ namespace DealnetPortal.Web.Controllers
 
                 return View(model);
             }
-            return View();
+            var result = await _dealerOnBoardingManager.SubmitOnBoarding(model);
+            if(result != null && result.Any(x => x.Type == AlertType.Error))
+            {
+                return RedirectToAction("AnonymousError", "Info");
+            }
+            return RedirectToAction("OnBoardingSuccess");
         }
 
         [HttpPost]
@@ -58,17 +65,30 @@ namespace DealnetPortal.Web.Controllers
         {
             var result = await _dealerOnBoardingManager.SaveDraft(model);
             var modal = new SaveAndResumeViewModel
-                        {
-                            AccessKey = result.Item1?.AccessKey ?? model.AccessKey,
-                            Success = result.Item2 != null && result.Item2.Any(a => a.Type == AlertType.Error),
-                            Alerts = result.Item2?.Where(a=>a.Type == AlertType.Error),
-                            Email = model.Owners.Any()
+            {
+                AccessKey = result.Item1?.AccessKey ?? model.AccessKey,
+                Success = result.Item2 != null ? !result.Item2.Any(a => a.Type == AlertType.Error) : true,
+                Alerts = result.Item2,
+                Email = model.Owners.Any() && !string.IsNullOrEmpty(model.Owners.First().EmailAddress)
                                         ? model.Owners.First().EmailAddress
-                                        : string.IsNullOrEmpty(model.CompanyInfo.EmailAddress)
+                                        : !string.IsNullOrEmpty(model.CompanyInfo.EmailAddress)
                                             ? model.CompanyInfo.EmailAddress
                                             : String.Empty
-                        };
+            };
             return PartialView("OnBoarding/_SaveAndResumeModal", modal);
+        }
+
+        public ActionResult OnBoardingSuccess()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SendLink(SaveAndResumeViewModel model)
+        {
+            var result = await _dealerOnBoardingManager.SendEmail(model);
+            if (result == null || !result.Any()) { return Json(new { success = true }); }
+            return Json(new { success = false });
         }
     }
 }

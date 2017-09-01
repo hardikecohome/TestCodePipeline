@@ -23,12 +23,12 @@ namespace DealnetPortal.Web.Models.Dealer
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "AnnualSalesVolume")]
-        [RegularExpression(@"^[1-9]\d{0,2}$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "AnnualSalesIncorrectFormat")]
+        [RegularExpression(@"^[1-9]\d{0,11}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "AnnualSalesIncorrectFormat")]
         public decimal AnnualSalesVolume { get; set; }
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "AverageTransactionSize")]
-        [RegularExpression(@"^[1-9]\d{0,2}$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "AverageTransactionSizeIncorrectFormat")]
+        [RegularExpression(@"^[1-9]\d{0,11}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "AverageTransactionSizeIncorrectFormat")]
         public decimal AverageTransactionSize { get; set; }
 
         public bool SalesApproachConsumerDirect { get; set; }
@@ -60,7 +60,7 @@ namespace DealnetPortal.Web.Models.Dealer
         public string FinanceProviderName { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "MonthlyFinancedValue")]
-        [RegularExpression(@"^[1-9]\d{0,2}$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "MonthlyFinancedValueIncorrectFormat")]
+        [RegularExpression(@"^[1-9]\d{0,11}([.,][0-9][0-9]?)?", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "MonthlyFinancedValueIncorrectFormat")]
         public decimal? MonthlyFinancedValue { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "OfferMonthlyDeferrals")]
