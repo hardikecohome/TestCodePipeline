@@ -20,16 +20,30 @@
     }
 
     function initSendEmail() {
+        function toggleAgreementError(show) {
+            if (show) {
+                $('#agreement-email-error').addClass('field-validation-error').text(translations.ThisFieldIsRequired);
+            } else {
+                $('#agreement-email-error').removeClass('field-validation-error').text('');
+            }
+        }
+        $('#agreement-email').on('change', function () {
+            toggleAgreementError(!$(this).prop('checked'));
+        })
         $('#send-draft-email').on('submit', function () {
             var $this = $(this);
-            if ($this.valid()) {
+            var allowCommunicate = $this.find('#agreement-email').prop('checked');
+            toggleAgreementError(!allowCommunicate);
+            if ($this.valid() && allowCommunicate) {
                 $.ajax({
                     url: sendEmailUrl,
-                    type:'POST',
-                    data:$this.serialize(),
+                    type: 'POST',
+                    data: $this.serialize(),
                     success: function (data) {
                         if (data.success) {
                             $('#sent-success').removeClass('hidden');
+                        } else {
+                            $('#sent-success').addClass('hidden');
                         }
                     }
                 });
