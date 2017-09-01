@@ -41,6 +41,8 @@ namespace DealnetPortal.Domain.Dealer
         public decimal? PercentMonthlyDealsDeferred { get; set; }
         public ReasonForInterest? ReasonForInterest { get; set; }
 
+        public string PrimaryBrand { get; set; }
+
         public virtual ICollection<ManufacturerBrand> Brands { get; set; } 
 
         public virtual ICollection<ProductService> Services { get; set; } 

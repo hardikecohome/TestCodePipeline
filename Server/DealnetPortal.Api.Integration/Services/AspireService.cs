@@ -565,6 +565,100 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
+        public async Task<IList<Alert>> UploadDocument(string aspireTransactionId, ContractDocumentDTO document,
+            string contractOwnerId)
+        {
+            if (aspireTransactionId == null)
+            {
+                throw new ArgumentNullException(nameof(aspireTransactionId));
+            }
+            if (document == null)
+            {
+                throw new ArgumentNullException(nameof(document));
+            }
+            if (document.DocumentBytes == null)
+            {
+                throw new ArgumentNullException(nameof(document.DocumentBytes));
+            }
+
+            var alerts = new List<Alert>();
+
+            if (!string.IsNullOrEmpty(aspireTransactionId) && document.DocumentBytes != null)
+            {
+                var docTypeId = document.DocumentTypeId;
+                var docTypes = _contractRepository.GetDocumentTypes();
+
+                var docType = docTypes?.FirstOrDefault(t => t.Id == docTypeId);
+                if (!string.IsNullOrEmpty(docType?.Prefix))
+                {
+                    if (string.IsNullOrEmpty(document.DocumentName) || !document.DocumentName.StartsWith(docType.Prefix))
+                    {
+                        document.DocumentName = docType.Prefix + document.DocumentName;
+                    }
+                }
+
+                var request = new DocumentUploadRequest();
+
+                var userResult = GetAspireUser(contractOwnerId);
+                if (userResult.Item2.Any())
+                {
+                    alerts.AddRange(userResult.Item2);
+                }
+                if (alerts.All(a => a.Type != AlertType.Error))
+                {
+                    request.Header = userResult.Item1;
+
+                    try
+                    {
+                        request.Payload = new DocumentUploadPayload()
+                        {
+                            TransactionId = aspireTransactionId,
+                            Status = _configuration.GetSetting(WebConfigKeys.DOCUMENT_UPLOAD_STATUS_CONFIG_KEY)
+                        };
+
+                        request.Payload.Documents = new List<Document>()
+                        {
+                            new Document()
+                            {
+                                Name = Path.GetFileNameWithoutExtension(document.DocumentName),
+                                Data = Convert.ToBase64String(document.DocumentBytes),
+                                Ext = Path.GetExtension(document.DocumentName)?.Substring(1)
+                            }
+                        };
+
+                        var docUploadResponse = await _aspireServiceAgent.DocumentUploadSubmission(request).ConfigureAwait(false);
+                        if (docUploadResponse?.Header == null || docUploadResponse.Header.Code != CodeSuccess || !string.IsNullOrEmpty(docUploadResponse.Header.ErrorMsg))
+                        {
+                            alerts.Add(new Alert()
+                            {
+                                Header = docUploadResponse?.Header?.Status,
+                                Message = docUploadResponse?.Header?.Message ?? docUploadResponse?.Header?.ErrorMsg,
+                                Type = AlertType.Error
+                            });
+                        }                       
+
+                        if (alerts.All(a => a.Type != AlertType.Error))
+                        {
+                            _loggingService.LogInfo($"Document {document.DocumentName} to Aspire for contract with transactionId {aspireTransactionId} was uploaded successfully");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Code = ErrorCodes.AspireConnectionFailed,
+                            Header = "Can't upload document",
+                            Message = ex.ToString(),
+                            Type = AlertType.Error
+                        });
+                        _loggingService.LogError($"Can't upload document to Aspire for transaction {aspireTransactionId}", ex);
+                    }
+                }
+            }            
+
+            return alerts;
+        }
+
         public async Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId, string contractOwnerId)
         {
             var alerts = new List<Alert>();
@@ -1740,12 +1834,12 @@ namespace DealnetPortal.Api.Integration.Services
                     Value = dealerInfo.CompanyInfo.Website
                 });
             }
-            if (dealerInfo.ProductInfo?.Brands?.Any() == true)
+            if (dealerInfo.ProductInfo?.Brands?.Any() == true || !string.IsNullOrEmpty(dealerInfo.ProductInfo?.PrimaryBrand))
             {
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.ManufacturerBrandsSold,
-                    Value = string.Join(", ", dealerInfo.ProductInfo.Brands)
+                    Value = string.Join(", ", dealerInfo.ProductInfo?.PrimaryBrand, dealerInfo.ProductInfo.Brands)
                 });
             }
             if (dealerInfo.ProductInfo?.AnnualSalesVolume != null)

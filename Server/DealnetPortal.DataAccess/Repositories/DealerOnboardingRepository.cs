@@ -325,6 +325,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     dbProductInfo.WithCurrentProvider = updateProductInfo.WithCurrentProvider;
                 }
+                if (dbProductInfo.PrimaryBrand != updateProductInfo.PrimaryBrand)
+                {
+                    dbProductInfo.PrimaryBrand = updateProductInfo.PrimaryBrand;
+                }
 
                 UpdateProductBrands(dbProductInfo, updateProductInfo.Brands);
                 UpdateProductServices(dbProductInfo, updateProductInfo.Services);
