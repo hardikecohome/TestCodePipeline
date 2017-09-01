@@ -191,6 +191,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Owners, d => d.MapFrom(src => src.Owners))
                 .ForMember(x => x.RequiredDocuments, d => d.MapFrom(src => src.RequiredDocuments))
                 .ForMember(x => x.SalesRepLink, d => d.Ignore());
+            mapperConfig.CreateMap<LicenseType, LicenseTypeDTO>();
+            mapperConfig.CreateMap<LicenseDocument, LicenseDocumentDTO>();
         }
 
         private static void MapAspireDomainsToModels(IMapperConfigurationExpression mapperConfig)
@@ -474,6 +476,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Owners, d => d.MapFrom(src => src.Owners))
                 .ForMember(x => x.RequiredDocuments, d => d.MapFrom(src => src.RequiredDocuments))
                 .ForMember(x => x.ParentSalesRep, d => d.Ignore());
+            mapperConfig.CreateMap<LicenseTypeDTO, LicenseType>();
+            mapperConfig.CreateMap<LicenseDocumentDTO, LicenseDocument>();
         }
     }
 }
