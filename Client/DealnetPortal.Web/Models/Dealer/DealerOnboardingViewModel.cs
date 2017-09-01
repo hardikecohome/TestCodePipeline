@@ -24,8 +24,7 @@ namespace DealnetPortal.Web.Models.Dealer
         public bool AllowCommunicate { get; set; }
 
         public CompanyInfoViewModel CompanyInfo { get; set; }
-
-        [MinMaxListCount(1,5)]
+        
         public List<OwnerViewModel> Owners { get; set; }
 
         public ProductInfoViewModel ProductInfo { get; set; }

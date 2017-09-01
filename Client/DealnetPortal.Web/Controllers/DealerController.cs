@@ -6,6 +6,7 @@ using DealnetPortal.Web.ServiceAgent;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Infrastructure.Extensions;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -40,6 +41,7 @@ namespace DealnetPortal.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                var errors = ModelState.GetModelErrors();
                 model.DictionariesData = new DealerOnboardingDictionariesViewModel
                 {
                     ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1,
