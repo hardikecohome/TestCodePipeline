@@ -34,7 +34,7 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 dbDealer = GetDealerInfoById(dealerInfo.Id);
             }
-            if (dbDealer != null && !string.IsNullOrEmpty(dealerInfo.AccessKey))
+            if (dbDealer == null && !string.IsNullOrEmpty(dealerInfo.AccessKey))
             {
                 dbDealer = GetDealerInfoByAccessKey(dealerInfo.AccessKey);
             }
