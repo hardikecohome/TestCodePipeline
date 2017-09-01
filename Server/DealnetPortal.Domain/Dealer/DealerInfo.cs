@@ -35,6 +35,10 @@ namespace DealnetPortal.Domain.Dealer
         public DateTime CreationTime { get; set; }
         public DateTime? LastUpdateTime { get; set; }
 
+        public bool Submitted { get; set; }
+
+        public bool SentToAspire { get; set; }
+
         //public int? CompanyInfoId { get; set; }
         //[ForeignKey("CompanyInfoId")]
         public virtual CompanyInfo CompanyInfo { get; set; }
