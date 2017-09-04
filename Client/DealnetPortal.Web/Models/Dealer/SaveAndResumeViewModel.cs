@@ -12,6 +12,8 @@ namespace DealnetPortal.Web.Models.Dealer
 
         public IEnumerable<Alert> Alerts { get; set; }
 
+        public int Id { get; set; }
+
         public string AccessKey { get; set; }
 
         [CustomRequired]
