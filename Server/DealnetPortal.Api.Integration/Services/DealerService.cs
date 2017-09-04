@@ -119,7 +119,6 @@ namespace DealnetPortal.Api.Integration.Services
                                               _dealerRepository.GetUserIdByOnboardingLink(dealerInfo.SalesRepLink);
                 var updatedInfo = _dealerOnboardingRepository.AddOrUpdateDealerInfo(mappedInfo);
                 _unitOfWork.Save();
-                _mailService.SendDraftLinkMail(updatedInfo.AccessKey);
                 resultKey = new DealerInfoKeyDTO()
                 {
                     AccessKey = updatedInfo.AccessKey,
@@ -176,6 +175,32 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     Type = AlertType.Error,
                     Code = ErrorCodes.FailedToUpdateContract,
+                    Header = ErrorConstants.SubmitFailed,
+                    Message = errorMsg
+                });
+                _loggingService.LogError(errorMsg);
+            }
+            return alerts;
+        }
+
+        public async Task<IList<Alert>> SendDealerOnboardingDraftLink(string accessKey)
+        {
+            if (string.IsNullOrEmpty(accessKey))
+            {
+                throw new ArgumentNullException(nameof(accessKey));
+            }
+
+            var alerts = new List<Alert>();
+            try
+            {
+                await _mailService.SendDraftLinkMail(accessKey);
+            }
+            catch (Exception ex)
+            {
+                var errorMsg = $"Cannot send draf link by email";
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
                     Header = ErrorConstants.SubmitFailed,
                     Message = errorMsg
                 });

@@ -125,5 +125,21 @@ namespace DealnetPortal.Web.ServiceAgent
                 throw;
             }
         }
+
+        public async Task<IList<Alert>> SendDealerOnboardingDraftLink(string accessKey)
+        {
+            try
+            {
+                return
+                    await
+                        Client.PostAsyncEx<string, IList<Alert>>(
+                            $"{_fullUri}/SendDealerOnboardingDraftLink?accessKey={accessKey}", null, null, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't update dealer onboarding info for an user", ex);
+                throw;
+            }
+        }
     }
 }

@@ -76,9 +76,9 @@ namespace DealnetPortal.Web.Infrastructure
             return await _dealerServiceAgent.SubmitDealerOnboardingForm(dto);
         }
 
-        public async Task<IList<Alert>> SendEmail(SaveAndResumeViewModel model)
+        public async Task<IList<Alert>> SendDealerOnboardingDraftLink(SaveAndResumeViewModel model)
         {
-            return new List<Alert>();
+            return await _dealerServiceAgent.SendDealerOnboardingDraftLink(model.AccessKey);
         }
     }
 }

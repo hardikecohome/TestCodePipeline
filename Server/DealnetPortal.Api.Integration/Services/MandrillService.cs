@@ -243,7 +243,7 @@ namespace DealnetPortal.Api.Integration.Services
             };
             try
             {
-                var result = await SendEmail(request);
+                //var result = await SendEmail(request);
             }
             catch (Exception ex)
             {
@@ -293,7 +293,7 @@ namespace DealnetPortal.Api.Integration.Services
             };
             try
             {
-                var result = await SendEmail(request);
+                //var result = await SendEmail(request);
             }
             catch (Exception ex)
             {
@@ -301,36 +301,5 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
         }
-
-        //    public async Task SendEmail(string myemail)
-        //{
-        //    List<EmailAddress> to = new List<EmailAddress>();
-        //    List<RcptMergeVar> mergevariables = new List<RcptMergeVar>();
-        //    List<MergeVar> myvar = new List<MergeVar>();
-        //    myvar.Add(new MergeVar() { Name="FNAME", Content = "Hardik" });
-        //    myvar.Add(new MergeVar() { Name = "LNAME", Content = "Sharma" });
-        //    List<TemplateContent> variables = new List<TemplateContent>();
-
-        //    mergevariables.Add(new RcptMergeVar() {
-        //        Rcpt = myemail,
-        //        Vars = myvar
-
-        //    });
-        //    to.Add(new EmailAddress() { Email = myemail });
-        //    EmailMessage message = new EmailMessage();
-        //    message.To = to;
-
-        //    await _manager.SendMessageTemplate(new SendMessageTemplateRequest(new EmailMessage()
-        //    {
-        //        To = to,
-        //        Subject = "Send Email From Mandrill",
-        //        FromEmail = ConfigurationManager.AppSettings["FromEamil"],
-        //        FromName = ConfigurationManager.AppSettings["FromName"],
-        //        Merge = true,
-        //        MergeLanguage = "mailchimp"
-
-        //    }, "",));
-        //}
-
     }
 }

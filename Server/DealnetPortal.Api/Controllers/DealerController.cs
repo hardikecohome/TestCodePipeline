@@ -100,6 +100,22 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("SendDealerOnboardingDraftLink")]
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> SendDealerOnboardingDraftLink(string accessKey)
+        {
+            try
+            {
+                var result = await _dealerService.SendDealerOnboardingDraftLink(accessKey);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("AddDocumentToDealerOnboarding")]
         [HttpPut]
         public IHttpActionResult AddDocumentToDealerOnboarding(RequiredDocumentDTO document)

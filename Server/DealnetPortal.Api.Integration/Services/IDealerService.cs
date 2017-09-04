@@ -19,5 +19,6 @@ namespace DealnetPortal.Api.Integration.Services
         Tuple<DealerInfoKeyDTO, IList<Alert>> UpdateDealerOnboardingForm(DealerInfoDTO dealerInfo);
         Task<IList<Alert>> SubmitDealerOnboardingForm(DealerInfoDTO dealerInfo);
         Tuple<DealerInfoKeyDTO, IList<Alert>> AddDocumentToOnboardingForm(RequiredDocumentDTO document);
+        Task<IList<Alert>> SendDealerOnboardingDraftLink(string accessKey);
     }
 }
