@@ -11,7 +11,7 @@ using DealnetPortal.Web.Infrastructure.Extensions;
 namespace DealnetPortal.Web.Controllers
 {
     [AllowAnonymous]
-    public class DealerController : Controller
+    public class DealerController : UpdateController
     {
         private readonly IDealerOnBoardingManager _dealerOnBoardingManager;
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
@@ -28,11 +28,10 @@ namespace DealnetPortal.Web.Controllers
             return View(await _dealerOnBoardingManager.GetNewDealerOnBoardingForm(onboardingLink));
         }
 
-        // GET: Dealer
         [HttpGet]
         public async Task<ActionResult> ResumeOnBoarding(string key)
         {
-            return View("OnBoarding",await _dealerOnBoardingManager.GetDealerOnBoardingFormAsync(key));
+            return View("OnBoarding", await _dealerOnBoardingManager.GetDealerOnBoardingFormAsync(key));
         }
 
         [HttpPost]
@@ -51,11 +50,14 @@ namespace DealnetPortal.Web.Controllers
 
                 return View(model);
             }
+
             var result = await _dealerOnBoardingManager.SubmitOnBoarding(model);
+
             if(result != null && result.Any(x => x.Type == AlertType.Error))
             {
                 return RedirectToAction("AnonymousError", "Info");
             }
+
             return RedirectToAction("OnBoardingSuccess");
         }
 
@@ -75,6 +77,7 @@ namespace DealnetPortal.Web.Controllers
                                             ? model.CompanyInfo.EmailAddress
                                             : String.Empty
             };
+
             return PartialView("OnBoarding/_SaveAndResumeModal", modal);
         }
 
@@ -89,6 +92,17 @@ namespace DealnetPortal.Web.Controllers
             var result = await _dealerOnBoardingManager.SendEmail(model);
             if (result == null || !result.Any()) { return Json(new { success = true }); }
             return Json(new { success = false });
+        }
+
+        [HttpPost]
+        public JsonResult UploadDocument()
+        {
+            if (Request.Files == null || Request.Files.Count <= 0)
+            {
+                return GetErrorJson();
+            }
+
+            return Json(string.Empty);
         }
     }
 }

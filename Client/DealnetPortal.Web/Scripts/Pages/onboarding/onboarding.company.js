@@ -19,9 +19,11 @@
             var $this = $(this);
             var id = $this.attr('id').split('-')[1];
             state.selectedProvinces.push($this.val());
+            $(document).trigger('provinceAdded');
             setRemoveClick($this.val());
             state.nextProvinceId++;
         });
+
         $('#province-select').on('change', add);
 
         if (typeof google === 'object' && typeof google.maps === 'object') {
@@ -37,7 +39,7 @@
 
                 $('#province-list').append(provinceTemplate(state.nextProvinceId, value));
                 setRemoveClick(value);
-
+                $(document).trigger('provinceAdded');
                 state.nextProvinceId++;
             }
             $(this).val('');

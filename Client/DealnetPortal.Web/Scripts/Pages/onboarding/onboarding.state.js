@@ -39,7 +39,8 @@
         requiredFields: [
             'firstname', 'lastname', 'email', 'birthdate', 'cellphone', 'street', 'city',
             'province', 'postalcode', 'percentage'
-        ]
+        ],
+        validFileExtensions: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png']
     };
 
     window.state = state;
