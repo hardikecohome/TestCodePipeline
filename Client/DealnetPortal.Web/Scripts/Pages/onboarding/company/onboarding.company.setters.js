@@ -61,7 +61,7 @@
         if (index > -1) {
             state[stateSection].selectedProvinces.splice(index, 1);
             state[stateSection].nextProvinceId--;
-            if (state[stateSection].selectedProvinces.length > 1) {
+            if (state[stateSection].selectedProvinces.length < 1) {
                 var requiredIndex = state[stateSection].requiredFields.indexOf(field);
                 if (requiredIndex === -1) {
                     state[stateSection].requiredFields.push(field);

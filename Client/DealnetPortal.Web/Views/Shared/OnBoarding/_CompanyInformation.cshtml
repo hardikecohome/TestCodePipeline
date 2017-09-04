@@ -183,10 +183,13 @@
                     </li>
                     }
                 </ul>
-                <div id="work-province-error" class="well danger-well hidden">
-                    @Resources.SelectOneProvince
-                </div>
             </div>
+        </div>
+        <div id="work-province-error" class="well danger-well hidden">
+            <svg aria-hidden="true" class="icon icon-error">
+                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
+            </svg>
+            @Resources.SelectOneProvince
         </div>
         <div class="save-and-resume-hold">
             <a class="save-and-resume dealnet-info-link">
