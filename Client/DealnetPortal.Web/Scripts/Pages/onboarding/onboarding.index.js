@@ -6,6 +6,7 @@
     var aknowledgement = require('onboarding.ackonwledgment.index');
     var validateAndSubmit = require('onboarding.form.handlers');
     var documents = require('onboarding.documents.index');
+    var submitDraft = require('onboarding.form.handlers').submitDraft;
 
     function init(model) {
         company.initCompany();
@@ -17,25 +18,6 @@
 
         $('#submit').on('click', validateAndSubmit);
         $('.save-and-resume').on('click', submitDraft);
-    }
-
-    function submitDraft(e) {
-        var formData = $('form').serialize();
-        $.when($.ajax({
-            type: 'POST',
-            url: saveDraftUrl,
-            data:formData
-        })).done(function(data) {
-            $('#save-resume-modal').html(data);
-            $('#save-resume-modal').modal('show');
-            initSendEmail();
-        });
-    }
-
-    function initSendEmail() {
-        $('#send-draft-email').on('submit', function () {
-
-        });
     }
 
     window.init = init;

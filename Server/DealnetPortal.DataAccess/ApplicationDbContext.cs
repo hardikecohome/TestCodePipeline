@@ -95,6 +95,7 @@ namespace DealnetPortal.DataAccess
         public virtual DbSet<ProductInfo> ProductInfos { get; set; }
         public virtual DbSet<ProductService> ProductServices { get; set; }
         public virtual DbSet<RequiredDocument> RequiredDocuments { get; set; }
+        public virtual DbSet<AdditionalDocument> AdditionalDocuments { get; set; }
         public virtual DbSet<LicenseType> LicenseTypes { get; set; }
         public virtual DbSet<LicenseDocument> LicenseDocuments { get; set; }
     }

@@ -1,13 +1,13 @@
 ﻿@model DealnetPortal.Web.Models.Dealer.SaveAndResumeViewModel
 
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="@Resources.Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-                @if (Model.Success)
-                {
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="@Resources.Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            @if (Model.Success)
+            {
                     <div class="dealnet-modal-section">
                         <div class="modal-title">@Resources.SaveAndResumeLater</div>
                         <h4>@Resources.CopyLinkResumeLater</h4>
@@ -26,65 +26,67 @@
                     <div class="dealnet-modal-section">
                         @using (Html.BeginForm("SendDraftLink", "Dealer", FormMethod.Post, new { id = "send-draft-email" }))
                         {
-                            <h4>@Resources.WantToSendLink</h4>
-                            <div class="form-group checkbox-hold">
-                                <label for="agreement-email" class="mandatory-field align-middle custom-checkbox">
-                                    <input type="checkbox" class="dealnet-checkbox" id="agreement-email" name="agreement-email" />
-                                    <span class="checkbox-icon">
-                                        <svg aria-hidden="true" class="icon icon-checked">
-                                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
-                                        </svg>
-                                    </span>
-                                    <span>@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
-                                </label>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-5 col-sm-6">
-                                    @Html.LabelFor(m => m.Email)
-                                    <label for="send-resume-email">@Resources.EmailAddress</label>
-                                    <div class="control-group">
-                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control dealnet-input", id = "send-resume-email" })
-                                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-4 col-sm-6">
-                                    <label for="" class="hidden-xs">&nbsp;</label>
-                                    <div class="control-group">
-                                        <button type="submit" class="btn dealnet-success-button" id="send-email-submit">@Resources.SendMeLink</button>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-3 col-sm-3 col-sm-offset-4 col-md-offset-0 hidden">
-                                    <label for="">&nbsp;</label>
-                                    <div class="email-sent-success flex-centered-text">
-                                        <svg aria-hidden="true" class="icon icon-success">
-                                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success-gray-circle")"></use>
-                                        </svg>
-                                        <span>@Resources.MailSent</span>
-                                    </div>
+                        <input id="access-key" name="AccessKey" value="@Model.AccessKey" type="hidden" />
+                        <h4>@Resources.WantToSendLink</h4>
+                        <div class="form-group checkbox-hold">
+                            <label for="agreement-email" class="mandatory-field align-middle custom-checkbox">
+                                @Html.CheckBoxFor(m => m.AllowCommunicate, new { @class = "dealnet-checkbox", id = "agreement-email" })
+                                <span class="checkbox-icon">
+                                    <svg aria-hidden="true" class="icon icon-checked">
+                                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
+                                    </svg>
+                                </span>
+                                <span>@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
+                            </label>
+                            <span class="text-danger" id="agreement-email-error"></span>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-5 col-sm-6">
+                                @Html.LabelFor(m => m.Email)
+                                <label for="send-resume-email">@Resources.EmailAddress</label>
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control dealnet-input", id = "send-resume-email" })
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                                 </div>
                             </div>
+                            <div class="form-group col-md-4 col-sm-6">
+                                <label for="" class="hidden-xs">&nbsp;</label>
+                                <div class="control-group">
+                                    <button type="submit" class="btn dealnet-success-button" id="send-email-submit">@Resources.SendMeLink</button>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3 col-sm-offset-4 col-md-offset-0 hidden" id="sent-success">
+                                <label for="">&nbsp;</label>
+                                <div class="email-sent-success flex-centered-text">
+                                    <svg aria-hidden="true" class="icon icon-success">
+                                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success-gray-circle")"></use>
+                                    </svg>
+                                    <span>@Resources.MailSent</span>
+                                </div>
+                            </div>
+                        </div>
                         }
                     </div>
-                }
-                else
-                {
-                    <div class="dealnet-modal-section">
-                        <div class="modal-title">@Resources.Error</div>
-                        @{
-                            <ul class="list-unstyled">
-                                @foreach (var alert in Model.Alerts)
-                                {
-                                    <li class="well danger-well error-descr">
-                                        <svg aria-hidden="true" class="icon icon-error">
-                                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
-                                        </svg>
-                                        @alert.Message
-                                    </li>
-                                }
-                            </ul>
-                        }
-                    </div>
+            }
+            else
+            {
+                <div class="dealnet-modal-section">
+                    <div class="modal-title">@Resources.Error</div>
+                    @{
+                        <ul class="list-unstyled">
+                            @foreach (var alert in Model.Alerts)
+                            {
+                                <li class="well danger-well error-descr">
+                                    <svg aria-hidden="true" class="icon icon-error">
+                                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
+                                    </svg>
+                                    @alert.Message
+                                </li>
                             }
-            </div>
+                        </ul>
+                    }
+                </div>
+                        }
         </div>
     </div>
+</div>

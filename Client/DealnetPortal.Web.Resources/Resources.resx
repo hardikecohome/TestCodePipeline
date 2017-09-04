@@ -1976,4 +1976,10 @@
   <data name="OwnershipSubmit" xml:space="preserve">
     <value>In order to submit application you need to add additional owner</value>
   </data>
+  <data name="ApplicationSuccessfullySubmitted" xml:space="preserve">
+    <value>Thank you, your application was successfully submitted.</value>
+  </data>
+  <data name="WellContactSoon" xml:space="preserve">
+    <value>We will contact you soon.</value>
+  </data>
 </root>

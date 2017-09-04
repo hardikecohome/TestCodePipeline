@@ -18,16 +18,19 @@
         'aknowledgment': {
             'owners': {
                 'owner0': {
-                    
+
                 }
             }
         },
-        'consent' : {
+        'consent': {
             'creditAgreement': false,
             'contactAgreement': false
         },
         selectedProvinces: [],
-        nextProvinceId: 0
+        nextProvinceId: 0,
+        selectedEquipment: [],
+        nextEquipmentId: 0,
+        nextBrandNumber: 0
     };
 
     var constants = {

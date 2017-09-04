@@ -103,16 +103,17 @@
         });
 
         state.nextBrandNumber++;
-        if (state.nextBrandNumber > 2) {
+        if (state.nextBrandNumber > 1) {
             $('#add-brand-container').hide();
         }
+        resetForm('#onboard-form');
         return false;
     }
 
     function removeBrand() {
         $(this).parents('.new-brand-group').remove();
         state.nextBrandNumber--;
-        if (state.nextBrandNumber === 2)
+        if (state.nextBrandNumber === 1)
             rebuildBrandIndex(state.nextBrandNumber);
         $('#add-brand-container').show();
         return false;
@@ -120,7 +121,7 @@
 
     function rebuildBrandIndex(index) {
         var group = $($('.new-brand-group')[0]);
-        group.find('#Brands_2').attr('id', 'Brands_1').attr('name', 'Brands[1]');
+        group.find('#ProductInfo_Brands_1').attr('id', 'ProductInfo_Brands_0').attr('name', 'ProductInfo.Brands[0]');
     }
 
     function removeEquipment() {

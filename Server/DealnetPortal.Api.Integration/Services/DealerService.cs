@@ -15,6 +15,7 @@ using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Dealer;
 using DealnetPortal.Utilities.Logging;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -156,8 +157,12 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     alerts.AddRange(submitResult);
                 }
+                if (submitResult?.Any(r => r.Type == AlertType.Error) == true)
+                {
+                    //notify dealnet here about failed upload to Aspire
+                }
                 //upload required documents
-
+                UploadOnboardingDocuments(updatedInfo.Id);
             }
             catch (Exception ex)
             {
@@ -200,6 +205,35 @@ namespace DealnetPortal.Api.Integration.Services
                 });
             }
             return new Tuple<DealerInfoKeyDTO, IList<Alert>>(resultKey, alerts);
+        }
+
+        private void UploadOnboardingDocuments(int dealerInfoId)
+        {
+            var dealerInfo = _dealerOnboardingRepository.GetDealerInfoById(dealerInfoId);
+            if (dealerInfo?.RequiredDocuments?.Any(d => d.DocumentBytes != null) == true)
+            {
+                Task.Run(() =>
+                {
+                    dealerInfo.RequiredDocuments.ForEach(async doc =>
+                    {
+                        var document = new ContractDocumentDTO()
+                        {
+                            CreationDate = doc.CreationDate,
+                            DocumentBytes = doc.DocumentBytes,
+                            DocumentName = doc.DocumentName,
+                            DocumentTypeId = doc.DocumentTypeId
+                        };
+                        try
+                        {
+                            await _aspireService.UploadDocument(dealerInfo.TransactionId, document, dealerInfo.ParentSalesRepId);
+                        }
+                        catch (Exception ex)
+                        {
+                            _loggingService.LogError($"Failed to upload document to Aspire: ", ex);
+                        }                        
+                    });
+                });
+            }           
         }
     }
 

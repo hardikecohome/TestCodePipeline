@@ -1,9 +1,9 @@
 ﻿module.exports('onboarding.common', function () {
-    function resetFormValidation() {
-        var $form = $('form');
+    function resetFormValidation(selector) {
+        var $form = $(selector);
         $form.removeData("validator");
         $form.removeData("unobtrusiveValidation");
-        $.validator.unobtrusive.parse('form');
+        $.validator.unobtrusive.parse(selector);
     }
 
     return {

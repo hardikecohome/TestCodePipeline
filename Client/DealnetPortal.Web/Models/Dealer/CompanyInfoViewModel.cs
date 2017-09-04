@@ -9,7 +9,7 @@ namespace DealnetPortal.Web.Models.Dealer
     {
         public CompanyInfoViewModel()
         {
-            AddressInfo = new AddressInformation();
+            CompanyAddress = new AddressInformation();
             Provinces = new List<string>();
         }
 
@@ -41,7 +41,7 @@ namespace DealnetPortal.Web.Models.Dealer
         [DataType(DataType.Url, ErrorMessageResourceType =typeof(Resources.Resources),ErrorMessageResourceName = "SiteInvalidFormat")]
         public string Website { get; set; }
 
-        public AddressInformation AddressInfo { get; set; }
+        public AddressInformation CompanyAddress { get; set; }
         
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "YearsInBusiness")]

@@ -63,46 +63,46 @@
         <div class="row address-container">
             <div class="col-md-6 col-sm-6">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.CompanyInfo.AddressInfo.Street, new { @class = "mandatory-field" })
+                    @Html.LabelFor(m => m.CompanyInfo.CompanyAddress.Street, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.AddressInfo.Street, new { id = "company-street", @class = "form-control dealnet-input" })
-                        @Html.ValidationMessageFor(m => m.CompanyInfo.AddressInfo.Street, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.CompanyInfo.CompanyAddress.Street, new { id = "company-street", @class = "form-control dealnet-input" })
+                        @Html.ValidationMessageFor(m => m.CompanyInfo.CompanyAddress.Street, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
             <div class="col-md-2 col-sm-2">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.CompanyInfo.AddressInfo.UnitNumber)
+                    @Html.LabelFor(m => m.CompanyInfo.CompanyAddress.UnitNumber)
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.AddressInfo.UnitNumber, new { id = "company-unit", @class = "form-control dealnet-input" })
-                        @Html.ValidationMessageFor(m => m.CompanyInfo.AddressInfo.UnitNumber, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.CompanyInfo.CompanyAddress.UnitNumber, new { id = "company-unit", @class = "form-control dealnet-input" })
+                        @Html.ValidationMessageFor(m => m.CompanyInfo.CompanyAddress.UnitNumber, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
             <div class="col-md-4 col-sm-4">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.CompanyInfo.AddressInfo.City, new { @class = "mandatory-field" })
+                    @Html.LabelFor(m => m.CompanyInfo.CompanyAddress.City, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.AddressInfo.City, new { id = "company-city", @class = "form-control dealnet-input" })
-                        @Html.ValidationMessageFor(m => m.CompanyInfo.AddressInfo.City, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.CompanyInfo.CompanyAddress.City, new { id = "company-city", @class = "form-control dealnet-input" })
+                        @Html.ValidationMessageFor(m => m.CompanyInfo.CompanyAddress.City, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
             <div class="col-md-4 col-sm-6 col-clear-lg-4 col-clear-md-4 col-clear-sm-6">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.CompanyInfo.AddressInfo.Province, new { @class = "mandatory-field" })
+                    @Html.LabelFor(m => m.CompanyInfo.CompanyAddress.Province, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.DropDownListFor(m => m.CompanyInfo.AddressInfo.Province, (Model.DictionariesData.ProvinceTaxRates).Select(p => new SelectListItem { Value = p.Province, Text = p.Province }), new { id = "company-province", @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.CompanyInfo.AddressInfo.Province, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor(m => m.CompanyInfo.CompanyAddress.Province, (Model.DictionariesData.ProvinceTaxRates).Select(p => new SelectListItem { Value = p.Province, Text = p.Province }), new { id = "company-province", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.CompanyInfo.CompanyAddress.Province, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
             <div class="col-md-4 col-sm-6">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.CompanyInfo.AddressInfo.PostalCode, new { @class = "mandatory-field" })
+                    @Html.LabelFor(m => m.CompanyInfo.CompanyAddress.PostalCode, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.AddressInfo.PostalCode, new { id = "company-postal", @class = "form-control dealnet-input" })
-                        @Html.ValidationMessageFor(m => m.CompanyInfo.AddressInfo.PostalCode, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.CompanyInfo.CompanyAddress.PostalCode, new { id = "company-postal", @class = "form-control dealnet-input" })
+                        @Html.ValidationMessageFor(m => m.CompanyInfo.CompanyAddress.PostalCode, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
@@ -201,7 +201,7 @@
 
 <script type="text/html" id="province-template">
     <li id="province-0-index">
-        <input id="province-0" name="Provinces[0]" type="hidden" value="" /><span id="province-0-display"></span>
+        <input id="province-0" name="CompanyInfo.Provinces[0]" type="hidden" value="" /><span id="province-0-display"></span>
         <span class="icon-remove">
             <svg aria-hidden="true" class="icon icon-remove-cross">
                 <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
