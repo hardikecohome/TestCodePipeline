@@ -4570,7 +4570,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please, select at least one Product.
+        ///   Looks up a localized string similar to Please select at least one Product.
         /// </summary>
         public static string SelectOneProduct {
             get {
@@ -4579,7 +4579,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please, select at lease one Province.
+        ///   Looks up a localized string similar to Please select at lease one Province.
         /// </summary>
         public static string SelectOneProvince {
             get {
