@@ -12,9 +12,6 @@
         });
         $('#province-select').on('change', add);
 
-        if (typeof google === 'object' && typeof google.maps === 'object') {
-            initGoogleServices('company-street', 'company-city', 'company-province', 'company-postal');
-        }
         $('#full-legal-name').on('change', setters.setLegalName);
         $('#operating-name').on('change', setters.setOperatingName);
         $('#company-phone').on('change', setters.setPhone);
@@ -31,7 +28,12 @@
         $('#sales').on('change', setters.setSales).change();
     };
 
+    var initAutocomplete = function () {
+        initGoogleServices('company-street', 'company-city', 'company-province', 'company-postal');
+    };
+
     return {
-        initCompany: init
+        initCompany: init,
+        initAutocomplete: initAutocomplete
     };
 });

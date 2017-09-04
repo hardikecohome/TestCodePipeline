@@ -5,7 +5,7 @@
     var additionalOwner = require('onboarding.owner-info.additional');
     var aknwoledgmentOwner = require('onboarding.ackonwledgment.owners');
 
-    function _setInputHandlers(ownerNumber) {
+    function _setInputHandlers (ownerNumber) {
         $('#' + ownerNumber + '-firstname').on('change', setters.setFirstName(ownerNumber));
         $('#' + ownerNumber + '-firstname').on('change', aknwoledgmentSetters.setFirstName(ownerNumber));
         $('#' + ownerNumber + '-lastname').on('change', setters.setLastName(ownerNumber));
@@ -21,7 +21,7 @@
         $('#' + ownerNumber + '-percentage').on('change', setters.setOwnershipPercentege(ownerNumber));
         $('#' + ownerNumber + '-agreement').on('click', aknwoledgmentSetters.setAgreement(ownerNumber));
 
-        $('#' + ownerNumber + '-remove').on('click', function() {
+        $('#' + ownerNumber + '-remove').on('click', function () {
             additionalOwner.remove(ownerNumber);
             aknwoledgmentOwner.remove(ownerNumber);
             if (ownerNumber !== 'owner0') {
@@ -46,16 +46,10 @@
                 $(".div-datepicker").removeClass('opened');
             }
         });
-        if (typeof google === 'object' && typeof google.maps === 'object') {
-            initGoogleServices(ownerNumber + '-street',
-                ownerNumber + '-city',
-                ownerNumber + '-province',
-                ownerNumber + '-postalcode');
-        }
     }
 
-    function _initEventHandlers(nubmerOfOwners) {
-        for (var i = 0; i < nubmerOfOwners; i++) {
+    function _initEventHandlers (nubmerOfOwners) {
+        for (var i = 0;i < nubmerOfOwners;i++) {
             _setInputHandlers('owner' + i);
             state['owner-info']['nextOwnerIndex']++;
         }
@@ -68,8 +62,8 @@
         });
     }
 
-    function _setLoadedData(owners) {
-        for (var i = 0; i < owners.length; i++) {
+    function _setLoadedData (owners) {
+        for (var i = 0;i < owners.length;i++) {
             var owner = 'owner' + i;
             var newOwnerState = {};
             newOwnerState[owner] = { requiredFields: constants.requiredFields.slice() };
@@ -86,7 +80,7 @@
         }
     }
 
-    function init(owners) {
+    function init (owners) {
         _initEventHandlers(owners !== undefined ? owners.length : 1);
 
         if (Array.isArray(owners) && owners.length > 0) {
@@ -94,7 +88,16 @@
         }
     }
 
+    function initAutocomplete () {
+        for (var i = 0;Object.keys(state['owner-info'].owners).length > i;i++)
+            initGoogleServices('owner' + i + '-street',
+                'owner' + i + '-city',
+                'owner' + i + '-province',
+                'owner' + i + '-postalcode');
+    }
+
     return {
-        init: init
+        init: init,
+        initAutocomplete: initAutocomplete
     }
 })
