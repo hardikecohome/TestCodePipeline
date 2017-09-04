@@ -56,6 +56,12 @@
         public static string ExistingCustomer = "Existing Customer";
 
         #region Dealer onboarding UDFs
+        public static string NumberOfInstallers = "Number of Installers";
+        public static string NumberOfSalesPeople = "Number of Sales People";
+        public static string TypeOfBusiness = "Type of Business";
+        public static string YearsInBusiness = "Years in Business";
+        public static string ProvincesApproved = "Provinces approved for Business";
+
         public static string ManufacturerBrandsSold = "Manufacturer Brands Sold";
         public static string AnnualSalesVolume = "Annual Sales Volume";
         public static string AverageTransactionSize = "Average Transaction Size";
@@ -76,8 +82,23 @@
         public static string MonthlyDealsToBeDeferred = "Monthly deals to be deferred";
         public static string ProductsForFinancingProgram = "Products for financing program";
         public static string ReasonForInterest = "Reason for interest";
-        #endregion
 
+        public static string MarketingConsent = "Marketing consent";
+        public static string CreditCheckConsent = "Credit check consent";
+
+        public static string OwnerFirstName = "Owner First Name";
+        public static string OwnerLastName = "Owner Last Name";
+        public static string OwnerAddress = "Owner Address";
+        public static string OwnerAddressUnit = "Owner Address Unit";
+        public static string OwnerAddressCity = "Owner Address City";
+        public static string OwnerAddressState = "Owner Address State";
+        public static string OwnerAddressPostalCode = "Owner Address Postal Code";
+        public static string OwnerHomePhone = "Owner Home Phone";
+        public static string OwnerMobilePhone = "Owner Mobile Phone";
+        public static string OwnerEmail = "Owner Email";
+        public static string OwnerDateOfBirth = "Owner Date of Birth";
+        public static string OwnerPercentageOfOwnership = "Percentage of Ownership";
+        #endregion
 
         public static string DefaultAddressCountry = "CAN";
     }

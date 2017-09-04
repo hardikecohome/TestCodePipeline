@@ -110,6 +110,7 @@ namespace DealnetPortal.Aspire.Integration.Models
         public string ClientId { get; set; }
 
         public string Legalname { get; set; }
+        public string Dba { get; set; }
 
         public string Role { get; set; }
 
