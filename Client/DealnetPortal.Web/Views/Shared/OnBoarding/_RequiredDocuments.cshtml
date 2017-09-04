@@ -1,4 +1,6 @@
-﻿<div class="panel customer-loan-form-panel panel-collapsed">
+﻿@model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
+
+<div class="panel customer-loan-form-panel panel-collapsed">
     <div class="panel-heading">
         <span class="panel-step">4</span>
         <h3 class="panel-title dealnet-middle-header">Required documents</h3>
@@ -47,6 +49,51 @@
             <div class="onboard-standart-license" id="licenseHolder">
                 <h4 class="onboard-required-documents-heading text-center">Provincial Safety Standard Licensing</h4>
                 <hr>
+                @for (int i = 0; i < Model.AdditionalDocuments.Count; i++)
+                {
+                    <div class="onboard-standart-doc-item" id="@(i)-license-holder">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-4">
+                                <div class="form-group">
+                                    <div class="dealnet-label hidden-sm hidden-xs">&nbsp;</div>
+                                    <div class="onboard-standart-license-title">Model.AdditionalDocuments[i].Number</div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-4">
+                                <div class="form-group">
+                                    <label for="" class="mandatory-field">Registration Number</label>
+                                    <div class="control-group">
+                                        @Html.TextBoxFor(m => m.AdditionalDocuments[i].Number, null, new { @class = "form-control", id = i + "-license-number" })
+                                        @Html.ValidationMessageFor(m => m.AdditionalDocuments[i].Number, "", new {@class = "text-danger"})
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-md-2">
+                                <div class="form-group">
+                                    <label for="" class="mandatory-field">Expiry Date</label>
+                                    <div class="control-group date-group">
+                                        @Html.TextBoxFor(m => m.AdditionalDocuments[i].ExpiredDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = i + "-license-date", placeholder = Resources.DateFormat, data_val_date = ""})
+                                        @Html.ValidationMessageFor(m => m.AdditionalDocuments[i].ExpiredDate, "", new {@class = "text-danger"})
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-md-2">
+                                <div class="form-group">
+                                    <div class="dealnet-label hidden-xs">&nbsp;</div>
+                                    <div class="control-group flex-centered-text">
+                                        <label class="align-middle custom-checkbox">
+                                            <input type="checkbox" class="dealnet-checkbox" id="$@(i)-license-checkbox"/>
+                                            <span class="checkbox-icon">
+                                                <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
+                                            </span>
+                                            <span>No expiry</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
         <div class="save-and-resume-hold">
@@ -56,7 +103,7 @@
                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-save")"></use>
                 </svg>
             </span>
-                <span>@Resources.SaveAndResumeLater</span>
+                <span>@Resources.SaveEntireAppAndResumeLater</span>
             </a>
         </div>
     </div>
@@ -76,7 +123,7 @@
 </script>
 
 <script id="licenseDocumentTemplate" type="text/x-jquery-tmpl">
-<div class="onboard-standart-doc-item">
+<div class="onboard-standart-doc-item" id="${id}-license-holder">
     <div class="row">
         <div class="col-xs-12 col-md-4">
             <div class="form-group">
@@ -88,7 +135,7 @@
             <div class="form-group">
                 <label for="" class="mandatory-field">Registration Number</label>
                 <div class="control-group">
-                    <input type="text" value="1234567891234567" class="form-control">
+                    <input type="text" value="" id="${id}-license-number" class="form-control">
                 </div>
             </div>
         </div>
@@ -96,7 +143,7 @@
             <div class="form-group">
                 <label for="" class="mandatory-field">Expiry Date</label>
                 <div class="control-group date-group">
-                    <input type="text" class="form-control dealnet-input control-disabled" disabled>
+                    <input type="text" class="form-control dealnet-input" id="${id}-license-date">
                 </div>
             </div>
         </div>
@@ -105,7 +152,7 @@
                 <div class="dealnet-label hidden-xs">&nbsp;</div>
                 <div class="control-group flex-centered-text">
                     <label class="align-middle custom-checkbox">
-                        <input type="checkbox" class="dealnet-checkbox" checked />
+                        <input type="checkbox" class="dealnet-checkbox" id="${id}-license-checkbox" />
                         <span class="checkbox-icon">
                             <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                         </span>

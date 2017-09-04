@@ -56,7 +56,7 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return await Client.GetAsyncEx<DealerInfoDTO>($"{_fullUri}/GetDealerOnboardingForm?accessKey={accessKey}", null, CurrentCulture);
+                return await Client.GetAsyncEx<DealerInfoDTO>($"{_fullUri}/GetDealerOnboardingInfo?accessKey={accessKey}", null, CurrentCulture);
             }
             catch (Exception ex)
             {
@@ -69,7 +69,7 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return await Client.GetAsyncEx<DealerInfoDTO>($"{_fullUri}/GetDealerOnboardingForm?dealerInfoId={id}", null, CurrentCulture);
+                return await Client.GetAsyncEx<DealerInfoDTO>($"{_fullUri}/GetDealerOnboardingInfo?dealerInfoId={id}", null, CurrentCulture);
             }
             catch (Exception ex)
             {

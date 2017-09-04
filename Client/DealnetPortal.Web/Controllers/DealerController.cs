@@ -66,19 +66,8 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> SaveDraft(DealerOnboardingViewModel model)
         {
             var result = await _dealerOnBoardingManager.SaveDraft(model);
-            var modal = new SaveAndResumeViewModel
-            {
-                AccessKey = result.Item1?.AccessKey ?? model.AccessKey,
-                Success = result.Item2 != null ? !result.Item2.Any(a => a.Type == AlertType.Error) : true,
-                Alerts = result.Item2,
-                Email = model.Owners.Any() && !string.IsNullOrEmpty(model.Owners.First().EmailAddress)
-                                        ? model.Owners.First().EmailAddress
-                                        : !string.IsNullOrEmpty(model.CompanyInfo.EmailAddress)
-                                            ? model.CompanyInfo.EmailAddress
-                                            : String.Empty
-            };
-
-            return PartialView("OnBoarding/_SaveAndResumeModal", modal);
+            
+            return PartialView("OnBoarding/_SaveAndResumeModal", result);
         }
 
         public ActionResult OnBoardingSuccess()

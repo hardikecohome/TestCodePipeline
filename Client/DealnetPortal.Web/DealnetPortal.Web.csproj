@@ -18,10 +18,13 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44322</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressSSLPort>44341</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -285,13 +288,13 @@
     <Compile Include="Models\ContractViewModel.cs" />
     <Compile Include="Models\CreditRejectedViewModel.cs" />
     <Compile Include="Models\CustomerContactInfoViewModel.cs" />
-    <Compile Include="Models\Dealer\RequiredDocumentViewModel.cs" />
+    <Compile Include="Models\Dealer\AdditionalDocumentViewModel.cs" />
     <Compile Include="Models\Dealer\CompanyInfoViewModel.cs" />
     <Compile Include="Models\Dealer\DealerOnboardingDictionariesViewModel.cs" />
     <Compile Include="Models\Dealer\DealerOnboardingViewModel.cs" />
-    <Compile Include="Models\Dealer\AdditionalDocumentViewModel.cs" />
     <Compile Include="Models\Dealer\OwnerViewModel.cs" />
     <Compile Include="Models\Dealer\ProductInfoViewModel.cs" />
+    <Compile Include="Models\Dealer\RequiredDocumentViewModel.cs" />
     <Compile Include="Models\Dealer\SaveAndResumeViewModel.cs" />
     <Compile Include="Models\Dealer\TradeReferenceViewModel.cs" />
     <Compile Include="Models\MyProfile\DealerAreaViewModel.cs" />
@@ -935,18 +938,22 @@
     <Content Include="Scripts\Pages\newEquipment\validation.js" />
     <Content Include="Scripts\Pages\onboarding\acknowledgment\onboarding.ackonwledgment.index.js" />
     <Content Include="Scripts\Pages\onboarding\acknowledgment\onboarding.ackonwledgment.owners.js" />
+    <Content Include="Scripts\Pages\onboarding\company\onboarding.company.province.js" />
+    <Content Include="Scripts\Pages\onboarding\company\onboarding.company.setters.js" />
     <Content Include="Scripts\Pages\onboarding\consent\onboarding.consent.index.js" />
     <Content Include="Scripts\Pages\onboarding\consent\onboarding.consent.setters.js" />
+    <Content Include="Scripts\Pages\onboarding\documents\onboarding.documents.index.js" />
     <Content Include="Scripts\Pages\onboarding\documents\onboarding.documents.setters.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.common.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.form.handlers.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.index.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.product.js" />
+    <Content Include="Scripts\Pages\onboarding\onboarding.setters.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.state.js" />
     <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.conversion.js" />
     <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.index.js" />
     <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.setters.js" />
-    <Content Include="Scripts\Pages\onboarding\onboarding.company.js" />
+    <Content Include="Scripts\Pages\onboarding\company\onboarding.company.index.js" />
     <Content Include="Scripts\Pages\onboarding\owner-info\onbobarding.owner-info.additional.js" />
     <Content Include="Scripts\Reducers\customer.js" />
     <Content Include="Scripts\Reducers\new-client-reducer.js" />
@@ -1090,8 +1097,6 @@
     <Content Include="Views\Shared\Calculator\_Option.cshtml" />
     <Content Include="Views\Shared\Calculator\_RateCard.cshtml" />
     <Content Include="Views\Shared\Calculator\_EquipmentTemplate.cshtml" />
-    <Content Include="Views\Home\OnBoard.cshtml" />
-    <Content Include="Views\Home\OnBoardSuccess.cshtml" />
     <Content Include="Views\Dealer\OnBoardingSuccess.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_ClientConsent.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_OwnerInformation.cshtml" />
@@ -1103,7 +1108,6 @@
     <Content Include="Views\Shared\OnBoarding\_AddressInfo.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_AdditionalOwnerTemplate.cshtml" />
     <Content Include="Scripts\Pages\onboarding\acknowledgment\onboarding.ackonwledgment.setters.js" />
-    <Content Include="Scripts\Pages\onboarding\documents\onboarding.documents.index.js" />
     <Content Include="Views\Shared\OnBoarding\_SaveAndResumeModal.cshtml" />
   </ItemGroup>
   <ItemGroup>

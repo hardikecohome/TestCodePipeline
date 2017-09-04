@@ -8,19 +8,24 @@
     var documents = require('onboarding.documents.index');
     var submitDraft = require('onboarding.form.handlers').submitDraft;
 
-    function init(model) {
+    function init (model) {
         company.initCompany();
         product.initProducts();
         aknowledgement.init(model !== undefined ? model.Owners : []);
         ownerInfo.init(model !== undefined ? model.Owners : []);
         consent.init();
-        documents.init();
+        documents.init(model.DictionariesData.LicenseDocuments);
 
         $('#submit').on('click', validateAndSubmit);
         $('.save-and-resume').on('click', submitDraft);
     }
 
-    window.init = init;
+    function initAutocomplete () {
+        company.initAutocomplete();
+        ownerInfo.initAutocomplete();
+    }
+
+    window.init = initAutocomplete;
 
     return {
         init: init
