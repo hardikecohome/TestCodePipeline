@@ -14,7 +14,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.FullLegalName, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.FullLegalName, new { @class = "form-control dealnet-input" })
+                        @Html.TextBoxFor(m => m.CompanyInfo.FullLegalName, new { @class = "form-control dealnet-input", id="full-legal-name" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.FullLegalName, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -23,7 +23,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.OperatingName, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.OperatingName, new { @class = "form-control dealnet-input" })
+                        @Html.TextBoxFor(m => m.CompanyInfo.OperatingName, new { @class = "form-control dealnet-input", id="operating-name" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.OperatingName, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.Phone, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.Phone, new { @class = "form-control dealnet-input" })
+                        @Html.TextBoxFor(m => m.CompanyInfo.Phone, new { @class = "form-control dealnet-input",id="company-phone" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.Phone, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.EmailAddress, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.EmailAddress, new { @class = "form-control dealnet-input" })
+                        @Html.TextBoxFor(m => m.CompanyInfo.EmailAddress, new { @class = "form-control dealnet-input",id="company-email-address" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.EmailAddress, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.Website)
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.Website, new { @class = "form-control dealnet-input", placeholder = "www.websitename.com" })
+                        @Html.TextBoxFor(m => m.CompanyInfo.Website, new { @class = "form-control dealnet-input", placeholder = "www.websitename.com", id="company-website"})
                         @Html.ValidationMessageFor(m => m.CompanyInfo.Website, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -126,7 +126,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.BusinessType, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.EnumDropDownListFor(m => m.CompanyInfo.BusinessType, null, new { @class = "form-control" })
+                        @Html.EnumDropDownListFor(m => m.CompanyInfo.BusinessType, null, new { @class = "form-control", id="company-type" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.BusinessType, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -135,7 +135,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.YearsInBusiness, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.EnumDropDownListFor(m => m.CompanyInfo.YearsInBusiness, null, new { @class = "form-control" })
+                        @Html.EnumDropDownListFor(m => m.CompanyInfo.YearsInBusiness, null, new { @class = "form-control", id="years-in-business" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.YearsInBusiness, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -144,7 +144,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.NumberOfInstallers)
                     <div class="control-group">
-                        @Html.EnumDropDownListFor(m => m.CompanyInfo.NumberOfInstallers, null, new { @class = "form-control" })
+                        @Html.EnumDropDownListFor(m => m.CompanyInfo.NumberOfInstallers, null, new { id="installers", @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.NumberOfInstallers, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -153,7 +153,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.NumberOfSales)
                     <div class="control-group">
-                        @Html.EnumDropDownListFor(m => m.CompanyInfo.NumberOfSales, null, new { @class = "form-control" })
+                        @Html.EnumDropDownListFor(m => m.CompanyInfo.NumberOfSales, null, new { id="sales", @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.NumberOfSales, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -183,7 +183,9 @@
                     </li>
                     }
                 </ul>
-                @Html.ValidationMessageFor(m => m.CompanyInfo.Provinces, "", new { @class = "text-danger", id="work-province-error" })
+                <div id="work-province-error" class="well danger-well hidden">
+                    @Resources.SelectOneProvince
+                </div>
             </div>
         </div>
         <div class="save-and-resume-hold">

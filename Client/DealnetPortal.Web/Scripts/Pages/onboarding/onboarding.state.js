@@ -22,8 +22,12 @@
             'creditAgreement': false,
             'contactAgreement': false
         },
-        selectedProvinces: [],
-        nextProvinceId: 0,
+        'company': {
+            selectedProvinces: [],
+            nextProvinceId: 0,
+            requiredFields: ['full-legal-name', 'operating-name', 'company-phone', 'company-email-address', 'company-street', 'company-city', 'company-province', 'company-city',
+                'company-postal', 'company-type', 'years-in-business', 'work-provinces']
+        },
         selectedEquipment: [],
         nextEquipmentId: 0,
         nextBrandNumber: 0
