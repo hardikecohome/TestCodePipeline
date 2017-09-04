@@ -25,12 +25,15 @@
         'company': {
             selectedProvinces: [],
             nextProvinceId: 0,
-            requiredFields: ['full-legal-name', 'operating-name', 'company-phone', 'company-email-address', 'company-street', 'company-city', 'company-province', 'company-city',
+            requiredFields: ['full-legal-name', 'operating-name', 'company-phone', 'company-email-address', 'company-street', 'company-city', 'company-province',
                 'company-postal', 'company-type', 'years-in-business', 'work-provinces']
         },
-        selectedEquipment: [],
-        nextEquipmentId: 0,
-        nextBrandNumber: 0
+        'product': {
+            selectedEquipment: [],
+            nextEquipmentId: 0,
+            nextBrandNumber: 0,
+            requiredFields: ['primary-brand', 'annual-sales-volume', 'av-transaction-size', ' sales-approach', 'lead-gen', 'program-service', 'relationship', 'equipment', 'reason-for-interest']
+        }
     };
 
     var constants = {

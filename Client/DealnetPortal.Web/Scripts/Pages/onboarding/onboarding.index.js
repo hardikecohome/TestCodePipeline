@@ -6,6 +6,7 @@
     var aknowledgement = require('onboarding.ackonwledgment.index');
     var validateAndSubmit = require('onboarding.form.handlers').validateAndSubmit;
     var submitDraft = require('onboarding.form.handlers').submitDraft;
+    var resetForm = require('onboarding.common').resetFormValidation;
 
     function init (model) {
         company.initCompany();
