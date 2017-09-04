@@ -1982,4 +1982,7 @@
   <data name="WellContactSoon" xml:space="preserve">
     <value>We will contact you soon.</value>
   </data>
+  <data name="SaveEntireAppAndResumeLater" xml:space="preserve">
+    <value>Save entire application and resume later</value>
+  </data>
 </root>

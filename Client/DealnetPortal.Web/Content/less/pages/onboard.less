@@ -629,7 +629,7 @@
 .save-and-resume-hold{
     text-align: right;
     @media @mobile {
-        margin: 10px 0;
+        margin: 20px 0 10px;
         text-align: center;
     }
 }
@@ -640,16 +640,25 @@
     color: #38aaee;
     font-size: 16px;
     line-height: 28px;
-
+    @media @mobile {
+        padding-left: 5px;
+        line-height: 18px;
+    }
     &:hover{
         text-decoration:none;
         cursor:pointer;
     }
     .icon-hold{
-        vertical-align: top;
-        position: absolute;
-        top: 0;
-        left: 0;
+        @media @tablet-up {
+            vertical-align: top;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        @media @mobile {
+            display: inline-block;
+            margin-right: 10px;
+        }
     }
     .icon-save + span {
         margin-left: 15px;

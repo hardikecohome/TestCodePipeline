@@ -7,7 +7,7 @@
     var validateAndSubmit = require('onboarding.form.handlers').validateAndSubmit;
     var submitDraft = require('onboarding.form.handlers').submitDraft;
 
-    function init(model) {
+    function init (model) {
         company.initCompany();
         product.initProducts();
         aknowledgement.init(model !== undefined ? model.Owners : []);
@@ -18,7 +18,12 @@
         $('.save-and-resume').on('click', submitDraft);
     }
 
-    window.init = init;
+    function initAutocomplete () {
+        company.initAutocomplete();
+        ownerInfo.initAutocomplete();
+    }
+
+    window.init = initAutocomplete;
 
     return {
         init: init
