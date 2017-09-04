@@ -51,10 +51,22 @@ namespace DealnetPortal.Web.Infrastructure
             return model;
         }
 
-        public async Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> SaveDraft(DealerOnboardingViewModel model)
+        public async Task<Tuple<SaveAndResumeViewModel, IList<Alert>>> SaveDraft(DealerOnboardingViewModel model)
         {
             DealerInfoDTO dto = AutoMapper.Mapper.Map<DealerInfoDTO>(model);
-            return await _dealerServiceAgent.UpdateDealerOnboardingForm(dto);
+            var result = await _dealerServiceAgent.UpdateDealerOnboardingForm(dto);
+            return new SaveAndResumeViewModel
+            {
+                Id = result.Item1?.DealerInfoId ?? 0,
+                AccessKey = result.Item1?.AccessKey ?? model.AccessKey,
+                Success = result.Item2 != null ? !result.Item2.Any(a => a.Type == AlertType.Error) : true,
+                Alerts = result.Item2,
+                Email = model.Owners.Any() && !string.IsNullOrEmpty(model.Owners.First().EmailAddress)
+                                        ? model.Owners.First().EmailAddress
+                                        : !string.IsNullOrEmpty(model.CompanyInfo.EmailAddress)
+                                            ? model.CompanyInfo.EmailAddress
+                                            : String.Empty
+            };
         }
 
         public async Task<IList<Alert>> SubmitOnBoarding(DealerOnboardingViewModel model)

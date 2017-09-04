@@ -10,9 +10,12 @@
             url: saveDraftUrl,
             data: formData
         })).done(function (data) {
-            $('#save-resume-modal').html(data).modal('show');
-            var key = $('#save-resume-modal #access-key').val();
+            var $modal = $('#save-resume-modal');
+            $modal.html(data).modal('show');
+            var key = $modal.find('#access-key').val();
             $('#AccessKey').val(key);
+            var id = $modal.find('#dealer-info-id').val();
+            $('#Id').val(id);
             resetForm('#send-draft-email');
             initSendEmail();
             initCopyLink();

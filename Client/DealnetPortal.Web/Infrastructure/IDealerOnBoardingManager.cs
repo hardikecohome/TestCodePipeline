@@ -14,7 +14,7 @@ namespace DealnetPortal.Web.Infrastructure
     {
         Task<DealerOnboardingViewModel> GetNewDealerOnBoardingForm(string onboardingLink);
         Task<DealerOnboardingViewModel> GetDealerOnBoardingFormAsync(string accessKey);
-        Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> SaveDraft(DealerOnboardingViewModel model);
+        Task<Tuple<SaveAndResumeViewModel, IList<Alert>>> SaveDraft(DealerOnboardingViewModel model);
         Task<IList<Alert>> SendEmail(SaveAndResumeViewModel model);
         Task<IList<Alert>> SubmitOnBoarding(DealerOnboardingViewModel model);
     }
