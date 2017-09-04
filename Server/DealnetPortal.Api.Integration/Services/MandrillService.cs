@@ -202,6 +202,106 @@ namespace DealnetPortal.Api.Integration.Services
 
         }
 
+        public async Task SendProblemsWithSubmittingOnboarding(string errorMsg, int dealerInfoId, string accessKey)
+        {
+            var draftLink = ConfigurationManager.AppSettings["DealerPortalDraftUrl"] + accessKey;
+            MandrillRequest request = new MandrillRequest();
+            List<Variable> myVariables = new List<Variable>();
+            request.key = _apiKey;
+            request.template_name = ConfigurationManager.AppSettings["DeclinedOrCreditReviewTemplate"];//TODO: change emailTemplate
+            request.template_content = new List<templatecontent>() {
+                    new templatecontent(){
+                        name="Declined",
+                        content = "Declined"
+                    }
+                };
+
+
+            request.message = new MandrillMessage()
+            {
+                from_email = ConfigurationManager.AppSettings["FromEmail"],
+                from_name = "Myhome Wallet by EcoHome Financial",
+                html = null,
+                merge_vars = new List<MergeVariable>() {
+                        new MergeVariable(){
+                            rcpt = ConfigurationManager.AppSettings["DealNetEmail"],//TODO: Change to Hiren email
+                            vars = myVariables
+
+
+                        }
+                    },
+                send_at = DateTime.Now,
+                subject = "Unfortunately, we’re unable to process this application automatically",
+                text = "Unfortunately, we’re unable to process this application automatically",
+                to = new List<MandrillTo>() {
+                        new MandrillTo(){
+                            email = ConfigurationManager.AppSettings["DealNetEmail"],//TODO: Change to Hiren email
+                            name = " ",
+                            type = "to"
+                        }
+                    }
+            };
+            try
+            {
+                var result = await SendEmail(request);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public async Task SendDraftLinkMail(string accessKey)
+        {
+            var draftLink = ConfigurationManager.AppSettings["DealerPortalDraftUrl"] + accessKey;
+            MandrillRequest request = new MandrillRequest();
+            List<Variable> myVariables = new List<Variable>();
+            request.key = _apiKey;
+            request.template_name = ConfigurationManager.AppSettings["DeclinedOrCreditReviewTemplate"];//TODO: change emailTemplate
+            request.template_content = new List<templatecontent>() {
+                    new templatecontent(){
+                        name="Declined",
+                        content = "Declined"
+                    }
+                };
+
+
+            request.message = new MandrillMessage()
+            {
+                from_email = ConfigurationManager.AppSettings["FromEmail"],
+                from_name = "Myhome Wallet by EcoHome Financial",
+                html = null,
+                merge_vars = new List<MergeVariable>() {
+                        new MergeVariable(){
+                            rcpt = ConfigurationManager.AppSettings["DealNetEmail"],//TODO: Change to Hiren email
+                            vars = myVariables
+
+
+                        }
+                    },
+                send_at = DateTime.Now,
+                subject = "Unfortunately, we’re unable to process this application automatically",
+                text = "Unfortunately, we’re unable to process this application automatically",
+                to = new List<MandrillTo>() {
+                        new MandrillTo(){
+                            email = ConfigurationManager.AppSettings["DealNetEmail"],//TODO: Change to Hiren email
+                            name = " ",
+                            type = "to"
+                        }
+                    }
+            };
+            try
+            {
+                var result = await SendEmail(request);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
         //    public async Task SendEmail(string myemail)
         //{
         //    List<EmailAddress> to = new List<EmailAddress>();

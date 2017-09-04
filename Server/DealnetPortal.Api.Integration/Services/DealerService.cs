@@ -27,10 +27,11 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IContractRepository _contractRepository;
         private readonly ILoggingService _loggingService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMailService _mailService;
 
 
         public DealerService(IDealerRepository dealerRepository, IDealerOnboardingRepository dealerOnboardingRepository, 
-            IAspireService aspireService, ILoggingService loggingService, IUnitOfWork unitOfWork, IContractRepository contractRepository)
+            IAspireService aspireService, ILoggingService loggingService, IUnitOfWork unitOfWork, IContractRepository contractRepository, IMailService mailService)
         {
             _dealerRepository = dealerRepository;
             _dealerOnboardingRepository = dealerOnboardingRepository;
@@ -38,6 +39,7 @@ namespace DealnetPortal.Api.Integration.Services
             _loggingService = loggingService;
             _unitOfWork = unitOfWork;
             _contractRepository = contractRepository;
+            _mailService = mailService;
         }
 
         public DealerProfileDTO GetDealerProfile(string dealerId)
@@ -117,6 +119,7 @@ namespace DealnetPortal.Api.Integration.Services
                                               _dealerRepository.GetUserIdByOnboardingLink(dealerInfo.SalesRepLink);
                 var updatedInfo = _dealerOnboardingRepository.AddOrUpdateDealerInfo(mappedInfo);
                 _unitOfWork.Save();
+                _mailService.SendDraftLinkMail(updatedInfo.AccessKey);
                 resultKey = new DealerInfoKeyDTO()
                 {
                     AccessKey = updatedInfo.AccessKey,
@@ -160,6 +163,8 @@ namespace DealnetPortal.Api.Integration.Services
                 if (submitResult?.Any(r => r.Type == AlertType.Error) == true)
                 {
                     //notify dealnet here about failed upload to Aspire
+                    var errorMsg = string.Concat(submitResult.Where(x => x.Type == AlertType.Error).Select(r => r.Header + ": " + r.Message).ToArray());
+                    await _mailService.SendProblemsWithSubmittingOnboarding(errorMsg, mappedInfo.Id, mappedInfo.AccessKey);
                 }
                 //upload required documents
                 UploadOnboardingDocuments(updatedInfo.Id);
