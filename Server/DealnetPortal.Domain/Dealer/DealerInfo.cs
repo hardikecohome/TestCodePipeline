@@ -39,6 +39,10 @@ namespace DealnetPortal.Domain.Dealer
 
         public bool SentToAspire { get; set; }
 
+        public bool MarketingConsent { get; set; }
+
+        public bool CreditCheckConsent { get; set; }
+
         //public int? CompanyInfoId { get; set; }
         //[ForeignKey("CompanyInfoId")]
         public virtual CompanyInfo CompanyInfo { get; set; }

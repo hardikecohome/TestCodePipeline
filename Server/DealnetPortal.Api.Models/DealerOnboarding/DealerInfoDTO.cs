@@ -19,7 +19,10 @@ namespace DealnetPortal.Api.Models.DealerOnboarding
 
         public string ParentSalesRepId { get; set; }        
 
-        public string TransactionId { get; set; }        
+        public string TransactionId { get; set; }
+
+        public bool MarketingConsent { get; set; }
+        public bool CreditCheckConsent { get; set; }
 
         public DateTime CreationTime { get; set; }
         public DateTime? LastUpdateTime { get; set; }
@@ -29,5 +32,6 @@ namespace DealnetPortal.Api.Models.DealerOnboarding
         public ProductInfoDTO ProductInfo { get; set; }
         public List<RequiredDocumentDTO> RequiredDocuments { get; set; }
         public List<AdditionalDocumentDTO> AdditionalDocuments { get; set; }
+
     }
 }
