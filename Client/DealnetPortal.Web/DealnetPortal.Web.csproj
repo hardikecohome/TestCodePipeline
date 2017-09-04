@@ -19,9 +19,9 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44341</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -1092,8 +1092,6 @@
     <Content Include="Views\Shared\Calculator\_Option.cshtml" />
     <Content Include="Views\Shared\Calculator\_RateCard.cshtml" />
     <Content Include="Views\Shared\Calculator\_EquipmentTemplate.cshtml" />
-    <Content Include="Views\Home\OnBoard.cshtml" />
-    <Content Include="Views\Home\OnBoardSuccess.cshtml" />
     <Content Include="Views\Dealer\OnBoardingSuccess.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_ClientConsent.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_OwnerInformation.cshtml" />
