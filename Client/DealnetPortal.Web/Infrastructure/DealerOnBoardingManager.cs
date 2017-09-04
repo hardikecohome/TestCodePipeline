@@ -6,6 +6,7 @@ using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Web.Models.Dealer;
 using DealnetPortal.Web.ServiceAgent;
+using DealnetPortal.Api.Core.Enums;
 
 namespace DealnetPortal.Web.Infrastructure
 {
@@ -51,7 +52,7 @@ namespace DealnetPortal.Web.Infrastructure
             return model;
         }
 
-        public async Task<Tuple<SaveAndResumeViewModel, IList<Alert>>> SaveDraft(DealerOnboardingViewModel model)
+        public async Task<SaveAndResumeViewModel> SaveDraft(DealerOnboardingViewModel model)
         {
             DealerInfoDTO dto = AutoMapper.Mapper.Map<DealerInfoDTO>(model);
             var result = await _dealerServiceAgent.UpdateDealerOnboardingForm(dto);
