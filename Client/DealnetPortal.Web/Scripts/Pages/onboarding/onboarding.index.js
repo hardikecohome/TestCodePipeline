@@ -9,8 +9,8 @@
     var resetForm = require('onboarding.common').resetFormValidation;
 
     function init (model) {
-        company.initCompany();
-        product.initProducts();
+        company.initCompany(model !== undefined ? model.CompanyInfo : {});
+        product.initProducts(model !== undefined ? model.ProductInfo : {});
         aknowledgement.init(model !== undefined ? model.Owners : []);
         ownerInfo.init(model !== undefined ? model.Owners : []);
         consent.init();

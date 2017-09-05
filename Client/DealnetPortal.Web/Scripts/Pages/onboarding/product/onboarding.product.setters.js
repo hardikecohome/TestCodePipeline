@@ -117,7 +117,7 @@ module.exports('onboarding.product.setters', function (require) {
     var setPercentMonthDeferrals = setFormField(percentMonthDefferals);
 
     var equipmentAdded = function (e) {
-        var id = e.target.value;
+        var id = Number(e.target.value);
         var index = state[stateSection].selectedEquipment.indexOf(id);
 
         if (index === -1) {
@@ -133,10 +133,10 @@ module.exports('onboarding.product.setters', function (require) {
     }
 
     var equipmentRemoved = function (id) {
-        var index = state[stateSection].selectedEquipment.indexOf(id);
+        var value = Number(id);
+        var index = state[stateSection].selectedEquipment.indexOf(value);
         if (index > -1) {
             state[stateSection].selectedEquipment.splice(index, 1);
-            state[stateSection].nextEquipmentId--;
             if (state[stateSection].selectedEquipment.length < 1) {
                 var requiredIndex = state[stateSection].requiredFields.indexOf(equipment);
                 if (requiredIndex > -1) {
