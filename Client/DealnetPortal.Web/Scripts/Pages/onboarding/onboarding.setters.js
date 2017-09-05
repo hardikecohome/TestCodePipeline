@@ -4,6 +4,9 @@ module.exports('onboarding.setters', function (require) {
     function configSetField (stateSection) {
         return function (field) {
             return function (e) {
+                if (field === 'company-postal')
+                    if (e.target.value !== "")
+                        state[stateSection][field] = e.target.value.toUpperCase();
                 state[stateSection][field] = e.target.value;
 
                 _spliceRequiredFields(stateSection, field);

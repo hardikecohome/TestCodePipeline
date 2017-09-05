@@ -20,7 +20,7 @@
 
     var setStreet = setFormField('company-street');
 
-    var setUnit = setFormField('company-unit')
+    var setUnit = setFormField('company-unit');
 
     var setCity = setFormField('company-city');
 

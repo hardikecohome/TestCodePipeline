@@ -4,13 +4,7 @@
     var setRemoveClick = require('onboarding.company.province').setRemoveClick;
     var setters = require('onboarding.company.setters');
 
-    var init = function() {
-        $('input[id^="province-"]')
-            .each(function() {
-                var $this = $(this);
-                var id = $this.attr('id').split('-')[1];
-                setRemoveClick($this.val());
-            });
+    var init = function(company) {
         $('#province-select').on('change', add);
 
         $('#full-legal-name').on('change', setters.setLegalName);
@@ -22,10 +16,7 @@
         $('#company-unit').on('change', setters.setUnit);
         $('#company-city').on('change', setters.setCity);
         $('#company-province').on('change', setters.setProvince);
-        $('#company-postal').on('change',function (e) {
-                    e.target.value = e.target.value.toUpperCase();
-                    setters.setPostalCode();
-            });
+        $('#company-postal').on('change', setters.setPostalCode);
         $('#company-type').on('change', setters.setType);
         $('#years-in-business').on('change', setters.setYearsInBusiness);
         $('#installers').on('change', setters.setInstallers);
