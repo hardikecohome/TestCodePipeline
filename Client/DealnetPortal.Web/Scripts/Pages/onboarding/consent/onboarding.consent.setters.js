@@ -1,5 +1,6 @@
-﻿module.exports('onboarding.consent.setters', function(require) {
+﻿module.exports('onboarding.consent.setters', function (require) {
     var state = require('onboarding.state').state;
+    var enableSubmit = require('onboarding.setters').enableSubmit;
     var stateSection = 'consent';
 
     var setCreditAgreement = function (e) {
@@ -7,6 +8,7 @@
 
         state[stateSection].creditAgreement = isChecked;
         _moveTonextSection();
+        enableSubmit();
     }
 
     var setContactAgreement = function (e) {
@@ -14,9 +16,10 @@
 
         state[stateSection].contactAgreement = isChecked;
         _moveTonextSection();
+        enableSubmit();
     }
 
-    function _moveTonextSection() {
+    function _moveTonextSection () {
         var agreements = Object.keys(state[stateSection]);
         var isValidSection = agreements.every(function (agreement) {
             return state[stateSection][agreement] === true;

@@ -36,7 +36,7 @@
         },
         'product': {
             selectedEquipment: [],
-            requiredFields: ['primary-brand', 'annual-sales-volume', 'av-transaction-size', ' sales-approach', 'lead-gen', 'program-service', 'relationship', 'equipment', 'reason-for-interest']
+            requiredFields: ['primary-brand', 'annual-sales-volume', 'av-transaction-size', 'sales-approach', 'lead-gen', 'program-service', 'relationship', 'equipment', 'reason-for-interest']
         }
     };
 

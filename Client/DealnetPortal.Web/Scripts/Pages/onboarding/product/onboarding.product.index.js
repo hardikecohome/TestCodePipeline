@@ -8,7 +8,7 @@
 
     function init (product) {
         $('#primary-brand').on('change', setters.setPrimaryBrand);
-        $('#annual-sales-volume').on('change', setters.setAnnualSates);
+        $('#annual-sales-volume').on('change', setters.setAnnualSales);
         $('#av-transaction-size').on('change', setters.setTransactionSize);
         $('.sales-approach').on('change', setters.setSalesApproach);
         $('.lead-gen').on('change', setters.setLeadGen);
@@ -20,11 +20,12 @@
         $('#OfferMonthlyDeferrals').on('change', setters.setOfferDeferrals);
         $('#percent-month-deferrals').on('change', setters.setPercentMonthDeferrals);
         initRadio();
-        $('#WithCurrentProvider').on('change', toggleCheckGroup('.hidden-current-provider'));
-        $('#OfferMonthlyDeferrals').on('change', toggleCheckGroup('.hidden-monthly-deferrals'));
+        $('#WithCurrentProvider').on('change', toggleCheckGroup('.hidden-current-provider')).change();
+        $('#OfferMonthlyDeferrals').on('change', toggleCheckGroup('.hidden-monthly-deferrals')).change();
         $('#relationship').on('change', toggleRelationship);
         $('#offered-equipment').on('change', addEquipment);
         $('.add-new-brand-link').on('click', addBrand);
+        $('#reason-for-interest').on('change', setters.setReasonForInterest).change();
         _setLoadedData(product);
     };
 
@@ -74,8 +75,17 @@
             addEquipment.call(equipmentSelect, { target: { value: element.Id } })
             $(document).trigger('equipmentAdded');
         }, this);
+        $('.sales-approach:checked').each(function () {
+            setters.setSalesApproach({ target: this });
+        });
+        $('.lead-gen:checked').each(function () {
+            setters.setLeadGen({ target: this });
+        });
+        $('.program-service:checked').each(function () {
+            setters.setProgramService(this.id);
+        });
         constants.productRequiredFields.forEach(function (item) {
-            if (item === 'equipment')
+            if (item === 'equipment' || item === 'sales-approach' || item === 'lead-gen')
                 return;
             $('#' + item).change();
         });

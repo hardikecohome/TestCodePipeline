@@ -46,11 +46,18 @@ module.exports('onboarding.product.setters', function (require) {
         }
         var index = state[stateSection].salesApproch.indexOf(e.target.id);
         if (e.target.checked) {
-            if (index === -1)
+            if (index === -1) {
                 state[stateSection].salesApproch.push(e.target.id);
+                var requiredIndex = state[stateSection].requiredFields.indexOf('sales-approach');
+                if (requiredIndex > -1)
+                    state[stateSection].requiredFields.splice(requiredIndex, 1);
+            }
         } else {
             if (index > -1) {
                 state[stateSection].salesApproch.splice(index, 1);
+                var requiredIndex = state[stateSection].requiredFields.indexOf('sales-approach');
+                if (requiredIndex === -1)
+                    state[stateSection].requiredFields.push('sales-approach');
             }
         }
     }
@@ -61,17 +68,28 @@ module.exports('onboarding.product.setters', function (require) {
         }
         var index = state[stateSection].leadGen.indexOf(e.target.id);
         if (e.target.checked) {
-            if (index === -1)
+            if (index === -1) {
                 state[stateSection].leadGen.push(e.target.id);
+                var requiredIndex = state[stateSection].requiredFields.indexOf('lead-gen');
+                if (requiredIndex > -1)
+                    state[stateSection].requiredFields.splice(requiredIndex, 1);
+            }
         } else {
             if (index > -1) {
                 state[stateSection].leadGen.splice(index, 1);
+                var requiredIndex = state[stateSection].requiredFields.indexOf('lead-gen');
+                if (requiredIndex === -1)
+                    state[stateSection].requiredFields.push('lead-gen');
             }
         }
     }
 
     var setProgramService = function (id) {
         state[stateSection].programService = id;
+
+        var index = state[stateSection].requiredFields.indexOf('program-service');
+        if (index > -1)
+            state[stateSection].requiredFields.splice(index, 1);
 
         moveToNextSection(stateSection);
     }
