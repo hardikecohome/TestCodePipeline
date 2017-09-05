@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Enumeration.Dealer;
@@ -799,6 +801,14 @@ namespace DealnetPortal.Api.Integration.Services
 
                     try
                     {
+                        //var x = new XmlSerializer(request.GetType());
+                        //var settings = new XmlWriterSettings { NewLineHandling = NewLineHandling.Entitize };
+                        //MemoryStream ms = new MemoryStream();
+                        //FileStream fs = new FileStream("d:\\onboardingTestResponse.xml", FileMode.Create);
+                        //var writer = XmlWriter.Create(fs, settings);
+                        //x.Serialize(writer, request);
+                        //writer.Flush();
+
                         Task timeoutTask = Task.Delay(_aspireRequestTimeout);
                         var aspireRequestTask = _aspireServiceAgent.CustomerUploadSubmission(request);
                         DecisionCustomerResponse response = null;
@@ -1812,12 +1822,12 @@ namespace DealnetPortal.Api.Integration.Services
                     Value = dealerInfo.CompanyInfo.NumberOfInstallers.GetEnumDescription()
                 });
             }
-            if (dealerInfo?.CompanyInfo?.NumberOfInstallers != null)
+            if (dealerInfo?.CompanyInfo?.NumberOfSales != null)
             {
                 udfList.Add(new UDF()
                 {
-                    Name = AspireUdfFields.NumberOfInstallers,
-                    Value = dealerInfo.CompanyInfo.NumberOfInstallers.GetEnumDescription()
+                    Name = AspireUdfFields.NumberOfSalesPeople,
+                    Value = dealerInfo.CompanyInfo.NumberOfSales.GetEnumDescription()
                 });
             }
             if (dealerInfo?.CompanyInfo?.BusinessType != null)
@@ -1844,7 +1854,7 @@ namespace DealnetPortal.Api.Integration.Services
                     Value = GetCompanyProvincesApproved(dealerInfo)
                 });
             }
-            if (string.IsNullOrEmpty(dealerInfo?.CompanyInfo?.Website))
+            if (!string.IsNullOrEmpty(dealerInfo?.CompanyInfo?.Website))
             {
                 udfList.Add(new UDF()
                 {
@@ -1855,10 +1865,19 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (dealerInfo.ProductInfo?.Brands?.Any() == true || !string.IsNullOrEmpty(dealerInfo.ProductInfo?.PrimaryBrand))
             {
+                var brandsList = new List<string>();
+                if (!string.IsNullOrEmpty(dealerInfo.ProductInfo?.PrimaryBrand))
+                {
+                    brandsList.Add(dealerInfo.ProductInfo.PrimaryBrand);
+                }
+                if (dealerInfo.ProductInfo?.Brands?.Any() == true)
+                {
+                    brandsList.AddRange(dealerInfo.ProductInfo.Brands.Select(b => b.Brand));
+                }
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.ManufacturerBrandsSold,
-                    Value = string.Join(", ", dealerInfo.ProductInfo?.PrimaryBrand, dealerInfo.ProductInfo.Brands)
+                    Value = string.Join(", ", brandsList)
                 });
             }
             if (dealerInfo.ProductInfo?.AnnualSalesVolume != null)
