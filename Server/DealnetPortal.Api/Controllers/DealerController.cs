@@ -84,6 +84,22 @@ namespace DealnetPortal.Api.Controllers
             }            
         }
 
+        [Route("CheckOnboardingLink")]
+        [HttpGet]
+        [AllowAnonymous]
+        public IHttpActionResult CheckOnboardingLink(string dealerLink)
+        {
+            try
+            {
+                var result = _dealerService.CheckOnboardingLink(dealerLink);                    
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("SubmitDealerOnboardingInfo")]
         [HttpPost]
         [AllowAnonymous]

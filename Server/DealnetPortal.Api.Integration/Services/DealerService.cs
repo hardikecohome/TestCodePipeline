@@ -209,6 +209,11 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
+        public bool CheckOnboardingLink(string dealerLink)
+        {
+            return _dealerRepository.GetUserIdByOnboardingLink(dealerLink) != null;
+        }
+
         public Tuple<DealerInfoKeyDTO, IList<Alert>> AddDocumentToOnboardingForm(RequiredDocumentDTO document)
         {
             var alerts = new List<Alert>();

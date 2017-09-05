@@ -141,5 +141,20 @@ namespace DealnetPortal.Web.ServiceAgent
                 throw;
             }
         }
+
+        public async Task<bool> CheckOnboardingLink(string dealerLink)
+        {
+            try
+            {
+                return
+                    await Client.GetAsync<bool>(
+                            $"{_fullUri}/CheckOnboardingLink?dealerLink={dealerLink}");                
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't check onboarding link", ex);
+                throw;
+            }            
+        }
     }
 }

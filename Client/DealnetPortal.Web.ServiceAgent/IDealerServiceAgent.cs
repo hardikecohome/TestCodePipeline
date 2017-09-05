@@ -30,5 +30,6 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<IList<Alert>> SubmitDealerOnboardingForm(DealerInfoDTO dealerInfo);
         Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> AddDocumentToOnboardingForm(RequiredDocumentDTO document);
         Task<IList<Alert>> SendDealerOnboardingDraftLink(string accessKey);
+        Task<bool> CheckOnboardingLink(string dealerLink);
     }
 }
