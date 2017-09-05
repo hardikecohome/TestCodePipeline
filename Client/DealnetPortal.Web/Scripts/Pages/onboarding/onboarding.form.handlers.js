@@ -3,7 +3,7 @@
     var resetForm = require('onboarding.common').resetFormValidation;
     var isIOS = navigator.userAgent.match(/ipad|ipod|iphone/i);
 
-    function submitDraft(e) {
+    function submitDraft (e) {
         var formData = $('form').serialize();
         $.when($.ajax({
             type: 'POST',
@@ -22,8 +22,8 @@
         });
     }
 
-    function initSendEmail() {
-        function toggleAgreementError(show) {
+    function initSendEmail () {
+        function toggleAgreementError (show) {
             if (show) {
                 $('#agreement-email-error').addClass('field-validation-error').text(translations.ThisFieldIsRequired);
             } else {
@@ -54,20 +54,20 @@
         });
     }
 
-    function selectElement(el) {
+    function selectElement (el) {
         if (el.nodeName === "TEXTAREA" || el.nodeName === "INPUT")
             el.select();
         if (el.setSelectionRange && isIOS)
             el.setSelectionRange(0, 999999);
     }
 
-    function copyCommand() {
+    function copyCommand () {
         if (document.queryCommandSupported("copy")) {
             document.execCommand('copy');
         }
     }
 
-    function initCopyLink() {
+    function initCopyLink () {
 
         var link = document.getElementById('resume-link');
         if (!isIOS) {
@@ -93,7 +93,7 @@
         }
     }
 
-    function validateEquipment() {
+    function validateEquipment () {
         if (state.selectedEquipment.length > 1) {
             $('#equipment-error').removeClass('field-validation-error').text('');
         } else {
@@ -103,7 +103,7 @@
         return true;
     }
 
-    function validateWorkProvinces() {
+    function validateWorkProvinces () {
         if (state.selectedProvinces.length > 1) {
             $('#work-province-error').removeClass('field-validation-error').text('');
         } else {
@@ -113,30 +113,35 @@
         return true;
     }
 
-    function successCallback(json) {
+    function successCallback (json) {
         hideLoader();
     }
 
-    function errorCallback(xhr, status, p3) {
+    function errorCallback (xhr, status, p3) {
         hideLoader();
     }
 
-    function validate(e) {
+    function validate (e) {
+        var $form = $('#onboard-form');
+        $('#submit').prop('disabled', true);
+
         var equipValid = validateEquipment();
         var workProvinceValid = validateWorkProvinces();
 
+        if (!$form.valid()) {
+            e.preventDefault();
+
+            $('#submit').prop('disabled', false);
+            return;
+        }
+
         if (equipValid && workProvinceValid) {
-            if ($('form').valid()) {
-                showLoader();
-                $('form').ajaxSubmit({
-                    type: 'POST',
-
-                });
-            } else {
-                e.preventDefault();
-            }
+            showLoader();
+            $form.ajaxSubmit({
+                type: 'POST',
+            });
         } else {
-
+            e.preventDefault();
         }
     }
 

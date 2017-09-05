@@ -20,12 +20,12 @@
         $('#company-street').on('change', setters.setStreet);
         $('#company-unit').on('change', setters.setUnit);
         $('#company-city').on('change', setters.setCity);
-        $('#company-province').on('change', setters.setProvince).change();
+        $('#company-province').on('change', setters.setProvince);
         $('#company-postal').on('change', setters.setPostalCode);
-        $('#company-type').on('change', setters.setType).change();
-        $('#years-in-business').on('change', setters.setYearsInBusiness).change();
-        $('#installers').on('change', setters.setInstallers).change();
-        $('#sales').on('change', setters.setSales).change();
+        $('#company-type').on('change', setters.setType);
+        $('#years-in-business').on('change', setters.setYearsInBusiness);
+        $('#installers').on('change', setters.setInstallers);
+        $('#sales').on('change', setters.setSales);
     };
 
     var initAutocomplete = function () {
