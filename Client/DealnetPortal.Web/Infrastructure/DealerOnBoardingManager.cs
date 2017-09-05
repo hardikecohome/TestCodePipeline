@@ -23,7 +23,6 @@ namespace DealnetPortal.Web.Infrastructure
 
         public async Task<DealerOnboardingViewModel> GetNewDealerOnBoardingForm(string onboardingLink)
         {
-            var documents = (await _dictionaryServiceAgent.GetAllLicenseDocuments()).Item1.ToList();
             return new DealerOnboardingViewModel
             {
                 OnBoardingLink = onboardingLink,

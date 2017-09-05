@@ -53,17 +53,15 @@
     }
 
     var addLicense = function (e) {
-        var selectedProvinces = state['company'].selectedProvinces;
-        var selectedEquipments = state.selectedEquipment;
+        var filtred = _getDocumentsArray();
 
-        var filtredLicense = state[stateSection].license.filter(function(l) {
-            return selectedProvinces.indexOf(l.Province.Province) !== -1;
-        }).filter(function (lic) {
-            var selectedEquipmentIds = selectedEquipments.map(function(obj) { return +obj.id });
-            return selectedEquipmentIds.indexOf(lic.Equipment.Id) !== -1;
-            });
+        $.grep(filtred, function (license) {
+            var addedLicense = state[stateSection]['addedLicense'].map(function (l) { return l.id });
 
-        $.grep(filtredLicense, function(license) {
+            if (addedLicense.indexOf(license.License.Id) !== -1) {
+                return;
+            }
+
             state[stateSection]['addedLicense'].push({ 'id': license.License.Id, 'number': '', 'date': '' });
 
             $('#licenseDocumentTemplate')
@@ -92,10 +90,44 @@
     }
 
     var removeLicense = function (e) {
+        var filtred = _getDocumentsArray();
+        var added = state[stateSection]['addedLicense'];
+
+        Array.prototype.diff = function (a) {
+            return this.filter(function (i) { return a.indexOf(i) < 0; });
+        };
+
+        var diff = added.map(function (i) { return i.id }).diff(filtred.map(function (i) { return i.License.Id }));
+
+        $.grep(diff, function (toDel) {
+            var deleteFromState = state[stateSection]['addedLicense'].filter(function (l) {
+                return l.id === toDel;
+            })[0];
+
+            delete state[stateSection]['addedLicense'][state[stateSection]['addedLicense'].indexOf(deleteFromState)];
+
+            $('#' + toDel + '-license-holder').remove();
+        });
 
         e.stopImmediatePropagation();
     }
 
+    function _getDocumentsArray() {
+        var selectedProvinces = state['company'].selectedProvinces;
+        var selectedEquipments = state['product'].selectedEquipment;
+
+        var filtredByProvince = state[stateSection].license.filter(function (l) {
+            return selectedProvinces.indexOf(l.Province.Province) !== -1;
+        });
+
+        var filtredByEquipment = filtredByProvince.filter(function (lic) {
+            var selectedEquipmentIds = selectedEquipments.map(function (obj) { return +obj });
+
+            return selectedEquipmentIds.indexOf(lic.Equipment.Id) !== -1;
+        });
+
+        return filtredByEquipment;
+    }
 
     function _uploadFile(checkSelector, buttonSelector, fileContainerSelector, stateFileSection, file) {
         var extension = file.name.replace(/^.*\./, '');

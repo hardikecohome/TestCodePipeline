@@ -35,6 +35,7 @@ module.exports('onboarding.company.province', function (require) {
             var oldId = $(e.target).parent().attr('id');
             var substrIndex = Number(oldId.substr(oldId.indexOf('-') + oldId.lastIndexOf('-')));
             $('li#' + oldId).remove();
+            $(document).trigger('provinceRemoved');
             rebuildIndex(substrIndex);
         }
     };

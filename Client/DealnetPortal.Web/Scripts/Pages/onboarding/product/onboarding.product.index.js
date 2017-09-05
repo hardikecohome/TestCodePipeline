@@ -12,6 +12,7 @@
             var equipmentId = $this.find('#EquipmentTypes_' + index + '__Id').val();
             var desc = $this.find('#EquipmentTypes_' + index + '__Description').val();
             state.selectedEquipment.push({ id: equipmentId, description: desc });
+            $(document).trigger('equipmentAdded');
             setRemoveClick(id);
             state.nextEquipmentId++;
         });

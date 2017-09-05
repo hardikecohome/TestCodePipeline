@@ -947,7 +947,6 @@
     <Content Include="Scripts\Pages\onboarding\onboarding.common.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.form.handlers.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.index.js" />
-    <Content Include="Scripts\Pages\onboarding\onboarding.product.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.setters.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.state.js" />
     <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.conversion.js" />
@@ -955,6 +954,10 @@
     <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.setters.js" />
     <Content Include="Scripts\Pages\onboarding\company\onboarding.company.index.js" />
     <Content Include="Scripts\Pages\onboarding\owner-info\onbobarding.owner-info.additional.js" />
+    <Content Include="Scripts\Pages\onboarding\product\onboarding.product.brand.js" />
+    <Content Include="Scripts\Pages\onboarding\product\onboarding.product.equipment.js" />
+    <Content Include="Scripts\Pages\onboarding\product\onboarding.product.index.js" />
+    <Content Include="Scripts\Pages\onboarding\product\onboarding.product.setters.js" />
     <Content Include="Scripts\Reducers\customer.js" />
     <Content Include="Scripts\Reducers\new-client-reducer.js" />
     <Content Include="Scripts\Selectors\customer.js" />

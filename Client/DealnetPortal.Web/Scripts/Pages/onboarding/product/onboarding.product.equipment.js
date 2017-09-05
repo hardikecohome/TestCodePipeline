@@ -16,6 +16,7 @@ module.exports('onboarding.product.equipment', function (require) {
             if (equipmentAdded(e)) {
                 $('#equipment-list').append(equipmentTemplate(state.product.selectedEquipment.length - 1, value, description));
                 setRemoveClick(value);
+                $(document).trigger('equipmentAdded');
             }
         }
         $(this).val('');
@@ -29,6 +30,7 @@ module.exports('onboarding.product.equipment', function (require) {
         if (equipmentRemoved(value)) {
             var substrIndex = Number(liId.substr(liId.indexOf('-') + liId.lastIndexOf('-')));
             $('li#' + liId).remove();
+            $(document).trigger('equipmentRemoved');
             rebuildIndex(substrIndex);
         }
     };
