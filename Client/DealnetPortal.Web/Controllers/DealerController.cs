@@ -25,14 +25,28 @@ namespace DealnetPortal.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> OnBoarding(string onboardingLink)
         {
-            return View(await _dealerOnBoardingManager.GetNewDealerOnBoardingForm(onboardingLink));
+            var result = await _dealerOnBoardingManager.GetNewDealerOnBoardingForm(onboardingLink);
+
+            if (result == null)
+            {
+                return RedirectToAction("OnBoardingError");
+            }
+
+            return View(result);
         }
 
         // GET: Dealer
         [HttpGet]
         public async Task<ActionResult> ResumeOnBoarding(string key)
         {
-            return View("OnBoarding",await _dealerOnBoardingManager.GetDealerOnBoardingFormAsync(key));
+            var result = await _dealerOnBoardingManager.GetDealerOnBoardingFormAsync(key);
+
+            if(result==null)
+            {
+                return RedirectToAction("OnBoardingError");
+            }
+
+            return View("OnBoarding", result);
         }
 
         [HttpPost]
@@ -69,6 +83,11 @@ namespace DealnetPortal.Web.Controllers
         }
 
         public ActionResult OnBoardingSuccess()
+        {
+            return View();
+        }
+
+        public ActionResult OnBoardingError()
         {
             return View();
         }
