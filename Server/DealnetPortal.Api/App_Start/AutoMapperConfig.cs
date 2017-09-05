@@ -458,7 +458,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Id, d => d.Ignore())
                 .ForMember(x => x.ProductInfo, d => d.Ignore())
                 .ForMember(x => x.ProductInfoId, d => d.Ignore())
-                .ForMember(x => x.Equipment, d => d.MapFrom(src => src))
+                .ForMember(x => x.Equipment, d => d.Ignore())
                 .ForMember(x => x.EquipmentId, d => d.MapFrom(src => src.Id));
             mapperConfig.CreateMap<ProductInfoDTO, ProductInfo>()
                 .ForMember(x => x.Brands, d => d.ResolveUsing(src =>
