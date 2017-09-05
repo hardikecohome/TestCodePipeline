@@ -2071,7 +2071,7 @@ namespace DealnetPortal.Api.Integration.Services
                     var licInfo = string.Join("; ",
                         provLicenses.Select(
                             pl =>
-                                $"License:{pl.License?.Name}, reg_number:{pl.Number}, expiry:{pl.ExpiredDate.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))}"));
+                                $"License:{pl.License?.Name}, reg_number:{pl.Number}, expiry:{pl.ExpiredDate?.ToString("d", CultureInfo.CreateSpecificCulture("en-US")) ?? "no_expiry"}"));
                     sb.AppendLine($"{p}:{licInfo}");
                 }
                 else
