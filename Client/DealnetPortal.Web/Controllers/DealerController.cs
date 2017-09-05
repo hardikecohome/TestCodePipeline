@@ -5,6 +5,7 @@ using DealnetPortal.Web.Models.Dealer;
 using DealnetPortal.Web.ServiceAgent;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Core.Enums;
+using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Extensions;
 
@@ -84,12 +85,20 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult UploadDocument()
+        public async Task<JsonResult> UploadDocument()
         {
             if (Request.Files == null || Request.Files.Count <= 0)
             {
                 return GetErrorJson();
             }
+
+            var file = Request.Files[0];
+            byte[] data = new byte[file.ContentLength];
+            file.InputStream.Read(data, 0, file.ContentLength);
+            ScanningRequest scanningRequest = new ScanningRequest() { ImageForReadRaw = data };
+
+            var isCheque = file.FileName.ToLowerInvariant().Contains("cheque");
+            var result = await _dealerOnBoardingManager.UploadOnboardingDocument(scanningRequest, isCheque);
 
             return Json(string.Empty);
         }

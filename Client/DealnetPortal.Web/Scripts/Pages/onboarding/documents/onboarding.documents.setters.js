@@ -68,6 +68,8 @@
                 .tmpl({ 'name': license.License.Name, 'id': license.License.Id })
                 .appendTo('#licenseHolder');
 
+            _rebuildIndex();
+
             $('#' + license.License.Id + '-license-number').on('change', setLicenseRegistraionNumber(license.License.Id));
             var date = $('#' + license.License.Id + '-license-date');
 
@@ -171,13 +173,49 @@
         }
     }
 
+    function _rebuildIndex() {
+        var licenseIdArray = state[stateSection]['addedLicense'].filter(function (l) { return l.id });
+        var index = 0;
+        licenseIdArray.forEach(function (i) {
+            var container = $('#' + i.id + '-license-holder');
+            if (container.length) {
+                
+                container.find('input').each(function () {
+                    var curr = $(this).attr('name');
+                    var toReplace = 'AdditionalDocuments[' + index + ']' + $(this).attr('name').substring($(this).attr('name').lastIndexOf(']') + 1);
+
+                    $(this).attr('name', $(this).attr('name').replace(curr, toReplace));
+                });
+
+                container.find('span').each(function () {
+                    var curr = $(this).attr('name');
+                    if (curr == null) {  return; }
+                    var toReplace = 'AdditionalDocuments[' + index + ']' + $(this).attr('name').substring($(this).attr('name').lastIndexOf(']') + 1);
+
+                    var valFor = $(this).attr('data-valmsg-for');
+                    if (valFor == null) { return; }
+
+                    $(this).attr('data-valmsg-for', valFor.replace(curr, toReplace));
+                });
+
+                index++;
+            }
+        });
+
+
+    }
     function _moveTonextSection() {
+
     }
 
     return {
         setVoidChequeFile: setVoidChequeFile,
         setInsurenceFile: setInsurenceFile,
         addLicense: addLicense,
-        removeLicense: removeLicense
+        removeLicense: removeLicense,
+        setLicenseRegistraionNumber: setLicenseRegistraionNumber,
+        setLicenseNoExpiry: setLicenseNoExpiry,
+        setLicenseExpirationDate: setLicenseExpirationDate
+
     }
 });

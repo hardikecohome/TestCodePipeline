@@ -15,7 +15,7 @@
         aknowledgement.init(model !== undefined ? model.Owners : []);
         ownerInfo.init(model !== undefined ? model.Owners : []);
         consent.init();
-        documents.init(model.DictionariesData.LicenseDocuments, model.AdditionalDocuments);
+        documents.init(model.DictionariesData.LicenseDocuments, model.AdditionalDocuments, model.RequiredDocuments);
 
         $('#submit').on('click', validateAndSubmit);
         $('.save-and-resume').on('click', submitDraft);

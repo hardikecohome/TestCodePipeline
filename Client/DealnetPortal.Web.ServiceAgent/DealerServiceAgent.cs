@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.DealerOnboarding;
+using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Web.Common;
 
@@ -155,6 +157,28 @@ namespace DealnetPortal.Web.ServiceAgent
                 _loggingService.LogError("Can't check onboarding link", ex);
                 throw;
             }            
+        }
+
+        public async Task<IList<Alert>> UploadOnboardingChequeDocument(ScanningRequest scanningRequest)
+        {
+            MediaTypeFormatter bsonFormatter = new BsonMediaTypeFormatter();
+            MediaTypeFormatter[] formatters = new MediaTypeFormatter[] { bsonFormatter, };
+
+            var result = await Client.PostAsyncEx<ScanningRequest, IList<Alert>>($"{_fullUri}/PostChequeOnboardingDocument", scanningRequest,
+                AuthenticationHeader, null, bsonFormatter);
+
+            return result;
+        }
+
+        public async Task<IList<Alert>> UploadOnboardingInsurenceDocument(ScanningRequest scanningRequest)
+        {
+            MediaTypeFormatter bsonFormatter = new BsonMediaTypeFormatter();
+            MediaTypeFormatter[] formatters = new MediaTypeFormatter[] { bsonFormatter, };
+
+            var result = await Client.PostAsyncEx<ScanningRequest, IList<Alert>>($"{_fullUri}/PostChequeInsurenceDocument", scanningRequest,
+                AuthenticationHeader, null, bsonFormatter);
+
+            return result;
         }
     }
 }

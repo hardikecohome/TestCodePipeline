@@ -32,11 +32,29 @@
         $(document).bind('equipmentRemoved', setters.removeLicense);
     }
 
-    var init = function (license, existedLicense) {
+    var init = function (license, existedLicense, existedDocuments) {
         state['documents'].license = license;
+
+        existedDocuments.forEach(function(doc) {
+            if (doc.Name.includes('cheque')) {
+                $('#voidChequeUploaded').removeClass('hidden');
+                $('#cheque-upload-title').text('Upload another file');
+            } else {
+                $('#insurenceUploaded').removeClass('hidden');
+                $('#insurence-upload-title').text('Upload another file');
+            }
+        });
 
         existedLicense.forEach(function(l) {
             state['documents'].addedLicense.push({ 'id': l.LicenseTypeId, 'number': l.Number, 'date': l.ExpiredDate });
+            var name = state['documents'].license.filter(function (x) { return x.License.Id === l.LicenseTypeId })[0].License.Name;
+
+            if (l.NotExpired) {
+                $('#' + l.LicenseTypeId + '-license-date').addClass('control-disabled');
+                $('#' + l.LicenseTypeId + '-license-date').prop('disabled', true);
+            }
+
+            $('#' + l.LicenseTypeId + '-license-title').text(name);
 
             _setInputHandlersForExistedLicense(l.LicenseTypeId);
         });

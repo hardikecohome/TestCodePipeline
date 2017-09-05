@@ -7,6 +7,7 @@ using System.Web;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Web.Models.Dealer;
 using DealnetPortal.Api.Models.DealerOnboarding;
+using DealnetPortal.Api.Models.Scanning;
 
 namespace DealnetPortal.Web.Infrastructure
 {
@@ -17,5 +18,6 @@ namespace DealnetPortal.Web.Infrastructure
         Task<SaveAndResumeViewModel> SaveDraft(DealerOnboardingViewModel model);
         Task<IList<Alert>> SendDealerOnboardingDraftLink(SaveAndResumeViewModel model);
         Task<IList<Alert>> SubmitOnBoarding(DealerOnboardingViewModel model);
+        Task<IList<Alert>> UploadOnboardingDocument(ScanningRequest scanningRequest, bool isCheque);
     }
 }

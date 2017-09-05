@@ -1,4 +1,5 @@
-﻿@model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
+﻿@using DealnetPortal.Web.Models.Dealer
+@model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
 
 <div class="panel customer-loan-form-panel panel-collapsed">
     <div class="panel-heading">
@@ -18,6 +19,17 @@
                         <h4 class="onboard-license-heading">Business void cheque  — Account to receive Ecohome funding</h4>
                         <div class="placeholder-text">Please upload file in format PDF, Word, PNG, JPG</div>
                         <ul class="uploaded-docs-list" id="cheque-container">
+                            @foreach (RequiredDocumentViewModel document in Model.RequiredDocuments)
+                            {
+                                if (document.Name.Contains("cheque"))
+                                {
+                                    <li>
+                                        <span class="uploaded-docs-title">
+                                            @document.Name
+                                        </span>
+                                    </li>
+                                }
+                            }
                         </ul>
                     </div>
                     <div class="action-holder">
@@ -36,6 +48,17 @@
                         <div>Ecohome Financial Inc. must be listed as additional insured</div>
                         <div class="placeholder-text">Please upload file in format PDF, Word, PNG, JPG</div>
                         <ul class="uploaded-docs-list" id="insurence-container">
+                            @foreach (RequiredDocumentViewModel document in Model.RequiredDocuments)
+                            {
+                                if (!document.Name.Contains("cheque"))
+                                {
+                                    <li>
+                                        <span class="uploaded-docs-title">
+                                            @document.Name
+                                        </span>
+                                    </li>
+                                }
+                            }
                         </ul>
                     </div>
                     <div class="action-holder">
@@ -51,19 +74,20 @@
                 <hr>
                 @for (int i = 0; i < Model.AdditionalDocuments.Count; i++)
                 {
-                    <div class="onboard-standart-doc-item" id="@(i)-license-holder">
+                    <div class="onboard-standart-doc-item" id="@(Model.AdditionalDocuments[i].LicenseTypeId)-license-holder">
+                        @Html.HiddenFor(m => m.AdditionalDocuments[i].LicenseTypeId, new { id = Model.AdditionalDocuments[i].LicenseTypeId + "-license-id" })
                         <div class="row">
                             <div class="col-xs-12 col-md-4">
                                 <div class="form-group">
                                     <div class="dealnet-label hidden-sm hidden-xs">&nbsp;</div>
-                                    <div class="onboard-standart-license-title">Model.AdditionalDocuments[i].Number</div>
+                                    <div class="onboard-standart-license-title" id="@(Model.AdditionalDocuments[i].LicenseTypeId)-license-title"></div>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-4">
                                 <div class="form-group">
                                     <label for="" class="mandatory-field">Registration Number</label>
                                     <div class="control-group">
-                                        @Html.TextBoxFor(m => m.AdditionalDocuments[i].Number, null, new { @class = "form-control", id = i + "-license-number" })
+                                        @Html.TextBoxFor(m => m.AdditionalDocuments[i].Number, null, new {@class = "form-control", id = Model.AdditionalDocuments[i].LicenseTypeId + "-license-number"})
                                         @Html.ValidationMessageFor(m => m.AdditionalDocuments[i].Number, "", new {@class = "text-danger"})
                                     </div>
                                 </div>
@@ -72,7 +96,7 @@
                                 <div class="form-group">
                                     <label for="" class="mandatory-field">Expiry Date</label>
                                     <div class="control-group date-group">
-                                        @Html.TextBoxFor(m => m.AdditionalDocuments[i].ExpiredDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = i + "-license-date", placeholder = Resources.DateFormat, data_val_date = ""})
+                                        @Html.TextBoxFor(m => m.AdditionalDocuments[i].ExpiredDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = Model.AdditionalDocuments[i].LicenseTypeId + "-license-date", placeholder = Resources.DateFormat, data_val_date = ""})
                                         @Html.ValidationMessageFor(m => m.AdditionalDocuments[i].ExpiredDate, "", new {@class = "text-danger"})
                                     </div>
                                 </div>
@@ -82,7 +106,7 @@
                                     <div class="dealnet-label hidden-xs">&nbsp;</div>
                                     <div class="control-group flex-centered-text">
                                         <label class="align-middle custom-checkbox">
-                                            <input type="checkbox" class="dealnet-checkbox" id="$@(i)-license-checkbox"/>
+                                            @Html.CheckBoxFor(m => m.AdditionalDocuments[i].NotExpired, new {@class = "dealnet-checkbox address-checkbox", id = Model.AdditionalDocuments[i].LicenseTypeId + "-license-checkbox"})
                                             <span class="checkbox-icon">
                                                 <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                                             </span>
@@ -123,27 +147,30 @@
 </script>
 
 <script id="licenseDocumentTemplate" type="text/x-jquery-tmpl">
-<div class="onboard-standart-doc-item" id="${id}-license-holder">
-    <div class="row">
-        <div class="col-xs-12 col-md-4">
-            <div class="form-group">
-                <div class="dealnet-label hidden-sm hidden-xs">&nbsp;</div>
-                <div class="onboard-standart-license-title">${name}</div>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-4">
-            <div class="form-group">
-                <label for="" class="mandatory-field">Registration Number</label>
-                <div class="control-group">
-                    <input type="text" value="" id="${id}-license-number" class="form-control">
+    <div class="onboard-standart-doc-item" id="${id}-license-holder">
+        <input data-val="true" data-val-number="The field LicenseTypeId must be a number." id="${id}-license-id" name="AdditionalDocuments[0].LicenseTypeId" type="hidden" value="3">
+        <div class="row">
+            <div class="col-xs-12 col-md-4">
+                <div class="form-group">
+                    <div class="dealnet-label hidden-sm hidden-xs">&nbsp;</div>
+                    <div class="onboard-standart-license-title">${name}</div>
                 </div>
             </div>
-        </div>
-        <div class="col-xs-12 col-sm-3 col-md-2">
-            <div class="form-group">
-                <label for="" class="mandatory-field">Expiry Date</label>
-                <div class="control-group date-group">
-                    <input type="text" class="form-control dealnet-input" id="${id}-license-date">
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="form-group">
+                    <label for="" class="mandatory-field">Registration Number</label>
+                    <div class="control-group">
+                        <input type="text" value="" id="${id}-license-number" name="AdditionalDocuments[0].Number" class="form-control">
+                        <span class="field-validation-valid text-danger" data-valmsg-for="AdditionalDocuments[0].Number" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-3 col-md-2">
+                <div class="form-group">
+                    <label for="" class="mandatory-field">Expiry Date</label>
+                    <div class="control-group date-group">
+                        <input type="text" class="form-control dealnet-input" data-val-date name="AdditionalDocuments[0].ExpiredDate" placeholder="mm/dd/yyyy" id="${id}-license-date">
+                        <span class="field-validation-valid text-danger" data-valmsg-for="AdditionalDocuments[0].ExpiredDate" data-valmsg-replace="true"></span>
                 </div>
             </div>
         </div>
@@ -152,7 +179,7 @@
                 <div class="dealnet-label hidden-xs">&nbsp;</div>
                 <div class="control-group flex-centered-text">
                     <label class="align-middle custom-checkbox">
-                        <input type="checkbox" class="dealnet-checkbox" id="${id}-license-checkbox" />
+                        <input type="checkbox" class="dealnet-checkbox" id="${id}-license-checkbox"  name="AdditionalDocuments[0].NotExpired"/>
                         <span class="checkbox-icon">
                             <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                         </span>
