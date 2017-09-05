@@ -112,12 +112,8 @@ namespace DealnetPortal.Web.Controllers
             }
 
             var file = Request.Files[0];
-            byte[] data = new byte[file.ContentLength];
-            file.InputStream.Read(data, 0, file.ContentLength);
-            ScanningRequest scanningRequest = new ScanningRequest() { ImageForReadRaw = data };
 
-            var isCheque = file.FileName.ToLowerInvariant().Contains("cheque");
-            var result = await _dealerOnBoardingManager.UploadOnboardingDocument(scanningRequest, isCheque);
+            var result = await _dealerOnBoardingManager.UploadOnboardingDocument(file);
 
             return Json(string.Empty);
         }

@@ -89,7 +89,6 @@ namespace DealnetPortal.Web.Infrastructure
 
         public async Task<IList<Alert>> UploadOnboardingDocument(HttpPostedFileBase file)
         {
-
             byte[] data = new byte[file.ContentLength];
 
             file.InputStream.Read(data, 0, file.ContentLength);
