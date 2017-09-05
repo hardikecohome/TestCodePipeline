@@ -44,6 +44,8 @@ namespace DealnetPortal.DataAccess.Repositories
                 //add new
                 dealerInfo.CreationTime = DateTime.Now;
                 dealerInfo.LastUpdateTime = DateTime.Now;
+                //dealerInfo.ProductInfo?.Services?.ForEach(s => 
+                //    s.Equipment = _dbContext.EquipmentTypes.Find(s.EquipmentId));
                 dealerInfo.AccessKey = GenerateDealerAccessCode();
                 dbDealer = _dbContext.DealerInfos.Add(dealerInfo);
             }
@@ -362,6 +364,14 @@ namespace DealnetPortal.DataAccess.Repositories
             updatedServices?.Except(updatedServices.Where(up => existingEntities.Any(e => e.EquipmentId == up.EquipmentId))).
                 ForEach(p =>
                 {
+                    if (p.EquipmentId != 0)
+                    {
+                        p.Equipment = null;
+                    }
+                    else if (!string.IsNullOrEmpty(p.Equipment?.Type))
+                    {
+                        p.Equipment = _dbContext.EquipmentTypes.FirstOrDefault(eqt => eqt.Type == p.Equipment.Type);
+                    }
                     p.ProductInfo = dbProductInfo;
                     dbProductInfo.Services.Add(p);
                 });            
