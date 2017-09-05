@@ -927,7 +927,7 @@ namespace DealnetPortal.Api.Integration.Services
                         AssetNo = string.IsNullOrEmpty(eq.AssetNumber) ? null : eq.AssetNumber,
                         Quantity = "1",
                         Cost = contract.Equipment.AgreementType == AgreementType.LoanApplication && eq.Cost.HasValue ? equipmentcount == 0 ? (eq.Cost /*+ Math.Round(((decimal)(eq.Cost / 100 * (decimal)(pTaxRate.Rate))), 2)*/ - ((contract.Equipment.DownPayment != null)? (decimal)contract.Equipment.DownPayment: 0))?.ToString(CultureInfo.InvariantCulture) :
-                                                                                                        (eq.Cost + Math.Round(((decimal)(eq.Cost / 100 * (decimal)(pTaxRate.Rate))), 2))?.ToString(CultureInfo.InvariantCulture)
+                                                                                                        (eq.Cost /*+ Math.Round(((decimal)(eq.Cost / 100 * (decimal)(pTaxRate.Rate))), 2)*/)?.ToString(CultureInfo.InvariantCulture)
                                                                                                     : eq.MonthlyCost?.ToString(CultureInfo.InvariantCulture),
                         Description = eq.Description,
                         AssetClass = new AssetClass() { AssetCode = eq.Type }
