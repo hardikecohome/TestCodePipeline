@@ -34,17 +34,6 @@ namespace DealnetPortal.Web.Infrastructure
                     EquipmentTypes = (await _dictionaryServiceAgent.GetAllEquipmentTypes()).Item1
                                                       ?.OrderBy(x => x.Description).ToList(),
                     LicenseDocuments = (await _dictionaryServiceAgent.GetAllLicenseDocuments()).Item1.ToList()
-                },
-                AdditionalDocuments = new List<AdditionalDocumentViewModel>()
-                {
-                    new AdditionalDocumentViewModel { ExpiredDate = new DateTime?(DateTime.Today), Number = "123456", NotExpired = false, LicenseTypeId = 3},
-                    new AdditionalDocumentViewModel { ExpiredDate = null, Number = "54433", NotExpired = true, LicenseTypeId = 1}
-                },
-                RequiredDocuments = new List<RequiredDocumentViewModel>()
-                {
-                    new RequiredDocumentViewModel { Name = "Test.png"},
-                    new RequiredDocumentViewModel { Name = "cheque.png"},
-                    new RequiredDocumentViewModel { Name = "Test2.jpg"},
                 }
             } : null;
         }
