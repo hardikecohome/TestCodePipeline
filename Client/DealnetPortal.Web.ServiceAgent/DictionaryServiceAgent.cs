@@ -169,8 +169,8 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return Client.GetAsync<bool>(
-                            $"{_fullUri}/CheckDealerSkinExist");
+                return Client.GetAsyncEx<bool>(
+                            $"{_fullUri}/CheckDealerSkinExist", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {

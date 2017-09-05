@@ -7,7 +7,7 @@ module.exports('onboarding.setters', function (require) {
                 state[stateSection][field] = e.target.value;
 
                 _spliceRequiredFields(stateSection, field);
-                _moveToNextSection(stateSection);
+                moveToNextSection(stateSection);
             }
         }
     }
@@ -31,18 +31,20 @@ module.exports('onboarding.setters', function (require) {
         }
     }
 
-    function _moveToNextSection (stateSection) {
+    function moveToNextSection (stateSection) {
         var isValid = state[stateSection].requiredFields.length === 0;
         if (isValid) {
             $(this)
                 .parents('.panel')
+                .addClass('step-passed')
+                .next()
                 .removeClass('panel-collapsed')
-                .addClass('active-panel')
-                .addClass('step-passed');
+                .addClass('active-panel');
         }
     }
 
     return {
-        configSetField: configSetField
+        configSetField: configSetField,
+        moveToNextSection: moveToNextSection
     }
 });

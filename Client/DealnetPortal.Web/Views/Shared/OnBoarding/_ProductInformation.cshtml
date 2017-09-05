@@ -15,7 +15,7 @@
                 <div class="form-group">
                     <label for="" class="mandatory-field">@Resources.PrimaryManufacturerBrandSold</label>
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.ProductInfo.PrimaryBrand, new { @class = "form-control dealnet-input" })
+                        @Html.TextBoxFor(m => m.ProductInfo.PrimaryBrand, new { @class = "form-control dealnet-input", id = "primary-brand" })
                         @Html.ValidationMessageFor(m => m.ProductInfo.PrimaryBrand, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -27,7 +27,7 @@
                     <div class="form-group">
                         <label for="">@Resources.SecondaryManufacturerBrandSold</label>
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.ProductInfo.Brands[i], new { @class = "form-control dealnet-input" })
+                            @Html.TextBoxFor(m => m.ProductInfo.Brands[i], new { @class = "form-control dealnet-input secondary-brand", id = "brands-@i" })
                             @Html.ValidationMessageFor(m => m.ProductInfo.Brands[i], "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                     @Html.LabelFor(m => m.ProductInfo.AnnualSalesVolume, new { @class = "mandatory-field" })
                     <div class="control-group has-addon-left">
                         <div class="control-group-addon">$</div>
-                        @Html.TextBoxFor(m => m.ProductInfo.AnnualSalesVolume, new { @class = "form-control dealnet-input" })
+                        @Html.TextBoxFor(m => m.ProductInfo.AnnualSalesVolume, new { @class = "form-control dealnet-input", id = "annual-sales-volume" })
                         @Html.ValidationMessageFor(m => m.ProductInfo.AnnualSalesVolume, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -61,7 +61,7 @@
                     @Html.LabelFor(m => m.ProductInfo.AverageTransactionSize, new { @class = "mandatory-field" })
                     <div class="control-group has-addon-left">
                         <div class="control-group-addon">$</div>
-                        @Html.TextBoxFor(m => m.ProductInfo.AverageTransactionSize, new { @class = "form-control dealnet-input" })
+                        @Html.TextBoxFor(m => m.ProductInfo.AverageTransactionSize, new { @class = "form-control dealnet-input", id = "av-transaction-size" })
                         @Html.ValidationMessageFor(m => m.ProductInfo.AverageTransactionSize, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                     </div>
                     <div class="form-group checkbox-hold">
                         <label class="align-middle custom-checkbox">
-                            @Html.CheckBoxFor(m => m.ProductInfo.SalesApproachConsumerDirect, new { @class = "dealnet-checkbox" })
+                            @Html.CheckBoxFor(m => m.ProductInfo.SalesApproachConsumerDirect, new { @class = "dealnet-checkbox sales-approach", id = "consumer-direct" })
                             <span class="checkbox-icon">
                                 <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                             </span>
@@ -84,7 +84,7 @@
                     </div>
                     <div class="form-group checkbox-hold">
                         <label class="align-middle custom-checkbox">
-                            @Html.CheckBoxFor(m => m.ProductInfo.SalesApproachBroker, new { @class = "dealnet-checkbox" })
+                            @Html.CheckBoxFor(m => m.ProductInfo.SalesApproachBroker, new { @class = "dealnet-checkbox sales-approach", id = "broker" })
                             <span class="checkbox-icon">
                                 <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                             </span>
@@ -93,7 +93,7 @@
                     </div>
                     <div class="form-group checkbox-hold">
                         <label class="align-middle custom-checkbox">
-                            @Html.CheckBoxFor(m => m.ProductInfo.SalesApproachDistributor, new { @class = "dealnet-checkbox" })
+                            @Html.CheckBoxFor(m => m.ProductInfo.SalesApproachDistributor, new { @class = "dealnet-checkbox sales-approach", id = "distributor" })
                             <span class="checkbox-icon">
                                 <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                             </span>
@@ -102,7 +102,7 @@
                     </div>
                     <div class="form-group checkbox-hold">
                         <label class="align-middle custom-checkbox">
-                            @Html.CheckBoxFor(m => m.ProductInfo.SalesApproachDoorToDoor, new { @class = "dealnet-checkbox" })
+                            @Html.CheckBoxFor(m => m.ProductInfo.SalesApproachDoorToDoor, new { @class = "dealnet-checkbox sales-approach", id = "door-to-door" })
                             <span class="checkbox-icon">
                                 <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                             </span>
@@ -118,7 +118,7 @@
                     </div>
                     <div class="form-group checkbox-hold">
                         <label class="align-middle custom-checkbox">
-                            @Html.CheckBoxFor(m => m.ProductInfo.LeadGenReferrals, new { @class = "dealnet-checkbox" })
+                            @Html.CheckBoxFor(m => m.ProductInfo.LeadGenReferrals, new { @class = "dealnet-checkbox lead-gen", id = "referrals" })
                             <span class="checkbox-icon">
                                 <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                             </span>
@@ -127,7 +127,7 @@
                     </div>
                     <div class="form-group checkbox-hold">
                         <label class="align-middle custom-checkbox">
-                            @Html.CheckBoxFor(m => m.ProductInfo.LeadGenLocalAds, new { @class = "dealnet-checkbox" })
+                            @Html.CheckBoxFor(m => m.ProductInfo.LeadGenLocalAds, new { @class = "dealnet-checkbox lead-gen", id = "local-ads" })
                             <span class="checkbox-icon">
                                 <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                             </span>
@@ -136,7 +136,7 @@
                     </div>
                     <div class="form-group checkbox-hold">
                         <label class="align-middle custom-checkbox">
-                            @Html.CheckBoxFor(m => m.ProductInfo.LeadGenTradeShows, new { @class = "dealnet-checkbox" })
+                            @Html.CheckBoxFor(m => m.ProductInfo.LeadGenTradeShows, new { @class = "dealnet-checkbox lead-gen", id = "trade-shows" })
                             <span class="checkbox-icon">
                                 <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                             </span>
@@ -150,25 +150,25 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                @Html.LabelFor(m => m.ProductInfo.ProgramService, new { @class = "mandatory-field" })
+                    @Html.LabelFor(m => m.ProductInfo.ProgramService, new { @class = "mandatory-field" })
                 </div>
                 <div class="form-group">
                     <label for="" class="align-middle custom-radio">
-                        @Html.RadioButtonFor(m => m.ProductInfo.ProgramService, ProgramServices.Loan, new { @class = "program-service", @checked = Model.ProductInfo.ProgramService == ProgramServices.Loan ? "checked" : "" })
+                        @Html.RadioButtonFor(m => m.ProductInfo.ProgramService, ProgramServices.Loan, new { @class = "program-service", @checked = Model.ProductInfo.ProgramService == ProgramServices.Loan ? "checked" : "", id = "loan" })
                         <span class="custom-radio-icon"></span>
                         <span>@Resources.Loan</span>
                     </label>
                 </div>
                 <div class="form-group">
                     <label for="" class="align-middle custom-radio">
-                        @Html.RadioButtonFor(m => m.ProductInfo.ProgramService, ProgramServices.Rental, new { @class = "program-service", @checked = Model.ProductInfo.ProgramService == ProgramServices.Rental ? "checked" : "" })
+                        @Html.RadioButtonFor(m => m.ProductInfo.ProgramService, ProgramServices.Rental, new { @class = "program-service", @checked = Model.ProductInfo.ProgramService == ProgramServices.Rental ? "checked" : "", id = "rental" })
                         <span class="custom-radio-icon"></span>
                         <span>@Resources.Rental</span>
                     </label>
                 </div>
                 <div class="form-group">
                     <label for="" class="align-middle custom-radio">
-                        @Html.RadioButtonFor(m => m.ProductInfo.ProgramService, ProgramServices.Both, new { @class = "program-service", @checked = Model.ProductInfo.ProgramService == ProgramServices.Both ? "checked" : "" })
+                        @Html.RadioButtonFor(m => m.ProductInfo.ProgramService, ProgramServices.Both, new { @class = "program-service", @checked = Model.ProductInfo.ProgramService == ProgramServices.Both ? "checked" : "", id = "both" })
                         <span class="custom-radio-icon"></span>
                         <span>@Resources.Both</span>
                     </label>
@@ -188,7 +188,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.ProductInfo.OEMName, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.ProductInfo.OEMName, new { @class = "form-control dealnet-input" })
+                        @Html.TextBoxFor(m => m.ProductInfo.OEMName, new { @class = "form-control dealnet-input", id = "oem" })
                         @Html.ValidationMessageFor(m => m.ProductInfo.OEMName, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -212,7 +212,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.ProductInfo.FinanceProviderName, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.ProductInfo.FinanceProviderName, new { @class = "form-control dealnet-input" })
+                        @Html.TextBoxFor(m => m.ProductInfo.FinanceProviderName, new { @class = "form-control dealnet-input", id = "finance-provider-name" })
                         @Html.ValidationMessageFor(m => m.ProductInfo.FinanceProviderName, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -222,7 +222,7 @@
                     @Html.LabelFor(m => m.ProductInfo.MonthlyFinancedValue, new { @class = "mandatory-field" })
                     <div class="control-group has-addon-left">
                         <div class="control-group-addon">$</div>
-                        @Html.TextBoxFor(m => m.ProductInfo.MonthlyFinancedValue, new { @class = "form-control dealnet-input" })
+                        @Html.TextBoxFor(m => m.ProductInfo.MonthlyFinancedValue, new { @class = "form-control dealnet-input", id = "monthly-financed-value" })
                         @Html.ValidationMessageFor(m => m.ProductInfo.MonthlyFinancedValue, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -247,7 +247,7 @@
                     @Html.LabelFor(m => m.ProductInfo.PercentMonthlyDealsDeferred, new { @class = "mandatory-field" })
                     <div class="control-group has-addon-left">
                         <div class="control-group-addon">%</div>
-                        @Html.TextBoxFor(m => m.ProductInfo.PercentMonthlyDealsDeferred, new { @class = "form-control " })
+                        @Html.TextBoxFor(m => m.ProductInfo.PercentMonthlyDealsDeferred, new { @class = "form-control", id = "percent-month-deferrals" })
                         @Html.ValidationMessageFor(m => m.ProductInfo.PercentMonthlyDealsDeferred, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -291,15 +291,18 @@
                 }
             </ul>
         </div>
-        <div class="row">
-            @Html.ValidationMessageFor(m => m.ProductInfo.EquipmentTypes, "", new { @class = "text-danger", id="equipment-error" })
+        <div id="equipment-error" class="well danger-well hidden">
+            <svg aria-hidden="true" class="icon icon-error">
+                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
+            </svg>
+            @Resources.SelectOneProduct
         </div>
         <div class="row">
             <div class="col-md-4 col-sm-6">
                 <div class="form-group">
                     @Html.LabelFor(m => m.ProductInfo.ReasonForInterest, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.EnumDropDownListFor(m => m.ProductInfo.ReasonForInterest, new { @class = "form-control" })
+                        @Html.EnumDropDownListFor(m => m.ProductInfo.ReasonForInterest, new { @class = "form-control", id = "reason-for-interest" })
                         @Html.ValidationMessageFor(m => m.ProductInfo.ReasonForInterest, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -307,42 +310,13 @@
         </div>
         <div class="save-and-resume-hold">
             <a class="save-and-resume dealnet-info-link">
-                    <span class="icon-hold">
-                        <svg aria-hidden="true" class="icon icon-save">
-                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-save")"></use>
-                        </svg>
-                    </span>
+                <span class="icon-hold">
+                    <svg aria-hidden="true" class="icon icon-save">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-save")"></use>
+                    </svg>
+                </span>
                 <span>@Resources.SaveEntireAppAndResumeLater</span>
             </a>
         </div>
     </div>
 </div>
-
-<script type="text/x-jquery-tmpl" id="equipment-template">
-    <li id="equipment-${index}-index">
-        <input type="hidden" id="ProductInfo_EquipmentTypes_${index}__Id" name="ProductInfo.EquipmentTypes[${index}].Id" value="${id}" />
-        <input type="hidden" id="ProductInfo_EquipmentTypes_${index}__Description" name="ProductInfo.EquipmentTypes[${index}].Description" value="${description}">
-        <span id="equipment-${index}-display">${description}</span>
-        <span class="icon-remove" id="equipment-${id}">
-            <svg aria-hidden="true" class="icon icon-remove-cross">
-                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
-            </svg>
-        </span>
-    </li>
-</script>
-
-<script id="manufacturerBrandTemplate" type="text/x-jquery-tmpl">
-    <div class="col-md-4 col-sm-6 new-brand-group">
-        <div class="form-group">
-            <label for="">@Resources.SecondaryManufacturerBrandSold</label>
-            <div class="control-group removable-form-group">
-                <input id="ProductInfo_Brands_${brandNumber}" name="ProductInfo.Brands[${brandNumber}]" type="text" class="form-control dealnet-input" value="">
-                <a href="" class="remove-link remove-brand-link">
-                    <svg aria-hidden="true" class="icon icon-remove-cross">
-                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </div>
-</script>

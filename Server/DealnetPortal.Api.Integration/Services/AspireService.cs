@@ -1071,7 +1071,7 @@ namespace DealnetPortal.Api.Integration.Services
         {            
             var accounts = new List<Account>();
             accounts.Add(GetCompanyAccount(dealerInfo));
-            accounts.AddRange(GetCompanyOwnersAccounts(dealerInfo));            
+            //accounts.AddRange(GetCompanyOwnersAccounts(dealerInfo));            
             return accounts;
         }
 
@@ -1085,8 +1085,9 @@ namespace DealnetPortal.Api.Integration.Services
                 Role = companyRole,
                 IsIndividual = false,
                 IsPrimary = true,
-                Legalname = companyInfo.FullLegalName,
-                EmailAddress = companyInfo.EmailAddress,
+                Legalname = companyInfo.FullLegalName,                
+                Dba = companyInfo.OperatingName,
+                EmailAddress = companyInfo.EmailAddress,                
                 CreditReleaseObtained = true,
                 Address = new Address()
                 {
@@ -1826,6 +1827,46 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var udfList = new List<UDF>();
 
+            if (dealerInfo?.CompanyInfo?.NumberOfInstallers != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.NumberOfInstallers,
+                    Value = dealerInfo.CompanyInfo.NumberOfInstallers.GetEnumDescription()
+                });
+            }
+            if (dealerInfo?.CompanyInfo?.NumberOfInstallers != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.NumberOfInstallers,
+                    Value = dealerInfo.CompanyInfo.NumberOfInstallers.GetEnumDescription()
+                });
+            }
+            if (dealerInfo?.CompanyInfo?.BusinessType != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.TypeOfBusiness,
+                    Value = dealerInfo.CompanyInfo.BusinessType.GetEnumDescription()
+                });
+            }
+            if (dealerInfo?.CompanyInfo?.YearsInBusiness != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.YearsInBusiness,
+                    Value = dealerInfo.CompanyInfo.YearsInBusiness.GetEnumDescription()
+                });
+            }
+            if (dealerInfo?.CompanyInfo?.Provinces?.Any() == true)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.ProvincesApproved,
+                    Value = GetCompanyProvincesApproved(dealerInfo)
+                });
+            }
             if (string.IsNullOrEmpty(dealerInfo?.CompanyInfo?.Website))
             {
                 udfList.Add(new UDF()
@@ -1834,6 +1875,7 @@ namespace DealnetPortal.Api.Integration.Services
                     Value = dealerInfo.CompanyInfo.Website
                 });
             }
+
             if (dealerInfo.ProductInfo?.Brands?.Any() == true || !string.IsNullOrEmpty(dealerInfo.ProductInfo?.PrimaryBrand))
             {
                 udfList.Add(new UDF()
@@ -1919,7 +1961,7 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.ProgramServicesRequired,
-                    Value = dealerInfo.ProductInfo.ProgramService.ToString()
+                    Value = dealerInfo.ProductInfo.ProgramService == ProgramServices.Both ? "Financing + Leasing" : (dealerInfo.ProductInfo.ProgramService == ProgramServices.Loan ? "Leasing" : "Financing")
                 });
             }
             if (dealerInfo.ProductInfo?.Relationship != null)
@@ -1927,7 +1969,7 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.RelationshipStructure,
-                    Value = dealerInfo.ProductInfo.Relationship.ToString()
+                    Value = dealerInfo.ProductInfo.Relationship.GetEnumDescription()
                 });
             }
             if (dealerInfo.ProductInfo?.WithCurrentProvider != null)
@@ -1951,7 +1993,7 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.ReasonForInterest,
-                    Value = dealerInfo.ProductInfo.ReasonForInterest.ToString()
+                    Value = dealerInfo.ProductInfo.ReasonForInterest.GetEnumDescription()
                 });
             }
             if (dealerInfo.ProductInfo?.Services?.Any() == true)
@@ -1991,11 +2033,131 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.MonthlyDealsToBeDeferred,
-                    Value = dealerInfo.ProductInfo.PercentMonthlyDealsDeferred?.ToString(CultureInfo.InvariantCulture)
+                    Value = $"{dealerInfo.ProductInfo.PercentMonthlyDealsDeferred?.ToString(CultureInfo.InvariantCulture)}%"
                 });
             }
 
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.MarketingConsent,
+                Value = "Y"
+            });
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.CreditCheckConsent,
+                Value = "Y"
+            });
+
+            if (dealerInfo?.Owners?.Any() == true)
+            {
+                udfList.AddRange(GetCompanyOwnersUdfs(dealerInfo));
+            }
+
             return udfList;
+        }
+
+        private string GetCompanyProvincesApproved(DealerInfo dealerInfo)
+        {
+            //probably will have more complex logic here, for include licences information
+            return string.Join(", ", dealerInfo.CompanyInfo.Provinces.Select(p => p.Province));
+        }
+
+        private IList<UDF> GetCompanyOwnersUdfs(DealerInfo dealerInfo)
+        {
+            var ownerNum = 1;
+            var udfs = dealerInfo.Owners?.OrderBy(o => o.OwnerOrder).Take(5).SelectMany(owner =>
+            {
+                var ownerUdfs = new List<UDF>();
+                if (!string.IsNullOrEmpty(owner?.FirstName))
+                {
+                    ownerUdfs.Add(new UDF()
+                    {
+                        Name = $"{AspireUdfFields.OwnerFirstName} {ownerNum}",
+                        Value = owner.FirstName
+                    });
+                }
+                if (!string.IsNullOrEmpty(owner?.LastName))
+                {
+                    ownerUdfs.Add(new UDF()
+                    {
+                        Name = $"{AspireUdfFields.OwnerLastName} {ownerNum}",
+                        Value = owner.FirstName
+                    });
+                }
+                if (owner?.DateOfBirth != null)
+                {
+                    ownerUdfs.Add(new UDF()
+                    {
+                        Name = $"{AspireUdfFields.OwnerDateOfBirth} {ownerNum}",
+                        Value = owner.DateOfBirth?.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
+                    });
+                }
+                if (!string.IsNullOrEmpty(owner?.HomePhone))
+                {
+                    ownerUdfs.Add(new UDF()
+                    {
+                        Name = $"{AspireUdfFields.OwnerHomePhone} {ownerNum}",
+                        Value = owner.HomePhone
+                    });
+                }
+                if (!string.IsNullOrEmpty(owner?.MobilePhone))
+                {
+                    ownerUdfs.Add(new UDF()
+                    {
+                        Name = $"{AspireUdfFields.OwnerMobilePhone} {ownerNum}",
+                        Value = owner.MobilePhone
+                    });
+                }
+                if (!string.IsNullOrEmpty(owner?.EmailAddress))
+                {
+                    ownerUdfs.Add(new UDF()
+                    {
+                        Name = $"{AspireUdfFields.OwnerEmail} {ownerNum}",
+                        Value = owner.EmailAddress
+                    });
+                }
+                if (owner?.Address != null)
+                {
+                    ownerUdfs.Add(new UDF()
+                    {
+                        Name = $"{AspireUdfFields.OwnerAddress} {ownerNum}",
+                        Value = owner.Address.Street
+                    });
+                    ownerUdfs.Add(new UDF()
+                    {
+                        Name = $"{AspireUdfFields.OwnerAddressCity} {ownerNum}",
+                        Value = owner.Address.City
+                    });
+                    ownerUdfs.Add(new UDF()
+                    {
+                        Name = $"{AspireUdfFields.OwnerAddressPostalCode} {ownerNum}",
+                        Value = owner.Address.PostalCode
+                    });
+                    ownerUdfs.Add(new UDF()
+                    {
+                        Name = $"{AspireUdfFields.OwnerAddressState} {ownerNum}",
+                        Value = owner.Address.State
+                    });
+                    ownerUdfs.Add(new UDF()
+                    {
+                        Name = $"{AspireUdfFields.OwnerAddressUnit} {ownerNum}",
+                        Value = owner.Address.Unit
+                    });
+                }
+                if (owner?.PercentOwnership != null)
+                {
+                    ownerUdfs.Add(new UDF()
+                    {
+                        Name = $"{AspireUdfFields.OwnerPercentageOfOwnership} {ownerNum}",
+                        Value = $"{owner.PercentOwnership?.ToString(CultureInfo.InvariantCulture)}%"
+                    });
+                }
+
+                ownerNum++;
+                return ownerUdfs;
+            }).ToList();
+
+            return udfs;
         }
 
         #endregion

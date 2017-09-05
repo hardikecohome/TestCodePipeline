@@ -598,6 +598,32 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
+        public async Task SendProblemsWithSubmittingOnboarding(string errorMsg, int dealerInfoId, string accessKey)
+        {
+            try
+            {
+                await _mandrillService.SendProblemsWithSubmittingOnboarding(errorMsg, dealerInfoId, accessKey);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot send email SendProblemsWithSubmittingOnboarding", ex);
+            }
+
+        }
+
+        public async Task SendDraftLinkMail(string accessKey)
+        {
+            try
+            {
+                await _mandrillService.SendDraftLinkMail(accessKey);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot send email SendProblemsWithSubmittingOnboarding", ex);
+            }
+
+        }
+
         #endregion
 
         #region Private

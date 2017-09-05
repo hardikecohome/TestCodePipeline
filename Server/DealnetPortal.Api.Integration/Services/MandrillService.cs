@@ -202,35 +202,104 @@ namespace DealnetPortal.Api.Integration.Services
 
         }
 
-        //    public async Task SendEmail(string myemail)
-        //{
-        //    List<EmailAddress> to = new List<EmailAddress>();
-        //    List<RcptMergeVar> mergevariables = new List<RcptMergeVar>();
-        //    List<MergeVar> myvar = new List<MergeVar>();
-        //    myvar.Add(new MergeVar() { Name="FNAME", Content = "Hardik" });
-        //    myvar.Add(new MergeVar() { Name = "LNAME", Content = "Sharma" });
-        //    List<TemplateContent> variables = new List<TemplateContent>();
+        public async Task SendProblemsWithSubmittingOnboarding(string errorMsg, int dealerInfoId, string accessKey)
+        {
+            var draftLink = ConfigurationManager.AppSettings["DealerPortalDraftUrl"] + accessKey;
+            MandrillRequest request = new MandrillRequest();
+            List<Variable> myVariables = new List<Variable>();
+            request.key = _apiKey;
+            request.template_name = ConfigurationManager.AppSettings["DeclinedOrCreditReviewTemplate"];//TODO: change emailTemplate
+            request.template_content = new List<templatecontent>() {
+                    new templatecontent(){
+                        name="Declined",
+                        content = "Declined"
+                    }
+                };
 
-        //    mergevariables.Add(new RcptMergeVar() {
-        //        Rcpt = myemail,
-        //        Vars = myvar
 
-        //    });
-        //    to.Add(new EmailAddress() { Email = myemail });
-        //    EmailMessage message = new EmailMessage();
-        //    message.To = to;
+            request.message = new MandrillMessage()
+            {
+                from_email = ConfigurationManager.AppSettings["FromEmail"],
+                from_name = "Myhome Wallet by EcoHome Financial",
+                html = null,
+                merge_vars = new List<MergeVariable>() {
+                        new MergeVariable(){
+                            rcpt = ConfigurationManager.AppSettings["DealNetEmail"],//TODO: Change to Hiren email
+                            vars = myVariables
 
-        //    await _manager.SendMessageTemplate(new SendMessageTemplateRequest(new EmailMessage()
-        //    {
-        //        To = to,
-        //        Subject = "Send Email From Mandrill",
-        //        FromEmail = ConfigurationManager.AppSettings["FromEamil"],
-        //        FromName = ConfigurationManager.AppSettings["FromName"],
-        //        Merge = true,
-        //        MergeLanguage = "mailchimp"
 
-        //    }, "",));
-        //}
+                        }
+                    },
+                send_at = DateTime.Now,
+                subject = "Unfortunately, we’re unable to process this application automatically",
+                text = "Unfortunately, we’re unable to process this application automatically",
+                to = new List<MandrillTo>() {
+                        new MandrillTo(){
+                            email = ConfigurationManager.AppSettings["DealNetEmail"],//TODO: Change to Hiren email
+                            name = " ",
+                            type = "to"
+                        }
+                    }
+            };
+            try
+            {
+                //var result = await SendEmail(request);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
+        }
+
+        public async Task SendDraftLinkMail(string accessKey)
+        {
+            var draftLink = ConfigurationManager.AppSettings["DealerPortalDraftUrl"] + accessKey;
+            MandrillRequest request = new MandrillRequest();
+            List<Variable> myVariables = new List<Variable>();
+            request.key = _apiKey;
+            request.template_name = ConfigurationManager.AppSettings["DeclinedOrCreditReviewTemplate"];//TODO: change emailTemplate
+            request.template_content = new List<templatecontent>() {
+                    new templatecontent(){
+                        name="Declined",
+                        content = "Declined"
+                    }
+                };
+
+
+            request.message = new MandrillMessage()
+            {
+                from_email = ConfigurationManager.AppSettings["FromEmail"],
+                from_name = "Myhome Wallet by EcoHome Financial",
+                html = null,
+                merge_vars = new List<MergeVariable>() {
+                        new MergeVariable(){
+                            rcpt = ConfigurationManager.AppSettings["DealNetEmail"],//TODO: Change to Hiren email
+                            vars = myVariables
+
+
+                        }
+                    },
+                send_at = DateTime.Now,
+                subject = "Unfortunately, we’re unable to process this application automatically",
+                text = "Unfortunately, we’re unable to process this application automatically",
+                to = new List<MandrillTo>() {
+                        new MandrillTo(){
+                            email = ConfigurationManager.AppSettings["DealNetEmail"],//TODO: Change to Hiren email
+                            name = " ",
+                            type = "to"
+                        }
+                    }
+            };
+            try
+            {
+                //var result = await SendEmail(request);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }

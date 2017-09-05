@@ -76,9 +76,9 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SendLink(SaveAndResumeViewModel model)
+        public async Task<ActionResult> SendDraftLink(SaveAndResumeViewModel model)
         {
-            var result = await _dealerOnBoardingManager.SendEmail(model);
+            var result = await _dealerOnBoardingManager.SendDealerOnboardingDraftLink(model);
             if (result == null || !result.Any()) { return Json(new { success = true }); }
             return Json(new { success = false });
         }

@@ -2,6 +2,7 @@
     var state = require('onboarding.state').state;
 
     var configSetField = require('onboarding.setters').configSetField;
+    var moveToNextSection = require('onboarding.setters').moveToNextSection;
 
     var stateSection = 'company';
 
@@ -49,10 +50,10 @@
             if (index > -1) {
                 state[stateSection].requiredFields.splice(index, 1);
             }
-            _moveToNextSection();
+            moveToNextSection.call(this, stateSection);
             return true;
         }
-        return false
+        return false;
     }
 
     function workProvinceRemoved (field, province) {
@@ -71,35 +72,6 @@
             return true;
         }
         return false;
-    }
-
-    function _spliceRequiredFields (field) {
-        if (!$('#' + field).valid()) {
-
-            var index = state[stateSection].requiredFields.indexOf(field);
-
-            if (index === -1)
-                state[stateSection].requiredFields.push(field);
-
-            return;
-        }
-
-
-        var requiredIndex = state[stateSection].requiredFields.indexOf(field);
-
-        if (requiredIndex >= 0) {
-            state[stateSection].requiredFields.splice(requiredIndex, 1);
-        }
-    }
-
-    function _moveToNextSection () {
-        var isValid = state[stateSection].requiredFields.length === 0;
-        if (isValid) {
-            $('#owner-info-section')
-                .removeClass('panel-collapsed')
-                .addClass('active-panel')
-                .addClass('step-passed');
-        }
     }
 
     return {

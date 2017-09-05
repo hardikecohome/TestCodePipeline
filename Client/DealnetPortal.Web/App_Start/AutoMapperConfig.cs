@@ -244,7 +244,10 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.MobilePhone, d => d.MapFrom(src => src.CellPhone));
 
             cfg.CreateMap<DealerOnboardingViewModel, DealerInfoDTO>()
-                .ForMember(x => x.SalesRepLink, d => d.MapFrom(src => src.OnBoardingLink));
+                .ForMember(x => x.SalesRepLink, d => d.MapFrom(src => src.OnBoardingLink))
+                .ForMember(x => x.MarketingConsent, d => d.MapFrom(src => src.AllowCommunicate))
+                .ForMember(x => x.CreditCheckConsent, d => d.MapFrom(src => src.AllowCreditCheck))
+                ;
         }
 
         private static void MapModelsToVMs(IMapperConfigurationExpression cfg)
@@ -554,7 +557,10 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth));
 
             cfg.CreateMap<DealerInfoDTO, DealerOnboardingViewModel>()
-                .ForMember(x => x.OnBoardingLink, d => d.MapFrom(src => src.SalesRepLink));
+                .ForMember(x => x.OnBoardingLink, d => d.MapFrom(src => src.SalesRepLink))
+                .ForMember(x => x.AllowCommunicate, d => d.MapFrom(src => src.MarketingConsent))
+                .ForMember(x => x.AllowCreditCheck, d => d.MapFrom(src => src.CreditCheckConsent))
+                ;
         }
     }
 }

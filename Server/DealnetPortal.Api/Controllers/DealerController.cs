@@ -84,6 +84,22 @@ namespace DealnetPortal.Api.Controllers
             }            
         }
 
+        [Route("CheckOnboardingLink")]
+        [HttpGet]
+        [AllowAnonymous]
+        public IHttpActionResult CheckOnboardingLink(string dealerLink)
+        {
+            try
+            {
+                var result = _dealerService.CheckOnboardingLink(dealerLink);                    
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("SubmitDealerOnboardingInfo")]
         [HttpPost]
         [AllowAnonymous]
@@ -92,6 +108,22 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 var result = await _dealerService.SubmitDealerOnboardingForm(dealerInfo);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("SendDealerOnboardingDraftLink")]
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> SendDealerOnboardingDraftLink(string accessKey)
+        {
+            try
+            {
+                var result = await _dealerService.SendDealerOnboardingDraftLink(accessKey);
                 return Ok(result);
             }
             catch (Exception ex)

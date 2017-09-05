@@ -7,6 +7,7 @@
     var validateAndSubmit = require('onboarding.form.handlers');
     var documents = require('onboarding.documents.index');
     var submitDraft = require('onboarding.form.handlers').submitDraft;
+    var resetForm = require('onboarding.common').resetFormValidation;
 
     function init (model) {
         company.initCompany();

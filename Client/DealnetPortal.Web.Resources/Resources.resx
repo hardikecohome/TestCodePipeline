@@ -1920,7 +1920,7 @@
     <value>Primary Brand is in incorrect format</value>
   </data>
   <data name="SelectOneProduct" xml:space="preserve">
-    <value>Please, select at least one Product</value>
+    <value>Please select at least one Product</value>
   </data>
   <data name="Close" xml:space="preserve">
     <value>Close</value>
@@ -1938,7 +1938,7 @@
     <value>Secondary Brand is in incorrect format</value>
   </data>
   <data name="SelectOneProvince" xml:space="preserve">
-    <value>Please, select at lease one Province</value>
+    <value>Please select at lease one Province</value>
   </data>
   <data name="SendMeLink" xml:space="preserve">
     <value>Send me link</value>
