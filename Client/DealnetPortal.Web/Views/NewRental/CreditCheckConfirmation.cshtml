@@ -81,7 +81,7 @@ if (creditCheckError != null)
 						</div>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group hidden">
 						<div class="row">
 							@Html.LabelFor(m => Model.HomeOwner.DriverLicenseNumber, new { @class = "dealnet-field-caption col-xs-6" })
 							<div class="dealnet-field-holder col-xs-6">
@@ -359,7 +359,7 @@ if (creditCheckError != null)
 			                </div>
 			            </div>
 
-			            <div class="form-group">
+			            <div class="form-group hidden">
 			                <div class="row">
 			                    @Html.LabelFor(m => Model.AdditionalApplicants[i].DriverLicenseNumber, new {@class = "dealnet-field-caption col-xs-6"})
 			                    <div class="dealnet-field-holder col-xs-6">

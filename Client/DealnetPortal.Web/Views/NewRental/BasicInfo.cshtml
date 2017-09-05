@@ -264,7 +264,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 col-lg-4">
+                <div class="col-md-4 col-lg-4 hidden">
                     <div class="form-group">
                         @Html.LabelFor(m => m.HomeOwner.DriverLicenseNumber, new { @for = "dl-number" })
                         <div class="control-group">
@@ -617,7 +617,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4 col-lg-4">
+                        <div class="col-md-4 col-lg-4 hidden">
                             <div class="form-group">
                         	@Html.LabelFor(m => m.AdditionalApplicants[i].DriverLicenseNumber, new { @for = "additional-dl-number-" + (i + 1) })
                                 <div class="control-group">
