@@ -8,6 +8,7 @@ using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Extensions;
+using DealnetPortal.Web.Models;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -104,7 +105,7 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> UploadDocument()
+        public async Task<JsonResult> UploadDocument(DocumentForUpload documentForUpload)
         {
             if (Request.Files == null || Request.Files.Count <= 0)
             {

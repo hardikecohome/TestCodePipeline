@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Web.Models.Dealer;
@@ -101,7 +102,12 @@ namespace DealnetPortal.Web.Infrastructure
             };
 
             var result = await _dealerServiceAgent.AddDocumentToOnboardingForm(model);
-
+            if (result.Item2 != null)
+            {
+                return result.Item2;
+            }
+            var result2 = result.Item1;
+            
             return null;
         }
     }

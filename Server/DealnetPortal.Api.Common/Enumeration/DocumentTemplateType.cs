@@ -18,6 +18,8 @@ namespace DealnetPortal.Api.Common.Enumeration
         [Description("Third party verification call")]
         VerificationCall = 6,
         [Description("Other")]
-        Other = 7
+        Other = 7,
+        [Description("Insurence")]
+        Insurence = 8,
     }
 }

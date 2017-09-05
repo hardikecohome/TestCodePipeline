@@ -4,13 +4,7 @@
     var setRemoveClick = require('onboarding.company.province').setRemoveClick;
     var setters = require('onboarding.company.setters');
 
-    var init = function() {
-        $('input[id^="province-"]')
-            .each(function() {
-                var $this = $(this);
-                var id = $this.attr('id').split('-')[1];
-                setRemoveClick($this.val());
-            });
+    var init = function(company) {
         $('#province-select').on('change', add);
 
         $('#full-legal-name').on('change', setters.setLegalName);
