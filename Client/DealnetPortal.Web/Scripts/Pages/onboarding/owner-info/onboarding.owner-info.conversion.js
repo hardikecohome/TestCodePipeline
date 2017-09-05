@@ -1,5 +1,7 @@
 ﻿module.exports('onboarding.owner-info.conversion', function (require) {
 
+    var resetFormValidation = require('onboarding.common').resetFormValidation;
+
     var recalculateOwnerIndex = function (ownerNumber) {
 
         delete state['owner-info']['owners'][ownerNumber];
@@ -53,17 +55,10 @@
             state['owner-info']['owners']['owner' + (nextId - 1)] = state['owner-info']['owners']['owner' + nextId];
             delete state['owner-info']['owners']['owner' + nextId];
         }
-    }
-
-    var resetFormValidation = function (option) {
-        var $form = $('#' + option + '-container > form');
-        $form.removeData("validator");
-        $form.removeData("unobtrusiveValidation");
-        $.validator.unobtrusive.parse('#' + option + '-container > form');
+        resetFormValidation('#onboard-form');
     }
 
     return {
-        recalculateOwnerIndex: recalculateOwnerIndex,
-        resetValidation: resetFormValidation
+        recalculateOwnerIndex: recalculateOwnerIndex
     };
 })

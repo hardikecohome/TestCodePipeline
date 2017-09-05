@@ -183,9 +183,12 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/localization")
     @Scripts.Render("~/bundles/onboarding")
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=init" async defer></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=initAutocomplete" async defer></script>
     <script type="text/javascript">
-        module.require('onboarding.index').init(@Html.Raw(Json.Encode(Model)));
+        module.require('onboarding.index')
+        $(document).ready(function () {
+            init(@Html.Raw(Json.Encode(Model)));
+        });
     </script>
 
     <script type="text/javascript">
@@ -198,34 +201,6 @@
             });
             clearAddress();
         });
-
-        var initRefNumber = 1;
-        function addTradeReference() {
-            $("#tradeReferenceTemplate").tmpl({ refNumber: initRefNumber })
-                .appendTo("#references-container");
-
-            customizeSelect();
-            addIconsToFields();
-            toggleClearInputIcon();
-            clearAddress();
-
-
-            if ($('.trade-reference').length > 0 && $('.trade-reference').length < 2) {
-                $('#add-reference-link').addClass('mandatory-field');
-            } else {
-                $('#add-reference-link').removeClass('mandatory-field');
-            }
-            $('.trade-reference').slice(2, $('.trade-reference').length).addClass('is-removable');
-
-
-            $('.remove-reference-link').on('click', function () {
-                $(this).parents('.trade-reference').remove();
-                return false;
-            });
-
-            initRefNumber++;
-            return false;
-        }
 
         function clearAddress() {
             $('.clear-address').click(function () {

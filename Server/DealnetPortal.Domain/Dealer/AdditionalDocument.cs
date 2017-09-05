@@ -19,7 +19,9 @@ namespace DealnetPortal.Domain.Dealer
 
         public string Number { get; set; }
 
-        public DateTime ExpiredDate { get; set; }
+        public DateTime? ExpiredDate { get; set; }
+
+        public bool NotExpired { get; set; }
 
         public int DealerInfoId { get; set; }
         [ForeignKey(nameof(DealerInfoId))]

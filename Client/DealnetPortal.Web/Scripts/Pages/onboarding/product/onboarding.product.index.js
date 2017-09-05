@@ -69,7 +69,7 @@
     }
 
     function hideFormGroup (selector) {
-        $(selector).removeClass('hidden').find('input').removeProp('disabled');
+        $(selector).removeClass('hidden').find('input').prop('disabled', false);
     }
 
     function showFormGroup (selector) {

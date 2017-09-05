@@ -26,7 +26,8 @@
         ownerInfo.initAutocomplete();
     }
 
-    window.init = initAutocomplete;
+    window.init = init;
+    window.initAutocomplete = initAutocomplete;
 
     return {
         init: init
