@@ -1,5 +1,6 @@
-﻿module.exports('onboarding.ackonwledgment.setters', function(require) {
+﻿module.exports('onboarding.ackonwledgment.setters', function (require) {
     var state = require('onboarding.state').state;
+    var enableSubmit = require('onboarding.setters').enableSubmit;
     var stateSection = 'aknowledgment';
 
     var setFirstName = function (ownerNumber) {
@@ -26,6 +27,7 @@
         return function (e) {
             var isChecked = e.target.checked;
             state[stateSection]['owners'][ownerNumber].agreement = isChecked;
+            enableSubmit();
         }
     }
 

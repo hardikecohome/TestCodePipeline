@@ -15,7 +15,7 @@ namespace DealnetPortal.Domain.Dealer
 
         public int LicenseTypeId { get; set; }
         [ForeignKey("LicenseTypeId")]
-        public LicenseType License { get; set; }
+        public virtual LicenseType License { get; set; }
 
         public string Number { get; set; }
 
@@ -26,6 +26,6 @@ namespace DealnetPortal.Domain.Dealer
         public int DealerInfoId { get; set; }
         [ForeignKey(nameof(DealerInfoId))]
         [Required]
-        public DealerInfo DealerInfo { get; set; }
+        public virtual DealerInfo DealerInfo { get; set; }
     }
 }

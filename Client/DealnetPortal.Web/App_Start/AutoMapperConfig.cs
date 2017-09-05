@@ -242,12 +242,16 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<OwnerViewModel, OwnerInfoDTO>()
                 .ForMember(x => x.DateOfBirth, d => d.MapFrom(src => src.BirthDate))
                 .ForMember(x => x.MobilePhone, d => d.MapFrom(src => src.CellPhone));
-
+            cfg.CreateMap<AdditionalDocumentViewModel, AdditionalDocumentDTO>()
+                .ForMember(x => x.License, d => d.MapFrom(src => new LicenseTypeDTO {Id =src.LicenseTypeId}));
+            cfg.CreateMap<RequiredDocumentViewModel, RequiredDocumentDTO>();
             cfg.CreateMap<DealerOnboardingViewModel, DealerInfoDTO>()
                 .ForMember(x => x.SalesRepLink, d => d.MapFrom(src => src.OnBoardingLink))
                 .ForMember(x => x.MarketingConsent, d => d.MapFrom(src => src.AllowCommunicate))
                 .ForMember(x => x.CreditCheckConsent, d => d.MapFrom(src => src.AllowCreditCheck))
-                ;
+                .ForMember(x => x.RequiredDocuments, d => d.MapFrom(src => src.RequiredDocuments))
+                .ForMember(x => x.AdditionalDocuments, d => d.MapFrom(src => src.AdditionalDocuments));
+            
         }
 
         private static void MapModelsToVMs(IMapperConfigurationExpression cfg)
@@ -555,12 +559,16 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<OwnerInfoDTO, OwnerViewModel>()
                 .ForMember(x => x.CellPhone, d => d.MapFrom(src => src.MobilePhone))
                 .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth));
-
+            cfg.CreateMap<AdditionalDocumentDTO, AdditionalDocumentViewModel>()
+                .ForMember(x => x.LicenseTypeId, d => d.MapFrom(src =>  src.License.Id));
+            cfg.CreateMap<RequiredDocumentDTO, RequiredDocumentViewModel>();
             cfg.CreateMap<DealerInfoDTO, DealerOnboardingViewModel>()
-                .ForMember(x => x.OnBoardingLink, d => d.MapFrom(src => src.SalesRepLink))
+                .ForMember(x => x.OnBoardingLink, d =>d.MapFrom(src => src.SalesRepLink))
                 .ForMember(x => x.AllowCommunicate, d => d.MapFrom(src => src.MarketingConsent))
                 .ForMember(x => x.AllowCreditCheck, d => d.MapFrom(src => src.CreditCheckConsent))
-                ;
+                .ForMember(x => x.RequiredDocuments, d => d.MapFrom(src => src.RequiredDocuments))
+                .ForMember(x => x.AdditionalDocuments, d => d.MapFrom(src => src.AdditionalDocuments));
+            
         }
     }
 }

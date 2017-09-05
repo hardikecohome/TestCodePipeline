@@ -16,10 +16,7 @@
         $('#company-unit').on('change', setters.setUnit);
         $('#company-city').on('change', setters.setCity);
         $('#company-province').on('change', setters.setProvince);
-        $('#company-postal').on('change',function (e) {
-                    e.target.value = e.target.value.toUpperCase();
-                    setters.setPostalCode();
-            });
+        $('#company-postal').on('change', setters.setPostalCode);
         $('#company-type').on('change', setters.setType);
         $('#years-in-business').on('change', setters.setYearsInBusiness);
         $('#installers').on('change', setters.setInstallers);

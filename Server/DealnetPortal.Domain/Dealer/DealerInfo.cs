@@ -50,9 +50,9 @@ namespace DealnetPortal.Domain.Dealer
         public virtual ICollection<OwnerInfo> Owners { get; set; }
 
         public virtual ProductInfo ProductInfo { get; set; }
-        
-        public ICollection<RequiredDocument> RequiredDocuments { get; set; }      
+
+        public virtual ICollection<RequiredDocument> RequiredDocuments { get; set; }      
           
-        public ICollection<AdditionalDocument> AdditionalDocuments { get; set; }        
+        public virtual ICollection<AdditionalDocument> AdditionalDocuments { get; set; }        
     }
 }

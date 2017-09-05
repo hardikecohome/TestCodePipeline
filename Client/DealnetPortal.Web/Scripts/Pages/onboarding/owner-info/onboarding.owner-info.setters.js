@@ -1,15 +1,17 @@
-﻿module.exports('onboarding.owner-info.setters', function(require) {
+﻿module.exports('onboarding.owner-info.setters', function (require) {
     var state = require('onboarding.state').state;
+    var enableSubmit = require('onboarding.setters').enableSubmit;
 
     var stateSection = 'owner-info';
 
-    var setFirstName = function(ownerNumber) {
-        return function(e) {
+    var setFirstName = function (ownerNumber) {
+        return function (e) {
             var firstName = e.target.value;
             state[stateSection]['owners'][ownerNumber].firstName = firstName;
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
+            enableSubmit();
         }
     }
 
@@ -20,80 +22,88 @@
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
+            enableSubmit();
         }
     }
 
-    var setBirthDate = function(ownerNumber, birthDate) {
+    var setBirthDate = function (ownerNumber, birthDate) {
         state[stateSection]['owners'][ownerNumber].birthDate = birthDate;
 
         _spliceRequiredField(ownerNumber, ownerNumber + '-birthdate');
         _moveTonextSection();
+        enableSubmit();
     }
 
-    var setHomePhone = function(ownerNumber) {
+    var setHomePhone = function (ownerNumber) {
         return function (e) {
             var homePhone = e.target.value;
             state[stateSection]['owners'][ownerNumber].homePhone = homePhone;
         }
     }
 
-    var setCellPhone = function(ownerNumber) {
+    var setCellPhone = function (ownerNumber) {
         return function (e) {
             var cellPhone = e.target.value;
             state[stateSection]['owners'][ownerNumber].cellPhone = cellPhone;
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
+            enableSubmit();
         }
     }
 
-    var setEmailAddress = function(ownerNumber) {
+    var setEmailAddress = function (ownerNumber) {
         return function (e) {
             var email = e.target.value;
             state[stateSection]['owners'][ownerNumber].email = email;
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
+            enableSubmit();
         }
     }
 
-    var setStreet = function(ownerNumber) {
+    var setStreet = function (ownerNumber) {
         return function (e) {
             var street = e.target.value;
             state[stateSection]['owners'][ownerNumber].street = street;
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
+            enableSubmit();
         }
     }
 
-    var setPostalCode = function(ownerNumber) {
+    var setPostalCode = function (ownerNumber) {
         return function (e) {
             var postalCode = e.target.value;
             state[stateSection]['owners'][ownerNumber].postalCode = postalCode;
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
+            enableSubmit();
         }
     }
 
-    var setCity = function(ownerNumber) {
+    var setCity = function (ownerNumber) {
         return function (e) {
             var city = e.target.value;
             state[stateSection]['owners'][ownerNumber].city = city;
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
+            enableSubmit();
         }
     }
 
-    var setProvince = function(ownerNumber) {
+    var setProvince = function (ownerNumber) {
         return function (e) {
             var province = e.target.value;
             state[stateSection]['owners'][ownerNumber].province = province;
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
+            enableSubmit();
         }
     }
 
@@ -104,8 +114,8 @@
         }
     }
 
-    var setOwnershipPercentege = function(ownerNumber) {
-        return function(e) {
+    var setOwnershipPercentege = function (ownerNumber) {
+        return function (e) {
             var percentage = e.target.value;
             state[stateSection]['owners'][ownerNumber].percentage = percentage;
             state[stateSection].totalPercentage = Object.keys(state[stateSection]['owners']).reduce((s, v) => { return s + +state[stateSection]['owners'][v].percentage; }, 0);
@@ -113,15 +123,16 @@
             _spliceRequiredField(ownerNumber, e.target.id);
             _checkOwnershipPercentage();
             _moveTonextSection();
+            enableSubmit();
         }
     }
 
-    var recalculateTotalPercentage = function() {
+    var recalculateTotalPercentage = function () {
         state[stateSection].totalPercentage = Object.keys(state[stateSection]['owners']).reduce((s, v) => { return s + +state[stateSection]['owners'][v].percentage; }, 0);
         _checkOwnershipPercentage();
     }
 
-    function _checkOwnershipPercentage() {
+    function _checkOwnershipPercentage () {
         if (state[stateSection].totalPercentage >= 50) {
 
             $('#owner-notify')
@@ -145,13 +156,13 @@
             if (!$('#add-additional').hasClass('mandatory-field')) {
                 $('#add-additional').addClass('mandatory-field');
             }
-  
+
         }
     }
 
-    function _moveTonextSection() {
+    function _moveTonextSection () {
         var owners = Object.keys(state[stateSection]['owners']);
-        var isValidSection = owners.every(function(owner) {
+        var isValidSection = owners.every(function (owner) {
             return state[stateSection]['owners'][owner].requiredFields.length === 0;
         });
 
@@ -161,13 +172,13 @@
                 .addClass('panel-collapsed')
                 .addClass('step-passed');
 
-            $('#product-information-section')
+            $('#product-panel')
                 .removeClass('panel-collapsed')
                 .addClass('active-panel');
         }
     }
 
-    function _spliceRequiredField(ownerNumber, field) {
+    function _spliceRequiredField (ownerNumber, field) {
         if (!$('#' + field).valid()) {
             return;
         }
@@ -181,7 +192,7 @@
     }
 
     return {
-        setFirstName : setFirstName,
+        setFirstName: setFirstName,
         setLastName: setLastName,
         setBirthDate: setBirthDate,
         setHomePhone: setHomePhone,

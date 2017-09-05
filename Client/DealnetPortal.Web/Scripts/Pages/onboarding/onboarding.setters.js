@@ -4,10 +4,14 @@ module.exports('onboarding.setters', function (require) {
     function configSetField (stateSection) {
         return function (field) {
             return function (e) {
+                if (field === 'company-postal')
+                    if (e.target.value !== "")
+                        state[stateSection][field] = e.target.value.toUpperCase();
                 state[stateSection][field] = e.target.value;
 
                 _spliceRequiredFields(stateSection, field);
                 moveToNextSection(stateSection);
+                enableSubmit();
             }
         }
     }
@@ -26,7 +30,7 @@ module.exports('onboarding.setters', function (require) {
 
         var requiredIndex = state[stateSection].requiredFields.indexOf(field);
 
-        if (requiredIndex >= 0) {
+        if (requiredIndex > -1) {
             state[stateSection].requiredFields.splice(requiredIndex, 1);
         }
     }
@@ -36,14 +40,37 @@ module.exports('onboarding.setters', function (require) {
         if (isValid) {
             $('#' + stateSection + '-panel')
                 .addClass('step-passed')
+                .removeClass('active-panel')
                 .next()
                 .removeClass('panel-collapsed')
                 .addClass('active-panel');
         }
     }
 
+    function enableSubmit () {
+        var valid = true;
+        for (var owner in state['owner-info'].owners) {
+            valid = valid && state['owner-info'].owners[owner].requiredFields.length === 0;
+        }
+        valid = valid && state.company.requiredFields.length === 0;
+        valid = valid && state.product.requiredFields.length === 0;
+        valid = valid && state.documents['void-cheque-files'].length > 0;
+        valid = valid && state.documents['insurence-files'].length > 0;
+        valid = valid && state.consent.creditAgreement;
+        valid = valid && state.consent.contactAgreement;
+        for (var owner in state.aknowledgment.owners) {
+            valid = valid && state.aknowledgment.owners[owner].agreement;
+        }
+        if (valid) {
+            $('#submit').prop('disabled', false);
+        } else {
+            $('#submit').prop('disabled', true);
+        }
+    }
+
     return {
         configSetField: configSetField,
-        moveToNextSection: moveToNextSection
+        moveToNextSection: moveToNextSection,
+        enableSubmit: enableSubmit
     }
 });
