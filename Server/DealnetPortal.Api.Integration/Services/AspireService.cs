@@ -1086,7 +1086,7 @@ namespace DealnetPortal.Api.Integration.Services
                 IsIndividual = false,
                 IsPrimary = true,
                 Legalname = companyInfo.FullLegalName,                
-                Dba = companyInfo.OperatingName,
+                //Dba = companyInfo.OperatingName,
                 EmailAddress = companyInfo.EmailAddress,                
                 CreditReleaseObtained = true,
                 Address = new Address()
@@ -1388,34 +1388,11 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 if (response.Payload != null)
                 {
-                    if (!string.IsNullOrEmpty(response.Payload.TransactionId))
+                    if (!string.IsNullOrEmpty(response.Payload.TransactionId) && response.Payload.TransactionId != "0")
                     {
                         dealerInfo.TransactionId = response.Payload?.TransactionId;
                         _unitOfWork.Save();
                         _loggingService.LogInfo($"Aspire transaction Id [{response.Payload?.TransactionId}] created for dealer onboarding form");
-                    }
-
-                    if (response.Payload.Accounts?.Any() ?? false)
-                    {
-                        var idUpdated = false;
-                        response.Payload.Accounts.ForEach(a =>
-                        {                            
-                            dealerInfo?.Owners.ForEach(c =>
-                            {
-                                if (a.Name.Contains(c.FirstName) &&
-                                    a.Name.Contains(c.LastName) && c.AccountId != a.Id)
-                                {
-                                    c.AccountId = a.Id;
-                                    idUpdated = true;
-                                }
-                            });
-                        });
-
-                        if (idUpdated)
-                        {
-                            _unitOfWork.Save();                            
-                            _loggingService.LogInfo($"Aspire accounts created for {response.Payload.Accounts.Count} dealer onboarding owners");
-                        }
                     }
 
                     if (response.Payload.Accounts?.Any() ?? false)
