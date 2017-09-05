@@ -1,4 +1,5 @@
-﻿@using DealnetPortal.Web.Models.Dealer
+﻿@using DealnetPortal.Api.Common.Enumeration
+@using DealnetPortal.Web.Models.Dealer
 @model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
 
 <div class="panel customer-loan-form-panel panel-collapsed">
@@ -19,16 +20,13 @@
                         <h4 class="onboard-license-heading">Business void cheque  — Account to receive Ecohome funding</h4>
                         <div class="placeholder-text">Please upload file in format PDF, Word, PNG, JPG</div>
                         <ul class="uploaded-docs-list" id="cheque-container">
-                            @foreach (RequiredDocumentViewModel document in Model.RequiredDocuments)
+                            @foreach (RequiredDocumentViewModel document in Model.RequiredDocuments.Where(x => x.DocumentTypeId == (int)DocumentTemplateType.VoidPersonalCheque))
                             {
-                                if (document.Name.Contains("cheque"))
-                                {
-                                    <li>
-                                        <span class="uploaded-docs-title">
-                                            @document.Name
-                                        </span>
-                                    </li>
-                                }
+                                <li>
+                                    <span class="uploaded-docs-title">
+                                        @document.Name
+                                    </span>
+                                </li>
                             }
                         </ul>
                     </div>
@@ -48,16 +46,13 @@
                         <div>Ecohome Financial Inc. must be listed as additional insured</div>
                         <div class="placeholder-text">Please upload file in format PDF, Word, PNG, JPG</div>
                         <ul class="uploaded-docs-list" id="insurence-container">
-                            @foreach (RequiredDocumentViewModel document in Model.RequiredDocuments)
+                            @foreach (RequiredDocumentViewModel document in Model.RequiredDocuments.Where(x => x.DocumentTypeId == (int)DocumentTemplateType.Insurence))
                             {
-                                if (!document.Name.Contains("cheque"))
-                                {
-                                    <li>
-                                        <span class="uploaded-docs-title">
-                                            @document.Name
-                                        </span>
-                                    </li>
-                                }
+                                <li>
+                                    <span class="uploaded-docs-title">
+                                        @document.Name
+                                    </span>
+                                </li>
                             }
                         </ul>
                     </div>
@@ -148,7 +143,7 @@
 
 <script id="licenseDocumentTemplate" type="text/x-jquery-tmpl">
     <div class="onboard-standart-doc-item" id="${id}-license-holder">
-        <input data-val="true" data-val-number="The field LicenseTypeId must be a number." id="${id}-license-id" name="AdditionalDocuments[0].LicenseTypeId" type="hidden" value="3">
+        <input data-val="true" data-val-number="The field LicenseTypeId must be a number." id="${id}-license-id" name="AdditionalDocuments[0].LicenseTypeId" type="hidden" value="${id}">
         <div class="row">
             <div class="col-xs-12 col-md-4">
                 <div class="form-group">

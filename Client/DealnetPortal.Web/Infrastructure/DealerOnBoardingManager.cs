@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -10,6 +11,7 @@ using DealnetPortal.Web.Models.Dealer;
 using DealnetPortal.Web.ServiceAgent;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Models.Scanning;
+using DealnetPortal.Web.Models;
 
 namespace DealnetPortal.Web.Infrastructure
 {
@@ -88,17 +90,20 @@ namespace DealnetPortal.Web.Infrastructure
             return await _dealerServiceAgent.SendDealerOnboardingDraftLink(model.AccessKey);
         }
 
-        public async Task<IList<Alert>> UploadOnboardingDocument(HttpPostedFileBase file)
+        public async Task<IList<Alert>> UploadOnboardingDocument(OnboardingDocumentForUpload fileModel)
         {
-            byte[] data = new byte[file.ContentLength];
-
-            file.InputStream.Read(data, 0, file.ContentLength);
+            byte[] documentBytes;
+            using (var reader = new BinaryReader(fileModel.File.InputStream))
+            {
+                documentBytes = reader.ReadBytes(fileModel.File.ContentLength);
+            }
 
             var model = new RequiredDocumentDTO
             {
-                DocumentName = file.FileName,
-                DocumentBytes = data,
-                CreationDate = DateTime.UtcNow
+                DocumentName = fileModel.DocumentName,
+                DocumentBytes = documentBytes,
+                CreationDate = DateTime.UtcNow,
+                DocumentTypeId = fileModel.DocumentTypeId
             };
 
             var result = await _dealerServiceAgent.AddDocumentToOnboardingForm(model);

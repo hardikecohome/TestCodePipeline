@@ -22,6 +22,16 @@ namespace DealnetPortal.Web.Models
         public string DocumentName { get; set; }
     }
 
+    public class OnboardingDocumentForUpload
+    {
+        public string DocumentName { get; set; }
+
+        public int DocumentTypeId { get; set; }
+
+        public HttpPostedFileBase File { get; set; }
+
+    }
+
     public class DocumentForUpload
     {
         public int? Id { get; set; }

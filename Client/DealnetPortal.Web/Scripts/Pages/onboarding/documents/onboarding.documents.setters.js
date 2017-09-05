@@ -139,15 +139,18 @@
             return;
         }
 
-        var fileData = new FormData();
-        fileData.append(file.name, file);
+        var data =  new FormData();
+        data.append('File', file);
+        var type = checkSelector === 'insurenceUploaded' ? 8 : 4;
+        data.append('DocumentTypeId', type);
+        data.append('DocumentName', file.name);
 
         $.get({
             type: "POST",
             url: uploadDocumentUrl,
             contentType: false, 
             processData: false,
-            data: fileData,  
+            data: data,
             success: function (json) {
                 console.log('success');
                 _addFile(checkSelector, buttonSelector, fileContainerSelector, stateFileSection, file);

@@ -8,6 +8,7 @@ using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Web.Models.Dealer;
 using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.Scanning;
+using DealnetPortal.Web.Models;
 
 namespace DealnetPortal.Web.Infrastructure
 {
@@ -18,6 +19,6 @@ namespace DealnetPortal.Web.Infrastructure
         Task<SaveAndResumeViewModel> SaveDraft(DealerOnboardingViewModel model);
         Task<IList<Alert>> SendDealerOnboardingDraftLink(SaveAndResumeViewModel model);
         Task<IList<Alert>> SubmitOnBoarding(DealerOnboardingViewModel model);
-        Task<IList<Alert>> UploadOnboardingDocument(HttpPostedFileBase file);
+        Task<IList<Alert>> UploadOnboardingDocument(OnboardingDocumentForUpload fileModel);
     }
 }

@@ -105,16 +105,14 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> UploadDocument(DocumentForUpload documentForUpload)
+        public async Task<JsonResult> UploadDocument(OnboardingDocumentForUpload documentForUpload)
         {
-            if (Request.Files == null || Request.Files.Count <= 0)
+            if (documentForUpload?.File?.ContentLength <= 0)
             {
                 return GetErrorJson();
             }
 
-            var file = Request.Files[0];
-
-            var result = await _dealerOnBoardingManager.UploadOnboardingDocument(file);
+            var result = await _dealerOnBoardingManager.UploadOnboardingDocument(documentForUpload);
 
             return Json(string.Empty);
         }

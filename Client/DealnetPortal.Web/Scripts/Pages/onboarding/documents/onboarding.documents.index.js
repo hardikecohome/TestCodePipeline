@@ -36,7 +36,7 @@
         state['documents'].license = license;
 
         existedDocuments.forEach(function(doc) {
-            if (doc.Name.includes('cheque')) {
+            if (doc.DocumentTypeId === 4) {
                 $('#voidChequeUploaded').removeClass('hidden');
                 $('#cheque-upload-title').text('Upload another file');
             } else {
