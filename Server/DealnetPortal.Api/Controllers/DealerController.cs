@@ -181,50 +181,5 @@ namespace DealnetPortal.Api.Controllers
                 return InternalServerError(ex);
             }
         }
-
-        [Route("PostChequeOnboardingDocument")]
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IHttpActionResult> UploadOnboardingDocument(ScanningRequest scanningRequest)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await Task.Run(() =>
-            {
-                ImageScanService scanService = new ImageScanService();
-                var res = scanService.ReadVoidCheque(scanningRequest);
-
-                return res;
-            });
-
-            return Ok(result);
-        }
-
-        [Route("PostChequeInsurenceDocument")]
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IHttpActionResult> PostChequeInsurenceDocument(ScanningRequest scanningRequest)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await Task.Run(() =>
-            {
-                ImageScanService scanService = new ImageScanService();
-                var res = scanService.ReadVoidCheque(scanningRequest);
-
-                return res;
-            });
-
-            return Ok(result);
-        }
-
-
-
     }
 }

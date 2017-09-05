@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Web.Models.Dealer;
@@ -86,16 +87,23 @@ namespace DealnetPortal.Web.Infrastructure
             return await _dealerServiceAgent.SendDealerOnboardingDraftLink(model.AccessKey);
         }
 
-        public async Task<IList<Alert>> UploadOnboardingDocument(ScanningRequest scanningRequest, bool isCheque)
+        public async Task<IList<Alert>> UploadOnboardingDocument(HttpPostedFileBase file)
         {
-            if (isCheque)
+
+            byte[] data = new byte[file.ContentLength];
+
+            file.InputStream.Read(data, 0, file.ContentLength);
+
+            var model = new RequiredDocumentDTO
             {
-                return await _dealerServiceAgent.UploadOnboardingChequeDocument(scanningRequest);
-            }
-            else
-            {
-                return await _dealerServiceAgent.UploadOnboardingInsurenceDocument(scanningRequest);
-            }
+                DocumentName = file.FileName,
+                DocumentBytes = data,
+                CreationDate = DateTime.UtcNow
+            };
+
+            var result = await _dealerServiceAgent.AddDocumentToOnboardingForm(model);
+
+            return null;
         }
     }
 }

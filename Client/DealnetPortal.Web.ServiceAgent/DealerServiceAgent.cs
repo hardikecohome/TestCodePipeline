@@ -158,27 +158,5 @@ namespace DealnetPortal.Web.ServiceAgent
                 throw;
             }            
         }
-
-        public async Task<IList<Alert>> UploadOnboardingChequeDocument(ScanningRequest scanningRequest)
-        {
-            MediaTypeFormatter bsonFormatter = new BsonMediaTypeFormatter();
-            MediaTypeFormatter[] formatters = new MediaTypeFormatter[] { bsonFormatter, };
-
-            var result = await Client.PostAsyncEx<ScanningRequest, IList<Alert>>($"{_fullUri}/PostChequeOnboardingDocument", scanningRequest,
-                AuthenticationHeader, null, bsonFormatter);
-
-            return result;
-        }
-
-        public async Task<IList<Alert>> UploadOnboardingInsurenceDocument(ScanningRequest scanningRequest)
-        {
-            MediaTypeFormatter bsonFormatter = new BsonMediaTypeFormatter();
-            MediaTypeFormatter[] formatters = new MediaTypeFormatter[] { bsonFormatter, };
-
-            var result = await Client.PostAsyncEx<ScanningRequest, IList<Alert>>($"{_fullUri}/PostChequeInsurenceDocument", scanningRequest,
-                AuthenticationHeader, null, bsonFormatter);
-
-            return result;
-        }
     }
 }
