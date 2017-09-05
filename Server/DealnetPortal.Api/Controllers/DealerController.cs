@@ -19,6 +19,7 @@ using DealnetPortal.Api.Integration.Utility;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.Profile;
+using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Utilities.Logging;
 
@@ -180,5 +181,50 @@ namespace DealnetPortal.Api.Controllers
                 return InternalServerError(ex);
             }
         }
+
+        [Route("PostChequeOnboardingDocument")]
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> UploadOnboardingDocument(ScanningRequest scanningRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await Task.Run(() =>
+            {
+                ImageScanService scanService = new ImageScanService();
+                var res = scanService.ReadVoidCheque(scanningRequest);
+
+                return res;
+            });
+
+            return Ok(result);
+        }
+
+        [Route("PostChequeInsurenceDocument")]
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> PostChequeInsurenceDocument(ScanningRequest scanningRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await Task.Run(() =>
+            {
+                ImageScanService scanService = new ImageScanService();
+                var res = scanService.ReadVoidCheque(scanningRequest);
+
+                return res;
+            });
+
+            return Ok(result);
+        }
+
+
+
     }
 }

@@ -1,20 +1,12 @@
 ﻿module.exports('onboarding.product', function (require) {
     var setters = require('onboarding.product.setters');
+    var constants = require('onboarding.state').constants;
     var resetForm = require('onboarding.common').resetFormValidation;
     var addEquipment = require('onboarding.product.equipment').addEquipment;
     var addBrand = require('onboarding.product.brand').addBrand;
 
-    function init () {
-        $('#equipment-list li').each(function () {
-            var $this = $(this);
-            var id = $this.attr('id');
-            var index = Number(id.substr(id.indexOf('-') + id.lastIndexOf('-')));
-            var equipmentId = $this.find('#EquipmentTypes_' + index + '__Id').val();
-            var desc = $this.find('#EquipmentTypes_' + index + '__Description').val();
-            state.selectedEquipment.push({ id: equipmentId, description: desc });
-            setRemoveClick(id);
-            state.nextEquipmentId++;
-        });
+
+    function init (product) {
         $('#primary-brand').on('change', setters.setPrimaryBrand);
         $('#annual-sales-volume').on('change', setters.setAnnualSates);
         $('#av-transaction-size').on('change', setters.setTransactionSize);
@@ -33,6 +25,7 @@
         $('#relationship').on('change', toggleRelationship);
         $('#offered-equipment').on('change', addEquipment);
         $('.add-new-brand-link').on('click', addBrand);
+        _setLoadedData(product);
     };
 
     function initRadio () {
@@ -73,6 +66,19 @@
 
     function showFormGroup (selector) {
         $(selector).addClass('hidden').find('input').prop('disabled', true);
+    }
+
+    function _setLoadedData (product) {
+        var equipmentSelect = $('#offered-equipment');
+        product.EquipmentTypes.forEach(function (element) {
+            addEquipment.call(equipmentSelect, { target: { value: element.Id } })
+            $(document).trigger('equipmentAdded');
+        }, this);
+        constants.productRequiredFields.forEach(function (item) {
+            if (item === 'equipment')
+                return;
+            $('#' + item).change();
+        });
     }
 
     return {

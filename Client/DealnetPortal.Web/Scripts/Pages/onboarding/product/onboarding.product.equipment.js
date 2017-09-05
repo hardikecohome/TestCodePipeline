@@ -10,12 +10,13 @@ module.exports('onboarding.product.equipment', function (require) {
 
 
     function addEquipment (e) {
-        var value = e.target.value;
-        var description = $("#offered-equipment :selected").text();
-        if (value) {
+        var id = e.target.value;
+        var description = $('#offered-equipment option[value="' + id + '"]').text();
+        if (id) {
             if (equipmentAdded(e)) {
-                $('#equipment-list').append(equipmentTemplate(state.product.selectedEquipment.length - 1, value, description));
-                setRemoveClick(value);
+                $('#equipment-list').append(equipmentTemplate(state.product.selectedEquipment.length - 1, id, description));
+                setRemoveClick(id);
+                $(document).trigger('equipmentAdded');
             }
         }
         $(this).val('');
@@ -29,6 +30,7 @@ module.exports('onboarding.product.equipment', function (require) {
         if (equipmentRemoved(value)) {
             var substrIndex = Number(liId.substr(liId.indexOf('-') + liId.lastIndexOf('-')));
             $('li#' + liId).remove();
+            $(document).trigger('equipmentRemoved');
             rebuildIndex(substrIndex);
         }
     };

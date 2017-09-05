@@ -19,9 +19,12 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44341</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -939,6 +942,8 @@
     <Content Include="Scripts\Pages\onboarding\company\onboarding.company.setters.js" />
     <Content Include="Scripts\Pages\onboarding\consent\onboarding.consent.index.js" />
     <Content Include="Scripts\Pages\onboarding\consent\onboarding.consent.setters.js" />
+    <Content Include="Scripts\Pages\onboarding\documents\onboarding.documents.index.js" />
+    <Content Include="Scripts\Pages\onboarding\documents\onboarding.documents.setters.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.common.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.form.handlers.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.index.js" />
@@ -1113,7 +1118,6 @@
     <Folder Include="App_Data\Upload\" />
     <Folder Include="Content\themes\" />
     <Folder Include="Resources\" />
-    <Folder Include="Scripts\Pages\onboarding\documents\" />
     <Folder Include="Views\AsyncCancellation\" />
     <Folder Include="Views\Credits\" />
     <Folder Include="Views\Deals\" />

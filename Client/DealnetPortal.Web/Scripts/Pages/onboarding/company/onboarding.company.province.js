@@ -20,8 +20,8 @@ module.exports('onboarding.company.province', function (require) {
         var value = e.target.value;
         if (value) {
             if (workProvinceSet.call(this, e)) {
-
-                $('#province-list').append(provinceTemplate(state.company.nextProvinceId, value));
+                $('#province-list').append(provinceTemplate(state.company.selectedProvinces.length - 1, value));
+                $(document).trigger('provinceAdded');
                 setRemoveClick(value);
             }
             $(this).val('');
@@ -34,6 +34,7 @@ module.exports('onboarding.company.province', function (require) {
             var oldId = $(e.target).parent().attr('id');
             var substrIndex = Number(oldId.substr(oldId.indexOf('-') + oldId.lastIndexOf('-')));
             $('li#' + oldId).remove();
+            $(document).trigger('provinceRemoved');
             rebuildIndex(substrIndex);
         }
     };

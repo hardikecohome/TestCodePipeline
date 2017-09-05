@@ -7,6 +7,7 @@ using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Web.Models.Dealer;
 using DealnetPortal.Web.ServiceAgent;
 using DealnetPortal.Api.Core.Enums;
+using DealnetPortal.Api.Models.Scanning;
 
 namespace DealnetPortal.Web.Infrastructure
 {
@@ -83,6 +84,18 @@ namespace DealnetPortal.Web.Infrastructure
         public async Task<IList<Alert>> SendDealerOnboardingDraftLink(SaveAndResumeViewModel model)
         {
             return await _dealerServiceAgent.SendDealerOnboardingDraftLink(model.AccessKey);
+        }
+
+        public async Task<IList<Alert>> UploadOnboardingDocument(ScanningRequest scanningRequest, bool isCheque)
+        {
+            if (isCheque)
+            {
+                return await _dealerServiceAgent.UploadOnboardingChequeDocument(scanningRequest);
+            }
+            else
+            {
+                return await _dealerServiceAgent.UploadOnboardingInsurenceDocument(scanningRequest);
+            }
         }
     }
 }
