@@ -34,8 +34,7 @@ module.exports('onboarding.setters', function (require) {
     function moveToNextSection (stateSection) {
         var isValid = state[stateSection].requiredFields.length === 0;
         if (isValid) {
-            $(this)
-                .parents('.panel')
+            $('#' + stateSection + '-panel')
                 .addClass('step-passed')
                 .next()
                 .removeClass('panel-collapsed')

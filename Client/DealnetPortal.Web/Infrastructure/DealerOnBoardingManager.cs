@@ -24,7 +24,8 @@ namespace DealnetPortal.Web.Infrastructure
 
         public async Task<DealerOnboardingViewModel> GetNewDealerOnBoardingForm(string onboardingLink)
         {
-            return new DealerOnboardingViewModel
+            var valid = await _dealerServiceAgent.CheckOnboardingLink(onboardingLink);
+            return valid ? new DealerOnboardingViewModel
             {
                 OnBoardingLink = onboardingLink,
                 DictionariesData = new DealerOnboardingDictionariesViewModel
@@ -45,7 +46,7 @@ namespace DealnetPortal.Web.Infrastructure
                     new RequiredDocumentViewModel { Name = "cheque.png"},
                     new RequiredDocumentViewModel { Name = "Test2.jpg"},
                 }
-            };
+            } : null;
         }
 
         public async Task<DealerOnboardingViewModel> GetDealerOnBoardingFormAsync(string accessKey)
@@ -53,13 +54,16 @@ namespace DealnetPortal.Web.Infrastructure
             DealerInfoDTO onboardingForm;
             DealerOnboardingViewModel model;
             onboardingForm = await _dealerServiceAgent.GetDealerOnboardingForm(accessKey);
-            model = AutoMapper.Mapper.Map<DealerOnboardingViewModel>(onboardingForm) ?? new DealerOnboardingViewModel();
-            model.DictionariesData = new DealerOnboardingDictionariesViewModel
+            model = AutoMapper.Mapper.Map<DealerOnboardingViewModel>(onboardingForm);
+            if (model != null)
             {
-                ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1,
-                EquipmentTypes = (await _dictionaryServiceAgent.GetAllEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList(),
-                LicenseDocuments = (await _dictionaryServiceAgent.GetAllLicenseDocuments()).Item1.ToList()
-            };
+                model.DictionariesData = new DealerOnboardingDictionariesViewModel
+                {
+                    ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1,
+                    EquipmentTypes = (await _dictionaryServiceAgent.GetAllEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList(),
+                    LicenseDocuments = (await _dictionaryServiceAgent.GetAllLicenseDocuments()).Item1.ToList()
+                };
+            }
 
             return model;
         }

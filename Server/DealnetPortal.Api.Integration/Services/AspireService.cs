@@ -2059,7 +2059,27 @@ namespace DealnetPortal.Api.Integration.Services
         private string GetCompanyProvincesApproved(DealerInfo dealerInfo)
         {
             //probably will have more complex logic here, for include licences information
-            return string.Join(", ", dealerInfo.CompanyInfo.Provinces.Select(p => p.Province));
+            //return string.Join(", ", dealerInfo.CompanyInfo.Provinces.Select(p => p.Province));
+            var sb = new StringBuilder();
+            var licenses = dealerInfo.AdditionalDocuments?.GroupBy(
+                d => d.License?.LicenseDocuments?.FirstOrDefault()?.Province.Province);
+            dealerInfo.CompanyInfo.Provinces.Select(p => p.Province).ForEach(p =>
+            {
+                var provLicenses = licenses?.FirstOrDefault(l => l.Key == p);
+                if (provLicenses != null)
+                {
+                    var licInfo = string.Join("; ",
+                        provLicenses.Select(
+                            pl =>
+                                $"License:{pl.License?.Name}, reg_number:{pl.Number}, expiry:{pl.ExpiredDate?.ToString("d", CultureInfo.CreateSpecificCulture("en-US")) ?? "no_expiry"}"));
+                    sb.AppendLine($"{p}:{licInfo}");
+                }
+                else
+                {
+                    sb.AppendLine(p);
+                }
+            });
+            return sb.ToString();
         }
 
         private IList<UDF> GetCompanyOwnersUdfs(DealerInfo dealerInfo)

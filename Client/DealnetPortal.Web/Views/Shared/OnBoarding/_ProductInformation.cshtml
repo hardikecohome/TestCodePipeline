@@ -2,7 +2,7 @@
 @using DealnetPortal.Api.Models.Contract
 @model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
 
-<div class="panel customer-loan-form-panel panel-collapsed">
+<div class="panel customer-loan-form-panel panel-collapsed" id="product-panel">
     <div class="panel-heading">
         <span class="panel-step">3</span>
         <h3 class="panel-title dealnet-middle-header">@Resources.ProductAndSalesInformation</h3>
@@ -276,7 +276,7 @@
         </div>
         <div class="row">
             <ul class="customer-needs-list tags-list row-tag-list" id="equipment-list">
-                @for (var i = 0; i < Model.ProductInfo.EquipmentTypes.Count; i++)
+                @*@for (var i = 0; i < Model.ProductInfo.EquipmentTypes.Count; i++)
                 {
                     <li id="equipment-@i-index">
                         @Html.HiddenFor(s => s.ProductInfo.EquipmentTypes[i].Id)
@@ -288,7 +288,7 @@
                             </svg>
                         </span>
                     </li>
-                }
+                }*@
             </ul>
         </div>
         <div id="equipment-error" class="well danger-well hidden">

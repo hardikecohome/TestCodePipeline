@@ -1,7 +1,7 @@
 ﻿@using DealnetPortal.Api.Models.Contract
 @model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
 
-<div class="panel customer-loan-form-panel active-panel">
+<div class="panel customer-loan-form-panel active-panel" id="company-panel">
     <div class="panel-heading">
         <span class="panel-step">1</span>
         <h3 class="panel-title dealnet-middle-header">@Resources.CompanyInformation</h3>
@@ -171,17 +171,7 @@
             <div class="form-group">
                 <div class="dealnet-label hidden-xs">&nbsp;</div>
                 <ul id="province-list" class="customer-needs-list tags-list">
-                    @for (var i = 0; i < Model.CompanyInfo.Provinces.Count; i++)
-                    {
-                    <li id="province-@i-index">
-                        @Html.HiddenFor(m => m.CompanyInfo.Provinces[i], new {id=$"province-{i}" }) <span id="province-@i-display">@Model.CompanyInfo.Provinces[i]</span>
-                        <span id="@Model.CompanyInfo.Provinces[i]" class="icon-remove">
-                            <svg aria-hidden="true" class="icon icon-remove-cross">
-                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
-                            </svg>
-                        </span>
-                    </li>
-                    }
+                    
                 </ul>
             </div>
         </div>

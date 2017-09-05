@@ -20,8 +20,7 @@ module.exports('onboarding.company.province', function (require) {
         var value = e.target.value;
         if (value) {
             if (workProvinceSet.call(this, e)) {
-
-                $('#province-list').append(provinceTemplate(state.company.nextProvinceId, value));
+                $('#province-list').append(provinceTemplate(state.company.selectedProvinces.length - 1, value));
                 $(document).trigger('provinceAdded');
                 setRemoveClick(value);
             }

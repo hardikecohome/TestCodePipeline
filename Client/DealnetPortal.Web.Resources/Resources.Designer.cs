@@ -1087,6 +1087,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please check your link and try again.
+        /// </summary>
+        public static string CheckYourLink {
+            get {
+                return ResourceManager.GetString("CheckYourLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose province.
         /// </summary>
         public static string ChooseProvince {
@@ -4156,6 +4165,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If you have any questions please contact dealer support:.
+        /// </summary>
+        public static string QuestionsContactDealerSupport {
+            get {
+                return ResourceManager.GetString("QuestionsContactDealerSupport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Request to Fund.
         /// </summary>
         public static string ReadyForAudit {
@@ -4773,6 +4791,15 @@ namespace DealnetPortal.Web.Resources {
         public static string SixMonth {
             get {
                 return ResourceManager.GetString("SixMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Something went wrong.
+        /// </summary>
+        public static string SomethingWentWrong {
+            get {
+                return ResourceManager.GetString("SomethingWentWrong", resourceCulture);
             }
         }
         

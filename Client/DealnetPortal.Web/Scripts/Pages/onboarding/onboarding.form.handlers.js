@@ -94,20 +94,20 @@
     }
 
     function validateEquipment () {
-        if (state.selectedEquipment.length > 1) {
-            $('#equipment-error').removeClass('field-validation-error').text('');
+        if (state.product.selectedEquipment.length > 1) {
+            $('#equipment-error').addClass('hidden');
         } else {
-            $('#equipment-error').addClass('field-validation-error').text(translations.SelectOneProduct);
+            $('#equipment-error').removeClass('hidden');
             return false;
         }
         return true;
     }
 
     function validateWorkProvinces () {
-        if (state.selectedProvinces.length > 1) {
-            $('#work-province-error').removeClass('field-validation-error').text('');
+        if (state.company.selectedProvinces.length > 1) {
+            $('#work-province-error').addClass('hidden');
         } else {
-            $('#work-province-error').addClass('field-validation-error').text(translations.SelectOneProvince);
+            $('#work-province-error').removeClass('hidden');
             return false;
         }
         return true;
