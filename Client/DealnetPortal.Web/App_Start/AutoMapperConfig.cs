@@ -561,7 +561,10 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth));
             cfg.CreateMap<AdditionalDocumentDTO, AdditionalDocumentViewModel>()
                 .ForMember(x => x.LicenseTypeId, d => d.MapFrom(src =>  src.License.Id));
-            cfg.CreateMap<RequiredDocumentDTO, RequiredDocumentViewModel>();
+
+            cfg.CreateMap<RequiredDocumentDTO, RequiredDocumentViewModel>()
+                .ForMember(x => x.Name, d => d.MapFrom(src => src.DocumentName));
+
             cfg.CreateMap<DealerInfoDTO, DealerOnboardingViewModel>()
                 .ForMember(x => x.OnBoardingLink, d =>d.MapFrom(src => src.SalesRepLink))
                 .ForMember(x => x.AllowCommunicate, d => d.MapFrom(src => src.MarketingConsent))
