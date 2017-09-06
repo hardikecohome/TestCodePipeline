@@ -16,7 +16,7 @@
             var adminFee = data.AdminFee;
             var downPayment = data.downPayment;
 
-            return tPrice + adminFee - downPayment;
+            return tPrice/* + adminFee*/ - downPayment;
         };
 
         var yourCost = function (data) {
@@ -30,7 +30,7 @@
             var amortizationTerm = data.AmortizationTerm;
             var customerRate = data.CustomerRate;
 
-            return tAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0);
+			return (Math.round((tAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0))*100)/100);
         };
 
         var totalMonthlyPayments = function(data) {
@@ -58,14 +58,15 @@
         var totalObligation = function(data) {
             var tMonthlyPayments = totalMonthlyPayments(data);
             var rBalance = residualBalance(data);
-
-            return tMonthlyPayments + rBalance;
+			var adminFee = data.AdminFee;
+			return tMonthlyPayments + rBalance + adminFee;
         };
 
         var totalBorrowingCost = function(data) {
             var tObligation = totalObligation(data);
-            var tAmountFinanced = totalAmountFinanced(data);
-            var borrowingCost = tObligation - tAmountFinanced;
+			var tAmountFinanced = totalAmountFinanced(data);
+			var adminFee = data.AdminFee;
+			var borrowingCost = tObligation - tAmountFinanced - adminFee;
             if (borrowingCost < 0)
                 borrowingCost = 0;
             return borrowingCost;

@@ -173,7 +173,7 @@
   </script>
 
   <script type="text/javascript">
-    var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
+	  var taxRate = 0; @*@(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");*@
     var isCalculationValid = false;
   </script>
 
