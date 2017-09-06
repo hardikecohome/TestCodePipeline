@@ -3112,7 +3112,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mobile Phone is in incorrect format.
+        ///   Looks up a localized string similar to Mobile phone is in incorrect format.
         /// </summary>
         public static string MobilePhoneIncorrectFormat {
             get {
@@ -3121,7 +3121,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The field Mobile Phone must be a string with a length of 10.
+        ///   Looks up a localized string similar to Mobile phone must be a string with a length of 10.
         /// </summary>
         public static string MobilePhoneMustBeLong {
             get {
@@ -3436,25 +3436,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of installers.
-        /// </summary>
-        public static string NumberOfInstallers {
-            get {
-                return ResourceManager.GetString("NumberOfInstallers", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Number of sales people.
-        /// </summary>
-        public static string NumberOfSalesPeople {
-            get {
-                return ResourceManager.GetString("NumberOfSalesPeople", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Number Of Installers.
+        ///   Looks up a localized string similar to Number of Installers.
         /// </summary>
         public static string NumInstallers {
             get {
@@ -3481,7 +3463,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of sales people.
+        ///   Looks up a localized string similar to Number of Sales People.
         /// </summary>
         public static string NumSales {
             get {
@@ -3990,6 +3972,15 @@ namespace DealnetPortal.Web.Resources {
         public static string PreviousAddressInformation {
             get {
                 return ResourceManager.GetString("PreviousAddressInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Primary brand.
+        /// </summary>
+        public static string PrimaryBrand {
+            get {
+                return ResourceManager.GetString("PrimaryBrand", resourceCulture);
             }
         }
         
@@ -4539,6 +4530,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Search {
             get {
                 return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Secondary brand.
+        /// </summary>
+        public static string SecondaryBrand {
+            get {
+                return ResourceManager.GetString("SecondaryBrand", resourceCulture);
             }
         }
         
@@ -5227,7 +5227,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type of business.
+        ///   Looks up a localized string similar to Type of Business.
         /// </summary>
         public static string TypeOfBusiness {
             get {
@@ -5506,7 +5506,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Years in business.
+        ///   Looks up a localized string similar to Years in Business.
         /// </summary>
         public static string YearsInBusiness {
             get {
