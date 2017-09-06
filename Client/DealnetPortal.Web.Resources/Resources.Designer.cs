@@ -4777,7 +4777,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Site Url is in incorrect format.
+        ///   Looks up a localized string similar to Website Url is in incorrect format.
         /// </summary>
         public static string SiteInvalidFormat {
             get {
@@ -5376,6 +5376,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Website {
             get {
                 return ResourceManager.GetString("Website", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Website should be between {1} and {2}.
+        /// </summary>
+        public static string WebsiteMustBeLong {
+            get {
+                return ResourceManager.GetString("WebsiteMustBeLong", resourceCulture);
             }
         }
         
