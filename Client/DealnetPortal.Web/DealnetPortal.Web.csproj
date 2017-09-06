@@ -292,6 +292,7 @@
     <Compile Include="Models\Dealer\CompanyInfoViewModel.cs" />
     <Compile Include="Models\Dealer\DealerOnboardingDictionariesViewModel.cs" />
     <Compile Include="Models\Dealer\DealerOnboardingViewModel.cs" />
+    <Compile Include="Models\Dealer\DocumentResponseViewModel.cs" />
     <Compile Include="Models\Dealer\OwnerViewModel.cs" />
     <Compile Include="Models\Dealer\ProductInfoViewModel.cs" />
     <Compile Include="Models\Dealer\RequiredDocumentViewModel.cs" />

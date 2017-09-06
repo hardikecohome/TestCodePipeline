@@ -90,7 +90,7 @@ namespace DealnetPortal.Web.Infrastructure
             return await _dealerServiceAgent.SendDealerOnboardingDraftLink(model.AccessKey);
         }
 
-        public async Task<IList<Alert>> UploadOnboardingDocument(OnboardingDocumentForUpload fileModel)
+        public async Task<DocumentResponseViewModel> UploadOnboardingDocument(OnboardingDocumentForUpload fileModel)
         {
             byte[] documentBytes;
             using (var reader = new BinaryReader(fileModel.File.InputStream))
@@ -100,6 +100,7 @@ namespace DealnetPortal.Web.Infrastructure
 
             var model = new RequiredDocumentDTO
             {
+                Id = 0,
                 DocumentName = fileModel.DocumentName,
                 DocumentBytes = documentBytes,
                 CreationDate = DateTime.UtcNow,
@@ -107,13 +108,21 @@ namespace DealnetPortal.Web.Infrastructure
             };
 
             var result = await _dealerServiceAgent.AddDocumentToOnboardingForm(model);
-            if (result.Item2 != null)
+            var response = new DocumentResponseViewModel();
+
+            if (result.Item2 != null && result.Item2.Any(r => r.Type == AlertType.Error))
             {
-                return result.Item2;
+                response.IsSuccess = false;
+                response.AggregatedError = result.Item2.Select(x => x.Message).Aggregate((x, y) => x + " " + y);
             }
-            var result2 = result.Item1;
+
+            if (result.Item1 != null)
+            {
+                response.DealerInfoId = result.Item1.DealerInfoId;
+                response.AccessKey = result.Item1.AccessKey;
+            }
             
-            return null;
+            return response;
         }
     }
 }
