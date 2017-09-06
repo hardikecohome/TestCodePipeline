@@ -163,7 +163,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     //notify dealnet here about failed upload to Aspire
                     var errorMsg = string.Concat(submitResult.Where(x => x.Type == AlertType.Error).Select(r => r.Header + ": " + r.Message).ToArray());
-                    await _mailService.SendProblemsWithSubmittingOnboarding(errorMsg, mappedInfo.Id, mappedInfo.AccessKey);
+                    await _mailService.SendProblemsWithSubmittingOnboarding(errorMsg, updatedInfo.Id, mappedInfo.AccessKey);
                 }
                 //upload required documents
                 UploadOnboardingDocuments(updatedInfo.Id);
