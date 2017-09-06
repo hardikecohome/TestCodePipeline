@@ -1776,7 +1776,7 @@
     <value>Years In Business must be maximum 3 digits long</value>
   </data>
   <data name="AnnualSalesVolume" xml:space="preserve">
-    <value>Estimated Annual sales volume</value>
+    <value>Estimated annual sales volume</value>
   </data>
   <data name="AreYouWithProvider" xml:space="preserve">
     <value>Are you with a current finance provider?</value>
@@ -1899,7 +1899,7 @@
     <value>Secondary manufacturer brand sold</value>
   </data>
   <data name="AnnualSalesIncorrectFormat" xml:space="preserve">
-    <value>Estimated Annual Sales is in incorrect format</value>
+    <value>Estimated annual Sales is in incorrect format</value>
   </data>
   <data name="AverageTransactionSizeIncorrectFormat" xml:space="preserve">
     <value>Average Transaction Size is in incorrect format</value>

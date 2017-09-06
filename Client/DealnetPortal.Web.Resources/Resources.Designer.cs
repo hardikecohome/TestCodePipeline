@@ -520,7 +520,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Estimated Annual Sales is in incorrect format.
+        ///   Looks up a localized string similar to Estimated annual Sales is in incorrect format.
         /// </summary>
         public static string AnnualSalesIncorrectFormat {
             get {
@@ -529,7 +529,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Estimated Annual sales volume.
+        ///   Looks up a localized string similar to Estimated annual sales volume.
         /// </summary>
         public static string AnnualSalesVolume {
             get {
