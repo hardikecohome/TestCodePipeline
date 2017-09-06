@@ -19,6 +19,7 @@
 
         $('#submit').on('click', validateAndSubmit);
         $('.save-and-resume').on('click', submitDraft);
+        $('[data-toggle="popover"]').data('bs.popover').tip().addClass('onboard-popover');
     }
 
     function initAutocomplete () {
