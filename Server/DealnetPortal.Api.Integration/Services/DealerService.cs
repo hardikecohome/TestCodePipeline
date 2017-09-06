@@ -194,7 +194,7 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 var dealerInfo = _dealerOnboardingRepository.GetDealerInfoByAccessKey(accessKey);
-                await _mailService.SendDraftLinkMail(accessKey, dealerInfo.CompanyInfo.EmailAddress);
+                await _mailService.SendDraftLinkMail(accessKey, dealerInfo.Owners.FirstOrDefault()?.EmailAddress);
             }
             catch (Exception ex)
             {
