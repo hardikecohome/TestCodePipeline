@@ -24,12 +24,12 @@ namespace DealnetPortal.Web.Models.Dealer
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "AnnualSalesVolume")]
         [RegularExpression(@"^[1-9]\d{0,9}?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "AnnualSalesIncorrectFormat")]
-        public decimal? AnnualSalesVolume { get; set; }
+        public int? AnnualSalesVolume { get; set; }
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "AverageTransactionSize")]
         [RegularExpression(@"^[1-9]\d{0,9}?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "AverageTransactionSizeIncorrectFormat")]
-        public decimal? AverageTransactionSize { get; set; }
+        public int? AverageTransactionSize { get; set; }
 
         public bool SalesApproachConsumerDirect { get; set; }
         public bool SalesApproachBroker { get; set; }

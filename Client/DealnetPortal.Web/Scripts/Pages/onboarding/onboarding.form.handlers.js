@@ -23,16 +23,9 @@
     }
 
     function initSendEmail () {
-        function toggleAgreementError (show) {
-            if (show) {
-                $('#agreement-email-error').addClass('field-validation-error').text(translations.ThisFieldIsRequired);
-            } else {
-                $('#agreement-email-error').removeClass('field-validation-error').text('');
-            }
-        }
-        $('#agreement-email').on('change', function () {
-            toggleAgreementError(!$(this).prop('checked'));
-        })
+        $('#agreement-email').on('change', function (e) {
+            $('#send-email-submit').prop('disabled', !e.target.checked);
+        });
         $('#send-draft-email').on('submit', function () {
             var $this = $(this);
             var allowCommunicate = $this.find('#agreement-email').prop('checked');

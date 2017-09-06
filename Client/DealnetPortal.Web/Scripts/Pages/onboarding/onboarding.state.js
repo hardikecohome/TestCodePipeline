@@ -31,8 +31,7 @@
         'company': {
             selectedProvinces: [],
             nextProvinceId: 0,
-            requiredFields: ['full-legal-name', 'operating-name', 'company-phone', 'company-email-address', 'company-street', 'company-city', 'company-province',
-                'company-postal', 'years-in-business', 'work-provinces', 'company-type']
+            requiredFields: ['full-legal-name', 'operating-name', 'company-phone', 'company-email-address', 'company-street', 'company-city', 'company-province', 'company-postal', 'years-in-business', 'work-provinces', 'company-type']
         },
         'product': {
             selectedEquipment: [],
@@ -48,8 +47,7 @@
             'province', 'postalcode', 'percentage'
         ],
         validFileExtensions: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png'],
-        companyRequiredFields: ['full-legal-name', 'operating-name', 'company-phone', 'company-email-address', 'company-street', 'company-city', 'company-province',
-            'company-postal', 'years-in-business', 'work-provinces', 'company-type'],
+        companyRequiredFields: ['full-legal-name', 'operating-name', 'company-phone', 'company-email-address', 'company-street', 'company-city', 'company-province', 'company-postal', 'years-in-business', 'work-provinces', 'company-type'],
         productRequiredFields: ['primary-brand', 'annual-sales-volume', 'av-transaction-size', 'sales-approach', 'lead-gen', 'program-service', 'relationship', 'equipment', 'reason-for-interest']
     };
 
