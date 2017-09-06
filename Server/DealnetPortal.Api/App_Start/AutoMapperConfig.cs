@@ -482,7 +482,9 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<LicenseTypeDTO, LicenseType>();
             mapperConfig.CreateMap<LicenseDocumentDTO, LicenseDocument>();
             mapperConfig.CreateMap<AdditionalDocumentDTO, AdditionalDocument>()
-                .ForMember(x => x.DealerInfo, d => d.Ignore());
+                .ForMember(x => x.DealerInfo, d => d.Ignore())
+                .ForMember(x => x.License, d => d.Ignore())
+                .ForMember(x => x.LicenseTypeId, d => d.MapFrom(src=>src.License.Id));
         }
     }
 }

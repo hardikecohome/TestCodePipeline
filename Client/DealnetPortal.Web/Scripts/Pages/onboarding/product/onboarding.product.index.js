@@ -37,8 +37,8 @@
             var $this = $(this);
             clearSiblings();
             var $input = $this.find('input');
-            setters.setProgramService(input.attr('id'));
-            input.prop('checked', true);
+            setters.setProgramService($input.attr('id'));
+            $input.prop('checked', true);
         });
     }
 

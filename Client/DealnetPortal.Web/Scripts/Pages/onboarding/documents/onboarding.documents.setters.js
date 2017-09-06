@@ -1,6 +1,7 @@
 ﻿module.exports('onboarding.documents.setters', function (require) {
     var state = require('onboarding.state').state;
     var constants = require('onboarding.state').constants;
+    var enableSubmit = require('onboarding.setters').enableSubmit;
     var stateSection = 'documents';
 
     var setVoidChequeFile = function (e) {
@@ -9,14 +10,14 @@
         _uploadFile('voidChequeUploaded', 'cheque-upload-title', 'cheque-container', 'void-cheque-files', files[0]);
     }
 
-    var setInsurenceFile = function(e) {
+    var setInsurenceFile = function (e) {
         var files = e.target.files;
 
         _uploadFile('insurenceUploaded', 'insurence-upload-title', 'insurence-container', 'insurence-files', files[0]);
     }
 
-    var setLicenseNoExpiry = function(id) {
-        return function(e) {
+    var setLicenseNoExpiry = function (id) {
+        return function (e) {
             var checked = e.target.checked;
 
             if (checked) {
@@ -27,16 +28,16 @@
             } else {
                 if ($('#' + id + '-license-date').is(':disabled')) {
                     $('#' + id + '-license-date').removeClass('control-disabled');
-                    $('#' + id + '-license-date').prop('disabled', false); 
+                    $('#' + id + '-license-date').prop('disabled', false);
                 }
             }
         }
     }
 
     var setLicenseRegistraionNumber = function (id) {
-        return function(e) {
+        return function (e) {
             var value = e.target.value;
-            var filtred = state[stateSection]['addedLicense'].filter(function(l) {
+            var filtred = state[stateSection]['addedLicense'].filter(function (l) {
                 return l.id == id;
             })[0];
 
@@ -114,7 +115,7 @@
         e.stopImmediatePropagation();
     }
 
-    function _getDocumentsArray() {
+    function _getDocumentsArray () {
         var selectedProvinces = state['company'].selectedProvinces;
         var selectedEquipments = state['product'].selectedEquipment;
 
@@ -131,15 +132,15 @@
         return filtredByEquipment;
     }
 
-    function _uploadFile(checkSelector, buttonSelector, fileContainerSelector, stateFileSection, file) {
+    function _uploadFile (checkSelector, buttonSelector, fileContainerSelector, stateFileSection, file) {
         var extension = file.name.replace(/^.*\./, '');
-        
+
         if (extension === '' || constants.validFileExtensions.indexOf(extension) === -1) {
             alert('Your file type is not supported');
             return;
         }
 
-        var data =  new FormData();
+        var data = new FormData();
         data.append('File', file);
 
         var type = checkSelector === 'insurenceUploaded' ? 8 : 4;
@@ -155,7 +156,7 @@
         $.get({
             type: "POST",
             url: uploadDocumentUrl,
-            contentType: false, 
+            contentType: false,
             processData: false,
             data: data,
             success: function (json) {
@@ -177,9 +178,10 @@
                 console.log('error');
             }
         });
+        enableSubmit();
     }
 
-    function _addFile(checkSelector, buttonSelector, fileContainerSelector, stateFileSection, file) {
+    function _addFile (checkSelector, buttonSelector, fileContainerSelector, stateFileSection, file) {
 
         state[stateSection][stateFileSection].push(file.name);
 
@@ -194,13 +196,13 @@
         }
     }
 
-    function _rebuildIndex() {
+    function _rebuildIndex () {
         var licenseIdArray = state[stateSection]['addedLicense'].filter(function (l) { return l.id });
         var index = 0;
         licenseIdArray.forEach(function (i) {
             var container = $('#' + i.id + '-license-holder');
             if (container.length) {
-                
+
                 container.find('input').each(function () {
                     var curr = $(this).attr('name');
                     var toReplace = 'AdditionalDocuments[' + index + ']' + $(this).attr('name').substring($(this).attr('name').lastIndexOf(']') + 1);
@@ -210,7 +212,7 @@
 
                 container.find('span').each(function () {
                     var curr = $(this).attr('name');
-                    if (curr == null) {  return; }
+                    if (curr == null) { return; }
                     var toReplace = 'AdditionalDocuments[' + index + ']' + $(this).attr('name').substring($(this).attr('name').lastIndexOf(']') + 1);
 
                     var valFor = $(this).attr('data-valmsg-for');
@@ -225,7 +227,7 @@
 
 
     }
-    function _moveTonextSection() {
+    function _moveTonextSection () {
 
     }
 
