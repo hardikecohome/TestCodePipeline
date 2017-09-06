@@ -27,7 +27,6 @@
         var $result = $($.parseHTML(result));
         $('#additional-owners').append($result);
 
-        debugger
         $result.find('input[id^="owner0"]').each(function () {
             var $this = $(this);
             var rules = $('#' + this.id).rules();

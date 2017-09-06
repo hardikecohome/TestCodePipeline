@@ -71,7 +71,7 @@
             </div>
             <h4 class="heading-bordered">@Resources.Address</h4>
             <div class="row address-container">
-                <div class="col-md-6 col-sm-6">
+                <div class="col-md-6 col-sm-9">
                     <div class="form-group">
                         @Html.LabelFor(m => m.Owners[0].Address.Street, new { @class = "mandatory-field" })
                         <div class="control-group">
@@ -80,7 +80,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2 col-sm-2">
+                <div class="col-md-2 col-sm-3">
                     <div class="form-group">
                         @Html.LabelFor(m => m.Owners[0].Address.UnitNumber)
                         <div class="control-group">
@@ -89,7 +89,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-4">
+                <div class="col-md-4 col-sm-6 col-clear-sm-6">
                     <div class="form-group">
                         @Html.LabelFor(m => m.Owners[0].Address.City, new { @class = "mandatory-field" })
                         <div class="control-group">
@@ -98,7 +98,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6 col-clear-lg-4 col-clear-md-4 col-clear-sm-6">
+                <div class="col-md-4 col-sm-6 col-clear-lg-4 col-clear-md-4">
                     <div class="form-group">
                         @Html.LabelFor(m => m.Owners[0].Address.Province, new { @class = "mandatory-field" })
                         <div class="control-group">
@@ -116,9 +116,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6 col-clear-sm-6">
+                <div class="col-md-4 col-sm-6">
                     <div class="form-group">
-                        <div class="dealnet-label hidden-xs hidden-sm">&nbsp;</div>
+                        <div class="dealnet-label hidden-xs">&nbsp;</div>
                         <div class="control-group flex-centered-text">
                             <a href="#" class="dealnet-disabled-text clear-address">
                                 <svg aria-hidden="true" class="icon icon-remove">

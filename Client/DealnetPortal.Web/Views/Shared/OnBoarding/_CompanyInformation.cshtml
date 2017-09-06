@@ -14,7 +14,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.FullLegalName, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.FullLegalName, new { @class = "form-control dealnet-input", id="full-legal-name", placeholder = Resources.FullLegalName })
+                        @Html.TextBoxFor(m => m.CompanyInfo.FullLegalName, new { @class = "form-control dealnet-input", id = "full-legal-name", placeholder = Resources.FullLegalName })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.FullLegalName, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -23,7 +23,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.OperatingName, new { @class = "mandatory-field", placeholder = Resources.OperatingName })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.OperatingName, new { @class = "form-control dealnet-input", id="operating-name" })
+                        @Html.TextBoxFor(m => m.CompanyInfo.OperatingName, new { @class = "form-control dealnet-input", id = "operating-name" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.OperatingName, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.Phone, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.Phone, new { @class = "form-control dealnet-input",id="company-phone", placeholder = Resources.PhoneNumber })
+                        @Html.TextBoxFor(m => m.CompanyInfo.Phone, new { @class = "form-control dealnet-input", id = "company-phone", placeholder = Resources.PhoneNumber })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.Phone, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.EmailAddress, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.EmailAddress, new { @class = "form-control dealnet-input",id="company-email-address", placeholer=Resources.EmailAddress })
+                        @Html.TextBoxFor(m => m.CompanyInfo.EmailAddress, new { @class = "form-control dealnet-input", id = "company-email-address", placeholer = Resources.EmailAddress })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.EmailAddress, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.Website)
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.Website, new { @class = "form-control dealnet-input", placeholder = "www.websitename.com", id="company-website"})
+                        @Html.TextBoxFor(m => m.CompanyInfo.Website, new { @class = "form-control dealnet-input", placeholder = "www.websitename.com", id = "company-website" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.Website, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -61,7 +61,7 @@
         </div>
         <h4 class="heading-bordered">@Resources.Address</h4>
         <div class="row address-container">
-            <div class="col-md-6 col-sm-6">
+            <div class="col-md-6 col-sm-9">
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.CompanyAddress.Street, new { @class = "mandatory-field" })
                     <div class="control-group">
@@ -70,7 +70,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-2 col-sm-2">
+            <div class="col-md-2 col-sm-3">
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.CompanyAddress.UnitNumber)
                     <div class="control-group">
@@ -79,7 +79,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-sm-4">
+            <div class="col-md-4 col-sm-6 col-clear-sm-6">
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.CompanyAddress.City, new { @class = "mandatory-field" })
                     <div class="control-group">
@@ -88,7 +88,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-sm-6 col-clear-lg-4 col-clear-md-4 col-clear-sm-6">
+            <div class="col-md-4 col-sm-6 col-clear-lg-4 col-clear-md-4">
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.CompanyAddress.Province, new { @class = "mandatory-field" })
                     <div class="control-group">
@@ -106,9 +106,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-sm-6 col-clear-sm-6">
+            <div class="col-md-4 col-sm-6">
                 <div class="form-group">
-                    <div class="dealnet-label hidden-xs hidden-sm">&nbsp;</div>
+                    <div class="dealnet-label hidden-xs">&nbsp;</div>
                     <div class="control-group flex-centered-text">
                         <a href="#" class="dealnet-disabled-text clear-address">
                             <svg aria-hidden="true" class="icon icon-remove">
@@ -126,7 +126,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.BusinessType, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.EnumDropDownListFor(m => m.CompanyInfo.BusinessType, null, new { @class = "form-control", id="company-type" })
+                        @Html.EnumDropDownListFor(m => m.CompanyInfo.BusinessType, null, new { @class = "form-control", id = "company-type" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.BusinessType, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -135,7 +135,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.YearsInBusiness, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.EnumDropDownListFor(m => m.CompanyInfo.YearsInBusiness, null, new { @class = "form-control", id="years-in-business" })
+                        @Html.EnumDropDownListFor(m => m.CompanyInfo.YearsInBusiness, null, new { @class = "form-control", id = "years-in-business" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.YearsInBusiness, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -144,7 +144,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.NumberOfInstallers)
                     <div class="control-group">
-                        @Html.EnumDropDownListFor(m => m.CompanyInfo.NumberOfInstallers, null, new { id="installers", @class = "form-control" })
+                        @Html.EnumDropDownListFor(m => m.CompanyInfo.NumberOfInstallers, null, new { id = "installers", @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.NumberOfInstallers, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -153,7 +153,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.NumberOfSales)
                     <div class="control-group">
-                        @Html.EnumDropDownListFor(m => m.CompanyInfo.NumberOfSales, null, new { id="sales", @class = "form-control" })
+                        @Html.EnumDropDownListFor(m => m.CompanyInfo.NumberOfSales, null, new { id = "sales", @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.NumberOfSales, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -170,9 +170,7 @@
             </div>
             <div class="form-group">
                 <div class="dealnet-label hidden-xs">&nbsp;</div>
-                <ul id="province-list" class="customer-needs-list tags-list">
-                    
-                </ul>
+                <ul id="province-list" class="customer-needs-list tags-list"></ul>
             </div>
         </div>
         <div id="work-province-error" class="well danger-well hidden">
@@ -183,11 +181,11 @@
         </div>
         <div class="save-and-resume-hold">
             <a class="save-and-resume dealnet-info-link">
-            <span class="icon-hold">
-                <svg aria-hidden="true" class="icon icon-save">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-save")"></use>
-                </svg>
-            </span>
+                <span class="icon-hold">
+                    <svg aria-hidden="true" class="icon icon-save">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-save")"></use>
+                    </svg>
+                </span>
                 <span>@Resources.SaveEntireAppAndResumeLater</span>
             </a>
         </div>
