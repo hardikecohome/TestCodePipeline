@@ -193,7 +193,8 @@ namespace DealnetPortal.Api.Integration.Services
             var alerts = new List<Alert>();
             try
             {
-                await _mailService.SendDraftLinkMail(accessKey);
+                var dealerInfo = _dealerOnboardingRepository.GetDealerInfoByAccessKey(accessKey);
+                await _mailService.SendDraftLinkMail(accessKey, dealerInfo.CompanyInfo.EmailAddress);
             }
             catch (Exception ex)
             {

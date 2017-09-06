@@ -13,6 +13,6 @@ namespace DealnetPortal.Api.Integration.Services
         Task SendHomeImprovementTypeUpdatedConfirmation(string emailid, string firstName, string lastName, string services);
         Task SendDeclineNotificationConfirmation(string emailid, string firstName, string lastName);
         Task SendProblemsWithSubmittingOnboarding(string errorMsg, int dealerInfoId, string accessKey);
-        Task SendDraftLinkMail(string accessKey);
+        Task SendDraftLinkMail(string accessKey, string email);
     }
 }
