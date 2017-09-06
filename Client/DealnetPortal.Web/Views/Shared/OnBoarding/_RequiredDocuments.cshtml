@@ -59,7 +59,7 @@
                     <div class="action-holder">
                         <div class="file-upload btn dealnet-button dealnet-link-button">
                             <span id="insurence-upload-title">Upload</span>
-                            <input type="file" class="upload" id="insurence-upload" multiple/>
+                            <input type="file" class="upload" id="insurence-upload" multiple />
                         </div>
                     </div>
                 </div>
@@ -82,8 +82,8 @@
                                 <div class="form-group">
                                     <label for="" class="mandatory-field">Registration Number</label>
                                     <div class="control-group">
-                                        @Html.TextBoxFor(m => m.AdditionalDocuments[i].Number, null, new {@class = "form-control", id = Model.AdditionalDocuments[i].LicenseTypeId + "-license-number"})
-                                        @Html.ValidationMessageFor(m => m.AdditionalDocuments[i].Number, "", new {@class = "text-danger"})
+                                        @Html.TextBoxFor(m => m.AdditionalDocuments[i].Number, null, new { @class = "form-control", id = Model.AdditionalDocuments[i].LicenseTypeId + "-license-number", placeholder = "12345" })
+                                        @Html.ValidationMessageFor(m => m.AdditionalDocuments[i].Number, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -91,8 +91,8 @@
                                 <div class="form-group">
                                     <label for="" class="mandatory-field">Expiry Date</label>
                                     <div class="control-group date-group">
-                                        @Html.TextBoxFor(m => m.AdditionalDocuments[i].ExpiredDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input", id = Model.AdditionalDocuments[i].LicenseTypeId + "-license-date", placeholder = Resources.DateFormat, data_val_date = ""})
-                                        @Html.ValidationMessageFor(m => m.AdditionalDocuments[i].ExpiredDate, "", new {@class = "text-danger"})
+                                        @Html.TextBoxFor(m => m.AdditionalDocuments[i].ExpiredDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = Model.AdditionalDocuments[i].LicenseTypeId + "-license-date", placeholder = Resources.DateFormat, data_val_date = "" })
+                                        @Html.ValidationMessageFor(m => m.AdditionalDocuments[i].ExpiredDate, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -101,7 +101,7 @@
                                     <div class="dealnet-label hidden-xs">&nbsp;</div>
                                     <div class="control-group flex-centered-text">
                                         <label class="align-middle custom-checkbox">
-                                            @Html.CheckBoxFor(m => m.AdditionalDocuments[i].NotExpired, new {@class = "dealnet-checkbox address-checkbox", id = Model.AdditionalDocuments[i].LicenseTypeId + "-license-checkbox"})
+                                            @Html.CheckBoxFor(m => m.AdditionalDocuments[i].NotExpired, new { @class = "dealnet-checkbox address-checkbox", id = Model.AdditionalDocuments[i].LicenseTypeId + "-license-checkbox" })
                                             <span class="checkbox-icon">
                                                 <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                                             </span>
@@ -117,11 +117,11 @@
         </div>
         <div class="save-and-resume-hold">
             <a class="save-and-resume dealnet-info-link">
-            <span class="icon-hold">
-                <svg aria-hidden="true" class="icon icon-save">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-save")"></use>
-                </svg>
-            </span>
+                <span class="icon-hold">
+                    <svg aria-hidden="true" class="icon icon-save">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-save")"></use>
+                    </svg>
+                </span>
                 <span>@Resources.SaveEntireAppAndResumeLater</span>
             </a>
         </div>
@@ -129,16 +129,16 @@
 </div>
 
 <script id="fileUploadedTemplate" type="text/x-jquery-tmpl">
-<li>
-    <span class="uploaded-docs-title">
-        ${filename}
-        <a href="" class="remove-link remove-docs">
-            <svg aria-hidden="true" class="icon icon-remove-cross">
-                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
-            </svg>
-        </a>
-    </span>
-</li>
+    <li>
+        <span class="uploaded-docs-title">
+            ${filename}
+            <a href="" class="remove-link remove-docs">
+                <svg aria-hidden="true" class="icon icon-remove-cross">
+                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
+                </svg>
+            </a>
+        </span>
+    </li>
 </script>
 
 <script id="licenseDocumentTemplate" type="text/x-jquery-tmpl">
@@ -166,24 +166,24 @@
                     <div class="control-group date-group">
                         <input type="text" class="form-control dealnet-input" data-val-date name="AdditionalDocuments[0].ExpiredDate" placeholder="mm/dd/yyyy" id="${id}-license-date">
                         <span class="field-validation-valid text-danger" data-valmsg-for="AdditionalDocuments[0].ExpiredDate" data-valmsg-replace="true"></span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-xs-12 col-sm-3 col-md-2">
-            <div class="form-group">
-                <div class="dealnet-label hidden-xs">&nbsp;</div>
-                <div class="control-group flex-centered-text">
-                    <label class="align-middle custom-checkbox">
-                        <input type="checkbox" class="dealnet-checkbox" id="${id}-license-checkbox"  name="AdditionalDocuments[0].NotExpired"/>
-                        <span class="checkbox-icon">
-                            <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
-                        </span>
-                        <span>No expiry</span>
-                    </label>
+            <div class="col-xs-12 col-sm-3 col-md-2">
+                <div class="form-group">
+                    <div class="dealnet-label hidden-xs">&nbsp;</div>
+                    <div class="control-group flex-centered-text">
+                        <label class="align-middle custom-checkbox">
+                            <input type="checkbox" class="dealnet-checkbox" id="${id}-license-checkbox" name="AdditionalDocuments[0].NotExpired" />
+                            <span class="checkbox-icon">
+                                <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
+                            </span>
+                            <span>No expiry</span>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<hr>
+    <hr>
 </script>
