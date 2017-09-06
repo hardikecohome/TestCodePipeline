@@ -100,7 +100,9 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> SendDraftLink(SaveAndResumeViewModel model)
         {
             var result = await _dealerOnBoardingManager.SendDealerOnboardingDraftLink(model);
+
             if (result == null || !result.Any()) { return Json(new { success = true }); }
+
             return Json(new { success = false });
         }
 
@@ -114,7 +116,7 @@ namespace DealnetPortal.Web.Controllers
 
             var result = await _dealerOnBoardingManager.UploadOnboardingDocument(documentForUpload);
 
-            return Json(string.Empty);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

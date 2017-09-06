@@ -28,6 +28,8 @@ namespace DealnetPortal.Web.Models
 
         public int DocumentTypeId { get; set; }
 
+        public int? DealerInfoId { get; set; }
+
         public HttpPostedFileBase File { get; set; }
 
     }

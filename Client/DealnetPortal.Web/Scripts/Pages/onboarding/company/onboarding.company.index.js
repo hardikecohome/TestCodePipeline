@@ -38,7 +38,9 @@
             var item = constants.companyRequiredFields[i];
             if (item === 'work-provinces')
                 return;
-            $('#' + item).change();
+            var $item = $('#' + item);
+            if ($item.val())
+                $item.change();
         }
     }
 

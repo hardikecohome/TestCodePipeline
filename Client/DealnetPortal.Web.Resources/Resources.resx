@@ -1773,7 +1773,7 @@
     <value>Site</value>
   </data>
   <data name="SiteInvalidFormat" xml:space="preserve">
-    <value>Site Url is in incorrect format</value>
+    <value>Website Url is in incorrect format</value>
   </data>
   <data name="YearsInBusinessIncorrectFormat" xml:space="preserve">
     <value>Years In Business is in incorrect format</value>
@@ -1993,5 +1993,8 @@
   </data>
   <data name="SomethingWentWrong" xml:space="preserve">
     <value>Something went wrong</value>
+  </data>
+  <data name="WebsiteMustBeLong" xml:space="preserve">
+    <value>Website should be between {1} and {2}</value>
   </data>
 </root>
