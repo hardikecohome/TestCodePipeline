@@ -222,7 +222,7 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 var mappedDoc = Mapper.Map<RequiredDocument>(document);
-                var updatedDoc = _dealerOnboardingRepository.AddDocumentToDealer(mappedDoc.Id, mappedDoc);
+                var updatedDoc = _dealerOnboardingRepository.AddDocumentToDealer(mappedDoc.DealerInfoId, mappedDoc);
                 _unitOfWork.Save();
                 resultKey = new DealerInfoKeyDTO()
                 {
