@@ -1737,13 +1737,13 @@
     <value>Number of Installers must be maximum 3 digits long</value>
   </data>
   <data name="NumSales" xml:space="preserve">
-    <value>Number Of Sales</value>
+    <value>Number of sales people</value>
   </data>
   <data name="NumSalesIncorrectFormat" xml:space="preserve">
-    <value>Number of Sales is in incorrect format</value>
+    <value>Number of sales is in incorrect format</value>
   </data>
   <data name="NumSalesMax3" xml:space="preserve">
-    <value>Number of Sales must be maximum 3 digits long</value>
+    <value>Number of sales must be maximum 3 digits long</value>
   </data>
   <data name="OperatingName" xml:space="preserve">
     <value>Operating Name</value>
@@ -1757,11 +1757,11 @@
   <data name="PercentOwnershipRange" xml:space="preserve">
     <value>Percentage of Ownership should be between {1} and {2}</value>
   </data>
-  <data name="PhoneIncorrectFormat" xml:space="preserve">
-    <value>Phone is in incorrect format</value>
+  <data name="PhoneNumberIncorrectFormat" xml:space="preserve">
+    <value>Phone number is in incorrect format</value>
   </data>
-  <data name="PhoneMustBeLong" xml:space="preserve">
-    <value>The field Phone must be a string with a length of 10</value>
+  <data name="PhoneNumberMustBeLong" xml:space="preserve">
+    <value>Phone Number must be a string with a length of 10</value>
   </data>
   <data name="Provinces" xml:space="preserve">
     <value>Provinces</value>

@@ -24,9 +24,9 @@ namespace DealnetPortal.Web.Models.Dealer
         public string OperatingName { get; set; }
 
         [CustomRequired]
-        [StringLength(10, MinimumLength = 10, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "PhoneMustBeLong")]
-        [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "PhoneIncorrectFormat")]
-        [Display(ResourceType = typeof(Resources.Resources), Name = "Phone")]
+        [StringLength(10, MinimumLength = 10, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "PhoneNumberMustBeLong")]
+        [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "PhoneNumberIncorrectFormat")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "PhoneNumber")]
         public string Phone { get; set; }
 
         [CustomRequired]

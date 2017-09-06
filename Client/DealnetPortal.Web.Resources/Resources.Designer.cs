@@ -3481,7 +3481,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number Of Sales.
+        ///   Looks up a localized string similar to Number of sales people.
         /// </summary>
         public static string NumSales {
             get {
@@ -3490,7 +3490,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of Sales is in incorrect format.
+        ///   Looks up a localized string similar to Number of sales is in incorrect format.
         /// </summary>
         public static string NumSalesIncorrectFormat {
             get {
@@ -3499,7 +3499,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of Sales must be maximum 3 digits long.
+        ///   Looks up a localized string similar to Number of sales must be maximum 3 digits long.
         /// </summary>
         public static string NumSalesMax3 {
             get {
@@ -3769,29 +3769,29 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Phone is in incorrect format.
-        /// </summary>
-        public static string PhoneIncorrectFormat {
-            get {
-                return ResourceManager.GetString("PhoneIncorrectFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The field Phone must be a string with a length of 10.
-        /// </summary>
-        public static string PhoneMustBeLong {
-            get {
-                return ResourceManager.GetString("PhoneMustBeLong", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Phone number.
         /// </summary>
         public static string PhoneNumber {
             get {
                 return ResourceManager.GetString("PhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone number is in incorrect format.
+        /// </summary>
+        public static string PhoneNumberIncorrectFormat {
+            get {
+                return ResourceManager.GetString("PhoneNumberIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone Number must be a string with a length of 10.
+        /// </summary>
+        public static string PhoneNumberMustBeLong {
+            get {
+                return ResourceManager.GetString("PhoneNumberMustBeLong", resourceCulture);
             }
         }
         
