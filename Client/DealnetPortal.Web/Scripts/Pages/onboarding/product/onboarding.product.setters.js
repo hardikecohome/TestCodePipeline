@@ -3,6 +3,7 @@ module.exports('onboarding.product.setters', function (require) {
 
     var configSetField = require('onboarding.setters').configSetField;
     var moveToNextSection = require('onboarding.setters').moveToNextSection;
+    var enableSubmit = require('onboarding.setters').enableSubmit;
 
     var stateSection = 'product';
     var oem = 'oem';
@@ -82,6 +83,8 @@ module.exports('onboarding.product.setters', function (require) {
                     state[stateSection].requiredFields.push('lead-gen');
             }
         }
+        moveToNextSection(stateSection);
+        enableSubmit();
     }
 
     var setProgramService = function (id) {
@@ -92,19 +95,37 @@ module.exports('onboarding.product.setters', function (require) {
             state[stateSection].requiredFields.splice(index, 1);
 
         moveToNextSection(stateSection);
+        enableSubmit();
     }
 
-    var setRelationship = setFormField('relationship');
+    var setRelationship = function (e) {
+        var index = state[stateSection].requiredFields.indexOf('relationship');
+        if (index > -1)
+            state[stateSection].requiredFields.splice(index, 1);
+        if (e.target.value === "1") {
+            index = state[stateSection].requiredFields.indexOf(oem);
+            if (index === -1 && !state[stateSection][oem]) {
+                state[stateSection].requiredFields.push(oem);
+            }
+        } else {
+            index = state[stateSection].requiredFields.indexOf(oem);
+            if (index > -1)
+                state[stateSection].requiredFields.splice(index, 1);
+        }
+
+        moveToNextSection(stateSection);
+        enableSubmit();
+    }
 
     var setOem = setFormField(oem);
 
     var setWithCurrentProvider = function (e) {
         if (e.target.checked) {
             var index = state[stateSection].requiredFields.indexOf(financeProviderName);
-            if (index === -1 && !$('#' + financeProviderName).valid())
+            if (index === -1 && !state[stateSection][financeProviderName])
                 state[stateSection].requiredFields.push(financeProviderName);
             index = state[stateSection].requiredFields.indexOf(monthlyFinancedValue);
-            if (index === -1 && !$('#' + monthlyFinancedValue).valid())
+            if (index === -1 && !state[stateSection][monthlyFinancedValue])
                 state[stateSection].requiredFields.push(monthlyFinancedValue);
         } else {
             var index = state[stateSection].requiredFields.indexOf(financeProviderName);
@@ -114,6 +135,9 @@ module.exports('onboarding.product.setters', function (require) {
             if (index > -1)
                 state[stateSection].requiredFields.splice(index, 1);
         }
+
+        moveToNextSection(stateSection);
+        enableSubmit();
     }
 
     var setFinanceProviderName = setFormField(financeProviderName);
@@ -123,13 +147,16 @@ module.exports('onboarding.product.setters', function (require) {
     var setOfferDeferrals = function (e) {
         if (e.target.checked) {
             var index = state[stateSection].requiredFields.indexOf(percentMonthDefferals);
-            if (index === -1 && !$('#' + percentMonthDefferals).valid())
+            if (index === -1 && !state[stateSection][percentMonthDefferals])
                 state[stateSection].requiredFields.push(percentMonthDefferals);
         } else {
             var index = state[stateSection].requiredFields.indexOf(percentMonthDefferals);
             if (index > -1)
                 state[stateSection].requiredFields.splice(index, 1);
         }
+
+        moveToNextSection(stateSection);
+        enableSubmit();
     }
 
     var setPercentMonthDeferrals = setFormField(percentMonthDefferals);

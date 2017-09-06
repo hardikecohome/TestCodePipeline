@@ -207,12 +207,15 @@ namespace DealnetPortal.Api.Integration.Services
             var draftLink = ConfigurationManager.AppSettings["DealerPortalDraftUrl"] + accessKey;
             MandrillRequest request = new MandrillRequest();
             List<Variable> myVariables = new List<Variable>();
+            myVariables.Add(new Variable() { name = "DealerInfoID", content = dealerInfoId.ToString() });
+            myVariables.Add(new Variable() { name = "DealerUniqueLink", content = draftLink });
+            myVariables.Add(new Variable() { name = "DealerErrorLog", content = errorMsg });
             request.key = _apiKey;
-            request.template_name = ConfigurationManager.AppSettings["DeclinedOrCreditReviewTemplate"];//TODO: change emailTemplate
+            request.template_name = ConfigurationManager.AppSettings["AspireServiceErrorTemplate"];
             request.template_content = new List<templatecontent>() {
                     new templatecontent(){
-                        name="Declined",
-                        content = "Declined"
+                        name= $"Exception while submitting onboarding application to Aspire (DealerInfoID = {dealerInfoId})",
+                        content = $"Exception while submitting onboarding application to Aspire (DealerInfoID = {dealerInfoId})"
                     }
                 };
 
@@ -224,18 +227,18 @@ namespace DealnetPortal.Api.Integration.Services
                 html = null,
                 merge_vars = new List<MergeVariable>() {
                         new MergeVariable(){
-                            rcpt = ConfigurationManager.AppSettings["DealNetEmail"],//TODO: Change to Hiren email
+                            rcpt = ConfigurationManager.AppSettings["DealNetErrorLogsEmail"],
                             vars = myVariables
 
 
                         }
                     },
                 send_at = DateTime.Now,
-                subject = "Unfortunately, we’re unable to process this application automatically",
-                text = "Unfortunately, we’re unable to process this application automatically",
+                subject = $"Exception while submitting onboarding application to Aspire (DealerInfoID = {dealerInfoId})",
+                text = $"Exception while submitting onboarding application to Aspire (DealerInfoID = {dealerInfoId})",
                 to = new List<MandrillTo>() {
                         new MandrillTo(){
-                            email = ConfigurationManager.AppSettings["DealNetEmail"],//TODO: Change to Hiren email
+                            email = ConfigurationManager.AppSettings["DealNetErrorLogsEmail"],
                             name = " ",
                             type = "to"
                         }
@@ -243,7 +246,7 @@ namespace DealnetPortal.Api.Integration.Services
             };
             try
             {
-                //var result = await SendEmail(request);
+                var result = await SendEmail(request);
             }
             catch (Exception ex)
             {
@@ -252,17 +255,18 @@ namespace DealnetPortal.Api.Integration.Services
 
         }
 
-        public async Task SendDraftLinkMail(string accessKey)
+        public async Task SendDraftLinkMail(string accessKey, string email)
         {
             var draftLink = ConfigurationManager.AppSettings["DealerPortalDraftUrl"] + accessKey;
             MandrillRequest request = new MandrillRequest();
             List<Variable> myVariables = new List<Variable>();
+            myVariables.Add(new Variable() { name = "DealerUniqueLink", content = draftLink });
             request.key = _apiKey;
-            request.template_name = ConfigurationManager.AppSettings["DeclinedOrCreditReviewTemplate"];//TODO: change emailTemplate
+            request.template_name = ConfigurationManager.AppSettings["DraftLinkTemplate"];
             request.template_content = new List<templatecontent>() {
                     new templatecontent(){
-                        name="Declined",
-                        content = "Declined"
+                        name="Your EchoHome Financial dealer application link",
+                        content = "Your EchoHome Financial dealer application link"
                     }
                 };
 
@@ -274,18 +278,18 @@ namespace DealnetPortal.Api.Integration.Services
                 html = null,
                 merge_vars = new List<MergeVariable>() {
                         new MergeVariable(){
-                            rcpt = ConfigurationManager.AppSettings["DealNetEmail"],//TODO: Change to Hiren email
+                            rcpt = email,
                             vars = myVariables
 
 
                         }
                     },
                 send_at = DateTime.Now,
-                subject = "Unfortunately, we’re unable to process this application automatically",
-                text = "Unfortunately, we’re unable to process this application automatically",
+                subject = "Your EchoHome Financial dealer application link",
+                text = "Your EchoHome Financial dealer application link",
                 to = new List<MandrillTo>() {
                         new MandrillTo(){
-                            email = ConfigurationManager.AppSettings["DealNetEmail"],//TODO: Change to Hiren email
+                            email = email,
                             name = " ",
                             type = "to"
                         }
@@ -293,7 +297,7 @@ namespace DealnetPortal.Api.Integration.Services
             };
             try
             {
-                //var result = await SendEmail(request);
+                var result = await SendEmail(request);
             }
             catch (Exception ex)
             {

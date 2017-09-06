@@ -611,11 +611,11 @@ namespace DealnetPortal.Api.Integration.Services
 
         }
 
-        public async Task SendDraftLinkMail(string accessKey)
+        public async Task SendDraftLinkMail(string accessKey, string email)
         {
             try
             {
-                await _mandrillService.SendDraftLinkMail(accessKey);
+                await _mandrillService.SendDraftLinkMail(accessKey, email);
             }
             catch (Exception ex)
             {

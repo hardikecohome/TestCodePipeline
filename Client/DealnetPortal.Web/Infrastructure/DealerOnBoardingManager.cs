@@ -104,7 +104,8 @@ namespace DealnetPortal.Web.Infrastructure
                 DocumentName = fileModel.DocumentName,
                 DocumentBytes = documentBytes,
                 CreationDate = DateTime.UtcNow,
-                DocumentTypeId = fileModel.DocumentTypeId
+                DocumentTypeId = fileModel.DocumentTypeId,
+                DealerInfoId = fileModel.DealerInfoId
             };
 
             var result = await _dealerServiceAgent.AddDocumentToOnboardingForm(model);

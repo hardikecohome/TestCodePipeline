@@ -163,7 +163,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     //notify dealnet here about failed upload to Aspire
                     var errorMsg = string.Concat(submitResult.Where(x => x.Type == AlertType.Error).Select(r => r.Header + ": " + r.Message).ToArray());
-                    await _mailService.SendProblemsWithSubmittingOnboarding(errorMsg, mappedInfo.Id, mappedInfo.AccessKey);
+                    await _mailService.SendProblemsWithSubmittingOnboarding(errorMsg, updatedInfo.Id, mappedInfo.AccessKey);
                 }
                 //upload required documents
                 UploadOnboardingDocuments(updatedInfo.Id);
@@ -193,7 +193,8 @@ namespace DealnetPortal.Api.Integration.Services
             var alerts = new List<Alert>();
             try
             {
-                await _mailService.SendDraftLinkMail(accessKey);
+                var dealerInfo = _dealerOnboardingRepository.GetDealerInfoByAccessKey(accessKey);
+                await _mailService.SendDraftLinkMail(accessKey, dealerInfo.CompanyInfo.EmailAddress);
             }
             catch (Exception ex)
             {
@@ -221,7 +222,7 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 var mappedDoc = Mapper.Map<RequiredDocument>(document);
-                var updatedDoc = _dealerOnboardingRepository.AddDocumentToDealer(mappedDoc.Id, mappedDoc);
+                var updatedDoc = _dealerOnboardingRepository.AddDocumentToDealer(mappedDoc.DealerInfoId, mappedDoc);
                 _unitOfWork.Save();
                 resultKey = new DealerInfoKeyDTO()
                 {
