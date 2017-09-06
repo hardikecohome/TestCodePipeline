@@ -23,13 +23,13 @@ namespace DealnetPortal.Web.Models.Dealer
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "AnnualSalesVolume")]
-        [RegularExpression(@"^[1-9]\d{0,11}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "AnnualSalesIncorrectFormat")]
-        public decimal AnnualSalesVolume { get; set; }
+        [RegularExpression(@"^[1-9]\d{0,9}?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "AnnualSalesIncorrectFormat")]
+        public decimal? AnnualSalesVolume { get; set; }
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "AverageTransactionSize")]
-        [RegularExpression(@"^[1-9]\d{0,11}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "AverageTransactionSizeIncorrectFormat")]
-        public decimal AverageTransactionSize { get; set; }
+        [RegularExpression(@"^[1-9]\d{0,9}?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "AverageTransactionSizeIncorrectFormat")]
+        public decimal? AverageTransactionSize { get; set; }
 
         public bool SalesApproachConsumerDirect { get; set; }
         public bool SalesApproachBroker { get; set; }
@@ -49,6 +49,7 @@ namespace DealnetPortal.Web.Models.Dealer
         public RelationshipStructure Relationship { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "OEMName")]
+        [StringLength(20, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
         public string OEMName { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "AreYouWithProvider")]
@@ -56,11 +57,10 @@ namespace DealnetPortal.Web.Models.Dealer
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "FinanceProviderName")]
         [StringLength(50, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
-        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "FinanceProviderIncorrectFormat")]
         public string FinanceProviderName { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "MonthlyFinancedValue")]
-        [RegularExpression(@"^[1-9]\d{0,11}([.,][0-9][0-9]?)?", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "MonthlyFinancedValueIncorrectFormat")]
+        [RegularExpression(@"^[1-9]\d{0,9}?", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "MonthlyFinancedValueIncorrectFormat")]
         public decimal? MonthlyFinancedValue { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "OfferMonthlyDeferrals")]

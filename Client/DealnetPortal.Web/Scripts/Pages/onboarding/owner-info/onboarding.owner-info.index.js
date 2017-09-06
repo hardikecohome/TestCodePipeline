@@ -74,8 +74,9 @@
                 if (field === 'birthdate' && owners[i]['BirthDate'] !== null) {
                     setters.setBirthDate(owner, owners[i]['BirthDate']);
                 }
-
-                $('#' + owner + '-' + field).change();
+                var $item = $('#' + owner + '-' + field);
+                if ($item.val())
+                    $item.change();
             });
         }
     }

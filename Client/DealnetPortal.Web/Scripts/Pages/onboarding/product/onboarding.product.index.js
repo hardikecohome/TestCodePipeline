@@ -87,7 +87,9 @@
         constants.productRequiredFields.forEach(function (item) {
             if (item === 'equipment' || item === 'sales-approach' || item === 'lead-gen')
                 return;
-            $('#' + item).change();
+            var $item = $('#' + item);
+            if ($item.val())
+                $item.change();
         });
     }
 
