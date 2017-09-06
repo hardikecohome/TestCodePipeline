@@ -60,14 +60,14 @@
         public static string NumberOfSalesPeople = "Number of Sales People";
         public static string TypeOfBusiness = "Type of Business";
         public static string YearsInBusiness = "Years in Business";
-        public static string ProvincesApproved = "Provinces approved for Business";
+        public static string ProvincesApproved = "Provinces approved  for Business";
 
         public static string ManufacturerBrandsSold = "Manufacturer Brands Sold";
         public static string AnnualSalesVolume = "Annual Sales Volume";
         public static string AverageTransactionSize = "Average Transaction Size";
         public static string ChannelTypeConsumerDirect = "ChannelType Consumer direct";
         public static string ChannelTypeBroker = "ChannelType Broker";
-        public static string ChannelTypeDistributor = "ChannelTypeDistributor";
+        public static string ChannelTypeDistributor = "ChannelType Distributor";
         public static string ChannelTypeDoorToDoorSales = "ChannelType Door to door sales";
         public static string LeadGeneratedWithReferrals = "Lead Generated with Referrals";
         public static string LeadGeneratedWithLocalAdvertising = "Lead Generated with Local advertising";
