@@ -143,6 +143,7 @@
                 .addClass('hidden');
 
             $('#add-additional').removeClass('mandatory-field');
+            $('#add-additional-div').addClass('hidden');
             $('#additional-owner-warning').addClass('hidden');
 
             _moveTonextSection();
@@ -157,6 +158,9 @@
 
             if (!$('#add-additional').hasClass('mandatory-field')) {
                 $('#add-additional').addClass('mandatory-field');
+            }
+            if ($('#add-additional-div').is(':hidden')) {
+                $('#add-additional-div').removeClass('hidden');
             }
 
         }

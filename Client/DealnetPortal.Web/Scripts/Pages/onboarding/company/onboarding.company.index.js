@@ -4,7 +4,7 @@
     var setRemoveClick = require('onboarding.company.province').setRemoveClick;
     var setters = require('onboarding.company.setters');
 
-    var init = function(company) {
+    var init = function (company) {
         $('#province-select').on('change', add);
 
         $('#full-legal-name').on('change', setters.setLegalName);
@@ -34,14 +34,13 @@
             add.call($provinceSelect, { target: { value: item } });
             $(document).trigger('provinceAdded');
         });
-        for (var i = 0;i < constants.companyRequiredFields.length;i++) {
-            var item = constants.companyRequiredFields[i];
+        constants.companyRequiredFields.forEach(function (item) {
             if (item === 'work-provinces')
                 return;
             var $item = $('#' + item);
             if ($item.val())
                 $item.change();
-        }
+        });
     }
 
     return {
