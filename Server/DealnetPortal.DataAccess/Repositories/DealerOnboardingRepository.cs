@@ -23,7 +23,9 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public DealerInfo GetDealerInfoByAccessKey(string accessKey)
         {
-            return _dbContext.DealerInfos.FirstOrDefault(di => di.AccessKey == accessKey);
+            return _dbContext.DealerInfos
+                .Include(c => c.RequiredDocuments)
+                .FirstOrDefault(di => di.AccessKey == accessKey);
         }
 
         public DealerInfo AddOrUpdateDealerInfo(DealerInfo dealerInfo)
