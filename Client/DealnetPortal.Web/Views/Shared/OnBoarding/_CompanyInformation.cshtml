@@ -83,7 +83,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.CompanyAddress.City, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.CompanyAddress.City, new { id = "company-city", @class = "form-control dealnet-input", , placeholer = Resources.Ottawa })
+                        @Html.TextBoxFor(m => m.CompanyInfo.CompanyAddress.City, new { id = "company-city", @class = "form-control dealnet-input", placeholer = Resources.Ottawa })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.CompanyAddress.City, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -101,7 +101,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.CompanyAddress.PostalCode, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.CompanyAddress.PostalCode, new { id = "company-postal", @class = "form-control dealnet-input postal-code", , placeholer = "12345" })
+                        @Html.TextBoxFor(m => m.CompanyInfo.CompanyAddress.PostalCode, new { id = "company-postal", @class = "form-control dealnet-input postal-code", placeholer = "12345" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.CompanyAddress.PostalCode, "", new { @class = "text-danger" })
                     </div>
                 </div>

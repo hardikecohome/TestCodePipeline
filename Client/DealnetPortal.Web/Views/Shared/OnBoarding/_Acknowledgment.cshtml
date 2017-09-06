@@ -18,7 +18,7 @@
                             @Resources.Owner:&nbsp;
                         </span>
                         <span class="onboard-owners-value text-uppercase" id="owner@(i)-name-holder">
-                            @(Model.Owners[i].FirstName + " " + Model.Owners[i].LastName)
+                            @(Model.Owners[i].FirstName?.ToUpper() + " " + Model.Owners[i].LastName?.ToUpper())
                         </span>
                     </div>
                     <div class="onboard-owners-col date-col">

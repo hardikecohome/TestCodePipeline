@@ -9,7 +9,7 @@
             state[stateSection]['owners'][ownerNumber].firstName = firstName;
 
             var fullName = ' ' + state[stateSection]['owners'][ownerNumber].firstName + ' ' + state[stateSection]['owners'][ownerNumber].lastName;
-            $('#' + ownerNumber + '-name-holder').text(fullName);
+            $('#' + ownerNumber + '-name-holder').text(fullName.toUpperCase());
         }
     }
 
@@ -19,7 +19,7 @@
             state[stateSection]['owners'][ownerNumber].lastName = lastName;
 
             var fullName = state[stateSection]['owners'][ownerNumber].firstName + ' ' + state[stateSection]['owners'][ownerNumber].lastName;
-            $('#' + ownerNumber + '-name-holder').text(fullName);
+            $('#' + ownerNumber + '-name-holder').text(fullName.toUpperCase());
         }
     }
 
