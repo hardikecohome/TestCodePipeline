@@ -43,8 +43,7 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-5 col-sm-6">
-                                    @Html.LabelFor(m => m.Email)
-                                    <label for="send-resume-email">@Resources.EmailAddress</label>
+                                    @Html.LabelFor(m => m.Email, new { @class="mandatory-field" })
                                     <div class="control-group">
                                         @Html.TextBoxFor(m => m.Email, new { @class = "form-control dealnet-input", id = "send-resume-email" })
                                         @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
