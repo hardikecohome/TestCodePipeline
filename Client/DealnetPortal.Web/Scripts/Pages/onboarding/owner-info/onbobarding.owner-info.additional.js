@@ -18,26 +18,32 @@
 
         var result = template.split('Owners[0]')
             .join('Owners[' + nextOwnerIndex + ']')
-            .split('Owners_0').join('Owners_' + nextOwnerIndex );
+            .split('Owners_0').join('Owners_' + nextOwnerIndex);
 
         if (constants.maxAdditionalOwner === state['owner-info']['nextOwnerIndex']) {
             $('#add-additional').addClass('hidden');
         }
 
         var $result = $($.parseHTML(result));
+        $('#additional-owners').append($result);
+
+        debugger
         $result.find('input[id^="owner0"]').each(function () {
             var $this = $(this);
+            var rules = $('#' + this.id).rules();
             $this.attr('id', $this.attr('id').replace('owner0', 'owner' + nextOwnerIndex));
+            $this.rules('add', rules);
         });
 
         $result.find('select[id^="owner0"]').each(function () {
             var $this = $(this);
+            var rules = $('#' + this.id).rules();
             $this.attr('id', $this.attr('id').replace('owner0', 'owner' + nextOwnerIndex));
+            $this.rules('add', rules);
         });
-        
+
         $result.find('#owner-remove').attr('id', 'owner' + nextOwnerIndex + '-remove');
-        
-        $('#additional-owners').append($result);
+
         $('#owner-container').attr('id', 'owner' + nextOwnerIndex + '-container');
 
         $('#' + 'owner' + nextOwnerIndex + '-container')
@@ -55,8 +61,8 @@
         state['owner-info'].nextOwnerIndex--;
     }
 
-    var removeAll = function() {
-        
+    var removeAll = function () {
+
     }
 
     return {

@@ -118,7 +118,9 @@
         return function (e) {
             var percentage = e.target.value;
             state[stateSection]['owners'][ownerNumber].percentage = percentage;
-            state[stateSection].totalPercentage = Object.keys(state[stateSection]['owners']).reduce((s, v) => { return s + +state[stateSection]['owners'][v].percentage; }, 0);
+            state[stateSection].totalPercentage = Object.keys(state[stateSection]['owners']).reduce(function (s, v) {
+                return s + +state[stateSection]['owners'][v].percentage;
+            }, 0);
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _checkOwnershipPercentage();
@@ -128,7 +130,9 @@
     }
 
     var recalculateTotalPercentage = function () {
-        state[stateSection].totalPercentage = Object.keys(state[stateSection]['owners']).reduce((s, v) => { return s + +state[stateSection]['owners'][v].percentage; }, 0);
+        state[stateSection].totalPercentage = Object.keys(state[stateSection]['owners']).reduce(function (s, v) {
+            return s + +state[stateSection]['owners'][v].percentage;
+        }, 0);
         _checkOwnershipPercentage();
     }
 
@@ -146,8 +150,6 @@
 
             $('#owner-notify')
                 .removeClass('hidden');
-
-            $('div.action-link-holder').removeClass('hidden');
 
             if ($('#additional-owner-warning').is(':hidden')) {
                 $('#additional-owner-warning').removeClass('hidden');
