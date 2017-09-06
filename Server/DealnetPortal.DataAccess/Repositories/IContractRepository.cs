@@ -165,6 +165,19 @@ namespace DealnetPortal.DataAccess.Repositories
         /// <returns>Tax Rates for all provinces</returns>
         IList<ProvinceTaxRate> GetAllProvinceTaxRates();
 
+        /// <summary>
+        /// Get VerificationId
+        /// </summary>
+        /// <param name="VerificationId">Province abbreviation</param>
+        /// <returns>VerificationId for particular id</returns>
+        VerifiactionId GetVerficationId(int id);
+
+        /// <summary>
+        /// Get All Verification Ids
+        /// </summary>
+        /// <returns>All VerificationIds</returns>
+        IList<VerifiactionId> GetAllVerificationIds();
+
         AspireStatus GetAspireStatus(string status);
 
         //TODO: add db table field?

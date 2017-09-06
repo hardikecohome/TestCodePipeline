@@ -47,6 +47,7 @@ namespace DealnetPortal.DataAccess
             SetTestProvinceTaxRates(context);
             SetDocumentTypes(context);
             SetDocuSignTemplates(context);
+            SetTestVerficationIds(context);
         }
 
         private Application[] SetApplications(ApplicationDbContext context)
@@ -390,7 +391,25 @@ namespace DealnetPortal.DataAccess
             };
             context.ProvinceTaxRates.AddRange(taxRates);
         }
-
+        private void SetTestVerficationIds(ApplicationDbContext context)
+        {
+            //Obtained from http://www.retailcouncil.org/quickfacts/taxrates
+            var VerificationIds = new[]
+            {
+                new VerifiactionId {VerificationIdName = "Driver’s license"},
+                new VerifiactionId {VerificationIdName = "BYID card"},
+                new VerifiactionId {VerificationIdName = "Canadian or foreign passport"},
+                new VerifiactionId {VerificationIdName = "Canadian citizenship card"},
+                new VerifiactionId {VerificationIdName = "Possession and Acquisition License (PAL card)"},
+                new VerifiactionId {VerificationIdName = "Permanent Residency Card"},
+                new VerifiactionId {VerificationIdName = "Certificate of Indian Status"},
+                new VerifiactionId {VerificationIdName = "Canadian National Institute for the Blind identification card"},
+                new VerifiactionId {VerificationIdName = "Canadian Military Employment Card "},
+                new VerifiactionId {VerificationIdName = "Canadian Military Family Identification Card"}
+                
+            };
+            context.VerificationIds.AddRange(VerificationIds);
+        }
         private void SetDocumentTypes(ApplicationDbContext context)
         {
             var documentTypes = new[]

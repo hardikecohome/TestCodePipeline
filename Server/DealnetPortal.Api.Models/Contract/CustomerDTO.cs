@@ -36,5 +36,9 @@ namespace DealnetPortal.Api.Models.Contract
         public List<EmailDTO> Emails { get; set; }
 
         public string AccountId { get; set; }
+
+        public string VerificationIdName { get; set; }
+
+        public string DealerInitial { get; set; }
     }
 }

@@ -193,6 +193,67 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("{id}/VerificationId")]
+        [HttpGet]
+        public IHttpActionResult GetVerificationId(int id)
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var verificationId = ContractRepository.GetVerficationId(id);
+                var verificationIdsDto = Mapper.Map<VarificationIdsDTO>(verificationId);
+                if (verificationId == null)
+                {
+                    var errorMsg = "Cannot retrieve Province Tax Rate";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.ProvinceTaxRateRetrievalFailed,
+                        Message = errorMsg
+                    });
+                    LoggingService.LogError(errorMsg);
+                }
+                var result = new Tuple<VarificationIdsDTO, IList<Alert>>(verificationIdsDto, alerts);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError("Failed to retrieve Verification Id", ex);
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("AllVerificationIds")]
+        [HttpGet]
+        public IHttpActionResult GetAllVerificationIds()
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var verificationIds = ContractRepository.GetAllVerificationIds();
+                var verificationIdsDtos = Mapper.Map<IList<VarificationIdsDTO>>(verificationIds);
+                if (verificationIds == null)
+                {
+                    var errorMsg = "Cannot retrieve all Verification Ids";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.ProvinceTaxRateRetrievalFailed,
+                        Message = errorMsg
+                    });
+                    LoggingService.LogError(errorMsg);
+                }
+                var result = new Tuple<IList<VarificationIdsDTO>, IList<Alert>>(verificationIdsDtos, alerts);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError("Failed to retrieve all Province Tax Rates", ex);
+                return InternalServerError(ex);
+            }
+        }
+
+
         [Authorize]
         [Route("GetDealerInfo")]
         [HttpGet]

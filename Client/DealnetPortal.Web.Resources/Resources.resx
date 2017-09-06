@@ -511,7 +511,7 @@
     <value>Admin Fee is in incorrect format</value>
   </data>
   <data name="AdminFee" xml:space="preserve">
-    <value>Admin Fee</value>
+    <value>Customer Fee</value>
   </data>
   <data name="DownPaymentIncorrectFormat" xml:space="preserve">
     <value>Down Payment is in incorrect format</value>
@@ -1180,7 +1180,7 @@
     <value>Additional Applicant Previous Address Information</value>
   </data>
   <data name="LivedAtCurrentLessThan" xml:space="preserve">
-    <value>Lived at current address less than 6 month</value>
+    <value>Lived at current address less than 2 years</value>
   </data>
   <data name="YouCantEditBecauseSubmittedYouCanAddAdditional" xml:space="preserve">
     <value>You can't edit information about borrower and additional applicant(s) because this deal was already submitted. You can add additional applicant(s)</value>
@@ -1310,7 +1310,7 @@
     <value>Mailing address of borrower is not the same as Installation Address</value>
   </data>
   <data name="LivedAtInstallationAddressLessThan" xml:space="preserve">
-    <value>Lived at Installation address less than 6 month</value>
+    <value>Lived at Installation address less than 2 years</value>
   </data>
   <data name="ApplicationSubmittedBy" xml:space="preserve">
     <value>Application Submitted By</value>
@@ -1515,7 +1515,7 @@
     <value>Are you sure?</value>
   </data>
   <data name="ClientLivedCurrentAddressLessThenSixMonth" xml:space="preserve">
-    <value>Client has lived at current address for less than 6 months</value>
+    <value>Client has lived at current address for less than 2 years</value>
   </data>
   <data name="ClientProvidesExpressConsentToCreditCheck" xml:space="preserve">
     <value>Client provides express consent for a credit check</value>
@@ -1657,5 +1657,20 @@
   </data>
   <data name="RequestedTermMustBe3Max" xml:space="preserve">
     <value>Requested Term must be maximum 3 digits long</value>
+  </data>
+  <data name="CostWithTaxes" xml:space="preserve">
+    <value>Cost (including all taxes)</value>
+  </data>
+  <data name="DescriptionWithMakeModel" xml:space="preserve">
+    <value>Description (including make and model)</value>
+  </data>
+  <data name="DealerInvoiceAmount" xml:space="preserve">
+    <value>Dealer Invoice Amount</value>
+  </data>
+  <data name="DealerInitial" xml:space="preserve">
+    <value>Dealer's Initial</value>
+  </data>
+  <data name="VerificationId" xml:space="preserve">
+    <value>Customer's Verfication Id</value>
   </data>
 </root>

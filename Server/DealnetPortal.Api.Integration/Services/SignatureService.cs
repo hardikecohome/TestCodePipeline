@@ -720,6 +720,37 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = PdfFormFields.DateOfBirth,
                     Value = contract.PrimaryCustomer.DateOfBirth.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
                 });
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = "ID1",
+                    Value = contract.PrimaryCustomer.DealerInitial
+                });
+
+                if (contract.PrimaryCustomer.VerificationIdName == "Driver’s license")
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.CheckBox,
+                        Name = "Tiv1",
+                        Value = "true"
+                    });                    
+                }
+                else if (contract.PrimaryCustomer.VerificationIdName != null)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.CheckBox,
+                        Name = "Tiv1Other",
+                        Value = "true"
+                    });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = "OtherID",
+                        Value = contract.PrimaryCustomer.VerificationIdName
+                    });
+                }
                 if (contract.PrimaryCustomer.Locations?.Any() ?? false)
                 {
                     var mainAddress =
@@ -775,6 +806,25 @@ namespace DealnetPortal.Api.Integration.Services
                             Name = PdfFormFields.MailingAddress,
                             Value =
                                 $"{mailAddress.Street}, {mailAddress.City}, {mailAddress.State}, {mailAddress.PostalCode}"
+                        });
+                    }
+                    var previousAddress =
+                        contract.PrimaryCustomer?.Locations?.FirstOrDefault(
+                            l => l.AddressType == AddressType.PreviousAddress);
+                    if (previousAddress != null)
+                    {
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.CheckBox,
+                            Name = "IsPreviousAddress",
+                            Value = "true"
+                        });
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = "PreviousAddress",
+                            Value =
+                                $"{previousAddress.Street}, {previousAddress.City}, {previousAddress.State}, {previousAddress.PostalCode}"
                         });
                     }
                     if (contract.HomeOwners?.Any(ho => ho.Id == contract.PrimaryCustomer.Id) ?? false)
@@ -914,6 +964,38 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = PdfFormFields.DateOfBirth2,
                     Value = addApplicant.DateOfBirth.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
                 });
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = "ID2",
+                    Value = addApplicant.DealerInitial
+                });
+
+                if (addApplicant.VerificationIdName == "Driver’s license")
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.CheckBox,
+                        Name = "Tiv2",
+                        Value = "true"
+                    });
+                }
+                else if (addApplicant.VerificationIdName != null)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.CheckBox,
+                        Name = "Tiv2Other",
+                        Value = "true"
+                    });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = "OtherID_2",
+                        Value = addApplicant.VerificationIdName
+                    });
+                }
+
 
                 formFields.Add(new FormField()
                 {
@@ -1233,8 +1315,24 @@ namespace DealnetPortal.Api.Integration.Services
                         });
                     }
                 }
-                // support old contracts with EstimatedInstallationDate in Equipment
-                if (contract.Equipment.EstimatedInstallationDate.HasValue ||
+                for (int i = 0; i < newEquipments.Count; i++)
+                {
+                
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = $"{PdfFormFields.EquipmentQuantity}_{i}",
+                        Value = "1"
+                    });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = $"{PdfFormFields.EquipmentDescription}_{i}",
+                        Value = $"{newEquipments.ElementAt(i).Description}"
+                    });
+                }
+                    // support old contracts with EstimatedInstallationDate in Equipment
+                    if (contract.Equipment.EstimatedInstallationDate.HasValue ||
                     ((contract.Equipment.NewEquipment?.First()?.EstimatedInstallationDate.HasValue) ?? false))
                 {
                     formFields.Add(new FormField()
