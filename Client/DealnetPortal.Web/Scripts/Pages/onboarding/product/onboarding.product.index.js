@@ -62,11 +62,24 @@
     }
 
     function hideFormGroup (selector) {
-        $(selector).removeClass('hidden').find('input').prop('disabled', false);
+        $(selector)
+            .removeClass('hidden')
+            .find('input')
+            .prop('disabled', false)
+            .rules('add', {
+                required: true,
+                messages: {
+                    required: translations.ThisFieldIsRequired
+                }
+            });
     }
 
     function showFormGroup (selector) {
-        $(selector).addClass('hidden').find('input').prop('disabled', true);
+        $(selector)
+            .addClass('hidden')
+            .find('input')
+            .prop('disabled', true)
+            .rules('remove', 'required');
     }
 
     function _setLoadedData (product) {
