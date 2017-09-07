@@ -19,7 +19,7 @@
         $('#' + ownerNumber + '-postalcode').on('change', setters.setPostalCode(ownerNumber));
         $('#' + ownerNumber + '-province').on('change', setters.setProvince(ownerNumber));
         $('#' + ownerNumber + '-percentage').on('change', setters.setOwnershipPercentege(ownerNumber));
-        $('#' + ownerNumber + '-agreement').on('click', aknwoledgmentSetters.setAgreement(ownerNumber));
+        $('#' + ownerNumber + '-agreement').on('change', aknwoledgmentSetters.setAgreement(ownerNumber));
 
         if (google && google.maps)
             initGoogleServices(ownerNumber + '-street',
