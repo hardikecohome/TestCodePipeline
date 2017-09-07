@@ -1081,7 +1081,14 @@ namespace DealnetPortal.Api.Integration.Services
         {            
             var accounts = new List<Account>();
             accounts.Add(GetCompanyAccount(dealerInfo));
-            //accounts.AddRange(GetCompanyOwnersAccounts(dealerInfo));            
+            if (dealerInfo.Owners?.Any() == true)
+            {
+                var companyOwners = GetCompanyOwnersAccounts(dealerInfo);
+                if (companyOwners.Any())
+                {
+                    accounts.Add(companyOwners.First());
+                }
+            }
             return accounts;
         }
 
