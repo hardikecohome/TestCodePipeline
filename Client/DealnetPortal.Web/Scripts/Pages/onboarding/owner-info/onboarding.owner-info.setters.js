@@ -137,20 +137,8 @@
     }
 
     function _checkOwnershipPercentage () {
-        if (state[stateSection].totalPercentage >= 50) {
-
-            $('#owner-notify')
-                .addClass('hidden');
-
-            $('#add-additional').removeClass('mandatory-field');
-            $('#add-additional-div').addClass('hidden');
-            $('#additional-owner-warning').addClass('hidden');
-
-            _moveTonextSection();
-        } else {
-
-            $('#owner-notify')
-                .removeClass('hidden');
+        if (state[stateSection].totalPercentage < 50) {
+            $('#owner-notify').removeClass('hidden');
 
             if ($('#additional-owner-warning').is(':hidden')) {
                 $('#additional-owner-warning').removeClass('hidden');
@@ -163,6 +151,36 @@
                 $('#add-additional-div').removeClass('hidden');
             }
 
+            if ($('#owner-info-section .over-100:not(.hidden').length > 0) {
+                $('#owner-info-section .over-100:not(.hidden)').removeClass('hidden');
+            }
+
+            return;
+        }
+
+        if (state[stateSection].totalPercentage > 100) {
+            $('#owner-notify').addClass('hidden');
+
+            $('#add-additional-div').addClass('hidden');
+            $('#additional-owner-warning').addClass('hidden');
+
+            $('#owner-info-section .over-100:last').removeClass('hidden');
+            return;
+        }
+
+        if (state[stateSection].totalPercentage >= 50) {
+            $('#owner-notify').addClass('hidden');
+
+            $('#add-additional').removeClass('mandatory-field');
+            $('#add-additional-div').addClass('hidden');
+            $('#additional-owner-warning').addClass('hidden');
+
+            if ($('#owner-info-section .over-100:not(.hidden').length > 0) {
+                $('#owner-info-section .over-100:not(.hidden)').removeClass('hidden');
+            }
+
+            _moveTonextSection();
+            return;
         }
     }
 

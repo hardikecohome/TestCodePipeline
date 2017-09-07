@@ -1,6 +1,4 @@
-﻿@using DealnetPortal.Api.Models.Contract
-@using DealnetPortal.Web.Infrastructure.Extensions
-@model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
+﻿@model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
 
 <div class="panel customer-loan-form-panel panel-collapsed" id="owner-info-section">
     <div class="panel-heading">
@@ -167,6 +165,19 @@
                                 <div class="info-text-success flex-centered-text">
                                     <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
                                     <span class="notification-text">@Resources.OwnershipPercentage</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8 hidden over-100" >
+                        <div class="form-group">
+                            <div class="dealnet-label hidden-xs">&nbsp;</div>
+                            <div class="control-group owner-notify">
+                                <div class="well danger-well">
+                                    <svg aria-hidden="true" class="icon icon-error">
+                                        <use  xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
+                                    </svg>
+                                    <span>@Resources.TotalOwnershipNotExceed100</span>
                                 </div>
                             </div>
                         </div>

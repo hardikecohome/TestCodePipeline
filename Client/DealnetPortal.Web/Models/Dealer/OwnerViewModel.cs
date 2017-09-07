@@ -45,6 +45,7 @@ namespace DealnetPortal.Web.Models.Dealer
 
         [Range(1,100, ErrorMessageResourceType =typeof(Resources.Resources), ErrorMessageResourceName = "PercentOwnershipRange")]
         [Display(ResourceType =typeof(Resources.Resources), Name = "PercentOwnership")]
+        [RegularExpression(@"^[1-9](\d{0,2}?)([.,][0-9]{1,2})?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "PercentOwnershipIncorrectFormat")]
         public double? PercentOwnership { get; set; }
     }
 }

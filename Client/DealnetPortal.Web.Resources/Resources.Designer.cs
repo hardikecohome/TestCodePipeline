@@ -3715,6 +3715,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to % Month Deferred is in incorrect format.
+        /// </summary>
+        public static string PercentMonthDeferredIncorrectFormat {
+            get {
+                return ResourceManager.GetString("PercentMonthDeferredIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Monthly deals to be deferred.
         /// </summary>
         public static string PercentMonthlyDealsDeferred {
@@ -3729,6 +3738,15 @@ namespace DealnetPortal.Web.Resources {
         public static string PercentOwnership {
             get {
                 return ResourceManager.GetString("PercentOwnership", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to % Ownership is in incorrect format.
+        /// </summary>
+        public static string PercentOwnershipIncorrectFormat {
+            get {
+                return ResourceManager.GetString("PercentOwnershipIncorrectFormat", resourceCulture);
             }
         }
         
@@ -5115,6 +5133,15 @@ namespace DealnetPortal.Web.Resources {
         public static string TotalObligation {
             get {
                 return ResourceManager.GetString("TotalObligation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Percentage of Ownership should not exceed 100, please check fields..
+        /// </summary>
+        public static string TotalOwnershipNotExceed100 {
+            get {
+                return ResourceManager.GetString("TotalOwnershipNotExceed100", resourceCulture);
             }
         }
         

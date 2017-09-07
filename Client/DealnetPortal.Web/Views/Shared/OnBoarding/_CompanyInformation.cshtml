@@ -53,7 +53,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.Website)
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.Website, new { @class = "form-control dealnet-input", placeholder = "www.websitename.com", id = "company-website" })
+                        @Html.TextBoxFor(m => m.CompanyInfo.Website, new { @class = "form-control dealnet-input", placeholder = "www.websitename.com", id = "company-website", data_rule_validurl="true" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.Website, "", new { @class = "text-danger" })
                     </div>
                 </div>

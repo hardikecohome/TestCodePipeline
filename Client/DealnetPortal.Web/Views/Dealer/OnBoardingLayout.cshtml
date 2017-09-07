@@ -200,6 +200,11 @@
                 setEqualHeightRows($(".equal-height-section-1"));
             });
             clearAddress();
+
+            $.validator.addMethod('validurl', function (value, element) {
+                debugger
+                return $.validator.methods.url.call(this, value, element) ||  $.validator.methods.url.call(this, 'http://' + value, element);
+            }, translations.SiteInvalidFormat);
         });
 
         function clearAddress() {
@@ -224,4 +229,5 @@
     translations['SelectOneProvince']= '@Resources.SelectOneProvince';
     translations['TheFieldMustBeMinimumAndMaximum'] = '@Resources.TheFieldMustBeMinimumAndMaximum';
     translations['SecondaryBrandIncorrectFormat'] = '@Resources.SecondaryBrandIncorrectFormat';
+    translations['SiteInvalidFormat']='@Resources.SiteInvalidFormat';
 }

@@ -15,12 +15,12 @@ namespace DealnetPortal.Web.Models.Dealer
 
         [CustomRequired]
         [Display(ResourceType =typeof(Resources.Resources),Name ="FullLegalName")]
-        [StringLength(20, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
+        [StringLength(50, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
         public string FullLegalName { get; set; }
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "OperatingName")]
-        [StringLength(20, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
+        [StringLength(50, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
         public string OperatingName { get; set; }
 
         [CustomRequired]
@@ -37,7 +37,7 @@ namespace DealnetPortal.Web.Models.Dealer
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "Website")]
         [StringLength(50, MinimumLength = 3, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "WebsiteMustBeLong")]
-        [Url(ErrorMessageResourceType =typeof(Resources.Resources),ErrorMessageResourceName = "SiteInvalidFormat")]
+        //[Url(ErrorMessageResourceType =typeof(Resources.Resources),ErrorMessageResourceName = "SiteInvalidFormat")]
         public string Website { get; set; }
 
         public AddressInformation CompanyAddress { get; set; }
