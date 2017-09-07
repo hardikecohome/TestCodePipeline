@@ -43,6 +43,11 @@
 
         $result.find('#owner-remove').attr('id', 'owner' + nextOwnerIndex + '-remove');
 
+        $result.find('svg').each(function (index, node) {
+            var clone = node.cloneNode(true);
+            node.parentNode.replaceChild(clone, node);
+        });
+
         $('#owner-container').attr('id', 'owner' + nextOwnerIndex + '-container');
 
         $('#' + 'owner' + nextOwnerIndex + '-container')
