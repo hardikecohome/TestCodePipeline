@@ -42,6 +42,7 @@
                     input.prop('disabled', false);
                 }
             }
+            _moveTonextSection();
             enableSubmit();
         }
     }
@@ -54,6 +55,7 @@
             })[0];
 
             filtred.number = value;
+            _moveTonextSection();
             enableSubmit();
         }
     }
@@ -64,6 +66,7 @@
         })[0];
 
         filtred.date = date;
+        _moveTonextSection();
         enableSubmit();
     }
 
@@ -189,6 +192,8 @@
                     }
 
                     _addFile(checkSelector, buttonSelector, fileContainerSelector, stateFileSection, file);
+                    _moveTonextSection();
+                    enableSubmit();
                 } else {
                     alert(json.AggregatedError);
                 }
@@ -197,7 +202,6 @@
                 console.log('error');
             }
         });
-        enableSubmit();
     }
 
     function _removeFile(checkSelector, buttonSelector, fileContainerSelector, stateFileSection, file) {
@@ -288,7 +292,21 @@
 
     }
     function _moveTonextSection () {
-
+        if (state[stateSection]['void-cheque-files'].length === 0)
+            return;
+        if (state[stateSection]['insurence-files'].length === 0)
+            return
+        var valid = state[stateSection].addedLicense.reduce(function (acc, item) {
+            return acc && item.number.length > 0 && (item.noExpiry || item.date.length > 0);
+        }, true);
+        if (valid) {
+            $('#' + stateSection + '-panel')
+                .addClass('step-passed')
+                .removeClass('active-panel')
+                .next()
+                .removeClass('panel-collapsed')
+                .addClass('active-panel');
+        }
     }
 
     return {

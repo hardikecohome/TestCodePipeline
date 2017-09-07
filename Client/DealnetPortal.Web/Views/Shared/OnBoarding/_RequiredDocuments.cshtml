@@ -2,7 +2,7 @@
 @using DealnetPortal.Web.Models.Dealer
 @model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
 
-<div class="panel customer-loan-form-panel panel-collapsed">
+<div class="panel customer-loan-form-panel panel-collapsed" id="documents-panel">
     <div class="panel-heading">
         <span class="panel-step">4</span>
         <h3 class="panel-title dealnet-middle-header">Required documents</h3>
@@ -127,63 +127,3 @@
         </div>
     </div>
 </div>
-
-<script id="fileUploadedTemplate" type="text/x-jquery-tmpl">
-    <li>
-        <span class="uploaded-docs-title">
-            ${filename}
-            <a href="" class="remove-link remove-docs">
-                <svg aria-hidden="true" class="icon icon-remove-cross">
-                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
-                </svg>
-            </a>
-        </span>
-    </li>
-</script>
-
-<script id="licenseDocumentTemplate" type="text/x-jquery-tmpl">
-    <div class="onboard-standart-doc-item" id="${id}-license-holder">
-        <input data-val="true" data-val-number="The field LicenseTypeId must be a number." id="${id}-license-id" name="AdditionalDocuments[0].LicenseTypeId" type="hidden" value="${id}">
-        <div class="row">
-            <div class="col-xs-12 col-md-4">
-                <div class="form-group">
-                    <div class="dealnet-label hidden-sm hidden-xs">&nbsp;</div>
-                    <div class="onboard-standart-license-title">${name}</div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4">
-                <div class="form-group">
-                    <label for="" class="mandatory-field">Registration Number</label>
-                    <div class="control-group">
-                        <input type="text" value="" id="${id}-license-number" name="AdditionalDocuments[0].Number" class="form-control">
-                        <span class="field-validation-valid text-danger" data-valmsg-for="AdditionalDocuments[0].Number" data-valmsg-replace="true"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-3 col-md-2">
-                <div class="form-group">
-                    <label for="" class="mandatory-field">Expiry Date</label>
-                    <div class="control-group date-group">
-                        <input type="text" class="form-control dealnet-input" data-val-date name="AdditionalDocuments[0].ExpiredDate" placeholder="mm/dd/yyyy" id="${id}-license-date">
-                        <span class="field-validation-valid text-danger" data-valmsg-for="AdditionalDocuments[0].ExpiredDate" data-valmsg-replace="true"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-3 col-md-2">
-                <div class="form-group">
-                    <div class="dealnet-label hidden-xs">&nbsp;</div>
-                    <div class="control-group flex-centered-text">
-                        <label class="align-middle custom-checkbox">
-                            <input type="checkbox" class="dealnet-checkbox" id="${id}-license-checkbox" name="AdditionalDocuments[0].NotExpired" />
-                            <span class="checkbox-icon">
-                                <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
-                            </span>
-                            <span>No expiry</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <hr>
-</script>

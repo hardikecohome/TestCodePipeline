@@ -190,15 +190,18 @@
             return state[stateSection]['owners'][owner].requiredFields.length === 0;
         });
 
-        if (isValidSection && state[stateSection].totalPercentage >= 50) {
+        if (isValidSection && state[stateSection].totalPercentage >= 50 && state[stateSection].totalPercentage < 101) {
             $('#owner-info-section')
                 .removeClass('active-panel')
-                .addClass('panel-collapsed')
                 .addClass('step-passed');
 
             $('#product-panel')
                 .removeClass('panel-collapsed')
                 .addClass('active-panel');
+        } else {
+            if ($('#owner-info-section').is('.step-passed'))
+                $('#owner-info-section')
+                    .removeClass('step-passed');
         }
     }
 
