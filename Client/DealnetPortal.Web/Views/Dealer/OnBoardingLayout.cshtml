@@ -107,7 +107,7 @@
 </script>
 
 <script id="aknowledgmentTemplate" type="text/x-jquery-tmpl">
-    <div class="onboard-owners-row">
+    <div class="onboard-owners-row" id ="${owner}-aknowledgment-holder">
         <div class="onboard-owners-col name-col">
             <span class="onboard-owners-label">
                 @Resources.Owner:&nbsp;
@@ -125,7 +125,7 @@
         </div>
         <div class="onboard-owners-col agree-col">
             <label class="align-middle custom-checkbox">
-                <input type="checkbox" class="dealnet-checkbox" id="${owner}-agreement" />
+                <input type="checkbox" class="dealnet-checkbox" id="${owner}-agreement" name="Owners[${index}].Acknowledge" />
                 <span class="checkbox-icon">
                     <svg aria-hidden="true" class="icon icon-checked">
                         <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
