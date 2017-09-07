@@ -17,6 +17,7 @@ namespace DealnetPortal.DataAccess.Repositories
         bool DeleteDealerInfo(string accessCode);
 
         RequiredDocument AddDocumentToDealer(int dealerInfoId, RequiredDocument document);
+        bool DeleteDocumentFromDealer(int documentId);
         RequiredDocument AddDocumentToDealer(string accessCode, RequiredDocument document);
     }
 }

@@ -192,6 +192,47 @@
         enableSubmit();
     }
 
+    function _removeFile(checkSelector, buttonSelector, fileContainerSelector, stateFileSection, file) {
+        var data = new FormData();
+
+        var type = checkSelector === 'insurenceUploaded' ? 8 : 4;
+        var formId = $('#Id').val();
+
+        if (formId !== 0) {
+            data.append('DealerInfoId', formId);
+        }
+
+        data.append('DocumentTypeId', type);
+        data.append('DocumentName', file.name);
+
+        $.get({
+            type: "POST",
+            url: removeDocumentUrl,
+            contentType: false,
+            processData: false,
+            data: data,
+            success: function (json) {
+                if (json.IsSuccess) {
+                    if ($('#Id').val() === 0) {
+                        $('#Id').val(json.DealerInfoId);
+                    }
+
+                    if ($('#AccessKey').val() === '') {
+                        $('#AccessKey').val(json.AccessKey);
+                    }
+
+                    _addFile(checkSelector, buttonSelector, fileContainerSelector, stateFileSection, file);
+                } else {
+                    alert(json.AggregatedError);
+                }
+            },
+            error: function (xhr, status, p3) {
+                console.log('error');
+            }
+        });
+        enableSubmit();
+    }
+
     function _addFile (checkSelector, buttonSelector, fileContainerSelector, stateFileSection, file) {
 
         state[stateSection][stateFileSection].push(file.name);

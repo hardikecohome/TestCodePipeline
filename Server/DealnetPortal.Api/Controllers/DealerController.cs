@@ -149,6 +149,22 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("DeleteDocumentFromOnboardingForm")]
+        [HttpPut]
+        [AllowAnonymous]
+        public IHttpActionResult DeleteDocumentFromOnboardingForm(RequiredDocumentDTO document)
+        {
+            try
+            {
+                var result = _dealerService.DeleteDocumentFromOnboardingForm(document);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("GetDealerOnboardingInfo")]
         [HttpGet]
         [AllowAnonymous]

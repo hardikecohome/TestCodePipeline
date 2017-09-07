@@ -128,6 +128,22 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
+        public async Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> DeleteDocumentFromOnboardingForm(RequiredDocumentDTO document)
+        {
+            try
+            {
+                return
+                    await
+                        Client.PutAsyncEx<RequiredDocumentDTO, Tuple<DealerInfoKeyDTO, IList<Alert>>>(
+                            $"{_fullUri}/DeleteDocumentFromOnboardingForm", document, null, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't add document to dealer onboarding", ex);
+                throw;
+            }
+        }
+
         public async Task<IList<Alert>> SendDealerOnboardingDraftLink(string accessKey)
         {
             try

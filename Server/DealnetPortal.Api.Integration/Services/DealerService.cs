@@ -243,6 +243,58 @@ namespace DealnetPortal.Api.Integration.Services
             return new Tuple<DealerInfoKeyDTO, IList<Alert>>(resultKey, alerts);
         }
 
+        public Tuple<DealerInfoKeyDTO, IList<Alert>> DeleteDocumentFromOnboardingForm(RequiredDocumentDTO document)
+        {
+            var alerts = new List<Alert>();
+            DealerInfoKeyDTO resultKey = null;
+            try
+            {
+                if (document.DealerInfoId.HasValue)
+                {
+                    var dealerInfo = _dealerOnboardingRepository.GetDealerInfoById(document.DealerInfoId.Value);
+                    if (dealerInfo != null)
+                    {
+                        _dealerOnboardingRepository.DeleteDocumentFromDealer(document.Id);
+
+                        _unitOfWork.Save();
+                        resultKey = new DealerInfoKeyDTO()
+                        {
+                            DealerInfoId = document.DealerInfoId.Value,
+                            ItemId = 0
+                        };
+                    }
+                    else
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Header = "Cannot delete document from a dealer onboarding info",
+                            Type = AlertType.Error,
+                            Message = "Info of this dealer not exists."
+                        });
+                    }
+                }
+                else
+                {
+                    alerts.Add(new Alert()
+                    {
+                        Header = "Cannot delete document from a dealer onboarding info",
+                        Type = AlertType.Error,
+                        Message = "No dealer info id."
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                alerts.Add(new Alert()
+                {
+                    Header = "Cannot delete document from a dealer onboarding info",
+                    Type = AlertType.Error,
+                    Message = ex.ToString()
+                });
+            }
+            return new Tuple<DealerInfoKeyDTO, IList<Alert>>(resultKey, alerts);
+        }
+
         private void UploadOnboardingDocuments(int dealerInfoId)
         {
             var dealerInfo = _dealerOnboardingRepository.GetDealerInfoById(dealerInfoId);

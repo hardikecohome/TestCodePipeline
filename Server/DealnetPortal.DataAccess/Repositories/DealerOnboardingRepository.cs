@@ -75,6 +75,13 @@ namespace DealnetPortal.DataAccess.Repositories
             return AddRequiredDocument(dealerInfo, document);
         }
 
+        public bool DeleteDocumentFromDealer(int documentId)
+        {
+            var document = _dbContext.RequiredDocuments.SingleOrDefault(x => x.Id == documentId);
+            _dbContext.RequiredDocuments.Remove(document);
+            return true;
+        }
+
         public RequiredDocument AddDocumentToDealer(string accessCode, RequiredDocument document)
         {
             var dealerInfo = string.IsNullOrEmpty(accessCode) ? GetDealerInfoByAccessKey(accessCode) : CreateDealerInfo();
