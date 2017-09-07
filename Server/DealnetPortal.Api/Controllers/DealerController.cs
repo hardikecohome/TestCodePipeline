@@ -157,6 +157,7 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 var result = _dealerService.DeleteDocumentFromOnboardingForm(document);
+
                 return Ok(result);
             }
             catch (Exception ex)

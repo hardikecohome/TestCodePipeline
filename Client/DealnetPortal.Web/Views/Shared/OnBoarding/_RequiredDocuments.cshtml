@@ -129,10 +129,10 @@
 </div>
 
 <script id="fileUploadedTemplate" type="text/x-jquery-tmpl">
-    <li>
+    <li id="${id}-file-container">
         <span class="uploaded-docs-title">
             ${filename}
-            <a href="" class="remove-link remove-docs">
+            <a href="" class="remove-link remove-docs" id="${id}-file-remove" hiddenId="${id}">
                 <svg aria-hidden="true" class="icon icon-remove-cross">
                     <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
                 </svg>

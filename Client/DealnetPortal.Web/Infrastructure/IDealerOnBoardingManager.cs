@@ -20,6 +20,6 @@ namespace DealnetPortal.Web.Infrastructure
         Task<IList<Alert>> SendDealerOnboardingDraftLink(SaveAndResumeViewModel model);
         Task<IList<Alert>> SubmitOnBoarding(DealerOnboardingViewModel model);
         Task<DocumentResponseViewModel> UploadOnboardingDocument(OnboardingDocumentForUpload fileModel);
-        Task<DocumentResponseViewModel> DeleteOnboardingDocument(OnboardingDocumentForUpload fileModel);
+        Task<DocumentResponseViewModel> DeleteOnboardingDocument(OnboardingDocumentForDelete fileModel);
     }
 }

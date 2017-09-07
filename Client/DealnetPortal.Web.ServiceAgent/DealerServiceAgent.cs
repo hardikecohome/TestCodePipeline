@@ -128,13 +128,13 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> DeleteDocumentFromOnboardingForm(RequiredDocumentDTO document)
+        public async Task<IList<Alert>> DeleteDocumentFromOnboardingForm(RequiredDocumentDTO document)
         {
             try
             {
                 return
                     await
-                        Client.PutAsyncEx<RequiredDocumentDTO, Tuple<DealerInfoKeyDTO, IList<Alert>>>(
+                        Client.PutAsyncEx<RequiredDocumentDTO, IList<Alert>>(
                             $"{_fullUri}/DeleteDocumentFromOnboardingForm", document, null, CurrentCulture);
             }
             catch (Exception ex)

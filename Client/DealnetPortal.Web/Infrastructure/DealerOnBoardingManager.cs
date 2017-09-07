@@ -121,42 +121,28 @@ namespace DealnetPortal.Web.Infrastructure
             {
                 response.DealerInfoId = result.Item1.DealerInfoId;
                 response.AccessKey = result.Item1.AccessKey;
+                response.ItemId = result.Item1.ItemId;
             }
             
             return response;
         }
 
-        public async Task<DocumentResponseViewModel> DeleteOnboardingDocument(OnboardingDocumentForUpload fileModel)
+        public async Task<DocumentResponseViewModel> DeleteOnboardingDocument(OnboardingDocumentForDelete documentForDelete)
         {
-            byte[] documentBytes;
-            using (var reader = new BinaryReader(fileModel.File.InputStream))
-            {
-                documentBytes = reader.ReadBytes(fileModel.File.ContentLength);
-            }
-
             var model = new RequiredDocumentDTO
             {
-                Id = 0,
-                DocumentName = fileModel.DocumentName,
-                DocumentBytes = documentBytes,
-                CreationDate = DateTime.UtcNow,
-                DocumentTypeId = fileModel.DocumentTypeId,
-                DealerInfoId = fileModel.DealerInfoId
+                Id = documentForDelete.DocumentId,
+                DealerInfoId = documentForDelete.DealerInfoId
             };
 
             var result = await _dealerServiceAgent.DeleteDocumentFromOnboardingForm(model);
+
             var response = new DocumentResponseViewModel();
 
-            if (result.Item2 != null && result.Item2.Any(r => r.Type == AlertType.Error))
+            if (result != null && result.Any(r => r.Type == AlertType.Error))
             {
                 response.IsSuccess = false;
-                response.AggregatedError = result.Item2.Select(x => x.Message).Aggregate((x, y) => x + " " + y);
-            }
-
-            if (result.Item1 != null)
-            {
-                response.DealerInfoId = result.Item1.DealerInfoId;
-                response.AccessKey = result.Item1.AccessKey;
+                response.AggregatedError = result.Select(x => x.Message).Aggregate((x, y) => x + " " + y);
             }
 
             return response;

@@ -34,6 +34,13 @@ namespace DealnetPortal.Web.Models
 
     }
 
+    public class OnboardingDocumentForDelete
+    {
+        public int DocumentId { get; set; }
+
+        public int? DealerInfoId { get; set; }
+    }
+
     public class DocumentForUpload
     {
         public int? Id { get; set; }

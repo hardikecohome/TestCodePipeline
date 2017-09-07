@@ -243,10 +243,9 @@ namespace DealnetPortal.Api.Integration.Services
             return new Tuple<DealerInfoKeyDTO, IList<Alert>>(resultKey, alerts);
         }
 
-        public Tuple<DealerInfoKeyDTO, IList<Alert>> DeleteDocumentFromOnboardingForm(RequiredDocumentDTO document)
+        public IList<Alert> DeleteDocumentFromOnboardingForm(RequiredDocumentDTO document)
         {
             var alerts = new List<Alert>();
-            DealerInfoKeyDTO resultKey = null;
             try
             {
                 if (document.DealerInfoId.HasValue)
@@ -257,11 +256,6 @@ namespace DealnetPortal.Api.Integration.Services
                         _dealerOnboardingRepository.DeleteDocumentFromDealer(document.Id);
 
                         _unitOfWork.Save();
-                        resultKey = new DealerInfoKeyDTO()
-                        {
-                            DealerInfoId = document.DealerInfoId.Value,
-                            ItemId = 0
-                        };
                     }
                     else
                     {
@@ -292,7 +286,8 @@ namespace DealnetPortal.Api.Integration.Services
                     Message = ex.ToString()
                 });
             }
-            return new Tuple<DealerInfoKeyDTO, IList<Alert>>(resultKey, alerts);
+
+            return alerts;
         }
 
         private void UploadOnboardingDocuments(int dealerInfoId)

@@ -180,7 +180,7 @@
             data: data,
             success: function (json) {
                 if (json.IsSuccess) {
-                    if ($('#Id').val() === 0) {
+                    if (+$('#Id').val() === 0) {
                         $('#Id').val(json.DealerInfoId);
                     }
 
@@ -188,7 +188,7 @@
                         $('#AccessKey').val(json.AccessKey);
                     }
 
-                    _addFile(checkSelector, buttonSelector, fileContainerSelector, stateFileSection, file);
+                    _addFile(checkSelector, buttonSelector, fileContainerSelector, stateFileSection, file, json.ItemId);
                 } else {
                     alert(json.AggregatedError);
                 }
@@ -200,52 +200,57 @@
         enableSubmit();
     }
 
-    function _removeFile(checkSelector, buttonSelector, fileContainerSelector, stateFileSection, file) {
-        var data = new FormData();
+    function _removeFile(checkSelector, buttonSelector, stateFileSection, filename) {
+        return function (e) {
+            e.preventDefault();
+            var data = new FormData();
 
-        var type = checkSelector === 'insurenceUploaded' ? 8 : 4;
-        var formId = $('#Id').val();
+            var formId = $('#Id').val();
+            var documentId = e.target.getAttribute('hiddenId');
 
-        if (formId !== 0) {
-            data.append('DealerInfoId', formId);
+            if (formId !== 0) {
+                data.append('DealerInfoId', formId);
+            }
+
+            data.append('DocumentId', documentId);
+
+            $.get({
+                type: "POST",
+                url: removeDocumentUrl,
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function (json) {
+                    if (json.IsSuccess) {
+                        $('#' + documentId + '-file-container').remove();
+                        state[stateSection][stateFileSection].splice(state[stateSection][stateFileSection].indexOf(filename), 1);
+                        if (!state[stateSection][stateFileSection].length) {
+                            if ($('#' + buttonSelector).text() === 'Upload another file') {
+                                $('#' + buttonSelector).text('Upload');
+                            }
+
+                            if ($('#' + checkSelector).is(':visible')) {
+                                $('#' + checkSelector).addClass('hidden');
+                            }
+                        }
+                    } else {
+                        alert(json.AggregatedError);
+                    }
+                },
+                error: function (xhr, status, p3) {
+                    console.log('error');
+                }
+            });
+            enableSubmit();
         }
-
-        data.append('DocumentTypeId', type);
-        data.append('DocumentName', file.name);
-
-        $.get({
-            type: "POST",
-            url: removeDocumentUrl,
-            contentType: false,
-            processData: false,
-            data: data,
-            success: function (json) {
-                if (json.IsSuccess) {
-                    if ($('#Id').val() === 0) {
-                        $('#Id').val(json.DealerInfoId);
-                    }
-
-                    if ($('#AccessKey').val() === '') {
-                        $('#AccessKey').val(json.AccessKey);
-                    }
-
-                    _addFile(checkSelector, buttonSelector, fileContainerSelector, stateFileSection, file);
-                } else {
-                    alert(json.AggregatedError);
-                }
-            },
-            error: function (xhr, status, p3) {
-                console.log('error');
-            }
-        });
-        enableSubmit();
     }
 
-    function _addFile (checkSelector, buttonSelector, fileContainerSelector, stateFileSection, file) {
+    function _addFile (checkSelector, buttonSelector, fileContainerSelector, stateFileSection, file, id) {
 
         state[stateSection][stateFileSection].push(file.name);
 
-        $('#fileUploadedTemplate').tmpl({ filename: file.name }).appendTo('#' + fileContainerSelector);
+        $('#fileUploadedTemplate').tmpl({ filename: file.name, id: id }).appendTo('#' + fileContainerSelector);
+        $('#' + id + '-file-remove').on('click', _removeFile(checkSelector, buttonSelector, stateFileSection, file.name));
 
         if ($('#' + checkSelector).is(':hidden')) {
             $('#' + checkSelector).removeClass('hidden');

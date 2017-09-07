@@ -120,14 +120,9 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> DeleteDocument(OnboardingDocumentForUpload documentForUpload)
+        public async Task<JsonResult> DeleteDocument(OnboardingDocumentForDelete documentForDelete)
         {
-            if (documentForUpload?.File?.ContentLength <= 0)
-            {
-                return GetErrorJson();
-            }
-
-            var result = await _dealerOnBoardingManager.DeleteOnboardingDocument(documentForUpload);
+            var result = await _dealerOnBoardingManager.DeleteOnboardingDocument(documentForDelete);
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
