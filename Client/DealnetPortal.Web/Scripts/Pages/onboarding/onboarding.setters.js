@@ -59,7 +59,7 @@ module.exports('onboarding.setters', function (require) {
         valid = valid && state.consent.creditAgreement;
         valid = valid && state.consent.contactAgreement;
         for (var owner in state.aknowledgment.owners) {
-            valid = valid && state.aknowledgment.owners[owner].agreement;
+            valid = valid && (typeof state.aknowledgment.owners[owner].agreement !== 'undefined' ? state.aknowledgment.owners[owner].agreement : false);
         }
         if (valid) {
             $('#submit').prop('disabled', false);
