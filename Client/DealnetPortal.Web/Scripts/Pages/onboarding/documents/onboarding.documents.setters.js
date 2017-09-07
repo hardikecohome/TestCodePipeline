@@ -18,18 +18,23 @@
     }
 
     var setLicenseNoExpiry = function (id) {
+        var input = $('#' + id + '-license-date');
         return function (e) {
             var checked = e.target.checked;
 
             if (checked) {
-                if (!$('#' + id + '-license-date').is(':disabled')) {
-                    $('#' + id + '-license-date').addClass('control-disabled');
-                    $('#' + id + '-license-date').prop('disabled', true);
+                if (!input.is(':disabled')) {
+                    input.addClass('control-disabled');
+                    input.parents('.form-group')
+                        .addClass('group-disabled');
+                    input.prop('disabled', true);
                 }
             } else {
-                if ($('#' + id + '-license-date').is(':disabled')) {
-                    $('#' + id + '-license-date').removeClass('control-disabled');
-                    $('#' + id + '-license-date').prop('disabled', false);
+                if (input.is(':disabled')) {
+                    input.removeClass('control-disabled');
+                    input.parents('.form-group')
+                        .removeClass('group-disabled');
+                    input.prop('disabled', false);
                 }
             }
         }
