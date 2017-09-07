@@ -66,9 +66,12 @@
 
             state[stateSection]['addedLicense'].push({ 'id': license.License.Id, 'number': '', 'date': '' });
 
-            $('#licenseDocumentTemplate')
-                .tmpl({ 'name': license.License.Name, 'id': license.License.Id })
-                .appendTo('#licenseHolder');
+            var result = $('#licenseDocumentTemplate')
+                .tmpl({ 'name': license.License.Name, 'id': license.License.Id });
+
+            addIconsToFields(result.find('input, textarea'));
+
+            result.appendTo('#licenseHolder');
 
             _rebuildIndex();
 
