@@ -214,7 +214,7 @@
         });
     }
 
-    function _removeFile(checkSelector, buttonSelector, stateFileSection, filename) {
+    var removeFile = function(checkSelector, buttonSelector, stateFileSection, filename) {
         return function (e) {
             e.preventDefault();
             var data = new FormData();
@@ -264,7 +264,7 @@
         state[stateSection][stateFileSection].push(file.name);
 
         $('#fileUploadedTemplate').tmpl({ filename: file.name, id: id }).appendTo('#' + fileContainerSelector);
-        $('#' + id + '-file-remove').on('click', _removeFile(checkSelector, buttonSelector, stateFileSection, file.name));
+        $('#' + id + '-file-remove').on('click', removeFile(checkSelector, buttonSelector, stateFileSection, file.name));
 
         if ($('#' + checkSelector).is(':hidden')) {
             $('#' + checkSelector).removeClass('hidden');
@@ -331,7 +331,8 @@
         removeLicense: removeLicense,
         setLicenseRegistraionNumber: setLicenseRegistraionNumber,
         setLicenseNoExpiry: setLicenseNoExpiry,
-        setLicenseExpirationDate: setLicenseExpirationDate
+        setLicenseExpirationDate: setLicenseExpirationDate,
+        removeFile: removeFile
 
     }
 });

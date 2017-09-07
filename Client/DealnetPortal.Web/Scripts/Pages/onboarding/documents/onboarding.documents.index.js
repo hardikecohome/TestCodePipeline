@@ -39,9 +39,11 @@
             if (doc.DocumentTypeId === 4) {
                 $('#voidChequeUploaded').removeClass('hidden');
                 $('#cheque-upload-title').text('Upload another file');
+                $('#' + doc.Id + '-file-remove').on('click', setters.removeFile('voidChequeUploaded', 'cheque-upload-title',  'void-cheque-files', doc.Name));
             } else {
                 $('#insurenceUploaded').removeClass('hidden');
                 $('#insurence-upload-title').text('Upload another file');
+                $('#' + doc.Id + '-file-remove').on('click', setters.removeFile('insurenceUploaded', 'insurence-upload-title', 'insurence-files', doc.Name));
             }
         });
 

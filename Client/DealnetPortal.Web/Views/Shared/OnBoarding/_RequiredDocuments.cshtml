@@ -22,10 +22,15 @@
                         <ul class="uploaded-docs-list" id="cheque-container">
                             @foreach (RequiredDocumentViewModel document in Model.RequiredDocuments.Where(x => x.DocumentTypeId == (int)DocumentTemplateType.VoidPersonalCheque))
                             {
-                                <li>
-                                    <span class="uploaded-docs-title">
-                                        @document.Name
-                                    </span>
+                                <li id="@document.Id-file-container">
+                                  <span class="uploaded-docs-title">
+                                    @document.Name
+                                    <a href="" class="remove-link remove-docs" id="@document.Id-file-remove" hiddenId="@document.Id">
+                                      <svg aria-hidden="true" class="icon icon-remove-cross">
+                                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
+                                      </svg>
+                                    </a>
+                                  </span>
                                 </li>
                             }
                         </ul>
@@ -48,10 +53,15 @@
                         <ul class="uploaded-docs-list" id="insurence-container">
                             @foreach (RequiredDocumentViewModel document in Model.RequiredDocuments.Where(x => x.DocumentTypeId == (int)DocumentTemplateType.Insurence))
                             {
-                                <li>
-                                    <span class="uploaded-docs-title">
-                                        @document.Name
-                                    </span>
+                                <li id="@document.Id-file-container">
+                                  <span class="uploaded-docs-title">
+                                    @document.Name
+                                    <a href="" class="remove-link remove-docs" id="@document.Id-file-remove" hiddenId="@document.Id">
+                                      <svg aria-hidden="true" class="icon icon-remove-cross">
+                                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
+                                      </svg>
+                                    </a>
+                                  </span>
                                 </li>
                             }
                         </ul>
