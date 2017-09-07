@@ -2043,12 +2043,12 @@ namespace DealnetPortal.Api.Integration.Services
             udfList.Add(new UDF()
             {
                 Name = AspireUdfFields.MarketingConsent,
-                Value = "Y"
+                Value = dealerInfo.MarketingConsent ? "Y" : "N"
             });
             udfList.Add(new UDF()
             {
                 Name = AspireUdfFields.CreditCheckConsent,
-                Value = "Y"
+                Value = dealerInfo.CreditCheckConsent ? "Y" : "N"
             });
 
             if (dealerInfo?.Owners?.Any() == true)

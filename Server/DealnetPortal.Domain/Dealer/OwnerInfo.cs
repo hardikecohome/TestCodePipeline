@@ -33,6 +33,8 @@ namespace DealnetPortal.Domain.Dealer
 
         public decimal? PercentOwnership { get; set; }
 
+        public bool Acknowledge { get; set; }
+
         public int OwnerOrder { get; set; }
 
         public int DealerInfoId { get; set; }

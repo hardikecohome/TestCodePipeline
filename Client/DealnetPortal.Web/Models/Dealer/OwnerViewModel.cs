@@ -46,5 +46,8 @@ namespace DealnetPortal.Web.Models.Dealer
         [Range(1,100, ErrorMessageResourceType =typeof(Resources.Resources), ErrorMessageResourceName = "PercentOwnershipRange")]
         [Display(ResourceType =typeof(Resources.Resources), Name = "PercentOwnership")]
         public double? PercentOwnership { get; set; }
+
+        [Display(ResourceType = typeof(Resources.Resources), Name = "AcknowledgeAndAgree")]
+        public bool Acknowledge { get; set; }
     }
 }

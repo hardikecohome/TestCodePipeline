@@ -31,7 +31,8 @@
                     </div>
                     <div class="onboard-owners-col agree-col">
                         <label class="align-middle custom-checkbox">
-                            <input type="checkbox" class="dealnet-checkbox" id="owner@(i)-agreement" />
+                            @*<input type="checkbox" class="dealnet-checkbox" id="owner@(i)-agreement" />*@
+                            @Html.CheckBoxFor(m => m.Owners[i].Acknowledge, new { @class = "dealnet-checkbox", id = "owner@(i)-agreement" })
                             <span class="checkbox-icon">
                                 <svg aria-hidden="true" class="icon icon-checked">
                                     <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
