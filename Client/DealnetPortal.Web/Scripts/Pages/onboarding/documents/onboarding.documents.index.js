@@ -56,8 +56,14 @@
 
             $('#' + l.LicenseTypeId + '-license-title').text(name);
 
-            _setInputHandlersForExistedLicense(l.LicenseTypeId);
+            _setInputHandlersForExistedLicense(l.LicenseTypeId);            
         });
+
+        if (existedLicense.length > 0) {
+            if ($('#licenseHolder').is(':hidden')) {
+                $('#licenseHolder').removeClass('hidden');
+            }
+        }
 
         _setInputHandlers();
     }
