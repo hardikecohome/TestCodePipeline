@@ -77,7 +77,7 @@
     var setPostalCode = function (ownerNumber) {
         return function (e) {
             var postalCode = e.target.value;
-            state[stateSection]['owners'][ownerNumber].postalCode = postalCode;
+            state[stateSection]['owners'][ownerNumber].postalCode = postalCode.toUpperCase();
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();

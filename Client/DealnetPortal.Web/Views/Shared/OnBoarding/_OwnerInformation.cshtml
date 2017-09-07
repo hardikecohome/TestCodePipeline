@@ -129,7 +129,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.Owners[i].Address.PostalCode, new { @class = "mandatory-field" })
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.Owners[i].Address.PostalCode, new { @class = "form-control dealnet-input", id = "owner" + i + "-postalcode", placeholer = "12345" })
+                                @Html.TextBoxFor(m => m.Owners[i].Address.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "owner" + i + "-postalcode", placeholer = "12345" })
                                 @Html.ValidationMessageFor(m => m.Owners[i].Address.PostalCode, "", new { @class = "text-danger" })
                             </div>
                         </div>

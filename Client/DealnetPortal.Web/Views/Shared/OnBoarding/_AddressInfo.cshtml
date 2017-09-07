@@ -48,7 +48,7 @@
         <div class="form-group">
             @Html.LabelFor(m => m.PostalCode, new { @class = "mandatory-field" })
             <div class="control-group">
-                @Html.TextBoxFor(m => m.PostalCode, new { @class = "form-control dealnet-input" })
+                @Html.TextBoxFor(m => m.PostalCode, new { @class = "form-control dealnet-input postal-code" })
                 @Html.ValidationMessageFor(m => m.PostalCode, "", new { @class = "text-danger" })
             </div>
         </div>
