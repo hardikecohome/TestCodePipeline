@@ -27,8 +27,20 @@
         return function (e) {
             var isChecked = e.target.checked;
             state[stateSection]['owners'][ownerNumber].agreement = isChecked;
+            _markComplete();
             enableSubmit();
         }
+    }
+
+    var _markComplete = function () {
+        var valid = true;
+        for (var owner in state[stateSection]['owners']) {
+            valid = valid && state[stateSection]['owners'][owner].agreement;
+        }
+        if (valid)
+            $('#cleint-aknowledgment-section')
+                .addClass('step-passed')
+                .removeClass('active-panel');
     }
 
     return {

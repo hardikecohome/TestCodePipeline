@@ -2,7 +2,7 @@
 @using DealnetPortal.Web.Models.Dealer
 @model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
 
-<div class="panel customer-loan-form-panel panel-collapsed">
+<div class="panel customer-loan-form-panel panel-collapsed" id="documents-panel">
     <div class="panel-heading">
         <span class="panel-step">4</span>
         <h3 class="panel-title dealnet-middle-header">Required documents</h3>
@@ -64,7 +64,7 @@
                     </div>
                 </div>
             </div>
-            <div class="onboard-standart-license" id="licenseHolder">
+            <div class="onboard-standart-license hidden" id="licenseHolder">
                 <h4 class="onboard-required-documents-heading text-center">Provincial Safety Standard Licensing</h4>
                 <hr>
                 @for (int i = 0; i < Model.AdditionalDocuments.Count; i++)
@@ -187,3 +187,4 @@
     </div>
     <hr>
 </script>
+

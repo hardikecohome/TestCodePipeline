@@ -21,6 +21,12 @@
         $('#' + ownerNumber + '-percentage').on('change', setters.setOwnershipPercentege(ownerNumber));
         $('#' + ownerNumber + '-agreement').on('click', aknwoledgmentSetters.setAgreement(ownerNumber));
 
+        if (google && google.maps)
+            initGoogleServices(ownerNumber + '-street',
+                ownerNumber + '-city',
+                ownerNumber + '-province',
+                ownerNumber + '-postalcode');
+
         $('#' + ownerNumber + '-remove').on('click', function () {
             additionalOwner.remove(ownerNumber);
             aknwoledgmentOwner.remove(ownerNumber);

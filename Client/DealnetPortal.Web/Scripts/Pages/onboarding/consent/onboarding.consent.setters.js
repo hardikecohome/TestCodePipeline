@@ -28,7 +28,6 @@
         if (isValidSection) {
             $('#client-consent-section')
                 .removeClass('active-panel')
-                .addClass('panel-collapsed')
                 .addClass('step-passed');
 
             $('#cleint-aknowledgment-section')
