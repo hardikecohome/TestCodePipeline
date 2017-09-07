@@ -26,7 +26,10 @@
 
     var setProvince = setFormField('company-province');
 
-    var setPostalCode = setFormField('company-postal');
+    var setPostalCode = function (e) {
+        e.target.value = e.target.value.toUpperCase();
+        setFormField('company-postal')(e);
+    };
 
     var setType = setFormField('company-type');
 

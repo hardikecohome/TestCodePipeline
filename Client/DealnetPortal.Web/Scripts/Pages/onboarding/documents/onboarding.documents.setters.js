@@ -22,7 +22,11 @@
         return function (e) {
             var checked = e.target.checked;
 
+            var lic = state[stateSection]['addedLicense'].find(function (item) {
+                return item.id === id;
+            });
             if (checked) {
+                lic.noExpiry = true;
                 if (!input.is(':disabled')) {
                     input.addClass('control-disabled');
                     input.parents('.form-group')
@@ -30,6 +34,7 @@
                     input.prop('disabled', true);
                 }
             } else {
+                lic.noExpiry = false;
                 if (input.is(':disabled')) {
                     input.removeClass('control-disabled');
                     input.parents('.form-group')
@@ -37,6 +42,7 @@
                     input.prop('disabled', false);
                 }
             }
+            enableSubmit();
         }
     }
 
@@ -48,6 +54,7 @@
             })[0];
 
             filtred.number = value;
+            enableSubmit();
         }
     }
 
@@ -57,6 +64,7 @@
         })[0];
 
         filtred.date = date;
+        enableSubmit();
     }
 
     var addLicense = function (e) {

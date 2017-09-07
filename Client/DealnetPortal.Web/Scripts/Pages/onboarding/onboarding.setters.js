@@ -4,9 +4,6 @@ module.exports('onboarding.setters', function (require) {
     function configSetField (stateSection) {
         return function (field) {
             return function (e) {
-                if (field === 'company-postal')
-                    if (e.target.value !== "")
-                        state[stateSection][field] = e.target.value.toUpperCase();
                 state[stateSection][field] = e.target.value;
 
                 _spliceRequiredFields(stateSection, field);
@@ -56,6 +53,9 @@ module.exports('onboarding.setters', function (require) {
         valid = valid && state.product.requiredFields.length === 0;
         valid = valid && state.documents['void-cheque-files'].length > 0;
         valid = valid && state.documents['insurence-files'].length > 0;
+        valid = state.documents.addedLicense.reduce(function (acc, item) {
+            return acc && item.number.length > 0 && (item.noExpiry || item.date.length > 0);
+        }, valid);
         valid = valid && state.consent.creditAgreement;
         valid = valid && state.consent.contactAgreement;
         for (var owner in state.aknowledgment.owners) {

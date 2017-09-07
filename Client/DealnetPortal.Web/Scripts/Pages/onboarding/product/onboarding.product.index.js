@@ -15,7 +15,7 @@
         $('#relationship').on('change', setters.setRelationship);
         $('#oem').on('change', setters.setOem);
         $('#WithCurrentProvider').on('change', setters.setWithCurrentProvider);
-        $('#finance-provider-name').on('change', setters.setFinancaProviderName);
+        $('#finance-provider-name').on('change', setters.setFinanceProviderName);
         $('#monthly-financed-value').on('change', setters.setMonthFinancedValue);
         $('#OfferMonthlyDeferrals').on('change', setters.setOfferDeferrals);
         $('#percent-month-deferrals').on('change', setters.setPercentMonthDeferrals);
