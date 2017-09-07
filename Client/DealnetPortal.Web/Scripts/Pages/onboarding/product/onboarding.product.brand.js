@@ -26,6 +26,9 @@ module.exports('onboarding.product.brand', function (require) {
 
             if (state.product.brands.length > 1) {
                 $('#add-brand-container').hide();
+            } else {
+                if (!$('#add-brand-container').is('.col-clear-sm-6'))
+                    $('#add-brand-container').addClass('col-clear-sm-6');
             }
             resetForm('#onboard-form');
         }
@@ -37,8 +40,13 @@ module.exports('onboarding.product.brand', function (require) {
         var id = index.substr(index.lastIndexOf('_') + 1, 1);
         if (removeSecondayBrand(id)) {
             $(this).parents('.new-brand-group').remove();
-            if (state.product.brands.length === 1)
+            if (state.product.brands.length === 1) {
                 rebuildBrandIndex();
+                if (!$('#add-brand-container').is('.col-clear-sm-6'))
+                    $('#add-brand-container').addClass('col-clear-sm-6');
+            } else {
+                $('#add-brand-container').removeClass('col-clear-sm-6');
+            }
             $('#add-brand-container').show();
         }
         return false;
@@ -46,7 +54,7 @@ module.exports('onboarding.product.brand', function (require) {
 
     function rebuildBrandIndex () {
         var group = $($('.new-brand-group')[0]);
-        group.find('#ProductInfo_Brands_1').attr('id', 'ProductInfo_Brands_0').attr('name', 'ProductInfo.Brands[0]');
+        group.removeClass('col-clear-sm-6').find('#ProductInfo_Brands_1').attr('id', 'ProductInfo_Brands_0').attr('name', 'ProductInfo.Brands[0]');
     }
 
     return {

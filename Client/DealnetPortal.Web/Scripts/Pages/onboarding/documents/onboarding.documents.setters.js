@@ -2,6 +2,7 @@
     var state = require('onboarding.state').state;
     var constants = require('onboarding.state').constants;
     var enableSubmit = require('onboarding.setters').enableSubmit;
+    var resetForm = require('onboarding.common').resetForm;
     var stateSection = 'documents';
 
     var setVoidChequeFile = function (e) {
@@ -90,6 +91,7 @@
         });
 
         e.stopImmediatePropagation();
+        resetForm('#onboard-form');
     }
 
     var removeLicense = function (e) {
@@ -113,6 +115,7 @@
         });
 
         e.stopImmediatePropagation();
+        resetForm('#onboard-form');
     }
 
     function _getDocumentsArray () {

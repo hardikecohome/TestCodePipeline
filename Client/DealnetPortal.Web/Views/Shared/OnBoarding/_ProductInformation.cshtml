@@ -22,7 +22,7 @@
 
             @for (var i = 0; i < Model.ProductInfo.Brands.Count; i++)
             {
-                <div class="col-md-4 col-sm-6">
+                <div class="col-md-4 col-sm-6 @(i==1?"col-clear-sm-6":"")">
                     <div class="form-group">
                         <label for="">@Resources.SecondaryManufacturerBrandSold</label>
                         <div class="control-group">
@@ -32,7 +32,7 @@
                     </div>
                 </div>
             }
-            <div class="col-md-4 col-sm-6 @(Model.ProductInfo.Brands.Count == 3 ? "hidden" : "")" id="add-brand-container">
+            <div class="col-md-4 col-sm-6 @(Model.ProductInfo.Brands.Count==1?"col-clear-sm-6":"") @(Model.ProductInfo.Brands.Count == 2 ? "hidden" : "")" id="add-brand-container">
                 <div class="form-group">
                     <div class="dealnet-label hidden-xs">&nbsp;</div>
                     <div class="control-group flex-centered-text">
