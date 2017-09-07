@@ -1,4 +1,6 @@
-﻿<div class="panel customer-loan-form-panel panel-collapsed" id="client-consent-section">
+﻿@model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
+
+<div class="panel customer-loan-form-panel panel-collapsed" id="client-consent-section">
     <div class="panel-heading">
         <span class="panel-step">5</span>
         <h3 class="panel-title dealnet-middle-header">@Resources.ClientConsent</h3>
@@ -15,7 +17,7 @@
         <div class="consents-checkbox-hold">
             <div class="form-group checkbox-hold">
                 <label for="creditAgreement" class="align-middle custom-checkbox">
-                    <input type="checkbox" class="dealnet-checkbox" id="creditAgreement" name="creditAgreement"/>
+                    @Html.CheckBoxFor(m => m.AllowCreditCheck, new { @class = "dealnet-checkbox", id = "creditAgreement" })
                     <span class="checkbox-icon">
                         <svg aria-hidden="true" class="icon icon-checked">
                             <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
@@ -30,7 +32,7 @@
             </div>
             <div class="form-group checkbox-hold">
                 <label for="contactAgreement" class="align-middle custom-checkbox">
-                    <input type="checkbox" class="dealnet-checkbox" id="contactAgreement" name="contactAgreement"/>
+                    @Html.CheckBoxFor(m => m.AllowCommunicate, new { @class = "dealnet-checkbox", id = "contactAgreement" })
                     <span class="checkbox-icon">
                         <svg aria-hidden="true" class="icon icon-checked">
                             <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>

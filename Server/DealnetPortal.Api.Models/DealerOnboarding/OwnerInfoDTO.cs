@@ -23,6 +23,7 @@ namespace DealnetPortal.Api.Models.DealerOnboarding
 
         public decimal? PercentOwnership { get; set; }
 
-        public int OwnerOrder { get; set; }        
+        public int OwnerOrder { get; set; }
+        public bool Acknowledge { get; set; }
     }
 }

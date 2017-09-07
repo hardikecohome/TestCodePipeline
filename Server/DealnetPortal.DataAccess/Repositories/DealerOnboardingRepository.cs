@@ -150,8 +150,16 @@ namespace DealnetPortal.DataAccess.Repositories
             if (dbDealerInfo.AccessKey != updateDealerInfo.AccessKey)
             {
                 dbDealerInfo.AccessKey = updateDealerInfo.AccessKey;
-            }            
-        }
+            }
+            if (dbDealerInfo.CreditCheckConsent != updateDealerInfo.CreditCheckConsent)
+            {
+                dbDealerInfo.CreditCheckConsent = updateDealerInfo.CreditCheckConsent;
+            }
+            if (dbDealerInfo.MarketingConsent != updateDealerInfo.MarketingConsent)
+            {
+                dbDealerInfo.MarketingConsent = updateDealerInfo.MarketingConsent;
+            }
+        }    
 
         private void UpdateDealerCompanyInfo(DealerInfo dbDealerInfo, DealerInfo updateDealerInfo)
         {
@@ -281,7 +289,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     dbProductInfo.OemName = updateProductInfo.OemName;
                 }
-
+                if (dbProductInfo.ProgramService != updateProductInfo.ProgramService)
+                {
+                    dbProductInfo.ProgramService = updateProductInfo.ProgramService;
+                }
                 if (dbProductInfo.SalesApproachConsumerDirect != updateProductInfo.SalesApproachConsumerDirect)
                 {
                     dbProductInfo.SalesApproachConsumerDirect = updateProductInfo.SalesApproachConsumerDirect;
@@ -436,6 +447,10 @@ namespace DealnetPortal.DataAccess.Repositories
                     if (dbCustomer.PercentOwnership != ho.PercentOwnership)
                     {
                         dbCustomer.PercentOwnership = ho.PercentOwnership;
+                    }
+                    if (dbCustomer.Acknowledge != ho.Acknowledge)
+                    {
+                        dbCustomer.Acknowledge = ho.Acknowledge;
                     }
                     if (dbCustomer.Address.City != ho.Address?.City)
                     {

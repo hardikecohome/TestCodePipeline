@@ -153,21 +153,21 @@
                 </div>
                 <div class="form-group">
                     <label for="" class="align-middle custom-radio">
-                        @Html.RadioButtonFor(m => m.ProductInfo.ProgramService, ProgramServices.Loan, new { @class = "program-service", @checked = Model.ProductInfo.ProgramService == ProgramServices.Loan ? "checked" : "", id = "loan" })
+                        @Html.RadioButtonFor(m => m.ProductInfo.ProgramService, ProgramServices.Loan, new { @class = "program-service", id = "loan" })
                         <span class="custom-radio-icon"></span>
                         <span>@Resources.Loan</span>
                     </label>
                 </div>
                 <div class="form-group">
                     <label for="" class="align-middle custom-radio">
-                        @Html.RadioButtonFor(m => m.ProductInfo.ProgramService, ProgramServices.Rental, new { @class = "program-service", @checked = Model.ProductInfo.ProgramService == ProgramServices.Rental ? "checked" : "", id = "rental" })
+                        @Html.RadioButtonFor(m => m.ProductInfo.ProgramService, ProgramServices.Rental, new { @class = "program-service", id = "rental" })
                         <span class="custom-radio-icon"></span>
                         <span>@Resources.Rental</span>
                     </label>
                 </div>
                 <div class="form-group">
                     <label for="" class="align-middle custom-radio">
-                        @Html.RadioButtonFor(m => m.ProductInfo.ProgramService, ProgramServices.Both, new { @class = "program-service", @checked = Model.ProductInfo.ProgramService == ProgramServices.Both ? "checked" : "", id = "both" })
+                        @Html.RadioButtonFor(m => m.ProductInfo.ProgramService, ProgramServices.Both, new { @class = "program-service", id = "both" })
                         <span class="custom-radio-icon"></span>
                         <span>@Resources.Both</span>
                     </label>
@@ -199,7 +199,7 @@
                     @Html.LabelFor(m => m.ProductInfo.WithCurrentProvider, new { @class = "dealnet-label" })
                     <div class="form-group">
                         <label class="checkbox-toggle">
-                            <input class="toggle-language-link" @if (Model.ProductInfo.WithCurrentProvider) { <text> checked</text> } data-val="true" id="WithCurrentProvider" name="WithCurrentProvider" type="checkbox" value="true" />
+                            <input class="toggle-language-link" @if (Model.ProductInfo.WithCurrentProvider) { <text> checked</text> } data-val="true" id="WithCurrentProvider" name="ProductInfo.WithCurrentProvider" type="checkbox" value="true" />
                             <div class="slider"></div>
                             <span class="checkbox-toggle-text text-on">Yes</span>
                             <span class="checkbox-toggle-text text-off">No</span>
@@ -233,7 +233,7 @@
                     @Html.LabelFor(m => m.ProductInfo.OfferMonthlyDeferrals, new { @class = "dealnet-label" })
                     <div class="form-group">
                         <label class="checkbox-toggle">
-                            <input class="toggle-language-link" @if (Model.ProductInfo.OfferMonthlyDeferrals) { <text> checked</text> } data-val="true" id="OfferMonthlyDeferrals" name="OfferMonthlyDeferrals" type="checkbox" value="true" />
+                            <input class="toggle-language-link" @if (Model.ProductInfo.OfferMonthlyDeferrals) { <text> checked</text> } data-val="true" id="OfferMonthlyDeferrals" name="ProductInfo.OfferMonthlyDeferrals" type="checkbox" value="true" />
                             <div class="slider"></div>
                             <span class="checkbox-toggle-text text-on">Yes</span>
                             <span class="checkbox-toggle-text text-off">No</span>
