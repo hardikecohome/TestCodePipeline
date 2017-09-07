@@ -274,7 +274,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     dbProductInfo.OemName = updateProductInfo.OemName;
                 }
-
+                if (dbProductInfo.ProgramService != updateProductInfo.ProgramService)
+                {
+                    dbProductInfo.ProgramService = updateProductInfo.ProgramService;
+                }
                 if (dbProductInfo.SalesApproachConsumerDirect != updateProductInfo.SalesApproachConsumerDirect)
                 {
                     dbProductInfo.SalesApproachConsumerDirect = updateProductInfo.SalesApproachConsumerDirect;

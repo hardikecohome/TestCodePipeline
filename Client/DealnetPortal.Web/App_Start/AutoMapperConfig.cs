@@ -232,9 +232,13 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.DeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.LoanDeferralType.ConvertTo<DeferralType>() : src.RentalDeferralType.ConvertTo<DeferralType>()));
 
             cfg.CreateMap<AddressInformation, AddressDTO>()
+                .ForMember(x => x.Unit, d => d.MapFrom(src => src.UnitNumber))
                 .ForMember(x => x.State, d => d.MapFrom(src => src.Province));
 
             cfg.CreateMap<ProductInfoViewModel, ProductInfoDTO>()
+                .ForMember(x => x.LeadGenLocalAdvertising, d => d.MapFrom(src => src.LeadGenLocalAds))
+                .ForMember(x => x.WithCurrentProvider, d => d.MapFrom(src => src.WithCurrentProvider))
+                .ForMember(x => x.OfferMonthlyDeferrals, d => d.MapFrom(src => src.OfferMonthlyDeferrals))
                 .ForMember(x => x.ServiceTypes, d => d.MapFrom(src => src.EquipmentTypes));
 
             cfg.CreateMap<CompanyInfoViewModel, CompanyInfoDTO>();
@@ -549,9 +553,13 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.IsApplicantsInfoEditAvailable, d => d.Ignore());
 
             cfg.CreateMap<AddressDTO, AddressInformation>()
+                .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))
                 .ForMember(x => x.Province, d => d.MapFrom(src => src.State));
 
             cfg.CreateMap<ProductInfoDTO, ProductInfoViewModel>()
+                .ForMember(x => x.LeadGenLocalAds, d => d.MapFrom(src => src.LeadGenLocalAdvertising ?? false))
+                .ForMember(x => x.WithCurrentProvider, d => d.MapFrom(src => src.WithCurrentProvider ?? false))
+                .ForMember(x => x.OfferMonthlyDeferrals, d => d.MapFrom(src => src.OfferMonthlyDeferrals ?? false))
                 .ForMember(x => x.EquipmentTypes, d => d.MapFrom(src => src.ServiceTypes));
 
             cfg.CreateMap<CompanyInfoDTO, CompanyInfoViewModel>();
