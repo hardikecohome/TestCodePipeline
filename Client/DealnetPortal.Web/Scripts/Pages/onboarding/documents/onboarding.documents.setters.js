@@ -106,6 +106,12 @@
                 }
             });
 
+            if (state[stateSection]['addedLicense'].length > 0) {
+                if ($('#licenseHolder').is(':hidden')) {
+                    $('#licenseHolder').removeClass('hidden');
+                }
+            }
+
             $('#' + license.License.Id + '-license-checkbox').on('change', setLicenseNoExpiry(license.License.Id));
         });
 
@@ -132,6 +138,10 @@
 
             $('#' + toDel + '-license-holder').remove();
         });
+
+        if (state[stateSection]['addedLicense'].length > 0) {
+            $('#licenseHolder').addClass('hidden');
+        }
 
         e.stopImmediatePropagation();
         resetForm('#onboard-form');
