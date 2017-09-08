@@ -10,6 +10,14 @@
         $('#aknowledgmentTemplate')
             .tmpl({ 'owner': ownerNumber, 'index': ownerIndex })
             .appendTo('#onboard-owners-hold');
+        //$('#'+ownerNumber+'-agreement').prop('checked', true);
+        $('#' + ownerNumber + '-agreement').on('change', function() {
+            if ($(this).is(':checked')) {
+                $(this).attr('value', 'true');
+            } else {
+                $(this).attr('value', 'false');
+            }
+        });
     }
 
     var removeFromAknowledgment = function(ownerNumber) {
