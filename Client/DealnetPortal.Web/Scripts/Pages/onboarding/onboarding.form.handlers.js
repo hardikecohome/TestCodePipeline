@@ -33,6 +33,7 @@
             e.preventDefault();
             var allowCommunicate = $this.find('#agreement-email').prop('checked');
             if ($this.valid() && allowCommunicate) {
+                e.preventDefault();
                 $.ajax({
                     url: sendLinkUrl,
                     type: 'POST',
