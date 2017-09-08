@@ -158,7 +158,6 @@ namespace DealnetPortal.DataAccess.Repositories
                 documents.ForEach(doc =>
                 {
                     var dbDoc = dbDealerInfo.AdditionalDocuments.SingleOrDefault(x => x.LicenseTypeId == doc.LicenseTypeId);
-                    //doc.DealerInfoId = dbDealerInfo.Id;
                     if (dbDoc != null)
                     {
                         dbDoc.ExpiredDate = doc.ExpiredDate;
