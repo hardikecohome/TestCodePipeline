@@ -142,7 +142,39 @@ namespace DealnetPortal.DataAccess.Repositories
             UpdateDealerCompanyInfo(dbDealerInfo, updateDealerInfo);
             UpdateDealerProductInfo(dbDealerInfo, updateDealerInfo);
             UpdateDealerOwners(dbDealerInfo, updateDealerInfo.Owners);
+            UpdateDealerAdditionalDocument(dbDealerInfo, updateDealerInfo.AdditionalDocuments);
             dbDealerInfo.LastUpdateTime = DateTime.Now;
+        }
+
+        private void UpdateDealerAdditionalDocument(DealerInfo dbDealerInfo, ICollection<AdditionalDocument> documents)
+        {
+            if (documents == null)
+            {
+                dbDealerInfo.AdditionalDocuments.ForEach(e => dbDealerInfo.AdditionalDocuments.Remove(e));
+            }
+            else
+            {
+                var newEntities = new List<AdditionalDocument>();
+                documents.ForEach(doc =>
+                {
+                    var dbDoc = dbDealerInfo.AdditionalDocuments.SingleOrDefault(x => x.LicenseTypeId == doc.LicenseTypeId);
+                    //doc.DealerInfoId = dbDealerInfo.Id;
+                    if (dbDoc != null)
+                    {
+                        dbDoc.ExpiredDate = doc.ExpiredDate;
+                        dbDoc.NotExpired = doc.NotExpired;
+                        dbDoc.Number = doc.Number;
+                    }
+                    else
+                    {
+                        newEntities.Add(doc);
+                        dbDealerInfo.AdditionalDocuments.Add(doc);
+                    }
+                });
+                var existingEntities = dbDealerInfo.AdditionalDocuments.Where(a => documents.Any(ee => ee.LicenseTypeId == a.LicenseTypeId)).ToList();
+                var entriesForDelete = dbDealerInfo.AdditionalDocuments.Except(existingEntities).Except(newEntities).ToList();
+                entriesForDelete.ForEach(e => dbDealerInfo.AdditionalDocuments.Remove(e));
+            }
         }
 
         private void UpdateBaseDealerInfo(DealerInfo dbDealerInfo, DealerInfo updateDealerInfo)
