@@ -1,5 +1,4 @@
-﻿@using DealnetPortal.Api.Models.Contract
-@model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
+﻿@model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
 
 <div class="panel customer-loan-form-panel active-panel" id="company-panel">
     <div class="panel-heading">
@@ -21,9 +20,9 @@
             </div>
             <div class="col-md-4 col-sm-6">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.CompanyInfo.OperatingName, new { @class = "mandatory-field", placeholder = Resources.OperatingName })
+                    @Html.LabelFor(m => m.CompanyInfo.OperatingName, new { @class = "mandatory-field"})
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.OperatingName, new { @class = "form-control dealnet-input", id = "operating-name" })
+                        @Html.TextBoxFor(m => m.CompanyInfo.OperatingName, new { @class = "form-control dealnet-input", id = "operating-name", placeholder = Resources.OperatingName })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.OperatingName, "", new { @class = "text-danger" })
                     </div>
                 </div>
