@@ -87,7 +87,8 @@ namespace DealnetPortal.Web.Infrastructure
 
         public async Task<IList<Alert>> SendDealerOnboardingDraftLink(SaveAndResumeViewModel model)
         {
-            return await _dealerServiceAgent.SendDealerOnboardingDraftLink(model.AccessKey);
+            var linkDto = new DraftLinkDTO {AccessKey = model.AccessKey, Email = model.Email};
+            return await _dealerServiceAgent.SendDealerOnboardingDraftLink(linkDto);
         }
 
         public async Task<DocumentResponseViewModel> UploadOnboardingDocument(OnboardingDocumentForUpload fileModel)

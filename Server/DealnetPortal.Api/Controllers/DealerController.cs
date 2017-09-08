@@ -120,11 +120,11 @@ namespace DealnetPortal.Api.Controllers
         [Route("SendDealerOnboardingDraftLink")]
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IHttpActionResult> SendDealerOnboardingDraftLink(string accessKey)
+        public async Task<IHttpActionResult> SendDealerOnboardingDraftLink(DraftLinkDTO link)
         {
             try
             {
-                var result = await _dealerService.SendDealerOnboardingDraftLink(accessKey);
+                var result = await _dealerService.SendDealerOnboardingDraftLink(link);
                 return Ok(result);
             }
             catch (Exception ex)

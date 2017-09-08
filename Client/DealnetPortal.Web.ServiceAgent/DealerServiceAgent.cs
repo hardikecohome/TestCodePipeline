@@ -144,14 +144,14 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<Alert>> SendDealerOnboardingDraftLink(string accessKey)
+        public async Task<IList<Alert>> SendDealerOnboardingDraftLink(DraftLinkDTO link)
         {
             try
             {
                 return
                     await
-                        Client.PostAsyncEx<string, IList<Alert>>(
-                            $"{_fullUri}/SendDealerOnboardingDraftLink?accessKey={accessKey}", null, null, CurrentCulture);
+                        Client.PostAsyncEx<DraftLinkDTO, IList<Alert>>(
+                            $"{_fullUri}/SendDealerOnboardingDraftLink", link, null, CurrentCulture);
             }
             catch (Exception ex)
             {

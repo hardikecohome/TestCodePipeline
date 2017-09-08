@@ -183,18 +183,17 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<IList<Alert>> SendDealerOnboardingDraftLink(string accessKey)
+        public async Task<IList<Alert>> SendDealerOnboardingDraftLink(DraftLinkDTO link)
         {
-            if (string.IsNullOrEmpty(accessKey))
+            if (string.IsNullOrEmpty(link.AccessKey))
             {
-                throw new ArgumentNullException(nameof(accessKey));
+                throw new ArgumentNullException(nameof(link));
             }
 
             var alerts = new List<Alert>();
             try
             {
-                var dealerInfo = _dealerOnboardingRepository.GetDealerInfoByAccessKey(accessKey);
-                await _mailService.SendDraftLinkMail(accessKey, dealerInfo.Owners.FirstOrDefault()?.EmailAddress);
+                await _mailService.SendDraftLinkMail(link.AccessKey, link.Email);
             }
             catch (Exception ex)
             {
