@@ -63,5 +63,18 @@ namespace DealnetPortal.Web.ServiceAgent
                 throw;
             }
         }
+        public async Task<string> UpdateDealerParent()
+        {
+            try
+            {
+                return await Client.GetAsyncEx<string>($"{_fullUri}/GetDealerParent", AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get parent for an user", ex);
+                return null;               
+            }
+        }
+
     }
 }

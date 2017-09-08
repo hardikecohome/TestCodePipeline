@@ -11,7 +11,7 @@ namespace DealnetPortal.Api.Integration.Services
     public interface IDealerService
     {
         DealerProfileDTO GetDealerProfile(string dealerId);
-
+        string GetDealerParentName(string dealerId);
         IList<Alert> UpdateDealerProfile(DealerProfileDTO dealerProfile);
     }
 }
