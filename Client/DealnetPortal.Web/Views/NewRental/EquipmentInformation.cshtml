@@ -174,7 +174,8 @@
 
   <script type="text/javascript">
 	  var taxRate = 0; @*@(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");*@
-    var isCalculationValid = false;
+	  var isCalculationValid = false;
+	  var customerFee = @ViewBag.AdminFee;
   </script>
 
   <script type="text/javascript">

@@ -30,11 +30,11 @@
 
         //remove percentage symbol
         var amortizationTerm = $('#' + option + 'AmortizationDropdown').val();
-        var loanTerm = amortizationTerm;
-
-        var slicedCustomerRate = $('#' + option + 'CRate').text().slice(0, -2);
-        var slicedAdminFee = $('#' + option + 'AFee').text().replace('$','').trim();
-        var slicedTotalMPayment = $('#' + option + 'TMPayments').text().substring(1);
+		var selectedValuescustom = $('#' + option + 'AmortizationDropdown option:selected').text().split('/');
+		var loanTerm = selectedValuescustom[0];
+		var slicedCustomerRate = $('#' + option + 'CRate').text().slice(0, -2);
+		var slicedAdminFee = $('#' + option + 'AFee').text().replace('$', '').trim();
+		var slicedTotalMPayment = $('#' + option + 'TMPayments').text().substring(1);
         var cards = sessionStorage.getItem(state.contractId + option);
         if (cards !== null) {
             var cardType = $.grep(constants.rateCards, function(c) { return c.name === option; })[0].id;
