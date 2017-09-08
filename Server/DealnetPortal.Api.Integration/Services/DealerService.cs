@@ -40,7 +40,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         public string GetDealerParentName(string dealerId)
         {
-            var parentName = _dealerRepository.GetDealerProfile(_dealerRepository.GetParentDealerId(dealerId)?? dealerId).Dealer.AspireLogin;
+            var parentName = _contractRepository.GetDealer(_dealerRepository.GetParentDealerId(dealerId)?? dealerId).AspireLogin;
             return parentName;
         }
 
