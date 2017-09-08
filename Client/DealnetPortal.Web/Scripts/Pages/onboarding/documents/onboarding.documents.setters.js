@@ -214,7 +214,7 @@
         });
     }
 
-    var removeFile = function(checkSelector, buttonSelector, stateFileSection, filename) {
+    var removeFile = function (checkSelector, buttonSelector, stateFileSection, filename) {
         return function (e) {
             e.preventDefault();
             var data = new FormData();
@@ -317,8 +317,8 @@
         if (valid) {
             $('#' + stateSection + '-panel')
                 .addClass('step-passed')
-                .removeClass('active-panel')
-                .next()
+                .removeClass('active-panel');
+            $('#client-consent-section')
                 .removeClass('panel-collapsed')
                 .addClass('active-panel');
         }

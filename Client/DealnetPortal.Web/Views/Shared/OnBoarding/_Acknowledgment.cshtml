@@ -22,7 +22,7 @@
                         <span class="onboard-owners-label">
                             @Resources.Owner:&nbsp;
                         </span>
-                        <span class="onboard-owners-value text-uppercase" id="owner" +i+"-name-holder">
+                        <span class="onboard-owners-value text-uppercase" id="owner@(i)-name-holder">
                             @(Model.Owners[i].FirstName?.ToUpper() + " " + Model.Owners[i].LastName?.ToUpper())
                         </span>
                     </div>
@@ -36,7 +36,7 @@
                     </div>
                     <div class="onboard-owners-col agree-col">
                         <label class="align-middle custom-checkbox">
-                            @Html.CheckBoxFor(m => m.Owners[i].Acknowledge, new { @class = "dealnet-checkbox", id = "owner@(i)-agreement" })
+                            @Html.CheckBoxFor(m => m.Owners[i].Acknowledge, new { @class = "dealnet-checkbox", id = "owner"+i+"-agreement" })
                             <span class="checkbox-icon">
                                 <svg aria-hidden="true" class="icon icon-checked">
                                     <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
