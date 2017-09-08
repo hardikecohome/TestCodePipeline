@@ -23,12 +23,12 @@ namespace DealnetPortal.Web.Models.Dealer
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "AnnualSalesVolume")]
-        [RegularExpression(@"^[1-9]\d{0,9}?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "AnnualSalesIncorrectFormat")]
+        [RegularExpression(@"^0|[1-9]\d{0,9}?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "AnnualSalesIncorrectFormat")]
         public int? AnnualSalesVolume { get; set; }
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "AverageTransactionSize")]
-        [RegularExpression(@"^[1-9]\d{0,9}?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "AverageTransactionSizeIncorrectFormat")]
+        [RegularExpression(@"^0|[1-9]\d{0,9}?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "AverageTransactionSizeIncorrectFormat")]
         public int? AverageTransactionSize { get; set; }
 
         public bool SalesApproachConsumerDirect { get; set; }
@@ -46,7 +46,7 @@ namespace DealnetPortal.Web.Models.Dealer
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "RelationshipTo")]
-        public RelationshipStructure Relationship { get; set; }
+        public RelationshipStructure? Relationship { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "OEMName")]
         [StringLength(50, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
@@ -60,7 +60,7 @@ namespace DealnetPortal.Web.Models.Dealer
         public string FinanceProviderName { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "MonthlyFinancedValue")]
-        [RegularExpression(@"^[1-9]\d{0,9}?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "MonthlyFinancedValueIncorrectFormat")]
+        [RegularExpression(@"^0|[1-9]\d{0,9}?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "MonthlyFinancedValueIncorrectFormat")]
         public decimal? MonthlyFinancedValue { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "OfferMonthlyDeferrals")]
@@ -68,7 +68,7 @@ namespace DealnetPortal.Web.Models.Dealer
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "PercentMonthlyDealsDeferred")]
         [Range(0,100, ErrorMessageResourceType =typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
-        [RegularExpression(@"^[1-9](\d{0,2}?)$", ErrorMessageResourceType =typeof(Resources.Resources), ErrorMessageResourceName = "PercentMonthDeferredIncorrectFormat")]
+        [RegularExpression(@"^0|[1-9](\d{0,2}?)$", ErrorMessageResourceType =typeof(Resources.Resources), ErrorMessageResourceName = "PercentMonthDeferredIncorrectFormat")]
         public double? PercentMonthlyDealsDeferred { get; set; }
 
         [CustomRequired]
@@ -76,6 +76,6 @@ namespace DealnetPortal.Web.Models.Dealer
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "ReasonForInterestWithEcohome")]
-        public ReasonForInterest ReasonForInterest { get; set; }
+        public ReasonForInterest? ReasonForInterest { get; set; }
     }
 }

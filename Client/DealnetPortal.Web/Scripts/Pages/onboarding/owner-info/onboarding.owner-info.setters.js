@@ -151,8 +151,8 @@
                 $('#add-additional-div').removeClass('hidden');
             }
 
-            if ($('#owner-info-section .over-100:not(.hidden').length > 0) {
-                $('#owner-info-section .over-100:not(.hidden)').addClass('hidden');
+            if (!$('#over-100').is(':hidden')) {
+                $('#over-100').addClass('hidden');
             }
 
             return;
@@ -161,10 +161,12 @@
         if (state[stateSection].totalPercentage > 100) {
             $('#owner-notify').addClass('hidden');
 
-            $('#add-additional-div').addClass('hidden');
+            if (state[stateSection]['owners'].length <= 1) {
+                $('#add-additional-div').addClass('hidden');                
+            }
             $('#additional-owner-warning').addClass('hidden');
 
-            $('#owner-info-section .over-100:last').removeClass('hidden');
+            $('#over-100').removeClass('hidden');
             return;
         }
 
@@ -172,11 +174,13 @@
             $('#owner-notify').addClass('hidden');
 
             $('#add-additional').removeClass('mandatory-field');
-            $('#add-additional-div').addClass('hidden');
+            if (state[stateSection]['owners'].length <= 1) {
+                $('#add-additional-div').addClass('hidden');                
+            }
             $('#additional-owner-warning').addClass('hidden');
 
-            if ($('#owner-info-section .over-100:not(.hidden').length > 0) {
-                $('#owner-info-section .over-100:not(.hidden)').removeClass('hidden');
+            if (!$('#over-100').is(':hidden')) {
+                $('#over-100').addClass('hidden');
             }
 
             _moveTonextSection();

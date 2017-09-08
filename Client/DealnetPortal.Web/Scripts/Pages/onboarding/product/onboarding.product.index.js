@@ -20,12 +20,12 @@
         $('#OfferMonthlyDeferrals').on('change', setters.setOfferDeferrals);
         $('#percent-month-deferrals').on('change', setters.setPercentMonthDeferrals);
         initRadio();
-        $('#WithCurrentProvider').on('change', toggleCheckGroup('.hidden-current-provider')).change();
-        $('#OfferMonthlyDeferrals').on('change', toggleCheckGroup('.hidden-monthly-deferrals')).change();
+        $('#WithCurrentProvider').on('change', toggleCheckGroup('.hidden-current-provider'));
+        $('#OfferMonthlyDeferrals').on('change', toggleCheckGroup('.hidden-monthly-deferrals'));
         $('#relationship').on('change', toggleRelationship);
         $('#offered-equipment').on('change', addEquipment);
         $('.add-new-brand-link').on('click', addBrand);
-        $('#reason-for-interest').on('change', setters.setReasonForInterest).change();
+        $('#reason-for-interest').on('change', setters.setReasonForInterest);
         _setLoadedData(product);
     };
 
@@ -101,6 +101,7 @@
             if (item === 'equipment' || item === 'sales-approach' || item === 'lead-gen')
                 return;
             var $item = $('#' + item);
+
             if ($item.val())
                 $item.change();
         });

@@ -2,6 +2,7 @@
     var state = require('onboarding.state').state;
     var constants = require('onboarding.state').constants;
     var manageOwners = require('onboarding.owner-info.conversion');
+    var resetForm = require('onboarding.common').resetFormValidation;
 
     var addAditionalOwner = function (ownerIndex) {
         if ($('#additional-owner-warning').is(':visible')) {
@@ -29,16 +30,20 @@
 
         $result.find('input[id^="owner0"]').each(function () {
             var $this = $(this);
-            var rules = $('#' + this.id).rules();
+            var data = Object.assign({}, $('#' + this.id).data());
             $this.attr('id', $this.attr('id').replace('owner0', 'owner' + nextOwnerIndex));
-            $this.rules('add', rules);
+            Object.keys(data).forEach(function (key) {
+                $this.attr('data-' + key.toDash(), data[key]);
+            });
         });
 
         $result.find('select[id^="owner0"]').each(function () {
             var $this = $(this);
-            var rules = $('#' + this.id).rules();
+            var data = Object.assign({}, $('#' + this.id).data());
             $this.attr('id', $this.attr('id').replace('owner0', 'owner' + nextOwnerIndex));
-            $this.rules('add', rules);
+            Object.keys(data).forEach(function (key) {
+                $this.attr('data-' + key.toDash(), data[key]);
+            })
         });
 
         $result.find('#owner-remove').attr('id', 'owner' + nextOwnerIndex + '-remove');
@@ -56,6 +61,7 @@
             .html('<use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-remove"></use>');
 
         state['owner-info']['nextOwnerIndex']++;
+        resetForm('#onboard-form');
     }
 
     var removeAdditionalOwner = function (ownerNumber) {

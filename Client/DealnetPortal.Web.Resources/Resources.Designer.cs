@@ -1096,11 +1096,29 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Choose products.
+        /// </summary>
+        public static string ChooseProducts {
+            get {
+                return ResourceManager.GetString("ChooseProducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose province.
         /// </summary>
         public static string ChooseProvince {
             get {
                 return ResourceManager.GetString("ChooseProvince", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose provinces.
+        /// </summary>
+        public static string ChooseProvinces {
+            get {
+                return ResourceManager.GetString("ChooseProvinces", resourceCulture);
             }
         }
         
