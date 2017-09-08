@@ -28,8 +28,9 @@
         $('#agreement-email').on('change', function (e) {
             $('#send-email-submit').prop('disabled', !e.target.checked);
         });
-        $('#send-draft-email').on('submit', function () {
+        $('#send-draft-email').on('submit', function (e) {
             var $this = $(this);
+            e.preventDefault();
             var allowCommunicate = $this.find('#agreement-email').prop('checked');
             if ($this.valid() && allowCommunicate) {
                 $.ajax({
