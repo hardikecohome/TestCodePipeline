@@ -41,7 +41,9 @@
                     <div class="dealnet-label hidden-xs">&nbsp;</div>
                     <div class="control-group flex-centered-text">
                         <a class="action-link add-new-brand-link">
-                            <svg aria-hidden="true" class="icon icon-add-app"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
+                            <svg aria-hidden="true" class="icon icon-add-app">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
+                            </svg>
                             <span>@Resources.AddAnotherBrand</span>
                         </a>
                     </div>
@@ -183,7 +185,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.ProductInfo.Relationship, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.EnumDropDownListFor(m => m.ProductInfo.Relationship, new { @class = "form-control", id = "relationship" })
+                        @Html.EnumDropDownListFor(m => m.ProductInfo.Relationship, "-" + Resources.NotSelected + "-", new { @class = "form-control", id = "relationship" })
                     </div>
                 </div>
             </div>
@@ -261,7 +263,7 @@
                 <div class="form-group">
                     <label for="" class="mandatory-field">@Resources.ProductsForFinancing</label>
                     <div class="control-group">
-                        @Html.DropDownList("SelectedCategories", (Model.DictionariesData.EquipmentTypes).Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Description }), "Please select", new { @class = "form-control dealnet-input", id = "offered-equipment" })
+                        @Html.DropDownList("SelectedCategories", (Model.DictionariesData.EquipmentTypes).Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Description }), Resources.ChooseProducts, new { @class = "form-control dealnet-input", id = "offered-equipment" })
                     </div>
                 </div>
             </div>
@@ -291,7 +293,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.ProductInfo.ReasonForInterest, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.EnumDropDownListFor(m => m.ProductInfo.ReasonForInterest, new { @class = "form-control", id = "reason-for-interest" })
+                        @Html.EnumDropDownListFor(m => m.ProductInfo.ReasonForInterest, "-" + Resources.NotSelected + "-", new { @class = "form-control", id = "reason-for-interest" })
                         @Html.ValidationMessageFor(m => m.ProductInfo.ReasonForInterest, "", new { @class = "text-danger" })
                     </div>
                 </div>

@@ -2003,6 +2003,12 @@
   <data name="PercentOwnershipIncorrectFormat" xml:space="preserve">
     <value>% Ownership is in incorrect format</value>
   </data>
+  <data name="ChooseProducts" xml:space="preserve">
+    <value>Choose products</value>
+  </data>
+  <data name="ChooseProvinces" xml:space="preserve">
+    <value>Choose provinces</value>
+  </data>
   <data name="TotalOwnershipNotExceed100" xml:space="preserve">
     <value>Total Percentage of Ownership should not exceed 100, please check fields.</value>
   </data>
