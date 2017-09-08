@@ -31,10 +31,9 @@
         $('#send-draft-email').on('submit', function () {
             var $this = $(this);
             var allowCommunicate = $this.find('#agreement-email').prop('checked');
-            toggleAgreementError(!allowCommunicate);
             if ($this.valid() && allowCommunicate) {
                 $.ajax({
-                    url: sendEmailUrl,
+                    url: sendLinkUrl,
                     type: 'POST',
                     data: $this.serialize(),
                     success: function (data) {
