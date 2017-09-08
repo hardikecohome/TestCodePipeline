@@ -4,6 +4,7 @@
     var isIOS = navigator.userAgent.match(/ipad|ipod|iphone/i);
 
     function submitDraft (e) {
+        showLoader();
         var formData = $('form').serialize();
         $.when($.ajax({
             type: 'POST',
@@ -19,6 +20,7 @@
             resetForm('#send-draft-email');
             initSendEmail();
             initCopyLink();
+            hideLoader();
         });
     }
 

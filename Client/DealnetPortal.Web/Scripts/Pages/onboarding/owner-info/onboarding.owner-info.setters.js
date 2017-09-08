@@ -151,8 +151,8 @@
                 $('#add-additional-div').removeClass('hidden');
             }
 
-            if ($('#owner-info-section .over-100:not(.hidden').length > 0) {
-                $('#owner-info-section .over-100:not(.hidden)').addClass('hidden');
+            if (!$('#over-100').is(':hidden')) {
+                $('#over-100').addClass('hidden');
             }
 
             return;
@@ -166,7 +166,7 @@
             }
             $('#additional-owner-warning').addClass('hidden');
 
-            $('#owner-info-section .over-100:last').removeClass('hidden');
+            $('#over-100').removeClass('hidden');
             return;
         }
 
@@ -179,8 +179,8 @@
             }
             $('#additional-owner-warning').addClass('hidden');
 
-            if ($('#owner-info-section .over-100:not(.hidden').length > 0) {
-                $('#owner-info-section .over-100:not(.hidden)').removeClass('hidden');
+            if (!$('#over-100').is(':hidden')) {
+                $('#over-100').addClass('hidden');
             }
 
             _moveTonextSection();
