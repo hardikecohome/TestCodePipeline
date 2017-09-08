@@ -161,7 +161,9 @@
         if (state[stateSection].totalPercentage > 100) {
             $('#owner-notify').addClass('hidden');
 
-            $('#add-additional-div').addClass('hidden');
+            if (state[stateSection]['owners'].length <= 1) {
+                $('#add-additional-div').addClass('hidden');                
+            }
             $('#additional-owner-warning').addClass('hidden');
 
             $('#owner-info-section .over-100:last').removeClass('hidden');
@@ -172,7 +174,9 @@
             $('#owner-notify').addClass('hidden');
 
             $('#add-additional').removeClass('mandatory-field');
-            $('#add-additional-div').addClass('hidden');
+            if (state[stateSection]['owners'].length <= 1) {
+                $('#add-additional-div').addClass('hidden');                
+            }
             $('#additional-owner-warning').addClass('hidden');
 
             if ($('#owner-info-section .over-100:not(.hidden').length > 0) {
