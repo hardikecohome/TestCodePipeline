@@ -17,35 +17,7 @@
         _uploadFile('insurenceUploaded', 'insurence-upload-title', 'insurence-container', 'insurence-files', files[0]);
     }
 
-    var setLicenseNoExpiry = function (id) {
-        var input = $('#' + id + '-license-date');
-        return function (e) {
-            var checked = e.target.checked;
-
-            var lic = state[stateSection]['addedLicense'].find(function (item) {
-                return item.id === id;
-            });
-            if (checked) {
-                lic.noExpiry = true;
-                if (!input.is(':disabled')) {
-                    input.addClass('control-disabled');
-                    input.parents('.form-group')
-                        .addClass('group-disabled');
-                    input.prop('disabled', true);
-                }
-            } else {
-                lic.noExpiry = false;
-                if (input.is(':disabled')) {
-                    input.removeClass('control-disabled');
-                    input.parents('.form-group')
-                        .removeClass('group-disabled');
-                    input.prop('disabled', false);
-                }
-            }
-            _moveTonextSection();
-            enableSubmit();
-        }
-    }
+    
 
     var setLicenseRegistraionNumber = function (id) {
         return function (e) {
@@ -68,6 +40,38 @@
         filtred.date = date;
         _moveTonextSection();
         enableSubmit();
+    }
+
+    var setLicenseNoExpiry = function (id) {
+        var input = $('#' + id + '-license-date');
+        return function (e) {
+            var checked = e.target.checked;
+            $("#" + id + "-license-checkbox").val(checked);
+            var lic = state[stateSection]['addedLicense'].find(function (item) {
+                return item.id === id;
+            });
+            if (checked) {
+                lic.noExpiry = true;
+                if (!input.is(':disabled')) {
+                    input.val(null);
+                    setLicenseExpirationDate(id, null);
+                    input.addClass('control-disabled');
+                    input.parents('.form-group')
+                        .addClass('group-disabled');
+                    input.prop('disabled', true);
+                }
+            } else {
+                lic.noExpiry = false;
+                if (input.is(':disabled')) {
+                    input.removeClass('control-disabled');
+                    input.parents('.form-group')
+                        .removeClass('group-disabled');
+                    input.prop('disabled', false);
+                }
+            }
+            _moveTonextSection();
+            enableSubmit();
+        }
     }
 
     var addLicense = function (e) {

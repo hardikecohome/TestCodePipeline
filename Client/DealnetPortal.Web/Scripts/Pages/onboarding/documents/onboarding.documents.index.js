@@ -14,7 +14,7 @@
             minDate: new Date(),
             onSelect: function (day) {
                 $(this).siblings('input.form-control').val(day);
-                $('#' + license.License.Id + '-birthdate').on('change', setters.setLicenseExpirationDate(licenseId, day));
+                $('#' + licenseId + '-birthdate').on('change', setters.setLicenseExpirationDate(licenseId, day));
                 $(this).siblings('input.form-control').val(day);
                 $(".div-datepicker").removeClass('opened');
             }
