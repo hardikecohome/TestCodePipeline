@@ -152,7 +152,7 @@
             }
 
             if ($('#owner-info-section .over-100:not(.hidden').length > 0) {
-                $('#owner-info-section .over-100:not(.hidden)').removeClass('hidden');
+                $('#owner-info-section .over-100:not(.hidden)').addClass('hidden');
             }
 
             return;
