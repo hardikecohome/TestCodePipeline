@@ -8,10 +8,13 @@
 
         var date = $('#' + licenseId + '-license-date');
 
-        inputDateFocus(date);
-        date.datepicker({
+        var input = $('body').is('.ios-device') ? date.siblings('.div-datepicker') : date;
+
+        inputDateFocus(input);
+        input.datepicker({
             yearRange: '1900:2200',
             minDate: new Date(),
+            disabled: $('#' + licenseId + '-license-checkbox').attr('checked'),
             onSelect: function (day) {
                 $(this).siblings('input.form-control').val(day);
                 $('#' + licenseId + '-birthdate').on('change', setters.setLicenseExpirationDate(licenseId, day));
@@ -51,16 +54,32 @@
 
         existedLicense.forEach(function (l) {
             state['documents'].addedLicense.push({ 'id': l.LicenseTypeId, 'number': l.Number, 'date': l.ExpiredDate, noExpiry: l.NotExpired });
-            var name = state['documents'].license.filter(function (x) { return x.License.Id === l.LicenseTypeId })[0].License.Name;
+            var name = state['documents'].license.filter(function (x) {
+                return x.License.Id === l.LicenseTypeId;
+            })[0].License.Name;
+
+            _setInputHandlersForExistedLicense(l.LicenseTypeId);
 
             if (l.NotExpired) {
-                $('#' + l.LicenseTypeId + '-license-date').addClass('control-disabled');
-                $('#' + l.LicenseTypeId + '-license-date').prop('disabled', true);
+                var date = $('#' + l.LicenseTypeId + '-license-date');
+                date.addClass('control-disabled');
+
+                date.parents('.form-group').addClass('group-disabled');
+
+                if ($('body').is('.ios-device')) {
+                    var input = $('body').is('.ios-device') ?
+                        date.siblings('.div-datepicker') :
+                        date;
+                    input.prop('disabled', true);
+                    input.datepicker('option', 'disabled', true);
+                } else {
+                    date.attr('disabled', true);
+                }
+
+
             }
 
             $('#' + l.LicenseTypeId + '-license-title').text(name);
-
-            _setInputHandlersForExistedLicense(l.LicenseTypeId);
         });
 
         if (existedLicense.length > 0) {
