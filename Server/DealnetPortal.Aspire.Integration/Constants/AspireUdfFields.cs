@@ -55,7 +55,8 @@
         public static string Residence = "Residence";
         public static string ExistingCustomer = "Existing Customer";
 
-        #region Dealer onboarding UDFs
+        #region Dealer onboarding UDFs        
+        public static string OperatingName = "Operating Name";
         public static string NumberOfInstallers = "Number of Installers";
         public static string NumberOfSalesPeople = "Number of Sales People";
         public static string TypeOfBusiness = "Type of Business";
@@ -98,6 +99,8 @@
         public static string OwnerEmail = "Owner Email";
         public static string OwnerDateOfBirth = "Owner Date of Birth";
         public static string OwnerPercentageOfOwnership = "Percentage of Ownership";
+
+        public static string SubmissionUrl = "Submission URL";       
         #endregion
 
         public static string DefaultAddressCountry = "CAN";

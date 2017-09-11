@@ -1821,6 +1821,15 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var udfList = new List<UDF>();
 
+            if (!string.IsNullOrEmpty(dealerInfo?.CompanyInfo?.OperatingName))
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.OperatingName,
+                    Value = dealerInfo.CompanyInfo.OperatingName
+                });
+            }
+
             if (dealerInfo?.CompanyInfo?.NumberOfInstallers != null)
             {
                 udfList.Add(new UDF()
@@ -2056,6 +2065,16 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.AddRange(GetCompanyOwnersUdfs(dealerInfo));
             }
 
+            if (!string.IsNullOrEmpty(dealerInfo.AccessKey))
+            {
+                var draftLink = _configuration.GetSetting(WebConfigKeys.DEALER_PORTAL_DRAFTURL_KEY) + dealerInfo.AccessKey;
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.SubmissionUrl,
+                    Value = draftLink
+                });
+            }
+
             return udfList;
         }
 
@@ -2141,31 +2160,46 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 if (owner?.Address != null)
                 {
-                    ownerUdfs.Add(new UDF()
+                    if (!string.IsNullOrEmpty(owner.Address.Street))
                     {
-                        Name = $"{AspireUdfFields.OwnerAddress} {ownerNum}",
-                        Value = owner.Address.Street
-                    });
-                    ownerUdfs.Add(new UDF()
+                        ownerUdfs.Add(new UDF()
+                        {
+                            Name = $"{AspireUdfFields.OwnerAddress} {ownerNum}",
+                            Value = owner.Address.Street
+                        });
+                    }
+                    if (!string.IsNullOrEmpty(owner.Address.City))
                     {
-                        Name = $"{AspireUdfFields.OwnerAddressCity} {ownerNum}",
-                        Value = owner.Address.City
-                    });
-                    ownerUdfs.Add(new UDF()
+                        ownerUdfs.Add(new UDF()
+                        {
+                            Name = $"{AspireUdfFields.OwnerAddressCity} {ownerNum}",
+                            Value = owner.Address.City
+                        });
+                    }
+                    if (!string.IsNullOrEmpty(owner.Address.PostalCode))
                     {
-                        Name = $"{AspireUdfFields.OwnerAddressPostalCode} {ownerNum}",
-                        Value = owner.Address.PostalCode
-                    });
-                    ownerUdfs.Add(new UDF()
+                        ownerUdfs.Add(new UDF()
+                        {
+                            Name = $"{AspireUdfFields.OwnerAddressPostalCode} {ownerNum}",
+                            Value = owner.Address.PostalCode
+                        });
+                    }
+                    if (!string.IsNullOrEmpty(owner.Address.State))
                     {
-                        Name = $"{AspireUdfFields.OwnerAddressState} {ownerNum}",
-                        Value = owner.Address.State
-                    });
-                    ownerUdfs.Add(new UDF()
+                        ownerUdfs.Add(new UDF()
+                        {
+                            Name = $"{AspireUdfFields.OwnerAddressState} {ownerNum}",
+                            Value = owner.Address.State
+                        });
+                    }
+                    if (!string.IsNullOrEmpty(owner.Address.Unit))
                     {
-                        Name = $"{AspireUdfFields.OwnerAddressUnit} {ownerNum}",
-                        Value = owner.Address.Unit
-                    });
+                        ownerUdfs.Add(new UDF()
+                        {
+                            Name = $"{AspireUdfFields.OwnerAddressUnit} {ownerNum}",
+                            Value = owner.Address.Unit
+                        });
+                    }
                 }
                 if (owner?.PercentOwnership != null)
                 {
