@@ -162,7 +162,7 @@
             $('#owner-notify').addClass('hidden');
 
             if (state[stateSection]['owners'].length <= 1) {
-                $('#add-additional-div').addClass('hidden');                
+                $('#add-additional-div').addClass('hidden');
             }
             $('#additional-owner-warning').addClass('hidden');
 
@@ -175,7 +175,7 @@
 
             $('#add-additional').removeClass('mandatory-field');
             if (state[stateSection]['owners'].length <= 1) {
-                $('#add-additional-div').addClass('hidden');                
+                $('#add-additional-div').addClass('hidden');
             }
             $('#additional-owner-warning').addClass('hidden');
 

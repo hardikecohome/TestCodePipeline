@@ -17,7 +17,7 @@
         _uploadFile('insurenceUploaded', 'insurence-upload-title', 'insurence-container', 'insurence-files', files[0]);
     }
 
-    
+
 
     var setLicenseRegistraionNumber = function (id) {
         return function (e) {
@@ -313,11 +313,14 @@
     function _moveTonextSection () {
         if (state[stateSection]['void-cheque-files'].length === 0)
             return;
+
         if (state[stateSection]['insurence-files'].length === 0)
-            return
+            return;
+
         var valid = state[stateSection].addedLicense.reduce(function (acc, item) {
-            return acc && item.number.length > 0 && (item.noExpiry || item.date.length > 0);
+            return acc && item.number.length > 0 && (item.noExpiry || item.date !== null && item.date.length > 0);
         }, true);
+
         if (valid) {
             $('#' + stateSection + '-panel')
                 .addClass('step-passed')
@@ -336,7 +339,7 @@
         setLicenseRegistraionNumber: setLicenseRegistraionNumber,
         setLicenseNoExpiry: setLicenseNoExpiry,
         setLicenseExpirationDate: setLicenseExpirationDate,
-        removeFile: removeFile
-
+        removeFile: removeFile,
+        moveTonextSection: _moveTonextSection
     }
 });

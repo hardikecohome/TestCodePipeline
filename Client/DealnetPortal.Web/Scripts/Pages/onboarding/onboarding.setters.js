@@ -51,11 +51,12 @@ module.exports('onboarding.setters', function (require) {
         }
         valid = valid && state.company.requiredFields.length === 0;
         valid = valid && state.product.requiredFields.length === 0;
-        valid = valid && state.documents['void-cheque-files'].length > 0;
-        valid = valid && state.documents['insurence-files'].length > 0;
-        valid = state.documents.addedLicense.reduce(function (acc, item) {
-            return acc && item.number.length > 0 && (item.noExpiry || item.date.length > 0);
-        }, valid);
+        // no longer required for submit
+        // valid = valid && state.documents['void-cheque-files'].length > 0;
+        // valid = valid && state.documents['insurence-files'].length > 0;
+        // valid = state.documents.addedLicense.reduce(function (acc, item) {
+        //     return acc && item.number.length > 0 && (item.noExpiry || item.date !== null && item.date.length > 0);
+        // }, valid);
         valid = valid && state.consent.creditAgreement;
         valid = valid && state.consent.contactAgreement;
         for (var owner in state.aknowledgment.owners) {

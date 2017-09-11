@@ -2,7 +2,7 @@
     var setters = require('onboarding.documents.setters');
     var state = require('onboarding.state').state;
 
-    function _setInputHandlersForExistedLicense(licenseId) {
+    function _setInputHandlersForExistedLicense (licenseId) {
         $('#' + licenseId + '-license-number').on('change', setters.setLicenseRegistraionNumber(licenseId));
         $('#' + licenseId + '-license-checkbox').on('change', setters.setLicenseNoExpiry(licenseId));
 
@@ -21,7 +21,7 @@
         });
     }
 
-    function _setInputHandlers() {
+    function _setInputHandlers () {
         document.getElementById('void-cheque-upload').addEventListener('change', setters.setVoidChequeFile, false);
         document.getElementById('insurence-upload').addEventListener('change', setters.setInsurenceFile, false);
 
@@ -35,20 +35,22 @@
     var init = function (license, existedLicense, existedDocuments) {
         state['documents'].license = license;
 
-        existedDocuments.forEach(function(doc) {
+        existedDocuments.forEach(function (doc) {
             if (doc.DocumentTypeId === 4) {
                 $('#voidChequeUploaded').removeClass('hidden');
                 $('#cheque-upload-title').text('Upload another file');
-                $('#' + doc.Id + '-file-remove').on('click', setters.removeFile('voidChequeUploaded', 'cheque-upload-title',  'void-cheque-files', doc.Name));
+                $('#' + doc.Id + '-file-remove').on('click', setters.removeFile('voidChequeUploaded', 'cheque-upload-title', 'void-cheque-files', doc.Name));
+                state.documents['void-cheque-files'].push(doc.Name);
             } else {
                 $('#insurenceUploaded').removeClass('hidden');
                 $('#insurence-upload-title').text('Upload another file');
                 $('#' + doc.Id + '-file-remove').on('click', setters.removeFile('insurenceUploaded', 'insurence-upload-title', 'insurence-files', doc.Name));
+                state.documents['insurence-files'].push(doc.Name)
             }
         });
 
-        existedLicense.forEach(function(l) {
-            state['documents'].addedLicense.push({ 'id': l.LicenseTypeId, 'number': l.Number, 'date': l.ExpiredDate });
+        existedLicense.forEach(function (l) {
+            state['documents'].addedLicense.push({ 'id': l.LicenseTypeId, 'number': l.Number, 'date': l.ExpiredDate, noExpiry: l.NotExpired });
             var name = state['documents'].license.filter(function (x) { return x.License.Id === l.LicenseTypeId })[0].License.Name;
 
             if (l.NotExpired) {
@@ -58,7 +60,7 @@
 
             $('#' + l.LicenseTypeId + '-license-title').text(name);
 
-            _setInputHandlersForExistedLicense(l.LicenseTypeId);            
+            _setInputHandlersForExistedLicense(l.LicenseTypeId);
         });
 
         if (existedLicense.length > 0) {
@@ -67,6 +69,7 @@
             }
         }
 
+        setters.moveTonextSection();
         _setInputHandlers();
     }
 
