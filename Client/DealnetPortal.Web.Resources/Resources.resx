@@ -1992,7 +1992,7 @@
     <value>Secondary brand</value>
   </data>
   <data name="SomethingWentWrong" xml:space="preserve">
-    <value>Something went wrong</value>
+    <value>Something went wrong.</value>
   </data>
   <data name="WebsiteMustBeLong" xml:space="preserve">
     <value>Website should be between {1} and {2}</value>
