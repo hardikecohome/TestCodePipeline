@@ -61,6 +61,9 @@ module.exports('onboarding.product.setters', function (require) {
                     state[stateSection].requiredFields.push('sales-approach');
             }
         }
+
+        moveToNextSection(stateSection);
+        enableSubmit();
     }
 
     var setLeadGen = function (e) {
