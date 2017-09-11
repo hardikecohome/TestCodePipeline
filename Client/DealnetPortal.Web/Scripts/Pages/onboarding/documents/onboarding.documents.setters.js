@@ -44,30 +44,33 @@
     }
 
     var setLicenseNoExpiry = function (id) {
-        var input = $('#' + id + '-license-date');
+        var input = $('body').is('.ios-device') ?
+            $('#' + id + '-license-date').siblings('.div-datepicker') :
+            $('#' + id + '-license-date');
         return function (e) {
             var checked = e.target.checked;
             $("#" + id + "-license-checkbox").val(checked);
             var lic = state[stateSection]['addedLicense'].find(function (item) {
                 return item.id === id;
             });
+            lic.noExpiry = checked;
             if (checked) {
-                lic.noExpiry = true;
-                if (!input.is(':disabled')) {
+                if (!input.datepicker("isDisabled")) {
                     input.val(null);
                     setLicenseExpirationDate(id, null);
                     input.addClass('control-disabled');
                     input.parents('.form-group')
                         .addClass('group-disabled');
                     input.prop('disabled', true);
+                    input.datepicker('option', 'disabled', true);
                 }
             } else {
-                lic.noExpiry = false;
-                if (input.is(':disabled')) {
+                if (input.datepicker("isDisabled")) {
                     input.removeClass('control-disabled');
                     input.parents('.form-group')
                         .removeClass('group-disabled');
                     input.prop('disabled', false);
+                    input.datepicker('option', 'disabled', false);
                 }
             }
             moveTonextSection();
@@ -98,17 +101,21 @@
             $('#' + license.License.Id + '-license-number').on('change', setLicenseRegistraionNumber(license.License.Id));
             var date = $('#' + license.License.Id + '-license-date');
 
-            inputDateFocus(date);
-            date.datepicker({
+            var input = $('body').is('.ios-device') ? date.siblings('.div-datepicker') : date;
+
+            inputDateFocus(input);
+
+            input.datepicker({
                 yearRange: '1900:2200',
                 minDate: new Date(),
+                disabled: $('#' + license.License.Id + '-license-checkbox').attr('checked'),
                 onSelect: function (day) {
                     $(this).siblings('input.form-control').val(day);
-                    $('#' + license.License.Id + '-birthdate').on('change', setLicenseExpirationDate(license.License.Id, day));
-                    $(this).siblings('input.form-control').val(day);
+                    setLicenseExpirationDate(license.License.Id, day);
                     $(".div-datepicker").removeClass('opened');
                 }
             });
+            input.datepicker('setDate', date.val());
 
             if (state[stateSection]['addedLicense'].length > 0) {
                 if ($('#licenseHolder').is(':hidden')) {
