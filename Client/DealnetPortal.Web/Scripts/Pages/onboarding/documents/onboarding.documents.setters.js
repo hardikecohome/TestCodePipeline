@@ -22,12 +22,13 @@
     var setLicenseRegistraionNumber = function (id) {
         return function (e) {
             var value = e.target.value;
+
             var filtred = state[stateSection]['addedLicense'].filter(function (l) {
                 return l.id == id;
             })[0];
 
             filtred.number = value;
-            _moveTonextSection();
+            moveTonextSection();
             enableSubmit();
         }
     }
@@ -38,7 +39,7 @@
         })[0];
 
         filtred.date = date;
-        _moveTonextSection();
+        moveTonextSection();
         enableSubmit();
     }
 
@@ -69,8 +70,7 @@
                     input.prop('disabled', false);
                 }
             }
-            _moveTonextSection();
-            enableSubmit();
+            moveTonextSection();
         }
     }
 
@@ -149,6 +149,7 @@
 
         e.stopImmediatePropagation();
         resetForm('#onboard-form');
+        enableSubmit();
     }
 
     function _getDocumentsArray () {
@@ -206,7 +207,7 @@
                     }
 
                     _addFile(checkSelector, buttonSelector, fileContainerSelector, stateFileSection, file, json.ItemId);
-                    _moveTonextSection();
+                    moveTonextSection();
                     enableSubmit();
                 } else {
                     alert(json.AggregatedError);
@@ -251,6 +252,7 @@
                                 $('#' + checkSelector).addClass('hidden');
                             }
                         }
+                        enableSubmit();
                     } else {
                         alert(json.AggregatedError);
                     }
@@ -310,7 +312,7 @@
 
 
     }
-    function _moveTonextSection () {
+    var moveTonextSection = function () {
         if (state[stateSection]['void-cheque-files'].length === 0)
             return;
 
@@ -340,6 +342,6 @@
         setLicenseNoExpiry: setLicenseNoExpiry,
         setLicenseExpirationDate: setLicenseExpirationDate,
         removeFile: removeFile,
-        moveTonextSection: _moveTonextSection
+        moveTonextSection: moveTonextSection
     }
 });

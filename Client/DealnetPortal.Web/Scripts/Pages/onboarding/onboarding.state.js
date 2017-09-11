@@ -15,7 +15,7 @@
             'void-cheque-files': [],
             'insurence-files': [],
             'license': [],
-            'addedLicense': [],
+            'addedLicense': []
         },
         'aknowledgment': {
             'owners': {
