@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Models.Notification;
 using DealnetPortal.Domain;
 using DealnetPortal.Api.Models.Contract;
@@ -204,7 +205,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         public async Task SendProblemsWithSubmittingOnboarding(string errorMsg, int dealerInfoId, string accessKey)
         {
-            var draftLink = ConfigurationManager.AppSettings["DealerPortalDraftUrl"] + accessKey;
+            var draftLink = ConfigurationManager.AppSettings[WebConfigKeys.DEALER_PORTAL_DRAFTURL_KEY] + accessKey;
             MandrillRequest request = new MandrillRequest();
             List<Variable> myVariables = new List<Variable>();
             myVariables.Add(new Variable() { name = "DealerInfoID", content = dealerInfoId.ToString() });
