@@ -304,7 +304,8 @@
       });
     }
 
-    $('.j-personal-data-used-modal').on('click', function(e){
+    $('.j-personal-data-used-modal').on('click', function (e) {
+        debugger
       var data = {
         message: $('#personal-data-used').html(),
         class: "consents-modal",
