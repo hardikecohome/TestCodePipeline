@@ -40,9 +40,11 @@
         });
 
         var birth = $('#' + ownerNumber + '-birthdate');
+        var input = $('body').is('.ios-device') ? birth.siblings('.div-datepicker') : birth;
 
-        inputDateFocus(birth);
-        birth.datepicker({
+        inputDateFocus(input);
+
+        input.datepicker({
             dateFormat: 'mm/dd/yy',
             changeYear: true,
             changeMonth: (viewport().width < 768) ? true : false,
@@ -51,10 +53,11 @@
             maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
             onSelect: function (day) {
                 $(this).siblings('input.form-control').val(day);
-                $('#' + ownerNumber + '-birthdate').on('change', setters.setBirthDate(ownerNumber, day));
+                setters.setBirthDate(ownerNumber, day);
                 $(".div-datepicker").removeClass('opened');
             }
         });
+        input.datepicker('setDate', birth.val());
     }
 
     function _initEventHandlers (nubmerOfOwners) {

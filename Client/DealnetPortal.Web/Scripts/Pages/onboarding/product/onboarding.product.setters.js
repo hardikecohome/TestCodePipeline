@@ -61,6 +61,9 @@ module.exports('onboarding.product.setters', function (require) {
                     state[stateSection].requiredFields.push('sales-approach');
             }
         }
+
+        moveToNextSection(stateSection);
+        enableSubmit();
     }
 
     var setLeadGen = function (e) {
@@ -184,9 +187,11 @@ module.exports('onboarding.product.setters', function (require) {
             state[stateSection].selectedEquipment.splice(index, 1);
             if (state[stateSection].selectedEquipment.length < 1) {
                 var requiredIndex = state[stateSection].requiredFields.indexOf(equipment);
-                if (requiredIndex > -1) {
-                    state[stateSection].requiredFields.splice(requiredIndex, 1);
+                if (requiredIndex === -1) {
+                    state[stateSection].requiredFields.push(equipment);
+                    enableSubmit();
                 }
+
                 $('#equipment-error').removeClass('hidden');
             }
             return true;

@@ -85,7 +85,7 @@
             link.parent().append($.parseHTML('<a href="' + linkVal + '" style="word-wrap: break-word;">' + linkVal + '</a>'));
 
             link.hide();
-            $('##copy-resume-link').hide();
+            $('#copy-resume-link').hide();
         }
     }
 
