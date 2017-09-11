@@ -31,7 +31,10 @@
             additionalOwner.remove(ownerNumber);
             aknwoledgmentOwner.remove(ownerNumber);
             if (ownerNumber !== 'owner0') {
-                _setInputHandlers(ownerNumber);
+                for (var i = ownerNumber.substr(-1) ; i < state['owner-info']['nextOwnerIndex']; i++) {
+                    _setInputHandlers('owner' + i);
+                }
+                //_setInputHandlers(ownerNumber);
                 setters.recalculateTotalPercentage();
             }
         });
