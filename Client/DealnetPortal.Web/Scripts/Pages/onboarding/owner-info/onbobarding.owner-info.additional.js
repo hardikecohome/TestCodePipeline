@@ -69,6 +69,10 @@
         $('#' + ownerNumber + '-container').remove();
         manageOwners.recalculateOwnerIndex(ownerNumber);
         state['owner-info'].nextOwnerIndex--;
+
+        if (state['owner-info'].nextOwnerIndex - 1 < constants.maxAdditionalOwner && $('#add-additional').is(':hidden')) {
+            $('#add-additional').removeClass('hidden');            
+        }
     }
 
     var removeAll = function () {

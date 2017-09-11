@@ -47,6 +47,9 @@
                 $(this).attr('data-valmsg-for', valFor.replace(currentNamePattern, previousNamePattern));
             });
 
+            nextOwner.find("#" + fullCurrentId + '-remove').off();//prop("onclick", null);
+            nextOwner.find("#" + fullCurrentId + '-remove').attr('id', fullPreviousId + '-remove');            
+
             //var removeButton = nextOwner.find('#' + option + '-equipment-remove-' + nextId);
             //removeButton.attr('id', option + '-equipment-remove-' + (nextId - 1));
             nextOwner.attr('id', 'owner' + (nextId - 1) + '-container');
