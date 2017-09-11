@@ -296,6 +296,7 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 Task.Run(() =>
                 {
+                    var updated = false;
                     dealerInfo.RequiredDocuments.ForEach(async doc =>
                     {
                         var document = new ContractDocumentDTO()
@@ -308,12 +309,26 @@ namespace DealnetPortal.Api.Integration.Services
                         try
                         {
                             await _aspireService.UploadDocument(dealerInfo.TransactionId, document, dealerInfo.ParentSalesRepId);
+                            doc.Uploaded = true;
+                            doc.UploadDate = DateTime.Now;
+                            updated = true;
                         }
                         catch (Exception ex)
                         {
                             _loggingService.LogError($"Failed to upload document to Aspire: ", ex);
                         }                        
                     });
+                    if (updated)
+                    {
+                        try
+                        {
+                            _unitOfWork.Save();
+                        }
+                        catch (Exception ex)
+                        {
+                            _loggingService.LogError($"Cannot update documents in database: ", ex);
+                        }                        
+                    }
                 });
             }           
         }

@@ -470,6 +470,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.DealerInfoId, d => d.Ignore());
             mapperConfig.CreateMap<RequiredDocumentDTO, RequiredDocument>()
                 .ForMember(x => x.DealerInfo, d => d.Ignore())
+                .ForMember(x => x.Uploaded, d => d.Ignore())
+                .ForMember(x => x.UploadDate, d => d.Ignore())
                 //.ForMember(x => x.DealerInfoId, d => d.Ignore())
                 .ForMember(x => x.DocumentType, d => d.Ignore());
             mapperConfig.CreateMap<DealerInfoDTO, DealerInfo>()
@@ -478,7 +480,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Owners, d => d.MapFrom(src => src.Owners))
                 .ForMember(x => x.RequiredDocuments, d => d.MapFrom(src => src.RequiredDocuments))
                 .ForMember(x => x.AdditionalDocuments, d => d.MapFrom(src => src.AdditionalDocuments))
-                .ForMember(x => x.ParentSalesRep, d => d.Ignore());
+                .ForMember(x => x.ParentSalesRep, d => d.Ignore())
+                .ForMember(x => x.Status, d => d.Ignore());
             mapperConfig.CreateMap<LicenseTypeDTO, LicenseType>();
             mapperConfig.CreateMap<LicenseDocumentDTO, LicenseDocument>();
             mapperConfig.CreateMap<AdditionalDocumentDTO, AdditionalDocument>()

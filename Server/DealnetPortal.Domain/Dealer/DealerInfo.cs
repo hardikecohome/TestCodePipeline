@@ -31,6 +31,10 @@ namespace DealnetPortal.Domain.Dealer
         public string AccessKey { get; set; }
 
         public string TransactionId { get; set; }
+        /// <summary>
+        /// Status in Aspire
+        /// </summary>
+        public string Status { get; set; }
 
         public DateTime CreationTime { get; set; }
         public DateTime? LastUpdateTime { get; set; }

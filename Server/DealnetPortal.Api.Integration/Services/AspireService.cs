@@ -1386,7 +1386,6 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-
         private IList<Alert> AnalyzeDealerUploadResponse(DealUploadResponse response, DealerInfo dealerInfo)
         {
             var alerts = new List<Alert>();
@@ -1407,9 +1406,16 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     if (!string.IsNullOrEmpty(response.Payload.TransactionId) && response.Payload.TransactionId != "0")
                     {
+                        dealerInfo.SentToAspire = true;
                         dealerInfo.TransactionId = response.Payload?.TransactionId;
                         _unitOfWork.Save();
                         _loggingService.LogInfo($"Aspire transaction Id [{response.Payload?.TransactionId}] created for dealer onboarding form");
+                    }
+
+                    if (!string.IsNullOrEmpty(response.Payload.ContractStatus) && dealerInfo.Status != response.Payload.ContractStatus)
+                    {
+                        dealerInfo.Status = response.Payload.ContractStatus;
+                        _unitOfWork.Save();
                     }
 
                     if (response.Payload.Accounts?.Any() ?? false)
