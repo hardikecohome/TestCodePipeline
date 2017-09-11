@@ -1,13 +1,16 @@
-﻿module.exports('onboarding.ackonwledgment.index', function(require) {
+﻿module.exports('onboarding.ackonwledgment.index', function (require) {
+    var setAgreement = require('onboarding.ackonwledgment.setters').setAgreement;
 
-    function _setLoadedData(owners) {
-        for (var i = 0; i < owners.length; i++) {
+
+    function _setLoadedData (owners) {
+        for (var i = 0;i < owners.length;i++) {
             var owner = 'owner' + i;
 
             var newOwnerState = {};
             newOwnerState[owner] = {};
 
             $.extend(state['aknowledgment']['owners'], newOwnerState);
+            setAgreement(owner)({ target: { checked: owners[i].Acknowledge } });
         }
     }
 
@@ -19,6 +22,6 @@
     }
 
     return {
-        init : init
+        init: init
     }
 })

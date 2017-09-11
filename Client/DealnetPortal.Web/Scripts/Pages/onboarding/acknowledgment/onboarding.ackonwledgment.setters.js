@@ -37,10 +37,15 @@
         for (var owner in state[stateSection]['owners']) {
             valid = valid && state[stateSection]['owners'][owner].agreement;
         }
-        if (valid)
+        if (valid) {
             $('#cleint-aknowledgment-section')
                 .addClass('step-passed')
                 .removeClass('active-panel');
+        } else {
+            $('#cleint-aknowledgment-section')
+                .addClass('active-panel')
+                .removeClass('step-passed');
+        }
     }
 
     return {
