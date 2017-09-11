@@ -151,6 +151,26 @@ namespace DealnetPortal.Api.Integration.Services
             return null;
         }
 
+        public string GetDealStatus(string transactionId)
+        {
+            string sqlStatement = _queriesStorage.GetQuery("GetDealStatus");
+
+            if (!string.IsNullOrEmpty(sqlStatement))
+            {
+                sqlStatement = string.Format(sqlStatement, transactionId);
+                var list = GetListFromQuery(sqlStatement, _databaseService, ReadDealStatusItem);
+                if (list?.Any() ?? false)
+                {
+                    return list[0];
+                }
+            }
+            else
+            {
+                _loggingService.LogWarning("Cannot get GetDealStatus query for request");
+            }
+            return null;
+        }
+
         private List<T> GetListFromQuery<T>(string query, IDatabaseService ds, Func<IDataReader, T> func)
         {
             //Define list
@@ -166,6 +186,19 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return resultList;
+        }
+
+        private string ReadDealStatusItem(IDataReader dr)
+        {
+            try
+            {
+                var status = ConvertFromDbVal<string>(dr["deal status"]);
+                return status;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         private DropDownItem ReadDropDownItem(IDataReader dr)
