@@ -1231,7 +1231,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO55") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO55"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority")
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
                     },
                     new LicenseDocument
                     {
@@ -1293,7 +1293,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority")
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
                     },
                     new LicenseDocument
                     {
@@ -1382,14 +1382,14 @@ namespace DealnetPortal.DataAccess.Migrations
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
                     },
                     #endregion
-                    #region Security System
-                    new LicenseDocument
-                    {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO52") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO52"),
-                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Commission de la Construction du Québec")
-                    },
-                    #endregion
+                    //#region Security System
+                    //new LicenseDocument
+                    //{
+                    //    Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO52") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO52"),
+                    //    Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
+                    //    License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Commission de la Construction du Québec")
+                    //},
+                    //#endregion
                 };
                 context.LicenseDocuments.AddRange(licenseDocuments.ToArray());
             }
