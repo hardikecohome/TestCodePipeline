@@ -72,18 +72,6 @@
     @RenderSection("OutrunningScripts", false)
     <!--<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>-->
     @Html.Raw(System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])
-<script type="text/javascript">
-				$(document).ready(function () {
-					if (sessionStorage["Alert"] != "clo") {
-						window.postMessage("try", "try2");
-						$('.navbar').css("top", "50px!important");
-						$('.dealnet-sidebar').css('top', '100px!important');
-						$('.container-fluid').css('margin-top', '-50px!important');
-						sessionStorage["Alert"] = "closed";
-						alert(sessionStorage["Alert"]);
-					}
-				});
-</script>
 
 </head>
 @{
@@ -101,20 +89,44 @@
 }
 
 <body class="@(User.Identity.IsAuthenticated ? "authorized" : "no-authorized") @themeClass">
-	<div class="container-fluid" id="alertLine" style="position:fixed; width:100%; height:21px; background-color:#61c53c; color: #ffffff; margin-top:50px; text-align:center;">
+	@*@if (ConfigurationManager.AppSettings["SwitchPopUpOnOff"] == "true")
+	{
+	<div class="container-fluid pull-right" id="alertLine">
 		<div class="row">
-			<div class="col-md-10 col-md-offset-1">
+			<div class="col-md-10 col-md-offset-1 center">
+				@*<p class="text-danger"><strong>@ConfigurationManager.AppSettings["PopUpHeader"]</strong> </p>*@
 
-				<p>try this</p>
+				@*<p><strong style="color:red;">@ConfigurationManager.AppSettings["PopUpHeader"]</strong> <br />@ConfigurationManager.AppSettings["PopUpMessage"]</p>
 			</div>
-			<div class="col-md-1">
+			<div class="col-md-1 pull-right" style="margin-right:-25px; margin-top:11px;">
 				<button type="button" class="btn btn-small btn-warning btn-circle" 
 						style="width: 20px; height: 20px; text-align: center; padding: 1px 0; font-size: 12px; line-height: 1.428571429; border-radius: 10px;"
-						onclick="alert('hi');"><i class="glyphicon glyphicon-remove"></i></button>
+						onclick="$('#alertLine').hide(); $('#mainBody').css('margin-top', '0px'); sessionStorage['Alert'] = 'closed';"><i class="glyphicon glyphicon-remove"></i></button>
 			</div>
 		</div>
 	</div>
-    <div class="container-fluid">
+	}*@
+
+	@*<div id="myModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			 Modal content
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">@ConfigurationManager.AppSettings["PopUpHeader"]</h4>
+				</div>
+				<div class="modal-body">
+					<p>@ConfigurationManager.AppSettings["PopUpMessage"]</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>*@
+	@*</div>*@
+    <div class="container-fluid" id="mainBody">
 		<div class="row">
             <div class="col-md-12">
                 <nav class="navbar navbar-inverse navbar-fixed-side">
@@ -292,9 +304,24 @@
                 </div>
             </div>
             }
-            <div class="@(User.Identity.IsAuthenticated ? "col-md-9 col-lg-10 col-md-offset-3 col-lg-offset-2 dealnet-body-container" : "col-md-12 col-lg-12")">
+            <div class="@(User.Identity.IsAuthenticated ? "col-md-9 col-lg-10 col-md-offset-3 col-lg-offset-2 dealnet-body-container" : "col-md-12 col-lg-12")">				
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 dealnet-body">
+						<div class="row" id="alertLine">
+							@if (ConfigurationManager.AppSettings["SwitchPopUpOnOff"] == "true")
+							{								
+								<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+									<div class="pull-right" id="alertCloseButton">
+										<button type="button" class="btn btn-small btn-warning btn-circle"
+												style="width: 20px; height: 20px; text-align: center; padding: 1px 0; font-size: 12px; line-height: 1.428571429; border-radius: 10px;"
+												onclick="$('#alertLine').hide(); sessionStorage['Alert'] = 'closed';">
+											<i class="glyphicon glyphicon-remove"></i>
+										</button>
+									</div>
+									<p><strong style="color:red;">@ConfigurationManager.AppSettings["PopUpHeader"]</strong> <br />@ConfigurationManager.AppSettings["PopUpMessage"]</p>
+								</div>								
+							}
+						</div>
                         @RenderBody()
                     </div>
                 </div>

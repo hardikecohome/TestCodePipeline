@@ -40,6 +40,25 @@
         });
     }
 
+	//Hardik Code for Alert popup
+	if (sessionStorage["Alert"] != "closed") {
+		//window.postMessage("try", "try2");
+		//$('#mainBody').css("margin-top", "50px");
+		$('#alertLine').show();
+		$('#myModal').modal();
+		//alert(sessionStorage["Alert"]);
+		//sessionStorage["Alert"] = "closed";
+		//alert(sessionStorage["Alert"]);
+	}
+	else {
+		$('#alertLine').hide();
+		//$('#mainBody').css("margin-top", "0px");
+		//alert(sessionStorage["Alert"]);
+		//sessionStorage["Alert"] = "show";
+		
+	}
+
+
     function addCloseButtonForInlineDatePicker(){
       setTimeout(function(){
           $( "<button>", {
