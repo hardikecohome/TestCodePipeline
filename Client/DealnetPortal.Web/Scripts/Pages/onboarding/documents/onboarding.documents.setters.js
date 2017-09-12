@@ -146,7 +146,8 @@
                 return l.id === toDel;
             })[0];
 
-            delete state[stateSection]['addedLicense'][state[stateSection]['addedLicense'].indexOf(deleteFromState)];
+            var index = state[stateSection]['addedLicense'].indexOf(deleteFromState);
+            state[stateSection]['addedLicense'].splice(index, 1);
 
             $('#' + toDel + '-license-holder').remove();
         });
