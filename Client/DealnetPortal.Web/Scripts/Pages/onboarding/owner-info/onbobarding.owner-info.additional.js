@@ -3,6 +3,7 @@
     var constants = require('onboarding.state').constants;
     var manageOwners = require('onboarding.owner-info.conversion');
     var resetForm = require('onboarding.common').resetFormValidation;
+    var assignDatepicker = require('onboarding.owner-info.conversion').assignDatepicker;
 
     var addAditionalOwner = function (ownerIndex) {
         if ($('#additional-owner-warning').is(':visible')) {
@@ -55,11 +56,6 @@
 
         $('#owner-container').attr('id', 'owner' + nextOwnerIndex + '-container');
 
-        $('#' + 'owner' + nextOwnerIndex + '-container')
-            .find('.clear-input')
-            .find('svg')
-            .html('<use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-remove"></use>');
-
         state['owner-info']['nextOwnerIndex']++;
         resetForm('#onboard-form');
     }
@@ -71,7 +67,7 @@
         state['owner-info'].nextOwnerIndex--;
 
         if (state['owner-info'].nextOwnerIndex - 1 < constants.maxAdditionalOwner && $('#add-additional').is(':hidden')) {
-            $('#add-additional').removeClass('hidden');            
+            $('#add-additional').removeClass('hidden');
         }
     }
 
