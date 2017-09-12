@@ -2,6 +2,7 @@
 @using DealnetPortal.Web.Infrastructure
 @using DealnetPortal.Web.Models.Enumeration
 @using System.Security.Claims;
+@using System.Configuration;
 
 <!DOCTYPE html>
 <html lang="@(CultureHelper.CurrentCultureType == CultureType.English ? "en-CA" : "fr-CA")">
@@ -71,6 +72,19 @@
     @RenderSection("OutrunningScripts", false)
     <!--<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>-->
     @Html.Raw(System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])
+<script type="text/javascript">
+				$(document).ready(function () {
+					if (sessionStorage["Alert"] != "clo") {
+						window.postMessage("try", "try2");
+						$('.navbar').css("top", "50px!important");
+						$('.dealnet-sidebar').css('top', '100px!important');
+						$('.container-fluid').css('margin-top', '-50px!important');
+						sessionStorage["Alert"] = "closed";
+						alert(sessionStorage["Alert"]);
+					}
+				});
+</script>
+
 </head>
 @{
     string themeClass;
@@ -87,8 +101,21 @@
 }
 
 <body class="@(User.Identity.IsAuthenticated ? "authorized" : "no-authorized") @themeClass">
+	<div class="container-fluid" id="alertLine" style="position:fixed; width:100%; height:21px; background-color:#61c53c; color: #ffffff; margin-top:50px; text-align:center;">
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+
+				<p>try this</p>
+			</div>
+			<div class="col-md-1">
+				<button type="button" class="btn btn-small btn-warning btn-circle" 
+						style="width: 20px; height: 20px; text-align: center; padding: 1px 0; font-size: 12px; line-height: 1.428571429; border-radius: 10px;"
+						onclick="alert('hi');"><i class="glyphicon glyphicon-remove"></i></button>
+			</div>
+		</div>
+	</div>
     <div class="container-fluid">
-        <div class="row">
+		<div class="row">
             <div class="col-md-12">
                 <nav class="navbar navbar-inverse navbar-fixed-side">
                     <div class="navbar-header">
@@ -106,6 +133,7 @@
                                 <div class="dealnet-image-ecologo main-logo"></div>
                             </div>
                         }
+						
                         <div class="user-hold">
                             <div class="dealnet-login-buttons-holder pull-right">
                                 @Html.Partial("LoginButtons")
