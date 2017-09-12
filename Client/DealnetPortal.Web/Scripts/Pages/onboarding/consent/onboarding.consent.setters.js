@@ -30,9 +30,15 @@
                 .removeClass('active-panel')
                 .addClass('step-passed');
 
-            $('#cleint-aknowledgment-section')
-                .removeClass('panel-collapsed')
-                .addClass('active-panel');
+            var acknowledgement = $('#cleint-aknowledgment-section');
+            if (!acknowledgement.is('.step-passed')) {
+                acknowledgement.removeClass('panel-collapsed')
+                    .addClass('active-panel');
+            }
+        } else {
+            var cliet = $('#client-consent-section');
+            if (client.is('.step-passed'))
+                client.removeClass('step-passed');
         }
     }
 

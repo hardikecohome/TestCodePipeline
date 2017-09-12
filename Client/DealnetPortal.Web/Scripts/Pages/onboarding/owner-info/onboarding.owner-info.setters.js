@@ -199,9 +199,11 @@
                 .removeClass('active-panel')
                 .addClass('step-passed');
 
-            $('#product-panel')
-                .removeClass('panel-collapsed')
-                .addClass('active-panel');
+            var product = $('#product-panel');
+            if (!product.is('.step-passed')) {
+                product.removeClass('panel-collapsed')
+                    .addClass('active-panel');
+            }
         } else {
             if ($('#owner-info-section').is('.step-passed'))
                 $('#owner-info-section')

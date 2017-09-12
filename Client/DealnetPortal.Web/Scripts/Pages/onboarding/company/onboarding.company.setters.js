@@ -53,7 +53,7 @@
             if (index > -1) {
                 state[stateSection].requiredFields.splice(index, 1);
             }
-            moveToNextSection.call(this, stateSection);
+            moveToNextSection(stateSection);
             return true;
         }
         return false;
@@ -72,6 +72,8 @@
                 }
                 $('#work-province-error').removeClass('hidden');
             }
+
+            moveToNextSection(stateSection);
             return true;
         }
         return false;

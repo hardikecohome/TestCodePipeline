@@ -335,9 +335,13 @@
             $('#' + stateSection + '-panel')
                 .addClass('step-passed')
                 .removeClass('active-panel');
-            $('#client-consent-section')
-                .removeClass('panel-collapsed')
-                .addClass('active-panel');
+            var client = $('#client-consent-section');
+            if (!client.is('.step-passed'))
+                client.removeClass('panel-collapsed')
+                    .addClass('active-panel');
+        } else {
+            $('#' + stateSection + '-panel')
+                .removeClass('step-passed')
         }
     }
 
