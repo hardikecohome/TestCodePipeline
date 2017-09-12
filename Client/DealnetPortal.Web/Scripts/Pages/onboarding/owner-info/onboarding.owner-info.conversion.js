@@ -1,5 +1,6 @@
 ﻿module.exports('onboarding.owner-info.conversion', function (require) {
 
+    var setBirthDate = require('onboarding.owner-info.setters').setBirthDate;
     var resetFormValidation = require('onboarding.common').resetFormValidation;
 
     var recalculateOwnerIndex = function (ownerNumber) {
@@ -48,7 +49,7 @@
             });
 
             nextOwner.find("#" + fullCurrentId + '-remove').off();//prop("onclick", null);
-            nextOwner.find("#" + fullCurrentId + '-remove').attr('id', fullPreviousId + '-remove');            
+            nextOwner.find("#" + fullCurrentId + '-remove').attr('id', fullPreviousId + '-remove');
 
             //var removeButton = nextOwner.find('#' + option + '-equipment-remove-' + nextId);
             //removeButton.attr('id', option + '-equipment-remove-' + (nextId - 1));
@@ -61,7 +62,39 @@
         resetFormValidation('#onboard-form');
     }
 
+    function assignDatepicker (selector, ownerNumber) {
+
+        var input = $('body').is('.ios-device') ? $(selector).siblings('.div-datepicker') : $(selector);
+
+        inputDateFocus(input);
+
+        input.datepicker({
+            dateFormat: 'mm/dd/yy',
+            changeYear: true,
+            changeMonth: (viewport().width < 768) ? true : false,
+            yearRange: '1900:' + (new Date().getFullYear() - 18),
+            minDate: Date.parse("1900-01-01"),
+            maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
+            onSelect: function (day) {
+                $(this).siblings('input.form-control').val(day);
+                setBirthDate(ownerNumber, day);
+                $(".div-datepicker").removeClass('opened');
+            }
+        });
+
+        input.siblings('.div-datepicker-value').on('click', function () {
+            $('.div-datepicker').removeClass('opened');
+            $(this).siblings('.div-datepicker').toggleClass('opened');
+            if (!$('.div-datepicker .ui-datepicker-close').length) {
+                addCloseButtonForInlineDatePicker();
+            }
+        });
+
+        return input;
+    }
+
     return {
-        recalculateOwnerIndex: recalculateOwnerIndex
+        recalculateOwnerIndex: recalculateOwnerIndex,
+        assignDatepicker: assignDatepicker
     };
 })

@@ -4,6 +4,7 @@
     var aknwoledgmentSetters = require('onboarding.ackonwledgment.setters');
     var additionalOwner = require('onboarding.owner-info.additional');
     var aknwoledgmentOwner = require('onboarding.ackonwledgment.owners');
+    var assignDatepicker = require('onboarding.owner-info.conversion').assignDatepicker;
 
     function _setInputHandlers (ownerNumber) {
         $('#' + ownerNumber + '-firstname').on('change', setters.setFirstName(ownerNumber));
@@ -31,7 +32,7 @@
             additionalOwner.remove(ownerNumber);
             aknwoledgmentOwner.remove(ownerNumber);
             if (ownerNumber !== 'owner0') {
-                for (var i = ownerNumber.substr(-1) ; i < state['owner-info']['nextOwnerIndex']; i++) {
+                for (var i = ownerNumber.substr(-1);i < state['owner-info']['nextOwnerIndex'];i++) {
                     _setInputHandlers('owner' + i);
                 }
                 //_setInputHandlers(ownerNumber);
@@ -39,25 +40,9 @@
             }
         });
 
-        var birth = $('#' + ownerNumber + '-birthdate');
-        var input = $('body').is('.ios-device') ? birth.siblings('.div-datepicker') : birth;
+        var input = assignDatepicker('#' + ownerNumber + '-birthdate', ownerNumber);
 
-        inputDateFocus(input);
-
-        input.datepicker({
-            dateFormat: 'mm/dd/yy',
-            changeYear: true,
-            changeMonth: (viewport().width < 768) ? true : false,
-            yearRange: '1900:' + (new Date().getFullYear() - 18),
-            minDate: Date.parse("1900-01-01"),
-            maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
-            onSelect: function (day) {
-                $(this).siblings('input.form-control').val(day);
-                setters.setBirthDate(ownerNumber, day);
-                $(".div-datepicker").removeClass('opened');
-            }
-        });
-        input.datepicker('setDate', birth.val());
+        input.datepicker('setDate', $('#' + ownerNumber + '-birthdate').val());
     }
 
     function _initEventHandlers (nubmerOfOwners) {

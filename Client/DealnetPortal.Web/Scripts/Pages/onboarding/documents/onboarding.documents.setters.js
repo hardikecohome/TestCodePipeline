@@ -44,9 +44,8 @@
     }
 
     var setLicenseNoExpiry = function (id) {
-        var input = $('body').is('.ios-device') ?
-            $('#' + id + '-license-date').siblings('.div-datepicker') :
-            $('#' + id + '-license-date');
+        var isIos = $('body').is('.ios-device');
+        var input = $('#' + id + '-license-date');
         return function (e) {
             var checked = e.target.checked;
             $("#" + id + "-license-checkbox").val(checked);
@@ -56,22 +55,30 @@
             });
             lic.noExpiry = checked;
             if (checked) {
-                if (!input.datepicker("isDisabled")) {
+                if (!input.is("disabled")) {
                     input.val(null);
                     setLicenseExpirationDate(id, null);
                     input.addClass('control-disabled');
                     input.parents('.form-group')
                         .addClass('group-disabled');
                     input.prop('disabled', true);
-                    input.datepicker('option', 'disabled', true);
+                    if (isIos) {
+                        input.siblings('.div-datepicker').datepicker('disable');
+                    } else {
+                        input.datepicker('disable');
+                    }
                 }
             } else {
-                if (input.datepicker("isDisabled")) {
+                if (input.is(":disabled")) {
                     input.removeClass('control-disabled');
                     input.parents('.form-group')
                         .removeClass('group-disabled');
                     input.prop('disabled', false);
-                    input.datepicker('option', 'disabled', false);
+                    if (isIos) {
+                        input.siblings('.div-datepicker').datepicker('enable');
+                    } else {
+                        input.datepicker('enable');
+                    }
                 }
             }
             moveTonextSection();
@@ -100,6 +107,23 @@
             _rebuildIndex();
 
             $('#' + license.License.Id + '-license-number').on('change', setLicenseRegistraionNumber(license.License.Id));
+            result.find('.date-group').each(function () {
+                $('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length === 0 ? $('<div/>', {
+                    class: 'div-datepicker-value',
+                    text: $(this).find('.form-control').val()
+                }).appendTo(this) : '';
+                $('body').is('.ios-device') ? $('<div/>', {
+                    class: 'div-datepicker',
+                }).appendTo(this) : '';
+            });
+
+            result.find('.div-datepicker-value').on('click', function () {
+                $('.div-datepicker').removeClass('opened');
+                $(this).siblings('.div-datepicker').toggleClass('opened');
+                if (!$('.div-datepicker .ui-datepicker-close').length) {
+                    addCloseButtonForInlineDatePicker();
+                }
+            });
             var date = $('#' + license.License.Id + '-license-date');
 
             var input = $('body').is('.ios-device') ? date.siblings('.div-datepicker') : date;
