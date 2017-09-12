@@ -51,7 +51,8 @@
             var checked = e.target.checked;
             $("#" + id + "-license-checkbox").val(checked);
             var lic = state[stateSection]['addedLicense'].find(function (item) {
-                return item.id === id;
+                if(item !== undefined  && item !== null)
+                    return item.id === id;
             });
             lic.noExpiry = checked;
             if (checked) {
