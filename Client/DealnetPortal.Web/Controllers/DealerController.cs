@@ -25,9 +25,9 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> OnBoarding(string onboardingLink)
+        public async Task<ActionResult> OnBoarding(string key)
         {
-            var result = await _dealerOnBoardingManager.GetNewDealerOnBoardingForm(onboardingLink);
+            var result = await _dealerOnBoardingManager.GetNewDealerOnBoardingForm(key);
 
             if (result == null)
             {

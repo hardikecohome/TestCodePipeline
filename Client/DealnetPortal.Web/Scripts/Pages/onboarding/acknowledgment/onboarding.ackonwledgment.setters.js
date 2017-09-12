@@ -41,10 +41,6 @@
             $('#cleint-aknowledgment-section')
                 .addClass('step-passed')
                 .removeClass('active-panel');
-        } else {
-            $('#cleint-aknowledgment-section')
-                .addClass('active-panel')
-                .removeClass('step-passed');
         }
     }
 
