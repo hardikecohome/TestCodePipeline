@@ -319,6 +319,7 @@
 
 
     }
+
     var moveTonextSection = function () {
         if (state[stateSection]['void-cheque-files'].length === 0)
             return;
@@ -327,7 +328,7 @@
             return;
 
         var valid = state[stateSection].addedLicense.reduce(function (acc, item) {
-            return acc && item.number.length > 0 && (item.noExpiry || item.date !== null && item.date.length > 0);
+            return acc && (item.number !== null && item.number.length > 0) && (item.noExpiry || item.date !== null && item.date.length > 0);
         }, true);
 
         if (valid) {

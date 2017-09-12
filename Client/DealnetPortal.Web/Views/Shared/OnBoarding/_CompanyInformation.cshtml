@@ -74,7 +74,7 @@
                     @Html.LabelFor(m => m.CompanyInfo.CompanyAddress.UnitNumber)
                     <div class="control-group">
                         @Html.TextBoxFor(m => m.CompanyInfo.CompanyAddress.UnitNumber, new { id = "company-unit", @class = "form-control dealnet-input", placeholder ="12345" })
-                        @Html.ValidationMessageFor(m => m.CompanyInfo.CompanyAddress.UnitNumber, "", new { @class = "text-danger", placeholder = "12345" })
+                        @Html.ValidationMessageFor(m => m.CompanyInfo.CompanyAddress.UnitNumber, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>

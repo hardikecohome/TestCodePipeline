@@ -28,7 +28,7 @@ namespace DealnetPortal.Web
 
             routes.MapRoute(
                name: "",
-               url: "Dealer/{action}/{onboardingLink}",
+               url: "Dealer/{action}/{key}",
                defaults: new { controller = "Dealer", action = "OnBoarding" }
            );
 
