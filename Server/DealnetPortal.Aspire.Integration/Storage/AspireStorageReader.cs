@@ -157,11 +157,18 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (!string.IsNullOrEmpty(sqlStatement))
             {
-                sqlStatement = string.Format(sqlStatement, transactionId);
-                var list = GetListFromQuery(sqlStatement, _databaseService, ReadDealStatusItem);
-                if (list?.Any() ?? false)
+                try
                 {
-                    return list[0];
+                    sqlStatement = string.Format(sqlStatement, transactionId);
+                    var list = GetListFromQuery(sqlStatement, _databaseService, ReadDealStatusItem);
+                    if (list?.Any() ?? false)
+                    {
+                        return list[0];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _loggingService.LogError("Cannot get GetDealStatus query",ex);
                 }
             }
             else

@@ -140,7 +140,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var result = _dealerService.AddDocumentToOnboardingForm(document);
+                var result = await _dealerService.AddDocumentToOnboardingForm(document);
                 return Ok(result);
             }
             catch (Exception ex)

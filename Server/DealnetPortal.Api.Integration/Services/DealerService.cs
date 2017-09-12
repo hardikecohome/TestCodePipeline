@@ -316,9 +316,9 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 Task.Run(() =>
                 {
-                    dealerInfo.RequiredDocuments.Where(d => !d.Uploaded).ForEach(async doc =>
+                    dealerInfo.RequiredDocuments.Where(d => !d.Uploaded).ForEach(doc =>
                     {
-                        await _aspireService.UploadOnboardingDocument(dealerInfoId, doc.Id, statusToSend);                        
+                        _aspireService.UploadOnboardingDocument(dealerInfoId, doc.Id, statusToSend).GetAwaiter().GetResult();                        
                     });                    
                 });
             }           

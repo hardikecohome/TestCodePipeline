@@ -1011,14 +1011,15 @@ namespace DealnetPortal.Api.Integration.Services
                         }
 
                         //restore status for resubmiting
-                        if (statusToRestore != dealerInfo.Status)
-                        {
-                            dealerInfo.Status = statusToRestore;
+                        if (!string.IsNullOrEmpty(statusToRestore) && statusToRestore != dealerInfo.Status)
+                        {                            
                             var cAlerts = await ChangeDealStatus(dealerInfo.TransactionId, statusToRestore, dealerInfo.ParentSalesRepId);
                             if (cAlerts?.Any() == true)
                             {
                                 alerts.AddRange(cAlerts);
                             }
+                            dealerInfo.Status = statusToRestore;
+                            _unitOfWork.Save();
                         }
                     }
                     catch (Exception ex)
