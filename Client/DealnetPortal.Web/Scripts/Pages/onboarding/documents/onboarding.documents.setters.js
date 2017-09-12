@@ -150,7 +150,7 @@
             $('#' + toDel + '-license-holder').remove();
         });
 
-        if (state[stateSection]['addedLicense'].length > 0) {
+        if (state[stateSection]['addedLicense'].length === 0) {
             $('#licenseHolder').addClass('hidden');
         }
 
