@@ -28,7 +28,7 @@ namespace DealnetPortal.Web.Infrastructure
 
         public async Task<DealerOnboardingViewModel> GetNewDealerOnBoardingForm(string onboardingLink)
         {
-            var valid = await _dealerServiceAgent.CheckOnboardingLink(onboardingLink);
+            var valid = !string.IsNullOrEmpty(onboardingLink) && await _dealerServiceAgent.CheckOnboardingLink(onboardingLink);
             return valid ? new DealerOnboardingViewModel
             {
                 OnBoardingLink = onboardingLink,
