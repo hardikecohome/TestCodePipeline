@@ -33,14 +33,20 @@ module.exports('onboarding.setters', function (require) {
     }
 
     function moveToNextSection (stateSection) {
+        var current = $('#' + stateSection + '-panel');
         var isValid = state[stateSection].requiredFields.length === 0;
         if (isValid) {
-            $('#' + stateSection + '-panel')
-                .addClass('step-passed')
-                .removeClass('active-panel')
-                .next()
-                .removeClass('panel-collapsed')
-                .addClass('active-panel');
+
+            current.addClass('step-passed')
+                .removeClass('active-panel');
+            var next = current.next();
+            if (!next.is('.step-passed')) {
+                next.removeClass('panel-collapsed')
+                    .addClass('active-panel');
+            }
+        } else {
+            if (current.is('.step-passed'))
+                current.removeClass('step-passed');
         }
     }
 
