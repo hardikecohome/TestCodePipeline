@@ -14,6 +14,7 @@ using DealnetPortal.Api.Common.Enumeration.Dealer;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Aspire.Integration.Constants;
 using DealnetPortal.Aspire.Integration.Models;
@@ -661,6 +662,181 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
+        public async Task<IList<Alert>> UploadOnboardingDocument(int dealerInfoId, int requiredDocId, string statusToSend = null)
+        {
+            var alerts = new List<Alert>();
+
+            var dealerInfo = _dealerOnboardingRepository.GetDealerInfoById(dealerInfoId);
+            var document = dealerInfo?.RequiredDocuments.First(d => d.Id == requiredDocId);
+            if (dealerInfo != null && document != null && document.Uploaded != true)
+            {
+                var docTypeId = document.DocumentTypeId;
+                var docTypes = _contractRepository.GetDocumentTypes();
+
+                var docType = docTypes?.FirstOrDefault(t => t.Id == docTypeId);
+                if (!string.IsNullOrEmpty(docType?.Prefix))
+                {
+                    if (string.IsNullOrEmpty(document.DocumentName) || !document.DocumentName.StartsWith(docType.Prefix))
+                    {
+                        document.DocumentName = docType.Prefix + document.DocumentName;
+                    }
+                }
+
+                var request = new DocumentUploadRequest();
+                var userResult = GetAspireUser(dealerInfo.ParentSalesRepId);
+                if (userResult.Item2.Any())
+                {
+                    alerts.AddRange(userResult.Item2);
+                }
+                if (alerts.All(a => a.Type != AlertType.Error))
+                {
+                    request.Header = userResult.Item1;
+                    try
+                    {
+                        request.Payload = new DocumentUploadPayload()
+                        {
+                            TransactionId = string.IsNullOrEmpty(dealerInfo.TransactionId) ? null : dealerInfo.TransactionId,
+                            Status = statusToSend ?? _configuration.GetSetting(WebConfigKeys.DOCUMENT_UPLOAD_STATUS_CONFIG_KEY)
+                        };
+
+                        request.Payload.Documents = new List<Document>()
+                        {
+                            new Document()
+                            {
+                                Name = Path.GetFileNameWithoutExtension(document.DocumentName),
+                                Data = Convert.ToBase64String(document.DocumentBytes),
+                                Ext = Path.GetExtension(document.DocumentName)?.Substring(1)
+                            }
+                        };
+
+                        var docUploadResponse = await _aspireServiceAgent.DocumentUploadSubmission(request).ConfigureAwait(false);
+                        var rAlerts = AnalyzeDealerUploadResponse(docUploadResponse, dealerInfo);
+                        if (rAlerts?.Any() == true)
+                        {
+                            alerts.AddRange(rAlerts);
+                        }                        
+                        if (alerts.All(a => a.Type != AlertType.Error))
+                        {
+                            document.Uploaded = true;
+                            document.UploadDate = DateTime.Now;
+                            _unitOfWork.Save();
+                            _loggingService.LogInfo($"Document {document.DocumentName} for dealer onboarding form {dealerInfoId} was uploaded to Aspire successfully");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Code = ErrorCodes.AspireConnectionFailed,
+                            Header = "Can't upload document",
+                            Message = ex.ToString(),
+                            Type = AlertType.Error
+                        });
+                        _loggingService.LogError($"Can't upload document to Aspire for dealer onboarding form {dealerInfoId}", ex);
+                    }
+                }                
+            }
+            else
+            {
+                if (document?.Uploaded == true)
+                {
+                    alerts.Add(new Alert()
+                    {                        
+                        Header = "Document was uploaded already",
+                        Message = "Document was uploaded already",
+                        Type = AlertType.Warning
+                    });
+                }
+                else
+                {
+                    alerts.Add(new Alert()
+                    {
+                        Code = ErrorCodes.CantGetContractFromDb,
+                        Header = "Can't get dealer onboadring form",
+                        Message = $"Can't get dealer onboadring form id {dealerInfoId}",
+                        Type = AlertType.Error
+                    });
+                    _loggingService.LogError($"Can't get dealer onboadring form id {dealerInfoId}");
+                }                
+            }
+
+            return alerts;
+        }
+
+        public async Task<string> GetDealStatus(string aspireTransactionId)
+        {
+            var status = await Task.Run(() => _aspireStorageReader.GetDealStatus(aspireTransactionId));
+            return status;
+        }
+
+        public async Task<IList<Alert>> ChangeDealStatus(string aspireTransactionId, string newStatus, string contractOwnerId, string additionalDataToPass = null)
+        {
+            var alerts = new List<Alert>();            
+
+            var request = new DocumentUploadRequest();
+
+            var userResult = GetAspireUser(contractOwnerId);
+            if (userResult.Item2.Any())
+            {
+                alerts.AddRange(userResult.Item2);
+            }
+            if (alerts.All(a => a.Type != AlertType.Error))
+            {
+                request.Header = userResult.Item1;
+
+                try
+                {
+                    request.Payload = new DocumentUploadPayload()
+                    {
+                        TransactionId = aspireTransactionId,
+                        Status = newStatus
+                    };
+                    
+                    var submitStrBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(additionalDataToPass ?? newStatus));
+
+                    request.Payload.Documents = new List<Document>()
+                    {
+                        new Document()
+                        {
+                            Name = newStatus,
+                            Data = submitStrBase64,
+                            Ext = "txt"
+                        }
+                    };
+
+                    var docUploadResponse = await _aspireServiceAgent.DocumentUploadSubmission(request).ConfigureAwait(false);
+
+                    if(docUploadResponse?.Header == null || docUploadResponse.Header.Code != CodeSuccess || !string.IsNullOrEmpty(docUploadResponse.Header.ErrorMsg))
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Header = docUploadResponse?.Header?.Status,
+                            Message = docUploadResponse?.Header?.Message ?? docUploadResponse?.Header?.ErrorMsg,
+                            Type = AlertType.Error
+                        });
+                    }                    
+
+                    if (alerts.All(a => a.Type != AlertType.Error))
+                    {
+                        _loggingService.LogInfo($"Aspire state for transaction {aspireTransactionId} was updated successfully");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    alerts.Add(new Alert()
+                    {
+                        Code = ErrorCodes.AspireConnectionFailed,
+                        Header = $"Can't update state for transaction {aspireTransactionId}",
+                        Message = ex.ToString(),
+                        Type = AlertType.Error
+                    });
+                    _loggingService.LogError($"Can't update state for transaction {aspireTransactionId}", ex);
+                }
+            }
+
+            return alerts;
+        }
+
         public async Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId, string contractOwnerId)
         {
             var alerts = new List<Alert>();
@@ -777,6 +953,12 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (dealerInfo != null)
             {
+                string statusToRestore = null;
+                if (dealerInfo.SentToAspire && !string.IsNullOrEmpty(dealerInfo.TransactionId))
+                {
+                    statusToRestore = _aspireStorageReader.GetDealStatus(dealerInfo.TransactionId);
+                }
+
                 CustomerRequest request = new CustomerRequest();
 
                 var userResult = GetAspireUser(dealerInfo.ParentSalesRepId);
@@ -826,6 +1008,18 @@ namespace DealnetPortal.Api.Integration.Services
                         if (rAlerts.Any())
                         {
                             alerts.AddRange(rAlerts);
+                        }
+
+                        //restore status for resubmiting
+                        if (!string.IsNullOrEmpty(statusToRestore) && statusToRestore != dealerInfo.Status)
+                        {                            
+                            var cAlerts = await ChangeDealStatus(dealerInfo.TransactionId, statusToRestore, dealerInfo.ParentSalesRepId);
+                            if (cAlerts?.Any() == true)
+                            {
+                                alerts.AddRange(cAlerts);
+                            }
+                            dealerInfo.Status = statusToRestore;
+                            _unitOfWork.Save();
                         }
                     }
                     catch (Exception ex)
@@ -1386,7 +1580,6 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-
         private IList<Alert> AnalyzeDealerUploadResponse(DealUploadResponse response, DealerInfo dealerInfo)
         {
             var alerts = new List<Alert>();
@@ -1407,9 +1600,16 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     if (!string.IsNullOrEmpty(response.Payload.TransactionId) && response.Payload.TransactionId != "0")
                     {
+                        dealerInfo.SentToAspire = true;
                         dealerInfo.TransactionId = response.Payload?.TransactionId;
                         _unitOfWork.Save();
                         _loggingService.LogInfo($"Aspire transaction Id [{response.Payload?.TransactionId}] created for dealer onboarding form");
+                    }
+
+                    if (!string.IsNullOrEmpty(response.Payload.ContractStatus) && dealerInfo.Status != response.Payload.ContractStatus)
+                    {
+                        dealerInfo.Status = response.Payload.ContractStatus;
+                        _unitOfWork.Save();
                     }
 
                     if (response.Payload.Accounts?.Any() ?? false)

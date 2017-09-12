@@ -133,6 +133,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     dbDoc.DocumentTypeId = requiredDocument.DocumentTypeId;
                 }
             }
+            dbDoc.Uploaded = false;
             return dbDoc;
         }
 

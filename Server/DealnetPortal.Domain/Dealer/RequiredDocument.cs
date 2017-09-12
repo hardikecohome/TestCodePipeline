@@ -21,6 +21,11 @@ namespace DealnetPortal.Domain.Dealer
         public byte[] DocumentBytes { get; set; }
 
         public DateTime CreationDate { get; set; }
+        /// <summary>
+        /// Uploaded to Aspire
+        /// </summary>
+        public bool Uploaded { get; set; }
+        public DateTime? UploadDate { get; set; }
 
         public int DealerInfoId { get; set; }
         [ForeignKey(nameof(DealerInfoId))]

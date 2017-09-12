@@ -136,11 +136,11 @@ namespace DealnetPortal.Api.Controllers
         [Route("AddDocumentToDealerOnboarding")]
         [HttpPut]
         [AllowAnonymous]
-        public IHttpActionResult AddDocumentToDealerOnboarding(RequiredDocumentDTO document)
+        public async Task<IHttpActionResult> AddDocumentToDealerOnboarding(RequiredDocumentDTO document)
         {
             try
             {
-                var result = _dealerService.AddDocumentToOnboardingForm(document);
+                var result = await _dealerService.AddDocumentToOnboardingForm(document);
                 return Ok(result);
             }
             catch (Exception ex)
