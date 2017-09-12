@@ -153,7 +153,8 @@ namespace DealnetPortal.Api.Integration.Services
                                               _dealerRepository.GetUserIdByOnboardingLink(dealerInfo.SalesRepLink);
                 var updatedInfo = _dealerOnboardingRepository.AddOrUpdateDealerInfo(mappedInfo);
                 _unitOfWork.Save();
-                //submit form to Aspire
+                //submit form to Aspire                     
+                var reSubmit = updatedInfo.SentToAspire;
                 var submitResult = await _aspireService.SubmitDealerOnboarding(updatedInfo.Id);
                 if (submitResult?.Any() ?? false)
                 {
@@ -166,7 +167,7 @@ namespace DealnetPortal.Api.Integration.Services
                     await _mailService.SendProblemsWithSubmittingOnboarding(errorMsg, updatedInfo.Id, mappedInfo.AccessKey);
                 }
                 //upload required documents
-                UploadOnboardingDocuments(updatedInfo.Id);
+                UploadOnboardingDocuments(updatedInfo.Id, reSubmit ? updatedInfo.Status : null);
             }
             catch (Exception ex)
             {
@@ -214,7 +215,7 @@ namespace DealnetPortal.Api.Integration.Services
             return _dealerRepository.GetUserIdByOnboardingLink(dealerLink) != null;
         }
 
-        public Tuple<DealerInfoKeyDTO, IList<Alert>> AddDocumentToOnboardingForm(RequiredDocumentDTO document)
+        public async Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> AddDocumentToOnboardingForm(RequiredDocumentDTO document)
         {
             var alerts = new List<Alert>();
             DealerInfoKeyDTO resultKey = null;
@@ -222,13 +223,32 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 var mappedDoc = Mapper.Map<RequiredDocument>(document);
                 var updatedDoc = _dealerOnboardingRepository.AddDocumentToDealer(mappedDoc.DealerInfoId, mappedDoc);
-                _unitOfWork.Save();
+                _unitOfWork.Save();                                
                 resultKey = new DealerInfoKeyDTO()
                 {
                     AccessKey = updatedDoc.DealerInfo?.AccessKey,
                     DealerInfoId = updatedDoc.DealerInfo?.Id ?? 0,
                     ItemId = updatedDoc.Id
                 };
+                //if form was submitted before, we can upload document to Aspire
+                if (updatedDoc.DealerInfo?.SentToAspire == true &&
+                    !string.IsNullOrEmpty(updatedDoc.DealerInfo?.TransactionId))
+                {
+                    var status = await _aspireService.GetDealStatus(updatedDoc.DealerInfo.TransactionId);
+                    if (!string.IsNullOrEmpty(status))
+                    {
+                        var uAlerts = await _aspireService.UploadOnboardingDocument(updatedDoc.DealerInfo.Id, updatedDoc.Id, status);
+                        if (uAlerts?.Any() == true)
+                        {
+                            alerts.AddRange(uAlerts);
+                        }
+                        if (updatedDoc.DealerInfo.Status != status)
+                        {
+                            updatedDoc.DealerInfo.Status = status;
+                            _unitOfWork.Save();
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -289,46 +309,17 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        private void UploadOnboardingDocuments(int dealerInfoId)
+        private void UploadOnboardingDocuments(int dealerInfoId, string statusToSend = null)
         {
             var dealerInfo = _dealerOnboardingRepository.GetDealerInfoById(dealerInfoId);
             if (dealerInfo?.RequiredDocuments?.Any(d => d.DocumentBytes != null) == true)
             {
                 Task.Run(() =>
                 {
-                    var updated = false;
-                    dealerInfo.RequiredDocuments.ForEach(async doc =>
+                    dealerInfo.RequiredDocuments.Where(d => !d.Uploaded).ForEach(async doc =>
                     {
-                        var document = new ContractDocumentDTO()
-                        {
-                            CreationDate = doc.CreationDate,
-                            DocumentBytes = doc.DocumentBytes,
-                            DocumentName = doc.DocumentName,
-                            DocumentTypeId = doc.DocumentTypeId
-                        };
-                        try
-                        {
-                            await _aspireService.UploadDocument(dealerInfo.TransactionId, document, dealerInfo.ParentSalesRepId);
-                            doc.Uploaded = true;
-                            doc.UploadDate = DateTime.Now;
-                            updated = true;
-                        }
-                        catch (Exception ex)
-                        {
-                            _loggingService.LogError($"Failed to upload document to Aspire: ", ex);
-                        }                        
-                    });
-                    if (updated)
-                    {
-                        try
-                        {
-                            _unitOfWork.Save();
-                        }
-                        catch (Exception ex)
-                        {
-                            _loggingService.LogError($"Cannot update documents in database: ", ex);
-                        }                        
-                    }
+                        await _aspireService.UploadOnboardingDocument(dealerInfoId, doc.Id, statusToSend);                        
+                    });                    
                 });
             }           
         }
