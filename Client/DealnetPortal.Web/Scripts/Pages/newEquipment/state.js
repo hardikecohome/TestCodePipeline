@@ -13,7 +13,7 @@
             CustomerRate: '',
             yourCost: '',
             DealerCost: 0,
-            AdminFee: 0
+			AdminFee: customerFee
         },
         contractId: 0,
         selectedCardId: null,

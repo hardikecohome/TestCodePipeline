@@ -57,6 +57,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 SetAspireTestUsers(context, context.Applications.Local.ToArray());
                 SetTestEquipmentTypes(context);
                 SetTestProvinceTaxRates(context);
+		SetTestVerficationIds(context);
                 SetAspireStatuses(context);
                 SetDocumentTypes(context);
                 SetLanguages(context);
@@ -741,6 +742,26 @@ namespace DealnetPortal.DataAccess.Migrations
             //leave existing data
             taxRates.RemoveAll(t => context.ProvinceTaxRates.Any(dbt => dbt.Province == t.Province));
             context.ProvinceTaxRates.AddOrUpdate(t => t.Province, taxRates.ToArray());
+        }
+
+        private void SetTestVerficationIds(ApplicationDbContext context)
+        {
+            //Obtained from http://www.retailcouncil.org/quickfacts/taxrates
+            var VerificationIds = new List<VerifiactionId>
+            {
+                new VerifiactionId {VerificationIdName = "Driver’s license"},
+                new VerifiactionId {VerificationIdName = "BYID card"},
+                new VerifiactionId {VerificationIdName = "Canadian or foreign passport"},
+                new VerifiactionId {VerificationIdName = "Canadian citizenship card"},
+                new VerifiactionId {VerificationIdName = "Possession and Acquisition License (PAL card)"},
+                new VerifiactionId {VerificationIdName = "Permanent Residency Card"},
+                new VerifiactionId {VerificationIdName = "Certificate of Indian Status"},
+                new VerifiactionId {VerificationIdName = "Canadian National Institute for the Blind identification card"},
+                new VerifiactionId {VerificationIdName = "Canadian Military Employment Card "},
+                new VerifiactionId {VerificationIdName = "Canadian Military Family Identification Card"}
+
+            };
+            context.VerificationIds.AddOrUpdate(t => t.VerificationIdName, VerificationIds.ToArray());
         }
 
         private void SetAspireStatuses(ApplicationDbContext context)

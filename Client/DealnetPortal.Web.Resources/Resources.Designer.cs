@@ -340,7 +340,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Admin Fee.
+        ///   Looks up a localized string similar to Customer Fee.
         /// </summary>
         public static string AdminFee {
             get {
@@ -1015,7 +1015,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Client has lived at current address for less than 6 months.
+        ///   Looks up a localized string similar to Client has lived at current address for less than 2 years.
         /// </summary>
         public static string ClientLivedCurrentAddressLessThenSixMonth {
             get {
@@ -1209,6 +1209,14 @@ namespace DealnetPortal.Web.Resources {
         public static string CostOfBorrowing {
             get {
                 return ResourceManager.GetString("CostOfBorrowing", resourceCulture);
+		}
+	}
+        /// <summary>
+        ///   Looks up a localized string similar to Cost (including all taxes).
+        /// </summary>
+        public static string CostWithTaxes {
+            get {
+                return ResourceManager.GetString("CostWithTaxes", resourceCulture);
             }
         }
         
@@ -1429,6 +1437,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dealer&apos;s Initial.
+        /// </summary>
+        public static string DealerInitial {
+            get {
+                return ResourceManager.GetString("DealerInitial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dealer Invoice Amount.
+        /// </summary>
+        public static string DealerInvoiceAmount {
+            get {
+                return ResourceManager.GetString("DealerInvoiceAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dealer Name.
         /// </summary>
         public static string DealerName {
@@ -1596,6 +1622,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Description {
             get {
                 return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description (including make and model).
+        /// </summary>
+        public static string DescriptionWithMakeModel {
+            get {
+                return ResourceManager.GetString("DescriptionWithMakeModel", resourceCulture);
             }
         }
         
@@ -2527,7 +2562,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lived at current address less than 6 month.
+        ///   Looks up a localized string similar to Lived at current address less than 2 years.
         /// </summary>
         public static string LivedAtCurrentLessThan {
             get {
@@ -2536,7 +2571,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lived at Installation address less than 6 month.
+        ///   Looks up a localized string similar to Lived at Installation address less than 2 years.
         /// </summary>
         public static string LivedAtInstallationAddressLessThan {
             get {
@@ -4422,6 +4457,15 @@ namespace DealnetPortal.Web.Resources {
         public static string ValueOfDeal {
             get {
                 return ResourceManager.GetString("ValueOfDeal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customer&apos;s Verfication Id.
+        /// </summary>
+        public static string VerificationId {
+            get {
+                return ResourceManager.GetString("VerificationId", resourceCulture);
             }
         }
         

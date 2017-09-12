@@ -274,7 +274,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 col-lg-4">
+                <div class="col-md-4 col-lg-4 hidden">
                     <div class="form-group">
                         @Html.LabelFor(m => m.HomeOwner.DriverLicenseNumber, new { @for = "dl-number" })
                         <div class="control-group">
@@ -283,6 +283,28 @@
                         </div>
                     </div>
                 </div>
+				<!--New Code to map new contract-->
+				<div class="col-md-4 col-lg-4">
+					<div class="form-group">
+						@Html.LabelFor(m => m.HomeOwner.VerificationIdName, new { @for = "verification-id" })
+						<div class="control-group">
+							@Html.DropDownListFor(m => m.HomeOwner.VerificationIdName, (Model.VarificationIds).Select(x => new SelectListItem { Value = x.VerificationIdName, Text = x.VerificationIdName }), "", new { @class = "form-control dealnet-input", id = "verification-id", Required = "required" })
+										@Html.ValidationMessageFor(m => m.HomeOwner.VerificationIdName, "", new { @class = "text-danger" })
+									</div>
+			
+								</div>
+			
+							</div>
+			
+							<div class="col-md-4 col-lg-4">
+					<div class="form-group">
+						@Html.LabelFor(m => m.HomeOwner.DealerInitial, new { @for = "dealer-initial" })
+						<div class="control-group">
+							@Html.TextBoxFor(m => m.HomeOwner.DealerInitial, new { @class = "form-control dealnet-input", id = "dealer-initial", placeholder = Resources.DealerInitial, Required = "required" })
+							@Html.ValidationMessageFor(m => m.HomeOwner.DealerInitial, "", new { @class = "text-danger" })
+						</div>
+					</div>
+				</div>
             </div>
         </div>
         <!--END Borrower Information-->
@@ -362,7 +384,8 @@
         </label>
     </div>
     <div id="previous-address">
-        <h2 class="dealnet-middle-header address-info-label no-margin-top">@Resources.PreviousAddressInformation</h2>
+
+		<h2 class="dealnet-middle-header address-info-label no-margin-top">@Resources.PreviousAddressInformation</h2>
         <div class="row address-info1">
             <div class="col-md-6 col-lg-6">
                 <div class="form-group">
@@ -430,7 +453,8 @@
             </label>
         </div>
         <div id="mailing-address">
-            <h2 class="dealnet-middle-header address-info-label no-margin-top">@Resources.MailingAddress</h2>
+
+			<h2 class="dealnet-middle-header address-info-label no-margin-top">@Resources.MailingAddress</h2>
             <div class="row address-info1">
                 <div class="col-md-6 col-lg-6">
                     <div class="form-group">
@@ -610,7 +634,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4 col-lg-4">
+                        <div class="col-md-4 col-lg-4 hidden">
                             <div class="form-group">
                         	@Html.LabelFor(m => m.AdditionalApplicants[i].DriverLicenseNumber, new { @for = "additional-dl-number-" + (i + 1) })
                                 <div class="control-group">
@@ -619,6 +643,26 @@
                                 </div>
                             </div>
                         </div>
+						<!--New Code to map new contract-->
+						<div class="col-md-4 col-lg-4">
+							<div class="form-group">
+								@Html.LabelFor(m => m.AdditionalApplicants[i].VerificationIdName, new { @for = "additional-verification-id"+(i+1) })
+								<div class="control-group">
+									@Html.DropDownListFor(m => m.AdditionalApplicants[i].VerificationIdName, (Model.VarificationIds).Select(x => new SelectListItem { Value = x.VerificationIdName, Text = x.VerificationIdName }), "",
+								new { @class = "form-control dealnet-input", id = "additional-verification-id" + (i + 1), Required = "required" })
+									@Html.ValidationMessageFor(m => m.AdditionalApplicants[i].VerificationIdName, "", new { @class = "text-danger" })
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 col-lg-4">
+							<div class="form-group">
+								@Html.LabelFor(m => m.AdditionalApplicants[i].DealerInitial, new { @for = "additional-dealer-initial" + (i + 1) })
+								<div class="control-group">
+									@Html.TextBoxFor(m => m.AdditionalApplicants[i].DealerInitial, new { @class = "form-control dealnet-input", id = "additional-dealer-initial" + (i + 1), placeholder = Resources.DealerInitial, Required = "required" })
+									@Html.ValidationMessageFor(m => m.AdditionalApplicants[i].DealerInitial, "", new { @class = "text-danger" })
+								</div>
+							</div>
+						</div>
                     </div>
 
                 </div>

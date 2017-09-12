@@ -3,18 +3,18 @@
 <div class="row loan-element">
   <div class="col-md-6">
     <div class="row form-group">
-      <div class="col-sm-6">@Resources.CashPriceOfEquipment</div>
+      <div class="col-sm-6">@Resources.DealerInvoiceAmount</div>
       <div class="col-sm-6 text-right text-stronger">
         $ <span id="totalEquipmentPrice">-</span>
       </div>
     </div>
-    <div class="row form-group">
+    <div class="row form-group hidden">
       <div class="col-sm-6">@(Model.ProvinceTaxRate?.Description ?? Resources.Tax)</div>
       <div class="col-sm-6 text-right text-stronger">
         $ <span id="tax">-</span>
       </div>
     </div>
-    <div class="row form-group">
+    <div class="row form-group hidden">
       <div class="col-sm-6">@Resources.TotalCashPrice</div>
       <div class="col-sm-6 text-right text-stronger">
         $ <span id="totalPrice">-</span>

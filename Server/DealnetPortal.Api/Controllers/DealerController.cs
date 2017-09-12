@@ -65,7 +65,21 @@ namespace DealnetPortal.Api.Controllers
                 return InternalServerError(ex);
             }
         }
-
+        [Route("GetDealerParent")]
+        [HttpGet]
+        public IHttpActionResult GetDealerParent()
+        {
+            try
+            {
+                var dealerParentName = _dealerService.GetDealerParentName(LoggedInUser.UserId);
+                return Ok(dealerParentName);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError($"Failed to get parent for the Dealer {LoggedInUser.UserId}", ex);
+                return InternalServerError(ex);
+            }
+        }
 
     }
 }

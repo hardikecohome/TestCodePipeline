@@ -86,7 +86,7 @@
           </div>
 
           <div class="row">
-              <div class="col-sm-6 col-md-4 col-lg-3">
+              <div class="col-sm-6 col-md-4 col-lg-4">
                   <div class="form-group">
                       @Html.LabelFor(m => m.HomeOwner.FirstName, new {@for = "first-name", @class = "mandatory-field"})
                       <div class="control-group">
@@ -95,7 +95,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-sm-6 col-md-4 col-lg-3">
+              <div class="col-sm-6 col-md-4 col-lg-4">
                   <div class="form-group">
                       @Html.LabelFor(m => m.HomeOwner.LastName, new {@for = "last-name", @class = "mandatory-field"})
                       <div class="control-group">
@@ -104,7 +104,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-sm-6 col-md-4 col-lg-3 col-clear-sm-6">
+              <div class="col-sm-6 col-md-4 col-lg-4 col-clear-sm-6">
                   <div class="form-group">
                       @Html.LabelFor(m => m.HomeOwner.BirthDate, new {@for = "birth-date", @class = "mandatory-field"})
                       <div class="control-group date-group">
@@ -113,7 +113,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-sm-6 col-md-4 col-lg-3 col-lg-3 col-clear-md-4">
+              <div class="hidden">
                   <div class="form-group">
                       @Html.LabelFor(m => m.HomeOwner.DriverLicenseNumber, new {@for = "dl-number"})
                       <div class="control-group control-group-pass">
