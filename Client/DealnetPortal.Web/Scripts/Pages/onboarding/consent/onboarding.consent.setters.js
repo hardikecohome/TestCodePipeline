@@ -36,7 +36,7 @@
                     .addClass('active-panel');
             }
         } else {
-            var cliet = $('#client-consent-section');
+            var client = $('#client-consent-section');
             if (client.is('.step-passed'))
                 client.removeClass('step-passed');
         }
