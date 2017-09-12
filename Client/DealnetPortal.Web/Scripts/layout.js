@@ -40,6 +40,38 @@
       });
     }
 
+	//Hardik Code for Alert popup
+	if (sessionStorage["Alert"] != "closed") {
+		//window.postMessage("try", "try2");
+		//$('#mainBody').css("margin-top", "50px");
+		$('#alertLine').show();
+		$('#myModal').modal();
+		//alert(sessionStorage["Alert"]);
+		//sessionStorage["Alert"] = "closed";
+		//alert(sessionStorage["Alert"]);
+	}
+	else {
+		$('#alertLine').hide();
+		//$('#mainBody').css("margin-top", "0px");
+		//alert(sessionStorage["Alert"]);
+		//sessionStorage["Alert"] = "show";
+		
+	}
+
+
+    function addCloseButtonForInlineDatePicker(){
+      setTimeout(function(){
+          $( "<button>", {
+            text: translations['Cancel'],
+            type: 'button',
+            class: "ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all",
+            click: function() {
+              $(".div-datepicker").removeClass('opened');
+            }
+          }).appendTo($('.div-datepicker'));
+      }, 100);
+    }
+
     //if(!$('.date-group').children('.dealnet-disabled-input'))
     $('.date-group').each(function () {
       $('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length === 0 ? $('<div/>', {
