@@ -22,7 +22,7 @@
         $('[data-toggle="popover"]').data('bs.popover').tip().addClass('onboard-popover');
     }
 
-    function initAutocomplete () {
+    function initAutocomplete() {
         company.initAutocomplete();
         ownerInfo.initAutocomplete();
     }

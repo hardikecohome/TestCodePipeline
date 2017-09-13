@@ -11,9 +11,7 @@
         $('#operating-name').on('change', setters.setOperatingName);
         $('#company-phone').on('change', setters.setPhone);
         $('#company-email-address').on('change', setters.setEmail);
-        $('#company-website').on('change', setters.setWebsite);
         $('#company-street').on('change', setters.setStreet);
-        $('#company-unit').on('change', setters.setUnit);
         $('#company-city').on('change', setters.setCity);
         $('#company-province').on('change', setters.setProvince);
         $('#company-postal').on('change', setters.setPostalCode);
