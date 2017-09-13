@@ -13,7 +13,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.FullLegalName, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.FullLegalName, new { @class = "form-control dealnet-input", id = "full-legal-name", placeholder = Resources.FullLegalName })
+                        @Html.TextBoxFor(m => m.CompanyInfo.FullLegalName, new { @class = "form-control dealnet-input", id = "full-legal-name" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.FullLegalName, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -22,7 +22,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.OperatingName, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.OperatingName, new { @class = "form-control dealnet-input", id = "operating-name", placeholder = Resources.OperatingName })
+                        @Html.TextBoxFor(m => m.CompanyInfo.OperatingName, new { @class = "form-control dealnet-input", id = "operating-name" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.OperatingName, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.Phone, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.Phone, new { @class = "form-control dealnet-input", id = "company-phone", placeholder = Resources.PhoneNumber })
+                        @Html.TextBoxFor(m => m.CompanyInfo.Phone, new { @class = "form-control dealnet-input", id = "company-phone" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.Phone, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.EmailAddress, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.EmailAddress, new { @class = "form-control dealnet-input", id = "company-email-address", placeholder = Resources.EmailAddress })
+                        @Html.TextBoxFor(m => m.CompanyInfo.EmailAddress, new { @class = "form-control dealnet-input", id = "company-email-address" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.EmailAddress, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.CompanyAddress.Street, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.CompanyAddress.Street, new { id = "company-street", @class = "form-control dealnet-input", placeholder = Resources.StreetPlaceholder })
+                        @Html.TextBoxFor(m => m.CompanyInfo.CompanyAddress.Street, new { id = "company-street", @class = "form-control dealnet-input" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.CompanyAddress.Street, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.CompanyAddress.UnitNumber)
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.CompanyAddress.UnitNumber, new { id = "company-unit", @class = "form-control dealnet-input", placeholder ="12345" })
+                        @Html.TextBoxFor(m => m.CompanyInfo.CompanyAddress.UnitNumber, new { id = "company-unit", @class = "form-control dealnet-input" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.CompanyAddress.UnitNumber, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.CompanyAddress.City, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.CompanyAddress.City, new { id = "company-city", @class = "form-control dealnet-input", placeholder = Resources.Ottawa })
+                        @Html.TextBoxFor(m => m.CompanyInfo.CompanyAddress.City, new { id = "company-city", @class = "form-control dealnet-input" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.CompanyAddress.City, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -108,7 +108,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.CompanyAddress.PostalCode, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.CompanyInfo.CompanyAddress.PostalCode, new { id = "company-postal", @class = "form-control dealnet-input postal-code", placeholder = "12345" })
+                        @Html.TextBoxFor(m => m.CompanyInfo.CompanyAddress.PostalCode, new { id = "company-postal", @class = "form-control dealnet-input postal-code" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.CompanyAddress.PostalCode, "", new { @class = "text-danger" })
                     </div>
                 </div>

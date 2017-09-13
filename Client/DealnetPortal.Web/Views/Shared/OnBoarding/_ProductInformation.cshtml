@@ -18,7 +18,7 @@
                 <div class="form-group">
                     <label for="" class="mandatory-field">@Resources.PrimaryManufacturerBrandSold</label>
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.ProductInfo.PrimaryBrand, new { @class = "form-control dealnet-input", id = "primary-brand", placeholder = Resources.PrimaryBrand })
+                        @Html.TextBoxFor(m => m.ProductInfo.PrimaryBrand, new { @class = "form-control dealnet-input", id = "primary-brand" })
                         @Html.ValidationMessageFor(m => m.ProductInfo.PrimaryBrand, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -30,7 +30,7 @@
                     <div class="form-group">
                         <label for="">@Resources.SecondaryManufacturerBrandSold</label>
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.ProductInfo.Brands[i], new { @class = "form-control dealnet-input secondary-brand", id = "brands-@i", placeholder = Resources.SecondaryBrand })
+                            @Html.TextBoxFor(m => m.ProductInfo.Brands[i], new { @class = "form-control dealnet-input secondary-brand", id = "brands-@i" })
                             @Html.ValidationMessageFor(m => m.ProductInfo.Brands[i], "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                     @Html.LabelFor(m => m.ProductInfo.AnnualSalesVolume, new { @class = "mandatory-field" })
                     <div class="control-group has-addon-left">
                         <div class="control-group-addon">$</div>
-                        @Html.TextBoxFor(m => m.ProductInfo.AnnualSalesVolume, new { @class = "form-control dealnet-input", id = "annual-sales-volume", placeholder = Resources.AnnualSalesVolume })
+                        @Html.TextBoxFor(m => m.ProductInfo.AnnualSalesVolume, new { @class = "form-control dealnet-input", id = "annual-sales-volume" })
                         @Html.ValidationMessageFor(m => m.ProductInfo.AnnualSalesVolume, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                     @Html.LabelFor(m => m.ProductInfo.AverageTransactionSize, new { @class = "mandatory-field" })
                     <div class="control-group has-addon-left">
                         <div class="control-group-addon">$</div>
-                        @Html.TextBoxFor(m => m.ProductInfo.AverageTransactionSize, new { @class = "form-control dealnet-input", id = "av-transaction-size", placeholder = Resources.AverageTransactionSize })
+                        @Html.TextBoxFor(m => m.ProductInfo.AverageTransactionSize, new { @class = "form-control dealnet-input", id = "av-transaction-size" })
                         @Html.ValidationMessageFor(m => m.ProductInfo.AverageTransactionSize, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -193,7 +193,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.ProductInfo.OEMName, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.ProductInfo.OEMName, new { @class = "form-control dealnet-input", id = "oem", placeholder = Resources.OEMName })
+                        @Html.TextBoxFor(m => m.ProductInfo.OEMName, new { @class = "form-control dealnet-input", id = "oem" })
                         @Html.ValidationMessageFor(m => m.ProductInfo.OEMName, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -217,7 +217,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.ProductInfo.FinanceProviderName, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.ProductInfo.FinanceProviderName, new { @class = "form-control dealnet-input", id = "finance-provider-name", placeholder = Resources.FinanceProviderName })
+                        @Html.TextBoxFor(m => m.ProductInfo.FinanceProviderName, new { @class = "form-control dealnet-input", id = "finance-provider-name" })
                         @Html.ValidationMessageFor(m => m.ProductInfo.FinanceProviderName, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -227,7 +227,7 @@
                     @Html.LabelFor(m => m.ProductInfo.MonthlyFinancedValue, new { @class = "mandatory-field" })
                     <div class="control-group has-addon-left">
                         <div class="control-group-addon">$</div>
-                        @Html.TextBoxFor(m => m.ProductInfo.MonthlyFinancedValue, new { @class = "form-control dealnet-input", id = "monthly-financed-value", placeholder = Resources.MonthlyFinancedValue })
+                        @Html.TextBoxFor(m => m.ProductInfo.MonthlyFinancedValue, new { @class = "form-control dealnet-input", id = "monthly-financed-value" })
                         @Html.ValidationMessageFor(m => m.ProductInfo.MonthlyFinancedValue, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -252,7 +252,7 @@
                     @Html.LabelFor(m => m.ProductInfo.PercentMonthlyDealsDeferred, new { @class = "mandatory-field" })
                     <div class="control-group has-addon-left">
                         <div class="control-group-addon">%</div>
-                        @Html.TextBoxFor(m => m.ProductInfo.PercentMonthlyDealsDeferred, new { @class = "form-control", id = "percent-month-deferrals", placeholder = "10%" })
+                        @Html.TextBoxFor(m => m.ProductInfo.PercentMonthlyDealsDeferred, new { @class = "form-control", id = "percent-month-deferrals"})
                         @Html.ValidationMessageFor(m => m.ProductInfo.PercentMonthlyDealsDeferred, "", new { @class = "text-danger" })
                     </div>
                 </div>
