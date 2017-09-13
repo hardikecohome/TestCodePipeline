@@ -174,6 +174,7 @@ module.exports('onboarding.product.setters', function (require) {
             if (requiredIndex > -1) {
                 state[stateSection].requiredFields.splice(requiredIndex, 1);
                 moveToNextSection(stateSection);
+                enableSubmit();
             }
             return true;
         }

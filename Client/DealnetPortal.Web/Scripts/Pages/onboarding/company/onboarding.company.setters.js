@@ -3,6 +3,7 @@
 
     var configSetField = require('onboarding.setters').configSetField;
     var moveToNextSection = require('onboarding.setters').moveToNextSection;
+    var enableSubmit = require('onboarding.setters').enableSubmit;
 
     var stateSection = 'company';
 
@@ -54,6 +55,8 @@
                 state[stateSection].requiredFields.splice(index, 1);
             }
             moveToNextSection(stateSection);
+            enableSubmit();
+
             return true;
         }
         return false;
@@ -74,6 +77,8 @@
             }
 
             moveToNextSection(stateSection);
+            enableSubmit();
+
             return true;
         }
         return false;
