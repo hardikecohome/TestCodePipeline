@@ -180,9 +180,6 @@
                         <ul class="nav nav-sidebar">
                             @if ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") != true)
                             {
-                                @*<li class="dealnet-sidebar-item" id="sidebar-item-onboarding">
-                                    @Html.ActionLink("Onboarding", "OnBoarding", "Dealer", null, new {@class = "dealnet-sidebar-link"})
-                                </li>*@
                                 <li class="dealnet-sidebar-item" id="sidebar-item-homepage">
                                     <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-home"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-home")"></use></svg></span>
                                     @Html.ActionLink(Resources.HomePage, "Index", "Home", null, new {@class = "dealnet-sidebar-link"})
