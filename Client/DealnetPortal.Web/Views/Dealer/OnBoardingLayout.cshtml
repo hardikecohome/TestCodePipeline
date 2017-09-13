@@ -266,6 +266,15 @@
             $.validator.addMethod('validurl', function (value, element) {
                 return $.validator.methods.url.call(this, value, element) ||  $.validator.methods.url.call(this, 'http://' + value, element);
             }, translations.SiteInvalidFormat);
+
+            $('select').on('change',function(){
+                debugger
+                if(this.value){
+                    $(this).addClass('has-value');
+                }else{
+                    $(this).removeClass('has-value');
+                }
+            })
         });
 
         function clearAddress() {
