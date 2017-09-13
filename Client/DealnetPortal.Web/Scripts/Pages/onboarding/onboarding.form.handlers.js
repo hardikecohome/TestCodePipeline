@@ -21,6 +21,7 @@
             initSendEmail();
             initCopyLink();
             hideLoader();
+            $('#send-email-submit').prop('disabled', $('#agreement-email').prop('checked')!==true);
         });
     }
 

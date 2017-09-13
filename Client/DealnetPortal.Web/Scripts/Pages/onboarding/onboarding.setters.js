@@ -70,8 +70,10 @@ module.exports('onboarding.setters', function (require) {
         }
         if (valid) {
             $('#submit').prop('disabled', false);
+            $('#submit').parent().popover('destroy');            
         } else {
             $('#submit').prop('disabled', true);
+            $('#submit').parent().popover();
         }
     }
 
