@@ -56,6 +56,23 @@
 
         $('#owner-container').attr('id', 'owner' + nextOwnerIndex + '-container');
 
+        toggleClearInputIcon($('#owner' + nextOwnerIndex + '-container').find('input'));
+
+        $('#owner' + nextOwnerIndex + '-container')
+            .find('.clear-input')
+            .find('svg')
+            .html('<use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-remove"></use>');
+
+        $('#owner' + nextOwnerIndex + '-container')
+            .find('.clear-address').click(function () {
+                $(this).parents('.address-container').find('input').each(function () {
+                    if ($(this).not('.placeholder')) {
+                        $(this).val("");
+                    }
+                });
+                return false;
+            });
+
         state['owner-info']['nextOwnerIndex']++;
         resetForm('#onboard-form');
     }
