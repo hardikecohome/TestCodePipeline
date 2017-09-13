@@ -28,16 +28,10 @@
             var previousNamePattern = 'Owners[' + (nextId - 1);
 
             inputs.each(function () {
-                $(this).attr('id', $(this).attr('id').replace(fullCurrentId, fullPreviousId));
+                this.id = this.id.replace(fullCurrentId, fullPreviousId);
                 $(this).off();
-                $(this).attr('name', $(this).attr('name').replace(currentNamePattern, previousNamePattern));
+                this.name = this.name.replace(currentNamePattern, previousNamePattern);
             });
-
-            var labels = nextOwner.find('label');
-
-            //labels.each(function () {
-            //    $(this).attr('for', $(this).attr('for').replace(currentIdPattern, previousIdPattern));
-            //});
 
             var spans = nextOwner.find('span');
 
@@ -48,11 +42,9 @@
                 $(this).attr('data-valmsg-for', valFor.replace(currentNamePattern, previousNamePattern));
             });
 
-            nextOwner.find("#" + fullCurrentId + '-remove').off();//prop("onclick", null);
+            nextOwner.find("#" + fullCurrentId + '-remove').off();
             nextOwner.find("#" + fullCurrentId + '-remove').attr('id', fullPreviousId + '-remove');
 
-            //var removeButton = nextOwner.find('#' + option + '-equipment-remove-' + nextId);
-            //removeButton.attr('id', option + '-equipment-remove-' + (nextId - 1));
             nextOwner.attr('id', 'owner' + (nextId - 1) + '-container');
             nextOwner.attr('id', 'owner' + (nextId - 1) + '-container');
 
