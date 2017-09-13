@@ -105,6 +105,8 @@
             if ($item.val())
                 $item.change();
         });
+        if ($('#oem').val())
+            $('#oem').change();
     }
 
     return {
