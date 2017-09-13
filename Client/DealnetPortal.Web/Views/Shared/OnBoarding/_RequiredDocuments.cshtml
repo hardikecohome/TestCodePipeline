@@ -48,7 +48,7 @@
                     </span>
                     <div class="align-middle document-label">
                         <h4 class="onboard-license-heading">Proof of insurance</h4>
-                        <div>Ecohome Financial Inc. must be listed as additional insured</div>
+                        <div id="additional-insurence-text">Ecohome Financial Inc. must be listed as additional insured</div>
                         <div class="placeholder-text">Please upload file in format PDF, Word, PNG, JPG</div>
                         <ul class="uploaded-docs-list" id="insurence-container">
                             @foreach (RequiredDocumentViewModel document in Model.RequiredDocuments.Where(x => x.DocumentTypeId == (int)DocumentTemplateType.Insurence))
