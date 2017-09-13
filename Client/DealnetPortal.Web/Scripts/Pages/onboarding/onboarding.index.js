@@ -11,11 +11,11 @@
 
     function init (model) {
         company.initCompany(model !== undefined ? model.CompanyInfo : {});
+        aknowledgement.init(model !== undefined ? model.Owners : []);
         ownerInfo.init(model !== undefined ? model.Owners : []);
         product.initProducts(model !== undefined ? model.ProductInfo : {});
         documents.init(model.DictionariesData.LicenseDocuments, model.AdditionalDocuments, model.RequiredDocuments);
         consent.init(model.AllowCommunicate, model.AllowCreditCheck);
-        aknowledgement.init(model !== undefined ? model.Owners : []);
 
         $('#submit').on('click', validateAndSubmit);
         $('.save-and-resume').on('click', submitDraft);
