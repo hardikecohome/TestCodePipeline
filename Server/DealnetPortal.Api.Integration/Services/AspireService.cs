@@ -2323,7 +2323,7 @@ namespace DealnetPortal.Api.Integration.Services
                     ownerUdfs.Add(new UDF()
                     {
                         Name = $"{AspireUdfFields.OwnerLastName} {ownerNum}",
-                        Value = owner.FirstName
+                        Value = owner.LastName
                     });
                 }
                 if (owner?.DateOfBirth != null)
