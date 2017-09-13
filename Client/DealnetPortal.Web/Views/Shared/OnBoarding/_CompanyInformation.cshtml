@@ -133,7 +133,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.BusinessType, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.EnumDropDownListFor(m => m.CompanyInfo.BusinessType, "-"+Resources.NotSelected+"-", new { @class = "form-control", id = "company-type" })
+                        @Html.EnumDropDownListFor(m => m.CompanyInfo.BusinessType, "-"+Resources.NotSelected+"-", new { @class = "form-control " + (Model.CompanyInfo.BusinessType.HasValue ? "" : "no-value"), id = "company-type" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.BusinessType, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -142,7 +142,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.YearsInBusiness, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.EnumDropDownListFor(m => m.CompanyInfo.YearsInBusiness, "-" + Resources.NotSelected + "-", new { @class = "form-control", id = "years-in-business" })
+                        @Html.EnumDropDownListFor(m => m.CompanyInfo.YearsInBusiness, "-" + Resources.NotSelected + "-", new { @class = "form-control " + (Model.CompanyInfo.YearsInBusiness.HasValue ? "" : "no-value"), id = "years-in-business" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.YearsInBusiness, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -151,7 +151,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.NumberOfInstallers)
                     <div class="control-group">
-                        @Html.EnumDropDownListFor(m => m.CompanyInfo.NumberOfInstallers, "-" + Resources.NotSelected + "-", new { id = "installers", @class = "form-control" })
+                        @Html.EnumDropDownListFor(m => m.CompanyInfo.NumberOfInstallers, "-" + Resources.NotSelected + "-", new { id = "installers", @class = "form-control " + (Model.CompanyInfo.NumberOfInstallers.HasValue ? "" : "no-value") })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.NumberOfInstallers, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -160,7 +160,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.NumberOfSales)
                     <div class="control-group">
-                        @Html.EnumDropDownListFor(m => m.CompanyInfo.NumberOfSales, "-" + Resources.NotSelected + "-", new { id = "sales", @class = "form-control" })
+                        @Html.EnumDropDownListFor(m => m.CompanyInfo.NumberOfSales, "-" + Resources.NotSelected + "-", new { id = "sales", @class = "form-control " + (Model.CompanyInfo.NumberOfSales.HasValue ? "" : "no-value") })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.NumberOfSales, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -178,7 +178,7 @@
                            Text = p.Province
                        }),
                        Resources.ChooseProvinces,
-                       new { @class = "form-control" })
+                       new { @class = "form-control no-value" })
                     </div>
                 </div>
             </div>

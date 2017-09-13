@@ -130,11 +130,6 @@
                     width: 14px;
                 }
 
-                @media @mobile {
-                    left: 10px;
-                    width: 10px;
-                }
-
                 .icon {
                     width: 100%;
                 }
@@ -177,6 +172,9 @@
     .consents-checkbox-hold {
         .checkbox-hold {
             margin-top: 0;
+        }
+        .consents-links .dealnet-info-link{
+            padding:15px 0;
         }
     }
 
@@ -248,11 +246,8 @@
             }
         }
     }
-    select {
+    select.no-value {
         color:  #dcdcdc;
-        &.has-value {
-            color: black;
-         }
     }
 }
 
@@ -676,7 +671,7 @@
     text-align: right;
     @media @mobile {
         margin: 20px 0 10px;
-        text-align: center;
+        text-align: left;
     }
 }
 .save-and-resume {
@@ -767,11 +762,8 @@
         width: 800px;
 
         @media @tablet-down {
-            width: 728px;
-        }
-
-        @media @mobile {
-            width: 300px;
+            padding: 65px 15px 50px;
+            width:100%;
         }
     }
 

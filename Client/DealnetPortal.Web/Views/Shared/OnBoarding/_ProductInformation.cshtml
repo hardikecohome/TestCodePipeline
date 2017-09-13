@@ -185,7 +185,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.ProductInfo.Relationship, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        @Html.EnumDropDownListFor(m => m.ProductInfo.Relationship, "-" + Resources.NotSelected + "-", new { @class = "form-control", id = "relationship" })
+                        @Html.EnumDropDownListFor(m => m.ProductInfo.Relationship, "-" + Resources.NotSelected + "-", new { @class = "form-control " + (Model.ProductInfo.Relationship.HasValue ? "" : "no-value"), id = "relationship" })
                     </div>
                 </div>
             </div>
@@ -263,7 +263,7 @@
                 <div class="form-group">
                     <label for="" class="mandatory-field">@Resources.ProductsForFinancing</label>
                     <div class="control-group">
-                        @Html.DropDownList("SelectedCategories", (Model.DictionariesData.EquipmentTypes).Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Description }), Resources.ChooseProducts, new { @class = "form-control dealnet-input", id = "offered-equipment" })
+                        @Html.DropDownList("SelectedCategories", (Model.DictionariesData.EquipmentTypes).Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Description }), Resources.ChooseProducts, new { @class = "form-control dealnet-input no-value", id = "offered-equipment" })
                     </div>
                 </div>
             </div>
