@@ -166,8 +166,8 @@
                 <div class="form-group">
                     <label for="">Registration Number</label>
                     <div class="control-group">
-                        <input type="text" value="" id="${id}-license-number" name="AdditionalDocuments[0].Number" class="form-control">
-                        <span class="field-validation-valid text-danger" data-valmsg-for="AdditionalDocuments[0].Number" data-valmsg-replace="true"></span>
+                        <input type="text" value="" id="${id}-license-number"data-val="true" data-val-length="The field Number must be a string with a maximum length of 20." data-val-length-max="20" name="AdditionalDocuments[0].Number" class="form-control">
+                        <span class="text-danger field-validation-error" data-valmsg-for="AdditionalDocuments[0].Number" data-valmsg-replace="true"></span>
                     </div>
                 </div>
             </div>
