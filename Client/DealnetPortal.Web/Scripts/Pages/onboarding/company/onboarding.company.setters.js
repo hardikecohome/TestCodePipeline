@@ -17,11 +17,7 @@
 
     var setEmail = setFormField('company-email-address');
 
-    var setWebsite = setFormField('company-website');
-
     var setStreet = setFormField('company-street');
-
-    var setUnit = setFormField('company-unit');
 
     var setCity = setFormField('company-city');
 
@@ -89,9 +85,7 @@
         setOperatingName: setOperatingName,
         setPhone: setPhone,
         setEmail: setEmail,
-        setWebsite: setWebsite,
         setStreet: setStreet,
-        setUnit: setUnit,
         setCity: setCity,
         setProvince: setProvince,
         setPostalCode: setPostalCode,

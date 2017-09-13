@@ -22,11 +22,16 @@
         $('#' + ownerNumber + '-percentage').on('change', setters.setOwnershipPercentege(ownerNumber));
         $('#' + ownerNumber + '-agreement').on('change', aknwoledgmentSetters.setAgreement(ownerNumber));
 
-        if (google && google.maps)
+        var input = assignDatepicker('#' + ownerNumber + '-birthdate', ownerNumber);
+
+        input.datepicker('setDate', $('#' + ownerNumber + '-birthdate').val());
+
+        if (ownerNumber !== 'owner0') {
             initGoogleServices(ownerNumber + '-street',
                 ownerNumber + '-city',
                 ownerNumber + '-province',
                 ownerNumber + '-postalcode');
+        }
 
         $('#' + ownerNumber + '-remove').on('click', function () {
             additionalOwner.remove(ownerNumber);
@@ -39,10 +44,6 @@
                 setters.recalculateTotalPercentage();
             }
         });
-
-        var input = assignDatepicker('#' + ownerNumber + '-birthdate', ownerNumber);
-
-        input.datepicker('setDate', $('#' + ownerNumber + '-birthdate').val());
     }
 
     function _initEventHandlers (nubmerOfOwners) {
