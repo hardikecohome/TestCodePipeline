@@ -31,6 +31,8 @@
                 ownerNumber + '-city',
                 ownerNumber + '-province',
                 ownerNumber + '-postalcode');
+            $('#' + ownerNumber + '-street').attr('placeholder', '');
+            $('#' + ownerNumber + '-city').attr('placeholder', '');
         }
 
         $('#' + ownerNumber + '-remove').on('click', function () {
@@ -40,7 +42,6 @@
                 for (var i = ownerNumber.substr(-1);i < state['owner-info']['nextOwnerIndex'];i++) {
                     _setInputHandlers('owner' + i);
                 }
-                //_setInputHandlers(ownerNumber);
                 setters.recalculateTotalPercentage();
             }
         });
@@ -88,11 +89,16 @@
     }
 
     function initAutocomplete () {
-        for (var i = 0;Object.keys(state['owner-info'].owners).length > i;i++)
+        for (var i = 0;Object.keys(state['owner-info'].owners).length > i;i++) {
             initGoogleServices('owner' + i + '-street',
                 'owner' + i + '-city',
                 'owner' + i + '-province',
                 'owner' + i + '-postalcode');
+        }
+        for (var i = 0;Object.keys(state['owner-info'].owners).length > i;i++) {
+            $('#owner' + i + '-street').attr('placeholder', '');
+            $('#owner' + i + '-city').attr('placeholder', '');
+        }
     }
 
     return {

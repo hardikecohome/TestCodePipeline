@@ -23,6 +23,8 @@
 
     var initAutocomplete = function () {
         initGoogleServices('company-street', 'company-city', 'company-province', 'company-postal');
+        $('#company-street').attr('placeholder', '');
+        $('#company-city').attr('placeholder', '');
     };
 
     var _setLoadedData = function (company) {
