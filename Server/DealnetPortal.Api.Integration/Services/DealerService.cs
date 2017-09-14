@@ -306,6 +306,29 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
+        public IList<Alert> DeleteDealerOnboardingForm(int dealerInfoId)
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                if (_dealerOnboardingRepository.DeleteDealerInfo(dealerInfoId))
+                {
+                    _unitOfWork.Save();                    
+                }                
+            }
+            catch (Exception ex)
+            {
+                alerts.Add(new Alert()
+                {
+                    Header = "Cannot delete dealer onboarding info",
+                    Type = AlertType.Error,
+                    Message = ex.ToString()
+                });
+            }
+
+            return alerts;
+        }
+
         private void UploadOnboardingDocuments(int dealerInfoId, string statusToSend = null)
         {
             var dealerInfo = _dealerOnboardingRepository.GetDealerInfoById(dealerInfoId);
