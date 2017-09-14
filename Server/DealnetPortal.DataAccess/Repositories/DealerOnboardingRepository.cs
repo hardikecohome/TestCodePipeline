@@ -61,12 +61,22 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public bool DeleteDealerInfo(int dealerInfoId)
         {
-            throw new NotImplementedException();
+            var dealerInfo = _dbContext.DealerInfos.Find(dealerInfoId);
+            if (dealerInfo != null)
+            {
+                return _dbContext.DealerInfos.Remove(dealerInfo) != null;
+            }
+            return false;
         }
 
         public bool DeleteDealerInfo(string accessCode)
         {
-            throw new NotImplementedException();
+            var dealerInfo = _dbContext.DealerInfos.FirstOrDefault(d => d.AccessKey == accessCode);
+            if (dealerInfo != null)
+            {
+                return _dbContext.DealerInfos.Remove(dealerInfo) != null;
+            }
+            return false;
         }
 
         public RequiredDocument AddDocumentToDealer(int dealerInfoId, RequiredDocument document)

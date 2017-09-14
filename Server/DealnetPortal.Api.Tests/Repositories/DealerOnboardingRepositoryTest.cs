@@ -101,6 +101,41 @@ namespace DealnetPortal.Api.Tests.Repositories
             Assert.IsNotNull(dbDoc);
         }
 
+        [TestMethod]
+        public void DeleteDealerInfoTest()
+        {
+            var dealerInfo = GetTestDealerInfo();
+            dealerInfo.CompanyInfo.Provinces.Add(new CompanyProvince()
+            {
+                Province = "ON"
+            });
+            dealerInfo.CompanyInfo.Provinces.Add(new CompanyProvince()
+            {
+                Province = "AB"
+            });
+            dealerInfo.ProductInfo = new ProductInfo()
+            {
+                PrimaryBrand = "Brand",
+                Brands = new List<ManufacturerBrand>() {new ManufacturerBrand() {Brand = "Brand 2"}},
+            };
+            var dInfo = _dealerOnboardingRepository.AddOrUpdateDealerInfo(dealerInfo);
+            _unitOfWork.Save();
+            Assert.IsNotNull(dInfo);
+
+            var newDocument = new RequiredDocument()
+            {
+                DocumentName = "Test1",
+                DocumentTypeId = 1
+            };
+            var dbDoc = _dealerOnboardingRepository.AddDocumentToDealer(dInfo.Id, newDocument);
+            _unitOfWork.Save();
+            Assert.IsNotNull(dbDoc);
+
+            var isDeleted = _dealerOnboardingRepository.DeleteDealerInfo(dInfo.Id);
+            _unitOfWork.Save();
+            Assert.IsTrue(isDeleted);
+        }
+
         private DealerInfo GetTestDealerInfo()
         {
             var owners = new List<OwnerInfo>();

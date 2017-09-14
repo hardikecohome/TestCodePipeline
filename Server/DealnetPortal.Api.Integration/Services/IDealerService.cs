@@ -20,6 +20,7 @@ namespace DealnetPortal.Api.Integration.Services
         Task<IList<Alert>> SubmitDealerOnboardingForm(DealerInfoDTO dealerInfo);
         Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> AddDocumentToOnboardingForm(RequiredDocumentDTO document);
         IList<Alert> DeleteDocumentFromOnboardingForm(RequiredDocumentDTO document);
+        IList<Alert> DeleteDealerOnboardingForm(int dealerInfoId);
         Task<IList<Alert>> SendDealerOnboardingDraftLink(DraftLinkDTO link);
         bool CheckOnboardingLink(string dealerLink);
     }
