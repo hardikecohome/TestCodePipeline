@@ -17,7 +17,7 @@
                         <label for="">@Resources.Link</label>
                         <div class="controls-hold">
                             <div class="control-group">
-                                <input type="url" id="resume-link" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("ResumeOnBoarding", "Dealer", new { onboardingLink = Model.AccessKey}, Request.Url.Scheme)" />
+                                <input type="url" id="resume-link" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("ResumeOnBoarding", "Dealer", new { key = Model.AccessKey}, Request.Url.Scheme)" />
                             </div>
                             <button type="button" class="btn dealnet-success-button btn-small" id="copy-resume-link">@Resources.Copy</button>
                         </div>
