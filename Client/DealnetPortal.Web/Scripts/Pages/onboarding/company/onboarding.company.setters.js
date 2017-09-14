@@ -3,6 +3,7 @@
 
     var configSetField = require('onboarding.setters').configSetField;
     var moveToNextSection = require('onboarding.setters').moveToNextSection;
+    var enableSubmit = require('onboarding.setters').enableSubmit;
 
     var stateSection = 'company';
 
@@ -16,11 +17,7 @@
 
     var setEmail = setFormField('company-email-address');
 
-    var setWebsite = setFormField('company-website');
-
     var setStreet = setFormField('company-street');
-
-    var setUnit = setFormField('company-unit');
 
     var setCity = setFormField('company-city');
 
@@ -54,6 +51,8 @@
                 state[stateSection].requiredFields.splice(index, 1);
             }
             moveToNextSection(stateSection);
+            enableSubmit();
+
             return true;
         }
         return false;
@@ -74,6 +73,8 @@
             }
 
             moveToNextSection(stateSection);
+            enableSubmit();
+
             return true;
         }
         return false;
@@ -84,9 +85,7 @@
         setOperatingName: setOperatingName,
         setPhone: setPhone,
         setEmail: setEmail,
-        setWebsite: setWebsite,
         setStreet: setStreet,
-        setUnit: setUnit,
         setCity: setCity,
         setProvince: setProvince,
         setPostalCode: setPostalCode,

@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
@@ -44,6 +45,8 @@ namespace DealnetPortal.Api.Integration.Services
 
         //Aspire codes
         private const string CodeSuccess = "T000";
+        //symbols excluded from document names for upload
+        private const string DocumentNameReplacedSymbols = "-#@";
 
         public AspireService(IAspireServiceAgent aspireServiceAgent, IContractRepository contractRepository, 
             IDealerOnboardingRepository dealerOnboardingRepository,
@@ -518,11 +521,14 @@ namespace DealnetPortal.Api.Integration.Services
                             Status = _configuration.GetSetting(WebConfigKeys.DOCUMENT_UPLOAD_STATUS_CONFIG_KEY)
                         };
 
+                        var uploadName = Regex.Replace(Path.GetFileNameWithoutExtension(document.DocumentName),
+                            $"[{DocumentNameReplacedSymbols}]", "_");
+
                         request.Payload.Documents = new List<Document>()
                         {
                             new Document()
                             {
-                                Name = Path.GetFileNameWithoutExtension(document.DocumentName), 
+                                Name = uploadName,//Path.GetFileNameWithoutExtension(document.DocumentName), 
                                 Data = Convert.ToBase64String(document.DocumentBytes),
                                 Ext = Path.GetExtension(document.DocumentName)?.Substring(1)
                             }
@@ -619,11 +625,14 @@ namespace DealnetPortal.Api.Integration.Services
                             Status = _configuration.GetSetting(WebConfigKeys.DOCUMENT_UPLOAD_STATUS_CONFIG_KEY)
                         };
 
+                        var uploadName = Regex.Replace(Path.GetFileNameWithoutExtension(document.DocumentName),
+                            $"[{DocumentNameReplacedSymbols}]", "_");
+
                         request.Payload.Documents = new List<Document>()
                         {
                             new Document()
                             {
-                                Name = Path.GetFileNameWithoutExtension(document.DocumentName),
+                                Name = uploadName,//Path.GetFileNameWithoutExtension(document.DocumentName),
                                 Data = Convert.ToBase64String(document.DocumentBytes),
                                 Ext = Path.GetExtension(document.DocumentName)?.Substring(1)
                             }
@@ -699,11 +708,14 @@ namespace DealnetPortal.Api.Integration.Services
                             Status = statusToSend ?? _configuration.GetSetting(WebConfigKeys.DOCUMENT_UPLOAD_STATUS_CONFIG_KEY)
                         };
 
+                        var uploadName = Regex.Replace(Path.GetFileNameWithoutExtension(document.DocumentName),
+                            $"[{DocumentNameReplacedSymbols}]", "_");
+
                         request.Payload.Documents = new List<Document>()
                         {
                             new Document()
                             {
-                                Name = Path.GetFileNameWithoutExtension(document.DocumentName),
+                                Name = uploadName,//Path.GetFileNameWithoutExtension(document.DocumentName),
                                 Data = Convert.ToBase64String(document.DocumentBytes),
                                 Ext = Path.GetExtension(document.DocumentName)?.Substring(1)
                             }

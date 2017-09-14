@@ -233,6 +233,7 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/standalone-calculator")
                 .Include("~/Scripts/financial-functions.js")
+                .Include("~/Scripts/datejs.js")
                 .Include("~/Scripts/loan-calculator.js")
                 .Include("~/Scripts/Modules/index.js")
                 .Include("~/Scripts/Logger/log.js")

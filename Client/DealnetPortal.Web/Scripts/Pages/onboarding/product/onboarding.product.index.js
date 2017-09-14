@@ -38,6 +38,8 @@
             clearSiblings();
             var $input = $this.find('input');
             setters.setProgramService($input.attr('id'));
+            toggleAdditionalInsurenceTest($input.attr('id'));
+
             $input.prop('checked', true);
         });
     }
@@ -74,6 +76,17 @@
             });
     }
 
+    function toggleAdditionalInsurenceTest(id) {
+        if (id === 'loan') {
+            $('#additional-insurence-text').addClass('hidden');
+            $('#additional-insurence-text').siblings('.placeholder-text').css('margin-top', 12);
+        } else {
+            $('#additional-insurence-text').removeClass('hidden');
+            $('#additional-insurence-text').siblings('.placeholder-text').css('margin-top', 0);
+
+        }
+    }
+
     function showFormGroup (selector) {
         $(selector)
             .addClass('hidden')
@@ -95,6 +108,7 @@
             setters.setLeadGen({ target: this });
         });
         $('.program-service:checked').each(function () {
+            toggleAdditionalInsurenceTest(this.id);
             setters.setProgramService(this.id);
         });
         constants.productRequiredFields.forEach(function (item) {
@@ -105,6 +119,8 @@
             if ($item.val())
                 $item.change();
         });
+        if ($('#oem').val())
+            $('#oem').change();
     }
 
     return {

@@ -173,6 +173,7 @@
             var index = state[stateSection]['addedLicense'].indexOf(deleteFromState);
             state[stateSection]['addedLicense'].splice(index, 1);
 
+            $('#' + toDel + '-license-holder').next('hr').remove();
             $('#' + toDel + '-license-holder').remove();
         });
 

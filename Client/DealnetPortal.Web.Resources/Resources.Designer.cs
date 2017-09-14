@@ -5002,7 +5002,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The field {0} must be a string with a minimum length of {2} and a maximum length of {1}..
+        ///   Looks up a localized string similar to The field {0} must be a string with a minimum length of {1} and a maximum length of {2}..
         /// </summary>
         public static string TheFieldMustBeMinimumAndMaximum {
             get {

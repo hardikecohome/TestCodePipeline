@@ -61,7 +61,7 @@ namespace DealnetPortal.Web.Models.Dealer
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "MonthlyFinancedValue")]
         [RegularExpression(@"^0|[1-9]\d{0,9}?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "MonthlyFinancedValueIncorrectFormat")]
-        public decimal? MonthlyFinancedValue { get; set; }
+        public int? MonthlyFinancedValue { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "OfferMonthlyDeferrals")]
         public bool OfferMonthlyDeferrals { get; set; }

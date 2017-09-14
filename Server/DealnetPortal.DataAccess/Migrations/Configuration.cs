@@ -1101,7 +1101,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO47"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Safety Authority")
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
                     },
                     new LicenseDocument
                     {
@@ -1163,7 +1163,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO48"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Safety Authority")
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
                     },
                     new LicenseDocument
                     {
@@ -1311,7 +1311,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NB"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Post-Secondary Education, Training and Labour")
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Public Safety")
                     },
                     new LicenseDocument
                     {
