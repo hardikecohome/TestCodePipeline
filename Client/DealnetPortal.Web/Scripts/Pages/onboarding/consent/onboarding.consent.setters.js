@@ -31,7 +31,7 @@
                 .addClass('step-passed');
 
             var acknowledgement = $('#cleint-aknowledgment-section');
-            if (!acknowledgement.is('.step-passed')) {
+            if (!acknowledgement.is('.step-passed') && !initializing) {
                 acknowledgement.removeClass('panel-collapsed')
                     .addClass('active-panel');
             }

@@ -11,6 +11,7 @@
     var detectIe = require('onboarding.common').detectIe;
 
     function init (model) {
+        initializing = true;
         company.initCompany(model !== undefined ? model.CompanyInfo : {});
         aknowledgement.init(model !== undefined ? model.Owners : []);
         ownerInfo.init(model !== undefined ? model.Owners : []);
@@ -36,7 +37,7 @@
                     var thisArg = arguments[1];
                     var value;
 
-                    for (var i = 0; i < length; i++) {
+                    for (var i = 0;i < length;i++) {
                         value = list[i];
                         if (predicate.call(thisArg, value, i, list)) {
                             return value;
@@ -46,9 +47,10 @@
                 };
             }
         }
+        initializing = false;
     }
 
-    function initAutocomplete() {
+    function initAutocomplete () {
         company.initAutocomplete();
         ownerInfo.initAutocomplete();
     }

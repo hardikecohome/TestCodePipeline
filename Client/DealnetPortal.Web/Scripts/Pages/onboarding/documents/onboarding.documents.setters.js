@@ -50,7 +50,7 @@
             var checked = e.target.checked;
             $("#" + id + "-license-checkbox").val(checked);
             var lic = state[stateSection]['addedLicense'].find(function (item) {
-                if(item !== undefined  && item !== null)
+                if (item !== undefined && item !== null)
                     return item.id === id;
             });
             lic.noExpiry = checked;
@@ -363,7 +363,7 @@
                 .addClass('step-passed')
                 .removeClass('active-panel');
             var client = $('#client-consent-section');
-            if (!client.is('.step-passed'))
+            if (!client.is('.step-passed') && !initializing)
                 client.removeClass('panel-collapsed')
                     .addClass('active-panel');
         } else {

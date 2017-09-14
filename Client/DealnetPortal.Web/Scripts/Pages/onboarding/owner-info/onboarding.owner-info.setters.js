@@ -200,7 +200,7 @@
                 .addClass('step-passed');
 
             var product = $('#product-panel');
-            if (!product.is('.step-passed')) {
+            if (!product.is('.step-passed') && !initializing) {
                 product.removeClass('panel-collapsed')
                     .addClass('active-panel');
             }
