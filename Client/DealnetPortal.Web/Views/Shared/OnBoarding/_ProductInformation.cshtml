@@ -38,7 +38,7 @@
             }
             <div class="col-md-4 col-sm-6 @(Model.ProductInfo.Brands.Count==1?"col-clear-sm-6":"") @(Model.ProductInfo.Brands.Count == 2 ? "hidden" : "")" id="add-brand-container">
                 <div class="form-group">
-                    <div class="dealnet-label hidden-xs">&nbsp;</div>
+                    <div class="dealnet-label hidden-xs @(Model.ProductInfo.Brands.Count==1?"hidden-sm":"")">&nbsp;</div>
                     <div class="control-group flex-centered-text">
                         <a class="action-link add-new-brand-link">
                             <svg aria-hidden="true" class="icon icon-add-app">
