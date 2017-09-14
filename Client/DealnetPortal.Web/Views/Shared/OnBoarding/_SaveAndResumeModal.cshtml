@@ -3,13 +3,15 @@
 <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="@Resources.Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="@Resources.Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="modal-title">@Resources.SaveAndResumeLater</div>
         </div>
         <div class="modal-body">
             @if (Model.Success)
             {
                 <div class="dealnet-modal-section">
-                    <div class="modal-title">@Resources.SaveAndResumeLater</div>
                     <h4>@Resources.CopyLinkResumeLater</h4>
                     <div class="form-group">
                         <label for="">@Resources.Link</label>
