@@ -1,5 +1,46 @@
 ﻿module.exports('onboarding.ackonwledgment.owners', function (require) {
 
+    var resetFormValidation = require('onboarding.common').resetFormValidation;
+
+    var recalculateOwnerIndex = function (ownerNumber) {
+
+        var id = ownerNumber.substr(5);
+
+        var nextId = Number(id);
+        while (true) {
+            nextId++;
+            var nextOwner = $('#owner' + nextId + '-aknowledgment-holder');
+
+            if (!nextOwner.length) {
+                break;
+            }
+
+            nextOwner.off();
+
+            var inputs = nextOwner.find('input, select, textarea');
+
+            var fullCurrentId = 'owner' + nextId;
+            var fullPreviousId = 'owner' + (nextId - 1);
+            var currentNamePattern = 'Owners[' + nextId;
+            var previousNamePattern = 'Owners[' + (nextId - 1);
+
+            nextOwner.attr('id', fullPreviousId + '-aknowledgment-holder');
+
+            inputs.each(function () {
+                this.id = this.id.replace(fullCurrentId, fullPreviousId);
+                $(this).off();
+                this.name = this.name.replace(currentNamePattern, previousNamePattern);
+            });
+
+            var spans = nextOwner.find('span');
+
+            spans.each(function () {
+                this.id = this.id.replace(fullCurrentId, fullPreviousId);
+            });
+        }
+        resetFormValidation('#onboard-form');
+    }
+
     var addToAknowdlegment = function (ownerNumber) {
         var newOwnerState = {};
         newOwnerState[ownerNumber] = {};
@@ -24,7 +65,8 @@
         delete state['aknowledgment']['owners'][ownerNumber];
         $('#' + ownerNumber + '-aknowledgment-holder').off();
         $('#' + ownerNumber + '-aknowledgment-holder').remove();
-    }
+        recalculateOwnerIndex(ownerNumber);
+    }    
 
     return {
         add: addToAknowdlegment,
