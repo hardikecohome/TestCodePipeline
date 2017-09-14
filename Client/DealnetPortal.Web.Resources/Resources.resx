@@ -1677,7 +1677,7 @@
     <value>Contacts</value>
   </data>
   <data name="MobilePhone" xml:space="preserve">
-    <value>Mobile phone</value>
+    <value>Mobile Phone</value>
   </data>
   <data name="Other" xml:space="preserve">
     <value>Other</value>
@@ -1689,7 +1689,7 @@
     <value>Percentage of ownership</value>
   </data>
   <data name="PhoneNumber" xml:space="preserve">
-    <value>Phone number</value>
+    <value>Phone Number</value>
   </data>
   <data name="PrincipalOwnerInformation" xml:space="preserve">
     <value>Principal/owner information</value>
@@ -1752,7 +1752,7 @@
     <value>Percentage of Ownership should be between {1} and {2}</value>
   </data>
   <data name="PhoneNumberIncorrectFormat" xml:space="preserve">
-    <value>Phone number is in incorrect format</value>
+    <value>Phone Number is in incorrect format</value>
   </data>
   <data name="PhoneNumberMustBeLong" xml:space="preserve">
     <value>Phone Number must be a string with a length of 10</value>
@@ -1944,10 +1944,10 @@
     <value>Without the link, the data you have entered cannot be retrieved and you will have to start filling out your application at the beginning.</value>
   </data>
   <data name="MobilePhoneIncorrectFormat" xml:space="preserve">
-    <value>Mobile phone is in incorrect format</value>
+    <value>Mobile Phone is in incorrect format</value>
   </data>
   <data name="MobilePhoneMustBeLong" xml:space="preserve">
-    <value>Mobile phone must be a string with a length of 10</value>
+    <value>Mobile Phone must be a string with a length of 10</value>
   </data>
   <data name="PreferredFinancingProductsRequired" xml:space="preserve">
     <value>Preferred financing products required</value>

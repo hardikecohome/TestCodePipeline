@@ -39,8 +39,8 @@ module.exports('onboarding.setters', function (require) {
 
             current.addClass('step-passed')
                 .removeClass('active-panel');
-            var next = current.next();
-            if (!next.is('.step-passed')) {
+            var next = current.next('.panel');
+            if (!next.is('.step-passed') && !initializing) {
                 next.removeClass('panel-collapsed')
                     .addClass('active-panel');
             }
@@ -70,7 +70,7 @@ module.exports('onboarding.setters', function (require) {
         }
         if (valid) {
             $('#submit').prop('disabled', false);
-            $('#submit').parent().popover('destroy');            
+            $('#submit').parent().popover('destroy');
         } else {
             $('#submit').prop('disabled', true);
             $('#submit').parent().popover();

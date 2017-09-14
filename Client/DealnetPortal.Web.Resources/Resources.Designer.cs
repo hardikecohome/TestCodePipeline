@@ -19,7 +19,7 @@ namespace DealnetPortal.Web.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -3121,7 +3121,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mobile phone.
+        ///   Looks up a localized string similar to Mobile Phone.
         /// </summary>
         public static string MobilePhone {
             get {
@@ -3130,7 +3130,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mobile phone is in incorrect format.
+        ///   Looks up a localized string similar to Mobile Phone is in incorrect format.
         /// </summary>
         public static string MobilePhoneIncorrectFormat {
             get {
@@ -3139,7 +3139,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mobile phone must be a string with a length of 10.
+        ///   Looks up a localized string similar to Mobile Phone must be a string with a length of 10.
         /// </summary>
         public static string MobilePhoneMustBeLong {
             get {
@@ -3787,7 +3787,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Phone number.
+        ///   Looks up a localized string similar to Phone Number.
         /// </summary>
         public static string PhoneNumber {
             get {
@@ -3796,7 +3796,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Phone number is in incorrect format.
+        ///   Looks up a localized string similar to Phone Number is in incorrect format.
         /// </summary>
         public static string PhoneNumberIncorrectFormat {
             get {

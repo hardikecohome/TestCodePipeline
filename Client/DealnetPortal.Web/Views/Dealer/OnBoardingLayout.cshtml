@@ -213,7 +213,7 @@
                 <div class="form-group">
                     <label for="" class="mandatory-field">Expiry Date</label>
                     <div class="control-group date-group">
-                        <input type="text" class="form-control dealnet-input" data-val-date name="AdditionalDocuments[0].ExpiredDate" placeholder="mm/dd/yyyy" id="${id}-license-date">
+                        <input type="text" class="form-control dealnet-input" data-val-date name="AdditionalDocuments[0].ExpiredDate" id="${id}-license-date">
                         <span class="field-validation-valid text-danger" data-valmsg-for="AdditionalDocuments[0].ExpiredDate" data-valmsg-replace="true"></span>
                     </div>
                 </div>
@@ -266,6 +266,14 @@
             $.validator.addMethod('validurl', function (value, element) {
                 return $.validator.methods.url.call(this, value, element) ||  $.validator.methods.url.call(this, 'http://' + value, element);
             }, translations.SiteInvalidFormat);
+
+            $('select').on('change',function(){
+                if(!this.value){
+                    $(this).addClass('no-value');
+                }else{
+                    $(this).removeClass('no-value');
+                }
+            })
         });
 
         function clearAddress() {

@@ -38,9 +38,10 @@
             valid = valid && state[stateSection]['owners'][owner].agreement;
         }
         if (valid) {
-            $('#cleint-aknowledgment-section')
-                .addClass('step-passed')
-                .removeClass('active-panel');
+            if (!initializing)
+                $('#cleint-aknowledgment-section')
+                    .addClass('step-passed')
+                    .removeClass('active-panel');
         } else {
             $('#cleint-aknowledgment-section')
                 .removeClass('step-passed');

@@ -235,18 +235,15 @@ namespace DealnetPortal.Api.Integration.Services
                     !string.IsNullOrEmpty(updatedDoc.DealerInfo?.TransactionId))
                 {
                     var status = await _aspireService.GetDealStatus(updatedDoc.DealerInfo.TransactionId);
-                    if (!string.IsNullOrEmpty(status))
+                    var uAlerts = await _aspireService.UploadOnboardingDocument(updatedDoc.DealerInfo.Id, updatedDoc.Id, !string.IsNullOrEmpty(status) ? status : null);
+                    if (uAlerts?.Any() == true)
                     {
-                        var uAlerts = await _aspireService.UploadOnboardingDocument(updatedDoc.DealerInfo.Id, updatedDoc.Id, status);
-                        if (uAlerts?.Any() == true)
-                        {
-                            alerts.AddRange(uAlerts);
-                        }
-                        if (updatedDoc.DealerInfo.Status != status)
-                        {
-                            updatedDoc.DealerInfo.Status = status;
-                            _unitOfWork.Save();
-                        }
+                        alerts.AddRange(uAlerts);
+                    }
+                    if (!string.IsNullOrEmpty(status) && updatedDoc.DealerInfo.Status != status)
+                    {
+                        updatedDoc.DealerInfo.Status = status;
+                        _unitOfWork.Save();
                     }
                 }
             }

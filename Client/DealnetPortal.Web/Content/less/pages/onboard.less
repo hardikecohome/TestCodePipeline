@@ -1,7 +1,7 @@
 .navbar.onboard-navbar{
     background: #555555;
 }
-.ie {
+.ie, .ios-device {
     .info-text-success .notification-text {
             margin-top: 10px;
         }
@@ -23,6 +23,10 @@
 
         padding-left: 20px;
         margin-bottom: 27px;
+
+        @media @tablet-down {
+            padding-left: 0;
+        }
 
         .onboard-headers-container {
             @media @tablet-up {
@@ -126,11 +130,6 @@
                     width: 14px;
                 }
 
-                @media @mobile {
-                    left: 10px;
-                    width: 10px;
-                }
-
                 .icon {
                     width: 100%;
                 }
@@ -174,6 +173,9 @@
         .checkbox-hold {
             margin-top: 0;
         }
+        .consents-links .dealnet-info-link{
+            padding:15px 0;
+        }
     }
 
 
@@ -202,9 +204,13 @@
 
     .tags-list {
         &.row-tag-list {
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             padding-left:10px;
             padding-right: 10px; 
+        }
+        @media @tablet-down {
+            padding-left:10px;
+            padding-right: 10px;             
         }
 
         li {
@@ -239,6 +245,16 @@
                 width:17px;
             }
         }
+    }
+
+    .checkbox-hold {
+        @media @tablet-down {
+            margin-top: 20px;
+        }
+    }
+
+    select.no-value {
+        color:  #dcdcdc;
     }
 }
 
@@ -577,6 +593,10 @@
 }
 .onboard-owners-hold {
     margin-top: 20px;
+
+    @media @tablet-down {
+        margin-bottom: 10px;
+    }
 }
 
 .onboard-owners-row {
@@ -662,7 +682,7 @@
     text-align: right;
     @media @mobile {
         margin: 20px 0 10px;
-        text-align: center;
+        text-align: left;
     }
 }
 .save-and-resume {
@@ -673,6 +693,7 @@
     font-size: 16px;
     line-height: 28px;
     @media @mobile {
+        display: inline-flex;
         padding-left: 5px;
         line-height: 18px;
     }
@@ -690,6 +711,7 @@
         @media @mobile {
             display: inline-block;
             margin-right: 10px;
+            margin-top: 8px;
         }
     }
     .icon-save + span {
@@ -753,16 +775,13 @@
         width: 800px;
 
         @media @tablet-down {
-            width: 728px;
-        }
-
-        @media @mobile {
-            width: 300px;
+            padding: 65px 15px 50px;
+            width:100%;
         }
     }
 
     .modal-header {
-        padding-bottom: 0;
+        padding: 15px 30px 0;
     }
 
     .dealnet-modal-section{
@@ -847,6 +866,11 @@
                     width: 35%;
                 }
             }
+        }
+    }
+    .btn-holder {
+        label {
+            margin-bottom: 8px;
         }
     }
 }

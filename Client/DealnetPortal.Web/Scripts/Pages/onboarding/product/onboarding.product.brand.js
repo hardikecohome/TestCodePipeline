@@ -9,7 +9,8 @@ module.exports('onboarding.product.brand', function (require) {
         if (addSecondaryBrand('')) {
             var $el = $("#manufacturerBrandTemplate").tmpl({ brandNumber: state.product.brands.length - 1 });
 
-            $("#add-brand-container").before($el);
+            var container = $("#add-brand-container");
+            container.before($el);
 
             $el.find('.remove-brand-link').on('click', removeBrand);
 
@@ -25,10 +26,13 @@ module.exports('onboarding.product.brand', function (require) {
             });
 
             if (state.product.brands.length > 1) {
-                $('#add-brand-container').hide();
+                container.hide();
             } else {
-                if (!$('#add-brand-container').is('.col-clear-sm-6'))
-                    $('#add-brand-container').addClass('col-clear-sm-6');
+                if (!container.is('.col-clear-sm-6'))
+                    container.addClass('col-clear-sm-6');
+                var label = container.find('.dealnet-label');
+                if (!label.is('.hidden-sm'))
+                    label.addClass('hidden-sm');
             }
             resetForm('#onboard-form');
         }
@@ -40,14 +44,20 @@ module.exports('onboarding.product.brand', function (require) {
         var id = index.substr(index.lastIndexOf('_') + 1, 1);
         if (removeSecondayBrand(id)) {
             $(this).parents('.new-brand-group').remove();
+            var container = $('#add-brand-container');
             if (state.product.brands.length === 1) {
                 rebuildBrandIndex();
-                if (!$('#add-brand-container').is('.col-clear-sm-6'))
-                    $('#add-brand-container').addClass('col-clear-sm-6');
+                if (!container.is('.col-clear-sm-6'))
+                    container.addClass('col-clear-sm-6');
+                var label = container.find('.dealnet-label')
+                if (!label.is('.hidden-sm')) {
+                    label.addClass('hidden-sm');
+                }
             } else {
-                $('#add-brand-container').removeClass('col-clear-sm-6');
+                container.removeClass('col-clear-sm-6');
+                container.find('.hidden-sm').removeClass('hidden-sm');
             }
-            $('#add-brand-container').show();
+            container.show();
         }
         return false;
     }
