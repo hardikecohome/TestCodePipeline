@@ -1,7 +1,6 @@
 ﻿module.exports('onboarding.form.handlers', function (require) {
     var state = require('onboarding.state').state;
     var resetForm = require('onboarding.common').resetFormValidation;
-    var isIOS = navigator.userAgent.match(/ipad|ipod|iphone/i);
 
     function submitDraft (e) {
         showLoader();
@@ -21,7 +20,7 @@
             initSendEmail();
             initCopyLink();
             hideLoader();
-            $('#send-email-submit').prop('disabled', $('#agreement-email').prop('checked')!==true);
+            $('#send-email-submit').prop('disabled', $('#agreement-email').prop('checked') !== true);
         });
     }
 
@@ -54,7 +53,7 @@
     function selectElement (el) {
         if (el.nodeName === "TEXTAREA" || el.nodeName === "INPUT")
             el.select();
-        if (el.setSelectionRange && isIOS)
+        if (el.setSelectionRange && $('body').is('.ios-device'))
             el.setSelectionRange(0, 999999);
     }
 
@@ -67,7 +66,7 @@
     function initCopyLink () {
 
         var link = document.getElementById('resume-link');
-        if (!isIOS) {
+        if (!$('body').is('.ios-device')) {
 
             var activeLink = '';
 
@@ -85,7 +84,7 @@
 
             link.parent().append($.parseHTML('<a href="' + linkVal + '" style="word-wrap: break-word;">' + linkVal + '</a>'));
 
-            link.hide();
+            link.attr('type', 'hidden');
             $('#copy-resume-link').hide();
         }
     }

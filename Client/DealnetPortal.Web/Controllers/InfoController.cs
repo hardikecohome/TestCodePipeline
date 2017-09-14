@@ -25,7 +25,10 @@ namespace DealnetPortal.Web.Controllers
         [HttpGet]
         public ActionResult PrivacyPolicy()
         {
-            ViewBag.AdditionalNavbarClasses = Request.UrlReferrer.LocalPath.ToUpper().Contains("ONBOARD") ? "onboard-navbar" : "";
+            if (Request.UrlReferrer != null)
+            {
+                ViewBag.AdditionalNavbarClasses = Request.UrlReferrer.LocalPath.ToUpper().Contains("ONBOARD") ? "onboard-navbar" : "";
+            }
             return View();
         }
     }
