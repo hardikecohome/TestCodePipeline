@@ -65,7 +65,7 @@
 
         $('#owner' + nextOwnerIndex + '-container')
             .find('.clear-address').click(function () {
-                $(this).parents('.address-container').find('input').each(function () {
+                $(this).parents('.address-container').find('input, select').each(function () {
                     if ($(this).not('.placeholder')) {
                         $(this).val("");
                     }

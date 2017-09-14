@@ -20,7 +20,10 @@
 
         $('#submit').on('click', validateAndSubmit);
         $('.save-and-resume').on('click', submitDraft);
-        $('[data-toggle="popover"]').data('bs.popover').tip().addClass('onboard-popover');
+
+        if ($('[data-toggle="popover"]').data('bs.popover')) {
+            $('[data-toggle="popover"]').data('bs.popover').tip().addClass('onboard-popover');
+        }
 
         if (detectIe()) {
             if (!Array.prototype.find) {

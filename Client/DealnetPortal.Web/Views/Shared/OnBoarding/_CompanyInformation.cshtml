@@ -99,7 +99,7 @@
                            Selected = Model.CompanyInfo.CompanyAddress.Province == p.Province
                        }),
                        "",
-                       new { id = "company-province", @class = "form-control" })
+                       new { id = "company-province", @class = "form-control  dealnet-input" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.CompanyAddress.Province, "", new { @class = "text-danger" })
                     </div>
                 </div>

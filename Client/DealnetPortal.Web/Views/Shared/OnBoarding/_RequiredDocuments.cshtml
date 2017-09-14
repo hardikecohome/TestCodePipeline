@@ -25,11 +25,15 @@
                                 <li id="@document.Id-file-container">
                                   <span class="uploaded-docs-title">
                                     @document.Name
-                                    <a href="" class="remove-link remove-docs" id="@document.Id-file-remove" hiddenId="@document.Id">
-                                      <svg aria-hidden="true" class="icon icon-remove-cross">
-                                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
-                                      </svg>
-                                    </a>
+                                      
+                                    @if (!document.Uploaded)
+                                    {
+                                        <a href="" class="remove-link remove-docs" id="@document.Id-file-remove" hiddenId="@document.Id">
+                                            <svg aria-hidden="true" class="icon icon-remove-cross">
+                                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
+                                            </svg>
+                                        </a>
+                                    }
                                   </span>
                                 </li>
                             }
@@ -48,19 +52,23 @@
                     </span>
                     <div class="align-middle document-label">
                         <h4 class="onboard-license-heading">Proof of insurance</h4>
-                        <div id="additional-insurence-text">Ecohome Financial Inc. must be listed as additional insured</div>
-                        <div class="placeholder-text">Please upload file in format PDF, Word, PNG, JPG</div>
+                        <div id="additional-insurence-text" class="hidden">Ecohome Financial Inc. must be listed as additional insured</div>
+                        <div class="placeholder-text" style="margin-top: 12px">Please upload file in format PDF, Word, PNG, JPG</div>
                         <ul class="uploaded-docs-list" id="insurence-container">
                             @foreach (RequiredDocumentViewModel document in Model.RequiredDocuments.Where(x => x.DocumentTypeId == (int)DocumentTemplateType.Insurence))
                             {
                                 <li id="@document.Id-file-container">
                                   <span class="uploaded-docs-title">
                                     @document.Name
-                                    <a href="" class="remove-link remove-docs" id="@document.Id-file-remove" hiddenId="@document.Id">
-                                      <svg aria-hidden="true" class="icon icon-remove-cross">
-                                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
-                                      </svg>
-                                    </a>
+
+                                    @if (!document.Uploaded)
+                                    {
+                                        <a href="" class="remove-link remove-docs" id="@document.Id-file-remove" hiddenId="@document.Id">
+                                            <svg aria-hidden="true" class="icon icon-remove-cross">
+                                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
+                                            </svg>
+                                        </a>
+                                    }
                                   </span>
                                 </li>
                             }

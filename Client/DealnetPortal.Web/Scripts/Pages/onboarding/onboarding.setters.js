@@ -74,6 +74,7 @@ module.exports('onboarding.setters', function (require) {
         } else {
             $('#submit').prop('disabled', true);
             $('#submit').parent().popover();
+            $('[data-toggle="popover"]').data('bs.popover').tip().addClass('onboard-popover');
         }
     }
 

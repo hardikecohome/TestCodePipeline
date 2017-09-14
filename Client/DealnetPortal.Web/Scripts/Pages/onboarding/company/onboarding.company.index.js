@@ -17,8 +17,7 @@
         $('#company-postal').on('change', setters.setPostalCode);
         $('#company-type').on('change', setters.setType);
         $('#years-in-business').on('change', setters.setYearsInBusiness);
-        $('#installers').on('change', setters.setInstallers);
-        $('#sales').on('change', setters.setSales);
+
         _setLoadedData(company);
     };
 
