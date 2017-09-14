@@ -19,7 +19,7 @@ namespace DealnetPortal.Web.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -5002,11 +5002,20 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The field {0} must be a string with a minimum length of {1} and a maximum length of {2}..
+        ///   Looks up a localized string similar to The field {0} must be a string with a minimum length of {2} and a maximum length of {1}..
         /// </summary>
         public static string TheFieldMustBeMinimumAndMaximum {
             get {
                 return ResourceManager.GetString("TheFieldMustBeMinimumAndMaximum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The field {0} must be a string with a minimum length of {1} and a maximum length of {2}..
+        /// </summary>
+        public static string TheRangeFieldMustBeMinimumAndMaximum {
+            get {
+                return ResourceManager.GetString("TheRangeFieldMustBeMinimumAndMaximum", resourceCulture);
             }
         }
         
