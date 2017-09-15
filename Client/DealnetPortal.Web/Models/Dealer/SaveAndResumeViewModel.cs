@@ -24,5 +24,7 @@ namespace DealnetPortal.Web.Models.Dealer
         [Display(ResourceType = typeof(Resources.Resources), Name = "EmailAddress")]
         [EmailAddress(ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         public string Email { get; set; }
+
+        public bool InvalidFields { get; set; }
     }
 }
