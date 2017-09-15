@@ -4,7 +4,7 @@
 
     function submitDraft (e) {
         showLoader();
-        var formData = $('form').serialize();
+        var formData = $('#onboard-form').serialize();
         $.when($.ajax({
             type: 'POST',
             url: saveDraftUrl,
