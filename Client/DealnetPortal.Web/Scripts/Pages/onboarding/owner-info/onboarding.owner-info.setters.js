@@ -6,8 +6,7 @@
 
     var setFirstName = function (ownerNumber) {
         return function (e) {
-            var firstName = e.target.value;
-            state[stateSection]['owners'][ownerNumber].firstName = firstName;
+            state[stateSection]['owners'][ownerNumber].firstName = e.target.value;
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
@@ -17,8 +16,7 @@
 
     var setLastName = function (ownerNumber) {
         return function (e) {
-            var lastName = e.target.value;
-            state[stateSection]['owners'][ownerNumber].lastName = lastName;
+            state[stateSection]['owners'][ownerNumber].lastName = e.target.value;
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
@@ -36,15 +34,13 @@
 
     var setHomePhone = function (ownerNumber) {
         return function (e) {
-            var homePhone = e.target.value;
-            state[stateSection]['owners'][ownerNumber].homePhone = homePhone;
+            state[stateSection]['owners'][ownerNumber].homePhone = e.target.value;
         }
     }
 
     var setCellPhone = function (ownerNumber) {
         return function (e) {
-            var cellPhone = e.target.value;
-            state[stateSection]['owners'][ownerNumber].cellPhone = cellPhone;
+            state[stateSection]['owners'][ownerNumber].cellPhone = e.target.value;
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
@@ -54,8 +50,7 @@
 
     var setEmailAddress = function (ownerNumber) {
         return function (e) {
-            var email = e.target.value;
-            state[stateSection]['owners'][ownerNumber].email = email;
+            state[stateSection]['owners'][ownerNumber].email = e.target.value;
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
@@ -65,8 +60,7 @@
 
     var setStreet = function (ownerNumber) {
         return function (e) {
-            var street = e.target.value;
-            state[stateSection]['owners'][ownerNumber].street = street;
+            state[stateSection]['owners'][ownerNumber].street = e.target.value;
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
@@ -76,8 +70,7 @@
 
     var setPostalCode = function (ownerNumber) {
         return function (e) {
-            var postalCode = e.target.value;
-            state[stateSection]['owners'][ownerNumber].postalCode = postalCode.toUpperCase();
+            state[stateSection]['owners'][ownerNumber].postalCode = e.target.value.toUpperCase();
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
@@ -87,8 +80,7 @@
 
     var setCity = function (ownerNumber) {
         return function (e) {
-            var city = e.target.value;
-            state[stateSection]['owners'][ownerNumber].city = city;
+            state[stateSection]['owners'][ownerNumber].city = e.target.value;
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
@@ -98,8 +90,7 @@
 
     var setProvince = function (ownerNumber) {
         return function (e) {
-            var province = e.target.value;
-            state[stateSection]['owners'][ownerNumber].province = province;
+            state[stateSection]['owners'][ownerNumber].province = e.target.value;
 
             _spliceRequiredField(ownerNumber, e.target.id);
             _moveTonextSection();
@@ -109,15 +100,13 @@
 
     var setUnit = function (ownerNumber) {
         return function (e) {
-            var unit = e.target.value;
-            state[stateSection]['owners'][ownerNumber].unit = unit;
+            state[stateSection]['owners'][ownerNumber].unit = e.target.value;
         }
     }
 
     var setOwnershipPercentege = function (ownerNumber) {
         return function (e) {
-            var percentage = e.target.value;
-            state[stateSection]['owners'][ownerNumber].percentage = percentage;
+            state[stateSection]['owners'][ownerNumber].percentage = e.target.value;
             state[stateSection].totalPercentage = Object.keys(state[stateSection]['owners']).reduce(function (s, v) {
                 return s + +state[stateSection]['owners'][v].percentage;
             }, 0);

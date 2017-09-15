@@ -4,6 +4,7 @@ module.exports('onboarding.product.brand', function (require) {
     var addSecondaryBrand = require('onboarding.product.setters').addSecondaryBrand;
     var setSecondaryBrand = require('onboarding.product.setters').setSecondaryBrand;
     var removeSecondayBrand = require('onboarding.product.setters').removeSecondayBrand;
+    var setLengthLimitedField = require('onboarding.setters').setLengthLimitedField;
 
     function addNewBrand () {
         if (addSecondaryBrand('')) {
@@ -14,16 +15,19 @@ module.exports('onboarding.product.brand', function (require) {
 
             $el.find('.remove-brand-link').on('click', removeBrand);
 
-            $el.find('input').rules('add', {
-                minLength: 2,
-                maxLength: 50,
-                regex: /^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$/,
-                messages: {
-                    minLength: translations.TheFieldMustBeMinimumAndMaximum,
-                    maxLength: translations.TheFieldMustBeMinimumAndMaximum,
-                    regex: translations.SecondaryBrandIncorrectFormat
-                }
-            });
+            $el.find('input')
+                .on('change', setSecondaryBrand(state.product.brands.length))
+                .on('keyup', setLengthLimitedField(50))
+                .rules('add', {
+                    minLength: 2,
+                    maxLength: 50,
+                    regex: /^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$/,
+                    messages: {
+                        minLength: translations.TheFieldMustBeMinimumAndMaximum,
+                        maxLength: translations.TheFieldMustBeMinimumAndMaximum,
+                        regex: translations.SecondaryBrandIncorrectFormat
+                    }
+                });
 
             if (state.product.brands.length > 1) {
                 container.hide();

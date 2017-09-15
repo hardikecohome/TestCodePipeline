@@ -4,21 +4,35 @@
     var resetForm = require('onboarding.common').resetFormValidation;
     var addEquipment = require('onboarding.product.equipment').addEquipment;
     var addBrand = require('onboarding.product.brand').addBrand;
-
+    var setLengthLimitedField = require('onboarding.setters').setLengthLimitedField;
 
     function init (product) {
-        $('#primary-brand').on('change', setters.setPrimaryBrand);
-        $('#annual-sales-volume').on('change', setters.setAnnualSales);
-        $('#av-transaction-size').on('change', setters.setTransactionSize);
+        $('#primary-brand')
+            .on('change', setters.setPrimaryBrand)
+            .on('keyup', setLengthLimitedField(50));
+        $('#annual-sales-volume')
+            .on('change', setters.setAnnualSales)
+            .on('keyup', setLengthLimitedField(10));
+        $('#av-transaction-size')
+            .on('change', setters.setTransactionSize)
+            .on('keyup', setLengthLimitedField(10));
         $('.sales-approach').on('change', setters.setSalesApproach);
         $('.lead-gen').on('change', setters.setLeadGen);
         $('#relationship').on('change', setters.setRelationship);
-        $('#oem').on('change', setters.setOem);
+        $('#oem')
+            .on('change', setters.setOem)
+            .on('keyup', setLengthLimitedField(50));
         $('#WithCurrentProvider').on('change', setters.setWithCurrentProvider);
-        $('#finance-provider-name').on('change', setters.setFinanceProviderName);
-        $('#monthly-financed-value').on('change', setters.setMonthFinancedValue);
+        $('#finance-provider-name')
+            .on('change', setters.setFinanceProviderName)
+            .on('keyup', setLengthLimitedField(50));
+        $('#monthly-financed-value')
+            .on('change', setters.setMonthFinancedValue)
+            .on('keyup', setLengthLimitedField(10));
         $('#OfferMonthlyDeferrals').on('change', setters.setOfferDeferrals);
-        $('#percent-month-deferrals').on('change', setters.setPercentMonthDeferrals);
+        $('#percent-month-deferrals')
+            .on('change', setters.setPercentMonthDeferrals)
+            .on('keyup', setLengthLimitedField(3));
         initRadio();
         $('#WithCurrentProvider').on('change', toggleCheckGroup('.hidden-current-provider'));
         $('#OfferMonthlyDeferrals').on('change', toggleCheckGroup('.hidden-monthly-deferrals'));
@@ -26,6 +40,7 @@
         $('#offered-equipment').on('change', addEquipment);
         $('.add-new-brand-link').on('click', addBrand);
         $('#reason-for-interest').on('change', setters.setReasonForInterest);
+
         _setLoadedData(product);
     };
 
@@ -76,7 +91,7 @@
             });
     }
 
-    function toggleAdditionalInsurenceTest(id) {
+    function toggleAdditionalInsurenceTest (id) {
         if (id === 'loan') {
             $('#additional-insurence-text').addClass('hidden');
             $('#additional-insurence-text').siblings('.placeholder-text').css('margin-top', 12);

@@ -25,8 +25,10 @@ module.exports('onboarding.product.setters', function (require) {
         return true;
     }
 
-    var setSecondaryBrand = function (index, value) {
-        state[stateSection].brands[index] = value;
+    var setSecondaryBrand = function (index) {
+        return function (e) {
+            state[stateSection].brands[index] = e.target.value;
+        }
     };
 
     var removeSecondayBrand = function (index) {

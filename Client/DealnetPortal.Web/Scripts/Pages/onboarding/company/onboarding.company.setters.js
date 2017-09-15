@@ -17,15 +17,20 @@
 
     var setEmail = setFormField('company-email-address');
 
+    var setWebsite = setFormField('company-website');
+
     var setStreet = setFormField('company-street');
+
+    var setUnit = setFormField('company-unit');
 
     var setCity = setFormField('company-city');
 
     var setProvince = setFormField('company-province');
 
+    var _setPost = setFormField('company-postal');
     var setPostalCode = function (e) {
         e.target.value = e.target.value.toUpperCase();
-        setFormField('company-postal')(e);
+        _setPost(e);
     };
 
     var setType = setFormField('company-type');
@@ -84,8 +89,10 @@
         setLegalName: setLegalName,
         setOperatingName: setOperatingName,
         setPhone: setPhone,
+        setWebsite: setWebsite,
         setEmail: setEmail,
         setStreet: setStreet,
+        setUnit: setUnit,
         setCity: setCity,
         setProvince: setProvince,
         setPostalCode: setPostalCode,

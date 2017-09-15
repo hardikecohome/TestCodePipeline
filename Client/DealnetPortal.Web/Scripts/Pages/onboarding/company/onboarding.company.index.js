@@ -3,20 +3,43 @@
     var add = require('onboarding.company.province').add;
     var setRemoveClick = require('onboarding.company.province').setRemoveClick;
     var setters = require('onboarding.company.setters');
+    var setLengthLimitedField = require('onboarding.setters').setLengthLimitedField;
 
     var init = function (company) {
         $('#province-select').on('change', add);
 
-        $('#full-legal-name').on('change', setters.setLegalName);
-        $('#operating-name').on('change', setters.setOperatingName);
-        $('#company-phone').on('change', setters.setPhone);
-        $('#company-email-address').on('change', setters.setEmail);
-        $('#company-street').on('change', setters.setStreet);
-        $('#company-city').on('change', setters.setCity);
+        $('#full-legal-name')
+            .on('change', setters.setLegalName)
+            .on('keyup', setLengthLimitedField(50));
+        $('#operating-name')
+            .on('change', setters.setOperatingName)
+            .on('keyup', setLengthLimitedField(50));
+        $('#company-phone')
+            .on('change', setters.setPhone)
+            .on('keyup', setLengthLimitedField(10));
+        $('#company-website')
+            .on('change', setters.setWebsite)
+            .on('keyup', setLengthLimitedField(50));
+        $('#company-email-address')
+            .on('change', setters.setEmail)
+            .on('keyup', setLengthLimitedField(50));
+        $('#company-street')
+            .on('change', setters.setStreet)
+            .on('keyup', setLengthLimitedField(100));
+        $('#company-unit')
+            .on('change', setters.setUnit)
+            .on('keyup', setLengthLimitedField(10));
+        $('#company-city')
+            .on('change', setters.setCity)
+            .on('keyup', setLengthLimitedField(50));
+        $('#company-postal')
+            .on('change', setters.setPostalCode)
+            .on('keyup', setLengthLimitedField(6));
         $('#company-province').on('change', setters.setProvince);
-        $('#company-postal').on('change', setters.setPostalCode);
         $('#company-type').on('change', setters.setType);
         $('#years-in-business').on('change', setters.setYearsInBusiness);
+        $('#installers').on('change', setters.setInstallers);
+        $('#sales').on('change', setters.setSales);
 
         _setLoadedData(company);
     };

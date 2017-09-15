@@ -13,6 +13,14 @@ module.exports('onboarding.setters', function (require) {
         }
     }
 
+    var setLengthLimitedField = function (maxLength) {
+        return function (e) {
+            if (e.target.value.length > maxLength) {
+                e.target.value = e.target.value.substr(0, maxLength);
+            }
+        }
+    }
+
     function _spliceRequiredFields (stateSection, field) {
         if (!$('#' + field).valid() || $('#' + field).val() === '') {
 
@@ -81,6 +89,7 @@ module.exports('onboarding.setters', function (require) {
     return {
         configSetField: configSetField,
         moveToNextSection: moveToNextSection,
-        enableSubmit: enableSubmit
+        enableSubmit: enableSubmit,
+        setLengthLimitedField: setLengthLimitedField
     }
 });

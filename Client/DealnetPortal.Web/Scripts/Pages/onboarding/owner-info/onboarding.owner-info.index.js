@@ -5,21 +5,38 @@
     var additionalOwner = require('onboarding.owner-info.additional');
     var aknwoledgmentOwner = require('onboarding.ackonwledgment.owners');
     var assignDatepicker = require('onboarding.owner-info.conversion').assignDatepicker;
+    var setLengthLimitedField = require('onboarding.setters').setLengthLimitedField;
 
     function _setInputHandlers (ownerNumber) {
         $('#' + ownerNumber + '-firstname').on('change', setters.setFirstName(ownerNumber));
         $('#' + ownerNumber + '-firstname').on('change', aknwoledgmentSetters.setFirstName(ownerNumber));
         $('#' + ownerNumber + '-lastname').on('change', setters.setLastName(ownerNumber));
         $('#' + ownerNumber + '-lastname').on('change', aknwoledgmentSetters.setLastName(ownerNumber));
-        $('#' + ownerNumber + '-homephone').on('change', setters.setHomePhone(ownerNumber));
-        $('#' + ownerNumber + '-cellphone').on('change', setters.setCellPhone(ownerNumber));
-        $('#' + ownerNumber + '-email').on('change', setters.setEmailAddress(ownerNumber));
-        $('#' + ownerNumber + '-street').on('change', setters.setStreet(ownerNumber));
-        $('#' + ownerNumber + '-unit').on('change', setters.setUnit(ownerNumber));
-        $('#' + ownerNumber + '-city').on('change', setters.setCity(ownerNumber));
-        $('#' + ownerNumber + '-postalcode').on('change', setters.setPostalCode(ownerNumber));
+        $('#' + ownerNumber + '-homephone')
+            .on('change', setters.setHomePhone(ownerNumber))
+            .on('keyup', setLengthLimitedField(10));
+        $('#' + ownerNumber + '-cellphone')
+            .on('change', setters.setCellPhone(ownerNumber))
+            .on('keyup', setLengthLimitedField(10));
+        $('#' + ownerNumber + '-email')
+            .on('change', setters.setEmailAddress(ownerNumber))
+            .on('keyup', setLengthLimitedField(50));
+        $('#' + ownerNumber + '-street')
+            .on('change', setters.setStreet(ownerNumber))
+            .on('keyup', setLengthLimitedField(100));
+        $('#' + ownerNumber + '-unit')
+            .on('change', setters.setUnit(ownerNumber))
+            .on('keyup', setLengthLimitedField(10));
+        $('#' + ownerNumber + '-city')
+            .on('change', setters.setCity(ownerNumber))
+            .on('keyup', setLengthLimitedField(50));
+        $('#' + ownerNumber + '-postalcode')
+            .on('change', setters.setPostalCode(ownerNumber))
+            .on('keyup', setLengthLimitedField(6));
         $('#' + ownerNumber + '-province').on('change', setters.setProvince(ownerNumber));
-        $('#' + ownerNumber + '-percentage').on('change', setters.setOwnershipPercentege(ownerNumber));
+        $('#' + ownerNumber + '-percentage')
+            .on('change', setters.setOwnershipPercentege(ownerNumber))
+            .on('keyup', setLengthLimitedField(3));
         $('#' + ownerNumber + '-agreement').on('change', aknwoledgmentSetters.setAgreement(ownerNumber));
 
         var input = assignDatepicker('#' + ownerNumber + '-birthdate', ownerNumber);
