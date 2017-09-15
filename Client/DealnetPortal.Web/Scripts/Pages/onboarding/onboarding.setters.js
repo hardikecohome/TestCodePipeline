@@ -22,7 +22,7 @@ module.exports('onboarding.setters', function (require) {
     }
 
     function _spliceRequiredFields (stateSection, field) {
-        if (!$('#' + field).valid() || $('#' + field).val() === '') {
+        if (!$('#' + field).valid()) {
 
             var index = state[stateSection].requiredFields.indexOf(field);
 
@@ -31,7 +31,6 @@ module.exports('onboarding.setters', function (require) {
 
             return;
         }
-
 
         var requiredIndex = state[stateSection].requiredFields.indexOf(field);
 
