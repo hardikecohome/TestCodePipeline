@@ -86,7 +86,8 @@ namespace DealnetPortal.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SaveDraft(DealerOnboardingViewModel model)
         {
-            var wasCleaned = ClearNotValidValues(ModelState, model);
+            var wasCleaned = false;
+            ClearNotValidValues(ModelState, model, ref wasCleaned);
             var result = await _dealerOnBoardingManager.SaveDraft(model);
             result.InvalidFields = wasCleaned;
             return PartialView("OnBoarding/_SaveAndResumeModal", result);
@@ -133,25 +134,22 @@ namespace DealnetPortal.Web.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        private bool ClearNotValidValues(ModelStateDictionary modelState, DealerOnboardingViewModel model)
+        private void ClearNotValidValues(ModelStateDictionary modelState, DealerOnboardingViewModel model, ref bool wasCleaned)
         {
-            var result = false;
             var errors = modelState.GetModelErrors();
             foreach (KeyValuePair<string, string> error in errors.Except(errors.Where(e => e.Value.Contains(Resources.Resources.ThisFieldIsRequired)).ToList()))
             {
-                result = ClearValue(model, error.Key);
+                ClearValue(model, error.Key, ref wasCleaned);
             }
-            return result;
         }
 
-        private bool ClearValue(DealerOnboardingViewModel model, string valueName)
+        private void ClearValue(DealerOnboardingViewModel model, string valueName, ref bool wasCleaned)
         {
-                return SetProperty(valueName, model, null);
+            SetProperty(valueName, model, null, ref wasCleaned);
         }
 
-        public bool SetProperty(string compoundProperty, object target, object value)
+        public void SetProperty(string compoundProperty, object target, object value, ref bool wasCleaned)
         {
-            bool result = false;
             string[] bits = compoundProperty.Split('.');
             string index = string.Empty;
             for (int i = 0; i < bits.Length - 1; i++)
@@ -162,25 +160,21 @@ namespace DealnetPortal.Web.Controllers
                 {
                     index = propertyName.Substring(propertyName.IndexOf('[') + 1, 1);
                     propertyName = propertyName.Substring(0, propertyName.IndexOf('['));
+                    PropertyInfo propertyToGet = target.GetType().GetProperty(propertyName);
+                    target = (propertyToGet.GetValue(target, null) as IList)[int.Parse(index)];
                 }
-                PropertyInfo propertyToGet = target.GetType().GetProperty(propertyName);
-                target = propertyToGet.GetValue(target, null);
+                else
+                {
+                    PropertyInfo propertyToGet = target.GetType().GetProperty(propertyName);
+                    target = propertyToGet.GetValue(target, null);
+                }
             }
-            PropertyInfo propertyToSet = null;
-            if (!string.IsNullOrEmpty(index))
-            {
-                propertyToSet = target.GetType().GetGenericArguments()[int.Parse(index)].GetProperty(bits.Last());
-            }
-            else
-            {
-                propertyToSet = target.GetType().GetProperty(bits.Last());
-            }
+            PropertyInfo propertyToSet = target.GetType().GetProperty(bits.Last());
             if (!(propertyToSet.PropertyType.IsGenericType && propertyToSet.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>)))
             {
                 propertyToSet.SetValue(target, value, null);
-                result = true;
+                wasCleaned = true;
             }
-            return result;
         }
     }
 }
