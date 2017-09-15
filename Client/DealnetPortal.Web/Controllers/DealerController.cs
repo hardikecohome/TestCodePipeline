@@ -86,9 +86,9 @@ namespace DealnetPortal.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SaveDraft(DealerOnboardingViewModel model)
         {
-            var wasCleaned = ClearNotValidValues(ModelState, model);
+            //var wasCleaned = ClearNotValidValues(ModelState, model);
             var result = await _dealerOnBoardingManager.SaveDraft(model);
-            result.InvalidFields = wasCleaned;
+            //result.InvalidFields = wasCleaned;
             return PartialView("OnBoarding/_SaveAndResumeModal", result);
         }
 
