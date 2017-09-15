@@ -16,7 +16,6 @@ namespace DealnetPortal.Web.Models.Dealer
 
         [CustomRequired]
         [StringLength(50, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
-        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "PrimaryBrandIncorrectFormat")]
         public string PrimaryBrand { get; set; }
         
         public List<string> Brands { get; set; }
