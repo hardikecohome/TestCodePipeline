@@ -948,6 +948,7 @@
     <Content Include="Scripts\Pages\onboarding\onboarding.common.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.form.handlers.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.index.js" />
+    <Content Include="Scripts\Pages\onboarding\onboarding.polyfill.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.setters.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.state.js" />
     <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.conversion.js" />
