@@ -598,6 +598,63 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
+        public async Task SendSupportRequiredEmail()
+        {
+            var SupportDetails = new
+            {
+                Id = 123,
+                DealerName = "xyz",
+                YourName = "abc",
+                LoanNumber = 0,
+                SupportType = "Dealer Support",
+                HelpRequested = "sdewwrewewrwrrerrr wfsffsafffadsafasfafds   afsdfdsaff  asfdsfsaffsfsfsaffsa sfdsfaffsf",
+                BestWay = new {
+                    byPhone = true,
+                    SameEmail = true,
+                    AlternativeEmail = true,
+                    AlternativeEmailAddress = "This@that.com"
+                }
+            };
+            string mailTo = ConfigurationManager.AppSettings["DealNetEmail"];
+            
+            var body = new StringBuilder();
+            body.AppendLine("<div>");
+            body.AppendLine($"<u>{SupportDetails.SupportType}.</u>");
+            body.AppendLine($"<p>Dealer Name: {SupportDetails.DealerName}</p>");
+            body.AppendLine($"<p><b>Requested By: {SupportDetails.YourName}</b></p>");
+            if (SupportDetails.LoanNumber != null)
+            {
+                body.AppendLine($"<p><b>Loan Number: {SupportDetails.LoanNumber}</b></p>");
+            }
+            body.AppendLine($"<p><b>Request Comments: {SupportDetails.HelpRequested}</b></p>");
+            body.AppendLine("<br />");
+            body.AppendLine($"<p><b>Communication Preffered by:</b></p>");
+            if (SupportDetails.BestWay.byPhone)
+            {
+                body.AppendLine($"<p>Phone</p>");
+            }
+            if (SupportDetails.BestWay.SameEmail)
+            {
+                body.AppendLine($"<p>Email</p>");
+            }
+            if (SupportDetails.BestWay.AlternativeEmail)
+            {
+                body.AppendLine($"<p><b>Alternative Email: { SupportDetails.BestWay.AlternativeEmailAddress ?? string.Empty}</b></p>");
+            }
+            body.AppendLine("</div>");
+
+            var subject = $"Support Request -{ "Who Send request" + " to which department" }";
+            try
+            {
+                await _emailService.SendAsync(new List<string> { mailTo }, string.Empty, subject, body.ToString());
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot send email", ex);
+            }
+        }
+
+
         #endregion
 
         #region Private

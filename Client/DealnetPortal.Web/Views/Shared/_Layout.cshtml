@@ -89,44 +89,7 @@
 }
 
 <body class="@(User.Identity.IsAuthenticated ? "authorized" : "no-authorized") @themeClass">
-	@*@if (ConfigurationManager.AppSettings["SwitchPopUpOnOff"] == "true")
-	{
-	<div class="container-fluid pull-right" id="alertLine">
-		<div class="row">
-			<div class="col-md-10 col-md-offset-1 center">
-				@*<p class="text-danger"><strong>@ConfigurationManager.AppSettings["PopUpHeader"]</strong> </p>*@
-
-				@*<p><strong style="color:red;">@ConfigurationManager.AppSettings["PopUpHeader"]</strong> <br />@ConfigurationManager.AppSettings["PopUpMessage"]</p>
-			</div>
-			<div class="col-md-1 pull-right" style="margin-right:-25px; margin-top:11px;">
-				<button type="button" class="btn btn-small btn-warning btn-circle" 
-						style="width: 20px; height: 20px; text-align: center; padding: 1px 0; font-size: 12px; line-height: 1.428571429; border-radius: 10px;"
-						onclick="$('#alertLine').hide(); $('#mainBody').css('margin-top', '0px'); sessionStorage['Alert'] = 'closed';"><i class="glyphicon glyphicon-remove"></i></button>
-			</div>
-		</div>
-	</div>
-	}*@
-
-	@*<div id="myModal" class="modal fade" role="dialog">
-		<div class="modal-dialog">
-
-			 Modal content
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">@ConfigurationManager.AppSettings["PopUpHeader"]</h4>
-				</div>
-				<div class="modal-body">
-					<p>@ConfigurationManager.AppSettings["PopUpMessage"]</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-
-		</div>*@
-	@*</div>*@
-    <div class="container-fluid" id="mainBody">
+	<div class="container-fluid">
 		<div class="row">
             <div class="col-md-12">
                 <nav class="navbar navbar-inverse navbar-fixed-side">
@@ -307,9 +270,10 @@
             <div class="@(User.Identity.IsAuthenticated ? "col-md-9 col-lg-10 col-md-offset-3 col-lg-offset-2 dealnet-body-container" : "col-md-12 col-lg-12")">				
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 dealnet-body">
+						@if (ConfigurationManager.AppSettings["SwitchPopUpOnOff"] == "true")
+						{
 						<div class="row" id="alertLine">
-							@if (ConfigurationManager.AppSettings["SwitchPopUpOnOff"] == "true")
-							{								
+															
 								<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 									<div class="pull-right" id="alertCloseButton">
 										<button type="button" class="btn btn-small btn-warning btn-circle"
@@ -320,8 +284,9 @@
 									</div>
 									<p><strong style="color:red;">@ConfigurationManager.AppSettings["PopUpHeader"]</strong> <br />@ConfigurationManager.AppSettings["PopUpMessage"]</p>
 								</div>								
-							}
+							
 						</div>
+						}
                         @RenderBody()
                     </div>
                 </div>
@@ -350,6 +315,104 @@
     </div>
 </div>
 
+	<div id="emailModal" class="modal fade modal-wide">
+		<div class="modal-dialog modal-warning">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Dealer Support: How Can We Help? </h4>
+				</div>			`	
+				<div class="modal-body">
+					<div class="col-md-12 pull-left" style="margin-bottom:20px;">
+						<div class="row">
+							<div class="form-group">
+								<div class="col-md-3">
+									<label class="pull-left">Dealer Name</label>
+								</div>
+								<div class="col-md-9">
+									<label class="pull-left" id="emailDealerName">@User.Identity.Name</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group">
+								<div class="col-md-3">
+									<label class="pull-left">Your Name</label>
+								</div>
+								<div class="col-md-9">
+									<label class="pull-left" id="emailSubDealerName">@User.Identity.Name</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group">
+								<div class="col-md-3">
+									<label class="pull-left">Loan Number</label>
+								</div>
+								<div class="col-md-9">
+									<label class="pull-left" id="emailTransactionId"></label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group">
+								<div class="col-md-3">
+									<label class="pull-left">How Can We Help?</label>
+								</div>
+								<div class="col-md-9">
+									<textarea class="form-control pull-left full-width" id="emailComment" rows="3"></textarea>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group">
+								<div class="col-md-3">
+									<label class="pull-left">Best Way to get back to you</label>
+								</div>
+								<div class="col-md-9">
+									<div class="row">
+										<div class="col-md-12">
+											<label class="pull-left align-middle custom-checkbox">
+												<input type="checkbox" class="dealnet-checkbox" id="emailPhone" />
+												<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+												<span>@Resources.Phone</span>
+											</label>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<label class="pull-left align-middle custom-checkbox">
+												<input type="checkbox" class="dealnet-checkbox" id="emailSameEmail" />
+												<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+												<span>Same E-mail</span>
+											</label>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<label class="pull-left align-middle custom-checkbox">
+												<input type="checkbox" class="dealnet-checkbox" id="emailAlternativeEmail" />
+												<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+												<span>Alternative E-mail</span>
+											</label>
+											<input class="pull-left form-control dealnet-input" type="text" id="emailAlternativeEmailAddress" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				<div class="modal-footer">
+					<div class="col-md-12">
+						<button type="button" class="btn dealnet-button dealnet-link-button" data-dismiss="modal">@Resources.Cancel</button>
+						<button type="button" class="btn dealnet-button dealnet-success-button" id="emailSupport" onclick="sendEmailToDealerSupport();">@Resources.Send</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
     @RenderSection("Scripts", false)
 </body>
 </html>

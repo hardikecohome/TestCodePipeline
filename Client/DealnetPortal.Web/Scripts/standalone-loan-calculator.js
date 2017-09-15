@@ -16,7 +16,7 @@
         return;
     }
     calculationState.equipmentCashPrice = equipmentCashPrice;
-    var hst = taxRate / 100 * equipmentCashPrice;
+	var hst = 0;// taxRate / 100 * equipmentCashPrice;
     calculationState.hst = hst;
     var totalCashPrice = equipmentCashPrice + hst;
     calculationState.totalCashPrice = totalCashPrice;
@@ -28,13 +28,13 @@
     if (isNaN(downPayment) || downPayment < 0) {
         downPayment = 0;
     }
-    var totalAmountFinanced = totalCashPrice + adminFee - downPayment;
+    var totalAmountFinanced = totalCashPrice /*+ adminFee*/ - downPayment;
     calculationState.totalAmountFinanced = totalAmountFinanced;
     var loanTerm = parseInt(calculationState.loanTerm);
     var amortizationTerm = parseInt(calculationState.amortizationTerm);
     var customerRate = parseFloat(calculationState.customerRate);
     if (isNaN(loanTerm) || loanTerm <= 0 || isNaN(amortizationTerm) || amortizationTerm <= 0 || isNaN(customerRate) || customerRate < 0) { return; }
-    var totalMonthlyPayment = totalAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0);
+	var totalMonthlyPayment = Math.round(totalAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0) * 100) / 100;
     calculationState.totalMonthlyPayment = totalMonthlyPayment;
     var totalAllMonthlyPayments = totalMonthlyPayment * loanTerm;
     calculationState.totalAllMonthlyPayments = totalAllMonthlyPayments;
@@ -43,8 +43,8 @@
         residualBalance = -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, totalMonthlyPayment, 0) * (1 + customerRate / 100 / 12);
     }
     calculationState.residualBalance = residualBalance;
-    var totalObligation = totalAllMonthlyPayments + residualBalance;
+	var totalObligation = totalAllMonthlyPayments + adminFee + residualBalance;
     calculationState.totalObligation = totalObligation;
-    var totalBorrowingCost = Math.abs(totalObligation - totalAmountFinanced);
+	var totalBorrowingCost = Math.abs(totalObligation - adminFee - totalAmountFinanced);
     calculationState.totalBorrowingCost = totalBorrowingCost;
 }

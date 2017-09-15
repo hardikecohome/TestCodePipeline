@@ -42,20 +42,10 @@
 
 	//Hardik Code for Alert popup
 	if (sessionStorage["Alert"] != "closed") {
-		//window.postMessage("try", "try2");
-		//$('#mainBody').css("margin-top", "50px");
 		$('#alertLine').show();
-		$('#myModal').modal();
-		//alert(sessionStorage["Alert"]);
-		//sessionStorage["Alert"] = "closed";
-		//alert(sessionStorage["Alert"]);
 	}
 	else {
 		$('#alertLine').hide();
-		//$('#mainBody').css("margin-top", "0px");
-		//alert(sessionStorage["Alert"]);
-		//sessionStorage["Alert"] = "show";
-		
 	}
 
 
@@ -612,6 +602,23 @@ function dynamicAlertModal(obj){
   alertModal.find('.modal-footer button[data-dismiss="modal"]').html(obj.cancelBtnText);
   alertModal.addClass(classes);
   alertModal.modal('show');
+}
+
+function sendEmailModel(rowTransactionId) {
+	
+	//var classes = obj.class ? obj.class : '';
+	
+	var alertModal = $('#emailModal');
+	//alertModal.find('.modal-body p').html(obj.message);
+	alertModal.find('#emailTransactionId').html(rowTransactionId);
+	//alertModal.find('#confirmAlert').html(obj.confirmBtnText);
+	//alertModal.find('.modal-footer button[data-dismiss="modal"]').html(obj.cancelBtnText);
+	//alertModal.addClass(classes);
+	alertModal.modal('show');
+}
+
+function sendEmailToDealerSupport() {
+	alert(urlContent);
 }
 
 function hideDynamicAlertModal() {

@@ -240,9 +240,12 @@ function showTable() {
                                             '"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="' +
                                             urlContent +
                                             'Content/images/sprite/sprite.svg#icon-trash"></use></svg></a></div>';
-                                    } else {
-                                        return '<div class="controls-hold"><a class="icon-link icon-edit" href=' + editItemUrl + '/' + row.Id + ' title="' + translations['Edit'] + '"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a></div>';
-                                    }
+									} else {
+										return '<div class="controls-hold"><a class="icon-link icon-edit" href=' + editItemUrl + '/' + row.Id + ' title="' + translations['Edit'] + '"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a>' +
+											'<i onclick= "sendEmailModel(' + row.TransactionId + ');" class="icon-link icon-edit" > ' +
+											'<svg aria- hidden="true" class="icon icon-edit" > <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg >' +
+											'</i></div>';
+									}
                                 } else {
                                     return '';
                                 }
@@ -278,3 +281,5 @@ function showTable() {
     });
 
 };
+
+
