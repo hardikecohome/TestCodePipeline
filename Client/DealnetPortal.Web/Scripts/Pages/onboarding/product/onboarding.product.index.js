@@ -62,9 +62,9 @@
     function toggleCheckGroup (selector) {
         return function () {
             if ($(this).prop('checked')) {
-                hideFormGroup(selector);
-            } else {
                 showFormGroup(selector);
+            } else {
+                hideFormGroup(selector);
             }
         }
     }
@@ -72,22 +72,35 @@
     function toggleRelationship () {
         var value = Number(this.value);
         if (value === 1) {
-            hideFormGroup('.hidden-relationship');
-        } else {
             showFormGroup('.hidden-relationship');
+        } else {
+            hideFormGroup('.hidden-relationship');
         }
+    }
+
+    function showFormGroup (selector) {
+        $(selector)
+            .removeClass('hidden')
+            .find('input')
+            .each(function () {
+                $(this).prop('disabled', false)
+                    .rules('add', {
+                        required: true,
+                        messages: {
+                            required: translations.ThisFieldIsRequired
+                        }
+                    });
+            });
     }
 
     function hideFormGroup (selector) {
         $(selector)
-            .removeClass('hidden')
+            .addClass('hidden')
             .find('input')
-            .prop('disabled', false)
-            .rules('add', {
-                required: true,
-                messages: {
-                    required: translations.ThisFieldIsRequired
-                }
+            .each(function () {
+                $(this)
+                    .prop('disabled', true)
+                    .rules('remove', 'required');
             });
     }
 
@@ -100,14 +113,6 @@
             $('#additional-insurence-text').siblings('.placeholder-text').css('margin-top', 0);
 
         }
-    }
-
-    function showFormGroup (selector) {
-        $(selector)
-            .addClass('hidden')
-            .find('input')
-            .prop('disabled', true)
-            .rules('remove', 'required');
     }
 
     function _setLoadedData (product) {
