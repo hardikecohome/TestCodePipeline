@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web.Mvc;
 using DealnetPortal.Web.Models.Dealer;
@@ -9,6 +11,9 @@ using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Models;
+using System.Reflection;
+using System.Collections;
+using System.Globalization;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -81,6 +86,7 @@ namespace DealnetPortal.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SaveDraft(DealerOnboardingViewModel model)
         {
+            ClearNotValidValues(ModelState, model);
             var result = await _dealerOnBoardingManager.SaveDraft(model);
             
             return PartialView("OnBoarding/_SaveAndResumeModal", result);
@@ -125,6 +131,62 @@ namespace DealnetPortal.Web.Controllers
             var result = await _dealerOnBoardingManager.DeleteOnboardingDocument(documentForDelete);
 
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        private void ClearNotValidValues(ModelStateDictionary modelState, DealerOnboardingViewModel model)
+        {
+            var errors = modelState.GetModelErrors();
+            foreach (KeyValuePair<string, string> error in errors.Except(errors.Where(e => e.Value.Contains(Resources.Resources.ThisFieldIsRequired)).ToList()))
+            {
+                ClearValue(model, error.Key);
+            }
+        }
+
+        private void ClearValue(DealerOnboardingViewModel model, string valueName)
+        {
+            try
+            {
+                SetProperty(valueName, model, null);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        public void SetProperty(string compoundProperty, object target, object value)
+        {
+            string[] bits = compoundProperty.Split('.');
+            string index = string.Empty;
+            for (int i = 0; i < bits.Length - 1; i++)
+            {
+                var propertyName = bits[i];
+
+                if (propertyName.Contains("["))
+                {
+                    index = propertyName.Substring(propertyName.IndexOf('[') + 1, 1);
+                    propertyName = propertyName.Substring(0, propertyName.IndexOf('['));
+                }
+                PropertyInfo propertyToGet = target.GetType().GetProperty(propertyName);
+                target = propertyToGet.GetValue(target, null);
+            }
+            PropertyInfo propertyToSet = null;
+            if (!string.IsNullOrEmpty(index))
+            {
+                propertyToSet = target.GetType().GetGenericArguments()[int.Parse(index)].GetProperty(bits.Last());
+            }
+            else
+            {
+                propertyToSet = target.GetType().GetProperty(bits.Last());
+            }
+            if (!(propertyToSet.PropertyType.IsGenericType && propertyToSet.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>)))
+            {
+                propertyToSet.SetValue(target, value, null);
+
+            }
+
         }
     }
 }
