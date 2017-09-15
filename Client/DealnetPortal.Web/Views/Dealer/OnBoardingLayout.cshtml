@@ -155,7 +155,8 @@
         <div class="form-group">
             <label for="">@Resources.SecondaryManufacturerBrandSold</label>
             <div class="control-group removable-form-group">
-                <input id="ProductInfo_Brands_${brandNumber}" name="ProductInfo.Brands[${brandNumber}]" type="text" class="form-control dealnet-input secondary-brand" value="">
+                <input id="ProductInfo_Brands_${brandNumber}" name="ProductInfo.Brands[${brandNumber}]" type="text" data-val="true" data-val-length-min="2" data-val-length="The field Secondary brand must be a string with a minimum length of 2 and a maximum length of 50." data-val-length-max="50" class="form-control dealnet-input secondary-brand" value="">
+                <span class="field-validation-valid text-danger" data-valmsg-for="ProductInfo.Brands[${brandNumber}]" data-valmsg-replace="true"></span>
                 <a href="" class="remove-link remove-brand-link">
                     <svg aria-hidden="true" class="icon icon-remove-cross">
                         <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>

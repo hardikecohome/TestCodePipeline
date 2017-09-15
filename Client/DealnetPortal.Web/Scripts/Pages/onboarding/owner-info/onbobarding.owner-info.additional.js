@@ -3,7 +3,6 @@
     var constants = require('onboarding.state').constants;
     var manageOwners = require('onboarding.owner-info.conversion');
     var resetForm = require('onboarding.common').resetFormValidation;
-    var assignDatepicker = require('onboarding.owner-info.conversion').assignDatepicker;
 
     var addAditionalOwner = function (ownerIndex) {
         if ($('#additional-owner-warning').is(':visible')) {
