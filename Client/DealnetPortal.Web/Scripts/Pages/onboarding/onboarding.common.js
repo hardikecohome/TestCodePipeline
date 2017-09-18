@@ -1,5 +1,5 @@
 ﻿module.exports('onboarding.common', function () {
-    function resetFormValidation(selector) {
+    function resetFormValidation (selector) {
         var $form = $(selector);
         $form.removeData("validator");
         $form.removeData("unobtrusiveValidation");
@@ -10,7 +10,7 @@
      * detect IE
      * returns version of IE or false, if browser is not Internet Explorer
      */
-    function detectIe() {
+    function detectIe () {
         var ua = window.navigator.userAgent;
 
         var msie = ua.indexOf('MSIE ');
@@ -36,8 +36,50 @@
         return false;
     }
 
+    var initTooltip = function () {
+        var toggle = $('#submit').parent('[data-toggle="popover"]');
+        var body = $('body');
+        return function () {
+            var isMobile = body.is('.tablet-device') || body.is('.mobile-device');
+            if (toggle.data('bs.popover')) {
+                toggle.off().popover('destroy');
+            }
+            toggle.popover({
+                template: '<div class="popover customer-loan-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
+                placement: 'top',
+                trigger: isMobile ? 'click' : 'hover'
+            }).on('shown.bs.popover', function () {
+                if (isMobile) {
+                    $(this).parents('div[class*="equal-height-row"]').addClass('row-auto-height');
+                }
+            }).on('hide.bs.popover', function () {
+                if (isMobile) {
+                    $(this).parents('div[class*="equal-height-row"]').removeClass('row-auto-height');
+                }
+            });
+            if (isMobile) {
+                toggle.on('touchstart click', function () {
+                    toggle.popover('show');
+                    setTimeout(function () {
+                        toggle.popover('hide');
+                    }, 2000);
+                });
+            }
+            toggle.data('bs.popover').tip().addClass('onboard-popover');
+        }
+    }();
+
+    var removeTooltip = function () {
+        var toggle = $('#submit').parent('[data-toggle="popover"]');
+        return function () {
+            toggle.off().popover('destroy');
+        }
+    }();
+
     return {
         resetFormValidation: resetFormValidation,
-        detectIe: detectIe
+        detectIe: detectIe,
+        initTooltip: initTooltip,
+        removeTooltip: removeTooltip
     };
 });
