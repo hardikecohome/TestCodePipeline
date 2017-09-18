@@ -1,5 +1,7 @@
 module.exports('onboarding.setters', function (require) {
     var state = require('onboarding.state').state;
+    var initTooltip = require('onboarding.common').initTooltip;
+    var removeTooltip = require('onboarding.common').removeTooltip;
 
     function configSetField (stateSection) {
         return function (field) {
@@ -75,13 +77,13 @@ module.exports('onboarding.setters', function (require) {
         for (var owner in state.aknowledgment.owners) {
             valid = valid && (typeof state.aknowledgment.owners[owner].agreement !== 'undefined' ? state.aknowledgment.owners[owner].agreement : false);
         }
+
         if (valid) {
             $('#submit').prop('disabled', false);
-            $('#submit').parent().popover('destroy');
+            removeTooltip();
         } else {
             $('#submit').prop('disabled', true);
-            $('#submit').parent().popover();
-            $('[data-toggle="popover"]').data('bs.popover').tip().addClass('onboard-popover');
+            initTooltip();
         }
     }
 

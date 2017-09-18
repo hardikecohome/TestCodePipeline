@@ -10,6 +10,7 @@
     var resetForm = require('onboarding.common').resetFormValidation;
     var detectIe = require('onboarding.common').detectIe;
     var definePolyfill = require('onboarding.polyfill');
+    var initTooltip = require('onboarding.common').initTooltip;
 
     function init (model) {
         initializing = true;
@@ -22,10 +23,6 @@
 
         $('#submit').on('click', validateAndSubmit);
         $('.save-and-resume').on('click', submitDraft);
-
-        if ($('[data-toggle="popover"]').data('bs.popover')) {
-            $('[data-toggle="popover"]').data('bs.popover').tip().addClass('onboard-popover');
-        }
 
         if (detectIe()) {
             definePolyfill();

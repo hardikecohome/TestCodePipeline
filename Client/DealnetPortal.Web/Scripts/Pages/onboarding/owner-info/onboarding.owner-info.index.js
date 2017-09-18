@@ -8,10 +8,14 @@
     var setLengthLimitedField = require('onboarding.setters').setLengthLimitedField;
 
     function _setInputHandlers (ownerNumber) {
-        $('#' + ownerNumber + '-firstname').on('change', setters.setFirstName(ownerNumber));
-        $('#' + ownerNumber + '-firstname').on('change', aknwoledgmentSetters.setFirstName(ownerNumber));
-        $('#' + ownerNumber + '-lastname').on('change', setters.setLastName(ownerNumber));
-        $('#' + ownerNumber + '-lastname').on('change', aknwoledgmentSetters.setLastName(ownerNumber));
+        $('#' + ownerNumber + '-firstname')
+            .on('change', setters.setFirstName(ownerNumber));
+        $('#' + ownerNumber + '-firstname')
+            .on('change', aknwoledgmentSetters.setFirstName(ownerNumber));
+        $('#' + ownerNumber + '-lastname')
+            .on('change', setters.setLastName(ownerNumber));
+        $('#' + ownerNumber + '-lastname')
+            .on('change', aknwoledgmentSetters.setLastName(ownerNumber));
         $('#' + ownerNumber + '-homephone')
             .on('change', setters.setHomePhone(ownerNumber))
             .on('keyup', setLengthLimitedField(10));

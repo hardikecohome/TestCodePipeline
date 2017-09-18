@@ -34,12 +34,18 @@
             .on('change', setters.setPercentMonthDeferrals)
             .on('keyup', setLengthLimitedField(3));
         initRadio();
-        $('#WithCurrentProvider').on('change', toggleCheckGroup('.hidden-current-provider'));
-        $('#OfferMonthlyDeferrals').on('change', toggleCheckGroup('.hidden-monthly-deferrals'));
-        $('#relationship').on('change', toggleRelationship);
-        $('#offered-equipment').on('change', addEquipment);
-        $('.add-new-brand-link').on('click', addBrand);
-        $('#reason-for-interest').on('change', setters.setReasonForInterest);
+        $('#WithCurrentProvider')
+            .on('change', toggleCheckGroup('.hidden-current-provider'));
+        $('#OfferMonthlyDeferrals')
+            .on('change', toggleCheckGroup('.hidden-monthly-deferrals'));
+        $('#relationship')
+            .on('change', toggleRelationship);
+        $('#offered-equipment')
+            .on('change', addEquipment);
+        $('.add-new-brand-link')
+            .on('click', addBrand);
+        $('#reason-for-interest')
+            .on('change', setters.setReasonForInterest);
 
         _setLoadedData(product);
     };
