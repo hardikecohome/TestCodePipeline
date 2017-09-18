@@ -10,6 +10,7 @@
             overflow: inherit;
         }
 }
+
 .onboard-page {
     margin: 0 auto;
     padding: 0;
@@ -236,13 +237,15 @@
 
     .custom-radio {
         .icon {
-            margin-top:1px;
+            margin-top:2px;
         }
     }
 
     .custom-checkbox{ 
         .icon{
-            margin-top: 1px;
+            @media @desktop-up{
+                margin-top: 2px;
+            }
         }
         .checkbox-icon {
         @media @large-tablet-down {
@@ -460,9 +463,6 @@
 
         p {
             margin-bottom: 10px;
-        }
-
-        .inner-div {
         }
 
         .btn {
@@ -722,7 +722,6 @@
         @media @mobile {
             display: inline-block;
             margin-right: 10px;
-            margin-top: 8px;
         }
     }
     .icon-save + span {
