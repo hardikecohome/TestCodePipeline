@@ -17,6 +17,7 @@ module.exports('onboarding.setters', function (require) {
         return function (e) {
             if (e.target.value.length > maxLength) {
                 e.target.value = e.target.value.substr(0, maxLength);
+                $(e.target).change();
             }
         }
     }
