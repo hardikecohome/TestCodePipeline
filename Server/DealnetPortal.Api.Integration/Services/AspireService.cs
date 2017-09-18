@@ -46,7 +46,7 @@ namespace DealnetPortal.Api.Integration.Services
         //Aspire codes
         private const string CodeSuccess = "T000";
         //symbols excluded from document names for upload
-        private const string DocumentNameReplacedSymbols = "-+#@$%^!~";
+        private const string DocumentNameReplacedSymbols = "-+#@$%^!~&[](),.\\'\";:/`";
 
         public AspireService(IAspireServiceAgent aspireServiceAgent, IContractRepository contractRepository, 
             IDealerOnboardingRepository dealerOnboardingRepository,
