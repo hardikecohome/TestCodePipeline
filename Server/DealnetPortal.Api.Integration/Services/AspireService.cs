@@ -46,7 +46,7 @@ namespace DealnetPortal.Api.Integration.Services
         //Aspire codes
         private const string CodeSuccess = "T000";
         //symbols excluded from document names for upload
-        private const string DocumentNameReplacedSymbols = "-+#@$%^!~&[](),.\\'\";:/`";
+        private string DocumentNameReplacedSymbols = " -+=#@$%^!~&;:'`(){}.,|\"";
 
         public AspireService(IAspireServiceAgent aspireServiceAgent, IContractRepository contractRepository, 
             IDealerOnboardingRepository dealerOnboardingRepository,
@@ -521,7 +521,7 @@ namespace DealnetPortal.Api.Integration.Services
                             Status = _configuration.GetSetting(WebConfigKeys.DOCUMENT_UPLOAD_STATUS_CONFIG_KEY)
                         };
 
-                        var uploadName = Regex.Replace(Path.GetFileNameWithoutExtension(document.DocumentName),
+                        var uploadName = Regex.Replace(Path.GetFileNameWithoutExtension(document.DocumentName).Replace('[', '_').Replace(']', '_'),
                             $"[{DocumentNameReplacedSymbols}]", "_");
 
                         request.Payload.Documents = new List<Document>()
@@ -625,7 +625,7 @@ namespace DealnetPortal.Api.Integration.Services
                             Status = _configuration.GetSetting(WebConfigKeys.DOCUMENT_UPLOAD_STATUS_CONFIG_KEY)
                         };
 
-                        var uploadName = Regex.Replace(Path.GetFileNameWithoutExtension(document.DocumentName),
+                        var uploadName = Regex.Replace(Path.GetFileNameWithoutExtension(document.DocumentName).Replace('[', '_').Replace(']', '_'),
                             $"[{DocumentNameReplacedSymbols}]", "_");
 
                         request.Payload.Documents = new List<Document>()
@@ -708,7 +708,7 @@ namespace DealnetPortal.Api.Integration.Services
                             Status = statusToSend ?? _configuration.GetSetting(WebConfigKeys.DOCUMENT_UPLOAD_STATUS_CONFIG_KEY)
                         };
 
-                        var uploadName = Regex.Replace(Path.GetFileNameWithoutExtension(document.DocumentName),
+                        var uploadName = Regex.Replace(Path.GetFileNameWithoutExtension(document.DocumentName).Replace('[', '_').Replace(']', '_'),
                             $"[{DocumentNameReplacedSymbols}]", "_");
 
                         request.Payload.Documents = new List<Document>()

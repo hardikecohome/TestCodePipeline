@@ -126,6 +126,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\AlgorithmsTest.cs" />
     <Compile Include="Aspire\AspireDbTest.cs" />
     <Compile Include="Aspire\XmlRequestsTest.cs" />
     <Compile Include="Controllers\ContractControllerTest.cs" />
