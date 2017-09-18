@@ -141,6 +141,21 @@ namespace DealnetPortal.Web.Controllers
             {
                 ClearValue(model, error.Key, ref wasCleaned);
             }
+            var notValidBrands = model.ProductInfo?.Brands?.Where(b => b.Length < 2 || b.Length > 50).ToList();
+            if (notValidBrands?.Any() ?? false)
+            {
+                notValidBrands.ForEach(x => model.ProductInfo.Brands.Remove(x));
+                wasCleaned = true;
+            }
+            if (model.CompanyInfo != null && !string.IsNullOrEmpty(model.CompanyInfo.Website))
+            {
+                var result = model.CompanyInfo.Website.Split('.');
+                if ((result.Length != 2 && result.Length !=3) || (result.Length == 3 && result.Any(x => x == "www") != true))
+                {
+                    model.CompanyInfo.Website = string.Empty;
+                    wasCleaned = true;
+                }
+            }
         }
 
         private void ClearValue(DealerOnboardingViewModel model, string valueName, ref bool wasCleaned)
@@ -170,11 +185,9 @@ namespace DealnetPortal.Web.Controllers
                 }
             }
             PropertyInfo propertyToSet = target.GetType().GetProperty(bits.Last());
-            if (!(propertyToSet.PropertyType.IsGenericType && propertyToSet.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>)))
-            {
-                propertyToSet.SetValue(target, value, null);
-                wasCleaned = true;
-            }
+            if (propertyToSet.Name == "BirthDate" && propertyToSet.GetValue(target, null) == null) return;
+            propertyToSet.SetValue(target, value, null);
+            wasCleaned = true;
         }
     }
 }
