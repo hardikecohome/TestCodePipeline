@@ -21,7 +21,6 @@ module.exports('onboarding.product.setters', function (require) {
             state[stateSection].brands = [];
         if (state[stateSection].brands.length > 1)
             return false;
-        state[stateSection].brands.push(value);
         return true;
     }
 

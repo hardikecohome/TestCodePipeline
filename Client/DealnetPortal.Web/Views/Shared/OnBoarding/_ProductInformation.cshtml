@@ -23,16 +23,21 @@
                     </div>
                 </div>
             </div>
-
+             
             @for (var i = 0; i < Model.ProductInfo.Brands.Count; i++)
             {
-                <div class="col-md-4 col-sm-6 @(i==1?"col-clear-sm-6":"")">
+                <div class="col-md-4 col-sm-6 new-brand-group @(i==1?"col-clear-sm-6":"")">
                     <div class="form-group">
                         <label for="">@Resources.SecondaryManufacturerBrandSold</label>
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.ProductInfo.Brands[i], new { @class = "form-control dealnet-input secondary-brand", id = "brands-@i" })
-                            @Html.ValidationMessageFor(m => m.ProductInfo.Brands[i], "", new { @class = "text-danger" })
-                        </div>
+                      <div class="control-group">
+                        @Html.TextBoxFor(m => m.ProductInfo.Brands[i], new {@class = "form-control dealnet-input secondary-brand", id = $"brands_{i}"})
+                        @Html.ValidationMessageFor(m => m.ProductInfo.Brands[i], "", new {@class = "text-danger"})
+                        <a href="" class="remove-link remove-brand-link">
+                          <svg aria-hidden="true" class="icon icon-remove-cross">
+                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
+                          </svg>
+                        </a>
+                      </div>
                     </div>
                 </div>
             }

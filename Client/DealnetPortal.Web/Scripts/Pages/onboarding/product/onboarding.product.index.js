@@ -4,6 +4,7 @@
     var resetForm = require('onboarding.common').resetFormValidation;
     var addEquipment = require('onboarding.product.equipment').addEquipment;
     var addBrand = require('onboarding.product.brand').addBrand;
+    var removeBrand = require('onboarding.product.brand').removeBrand;
     var setLengthLimitedField = require('onboarding.setters').setLengthLimitedField;
 
     function init (product) {
@@ -46,6 +47,7 @@
             .on('click', addBrand);
         $('#reason-for-interest')
             .on('change', setters.setReasonForInterest);
+        $('.remove-brand-link').on('click', removeBrand);
 
         _setLoadedData(product);
     };
@@ -147,6 +149,12 @@
         });
         if ($('#oem').val())
             $('#oem').change();
+
+        $('.secondary-brand').each(function () {
+            if (state.product.brands === undefined)
+                state.product.brands = [];
+            state.product.brands.push(this.value);
+        });
     }
 
     return {

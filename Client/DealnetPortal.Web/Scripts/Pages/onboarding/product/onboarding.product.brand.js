@@ -8,15 +8,14 @@ module.exports('onboarding.product.brand', function (require) {
 
     function addNewBrand () {
         if (addSecondaryBrand('')) {
-            var $el = $("#manufacturerBrandTemplate").tmpl({ brandNumber: state.product.brands.length - 1 });
-
+            var brandsCount = $('.secondary-brand').length;
+            var $el = $("#manufacturerBrandTemplate").tmpl({ brandNumber: brandsCount});
             var container = $("#add-brand-container");
             container.before($el);
-
             $el.find('.remove-brand-link').on('click', removeBrand);
 
             $el.find('input')
-                .on('change', setSecondaryBrand(state.product.brands.length))
+                .on('change', setSecondaryBrand(brandsCount))
                 .on('keyup', setLengthLimitedField(50))
                 .rules('add', {
                     minLength: 2,
@@ -28,8 +27,8 @@ module.exports('onboarding.product.brand', function (require) {
                         regex: translations.SecondaryBrandIncorrectFormat
                     }
                 });
-
-            if (state.product.brands.length > 1) {
+            addIconsToFields($el.find('input'));
+            if ($('.secondary-brand').length > 1) {
                 container.hide();
             } else {
                 if (!container.is('.col-clear-sm-6'))
@@ -46,10 +45,11 @@ module.exports('onboarding.product.brand', function (require) {
     function removeBrand () {
         var index = $(this).siblings('input').attr('id');
         var id = index.substr(index.lastIndexOf('_') + 1, 1);
-        if (removeSecondayBrand(id)) {
+        removeSecondayBrand(id);
+        
             $(this).parents('.new-brand-group').remove();
             var container = $('#add-brand-container');
-            if (state.product.brands.length === 1) {
+            if ($('.secondary-brand').length === 1) {
                 rebuildBrandIndex();
                 if (!container.is('.col-clear-sm-6'))
                     container.addClass('col-clear-sm-6');
@@ -62,7 +62,7 @@ module.exports('onboarding.product.brand', function (require) {
                 container.find('.hidden-sm').removeClass('hidden-sm');
             }
             container.show();
-        }
+        
         return false;
     }
 
@@ -72,6 +72,7 @@ module.exports('onboarding.product.brand', function (require) {
     }
 
     return {
-        addBrand: addNewBrand
+        addBrand: addNewBrand,
+        removeBrand: removeBrand
     };
 });
