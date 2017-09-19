@@ -15,7 +15,6 @@ namespace DealnetPortal.Api.Integration.Services
 {
     public class MandrillService : IMandrillService
     {
-        //public IMandrillApi _manager;
         public static string _endPoint { get; set; }
         public static string _apiKey { get; set; }
 
@@ -53,9 +52,6 @@ namespace DealnetPortal.Api.Integration.Services
             myVariables.Add(new Variable() { name = "FNAME", content = contract.PrimaryCustomer.FirstName });
             myVariables.Add(new Variable() { name = "LNAME", content = contract.PrimaryCustomer.LastName });
             myVariables.Add(new Variable() { name = "EQUIPINFO", content = services });
-            //myVariables.Add(new Variable() { name = "DADDRESS", content = addres});
-            //myVariables.Add(new Variable() { name = "DPHONE", content = dealer.Phones.First().PhoneNum != null? dealer.Phones.First().PhoneNum: "" });
-            //myVariables.Add(new Variable() { name = "DMAIL", content = dealer.Emails.FirstOrDefault().EmailAddress != null? dealer.Emails.FirstOrDefault().EmailAddress :"" });
             request.key = _apiKey;
             request.template_name = ConfigurationManager.AppSettings["DealerLeadAcceptedTemplate"];
             request.template_content = new List<templatecontent>() {
@@ -80,8 +76,8 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 },
                 send_at = DateTime.Now,
-                subject = "Dealer accepted your lead",
-                text = "Dealer accepted your lead",
+                subject = "A contractor has accepted your project request",
+                text = "A contractor has accepted your project request",
                 to = new List<MandrillTo>() {
                     new MandrillTo(){
                         email =emailid,

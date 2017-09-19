@@ -267,7 +267,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     var result = await _smsSubscriptionServive.SetStartSubscription(customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell).PhoneNum,
                                                                                     customerFormData.PrimaryCustomer.Id.ToString(),
-                                                                                  "Broker",
+                                                                                  ConfigurationManager.AppSettings["SmsAffiliateCode"],
                                                                                 ConfigurationManager.AppSettings["SubscriptionRef"]);
                 }
             }
@@ -277,7 +277,6 @@ namespace DealnetPortal.Api.Integration.Services
             }
             try
             {
-               
                 // Hardik MailChimp trigger for subscription request
                 await _mailChimpService.AddNewSubscriberAsync(ConfigurationManager.AppSettings["ListID"], member);
             }
@@ -352,7 +351,9 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 // await _emailService.SendAsync(mail);
                 // Hardik Mailchimp trigger to update Equipment type
-                if (await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress))
+                if (await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress) || await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["RegistrationListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress))
+                   // && (!await _mailChimpService.isUnsubscribed(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress) &&
+                   // ! await _mailChimpService.isUnsubscribed(ConfigurationManager.AppSettings["RegistrationListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress)))
                 {
                     await _mandrillService.SendHomeImprovementTypeUpdatedConfirmation(contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
                                                                                         contract.PrimaryCustomer.FirstName,
@@ -362,8 +363,6 @@ namespace DealnetPortal.Api.Integration.Services
 
 
                 }
-
-
             }
             catch (Exception ex)
             {
@@ -445,7 +444,8 @@ namespace DealnetPortal.Api.Integration.Services
             
             try
             {
-                if (await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails?.FirstOrDefault()?.EmailAddress))
+                if (await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails?.FirstOrDefault()?.EmailAddress) || await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["RegistrationListID"], contract.PrimaryCustomer.Emails?.FirstOrDefault()?.EmailAddress))
+                   // &&(!await _mailChimpService.isUnsubscribed(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails?.FirstOrDefault()?.EmailAddress) && ! await _mailChimpService.isUnsubscribed(ConfigurationManager.AppSettings["RegistrationListID"], contract.PrimaryCustomer.Emails?.FirstOrDefault()?.EmailAddress)))
                 {
 
                     await _mandrillService.SendDealerLeadAccepted(contract, dealer, services);

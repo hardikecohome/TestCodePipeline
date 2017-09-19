@@ -54,7 +54,7 @@ namespace DealnetPortal.Aspire.Integration.Models
     public class Application
     {        
         public string ContractType { get; set; }
-        [XmlElement("Equipment")]
+        [XmlElement("ODEquipment")]
         public List<Equipment> Equipments { get; set; }
 
         [XmlElement(ElementName = "Amt_Requested")]

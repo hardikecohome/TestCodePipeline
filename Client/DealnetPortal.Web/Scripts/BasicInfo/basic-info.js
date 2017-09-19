@@ -110,8 +110,9 @@ configInitialized
         });
         return false;
     });
-    $("#owner-scan-button").click(function (e) {
-        if (!(isMobileRequest || isMobileRequest.toLowerCase && isMobileRequest.toLowerCase() === 'true')) {
+    $("#owner-scan-button").click(function () {
+		ga('send', 'event', 'Scan License', 'button_click', 'DrivingLicense','100');
+        if (!(isMobileRequest || isMobileRequest.toLowerCase() === 'true')) {
             e.preventDefault();
             var modal = document.getElementById('camera-modal');
             modal.setAttribute('data-fnToFill', 'first-name');
@@ -123,7 +124,6 @@ configInitialized
             modal.setAttribute('data-prToFill', "administrative_area_level_1");
             modal.setAttribute('data-pcToFill', "postal_code");
         }
-
         return true;
     });
     $("#additional1-scan-button").click(function () {

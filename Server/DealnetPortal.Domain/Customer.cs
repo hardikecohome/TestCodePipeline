@@ -44,5 +44,9 @@ namespace DealnetPortal.Domain
         public bool? AllowCommunicate { get; set; }
 
         public PreferredContactMethod? PreferredContactMethod { get; set; }
+
+        public string VerificationIdName { get; set; }
+
+        public string DealerInitial { get; set; }
     }
 }

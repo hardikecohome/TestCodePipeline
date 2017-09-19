@@ -23,5 +23,7 @@ namespace DealnetPortal.Api.Integration.Services
         IList<Alert> DeleteDealerOnboardingForm(int dealerInfoId);
         Task<IList<Alert>> SendDealerOnboardingDraftLink(DraftLinkDTO link);
         bool CheckOnboardingLink(string dealerLink);
+        string GetDealerParentName(string dealerId);
+        IList<Alert> UpdateDealerProfile(DealerProfileDTO dealerProfile);
     }
 }

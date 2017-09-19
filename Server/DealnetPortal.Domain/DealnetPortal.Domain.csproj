@@ -100,6 +100,7 @@
     <Compile Include="SettingValue.cs" />
     <Compile Include="Tier.cs" />
     <Compile Include="UserSettings.cs" />
+    <Compile Include="VerifiactionId.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DealnetPortal.Api.Common\DealnetPortal.Api.Common.csproj">

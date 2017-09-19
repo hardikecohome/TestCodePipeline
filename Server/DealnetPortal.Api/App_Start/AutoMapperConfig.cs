@@ -116,6 +116,11 @@ namespace DealnetPortal.Api.App_Start
                 ForMember(x => x.Description,
                     s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.Description)));
 
+            mapperConfig.CreateMap<VerifiactionId, VarificationIdsDTO>();
+                
+
+
+
             mapperConfig.CreateMap<AgreementTemplate, AgreementTemplateDTO>()
                 .ForMember(d => d.AgreementFormRaw, s => s.MapFrom(src => src.AgreementForm))
                 .ForMember(d => d.DealerName, s => s.ResolveUsing(src => src.Dealer?.UserName ?? string.Empty));
@@ -324,7 +329,9 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.AllowCommunicate, s => s.Ignore())
                 .ForMember(d => d.IsHomeOwner, s => s.Ignore())
                 .ForMember(d => d.IsInitialCustomer, s => s.Ignore())
-                .ForMember(d => d.PreferredContactMethod, s => s.Ignore());
+                .ForMember(d => d.PreferredContactMethod, s => s.Ignore())
+                .ForMember(d=> d.VerificationIdName, s=> s.Ignore())
+                .ForMember(d=> d.DealerInitial, s=> s.Ignore());
                 
             mapperConfig.CreateMap<Aspire.Integration.Models.AspireDb.Entity, DealerDTO>()
                 .IncludeBase<Entity, CustomerDTO>()
@@ -376,6 +383,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Sin, s => s.ResolveUsing(src => string.IsNullOrWhiteSpace(src.Sin) ? null : src.Sin))
                 .ForMember(x => x.DriverLicenseNumber, s => s.ResolveUsing(src => string.IsNullOrWhiteSpace(src.DriverLicenseNumber) ? null : src.DriverLicenseNumber))
                 .ForMember(x => x.PreferredContactMethod, s => s.MapFrom(m => m.PreferredContactMethod))
+                .ForMember(x => x.VerificationIdName, s => s.MapFrom(m => m.VerificationIdName))
+                .ForMember(x => x.DealerInitial, s => s.MapFrom(m => m.DealerInitial))
                 .ForMember(x => x.AccountId, d => d.Ignore());
 
             mapperConfig.CreateMap<CustomerInfoDTO, Customer>()

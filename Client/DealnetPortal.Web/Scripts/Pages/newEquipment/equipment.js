@@ -33,9 +33,11 @@
 
         if (id > 0) {
             newTemplate.find('div.additional-remove').attr('id', 'addequipment-remove-' + id);
-        }
-
-        state.equipments[newId].template = newTemplate;
+		}
+		if (id == 2) {
+			$('.add-equip-link').addClass("hidden");
+		}
+		state.equipments[newId].template = newTemplate;
 
         // equipment handlers
         newTemplate.find('.equipment-cost').on('change', updateCost);
@@ -162,8 +164,9 @@
                 recalculateAndRenderRentalValues();
             } else {
                 recalculateValuesAndRender();
-            }
-        }
+			}
+			$('.add-equip-link').removeClass("hidden");
+		}		
     };
 
     /**

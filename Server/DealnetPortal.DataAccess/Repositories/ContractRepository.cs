@@ -110,6 +110,8 @@ namespace DealnetPortal.DataAccess.Repositories
         public IList<Contract> GetContractsCreatedByUser(string userId)
         {
             var user = GetUserById(userId);
+            var subdealer = user.SubDealers.AsEnumerable();
+
             var contracts = _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
@@ -120,7 +122,28 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
                 .Include(c => c.Documents)
-                .Where(c => c.CreateOperator == user.UserName && !string.IsNullOrEmpty(c.Details.TransactionId)).ToList();
+                .Where(c =>
+                    c.CreateOperator == user.UserName && !string.IsNullOrEmpty(c.Details.TransactionId)).ToList();
+            if (subdealer.Any())
+            {
+                foreach (var dealer in subdealer)
+                {
+                    contracts.AddRange(
+                            _dbContext.Contracts
+                .Include(c => c.PrimaryCustomer)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .Include(c => c.SecondaryCustomers)
+                .Include(c => c.HomeOwners)
+                .Include(c => c.InitialCustomers)
+                .Include(c => c.Equipment)
+                .Include(c => c.Equipment.ExistingEquipment)
+                .Include(c => c.Equipment.NewEquipment)
+                .Include(c => c.Documents)
+                .Where(c =>
+                    c.CreateOperator == dealer.UserName && !string.IsNullOrEmpty(c.Details.TransactionId)).ToList()
+                        );
+                }
+            }
             return contracts;
         }
 
@@ -504,6 +527,15 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         dbCustomer.AccountId = customerInfo.AccountId;
                     }
+                    if (!string.IsNullOrWhiteSpace(customerInfo.DealerInitial))
+                    {
+                        dbCustomer.DealerInitial = customerInfo.DealerInitial;
+                    }
+                    if (!string.IsNullOrWhiteSpace(customerInfo.VerificationIdName))
+                    {
+                        dbCustomer.VerificationIdName = customerInfo.VerificationIdName;
+                    }
+                    
                     //AddOrUpdateCustomer(customerInfo);
                 }
 
@@ -556,6 +588,16 @@ namespace DealnetPortal.DataAccess.Repositories
         public IList<ProvinceTaxRate> GetAllProvinceTaxRates()
         {
             return _dbContext.ProvinceTaxRates.ToList();
+        }
+
+        public VerifiactionId GetVerficationId(int id)
+        {
+            return _dbContext.VerificationIds.FirstOrDefault(x => x.Id == id);
+        }
+
+        public IList<VerifiactionId> GetAllVerificationIds()
+        {
+            return _dbContext.VerificationIds.ToList();
         }
 
         public AspireStatus GetAspireStatus(string status)
@@ -622,7 +664,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         var loanCalculatorInput = new LoanCalculator.Input
                         {
-                            TaxRate = rate.Rate,
+                            TaxRate = 0, //rate.Rate,
                             LoanTerm = contract.Equipment.LoanTerm ?? 0,
                             AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
                             EquipmentCashPrice = (double?) contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
@@ -1018,7 +1060,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     var loanCalculatorInput = new LoanCalculator.Input
                     {
-                        TaxRate = taxRate?.Rate ?? 0,
+                        TaxRate = 0,
                         LoanTerm = contract.Equipment.LoanTerm ?? 0,
                         AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
                         EquipmentCashPrice = (double?) contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
@@ -1215,6 +1257,8 @@ namespace DealnetPortal.DataAccess.Repositories
                 dbCustomer.DateOfBirth = customer.DateOfBirth;
                 dbCustomer.Sin = customer.Sin;
                 dbCustomer.DriverLicenseNumber = customer.DriverLicenseNumber;
+                dbCustomer.VerificationIdName = customer.VerificationIdName;
+                dbCustomer.DealerInitial = customer.DealerInitial;
             }
             return dbCustomer;
         }

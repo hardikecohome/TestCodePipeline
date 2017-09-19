@@ -208,13 +208,13 @@
     <value>Numéro de téléphone résidentiel</value>
   </data>
   <data name="Hrv" xml:space="preserve">
-    <value>HRV</value>
+    <value>Ventilateur de récupération de chaleur</value>
   </data>
   <data name="Hst" xml:space="preserve">
     <value>TVH</value>
   </data>
   <data name="Hwt" xml:space="preserve">
-    <value>HWT</value>
+    <value>Réservoir d'eau chaude</value>
   </data>
   <data name="InstallationAddress" xml:space="preserve">
     <value>Adresse de l’installation</value>
@@ -422,5 +422,17 @@
   </data>
   <data name="WellPump" xml:space="preserve">
     <value>Well Pump</value>
+  </data>
+  <data name="AirFiltration" xml:space="preserve">
+    <value>Air Filtration</value>
+  </data>
+  <data name="HotTub" xml:space="preserve">
+    <value>Hot Tub</value>
+  </data>
+  <data name="VerticalFanHRVCombo" xml:space="preserve">
+    <value>Vertical Fan/HRV Combo</value>
+  </data>
+  <data name="Pool" xml:space="preserve">
+    <value>Pool</value>
   </data>
 </root>

@@ -36,6 +36,9 @@ namespace DealnetPortal.Web.Infrastructure
             var taxes = await _dictionaryServiceAgent.GetAllProvinceTaxRates();
             model.ProvinceTaxRates = taxes.Item1 ?? new List<ProvinceTaxRateDTO>();
 
+            var verificationids = await _dictionaryServiceAgent.GetAllVerificationIds();
+            model.VerificationIds = verificationids.Item1 ?? new List<VarificationIdsDTO>();
+
             var contactMethods = new SelectList(Enum.GetValues(typeof(PreferredContactMethod))
                 .Cast<PreferredContactMethod>().Select(v => new SelectListItem
                 {
@@ -89,9 +92,15 @@ namespace DealnetPortal.Web.Infrastructure
             var contractsVms = Mapper.Map<IList<ClientsInformationViewModel>>(contracts);
 
             return contractsVms
-                .OrderByDescending(x => x.Date)
+                .OrderByDescending(x => x.TransactionId)
+                .ThenByDescending(x => x.Date)
                 .ThenByDescending(x => x.Id)
                 .ToList();
+
+            //await _contractServiceAgent.GetContracts()).OrderByDescending(x => x.IsNewlyCreated ?? false)
+            //        .ThenByDescending(x => string.IsNullOrEmpty(x.Details.TransactionId))
+            //        .ThenByDescending(x => x.LastUpdateTime)
+            //        .ToList();
         }
     }
 }

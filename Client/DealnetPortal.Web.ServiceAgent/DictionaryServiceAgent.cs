@@ -101,6 +101,35 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
+        public async Task<Tuple<VarificationIdsDTO, IList<Alert>>> GetVerificationId(int id)
+        {
+            try
+            {
+                return await Client.GetAsync<Tuple<VarificationIdsDTO, IList<Alert>>>(
+                            $"{_fullUri}/{id}/VerificationId");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get Verification Id", ex);
+                throw;
+            }
+        }
+
+        public async Task<Tuple<IList<VarificationIdsDTO>, IList<Alert>>> GetAllVerificationIds()
+        {
+            try
+            {
+                return await Client.GetAsync<Tuple<IList<VarificationIdsDTO>, IList<Alert>>>(
+                            $"{_fullUri}/AllVerificationIds");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get all Verification Ids", ex);
+                throw;
+            }
+        }
+
+
         /// <summary>
         /// Get Equipment Types list
         /// </summary>

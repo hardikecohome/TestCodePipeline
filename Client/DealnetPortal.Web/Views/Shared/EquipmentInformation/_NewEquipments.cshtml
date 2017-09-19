@@ -27,7 +27,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.NewEquipment[i].Description)
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.NewEquipment[i].Description, new { @class = "form-control dealnet-input", placeholder = Resources.Description })
+                        @Html.TextBoxFor(m => m.NewEquipment[i].Description, new { @class = "form-control dealnet-input", placeholder = Resources.DescriptionWithMakeModel })
                         @Html.ValidationMessageFor(m => m.NewEquipment[i].Description, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                     @Html.LabelFor(m => m.NewEquipment[i].Cost)
                     <div class="control-group has-addon-left">
                         <div class="control-group-addon">$</div>
-                        @Html.TextBoxFor(m => m.NewEquipment[i].Cost, new { @class = "form-control dealnet-input equipment-cost", type = "text", placeholder = Resources.Cost })
+                        @Html.TextBoxFor(m => m.NewEquipment[i].Cost, new { @class = "form-control dealnet-input equipment-cost", type = "text", placeholder = Resources.CostWithTaxes })
                         @Html.ValidationMessageFor(m => m.NewEquipment[i].Cost, "", new { @class = "text-danger" })
                     </div>
                 </div>

@@ -42,6 +42,19 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<Tuple<IList<ProvinceTaxRateDTO>, IList<Alert>>> GetAllProvinceTaxRates();
 
         /// <summary>
+        /// Get Verification Id
+        /// </summary>
+        /// <param name="Id">Province abbreviation</param>
+        /// <returns>Tax Rate for particular Province</returns>
+        Task<Tuple<VarificationIdsDTO, IList<Alert>>> GetVerificationId(int id);
+
+        /// <summary>
+        /// Get all Province Tax Rates
+        /// </summary>
+        /// <returns>All Tax Rates</returns>
+        Task<Tuple<IList<VarificationIdsDTO>, IList<Alert>>> GetAllVerificationIds();
+
+        /// <summary>
         /// Get Equipment Types list
         /// </summary>
         /// <returns>List of Equipment Type</returns>

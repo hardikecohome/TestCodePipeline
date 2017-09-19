@@ -722,6 +722,33 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
+        public Tuple<ProvinceTaxRateDTO, IList<Alert>> GetVerificationId(int id)
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var verificationid = _contractRepository.GetVerficationId(id);
+                var verificationidsDto = Mapper.Map<ProvinceTaxRateDTO>(verificationid);
+                if (verificationid == null)
+                {
+                    var errorMsg = "Cannot retrieve Verification Id";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.ProvinceTaxRateRetrievalFailed,
+                        Message = errorMsg
+                    });
+                    _loggingService.LogError(errorMsg);
+                }
+                return new Tuple<ProvinceTaxRateDTO, IList<Alert>>(verificationidsDto, alerts);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Failed to retrieve Province Tax Rate", ex);
+                throw;
+            }
+        }
+
         public CustomerDTO GetCustomer(int customerId)
         {
             var customer = _contractRepository.GetCustomer(customerId);
@@ -996,10 +1023,7 @@ namespace DealnetPortal.Api.Integration.Services
             document.DocumentName = document.DocumentName.Replace('-', '_');
             try
             {
-                doc = _contractRepository.AddDocumentToContract(document.ContractId, Mapper.Map<ContractDocument>(document),
-                    contractOwnerId);
-                _unitOfWork.Save();
-
+                
                 //run aspire upload async
                 var aspireAlerts = _aspireService.UploadDocument(document.ContractId, document, contractOwnerId).GetAwaiter().GetResult();
                 //var aspireAlerts = _aspireService.UploadDocument(document.ContractId, document, contractOwnerId).GetAwaiter().GetResult();
@@ -1017,9 +1041,16 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                     _loggingService.LogError(aspireAlerts.FirstOrDefault().Message);
                 }
-                var contract = _contractRepository.GetContractAsUntracked(doc.ContractId, contractOwnerId);
-                var contractDTO = Mapper.Map<ContractDTO>(contract);
-                //Task.Run(async () => await _mailService.SendContractChangeNotification(contractDTO, contract.Dealer.Email));
+                else
+                {
+                    doc = _contractRepository.AddDocumentToContract(document.ContractId, Mapper.Map<ContractDocument>(document),
+                    contractOwnerId);
+                    _unitOfWork.Save();
+                    var contract = _contractRepository.GetContractAsUntracked(doc.ContractId, contractOwnerId);
+                    var contractDTO = Mapper.Map<ContractDTO>(contract);
+                    
+                }
+                    //Task.Run(async () => await _mailService.SendContractChangeNotification(contractDTO, contract.Dealer.Email));
             }
             catch (Exception ex)
             {

@@ -48,6 +48,12 @@ namespace DealnetPortal.Api.Integration.Services
             return Mapper.Map<DealerProfileDTO>(profile);
         }
 
+        public string GetDealerParentName(string dealerId)
+        {
+            var parentName = _contractRepository.GetDealer(_dealerRepository.GetParentDealerId(dealerId)?? dealerId).AspireLogin;
+            return parentName;
+        }
+
         public IList<Alert> UpdateDealerProfile(DealerProfileDTO dealerProfile)
         {
             var alerts = new List<Alert>();

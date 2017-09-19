@@ -30,14 +30,15 @@ namespace DealnetPortal.Web.Controllers
         private readonly IContractServiceAgent _contractServiceAgent;
         private readonly IContractManager _contractManager;
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
-
+        private readonly IDealerServiceAgent _dealerServiceAgent;
         public NewRentalController(IScanProcessingServiceAgent scanProcessingServiceAgent, IContractServiceAgent contractServiceAgent, 
-            IDictionaryServiceAgent dictionaryServiceAgent, IContractManager contractManager) : base(contractManager)
+            IDictionaryServiceAgent dictionaryServiceAgent, IContractManager contractManager, IDealerServiceAgent dealerServiceAgent) : base(contractManager)
         {
             _scanProcessingServiceAgent = scanProcessingServiceAgent;
             _contractServiceAgent = contractServiceAgent;
             _contractManager = contractManager;
             _dictionaryServiceAgent = dictionaryServiceAgent;
+            _dealerServiceAgent = dealerServiceAgent;
         }
 
         public async Task<ActionResult> ContractEdit(int contractId)
@@ -97,6 +98,7 @@ namespace DealnetPortal.Web.Controllers
 
             var viewModel = await _contractManager.GetBasicInfoAsync(contractId.Value);
             viewModel.ProvinceTaxRates = ( await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
+            viewModel.VarificationIds = (await _dictionaryServiceAgent.GetAllVerificationIds()).Item1;
             if (viewModel?.ContractState >= ContractState.Completed)
             {
                 var alerts = new List<Alert>()
@@ -329,6 +331,11 @@ namespace DealnetPortal.Web.Controllers
             ViewBag.CardTypes = model.DealerTier?.RateCards?.Select(x => x.CardType).Distinct().ToList();
             ViewBag.AmortizationTerm = model.DealerTier?.RateCards?.ConvertToAmortizationSelectList();
             ViewBag.DefferalPeriod = model.DealerTier?.RateCards?.ConvertToDeferralSelectList();
+            var NoCustomerFee = System.Configuration.ConfigurationManager.AppSettings["NoCustomerFee"].Split(',').Select(a=> a.Trim()).ToList<string>();
+            if (NoCustomerFee.Contains(await _dealerServiceAgent.UpdateDealerParent()))
+                ViewBag.AdminFee = 0;
+            else
+                ViewBag.AdminFee = 49.99;
 
             return View(model);
         }

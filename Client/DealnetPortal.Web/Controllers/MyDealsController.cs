@@ -87,10 +87,11 @@ namespace DealnetPortal.Web.Controllers
                     DocumentBytes = documentBytes,
                     DocumentName =
                         !string.IsNullOrEmpty(documentForUpload.DocumentName)
-                            ? documentForUpload.DocumentName
+                            ? documentForUpload.DocumentName + Path.GetExtension(documentForUpload.File.FileName)
                             : Path.GetFileName(documentForUpload.File.FileName),
                     ContractId = documentForUpload.ContractId
                 };
+                //document.DocumentName = document.DocumentName.Replace('-', '_');
                 if (Session["CancelledUploadOperations"] != null &&
                     ((HashSet<string>) Session["CancelledUploadOperations"]).Contains(documentForUpload.OperationGuid))
                 {
@@ -129,7 +130,8 @@ namespace DealnetPortal.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> CheckInstallationCertificate(int contractId)
         {
-            var result = await _contractServiceAgent.CheckContractAgreementAvailable(contractId);
+            //var result = await _contractServiceAgent.CheckContractAgreementAvailable(contractId);
+            var result = await _contractServiceAgent.CheckInstallationCertificateAvailable(contractId);
             return Json(result.Item1);
         }
 

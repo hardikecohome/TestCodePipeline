@@ -81,7 +81,7 @@ if (creditCheckError != null)
 						</div>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group hidden">
 						<div class="row">
 							@Html.LabelFor(m => Model.HomeOwner.DriverLicenseNumber, new { @class = "dealnet-field-caption col-xs-6" })
 							<div class="dealnet-field-holder col-xs-6">
@@ -359,7 +359,7 @@ if (creditCheckError != null)
 			                </div>
 			            </div>
 
-			            <div class="form-group">
+			            <div class="form-group hidden">
 			                <div class="row">
 			                    @Html.LabelFor(m => Model.AdditionalApplicants[i].DriverLicenseNumber, new {@class = "dealnet-field-caption col-xs-6"})
 			                    <div class="dealnet-field-holder col-xs-6">
@@ -1140,4 +1140,9 @@ if (creditCheckError != null)
     @Scripts.Render("~/bundles/localization")
     @Scripts.Render("~/bundles/credit-check")
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=assignAutocompletes" async defer></script>
+	@*<script type="text/javascript">
+		$(document).ready(function () {
+			ga('send', 'event', 'Credit Check Approved', 'PreApproved Message Displayed', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
+		});
+	</script>*@
 }

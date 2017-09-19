@@ -4,11 +4,10 @@
     var readInitialStateFromFields = require('objectUtils').readInitialStateFromFields;
 
     return function (store) {
-        var dispatch = store.dispatch;
-        var birth = $('body').is('.ios-device') ? $("#birth-date").siblings('.div-datepicker') : $("#birth-date");
-
+		var dispatch = store.dispatch;
+		var birth = $("#birth-date");
         inputDateFocus(birth);
-        birth.datepicker({
+       birth.datepicker({
             dateFormat: 'mm/dd/yy',
             changeYear: true,
             changeMonth: (viewport().width < 768) ? true : false,
@@ -16,9 +15,10 @@
             minDate: Date.parse("1900-01-01"),
             maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
             onSelect: function (day) {
-                $(this).siblings('input.form-control').val(day);
                 dispatch(createAction(clientActions.SET_BIRTH, day));
-                $(".div-datepicker").removeClass('opened');
+            },
+            onClose: function () {
+                onDateSelect($(this));
             }
         });
 
@@ -26,10 +26,8 @@
             var day = birth.val();
             dispatch(createAction(clientActions.SET_BIRTH, day));
         });
-        $('#ui-datepicker-div').addClass('cards-datepicker');
 
-        $('#first-name').on('uploadSuccess', dispatchDl);
-        $('#camera-modal').on('hidden.bs.modal', dispatchDl);
+        $('#ui-datepicker-div').addClass('cards-datepicker');
 
         function dispatchDl() {
             var obj = {
@@ -46,9 +44,14 @@
         }
 
         var name = $('#first-name');
+
+        name.on('uploadSuccess', dispatchDl);
+        $('#camera-modal').on('hidden.bs.modal', dispatchDl);
+
         name.on('change', function (e) {
             dispatch(createAction(clientActions.SET_NAME, e.target.value));
         });
+
         var lastName = $('#last-name');
         lastName.on('change',
             function (e) {
