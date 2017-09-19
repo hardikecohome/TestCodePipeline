@@ -1209,8 +1209,9 @@ namespace DealnetPortal.Web.Resources {
         public static string CostOfBorrowing {
             get {
                 return ResourceManager.GetString("CostOfBorrowing", resourceCulture);
-		}
-	}
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Cost (including all taxes).
         /// </summary>
@@ -2558,6 +2559,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Legal {
             get {
                 return ResourceManager.GetString("Legal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Library.
+        /// </summary>
+        public static string Library {
+            get {
+                return ResourceManager.GetString("Library", resourceCulture);
             }
         }
         

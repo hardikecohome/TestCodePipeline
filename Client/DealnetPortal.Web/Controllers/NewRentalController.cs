@@ -332,10 +332,10 @@ namespace DealnetPortal.Web.Controllers
             ViewBag.AmortizationTerm = model.DealerTier?.RateCards?.ConvertToAmortizationSelectList();
             ViewBag.DefferalPeriod = model.DealerTier?.RateCards?.ConvertToDeferralSelectList();
             var NoCustomerFee = System.Configuration.ConfigurationManager.AppSettings["NoCustomerFee"].Split(',').Select(a=> a.Trim()).ToList<string>();
-            if (NoCustomerFee.Contains(await _dealerServiceAgent.UpdateDealerParent()))
+            //if (NoCustomerFee.Contains(await _dealerServiceAgent.UpdateDealerParent()))
                 ViewBag.AdminFee = 0;
-            else
-                ViewBag.AdminFee = 49.99;
+            //else
+            //    ViewBag.AdminFee = 49.99;
 
             return View(model);
         }

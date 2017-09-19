@@ -226,7 +226,7 @@
                                 }
                                 <li class="dealnet-sidebar-item" id="sidebar-item-help">
                                     <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg></span>
-                                    @Html.ActionLink(Resources.Help, "Help", "Home", null, new {@class = "dealnet-sidebar-link", target = "_blank"})
+                                    @Html.ActionLink(Resources.Library, "Library", "Home", null, new {@class = "dealnet-sidebar-link", target = "_blank"})
                                 </li>
                             }
                             @if ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") == true)
@@ -314,6 +314,61 @@
         </div>
     </div>
 </div>
+	<div style="
+    height: 40px;
+    width: 700px;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    /*background-color: #555555;*/
+    z-index: 1000;
+    color: #ffffff;
+	text-align:center;">
+		<div id="email_buttons">
+			<div class="helpbutton">
+
+				<i onclick="sendEmailModel();">
+					<button class="btn btn-small btn-success">
+						<svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
+						Dealer Support
+					</button>
+				</i>
+			</div>
+			<div class="col-md-3 ">
+
+				<i onclick="sendEmailModel();">
+					<button class="btn btn-small btn-success">
+						<svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
+						Dealer Support
+					</button>
+				</i>
+			</div>
+			<div class="col-md-3">
+				<i onclick="sendEmailModel();">
+					<button class="btn btn-small btn-success">
+						<svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
+						Credit Support
+					</button>
+				</i>
+			</div>
+			<div class="col-md-3">
+				<i onclick="sendEmailModel();">
+					<button class="btn btn-small btn-success">
+						<svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
+						Funding Support
+					</button>
+				</i>
+			</div>
+			<div class="col-md-3">
+				<i onclick="sendEmailModel();">
+					<button class="btn btn-small btn-success">
+						<svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
+						Customer Service
+					</button>
+				</i>
+			</div>
+		</div>
+	</div>
 
 	<div id="emailModal" class="modal fade modal-wide">
 		<div class="modal-dialog modal-warning">

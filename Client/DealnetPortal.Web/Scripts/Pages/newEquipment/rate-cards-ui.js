@@ -93,8 +93,9 @@
     var onAgreemntSelect = function () {
         var agreementType = +$(this).find("option:selected").val();
         if (agreementType === 0) {
-            //If loan is chosen
-            setHeight();
+			//If loan is chosen
+			taxRate = 0;
+			setHeight();
             if (!$("#submit").hasClass('disabled') && $('#rateCardsBlock').find('div.checked').length === 0) {
                 if (!state.onlyCustomRateCard) {
                     $('#submit').addClass('disabled');
@@ -112,7 +113,9 @@
             }
             $("#requested-term").rules("remove", "required");
         } else {
-            //If rental is chosen
+			//If rental is chosen
+			taxRate = provincialTaxrate;
+			//state.taxRate = provincialTaxrate;
             if ($("#submit").hasClass('disabled')) {
                 $('#submit').removeClass('disabled');
                 $('#submit').parent().popover('destroy');

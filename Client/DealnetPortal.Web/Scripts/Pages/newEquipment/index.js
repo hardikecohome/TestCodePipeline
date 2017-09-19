@@ -14,7 +14,8 @@
         var submitForm = function (event) {
             $('#equipment-form').valid();
             var agreementType = $("#typeOfAgreementSelect").find(":selected").val();
-            if (agreementType === "0") {
+			if (agreementType === "0") {
+				taxRate = 0;
                 var rateCard = $('.checked');
                 if (rateCard.length === 0 && !state.onlyCustomRateCard) {
                     event.preventDefault();
@@ -40,7 +41,8 @@
                         $('#equipment-form').submit();
                     }
                 }
-            } else {
+			} else {
+				taxRate = provincialTaxrate;
                 var monthPayment = Globalize.parseNumber($("#rentalTMPayment").text());
                 if (isNaN(monthPayment) || (monthPayment == 0)) {
                     event.preventDefault();
