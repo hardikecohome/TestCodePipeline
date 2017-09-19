@@ -141,12 +141,14 @@ namespace DealnetPortal.Web.Controllers
             {
                 ClearValue(model, error.Key, ref wasCleaned);
             }
+            //clean not valid brands
             var notValidBrands = model.ProductInfo?.Brands?.Where(b => b.Length < 2 || b.Length > 50).ToList();
             if (notValidBrands?.Any() ?? false)
             {
                 notValidBrands.ForEach(x => model.ProductInfo.Brands.Remove(x));
                 wasCleaned = true;
             }
+            //clean not valid web site
             if (model.CompanyInfo != null && !string.IsNullOrEmpty(model.CompanyInfo.Website))
             {
                 var result = model.CompanyInfo.Website.Split('.');
@@ -166,14 +168,12 @@ namespace DealnetPortal.Web.Controllers
         public void SetProperty(string compoundProperty, object target, object value, ref bool wasCleaned)
         {
             string[] bits = compoundProperty.Split('.');
-            string index = string.Empty;
             for (int i = 0; i < bits.Length - 1; i++)
             {
                 var propertyName = bits[i];
-
                 if (propertyName.Contains("["))
                 {
-                    index = propertyName.Substring(propertyName.IndexOf('[') + 1, 1);
+                    string index = propertyName.Substring(propertyName.IndexOf('[') + 1, 1);
                     propertyName = propertyName.Substring(0, propertyName.IndexOf('['));
                     PropertyInfo propertyToGet = target.GetType().GetProperty(propertyName);
                     target = (propertyToGet.GetValue(target, null) as IList)[int.Parse(index)];
