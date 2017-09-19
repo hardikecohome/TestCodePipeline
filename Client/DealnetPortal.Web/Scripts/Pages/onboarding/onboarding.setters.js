@@ -65,6 +65,8 @@ module.exports('onboarding.setters', function (require) {
         for (var owner in state['owner-info'].owners) {
             valid = valid && state['owner-info'].owners[owner].requiredFields.length === 0;
         }
+        valid = valid && state['owner-info'].totalPercentage >= 50 && state['owner-info'].totalPercentage < 101;
+
         valid = valid && state.company.requiredFields.length === 0;
         valid = valid && state.product.requiredFields.length === 0;
         // no longer required for submit

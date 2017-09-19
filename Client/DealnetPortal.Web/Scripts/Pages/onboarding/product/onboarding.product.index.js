@@ -42,7 +42,7 @@
         $('#relationship')
             .on('change', toggleRelationship);
         $('#offered-equipment')
-            .on('change', addEquipment);
+            .on('change', _addEquipment);
         $('.add-new-brand-link')
             .on('click', addBrand);
         $('#reason-for-interest')
@@ -51,6 +51,27 @@
 
         _setLoadedData(product);
     };
+
+    function _addEquipment(e) {
+        addEquipment(e);
+        //fix for switchers on product page
+        if ($('#WithCurrentProvider').prop('checked')) {
+            showFormGroup('.hidden-current-provider');
+        } else {
+            hideFormGroup('.hidden-current-provider');
+        }
+        if ($('#OfferMonthlyDeferrals').prop('checked')) {
+            showFormGroup('.hidden-monthly-deferrals');
+        } else {
+            hideFormGroup('.hidden-monthly-deferrals');
+        }
+        var value = Number($('#relationship').val());
+        if (value === 1) {
+            showFormGroup('.hidden-relationship');
+        } else {
+            hideFormGroup('.hidden-relationship');
+        }
+    }
 
     function initRadio () {
         function clearSiblings () {
