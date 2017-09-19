@@ -204,9 +204,9 @@
     }
 
     function _uploadFile (checkSelector, buttonSelector, fileContainerSelector, stateFileSection, file) {
-        var extension = file.name.replace(/^.*\./, '');
+        var extension = file.name.replace(/^.*\./, '').toLowerCase();
 
-        if (extension === '' || constants.validFileExtensions.indexOf(extension) === -1) {
+        if (extension === '' || constants.validFileExtensions.map(function (ext) { return ext.toLowerCase(); }).indexOf(extension) === -1) {
             alert('Your file type is not supported');
             return;
         }
