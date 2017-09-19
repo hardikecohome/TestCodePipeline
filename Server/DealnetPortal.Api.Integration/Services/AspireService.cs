@@ -1446,7 +1446,7 @@ namespace DealnetPortal.Api.Integration.Services
             return accounts ?? new List<Account>();
         }
 
-        private Application GetContractApplication(Domain.Contract contract, ICollection<NewEquipment> newEquipments = null)
+        private Application GetContractApplication(Domain.Contract contract, ICollection<NewEquipment> newEquipments = null, int equipmentcount = 1)
         {
             var application = new Application()
             {
@@ -1469,8 +1469,8 @@ namespace DealnetPortal.Api.Integration.Services
                         Status = "new",
                         AssetNo = string.IsNullOrEmpty(eq.AssetNumber) ? null : eq.AssetNumber,
                         Quantity = "1",
-                        Cost = contract.Equipment.AgreementType == AgreementType.LoanApplication && eq.Cost.HasValue ? equipmentcount == 0 ? (eq.Cost /*+ Math.Round(((decimal)(eq.Cost / 100 * (decimal)(pTaxRate.Rate))), 2)*/ - ((contract.Equipment.DownPayment != null)? (decimal)contract.Equipment.DownPayment: 0))?.ToString(CultureInfo.InvariantCulture) :
-                                                                                                        (eq.Cost /*+ Math.Round(((decimal)(eq.Cost / 100 * (decimal)(pTaxRate.Rate))), 2)*/)?.ToString(CultureInfo.InvariantCulture)
+                        Cost = contract.Equipment.AgreementType == AgreementType.LoanApplication && eq.Cost.HasValue ? equipmentcount == 0 ? (eq.Cost + Math.Round(((decimal)(eq.Cost / 100 * (decimal)(pTaxRate.Rate))), 2) + (decimal)contract.Equipment.AdminFee - (decimal)contract.Equipment.DownPayment)?.ToString(CultureInfo.InvariantCulture) :
+                                                                                                        (eq.Cost + Math.Round(((decimal)(eq.Cost / 100 * (decimal)(pTaxRate.Rate))), 2))?.ToString(CultureInfo.InvariantCulture)
                                                                                                     : eq.MonthlyCost?.ToString(CultureInfo.InvariantCulture),
                         Description = eq.Description,
                         AssetClass = new AssetClass() { AssetCode = eq.Type }
@@ -1484,7 +1484,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                 application.ContractType = contract.Equipment?.AgreementType == AgreementType.LoanApplication
                     ? "LOAN"
-                    : "RENTAL";                
+                    : "RENTAL";
             }
             application.UDFs = GetApplicationUdfs(contract).ToList();
 

@@ -13,7 +13,6 @@ namespace DealnetPortal.Api.Integration.Services
     {
         DealerProfileDTO GetDealerProfile(string dealerId);
         IList<Alert> UpdateDealerProfile(DealerProfileDTO dealerProfile);
-
         DealerInfoDTO GetDealerOnboardingForm(string accessKey);
         DealerInfoDTO GetDealerOnboardingForm(int id);
         Tuple<DealerInfoKeyDTO, IList<Alert>> UpdateDealerOnboardingForm(DealerInfoDTO dealerInfo);
@@ -24,6 +23,5 @@ namespace DealnetPortal.Api.Integration.Services
         Task<IList<Alert>> SendDealerOnboardingDraftLink(DraftLinkDTO link);
         bool CheckOnboardingLink(string dealerLink);
         string GetDealerParentName(string dealerId);
-        IList<Alert> UpdateDealerProfile(DealerProfileDTO dealerProfile);
     }
 }
