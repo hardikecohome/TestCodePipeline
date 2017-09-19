@@ -12,12 +12,19 @@
             <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
         </svg>
         <h2 class="page-heading">
-            @Resources.SomethingWentWrong <br/> @Resources.CheckYourLink
+            @Resources.SomethingWentWrong <br /> @Resources.CheckYourLink
         </h2>
         <div>
-            @Resources.QuestionsContactDealerSupport<br />
-            @Resources.Phone: @System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]<br />
-            @Resources.Email: @System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]
+            @Resources.QuestionsContactDealerSupport
+            <br />
+            @Resources.Phone:
+            <a href="tel:+@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]" class="tel">
+                @System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]
+            </a>
+            <br />
+            @Resources.Email: <a href="mailto:@System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]">
+                @System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]
+            </a>
         </div>
     </div>
 </div>

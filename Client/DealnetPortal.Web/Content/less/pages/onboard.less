@@ -1,5 +1,7 @@
+@navbar-background-color: #555555;
+
 .navbar.onboard-navbar{
-    background: #555555;
+    background: @navbar-background-color;
 }
 .ie, .ios-device {
     .info-text-success .notification-text {
@@ -674,6 +676,12 @@
         position: absolute;
         right: 0;
         top: 8px;
+    }
+}
+
+.onboard-navbar {
+    .logo-container {
+        background: transparent;
     }
 }
 
