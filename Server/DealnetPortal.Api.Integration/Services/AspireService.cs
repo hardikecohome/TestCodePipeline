@@ -969,10 +969,7 @@ namespace DealnetPortal.Api.Integration.Services
                 if (dealerInfo.SentToAspire && !string.IsNullOrEmpty(dealerInfo.TransactionId))
                 {
                     statusToRestore = _aspireStorageReader.GetDealStatus(dealerInfo.TransactionId);
-                }
-
-                var services = string.Join(", ", dealerInfo.ProductInfo.Services.Select(s => s.Equipment?.Type));
-                _loggingService.LogInfo($"SubmitDealerOnboarding: {services}");
+                }             
 
                 CustomerRequest request = new CustomerRequest();
 
@@ -2225,10 +2222,13 @@ namespace DealnetPortal.Api.Integration.Services
             }
             if (dealerInfo.ProductInfo?.Services?.Any() == true)
             {
+                //sometimes equipment doesn't come with ProductInfo entity
+                //var equipments = _contractRepository.GetEquipmentTypes();
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.ProductsForFinancingProgram,
                     Value = string.Join(", ", dealerInfo.ProductInfo.Services.Select(s => s.Equipment?.Type))
+                    //?? equipments.FirstOrDefault(eq => eq.Id == s.EquipmentId)?.Type
                 });
             }
             if (!string.IsNullOrEmpty(dealerInfo.ProductInfo?.OemName))
