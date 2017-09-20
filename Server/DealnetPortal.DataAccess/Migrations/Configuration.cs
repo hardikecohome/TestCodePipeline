@@ -1984,19 +1984,19 @@ namespace DealnetPortal.DataAccess.Migrations
             //Obtained from http://www.retailcouncil.org/quickfacts/taxrates
             var taxRates = new List<ProvinceTaxRate>
             {
-                new ProvinceTaxRate {Province = "AB", Rate = 5, Description = "Gst"},
-                new ProvinceTaxRate {Province = "BC", Rate = 12, Description = "GstPst"},
-                new ProvinceTaxRate {Province = "MB", Rate = 13, Description = "GstPst"},
-                new ProvinceTaxRate {Province = "NB", Rate = 15, Description = "Hst"},
-                new ProvinceTaxRate {Province = "NL", Rate = 15, Description = "Hst"},
-                new ProvinceTaxRate {Province = "NT", Rate = 5, Description = "Gst"},
-                new ProvinceTaxRate {Province = "NS", Rate = 15, Description = "Hst"},
-                new ProvinceTaxRate {Province = "NU", Rate = 5, Description = "Gst"},
-                new ProvinceTaxRate {Province = "ON", Rate = 13, Description = "Hst"},
-                new ProvinceTaxRate {Province = "PE", Rate = 15, Description = "Hst"},
-                new ProvinceTaxRate {Province = "QC", Rate = 14.975, Description = "GstQst"},
-                new ProvinceTaxRate {Province = "SK", Rate = 11, Description = "GstPst"},
-                new ProvinceTaxRate {Province = "YT", Rate = 5, Description = "Gst"}
+                new ProvinceTaxRate {Province = "AB", Rate = 5, Description = "Gst", Name = "Alberta"},
+                new ProvinceTaxRate {Province = "BC", Rate = 12, Description = "GstPst", Name = "British Columbia"},
+                new ProvinceTaxRate {Province = "MB", Rate = 13, Description = "GstPst", Name = "Manitoba"},
+                new ProvinceTaxRate {Province = "NB", Rate = 15, Description = "Hst", Name = "New Brunswick"},
+                new ProvinceTaxRate {Province = "NL", Rate = 15, Description = "Hst", Name = "Newfoundland and Labrador"},
+                new ProvinceTaxRate {Province = "NT", Rate = 5, Description = "Gst", Name = "Northwest Territories"},
+                new ProvinceTaxRate {Province = "NS", Rate = 15, Description = "Hst", Name = "Nova Scotia"},
+                new ProvinceTaxRate {Province = "NU", Rate = 5, Description = "Gst", Name = "Nunavut"},
+                new ProvinceTaxRate {Province = "ON", Rate = 13, Description = "Hst", Name = "Ontario"},
+                new ProvinceTaxRate {Province = "PE", Rate = 15, Description = "Hst", Name = "Prince Edward Island"},
+                new ProvinceTaxRate {Province = "QC", Rate = 14.975, Description = "GstQst", Name = "Quebec"},
+                new ProvinceTaxRate {Province = "SK", Rate = 11, Description = "GstPst", Name = "Saskatchewan"},
+                new ProvinceTaxRate {Province = "YT", Rate = 5, Description = "Gst", Name = "Yukon"}
             };
             //leave existing data
             taxRates.RemoveAll(t => context.ProvinceTaxRates.Any(dbt => dbt.Province == t.Province));
