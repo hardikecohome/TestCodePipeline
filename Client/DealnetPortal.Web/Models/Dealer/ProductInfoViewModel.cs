@@ -66,7 +66,7 @@ namespace DealnetPortal.Web.Models.Dealer
         public bool OfferMonthlyDeferrals { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "PercentMonthlyDealsDeferred")]
-        [Range(0,100, ErrorMessageResourceType =typeof(Resources.Resources), ErrorMessageResourceName = "TheRangeFieldMustBeMinimumAndMaximum")]
+        [Range(0,100, ErrorMessageResourceType =typeof(Resources.Resources), ErrorMessageResourceName = "MonthlyDefferedPercentRange")]
         [RegularExpression(@"^0|[1-9](\d{0,2}?)$", ErrorMessageResourceType =typeof(Resources.Resources), ErrorMessageResourceName = "PercentMonthDeferredIncorrectFormat")]
         public double? PercentMonthlyDealsDeferred { get; set; }
 
