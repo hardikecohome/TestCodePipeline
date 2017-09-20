@@ -971,6 +971,9 @@ namespace DealnetPortal.Api.Integration.Services
                     statusToRestore = _aspireStorageReader.GetDealStatus(dealerInfo.TransactionId);
                 }
 
+                var services = string.Join(", ", dealerInfo.ProductInfo.Services.Select(s => s.Equipment?.Type));
+                _loggingService.LogInfo($"SubmitDealerOnboarding: {services}");
+
                 CustomerRequest request = new CustomerRequest();
 
                 var userResult = GetAspireUser(dealerInfo.ParentSalesRepId);

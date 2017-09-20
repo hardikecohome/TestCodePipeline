@@ -153,7 +153,11 @@ namespace DealnetPortal.Api.Integration.Services
                                               _dealerRepository.GetUserIdByOnboardingLink(dealerInfo.SalesRepLink);
                 var updatedInfo = _dealerOnboardingRepository.AddOrUpdateDealerInfo(mappedInfo);
                 _unitOfWork.Save();
-                //submit form to Aspire                     
+                //submit form to Aspire             
+
+                var services = string.Join(", ", updatedInfo.ProductInfo.Services.Select(s => s.Equipment?.Type));
+                _loggingService.LogInfo($"SubmitDealerOnboardingForm: {services}");
+
                 var reSubmit = updatedInfo.SentToAspire;
                 var submitResult = await _aspireService.SubmitDealerOnboarding(updatedInfo.Id);
                 if (submitResult?.Any() ?? false)

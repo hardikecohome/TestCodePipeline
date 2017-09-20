@@ -18,7 +18,8 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public DealerInfo GetDealerInfoById(int id)
         {
-            return _dbContext.DealerInfos.Find(id);
+            return _dbContext.DealerInfos.
+                Find(id);
         }
 
         public DealerInfo GetDealerInfoByAccessKey(string accessKey)
