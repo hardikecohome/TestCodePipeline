@@ -306,6 +306,7 @@ namespace DealnetPortal.DataAccess.Repositories
             if (dbDealerInfo.ProductInfo == null && updateDealerInfo.ProductInfo != null)
             {
                 dbDealerInfo.ProductInfo = updateDealerInfo.ProductInfo;
+                dbDealerInfo.ProductInfo?.Services?.ForEach(s => s.Equipment = _dbContext.EquipmentTypes.Find(s.EquipmentId));
             }
             else
             if (dbDealerInfo.ProductInfo != null && updateDealerInfo.ProductInfo == null)
