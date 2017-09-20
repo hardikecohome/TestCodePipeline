@@ -74,14 +74,6 @@
             }
         });
 
-        input.siblings('.div-datepicker-value').on('click', function () {
-            $('.div-datepicker').removeClass('opened');
-            $(this).siblings('.div-datepicker').toggleClass('opened');
-            if (!$('.div-datepicker .ui-datepicker-close').length) {
-                addCloseButtonForInlineDatePicker();
-            }
-        });
-
         return input;
     }
 

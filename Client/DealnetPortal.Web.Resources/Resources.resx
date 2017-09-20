@@ -2018,4 +2018,7 @@
   <data name="InvalidFieldsWerentSaved" xml:space="preserve">
     <value>Please note, invalid fields were not saved</value>
   </data>
+  <data name="MonthlyDefferedPercentRange" xml:space="preserve">
+    <value>Monthly deals to be deferred should be between 0 and 100</value>
+  </data>
 </root>

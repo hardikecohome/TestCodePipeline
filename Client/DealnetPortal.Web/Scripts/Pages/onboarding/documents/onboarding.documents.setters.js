@@ -62,11 +62,7 @@
                     input.parents('.form-group')
                         .addClass('group-disabled');
                     input.prop('disabled', true);
-                    if (isIos) {
-                        input.siblings('.div-datepicker').datepicker('disable');
-                    } else {
-                        input.datepicker('disable');
-                    }
+                    isIos && _removeDatepicker(id)
                 }
             } else {
                 if (input.is(":disabled")) {
@@ -74,11 +70,7 @@
                     input.parents('.form-group')
                         .removeClass('group-disabled');
                     input.prop('disabled', false);
-                    if (isIos) {
-                        input.siblings('.div-datepicker').datepicker('enable');
-                    } else {
-                        input.datepicker('enable');
-                    }
+                    isIos && _initDatepicker(id);
                 }
             }
             moveTonextSection();
@@ -100,7 +92,9 @@
             var result = $('#licenseDocumentTemplate')
                 .tmpl({ 'name': license.License.Name, 'id': license.License.Id });
 
-            addIconsToFields(result.find('input, textarea'));
+            var inputs = result.find('input, textarea')
+            addIconsToFields(inputs);
+            toggleClearInputIcon(inputs);
 
             result.appendTo('#licenseHolder');
 
@@ -124,23 +118,8 @@
                     addCloseButtonForInlineDatePicker();
                 }
             });
-            var date = $('#' + license.License.Id + '-license-date');
 
-            var input = $('body').is('.ios-device') ? date.siblings('.div-datepicker') : date;
-
-            inputDateFocus(input);
-
-            input.datepicker({
-                yearRange: '1900:2200',
-                minDate: new Date(),
-                disabled: $('#' + license.License.Id + '-license-checkbox').attr('checked'),
-                onSelect: function (day) {
-                    $(this).siblings('input.form-control').val(day);
-                    setLicenseExpirationDate(license.License.Id, day);
-                    $(".div-datepicker").removeClass('opened');
-                }
-            });
-            input.datepicker('setDate', date.val());
+            _initDatepicker(license.License.Id);
 
             if (state[stateSection]['addedLicense'].length > 0) {
                 if ($('#licenseHolder').is(':hidden')) {
@@ -345,6 +324,58 @@
         });
 
 
+    }
+
+    function _initDatepicker (id) {
+        var date = $('#' + id + '-license-date');
+
+        var input = $('body').is('.ios-device') ? date.siblings('.div-datepicker') : date;
+
+        inputDateFocus(input);
+
+        input.datepicker({
+            yearRange: '1900:2200',
+            minDate: new Date(),
+            disabled: $('#' + id + '-license-checkbox').attr('checked'),
+            onSelect: function (day) {
+                $(this).siblings('input.form-control').val(day);
+                setLicenseExpirationDate(id, day);
+                $(".div-datepicker").removeClass('opened');
+            }
+        });
+        input.datepicker('setDate', date.val());
+
+        var value = input.siblings('.div-datepicker-value');
+        value.off('click');
+        value.on('click', function () {
+            $('.div-datepicker').removeClass('opened');
+            input.toggleClass('opened');
+            if (!input.find('.ui-datepicker-close').length) {
+                setTimeout(function () {
+                    $("<button>", {
+                        text: translations['Cancel'],
+                        type: 'button',
+                        class: "ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all",
+                        click: function () {
+                            input.removeClass('opened');
+                        }
+                    }).appendTo(input);
+                }, 10);
+            }
+        });
+    }
+
+    function _removeDatepicker (id) {
+        var date = $('#' + id + '-license-date');
+
+        var input = $('body').is('.ios-device') ? date.siblings('.div-datepicker') : date;
+
+        var value = input.siblings('.div-datepicker-value');
+        value.off('click');
+        value.on('click', function (e) {
+            e.stopPropagation();
+        });
+        input.datepicker('destroy');
     }
 
     var moveTonextSection = function () {

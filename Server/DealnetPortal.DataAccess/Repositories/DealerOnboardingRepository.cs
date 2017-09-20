@@ -49,6 +49,8 @@ namespace DealnetPortal.DataAccess.Repositories
                 //    s.Equipment = _dbContext.EquipmentTypes.Find(s.EquipmentId));
                 dealerInfo.AccessKey = GenerateDealerAccessCode();
                 dbDealer = _dbContext.DealerInfos.Add(dealerInfo);
+                dbDealer.AdditionalDocuments.ForEach(d => d.License = _dbContext.LicenseTypes.Find(d.LicenseTypeId));
+                dbDealer.ProductInfo.Services.ForEach(s => s.Equipment = _dbContext.EquipmentTypes.Find(s.EquipmentId));
             }
             else
             {
@@ -177,6 +179,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     }
                     else
                     {
+                        doc.License = _dbContext.LicenseTypes.Find(doc.LicenseTypeId);
                         newEntities.Add(doc);
                         dbDealerInfo.AdditionalDocuments.Add(doc);
                     }
@@ -427,7 +430,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     if (p.EquipmentId != 0)
                     {
-                        p.Equipment = null;
+                        p.Equipment = _dbContext.EquipmentTypes.Find(p.EquipmentId);
                     }
                     else if (!string.IsNullOrEmpty(p.Equipment?.Type))
                     {
