@@ -52,7 +52,7 @@
     });
 
 
-    $('.div-datepicker-value').on('click', function () {
+    $('body').on('click', '.div-datepicker-value', function () {
       $('.div-datepicker').removeClass('opened');
       $(this).siblings('.div-datepicker').toggleClass('opened');
       if (!$('.div-datepicker .ui-datepicker-close').length) {
@@ -386,10 +386,13 @@ function addCloseButtonForInlineDatePicker () {
       text: translations['Cancel'],
       type: 'button',
       class: "ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all",
-      click: function () {
-        $(".div-datepicker").removeClass('opened');
-      }
+      // click: function () {
+      //   $(".div-datepicker").removeClass('opened');
+      // }
     }).appendTo($('.div-datepicker'));
+    $('body').on('click', '.ui-datepicker-close', function () {
+      $(".div-datepicker").removeClass('opened');
+    })
   }, 100);
 }
 
