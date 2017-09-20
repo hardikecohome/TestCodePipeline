@@ -9,15 +9,17 @@
         var files = e.target.files;
 
         _uploadFile('voidChequeUploaded', 'cheque-upload-title', 'cheque-container', 'void-cheque-files', files[0]);
+
+        e.target.value = '';
     }
 
     var setInsurenceFile = function (e) {
         var files = e.target.files;
 
         _uploadFile('insurenceUploaded', 'insurence-upload-title', 'insurence-container', 'insurence-files', files[0]);
+
+        e.target.value = '';
     }
-
-
 
     var setLicenseRegistraionNumber = function (id) {
         return function (e) {
