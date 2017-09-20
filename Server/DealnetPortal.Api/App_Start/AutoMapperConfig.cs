@@ -111,10 +111,10 @@ namespace DealnetPortal.Api.App_Start
             //.ForMember(x => x.Documents, d => d.Ignore());
             mapperConfig.CreateMap<EquipmentType, EquipmentTypeDTO>().
                 ForMember(x => x.Description,
-                    s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.DescriptionResource)));
+                    s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.DescriptionResource) ?? src.Description));
             mapperConfig.CreateMap<ProvinceTaxRate, ProvinceTaxRateDTO>().
                 ForMember(x => x.Description,
-                    s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.Description)));
+                    s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.Description) ?? src.Description));
 
             mapperConfig.CreateMap<AgreementTemplate, AgreementTemplateDTO>()
                 .ForMember(d => d.AgreementFormRaw, s => s.MapFrom(src => src.AgreementForm))
