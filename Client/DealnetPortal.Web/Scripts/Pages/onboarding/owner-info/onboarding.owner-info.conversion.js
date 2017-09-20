@@ -65,7 +65,7 @@
             changeYear: true,
             changeMonth: (viewport().width < 768) ? true : false,
             yearRange: '1900:' + (new Date().getFullYear() - 18),
-            minDate: Date.parse("1900-01-01"),
+            minDate: new Date("1900-01-01"),
             maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
             onSelect: function (day) {
                 $(this).siblings('input.form-control').val(day);

@@ -385,10 +385,7 @@ function addCloseButtonForInlineDatePicker () {
     $("<button>", {
       text: translations['Cancel'],
       type: 'button',
-      class: "ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all",
-      // click: function () {
-      //   $(".div-datepicker").removeClass('opened');
-      // }
+      class: "ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all"
     }).appendTo($('.div-datepicker'));
     $('body').on('click', '.ui-datepicker-close', function () {
       $(".div-datepicker").removeClass('opened');
