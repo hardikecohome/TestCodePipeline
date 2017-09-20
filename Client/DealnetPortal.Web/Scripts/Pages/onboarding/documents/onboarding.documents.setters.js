@@ -133,7 +133,7 @@
         });
 
         e.stopImmediatePropagation();
-        resetForm('#onboard-form');
+        //resetForm('#onboard-form');
     }
 
     var removeLicense = function (e) {
