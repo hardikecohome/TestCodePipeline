@@ -9,9 +9,10 @@ module.exports('onboarding.product.brand', function (require) {
     function addNewBrand () {
         if (addSecondaryBrand('')) {
             var brandsCount = $('.secondary-brand').length;
-            var $el = $("#manufacturerBrandTemplate").tmpl({ brandNumber: brandsCount});
+            var $el = $("#manufacturerBrandTemplate").tmpl({ brandNumber: brandsCount });
             var container = $("#add-brand-container");
             container.before($el);
+
             $el.find('.remove-brand-link').on('click', removeBrand);
 
             $el.find('input')
@@ -27,7 +28,12 @@ module.exports('onboarding.product.brand', function (require) {
                         regex: translations.SecondaryBrandIncorrectFormat
                     }
                 });
-            addIconsToFields($el.find('input'));
+
+            var inputs = $el.find('input');
+
+            addIconsToFields(inputs);
+            toggleClearInputIcon(inputs);
+
             if ($('.secondary-brand').length > 1) {
                 container.hide();
             } else {
@@ -46,23 +52,23 @@ module.exports('onboarding.product.brand', function (require) {
         var index = $(this).siblings('input').attr('id');
         var id = index.substr(index.lastIndexOf('_') + 1, 1);
         removeSecondayBrand(id);
-        
-            $(this).parents('.new-brand-group').remove();
-            var container = $('#add-brand-container');
-            if ($('.secondary-brand').length === 1) {
-                rebuildBrandIndex();
-                if (!container.is('.col-clear-sm-6'))
-                    container.addClass('col-clear-sm-6');
-                var label = container.find('.dealnet-label')
-                if (!label.is('.hidden-sm')) {
-                    label.addClass('hidden-sm');
-                }
-            } else {
-                container.removeClass('col-clear-sm-6');
-                container.find('.hidden-sm').removeClass('hidden-sm');
+
+        $(this).parents('.new-brand-group').remove();
+        var container = $('#add-brand-container');
+        if ($('.secondary-brand').length === 1) {
+            rebuildBrandIndex();
+            if (!container.is('.col-clear-sm-6'))
+                container.addClass('col-clear-sm-6');
+            var label = container.find('.dealnet-label')
+            if (!label.is('.hidden-sm')) {
+                label.addClass('hidden-sm');
             }
-            container.show();
-        
+        } else {
+            container.removeClass('col-clear-sm-6');
+            container.find('.hidden-sm').removeClass('hidden-sm');
+        }
+        container.show();
+
         return false;
     }
 

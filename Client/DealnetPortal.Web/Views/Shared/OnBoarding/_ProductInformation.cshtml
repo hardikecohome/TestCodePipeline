@@ -29,7 +29,7 @@
                 <div class="col-md-4 col-sm-6 new-brand-group @(i==1?"col-clear-sm-6":"")">
                     <div class="form-group">
                         <label for="">@Resources.SecondaryManufacturerBrandSold</label>
-                      <div class="control-group">
+                      <div class="control-group removable-form-group">
                         @Html.TextBoxFor(m => m.ProductInfo.Brands[i], new {@class = "form-control dealnet-input secondary-brand", id = $"brands_{i}"})
                         @Html.ValidationMessageFor(m => m.ProductInfo.Brands[i], "", new {@class = "text-danger"})
                         <a href="" class="remove-link remove-brand-link">

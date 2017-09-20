@@ -92,7 +92,9 @@
             var result = $('#licenseDocumentTemplate')
                 .tmpl({ 'name': license.License.Name, 'id': license.License.Id });
 
-            addIconsToFields(result.find('input, textarea'));
+            var inputs = result.find('input, textarea')
+            addIconsToFields(inputs);
+            toggleClearInputIcon(inputs);
 
             result.appendTo('#licenseHolder');
 
