@@ -2024,4 +2024,7 @@
   <data name="YourFileTypeIsNotSupported" xml:space="preserve">
     <value>Your file type is not supported</value>
   </data>
+  <data name="EmailExists" xml:space="preserve">
+    <value>The email address you have entered is already registered</value>
+  </data>
 </root>

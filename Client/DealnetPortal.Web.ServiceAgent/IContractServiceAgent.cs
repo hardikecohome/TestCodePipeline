@@ -151,5 +151,6 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<TierDTO> GetDealerTier();
 
         Task<IList<Alert>> AssignContract(int contractId);
+        Task<IList<Alert>> CheckCustomerExisting(string email);
     }
 }

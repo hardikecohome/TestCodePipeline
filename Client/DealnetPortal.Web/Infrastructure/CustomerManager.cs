@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Models;
@@ -92,6 +93,14 @@ namespace DealnetPortal.Web.Infrastructure
                 .OrderByDescending(x => x.Date)
                 .ThenByDescending(x => x.Id)
                 .ToList();
+        }
+
+        public async Task<bool> CheckCustomerExistingAsync(string email)
+        {
+            var result = await _contractServiceAgent.CheckCustomerExisting(email);
+
+            return result.Any(x => x.Type == AlertType.Error);
+
         }
     }
 }

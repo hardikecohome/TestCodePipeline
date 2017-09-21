@@ -19,6 +19,14 @@
         var email = $('#email');
         email.on('change', function (e) {
             dispatch(createAction(clientActions.SET_EMAIL, e.target.value));
+            if ($(this).valid()) {
+                $.get({
+                    url: checkCustomerUrl + '?email=' + e.target.value,
+                    success: function(isExist) {
+                        dispatch(createAction(clientActions.SET_EMAIL_EXISTS, isExist));
+                    }
+                });
+            }
         });
 
         var contactMethod = $('#contact-method');
