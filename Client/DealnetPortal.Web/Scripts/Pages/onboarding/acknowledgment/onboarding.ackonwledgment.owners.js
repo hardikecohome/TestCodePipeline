@@ -1,6 +1,7 @@
 ﻿module.exports('onboarding.ackonwledgment.owners', function (require) {
 
     var resetFormValidation = require('onboarding.common').resetFormValidation;
+    var checkAckonwledgments = require('onboarding.ackonwledgment.setters').checkAckonwledgments;
 
     var recalculateOwnerIndex = function (ownerNumber) {
 
@@ -59,6 +60,7 @@
                 $(this).attr('value', 'false');
             }
         });
+        checkAckonwledgments();
     }
 
     var removeFromAknowledgment = function (ownerNumber) {
