@@ -104,7 +104,7 @@
 
             $('#' + license.License.Id + '-license-number').on('change', setLicenseRegistraionNumber(license.License.Id));
             result.find('.date-group').each(function () {
-                $('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length === 0 ? $('<div/>', {
+                $('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length=== 0 ? $('<div/>', {
                     class: 'div-datepicker-value',
                     text: $(this).find('.form-control').val()
                 }).appendTo(this) : '';

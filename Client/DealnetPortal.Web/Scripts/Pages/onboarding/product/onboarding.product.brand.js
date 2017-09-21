@@ -1,15 +1,18 @@
 module.exports('onboarding.product.brand', function (require) {
     var state = require('onboarding.state').state;
     var resetForm = require('onboarding.common').resetFormValidation;
-    var addSecondaryBrand = require('onboarding.product.setters').addSecondaryBrand;
+    var initSecondaryBrands = require('onboarding.product.setters').initSecondaryBrands;
     var setSecondaryBrand = require('onboarding.product.setters').setSecondaryBrand;
     var removeSecondayBrand = require('onboarding.product.setters').removeSecondayBrand;
     var setLengthLimitedField = require('onboarding.setters').setLengthLimitedField;
 
     function addNewBrand () {
-        if (addSecondaryBrand('')) {
-            var brandsCount = $('.secondary-brand').length;
-            var $el = $("#manufacturerBrandTemplate").tmpl({ brandNumber: brandsCount });
+        initSecondaryBrands();
+        var brandsCount = $('.secondary-brand').length;
+        if (brandsCount < 2) {
+            var $el = $("#manufacturerBrandTemplate").tmpl({
+                brandNumber: brandsCount
+            });
             var container = $("#add-brand-container");
             container.before($el);
 
@@ -74,7 +77,8 @@ module.exports('onboarding.product.brand', function (require) {
 
     function rebuildBrandIndex () {
         var group = $($('.new-brand-group')[0]);
-        group.removeClass('col-clear-sm-6').find('#ProductInfo_Brands_1').attr('id', 'ProductInfo_Brands_0').attr('name', 'ProductInfo.Brands[0]');
+        group.removeClass('col-clear-sm-6').find('#brands_1').attr('id', 'brands_0').attr('name', 'ProductInfo.Brands[0]');
+        group.find('.text-danger').attr('data-valmsg-for', 'ProductInfo.Brands[0]')
     }
 
     return {

@@ -16,12 +16,9 @@ module.exports('onboarding.product.setters', function (require) {
 
     var setPrimaryBrand = setFormField('primary-brand');
 
-    var addSecondaryBrand = function (value) {
+    var initSecondaryBrands = function (value) {
         if (!state[stateSection].brands)
             state[stateSection].brands = [];
-        if (state[stateSection].brands.length > 1)
-            return false;
-        return true;
     }
 
     var setSecondaryBrand = function (index) {
@@ -31,11 +28,11 @@ module.exports('onboarding.product.setters', function (require) {
     };
 
     var removeSecondayBrand = function (index) {
-        if (state[stateSection].brands.length - 1 >= index) {
+        var item = state[stateSection].brands[index];
+
+        if (item) {
             state[stateSection].brands.splice(index, 1);
-            return true;
         }
-        return false;
     }
 
     var setAnnualSales = setFormField('annual-sales-volume');
@@ -205,7 +202,7 @@ module.exports('onboarding.product.setters', function (require) {
 
     return {
         setPrimaryBrand: setPrimaryBrand,
-        addSecondaryBrand: addSecondaryBrand,
+        initSecondaryBrands: initSecondaryBrands,
         setSecondaryBrand: setSecondaryBrand,
         removeSecondayBrand: removeSecondayBrand,
         setAnnualSales: setAnnualSales,
