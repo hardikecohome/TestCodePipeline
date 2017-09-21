@@ -304,7 +304,7 @@
     <value>Mailing Address</value>
   </data>
   <data name="MaximumFileSize" xml:space="preserve">
-    <value>Maximum file size is limited to 50 MB for a single file.</value>
+    <value>Maximum file size is limited to 20 MB for a single file.</value>
   </data>
   <data name="Month" xml:space="preserve">
     <value>Month</value>

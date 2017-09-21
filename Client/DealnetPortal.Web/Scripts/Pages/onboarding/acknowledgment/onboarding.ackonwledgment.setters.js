@@ -47,9 +47,14 @@
         }
     }
 
+    var checkAckonwledgments = function() {
+        _markComplete();
+    }
+
     return {
         setFirstName: setFirstName,
         setLastName: setLastName,
-        setAgreement: setAgreement
+        setAgreement: setAgreement,
+        checkAckonwledgments: checkAckonwledgments
     }
 });
