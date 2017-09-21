@@ -98,7 +98,7 @@
                                         @Resources.DownloadCertificateTemplate
                                     </a>
                                 </div>
-                                <div class="well danger-well error-descr collapse" id="certificate-error-message">
+                                <div class="well danger-well collapse" id="certificate-error-message">
                                     <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
                                     @Resources.CannotGetCertificateForPrint
                                 </div>
@@ -2684,6 +2684,7 @@ foreach (var comment in comments)
 
         var checkUrl = '@Url.Action("CheckContractAgreement", "NewRental", new {contractId = Model.BasicInfo.ContractId })';
         var downloadUrl = '@Url.Action("PrintContract", "NewRental", new { contractId = Model.BasicInfo.ContractId })';
+        var maxFileUploadSize = 20 * 1024 * 1024 ;
     </script>
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/localization")
