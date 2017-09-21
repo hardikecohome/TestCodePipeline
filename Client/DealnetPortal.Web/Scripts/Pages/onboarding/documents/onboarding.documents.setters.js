@@ -103,6 +103,7 @@
             _rebuildIndex();
 
             $('#' + license.License.Id + '-license-number').on('change', setLicenseRegistraionNumber(license.License.Id));
+
             result.find('.date-group').each(function () {
                 $('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length=== 0 ? $('<div/>', {
                     class: 'div-datepicker-value',
@@ -133,7 +134,7 @@
         });
 
         e.stopImmediatePropagation();
-        //resetForm('#onboard-form');
+        resetForm('#onboard-form');
     }
 
     var removeLicense = function (e) {
@@ -311,14 +312,11 @@
                 });
 
                 container.find('span').each(function () {
-                    var curr = $(this).attr('name');
+                    var curr = $(this).attr('data-valmsg-for');
                     if (curr == null) { return; }
-                    var toReplace = 'AdditionalDocuments[' + index + ']' + $(this).attr('name').substring($(this).attr('name').lastIndexOf(']') + 1);
+                    var toReplace = 'AdditionalDocuments[' + index + ']' + curr.substring(curr.lastIndexOf(']') + 1);
 
-                    var valFor = $(this).attr('data-valmsg-for');
-                    if (valFor == null) { return; }
-
-                    $(this).attr('data-valmsg-for', valFor.replace(curr, toReplace));
+                    $(this).attr('data-valmsg-for', toReplace);
                 });
 
                 index++;
