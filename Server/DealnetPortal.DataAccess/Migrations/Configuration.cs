@@ -53,13 +53,13 @@ namespace DealnetPortal.DataAccess.Migrations
                 var applications = SetApplications(context);
                 SetRoles(context);
                 SetTiers(context);
-                //SetServiceUsers(context, context.Applications.Local.ToArray());
+                SetServiceUsers(context, context.Applications.Local.ToArray());
                 SetAspireTestUsers(context, context.Applications.Local.ToArray());
                 SetTestEquipmentTypes(context);
                 SetTestLicenseTypes(context);
                 SetTestProvinceTaxRates(context);
                 SetTestLicenseDocuments(context);
-		SetTestVerficationIds(context);
+		        SetTestVerficationIds(context);
                 SetAspireStatuses(context);
                 SetDocumentTypes(context);
                 SetLanguages(context);
