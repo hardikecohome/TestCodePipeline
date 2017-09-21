@@ -42,8 +42,7 @@
                     }
                 }
 			} else {
-				taxRate = provincialTaxrate;
-                var monthPayment = Globalize.parseNumber($("#rentalTMPayment").text());
+				var monthPayment = Globalize.parseNumber($("#rentalTMPayment").text());
                 if (isNaN(monthPayment) || (monthPayment == 0)) {
                     event.preventDefault();
                     $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);

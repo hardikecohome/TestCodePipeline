@@ -114,9 +114,7 @@
             $("#requested-term").rules("remove", "required");
         } else {
 			//If rental is chosen
-			taxRate = provincialTaxrate;
-			//state.taxRate = provincialTaxrate;
-            if ($("#submit").hasClass('disabled')) {
+			if ($("#submit").hasClass('disabled')) {
                 $('#submit').removeClass('disabled');
                 $('#submit').parent().popover('destroy');
             }
