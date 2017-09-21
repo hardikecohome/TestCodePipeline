@@ -122,9 +122,19 @@
             displayPreviousAddress: state.lessThanSix,
             activePanel: state.activePanel,
             displayImprovmentOtherAddress: state.improvmentOtherAddress,
-            displayNewAddress: state.displayNewAddress
+            displayNewAddress: state.displayNewAddress,
+            showEmailExists: state.emailExists
         };
     })(function (props) {
+        if (props.showEmailExists) {
+            $('#email').addClass('input-validation-error');
+            $('#email-exists').removeClass('hidden');
+        } else {
+            if ($('#email').valid()) {
+                $('#email').removeClass('input-validation-error');
+            }
+            $('#email-exists').addClass('hidden');
+        }
         if (props.activePanel === 'basic-information') {
             $('#basic-information').addClass('active-panel');
         } else {
@@ -203,7 +213,8 @@
         return {
             errors: getErrors(state),
             displaySubmitErrors: state.displaySubmitErrors,
-            isChanged: state.isChanged
+            isChanged: state.isChanged,
+            emailExists: state.emailExists
         }
     })(function (props) {
         $('#ageErrors').empty();
@@ -219,7 +230,7 @@
             $('#submit').addClass('disabled');
             $('#submit').parent().popover();
         } else {
-            if ($('#main-form').valid()) {
+            if ($('#main-form').valid() && !props.emailExists) {
                 $('#submit').removeClass('disabled');
                 $('#submit').parent().popover('destroy');
             } else {

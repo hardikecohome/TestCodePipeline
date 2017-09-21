@@ -294,6 +294,7 @@
             <div class="control-group">
               @Html.TextBoxFor(m => m.HomeOwnerContactInfo.EmailAddress, new { @class = "form-control dealnet-input", id = "email" })
               @Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.EmailAddress, "", new { @class = "text-danger" })
+              <span class="text-danger field-validation-error hidden" id="email-exists">@Resources.EmailExists</span>
             </div>
           </div>
         </div>
@@ -502,7 +503,9 @@
   @Scripts.Render("~/bundles/new-client")
 
   <script type="text/javascript">
-    var isMobileRequest = '@ViewBag.IsMobileRequest';
+      var isMobileRequest = '@ViewBag.IsMobileRequest';
+      var checkCustomerUrl = '@Url.Action("CheckCustomerExisting", "MortgageBroker")';
+
     configInitialized.then(function () {
       module.require('basic-information-view');
       module.require('address-information-view');

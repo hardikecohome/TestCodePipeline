@@ -72,5 +72,13 @@ namespace DealnetPortal.Web.Controllers
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public async Task<ActionResult> CheckCustomerExisting(string email)
+        {
+            var result = await _customerManager.CheckCustomerExistingAsync(email);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }
