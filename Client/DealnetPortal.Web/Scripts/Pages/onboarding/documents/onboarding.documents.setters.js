@@ -189,7 +189,12 @@
         var extension = file.name.replace(/^.*\./, '').toLowerCase();
 
         if (extension === '' || constants.validFileExtensions.map(function (ext) { return ext.toLowerCase(); }).indexOf(extension) === -1) {
-            alert('Your file type is not supported');
+            alert(translations['YourFileTypeIsNotSupported']);
+            return;
+        }
+
+        if (file.size > constants.maxFileUploadSize) {
+            alert(translations['ErrorWhileUploadingFile']);
             return;
         }
 
