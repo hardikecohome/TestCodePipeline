@@ -7,6 +7,7 @@ using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Domain;
+using DealnetPortal.Api.Models.Notify;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -41,5 +42,6 @@ namespace DealnetPortal.Api.Integration.Services
         void SendNotifyMailNoDealerAcceptedLead12H(Contract contract);
         Task SendApprovedMailToCustomer(Contract customerFormData);
         Task SendDeclinedConfirmation(string emailid, string firstName, string lastName);
+        Task SendSupportRequiredEmail(SupportRequestDTO SupportDetails);
     }
 }

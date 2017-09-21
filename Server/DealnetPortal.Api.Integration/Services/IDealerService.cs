@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Profile;
+using DealnetPortal.Api.Models.Notify;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -13,5 +14,6 @@ namespace DealnetPortal.Api.Integration.Services
         DealerProfileDTO GetDealerProfile(string dealerId);
         string GetDealerParentName(string dealerId);
         IList<Alert> UpdateDealerProfile(DealerProfileDTO dealerProfile);
+        IList<Alert> DealerSupportRequestEmail(SupportRequestDTO dealerSupportRequest);
     }
 }

@@ -325,45 +325,47 @@
     color: #ffffff;
 	text-align:center;">
 		<div id="email_buttons">
-			<div class="helpbutton">
+			<div class="supportEmailButton hidden">
+				<div class="col-md-3" id="dealerSupportEmail">
+
+					<i onclick="sendEmailModel();">
+						<button class="btn btn-small btn-success">
+							<svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
+							Dealer Support
+						</button>
+					</i>
+				</div>
+				<div class="col-md-3" id="creditSupprotEmail">
+					<i onclick="sendEmailModel();">
+						<button class="btn btn-small btn-success">
+							<svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
+							Credit Support
+						</button>
+					</i>
+				</div>
+				<div class="col-md-3" id="fundingSupportEmail">
+					<i onclick="sendEmailModel();">
+						<button class="btn btn-small btn-success">
+							<svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
+							Funding Support
+						</button>
+					</i>
+				</div>
+				<div class="col-md-3" id="customerServiceEmail">
+					<i onclick="sendEmailModel();">
+						<button class="btn btn-small btn-success">
+							<svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
+							Customer Service
+						</button>
+					</i>
+				</div>
+			</div>
+			<div class="helpbutton pull-right">
 
 				<i onclick="sendEmailModel();">
 					<button class="btn btn-small btn-success">
-						<svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
-						Dealer Support
-					</button>
-				</i>
-			</div>
-			<div class="col-md-3 ">
-
-				<i onclick="sendEmailModel();">
-					<button class="btn btn-small btn-success">
-						<svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
-						Dealer Support
-					</button>
-				</i>
-			</div>
-			<div class="col-md-3">
-				<i onclick="sendEmailModel();">
-					<button class="btn btn-small btn-success">
-						<svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
-						Credit Support
-					</button>
-				</i>
-			</div>
-			<div class="col-md-3">
-				<i onclick="sendEmailModel();">
-					<button class="btn btn-small btn-success">
-						<svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
-						Funding Support
-					</button>
-				</i>
-			</div>
-			<div class="col-md-3">
-				<i onclick="sendEmailModel();">
-					<button class="btn btn-small btn-success">
-						<svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
-						Customer Service
+						<svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-help"></use></svg>
+						Help
 					</button>
 				</i>
 			</div>
@@ -375,7 +377,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title">Dealer Support: How Can We Help? </h4>
+					<h4 class="modal-title">How Can We Help? </h4>
 				</div>			`	
 				<div class="modal-body">
 					<div class="col-md-12 pull-left" style="margin-bottom:20px;">
@@ -462,7 +464,7 @@
 				<div class="modal-footer">
 					<div class="col-md-12">
 						<button type="button" class="btn dealnet-button dealnet-link-button" data-dismiss="modal">@Resources.Cancel</button>
-						<button type="button" class="btn dealnet-button dealnet-success-button" id="emailSupport" onclick="sendEmailToDealerSupport();">@Resources.Send</button>
+						<button type="button" class="btn dealnet-button dealnet-success-button" id="emailSupport" onclick="sendEmailToSupport();">@Resources.Send</button>
 					</div>
 				</div>
 			</div>

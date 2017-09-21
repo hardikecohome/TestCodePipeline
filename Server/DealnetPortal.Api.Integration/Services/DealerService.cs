@@ -13,6 +13,7 @@ using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities.Logging;
+using DealnetPortal.Api.Models.Notify;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -22,14 +23,15 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IContractRepository _contractRepository;
         private readonly ILoggingService _loggingService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMailService _mailService;
 
-
-        public DealerService(IDealerRepository dealerRepository, ILoggingService loggingService, IUnitOfWork unitOfWork, IContractRepository contractRepository)
+        public DealerService(IDealerRepository dealerRepository, ILoggingService loggingService, IUnitOfWork unitOfWork, IContractRepository contractRepository, IMailService mailService)
         {
             _dealerRepository = dealerRepository;
             _loggingService = loggingService;
             _unitOfWork = unitOfWork;
             _contractRepository = contractRepository;
+            _mailService = mailService;
         }
 
         public DealerProfileDTO GetDealerProfile(string dealerId)
@@ -42,6 +44,28 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var parentName = _contractRepository.GetDealer(_dealerRepository.GetParentDealerId(dealerId)?? dealerId).AspireLogin;
             return parentName;
+        }
+
+        public IList<Alert> DealerSupportRequestEmail(SupportRequestDTO dealerSupportRequest)
+        {
+            var alerts = new List<Alert>();
+
+            try
+            {
+                var result = _mailService.SendSupportRequiredEmail(dealerSupportRequest);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError($"Failed to send Dealer support request for [{dealerSupportRequest.YourName}] dealer with support ID [{dealerSupportRequest.Id}]", ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Code = ErrorCodes.FailedToUpdateSettings,
+                    Message = "Failed to send Dealer support request"
+                });
+            }
+
+            return alerts;
         }
 
         public IList<Alert> UpdateDealerProfile(DealerProfileDTO dealerProfile)

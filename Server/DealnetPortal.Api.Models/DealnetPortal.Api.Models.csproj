@@ -88,6 +88,7 @@
     <Compile Include="Notify\MailChimpMember.cs" />
     <Compile Include="Notify\MandrillRequest.cs" />
     <Compile Include="Notify\Message.cs" />
+    <Compile Include="Notify\SupportRequestDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scanning\DriverLicenseData.cs" />
     <Compile Include="Scanning\ScanningRequest.cs" />

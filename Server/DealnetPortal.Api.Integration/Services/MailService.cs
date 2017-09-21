@@ -28,6 +28,7 @@ using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Utilities.Messaging;
 using DealnetPortal.Api.Models.Notification;
+using DealnetPortal.Api.Models.Notify;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -598,23 +599,8 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        public async Task SendSupportRequiredEmail()
+        public async Task SendSupportRequiredEmail(SupportRequestDTO SupportDetails)
         {
-            var SupportDetails = new
-            {
-                Id = 123,
-                DealerName = "xyz",
-                YourName = "abc",
-                LoanNumber = 0,
-                SupportType = "Dealer Support",
-                HelpRequested = "sdewwrewewrwrrerrr wfsffsafffadsafasfafds   afsdfdsaff  asfdsfsaffsfsfsaffsa sfdsfaffsf",
-                BestWay = new {
-                    byPhone = true,
-                    SameEmail = true,
-                    AlternativeEmail = true,
-                    AlternativeEmailAddress = "This@that.com"
-                }
-            };
             string mailTo = ConfigurationManager.AppSettings["DealNetEmail"];
             
             var body = new StringBuilder();

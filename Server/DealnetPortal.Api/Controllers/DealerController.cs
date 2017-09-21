@@ -19,7 +19,7 @@ using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Profile;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Utilities.Logging;
-
+using DealnetPortal.Api.Models.Notify;
 namespace DealnetPortal.Api.Controllers
 {
     [Authorize]
@@ -80,6 +80,20 @@ namespace DealnetPortal.Api.Controllers
                 return InternalServerError(ex);
             }
         }
-
+        [Route("DealerSupportRequestEmail")]
+        [HttpPost]
+        public IHttpActionResult DealerSupportRequestEmail(SupportRequestDTO dealerSupportRequest)
+        {
+            try
+            {
+                //dealerProfile.DealerId = LoggedInUser.UserId;
+                var result = _dealerService.DealerSupportRequestEmail(dealerSupportRequest);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
     }
 }

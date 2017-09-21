@@ -62,6 +62,20 @@
       }, 100);
     }
 
+	//$('.helpbutton').click(function () {
+	//	$('.helpbutton').addClass('hidden');
+	//	$('.supportEmailButton').removeClass('hidden');
+	//	//$('#creditSupprotEmail').removeClass('hiden');
+	//	//$('#fundingSupportEmail').removeClass('hiden');
+	//	//$('#customerServiceEmail').removeClass('hiden');
+
+	//});
+
+	$('.supportEmailButton').mouseout(function () {
+		$('.helpbutton').removeClass('hidden');
+		$('.supportEmailButton').addClass('hidden');
+
+	});
     //if(!$('.date-group').children('.dealnet-disabled-input'))
     $('.date-group').each(function(){
       $('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length === 0 ? $('<div/>', {
@@ -617,8 +631,23 @@ function sendEmailModel(rowTransactionId) {
 	alertModal.modal('show');
 }
 
-function sendEmailToDealerSupport() {
-	alert(urlContent);
+function sendEmailToSupport() {
+	var data = {
+		"Id": "0",
+		"DealerName": $('#emailDealerName').text(),
+		"YourName" : $('#emailSubDealerName').text(),
+		"LoanNumber" : $('#emailTransactionId').text(),
+		"SupportType" : $('#emailSubDealerName').text(),
+		"HelpRequested" : $('#emailComment').val(),
+		"BestWay": {
+			"byPhone": $('#emailPhone').prop('checked'),
+			"SameEmail" : $('#emailSameEmail').prop('checked'),
+			"AlternativeEmail" : $('#emailAlternativeEmail').prop('checked'),
+			"AlternativeEmailAddress": $('#emailAlternativeEmailAddress').val()
+		}
+	};
+
+	alert(JSON.stringify(data));
 }
 
 function hideDynamicAlertModal() {
