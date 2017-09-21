@@ -39,14 +39,15 @@
         }
     };
 
-    var constants = {
-        maxAdditionalOwner: 4,
-        maxVoidChequeFiles: 3,
-        requiredFields: [
-            'firstname', 'lastname', 'email', 'birthdate', 'cellphone', 'street', 'city',
-            'province', 'postalcode', 'percentage'
-        ],
-        validFileExtensions: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png'],
+        var constants = {
+            maxAdditionalOwner: 4,
+            maxVoidChequeFiles: 3,
+            requiredFields: [
+                'firstname', 'lastname', 'email', 'birthdate', 'cellphone', 'street', 'city',
+                'province', 'postalcode', 'percentage'
+            ],
+            validFileExtensions: ($('#SupportedFileExtensions').val() || 'pdf, doc, docx, jpg, jpeg, png').split(',').map((item) => item.trim()),//['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png'],
+        maxFileUploadSize: 20*1024*1024,
         companyRequiredFields: ['full-legal-name', 'operating-name', 'company-phone', 'company-email-address', 'company-street', 'company-city', 'company-province', 'company-postal', 'years-in-business', 'work-provinces', 'company-type'],
         productRequiredFields: ['primary-brand', 'annual-sales-volume', 'av-transaction-size', 'sales-approach', 'lead-gen', 'program-service', 'relationship', 'equipment', 'reason-for-interest']
     };

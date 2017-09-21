@@ -238,7 +238,7 @@
     <value>An error occurred while removing comment</value>
   </data>
   <data name="ErrorWhileUploadingFile" xml:space="preserve">
-    <value>An error occurred while uploading file. (Maximum file size allowed is 2MB)</value>
+    <value>An error occurred while uploading file. (Maximum file size allowed is 20MB)</value>
   </data>
   <data name="ExistingEquipmentInformation" xml:space="preserve">
     <value>Existing Equipment Information</value>
@@ -2020,5 +2020,8 @@
   </data>
   <data name="MonthlyDefferedPercentRange" xml:space="preserve">
     <value>Monthly deals to be deferred should be between 0 and 100</value>
+  </data>
+  <data name="YourFileTypeIsNotSupported" xml:space="preserve">
+    <value>Your file type is not supported</value>
   </data>
 </root>
