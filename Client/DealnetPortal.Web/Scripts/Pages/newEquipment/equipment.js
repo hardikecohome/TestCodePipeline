@@ -31,8 +31,8 @@
                 equipmentDiv: 'div#new-equipments'
             });
 
-        if (id > 0) {
-            newTemplate.find('div.additional-remove').attr('id', 'addequipment-remove-' + id);
+		if (id > 0) {
+			newTemplate.find('div.additional-remove').attr('id', 'addequipment-remove-' + id);
 		}
 		if (id == 2) {
 			$('.add-equip-link').addClass("hidden");
@@ -176,7 +176,8 @@
      * @returns {} 
      */
     function initEquipment(i) {
-        var cost = Globalize.parseNumber($('#NewEquipment_' + i + '__Cost').val());
+		alert(i);
+		var cost = Globalize.parseNumber($('#NewEquipment_' + i + '__Cost').val());
         if (state.equipments[i] === undefined) {
             state.equipments[i] = { id: i.toString(), cost: cost }
         } else {
@@ -201,7 +202,10 @@
                     equipmentName: 'NewEquipment',
                     equipmentRemovePattern: 'addequipment-remove-'
                 }));
-        }
+		}
+		if (i == 2) {
+			$('.add-equip-link').addClass("hidden");
+		}
     }
 
     /**
