@@ -1211,7 +1211,7 @@
     <comment>It's a verb (copy, paste, cut...)</comment>
   </data>
   <data name="ShareableLink" xml:space="preserve">
-    <value>Shareable Link</value>
+    <value>Customer Link</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Add</value>
