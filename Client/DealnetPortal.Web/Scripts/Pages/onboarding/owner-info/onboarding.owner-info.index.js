@@ -68,8 +68,8 @@
         });
     }
 
-    function _initEventHandlers (nubmerOfOwners) {
-        for (var i = 0;i < nubmerOfOwners;i++) {
+    function _initEventHandlers (numberOfOwners) {
+        for (var i = 0;i < numberOfOwners;i++) {
             _setInputHandlers('owner' + i);
             state['owner-info']['nextOwnerIndex']++;
         }

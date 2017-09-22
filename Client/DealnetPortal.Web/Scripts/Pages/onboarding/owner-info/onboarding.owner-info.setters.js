@@ -1,5 +1,6 @@
 ﻿module.exports('onboarding.owner-info.setters', function (require) {
     var state = require('onboarding.state').state;
+    var constants = require('onboarding.state').constants;
     var enableSubmit = require('onboarding.setters').enableSubmit;
 
     var stateSection = 'owner-info';
@@ -136,6 +137,11 @@
             if (!$('#add-additional').hasClass('mandatory-field')) {
                 $('#add-additional').addClass('mandatory-field');
             }
+
+            if (Object.keys(state[stateSection]['owners']).length <= 1) {
+                $('#add-additional-div').addClass('hidden');
+            }
+
             if ($('#add-additional-div').is(':hidden')) {
                 $('#add-additional-div').removeClass('hidden');
             }
@@ -143,8 +149,6 @@
             if (!$('#over-100').is(':hidden')) {
                 $('#over-100').addClass('hidden');
             }
-
-            return;
         }
 
         if (state[stateSection].totalPercentage > 100) {
@@ -153,19 +157,25 @@
             if ($('#add-additional-div').is(':hidden')) {
                 $('#add-additional-div').removeClass('hidden');
             }
+
+            if (Object.keys(state[stateSection]['owners']).length <= 1) {
+                $('#add-additional-div').addClass('hidden');
+            }
+
             $('#additional-owner-warning').addClass('hidden');
 
             $('#over-100').removeClass('hidden');
-            return;
         }
 
         if (state[stateSection].totalPercentage >= 50) {
             $('#owner-notify').addClass('hidden');
 
             $('#add-additional').removeClass('mandatory-field');
-            if (state[stateSection]['owners'].length <= 1) {
+
+            if (Object.keys(state[stateSection]['owners']).length <= 1) {
                 $('#add-additional-div').addClass('hidden');
             }
+
             $('#additional-owner-warning').addClass('hidden');
 
             if (!$('#over-100').is(':hidden')) {
@@ -173,7 +183,11 @@
             }
 
             _moveTonextSection();
-            return;
+        }
+
+        if (Object.keys(state[stateSection]['owners']).length === constants.maxAdditionalOwner) {
+            $('#add-additional').addClass('hidden');
+            $('#add-additional-div').addClass('hidden');
         }
     }
 
