@@ -1419,7 +1419,7 @@ namespace DealnetPortal.Api.Integration.Services
                     UDFs.Add(new UDF()
                     {
                         Name = AspireUdfFields.MobilePhoneNumber,
-                        Value = owner.HomePhone
+                        Value = owner.MobilePhone
                     });
                 }
                 var leadSource = _configuration.GetSetting(WebConfigKeys.ONBOARDING_LEAD_SOURCE_KEY);
