@@ -122,19 +122,9 @@
             displayPreviousAddress: state.lessThanSix,
             activePanel: state.activePanel,
             displayImprovmentOtherAddress: state.improvmentOtherAddress,
-            displayNewAddress: state.displayNewAddress,
-            showEmailExists: state.emailExists
+            displayNewAddress: state.displayNewAddress
         };
     })(function (props) {
-        if (props.showEmailExists) {
-            $('#email').addClass('input-validation-error');
-            $('#email-exists').removeClass('hidden');
-        } else {
-            if ($('#email').valid()) {
-                $('#email').removeClass('input-validation-error');
-            }
-            $('#email-exists').addClass('hidden');
-        }
         if (props.activePanel === 'basic-information') {
             $('#basic-information').addClass('active-panel');
         } else {
@@ -224,6 +214,16 @@
                 .forEach(function (error) {
                     $('#ageErrors').append(createError(window.translations[error.messageKey]));
                 });
+        }
+
+        if (props.emailExists) {
+            $('#email').addClass('input-validation-error');
+            $('#email-exists').removeClass('hidden');
+        } else {
+            if ($('#email').hasClass('input-validation-error')) {
+                $('#email').removeClass('input-validation-error');
+            }
+            $('#email-exists').addClass('hidden');
         }
 
         if (props.errors.length) {

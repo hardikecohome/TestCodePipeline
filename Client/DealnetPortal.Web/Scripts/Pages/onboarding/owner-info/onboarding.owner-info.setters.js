@@ -108,12 +108,9 @@
     var setOwnershipPercentege = function (ownerNumber) {
         return function (e) {
             state[stateSection]['owners'][ownerNumber].percentage = e.target.value;
-            state[stateSection].totalPercentage = Object.keys(state[stateSection]['owners']).reduce(function (s, v) {
-                return s + +state[stateSection]['owners'][v].percentage;
-            }, 0);
 
+            recalculateTotalPercentage();
             _spliceRequiredField(ownerNumber, e.target.id);
-            _checkOwnershipPercentage();
             _moveTonextSection();
             enableSubmit();
         }
@@ -121,7 +118,8 @@
 
     var recalculateTotalPercentage = function () {
         state[stateSection].totalPercentage = Object.keys(state[stateSection]['owners']).reduce(function (s, v) {
-            return s + +state[stateSection]['owners'][v].percentage;
+            var percent = Number(state[stateSection]['owners'][v].percentage) || 0;
+            return s + percent;
         }, 0);
         _checkOwnershipPercentage();
     }
@@ -138,12 +136,8 @@
                 $('#add-additional').addClass('mandatory-field');
             }
 
-            if (Object.keys(state[stateSection]['owners']).length <= 1) {
-                $('#add-additional-div').addClass('hidden');
-            }
-
-            if ($('#add-additional-div').is(':hidden')) {
-                $('#add-additional-div').removeClass('hidden');
+            if ($('#add-additional').is(':hidden')) {
+                $('#add-additional').removeClass('hidden');
             }
 
             if (!$('#over-100').is(':hidden')) {
@@ -154,27 +148,15 @@
         if (state[stateSection].totalPercentage > 100) {
             $('#owner-notify').addClass('hidden');
 
-            if ($('#add-additional-div').is(':hidden')) {
-                $('#add-additional-div').removeClass('hidden');
-            }
-
-            if (Object.keys(state[stateSection]['owners']).length <= 1) {
-                $('#add-additional-div').addClass('hidden');
-            }
-
             $('#additional-owner-warning').addClass('hidden');
 
             $('#over-100').removeClass('hidden');
         }
 
-        if (state[stateSection].totalPercentage >= 50) {
+        if (state[stateSection].totalPercentage >= 50 && state[stateSection].totalPercentage < 101) {
             $('#owner-notify').addClass('hidden');
 
             $('#add-additional').removeClass('mandatory-field');
-
-            if (Object.keys(state[stateSection]['owners']).length <= 1) {
-                $('#add-additional-div').addClass('hidden');
-            }
 
             $('#additional-owner-warning').addClass('hidden');
 
@@ -185,8 +167,15 @@
             _moveTonextSection();
         }
 
-        if (Object.keys(state[stateSection]['owners']).length === constants.maxAdditionalOwner) {
+        if (Object.keys(state[stateSection]['owners']).length > constants.maxAdditionalOwner) {
             $('#add-additional').addClass('hidden');
+        } else {
+            $('#add-additional').removeClass('hidden');
+        }
+
+        if ($('#add-additional-div').children(':not(.hidden)').length) {
+            $('#add-additional-div').removeClass('hidden');
+        } else {
             $('#add-additional-div').addClass('hidden');
         }
     }

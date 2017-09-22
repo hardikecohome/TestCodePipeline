@@ -720,7 +720,7 @@ namespace DealnetPortal.Api.Integration.Services
                         request.Payload = new DocumentUploadPayload()
                         {
                             TransactionId = string.IsNullOrEmpty(dealerInfo.TransactionId) ? null : dealerInfo.TransactionId,
-                            Status = statusToSend ?? _configuration.GetSetting(WebConfigKeys.DOCUMENT_UPLOAD_STATUS_CONFIG_KEY)
+                            Status = statusToSend ?? _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY)
                         };
 
                         var uploadName = Regex.Replace(Path.GetFileNameWithoutExtension(document.DocumentName).Replace('[', '_').Replace(']', '_'),
@@ -1434,7 +1434,16 @@ namespace DealnetPortal.Api.Integration.Services
                     UDFs.Add(new UDF()
                     {
                         Name = AspireUdfFields.MobilePhoneNumber,
-                        Value = owner.HomePhone
+                        Value = owner.MobilePhone
+                    });
+                }
+                var leadSource = _configuration.GetSetting(WebConfigKeys.ONBOARDING_LEAD_SOURCE_KEY);
+                if (!string.IsNullOrEmpty(leadSource))
+                {
+                    UDFs.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.CustomerLeadSource,
+                        Value = leadSource
                     });
                 }
                 if (UDFs.Any())
@@ -1836,7 +1845,7 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 udfList.Add(new UDF()
                 {
-                    Name = AspireUdfFields.LeadSource,
+                    Name = AspireUdfFields.CustomerLeadSource,
                     Value = portalDescriber
                 });
             }
@@ -2306,15 +2315,15 @@ namespace DealnetPortal.Api.Integration.Services
                 });
             }
 
-            var leadSource = _configuration.GetSetting(WebConfigKeys.ONBOARDING_LEAD_SOURCE_KEY);
-            if (!string.IsNullOrEmpty(leadSource))
-            {
-                udfList.Add(new UDF()
-                {
-                    Name = AspireUdfFields.LeadSource,
-                    Value = leadSource
-                });
-            }
+            //var leadSource = _configuration.GetSetting(WebConfigKeys.ONBOARDING_LEAD_SOURCE_KEY);
+            //if (!string.IsNullOrEmpty(leadSource))
+            //{
+            //    udfList.Add(new UDF()
+            //    {
+            //        Name = AspireUdfFields.LeadSource,
+            //        Value = leadSource
+            //    });
+            //}
 
             return udfList;
         }
