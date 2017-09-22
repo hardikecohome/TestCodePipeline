@@ -229,6 +229,7 @@
         setProvince: setProvince,
         setUnit: setUnit,
         setOwnershipPercentege: setOwnershipPercentege,
-        recalculateTotalPercentage: recalculateTotalPercentage
+        recalculateTotalPercentage: recalculateTotalPercentage,
+        moveToNextSection: _moveTonextSection
     }
 })
