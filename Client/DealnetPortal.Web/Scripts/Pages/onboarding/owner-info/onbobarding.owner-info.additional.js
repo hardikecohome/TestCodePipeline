@@ -3,6 +3,7 @@
     var constants = require('onboarding.state').constants;
     var manageOwners = require('onboarding.owner-info.conversion');
     var resetForm = require('onboarding.common').resetFormValidation;
+    var recalculateTotalPercentage = require('onboarding.owner-info.setters').recalculateTotalPercentage;
 
     var addAditionalOwner = function (ownerIndex) {
         if ($('#additional-owner-warning').is(':visible')) {
@@ -41,7 +42,7 @@
             var $this = $(this);
             var data = Object.assign({}, $('#' + this.id).data());
             $this.attr('id', $this.attr('id').replace('owner0', 'owner' + nextOwnerIndex));
-            Object.keys(data).forEach(function(key) {
+            Object.keys(data).forEach(function (key) {
                 $this.attr('data-' + key.toDash(), data[key]);
             });
         });
@@ -72,7 +73,7 @@
                 return false;
             });
 
-        $('#owner' + nextOwnerIndex + '-container').find('span.text-danger').each(function() {
+        $('#owner' + nextOwnerIndex + '-container').find('span.text-danger').each(function () {
             if ($(this).has('span')) {
                 $(this).children().text('');
             }
@@ -80,6 +81,7 @@
 
         state['owner-info']['nextOwnerIndex']++;
         resetForm('#onboard-form');
+        recalculateTotalPercentage();
     }
 
     var removeAdditionalOwner = function (ownerNumber) {
@@ -87,19 +89,10 @@
         $('#' + ownerNumber + '-container').remove();
         manageOwners.recalculateOwnerIndex(ownerNumber);
         state['owner-info'].nextOwnerIndex--;
-
-        if (state['owner-info'].nextOwnerIndex - 1 < constants.maxAdditionalOwner && $('#add-additional').is(':hidden')) {
-            $('#add-additional').removeClass('hidden');
-        }
-    }
-
-    var removeAll = function () {
-
     }
 
     return {
         add: addAditionalOwner,
-        remove: removeAdditionalOwner,
-        removeAll: removeAll
+        remove: removeAdditionalOwner
     }
 })
