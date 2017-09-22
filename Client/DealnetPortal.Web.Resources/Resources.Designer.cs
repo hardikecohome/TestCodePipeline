@@ -1497,8 +1497,9 @@ namespace DealnetPortal.Web.Resources {
         public static string CostOfBorrowing {
             get {
                 return ResourceManager.GetString("CostOfBorrowing", resourceCulture);
-		}
-	}
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Cost (including all taxes).
         /// </summary>
@@ -4794,7 +4795,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Shareable Link.
+        ///   Looks up a localized string similar to Customer Link.
         /// </summary>
         public static string ShareableLink {
             get {
