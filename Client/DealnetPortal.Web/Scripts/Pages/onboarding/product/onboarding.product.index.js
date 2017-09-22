@@ -112,7 +112,9 @@
             .removeClass('hidden')
             .find('input')
             .each(function () {
-                $(this).prop('disabled', false)
+                $(this)
+                    .attr('data-val-required', translations.ThisFieldIsRequired)
+                    .prop('disabled', false)
                     .rules('add', {
                         required: true,
                         messages: {
@@ -128,6 +130,7 @@
             .find('input')
             .each(function () {
                 $(this)
+                    .removeAttr('data-val-required')
                     .prop('disabled', true)
                     .rules('remove', 'required');
             });
