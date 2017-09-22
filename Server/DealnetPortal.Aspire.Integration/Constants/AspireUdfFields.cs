@@ -47,7 +47,8 @@
         public static string RequestedTerm = "Requested Term";
 
         public static string DealerSalesRep = "Dealer Sales Rep";
-        public static string LeadSource = "LeadSource";        
+        public static string LeadSource = "LeadSource";
+        public static string CustomerLeadSource = "Lead Source";
 
         public static string PaymentType = "Payment Type";
         public static string EnbridgeGasAccountNumber = "Enbridge Gas Account Number";

@@ -1422,6 +1422,15 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = owner.HomePhone
                     });
                 }
+                var leadSource = _configuration.GetSetting(WebConfigKeys.ONBOARDING_LEAD_SOURCE_KEY);
+                if (!string.IsNullOrEmpty(leadSource))
+                {
+                    UDFs.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.CustomerLeadSource,
+                        Value = leadSource
+                    });
+                }
                 if (UDFs.Any())
                 {
                     account.UDFs = UDFs;
@@ -1820,7 +1829,7 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 udfList.Add(new UDF()
                 {
-                    Name = AspireUdfFields.LeadSource,
+                    Name = AspireUdfFields.CustomerLeadSource,
                     Value = portalDescriber
                 });
             }
@@ -2290,15 +2299,15 @@ namespace DealnetPortal.Api.Integration.Services
                 });
             }
 
-            var leadSource = _configuration.GetSetting(WebConfigKeys.ONBOARDING_LEAD_SOURCE_KEY);
-            if (!string.IsNullOrEmpty(leadSource))
-            {
-                udfList.Add(new UDF()
-                {
-                    Name = AspireUdfFields.LeadSource,
-                    Value = leadSource
-                });
-            }
+            //var leadSource = _configuration.GetSetting(WebConfigKeys.ONBOARDING_LEAD_SOURCE_KEY);
+            //if (!string.IsNullOrEmpty(leadSource))
+            //{
+            //    udfList.Add(new UDF()
+            //    {
+            //        Name = AspireUdfFields.LeadSource,
+            //        Value = leadSource
+            //    });
+            //}
 
             return udfList;
         }
