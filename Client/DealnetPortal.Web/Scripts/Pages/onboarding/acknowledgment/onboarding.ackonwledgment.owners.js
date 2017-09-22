@@ -38,6 +38,10 @@
             spans.each(function () {
                 this.id = this.id.replace(fullCurrentId, fullPreviousId);
             });
+
+            var owner = state['aknowledgment']['owners']['owner' + nextId];
+            state['aknowledgment']['owners']['owner' + (nextId - 1)] = owner;
+            delete state['aknowledgment']['owners']['owner' + nextId];
         }
         resetFormValidation('#onboard-form');
     }
@@ -68,7 +72,7 @@
         $('#' + ownerNumber + '-aknowledgment-holder').off();
         $('#' + ownerNumber + '-aknowledgment-holder').remove();
         recalculateOwnerIndex(ownerNumber);
-    }    
+    }
 
     return {
         add: addToAknowdlegment,

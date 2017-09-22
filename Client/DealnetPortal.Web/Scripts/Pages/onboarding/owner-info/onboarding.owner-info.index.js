@@ -6,6 +6,7 @@
     var aknwoledgmentOwner = require('onboarding.ackonwledgment.owners');
     var assignDatepicker = require('onboarding.owner-info.conversion').assignDatepicker;
     var setLengthLimitedField = require('onboarding.setters').setLengthLimitedField;
+    var enableSubmit = require('onboarding.setters').setLengthLimitedField;
     var ownersMoveToNextSection = require('onboarding.owner-info.setters').moveToNextSection;
 
     function _setInputHandlers (ownerNumber) {
