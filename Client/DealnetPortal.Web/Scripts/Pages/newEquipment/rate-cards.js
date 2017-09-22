@@ -12,7 +12,7 @@
     var constants = require('state').constants;
     var state = require('state').state;
     var rateCardBlock = require('rate-cards-ui');
-
+    var totalRentalPrice = require('financial-functions').totalRentalPrice;
     var notNaN = function (num) { return !isNaN(num); };
 
     var idToValue = function (obj) {
@@ -225,7 +225,7 @@
         if (notNan && data.equipmentSum !== 0) {
             $('#total-monthly-payment').val(formatNumber(eSum));
             $('#rentalTax').text(formatNumber(tax(data)));
-            $('#rentalTMPayment').text(formatNumber(totalPrice(data)));
+            $('#rentalTMPayment').text(formatNumber(totalRentalPrice(data)));
         } else {
             $('#total-monthly-payment').val('');
             $('#rentalTax').text('-');
@@ -242,7 +242,7 @@
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
         if (notNan && data.equipmentSum !== 0) {
             $('#rentalTax').text(formatNumber(tax(data)));
-            $('#rentalTMPayment').text(formatNumber(totalPrice(data)));
+            $('#rentalTMPayment').text(formatNumber(totalRentalPrice(data)));
         } else {
             $('#rentalTax').text('-');
             $('#rentalTMPayment').text('-');
