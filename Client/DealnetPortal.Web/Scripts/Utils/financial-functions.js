@@ -3,11 +3,8 @@
         var tax = function(data) {
             return data.equipmentSum * data.tax / 100;
         };
-        var totalRentalPrice = function(data) {
-            var t = tax(data);
-            var equipmentSum = data.equipmentSum;
 
-		var totalRentalPrice = function (data) {
+        var totalRentalPrice = function (data) {
 			var t = tax(data);
 			var equipmentSum = data.equipmentSum;
 
