@@ -244,6 +244,7 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<CompanyInfoViewModel, CompanyInfoDTO>();
 
             cfg.CreateMap<OwnerViewModel, OwnerInfoDTO>()
+                .ForMember(x => x.Id, d => d.ResolveUsing(src => src.OwnerId ?? 0))
                 .ForMember(x => x.DateOfBirth, d => d.MapFrom(src => src.BirthDate))
                 .ForMember(x => x.MobilePhone, d => d.MapFrom(src => src.CellPhone));
             cfg.CreateMap<AdditionalDocumentViewModel, AdditionalDocumentDTO>()
@@ -565,6 +566,7 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<CompanyInfoDTO, CompanyInfoViewModel>();
 
             cfg.CreateMap<OwnerInfoDTO, OwnerViewModel>()
+                .ForMember(x => x.OwnerId, d => d.MapFrom(src => src.Id))
                 .ForMember(x => x.CellPhone, d => d.MapFrom(src => src.MobilePhone))
                 .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth));
             cfg.CreateMap<AdditionalDocumentDTO, AdditionalDocumentViewModel>()
