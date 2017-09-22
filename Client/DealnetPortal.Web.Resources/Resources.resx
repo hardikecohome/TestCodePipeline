@@ -1673,4 +1673,7 @@
   <data name="VerificationId" xml:space="preserve">
     <value>Customer's Verfication Id</value>
   </data>
+  <data name="Library" xml:space="preserve">
+    <value>Library</value>
+  </data>
 </root>
