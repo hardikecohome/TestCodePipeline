@@ -705,7 +705,7 @@ namespace DealnetPortal.Api.Integration.Services
                         request.Payload = new DocumentUploadPayload()
                         {
                             TransactionId = string.IsNullOrEmpty(dealerInfo.TransactionId) ? null : dealerInfo.TransactionId,
-                            Status = statusToSend ?? _configuration.GetSetting(WebConfigKeys.DOCUMENT_UPLOAD_STATUS_CONFIG_KEY)
+                            Status = statusToSend ?? _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY)
                         };
 
                         var uploadName = Regex.Replace(Path.GetFileNameWithoutExtension(document.DocumentName).Replace('[', '_').Replace(']', '_'),

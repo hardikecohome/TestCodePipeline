@@ -14,6 +14,7 @@ using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Dealer;
+using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
 using Microsoft.Practices.ObjectBuilder2;
 
@@ -28,10 +29,11 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ILoggingService _loggingService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMailService _mailService;
-
+        private readonly IAppConfiguration _configuration;
 
         public DealerService(IDealerRepository dealerRepository, IDealerOnboardingRepository dealerOnboardingRepository, 
-            IAspireService aspireService, ILoggingService loggingService, IUnitOfWork unitOfWork, IContractRepository contractRepository, IMailService mailService)
+            IAspireService aspireService, ILoggingService loggingService, IUnitOfWork unitOfWork, IContractRepository contractRepository, IMailService mailService,
+            IAppConfiguration configuration)
         {
             _dealerRepository = dealerRepository;
             _dealerOnboardingRepository = dealerOnboardingRepository;
@@ -40,6 +42,7 @@ namespace DealnetPortal.Api.Integration.Services
             _unitOfWork = unitOfWork;
             _contractRepository = contractRepository;
             _mailService = mailService;
+            _configuration = configuration;
         }
 
         public DealerProfileDTO GetDealerProfile(string dealerId)
@@ -167,7 +170,7 @@ namespace DealnetPortal.Api.Integration.Services
                     await _mailService.SendProblemsWithSubmittingOnboarding(errorMsg, updatedInfo.Id, mappedInfo.AccessKey);
                 }
                 //upload required documents
-                UploadOnboardingDocuments(updatedInfo.Id, reSubmit ? updatedInfo.Status : null);
+                UploadOnboardingDocuments(updatedInfo.Id, reSubmit ? updatedInfo.Status : _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY));
             }
             catch (Exception ex)
             {

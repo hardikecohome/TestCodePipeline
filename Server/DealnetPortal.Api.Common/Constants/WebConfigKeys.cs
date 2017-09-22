@@ -50,6 +50,7 @@
         //All Documents Uploaded status
         public static readonly string ALL_DOCUMENTS_UPLOAD_STATUS_CONFIG_KEY = "AllDocumentsUploadedStatus";
         public static readonly string CREDIT_REVIEW_STATUS_CONFIG_KEY = "CreditReviewStatus";
+        public static readonly string ONBOARDING_INIT_STATUS_KEY = "OnboardingInitStatus";
 
         //Describing portal constants
         //Ecohome
