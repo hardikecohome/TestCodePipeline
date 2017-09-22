@@ -2,7 +2,6 @@
 @using DealnetPortal.Web.Infrastructure
 @using DealnetPortal.Web.Models.Enumeration
 @using System.Security.Claims;
-@using System.Configuration;
 
 <!DOCTYPE html>
 <html lang="@(CultureHelper.CurrentCultureType == CultureType.English ? "en-CA" : "fr-CA")">
@@ -271,24 +270,7 @@
             <div class="@(User.Identity.IsAuthenticated ? "col-md-9 col-lg-10 col-md-offset-3 col-lg-offset-2 dealnet-body-container" : "col-md-12 col-lg-12")">				
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 dealnet-body">
-						@if (ConfigurationManager.AppSettings["SwitchPopUpOnOff"] == "true")
-						{
-						<div class="row" id="alertLine">
-															
-								<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-									<div class="pull-right" id="alertCloseButton">
-										<button type="button" class="btn btn-small btn-warning btn-circle"
-												style="width: 20px; height: 20px; text-align: center; padding: 1px 0; font-size: 12px; line-height: 1.428571429; border-radius: 10px;"
-												onclick="$('#alertLine').hide(); sessionStorage['Alert'] = 'closed';">
-											<i class="glyphicon glyphicon-remove"></i>
-										</button>
-									</div>
-									<p><strong style="color:red;">@ConfigurationManager.AppSettings["PopUpHeader"]</strong> <br />@ConfigurationManager.AppSettings["PopUpMessage"]</p>
-								</div>								
-							
-						</div>
-						}
-                        @RenderBody()
+						@RenderBody()
                     </div>
                 </div>
             </div>
