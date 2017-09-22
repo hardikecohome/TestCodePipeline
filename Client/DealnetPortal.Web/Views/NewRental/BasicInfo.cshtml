@@ -648,8 +648,7 @@
 							<div class="form-group">
 								@Html.LabelFor(m => m.AdditionalApplicants[i].VerificationIdName, new { @for = "additional-verification-id"+(i+1) })
 								<div class="control-group">
-									@Html.DropDownListFor(m => m.AdditionalApplicants[i].VerificationIdName, (Model.VarificationIds).Select(x => new SelectListItem { Value = x.VerificationIdName, Text = x.VerificationIdName }), "",
-								new { @class = "form-control dealnet-input", id = "additional-verification-id" + (i + 1), Required = "required" })
+									@Html.DropDownListFor(m => m.AdditionalApplicants[i].VerificationIdName, (Model.VarificationIds).Select(x => new SelectListItem { Value = x.VerificationIdName, Text = x.VerificationIdName,  Selected = Model.AdditionalApplicants?[i]?.VerificationIdName == x.VerificationIdName }), "",	new { @class = "form-control dealnet-input", id = "additional-verification-id" + (i + 1), Required = "required" })
 									@Html.ValidationMessageFor(m => m.AdditionalApplicants[i].VerificationIdName, "", new { @class = "text-danger" })
 								</div>
 							</div>
