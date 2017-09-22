@@ -14,5 +14,6 @@ namespace DealnetPortal.Domain
 
         public string LegalName { get; set; }
         public string FinanceProgram { get; set; }
+        public string LeadSource { get; set; }
     }
 }

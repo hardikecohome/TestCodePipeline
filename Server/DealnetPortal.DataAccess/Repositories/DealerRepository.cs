@@ -30,7 +30,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public string GetUserIdByOnboardingLink(string link)
         {
-            return _dbContext.Users.FirstOrDefault(u => u.OnboardingLink == link)?.Id;
+            return !string.IsNullOrEmpty(link) ? _dbContext.Users.FirstOrDefault(u => u.OnboardingLink == link)?.Id : null;
         }
 
         public IList<string> GetUserRoles(string dealerId)

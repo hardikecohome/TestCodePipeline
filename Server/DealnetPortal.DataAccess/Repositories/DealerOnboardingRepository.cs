@@ -205,6 +205,10 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 dbDealerInfo.MarketingConsent = updateDealerInfo.MarketingConsent;
             }
+            if (!string.IsNullOrEmpty(updateDealerInfo.ParentSalesRepId) && dbDealerInfo.ParentSalesRepId != updateDealerInfo.ParentSalesRepId)
+            {
+                dbDealerInfo.ParentSalesRepId = updateDealerInfo.ParentSalesRepId;
+            }
         }    
 
         private void UpdateDealerCompanyInfo(DealerInfo dbDealerInfo, DealerInfo updateDealerInfo)

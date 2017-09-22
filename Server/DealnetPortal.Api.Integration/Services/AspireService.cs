@@ -2290,6 +2290,16 @@ namespace DealnetPortal.Api.Integration.Services
                 });
             }
 
+            var leadSource = _configuration.GetSetting(WebConfigKeys.ONBOARDING_LEAD_SOURCE_KEY);
+            if (!string.IsNullOrEmpty(leadSource))
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.LeadSource,
+                    Value = leadSource
+                });
+            }
+
             return udfList;
         }
 
