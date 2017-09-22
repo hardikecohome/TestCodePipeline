@@ -19,7 +19,7 @@ namespace DealnetPortal.Web.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -2239,7 +2239,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while uploading file. (Maximum file size allowed is 20MB).
+        ///   Looks up a localized string similar to An error occurred while uploading file. (Maximum file size 20 MB).
         /// </summary>
         public static string ErrorWhileUploadingFile {
             get {
@@ -2959,6 +2959,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Library.
+        /// </summary>
+        public static string Library {
+            get {
+                return ResourceManager.GetString("Library", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Link.
         /// </summary>
         public static string Link {
@@ -2968,7 +2977,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lived at current address less than 6 month.
+        ///   Looks up a localized string similar to Lived at current address less than 2 years.
         /// </summary>
         public static string LivedAtCurrentLessThan {
             get {
@@ -5479,6 +5488,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Customer&apos;s Verfication Id.
+        /// </summary>
+        public static string VerificationId {
+            get {
+                return ResourceManager.GetString("VerificationId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Want us to email you this link? Enter your email below and click “Send me link”..
         /// </summary>
         public static string WantToSendLink {
@@ -5502,15 +5520,6 @@ namespace DealnetPortal.Web.Resources {
         public static string WebsiteMustBeLong {
             get {
                 return ResourceManager.GetString("WebsiteMustBeLong", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Customer&apos;s Verfication Id.
-        /// </summary>
-        public static string VerificationId {
-            get {
-                return ResourceManager.GetString("VerificationId", resourceCulture);
             }
         }
         

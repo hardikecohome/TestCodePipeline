@@ -2042,4 +2042,7 @@
   <data name="EmailExists" xml:space="preserve">
     <value>The email address you have entered is already registered</value>
   </data>
+  <data name="Library" xml:space="preserve">
+    <value>Library</value>
+  </data>
 </root>
