@@ -11,8 +11,8 @@
     var tax = require('financial-functions').tax;
     var constants = require('state').constants;
     var state = require('state').state;
-    var rateCardBlock = require('rate-cards-ui');
-    var totalRentalPrice = require('financial-functions').totalRentalPrice;
+	var rateCardBlock = require('rate-cards-ui');
+	var totalRentalPrice = require('financial-functions').totalRentalPrice;
     var notNaN = function (num) { return !isNaN(num); };
 
     var idToValue = function (obj) {
