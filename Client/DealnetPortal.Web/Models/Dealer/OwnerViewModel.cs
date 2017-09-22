@@ -7,6 +7,7 @@ namespace DealnetPortal.Web.Models.Dealer
 {
     public class OwnerViewModel
     {
+        public int? OwnerId { get; set; }
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "FirstName")]
         [StringLength(20, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
