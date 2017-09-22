@@ -19,7 +19,7 @@ module.exports('onboarding.product.equipment', function (require) {
                 $(document).trigger('equipmentAdded');
             }
         }
-        $(this).val('');
+        e.target.value = '';
         $('#equipment-error').addClass('hidden');
     }
 

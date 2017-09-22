@@ -8,6 +8,7 @@
         <h3 class="panel-title dealnet-middle-header">Required documents</h3>
         <span class="arrow"><i class="glyphicon"></i></span>
         <span class="passed-step-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+        <input type="hidden" id="SupportedFileExtensions" value="@System.Configuration.ConfigurationManager.AppSettings["SupportedFileExtensions"]"/>
     </div>
     <div class="panel-body">
         <div class="onboard-required-documents">

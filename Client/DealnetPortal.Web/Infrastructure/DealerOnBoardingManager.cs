@@ -47,9 +47,21 @@ namespace DealnetPortal.Web.Infrastructure
             DealerInfoDTO onboardingForm;
             DealerOnboardingViewModel model;
             onboardingForm = await _dealerServiceAgent.GetDealerOnboardingForm(accessKey);
-            model = AutoMapper.Mapper.Map<DealerOnboardingViewModel>(onboardingForm);
+            model = AutoMapper.Mapper.Map<DealerOnboardingViewModel>(onboardingForm);            
             if (model != null)
             {
+                if (model.ProductInfo == null)
+                {
+                    model.ProductInfo = new ProductInfoViewModel();
+                }
+                if (model.CompanyInfo == null)
+                {
+                    model.CompanyInfo = new CompanyInfoViewModel();
+                }
+                if (model.Owners?.Any() == false)
+                {
+                    model.Owners = new List<OwnerViewModel>() { new OwnerViewModel() { Address = new AddressInformation() } };
+                }
                 model.DictionariesData = new DealerOnboardingDictionariesViewModel
                 {
                     ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1,

@@ -41,9 +41,9 @@
             var $this = $(this);
             var data = Object.assign({}, $('#' + this.id).data());
             $this.attr('id', $this.attr('id').replace('owner0', 'owner' + nextOwnerIndex));
-            Object.keys(data).forEach(function (key) {
+            Object.keys(data).forEach(function(key) {
                 $this.attr('data-' + key.toDash(), data[key]);
-            })
+            });
         });
 
         $result.find('#owner-remove').attr('id', 'owner' + nextOwnerIndex + '-remove');
@@ -71,6 +71,12 @@
                 });
                 return false;
             });
+
+        $('#owner' + nextOwnerIndex + '-container').find('span.text-danger').each(function() {
+            if ($(this).has('span')) {
+                $(this).children().text('');
+            }
+        });
 
         state['owner-info']['nextOwnerIndex']++;
         resetForm('#onboard-form');

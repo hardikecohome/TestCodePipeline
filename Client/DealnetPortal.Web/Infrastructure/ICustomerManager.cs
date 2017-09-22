@@ -12,5 +12,6 @@ namespace DealnetPortal.Web.Infrastructure
         Task<NewCustomerViewModel> GetTemplateAsync();
         Task<Tuple<ContractDTO, IList<Alert>>> AddAsync(NewCustomerViewModel customer);
         Task<IList<ClientsInformationViewModel>> GetCreatedContractsAsync();
+        Task<bool> CheckCustomerExistingAsync(string email);
     }
 }

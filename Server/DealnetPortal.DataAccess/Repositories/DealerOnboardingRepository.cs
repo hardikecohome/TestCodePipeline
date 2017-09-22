@@ -18,7 +18,8 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public DealerInfo GetDealerInfoById(int id)
         {
-            return _dbContext.DealerInfos.Find(id);
+            return _dbContext.DealerInfos.
+                Find(id);
         }
 
         public DealerInfo GetDealerInfoByAccessKey(string accessKey)
@@ -48,6 +49,8 @@ namespace DealnetPortal.DataAccess.Repositories
                 //dealerInfo.ProductInfo?.Services?.ForEach(s => 
                 //    s.Equipment = _dbContext.EquipmentTypes.Find(s.EquipmentId));
                 dealerInfo.AccessKey = GenerateDealerAccessCode();
+                dealerInfo.AdditionalDocuments?.ForEach(d => d.License = _dbContext.LicenseTypes.Find(d.LicenseTypeId));
+                dealerInfo.ProductInfo?.Services?.ForEach(s => s.Equipment = _dbContext.EquipmentTypes.Find(s.EquipmentId));
                 dbDealer = _dbContext.DealerInfos.Add(dealerInfo);
             }
             else
@@ -177,6 +180,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     }
                     else
                     {
+                        doc.License = _dbContext.LicenseTypes.Find(doc.LicenseTypeId);
                         newEntities.Add(doc);
                         dbDealerInfo.AdditionalDocuments.Add(doc);
                     }
@@ -200,6 +204,10 @@ namespace DealnetPortal.DataAccess.Repositories
             if (dbDealerInfo.MarketingConsent != updateDealerInfo.MarketingConsent)
             {
                 dbDealerInfo.MarketingConsent = updateDealerInfo.MarketingConsent;
+            }
+            if (!string.IsNullOrEmpty(updateDealerInfo.ParentSalesRepId) && dbDealerInfo.ParentSalesRepId != updateDealerInfo.ParentSalesRepId)
+            {
+                dbDealerInfo.ParentSalesRepId = updateDealerInfo.ParentSalesRepId;
             }
         }    
 
@@ -302,6 +310,7 @@ namespace DealnetPortal.DataAccess.Repositories
             if (dbDealerInfo.ProductInfo == null && updateDealerInfo.ProductInfo != null)
             {
                 dbDealerInfo.ProductInfo = updateDealerInfo.ProductInfo;
+                dbDealerInfo.ProductInfo?.Services?.ForEach(s => s.Equipment = _dbContext.EquipmentTypes.Find(s.EquipmentId));
             }
             else
             if (dbDealerInfo.ProductInfo != null && updateDealerInfo.ProductInfo == null)
@@ -427,7 +436,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     if (p.EquipmentId != 0)
                     {
-                        p.Equipment = null;
+                        p.Equipment = _dbContext.EquipmentTypes.Find(p.EquipmentId);
                     }
                     else if (!string.IsNullOrEmpty(p.Equipment?.Type))
                     {

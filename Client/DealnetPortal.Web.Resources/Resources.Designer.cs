@@ -19,7 +19,7 @@ namespace DealnetPortal.Web.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -2085,6 +2085,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The email address you have entered is already registered.
+        /// </summary>
+        public static string EmailExists {
+            get {
+                return ResourceManager.GetString("EmailExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ENBRIDGE.
         /// </summary>
         public static string EnbridgeCapital {
@@ -2229,7 +2238,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while uploading file. (Maximum file size 20 MB).
+        ///   Looks up a localized string similar to An error occurred while uploading file. (Maximum file size allowed is 20MB).
         /// </summary>
         public static string ErrorWhileUploadingFile {
             get {
@@ -3138,7 +3147,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Maximum file size is limited to 50 MB for a single file..
+        ///   Looks up a localized string similar to Maximum file size is limited to 20 MB for a single file..
         /// </summary>
         public static string MaximumFileSize {
             get {
@@ -3233,6 +3242,15 @@ namespace DealnetPortal.Web.Resources {
         public static string MonthlyCostIncorrectFormat {
             get {
                 return ResourceManager.GetString("MonthlyCostIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly deals to be deferred should be between 0 and 100.
+        /// </summary>
+        public static string MonthlyDefferedPercentRange {
+            get {
+                return ResourceManager.GetString("MonthlyDefferedPercentRange", resourceCulture);
             }
         }
         
@@ -5708,6 +5726,15 @@ namespace DealnetPortal.Web.Resources {
         public static string YourCost {
             get {
                 return ResourceManager.GetString("YourCost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your file type is not supported.
+        /// </summary>
+        public static string YourFileTypeIsNotSupported {
+            get {
+                return ResourceManager.GetString("YourFileTypeIsNotSupported", resourceCulture);
             }
         }
         

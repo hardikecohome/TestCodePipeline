@@ -984,7 +984,7 @@ namespace DealnetPortal.Api.Integration.Services
                 if (dealerInfo.SentToAspire && !string.IsNullOrEmpty(dealerInfo.TransactionId))
                 {
                     statusToRestore = _aspireStorageReader.GetDealStatus(dealerInfo.TransactionId);
-                }
+                }             
 
                 CustomerRequest request = new CustomerRequest();
 
@@ -2238,10 +2238,13 @@ namespace DealnetPortal.Api.Integration.Services
             }
             if (dealerInfo.ProductInfo?.Services?.Any() == true)
             {
+                //sometimes equipment doesn't come with ProductInfo entity
+                //var equipments = _contractRepository.GetEquipmentTypes();
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.ProductsForFinancingProgram,
                     Value = string.Join(", ", dealerInfo.ProductInfo.Services.Select(s => s.Equipment?.Type))
+                    //?? equipments.FirstOrDefault(eq => eq.Id == s.EquipmentId)?.Type
                 });
             }
             if (!string.IsNullOrEmpty(dealerInfo.ProductInfo?.OemName))
@@ -2300,6 +2303,16 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     Name = AspireUdfFields.SubmissionUrl,
                     Value = draftLink
+                });
+            }
+
+            var leadSource = _configuration.GetSetting(WebConfigKeys.ONBOARDING_LEAD_SOURCE_KEY);
+            if (!string.IsNullOrEmpty(leadSource))
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.LeadSource,
+                    Value = leadSource
                 });
             }
 

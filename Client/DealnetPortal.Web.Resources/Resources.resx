@@ -304,7 +304,7 @@
     <value>Mailing Address</value>
   </data>
   <data name="MaximumFileSize" xml:space="preserve">
-    <value>Maximum file size is limited to 50 MB for a single file.</value>
+    <value>Maximum file size is limited to 20 MB for a single file.</value>
   </data>
   <data name="Month" xml:space="preserve">
     <value>Month</value>
@@ -2032,5 +2032,14 @@
   </data>
   <data name="VerificationId" xml:space="preserve">
     <value>Customer's Verfication Id</value>
+  </data>
+  <data name="MonthlyDefferedPercentRange" xml:space="preserve">
+    <value>Monthly deals to be deferred should be between 0 and 100</value>
+  </data>
+  <data name="YourFileTypeIsNotSupported" xml:space="preserve">
+    <value>Your file type is not supported</value>
+  </data>
+  <data name="EmailExists" xml:space="preserve">
+    <value>The email address you have entered is already registered</value>
   </data>
 </root>

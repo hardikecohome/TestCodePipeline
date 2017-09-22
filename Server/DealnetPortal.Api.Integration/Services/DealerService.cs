@@ -159,7 +159,7 @@ namespace DealnetPortal.Api.Integration.Services
                                               _dealerRepository.GetUserIdByOnboardingLink(dealerInfo.SalesRepLink);
                 var updatedInfo = _dealerOnboardingRepository.AddOrUpdateDealerInfo(mappedInfo);
                 _unitOfWork.Save();
-                //submit form to Aspire                     
+                //submit form to Aspire                                             
                 var reSubmit = updatedInfo.SentToAspire;
                 var submitResult = await _aspireService.SubmitDealerOnboarding(updatedInfo.Id);
                 if (submitResult?.Any() ?? false)
@@ -237,21 +237,21 @@ namespace DealnetPortal.Api.Integration.Services
                     ItemId = updatedDoc.Id
                 };
                 //if form was submitted before, we can upload document to Aspire
-                if (updatedDoc.DealerInfo?.SentToAspire == true &&
-                    !string.IsNullOrEmpty(updatedDoc.DealerInfo?.TransactionId))
-                {
-                    var status = await _aspireService.GetDealStatus(updatedDoc.DealerInfo.TransactionId);
-                    var uAlerts = await _aspireService.UploadOnboardingDocument(updatedDoc.DealerInfo.Id, updatedDoc.Id, !string.IsNullOrEmpty(status) ? status : null);
-                    if (uAlerts?.Any() == true)
-                    {
-                        alerts.AddRange(uAlerts);
-                    }
-                    if (!string.IsNullOrEmpty(status) && updatedDoc.DealerInfo.Status != status)
-                    {
-                        updatedDoc.DealerInfo.Status = status;
-                        _unitOfWork.Save();
-                    }
-                }
+                //if (updatedDoc.DealerInfo?.SentToAspire == true &&
+                //    !string.IsNullOrEmpty(updatedDoc.DealerInfo?.TransactionId))
+                //{
+                //    var status = await _aspireService.GetDealStatus(updatedDoc.DealerInfo.TransactionId);
+                //    var uAlerts = await _aspireService.UploadOnboardingDocument(updatedDoc.DealerInfo.Id, updatedDoc.Id, !string.IsNullOrEmpty(status) ? status : null);
+                //    if (uAlerts?.Any() == true)
+                //    {
+                //        alerts.AddRange(uAlerts);
+                //    }
+                //    if (!string.IsNullOrEmpty(status) && updatedDoc.DealerInfo.Status != status)
+                //    {
+                //        updatedDoc.DealerInfo.Status = status;
+                //        _unitOfWork.Save();
+                //    }
+                //}
             }
             catch (Exception ex)
             {

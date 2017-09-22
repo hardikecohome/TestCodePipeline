@@ -841,6 +841,9 @@
   <data name="UnhappyCurrentFinancing" xml:space="preserve">
     <value>Unhappy with current solution</value>
   </data>
+  <data name="ProofOfInsurance" xml:space="preserve">
+    <value>Proof of Insurance</value>
+  </data>
   <data name="Pool" xml:space="preserve">
     <value>Pool</value>
   </data>

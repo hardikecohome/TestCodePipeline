@@ -9,15 +9,17 @@
         var files = e.target.files;
 
         _uploadFile('voidChequeUploaded', 'cheque-upload-title', 'cheque-container', 'void-cheque-files', files[0]);
+
+        e.target.value = '';
     }
 
     var setInsurenceFile = function (e) {
         var files = e.target.files;
 
         _uploadFile('insurenceUploaded', 'insurence-upload-title', 'insurence-container', 'insurence-files', files[0]);
+
+        e.target.value = '';
     }
-
-
 
     var setLicenseRegistraionNumber = function (id) {
         return function (e) {
@@ -62,11 +64,7 @@
                     input.parents('.form-group')
                         .addClass('group-disabled');
                     input.prop('disabled', true);
-                    if (isIos) {
-                        input.siblings('.div-datepicker').datepicker('disable');
-                    } else {
-                        input.datepicker('disable');
-                    }
+                    isIos && _removeDatepicker(id)
                 }
             } else {
                 if (input.is(":disabled")) {
@@ -74,11 +72,7 @@
                     input.parents('.form-group')
                         .removeClass('group-disabled');
                     input.prop('disabled', false);
-                    if (isIos) {
-                        input.siblings('.div-datepicker').datepicker('enable');
-                    } else {
-                        input.datepicker('enable');
-                    }
+                    isIos && _initDatepicker(id);
                 }
             }
             moveTonextSection();
@@ -100,15 +94,18 @@
             var result = $('#licenseDocumentTemplate')
                 .tmpl({ 'name': license.License.Name, 'id': license.License.Id });
 
-            addIconsToFields(result.find('input, textarea'));
+            var inputs = result.find('input, textarea')
+            addIconsToFields(inputs);
+            toggleClearInputIcon(inputs);
 
             result.appendTo('#licenseHolder');
 
             _rebuildIndex();
 
             $('#' + license.License.Id + '-license-number').on('change', setLicenseRegistraionNumber(license.License.Id));
+
             result.find('.date-group').each(function () {
-                $('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length === 0 ? $('<div/>', {
+                $('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length=== 0 ? $('<div/>', {
                     class: 'div-datepicker-value',
                     text: $(this).find('.form-control').val()
                 }).appendTo(this) : '';
@@ -124,23 +121,8 @@
                     addCloseButtonForInlineDatePicker();
                 }
             });
-            var date = $('#' + license.License.Id + '-license-date');
 
-            var input = $('body').is('.ios-device') ? date.siblings('.div-datepicker') : date;
-
-            inputDateFocus(input);
-
-            input.datepicker({
-                yearRange: '1900:2200',
-                minDate: new Date(),
-                disabled: $('#' + license.License.Id + '-license-checkbox').attr('checked'),
-                onSelect: function (day) {
-                    $(this).siblings('input.form-control').val(day);
-                    setLicenseExpirationDate(license.License.Id, day);
-                    $(".div-datepicker").removeClass('opened');
-                }
-            });
-            input.datepicker('setDate', date.val());
+            _initDatepicker(license.License.Id);
 
             if (state[stateSection]['addedLicense'].length > 0) {
                 if ($('#licenseHolder').is(':hidden')) {
@@ -207,7 +189,12 @@
         var extension = file.name.replace(/^.*\./, '').toLowerCase();
 
         if (extension === '' || constants.validFileExtensions.map(function (ext) { return ext.toLowerCase(); }).indexOf(extension) === -1) {
-            alert('Your file type is not supported');
+            alert(translations['YourFileTypeIsNotSupported']);
+            return;
+        }
+
+        if (file.size > constants.maxFileUploadSize) {
+            alert(translations['ErrorWhileUploadingFile']);
             return;
         }
 
@@ -330,14 +317,11 @@
                 });
 
                 container.find('span').each(function () {
-                    var curr = $(this).attr('name');
+                    var curr = $(this).attr('data-valmsg-for');
                     if (curr == null) { return; }
-                    var toReplace = 'AdditionalDocuments[' + index + ']' + $(this).attr('name').substring($(this).attr('name').lastIndexOf(']') + 1);
+                    var toReplace = 'AdditionalDocuments[' + index + ']' + curr.substring(curr.lastIndexOf(']') + 1);
 
-                    var valFor = $(this).attr('data-valmsg-for');
-                    if (valFor == null) { return; }
-
-                    $(this).attr('data-valmsg-for', valFor.replace(curr, toReplace));
+                    $(this).attr('data-valmsg-for', toReplace);
                 });
 
                 index++;
@@ -345,6 +329,58 @@
         });
 
 
+    }
+
+    function _initDatepicker (id) {
+        var date = $('#' + id + '-license-date');
+
+        var input = $('body').is('.ios-device') ? date.siblings('.div-datepicker') : date;
+
+        inputDateFocus(input);
+
+        input.datepicker({
+            yearRange: '1900:2200',
+            minDate: new Date(),
+            disabled: $('#' + id + '-license-checkbox').attr('checked'),
+            onSelect: function (day) {
+                $(this).siblings('input.form-control').val(day);
+                setLicenseExpirationDate(id, day);
+                $(".div-datepicker").removeClass('opened');
+            }
+        });
+        input.datepicker('setDate', date.val());
+
+        var value = input.siblings('.div-datepicker-value');
+        value.off('click');
+        value.on('click', function () {
+            $('.div-datepicker').removeClass('opened');
+            input.toggleClass('opened');
+            if (!input.find('.ui-datepicker-close').length) {
+                setTimeout(function () {
+                    $("<button>", {
+                        text: translations['Cancel'],
+                        type: 'button',
+                        class: "ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all",
+                        click: function () {
+                            input.removeClass('opened');
+                        }
+                    }).appendTo(input);
+                }, 10);
+            }
+        });
+    }
+
+    function _removeDatepicker (id) {
+        var date = $('#' + id + '-license-date');
+
+        var input = $('body').is('.ios-device') ? date.siblings('.div-datepicker') : date;
+
+        var value = input.siblings('.div-datepicker-value');
+        value.off('click');
+        value.on('click', function (e) {
+            e.stopPropagation();
+        });
+        input.datepicker('destroy');
     }
 
     var moveTonextSection = function () {

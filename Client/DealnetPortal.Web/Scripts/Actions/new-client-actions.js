@@ -53,6 +53,7 @@
         SET_IMPROVMENT_POSTAL_CODE: 'set_improvment_postal_code',
         SET_IMPROVMENT_MOVE_IN_DATE: 'set_improvment_move_in_date',
         DRIVER_LICENSE_UPLOADED: 'driver_license_uploaded',
-        CHECK_VALIDATION: 'check_validation'
+        CHECK_VALIDATION: 'check_validation',
+        SET_EMAIL_EXISTS: 'set_email_exists'
     };
 });

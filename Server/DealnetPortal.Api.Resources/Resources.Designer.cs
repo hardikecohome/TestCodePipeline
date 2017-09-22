@@ -1726,6 +1726,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Proof of Insurance.
+        /// </summary>
+        public static string ProofOfInsurance {
+            get {
+                return ResourceManager.GetString("ProofOfInsurance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Referrals.
         /// </summary>
         public static string Referrals {
