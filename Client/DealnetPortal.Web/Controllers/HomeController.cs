@@ -1,4 +1,5 @@
 ﻿using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Models.Notify;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Managers;
 using DealnetPortal.Web.Models;
@@ -21,14 +22,15 @@ namespace DealnetPortal.Web.Controllers
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
         private readonly CultureSetterManager _cultureManager;
         private readonly ISettingsManager _settingsManager;
-
+        private readonly IDealerServiceAgent _dealerServiceAgent;
         public HomeController(IContractServiceAgent contractServiceAgent, IDictionaryServiceAgent dictionaryServiceAgent, CultureSetterManager cultureManager, 
-            ISettingsManager settingsManager)
+            ISettingsManager settingsManager, IDealerServiceAgent dealerServiceAgent)
         {
             _contractServiceAgent = contractServiceAgent;
             _dictionaryServiceAgent = dictionaryServiceAgent;
             _cultureManager = cultureManager;
             _settingsManager = settingsManager;
+            _dealerServiceAgent = dealerServiceAgent;
         }
 
         public ActionResult Index()
@@ -146,6 +148,14 @@ namespace DealnetPortal.Web.Controllers
                     }                    
                 });
             return Json(contractsVms, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<string> DealerSupportRequestEmail(SupportRequestDTO dealerSupportRequest)
+        {
+            var result = await _dealerServiceAgent.DealerSupportRequestEmail(dealerSupportRequest);
+            return "ok";
         }
     }
 }

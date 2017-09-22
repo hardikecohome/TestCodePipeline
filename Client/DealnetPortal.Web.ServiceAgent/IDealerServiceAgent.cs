@@ -13,6 +13,7 @@ using DealnetPortal.Api.Models.Storage;
 namespace DealnetPortal.Web.ServiceAgent
 {
     using Api.Models.Contract.EquipmentInformation;
+    using DealnetPortal.Api.Models.Notify;
 
     /// <summary>
     /// Service agent for communicate with server-side service and controller for processing dealer's information
@@ -22,5 +23,6 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<DealerProfileDTO> GetDealerProfile();
         Task<string> UpdateDealerParent();
         Task<IList<Alert>> UpdateDealerProfile(DealerProfileDTO dealerProfile);
+        Task<IList<Alert>> DealerSupportRequestEmail(SupportRequestDTO dealerSupportRequest);
     }
 }

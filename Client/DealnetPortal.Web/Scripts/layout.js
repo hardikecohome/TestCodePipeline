@@ -633,11 +633,11 @@ function sendEmailModel(rowTransactionId) {
 
 function sendEmailToSupport() {
 	var data = {
-		"Id": "0",
+		"Id": 0,
 		"DealerName": $('#emailDealerName').text(),
 		"YourName" : $('#emailSubDealerName').text(),
 		"LoanNumber" : $('#emailTransactionId').text(),
-		"SupportType" : $('#emailSubDealerName').text(),
+		"SupportType" : 1,
 		"HelpRequested" : $('#emailComment').val(),
 		"BestWay": {
 			"byPhone": $('#emailPhone').prop('checked'),
@@ -646,6 +646,23 @@ function sendEmailToSupport() {
 			"AlternativeEmailAddress": $('#emailAlternativeEmailAddress').val()
 		}
 	};
+	alert(SupportUrl);
+	$.ajax({
+		cache: false,
+		method: "POST",
+		url: SupportUrl,
+		data: data,
+		success: function (json) {
+			alert("success");
+		}		
+	});
+	
+	//$.ajax({
+	//	url: "test.html",
+	//	context: document.body
+	//}).done(function () {
+	//	$(this).addClass("done");
+	//});
 
 	alert(JSON.stringify(data));
 }
