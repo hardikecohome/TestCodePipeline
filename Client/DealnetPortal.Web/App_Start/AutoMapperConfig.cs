@@ -11,9 +11,11 @@ using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.Profile;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Web.Models;
+using DealnetPortal.Web.Models.Dealer;
 using DealnetPortal.Web.Models.MyProfile;
 using DealnetPortal.Web.Models.Enumeration;
 using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType;
@@ -228,6 +230,33 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.DownPayment, d => d.MapFrom(s => s.DownPayment ?? 0))
                 .ForMember(x => x.RateCardId, s=>s.MapFrom( d=>d.SelectedRateCardId))
                 .ForMember(x => x.DeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.LoanDeferralType.ConvertTo<DeferralType>() : src.RentalDeferralType.ConvertTo<DeferralType>()));
+
+            cfg.CreateMap<AddressInformation, AddressDTO>()
+                .ForMember(x => x.Unit, d => d.MapFrom(src => src.UnitNumber))
+                .ForMember(x => x.State, d => d.MapFrom(src => src.Province));
+
+            cfg.CreateMap<ProductInfoViewModel, ProductInfoDTO>()
+                .ForMember(x => x.LeadGenLocalAdvertising, d => d.MapFrom(src => src.LeadGenLocalAds))
+                .ForMember(x => x.WithCurrentProvider, d => d.MapFrom(src => src.WithCurrentProvider))
+                .ForMember(x => x.OfferMonthlyDeferrals, d => d.MapFrom(src => src.OfferMonthlyDeferrals))
+                .ForMember(x => x.ServiceTypes, d => d.MapFrom(src => src.EquipmentTypes));
+
+            cfg.CreateMap<CompanyInfoViewModel, CompanyInfoDTO>();
+
+            cfg.CreateMap<OwnerViewModel, OwnerInfoDTO>()
+                .ForMember(x => x.Id, d => d.ResolveUsing(src => src.OwnerId ?? 0))
+                .ForMember(x => x.DateOfBirth, d => d.MapFrom(src => src.BirthDate))
+                .ForMember(x => x.MobilePhone, d => d.MapFrom(src => src.CellPhone));
+            cfg.CreateMap<AdditionalDocumentViewModel, AdditionalDocumentDTO>()
+                .ForMember(x => x.License, d => d.MapFrom(src => new LicenseTypeDTO {Id =src.LicenseTypeId}));
+            cfg.CreateMap<RequiredDocumentViewModel, RequiredDocumentDTO>();
+            cfg.CreateMap<DealerOnboardingViewModel, DealerInfoDTO>()
+                .ForMember(x => x.SalesRepLink, d => d.MapFrom(src => src.OnBoardingLink))
+                .ForMember(x => x.MarketingConsent, d => d.MapFrom(src => src.AllowCommunicate))
+                .ForMember(x => x.CreditCheckConsent, d => d.MapFrom(src => src.AllowCreditCheck))
+                .ForMember(x => x.RequiredDocuments, d => d.MapFrom(src => src.RequiredDocuments))
+                .ForMember(x => x.AdditionalDocuments, d => d.MapFrom(src => src.AdditionalDocuments));
+            
         }
 
         private static void MapModelsToVMs(IMapperConfigurationExpression cfg)
@@ -523,6 +552,36 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.FullUpdate, d => d.Ignore())
                 .ForMember(x => x.IsAllInfoCompleted, d => d.Ignore())
                 .ForMember(x => x.IsApplicantsInfoEditAvailable, d => d.Ignore());
+
+            cfg.CreateMap<AddressDTO, AddressInformation>()
+                .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))
+                .ForMember(x => x.Province, d => d.MapFrom(src => src.State));
+
+            cfg.CreateMap<ProductInfoDTO, ProductInfoViewModel>()
+                .ForMember(x => x.LeadGenLocalAds, d => d.MapFrom(src => src.LeadGenLocalAdvertising ?? false))
+                .ForMember(x => x.WithCurrentProvider, d => d.MapFrom(src => src.WithCurrentProvider ?? false))
+                .ForMember(x => x.OfferMonthlyDeferrals, d => d.MapFrom(src => src.OfferMonthlyDeferrals ?? false))
+                .ForMember(x => x.EquipmentTypes, d => d.MapFrom(src => src.ServiceTypes));
+
+            cfg.CreateMap<CompanyInfoDTO, CompanyInfoViewModel>();
+
+            cfg.CreateMap<OwnerInfoDTO, OwnerViewModel>()
+                .ForMember(x => x.OwnerId, d => d.MapFrom(src => src.Id))
+                .ForMember(x => x.CellPhone, d => d.MapFrom(src => src.MobilePhone))
+                .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth));
+            cfg.CreateMap<AdditionalDocumentDTO, AdditionalDocumentViewModel>()
+                .ForMember(x => x.LicenseTypeId, d => d.MapFrom(src =>  src.License.Id));
+
+            cfg.CreateMap<RequiredDocumentDTO, RequiredDocumentViewModel>()
+                .ForMember(x => x.Name, d => d.MapFrom(src => src.DocumentName));
+
+            cfg.CreateMap<DealerInfoDTO, DealerOnboardingViewModel>()
+                .ForMember(x => x.OnBoardingLink, d =>d.MapFrom(src => src.SalesRepLink))
+                .ForMember(x => x.AllowCommunicate, d => d.MapFrom(src => src.MarketingConsent))
+                .ForMember(x => x.AllowCreditCheck, d => d.MapFrom(src => src.CreditCheckConsent))
+                .ForMember(x => x.RequiredDocuments, d => d.MapFrom(src => src.RequiredDocuments))
+                .ForMember(x => x.AdditionalDocuments, d => d.MapFrom(src => src.AdditionalDocuments));
+            
         }
     }
 }

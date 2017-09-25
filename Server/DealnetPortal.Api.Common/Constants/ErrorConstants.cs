@@ -20,6 +20,8 @@
 
         public const string EquipmentTypesRetrievalFailed = "equipment_types_retrieval_failed";
 
+        public const string LicenseDocumentsRetrievalFailed = "license_documents_retrieval_failed";
+
         public const string ProvinceTaxRateRetrievalFailed = "province_tax_rate_retrieval_failed";
 
         public const string VerificationIdRetrievalFailed = "province_tax_rate_retrieval_failed";

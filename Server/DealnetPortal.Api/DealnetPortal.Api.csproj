@@ -324,6 +324,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Queries\GetDealerInfoByUserId.sql" />
+    <Content Include="Queries\GetDealStatus.sql" />
     <Content Include="Queries\GetSubDealers.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

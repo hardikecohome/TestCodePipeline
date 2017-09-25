@@ -3,26 +3,18 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Hosting;
-using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
-using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
-using DealnetPortal.Utilities;
-using Microsoft.Practices.ObjectBuilder2;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using System.Web.Routing;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Utilities.Logging;
@@ -596,6 +588,32 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 _loggingService.LogError("Cannot send email", ex);
             }
+        }
+
+        public async Task SendProblemsWithSubmittingOnboarding(string errorMsg, int dealerInfoId, string accessKey)
+        {
+            try
+            {
+                await _mandrillService.SendProblemsWithSubmittingOnboarding(errorMsg, dealerInfoId, accessKey);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot send email SendProblemsWithSubmittingOnboarding", ex);
+            }
+
+        }
+
+        public async Task SendDraftLinkMail(string accessKey, string email)
+        {
+            try
+            {
+                await _mandrillService.SendDraftLinkMail(accessKey, email);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot send email SendProblemsWithSubmittingOnboarding", ex);
+            }
+
         }
 
         #endregion

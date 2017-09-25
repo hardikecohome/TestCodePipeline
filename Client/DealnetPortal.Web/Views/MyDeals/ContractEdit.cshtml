@@ -90,20 +90,20 @@
 					                <span class="error-message"></span>
 					            </div>
 
-								if (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "2")
-								{
-								<div>
-									<a href="" onclick="$('#download-certificate-modal').modal(); return false;" class="dealnet-info-link download-certificate-link @if (contractState == ContractState.CreditCheckDeclined) { <text>disabled</text> }">
-										<svg aria-hidden="true" class="icon icon-download"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-upload")"></use></svg>
-										@Resources.DownloadCertificateTemplate
-									</a>
-								</div>
-								<div class="well danger-well collapse" id="certificate-error-message">
-									<svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
-									@Resources.CannotGetCertificateForPrint
-								</div>
-								<hr>
-								}
+                                if (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "2")
+                                {
+                                <div>
+                                    <a href="" onclick="$('#download-certificate-modal').modal(); return false;" class="dealnet-info-link download-certificate-link @if (contractState == ContractState.CreditCheckDeclined) { <text>disabled</text> }">
+                                        <svg aria-hidden="true" class="icon icon-download"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-upload")"></use></svg>
+                                        @Resources.DownloadCertificateTemplate
+                                    </a>
+                                </div>
+                                <div class="well danger-well collapse" id="certificate-error-message">
+                                    <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+                                    @Resources.CannotGetCertificateForPrint
+                                </div>
+                                <hr>
+                                }
 
 					            <div class="documents-list">
 					                <div class="document-item block-item @(document != null ? "" : "collapse")">
@@ -2684,6 +2684,7 @@ foreach (var comment in comments)
 
         var checkUrl = '@Url.Action("CheckContractAgreement", "NewRental", new {contractId = Model.BasicInfo.ContractId })';
         var downloadUrl = '@Url.Action("PrintContract", "NewRental", new { contractId = Model.BasicInfo.ContractId })';
+        var maxFileUploadSize = 20 * 1024 * 1024 ;
     </script>
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/localization")

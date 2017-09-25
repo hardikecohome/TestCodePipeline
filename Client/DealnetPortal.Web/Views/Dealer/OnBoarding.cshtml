@@ -1,0 +1,54 @@
+﻿@model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
+
+@{
+    ViewBag.Title = "On Boarding";
+    Layout = "OnBoardingLayout.cshtml";
+}
+
+<div class="onboard-page">
+    <div class="navbar onboard-navbar navbar-fixed-side">
+        <div class="navbar-header customer-navbar-header">
+            <div class="dealnet-image-ecologo"></div>
+        </div>
+    </div>
+    <div class="onboard-heading">
+        <div class="onboard-headers-container">
+            <h2 class="dealnet-large-header">@Resources.Apply</h2>
+            <h3 class="dealnet-md-header">@Resources.JoinOurNetwork</h3>
+        </div>
+        <div class="onboard-contact-info">
+            <span class="icon-help-hold">
+                <svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg>
+            </span>
+
+            @Resources.Questions <br class="hidden-xs" />
+            @Resources.ConnectWithDealerSupport <br />
+            <a href="tel:+@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]" class="tel" rel="nofollow">@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]</a><br />
+            <a href="mailto: @System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]">@System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]</a>
+        </div>
+    </div>
+
+    @using (Html.BeginForm("OnBoarding", "Dealer", null, FormMethod.Post, new { id = "onboard-form", onkeydown = "return event.keyCode!=13" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.AccessKey)
+        @Html.HiddenFor(m => m.OnBoardingLink)
+        <div class="onboard-steps" id="onboard-accordion">
+            @Html.Partial("OnBoarding/_CompanyInformation", Model)
+            @Html.Partial("OnBoarding/_OwnerInformation", Model)
+            @Html.Partial("OnBoarding/_ProductInformation", Model)
+            @Html.Partial("OnBoarding/_RequiredDocuments", Model)
+            @Html.Partial("OnBoarding/_ClientConsent", Model)
+            @Html.Partial("OnBoarding/_Acknowledgment", Model)
+        </div>
+        <div class="clearfix">
+            <span class="btn-proceed-inline-hold btn-form-common" data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Resources.YouShouldFillAllMandatoryFields">
+                <button type="submit" class="btn dealnet-success-button btn-proceed btn-form-common" id="submit">@Resources.SubmitApplication</button>
+            </span>
+        </div>
+        <!--<div class="clearfix">
+            <button type="submit" class="btn dealnet-success-button btn-proceed btn-form-common" id="submit">@Resources.SubmitApplication</button>
+        </div>-->
+    }
+</div>

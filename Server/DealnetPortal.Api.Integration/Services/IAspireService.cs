@@ -41,6 +41,17 @@ namespace DealnetPortal.Api.Integration.Services
 
         Task<IList<Alert>> UploadDocument(int contractId, ContractDocumentDTO document, string contractOwnerId);
 
+        Task<string> GetDealStatus(string aspireTransactionId);
+
+        Task<IList<Alert>> ChangeDealStatus(string aspireTransactionId, string newStatus, string contractOwnerId, string additionalDataToPass = null);
+
         Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId, string contractOwnerId);
+        /// <summary>
+        /// Submit dealer's onboarding form data
+        /// </summary>
+        /// <returns></returns>
+        Task<IList<Alert>> SubmitDealerOnboarding(int dealerInfoId);
+        Task<IList<Alert>> UploadDocument(string aspireTransactionId, ContractDocumentDTO document, string contractOwnerId);
+        Task<IList<Alert>> UploadOnboardingDocument(int dealerInfoId, int requiredDocId, string statusToSend = null);
     }
 }

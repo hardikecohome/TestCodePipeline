@@ -308,7 +308,7 @@ namespace DealnetPortal.Web.Infrastructure
             var docTypes = await _dictionaryServiceAgent.GetDocumentTypes();
             if (docTypes?.Item1 != null)
             {
-                contractEditViewModel.UploadDocumentsInfo.DocumentTypes = docTypes.Item1.Select(d => new SelectListItem()
+                contractEditViewModel.UploadDocumentsInfo.DocumentTypes = docTypes.Item1.Where(d => d.Id <= (int)DocumentTemplateType.Other).Select(d => new SelectListItem()
                 {
                     Value = d.Id.ToString(),
                     Text = d.Description                                        

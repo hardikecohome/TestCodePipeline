@@ -589,5 +589,22 @@ namespace DealnetPortal.Api.Controllers
                 return InternalServerError(ex);
             }
         }
+
+        [Route("CheckCustomerExisting")]
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> CheckCustomerExistingAsync([FromUri]string email)
+        {
+            try
+            {
+                var result = await ContractService.CheckCustomerExistingAsync(email);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
     }
 }

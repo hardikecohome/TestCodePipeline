@@ -15,6 +15,12 @@ namespace DealnetPortal.Api.Integration.Services
 {
     public partial class ContractService
     {
+        //check if customer exist on MB part
+        public async Task<IList<Alert>> CheckCustomerExistingAsync(string email)
+        {
+            return await _customerWalletService.CheckCustomerExisting(email);
+        }
+
         public async Task<Tuple<ContractDTO, IList<Alert>>> CreateContractForCustomer(string contractOwnerId, NewCustomerDTO newCustomer)
         {
             try

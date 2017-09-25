@@ -42,6 +42,7 @@
         public static readonly string DOCUSIGN_PASSWORD_CONFIG_KEY = "DocuSignPassword";
         public static readonly string DOCUSIGN_INTEGRATORKEY_CONFIG_KEY = "DocuSignIntegratorKey";
         public static readonly string SERVER_BASE_ADDRESS_CONFIG_KEY = "ServerBaseAddress";
+        public static readonly string DEALER_PORTAL_DRAFTURL_KEY = "DealerPortalDraftUrl";
 
         //Aspire statuses
         //Document upload status
@@ -49,12 +50,15 @@
         //All Documents Uploaded status
         public static readonly string ALL_DOCUMENTS_UPLOAD_STATUS_CONFIG_KEY = "AllDocumentsUploadedStatus";
         public static readonly string CREDIT_REVIEW_STATUS_CONFIG_KEY = "CreditReviewStatus";
+        public static readonly string ONBOARDING_INIT_STATUS_KEY = "OnboardingInitStatus";
 
         //Describing portal constants
         //Ecohome
         public static readonly string PORTAL_DESCRIBER_ECOHOME_CONFIG_KEY = "PortalDescriber.df460bb2-f880-42c9-aae5-9e3c76cdcd0f";
         //ODI
         public static readonly string PORTAL_DESCRIBER_ODI_CONFIG_KEY = "PortalDescriber.606cfa8b-0e2c-47ef-b646-66c5f639aebd";
+
+        public static readonly string ONBOARDING_LEAD_SOURCE_KEY = "OnboardingLeadSource";      
 
         public static readonly string INITIAL_DATA_SEED_ENABLED_CONFIG_KEY = "InitialDataSeedEnabled";
         public static readonly string AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY = "AgreementTemplatesFolder";

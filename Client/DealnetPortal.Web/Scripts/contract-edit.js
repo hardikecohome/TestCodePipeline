@@ -41,7 +41,7 @@
 
         var validateFileSize = function(errorAction) {
             try {
-                if (this.files[0].size / 1024 / 1024 > 50) {
+                if (this.files[0].size > maxFileUploadSize) {
                     errorAction(translations['MaximumFileSize']);
                     $(this).val('');
                     return false;

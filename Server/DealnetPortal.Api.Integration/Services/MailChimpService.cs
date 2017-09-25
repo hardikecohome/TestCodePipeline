@@ -56,6 +56,24 @@ namespace DealnetPortal.Api.Integration.Services
                 throw ex;
             }
         }
+
+        public async Task<Queue> SendUpdateNotification(string email)
+        {
+            try
+            {
+                Queue q = await _manager.AutomationEmailQueues.AddSubscriberAsync("154521", "154525", email);
+                return q;
+            }
+            catch (MailChimpException me)
+            {
+                throw me;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public async Task<bool> isSubscriber(string listid, string emailid)
         {
             try

@@ -203,7 +203,8 @@
         return {
             errors: getErrors(state),
             displaySubmitErrors: state.displaySubmitErrors,
-            isChanged: state.isChanged
+            isChanged: state.isChanged,
+            emailExists: state.emailExists
         }
     })(function (props) {
         $('#ageErrors').empty();
@@ -215,11 +216,21 @@
                 });
         }
 
+        if (props.emailExists) {
+            $('#email').addClass('input-validation-error');
+            $('#email-exists').removeClass('hidden');
+        } else {
+            if ($('#email').hasClass('input-validation-error')) {
+                $('#email').removeClass('input-validation-error');
+            }
+            $('#email-exists').addClass('hidden');
+        }
+
         if (props.errors.length) {
             $('#submit').addClass('disabled');
             $('#submit').parent().popover();
         } else {
-            if ($('#main-form').valid()) {
+            if ($('#main-form').valid() && !props.emailExists) {
                 $('#submit').removeClass('disabled');
                 $('#submit').parent().popover('destroy');
             } else {

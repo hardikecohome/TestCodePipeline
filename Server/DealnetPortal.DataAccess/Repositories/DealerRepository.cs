@@ -28,6 +28,11 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.Users.FirstOrDefault(u => u.UserName == userName)?.Id;
         }
 
+        public string GetUserIdByOnboardingLink(string link)
+        {
+            return !string.IsNullOrEmpty(link) ? _dbContext.Users.FirstOrDefault(u => u.OnboardingLink == link)?.Id : null;
+        }
+
         public IList<string> GetUserRoles(string dealerId)
         {
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_dbContext));

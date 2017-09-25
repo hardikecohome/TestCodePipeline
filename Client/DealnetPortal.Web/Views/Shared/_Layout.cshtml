@@ -90,7 +90,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <nav class="navbar navbar-inverse navbar-fixed-side">
+                <nav class="navbar navbar-inverse navbar-fixed-side @(ViewBag.AdditionalNavbarClasses!=null?ViewBag.AdditionalNavbarClasses:"")">
                     <div class="navbar-header">
                         @if (User.Identity.IsAuthenticated)
                         {
@@ -102,10 +102,10 @@
                                     <span class="icon-bar"></span>
                                 </button>
                             </div>
-                            <div class="logo-container">
-                                <div class="dealnet-image-ecologo main-logo"></div>
-                            </div>
                         }
+                        <div class="logo-container">
+                            <div class="dealnet-image-ecologo main-logo"></div>
+                        </div>
                         <div class="user-hold">
                             <div class="dealnet-login-buttons-holder pull-right">
                                 @Html.Partial("LoginButtons")

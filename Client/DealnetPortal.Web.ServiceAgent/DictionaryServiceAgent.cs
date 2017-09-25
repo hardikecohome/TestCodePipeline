@@ -10,6 +10,7 @@ using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
@@ -50,6 +51,20 @@ namespace DealnetPortal.Web.ServiceAgent
             {
                 return await Client.GetAsyncEx<Tuple<IList<EquipmentTypeDTO>, IList<Alert>>>(
                             $"{_fullUri}/AllEquipmentTypes", null, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get Equipment Types", ex);
+                throw;
+            }
+        }
+
+        public async Task<Tuple<IList<LicenseDocumentDTO>, IList<Alert>>> GetAllLicenseDocuments()
+        {
+            try
+            {
+                return await Client.GetAsyncEx<Tuple<IList<LicenseDocumentDTO>, IList<Alert>>>(
+                            $"{_fullUri}/AllLicenseDocuments", null, CurrentCulture);
             }
             catch (Exception ex)
             {
@@ -183,8 +198,8 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return Client.GetAsync<bool>(
-                            $"{_fullUri}/CheckDealerSkinExist");
+                return Client.GetAsyncEx<bool>(
+                            $"{_fullUri}/CheckDealerSkinExist", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {

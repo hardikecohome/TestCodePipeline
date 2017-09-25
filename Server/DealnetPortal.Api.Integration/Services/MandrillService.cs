@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Models.Notification;
 using DealnetPortal.Domain;
 using DealnetPortal.Api.Models.Contract;
@@ -198,5 +199,108 @@ namespace DealnetPortal.Api.Integration.Services
 
         }
 
+        public async Task SendProblemsWithSubmittingOnboarding(string errorMsg, int dealerInfoId, string accessKey)
+        {
+            var draftLink = ConfigurationManager.AppSettings[WebConfigKeys.DEALER_PORTAL_DRAFTURL_KEY] + accessKey;
+            MandrillRequest request = new MandrillRequest();
+            List<Variable> myVariables = new List<Variable>();
+            myVariables.Add(new Variable() { name = "DealerInfoID", content = dealerInfoId.ToString() });
+            myVariables.Add(new Variable() { name = "DealerUniqueLink", content = draftLink });
+            myVariables.Add(new Variable() { name = "DealerErrorLog", content = errorMsg });
+            request.key = _apiKey;
+            request.template_name = ConfigurationManager.AppSettings["AspireServiceErrorTemplate"];
+            request.template_content = new List<templatecontent>() {
+                    new templatecontent(){
+                        name= $"Exception while submitting onboarding application to Aspire (DealerInfoID = {dealerInfoId})",
+                        content = $"Exception while submitting onboarding application to Aspire (DealerInfoID = {dealerInfoId})"
+                    }
+                };
+
+
+            request.message = new MandrillMessage()
+            {
+                from_email = ConfigurationManager.AppSettings["FromEmail"],
+                from_name = "Myhome Wallet by EcoHome Financial",
+                html = null,
+                merge_vars = new List<MergeVariable>() {
+                        new MergeVariable(){
+                            rcpt = ConfigurationManager.AppSettings["DealNetErrorLogsEmail"],
+                            vars = myVariables
+
+
+                        }
+                    },
+                send_at = DateTime.Now,
+                subject = $"Exception while submitting onboarding application to Aspire (DealerInfoID = {dealerInfoId})",
+                text = $"Exception while submitting onboarding application to Aspire (DealerInfoID = {dealerInfoId})",
+                to = new List<MandrillTo>() {
+                        new MandrillTo(){
+                            email = ConfigurationManager.AppSettings["DealNetErrorLogsEmail"],
+                            name = " ",
+                            type = "to"
+                        }
+                    }
+            };
+            try
+            {
+                var result = await SendEmail(request);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public async Task SendDraftLinkMail(string accessKey, string email)
+        {
+            var draftLink = ConfigurationManager.AppSettings["DealerPortalDraftUrl"] + accessKey;
+            MandrillRequest request = new MandrillRequest();
+            List<Variable> myVariables = new List<Variable>();
+            myVariables.Add(new Variable() { name = "DealerUniqueLink", content = draftLink });
+            request.key = _apiKey;
+            request.template_name = ConfigurationManager.AppSettings["DraftLinkTemplate"];
+            request.template_content = new List<templatecontent>() {
+                    new templatecontent(){
+                        name="Your EchoHome Financial dealer application link",
+                        content = "Your EchoHome Financial dealer application link"
+                    }
+                };
+
+
+            request.message = new MandrillMessage()
+            {
+                from_email = ConfigurationManager.AppSettings["FromEmail"],
+                from_name = "Myhome Wallet by EcoHome Financial",
+                html = null,
+                merge_vars = new List<MergeVariable>() {
+                        new MergeVariable(){
+                            rcpt = email,
+                            vars = myVariables
+
+
+                        }
+                    },
+                send_at = DateTime.Now,
+                subject = "Your EchoHome Financial dealer application link",
+                text = "Your EchoHome Financial dealer application link",
+                to = new List<MandrillTo>() {
+                        new MandrillTo(){
+                            email = email,
+                            name = " ",
+                            type = "to"
+                        }
+                    }
+            };
+            try
+            {
+                var result = await SendEmail(request);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }

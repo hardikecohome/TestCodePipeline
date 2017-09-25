@@ -14,5 +14,6 @@ namespace DealnetPortal.Domain
         public string Province { get; set; }
         public double Rate { get; set; }
         public string Description { get; set; }
+        public string Name { get; set; }
     }
 }

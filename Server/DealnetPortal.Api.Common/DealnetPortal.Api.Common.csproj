@@ -60,6 +60,14 @@
     <Compile Include="Constants\WebConfigKeys.cs" />
     <Compile Include="Constants\WebConfigSections.cs" />
     <Compile Include="Enumeration\AddressType.cs" />
+    <Compile Include="Enumeration\Dealer\BusinessType.cs" />
+    <Compile Include="Enumeration\Dealer\Channel.cs" />
+    <Compile Include="Enumeration\Dealer\LeadGenMethod.cs" />
+    <Compile Include="Enumeration\Dealer\NumberOfPeople.cs" />
+    <Compile Include="Enumeration\Dealer\ProgramServices.cs" />
+    <Compile Include="Enumeration\Dealer\ReasonForInterest.cs" />
+    <Compile Include="Enumeration\Dealer\RelationshipStructure.cs" />
+    <Compile Include="Enumeration\Dealer\YearsInBusiness.cs" />
     <Compile Include="Enumeration\DocumentTemplateType.cs" />
     <Compile Include="Enumeration\AgreementType.cs" />
     <Compile Include="Enumeration\AspireStatusInterpretation.cs" />

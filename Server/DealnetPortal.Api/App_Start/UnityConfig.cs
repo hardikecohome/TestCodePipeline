@@ -53,6 +53,8 @@ namespace DealnetPortal.Api
             container.RegisterType<ICustomerFormRepository, CustomerFormRepository>();
             container.RegisterType<IDealerRepository, DealerRepository>();
             container.RegisterType<IRateCardsRepository, RateCardsRepository>();
+            container.RegisterType<IDealerOnboardingRepository, DealerOnboardingRepository>();
+            container.RegisterType<ILicenseDocumentRepository, LicenseDocumentRepository>();
             #endregion
             #region Services
             container.RegisterType<ILoggingService, LoggingService>();

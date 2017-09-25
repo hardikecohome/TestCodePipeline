@@ -494,6 +494,21 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
+        public async Task<IList<Alert>> CheckCustomerExisting(string email)
+        {
+            try
+            {
+                return
+                    await
+                        Client.GetAsyncEx<IList<Alert>>($"{_fullUri}/CheckCustomerExisting?email={email}", AuthenticationHeader, CurrentCulture).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't remove contract", ex);
+                throw;
+            }
+        }
+
         public async Task<IList<Alert>> RemoveContract(int contractId)
         {
             try

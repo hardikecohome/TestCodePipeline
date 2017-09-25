@@ -42,6 +42,7 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/dealnet")
                 .Include(
+                    "~/Scripts/jquery.tmpl.min.js",
                     "~/Scripts/jquery.placeholder.min.js", 
                     "~/Scripts/svgxuse.min.js",
                     "~/Scripts/jquery.loader.js",
@@ -256,6 +257,7 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/standalone-calculator")
                 .Include("~/Scripts/financial-functions.js")
+                .Include("~/Scripts/datejs.js")
                 .Include("~/Scripts/loan-calculator.js")
                 .Include("~/Scripts/Modules/index.js")
                 .Include("~/Scripts/Logger/log.js")
@@ -268,6 +270,12 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/Pages/calculator/calculator-conversion.js")
                 .Include("~/Scripts/Pages/calculator/calculator-jcarousel.js")
                 .Include("~/Scripts/Utils/financial-functions.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/onboarding")
+                .Include("~/Scripts/Modules/index.js")
+                .Include("~/Scripts/Utils/objectUtils.js")
+                .Include("~/Scripts/general-address-autocomplete.js")
+                .IncludeDirectory("~/Scripts/Pages/onboarding", "*.js", true));
         }
     }
 }

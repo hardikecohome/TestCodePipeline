@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.Profile;
+using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Api.Models.Storage;
 
@@ -22,5 +24,14 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<DealerProfileDTO> GetDealerProfile();
         Task<string> UpdateDealerParent();
         Task<IList<Alert>> UpdateDealerProfile(DealerProfileDTO dealerProfile);
+
+        Task<DealerInfoDTO> GetDealerOnboardingForm(string accessKey);
+        Task<DealerInfoDTO> GetDealerOnboardingForm(int id);
+        Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> UpdateDealerOnboardingForm(DealerInfoDTO dealerInfo);
+        Task<IList<Alert>> SubmitDealerOnboardingForm(DealerInfoDTO dealerInfo);
+        Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> AddDocumentToOnboardingForm(RequiredDocumentDTO document);
+        Task<IList<Alert>> DeleteDocumentFromOnboardingForm(RequiredDocumentDTO document);
+        Task<IList<Alert>> SendDealerOnboardingDraftLink(DraftLinkDTO link);
+        Task<bool> CheckOnboardingLink(string dealerLink);
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Data.Entity;
 using System.Diagnostics;
 using DealnetPortal.Domain;
+using DealnetPortal.Domain.Dealer;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DealnetPortal.DataAccess
@@ -86,5 +87,17 @@ namespace DealnetPortal.DataAccess
 
         public virtual DbSet<RateCard> RateCards { get; set; }
         public virtual DbSet<Tier> Tiers { get; set; }
+
+        public virtual DbSet<DealerInfo> DealerInfos { get; set; }
+        public virtual DbSet<CompanyInfo> CompanyInfos { get; set; }
+        public virtual DbSet<CompanyProvince> CompanyProvinces { get; set; }
+        public virtual DbSet<OwnerInfo> OwnerInfos { get; set; }
+        public virtual DbSet<ManufacturerBrand> ManufacturerBrands { get; set; }
+        public virtual DbSet<ProductInfo> ProductInfos { get; set; }
+        public virtual DbSet<ProductService> ProductServices { get; set; }
+        public virtual DbSet<RequiredDocument> RequiredDocuments { get; set; }
+        public virtual DbSet<AdditionalDocument> AdditionalDocuments { get; set; }
+        public virtual DbSet<LicenseType> LicenseTypes { get; set; }
+        public virtual DbSet<LicenseDocument> LicenseDocuments { get; set; }
     }
 }

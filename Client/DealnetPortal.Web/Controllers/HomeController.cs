@@ -147,5 +147,14 @@ namespace DealnetPortal.Web.Controllers
                 });
             return Json(contractsVms, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult OnBoard()
+        {
+            return View();
+        }
+        public ActionResult OnBoardSuccess()
+        {
+            return View();
+        }
     }
 }

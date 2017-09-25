@@ -304,7 +304,7 @@
     <value>Adresse postale</value>
   </data>
   <data name="MaximumFileSize" xml:space="preserve">
-    <value>La taille maximale du dossier se limite à 50 Mo chacun.</value>
+    <value>La taille maximale du dossier se limite à 20 Mo chacun.</value>
   </data>
   <data name="Month" xml:space="preserve">
     <value>Mois</value>

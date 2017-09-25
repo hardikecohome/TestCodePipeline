@@ -41,5 +41,7 @@ namespace DealnetPortal.Api.Integration.Services
         void SendNotifyMailNoDealerAcceptedLead12H(Contract contract);
         Task SendApprovedMailToCustomer(Contract customerFormData);
         Task SendDeclinedConfirmation(string emailid, string firstName, string lastName);
+        Task SendProblemsWithSubmittingOnboarding(string errorMsg, int dealerInfoId, string accessKey);
+        Task SendDraftLinkMail(string accessKey, string email);
     }
 }

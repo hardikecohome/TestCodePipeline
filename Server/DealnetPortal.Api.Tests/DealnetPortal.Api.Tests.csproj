@@ -126,6 +126,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\AlgorithmsTest.cs" />
     <Compile Include="Aspire\AspireDbTest.cs" />
     <Compile Include="Aspire\XmlRequestsTest.cs" />
     <Compile Include="Controllers\ContractControllerTest.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Repositories\RateCardsRepositoryTest.cs" />
     <Compile Include="Repositories\SettingsRepositoryTest.cs" />
     <Compile Include="Repositories\CustomerFormRepositoryTest.cs" />
+    <Compile Include="Repositories\DealerOnboardingRepositoryTest.cs" />
     <Compile Include="Security\PassworHashTest.cs" />
     <Compile Include="Services\ImageScanManagerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
