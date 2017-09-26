@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace DealnetPortal.Api.Core.Helpers
@@ -24,6 +25,17 @@ namespace DealnetPortal.Api.Core.Helpers
             {
                 return (T)ser.Deserialize(reader);
             }
+        }
+
+        public static void SerializeToFile<T>(T objToSerialize, string outputFileName)
+        {
+            var x = new XmlSerializer(objToSerialize.GetType());
+            var settings = new XmlWriterSettings { NewLineHandling = NewLineHandling.Entitize };
+            MemoryStream ms = new MemoryStream();
+            FileStream fs = new FileStream(outputFileName, FileMode.Create);
+            var writer = XmlWriter.Create(fs, settings);
+            x.Serialize(writer, objToSerialize);
+            writer.Flush();
         }
     }
 }
