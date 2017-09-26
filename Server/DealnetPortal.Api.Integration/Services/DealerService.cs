@@ -359,7 +359,7 @@ namespace DealnetPortal.Api.Integration.Services
         private void UploadOnboardingDocuments(int dealerInfoId, string statusToSend = null)
         {
             var dealerInfo = _dealerOnboardingRepository.GetDealerInfoById(dealerInfoId);
-            if (dealerInfo?.RequiredDocuments?.Any(d => d.DocumentBytes != null) == true)
+            if (dealerInfo?.RequiredDocuments?.Any(d => d.DocumentBytes != null && !d.Uploaded) == true)
             {
                 Task.Run(() =>
                 {
@@ -368,7 +368,14 @@ namespace DealnetPortal.Api.Integration.Services
                         _aspireService.UploadOnboardingDocument(dealerInfoId, doc.Id, statusToSend).GetAwaiter().GetResult();                        
                     });                    
                 });
-            }           
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(statusToSend) && dealerInfo != null)
+                {
+                    _aspireService.ChangeDealStatus(dealerInfo.TransactionId, statusToSend, dealerInfo.ParentSalesRepId).GetAwaiter().GetResult();
+                }
+            }
         }
     }
 

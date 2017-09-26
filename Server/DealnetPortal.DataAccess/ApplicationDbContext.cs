@@ -25,7 +25,6 @@ namespace DealnetPortal.DataAccess
         {
             try
             {
-
                 Crypteron.CipherDb.Session.Create(this);
             }
             catch (Exception ex)
