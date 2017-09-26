@@ -262,8 +262,8 @@ namespace DealnetPortal.Api.Integration.Services
             request.template_name = ConfigurationManager.AppSettings["DraftLinkTemplate"];
             request.template_content = new List<templatecontent>() {
                     new templatecontent(){
-                        name="Your EchoHome Financial dealer application link",
-                        content = "Your EchoHome Financial dealer application link"
+                        name="Your EcoHome Financial dealer application link",
+                        content = "Your EcoHome Financial dealer application link"
                     }
                 };
 
@@ -282,8 +282,8 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                     },
                 send_at = DateTime.Now,
-                subject = "Your EchoHome Financial dealer application link",
-                text = "Your EchoHome Financial dealer application link",
+                subject = "Your EcoHome Financial dealer application link",
+                text = "Your EcoHome Financial dealer application link",
                 to = new List<MandrillTo>() {
                         new MandrillTo(){
                             email = email,
