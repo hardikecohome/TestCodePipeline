@@ -7,8 +7,6 @@ using System.Net.Http.Formatting;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using DealnetPortal.Api.Common.Constants;
-using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;

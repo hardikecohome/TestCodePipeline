@@ -112,7 +112,7 @@ namespace DealnetPortal.Api.Integration.Services
             return mappedInfo;
         }
 
-        public Tuple<DealerInfoKeyDTO, IList<Alert>> UpdateDealerOnboardingForm(DealerInfoDTO dealerInfo)
+        public async Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> UpdateDealerOnboardingForm(DealerInfoDTO dealerInfo)
         {
             if (dealerInfo == null)
             {
@@ -133,6 +133,16 @@ namespace DealnetPortal.Api.Integration.Services
                     AccessKey = updatedInfo.AccessKey,
                     DealerInfoId = updatedInfo.Id
                 };
+                
+                //submit form to Aspire                                             
+                var reSubmit = updatedInfo.SentToAspire;
+                var submitResult = await _aspireService.SubmitDealerOnboarding(updatedInfo.Id);
+                if (submitResult?.Any() ?? false)
+                {
+                    alerts.AddRange(submitResult);
+                }                
+                //upload required documents
+                UploadOnboardingDocuments(updatedInfo.Id, reSubmit ? updatedInfo.Status : _configuration.GetSetting(WebConfigKeys.ONBOARDING_DRAFT_STATUS_KEY));
             }
             catch (Exception ex)
             {
@@ -174,6 +184,14 @@ namespace DealnetPortal.Api.Integration.Services
                     //notify dealnet here about failed upload to Aspire
                     var errorMsg = string.Concat(submitResult.Where(x => x.Type == AlertType.Error).Select(r => r.Header + ": " + r.Message).ToArray());
                     await _mailService.SendProblemsWithSubmittingOnboarding(errorMsg, updatedInfo.Id, mappedInfo.AccessKey);
+                }
+                else
+                {
+                    if (!reSubmit)
+                    {
+                        updatedInfo.SentToAspire = true;
+                        _unitOfWork.Save();
+                    }
                 }
                 //upload required documents
                 UploadOnboardingDocuments(updatedInfo.Id, reSubmit ? updatedInfo.Status : _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY));

@@ -1636,8 +1636,7 @@ namespace DealnetPortal.Api.Integration.Services
                 if (response.Payload != null)
                 {
                     if (!string.IsNullOrEmpty(response.Payload.TransactionId) && response.Payload.TransactionId != "0")
-                    {
-                        dealerInfo.SentToAspire = true;
+                    {                        
                         dealerInfo.TransactionId = response.Payload?.TransactionId;
                         _unitOfWork.Save();
                         _loggingService.LogInfo($"Aspire transaction Id [{response.Payload?.TransactionId}] created for dealer onboarding form");
