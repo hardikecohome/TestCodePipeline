@@ -194,7 +194,23 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 }
                 //upload required documents
-                UploadOnboardingDocuments(updatedInfo.Id, reSubmit ? updatedInfo.Status : _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY));
+                if (updatedInfo.RequiredDocuments?.Any(d => !d.Uploaded) == true)
+                {
+                    UploadOnboardingDocuments(updatedInfo.Id, reSubmit ? updatedInfo.Status : _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY));
+                }
+                else
+                {
+                    if (!reSubmit || !string.IsNullOrEmpty(updatedInfo.Status))
+                    {
+                        //if we don't send any docs, just change status in Aspire to needed
+                        await
+                            _aspireService.ChangeDealStatus(updatedInfo.TransactionId,
+                                reSubmit
+                                    ? updatedInfo.Status
+                                    : _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY),
+                                updatedInfo.ParentSalesRepId);
+                    }
+                }                
             }
             catch (Exception ex)
             {
@@ -368,14 +384,7 @@ namespace DealnetPortal.Api.Integration.Services
                         _aspireService.UploadOnboardingDocument(dealerInfoId, doc.Id, statusToSend).GetAwaiter().GetResult();                        
                     });                    
                 });
-            }
-            else
-            {
-                if (!string.IsNullOrEmpty(statusToSend) && dealerInfo != null)
-                {
-                    _aspireService.ChangeDealStatus(dealerInfo.TransactionId, statusToSend, dealerInfo.ParentSalesRepId).GetAwaiter().GetResult();
-                }
-            }
+            }            
         }
     }
 

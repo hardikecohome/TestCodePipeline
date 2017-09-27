@@ -807,6 +807,15 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 alerts.AddRange(userResult.Item2);
             }
+            if (string.IsNullOrEmpty(newStatus))
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "Cannot change deal status",
+                    Message = "newStatus cannot be null"
+                });
+            }
             if (alerts.All(a => a.Type != AlertType.Error))
             {
                 request.Header = userResult.Item1;
