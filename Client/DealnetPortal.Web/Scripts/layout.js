@@ -73,7 +73,7 @@
     }
 
     //if(!$('.date-group').children('.dealnet-disabled-input'))
- /*   $('.date-group').each(function () {
+    $('.date-group').each(function () {
       $('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length === 0 ? $('<div/>', {
         class: 'div-datepicker-value',
         text: $(this).find('.form-control').val()
@@ -82,7 +82,7 @@
         class: 'div-datepicker',
       }).appendTo(this) : '';
     });
-	  */
+	  
 
     $('body').on('click', '.div-datepicker-value', function () {
       $('.div-datepicker').removeClass('opened');
