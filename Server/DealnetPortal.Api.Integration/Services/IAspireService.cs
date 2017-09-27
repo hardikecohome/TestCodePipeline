@@ -43,7 +43,10 @@ namespace DealnetPortal.Api.Integration.Services
 
         Task<string> GetDealStatus(string aspireTransactionId);
 
+        Task<Tuple<string, IList<Alert>>> ChangeDealStatusEx(string aspireTransactionId, string newStatus, string contractOwnerId);
         Task<IList<Alert>> ChangeDealStatus(string aspireTransactionId, string newStatus, string contractOwnerId, string additionalDataToPass = null);
+
+        Task<Tuple<string, IList<Alert>>> ChangeDealStatusByCreditReview(string aspireTransactionId, string newStatus, string contractOwnerId);
 
         Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId, string contractOwnerId);
         /// <summary>
