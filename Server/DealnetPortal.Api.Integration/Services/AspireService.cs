@@ -1273,6 +1273,11 @@ namespace DealnetPortal.Api.Integration.Services
                         if (aspireCustomer != null)
                         {
                             account.ClientId = aspireCustomer.AccountId?.Trim();
+                            c.ExistingCustomer = true;
+                        }
+                        else
+                        {
+                            c.ExistingCustomer = false;
                         }
                     }
                     catch (Exception ex)
@@ -1878,7 +1883,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
 
                     Name = AspireUdfFields.ExistingCustomer,
-                    Value = string.IsNullOrEmpty(customer.AccountId) ? "N" : "Y" // ???
+                    Value = customer.ExistingCustomer == true || (!customer.ExistingCustomer.HasValue && !string.IsNullOrEmpty(customer.AccountId)) ? "Y" : "N"
                 });
 
             var previousAddress = customer.Locations?.FirstOrDefault(l => l.AddressType == AddressType.PreviousAddress);

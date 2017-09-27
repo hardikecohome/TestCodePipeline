@@ -385,6 +385,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.PreferredContactMethod, s => s.MapFrom(m => m.PreferredContactMethod))
                 .ForMember(x => x.VerificationIdName, s => s.MapFrom(m => m.VerificationIdName))
                 .ForMember(x => x.DealerInitial, s => s.MapFrom(m => m.DealerInitial))
+                .ForMember(x => x.ExistingCustomer, d => d.Ignore())
                 .ForMember(x => x.AccountId, d => d.Ignore());
 
             mapperConfig.CreateMap<CustomerInfoDTO, Customer>()

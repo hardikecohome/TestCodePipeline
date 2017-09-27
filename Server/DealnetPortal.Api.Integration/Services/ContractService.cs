@@ -177,7 +177,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                     if (updatedContract.ContractState == ContractState.Completed)
                     {
-                        var contractDTO = Mapper.Map<ContractDTO>(updatedContract);
+                        //var contractDTO = Mapper.Map<ContractDTO>(updatedContract);
                         //Task.Run(
                         //    async () =>
                         //        await
