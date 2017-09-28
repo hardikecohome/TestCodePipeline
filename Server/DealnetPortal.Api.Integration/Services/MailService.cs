@@ -120,10 +120,8 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine($"To cancel your subscription, please click here to <a href=\"% unsubscribe_url %\"" + " >unsubscribe</a></p>");
             body.AppendLine("</div>");
 
-
             try
             {
-               
                 await _emailService.SendAsync(new List<string> { contractData.DealerEmail ?? string.Empty }, string.Empty, Resources.Resources.ThankYouForApplyingForFinancing, body.ToString());
             }
             catch (Exception ex)
@@ -280,80 +278,22 @@ namespace DealnetPortal.Api.Integration.Services
 
         public async Task SendHomeImprovementMailToCustomer(IList<Contract> succededContracts)
         {
-            //string domain = ConfigurationManager.AppSettings["CustomerWalletClient"];
             var contract = succededContracts.First();
-            //string newemailid = _contractRepository.GetCustomer(contract.PrimaryCustomer.Id).Emails.FirstOrDefault(m => m.EmailType == EmailType.Main).EmailAddress;
             string services = string.Join(",", succededContracts.Select(i => (i.Equipment.NewEquipment.First()?.Description ??
                 _contractRepository.GetEquipmentTypeInfo(i.Equipment.NewEquipment.First()?.Type)?.Description)?.ToLower()));
-            //string customerEmail = contract.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
-            //string hashLogin = SecurityUtils.Hash(customerEmail);
-            //string mbPhone = ConfigurationManager.AppSettings["CustomerWalletPhone"];
-            //string mbEmail = ConfigurationManager.AppSettings["CustomerWalletEmail"];
-
-            //var phoneIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-phone.png"));
-            //var phoneImage = GenerateIconImageCid(phoneIcon);
-            //var emailIcon = new LinkedResource(HostingEnvironment.MapPath(@"~\Content\emails\images\icon-email.png"));
-            //var emailImage = GenerateIconImageCid(emailIcon);
 
             var bottomStyle = "style ='font-size: 10px; !important'";
             var pStyle = "style='font-size: 18px; !important'";
-
-            //var body = new StringBuilder();
-            //body.AppendLine($"<h3>{Resources.Resources.Hi} {contract.PrimaryCustomer.FirstName},</h3>");
-            //body.AppendLine("<div>");
-            //body.AppendLine($"<p {pStyle}>{Resources.Resources.ThanksForYourInterestInHomeImprovementService} ({services}) {Resources.Resources.OnThe} {domain}.</p>");
-            //body.AppendLine($"<p {pStyle}>{Resources.Resources.WeAreNowLookingForheBest}</p>");
-            //body.AppendLine("<br />");
-            //body.AppendLine("<br />");
-            //body.AppendLine($"<p>{Resources.Resources.InCaseOfQuestionsPleaseContact} <b>EcoHome Financial</b>  {Resources.Resources.Support.ToLower()}:</p>");
-            //body.AppendLine($"<p><img src='{phoneImage}'>{mbPhone}</p>");
-            //body.AppendLine($"<p><img src='{emailImage}'/> <a href='mailto:{mbEmail}'><span>{mbEmail}</span></a></li></p>");
-            //body.AppendLine("<br />");
-            //body.AppendLine("<br />");
-            //body.AppendLine($"<p {bottomStyle}><b>This email was sent by EcoHome Financial</b> | 325 Milner Avenue, Suite 300 | Toronto, Ontario | M1B 5N1 Canada</p>");
-            //body.AppendLine($"<p {bottomStyle}><b>Contact us:</b> {mbPhone} | {mbEmail}</p>");
-            //body.AppendLine($"<p {bottomStyle}>We truly hope you found this message useful. However, if you'd rather not receive future e-mails of this sort from EcoHome Financial, please <b><a href='{domain}/unsubscribe/{hashLogin}'><span>click here to unsubscribe.</span></a></b>.</p>");
-            //body.AppendLine("</div>");
-
-            //var alternateView = GenerateAlternateView(body, new List<LinkedResource>() { phoneIcon, emailIcon });
-
             var subject = $"{Resources.Resources.WeAreLookingForTheBestProfessionalForYourHomeImprovementProject}";
-            //var mail = GenerateMailMessage(customerEmail, subject, alternateView);
-            //Hardik Update MailChimp Home Improvement type
-            //MailChimpMember member = new MailChimpMember()
-            //{
-            //    Email = contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
-            //    FirstName = contract.PrimaryCustomer.FirstName,
-            //    LastName = contract.PrimaryCustomer.LastName,
-            //    address = new MemberAddress()
-            //    {
-            //        Street = contract.PrimaryCustomer.Locations.FirstOrDefault().Street,
-            //        Unit = contract.PrimaryCustomer.Locations.FirstOrDefault().Unit,
-            //        City = contract.PrimaryCustomer.Locations.FirstOrDefault().City,
-            //        State = contract.PrimaryCustomer.Locations.FirstOrDefault().State,
-            //        PostalCode = contract.PrimaryCustomer.Locations.FirstOrDefault().PostalCode
-            //    },
-            //    CreditAmount = (decimal)contract.Details.CreditAmount,
-            //    ApplicationStatus = contract.ContractState.ToString(),
-            //    // TemporaryPassword = password,
-            //    EquipmentInfoRequired = "Updated"
-            //    //EquipmentInfoRequired = (contract.Equipment.NewEquipment.FirstOrDefault().Type == null) ? "Required" : "Not Required"
-            //};
+           
             try
             {
-                // await _emailService.SendAsync(mail);
-                // Hardik Mailchimp trigger to update Equipment type
                 if (await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress) || await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["RegistrationListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress))
-                   // && (!await _mailChimpService.isUnsubscribed(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress) &&
-                   // ! await _mailChimpService.isUnsubscribed(ConfigurationManager.AppSettings["RegistrationListID"], contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress)))
                 {
                     await _mandrillService.SendHomeImprovementTypeUpdatedConfirmation(contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
                                                                                         contract.PrimaryCustomer.FirstName,
                                                                                         contract.PrimaryCustomer.LastName,
                                                                                         services);
-
-
-
                 }
             }
             catch (Exception ex)
@@ -437,7 +377,6 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 if (await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails?.FirstOrDefault()?.EmailAddress) || await _mailChimpService.isSubscriber(ConfigurationManager.AppSettings["RegistrationListID"], contract.PrimaryCustomer.Emails?.FirstOrDefault()?.EmailAddress))
-                   // &&(!await _mailChimpService.isUnsubscribed(ConfigurationManager.AppSettings["ListID"], contract.PrimaryCustomer.Emails?.FirstOrDefault()?.EmailAddress) && ! await _mailChimpService.isUnsubscribed(ConfigurationManager.AppSettings["RegistrationListID"], contract.PrimaryCustomer.Emails?.FirstOrDefault()?.EmailAddress)))
                 {
 
                     await _mandrillService.SendDealerLeadAccepted(contract, dealer, services);
