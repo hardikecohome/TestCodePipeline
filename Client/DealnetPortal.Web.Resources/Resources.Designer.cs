@@ -2977,7 +2977,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Library.
+        ///   Looks up a localized string similar to Resources.
         /// </summary>
         public static string Library {
             get {
