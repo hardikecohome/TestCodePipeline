@@ -3,16 +3,15 @@
 $(document)
     .ready(function () {
         showTable();
-        assignDatepicker('#date-from', {
+        var options = {
             yearRange: '1900:' + new Date().getFullYear(),
             minDate: new Date("1900-01-01"),
             maxDate: new Date()
+        };
+        $('.date-input').each(function (index, input) {
+            assignDatepicker(input, options);
         });
-        assignDatepicker('#date-to', {
-            yearRange: '1900:' + new Date().getFullYear(),
-            minDate: new Date("1900-01-01"),
-            maxDate: new Date()
-        });
+
         $('.select-filter option').each(function () {
             $(this).val($(this).text());
         });

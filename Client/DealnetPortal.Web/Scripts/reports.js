@@ -2,11 +2,15 @@
 $(document)
     .ready(function () {
         showTable();
-        assignDatepicker('.date-control', {
+        var options = {
             yearRange: '1900:' + new Date().getFullYear(),
             minDate: new Date("1900-01-01"),
             maxDate: new Date()
+        };
+        $('.date-input').each(function (index, input) {
+            assignDatepicker(input, options);
         });
+
         setTimeout(function () {
             $(window).trigger('resize');
         }, 300);
