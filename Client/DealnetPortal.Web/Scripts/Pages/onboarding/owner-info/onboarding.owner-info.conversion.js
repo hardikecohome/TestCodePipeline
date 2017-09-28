@@ -1,5 +1,14 @@
 ﻿module.exports('onboarding.owner-info.conversion', function (require) {
 
+    var datepickerOptions = {
+        dateFormat: 'mm/dd/yy',
+        changeYear: true,
+        changeMonth: (viewport().width < 768) ? true : false,
+        yearRange: '1900:' + (new Date().getFullYear() - 18),
+        minDate: new Date("1900-01-01"),
+        maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18))
+    };
+
     var setBirthDate = require('onboarding.owner-info.setters').setBirthDate;
     var resetFormValidation = require('onboarding.common').resetFormValidation;
 
@@ -54,31 +63,22 @@
         resetFormValidation('#onboard-form');
     }
 
-    function assignDatepicker (selector, ownerNumber) {
+    function assignOwnerDatepicker (selector, ownerNumber) {
+        var options = $.extend({},
+            datepickerOptions,
+            {
+                onSelect: function (day) {
+                    $(this).siblings('input.form-control').val(day);
+                    setBirthDate(ownerNumber, day);
+                    $(".div-datepicker").removeClass('opened');
+                }
+            });
 
-        var input = $('body').is('.ios-device') ? $(selector).siblings('.div-datepicker') : $(selector);
-
-        inputDateFocus(input);
-
-        input.datepicker({
-            dateFormat: 'mm/dd/yy',
-            changeYear: true,
-            changeMonth: (viewport().width < 768) ? true : false,
-            yearRange: '1900:' + (new Date().getFullYear() - 18),
-            minDate: new Date("1900-01-01"),
-            maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
-            onSelect: function (day) {
-                $(this).siblings('input.form-control').val(day);
-                setBirthDate(ownerNumber, day);
-                $(".div-datepicker").removeClass('opened');
-            }
-        });
-
-        return input;
+        return assignDatepicker(selector, options);
     }
 
     return {
         recalculateOwnerIndex: recalculateOwnerIndex,
-        assignDatepicker: assignDatepicker
+        assignOwnerDatepicker: assignOwnerDatepicker
     };
 })

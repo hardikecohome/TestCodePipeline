@@ -54,9 +54,11 @@ module.exports('onboarding.product.setters', function (require) {
         } else {
             if (index > -1) {
                 state[stateSection].salesApproch.splice(index, 1);
-                var requiredIndex = state[stateSection].requiredFields.indexOf('sales-approach');
-                if (requiredIndex === -1)
-                    state[stateSection].requiredFields.push('sales-approach');
+                if (state[stateSection].salesApproch.length === 0) {
+                    var requiredIndex = state[stateSection].requiredFields.indexOf('sales-approach');
+                    if (requiredIndex === -1)
+                        state[stateSection].requiredFields.push('sales-approach');
+                }
             }
         }
 
@@ -79,9 +81,11 @@ module.exports('onboarding.product.setters', function (require) {
         } else {
             if (index > -1) {
                 state[stateSection].leadGen.splice(index, 1);
-                var requiredIndex = state[stateSection].requiredFields.indexOf('lead-gen');
-                if (requiredIndex === -1)
-                    state[stateSection].requiredFields.push('lead-gen');
+                if (state[stateSection].leadGen.length === 0) {
+                    var requiredIndex = state[stateSection].requiredFields.indexOf('lead-gen');
+                    if (requiredIndex === -1)
+                        state[stateSection].requiredFields.push('lead-gen');
+                }
             }
         }
         moveToNextSection(stateSection);

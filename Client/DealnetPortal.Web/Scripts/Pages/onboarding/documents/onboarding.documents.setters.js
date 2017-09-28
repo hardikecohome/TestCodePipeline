@@ -4,6 +4,10 @@
     var enableSubmit = require('onboarding.setters').enableSubmit;
     var resetForm = require('onboarding.common').resetFormValidation;
     var stateSection = 'documents';
+    var datepickerOptions = {
+        yearRange: '1900:2200',
+        minDate: new Date(),
+    };
 
     var setVoidChequeFile = function (e) {
         var files = e.target.files;
@@ -105,7 +109,7 @@
             $('#' + license.License.Id + '-license-number').on('change', setLicenseRegistraionNumber(license.License.Id));
 
             result.find('.date-group').each(function () {
-                $('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length=== 0 ? $('<div/>', {
+                $('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length === 0 ? $('<div/>', {
                     class: 'div-datepicker-value',
                     text: $(this).find('.form-control').val()
                 }).appendTo(this) : '';
@@ -332,15 +336,7 @@
     }
 
     function _initDatepicker (id) {
-        var date = $('#' + id + '-license-date');
-
-        var input = $('body').is('.ios-device') ? date.siblings('.div-datepicker') : date;
-
-        inputDateFocus(input);
-
-        input.datepicker({
-            yearRange: '1900:2200',
-            minDate: new Date(),
+        var option = $.extend({}, datepickerOptions, {
             disabled: $('#' + id + '-license-checkbox').attr('checked'),
             onSelect: function (day) {
                 $(this).siblings('input.form-control').val(day);
@@ -348,7 +344,9 @@
                 $(".div-datepicker").removeClass('opened');
             }
         });
-        input.datepicker('setDate', date.val());
+        var input = assignDatepicker('#' + id + '-license-date', option);
+
+        input.datepicker('setDate', input.val());
 
         var value = input.siblings('.div-datepicker-value');
         value.off('click');

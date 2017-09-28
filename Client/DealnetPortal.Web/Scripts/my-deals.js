@@ -1,29 +1,26 @@
 ﻿var table;
 
 $(document)
-            .ready(function () {
-                showTable();
-                assignDatepicker($("#date-from"));
-                assignDatepicker($("#date-to"));
-                $('.select-filter option').each(function () {
-                    $(this).val($(this).text());
-                });
-                $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
-                $('.select-filter').val($('.select-filter > option:first').val());
-                $('.dataTable ');
-            });
+    .ready(function () {
+        showTable();
+        var options = {
+            yearRange: '1900:' + new Date().getFullYear(),
+            minDate: new Date("1900-01-01"),
+            maxDate: new Date()
+        };
+        $('.date-input').each(function (index, input) {
+            assignDatepicker(input, options);
+        });
 
-function assignDatepicker(input) {
-    var input = $('body').is('.ios-device') ? input.siblings('.div-datepicker') : input;
-    inputDateFocus(input);
-    input.datepicker({
-        yearRange: '1900:' + new Date().getFullYear(),
-        minDate: Date.parse("1900-01-01"),
-        maxDate: new Date()
+        $('.select-filter option').each(function () {
+            $(this).val($(this).text());
+        });
+        $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
+        $('.select-filter').val($('.select-filter > option:first').val());
+        $('.dataTable ');
     });
-}
 
-function showTable() {
+function showTable () {
     $.when($.ajax(itemsUrl, { cache: false, mode: 'GET' }))
         .done(function (data) {
             var statusOptions = [];
@@ -70,13 +67,13 @@ function showTable() {
                     rowId: 'Id',
                     responsive: {
                         breakpoints: [
-                          { name: 'desktop-lg', width: Infinity },
-                          { name: 'desktop', width: 1169 },
-                          { name: 'tablet-l', width: $('body').is('.tablet-device') ? 1025 : 1023 },
-                          { name: 'tablet', width: 1023 },
-                          { name: 'mobile', width: 767 },
-                          { name: 'mobile-l', width: 767 },
-                          { name: 'mobile-p', width: 480 },
+                            { name: 'desktop-lg', width: Infinity },
+                            { name: 'desktop', width: 1169 },
+                            { name: 'tablet-l', width: $('body').is('.tablet-device') ? 1025 : 1023 },
+                            { name: 'tablet', width: 1023 },
+                            { name: 'mobile', width: 767 },
+                            { name: 'mobile-l', width: 767 },
+                            { name: 'mobile-p', width: 480 },
                         ]
                     },
                     oLanguage: {
@@ -148,12 +145,12 @@ function showTable() {
                     ],
 
                     dom:
-                        "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
-                            "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
-                            "<'row'<'col-md-12 col-sm-6'l>>" +
-                            "<'row'<'col-md-12'tr>>" +
-                            "<'row'<'col-md-12'p>>" +
-                            "<'row'<'col-md-12'i>>",
+                    "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
+                    "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
+                    "<'row'<'col-md-12 col-sm-6'l>>" +
+                    "<'row'<'col-md-12'tr>>" +
+                    "<'row'<'col-md-12'p>>" +
+                    "<'row'<'col-md-12'i>>",
                     renderer: 'bootstrap',
                     order: []
                 });
@@ -205,7 +202,7 @@ $.fn.dataTable.ext.search.push(
         return false;
     }
 );
-function removeContract() {
+function removeContract () {
     var tr = $(this).parents('tr');
     var id = $(tr)[0].id;
     var data = {
