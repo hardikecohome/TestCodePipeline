@@ -1323,6 +1323,9 @@ namespace DealnetPortal.Api.Integration.Services
                     account.Telecomm.Email = email;
                 }
 
+                string leadSource = _configuration.GetSetting(WebConfigKeys.DEFAULT_LEAD_SOURCE_KEY) ??
+                                    (_configuration.GetSetting($"PortalDescriber.{contract.Dealer?.ApplicationId}") ?? contract.Dealer?.Application?.LeadSource);
+
                 if (string.IsNullOrEmpty(c.AccountId))
                 {
                     //check user on Aspire
@@ -1336,6 +1339,8 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             account.ClientId = aspireCustomer.AccountId?.Trim();
                             c.ExistingCustomer = true;
+                            //TODO: check lead source in aspire?
+                            leadSource = null;
                         }
                         else
                         {
@@ -1351,9 +1356,11 @@ namespace DealnetPortal.Api.Integration.Services
                 else
                 {
                     account.ClientId = c.AccountId;
+                    //TODO: check lead source in aspire?
+                    leadSource = null;
                 } 
                 
-                account.UDFs = GetCustomerUdfs(c, location, portalDescriber, contract.HomeOwners?.Any(hw => hw.Id == c.Id)).ToList();                
+                account.UDFs = GetCustomerUdfs(c, location, leadSource, contract.HomeOwners?.Any(hw => hw.Id == c.Id)).ToList();                
 
                 if (!string.IsNullOrEmpty(role))
                 {
@@ -1473,6 +1480,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 };
 
+                var leadSource = _configuration.GetSetting(WebConfigKeys.ONBOARDING_LEAD_SOURCE_KEY) ?? _configuration.GetSetting(WebConfigKeys.DEFAULT_LEAD_SOURCE_KEY);
                 if (string.IsNullOrEmpty(owner.AccountId))
                 {
                     //check user on Aspire
@@ -1483,6 +1491,8 @@ namespace DealnetPortal.Api.Integration.Services
                         if (aspireCustomer != null)
                         {
                             account.ClientId = aspireCustomer.AccountId?.Trim();
+                            //check lead source in aspire ?
+                            leadSource = null;
                         }
                     }
                     catch (Exception ex)
@@ -1494,6 +1504,8 @@ namespace DealnetPortal.Api.Integration.Services
                 else
                 {
                     account.ClientId = owner.AccountId;
+                    //check lead source in aspire ?
+                    leadSource = null;
                 }
 
                 var UDFs = new List<UDF>();
@@ -1513,7 +1525,7 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = owner.MobilePhone
                     });
                 }
-                var leadSource = _configuration.GetSetting(WebConfigKeys.ONBOARDING_LEAD_SOURCE_KEY);
+
                 if (!string.IsNullOrEmpty(leadSource))
                 {
                     UDFs.Add(new UDF()
@@ -1900,28 +1912,29 @@ namespace DealnetPortal.Api.Integration.Services
                     _loggingService.LogError("Failed to get subdealers from Aspire", ex);
                 }
             }
-            var portalDescriber = _configuration.GetSetting($"PortalDescriber.{contract.Dealer?.ApplicationId}");
-            if (!string.IsNullOrEmpty(portalDescriber))
+            var leadSource = _configuration.GetSetting(WebConfigKeys.DEFAULT_LEAD_SOURCE_KEY) ?? 
+                (_configuration.GetSetting($"PortalDescriber.{contract.Dealer?.ApplicationId}") ?? contract.Dealer?.Application?.LeadSource);
+            if (!string.IsNullOrEmpty(leadSource))
             {
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.LeadSource,
-                    Value = portalDescriber
+                    Value = leadSource
                 });
             }
 
             return udfList;
         }
 
-        private IList<UDF> GetCustomerUdfs(Domain.Customer customer, Location mainLocation, string portalDescriber, bool? isHomeOwner = null)
+        private IList<UDF> GetCustomerUdfs(Domain.Customer customer, Location mainLocation, string leadSource, bool? isHomeOwner = null)
         {
             var udfList = new List<UDF>();
-            if (!string.IsNullOrEmpty(portalDescriber))
+            if (!string.IsNullOrEmpty(leadSource))
             {
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.CustomerLeadSource,
-                    Value = portalDescriber
+                    Value = leadSource
                 });
             }
             if (mainLocation != null)
