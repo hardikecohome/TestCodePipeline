@@ -1,4 +1,8 @@
 ﻿module.exports('onboarding.documents.index', function (require) {
+    var datepickerOptions = {
+        yearRange: '1900:2200',
+        minDate: new Date()
+    };
     var setters = require('onboarding.documents.setters');
     var state = require('onboarding.state').state;
 
@@ -8,20 +12,17 @@
 
         var date = $('#' + licenseId + '-license-date');
 
-        var input = $('body').is('.ios-device') ? date.siblings('.div-datepicker') : date;
-
-        inputDateFocus(input);
-        input.datepicker({
-            yearRange: '1900:2200',
-            minDate: new Date(),
-            disabled: $('#' + licenseId + '-license-checkbox').attr('checked'),
+        var options = $.extend({}, datepickerOptions, {
             onSelect: function (day) {
                 $(this).siblings('input.form-control').val(day);
                 $('#' + licenseId + '-birthdate').on('change', setters.setLicenseExpirationDate(licenseId, day));
                 $(this).siblings('input.form-control').val(day);
                 $(".div-datepicker").removeClass('opened');
-            }
-        });
+            },
+            disabled: $('#' + licenseId + '-license-checkbox').attr('checked')
+        })
+
+        var input = assignDatepicker('#' + licenseId + '-license-date', options);
     }
 
     function _setInputHandlers () {
