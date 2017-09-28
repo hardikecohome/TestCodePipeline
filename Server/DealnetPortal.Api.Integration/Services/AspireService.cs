@@ -796,6 +796,24 @@ namespace DealnetPortal.Api.Integration.Services
             return status;
         }
 
+        public async Task<Tuple<string, IList<Alert>>> ChangeDealStatusEx(string aspireTransactionId, string newStatus,
+            string contractOwnerId)
+        {
+            var tryChangeByCreditReview =
+                await ChangeDealStatusByCreditReview(aspireTransactionId, newStatus, contractOwnerId);
+            if (tryChangeByCreditReview?.Item2?.Any(a => a.Type == AlertType.Error) == true)
+            {
+                //sometimes we got an error with Credit Review
+                var tryChangeByDocUpload = await ChangeDealStatus(aspireTransactionId, newStatus, contractOwnerId);
+                string status = tryChangeByDocUpload?.All(e => e.Type != AlertType.Error) == true ? newStatus : null;
+                return new Tuple<string, IList<Alert>>(status, tryChangeByDocUpload);
+            }
+            else
+            {
+                return tryChangeByCreditReview;
+            }
+        }
+
         public async Task<IList<Alert>> ChangeDealStatus(string aspireTransactionId, string newStatus, string contractOwnerId, string additionalDataToPass = null)
         {
             var alerts = new List<Alert>();            
@@ -871,6 +889,67 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return alerts;
+        }
+
+        public async Task<Tuple<string, IList<Alert>>> ChangeDealStatusByCreditReview(string aspireTransactionId, string newStatus,
+            string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+            string contractStatus = null;
+            var request = new CreditCheckRequest();
+
+            var userResult = GetAspireUser(contractOwnerId);
+            if (userResult.Item2.Any())
+            {
+                alerts.AddRange(userResult.Item2);
+            }            
+            if (alerts.All(a => a.Type != AlertType.Error))
+            {
+                request.Header = userResult.Item1;
+
+                try
+                {
+                    request.Payload = new Payload()
+                    {
+                        TransactionId = aspireTransactionId,
+                        ContractStatus = newStatus
+                    };
+                    
+                    var response = await _aspireServiceAgent.CreditCheckSubmission(request).ConfigureAwait(false);
+
+                    if (response?.Header == null || response.Header.Code != CodeSuccess || !string.IsNullOrEmpty(response.Header.ErrorMsg))
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Header = response?.Header?.Status,
+                            Message = response?.Header?.Message ?? response?.Header?.ErrorMsg,
+                            Type = AlertType.Error
+                        });
+                    }
+                    if (!string.IsNullOrEmpty(response?.Payload?.ContractStatus))
+                    {
+                        contractStatus = response.Payload.ContractStatus;
+                    }
+
+                    if (alerts.All(a => a.Type != AlertType.Error))
+                    {
+                        _loggingService.LogInfo($"Aspire state for transaction {aspireTransactionId} was updated successfully");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    alerts.Add(new Alert()
+                    {
+                        Code = ErrorCodes.AspireConnectionFailed,
+                        Header = $"Can't update state for transaction {aspireTransactionId}",
+                        Message = ex.ToString(),
+                        Type = AlertType.Error
+                    });
+                    _loggingService.LogError($"Can't update state for transaction {aspireTransactionId}", ex);
+                }
+            }
+
+            return new Tuple<string, IList<Alert>>(contractStatus, alerts);
         }
 
         public async Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId, string contractOwnerId)
@@ -988,13 +1067,7 @@ namespace DealnetPortal.Api.Integration.Services
             var dealerInfo = _dealerOnboardingRepository.GetDealerInfoById(dealerInfoId);
 
             if (dealerInfo != null)
-            {
-                string statusToRestore = null;
-                if (dealerInfo.SentToAspire && !string.IsNullOrEmpty(dealerInfo.TransactionId))
-                {
-                    statusToRestore = _aspireStorageReader.GetDealStatus(dealerInfo.TransactionId);
-                }             
-
+            {                
                 CustomerRequest request = new CustomerRequest();
 
                 var userResult = GetAspireUser(dealerInfo.ParentSalesRepId);
@@ -1045,18 +1118,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             alerts.AddRange(rAlerts);
                         }
-
-                        //restore status for resubmiting
-                        if (!string.IsNullOrEmpty(statusToRestore) && statusToRestore != dealerInfo.Status)
-                        {                            
-                            var cAlerts = await ChangeDealStatus(dealerInfo.TransactionId, statusToRestore, dealerInfo.ParentSalesRepId);
-                            if (cAlerts?.Any() == true)
-                            {
-                                alerts.AddRange(cAlerts);
-                            }
-                            dealerInfo.Status = statusToRestore;
-                            _unitOfWork.Save();
-                        }
+                        
                     }
                     catch (Exception ex)
                     {
