@@ -25,6 +25,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IDealerRepository _dealerRepository;
         private readonly IDealerOnboardingRepository _dealerOnboardingRepository;
         private readonly IAspireService _aspireService;
+        private readonly IAspireStorageReader _aspireStorageReader;
         private readonly IContractRepository _contractRepository;
         private readonly ILoggingService _loggingService;
         private readonly IUnitOfWork _unitOfWork;
@@ -32,12 +33,13 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IAppConfiguration _configuration;
 
         public DealerService(IDealerRepository dealerRepository, IDealerOnboardingRepository dealerOnboardingRepository, 
-            IAspireService aspireService, ILoggingService loggingService, IUnitOfWork unitOfWork, IContractRepository contractRepository, IMailService mailService,
+            IAspireService aspireService, IAspireStorageReader aspireStorageReader, ILoggingService loggingService, IUnitOfWork unitOfWork, IContractRepository contractRepository, IMailService mailService,
             IAppConfiguration configuration)
         {
             _dealerRepository = dealerRepository;
             _dealerOnboardingRepository = dealerOnboardingRepository;
             _aspireService = aspireService;
+            _aspireStorageReader = aspireStorageReader;
             _loggingService = loggingService;
             _unitOfWork = unitOfWork;
             _contractRepository = contractRepository;
@@ -134,15 +136,39 @@ namespace DealnetPortal.Api.Integration.Services
                     DealerInfoId = updatedInfo.Id
                 };
                 
-                //submit form to Aspire                                             
-                var reSubmit = updatedInfo.SentToAspire;
+                //submit draft form to Aspire                                             
+                var reSubmit = updatedInfo.SentToAspire;                
+                string statusToSet = !string.IsNullOrEmpty(updatedInfo.TransactionId) ? _aspireStorageReader.GetDealStatus(updatedInfo.TransactionId) ?? updatedInfo.Status : null;
                 var submitResult = await _aspireService.SubmitDealerOnboarding(updatedInfo.Id);
                 if (submitResult?.Any() ?? false)
                 {
+                    //for draft aspire errors is not important and can be by not full set of data
+                    submitResult.Where(r => r.Type == AlertType.Error).ForEach(r => r.Type = AlertType.Warning);
                     alerts.AddRange(submitResult);
-                }                
-                //upload required documents
-                UploadOnboardingDocuments(updatedInfo.Id, reSubmit ? updatedInfo.Status : _configuration.GetSetting(WebConfigKeys.ONBOARDING_DRAFT_STATUS_KEY));
+                }
+                if (updatedInfo.RequiredDocuments?.Any(d => !d.Uploaded) == true)
+                {
+                    //upload required documents
+                    UploadOnboardingDocuments(updatedInfo.Id,
+                        reSubmit ? statusToSet : _configuration.GetSetting(WebConfigKeys.ONBOARDING_DRAFT_STATUS_KEY));
+                }
+                else
+                {
+                    if (reSubmit || !string.IsNullOrEmpty(statusToSet))
+                    {
+                        //if we don't send any docs, just change status in Aspire to needed
+                        var result = await
+                            _aspireService.ChangeDealStatusEx(updatedInfo.TransactionId,
+                                statusToSet ?? _configuration.GetSetting(WebConfigKeys.ONBOARDING_DRAFT_STATUS_KEY),
+                                updatedInfo.ParentSalesRepId);
+                        //TODO save status
+                        if (!string.IsNullOrEmpty(result.Item1))
+                        {
+                            updatedInfo.Status = result.Item1;
+                            _unitOfWork.Save();;
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -174,6 +200,7 @@ namespace DealnetPortal.Api.Integration.Services
                 _unitOfWork.Save();
                 //submit form to Aspire                                             
                 var reSubmit = updatedInfo.SentToAspire;
+                string statusToSet = reSubmit ? _aspireStorageReader.GetDealStatus(updatedInfo.TransactionId) ?? _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY) : _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY);
                 var submitResult = await _aspireService.SubmitDealerOnboarding(updatedInfo.Id);
                 if (submitResult?.Any() ?? false)
                 {
@@ -189,6 +216,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     if (!reSubmit)
                     {
+                        updatedInfo.Status = statusToSet;
                         updatedInfo.SentToAspire = true;
                         _unitOfWork.Save();
                     }
@@ -196,19 +224,22 @@ namespace DealnetPortal.Api.Integration.Services
                 //upload required documents
                 if (updatedInfo.RequiredDocuments?.Any(d => !d.Uploaded) == true)
                 {
-                    UploadOnboardingDocuments(updatedInfo.Id, reSubmit ? updatedInfo.Status : _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY));
+                    UploadOnboardingDocuments(updatedInfo.Id, statusToSet ?? _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY));
                 }
                 else
                 {
-                    if (!reSubmit || !string.IsNullOrEmpty(updatedInfo.Status))
+                    if (!reSubmit || !string.IsNullOrEmpty(statusToSet))
                     {
                         //if we don't send any docs, just change status in Aspire to needed
-                        await
-                            _aspireService.ChangeDealStatus(updatedInfo.TransactionId,
-                                reSubmit
-                                    ? updatedInfo.Status
-                                    : _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY),
+                        var result = await
+                            _aspireService.ChangeDealStatusEx(updatedInfo.TransactionId,
+                                statusToSet ?? _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY),
                                 updatedInfo.ParentSalesRepId);
+                        if (!string.IsNullOrEmpty(result.Item1) && updatedInfo.Status != result.Item1)
+                        {
+                            updatedInfo.Status = result.Item1;
+                            _unitOfWork.Save();
+                        }
                     }
                 }                
             }
