@@ -197,6 +197,10 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 dbDealerInfo.AccessKey = updateDealerInfo.AccessKey;
             }
+            if (string.IsNullOrEmpty(dbDealerInfo.AccessKey))
+            {
+                dbDealerInfo.AccessKey = GenerateDealerAccessCode();
+            }
             if (dbDealerInfo.CreditCheckConsent != updateDealerInfo.CreditCheckConsent)
             {
                 dbDealerInfo.CreditCheckConsent = updateDealerInfo.CreditCheckConsent;

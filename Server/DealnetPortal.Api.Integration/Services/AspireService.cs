@@ -805,7 +805,8 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 //sometimes we got an error with Credit Review
                 var tryChangeByDocUpload = await ChangeDealStatus(aspireTransactionId, newStatus, contractOwnerId);
-                return new Tuple<string, IList<Alert>>(null, tryChangeByDocUpload);
+                string status = tryChangeByDocUpload?.All(e => e.Type != AlertType.Error) == true ? newStatus : null;
+                return new Tuple<string, IList<Alert>>(status, tryChangeByDocUpload);
             }
             else
             {
