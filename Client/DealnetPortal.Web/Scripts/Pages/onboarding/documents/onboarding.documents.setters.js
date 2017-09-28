@@ -344,9 +344,9 @@
                 $(".div-datepicker").removeClass('opened');
             }
         });
-        var input = assignDatepicker('#' + id + '-license-date', options);
+        var input = assignDatepicker('#' + id + '-license-date', option);
 
-        input.datepicker('setDate', date.val());
+        input.datepicker('setDate', input.val());
 
         var value = input.siblings('.div-datepicker-value');
         value.off('click');
