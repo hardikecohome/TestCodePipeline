@@ -24,13 +24,13 @@
     </div>
     <div class="equal-height-row-3">
       <div class="clearfix">
-        <div class="form-group notify-hold">
+        <div class="form-group">
           <label for="">@Resources.DeferralPeriod</label>
           @Html.DropDownList(Model.ToString().ToLower() + "Deferral", deferralSelectList, new { @class = "form-control", id = "DeferralPeriodDropdown" })
-			<a class="link-over-notify" id="DeferralNotify"
+			@*<a class="link-over-notify" id="DeferralNotify"
 			   data-content="Please select 0 months for Promo">
 				<svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-			</a>
+			</a>*@
         </div>
       </div>
     </div>
