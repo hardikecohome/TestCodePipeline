@@ -6,17 +6,22 @@ $(document)
             yearRange: '1900:' + new Date().getFullYear(),
             minDate: new Date("1900-01-01"),
             maxDate: new Date()
-        };
-        $('.date-input').each(function (index, input) {
-            assignDatepicker(input, options);
-        });
+        }
+        // $('.date-input').each(function (index, input) {
+        //     assignDatepicker(input, options);
+        // });
+
+        assignDatepicker('#date-to', options);
+        assignDatepicker('#date-from', options);
 
         showTable();
     });
 
 function showTable () {
-    $.when($.ajax(itemsUrl, { cache: false, mode: 'GET' }))
-        .done(function (data) {
+    $.ajax(itemsUrl, {
+        cache: false,
+        mode: 'GET',
+        success: function (data) {
             var statusOptions = [];
             var agrTypeOptions = [];
             var salesRepOptions = [];
@@ -174,12 +179,10 @@ function showTable () {
                 table.search('').draw();
             });
 
-            $('.select-filter option').each(function () {
-                $(this).val($(this).text());
-            });
             $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
             $('.select-filter').val($('.select-filter > option:first').val());
-        });
+        }
+    });
 };
 
 $.fn.dataTable.ext.search.push(
