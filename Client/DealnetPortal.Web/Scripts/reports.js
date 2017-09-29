@@ -192,9 +192,7 @@ function showTable () {
             setTimeout(function () {
                 $(window).trigger('resize');
             }, 300);
-            $('.select-filter option').each(function () {
-                $(this).val($(this).text());
-            });
+
             $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
             $('.select-filter').val($('.select-filter > option:first').val());
         });

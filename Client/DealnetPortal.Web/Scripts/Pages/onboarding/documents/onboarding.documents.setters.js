@@ -346,7 +346,8 @@
         });
         var input = assignDatepicker('#' + id + '-license-date', option);
 
-        setDatepickerDate('#' + id + '-license-date', input.val());
+        var license = state.documents.addedLicense.filter(function (item) { return item.id === id; })[0];
+        setDatepickerDate('#' + id + '-license-date', license.date);
 
         var value = input.siblings('.div-datepicker-value');
         value.off('click');

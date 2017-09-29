@@ -97,9 +97,6 @@ function showTable () {
 
             $('.dataTables_filter input[type="search"]').attr('placeholder', 'Client name, email, phone, home improvement category');
 
-            $('.select-filter option').each(function () {
-                $(this).val($(this).text());
-            });
             $('<option selected value="">' + "All" + '</option>').prependTo($('.select-filter'));
             $('.select-filter').val($('.select-filter > option:first').val());
         });
@@ -108,9 +105,9 @@ function showTable () {
 $.fn.dataTable.ext.search.push(
     function (settings, data, dataIndex) {
         var status = $("#deal-status").val();
-        var dateFrom = getDatepickerDate('#date-from');//Date.parseExact($("#date-from").val(), "M/d/yyyy");
-        var dateTo = getDatepickerDate('#date-to');//Date.parseExact($("#date-to").val(), "M/d/yyyy");
-        var date = Date.parseExact(data[1], "M/d/yyyy");
+        var dateFrom = getDatepickerDate('#date-from');
+        var dateTo = getDatepickerDate('#date-to');
+        var date = new Date(data[1]);
         if ((!status || status === data[7]) &&
             (!dateTo || date <= dateTo) &&
             (!dateFrom || date >= dateFrom)) {

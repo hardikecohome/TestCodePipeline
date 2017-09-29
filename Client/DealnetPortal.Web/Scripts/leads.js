@@ -7,11 +7,6 @@
     $('.date-input').each(function (index, input) {
         assignDatepicker(input, options);
     });
-    $('.select-filter option').each(function () {
-        $(this).val($(this).text());
-    });
-    $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
-    $('.select-filter').val($('.select-filter > option:first').val());
 
     showTable();
 });
@@ -121,6 +116,9 @@ function showTable () {
                     template: '<div class="popover customer-popover accepted-leads-popover" role="tooltip"><div class="popover-inner"><div class="popover-container"><span class="popover-icon"><svg aria-hidden="true" class="icon icon-tooltip-info"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-tooltip-info"></use></svg></span><div class="popover-content text-center"></div></div></div></div>',
                 });
             }
+
+            $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
+            $('.select-filter').val($('.select-filter > option:first').val());
         });
 
     function clearFilters () {
@@ -134,9 +132,9 @@ $.fn.dataTable.ext.search.push(
     function (settings, data, dataIndex) {
         var postalCode = $("#postal-code").val();
         var preApprovedFor = $("#pre-approved-for").val();
-        var dateFrom = getDatepickerDate('#date-from');//Date.parseExact($("#date-from").val(), "M/d/yyyy");
-        var dateTo = getDatepickerDate('#date-to');//Date.parseExact($("#date-to").val(), "M/d/yyyy");
-        var date = new Date(data[0]);//Date.parseExact(data[0], "M/d/yyyy");
+        var dateFrom = getDatepickerDate('#date-from');
+        var dateTo = getDatepickerDate('#date-to');
+        var date = new Date(data[0]);
         if ((!postalCode || postalCode === data[1]) &&
             (!preApprovedFor || preApprovedFor === data[2]) &&
             (!dateTo || date <= dateTo) &&
