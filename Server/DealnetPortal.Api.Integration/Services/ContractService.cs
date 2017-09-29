@@ -172,7 +172,7 @@ namespace DealnetPortal.Api.Integration.Services
                         updatedContract.ContractState != ContractState.SentToAudit)
                     {
                         var aspireAlerts = 
-                            _aspireService.SendDealUDFs(updatedContract, contractOwnerId).GetAwaiter().GetResult();
+                            _aspireService.SendDealUDFs(updatedContract, contractOwnerId, contract.LeadSource).GetAwaiter().GetResult();
                     }
 
                     if (updatedContract.ContractState == ContractState.Completed)
@@ -804,7 +804,9 @@ namespace DealnetPortal.Api.Integration.Services
                                 //            _mailService.SendContractChangeNotification(contractDTO,
                                 //                contract.Dealer.Email));
                             }
-                            _aspireService.UpdateContractCustomer(contractId.Value, contractOwnerId);
+                            var leadSource = customers.FirstOrDefault(c => !string.IsNullOrEmpty(c.LeadSource))
+                                ?.LeadSource;
+                            _aspireService.UpdateContractCustomer(contractId.Value, contractOwnerId, leadSource);
                         }
                     }
                 }
