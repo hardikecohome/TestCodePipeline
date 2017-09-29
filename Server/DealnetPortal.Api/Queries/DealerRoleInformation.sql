@@ -1,7 +1,9 @@
 SELECT 
 	d_type.value as Product_Type,
 	c_type.value as Channel_Type,
-	ratecard.value as ratecard,
+	case when ratecard.value is null then 'Tier 1'  when ratecard.value = 'Rate Card Tier 2' then 'Tier 1' when
+	ratecard.value = 'Rate Card Tier 1' then 'Tier 1'
+	 else ratecard.value end as ratecard,
 	rol.active,
 	rol.inactive_date,
 	rol.descr as Role,

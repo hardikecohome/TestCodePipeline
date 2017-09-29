@@ -28,7 +28,7 @@
         notCero: ['equipmentSum', 'LoanTerm', 'AmortizationTerm'],
         minimumLoanValue: 1000,
         amortizationValueToDisable : 180,
-        totalAmountFinancedFor180amortTerm: 5000,
+		totalAmountFinancedFor180amortTerm: TotalAmtFinancedFor180amortTerm,
         maxRateCardLoanValue: 50000
     }
 

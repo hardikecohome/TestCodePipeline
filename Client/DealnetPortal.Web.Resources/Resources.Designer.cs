@@ -3247,7 +3247,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 180 month amortization is available only on loans over $5,000.
+        ///   Looks up a localized string similar to 180 month amortization is available only on loans over $4,000.
         /// </summary>
         public static string Month180AmortOnlyOver5000 {
             get {
