@@ -1,7 +1,5 @@
 ﻿$(document).ready(function () {
-    showTable();
-
-    var options ={
+    var options = {
         yearRange: '1900:' + new Date().getFullYear(),
         minDate: new Date("1900-01-01"),
         maxDate: new Date()
@@ -15,6 +13,8 @@
     });
     $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
     $('.select-filter').val($('.select-filter > option:first').val());
+
+    showTable();
 });
 
 function showTable () {
@@ -135,8 +135,8 @@ $.fn.dataTable.ext.search.push(
     function (settings, data, dataIndex) {
         var postalCode = $("#postal-code").val();
         var preApprovedFor = $("#pre-approved-for").val();
-        var dateFrom = Date.parseExact($("#date-from").val(), "M/d/yyyy");
-        var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
+        var dateFrom = getDatepickerDate('#date-from');//Date.parseExact($("#date-from").val(), "M/d/yyyy");
+        var dateTo = getDatepickerDate('#date-to');//Date.parseExact($("#date-to").val(), "M/d/yyyy");
         var date = Date.parseExact(data[0], "M/d/yyyy");
         if ((!postalCode || postalCode === data[1]) &&
             (!preApprovedFor || preApprovedFor === data[2]) &&

@@ -47,7 +47,7 @@
 
         var input = assignOwnerDatepicker('#' + ownerNumber + '-birthdate', ownerNumber);
 
-        input.datepicker('setDate', $('#' + ownerNumber + '-birthdate').val());
+        setDatepickerDate('#' + ownerNumber + '-birthdate', input.val());
 
         if (ownerNumber !== 'owner0') {
             initGoogleServices(ownerNumber + '-street',

@@ -338,7 +338,6 @@
 
   });
 
-
 function onDateSelect (input) {
   input.removeClass('focus');
   $('body').removeClass('bodyHasDatepicker');
@@ -392,6 +391,17 @@ function assignDatepicker (selector, options) {
 
   input.datepicker(options);
   return input;
+}
+
+function getDatepickerDate (selector) {
+  var input = $('body').is('.ios-device') ? $(selector).siblings('.div-datepicker') : $(selector);
+  return input.datepicker('getDate');
+}
+
+function setDatepickerDate (selector, date) {
+  var input = $('body').is('.ios-device') ? $(selector).siblings('.div-datepicker') : $(selector);
+
+  input.datepicker('setDate', date);
 }
 
 function addCloseButtonForInlineDatePicker () {

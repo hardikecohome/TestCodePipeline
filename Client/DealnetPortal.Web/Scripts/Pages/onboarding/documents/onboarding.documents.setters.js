@@ -346,7 +346,7 @@
         });
         var input = assignDatepicker('#' + id + '-license-date', option);
 
-        input.datepicker('setDate', input.val());
+        setDatepickerDate('#' + id + '-license-date', input.val());
 
         var value = input.siblings('.div-datepicker-value');
         value.off('click');
