@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    showTable();
     var options = {
         yearRange: '1900:' + new Date().getFullYear(),
         minDate: new Date("1900-01-01"),
@@ -7,7 +8,12 @@
     $('.date-input').each(function (index, input) {
         assignDatepicker(input, options);
     });
-    showTable();
+
+    $('.select-filter option').each(function () {
+        $(this).val($(this).text());
+    });
+    $('<option selected value="">' + "All" + '</option>').prependTo($('.select-filter'));
+    $('.select-filter').val($('.select-filter > option:first').val());
 });
 
 function showTable () {
@@ -96,18 +102,15 @@ function showTable () {
             $('#clear-filters-mobile').on('click', clearFilters);
 
             $('.dataTables_filter input[type="search"]').attr('placeholder', 'Client name, email, phone, home improvement category');
-
-            $('<option selected value="">' + "All" + '</option>').prependTo($('.select-filter'));
-            $('.select-filter').val($('.select-filter > option:first').val());
         });
 };
 
 $.fn.dataTable.ext.search.push(
     function (settings, data, dataIndex) {
         var status = $("#deal-status").val();
-        var dateFrom = getDatepickerDate('#date-from');
-        var dateTo = getDatepickerDate('#date-to');
-        var date = new Date(data[1]);
+        var dateFrom = Date.parseExact($("#date-from").val(), "M/d/yyyy");
+        var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
+        var date = Date.parseExact(data[1], "M/d/yyyy");
         if ((!status || status === data[7]) &&
             (!dateTo || date <= dateTo) &&
             (!dateFrom || date >= dateFrom)) {

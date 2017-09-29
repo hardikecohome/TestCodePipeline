@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    showTable();
     var options = {
         yearRange: '1900:' + new Date().getFullYear(),
         minDate: new Date("1900-01-01"),
@@ -8,7 +9,8 @@
         assignDatepicker(input, options);
     });
 
-    showTable();
+    $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
+    $('.select-filter').val($('.select-filter > option:first').val());
 });
 
 function showTable () {
@@ -117,8 +119,6 @@ function showTable () {
                 });
             }
 
-            $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
-            $('.select-filter').val($('.select-filter > option:first').val());
         });
 
     function clearFilters () {
@@ -132,9 +132,9 @@ $.fn.dataTable.ext.search.push(
     function (settings, data, dataIndex) {
         var postalCode = $("#postal-code").val();
         var preApprovedFor = $("#pre-approved-for").val();
-        var dateFrom = getDatepickerDate('#date-from');
-        var dateTo = getDatepickerDate('#date-to');
-        var date = new Date(data[0]);
+        var dateFrom = Date.parseExact($("#date-from").val(), "M/d/yyyy");
+        var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
+        var date = Date.parseExact(data[0], "M/d/yyyy");
         if ((!postalCode || postalCode === data[1]) &&
             (!preApprovedFor || preApprovedFor === data[2]) &&
             (!dateTo || date <= dateTo) &&
