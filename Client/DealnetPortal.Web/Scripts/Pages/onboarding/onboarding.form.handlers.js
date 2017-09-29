@@ -109,6 +109,9 @@
         return true;
     }
 
+    function validateDocuments() {
+        var state
+    }
     function successCallback (json) {
         hideLoader();
     }
