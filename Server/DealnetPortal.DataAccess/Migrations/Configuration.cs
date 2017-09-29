@@ -3363,9 +3363,9 @@ namespace DealnetPortal.DataAccess.Migrations
 
         private void SetRateCards(ApplicationDbContext context)
         {
-            #region RateCards - Fixed Rate 1000 - 4999.99 Tier 1
-            context.RateCards.AddOrUpdate(new RateCard
+            if (!context.RateCards.Any())
             {
+
                 Id = 1,
                 LoanValueFrom = 1000,
                 LoanValueTo = 4999.99,
@@ -6279,6 +6279,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 CardType = RateCardType.Deferral,
                 IsPromo = false
             });
+
         }
 
         public static void AddOrUpdate<TEntity>(DbContext context, Expression<Func<TEntity, object>> identifiers, params TEntity[] entities) where TEntity : class

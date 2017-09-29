@@ -3,14 +3,22 @@
         togglePrintButton(checkUrl);
         $('#print-button').on('click', printContract(downloadUrl));
 
-        $('.date-input').each(assignDatepicker);
+        var datepickerOption = {
+            yearRange: '1900:2200',
+            minDate: (input.hasClass('exlude-min-date')) ? new Date("1900-01-01") : new Date()
+        };
+
+        $('.date-input').each(function (index, input) {
+            assignDatepicker(input, datepickerOption);
+        });
+
         var initPaymentTypeForm = $("#payment-type-form").find(":selected").val();
         managePaymentFormElements(initPaymentTypeForm);
         $("#payment-type-form").change(function () {
             managePaymentFormElements($(this).find(":selected").val());
         });
 
-        $('.comment .show-comments-answers').on('click', function() {
+        $('.comment .show-comments-answers').on('click', function () {
             expandReplies(this);
             return false;
         });
@@ -26,7 +34,7 @@
         checkSubmitAllDocumentsAvailability();
 
         if (!isMobileBrowser) {
-            $('.base-comment-text').keypress(function(e) {
+            $('.base-comment-text').keypress(function (e) {
                 if (e.which == 13 && !e.shiftKey) {
                     var form = $(this).parent().closest('form');
                     submitComment(form, addBaseComment);
@@ -34,12 +42,12 @@
             });
         }
 
-        $('.comment .comment-remove-link').on('click', function() {
+        $('.comment .comment-remove-link').on('click', function () {
             removeComment(this);
             return false;
         });
 
-        var validateFileSize = function(errorAction) {
+        var validateFileSize = function (errorAction) {
             try {
                 if (this.files[0].size > maxFileUploadSize) {
                     errorAction(translations['MaximumFileSize']);
@@ -53,7 +61,7 @@
             }
         };
 
-        $('.main-document-upload').change(function() {
+        $('.main-document-upload').change(function () {
             var input = $(this);
             var form = input.parent().closest('form');
             var tabContainers = $('.documents-container .' + form.data('container'));
@@ -65,9 +73,9 @@
             var errorDesc = form.find('.error-descr');
             var prevDocumentName = documentNaming.text();;
             var wasCancelled;
-            var afterError = function(message) {
+            var afterError = function (message) {
                 //form.find('.error-message').text(message || translations['ErrorWhileUploadingFile']);
-				form.find('.error-message').text(translations['ErrorWhileUploadingFile']);
+                form.find('.error-message').text(translations['ErrorWhileUploadingFile']);
                 errorDesc.show();
                 documentNaming.text(prevDocumentName);
                 if (!prevDocumentName) {
@@ -96,14 +104,14 @@
                         cancelUploadForm.find("input[name='operationGuid']").val(operatGuid);
                         cancelUploadForm.ajaxSubmit();
                     });
-                    var percentVal = '0%';                              
+                    var percentVal = '0%';
                     progressBar.width(percentVal);
                     progressBarValue.html(percentVal);
                     documentNaming.text(input.val().replace(/^.*[\\\/]/, ''));
                     documentItem.show();
                     progressContainer.show();
                 },
-                uploadProgress: function(event, position, total, percentComplete) {
+                uploadProgress: function (event, position, total, percentComplete) {
                     if (percentComplete === 100) {
                         percentComplete = 99;
                     }
@@ -138,7 +146,7 @@
                 }
             });
         });
-        var submitOtherDocument = function() {
+        var submitOtherDocument = function () {
             var input = $(this);
             var form = input.parent().closest('form');
             var tabContainers = $('.documents-container .tab-container-7');
@@ -147,7 +155,7 @@
             var progressBarValue = form.find('.progress-bar-value');
             var errorDesc = form.find('.error-descr');
             var wasCancelled;
-            var afterError = function(message) {
+            var afterError = function (message) {
                 form.find('.error-message').text(translations['ErrorWhileUploadingFile']);
                 errorDesc.show();
                 tabContainers.removeClass('uploaded');
@@ -173,12 +181,12 @@
                         cancelUploadForm.find("input[name='operationGuid']").val(operatGuid);
                         cancelUploadForm.ajaxSubmit();
                     });
-                    var percentVal = '0%';                              
+                    var percentVal = '0%';
                     progressBar.width(percentVal);
                     progressBarValue.html(percentVal);
                     progressContainer.show();
                 },
-                uploadProgress: function(event, position, total, percentComplete) {
+                uploadProgress: function (event, position, total, percentComplete) {
                     if (percentComplete === 100) {
                         percentComplete = 99;
                     }
@@ -240,16 +248,16 @@
         });
 
         $('#send-all-documents-report').on('click', auditConfirmModal);
-	});
+    });
 
-function generateGuid() {
+function generateGuid () {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
 }
 
-function managePaymentFormElements(paymentType) {
+function managePaymentFormElements (paymentType) {
     switch (paymentType) {
         case '0':
             $(".pap-payment-form").hide();
@@ -262,7 +270,7 @@ function managePaymentFormElements(paymentType) {
     }
 }
 
-function auditConfirmModal() {
+function auditConfirmModal () {
     var data = {
         class: "audit-alert-modal",
         message: translations['DidYouUploadAllDocuments'],
@@ -277,7 +285,7 @@ function auditConfirmModal() {
     });
 }
 
-function submitAllDocumentsUploaded() {
+function submitAllDocumentsUploaded () {
     showLoader();
     $('#all-documents-uploaded-form').ajaxSubmit({
         method: 'post',
@@ -302,7 +310,7 @@ function submitAllDocumentsUploaded() {
     });
 }
 
-function checkSubmitAllDocumentsAvailability() {
+function checkSubmitAllDocumentsAvailability () {
     var submitEnabled = true;
     $('.mandatory').each(function () {
         submitEnabled = submitEnabled && $(this).hasClass('uploaded');
@@ -319,7 +327,7 @@ function checkSubmitAllDocumentsAvailability() {
     }
 }
 
-function addReplyFrom() {
+function addReplyFrom () {
     var currComment = $(this).parent().closest('.comment');
     var existingForm = currComment.find('.comment-reply-form');
     if (existingForm.length) {
@@ -337,7 +345,7 @@ function addReplyFrom() {
             return false;
         });
         if (!isMobileBrowser) {
-            commentForm.find('.base-comment-text').keypress(function(e) {
+            commentForm.find('.base-comment-text').keypress(function (e) {
                 if (e.which == 13 && !e.shiftKey) {
                     var form = $(this).parent().closest('form');
                     submitComment(form, addChildComment);
@@ -349,26 +357,17 @@ function addReplyFrom() {
     return false;
 }
 
-function removeComment(button) {
+function removeComment (button) {
     var commentId = $(button).siblings("input[name='comment-id']").val();
     submitCommentRemoval($(button).parent().closest('.comment'), commentId);
 }
 
-function expandReplies(button) {
+function expandReplies (button) {
     $(button).toggleClass('active');
     $(button).parent().closest('.comment').toggleClass('active');
 }
 
-function assignDatepicker() {
-    var input =  $('body').is('.ios-device') ? $(this).siblings('.div-datepicker') : $(this);
-    inputDateFocus(input);
-    input.datepicker({
-        yearRange: '1900:2200',
-        minDate: (input.hasClass('exlude-min-date')) ? Date.parse("1900-01-01") : new Date()
-    });
-}
-
-function submitComment(form, addComment) {
+function submitComment (form, addComment) {
     if (!form.find('.base-comment-text').val().trim()) { return; }
     showLoader();
     form.ajaxSubmit({
@@ -398,7 +397,7 @@ function submitComment(form, addComment) {
     });
 }
 
-function submitCommentRemoval(comment, commentId) {
+function submitCommentRemoval (comment, commentId) {
     showLoader();
     var form = $('#remove-comment-form');
     form.find("input[name='commentId']").val(commentId);
@@ -432,7 +431,7 @@ function submitCommentRemoval(comment, commentId) {
     });
 }
 
-function addBaseComment(form, json) {
+function addBaseComment (form, json) {
     var currComments = $('#comments-start');
     var commentTemplate = $('#comment-template').clone();
     commentTemplate.find(".comment-body input[name='comment-id']").val(json.updatedCommentId);
@@ -449,7 +448,7 @@ function addBaseComment(form, json) {
     return commentTemplate;
 }
 
-function addChildComment(form, json) {
+function addChildComment (form, json) {
     var parentComment = form.parent().closest('.comment');
     var currComments = parentComment.next('ul').find('li:first');
     var commentTemplate = $('#comment-template').clone();
@@ -474,23 +473,23 @@ function addChildComment(form, json) {
     return commentTemplate;
 }
 
-function assignAutocompletes() {
+function assignAutocompletes () {
     $(document)
         .ready(function () {
             initGoogleServices("street", "locality", "administrative_area_level_1", "postal_code");
             initGoogleServices("mailing_street", "mailing_locality", "mailing_administrative_area_level_1", "mailing_postal_code");
-            for (var i = 1; i <= 3; i++) {
+            for (var i = 1;i <= 3;i++) {
                 initGoogleServices("additional-street-" + i, "additional-locality-" + i, "additional-administrative_area_level_1-" + i, "additional-postal_code-" + i);
             }
         });
 }
 
-function printCertificate(checkUrl, form) {
+function printCertificate (checkUrl, form) {
 
     $.get({
         type: "POST",
         url: checkUrl,
-        success: function(json) {
+        success: function (json) {
             if (json == true) {
                 $('#certificate-error-message').hide();
                 form.validate();
@@ -510,12 +509,12 @@ function printCertificate(checkUrl, form) {
                     error: function (xhr, status, p3) {
                         $('#certificate-error-message').show();
                     }
-                });                
+                });
             } else {
                 $('#certificate-error-message').show();
             }
         },
-        error: function(xhr, status, p3) {
+        error: function (xhr, status, p3) {
             $('#certificate-error-message').show();
         }
     });
