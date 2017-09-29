@@ -166,7 +166,7 @@ namespace DealnetPortal.Api.Integration.Services
                     if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null)
                     {
                         var aspireAlerts = 
-                            _aspireService.UpdateContractCustomer(updatedContract, contractOwnerId).GetAwaiter().GetResult();
+                            _aspireService.UpdateContractCustomer(updatedContract, contractOwnerId, contract.LeadSource).GetAwaiter().GetResult();
                     }
                     if (updatedContract.ContractState != ContractState.Completed &&
                         updatedContract.ContractState != ContractState.SentToAudit)
