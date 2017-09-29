@@ -7,11 +7,6 @@
     $('.date-input').each(function (index, input) {
         assignDatepicker(input, options);
     });
-    $('.select-filter option').each(function () {
-        $(this).val($(this).text());
-    });
-    $('<option selected value="">' + "All" + '</option>').prependTo($('.select-filter'));
-    $('.select-filter').val($('.select-filter > option:first').val());
     showTable();
 });
 
@@ -101,6 +96,12 @@ function showTable () {
             $('#clear-filters-mobile').on('click', clearFilters);
 
             $('.dataTables_filter input[type="search"]').attr('placeholder', 'Client name, email, phone, home improvement category');
+
+            $('.select-filter option').each(function () {
+                $(this).val($(this).text());
+            });
+            $('<option selected value="">' + "All" + '</option>').prependTo($('.select-filter'));
+            $('.select-filter').val($('.select-filter > option:first').val());
         });
 };
 

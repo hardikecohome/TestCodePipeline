@@ -10,14 +10,6 @@ $(document)
             assignDatepicker(input, options);
         });
 
-        setTimeout(function () {
-            $(window).trigger('resize');
-        }, 300);
-        $('.select-filter option').each(function () {
-            $(this).val($(this).text());
-        });
-        $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
-        $('.select-filter').val($('.select-filter > option:first').val());
         showTable();
     });
 
@@ -183,12 +175,6 @@ function showTable () {
             });
             $('#export-all-excel').click(function () {
                 var ids = $.map(table.rows('tr', { search: 'applied' }).nodes(), function (tr) {
-                    //if (tr.id != '') {
-                    //    return tr.id;
-                    //} else {
-                    //    return "t" + $(tr).find(':nth-child(2)').text();
-                    //}
-                    //return $(tr).find(':nth-child(1)').text();
                     return tr.id ? tr.id : null;
                 });
                 submitExportRequest(ids);
@@ -203,12 +189,19 @@ function showTable () {
                     submitSinglePreviewRequest(ids[0]);
                 }
             });
+            setTimeout(function () {
+                $(window).trigger('resize');
+            }, 300);
+            $('.select-filter option').each(function () {
+                $(this).val($(this).text());
+            });
+            $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
+            $('.select-filter').val($('.select-filter > option:first').val());
         });
 };
 
 function exportItem () {
     var tr = $(this).parents('tr');
-    //var id = $(tr).find(':nth-child(2)').text();
     var id = $(tr)[0].id;
     var arr = [];
     arr[0] = id;
@@ -230,9 +223,9 @@ $.fn.dataTable.ext.search.push(
         var salesRep = $("#sales-rep").val();
         var equipment = $("#equipment-input").val();
         var createdBy = $("#created-by").val();
-        var dateFrom = getDatepickerDate('#date-from');//Date.parseExact($("#date-from").val(), "M/d/yyyy");
-        var dateTo = getDatepickerDate('#date-to');//Date.parseExact($("#date-to").val(), "M/d/yyyy");
-        var date = Date.parseExact(data[7], "M/d/yyyy");
+        var dateFrom = getDatepickerDate('#date-from');
+        var dateTo = getDatepickerDate('#date-to');
+        var date = new Date(data[7]);
         var value = parseFloat(data[10].replace(/[\$,]/g, ''));
         var valueOfDealFrom = parseFloat($("#deal-value-from").val());
         var valueOfDealTo = parseFloat($("#deal-value-to").val());
