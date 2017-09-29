@@ -1,64 +1,55 @@
 ﻿var table;
 $(document)
-		.ready(function () {
-		    showTable();
-		    assignDatepicker($(".date-control"));
-		    setTimeout(function () {
-		        $(window).trigger('resize');
-		    }, 300);
-		    $('.select-filter option').each(function () {
-		        $(this).val($(this).text());
-		    });
-		    $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
-            $('.select-filter').val($('.select-filter > option:first').val());
-		});
-function assignDatepicker(input) {
-    var input = $('body').is('.ios-device') ? input.siblings('.div-datepicker') : input;
-    inputDateFocus(input);
-    input.datepicker({
-        yearRange: '1900:' + new Date().getFullYear(),
-        minDate: Date.parse("1900-01-01"),
-        maxDate: new Date()
-    });
-}
+    .ready(function () {
+        var options = {
+            yearRange: '1900:' + new Date().getFullYear(),
+            minDate: new Date("1900-01-01"),
+            maxDate: new Date()
+        };
+        $('.date-input').each(function (index, input) {
+            assignDatepicker(input, options);
+        });
 
-function showTable() {
+        showTable();
+    });
+
+function showTable () {
     $.when($.ajax(itemsUrl, { cache: false, mode: 'GET' }))
-    .done(function (data) {
-        var statusOptions = [];
-        var paymentOptions = [];
-        var agrTypeOptions = [];
-        var salesRepOptions = [];
-        $.each(data, function (i, e) {
-            if ($.inArray(e["Status"], statusOptions) == -1)
-                if (e["Status"]) {
-                    statusOptions.push(e["Status"]);
-                }
-            if ($.inArray(e["PaymentType"], paymentOptions) == -1)
-                if (e["PaymentType"]) {
-                    paymentOptions.push(e["PaymentType"]);
-                }
-            if ($.inArray(e["AgreementType"], agrTypeOptions) == -1)
-                if (e["AgreementType"]) {
-                    agrTypeOptions.push(e["AgreementType"]);
-                }
-            if ($.inArray(e["SalesRep"], salesRepOptions) == -1)
-                if (e["SalesRep"]) {
-                    salesRepOptions.push(e["SalesRep"]);
-                }
-        });
-        $.each(statusOptions, function (i, e) {
-            $("#deal-status").append($("<option />").val(e).text(e));
-        });
-        $.each(agrTypeOptions, function (i, e) {
-            $("#agreement-type").append($("<option />").val(e).text(e));
-        });
-        $.each(paymentOptions, function (i, e) {
-            $("#payment-type").append($("<option />").val(e).text(e));
-        });
-        $.each(salesRepOptions, function (i, e) {
-            $("#sales-rep").append($("<option />").val(e).text(e));
-        });
+        .done(function (data) {
+            var statusOptions = [];
+            var paymentOptions = [];
+            var agrTypeOptions = [];
+            var salesRepOptions = [];
+            $.each(data, function (i, e) {
+                if ($.inArray(e["Status"], statusOptions) == -1)
+                    if (e["Status"]) {
+                        statusOptions.push(e["Status"]);
+                    }
+                if ($.inArray(e["PaymentType"], paymentOptions) == -1)
+                    if (e["PaymentType"]) {
+                        paymentOptions.push(e["PaymentType"]);
+                    }
+                if ($.inArray(e["AgreementType"], agrTypeOptions) == -1)
+                    if (e["AgreementType"]) {
+                        agrTypeOptions.push(e["AgreementType"]);
+                    }
+                if ($.inArray(e["SalesRep"], salesRepOptions) == -1)
+                    if (e["SalesRep"]) {
+                        salesRepOptions.push(e["SalesRep"]);
+                    }
+            });
+            $.each(statusOptions, function (i, e) {
+                $("#deal-status").append($("<option />").val(e).text(e));
+            });
+            $.each(agrTypeOptions, function (i, e) {
+                $("#agreement-type").append($("<option />").val(e).text(e));
+            });
+            $.each(paymentOptions, function (i, e) {
+                $("#payment-type").append($("<option />").val(e).text(e));
+            });
+            $.each(salesRepOptions, function (i, e) {
+                $("#sales-rep").append($("<option />").val(e).text(e));
+            });
 
             table = $('#work-items-table')
                 .DataTable({
@@ -71,12 +62,12 @@ function showTable() {
                         },
                         breakpoints: [
                             { name: 'desktop-lg', width: Infinity },
-                            { name: 'desktop',  width: 1169 },
-                            { name: 'tablet-l',  width: $('body').is('.tablet-device') ? 1025 : 1023 },
-                            { name: 'tablet',  width: 1023 },
-                            { name: 'mobile',   width: 767 },
-                            { name: 'mobile-l',   width: 767 },
-                            { name: 'mobile-p',   width: 480 },
+                            { name: 'desktop', width: 1169 },
+                            { name: 'tablet-l', width: $('body').is('.tablet-device') ? 1025 : 1023 },
+                            { name: 'tablet', width: 1023 },
+                            { name: 'mobile', width: 767 },
+                            { name: 'mobile-l', width: 767 },
+                            { name: 'mobile-p', width: 480 },
                         ]
                     },
                     oLanguage: {
@@ -89,127 +80,126 @@ function showTable() {
                         "sZeroRecords": translations['NoMatchingRecordsFound']
                     },
                     columns: [
-                    {
-                        "render": function (sdata, type, row) {
-                            if (row.Id != 0) {
-                                return '<label class="custom-checkbox"><input type="checkbox"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
-                            } else {
-                                return '<label class="custom-checkbox"><input type="checkbox" disabled="disabled"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
-                            }                            
+                        {
+                            "render": function (sdata, type, row) {
+                                if (row.Id != 0) {
+                                    return '<label class="custom-checkbox"><input type="checkbox"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
+                                } else {
+                                    return '<label class="custom-checkbox"><input type="checkbox" disabled="disabled"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
+                                }
+                            },
+                            className: 'checkbox-cell',
+                            orderable: false
                         },
-                        className: 'checkbox-cell',
-                        orderable: false
-                    },                    
-                    { "data": "TransactionId", className: 'contract-cell' },
-                    { "data": "CustomerName", className: 'customer-cell' },
-                    { "data": "Status", className: 'status-cell' },
-                    { "data": "AgreementType", className: 'type-cell'},
-                    { "data": "Email", className: 'email-cell' },
-                    { "data": "Phone", className: 'phone-cell' },
-                    { "data": "Date", className: 'date-cell' },
-                    { "data": "Equipment", className: 'equipment-cell' },
-                    { "data": "SalesRep", className: 'sales-rep-cell' },
-                    { "data": "Value", className: 'value-cell' },
-                    {
-                        "data": "RemainingDescription",
-                        "visible": false
-                    },
-                    {
-                        "data": "PaymentType",
-                        "visible": false
-                    },
-                    {// this is Actions Column
-                        "render": function (sdata, type, row) {
-                            if (row.Id != 0) {
-                                return '<div class="contract-controls"><a class="icon-link preview-item" onclick="previewItem.call(this);"><svg aria-hidden="true" class="icon icon-preview"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-preview"></use></a><a class="icon-link export-item" onclick="exportItem.call(this);"><svg aria-hidden="true" class="icon icon-excel"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-excel"></use></a></div>';
-                            } else {
-                                return '';
-                            }
+                        { "data": "TransactionId", className: 'contract-cell' },
+                        { "data": "CustomerName", className: 'customer-cell' },
+                        { "data": "Status", className: 'status-cell' },
+                        { "data": "AgreementType", className: 'type-cell' },
+                        { "data": "Email", className: 'email-cell' },
+                        { "data": "Phone", className: 'phone-cell' },
+                        { "data": "Date", className: 'date-cell' },
+                        { "data": "Equipment", className: 'equipment-cell' },
+                        { "data": "SalesRep", className: 'sales-rep-cell' },
+                        { "data": "Value", className: 'value-cell' },
+                        {
+                            "data": "RemainingDescription",
+                            "visible": false
                         },
-                        className: 'controls-cell',
-                        orderable: false
-                    },
-                    {
-                        "data": "IsCreatedByCustomer",
-                        "visible": false
+                        {
+                            "data": "PaymentType",
+                            "visible": false
+                        },
+                        {// this is Actions Column
+                            "render": function (sdata, type, row) {
+                                if (row.Id != 0) {
+                                    return '<div class="contract-controls"><a class="icon-link preview-item" onclick="previewItem.call(this);"><svg aria-hidden="true" class="icon icon-preview"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-preview"></use></a><a class="icon-link export-item" onclick="exportItem.call(this);"><svg aria-hidden="true" class="icon icon-excel"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-excel"></use></a></div>';
+                                } else {
+                                    return '';
+                                }
+                            },
+                            className: 'controls-cell',
+                            orderable: false
+                        },
+                        {
+                            "data": "IsCreatedByCustomer",
+                            "visible": false
+                        }
+                    ],
+                    dom:
+                    "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
+                    "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
+                    "<'length-filter '<'row '<'#export-all-to-excel.col-md-3 col-sm-4 col-xs-12 col-md-push-9 col-sm-push-8'><'col-md-7 col-sm-6 col-xs-12  col-md-pull-3 col-sm-pull-4'l>>>" +
+                    "<'row'<'col-md-12'tr>>" +
+                    "<'table-footer'>" +
+                    "<'row'<'col-md-12'p>>" +
+                    "<'row'<'col-md-12'i>>",
+                    renderer: 'bootstrap',
+                    footerCallback: createTableFooter,
+                    order: [],
+                    drawCallback: function (settings) {
+                        var api = this.api();
+                        var count = api.rows({ page: 'current' }).data().count();
+                        if (count === 0) {
+                            $('#export-all-excel').attr("disabled", "disabled");
+                        } else {
+                            $('#export-all-excel').removeAttr("disabled");
+                        }
                     }
-            ],
-            dom:
-            "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
-            "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
-            "<'length-filter '<'row '<'#export-all-to-excel.col-md-3 col-sm-4 col-xs-12 col-md-push-9 col-sm-push-8'><'col-md-7 col-sm-6 col-xs-12  col-md-pull-3 col-sm-pull-4'l>>>" +
-            "<'row'<'col-md-12'tr>>" +
-            "<'table-footer'>" +
-            "<'row'<'col-md-12'p>>" +
-            "<'row'<'col-md-12'i>>",
-            renderer: 'bootstrap',
-            footerCallback: createTableFooter,
-            order: [],
-            drawCallback: function (settings) {
-                var api = this.api();
-                var count = api.rows({ page: 'current' }).data().count();
-                if (count === 0) {
-                    $('#export-all-excel').attr("disabled", "disabled");
-                } else {
-                    $('#export-all-excel').removeAttr("disabled");
-                }
-            }
-        });
+                });
 
-        table.on('draw.dt', function(){
-          redrawDataTablesSvgIcons();
-          resetDataTablesExpandedRows(table);
-        });
+            table.on('draw.dt', function () {
+                redrawDataTablesSvgIcons();
+                resetDataTablesExpandedRows(table);
+            });
 
 
-        getTotalForSelectedCheckboxes();
-        createFilter();
-        recalculateGrandTotal();
-        table.on('search.dt', function () {
+            getTotalForSelectedCheckboxes();
+            createFilter();
             recalculateGrandTotal();
-            recalculateTotalForSelected();
-        });
-        $(".filter-button").click(function () {
-            table.draw();
-        });
-        $('#clear-filters').click(function () {
-            $('.filter-input').val("");
-            table.search('').draw(false);
-        });
-        $('#export-excel').click(function () {
-            var ids = $.map(table.rows('tr.selected', { search: 'applied' }).nodes(), function (tr) {
-                return tr.id;
+            table.on('search.dt', function () {
+                recalculateGrandTotal();
+                recalculateTotalForSelected();
             });
-            submitExportRequest(ids);
-        });
-        $('#export-all-excel').click(function () {
-            var ids = $.map(table.rows('tr', { search: 'applied' }).nodes(), function (tr) {
-                //if (tr.id != '') {
-                //    return tr.id;
-                //} else {
-                //    return "t" + $(tr).find(':nth-child(2)').text();
-                //}
-                //return $(tr).find(':nth-child(1)').text();
-                return tr.id ? tr.id : null;
+            $(".filter-button").click(function () {
+                table.draw();
             });
-            submitExportRequest(ids);
-        });
-        $('#preview-button').click(function () {
-            var ids = $.map(table.rows('tr.selected', { search: 'applied' }).nodes(), function (tr) {
-                return tr.id;
+            $('#clear-filters').click(function () {
+                $('.filter-input').val("");
+                table.search('').draw(false);
             });
-            if (ids.length > 1) {
-                submitMultiplePreviewRequest(ids);
-            } else {
-                submitSinglePreviewRequest(ids[0]);
-            }
+            $('#export-excel').click(function () {
+                var ids = $.map(table.rows('tr.selected', { search: 'applied' }).nodes(), function (tr) {
+                    return tr.id;
+                });
+                submitExportRequest(ids);
+            });
+            $('#export-all-excel').click(function () {
+                var ids = $.map(table.rows('tr', { search: 'applied' }).nodes(), function (tr) {
+                    return tr.id ? tr.id : null;
+                });
+                submitExportRequest(ids);
+            });
+            $('#preview-button').click(function () {
+                var ids = $.map(table.rows('tr.selected', { search: 'applied' }).nodes(), function (tr) {
+                    return tr.id;
+                });
+                if (ids.length > 1) {
+                    submitMultiplePreviewRequest(ids);
+                } else {
+                    submitSinglePreviewRequest(ids[0]);
+                }
+            });
+            setTimeout(function () {
+                $(window).trigger('resize');
+            }, 300);
+
+            $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
+            $('.select-filter').val($('.select-filter > option:first').val());
         });
-    });
 };
 
-function exportItem() {
+function exportItem () {
     var tr = $(this).parents('tr');
-    //var id = $(tr).find(':nth-child(2)').text();
     var id = $(tr)[0].id;
     var arr = [];
     arr[0] = id;
@@ -217,42 +207,42 @@ function exportItem() {
 };
 
 
-function previewItem() {
+function previewItem () {
     var tr = $(this).parents('tr');
     var id = $(tr)[0].id;
     submitSinglePreviewRequest(id);
 };
 
 $.fn.dataTable.ext.search.push(
-function (settings, data, dataIndex) {
-    var status = $("#deal-status").val();
-    var agreementType = $("#agreement-type").val();
-    var paymentType = $("#payment-type").val();
-    var salesRep = $("#sales-rep").val();
-    var equipment = $("#equipment-input").val();
-    var createdBy = $("#created-by").val();
-    var dateFrom = Date.parseExact($("#date-from").val(), "M/d/yyyy");
-    var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
-    var date = Date.parseExact(data[7], "M/d/yyyy");
-    var value = parseFloat(data[10].replace(/[\$,]/g, ''));
-    var valueOfDealFrom = parseFloat($("#deal-value-from").val());
-    var valueOfDealTo = parseFloat($("#deal-value-to").val());
-    if ((!status || status === data[3]) &&
-        (!dateTo || date <= dateTo) &&
-        (!dateFrom || date >= dateFrom) &&
-        (!agreementType || agreementType === data[4]) &&
-        (!salesRep || salesRep === data[9]) &&
-        (!paymentType || paymentType === data[12]) &&
-        (!equipment || data[8].match(new RegExp(equipment, "i"))) &&
-        (isNaN(valueOfDealFrom) || !isNaN(value) && value >= valueOfDealFrom) &&
-        (isNaN(valueOfDealTo) || !isNaN(value) && value <= valueOfDealTo) &&
-        (createdBy === '' || createdBy == data[14])) {
-        return true;
-    }
-    return false;
-});
+    function (settings, data, dataIndex) {
+        var status = $("#deal-status").val();
+        var agreementType = $("#agreement-type").val();
+        var paymentType = $("#payment-type").val();
+        var salesRep = $("#sales-rep").val();
+        var equipment = $("#equipment-input").val();
+        var createdBy = $("#created-by").val();
+        var dateFrom = getDatepickerDate('#date-from');
+        var dateTo = getDatepickerDate('#date-to');
+        var date = new Date(data[7]);
+        var value = parseFloat(data[10].replace(/[\$,]/g, ''));
+        var valueOfDealFrom = parseFloat($("#deal-value-from").val());
+        var valueOfDealTo = parseFloat($("#deal-value-to").val());
+        if ((!status || status === data[3]) &&
+            (!dateTo || date <= dateTo) &&
+            (!dateFrom || date >= dateFrom) &&
+            (!agreementType || agreementType === data[4]) &&
+            (!salesRep || salesRep === data[9]) &&
+            (!paymentType || paymentType === data[12]) &&
+            (!equipment || data[8].match(new RegExp(equipment, "i"))) &&
+            (isNaN(valueOfDealFrom) || !isNaN(value) && value >= valueOfDealFrom) &&
+            (isNaN(valueOfDealTo) || !isNaN(value) && value <= valueOfDealTo) &&
+            (createdBy === '' || createdBy == data[14])) {
+            return true;
+        }
+        return false;
+    });
 
-function submitExportRequest(ids) {
+function submitExportRequest (ids) {
     $("#export-ids").empty();
     $.each(ids, function (index, item) {
         $("#export-ids").append($('<input>', {
@@ -264,11 +254,11 @@ function submitExportRequest(ids) {
     $("#export-form").submit();
 }
 
-function submitSinglePreviewRequest(id) {
+function submitSinglePreviewRequest (id) {
     window.location.href = contractPreviewUrl + id;
 }
 
-function submitMultiplePreviewRequest(ids) {
+function submitMultiplePreviewRequest (ids) {
     $("#contract-preview-ids").empty();
     $.each(ids, function (index, item) {
         $("#contract-preview-ids").append($('<input>', {
@@ -280,8 +270,8 @@ function submitMultiplePreviewRequest(ids) {
     $("#multiple-preview-form").submit();
 }
 
-function createFilter() {
-    var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
+function createFilter () {
+    var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
     var iconSearch = '<span class="icon-search-control"><svg aria-hidden="true" class="icon icon-search"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-search"></use></svg></span>';
 
     $('#table-title').html('<div class="dealnet-large-header">' + translations['Reports'] + ' <div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
@@ -299,18 +289,18 @@ function createFilter() {
 
 }
 
-function createTableFooter(row, data, start, end, display) {    
+function createTableFooter (row, data, start, end, display) {
     $('.table-footer').html($('.reports-table-footer').detach());
 }
 
-function getIntValue(value) {
+function getIntValue (value) {
     return typeof value === 'string' ?
         value.replace(/[\$,]/g, '') * 1 :
-            typeof value === 'number' ?
-        value : 0;
+        typeof value === 'number' ?
+            value : 0;
 }
 
-function recalculateGrandTotal() {
+function recalculateGrandTotal () {
     var sum = 0;
     table.column(10, { search: 'applied' }).data().each(function (value, index) {
         sum += getIntValue(value);
@@ -320,7 +310,7 @@ function recalculateGrandTotal() {
     return sum;
 }
 
-function recalculateTotalForSelected() {
+function recalculateTotalForSelected () {
     var data = table.rows('tr.selected', { search: 'applied' }).data();
     var sum = 0;
     data.each(function (value, index) {
@@ -334,7 +324,7 @@ function recalculateTotalForSelected() {
     }
 }
 
-function getTotalForSelectedCheckboxes() {
+function getTotalForSelectedCheckboxes () {
     var selectedSum;
 
     $('#work-items-table tbody').on('click', ':checkbox', function () {
@@ -345,7 +335,7 @@ function getTotalForSelectedCheckboxes() {
         if (isNaN(val)) { val = 0; }
         var isSelected = tr.is(".selected");
         selectedSum = isSelected ? selectedSum + val : selectedSum - val;
-        
+
         $('#selectedTotal').html('$ ' + selectedSum.toFixed(2));
         if (selectedSum !== 0 || isSelected) {
             $('.reports-table-footer').addClass('has-selected-items');

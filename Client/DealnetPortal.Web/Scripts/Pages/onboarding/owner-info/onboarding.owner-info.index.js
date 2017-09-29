@@ -4,7 +4,7 @@
     var aknwoledgmentSetters = require('onboarding.ackonwledgment.setters');
     var additionalOwner = require('onboarding.owner-info.additional');
     var aknwoledgmentOwner = require('onboarding.ackonwledgment.owners');
-    var assignDatepicker = require('onboarding.owner-info.conversion').assignDatepicker;
+    var assignOwnerDatepicker = require('onboarding.owner-info.conversion').assignOwnerDatepicker;
     var setLengthLimitedField = require('onboarding.setters').setLengthLimitedField;
     var enableSubmit = require('onboarding.setters').enableSubmit;
     var ownersMoveToNextSection = require('onboarding.owner-info.setters').moveToNextSection;
@@ -45,9 +45,9 @@
             .on('keyup', setLengthLimitedField(3));
         $('#' + ownerNumber + '-agreement').on('change', aknwoledgmentSetters.setAgreement(ownerNumber));
 
-        var input = assignDatepicker('#' + ownerNumber + '-birthdate', ownerNumber);
+        var input = assignOwnerDatepicker('#' + ownerNumber + '-birthdate', ownerNumber);
 
-        input.datepicker('setDate', $('#' + ownerNumber + '-birthdate').val());
+        setDatepickerDate('#' + ownerNumber + '-birthdate', state['owner-info'].owners[ownerNumber].birthdate);
 
         if (ownerNumber !== 'owner0') {
             initGoogleServices(ownerNumber + '-street',

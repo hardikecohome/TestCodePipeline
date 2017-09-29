@@ -1,14 +1,16 @@
 ﻿$(document).ready(function () {
-    showTable();
-    assignDatepicker($(".date-control"));
-    $('.select-filter option').each(function () {
-        $(this).val($(this).text());
+    var options = {
+        yearRange: '1900:' + new Date().getFullYear(),
+        minDate: new Date("1900-01-01"),
+        maxDate: new Date()
+    };
+    $('.date-input').each(function (index, input) {
+        assignDatepicker(input, options);
     });
-    $('<option selected value="">' + "All" + '</option>').prependTo($('.select-filter'));
-    $('.select-filter').val($('.select-filter > option:first').val()); 
+    showTable();
 });
 
-function showTable() {
+function showTable () {
     $.when($.ajax(itemsUrl, { cache: false, mode: 'GET' }))
         .done(function (data) {
             var statusOptions = [];
@@ -46,22 +48,22 @@ function showTable() {
                         "sZeroRecords": translations['NoMatchingRecordsFound']
                     },
                     columns: [
-				        { "data": "TransactionId", className: 'contract-cell' },
-				        { "data": "Date", className: 'date-cell' },
-				        { "data": "Client", className: 'client-cell', orderable: false },
-				        { "data": "Email", className: 'email-cell', orderable: false },
-				        { "data": "Phone", className: 'phone-cell', orderable: false },
-				        { "data": "Improvement", className: 'improvement-cell', orderable: false },
-				        { "data": "SalesAgent", className: 'email-cell', orderable: false, "visible": false },
-                { "data": "Status", className: 'status-cell', orderable: false },
+                        { "data": "TransactionId", className: 'contract-cell' },
+                        { "data": "Date", className: 'date-cell' },
+                        { "data": "Client", className: 'client-cell', orderable: false },
+                        { "data": "Email", className: 'email-cell', orderable: false },
+                        { "data": "Phone", className: 'phone-cell', orderable: false },
+                        { "data": "Improvement", className: 'improvement-cell', orderable: false },
+                        { "data": "SalesAgent", className: 'email-cell', orderable: false, "visible": false },
+                        { "data": "Status", className: 'status-cell', orderable: false },
                     ],
                     dom:
-			            "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-12 col-sm-12 hidden-md hidden-lg''<'#filter-btn-position'>'><'col-md-4 col-sm-6'f>>" +
-			            "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
-			            "<'row'<'col-md-12 col-sm-6'l>>" +
-			            "<'row'<'col-md-12'tr>>" +
-			            "<'row'<'col-md-12'p>>" +
-			            "<'row'<'col-md-12'i>>",
+                    "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-12 col-sm-12 hidden-md hidden-lg''<'#filter-btn-position'>'><'col-md-4 col-sm-6'f>>" +
+                    "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
+                    "<'row'<'col-md-12 col-sm-6'l>>" +
+                    "<'row'<'col-md-12'tr>>" +
+                    "<'row'<'col-md-12'p>>" +
+                    "<'row'<'col-md-12'i>>",
                     renderer: 'bootstrap',
                     order: []
                 });
@@ -93,16 +95,19 @@ function showTable() {
             $('#clear-filters').on('click', clearFilters);
             $('#clear-filters-mobile').on('click', clearFilters);
 
-            $('.dataTables_filter input[type="search"]').attr('placeholder','Client name, email, phone, home improvement category');
+            $('.dataTables_filter input[type="search"]').attr('placeholder', 'Client name, email, phone, home improvement category');
+
+            $('<option selected value="">' + "All" + '</option>').prependTo($('.select-filter'));
+            $('.select-filter').val($('.select-filter > option:first').val());
         });
 };
 
 $.fn.dataTable.ext.search.push(
     function (settings, data, dataIndex) {
         var status = $("#deal-status").val();
-        var dateFrom = Date.parseExact($("#date-from").val(), "M/d/yyyy");
-        var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
-        var date = Date.parseExact(data[1], "M/d/yyyy");
+        var dateFrom = getDatepickerDate('#date-from');
+        var dateTo = getDatepickerDate('#date-to');
+        var date = new Date(data[1]);
         if ((!status || status === data[7]) &&
             (!dateTo || date <= dateTo) &&
             (!dateFrom || date >= dateFrom)) {
@@ -112,18 +117,8 @@ $.fn.dataTable.ext.search.push(
     }
 );
 
-function clearFilters() {
+function clearFilters () {
     $('.filter-input').val("");
     var table = $('#work-items-table').DataTable();
     table.search('').draw();
-}
-
-function assignDatepicker(input) {
-  var input = $('body').is('.ios-device') ? input.siblings('.div-datepicker') : input;
-    inputDateFocus(input);
-    input.datepicker({
-        yearRange: '1900:' + new Date().getFullYear(),
-        minDate: Date.parse("1900-01-01"),
-        maxDate: new Date()
-    });
 }

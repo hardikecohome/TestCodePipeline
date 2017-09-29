@@ -76,7 +76,7 @@
         cellPhone: '',
         email: '',
         comment: '',
-        captchaCode: config.reCaptchaEnabled ? '' : 'empty' ,
+        captchaCode: config.reCaptchaEnabled ? '' : 'empty',
         creditAgreement: false,
         contactAgreement: false,
         lessThanSix: false,
@@ -93,7 +93,7 @@
 
     // your info reducer
     var reducerObj = {}
-    reducerObj[SET_INITIAL_STATE] = function(state, action) {
+    reducerObj[SET_INITIAL_STATE] = function (state, action) {
         return $.extend({}, state, action.payload);
     };
     reducerObj[SET_NAME] = setFormField('name');
@@ -104,7 +104,7 @@
     reducerObj[SET_CITY] = setFormField('city');
     reducerObj[SET_PROVINCE] = setFormField('province');
     reducerObj[SET_POSTAL_CODE] = setFormField('postalCode');
-    reducerObj[CLEAR_ADDRESS] = function() {
+    reducerObj[CLEAR_ADDRESS] = function () {
         return {
             street: '',
             unit: '',
@@ -113,7 +113,7 @@
             postalCode: '',
         };
     };
-    reducerObj[SET_ADDRESS] = function(state, action) {
+    reducerObj[SET_ADDRESS] = function (state, action) {
         var street = '';
         if (action.payload.number) {
             street += action.payload.number;
@@ -139,7 +139,7 @@
     reducerObj[SET_PCITY] = setFormField('pcity');
     reducerObj[SET_PPROVINCE] = setFormField('pprovince');
     reducerObj[SET_PPOSTAL_CODE] = setFormField('ppostalCode');
-    reducerObj[CLEAR_PADDRESS] = function() {
+    reducerObj[CLEAR_PADDRESS] = function () {
         return {
             pstreet: '',
             punit: '',
@@ -148,7 +148,7 @@
             ppostalCode: '',
         };
     };
-    reducerObj[SET_PADDRESS] = function(state, action) {
+    reducerObj[SET_PADDRESS] = function (state, action) {
         var street = '';
         if (action.payload.number) {
             street += action.payload.number;
@@ -173,13 +173,13 @@
     reducerObj[DISPLAY_SUBMIT_ERRORS] = setFormField('displaySubmitErrors');
     reducerObj[DISPLAY_INSTALLATION] = setFormField('displayInstallation');
     reducerObj[DISPLAY_CONTACT_INFO] = setFormField('displayContactInfo');
-    reducerObj[ACTIVATE_INSTALLATION] = function() {
+    reducerObj[ACTIVATE_INSTALLATION] = function () {
         return {
             displayInstallation: true,
             activePanel: 'installation',
         };
     };
-    reducerObj[ACTIVATE_CONTACT_INFO] = function() {
+    reducerObj[ACTIVATE_CONTACT_INFO] = function () {
         return {
             displayContactInfo: true,
             activePanel: 'contactInfo',
@@ -197,7 +197,7 @@
     var reducer = makeReducer(reducerObj, iniState);
 
     // selectors
-    var getRequiredPhones = function(state) {
+    var getRequiredPhones = function (state) {
         return {
             phone: state.cellPhone === '' || (state.cellPhone !== '' && state.phone !== ''),
             cellPhone: state.phone === '',
@@ -220,14 +220,14 @@
             }
         }
 
-        var requiredPhones = filterObj(function(key, obj) {
+        var requiredPhones = filterObj(function (key, obj) {
             return obj[key];
         })(getRequiredPhones(state));
 
         var requiredP = state.lessThanSix ? requiredPFields : [];
 
         var emptyErrors = requiredFields.concat(requiredPhones).concat(requiredP).map(mapObj(state))
-            .some(function(val) {
+            .some(function (val) {
                 return typeof val === 'string' ? val === '' : !val;
             });
 
@@ -266,7 +266,7 @@
                         flow2.splice(index2, 1);
                     }
                     if (action.type === SET_ADDRESS && action.payload.streeet !== '') {
-                        addressFlow.forEach(function(action) {
+                        addressFlow.forEach(function (action) {
                             var index3 = flow2.indexOf(action);
                             if (index3 >= 0) {
                                 flow2.splice(index3, 1);
@@ -341,21 +341,21 @@
     };
 
     if (window.config.reCaptchaEnabled) {
-        window.onLoadCaptcha = function() {
+        window.onLoadCaptcha = function () {
             grecaptcha.render('gcaptcha', {
                 sitekey: window.config.reCaptchaKey,
-                callback: function(response) {
+                callback: function (response) {
                     dispatch(createAction(SET_CAPTCHA_CODE, response));
                 },
-                'expired-callback': function() {
+                'expired-callback': function () {
                     dispatch(createAction(SET_CAPTCHA_CODE, ''));
                 },
             });
         };
     }
 
-    var extend = function(defaults) {
-        return function(overrides) {
+    var extend = function (defaults) {
+        return function (overrides) {
             return $.extend({}, defaults, overrides);
         };
     };
@@ -369,8 +369,8 @@
         postal_code: 'short_name'
     };
 
-    var getAddress = function(addressForm) {
-        return function(addressComponent) {
+    var getAddress = function (addressForm) {
+        return function (addressComponent) {
             var addressType = addressComponent.types[0];
             if (addressForm.hasOwnProperty(addressType)) {
                 var addressObj = {};
@@ -380,7 +380,7 @@
         };
     };
 
-    var setAutocomplete = function(streetElmId, cityElmId) {
+    var setAutocomplete = function (streetElmId, cityElmId) {
         var extendCommonOpts = extend({
             componentRestrictions: { country: 'ca' },
         });
@@ -399,63 +399,63 @@
         };
     };
 
-    window.initAutocomplete = function() {
-        $(document).ready(function() {
+    window.initAutocomplete = function () {
+        $(document).ready(function () {
             var gAutoCompletes = setAutocomplete('street', 'city');
             var gPAutoCompletes = setAutocomplete('pstreet', 'pcity');
 
             gAutoCompletes.street.addListener('place_changed',
-                function() {
+                function () {
                     var place = gAutoCompletes.street.getPlace().address_components
                         .map(getAddress(addressForm)).reduce(concatObj);
 
                     dispatch(createAction(SET_ADDRESS,
-                    {
-                        street: place['route'] || '',
-                        number: place['street_number'] || '',
-                        city: place['locality'] || '',
-                        province: place['administrative_area_level_1'] || '',
-                        postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : '',
-                    }));
+                        {
+                            street: place['route'] || '',
+                            number: place['street_number'] || '',
+                            city: place['locality'] || '',
+                            province: place['administrative_area_level_1'] || '',
+                            postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : '',
+                        }));
                 });
 
             gAutoCompletes.city.addListener('place_changed',
-                function() {
+                function () {
                     var place = gAutoCompletes.city.getPlace().address_components
                         .map(getAddress(addressForm)).reduce(concatObj);
 
                     dispatch(createAction(SET_ADDRESS,
-                    {
-                        city: place['locality'] || '',
-                        province: place['administrative_area_level_1'] || '',
-                    }));
+                        {
+                            city: place['locality'] || '',
+                            province: place['administrative_area_level_1'] || '',
+                        }));
                 });
 
             gPAutoCompletes.street.addListener('place_changed',
-                function() {
+                function () {
                     var place = gPAutoCompletes.street.getPlace().address_components
                         .map(getAddress(addressForm)).reduce(concatObj);
 
                     dispatch(createAction(SET_PADDRESS,
-                    {
-                        street: place['route'] || '',
-                        number: place['street_number'] || '',
-                        city: place['locality'] || '',
-                        province: place['administrative_area_level_1'] || '',
-                        postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : '',
-                    }));
+                        {
+                            street: place['route'] || '',
+                            number: place['street_number'] || '',
+                            city: place['locality'] || '',
+                            province: place['administrative_area_level_1'] || '',
+                            postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : '',
+                        }));
                 });
 
             gPAutoCompletes.city.addListener('place_changed',
-                function() {
+                function () {
                     var place = gPAutoCompletes.city.getPlace().address_components
                         .map(getAddress(addressForm)).reduce(concatObj);
 
                     dispatch(createAction(SET_PADDRESS,
-                    {
-                        city: place['locality'] || '',
-                        province: place['administrative_area_level_1'] || '',
-                    }));
+                        {
+                            city: place['locality'] || '',
+                            province: place['administrative_area_level_1'] || '',
+                        }));
                 });
         });
     };
@@ -464,22 +464,23 @@
         .ready(function () {
             $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('#selectedService'));
             $('#selectedService').val($('#selectedService > option:first').val());
-            var birth = $("#birth-date-customer");
-            inputDateFocus(birth);
 
-            birth.datepicker({
+            assignDatepicker('#birth-date-customer', {
                 dateFormat: 'mm/dd/yy',
                 changeYear: true,
                 changeMonth: (viewport().width < 768) ? true : false,
                 yearRange: '1900:' + (new Date().getFullYear() - 18),
-                minDate: Date.parse("1900-01-01"),
+                minDate: new Date("1900-01-01"),
                 maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
                 showButtonPanel: true,
                 closeText: translations['Cancel'],
                 onSelect: function (day) {
                     dispatch(createAction(SET_BIRTH, day));
+
+                    $(this).siblings('input.form-control').val(value).blur();
+                    $(".div-datepicker").removeClass('opened');
                 }
-            });
+            })
 
             // action dispatchers
             var name = $('#firstName');
@@ -526,7 +527,7 @@
 
             var homeOwner = $('#homeowner-checkbox');
             homeOwner.on('click', function (e) {
-                dispatch(createAction(TOGGLE_OWNERSHIP, homeOwner.prop('checked') ));
+                dispatch(createAction(TOGGLE_OWNERSHIP, homeOwner.prop('checked')));
             });
 
             var pstreet = $('#pstreet');
@@ -629,7 +630,7 @@
 
             dispatch(createAction(SET_INITIAL_STATE, readInitialStateFromFields(initialStateMap)));
 
-             // observers
+            // observers
             observeCustomerFormStore(function (state) {
                 return {
                     displayInstallation: state.displayInstallation,
@@ -697,7 +698,7 @@
             });
 
             var createError = function (msg) {
-                var err = $('<div class="well danger-well over-aged-well" id="age-error-message"><svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-info-well"></use></svg></div>');
+                var err = $('<div class="well danger-well over-aged-well" id="age-error-message"><svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-info-well"></use></svg></div>');
                 err.append(msg);
                 return err;
             };
@@ -717,7 +718,7 @@
                         });
                 }
 
-                var emptyError = props.errors.filter(function(error) {
+                var emptyError = props.errors.filter(function (error) {
                     return error.type === 'empty';
                 });
 

@@ -4,39 +4,41 @@
     var readInitialStateFromFields = require('objectUtils').readInitialStateFromFields;
     var observe = require('redux').observe;
     var improvments = [];
-    return function(store) {
+
+    return function (store) {
         var dispatch = store.dispatch;
         $('span.icon-remove').on('click', 'div.form-group', function (e) {
             dispatch(createAction(clientActions.REMOVE_EQUIPMENT, e.target.value));
             $(this).parent().remove();
         });
 
-        var improvmentMoveInDate = $("#impvoment-date");
+        var improvmentMoveInDate = assignDatepicker('#impvoment-date', {
+            dateFormat: 'mm/dd/yy',
+            yearRange: '1900:2200',
+            minDate: new Date(),
+            onSelect: function (day) {
+                dispatch(createAction(clientActions.SET_IMPROVMENT_MOVE_DATE, day));
 
-        inputDateFocus(improvmentMoveInDate);
-		improvmentMoveInDate.datepicker({
-			dateFormat: 'mm/dd/yy',
-			yearRange: '1900:2200',
-			minDate: new Date(),
-			onSelect: function (day) {
-				dispatch(createAction(clientActions.SET_IMPROVMENT_MOVE_DATE, day));
-			},
-			onClose: function () {
-				onDateSelect($(this));
-			}			
-		});
-		improvmentMoveInDate.on('change', function () {
-			var day = birth.val();
-			dispatch(createAction(clientActions.SET_IMPROVMENT_MOVE_DATE, day));
-		});
+                $(this).siblings('input.form-control').val(day).blur();
+                $(".div-datepicker").removeClass('opened');
+            },
+            onClose: function () {
+                onDateSelect($(this));
+            }
+        });
+
+        improvmentMoveInDate.on('change', function () {
+            var day = birth.val();
+            dispatch(createAction(clientActions.SET_IMPROVMENT_MOVE_DATE, day));
+        });
         $('#ui-datepicker-div').addClass('cards-datepicker');
 
-        $('#comment').on('change', function(e) {
+        $('#comment').on('change', function (e) {
             dispatch(createAction(clientActions.SET_COMMENT, e.target.value));
         });
 
         // action handlers
-        $('#improvment-equipment').on('change', function() {
+        $('#improvment-equipment').on('change', function () {
             var equipmentValue = $(this).val();
             dispatch(createAction(clientActions.SET_NEW_EQUIPMENT, equipmentValue));
             var equipmentText = $("#improvment-equipment :selected").text();
@@ -97,7 +99,7 @@
             dispatch(createAction(clientActions.SET_IMPROVMENT_POSTAL_CODE, e.target.value));
         });
 
-        function deleteEquipment() {
+        function deleteEquipment () {
             $(this).parent().remove();
 
             var imprValue = $(this).attr('id');
@@ -135,7 +137,7 @@
             $('#installation-address').find('input:not(:checkbox), select').each(function () {
                 $(this).prop("disabled", props.unknownAddress);
             });
-            
+
         });
     }
 });
