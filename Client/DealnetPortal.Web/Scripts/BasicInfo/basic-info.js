@@ -132,7 +132,7 @@ configInitialized
         });
         $("#owner-scan-button").click(function () {
             ga('send', 'event', 'Scan License', 'button_click', 'DrivingLicense', '100');
-            if (!(isMobileRequest || isMobileRequest.toLowerCase() === 'true')) {
+            if (!(isMobileRequest || typeof isMobileRequest === 'string' && isMobileRequest.toLowerCase() === 'true')) {
                 e.preventDefault();
                 var modal = document.getElementById('camera-modal');
                 modal.setAttribute('data-fnToFill', 'first-name');

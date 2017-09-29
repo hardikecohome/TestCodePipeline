@@ -346,16 +346,20 @@ function onDateSelect (input) {
 function initDatepicker () {
   //if(!$('.date-group').children('.dealnet-disabled-input'))
   $('.date-group').each(function () {
-    $('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length === 0 ? $('<div/>', {
-      class: 'div-datepicker-value',
-      text: $(this).find('.form-control').val()
-    }).appendTo(this) : '';
-    $('body').is('.ios-device') ? $('<div/>', {
-      class: 'div-datepicker',
-    }).appendTo(this) : '';
+    if ($('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length === 0) {
+      $('<div/>', {
+        class: 'div-datepicker-value',
+        text: $(this).find('.form-control').val()
+      }).appendTo(this);
+    }
+    if ($('body').is('.ios-device')) {
+      $('<div/>', {
+        class: 'div-datepicker',
+      }).appendTo(this);
+    }
   });
 
-  $('body').on('click', '.div-datepicker-value', function () {
+  $('.div-datepicker-value').on('click', function () {
     $('.div-datepicker').removeClass('opened');
     $(this).siblings('.div-datepicker').toggleClass('opened');
     if (!$('.div-datepicker .ui-datepicker-close').length) {
@@ -385,7 +389,32 @@ function initDatepicker () {
 }
 
 function assignDatepicker (selector, options) {
-  var input = $('body').is('.ios-device') ? $(selector).siblings('.div-datepicker') : $(selector);
+  var isIOS = $('body').is('.ios-device');
+  var selected = $(selector);
+  var input = isIOS ? selected.siblings('.div-datepicker') : selected;
+
+  if (isIOS) {
+    var dateGroup = selected.parents('.date-group');
+    if (dateGroup.children('.dealnet-disabled-input').length === 0 && dateGroup.children('.div-datepicker-value').length === 0) {
+      dateGroup.append($('<div/>', {
+        class: 'div-datepicker-value',
+        text: $(this).find('.form-control').val()
+      }));
+    }
+    if (dateGroup.children('.div-datepicker').length === 0) {
+      dateGroup.append($('<div/>', {
+        class: 'div-datepicker',
+      }));
+    }
+
+    dateGroup.children('.div-datepicker-value').on('click', function () {
+      $('.div-datepicker').removeClass('opened');
+      $(this).siblings('.div-datepicker').toggleClass('opened');
+      if (!$('.div-datepicker .ui-datepicker-close').length) {
+        addCloseButtonForInlineDatePicker();
+      }
+    });
+  }
 
   inputDateFocus(input);
 
