@@ -2046,7 +2046,7 @@
     <value>Previously selected financing program is no longer available. In order to modify deal you need to select valid program.</value>
   </data>
   <data name="Library" xml:space="preserve">
-    <value>Library</value>
+    <value>Resources</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Custom</value>
