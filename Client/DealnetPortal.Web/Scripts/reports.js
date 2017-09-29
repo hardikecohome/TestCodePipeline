@@ -1,6 +1,7 @@
 ﻿var table;
 $(document)
     .ready(function () {
+        showTable();
         var options = {
             yearRange: '1900:' + new Date().getFullYear(),
             minDate: new Date("1900-01-01"),
@@ -10,7 +11,12 @@ $(document)
             assignDatepicker(input, options);
         });
 
-        showTable();
+        setTimeout(function () {
+            $(window).trigger('resize');
+        }, 300);
+
+        $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
+        $('.select-filter').val($('.select-filter > option:first').val());
     });
 
 function showTable () {
@@ -189,12 +195,6 @@ function showTable () {
                     submitSinglePreviewRequest(ids[0]);
                 }
             });
-            setTimeout(function () {
-                $(window).trigger('resize');
-            }, 300);
-
-            $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
-            $('.select-filter').val($('.select-filter > option:first').val());
         });
 };
 
@@ -221,9 +221,9 @@ $.fn.dataTable.ext.search.push(
         var salesRep = $("#sales-rep").val();
         var equipment = $("#equipment-input").val();
         var createdBy = $("#created-by").val();
-        var dateFrom = getDatepickerDate('#date-from');
-        var dateTo = getDatepickerDate('#date-to');
-        var date = new Date(data[7]);
+        var dateFrom = Date.parseExact($("#date-from").val(), "M/d/yyyy");
+        var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
+        var date = Date.parseExact(data[7], "M/d/yyyy");
         var value = parseFloat(data[10].replace(/[\$,]/g, ''));
         var valueOfDealFrom = parseFloat($("#deal-value-from").val());
         var valueOfDealTo = parseFloat($("#deal-value-to").val());
