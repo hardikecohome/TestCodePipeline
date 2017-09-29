@@ -2,7 +2,6 @@
 
 $(document)
     .ready(function () {
-        showTable();
         var options = {
             yearRange: '1900:' + new Date().getFullYear(),
             minDate: new Date("1900-01-01"),
@@ -17,7 +16,7 @@ $(document)
         });
         $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
         $('.select-filter').val($('.select-filter > option:first').val());
-        $('.dataTable ');
+        showTable();
     });
 
 function showTable () {
@@ -188,8 +187,8 @@ $.fn.dataTable.ext.search.push(
         var agreementType = $("#agreement-type").val();
         var salesRep = $("#sales-rep").val();
         var createdBy = $("#created-by").val();
-        var dateFrom = Date.parseExact($("#date-from").val(), "M/d/yyyy");
-        var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
+        var dateFrom = getDatepickerDate('#date-from');// Date.parseExact($("#date-from").val(), "M/d/yyyy");
+        var dateTo = getDatepickerDate('#date-to');// Date.parseExact($("#date-to").val(), "M/d/yyyy");
         var valueEntered = Date.parseExact(data[6], "M/d/yyyy");
         if ((!status || status === data[2]) &&
             (!agreementType || agreementType === data[3]) &&

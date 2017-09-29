@@ -1,7 +1,7 @@
 ﻿function checkApplicantsAge () {
     var atLeastOneValid = false;
     $('.check-age').each(function () {
-        var birthday = $('body').is('.ios-device') ? $(this).val() : $(this).datepicker('getDate');
+        var birthday = getDatepickerDate(this);
         if (birthday === null || birthday === undefined || birthday === "") { return true; }
 
         if (typeof birthday === "string") {
