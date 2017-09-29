@@ -190,14 +190,16 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<OwnerInfo, OwnerInfoDTO>()
                 .ForMember(x => x.Address, d => d.MapFrom(src => src.Address));
             mapperConfig.CreateMap<RequiredDocument, RequiredDocumentDTO>()
-                .ForMember(x => x.DocumentBytes, d => d.Ignore());
+                .ForMember(x => x.DocumentBytes, d => d.Ignore())
+                .ForMember(x => x.LeadSource, d => d.Ignore());
             mapperConfig.CreateMap<DealerInfo, DealerInfoDTO>()
                 .ForMember(x => x.CompanyInfo, d => d.MapFrom(src => src.CompanyInfo))
                 .ForMember(x => x.ProductInfo, d => d.MapFrom(src => src.ProductInfo))
                 .ForMember(x => x.Owners, d => d.MapFrom(src => src.Owners))
                 .ForMember(x => x.RequiredDocuments, d => d.MapFrom(src => src.RequiredDocuments))
                 .ForMember(x => x.AdditionalDocuments, d => d.MapFrom(src => src.AdditionalDocuments))
-                .ForMember(x => x.SalesRepLink, d => d.Ignore());
+                .ForMember(x => x.SalesRepLink, d => d.Ignore())
+                .ForMember(x => x.LeadSource, d => d.Ignore());
             mapperConfig.CreateMap<LicenseType, LicenseTypeDTO>();
             mapperConfig.CreateMap<LicenseDocument, LicenseDocumentDTO>();
             mapperConfig.CreateMap<AdditionalDocument, AdditionalDocumentDTO>();

@@ -14,5 +14,7 @@ namespace DealnetPortal.Web.Common.Constants
         public const string Favicon = "Favicon";
 
         public const int MaxAdditionalApplicants = 1;
+
+        public const string DefaultLeadSourceKey = "DefaultLeadSource";
     }
 }
