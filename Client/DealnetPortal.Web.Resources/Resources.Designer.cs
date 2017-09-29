@@ -1618,6 +1618,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Custom.
+        /// </summary>
+        public static string Custom {
+            get {
+                return ResourceManager.GetString("Custom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Customer.
         /// </summary>
         public static string Customer {
@@ -1866,6 +1875,15 @@ namespace DealnetPortal.Web.Resources {
         public static string DeferralPeriod {
             get {
                 return ResourceManager.GetString("DeferralPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deferral/Promo.
+        /// </summary>
+        public static string DeferralPromo {
+            get {
+                return ResourceManager.GetString("DeferralPromo", resourceCulture);
             }
         }
         

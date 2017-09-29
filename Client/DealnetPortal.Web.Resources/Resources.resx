@@ -2045,4 +2045,10 @@
   <data name="Library" xml:space="preserve">
     <value>Library</value>
   </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="DeferralPromo" xml:space="preserve">
+    <value>Deferral/Promo</value>
+  </data>
 </root>
