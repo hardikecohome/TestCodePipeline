@@ -11,11 +11,6 @@ $(document)
             assignDatepicker(input, options);
         });
 
-        $('.select-filter option').each(function () {
-            $(this).val($(this).text());
-        });
-        $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
-        $('.select-filter').val($('.select-filter > option:first').val());
         showTable();
     });
 
@@ -178,6 +173,12 @@ function showTable () {
                 $('.filter-input').val("");
                 table.search('').draw();
             });
+
+            $('.select-filter option').each(function () {
+                $(this).val($(this).text());
+            });
+            $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
+            $('.select-filter').val($('.select-filter > option:first').val());
         });
 };
 
@@ -187,9 +188,9 @@ $.fn.dataTable.ext.search.push(
         var agreementType = $("#agreement-type").val();
         var salesRep = $("#sales-rep").val();
         var createdBy = $("#created-by").val();
-        var dateFrom = getDatepickerDate('#date-from');// Date.parseExact($("#date-from").val(), "M/d/yyyy");
-        var dateTo = getDatepickerDate('#date-to');// Date.parseExact($("#date-to").val(), "M/d/yyyy");
-        var valueEntered = Date.parseExact(data[6], "M/d/yyyy");
+        var dateFrom = getDatepickerDate('#date-from');
+        var dateTo = getDatepickerDate('#date-to');
+        var valueEntered = new Date(data[6]);
         if ((!status || status === data[2]) &&
             (!agreementType || agreementType === data[3]) &&
             (!salesRep || salesRep === data[8]) &&

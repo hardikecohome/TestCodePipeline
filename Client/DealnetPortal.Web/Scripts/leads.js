@@ -4,7 +4,6 @@
         minDate: new Date("1900-01-01"),
         maxDate: new Date()
     };
-
     $('.date-input').each(function (index, input) {
         assignDatepicker(input, options);
     });
@@ -137,7 +136,7 @@ $.fn.dataTable.ext.search.push(
         var preApprovedFor = $("#pre-approved-for").val();
         var dateFrom = getDatepickerDate('#date-from');//Date.parseExact($("#date-from").val(), "M/d/yyyy");
         var dateTo = getDatepickerDate('#date-to');//Date.parseExact($("#date-to").val(), "M/d/yyyy");
-        var date = Date.parseExact(data[0], "M/d/yyyy");
+        var date = new Date(data[0]);//Date.parseExact(data[0], "M/d/yyyy");
         if ((!postalCode || postalCode === data[1]) &&
             (!preApprovedFor || preApprovedFor === data[2]) &&
             (!dateTo || date <= dateTo) &&

@@ -79,6 +79,9 @@ function submitUpload (sender, uploadUrl, fn, ln, bd, dl, st, ct, pr, pc) {
                 }
             });
             $("#upload-file").val("");
+            if (sender) {
+                sender.value = '';
+            }
         } else {
             alert(translations['BrowserNotSupportFileUpload']);
         }
