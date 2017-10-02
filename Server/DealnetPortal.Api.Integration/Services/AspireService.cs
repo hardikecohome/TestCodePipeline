@@ -446,7 +446,6 @@ namespace DealnetPortal.Api.Integration.Services
                 try
                 {
                     Task timeoutTask = Task.Delay(_aspireRequestTimeout);
-
                     var aspireRequestTask = _aspireServiceAgent.DealUploadSubmission(request);
                     DealUploadResponse response = null;
 
@@ -1922,7 +1921,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (!string.IsNullOrEmpty(contract.Details.TransactionId))
             {
                 //check lead source in aspire
-                setLeadSource = null;
+                //setLeadSource = null;
             }
             if (!string.IsNullOrEmpty(setLeadSource))
             {
