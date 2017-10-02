@@ -84,7 +84,8 @@ namespace DealnetPortal.Web.Controllers
                 Query = null,
             };
             customerFormDto.DealUri = urlBuilder.ToString();
-            customerFormDto.LeadSource = System.Configuration.ConfigurationManager.AppSettings[PortalConstants.DefaultLeadSourceKey];
+            customerFormDto.LeadSource = System.Configuration.ConfigurationManager.AppSettings[PortalConstants.CustomerFormLeadSourceKey] ??
+                                            System.Configuration.ConfigurationManager.AppSettings[PortalConstants.DefaultLeadSourceKey];
             var submitResult = await _contractServiceAgent.SubmitCustomerForm(customerFormDto);
 
             if (submitResult == null || (submitResult.Item2?.Any(x => x.Type == AlertType.Error) ?? false))

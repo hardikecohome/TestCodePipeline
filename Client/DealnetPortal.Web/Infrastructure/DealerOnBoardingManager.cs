@@ -26,7 +26,8 @@ namespace DealnetPortal.Web.Infrastructure
         {
             _dictionaryServiceAgent = dictionaryServiceAgent;
             _dealerServiceAgent = dealerServiceAgent;
-            _leadSource = System.Configuration.ConfigurationManager.AppSettings[PortalConstants.DefaultLeadSourceKey];
+            _leadSource = System.Configuration.ConfigurationManager.AppSettings[PortalConstants.OnboardingLeadSourceKey] ??
+                           System.Configuration.ConfigurationManager.AppSettings[PortalConstants.DefaultLeadSourceKey];
         }
 
         public async Task<DealerOnboardingViewModel> GetNewDealerOnBoardingForm(string onboardingLink)

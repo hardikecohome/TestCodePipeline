@@ -85,7 +85,8 @@ namespace DealnetPortal.Web.Infrastructure
                 }
                 newCustomerDto.PrimaryCustomer.Locations.Add(improvmentAddress);               
             }    
-            newCustomerDto.LeadSource = System.Configuration.ConfigurationManager.AppSettings[PortalConstants.DefaultLeadSourceKey];
+            newCustomerDto.LeadSource = System.Configuration.ConfigurationManager.AppSettings[PortalConstants.MortgageBrokerLeadSourceKey] ??
+                                            System.Configuration.ConfigurationManager.AppSettings[PortalConstants.DefaultLeadSourceKey];
             return await _contractServiceAgent.CreateContractForCustomer(newCustomerDto);
         }
 
