@@ -90,7 +90,7 @@
     }
 
     function validateEquipment () {
-        if (state.product.selectedEquipment.length > 1) {
+        if (state.product.selectedEquipment.length >= 1) {
             $('#equipment-error').addClass('hidden');
         } else {
             $('#equipment-error').removeClass('hidden');
@@ -100,7 +100,7 @@
     }
 
     function validateWorkProvinces () {
-        if (state.company.selectedProvinces.length > 1) {
+        if (state.company.selectedProvinces.length >= 1) {
             $('#work-province-error').addClass('hidden');
         } else {
             $('#work-province-error').removeClass('hidden');
@@ -110,8 +110,13 @@
     }
 
     function validateDocuments() {
-        var state
+        var license = state['documents']['addedLicense'].filter(function (lic) { return lic.nubmer === '' && lic.date === '' }).length === 0;
+        var insurence = state['documents']['insurence-files'].length > 0;
+        var voidCheque = state['documents']['void-cheque-files'].length > 0;
+
+        return license && insurence && voidCheque;
     }
+
     function successCallback (json) {
         hideLoader();
     }
@@ -126,6 +131,7 @@
 
         var equipValid = validateEquipment();
         var workProvinceValid = validateWorkProvinces();
+        var documentsUploaded = validateDocuments();
 
         if (!$form.valid()) {
             e.preventDefault();
@@ -134,10 +140,12 @@
             return;
         }
 
+        $('#IsDocumentsUploaded').val(documentsUploaded);
+
         if (equipValid && workProvinceValid) {
             showLoader();
             $form.ajaxSubmit({
-                type: 'POST',
+                type: 'POST'
             });
         } else {
             e.preventDefault();

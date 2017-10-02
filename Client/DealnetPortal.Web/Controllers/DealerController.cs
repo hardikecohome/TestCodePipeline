@@ -74,11 +74,16 @@ namespace DealnetPortal.Web.Controllers
 
             var result = await _dealerOnBoardingManager.SubmitOnBoarding(model);
 
-            if(result != null && result.Any(x => x.Type == AlertType.Error))
+            if (result.Success)
             {
                 return RedirectToAction("AnonymousError", "Info");
             }
 
+            if (!model.IsDocumentsUploaded)
+            {
+                return View("OnBoarding/_SaveAndResumeModal", result);
+            }
+          
             return RedirectToAction("OnBoardingSuccess");
         }
 

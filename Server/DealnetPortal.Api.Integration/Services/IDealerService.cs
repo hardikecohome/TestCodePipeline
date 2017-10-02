@@ -16,7 +16,7 @@ namespace DealnetPortal.Api.Integration.Services
         DealerInfoDTO GetDealerOnboardingForm(string accessKey);
         DealerInfoDTO GetDealerOnboardingForm(int id);
         Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> UpdateDealerOnboardingForm(DealerInfoDTO dealerInfo);
-        Task<IList<Alert>> SubmitDealerOnboardingForm(DealerInfoDTO dealerInfo);
+        Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> SubmitDealerOnboardingForm(DealerInfoDTO dealerInfo);
         Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> AddDocumentToOnboardingForm(RequiredDocumentDTO document);
         IList<Alert> DeleteDocumentFromOnboardingForm(RequiredDocumentDTO document);
         IList<Alert> DeleteDealerOnboardingForm(int dealerInfoId);
