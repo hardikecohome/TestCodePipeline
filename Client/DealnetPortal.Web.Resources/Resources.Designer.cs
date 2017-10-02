@@ -4291,6 +4291,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Previously selected financing program is no longer available. In order to modify deal you need to select valid program..
+        /// </summary>
+        public static string RateCardNoLongerAvailable {
+            get {
+                return ResourceManager.GetString("RateCardNoLongerAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Request to Fund.
         /// </summary>
         public static string ReadyForAudit {

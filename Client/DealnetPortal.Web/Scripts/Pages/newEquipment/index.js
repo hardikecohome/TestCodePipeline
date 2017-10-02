@@ -1,5 +1,5 @@
 ﻿module.exports('new-equipment',
-    function(require) {
+    function (require) {
         var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
         var submitRateCard = require('rate-cards').submitRateCard;
         var setters = require('value-setters');
@@ -25,7 +25,7 @@
                         option = 'Custom';
                     }
 
-                    var monthPayment = Globalize.parseNumber($('#' + option + 'TMPayments').text().replace('$','').trim());
+                    var monthPayment = Globalize.parseNumber($('#' + option + 'TMPayments').text().replace('$', '').trim());
                     if (isNaN(monthPayment) || (monthPayment == 0)) {
                         event.preventDefault();
                         $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
@@ -49,7 +49,7 @@
             }
         }
 
-        var toggleRateCardBlock = function() {
+        var toggleRateCardBlock = function () {
             rateCardBlock.toggle($('#rateCardsBlock').is('.closed'));
             toggleDisableClassOnInputs(false);
         }
@@ -57,6 +57,10 @@
         var onRateCardSelect = function () {
             recalculateValuesAndRender();
             var option = $(this).parent().find('#hidden-option').text();
+            if ($('#not-selected-rc').is(':visible')) {
+                $('#not-selected-rc').addClass('hidden');
+            }
+
             if (option === 'Custom') {
                 var isValid = validateOnSelect.call(this);
 
@@ -75,13 +79,13 @@
             }
         }
 
-        function toggleCustomRateCard() {
+        function toggleCustomRateCard () {
             var isRental = $('#typeOfAgreementSelect').val() != 0;
             var option = $('.checked > #hidden-option').text();
             toggleDisableClassOnInputs(isRental || option !== 'Custom' && option !== '');
         }
 
-        function onAmortizationDropdownChange(option) {
+        function onAmortizationDropdownChange (option) {
             $('#' + option + 'AmortizationDropdown').change(function () {
                 $(this).find('option:selected').removeAttr('selected');
 
@@ -89,20 +93,19 @@
             });
         }
 
-        function assignDatepicker() {
-            var input = $('body').is('.ios-device') ? $(this).siblings('.div-datepicker') : $(this);
-            inputDateFocus(input);
-            input.datepicker({
-                yearRange: '1900:2200',
-                minDate: new Date()
-            });
-        }
+        var datepickerOptions = {
+            yearRange: '1900:2200',
+            minDate: new Date()
+        };
 
-        $('.date-input').each(assignDatepicker);
+        $('.date-input').each(function (index, input) {
+            assignDatepicker(input, datepickerOptions);
+        });
+
         $.validator.addMethod(
             "date",
             function (value, element) {
-                var minDate = Date.parse("1900-01-01");
+                var minDate = new Date("1900-01-01");
                 var valueEntered = Date.parseExact(value, "M/d/yyyy");
                 if (!valueEntered) {
                     return false;
@@ -133,7 +136,7 @@
         $('.btn-select-card').on('click', onRateCardSelect);
 
         // deferral
-        $('#deferralLATerm').on('change', function(e) {
+        $('#deferralLATerm').on('change', function (e) {
             var loanAmort = e.target.value.split('/');
             setters.setLoanAmortTerm('deferral')(loanAmort[0], loanAmort[1]);
         });

@@ -1,11 +1,11 @@
-﻿function checkApplicantsAge() {
+﻿function checkApplicantsAge () {
     var atLeastOneValid = false;
     $('.check-age').each(function () {
-        var birthday = $('body').is('.ios-device') ? $(this).val() : $(this).datepicker('getDate');
+        var birthday = getDatepickerDate(this);
         if (birthday === null || birthday === undefined || birthday === "") { return true; }
 
         if (typeof birthday === "string") {
-            birthday = Date.parse(birthday);
+            birthday = new Date(birthday);
         }
 
         var ageDifMs = Date.now() - birthday.getTime();
@@ -19,10 +19,10 @@
     return atLeastOneValid;
 };
 
-function checkApplicantAgeOnSelect(date) {
+function checkApplicantAgeOnSelect (date) {
     if (date === null || date === undefined) { return true; }
     if (typeof date === "string") {
-        date = Date.parse(date);
+        date = new Date(date);
     }
 
     var ageDifMs = Date.now() - date.getTime();
@@ -36,7 +36,7 @@ function checkApplicantAgeOnSelect(date) {
     return false;
 }
 
-function checkHomeOwner() {
+function checkHomeOwner () {
     var isHomeOwner = false;
     $('.check-homeowner').each(function () {
         if ($(this).prop('checked')) {
@@ -47,7 +47,7 @@ function checkHomeOwner() {
     return isHomeOwner;
 };
 
-function checkCreditAgree() {
+function checkCreditAgree () {
     var mainCustomerAgrees = $('#home-owner-agrees').prop('checked');
     if ($("#additional1-section").data('active')) {
         var additionalCustomerAgrees = $('#additional-owner-agrees').prop('checked');

@@ -4,12 +4,18 @@
         $('#existing-notes-default').text("").attr("id", "ExistingEquipment_0__Notes");
         sessionStorage.existingEquipmetTemplate = document.getElementById('existing-equipment-base').innerHTML;
         $("#existing-equipment-base").remove();
-        
-        $('.date-input').each(assignDatepicker);
+
+        var datepickerOptions = {
+            yearRange: '1900:2200',
+            minDate: new Date()
+        };
+        $('.date-input').each(function (index, input) {
+            assignDatepicker(input, datepickerOptions);
+        });
         $.validator.addMethod(
             "date",
             function (value, element) {
-                var minDate = Date.parse("1900-01-01");
+                var minDate = new Date("1900-01-01");
                 var valueEntered = Date.parseExact(value, "M/d/yyyy");
                 if (!valueEntered) {
                     return false;
@@ -23,7 +29,7 @@
         );
     });
 
-function addExistingEquipment() {
+function addExistingEquipment () {
     var nextNumber = Number(sessionStorage.existingEquipmets) + 1;
     var newDiv = document.createElement('div');
     newDiv.innerHTML = sessionStorage.existingEquipmetTemplate.split("ExistingEquipment[0]").join("ExistingEquipment[" + sessionStorage.existingEquipmets + "]")
@@ -40,7 +46,7 @@ function addExistingEquipment() {
     resetPlacehoder($(newDiv).find('textarea, input'));
 }
 
-function removeExistingEquipment(id) {
+function removeExistingEquipment (id) {
     $('#existing-equipment-' + id).remove();
     var nextNumber = Number(id);
     while (true) {
@@ -73,7 +79,7 @@ function removeExistingEquipment(id) {
     sessionStorage.existingEquipmets = Number(sessionStorage.existingEquipmets) - 1;
 };
 
-$(document).ready(function() {
+$(document).ready(function () {
     $('#equipment-form').submit(function (event) {
         $('#equipment-form').validate();
         if (!$('#equipment-form').valid()) {
@@ -82,17 +88,8 @@ $(document).ready(function() {
     });
 });
 
-function resetFormValidator(formId) {
+function resetFormValidator (formId) {
     $(formId).removeData('validator');
     $(formId).removeData('unobtrusiveValidation');
     $.validator.unobtrusive.parse(formId);
-}
-
-function assignDatepicker() {
-    var input = $('body').is('.ios-device') ? $(this).siblings('.div-datepicker') : $(this);
-    inputDateFocus(input);
-    input.datepicker({
-        yearRange: '1900:2200',
-        minDate: new Date()
-    });
 }
