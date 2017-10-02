@@ -144,9 +144,7 @@
 
         if (equipValid && workProvinceValid) {
             showLoader();
-            $form.ajaxSubmit({
-                type: 'POST'
-            });
+            $form.submit();
         } else {
             e.preventDefault();
         }

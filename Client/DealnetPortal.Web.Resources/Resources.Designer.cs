@@ -1497,8 +1497,9 @@ namespace DealnetPortal.Web.Resources {
         public static string CostOfBorrowing {
             get {
                 return ResourceManager.GetString("CostOfBorrowing", resourceCulture);
-		}
-	}
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Cost (including all taxes).
         /// </summary>
@@ -2238,7 +2239,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while uploading file. (Maximum file size allowed is 20MB).
+        ///   Looks up a localized string similar to An error occurred while uploading file. (Maximum file size 20 MB).
         /// </summary>
         public static string ErrorWhileUploadingFile {
             get {
@@ -2967,7 +2968,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lived at current address less than 6 month.
+        ///   Looks up a localized string similar to Lived at current address less than 2 years.
         /// </summary>
         public static string LivedAtCurrentLessThan {
             get {
@@ -4205,6 +4206,16 @@ namespace DealnetPortal.Web.Resources {
         public static string PromoCustom {
             get {
                 return ResourceManager.GetString("PromoCustom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please remember to provide all required documents.
+        ///You can do it anytime by using the following link:.
+        /// </summary>
+        public static string ProvideDocuments {
+            get {
+                return ResourceManager.GetString("ProvideDocuments", resourceCulture);
             }
         }
         
@@ -5478,6 +5489,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Customer&apos;s Verfication Id.
+        /// </summary>
+        public static string VerificationId {
+            get {
+                return ResourceManager.GetString("VerificationId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Want us to email you this link? Enter your email below and click “Send me link”..
         /// </summary>
         public static string WantToSendLink {
@@ -5501,15 +5521,6 @@ namespace DealnetPortal.Web.Resources {
         public static string WebsiteMustBeLong {
             get {
                 return ResourceManager.GetString("WebsiteMustBeLong", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Customer&apos;s Verfication Id.
-        /// </summary>
-        public static string VerificationId {
-            get {
-                return ResourceManager.GetString("VerificationId", resourceCulture);
             }
         }
         

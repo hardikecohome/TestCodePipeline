@@ -21,7 +21,7 @@
         documents.init(model.DictionariesData.LicenseDocuments, model.AdditionalDocuments, model.RequiredDocuments);
         consent.init(model.AllowCommunicate, model.AllowCreditCheck);
 
-        $('#submit').on('click', validateAndSubmit);
+        $('#submitBtn').on('click', validateAndSubmit);
         $('.save-and-resume').on('click', submitDraft);
 
         if (detectIe()) {

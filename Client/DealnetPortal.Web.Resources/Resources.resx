@@ -2042,4 +2042,8 @@
   <data name="EmailExists" xml:space="preserve">
     <value>The email address you have entered is already registered</value>
   </data>
+  <data name="ProvideDocuments" xml:space="preserve">
+    <value>Please remember to provide all required documents.
+You can do it anytime by using the following link:</value>
+  </data>
 </root>
