@@ -110,7 +110,18 @@
     }
 
     function validateDocuments() {
-        var license = state['documents']['addedLicense'].filter(function (lic) { return lic.nubmer === '' && lic.date === '' }).length === 0;
+        var license = state['documents']['addedLicense'].filter(function (lic) {
+            if (lic.noExpiry === undefined) {
+                return lic.nubmer === '' || lic.date === '';
+            } else {
+                if (lic.noExpiry === true) {
+                    return lic.nubmer === '';
+                } else {
+                    return lic.nubmer === '' || lic.date === null;
+                }
+            }
+        }).length === 0;
+
         var insurence = state['documents']['insurence-files'].length > 0;
         var voidCheque = state['documents']['void-cheque-files'].length > 0;
 
@@ -127,7 +138,7 @@
 
     function validate (e) {
         var $form = $('#onboard-form');
-        $('#submit').prop('disabled', true);
+        $('#submitBtn').prop('disabled', true);
 
         var equipValid = validateEquipment();
         var workProvinceValid = validateWorkProvinces();
@@ -136,7 +147,7 @@
         if (!$form.valid()) {
             e.preventDefault();
 
-            $('#submit').prop('disabled', false);
+            $('#submitBtn').prop('disabled', false);
             return;
         }
 
