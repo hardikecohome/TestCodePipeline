@@ -59,6 +59,7 @@
         //ODI
         public static readonly string PORTAL_DESCRIBER_ODI_CONFIG_KEY = "PortalDescriber.606cfa8b-0e2c-47ef-b646-66c5f639aebd";
 
+        public static readonly string DEFAULT_LEAD_SOURCE_KEY = "DefaultLeadSource";
         public static readonly string ONBOARDING_LEAD_SOURCE_KEY = "OnboardingLeadSource";      
 
         public static readonly string INITIAL_DATA_SEED_ENABLED_CONFIG_KEY = "InitialDataSeedEnabled";

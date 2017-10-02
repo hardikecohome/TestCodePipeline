@@ -25,5 +25,7 @@ namespace DealnetPortal.Api.Models.Contract
 
         public PaymentInfoDTO PaymentInfo { get; set; }
         public EquipmentInfoDTO Equipment { get; set; }
+        // Lead source of a client web-portal (DP, MB, OB, CW)
+        public string LeadSource { get; set; }
     }
 }

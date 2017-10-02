@@ -139,7 +139,7 @@ namespace DealnetPortal.Api.Integration.Services
                 //submit draft form to Aspire                                             
                 var reSubmit = updatedInfo.SentToAspire;                
                 string statusToSet = !string.IsNullOrEmpty(updatedInfo.TransactionId) ? _aspireStorageReader.GetDealStatus(updatedInfo.TransactionId) ?? updatedInfo.Status : null;
-                var submitResult = await _aspireService.SubmitDealerOnboarding(updatedInfo.Id);
+                var submitResult = await _aspireService.SubmitDealerOnboarding(updatedInfo.Id, dealerInfo.LeadSource);
                 if (submitResult?.Any() ?? false)
                 {
                     //for draft aspire errors is not important and can be by not full set of data
@@ -201,7 +201,7 @@ namespace DealnetPortal.Api.Integration.Services
                 //submit form to Aspire                                             
                 var reSubmit = updatedInfo.SentToAspire;
                 string statusToSet = reSubmit ? _aspireStorageReader.GetDealStatus(updatedInfo.TransactionId) ?? _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY) : _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY);
-                var submitResult = await _aspireService.SubmitDealerOnboarding(updatedInfo.Id);
+                var submitResult = await _aspireService.SubmitDealerOnboarding(updatedInfo.Id, dealerInfo.LeadSource);
                 if (submitResult?.Any() ?? false)
                 {
                     alerts.AddRange(submitResult);
