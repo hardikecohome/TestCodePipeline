@@ -2137,7 +2137,7 @@ namespace DealnetPortal.DataAccess.Migrations
             var documentTypes = new List<DocumentType>
             {
                 new DocumentType()  {Id = (int)DocumentTemplateType.SignedContract, Description = "Signed contract", DescriptionResource = "SignedContract", Prefix = "SC_"},
-                new DocumentType()  {Id = (int)DocumentTemplateType.SignedInstallationCertificate, Description = "Signed Installation Сertificate", DescriptionResource = "SignedInstallationСertificate", Prefix = "SIC_"},
+                new DocumentType()  {Id = (int)DocumentTemplateType.SignedInstallationCertificate, Description = "Signed Installation Certificate", DescriptionResource = "SignedInstallationСertificate", Prefix = "SIC_"},
                 new DocumentType()  {Id = (int)DocumentTemplateType.Invoice, Description = "Invoice", DescriptionResource = "Invoice", Prefix = "INV_"},
                 new DocumentType()  {Id = (int)DocumentTemplateType.VoidPersonalCheque, Description = "Copy of Void Personal Cheque", DescriptionResource = "VoidPersonalChequeCopy", Prefix = "VPC_"},
                 new DocumentType()  {Id = (int)DocumentTemplateType.ExtendedWarrantyForm, Description = "Extended Warranty Form", DescriptionResource = "ExtendedWarrantyForm", Prefix = "EWF_"},
@@ -2147,7 +2147,7 @@ namespace DealnetPortal.DataAccess.Migrations
             };
             //leave existing data
             documentTypes.RemoveAll(d => context.DocumentTypes.Any(dbd => dbd.Description == d.Description));
-            context.DocumentTypes.AddOrUpdate(d => d.Description, documentTypes.ToArray());
+            context.DocumentTypes.AddOrUpdate(d => d.Description, documentTypes.ToArray());            
         }
 
         private void SetLanguages(ApplicationDbContext context)
