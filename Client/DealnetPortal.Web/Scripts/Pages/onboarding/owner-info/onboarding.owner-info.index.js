@@ -47,7 +47,8 @@
 
         var input = assignOwnerDatepicker('#' + ownerNumber + '-birthdate', ownerNumber);
 
-       
+        setDatepickerDate('#' + ownerNumber + '-birthdate', state['owner-info'].owners[ownerNumber].birthdate);
+
         if (ownerNumber !== 'owner0') {
             initGoogleServices(ownerNumber + '-street',
                 ownerNumber + '-city',
@@ -95,8 +96,7 @@
             $.grep(constants.requiredFields, function (field) {
 
                 if (field === 'birthdate' && owners[i]['BirthDate'] !== null) {
-					setters.setBirthDate(owner, owners[i]['BirthDate']);
-					setDatepickerDate('#' + owner + '-birthdate', state['owner-info'].owners[owner].birthDate);
+                    setters.setBirthDate(owner, owners[i]['BirthDate']);
                 }
                 var $item = $('#' + owner + '-' + field);
                 if ($item.val())
