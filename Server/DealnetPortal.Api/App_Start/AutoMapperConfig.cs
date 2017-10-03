@@ -176,6 +176,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.DealerId, d => d.MapFrom(src => src.DealerId))
                 .ForMember(x => x.EquipmentList, d => d.ResolveUsing(src => src.Equipments.Any() ? src.Equipments : null))
                 .ForMember(x => x.PostalCodesList, d => d.ResolveUsing(src => src.Areas.Any() ? src.Areas : null));
+            mapperConfig.CreateMap<ProvinceTaxRate, ProvinceTaxRateDTO>();
 
             mapperConfig.CreateMap<Address, AddressDTO>();
             mapperConfig.CreateMap<CompanyInfo, CompanyInfoDTO>()
@@ -189,14 +190,16 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<OwnerInfo, OwnerInfoDTO>()
                 .ForMember(x => x.Address, d => d.MapFrom(src => src.Address));
             mapperConfig.CreateMap<RequiredDocument, RequiredDocumentDTO>()
-                .ForMember(x => x.DocumentBytes, d => d.Ignore());
+                .ForMember(x => x.DocumentBytes, d => d.Ignore())
+                .ForMember(x => x.LeadSource, d => d.Ignore());
             mapperConfig.CreateMap<DealerInfo, DealerInfoDTO>()
                 .ForMember(x => x.CompanyInfo, d => d.MapFrom(src => src.CompanyInfo))
                 .ForMember(x => x.ProductInfo, d => d.MapFrom(src => src.ProductInfo))
                 .ForMember(x => x.Owners, d => d.MapFrom(src => src.Owners))
                 .ForMember(x => x.RequiredDocuments, d => d.MapFrom(src => src.RequiredDocuments))
                 .ForMember(x => x.AdditionalDocuments, d => d.MapFrom(src => src.AdditionalDocuments))
-                .ForMember(x => x.SalesRepLink, d => d.Ignore());
+                .ForMember(x => x.SalesRepLink, d => d.Ignore())
+                .ForMember(x => x.LeadSource, d => d.Ignore());
             mapperConfig.CreateMap<LicenseType, LicenseTypeDTO>();
             mapperConfig.CreateMap<LicenseDocument, LicenseDocumentDTO>();
             mapperConfig.CreateMap<AdditionalDocument, AdditionalDocumentDTO>();
@@ -392,7 +395,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.AccountId, d => d.Ignore())
                 .ForMember(x => x.Locations, d => d.Ignore())
                 .ForMember(x => x.Emails, d => d.Ignore())
-                .ForMember(x => x.Phones, d => d.Ignore());
+                .ForMember(x => x.Phones, d => d.Ignore())
+                .ForMember(x => x.ExistingCustomer, d => d.Ignore());
 
             mapperConfig.CreateMap<ContractDataDTO, ContractData>()
                 .ForMember(x => x.HomeOwners, d => d.Ignore())
@@ -458,6 +462,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Equipments, d => d.MapFrom( src => src.EquipmentList.Select( s=> new DealerEquipment() {EquipmentId = s.Equipment.Id, ProfileId = src.Id})))
                 .ForMember(x => x.Areas, d => d.MapFrom( src => src.PostalCodesList.Select(s => new DealerArea() {ProfileId = src.Id, PostalCode = s.PostalCode})))
                 .ForMember(x => x.Dealer, d => d.Ignore());
+            mapperConfig.CreateMap<ProvinceTaxRateDTO, ProvinceTaxRate>()
+                .ForMember(x => x.Name, d => d.Ignore());
 
             mapperConfig.CreateMap<AddressDTO, Address>();
             mapperConfig.CreateMap<CompanyInfoDTO, CompanyInfo>()
@@ -491,9 +497,13 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.RequiredDocuments, d => d.MapFrom(src => src.RequiredDocuments))
                 .ForMember(x => x.AdditionalDocuments, d => d.MapFrom(src => src.AdditionalDocuments))
                 .ForMember(x => x.ParentSalesRep, d => d.Ignore())
-                .ForMember(x => x.Status, d => d.Ignore());
-            mapperConfig.CreateMap<LicenseTypeDTO, LicenseType>();
-            mapperConfig.CreateMap<LicenseDocumentDTO, LicenseDocument>();
+                .ForMember(x => x.Status, d => d.Ignore())
+                .ForMember(x => x.Submitted, d => d.Ignore())
+                .ForMember(x => x.SentToAspire, d => d.Ignore());
+            mapperConfig.CreateMap<LicenseTypeDTO, LicenseType>()
+                .ForMember(x => x.LicenseDocuments, d => d.Ignore());
+            mapperConfig.CreateMap<LicenseDocumentDTO, LicenseDocument>()
+                .ForMember(x => x.EquipmentTypeId, d => d.Ignore());
             mapperConfig.CreateMap<AdditionalDocumentDTO, AdditionalDocument>()
                 .ForMember(x => x.DealerInfo, d => d.Ignore())
                 .ForMember(x => x.License, d => d.Ignore())

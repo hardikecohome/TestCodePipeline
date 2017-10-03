@@ -14,9 +14,10 @@ namespace DealnetPortal.Api.Integration.Services
         /// </summary>
         /// <param name="contractId">Id of contract</param>
         /// <param name="contractOwnerId">dealer Id</param>
+        /// <param name="leadSource">value of lead source of a client app</param>
         /// <returns></returns>
-        Task<IList<Alert>> UpdateContractCustomer(int contractId, string contractOwnerId);
-        Task<IList<Alert>> UpdateContractCustomer(Contract contract, string contractOwnerId);
+        Task<IList<Alert>> UpdateContractCustomer(int contractId, string contractOwnerId, string leadSource = null);
+        Task<IList<Alert>> UpdateContractCustomer(Contract contract, string contractOwnerId, string leadSource = null);
 
         Task<Tuple<CreditCheckDTO, IList<Alert>>> InitiateCreditCheck(int contractId, string contractOwnerId);
 
@@ -27,17 +28,19 @@ namespace DealnetPortal.Api.Integration.Services
         /// </summary>
         /// <param name="contractId"></param>
         /// <param name="contractOwnerId"></param>
+        /// <param name="leadSource">value of lead source of a client app</param>
         /// <returns></returns>
-        Task<IList<Alert>> SubmitDeal(int contractId, string contractOwnerId);
+        Task<IList<Alert>> SubmitDeal(int contractId, string contractOwnerId, string leadSource = null);
 
         /// <summary>
         /// Submit deal without equipment information - send UDFs only
         /// </summary>
         /// <param name="contractId"></param>
         /// <param name="contractOwnerId"></param>
+        /// <param name="leadSource">value of lead source of a client app</param>
         /// <returns></returns>
-        Task<IList<Alert>> SendDealUDFs(int contractId, string contractOwnerId);
-        Task<IList<Alert>> SendDealUDFs(Contract contract, string contractOwnerId);
+        Task<IList<Alert>> SendDealUDFs(int contractId, string contractOwnerId, string leadSource = null);
+        Task<IList<Alert>> SendDealUDFs(Contract contract, string contractOwnerId, string leadSource = null);
 
         Task<IList<Alert>> UploadDocument(int contractId, ContractDocumentDTO document, string contractOwnerId);
 
@@ -53,7 +56,7 @@ namespace DealnetPortal.Api.Integration.Services
         /// Submit dealer's onboarding form data
         /// </summary>
         /// <returns></returns>
-        Task<IList<Alert>> SubmitDealerOnboarding(int dealerInfoId);
+        Task<IList<Alert>> SubmitDealerOnboarding(int dealerInfoId, string leadSource = null);
         Task<IList<Alert>> UploadDocument(string aspireTransactionId, ContractDocumentDTO document, string contractOwnerId);
         Task<IList<Alert>> UploadOnboardingDocument(int dealerInfoId, int requiredDocId, string statusToSend = null);
     }

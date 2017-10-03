@@ -62,14 +62,14 @@ namespace DealnetPortal.Api.Integration.Services
             _aspireRequestTimeout = TimeSpan.FromSeconds(90);
         }
 
-        public async Task<IList<Alert>> UpdateContractCustomer(int contractId, string contractOwnerId)
+        public async Task<IList<Alert>> UpdateContractCustomer(int contractId, string contractOwnerId, string leadSource = null)
         {
             var alerts = new List<Alert>();
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
 
             if (contract != null)
             {
-                var result = await UpdateContractCustomer(contract, contractOwnerId);
+                var result = await UpdateContractCustomer(contract, contractOwnerId, leadSource);
                 if (result?.Any() == true)
                 {
                     alerts.AddRange(result);
@@ -89,7 +89,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<IList<Alert>> UpdateContractCustomer(Contract contract, string contractOwnerId)
+        public async Task<IList<Alert>> UpdateContractCustomer(Contract contract, string contractOwnerId, string leadSource = null)
         {
             var alerts = new List<Alert>();
 
@@ -111,7 +111,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             TransactionId = GetTransactionId(contract)
                         },
-                        Accounts = GetCustomersInfo(contract)
+                        Accounts = GetCustomersInfo(contract, leadSource)
                     }
                 };
 
@@ -275,7 +275,7 @@ namespace DealnetPortal.Api.Integration.Services
             return new Tuple<CreditCheckDTO, IList<Alert>>(creditCheckResult, alerts);
         }
 
-        public async Task<IList<Alert>> SubmitDeal(int contractId, string contractOwnerId)
+        public async Task<IList<Alert>> SubmitDeal(int contractId, string contractOwnerId, string leadSource = null)
         {
             var alerts = new List<Alert>();
 
@@ -302,11 +302,11 @@ namespace DealnetPortal.Api.Integration.Services
                         // Code change to calculate down payment and admin fee on first equipment amount
                         if (i == 0 && contract.Equipment.AgreementType == AgreementType.LoanApplication)
                         {
-                            application = GetContractApplication(contract, eqToUpdate, 0);
+                            application = GetContractApplication(contract, eqToUpdate, 0, leadSource);
                         }
                         else
                         {
-                            application = GetContractApplication(contract, eqToUpdate, 1);
+                            application = GetContractApplication(contract, eqToUpdate, 1, leadSource);
                         }
                         request.Header = new RequestHeader()
                         {
@@ -385,7 +385,7 @@ namespace DealnetPortal.Api.Integration.Services
         }
 
 
-        public async Task<IList<Alert>> SendDealUDFs(int contractId, string contractOwnerId)
+        public async Task<IList<Alert>> SendDealUDFs(int contractId, string contractOwnerId, string leadSource = null)
         {
             var alerts = new List<Alert>();
 
@@ -393,7 +393,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (contract != null)
             {
-                var result = await SendDealUDFs(contract, contractOwnerId);
+                var result = await SendDealUDFs(contract, contractOwnerId, leadSource);
                 if (result?.Any() == true)
                 {
                     alerts.AddRange(result);
@@ -414,7 +414,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<IList<Alert>> SendDealUDFs(Contract contract, string contractOwnerId)
+        public async Task<IList<Alert>> SendDealUDFs(Contract contract, string contractOwnerId, string leadSource = null)
         {
             var alerts = new List<Alert>();
 
@@ -439,14 +439,13 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     Lease = new Lease()
                     {
-                        Application = GetSimpleContractApplication(contract)
+                        Application = GetSimpleContractApplication(contract, leadSource)
                     }
                 };
 
                 try
                 {
                     Task timeoutTask = Task.Delay(_aspireRequestTimeout);
-
                     var aspireRequestTask = _aspireServiceAgent.DealUploadSubmission(request);
                     DealUploadResponse response = null;
 
@@ -1060,7 +1059,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<IList<Alert>> SubmitDealerOnboarding(int dealerInfoId)
+        public async Task<IList<Alert>> SubmitDealerOnboarding(int dealerInfoId, string leadSource = null)
         {
             var alerts = new List<Alert>();
 
@@ -1086,7 +1085,7 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 TransactionId = dealerInfo.TransactionId
                             },
-                            Accounts = GetDealerOnboardingAccounts(dealerInfo)
+                            Accounts = GetDealerOnboardingAccounts(dealerInfo, leadSource)
                         }
                     };
 
@@ -1247,7 +1246,7 @@ namespace DealnetPortal.Api.Integration.Services
             return contract?.Details?.TransactionId;            
         }
 
-        private List<Account> GetCustomersInfo(Domain.Contract contract)
+        private List<Account> GetCustomersInfo(Domain.Contract contract, string leadSource = null)
         {
             const string CustRole = "CUST";
             const string GuarRole = "GUAR";
@@ -1323,6 +1322,10 @@ namespace DealnetPortal.Api.Integration.Services
                     account.Telecomm.Email = email;
                 }
 
+                string setLeadSource = !string.IsNullOrEmpty(leadSource) ? leadSource :
+                                    (_configuration.GetSetting(WebConfigKeys.DEFAULT_LEAD_SOURCE_KEY) ??
+                                    (_configuration.GetSetting($"PortalDescriber.{contract.Dealer?.ApplicationId}") ?? contract.Dealer?.Application?.LeadSource));
+
                 if (string.IsNullOrEmpty(c.AccountId))
                 {
                     //check user on Aspire
@@ -1336,6 +1339,8 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             account.ClientId = aspireCustomer.AccountId?.Trim();
                             c.ExistingCustomer = true;
+                            //TODO: check lead source in aspire?
+                            setLeadSource = null;
                         }
                         else
                         {
@@ -1351,9 +1356,11 @@ namespace DealnetPortal.Api.Integration.Services
                 else
                 {
                     account.ClientId = c.AccountId;
+                    //TODO: check lead source in aspire?
+                    setLeadSource = null;
                 } 
                 
-                account.UDFs = GetCustomerUdfs(c, location, portalDescriber, contract.HomeOwners?.Any(hw => hw.Id == c.Id)).ToList();                
+                account.UDFs = GetCustomerUdfs(c, location, setLeadSource, contract.HomeOwners?.Any(hw => hw.Id == c.Id)).ToList();                
 
                 if (!string.IsNullOrEmpty(role))
                 {
@@ -1374,13 +1381,13 @@ namespace DealnetPortal.Api.Integration.Services
             return accounts;
         }
 
-        private List<Account> GetDealerOnboardingAccounts(DealerInfo dealerInfo)
+        private List<Account> GetDealerOnboardingAccounts(DealerInfo dealerInfo, string leadSource = null)
         {            
             var accounts = new List<Account>();
             accounts.Add(GetCompanyAccount(dealerInfo));
             if (dealerInfo.Owners?.Any() == true)
             {
-                var companyOwners = GetCompanyOwnersAccounts(dealerInfo);
+                var companyOwners = GetCompanyOwnersAccounts(dealerInfo, leadSource);
                 if (companyOwners.Any())
                 {
                     accounts.Add(companyOwners.First());
@@ -1430,7 +1437,7 @@ namespace DealnetPortal.Api.Integration.Services
             return account;
         }
 
-        private IList<Account> GetCompanyOwnersAccounts(DealerInfo dealerInfo)
+        private IList<Account> GetCompanyOwnersAccounts(DealerInfo dealerInfo, string leadSource = null)
         {
             const string ownerRole = "CUST";
             var accounts = dealerInfo.Owners?.OrderBy(o => o.OwnerOrder).Select(owner =>
@@ -1473,6 +1480,8 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 };
 
+                var setLeadSource = !string.IsNullOrEmpty(leadSource) ? leadSource : _configuration.GetSetting(WebConfigKeys.ONBOARDING_LEAD_SOURCE_KEY) 
+                                                                                    ?? _configuration.GetSetting(WebConfigKeys.DEFAULT_LEAD_SOURCE_KEY);
                 if (string.IsNullOrEmpty(owner.AccountId))
                 {
                     //check user on Aspire
@@ -1483,6 +1492,8 @@ namespace DealnetPortal.Api.Integration.Services
                         if (aspireCustomer != null)
                         {
                             account.ClientId = aspireCustomer.AccountId?.Trim();
+                            //check lead source in aspire ?
+                            setLeadSource = null;
                         }
                     }
                     catch (Exception ex)
@@ -1494,6 +1505,8 @@ namespace DealnetPortal.Api.Integration.Services
                 else
                 {
                     account.ClientId = owner.AccountId;
+                    //check lead source in aspire ?
+                    setLeadSource = null;
                 }
 
                 var UDFs = new List<UDF>();
@@ -1513,13 +1526,13 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = owner.MobilePhone
                     });
                 }
-                var leadSource = _configuration.GetSetting(WebConfigKeys.ONBOARDING_LEAD_SOURCE_KEY);
-                if (!string.IsNullOrEmpty(leadSource))
+
+                if (!string.IsNullOrEmpty(setLeadSource))
                 {
                     UDFs.Add(new UDF()
                     {
                         Name = AspireUdfFields.CustomerLeadSource,
-                        Value = leadSource
+                        Value = setLeadSource
                     });
                 }
                 if (UDFs.Any())
@@ -1531,7 +1544,7 @@ namespace DealnetPortal.Api.Integration.Services
             return accounts ?? new List<Account>();
         }
 
-        private Application GetContractApplication(Domain.Contract contract, ICollection<NewEquipment> newEquipments = null, int equipmentcount = 1)
+        private Application GetContractApplication(Domain.Contract contract, ICollection<NewEquipment> newEquipments = null, int equipmentcount = 1, string leadSource = null)
         {
             var application = new Application()
             {
@@ -1571,7 +1584,7 @@ namespace DealnetPortal.Api.Integration.Services
                     ? "LOAN"
                     : "RENTAL";
             }
-            application.UDFs = GetApplicationUdfs(contract).ToList();
+            application.UDFs = GetApplicationUdfs(contract, leadSource).ToList();
 
             return application;
         }
@@ -1581,7 +1594,7 @@ namespace DealnetPortal.Api.Integration.Services
         /// </summary>
         /// <param name="contract"></param>
         /// <returns></returns>
-        private Application GetSimpleContractApplication(Domain.Contract contract)
+        private Application GetSimpleContractApplication(Domain.Contract contract, string leadSource = null)
         {
             var application = new Application()
             {
@@ -1601,7 +1614,7 @@ namespace DealnetPortal.Api.Integration.Services
             application.Notes = contract.Details?.Notes ?? contract.Equipment?.Notes;
             //TODO: Implement finance program selection
             application.FinanceProgram = contract.Dealer?.Application?.FinanceProgram;//"EcoHome Finance Program";
-            application.UDFs = GetApplicationUdfs(contract).ToList();
+            application.UDFs = GetApplicationUdfs(contract, leadSource).ToList();
 
             return application;
         }
@@ -1809,7 +1822,7 @@ namespace DealnetPortal.Api.Integration.Services
             return checkResult;
         }
 
-        private IList<UDF> GetApplicationUdfs(Domain.Contract contract)
+        private IList<UDF> GetApplicationUdfs(Domain.Contract contract, string leadSource = null)
         {
             var udfList = new List<UDF>();
             if (contract?.Equipment != null)
@@ -1900,28 +1913,37 @@ namespace DealnetPortal.Api.Integration.Services
                     _loggingService.LogError("Failed to get subdealers from Aspire", ex);
                 }
             }
-            var portalDescriber = _configuration.GetSetting($"PortalDescriber.{contract.Dealer?.ApplicationId}");
-            if (!string.IsNullOrEmpty(portalDescriber))
+            var setLeadSource = !string.IsNullOrEmpty(leadSource)
+                ? leadSource
+                : (_configuration.GetSetting(WebConfigKeys.DEFAULT_LEAD_SOURCE_KEY) ??
+                   (_configuration.GetSetting($"PortalDescriber.{contract.Dealer?.ApplicationId}") ??
+                    contract.Dealer?.Application?.LeadSource));
+            if (!string.IsNullOrEmpty(contract.Details.TransactionId))
+            {
+                //check lead source in aspire
+                //setLeadSource = null;
+            }
+            if (!string.IsNullOrEmpty(setLeadSource))
             {
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.LeadSource,
-                    Value = portalDescriber
+                    Value = setLeadSource
                 });
             }
 
             return udfList;
         }
 
-        private IList<UDF> GetCustomerUdfs(Domain.Customer customer, Location mainLocation, string portalDescriber, bool? isHomeOwner = null)
+        private IList<UDF> GetCustomerUdfs(Domain.Customer customer, Location mainLocation, string leadSource, bool? isHomeOwner = null)
         {
             var udfList = new List<UDF>();
-            if (!string.IsNullOrEmpty(portalDescriber))
+            if (!string.IsNullOrEmpty(leadSource))
             {
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.CustomerLeadSource,
-                    Value = portalDescriber
+                    Value = leadSource
                 });
             }
             if (mainLocation != null)

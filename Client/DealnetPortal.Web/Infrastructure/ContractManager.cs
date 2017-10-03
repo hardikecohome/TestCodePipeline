@@ -12,6 +12,7 @@ using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Contract.EquipmentInformation;
+using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.Models.EquipmentInformation;
 using DealnetPortal.Web.ServiceAgent;
@@ -23,11 +24,13 @@ namespace DealnetPortal.Web.Infrastructure
     {
         private readonly IContractServiceAgent _contractServiceAgent;
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
+        private readonly string _leadSource;
 
         public ContractManager(IContractServiceAgent contractServiceAgent, IDictionaryServiceAgent dictionaryServiceAgent)
         {
             _contractServiceAgent = contractServiceAgent;
             _dictionaryServiceAgent = dictionaryServiceAgent;
+            _leadSource = System.Configuration.ConfigurationManager.AppSettings[PortalConstants.DefaultLeadSourceKey];
         }
 
         public async Task<BasicInfoViewModel> GetBasicInfoAsync(int contractId)
@@ -376,8 +379,11 @@ namespace DealnetPortal.Web.Infrastructure
 
         public async Task<IList<Alert>> UpdateContractAsync(BasicInfoViewModel basicInfo)
         {
-            var contractData = new ContractDataDTO();
-            contractData.Id = basicInfo.ContractId ?? 0;
+            var contractData = new ContractDataDTO
+            {
+                Id = basicInfo.ContractId ?? 0,
+                LeadSource = _leadSource
+            };
             if (!string.IsNullOrEmpty(basicInfo.SubmittingDealerId))
             {
                 //check dealer for update
@@ -440,6 +446,7 @@ namespace DealnetPortal.Web.Infrastructure
             var contractData = new ContractDataDTO
             {
                 Id = equipmnetInfo.ContractId ?? 0,
+                LeadSource = _leadSource,
                 Equipment = Mapper.Map<EquipmentInfoDTO>(equipmnetInfo)
             };
 
@@ -466,6 +473,7 @@ namespace DealnetPortal.Web.Infrastructure
             var contractData = new ContractDataDTO
             {
                 Id = equipmnetInfo.ContractId ?? 0,
+                LeadSource = _leadSource,
                 Equipment = Mapper.Map<EquipmentInfoDTO>(equipmnetInfo)
             };
 
@@ -481,8 +489,11 @@ namespace DealnetPortal.Web.Infrastructure
         {
             var alerts = new List<Alert>();
 
-            var contractData = new ContractDataDTO { Id = contactAndPaymentInfo.ContractId ?? 0 };
-
+            var contractData = new ContractDataDTO
+            {
+                Id = contactAndPaymentInfo.ContractId ?? 0,
+                LeadSource = _leadSource
+            };
             List<CustomerDataDTO> customers = new List<CustomerDataDTO>();
             if (contactAndPaymentInfo.HomeOwnerContactInfo != null)
             {
@@ -496,7 +507,11 @@ namespace DealnetPortal.Web.Infrastructure
 
             if (customers.Any())
             {
-                customers.ForEach(c => c.ContractId = contactAndPaymentInfo.ContractId);
+                customers.ForEach(c =>
+                {
+                    c.ContractId = contactAndPaymentInfo.ContractId;
+                    c.LeadSource = _leadSource;
+                });
                 alerts.AddRange(await _contractServiceAgent.UpdateCustomerData(customers.ToArray()));
             }
 
@@ -559,7 +574,11 @@ namespace DealnetPortal.Web.Infrastructure
                 }
                 customers.Add(customerDTO);
             });
-            customers.ForEach(c => c.ContractId = basicInfo.ContractId);
+            customers.ForEach(c =>
+            {
+                c.ContractId = basicInfo.ContractId;
+                c.LeadSource = _leadSource;
+            });
             return await _contractServiceAgent.UpdateCustomerData(customers.ToArray());
         }
 
@@ -589,7 +608,8 @@ namespace DealnetPortal.Web.Infrastructure
                     var contractData = new ContractDataDTO()
                     {
                         Id = newContractRes.Item1.Id,
-                        PrimaryCustomer = customer,                        
+                        PrimaryCustomer = customer,   
+                        LeadSource = _leadSource
                     };
 
                     if (contractRes.Item1.PaymentInfo != null)
@@ -603,7 +623,7 @@ namespace DealnetPortal.Web.Infrastructure
                             MeterNumber = contractRes.Item1.PaymentInfo.MeterNumber,
                             PaymentType = contractRes.Item1.PaymentInfo.PaymentType,
                             PrefferedWithdrawalDate = contractRes.Item1.PaymentInfo.PrefferedWithdrawalDate,
-                            TransitNumber = contractRes.Item1.PaymentInfo.TransitNumber
+                            TransitNumber = contractRes.Item1.PaymentInfo.TransitNumber,
                         };
                     }
 
@@ -626,6 +646,7 @@ namespace DealnetPortal.Web.Infrastructure
                             ContractId = newContractId,
                             Emails = contractRes.Item1.PrimaryCustomer.Emails,
                             Phones = contractRes.Item1.PrimaryCustomer.Phones,
+                            LeadSource = _leadSource
                         };
                         await _contractServiceAgent.UpdateCustomerData(new CustomerDataDTO[] { updatedCustomer });
                     }

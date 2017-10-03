@@ -196,7 +196,7 @@ namespace DealnetPortal.Api.Integration.Services
                                     var c = InitialyzeContract(dealerId, customerFormData.PrimaryCustomer,
                                         customerFormData.StartProjectDate,
                                         sRequest.PrecreatedContractId, sRequest.ServiceType,
-                                        customerFormData.CustomerComment);
+                                        customerFormData.CustomerComment, customerFormData.LeadSource);
                                     // mark as created by customer
                                     c.IsCreatedByCustomer = true;
                                     //check role of a dealer
@@ -361,7 +361,8 @@ namespace DealnetPortal.Api.Integration.Services
                     PrimaryCustomer = customerFormData.PrimaryCustomer,
                     //HomeOwners = new List<Customer> { customer },
                     DealerId = dealerId,
-                    Id = contract.Id
+                    Id = contract.Id,
+                    LeadSource = customerFormData.LeadSource
                 };
                 _contractService.UpdateContractData(contractData, dealerId);
 
@@ -530,7 +531,8 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        private Contract InitialyzeContract(string contractOwnerId, CustomerDTO primaryCustomer, DateTime? preferredStartDate, int? contractId = null, string equipmentType = null, string customerComment = null)
+        private Contract InitialyzeContract(string contractOwnerId, CustomerDTO primaryCustomer, DateTime? preferredStartDate, int? contractId = null, string equipmentType = null, 
+            string customerComment = null, string leadSource = null)
         {
             Contract contract = null;
             //update or create a brand new contract
@@ -597,7 +599,8 @@ namespace DealnetPortal.Api.Integration.Services
                                     Description = _contractRepository.GetEquipmentTypeInfo(equipmentType)?.Description
                                 }}
                         }
-                        : null,                    
+                        : null,
+                    LeadSource = leadSource
                 };
                 _contractService.UpdateContractData(contractDataDto, contractOwnerId);
             }

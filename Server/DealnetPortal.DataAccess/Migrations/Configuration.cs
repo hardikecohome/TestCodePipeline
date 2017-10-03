@@ -2147,7 +2147,7 @@ namespace DealnetPortal.DataAccess.Migrations
             };
             //leave existing data
             documentTypes.RemoveAll(d => context.DocumentTypes.Any(dbd => dbd.Description == d.Description));
-            context.DocumentTypes.AddOrUpdate(d => d.Description, documentTypes.ToArray());
+            context.DocumentTypes.AddOrUpdate(d => d.Description, documentTypes.ToArray());            
         }
 
         private void SetLanguages(ApplicationDbContext context)

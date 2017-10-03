@@ -15,6 +15,11 @@ namespace DealnetPortal.Web.Infrastructure
         {
             get
             {
+                var configAppId = System.Configuration.ConfigurationManager.AppSettings["ApplicationId"];
+                if (configAppId != null)
+                {
+                    return configAppId;
+                }
                 switch (PortalType)
                 {
                     case PortalType.Ecohome:

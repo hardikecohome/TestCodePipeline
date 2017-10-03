@@ -139,34 +139,25 @@ namespace DealnetPortal.Api.Integration.Services
                 //submit draft form to Aspire                                             
                 var reSubmit = updatedInfo.SentToAspire;                
                 string statusToSet = !string.IsNullOrEmpty(updatedInfo.TransactionId) ? _aspireStorageReader.GetDealStatus(updatedInfo.TransactionId) ?? updatedInfo.Status : null;
-                var submitResult = await _aspireService.SubmitDealerOnboarding(updatedInfo.Id);
+                var submitResult = await _aspireService.SubmitDealerOnboarding(updatedInfo.Id, dealerInfo.LeadSource);
                 if (submitResult?.Any() ?? false)
                 {
                     //for draft aspire errors is not important and can be by not full set of data
                     submitResult.Where(r => r.Type == AlertType.Error).ForEach(r => r.Type = AlertType.Warning);
                     alerts.AddRange(submitResult);
                 }
-                if (updatedInfo.RequiredDocuments?.Any(d => !d.Uploaded) == true)
+                if (reSubmit || !string.IsNullOrEmpty(statusToSet))
                 {
-                    //upload required documents
-                    UploadOnboardingDocuments(updatedInfo.Id,
-                        reSubmit ? statusToSet : _configuration.GetSetting(WebConfigKeys.ONBOARDING_DRAFT_STATUS_KEY));
-                }
-                else
-                {
-                    if (reSubmit || !string.IsNullOrEmpty(statusToSet))
+                    //if we don't send any docs, just change status in Aspire to needed
+                    var result = await
+                        _aspireService.ChangeDealStatusEx(updatedInfo.TransactionId,
+                            statusToSet ?? _configuration.GetSetting(WebConfigKeys.ONBOARDING_DRAFT_STATUS_KEY),
+                            updatedInfo.ParentSalesRepId);
+                    //TODO save status
+                    if (!string.IsNullOrEmpty(result.Item1))
                     {
-                        //if we don't send any docs, just change status in Aspire to needed
-                        var result = await
-                            _aspireService.ChangeDealStatusEx(updatedInfo.TransactionId,
-                                statusToSet ?? _configuration.GetSetting(WebConfigKeys.ONBOARDING_DRAFT_STATUS_KEY),
-                                updatedInfo.ParentSalesRepId);
-                        //TODO save status
-                        if (!string.IsNullOrEmpty(result.Item1))
-                        {
-                            updatedInfo.Status = result.Item1;
-                            _unitOfWork.Save();;
-                        }
+                        updatedInfo.Status = result.Item1;
+                        _unitOfWork.Save(); ;
                     }
                 }
             }
@@ -201,7 +192,7 @@ namespace DealnetPortal.Api.Integration.Services
                 //submit form to Aspire                                             
                 var reSubmit = updatedInfo.SentToAspire;
                 string statusToSet = reSubmit ? _aspireStorageReader.GetDealStatus(updatedInfo.TransactionId) ?? _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY) : _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY);
-                var submitResult = await _aspireService.SubmitDealerOnboarding(updatedInfo.Id);
+                var submitResult = await _aspireService.SubmitDealerOnboarding(updatedInfo.Id, dealerInfo.LeadSource);
                 if (submitResult?.Any() ?? false)
                 {
                     alerts.AddRange(submitResult);

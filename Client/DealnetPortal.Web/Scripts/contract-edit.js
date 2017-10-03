@@ -2,7 +2,7 @@
     .then(function () {
         togglePrintButton(checkUrl);
         $('#print-button').on('click', printContract(downloadUrl));
-
+       
         $('.date-input').each(function (index, input) {
             assignDatepicker(input,
                 {
