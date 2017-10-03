@@ -3,13 +3,12 @@
         togglePrintButton(checkUrl);
         $('#print-button').on('click', printContract(downloadUrl));
 
-        var datepickerOption = {
-            yearRange: '1900:2200',
-            minDate: (input.hasClass('exlude-min-date')) ? new Date("1900-01-01") : new Date()
-        };
-
         $('.date-input').each(function (index, input) {
-            assignDatepicker(input, datepickerOption);
+            assignDatepicker(input,
+                {
+                    yearRange: '1900:2200',
+                    minDate: ($(input).hasClass('exlude-min-date')) ? new Date("1900-01-01") : new Date()
+                });
         });
 
         var initPaymentTypeForm = $("#payment-type-form").find(":selected").val();
