@@ -792,6 +792,7 @@
     <Content Include="Content\files\Myhome-Wallet-Short-Description.pdf" />
     <Content Include="Content\files\Summer-Fall-2017-Promotion.pdf" />
     <Content Include="Content\files\Consumer-Loan-Agreement.pdf" />
+    <Content Include="Content\files\EcoHome-rate-card-%28Oct 3th, 2017%29.pdf" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
