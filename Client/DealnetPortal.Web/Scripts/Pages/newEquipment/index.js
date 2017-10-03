@@ -57,6 +57,10 @@
         var onRateCardSelect = function () {
             recalculateValuesAndRender();
             var option = $(this).parent().find('#hidden-option').text();
+            if ($('#not-selected-rc').is(':visible')) {
+                $('#not-selected-rc').addClass('hidden');
+            }
+
             if (option === 'Custom') {
                 var isValid = validateOnSelect.call(this);
 
