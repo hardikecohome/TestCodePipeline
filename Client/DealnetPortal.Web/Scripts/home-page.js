@@ -209,7 +209,9 @@ function showTable() {
                       if (data.IsNewlyCreated) {
                           $(row).addClass('unread-deals').find('.contract-cell').prepend('<span class="label-new-deal">' + translations['New'] + '</span>');
 					  }
-					  $(row).find('.contract-cell').wrapInner('<a href="'+ editItemUrl + '/' + data.Id + '" title="' + translations['Edit'] +'"></a>');					  
+					  if (data.Id != 0) {
+						  $(row).find('.contract-cell').wrapInner('<a href="' + editItemUrl + '/' + data.Id + '" title="' + translations['Edit'] + '"></a>');
+					  }
                   },
                   columns: [
                         { "data": 'TransactionId', className: 'contract-cell' },

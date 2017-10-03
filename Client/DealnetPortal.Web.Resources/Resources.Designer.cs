@@ -1618,6 +1618,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Custom.
+        /// </summary>
+        public static string Custom {
+            get {
+                return ResourceManager.GetString("Custom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Customer.
         /// </summary>
         public static string Customer {
@@ -1866,6 +1875,15 @@ namespace DealnetPortal.Web.Resources {
         public static string DeferralPeriod {
             get {
                 return ResourceManager.GetString("DeferralPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deferral/Promo.
+        /// </summary>
+        public static string DeferralPromo {
+            get {
+                return ResourceManager.GetString("DeferralPromo", resourceCulture);
             }
         }
         
@@ -2959,7 +2977,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Library.
+        ///   Looks up a localized string similar to Resources.
         /// </summary>
         public static string Library {
             get {
@@ -3229,7 +3247,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 180 month amortization is available only on loans over $5,000.
+        ///   Looks up a localized string similar to 180 month amortization is available only on loans over $4,000.
         /// </summary>
         public static string Month180AmortOnlyOver5000 {
             get {

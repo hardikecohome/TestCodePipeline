@@ -220,7 +220,7 @@ namespace DealnetPortal.Api.Integration.Services
             request.message = new MandrillMessage()
             {
                 from_email = ConfigurationManager.AppSettings["FromEmail"],
-                from_name = "Myhome Wallet by EcoHome Financial",
+                from_name = "EcoHome Financial",
                 html = null,
                 merge_vars = new List<MergeVariable>() {
                         new MergeVariable(){
@@ -271,7 +271,7 @@ namespace DealnetPortal.Api.Integration.Services
             request.message = new MandrillMessage()
             {
                 from_email = ConfigurationManager.AppSettings["FromEmail"],
-                from_name = "Myhome Wallet by EcoHome Financial",
+                from_name = "EcoHome Financial",
                 html = null,
                 merge_vars = new List<MergeVariable>() {
                         new MergeVariable(){
