@@ -14,7 +14,7 @@
 					<i class="glyphicon glyphicon-remove"></i>
 				</button>
 			</div>
-			<p><strong style="color:red;">@ConfigurationManager.AppSettings["PopUpHeader"]</strong> <br />@ConfigurationManager.AppSettings["PopUpMessage"]</p>
+			<p><strong style="color:red;">@ConfigurationManager.AppSettings["PopUpHeader"]</strong> <br />@Html.Raw(ConfigurationManager.AppSettings["PopUpMessage"])</p>
 		</div>
 
 	</div>
