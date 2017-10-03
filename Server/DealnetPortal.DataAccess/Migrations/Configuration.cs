@@ -64,7 +64,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 SetDocumentTypes(context);
                 SetLanguages(context);
                 var templates = SetDocuSignTemplates(context);
-                SetInstallationСertificateTemplates(context, context.Applications.Local.ToArray());
+                SetInstallationCertificateTemplates(context, context.Applications.Local.ToArray());
                 SetPdfTemplates(context, templates);                                
                 SetSettingItems(context);
                 SetUserSettings(context);                
@@ -99,8 +99,8 @@ namespace DealnetPortal.DataAccess.Migrations
                     new LicenseType {Name = "Emploi-Quebec"},
                     new LicenseType {Name = "Gas and Electrical Licensing"},
                     new LicenseType {Name = "Labour and Advanced Education"},
-                    new LicenseType {Name = "Manitoba Office of the Fire Commissioner Сertificate"},
-                    new LicenseType {Name = "Ministry of Education Сertificate"},
+                    new LicenseType {Name = "Manitoba Office of the Fire Commissioner Certificate"},
+                    new LicenseType {Name = "Ministry of Education Certificate"},
                     new LicenseType {Name = "Nova Scotia Apprenticeship Agency"},
                     new LicenseType {Name = "Ontario Colleges of Trades Certification"},
                     new LicenseType {Name = "Saskatchewan Apprenticeship and Trade Certification Commission"},
@@ -214,7 +214,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="MB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="MB"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Сertificate")
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Certificate")
                     },
                     new LicenseDocument
                     {
@@ -280,7 +280,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="YT") ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="YT"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Сertificate")
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Certificate")
                     },
                     
                     #endregion
@@ -327,7 +327,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="MB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="MB"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Сertificate")
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Certificate")
                     },
                     new LicenseDocument
                     {
@@ -393,7 +393,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="YT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="YT"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Сertificate")
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Certificate")
                     },
                     #endregion
                     #region Furnace
@@ -419,7 +419,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="MB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="MB"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Сertificate")
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Certificate")
                     },
                     new LicenseDocument
                     {
@@ -485,7 +485,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="YT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="YT"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Сertificate")
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Certificate")
                     },
                     #endregion
                     #region HWT
@@ -505,7 +505,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="MB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="MB"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Сertificate")
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Certificate")
                     },
                     new LicenseDocument
                     {
@@ -570,7 +570,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="YT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="YT"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Сertificate")
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Certificate")
                     },
                     #endregion
                     #region Plumbing
@@ -672,7 +672,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="MB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="MB"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Сertificate")
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Certificate")
                     },
                     new LicenseDocument
                     {
@@ -738,7 +738,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="YT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="YT"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Сertificate")
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Certificate")
                     },
                     #endregion
                     #region Windows
@@ -942,7 +942,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="MB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="MB"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Сertificate")
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Certificate")
                     },
                     new LicenseDocument
                     {
@@ -1008,7 +1008,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="YT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="YT"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Сertificate")
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Certificate")
                     },
                     #endregion
                     #region HRW
@@ -1028,7 +1028,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="MB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="MB"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Сertificate")
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Certificate")
                     },
                     new LicenseDocument
                     {
@@ -1088,7 +1088,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="YT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="YT"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Сertificate")
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Certificate")
                     },
                     #endregion
                     #region Bathroom
@@ -1218,7 +1218,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO48"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="YT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="YT"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Сertificate")
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Certificate")
                     },
                     #endregion
                     #region Basement Repair
@@ -1306,7 +1306,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="MB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="MB"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Сertificate")
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Certificate")
                     },
                     new LicenseDocument
                     {
@@ -1372,7 +1372,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="YT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="YT"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Сertificate")
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Certificate")
                     },
                     #endregion
                     #region Siding
@@ -2137,7 +2137,7 @@ namespace DealnetPortal.DataAccess.Migrations
             var documentTypes = new List<DocumentType>
             {
                 new DocumentType()  {Id = (int)DocumentTemplateType.SignedContract, Description = "Signed contract", DescriptionResource = "SignedContract", Prefix = "SC_"},
-                new DocumentType()  {Id = (int)DocumentTemplateType.SignedInstallationCertificate, Description = "Signed Installation Certificate", DescriptionResource = "SignedInstallationСertificate", Prefix = "SIC_"},
+                new DocumentType()  {Id = (int)DocumentTemplateType.SignedInstallationCertificate, Description = "Signed Installation Certificate", DescriptionResource = "SignedInstallationCertificate", Prefix = "SIC_"},
                 new DocumentType()  {Id = (int)DocumentTemplateType.Invoice, Description = "Invoice", DescriptionResource = "Invoice", Prefix = "INV_"},
                 new DocumentType()  {Id = (int)DocumentTemplateType.VoidPersonalCheque, Description = "Copy of Void Personal Cheque", DescriptionResource = "VoidPersonalChequeCopy", Prefix = "VPC_"},
                 new DocumentType()  {Id = (int)DocumentTemplateType.ExtendedWarrantyForm, Description = "Extended Warranty Form", DescriptionResource = "ExtendedWarrantyForm", Prefix = "EWF_"},
@@ -2903,14 +2903,14 @@ namespace DealnetPortal.DataAccess.Migrations
             });
         }
 
-        private void SetInstallationСertificateTemplates(ApplicationDbContext context, Application[] applications)
+        private void SetInstallationCertificateTemplates(ApplicationDbContext context, Application[] applications)
         {
             List<AgreementTemplate> templates = new List<AgreementTemplate>();
 
             var template = new AgreementTemplate()
             {
                 AgreementType = AgreementType.RentalApplication,
-                TemplateName = "ONE DEALER Completion Сertificate - Rental",
+                TemplateName = "ONE DEALER Completion Certificate - Rental",
                 Application = applications.FirstOrDefault(x => x.Id == OdiAppId),
                 ApplicationId = applications.FirstOrDefault(x => x.Id == OdiAppId)?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedInstallationCertificate
@@ -2919,7 +2919,7 @@ namespace DealnetPortal.DataAccess.Migrations
 
             template = new AgreementTemplate()
             {
-                TemplateName = "EcoHome Completion Сertificate - Rentals",
+                TemplateName = "EcoHome Completion Certificate - Rentals",
                 Application = applications.FirstOrDefault(x => x.Id == EcohomeAppId),
                 ApplicationId = applications.FirstOrDefault(x => x.Id == EcohomeAppId)?.Id,
                 AgreementType = AgreementType.RentalApplication,
@@ -2928,7 +2928,7 @@ namespace DealnetPortal.DataAccess.Migrations
             templates.Add(template);
             template = new AgreementTemplate()
             {
-                TemplateName = "EcoHome Completion Сertificate - Rentals",
+                TemplateName = "EcoHome Completion Certificate - Rentals",
                 Application = applications.FirstOrDefault(x => x.Id == EcohomeAppId),
                 ApplicationId = applications.FirstOrDefault(x => x.Id == EcohomeAppId)?.Id,
                 AgreementType = AgreementType.RentalApplicationHwt,
@@ -2937,7 +2937,7 @@ namespace DealnetPortal.DataAccess.Migrations
             templates.Add(template);
             template = new AgreementTemplate()
             {
-                TemplateName = "EcoHome Сertificate of Completion - Loans",
+                TemplateName = "EcoHome Certificate of Completion - Loans",
                 Application = applications.FirstOrDefault(x => x.Id == EcohomeAppId),
                 ApplicationId = applications.FirstOrDefault(x => x.Id == EcohomeAppId)?.Id,
                 AgreementType = AgreementType.LoanApplication,
