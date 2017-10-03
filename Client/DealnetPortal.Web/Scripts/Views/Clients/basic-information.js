@@ -4,23 +4,26 @@
     var readInitialStateFromFields = require('objectUtils').readInitialStateFromFields;
 
     return function (store) {
-		var dispatch = store.dispatch;
-		var birth = $("#birth-date");
-        inputDateFocus(birth);
-       birth.datepicker({
+        var dispatch = store.dispatch;
+
+        var datepickerOptions = {
             dateFormat: 'mm/dd/yy',
             changeYear: true,
             changeMonth: (viewport().width < 768) ? true : false,
             yearRange: '1900:' + (new Date().getFullYear() - 18),
-            minDate: Date.parse("1900-01-01"),
+            minDate: new Date("1900-01-01"),
             maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
             onSelect: function (day) {
                 dispatch(createAction(clientActions.SET_BIRTH, day));
+                $(this).siblings('input.form-control').val(day).blur();
+                $(".div-datepicker").removeClass('opened');
             },
             onClose: function () {
                 onDateSelect($(this));
             }
-        });
+        };
+
+        var birth = assignDatepicker('#birth-date', datepickerOptions);
 
         birth.on('change', function () {
             var day = birth.val();
@@ -29,7 +32,7 @@
 
         $('#ui-datepicker-div').addClass('cards-datepicker');
 
-        function dispatchDl() {
+        function dispatchDl () {
             var obj = {
                 firstName: $('#first-name').val(),
                 lastName: $('#last-name').val(),

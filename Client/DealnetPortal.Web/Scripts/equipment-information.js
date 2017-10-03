@@ -1,69 +1,74 @@
 ﻿configInitialized
-            .then(function () {
-                $('#equipment-form').submit(function (event) {
-                    var agreementType = $("#agreement-type").find(":selected").val();
-                    if (agreementType === "0") {
-                        isCalculationValid = false;
-                        recalculateTotalCashPrice();
-                        if (!isCalculationValid) {
-                            event.preventDefault();
-                            $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
-                        }
-                    } else {
-                        var monthPayment = Globalize.parseNumber($("#total-monthly-payment").val());
-                        if (isNaN(monthPayment) || (monthPayment == 0)) {
-                            event.preventDefault();
-                            $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
-                        }
-                    }
-                });
-
-                $('#existing-notes-default').text("").attr("id", "ExistingEquipment_0__Notes");
-                sessionStorage.newEquipmetTemplate = document.getElementById('new-equipment-base').innerHTML;
-                sessionStorage.existingEquipmetTemplate = document.getElementById('existing-equipment-base').innerHTML;
-                $("#new-equipment-base").remove();
-                $("#existing-equipment-base").remove();
-
-                if (sessionStorage.newEquipmets == 0) {
-                    addNewEquipment();
-                    $('#new-equipment-remove-0').remove();
-                    sessionStorage.newEquipmets = 1;
+    .then(function () {
+        $('#equipment-form').submit(function (event) {
+            var agreementType = $("#agreement-type").find(":selected").val();
+            if (agreementType === "0") {
+                isCalculationValid = false;
+                recalculateTotalCashPrice();
+                if (!isCalculationValid) {
+                    event.preventDefault();
+                    $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
                 }
-
-                $('.date-input').each(assignDatepicker);
-                $.validator.addMethod(
-                    "date",
-                    function (value, element) {
-                        var minDate = Date.parse("1900-01-01");
-                        var valueEntered = Date.parseExact(value, "M/d/yyyy");
-                        if (!valueEntered) {
-                            return false;
-                        }
-                        if (valueEntered < minDate) {
-                            return false;
-                        }
-                        return true;
-                    },
-                    translations['EnterValidDate']
-                );
-
-                $("#customer-rate").rules("add", "required");
-                $("#amortization-term").rules("add", "required");
-                $("#requested-term").rules("add", "required");
-                $("#loan-term").rules("add", "required");
-                var initAgreementType = $("#agreement-type").find(":selected").val();
-                manageAgreementElements(initAgreementType);
-                $("#agreement-type").on('change', function () {
-                    manageAgreementElements($(this).find(":selected").val());
-                });
-                if (initAgreementType === '0') {
-                    recalculateTotalCashPrice();
-                } else {
-                    recalculateTotalMonthlyPaymentHst();
+            } else {
+                var monthPayment = Globalize.parseNumber($("#total-monthly-payment").val());
+                if (isNaN(monthPayment) || (monthPayment == 0)) {
+                    event.preventDefault();
+                    $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
                 }
+            }
+        });
+
+        $('#existing-notes-default').text("").attr("id", "ExistingEquipment_0__Notes");
+        sessionStorage.newEquipmetTemplate = document.getElementById('new-equipment-base').innerHTML;
+        sessionStorage.existingEquipmetTemplate = document.getElementById('existing-equipment-base').innerHTML;
+        $("#new-equipment-base").remove();
+        $("#existing-equipment-base").remove();
+
+        if (sessionStorage.newEquipmets == 0) {
+            addNewEquipment();
+            $('#new-equipment-remove-0').remove();
+            sessionStorage.newEquipmets = 1;
+        }
+
+        $('.date-input').each(function (index, input) {
+            assignDatepicker(input, {
+                yearRange: '1900:2200',
+                minDate: new Date()
             });
+        });
+        $.validator.addMethod(
+            "date",
+            function (value, element) {
+                var minDate = new Date("1900-01-01");
+                var valueEntered = Date.parseExact(value, "M/d/yyyy");
+                if (!valueEntered) {
+                    return false;
+                }
+                if (valueEntered < minDate) {
+                    return false;
+                }
+                return true;
+            },
+            translations['EnterValidDate']
+        );
 
-function manageAgreementElements(agreementType) {
+        $("#customer-rate").rules("add", "required");
+        $("#amortization-term").rules("add", "required");
+        $("#requested-term").rules("add", "required");
+        $("#loan-term").rules("add", "required");
+        var initAgreementType = $("#agreement-type").find(":selected").val();
+        manageAgreementElements(initAgreementType);
+        $("#agreement-type").on('change', function () {
+            manageAgreementElements($(this).find(":selected").val());
+        });
+        if (initAgreementType === '0') {
+            recalculateTotalCashPrice();
+        } else {
+            recalculateTotalMonthlyPaymentHst();
+        }
+    });
+
+function manageAgreementElements (agreementType) {
     switch (agreementType) {
         case '0':
             $(".equipment-cost").prop("disabled", false).parents('.equipment-cost-col').show();
@@ -92,7 +97,7 @@ function manageAgreementElements(agreementType) {
         case '1':
         case '2':
             $(".equipment-cost").prop("disabled", true).parents('.equipment-cost-col').hide();
-            $(".equipment-cost").each(function() {
+            $(".equipment-cost").each(function () {
                 var input = $(this);
                 input.rules("remove", "required");
                 input.removeClass('input-validation-error');
@@ -117,37 +122,40 @@ function manageAgreementElements(agreementType) {
     }
 }
 
-function addNewEquipment() {
-	if (Number(sessionStorage.newEquipmets) < 3) {
-		//To map new contract check if new equipment is less than 3
-		var nextNumber = Number(sessionStorage.newEquipmets) + 1;
-		var newDiv = document.createElement('div');
-		newDiv.className = 'new-equipment-wrap';
-		newDiv.innerHTML = sessionStorage.newEquipmetTemplate.split("NewEquipment[0]").join("NewEquipment[" + sessionStorage.newEquipmets + "]")
-			.split("NewEquipment_0").join("NewEquipment_" + sessionStorage.newEquipmets).split("estimated-installation-date-0").join("estimated-installation-date-" + sessionStorage.newEquipmets)
-			.replace("removeNewEquipment(0)", "removeNewEquipment(" + sessionStorage.newEquipmets + ")")
-			.replace("new-equipment-remove-0", "new-equipment-remove-" + sessionStorage.newEquipmets)
-			.replace("№1", "№" + (nextNumber));
-		//console.log(newDiv.innerHTML);
-		newDiv.id = "new-equipment-" + sessionStorage.newEquipmets;
-		document.getElementById('new-equipments').appendChild(newDiv);
-		assignDatepicker.call($("#estimated-installation-date-" + sessionStorage.newEquipmets));
-		resetFormValidator("#equipment-form");
-		manageAgreementElements($("#agreement-type").find(":selected").val());
-		customizeSelect();
-		sessionStorage.newEquipmets = nextNumber;
-		resetPlacehoder($(newDiv).find('textarea, input'));
+function addNewEquipment () {
+    if (Number(sessionStorage.newEquipmets) < 3) {
+        //To map new contract check if new equipment is less than 3
+        var nextNumber = Number(sessionStorage.newEquipmets) + 1;
+        var newDiv = document.createElement('div');
+        newDiv.className = 'new-equipment-wrap';
+        newDiv.innerHTML = sessionStorage.newEquipmetTemplate.split("NewEquipment[0]").join("NewEquipment[" + sessionStorage.newEquipmets + "]")
+            .split("NewEquipment_0").join("NewEquipment_" + sessionStorage.newEquipmets).split("estimated-installation-date-0").join("estimated-installation-date-" + sessionStorage.newEquipmets)
+            .replace("removeNewEquipment(0)", "removeNewEquipment(" + sessionStorage.newEquipmets + ")")
+            .replace("new-equipment-remove-0", "new-equipment-remove-" + sessionStorage.newEquipmets)
+            .replace("№1", "№" + (nextNumber));
+        //console.log(newDiv.innerHTML);
+        newDiv.id = "new-equipment-" + sessionStorage.newEquipmets;
+        document.getElementById('new-equipments').appendChild(newDiv);
+        assignDatepicker('#estimated-installation-date-' + sessionStorage.newEquipmets, {
+            yearRange: '1900:2200',
+            minDate: new Date()
+        });
+        resetFormValidator("#equipment-form");
+        manageAgreementElements($("#agreement-type").find(":selected").val());
+        customizeSelect();
+        sessionStorage.newEquipmets = nextNumber;
+        resetPlacehoder($(newDiv).find('textarea, input'));
 
-		addIconsToFields();
-		toggleClearInputIcon();
-		if (nextNumber == 3) {
-			//To map new contract max equipment allowed = 3
-			$('.add-equip-link').addClass("hidden");
-		}
-	}
+        addIconsToFields();
+        toggleClearInputIcon();
+        if (nextNumber == 3) {
+            //To map new contract max equipment allowed = 3
+            $('.add-equip-link').addClass("hidden");
+        }
+    }
 }
 
-function addExistingEquipment() {
+function addExistingEquipment () {
     var nextNumber = Number(sessionStorage.existingEquipmets) + 1;
     var newDiv = document.createElement('div');
     newDiv.innerHTML = sessionStorage.existingEquipmetTemplate.split("ExistingEquipment[0]").join("ExistingEquipment[" + sessionStorage.existingEquipmets + "]")
@@ -164,7 +172,7 @@ function addExistingEquipment() {
     resetPlacehoder($(newDiv).find('textarea, input'));
 }
 
-function removeNewEquipment(id) {
+function removeNewEquipment (id) {
     $('#new-equipment-' + id).remove();
     var nextNumber = Number(id);
     while (true) {
@@ -173,7 +181,7 @@ function removeNewEquipment(id) {
         if (!nextEquipment.length) { break; }
 
         var labels = nextEquipment.find('label');
-        labels.each(function() {
+        labels.each(function () {
             $(this).attr('for', $(this).attr('for').replace('NewEquipment_' + nextNumber, 'NewEquipment_' + nextNumber - 1));
         });
         var inputs = nextEquipment.find('input, select, textarea');
@@ -184,7 +192,7 @@ function removeNewEquipment(id) {
         var spans = nextEquipment.find('span');
         spans.each(function () {
             var valFor = $(this).attr('data-valmsg-for');
-            if (valFor == null){ return; }
+            if (valFor == null) { return; }
             $(this).attr('data-valmsg-for', valFor.replace('NewEquipment[' + nextNumber, 'NewEquipment[' + (nextNumber - 1)));
         });
         nextEquipment.find('.equipment-number').text('№' + nextNumber);
@@ -194,12 +202,12 @@ function removeNewEquipment(id) {
         nextEquipment.attr('id', 'new-equipment-' + (nextNumber - 1));
         resetFormValidator("#equipment-form");
     }
-	sessionStorage.newEquipmets = Number(sessionStorage.newEquipmets) - 1;
-	//Allow 3 new equipments to map new contract
-	$('.add-equip-link').removeClass("hidden");
+    sessionStorage.newEquipmets = Number(sessionStorage.newEquipmets) - 1;
+    //Allow 3 new equipments to map new contract
+    $('.add-equip-link').removeClass("hidden");
 }
 
-function removeExistingEquipment(id) {
+function removeExistingEquipment (id) {
     $('#existing-equipment-' + id).remove();
     var nextNumber = Number(id);
     while (true) {
@@ -232,13 +240,13 @@ function removeExistingEquipment(id) {
     sessionStorage.existingEquipmets = Number(sessionStorage.existingEquipmets) - 1;
 }
 
-function recalculateTotalMonthlyPayment() {
+function recalculateTotalMonthlyPayment () {
     var agreementType = $("#agreement-type").find(":selected").val();
     if (agreementType === "0") {
         return;
     }
     var sum = 0;
-    $(".monthly-cost").each(function() {
+    $(".monthly-cost").each(function () {
         var numberValue = Globalize.parseNumber(this.value);
         if (!isNaN(numberValue)) {
             sum += numberValue;
@@ -249,7 +257,7 @@ function recalculateTotalMonthlyPayment() {
     recalculateTotalMonthlyPaymentHst();
 }
 
-function recalculateTotalMonthlyPaymentHst() {
+function recalculateTotalMonthlyPaymentHst () {
     var sum = Globalize.parseNumber($("#total-monthly-payment").val());
     if (!isNaN(sum)) {
         var totalHst = sum * taxRate / 100;
@@ -262,7 +270,7 @@ function recalculateTotalMonthlyPaymentHst() {
     }
 }
 
-function recalculateTotalCashPrice() {
+function recalculateTotalCashPrice () {
     var agreementType = $("#agreement-type").find(":selected").val();
     if (agreementType !== "0") {
         return;
@@ -281,7 +289,7 @@ function recalculateTotalCashPrice() {
     calculateLoanValues();
 }
 
-function resetFormValidator(formId) {
+function resetFormValidator (formId) {
     $(formId).removeData('validator');
     $(formId).removeData('unobtrusiveValidation');
     $.validator.unobtrusive.parse(formId);
@@ -289,13 +297,4 @@ function resetFormValidator(formId) {
     $("#amortization-term").rules("add", "required");
     $("#requested-term").rules("add", "required");
     $("#loan-term").rules("add", "required");
-}
-
-function assignDatepicker() {
-    var input =  $('body').is('.ios-device') ? $(this).siblings('.div-datepicker') : $(this);
-    inputDateFocus(input);
-    input.datepicker({
-        yearRange: '1900:2200',
-        minDate: new Date()
-    });
 }
