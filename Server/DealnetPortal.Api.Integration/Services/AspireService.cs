@@ -1333,14 +1333,18 @@ namespace DealnetPortal.Api.Integration.Services
                         c.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.PostalCode ??
                         c.Locations?.FirstOrDefault()?.PostalCode;
                     try
-                    {                    
-                        var aspireCustomer = AutoMapper.Mapper.Map<CustomerDTO>(_aspireStorageReader.FindCustomer(c.FirstName, c.LastName, c.DateOfBirth, postalCode));
-                        if (aspireCustomer != null)
+                    {
+                        var aspireCustomer = _aspireStorageReader.FindCustomer(c.FirstName, c.LastName, c.DateOfBirth,
+                            postalCode);//AutoMapper.Mapper.Map<CustomerDTO>();
+                        if (!string.IsNullOrEmpty(aspireCustomer?.EntityId))
                         {
-                            account.ClientId = aspireCustomer.AccountId?.Trim();
+                            account.ClientId = aspireCustomer.EntityId.Trim();
                             c.ExistingCustomer = true;
-                            //TODO: check lead source in aspire?
-                            setLeadSource = null;
+                            //check lead source in aspire
+                            if (!string.IsNullOrEmpty(aspireCustomer.LeaseSource))
+                            {
+                                setLeadSource = null;
+                            }
                         }
                         else
                         {
@@ -1356,8 +1360,12 @@ namespace DealnetPortal.Api.Integration.Services
                 else
                 {
                     account.ClientId = c.AccountId;
-                    //TODO: check lead source in aspire?
-                    setLeadSource = null;
+                    //check lead source in aspire
+                    var aspireCustomer = _aspireStorageReader.GetCustomerById(c.AccountId);
+                    if (!string.IsNullOrEmpty(aspireCustomer?.LeaseSource))
+                    {
+                        setLeadSource = null;
+                    }
                 } 
                 
                 account.UDFs = GetCustomerUdfs(c, location, setLeadSource, contract.HomeOwners?.Any(hw => hw.Id == c.Id)).ToList();                
@@ -1488,12 +1496,16 @@ namespace DealnetPortal.Api.Integration.Services
                     var postalCode = owner.Address?.PostalCode;
                     try
                     {
-                        var aspireCustomer = AutoMapper.Mapper.Map<CustomerDTO>(_aspireStorageReader.FindCustomer(owner.FirstName, owner.LastName, owner.DateOfBirth ?? new DateTime(), postalCode));
+                        var aspireCustomer = _aspireStorageReader.FindCustomer(owner.FirstName, owner.LastName,
+                            owner.DateOfBirth ?? new DateTime(), postalCode);
                         if (aspireCustomer != null)
                         {
-                            account.ClientId = aspireCustomer.AccountId?.Trim();
-                            //check lead source in aspire ?
-                            setLeadSource = null;
+                            account.ClientId = aspireCustomer.EntityId?.Trim();
+                            //check lead source in aspire
+                            if (!string.IsNullOrEmpty(aspireCustomer.LeaseSource))
+                            {
+                                setLeadSource = null;
+                            }
                         }
                     }
                     catch (Exception ex)
@@ -1505,8 +1517,12 @@ namespace DealnetPortal.Api.Integration.Services
                 else
                 {
                     account.ClientId = owner.AccountId;
-                    //check lead source in aspire ?
-                    setLeadSource = null;
+                    //check lead source in aspire
+                    var aspireCustomer = _aspireStorageReader.GetCustomerById(account.ClientId);
+                    if (!string.IsNullOrEmpty(aspireCustomer?.LeaseSource))
+                    {
+                        setLeadSource = null;
+                    }
                 }
 
                 var UDFs = new List<UDF>();
