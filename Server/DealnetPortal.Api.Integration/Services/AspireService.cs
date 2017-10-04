@@ -2469,7 +2469,7 @@ namespace DealnetPortal.Api.Integration.Services
             const int maxOwners = 5;
             var ownerNum = 1;
             var owners = dealerInfo.Owners?.OrderBy(o => o.OwnerOrder).Take(maxOwners).ToList() ?? new List<OwnerInfo>();
-            for (int i = owners.Count(); i <= maxOwners; i++)
+            for (int i = owners.Count(); i < maxOwners; i++)
             {
                 owners.Add(null);
             }
