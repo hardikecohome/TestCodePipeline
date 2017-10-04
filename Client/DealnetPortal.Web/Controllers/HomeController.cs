@@ -163,7 +163,6 @@ namespace DealnetPortal.Web.Controllers
 	}
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<string> DealerSupportRequestEmail(SupportRequestDTO dealerSupportRequest)
         {
             var result = await _dealerServiceAgent.DealerSupportRequestEmail(dealerSupportRequest);

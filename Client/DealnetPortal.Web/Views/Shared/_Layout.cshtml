@@ -342,6 +342,8 @@
 					</i>
 				</div>
 			</div>
+			@if (User.Identity.IsAuthenticated)
+            {
 			<div class="helpbutton pull-right">
 
 				<i onclick="sendEmailModel();">
@@ -351,6 +353,7 @@
 					</button>
 				</i>
 			</div>
+			}
 		</div>
 	</div>
 
@@ -386,7 +389,21 @@
 						<div class="row">
 							<div class="form-group">
 								<div class="col-md-3">
-									<label class="pull-left">Loan Number</label>
+									<label class="pull-left align-middle custom-checkbox">
+										<input type="checkbox" class="dealnet-checkbox" id="emailPhone" />
+										<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+										<span>Your Name</span>
+									</label>
+								</div>
+								<div class="col-md-9">
+									<input class="pull-left form-control dealnet-input" type="text" id="yourNameTxt" placeholder="Your Name (If not the above)" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group">
+								<div class="col-md-3">
+									<label class="pull-left">Deal Number</label>
 								</div>
 								<div class="col-md-9">
 									<label class="pull-left" id="emailTransactionId"></label>
@@ -446,31 +463,28 @@
 								</div>
 								<div class="col-md-9">
 									<div class="row">
-										<div class="col-md-12">
+										<div class="col-md-12 justify-content-between">
 											<label class="pull-left align-middle custom-checkbox">
 												<input type="checkbox" class="dealnet-checkbox" id="emailPhone" />
 												<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
 												<span>@Resources.Phone</span>
 											</label>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-12">
 											<label class="pull-left align-middle custom-checkbox">
 												<input type="checkbox" class="dealnet-checkbox" id="emailSameEmail" />
 												<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
 												<span>Same E-mail</span>
 											</label>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-12">
 											<label class="pull-left align-middle custom-checkbox">
 												<input type="checkbox" class="dealnet-checkbox" id="emailAlternativeEmail" />
 												<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
 												<span>Alternative E-mail</span>
 											</label>
-											<input class="pull-left form-control dealnet-input" type="text" id="emailAlternativeEmailAddress" />
+											
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<input class="pull-left form-control dealnet-input" type="text" id="emailAlternativeEmailAddress"  placeholder="Alternative Email Address" />
 										</div>
 									</div>
 								</div>

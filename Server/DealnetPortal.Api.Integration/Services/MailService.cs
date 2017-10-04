@@ -620,7 +620,6 @@ namespace DealnetPortal.Api.Integration.Services
         public async Task SendSupportRequiredEmail(SupportRequestDTO SupportDetails)
         {
             string mailTo = ConfigurationManager.AppSettings["DealNetEmail"];
-            
             var body = new StringBuilder();
             body.AppendLine("<div>");
             body.AppendLine($"<u>{SupportDetails.SupportType}.</u>");
@@ -632,20 +631,20 @@ namespace DealnetPortal.Api.Integration.Services
             }
             body.AppendLine($"<p><b>Request Comments: {SupportDetails.HelpRequested}</b></p>");
             body.AppendLine("<br />");
-            body.AppendLine($"<p><b>Communication Preffered by:</b></p>");
+            body.AppendLine($"<p><b>Communication Preffered by:</b>");
             if (SupportDetails.BestWay.byPhone)
             {
-                body.AppendLine($"<p>Phone</p>");
+                body.AppendLine($"Phone, ");
             }
             if (SupportDetails.BestWay.SameEmail)
             {
-                body.AppendLine($"<p>Email</p>");
+                body.AppendLine($"Email, ");
             }
             if (SupportDetails.BestWay.AlternativeEmail)
             {
-                body.AppendLine($"<p><b>Alternative Email: { SupportDetails.BestWay.AlternativeEmailAddress ?? string.Empty}</b></p>");
+                body.AppendLine($"<b>Alternative Email: { SupportDetails.BestWay.AlternativeEmailAddress ?? string.Empty}</b>");
             }
-            body.AppendLine("</div>");
+            body.AppendLine("</p></div>");
 
             var subject = $"Support Request -{ "Who Send request" + " to which department" }";
             try
