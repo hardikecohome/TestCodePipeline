@@ -1,0 +1,95 @@
+﻿@model DealnetPortal.Web.Models.Dealer.SaveAndResumeViewModel
+
+@{
+    ViewBag.Title = "OnBoardSuccess";
+}
+
+<div class="onboard-success-page align-middle-section">
+    <div class="navbar onboard-navbar navbar-fixed-side">
+        <div class="navbar-header customer-navbar-header">
+            <div class="dealnet-image-ecologo"></div>
+        </div>
+    </div>
+    <div class="align-middle-inner">
+        <svg aria-hidden="true" class="icon icon-success">
+            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success-circle")"></use>
+        </svg>
+        <h2 class="page-heading">
+            @Resources.ApplicationSuccessfullySubmitted<br /> @Resources.WellContactSoon
+        </h2>
+        <div class="row">
+            <div class="well danger-well col-md-12">
+                <h4>@Resources.ProvideDocuments</h4>
+                <div class="row">
+                    <div class="form-group col-md-10">
+                        <label for="" style="margin-right: 550px;">@Resources.Link</label>
+                        <div class="controls-hold">
+                            <div class="control-group">
+                                <input type="url" id="resume-link" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("ResumeOnBoarding", "Dealer", new {key = Model.AccessKey}, Request.Url.Scheme)"/>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn dealnet-success-button btn-small" style="margin-top: 28px;" id="copy-resume-link">@Resources.Copy</button>
+                </div>
+                @using (Html.BeginForm("SendDraftLink", "Dealer", FormMethod.Post, new {id = "send-draft-email"}))
+                {
+                    @Html.HiddenFor(m => m.Id, new {id = "dealer-info-id"})
+                    <input id="access-key" name="AccessKey" value="@Model.AccessKey" type="hidden"/>
+                    <h4>@Resources.WantToSendLink</h4>
+                    <div class="row">
+                        <div class="form-group col-md-5 col-sm-6">
+                            @Html.LabelFor(m => m.Email, new {@class = "mandatory-field", style = "margin-right: 150px" })
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.Email, new {@class = "form-control dealnet-input", id = "send-resume-email"})
+                                @Html.ValidationMessageFor(m => m.Email, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4 col-sm-6 btn-holder">
+                            <label for="" class="hidden-xs">&nbsp;</label>
+                            <div class="control-group">
+                                <button type="submit" class="btn dealnet-success-button" id="send-email-submit">@Resources.SendMeLink</button>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-sm-offset-4 col-md-offset-0 hidden" id="sent-success">
+                            <label for="">&nbsp;</label>
+                            <div class="email-sent-success flex-centered-text" style="margin-left: 20px;">
+                                <svg aria-hidden="true" class="icon icon-success">
+                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success-gray-circle")"></use>
+                                </svg>
+                                <span>@Resources.MailSent</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div>
+            @Resources.QuestionsContactDealerSupport<br />
+            @Resources.Phone:
+            <a href="tel:+@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]" class="tel">
+                @System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]
+            </a>
+            <br />
+            @Resources.Email:
+            <a href="mailto:@System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]">
+                @System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]
+            </a>
+        </div>
+    </div>
+</div>
+
+@section scripts { 
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/localization")
+    <script type="text/javascript" src="~/Scripts/Modules/index.js"></script>
+    <script type="text/javascript" src="~/Scripts/Pages/onboarding/onboarding.success.js"></script>
+    <script type="text/javascript">
+        var sendLinkUrl = '@Url.Action("SendDraftLink")';
+
+        $(function() {
+            module.require('onboarding.success')();
+        });
+    </script>
+}
+
+

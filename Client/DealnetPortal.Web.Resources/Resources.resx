@@ -2042,8 +2042,9 @@
   <data name="EmailExists" xml:space="preserve">
     <value>The email address you have entered is already registered</value>
   </data>
-  <data name="RateCardNoLongerAvailable" xml:space="preserve">
-    <value>Previously selected financing program is no longer available. In order to modify deal you need to select valid program.</value>
+  <data name="ProvideDocuments" xml:space="preserve">
+    <value>Please remember to provide all required documents.
+You can do it anytime by using the following link:</value>
   </data>
   <data name="AddAnotherOption" xml:space="preserve">
     <value>Add Another Option to Compare</value>

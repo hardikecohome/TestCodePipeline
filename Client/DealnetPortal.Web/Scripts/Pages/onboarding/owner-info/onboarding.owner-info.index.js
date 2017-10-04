@@ -47,8 +47,6 @@
 
         var input = assignOwnerDatepicker('#' + ownerNumber + '-birthdate', ownerNumber);
 
-        //setDatepickerDate('#' + ownerNumber + '-birthdate', state['owner-info'].owners[ownerNumber].birthDate);
-
         if (ownerNumber !== 'owner0') {
             initGoogleServices(ownerNumber + '-street',
                 ownerNumber + '-city',
@@ -99,6 +97,7 @@
                     setters.setBirthDate(owner, owners[i]['BirthDate']);
                     setDatepickerDate('#' + owner + '-birthdate', state['owner-info'].owners[owner].birthDate);
                 }
+
                 var $item = $('#' + owner + '-' + field);
                 if ($item.val())
                     $item.change();
@@ -106,8 +105,9 @@
         }
     }
 
-    function init(owners) {
+    function init (owners) {
         _initEventHandlers(owners !== undefined ? owners.length : 1);
+
         if (Array.isArray(owners) && owners.length > 0) {
             _setLoadedData(owners);
         }

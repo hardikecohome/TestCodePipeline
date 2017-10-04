@@ -28,7 +28,7 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<DealerInfoDTO> GetDealerOnboardingForm(string accessKey);
         Task<DealerInfoDTO> GetDealerOnboardingForm(int id);
         Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> UpdateDealerOnboardingForm(DealerInfoDTO dealerInfo);
-        Task<IList<Alert>> SubmitDealerOnboardingForm(DealerInfoDTO dealerInfo);
+        Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> SubmitDealerOnboardingForm(DealerInfoDTO dealerInfo);
         Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> AddDocumentToOnboardingForm(RequiredDocumentDTO document);
         Task<IList<Alert>> DeleteDocumentFromOnboardingForm(RequiredDocumentDTO document);
         Task<IList<Alert>> SendDealerOnboardingDraftLink(DraftLinkDTO link);

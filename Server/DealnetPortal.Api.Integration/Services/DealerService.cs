@@ -173,7 +173,7 @@ namespace DealnetPortal.Api.Integration.Services
             return new Tuple<DealerInfoKeyDTO, IList<Alert>>(resultKey, alerts);
         }
 
-        public async Task<IList<Alert>> SubmitDealerOnboardingForm(DealerInfoDTO dealerInfo)
+        public async Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> SubmitDealerOnboardingForm(DealerInfoDTO dealerInfo)
         {
             if (dealerInfo == null)
             {
@@ -181,6 +181,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             var alerts = new List<Alert>();
+            DealerInfoKeyDTO resultKey = null;
             try
             {
                 //update draft in a database as we should have it with required documents 
@@ -189,6 +190,13 @@ namespace DealnetPortal.Api.Integration.Services
                                               _dealerRepository.GetUserIdByOnboardingLink(dealerInfo.SalesRepLink);
                 var updatedInfo = _dealerOnboardingRepository.AddOrUpdateDealerInfo(mappedInfo);
                 _unitOfWork.Save();
+
+                resultKey = new DealerInfoKeyDTO()
+                {
+                    AccessKey = updatedInfo.AccessKey,
+                    DealerInfoId = updatedInfo.Id
+                };
+
                 //submit form to Aspire                                             
                 var reSubmit = updatedInfo.SentToAspire;
                 string statusToSet = reSubmit ? _aspireStorageReader.GetDealStatus(updatedInfo.TransactionId) ?? _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY) : _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY);
@@ -246,7 +254,7 @@ namespace DealnetPortal.Api.Integration.Services
                 });
                 _loggingService.LogError(errorMsg);
             }
-            return alerts;
+            return new Tuple<DealerInfoKeyDTO, IList<Alert>>(resultKey, alerts);
         }
 
         public async Task<IList<Alert>> SendDealerOnboardingDraftLink(DraftLinkDTO link)
