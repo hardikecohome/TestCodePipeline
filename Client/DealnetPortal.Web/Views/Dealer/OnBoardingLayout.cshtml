@@ -104,16 +104,16 @@
             </div>
             <div class="col-xs-12 col-sm-6 col-md-4">
                 <div class="form-group">
-                    <label for="" class="mandatory-field">Registration Number</label>
+                    <label for="">@Resources.RegistrationNumber</label>
                     <div class="control-group">
-                        <input type="text" value="" id="${id}-license-number" name="AdditionalDocuments[0].Number" class="form-control">
-                        <span class="field-validation-valid text-danger" data-valmsg-for="AdditionalDocuments[0].Number" data-valmsg-replace="true"></span>
+                        <input type="text" value="" id="${id}-license-number" data-val="true" data-val-length="@Resources.TheFieldMustBeMaximum.Replace("{0}", "Number").Replace("{1}", "20")" data-val-length-max="20" name="AdditionalDocuments[0].Number" class="form-control">
+                        <span class="text-danger field-validation-error" data-valmsg-for="AdditionalDocuments[0].Number" data-valmsg-replace="true"></span>
                     </div>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-3 col-md-2">
                 <div class="form-group">
-                    <label for="" class="mandatory-field">Expiry Date</label>
+                    <label for="">@Resources.ExpiryDate</label>
                     <div class="control-group date-group">
                         <input type="text" class="form-control dealnet-input" data-val-date name="AdditionalDocuments[0].ExpiredDate" id="${id}-license-date">
                         <span class="field-validation-valid text-danger" data-valmsg-for="AdditionalDocuments[0].ExpiredDate" data-valmsg-replace="true"></span>
@@ -125,11 +125,11 @@
                     <div class="dealnet-label hidden-xs">&nbsp;</div>
                     <div class="control-group flex-centered-text">
                         <label class="align-middle custom-checkbox">
-                            <input type="checkbox" class="dealnet-checkbox" id="${id}-license-checkbox" name="AdditionalDocuments[0].NotExpired" />
-                            <span class="checkbox-icon">
+                            <input type="checkbox" class="dealnet-checkbox" id="${id}-license-checkbox" name="AdditionalDocuments[0].NotExpired" value="false" />
+                            <span class="icon checkbox-icon">
                                 <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                             </span>
-                            <span>No expiry</span>
+                            <span>@Resources.NoExpiry</span>
                         </label>
                     </div>
                 </div>

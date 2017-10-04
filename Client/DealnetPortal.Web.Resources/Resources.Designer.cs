@@ -205,6 +205,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Client.
+        /// </summary>
+        public static string AddClient {
+            get {
+                return ResourceManager.GetString("AddClient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add comment.
         /// </summary>
         public static string AddComment {
@@ -435,6 +444,19 @@ namespace DealnetPortal.Web.Resources {
         public static string Agreement {
             get {
                 return ResourceManager.GetString("Agreement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;h2&gt;Collection, Use and Disclosure of Personal Information&lt;/h2&gt;
+        ///    &lt;p&gt;EcoHome Financial may collect, use and disclose personal information provided by you on this application, obtained as part of the application process (including from credit reporting agencies and other sources) and/or, if your application is approved, obtained from time to time in the administration or operation of your account, for some or all of the following purposes:&lt;/p&gt;
+        ///    &lt;ul&gt;
+        ///        &lt;li&gt;
+        ///            to verify your identity a [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string AgreementPersonalData {
+            get {
+                return ResourceManager.GetString("AgreementPersonalData", resourceCulture);
             }
         }
         
@@ -993,6 +1015,15 @@ namespace DealnetPortal.Web.Resources {
         public static string CannotRecognizeVoidCheque {
             get {
                 return ResourceManager.GetString("CannotRecognizeVoidCheque", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Capture.
+        /// </summary>
+        public static string Capture {
+            get {
+                return ResourceManager.GetString("Capture", resourceCulture);
             }
         }
         
@@ -2059,6 +2090,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ecohome Financial Inc. must be listed as additional insured.
+        /// </summary>
+        public static string EcohomeMustBeListed {
+            get {
+                return ResourceManager.GetString("EcohomeMustBeListed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string Edit {
@@ -2289,6 +2329,15 @@ namespace DealnetPortal.Web.Resources {
         public static string ExistingEquipmentInformation {
             get {
                 return ResourceManager.GetString("ExistingEquipmentInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expiry Date.
+        /// </summary>
+        public static string ExpiryDate {
+            get {
+                return ResourceManager.GetString("ExpiryDate", resourceCulture);
             }
         }
         
@@ -3481,6 +3530,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No expiry.
+        /// </summary>
+        public static string NoExpiry {
+            get {
+                return ResourceManager.GetString("NoExpiry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No Interest.
         /// </summary>
         public static string NoInterest {
@@ -3603,6 +3661,15 @@ namespace DealnetPortal.Web.Resources {
         public static string OfferMonthlyDeferrals {
             get {
                 return ResourceManager.GetString("OfferMonthlyDeferrals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Onboarding.
+        /// </summary>
+        public static string Onboarding {
+            get {
+                return ResourceManager.GetString("Onboarding", resourceCulture);
             }
         }
         
@@ -3976,6 +4043,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please select.
+        /// </summary>
+        public static string PleaseSelect {
+            get {
+                return ResourceManager.GetString("PleaseSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please, select a document file.
         /// </summary>
         public static string PleaseSelectDocumentFile {
@@ -3990,6 +4066,15 @@ namespace DealnetPortal.Web.Resources {
         public static string PleaseUploadAllMandatoryDocuments {
             get {
                 return ResourceManager.GetString("PleaseUploadAllMandatoryDocuments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please upload file in format.
+        /// </summary>
+        public static string PleaseUploadInFormat {
+            get {
+                return ResourceManager.GetString("PleaseUploadInFormat", resourceCulture);
             }
         }
         
@@ -4147,6 +4232,18 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;h2 class=&quot;dealnet-large-header&quot;&gt;Privacy Policy _ Ecohome_External&lt;/h2&gt;
+        ///    &lt;p&gt;&lt;strong&gt;Effective: June 15, 2017&lt;/strong&gt;&lt;/p&gt;
+        ///    &lt;h3 class=&quot;dealnet-section-title&quot;&gt;Our Commitment&lt;/h3&gt;
+        ///    &lt;p&gt;At EcoHome Financial Inc. (“EcoHome Financial”, “we”, “us”, “the Company”, etc.) we are committed to providing excellent service and to ensuring that our relationship with individuals with whom we interact, such as our customers or potential customers (“you”), is conducted with integrity and in a responsible, fair, ho [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string PrivacyPolicyText {
+            get {
+                return ResourceManager.GetString("PrivacyPolicyText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Proceed.
         /// </summary>
         public static string Proceed {
@@ -4228,6 +4325,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Proof of insurance.
+        /// </summary>
+        public static string ProofOfInsurance {
+            get {
+                return ResourceManager.GetString("ProofOfInsurance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please remember to provide all required documents.
         ///You can do it anytime by using the following link:.
         /// </summary>
@@ -4270,6 +4376,15 @@ namespace DealnetPortal.Web.Resources {
         public static string ProvincesMinLength {
             get {
                 return ResourceManager.GetString("ProvincesMinLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provincial Safety Standard Licensing.
+        /// </summary>
+        public static string ProvincialSafetyStandardLicensing {
+            get {
+                return ResourceManager.GetString("ProvincialSafetyStandardLicensing", resourceCulture);
             }
         }
         
@@ -4342,6 +4457,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Registration {
             get {
                 return ResourceManager.GetString("Registration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registration Number.
+        /// </summary>
+        public static string RegistrationNumber {
+            get {
+                return ResourceManager.GetString("RegistrationNumber", resourceCulture);
             }
         }
         
@@ -5003,6 +5127,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Success.
+        /// </summary>
+        public static string Success {
+            get {
+                return ResourceManager.GetString("Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Such postal code already exist.
         /// </summary>
         public static string SuchPostalCodeAlreadyExist {
@@ -5080,6 +5213,15 @@ namespace DealnetPortal.Web.Resources {
         public static string TheDateMustBeOver1900 {
             get {
                 return ResourceManager.GetString("TheDateMustBeOver1900", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The {0} field is required..
+        /// </summary>
+        public static string TheFieldIsRequired {
+            get {
+                return ResourceManager.GetString("TheFieldIsRequired", resourceCulture);
             }
         }
         
@@ -5512,6 +5654,15 @@ namespace DealnetPortal.Web.Resources {
         public static string VerificationId {
             get {
                 return ResourceManager.GetString("VerificationId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Business void cheque  — Account to receive Ecohome funding.
+        /// </summary>
+        public static string VoidCheque {
+            get {
+                return ResourceManager.GetString("VoidCheque", resourceCulture);
             }
         }
         
