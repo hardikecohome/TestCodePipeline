@@ -21,5 +21,7 @@ namespace DealnetPortal.Aspire.Integration.Models.AspireDb
         public string Street { get; set; }
 
         public string ParentUserName { get; set; }
+
+        public string LeaseSource { get; set; }
     }
 }
