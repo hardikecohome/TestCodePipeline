@@ -4210,6 +4210,16 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please remember to provide all required documents.
+        ///You can do it anytime by using the following link:.
+        /// </summary>
+        public static string ProvideDocuments {
+            get {
+                return ResourceManager.GetString("ProvideDocuments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Province.
         /// </summary>
         public static string Province {
@@ -4260,15 +4270,6 @@ namespace DealnetPortal.Web.Resources {
         public static string QuestionsContactDealerSupport {
             get {
                 return ResourceManager.GetString("QuestionsContactDealerSupport", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Previously selected financing program is no longer available. In order to modify deal you need to select valid program..
-        /// </summary>
-        public static string RateCardNoLongerAvailable {
-            get {
-                return ResourceManager.GetString("RateCardNoLongerAvailable", resourceCulture);
             }
         }
         

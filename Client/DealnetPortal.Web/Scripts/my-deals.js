@@ -24,7 +24,7 @@ $(document)
         $('.select-filter').val($('.select-filter > option:first').val());
     });
 
-function showTable () {
+function showTable() {
     $.ajax(itemsUrl, {
         cache: false,
         mode: 'GET',
@@ -206,7 +206,7 @@ $.fn.dataTable.ext.search.push(
         return false;
     }
 );
-function removeContract () {
+function removeContract() {
     var tr = $(this).parents('tr');
     var id = $(tr)[0].id;
     var data = {

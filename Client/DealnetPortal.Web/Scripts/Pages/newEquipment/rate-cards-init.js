@@ -39,17 +39,9 @@
 
                 if (state.selectedCardId !== null) {
                     var items = $.parseJSON(sessionStorage.getItem(state.contractId + option.name));
-
                     renderSelectedRateCardUi(option.name, items);
-
                 }
             });
-            if (state.selectedCardId !== null && state.selectedCardId !== 0) {
-                if (cards.map(function (x) { return x.Id }).indexOf(state.selectedCardId) === -1) {
-                    $('#not-selected-rc').removeClass('hidden');
-                }
-
-            }
         }
 
         recalculateValuesAndRender();

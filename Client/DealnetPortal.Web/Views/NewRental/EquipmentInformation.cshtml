@@ -44,17 +44,18 @@
   <div class="form-section">
     @if (Model.CustomerComments != null && Model.CustomerComments.Any())
     {
-        <div class="customer-comments form-group">
-            <h3 class="dealnet-middle-header">@Resources.CustomersComment:</h3>
-            <div class="customer-comments-descr">
-                @foreach (var comment in Model.CustomerComments)
-                {
-                    @comment
-                    <br/>
-                }
-            </div>
+      <div class="customer-comments form-group">
+        <h3 class="dealnet-middle-header">@Resources.CustomersComment:</h3>
+        <div class="customer-comments-descr">
+          @foreach (var comment in Model.CustomerComments)
+          {
+            @comment
+            <br/>
+          }
         </div>
+      </div>
     }
+
     <div class="row form-group">
       <div class="col-md-3">
         @Html.LabelFor(m => m.AgreementType)
@@ -96,28 +97,20 @@
 
     <div class="financing-options">
       <div class="row">
-          <div class="col-md-3">
-              <h3 class="dealnet-middle-header">
-                  @Resources.FinancingOptions
-                  @*<a class="dealnet-info-link pull-right loan-element rate-card-link" href="@Url.Action("RateCard", "NewRental")">
+        <div class="col-md-3">
+          <h3 class="dealnet-middle-header">
+            @Resources.FinancingOptions
+            @*<a class="dealnet-info-link pull-right loan-element rate-card-link" href="@Url.Action("RateCard", "NewRental")">
                             <svg aria-hidden="true" class="icon icon-info-well">
                                 <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
                             </svg>
                             Rate Card
                             </a>*@
-                  <span class="financing-arrow" id="loanRateCardToggle">
-                      <i class="glyphicon glyphicon-chevron-down"></i>
-                  </span>
-              </h3>
-          </div>
-          <div class="col-md-12">
-              <div class="form-group hidden" id="not-selected-rc">
-                  <div class="well danger-well over-aged-well">
-                      <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-                      @Resources.RateCardNoLongerAvailable
-                  </div>
-              </div>
-          </div>
+            <span class="financing-arrow" id="loanRateCardToggle">
+              <i class="glyphicon glyphicon-chevron-down"></i>
+            </span>
+          </h3>
+        </div>
       </div>
 
       @Html.Partial("EquipmentInformation/Agreements/_FinancialRental", Model)

@@ -95,13 +95,13 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<Alert>> SubmitDealerOnboardingForm(DealerInfoDTO dealerInfo)
+        public async Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> SubmitDealerOnboardingForm(DealerInfoDTO dealerInfo)
         {
             try
             {
                 return
                     await
-                        Client.PostAsyncEx<DealerInfoDTO, IList<Alert>>(
+                        Client.PostAsyncEx<DealerInfoDTO, Tuple<DealerInfoKeyDTO, IList<Alert>>>(
                             $"{_fullUri}/SubmitDealerOnboardingInfo", dealerInfo, null, CurrentCulture);
             }
             catch (Exception ex)

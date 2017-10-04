@@ -951,6 +951,7 @@
     <Content Include="Scripts\Pages\onboarding\onboarding.polyfill.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.setters.js" />
     <Content Include="Scripts\Pages\onboarding\onboarding.state.js" />
+    <Content Include="Scripts\Pages\onboarding\onboarding.success.js" />
     <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.conversion.js" />
     <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.index.js" />
     <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.setters.js" />
@@ -1115,6 +1116,7 @@
     <Content Include="Scripts\Pages\onboarding\acknowledgment\onboarding.ackonwledgment.setters.js" />
     <Content Include="Views\Shared\OnBoarding\_SaveAndResumeModal.cshtml" />
     <Content Include="Views\Dealer\OnBoardingError.cshtml" />
+    <Content Include="Views\Dealer\SuccessWithoutDocuments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

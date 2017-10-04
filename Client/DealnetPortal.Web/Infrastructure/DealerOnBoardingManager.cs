@@ -96,11 +96,24 @@ namespace DealnetPortal.Web.Infrastructure
             };
         }
 
-        public async Task<IList<Alert>> SubmitOnBoarding(DealerOnboardingViewModel model)
+        public async Task<SaveAndResumeViewModel> SubmitOnBoarding(DealerOnboardingViewModel model)
         {
             DealerInfoDTO dto = AutoMapper.Mapper.Map<DealerInfoDTO>(model);
             dto.LeadSource = _leadSource;
-            return await _dealerServiceAgent.SubmitDealerOnboardingForm(dto);
+
+            var result = await _dealerServiceAgent.SubmitDealerOnboardingForm(dto);
+            return new SaveAndResumeViewModel
+            {
+                Id = result.Item1?.DealerInfoId ?? 0,
+                AccessKey = result.Item1?.AccessKey ?? model.AccessKey,
+                Success = result.Item2 != null ? !result.Item2.Any(a => a.Type == AlertType.Error) : true,
+                Alerts = result.Item2,
+                Email = model.Owners.Any() && !string.IsNullOrEmpty(model.Owners.First().EmailAddress)
+                    ? model.Owners.First().EmailAddress
+                    : !string.IsNullOrEmpty(model.CompanyInfo.EmailAddress)
+                        ? model.CompanyInfo.EmailAddress
+                        : String.Empty
+            };
         }
 
         public async Task<IList<Alert>> SendDealerOnboardingDraftLink(SaveAndResumeViewModel model)

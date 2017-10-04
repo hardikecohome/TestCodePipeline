@@ -34,6 +34,8 @@
         @Html.HiddenFor(m => m.Id)
         @Html.HiddenFor(m => m.AccessKey)
         @Html.HiddenFor(m => m.OnBoardingLink)
+        @Html.HiddenFor(m => m.IsDocumentsUploaded)
+
         <div class="onboard-steps" id="onboard-accordion">
             @Html.Partial("OnBoarding/_CompanyInformation", Model)
             @Html.Partial("OnBoarding/_OwnerInformation", Model)
@@ -44,7 +46,7 @@
         </div>
         <div class="clearfix">
             <span class="btn-proceed-inline-hold btn-form-common" data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Resources.YouShouldFillAllMandatoryFields">
-                <button type="submit" class="btn dealnet-success-button btn-proceed btn-form-common" id="submit">@Resources.SubmitApplication</button>
+                <button type="submit" class="btn dealnet-success-button btn-proceed btn-form-common" id="submitBtn">@Resources.SubmitApplication</button>
             </span>
         </div>
         <!--<div class="clearfix">
