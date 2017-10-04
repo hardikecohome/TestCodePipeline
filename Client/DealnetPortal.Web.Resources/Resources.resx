@@ -2045,4 +2045,10 @@
   <data name="RateCardNoLongerAvailable" xml:space="preserve">
     <value>Previously selected financing program is no longer available. In order to modify deal you need to select valid program.</value>
   </data>
+  <data name="AddAnotherOption" xml:space="preserve">
+    <value>Add Another Option to Compare</value>
+  </data>
+  <data name="Option" xml:space="preserve">
+    <value>Option</value>
+  </data>
 </root>

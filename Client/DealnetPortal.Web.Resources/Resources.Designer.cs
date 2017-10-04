@@ -196,6 +196,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Another Option to Compare.
+        /// </summary>
+        public static string AddAnotherOption {
+            get {
+                return ResourceManager.GetString("AddAnotherOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add comment.
         /// </summary>
         public static string AddComment {
@@ -3639,6 +3648,15 @@ namespace DealnetPortal.Web.Resources {
         public static string OperatingNameIncorrectFormat {
             get {
                 return ResourceManager.GetString("OperatingNameIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Option.
+        /// </summary>
+        public static string Option {
+            get {
+                return ResourceManager.GetString("Option", resourceCulture);
             }
         }
         

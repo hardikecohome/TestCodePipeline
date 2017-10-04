@@ -1120,9 +1120,6 @@
     <Folder Include="App_Data\Upload\" />
     <Folder Include="Content\themes\" />
     <Folder Include="Resources\" />
-    <Folder Include="Views\AsyncCancellation\" />
-    <Folder Include="Views\Credits\" />
-    <Folder Include="Views\Deals\" />
     <Folder Include="Views\UpdateData\" />
     <Folder Include="Views\Update\" />
   </ItemGroup>
