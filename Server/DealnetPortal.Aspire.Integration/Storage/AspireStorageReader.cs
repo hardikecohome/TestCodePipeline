@@ -319,6 +319,15 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     userEntity.PhoneNum = phoneNum;                    
                 }
+
+                try
+                {
+                    userEntity.LeaseSource = ConvertFromDbVal<string>(dr["leaseSource"]);
+                }
+                catch (Exception)
+                {
+                    userEntity.LeaseSource = null;
+                }
                
                 return userEntity;
             }
