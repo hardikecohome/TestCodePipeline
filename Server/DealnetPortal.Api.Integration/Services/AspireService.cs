@@ -47,6 +47,7 @@ namespace DealnetPortal.Api.Integration.Services
         private const string CodeSuccess = "T000";
         //symbols excluded from document names for upload
         private string DocumentNameReplacedSymbols = " -+=#@$%^!~&;:'`(){}.,|\"";
+        private const string BlankValue = " ";
 
         public AspireService(IAspireServiceAgent aspireServiceAgent, IContractRepository contractRepository, 
             IDealerOnboardingRepository dealerOnboardingRepository,
@@ -1091,14 +1092,6 @@ namespace DealnetPortal.Api.Integration.Services
 
                     try
                     {
-                        //var x = new XmlSerializer(request.GetType());
-                        //var settings = new XmlWriterSettings { NewLineHandling = NewLineHandling.Entitize };
-                        //MemoryStream ms = new MemoryStream();
-                        //FileStream fs = new FileStream("d:\\onboardingTestResponse.xml", FileMode.Create);
-                        //var writer = XmlWriter.Create(fs, settings);
-                        //x.Serialize(writer, request);
-                        //writer.Flush();
-
                         Task timeoutTask = Task.Delay(_aspireRequestTimeout);
                         var aspireRequestTask = _aspireServiceAgent.CustomerUploadSubmission(request);
                         DecisionCustomerResponse response = null;
@@ -1526,23 +1519,16 @@ namespace DealnetPortal.Api.Integration.Services
                 }
 
                 var UDFs = new List<UDF>();
-                if (!string.IsNullOrEmpty(owner.HomePhone))
+                UDFs.Add(new UDF()
                 {
-                    UDFs.Add(new UDF()
-                    {
-                        Name = AspireUdfFields.HomePhoneNumber,
-                        Value = owner.HomePhone
-                    });
-                }
-                if (!string.IsNullOrEmpty(owner.MobilePhone))
+                    Name = AspireUdfFields.HomePhoneNumber,
+                    Value = !string.IsNullOrEmpty(owner.HomePhone) ? owner.HomePhone : BlankValue
+                });
+                UDFs.Add(new UDF()
                 {
-                    UDFs.Add(new UDF()
-                    {
-                        Name = AspireUdfFields.MobilePhoneNumber,
-                        Value = owner.MobilePhone
-                    });
-                }
-
+                    Name = AspireUdfFields.MobilePhoneNumber,
+                    Value = !string.IsNullOrEmpty(owner.MobilePhone) ? owner.MobilePhone : BlankValue
+                });
                 if (!string.IsNullOrEmpty(setLeadSource))
                 {
                     UDFs.Add(new UDF()
@@ -2171,14 +2157,11 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var udfList = new List<UDF>();
 
-            if (!string.IsNullOrEmpty(dealerInfo?.CompanyInfo?.OperatingName))
+            udfList.Add(new UDF()
             {
-                udfList.Add(new UDF()
-                {
-                    Name = AspireUdfFields.OperatingName,
-                    Value = dealerInfo.CompanyInfo.OperatingName
-                });
-            }
+                Name = AspireUdfFields.OperatingName,
+                Value = !string.IsNullOrEmpty(dealerInfo?.CompanyInfo?.OperatingName) ? dealerInfo.CompanyInfo.OperatingName : BlankValue
+            });           
 
             if (dealerInfo?.CompanyInfo?.NumberOfInstallers != null)
             {
@@ -2220,14 +2203,20 @@ namespace DealnetPortal.Api.Integration.Services
                     Value = GetCompanyProvincesApproved(dealerInfo)
                 });
             }
-            if (!string.IsNullOrEmpty(dealerInfo?.CompanyInfo?.Website))
+            else
             {
                 udfList.Add(new UDF()
                 {
-                    Name = AspireUdfFields.Website,
-                    Value = dealerInfo.CompanyInfo.Website
+                    Name = AspireUdfFields.ProvincesApproved,
+                    Value = BlankValue
                 });
             }
+
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.Website,
+                Value = !string.IsNullOrEmpty(dealerInfo?.CompanyInfo?.Website) ? dealerInfo.CompanyInfo.Website : BlankValue
+            });
 
             if (dealerInfo.ProductInfo?.Brands?.Any() == true || !string.IsNullOrEmpty(dealerInfo.ProductInfo?.PrimaryBrand))
             {
@@ -2246,22 +2235,27 @@ namespace DealnetPortal.Api.Integration.Services
                     Value = string.Join(", ", brandsList)
                 });
             }
-            if (dealerInfo.ProductInfo?.AnnualSalesVolume != null)
+            else
             {
                 udfList.Add(new UDF()
                 {
-                    Name = AspireUdfFields.AnnualSalesVolume,
-                    Value = dealerInfo.ProductInfo.AnnualSalesVolume?.ToString(CultureInfo.InvariantCulture)
+                    Name = AspireUdfFields.ManufacturerBrandsSold,
+                    Value = BlankValue
                 });
             }
-            if (dealerInfo.ProductInfo?.AverageTransactionSize != null)
+
+            udfList.Add(new UDF()
             {
-                udfList.Add(new UDF()
-                {
-                    Name = AspireUdfFields.AverageTransactionSize,
-                    Value = dealerInfo.ProductInfo.AverageTransactionSize?.ToString(CultureInfo.InvariantCulture)
-                });
-            }
+                Name = AspireUdfFields.AnnualSalesVolume,
+                Value = dealerInfo.ProductInfo?.AnnualSalesVolume != null ? dealerInfo.ProductInfo.AnnualSalesVolume?.ToString(CultureInfo.InvariantCulture) : BlankValue
+            });
+
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.AverageTransactionSize,
+                Value = dealerInfo.ProductInfo?.AverageTransactionSize != null ? dealerInfo.ProductInfo.AverageTransactionSize?.ToString(CultureInfo.InvariantCulture) : BlankValue
+            });
+
             if (dealerInfo.ProductInfo?.LeadGenReferrals != null)
             {
                 udfList.Add(new UDF()
@@ -2369,30 +2363,33 @@ namespace DealnetPortal.Api.Integration.Services
                     //?? equipments.FirstOrDefault(eq => eq.Id == s.EquipmentId)?.Type
                 });
             }
-            if (!string.IsNullOrEmpty(dealerInfo.ProductInfo?.OemName))
+            else
             {
                 udfList.Add(new UDF()
                 {
-                    Name = AspireUdfFields.OemName,
-                    Value = dealerInfo.ProductInfo.OemName
+                    Name = AspireUdfFields.ProductsForFinancingProgram,
+                    Value = BlankValue
                 });
             }
-            if (!string.IsNullOrEmpty(dealerInfo.ProductInfo?.FinanceProviderName))
+
+            udfList.Add(new UDF()
             {
-                udfList.Add(new UDF()
-                {
-                    Name = AspireUdfFields.FinanceProviderName,
-                    Value = dealerInfo.ProductInfo.FinanceProviderName
-                });
-            }
-            if (dealerInfo.ProductInfo?.MonthlyFinancedValue != null)
+                Name = AspireUdfFields.OemName,
+                Value = !string.IsNullOrEmpty(dealerInfo.ProductInfo?.OemName) ? dealerInfo.ProductInfo.OemName : BlankValue
+            });
+
+            udfList.Add(new UDF()
             {
-                udfList.Add(new UDF()
-                {
-                    Name = AspireUdfFields.MonthlyCapitalValue,
-                    Value = dealerInfo.ProductInfo.MonthlyFinancedValue?.ToString(CultureInfo.InvariantCulture)
-                });
-            }
+                Name = AspireUdfFields.FinanceProviderName,
+                Value = !string.IsNullOrEmpty(dealerInfo.ProductInfo?.FinanceProviderName) ? dealerInfo.ProductInfo.FinanceProviderName : BlankValue
+            });
+
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.MonthlyCapitalValue,
+                Value = dealerInfo.ProductInfo?.MonthlyFinancedValue != null ? dealerInfo.ProductInfo.MonthlyFinancedValue?.ToString(CultureInfo.InvariantCulture) : BlankValue
+            });
+
             if (dealerInfo.ProductInfo?.PercentMonthlyDealsDeferred != null)
             {
                 udfList.Add(new UDF()
@@ -2469,100 +2466,74 @@ namespace DealnetPortal.Api.Integration.Services
 
         private IList<UDF> GetCompanyOwnersUdfs(DealerInfo dealerInfo)
         {
+            const int maxOwners = 5;
             var ownerNum = 1;
-            var udfs = dealerInfo.Owners?.OrderBy(o => o.OwnerOrder).Take(5).SelectMany(owner =>
+            var owners = dealerInfo.Owners?.OrderBy(o => o.OwnerOrder).Take(maxOwners).ToList() ?? new List<OwnerInfo>();
+            for (int i = owners.Count(); i <= maxOwners; i++)
+            {
+                owners.Add(null);
+            }
+            
+            var udfs = owners.SelectMany(owner =>
             {
                 var ownerUdfs = new List<UDF>();
-                if (!string.IsNullOrEmpty(owner?.FirstName))
+                ownerUdfs.Add(new UDF()
                 {
-                    ownerUdfs.Add(new UDF()
-                    {
-                        Name = $"{AspireUdfFields.OwnerFirstName} {ownerNum}",
-                        Value = owner.FirstName
-                    });
-                }
-                if (!string.IsNullOrEmpty(owner?.LastName))
+                    Name = $"{AspireUdfFields.OwnerFirstName} {ownerNum}",
+                    Value = !string.IsNullOrEmpty(owner?.FirstName) ? owner.FirstName : BlankValue
+                });
+                ownerUdfs.Add(new UDF()
                 {
-                    ownerUdfs.Add(new UDF()
-                    {
-                        Name = $"{AspireUdfFields.OwnerLastName} {ownerNum}",
-                        Value = owner.LastName
-                    });
-                }
-                if (owner?.DateOfBirth != null)
+                    Name = $"{AspireUdfFields.OwnerLastName} {ownerNum}",
+                    Value = !string.IsNullOrEmpty(owner?.LastName) ? owner.LastName : BlankValue
+                });
+                ownerUdfs.Add(new UDF()
                 {
-                    ownerUdfs.Add(new UDF()
-                    {
-                        Name = $"{AspireUdfFields.OwnerDateOfBirth} {ownerNum}",
-                        Value = owner.DateOfBirth?.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
-                    });
-                }
-                if (!string.IsNullOrEmpty(owner?.HomePhone))
+                    Name = $"{AspireUdfFields.OwnerDateOfBirth} {ownerNum}",
+                    Value = owner?.DateOfBirth != null ? owner.DateOfBirth?.ToString("d", CultureInfo.CreateSpecificCulture("en-US")) : BlankValue
+                });
+                ownerUdfs.Add(new UDF()
                 {
-                    ownerUdfs.Add(new UDF()
-                    {
-                        Name = $"{AspireUdfFields.OwnerHomePhone} {ownerNum}",
-                        Value = owner.HomePhone
-                    });
-                }
-                if (!string.IsNullOrEmpty(owner?.MobilePhone))
+                    Name = $"{AspireUdfFields.OwnerHomePhone} {ownerNum}",
+                    Value = !string.IsNullOrEmpty(owner?.HomePhone) ? owner.HomePhone : BlankValue
+                });
+                ownerUdfs.Add(new UDF()
                 {
-                    ownerUdfs.Add(new UDF()
-                    {
-                        Name = $"{AspireUdfFields.OwnerMobilePhone} {ownerNum}",
-                        Value = owner.MobilePhone
-                    });
-                }
-                if (!string.IsNullOrEmpty(owner?.EmailAddress))
+                    Name = $"{AspireUdfFields.OwnerMobilePhone} {ownerNum}",
+                    Value = !string.IsNullOrEmpty(owner?.MobilePhone) ? owner.MobilePhone : BlankValue
+                });
+                ownerUdfs.Add(new UDF()
                 {
-                    ownerUdfs.Add(new UDF()
-                    {
-                        Name = $"{AspireUdfFields.OwnerEmail} {ownerNum}",
-                        Value = owner.EmailAddress
-                    });
-                }
+                    Name = $"{AspireUdfFields.OwnerEmail} {ownerNum}",
+                    Value = !string.IsNullOrEmpty(owner?.EmailAddress) ? owner.EmailAddress : BlankValue
+                });
                 if (owner?.Address != null)
                 {
-                    if (!string.IsNullOrEmpty(owner.Address.Street))
+                    ownerUdfs.Add(new UDF()
                     {
-                        ownerUdfs.Add(new UDF()
-                        {
-                            Name = $"{AspireUdfFields.OwnerAddress} {ownerNum}",
-                            Value = owner.Address.Street
-                        });
-                    }
-                    if (!string.IsNullOrEmpty(owner.Address.City))
+                        Name = $"{AspireUdfFields.OwnerAddress} {ownerNum}",
+                        Value = !string.IsNullOrEmpty(owner?.Address?.Street) ? owner.Address.Street : BlankValue
+                    });
+                    ownerUdfs.Add(new UDF()
                     {
-                        ownerUdfs.Add(new UDF()
-                        {
-                            Name = $"{AspireUdfFields.OwnerAddressCity} {ownerNum}",
-                            Value = owner.Address.City
-                        });
-                    }
-                    if (!string.IsNullOrEmpty(owner.Address.PostalCode))
+                        Name = $"{AspireUdfFields.OwnerAddressCity} {ownerNum}",
+                        Value = !string.IsNullOrEmpty(owner?.Address?.City) ? owner.Address.City : BlankValue
+                    });
+                    ownerUdfs.Add(new UDF()
                     {
-                        ownerUdfs.Add(new UDF()
-                        {
-                            Name = $"{AspireUdfFields.OwnerAddressPostalCode} {ownerNum}",
-                            Value = owner.Address.PostalCode
-                        });
-                    }
-                    if (!string.IsNullOrEmpty(owner.Address.State))
+                        Name = $"{AspireUdfFields.OwnerAddressPostalCode} {ownerNum}",
+                        Value = !string.IsNullOrEmpty(owner?.Address?.PostalCode) ? owner.Address.PostalCode : BlankValue
+                    });
+                    ownerUdfs.Add(new UDF()
                     {
-                        ownerUdfs.Add(new UDF()
-                        {
-                            Name = $"{AspireUdfFields.OwnerAddressState} {ownerNum}",
-                            Value = owner.Address.State
-                        });
-                    }
-                    if (!string.IsNullOrEmpty(owner.Address.Unit))
+                        Name = $"{AspireUdfFields.OwnerAddressState} {ownerNum}",
+                        Value = !string.IsNullOrEmpty(owner.Address.State) ? owner.Address.State : BlankValue
+                    });
+                    ownerUdfs.Add(new UDF()
                     {
-                        ownerUdfs.Add(new UDF()
-                        {
-                            Name = $"{AspireUdfFields.OwnerAddressUnit} {ownerNum}",
-                            Value = owner.Address.Unit
-                        });
-                    }
+                        Name = $"{AspireUdfFields.OwnerAddressUnit} {ownerNum}",
+                        Value = !string.IsNullOrEmpty(owner.Address.Unit) ? owner.Address.Unit : BlankValue
+                    });
                 }
                 if (owner?.PercentOwnership != null)
                 {
