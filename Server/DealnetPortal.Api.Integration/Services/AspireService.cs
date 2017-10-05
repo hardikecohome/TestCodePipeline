@@ -1949,59 +1949,78 @@ namespace DealnetPortal.Api.Integration.Services
             }
             if (contractor != null)
             {
-                udfList.Add(new UDF()
+                if (!string.IsNullOrEmpty(contractor.CompanyName))
                 {
-                    Name = AspireUdfFields.ReqContractorName,
-                    Value = contractor.CompanyName
-                });
-
-                udfList.Add(new UDF()
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorName,
+                        Value = contractor.CompanyName
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.City))
                 {
-                    Name = AspireUdfFields.ReqContractorCity,
-                    Value = contractor.City
-                });
-
-                udfList.Add(new UDF()
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorCity,
+                        Value = contractor.City
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.EmailAddress))
                 {
-                    Name = AspireUdfFields.ReqContractorEmail,
-                    Value = contractor.EmailAddress
-                });
-
-                udfList.Add(new UDF()
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorEmail,
+                        Value = contractor.EmailAddress
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.PhoneNumber))
                 {
-                    Name = AspireUdfFields.ReqContractorPhone,
-                    Value = contractor.PhoneNumber
-                });
-
-                udfList.Add(new UDF()
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorPhone,
+                        Value = contractor.PhoneNumber
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.PostalCode))
                 {
-                    Name = AspireUdfFields.ReqContractorPostalCode,
-                    Value = contractor.PostalCode
-                });
-
-                udfList.Add(new UDF()
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorPostalCode,
+                        Value = contractor.PostalCode
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.State))
                 {
-                    Name = AspireUdfFields.ReqContractorProvince,
-                    Value = contractor.State
-                });
-
-                udfList.Add(new UDF()
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorProvince,
+                        Value = contractor.State
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.Street))
                 {
-                    Name = AspireUdfFields.ReqContractorStreet,
-                    Value = contractor.Street
-                });
-
-                udfList.Add(new UDF()
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorStreet,
+                        Value = contractor.Street
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.Unit))
                 {
-                    Name = AspireUdfFields.ReqContractorUnit,
-                    Value = contractor.Unit
-                });
-
-                udfList.Add(new UDF()
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorUnit,
+                        Value = contractor.Unit
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.Website))
                 {
-                    Name = AspireUdfFields.ReqContractorWebsite,
-                    Value = contractor.Website
-                });
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorWebsite,
+                        Value = contractor.Website
+                    });
+                }
             }
 
             return udfList;
