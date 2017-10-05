@@ -476,6 +476,7 @@
     <Content Include="Content\images\dataTables\sort_both.png" />
     <Content Include="Content\images\dataTables\sort_desc.png" />
     <Content Include="Content\images\dataTables\sort_desc_disabled.png" />
+    <Content Include="Content\images\home-banner-mobile.jpg" />
     <Content Include="Content\images\home-banner.jpg" />
     <Content Include="Content\images\icon-english%402x.png" />
     <Content Include="Content\images\icon-english%403x.png" />

@@ -1,7 +1,9 @@
 ﻿@{
     ViewBag.Title = Resources.HomePage;
     var bannerLink = System.Configuration.ConfigurationManager.AppSettings["HomeBannerLink"];
-    var bannerImagePath = System.Configuration.ConfigurationManager.AppSettings["HomeBannerImagePath"];
+    var bannerImagePath = Request.Browser.IsMobileDevice ?
+        System.Configuration.ConfigurationManager.AppSettings["MobileBannerPath"] :
+        System.Configuration.ConfigurationManager.AppSettings["DesktopBannerPath"];
     var bannerExists = File.Exists(Server.MapPath(bannerImagePath));
 }
 @if (bannerExists)
