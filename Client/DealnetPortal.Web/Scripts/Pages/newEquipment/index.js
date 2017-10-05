@@ -26,7 +26,7 @@
                     }
 
                     var monthPayment = Globalize.parseNumber($('#' + option + 'TMPayments').text().replace('$', '').trim());
-                    if (isNaN(monthPayment) || (monthPayment == 0)) {
+                    if (isNaN(monthPayment) || (monthPayment <= 0)) {
                         event.preventDefault();
                         $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
                     } else {
@@ -42,7 +42,7 @@
                 }
             } else {
                 var monthPayment = Globalize.parseNumber($("#rentalTMPayment").text());
-                if (isNaN(monthPayment) || (monthPayment == 0)) {
+                if (isNaN(monthPayment) || (monthPayment <= 0)) {
                     event.preventDefault();
                     $('#new-equipment-validation-message').text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
                 }

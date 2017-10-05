@@ -20,7 +20,7 @@
     </div>
     <div class="col-xs-5 text-right text-stronger" id="option1-totalPrice"> $ </div>
 </div>
-<h3 class="dealnet-middle-header">Financing Options</h3>
+<h3 class="dealnet-middle-header">@Resources.FinancingOptions</h3>
 <div>
     <div class="row form-group align-middle @(Model.Plans.Count > 1 ? "": "hidden")">
         <div class="col-xs-6">
@@ -36,7 +36,7 @@
         </div>
         <div class="col-xs-6">
             <select name="" id="option1-amortDropdown" class="form-control">
-                <option value="">- not selected -</option>
+                <option value="">- @Resources.NotSelected -</option>
                 <option value="">36/36</option>
             </select>
         </div>

@@ -55,9 +55,13 @@
                 <h2 class="dealnet-large-header">@Resources.ContactUs</h2>
                 <ul class="contact-info-list">
                     <li class="contact-tel">
-                        <a href="tel:+1-888-859-0204" class="tel" rel="nofollow"><svg aria-hidden="true" class="icon icon-phone"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-phone")"></use></svg>888-859-0204</a>
+                        <a href="tel:+@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]" class="tel">
+                            @System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]
+                        </a>
                     </li>
-                    <li class="contact-email"><a href="mailto:customerservice@onedealerfinancial.com" class="dealnet-info-link"><svg aria-hidden="true" class="icon icon-email2"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-email2")"></use></svg><span>customerservice@onedealerfinancial.com</span></a></li>
+                    <li class="contact-email"><a href="mailto:@System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]">
+                        @System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]
+                    </a></li>
                 </ul>
             </div>
         </div>

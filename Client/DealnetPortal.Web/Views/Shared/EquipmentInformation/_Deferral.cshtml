@@ -9,14 +9,14 @@
   <div class="rate-card table-mode">
     <div class="equal-height-row-1">
       <div class="rate-card-header">
-        <span class="promo-label hidden" id="DeferralPromo">Promo</span>
+        <span class="promo-label hidden" id="DeferralPromo">@Resources.Promo</span>
         <h4 class="card-title">@Resources.Deferral.ToUpper()</h4>
       </div>
     </div>
     <hr>
     <div class="equal-height-row-2">
         <div class="form-group notify-hold">
-          <label for="">Loan/Amortization Term</label>
+          <label for="">@Resources.LoanAmortTerm</label>
           @Html.DropDownList(Model + "Amortization", amortizationSelectList, new { @class = "form-control", id = Model + "AmortizationDropdown" })
 
           <a class="link-over-notify" id="DeferralNotify"

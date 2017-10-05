@@ -16,7 +16,7 @@
     <hr>
     <div class="equal-height-row-2">
       <div class="form-group notify-hold">
-        <label>Loan/Amortization Term</label>
+        <label>@Resources.LoanAmortTerm</label>
         @Html.DropDownList(Model + "Amortization", amortizationSelectList, new { @class = "form-control", id = Model + "AmortizationDropdown" })
         <a class="link-over-notify" id="FixedRateNotify"
            data-content="@Resources.Month180AmortOnlyOver5000">
