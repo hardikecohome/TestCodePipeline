@@ -100,7 +100,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                     if (user.Tier?.Name != aspireDealerInfo.Ratecard)
                     {
-                        var tierAlerts = UpdateUserTier(user.Id, aspireDealerInfo, _userManager);
+                        var tierAlerts = await UpdateUserTier(user.Id, aspireDealerInfo, _userManager);
                         if (tierAlerts.Any())
                         {
                             alerts.AddRange(tierAlerts);
@@ -239,22 +239,26 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        private IList<Alert> UpdateUserTier(string userId, DealerDTO aspireUser, UserManager<ApplicationUser> userManager)
+        private async Task<IList<Alert>> UpdateUserTier(string userId, DealerDTO aspireUser, UserManager<ApplicationUser> userManager)
         {
             var alerts = new List<Alert>();
-
             try
             {
                 var tier = _rateCardsRepository.GetTierByName(aspireUser.Ratecard);
-                var user = userManager.Users.Include(u => u.Tier).FirstOrDefault(u => u.Id == userId);
-                if (user != null)
+                var updateUser = await userManager.FindByIdAsync(userId);
+                if (updateUser != null)
                 {
-                    user.Tier = tier;
-                    _unitOfWork.Save();
-                    _loggingService.LogInfo($"Tier [{aspireUser.Ratecard}] was set to an user [{userId}]");
+                    updateUser.Tier = tier;
+                    var updateRes = await userManager.UpdateAsync(updateUser);
+                    if (updateRes.Succeeded)
+                    {
+                        {
+                            _loggingService.LogInfo($"Tier [{aspireUser.Ratecard}] was set to an user [{updateUser.Id}]");
+                        }
+                    }
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 alerts.Add(new Alert()
                 {
@@ -264,7 +268,6 @@ namespace DealnetPortal.Api.Integration.Services
                 });
                 _loggingService.LogError($"Error during update user tier for an user {userId}", ex);
             }
-
             return alerts;
         }
         #endregion
