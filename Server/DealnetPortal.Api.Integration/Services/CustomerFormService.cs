@@ -196,7 +196,7 @@ namespace DealnetPortal.Api.Integration.Services
                                     var c = InitialyzeContract(dealerId, customerFormData.PrimaryCustomer,
                                         customerFormData.StartProjectDate,
                                         sRequest.PrecreatedContractId, sRequest.ServiceType,
-                                        customerFormData.CustomerComment, customerFormData.LeadSource);
+                                        customerFormData.CustomerComment, customerFormData.LeadSource, customerFormData.ContractorInfo);
                                     // mark as created by customer
                                     c.IsCreatedByCustomer = true;
                                     //check role of a dealer
@@ -256,6 +256,11 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         c.IsNewlyCreated = true;
                         c.IsCreatedByCustomer = true;
+                        if (customerFormData.ContractorInfo != null)
+                        {
+                            c.Dealer = null;
+                            c.DealerId = null;
+                        }
                     });
                     _unitOfWork.Save();
 
@@ -532,7 +537,7 @@ namespace DealnetPortal.Api.Integration.Services
         }
 
         private Contract InitialyzeContract(string contractOwnerId, CustomerDTO primaryCustomer, DateTime? preferredStartDate, int? contractId = null, string equipmentType = null, 
-            string customerComment = null, string leadSource = null)
+            string customerComment = null, string leadSource = null, ContractorDTO contractor = null)
         {
             Contract contract = null;
             //update or create a brand new contract
@@ -602,7 +607,7 @@ namespace DealnetPortal.Api.Integration.Services
                         : null,
                     LeadSource = leadSource
                 };
-                _contractService.UpdateContractData(contractDataDto, contractOwnerId);
+                _contractService.UpdateContractData(contractDataDto, contractOwnerId, contractor);
             }
 
             return contract;

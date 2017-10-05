@@ -151,7 +151,7 @@ namespace DealnetPortal.Api.Integration.Services
             return contractDTO;
         }
 
-        public IList<Alert> UpdateContractData(ContractDataDTO contract, string contractOwnerId)
+        public IList<Alert> UpdateContractData(ContractDataDTO contract, string contractOwnerId, ContractorDTO contractor = null)
         {
             var alerts = new List<Alert>();
             try
@@ -172,7 +172,7 @@ namespace DealnetPortal.Api.Integration.Services
                         updatedContract.ContractState != ContractState.SentToAudit)
                     {
                         var aspireAlerts = 
-                            _aspireService.SendDealUDFs(updatedContract, contractOwnerId, contract.LeadSource).GetAwaiter().GetResult();
+                            _aspireService.SendDealUDFs(updatedContract, contractOwnerId, contract.LeadSource, contractor).GetAwaiter().GetResult();
                     }
 
                     if (updatedContract.ContractState == ContractState.Completed)

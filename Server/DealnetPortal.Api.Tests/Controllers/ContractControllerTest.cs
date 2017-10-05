@@ -92,7 +92,7 @@ namespace DealnetPortal.Api.Tests.Controllers
         {            
             _contractServiceMock.Setup(
                 s =>
-                    s.UpdateContractData(It.IsAny<ContractDataDTO>(), It.IsAny<string>()))
+                    s.UpdateContractData(It.IsAny<ContractDataDTO>(), It.IsAny<string>(), null))
                 .Returns(new List<Alert>() { new Alert() });
 
             ContractDataDTO contract = new ContractDataDTO()
