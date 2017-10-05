@@ -22,9 +22,9 @@
                                 <canvas id="capture-canvas" class="capture-frame"></canvas>
                                 <canvas id="big-capture-canvas"></canvas>
                                 <div id="capture-buttons">
-                                    <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="capture-buttons-1" value="Capture"/>
+                                    <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="capture-buttons-1" value="@Resources.Capture"/>
                                     <div id="capture-buttons-2">
-                                        <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="upload-capture" value="Save" onclick="uploadCaptured('@Url.Action("RecognizeDriverLicense", "NewRental")')"/>
+                                        <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="upload-capture" value="@Resources.Save" onclick="uploadCaptured('@Url.Action("RecognizeDriverLicense", "NewRental")')"/>
                                         <div id="retake">@Resources.Retake</div>
                                     </div>
                                 </div>
@@ -79,9 +79,6 @@
                   <span>@Resources.ScanLicense</span>
                   <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'first-name', 'last-name', 'birth-date', 'dl-number', 'street', 'locality', 'province', 'postal_code')"/>
               </div>
-              @*<a href="#" class="scanlicence-info-link">
-                  <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
-              </a>*@
           }
           </div>
 
@@ -369,7 +366,7 @@
               <div class="form-group">
                 @Html.LabelFor(m => m.ImprovmentLocation.Province, new { @for = "improvment_administrative_area_level_1", @class = "mandatory-field" })
                 <div class="control-group">
-                  @Html.DropDownListFor(m => m.ImprovmentLocation.Province, (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model?.ImprovmentLocation?.Province == x.Province }), "Please select",
+                  @Html.DropDownListFor(m => m.ImprovmentLocation.Province, (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model?.ImprovmentLocation?.Province == x.Province }), Resources.PleaseSelect,
                     new { @class = "form-control dealnet-input", id = "improvment_administrative_area_level_1" })
                   @Html.ValidationMessageFor(m => m.ImprovmentLocation.Province, "", new { @class = "text-danger" })
                 </div>
@@ -410,7 +407,7 @@
           <div class="form-group">
             <label for="">@Resources.HomeImprovementType</label>
             <div class="control-group">
-              @Html.DropDownList("ImpromventTypes", (Model.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }), "Please select",
+              @Html.DropDownList("ImpromventTypes", (Model.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }), Resources.PleaseSelect,
                 new { @class = "form-control dealnet-input", id="improvment-equipment"})
             </div>
           </div>

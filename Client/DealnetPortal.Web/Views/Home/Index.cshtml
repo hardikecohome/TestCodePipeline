@@ -1,36 +1,52 @@
 ﻿@{
     ViewBag.Title = Resources.HomePage;
+    var bannerLink = System.Configuration.ConfigurationManager.AppSettings["HomeBannerLink"];
+    var bannerImagePath = Request.Browser.IsMobileDevice ?
+        System.Configuration.ConfigurationManager.AppSettings["MobileBannerPath"] :
+        System.Configuration.ConfigurationManager.AppSettings["DesktopBannerPath"];
+    var bannerExists = File.Exists(Server.MapPath(bannerImagePath));
 }
-
+@if (bannerExists)
+{
+    <div class="banner-container">
+        <a @(!string.IsNullOrEmpty(bannerLink) ? "href=" + bannerLink + " target=\"_blank\"" : "")>
+            <img src="@Url.Content(bannerImagePath)" />
+        </a>
+    </div>
+}
 <div class="dealnet-home-page">
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
             <a class="dealnet-page-button new-rental" href="@Url.Action("BasicInfo", "NewRental")">
                 <span class="button-inner">
-                    <svg aria-hidden="true" class="icon icon-new-rental"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-new-rental")"></use></svg><span>@Resources.NewApplication</span>
+                    <svg aria-hidden="true" class="icon icon-new-rental">
+                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-new-rental")"></use>
+                    </svg>
+                    <span>@Resources.NewApplication</span>
                 </span>
             </a>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
             <a class="dealnet-page-button" href="@Url.Action("Index", "MyDeals")">
                 <span class="button-inner">
-                    <svg class="icon icon-my-deals"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-deals")"></use></svg><span>@Resources.MyDeals</span>
+                    <svg class="icon icon-my-deals">
+                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-deals")"></use>
+                    </svg>
+                    <span>@Resources.MyDeals</span>
                 </span>
             </a>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
             <a class="dealnet-page-button" href="@Url.Action("Index", "Reports")">
                 <span class="button-inner">
-                  <svg aria-hidden="true" class="icon icon-reports-big"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-reports-big")"></use></svg><span>@Resources.Reports</span>
+                    <svg aria-hidden="true" class="icon icon-reports-big">
+                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-reports-big")"></use>
+                    </svg>
+                    <span>@Resources.Reports</span>
                 </span>
             </a>
         </div>
     </div>
-    <!--<div class="row">
-        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-            <span class="dealnet-caption">My Work Items</span>
-        </div>
-    </div>-->
 
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">

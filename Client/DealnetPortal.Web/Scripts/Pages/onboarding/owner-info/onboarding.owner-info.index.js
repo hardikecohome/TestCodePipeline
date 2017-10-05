@@ -94,7 +94,7 @@
             $.grep(constants.requiredFields, function (field) {
 
                 if (field === 'birthdate' && owners[i]['BirthDate'] !== null) {
-                    setters.setBirthDate(owner, owners[i]['BirthDate']);
+                    setters.setBirthDate(owner, new Date(parseInt(owners[i]['BirthDate'].substr(6))));
                     setDatepickerDate('#' + owner + '-birthdate', state['owner-info'].owners[owner].birthDate);
                 }
 
