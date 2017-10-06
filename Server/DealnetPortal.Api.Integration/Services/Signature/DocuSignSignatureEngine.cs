@@ -256,7 +256,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         }
                         //await InsertSignatures(signatureUsers);// ??
                         recreateRecipients = !AreRecipientsEqual(reciepents);
-                        if (envelope.Status == "sent" && recreateRecipients)
+                        if ((envelope.Status == "sent" || envelope.Status == "completed") && recreateRecipients)
                         {
                             recreateEnvelope = true;
                         }
@@ -313,9 +313,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 else
                 {
                     recreateEnvelope = true;
-                }
-
-                recreateEnvelope = true;
+                }                
 
                 if (recreateEnvelope)
                 {                    

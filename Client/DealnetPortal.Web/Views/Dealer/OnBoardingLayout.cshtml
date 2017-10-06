@@ -7,105 +7,6 @@
 
 @RenderBody()
 
-<script id="tradeReferenceTemplate" type="text/x-jquery-tmpl">
-    <div class="trade-reference" id="trade-reference-${refNumber}">
-        <div class="trade-reference-header">
-            <h4 class="heading-bordered">Reference #${refNumber}</h4>
-            <a href="" class="remove-reference-link" data-refNumber="${refNumber}">
-                <svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg>
-            </a>
-        </div>
-        <div class="row">
-            <div class="col-md-4 col-sm-6">
-                <div class="form-group">
-                    <label for="" class="mandatory-field">Name of business</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <div class="form-group">
-                    <label for="" class="mandatory-field">Contact name</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6 col-clear-sm-6">
-                <div class="form-group">
-                    <label for="" class="mandatory-field">Phone</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6 col-clear-lg-3 col-clear-md-4">
-                <div class="form-group">
-                    <label for="" class="mandatory-field">Email address</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row address-container">
-            <div class="col-md-6 col-sm-6">
-                <div class="form-group">
-                    <label class="mandatory-field">@Resources.Street</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control dealnet-input">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-2">
-                <div class="form-group">
-                    <label>@Resources.UnitNumber</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control dealnet-input">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-4">
-                <div class="form-group">
-                    <label class="mandatory-field">@Resources.City</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control dealnet-input">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6 col-clear-lg-4 col-clear-md-4 col-clear-sm-6">
-                <div class="form-group">
-                    <label class="mandatory-field">@Resources.Province</label>
-                    <div class="control-group">
-                        <select class="form-control" id="province">
-                            <option value="">Province</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <div class="form-group">
-                    <label class="mandatory-field">@Resources.PostalCode</label>
-                    <div class="control-group">
-                        <input type="text" class="form-control dealnet-input">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6 col-clear-sm-6">
-                <div class="form-group">
-                    <div class="dealnet-label hidden-xs hidden-sm">&nbsp;</div>
-                    <div class="control-group flex-centered-text">
-                        <a href="#" class="dealnet-disabled-text clear-address">
-                            <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</script>
-
 <script id="aknowledgmentTemplate" type="text/x-jquery-tmpl">
     <div class="onboard-owners-row" id ="${owner}-aknowledgment-holder">
         <div class="onboard-owners-col name-col">
@@ -179,10 +80,10 @@
 </script>
 
 <script id="fileUploadedTemplate" type="text/x-jquery-tmpl">
-    <li>
+    <li id="${id}-file-container">
         <span class="uploaded-docs-title">
             ${filename}
-            <a href="" class="remove-link remove-docs">
+            <a href="" class="remove-link remove-docs" id="${id}-file-remove" hiddenId="${id}">
                 <svg aria-hidden="true" class="icon icon-remove-cross">
                     <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
                 </svg>
@@ -203,16 +104,16 @@
             </div>
             <div class="col-xs-12 col-sm-6 col-md-4">
                 <div class="form-group">
-                    <label for="" class="mandatory-field">Registration Number</label>
+                    <label for="">@Resources.RegistrationNumber</label>
                     <div class="control-group">
-                        <input type="text" value="" id="${id}-license-number" name="AdditionalDocuments[0].Number" class="form-control">
-                        <span class="field-validation-valid text-danger" data-valmsg-for="AdditionalDocuments[0].Number" data-valmsg-replace="true"></span>
+                        <input type="text" value="" id="${id}-license-number" data-val="true" data-val-length="@Resources.TheFieldMustBeMaximum.Replace("{0}", "Number").Replace("{1}", "20")" data-val-length-max="20" name="AdditionalDocuments[0].Number" class="form-control">
+                        <span class="text-danger field-validation-error" data-valmsg-for="AdditionalDocuments[0].Number" data-valmsg-replace="true"></span>
                     </div>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-3 col-md-2">
                 <div class="form-group">
-                    <label for="" class="mandatory-field">Expiry Date</label>
+                    <label for="">@Resources.ExpiryDate</label>
                     <div class="control-group date-group">
                         <input type="text" class="form-control dealnet-input" data-val-date name="AdditionalDocuments[0].ExpiredDate" id="${id}-license-date">
                         <span class="field-validation-valid text-danger" data-valmsg-for="AdditionalDocuments[0].ExpiredDate" data-valmsg-replace="true"></span>
@@ -224,11 +125,11 @@
                     <div class="dealnet-label hidden-xs">&nbsp;</div>
                     <div class="control-group flex-centered-text">
                         <label class="align-middle custom-checkbox">
-                            <input type="checkbox" class="dealnet-checkbox" id="${id}-license-checkbox" name="AdditionalDocuments[0].NotExpired" />
-                            <span class="checkbox-icon">
+                            <input type="checkbox" class="dealnet-checkbox" id="${id}-license-checkbox" name="AdditionalDocuments[0].NotExpired" value="false" />
+                            <span class="icon checkbox-icon">
                                 <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                             </span>
-                            <span>No expiry</span>
+                            <span>@Resources.NoExpiry</span>
                         </label>
                     </div>
                 </div>

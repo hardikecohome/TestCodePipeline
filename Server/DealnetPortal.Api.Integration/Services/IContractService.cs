@@ -34,7 +34,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         ContractDTO GetContract(int contractId, string contractOwnerId);
 
-        IList<Alert> UpdateContractData(ContractDataDTO contract, string contractOwnerId);
+        IList<Alert> UpdateContractData(ContractDataDTO contract, string contractOwnerId, ContractorDTO contractor = null);
 
         IList<Alert> NotifyContractEdit(int contractId, string contractOwnerId);
 

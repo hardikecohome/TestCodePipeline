@@ -415,7 +415,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<IList<Alert>> SendDealUDFs(Contract contract, string contractOwnerId, string leadSource = null)
+        public async Task<IList<Alert>> SendDealUDFs(Contract contract, string contractOwnerId, string leadSource = null, ContractorDTO contractor = null)
         {
             var alerts = new List<Alert>();
 
@@ -440,7 +440,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     Lease = new Lease()
                     {
-                        Application = GetSimpleContractApplication(contract, leadSource)
+                        Application = GetSimpleContractApplication(contract, leadSource, contractor)
                     }
                 };
 
@@ -1596,7 +1596,7 @@ namespace DealnetPortal.Api.Integration.Services
         /// </summary>
         /// <param name="contract"></param>
         /// <returns></returns>
-        private Application GetSimpleContractApplication(Domain.Contract contract, string leadSource = null)
+        private Application GetSimpleContractApplication(Domain.Contract contract, string leadSource = null, ContractorDTO contractor = null)
         {
             var application = new Application()
             {
@@ -1616,7 +1616,7 @@ namespace DealnetPortal.Api.Integration.Services
             application.Notes = contract.Details?.Notes ?? contract.Equipment?.Notes;
             //TODO: Implement finance program selection
             application.FinanceProgram = contract.Dealer?.Application?.FinanceProgram;//"EcoHome Finance Program";
-            application.UDFs = GetApplicationUdfs(contract, leadSource).ToList();
+            application.UDFs = GetApplicationUdfs(contract, leadSource, contractor).ToList();
 
             return application;
         }
@@ -1824,7 +1824,7 @@ namespace DealnetPortal.Api.Integration.Services
             return checkResult;
         }
 
-        private IList<UDF> GetApplicationUdfs(Domain.Contract contract, string leadSource = null)
+        private IList<UDF> GetApplicationUdfs(Domain.Contract contract, string leadSource = null, ContractorDTO contractor = null)
         {
             var udfList = new List<UDF>();
             if (contract?.Equipment != null)
@@ -1932,6 +1932,81 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = AspireUdfFields.LeadSource,
                     Value = setLeadSource
                 });
+            }
+            if (contractor != null)
+            {
+                if (!string.IsNullOrEmpty(contractor.CompanyName))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorName,
+                        Value = contractor.CompanyName
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.City))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorCity,
+                        Value = contractor.City
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.EmailAddress))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorEmail,
+                        Value = contractor.EmailAddress
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.PhoneNumber))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorPhone,
+                        Value = contractor.PhoneNumber
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.PostalCode))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorPostalCode,
+                        Value = contractor.PostalCode
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.State))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorProvince,
+                        Value = contractor.State
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.Street))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorStreet,
+                        Value = contractor.Street
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.Unit))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorUnit,
+                        Value = contractor.Unit
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.Website))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorWebsite,
+                        Value = contractor.Website
+                    });
+                }
             }
 
             return udfList;

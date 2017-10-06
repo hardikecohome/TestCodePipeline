@@ -105,5 +105,17 @@
         #endregion
 
         public static string DefaultAddressCountry = "CAN";
+
+        #region CW Contractor UDFs
+        public static string ReqContractorCity = "Req contractor address city";
+        public static string ReqContractorPostalCode = "Req contractor address postalcode";
+        public static string ReqContractorStreet = "Req contractor address street";
+        public static string ReqContractorUnit = "Req contractor address unit";
+        public static string ReqContractorEmail = "Req contractor email";
+        public static string ReqContractorName = "Req contractor name";
+        public static string ReqContractorPhone = "Req contractor phone";
+        public static string ReqContractorProvince = "Req contractor province";
+        public static string ReqContractorWebsite = "Req contractor website";
+        #endregion
     }
 }

@@ -40,7 +40,7 @@ namespace DealnetPortal.Api.Integration.Services
         /// <param name="leadSource">value of lead source of a client app</param>
         /// <returns></returns>
         Task<IList<Alert>> SendDealUDFs(int contractId, string contractOwnerId, string leadSource = null);
-        Task<IList<Alert>> SendDealUDFs(Contract contract, string contractOwnerId, string leadSource = null);
+        Task<IList<Alert>> SendDealUDFs(Contract contract, string contractOwnerId, string leadSource = null, ContractorDTO contractor = null);
 
         Task<IList<Alert>> UploadDocument(int contractId, ContractDocumentDTO document, string contractOwnerId);
 
