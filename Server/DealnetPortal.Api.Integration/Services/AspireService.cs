@@ -439,7 +439,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     Lease = new Lease()
                     {
-                        Application = GetSimpleContractApplication(contract, leadSource)
+                        Application = GetSimpleContractApplication(contract, leadSource, contractor)
                     }
                 };
 
