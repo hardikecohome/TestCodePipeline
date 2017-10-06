@@ -805,7 +805,7 @@ namespace DealnetPortal.Api.Integration.Services
                             FieldType = FieldType.Text,
                             Name = PdfFormFields.MailingAddress,
                             Value =
-                                $"{mailAddress.Street}, {mailAddress.City}, {mailAddress.State}, {mailAddress.PostalCode}"
+                                $"{mailAddress.Street}  {mailAddress.Unit ?? ""}, {mailAddress.City}, {mailAddress.State}, {mailAddress.PostalCode}"
                         });
                     }
                     var previousAddress =
@@ -824,7 +824,7 @@ namespace DealnetPortal.Api.Integration.Services
                             FieldType = FieldType.Text,
                             Name = "PreviousAddress",
                             Value =
-                                $"{previousAddress.Street}, {previousAddress.City}, {previousAddress.State}, {previousAddress.PostalCode}"
+                                $"{previousAddress.Street}  {previousAddress.Unit??""}, {previousAddress.City}, {previousAddress.State}, {previousAddress.PostalCode}"
                         });
                     }
                     if (contract.HomeOwners?.Any(ho => ho.Id == contract.PrimaryCustomer.Id) ?? false)

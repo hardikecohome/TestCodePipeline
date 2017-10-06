@@ -337,7 +337,7 @@ namespace DealnetPortal.Web.Controllers
             }
             else
             {
-                ViewBag.totalAmountFinancedFor180amortTerm = 0;
+                ViewBag.totalAmountFinancedFor180amortTerm = 4999;
             }
             var NoCustomerFee = System.Configuration.ConfigurationManager.AppSettings["NoCustomerFee"].Split(',').Select(a=> a.Trim()).ToList<string>();
             //if (NoCustomerFee.Contains(await _dealerServiceAgent.UpdateDealerParent()))

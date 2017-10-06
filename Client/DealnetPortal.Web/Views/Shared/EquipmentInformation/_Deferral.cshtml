@@ -18,11 +18,22 @@
         <div class="form-group notify-hold">
           <label for="">Loan/Amortization Term</label>
           @Html.DropDownList(Model + "Amortization", amortizationSelectList, new { @class = "form-control", id = Model + "AmortizationDropdown" })
+			@if (ViewBag.totalAmountFinancedFor180amortTerm == 3999)
+			{
 			<a class="link-over-notify" id="DeferralNotify"
-			   data-content="@Resources.Month180AmortOnlyOver5000">
+			   data-content="@Resources.Month180AmortOnlyOver4000">
 				<svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
 			</a>
-          
+			}
+			else
+			{
+				<a class="link-over-notify" id="DeferralNotify"
+				   data-content="@Resources.Month180AmortOnlyOver5000">
+					<svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+				</a>
+
+			}
+
         </div>
     </div>
     <div class="equal-height-row-3">
