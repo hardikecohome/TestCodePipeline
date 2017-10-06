@@ -75,10 +75,10 @@ namespace DealnetPortal.Api.Integration.Services
             return claims;
         }
 
-        public async Task<IList<Alert>> SyncAspireUser(ApplicationUser user)
+        public async Task<IList<Alert>> SyncAspireUser(ApplicationUser user, UserManager<ApplicationUser> userManager = null)
         {
             var alerts = new List<Alert>();
-
+            var userManagerForUpdate = userManager ?? _userManager;
             //get user info from aspire DB
             DealerDTO aspireDealerInfo = null;
             try
@@ -88,12 +88,12 @@ namespace DealnetPortal.Api.Integration.Services
 
                 if (aspireDealerInfo != null)
                 {
-                    var parentAlerts = await UpdateUserParent(user.Id, aspireDealerInfo, _userManager);
+                    var parentAlerts = await UpdateUserParent(user.Id, aspireDealerInfo, userManagerForUpdate);
                     if (parentAlerts.Any())
                     {
                         alerts.AddRange(parentAlerts);
                     }
-                    var rolesAlerts = await UpdateUserRoles(user.Id, aspireDealerInfo, _userManager);
+                    var rolesAlerts = await UpdateUserRoles(user.Id, aspireDealerInfo, userManagerForUpdate);
                     if (rolesAlerts.Any())
                     {
                         alerts.AddRange(rolesAlerts);
