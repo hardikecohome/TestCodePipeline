@@ -75,10 +75,10 @@ namespace DealnetPortal.Api.Integration.Services
             return claims;
         }
 
-        public async Task<IList<Alert>> SyncAspireUser(ApplicationUser user)
+        public async Task<IList<Alert>> SyncAspireUser(ApplicationUser user, UserManager<ApplicationUser> userManager = null)
         {
             var alerts = new List<Alert>();
-
+            var userManagerForUpdate = userManager ?? _userManager;
             //get user info from aspire DB
             DealerDTO aspireDealerInfo = null;
             try
@@ -88,19 +88,19 @@ namespace DealnetPortal.Api.Integration.Services
 
                 if (aspireDealerInfo != null)
                 {
-                    var parentAlerts = await UpdateUserParent(user.Id, aspireDealerInfo, _userManager);
+                    var parentAlerts = await UpdateUserParent(user.Id, aspireDealerInfo, userManagerForUpdate);
                     if (parentAlerts.Any())
                     {
                         alerts.AddRange(parentAlerts);
                     }
-                    var rolesAlerts = await UpdateUserRoles(user.Id, aspireDealerInfo, _userManager);
+                    var rolesAlerts = await UpdateUserRoles(user.Id, aspireDealerInfo, userManagerForUpdate);
                     if (rolesAlerts.Any())
                     {
                         alerts.AddRange(rolesAlerts);
                     }
                     if (user.Tier?.Name != aspireDealerInfo.Ratecard)
                     {
-                        var tierAlerts = UpdateUserTier(user.Id, aspireDealerInfo, _userManager);
+                        var tierAlerts = await UpdateUserTier(user.Id, aspireDealerInfo, userManagerForUpdate);
                         if (tierAlerts.Any())
                         {
                             alerts.AddRange(tierAlerts);
@@ -239,7 +239,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        private IList<Alert> UpdateUserTier(string userId, DealerDTO aspireUser, UserManager<ApplicationUser> userManager)
+        private async Task<IList<Alert>> UpdateUserTier(string userId, DealerDTO aspireUser, UserManager<ApplicationUser> userManager)
         {
             var alerts = new List<Alert>();
 
@@ -249,8 +249,9 @@ namespace DealnetPortal.Api.Integration.Services
                 var user = userManager.Users.Include(u => u.Tier).FirstOrDefault(u => u.Id == userId);
                 if (user != null)
                 {
-                    user.Tier = tier;
-                    _unitOfWork.Save();
+                    user.TierId = tier?.Id;
+                    await userManager.UpdateAsync(user);
+                    //_unitOfWork.Save();
                     _loggingService.LogInfo($"Tier [{aspireUser.Ratecard}] was set to an user [{userId}]");
                 }
             }
