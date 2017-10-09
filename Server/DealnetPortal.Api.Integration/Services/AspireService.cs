@@ -2590,12 +2590,12 @@ namespace DealnetPortal.Api.Integration.Services
                 ownerUdfs.Add(new UDF()
                 {
                     Name = $"{AspireUdfFields.OwnerAddressState} {ownerNum}",
-                    Value = !string.IsNullOrEmpty(owner.Address.State) ? owner.Address.State : BlankValue
+                    Value = !string.IsNullOrEmpty(owner?.Address?.State) ? owner.Address.State : BlankValue
                 });
                 ownerUdfs.Add(new UDF()
                 {
                     Name = $"{AspireUdfFields.OwnerAddressUnit} {ownerNum}",
-                    Value = !string.IsNullOrEmpty(owner.Address.Unit) ? owner.Address.Unit : BlankValue
+                    Value = !string.IsNullOrEmpty(owner?.Address?.Unit) ? owner.Address.Unit : BlankValue
                 });
                 ownerUdfs.Add(new UDF()
                 {
