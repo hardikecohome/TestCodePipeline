@@ -2459,16 +2459,11 @@ namespace DealnetPortal.Api.Integration.Services
                 Name = AspireUdfFields.MonthlyCapitalValue,
                 Value = dealerInfo.ProductInfo?.MonthlyFinancedValue != null ? dealerInfo.ProductInfo.MonthlyFinancedValue?.ToString(CultureInfo.InvariantCulture) : BlankValue
             });
-
-            if (dealerInfo.ProductInfo?.PercentMonthlyDealsDeferred != null)
+            udfList.Add(new UDF()
             {
-                udfList.Add(new UDF()
-                {
-                    Name = AspireUdfFields.MonthlyDealsToBeDeferred,
-                    Value = $"{dealerInfo.ProductInfo.PercentMonthlyDealsDeferred?.ToString(CultureInfo.InvariantCulture)}%"
-                });
-            }
-
+                Name = AspireUdfFields.MonthlyDealsToBeDeferred,
+                Value = dealerInfo.ProductInfo?.PercentMonthlyDealsDeferred != null ? $"{dealerInfo.ProductInfo.PercentMonthlyDealsDeferred?.ToString(CultureInfo.InvariantCulture)}%" : $"{0.0M.ToString(CultureInfo.InvariantCulture)}%"
+            });
             udfList.Add(new UDF()
             {
                 Name = AspireUdfFields.MarketingConsent,
