@@ -47,7 +47,7 @@ namespace DealnetPortal.Api.Integration.Services
         private const string CodeSuccess = "T000";
         //symbols excluded from document names for upload
         private string DocumentNameReplacedSymbols = " -+=#@$%^!~&;:'`(){}.,|\"";
-        private const string BlankValue = "";
+        private const string BlankValue = "-";
 
         public AspireService(IAspireServiceAgent aspireServiceAgent, IContractRepository contractRepository, 
             IDealerOnboardingRepository dealerOnboardingRepository,
