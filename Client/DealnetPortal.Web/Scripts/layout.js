@@ -665,6 +665,57 @@ function hideDynamicAlertModal () {
   $('#confirmAlert').off('click');
 }
 
+
+function sendEmailModel(rowTransactionId) {
+
+	//var classes = obj.class ? obj.class : '';
+
+	var alertModal = $('#emailModal');
+	//alertModal.find('.modal-body p').html(obj.message);
+	alertModal.find('#emailTransactionId').html(rowTransactionId);
+	//alertModal.find('#confirmAlert').html(obj.confirmBtnText);
+	//alertModal.find('.modal-footer button[data-dismiss="modal"]').html(obj.cancelBtnText);
+	//alertModal.addClass(classes);
+	alertModal.modal('show');
+}
+
+function sendEmailToSupport() {
+	var data = {
+		"Id": 0,
+		"DealerName": $('#emailDealerName').text(),
+		"YourName": $('#emailSubDealerName').text(),
+		"LoanNumber": $('#emailTransactionId').text(),
+		"SupportType": 1,
+		"HelpRequested": $('#emailComment').val(),
+		"BestWay": {
+			"byPhone": $('#emailPhone').prop('checked'),
+			"SameEmail": $('#emailSameEmail').prop('checked'),
+			"AlternativeEmail": $('#emailAlternativeEmail').prop('checked'),
+			"AlternativeEmailAddress": $('#emailAlternativeEmailAddress').val()
+		}
+	};
+	alert(SupportUrl);
+	$.ajax({
+		cache: false,
+		method: "POST",
+		url: SupportUrl,
+		data: data,
+		success: function (json) {
+			alert("success");
+		}
+	});
+
+	//$.ajax({
+	//	url: "test.html",
+	//	context: document.body
+	//}).done(function () {
+	//	$(this).addClass("done");
+	//});
+
+	alert(JSON.stringify(data));
+}
+
+
 function detectPageHeight () {
   if ($('.dealnet-body').height() > 1000) {
     $('.back-to-top-hold').show();
