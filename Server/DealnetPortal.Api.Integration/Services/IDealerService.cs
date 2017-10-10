@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.Profile;
+using DealnetPortal.Api.Models.Notify;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -23,5 +24,6 @@ namespace DealnetPortal.Api.Integration.Services
         Task<IList<Alert>> SendDealerOnboardingDraftLink(DraftLinkDTO link);
         bool CheckOnboardingLink(string dealerLink);
         string GetDealerParentName(string dealerId);
+        IList<Alert> DealerSupportRequestEmail(SupportRequestDTO dealerSupportRequest);
     }
 }
