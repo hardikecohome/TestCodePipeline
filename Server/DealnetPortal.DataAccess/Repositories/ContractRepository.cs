@@ -942,7 +942,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     equipmentInfo.AmortizationTerm = dbEquipment.AmortizationTerm;
                 }
-                if (equipmentInfo.DeferralType == 0)
+                if (equipmentInfo.DeferralType == null)
                 {
                     equipmentInfo.DeferralType = dbEquipment.DeferralType;
                 }

@@ -88,12 +88,16 @@ namespace DealnetPortal.Api.Controllers
 
                 XmlNode envelopeStatus = xmldoc.SelectSingleNode("//a:EnvelopeStatus", mgr);
                 XmlNode envelopeId = envelopeStatus.SelectSingleNode("//a:EnvelopeID", mgr);
-                XmlNode status = envelopeStatus.SelectSingleNode("//a:Status", mgr);                                            
-            
+                XmlNode status = envelopeStatus.SelectSingleNode("//a:Status", mgr);
+
+                if (!string.IsNullOrEmpty(status?.InnerText) && !string.IsNullOrEmpty(envelopeId?.InnerText))
+                {
+                    LoggingService.LogInfo(
+                        $"DocuSign envelope {envelopeId?.InnerText} status changed to {status.InnerText}");
+                }
+
                 if (status?.InnerText == "Completed" && !string.IsNullOrEmpty(envelopeId?.InnerText))
                 {                    
-                    LoggingService.LogInfo($"DocuSign envelope {envelopeId?.InnerText} status changed to {status.InnerText}");
-
                     var contract = _contractRepository.FindContractBySignatureId(envelopeId?.InnerText);
                     if (contract != null)
                     {
