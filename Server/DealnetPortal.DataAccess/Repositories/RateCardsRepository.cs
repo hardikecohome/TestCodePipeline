@@ -19,6 +19,12 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(x => x.Tier)
                 .Include(x => x.Tier.RateCards)
                 .SingleOrDefault(u => u.Id == dealerId);
+            var date = validDate ?? DateTime.Now;
+            dealer.Tier.RateCards = dealer.Tier.RateCards.Where(x =>
+            (x.ValidFrom == null && x.ValidTo == null) ||
+            (x.ValidFrom <= date && x.ValidTo > date) ||
+            (x.ValidFrom <= date && x.ValidTo == null) ||
+            (x.ValidFrom == null && x.ValidTo > date)).ToList();
 
             return dealer.Tier;
         }
