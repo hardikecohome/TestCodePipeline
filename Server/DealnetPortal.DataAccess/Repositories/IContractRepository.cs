@@ -131,6 +131,8 @@ namespace DealnetPortal.DataAccess.Repositories
         /// <returns>Contract</returns>
         Contract GetContract(int contractId, string contractOwnerId);
 
+        Contract GetContract(int contractId);
+
         /// <summary>
         /// Get contract as untracked from DB
         /// </summary>

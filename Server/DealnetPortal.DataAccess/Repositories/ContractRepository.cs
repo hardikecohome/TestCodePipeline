@@ -226,6 +226,23 @@ namespace DealnetPortal.DataAccess.Repositories
                         (c.Dealer.Id == contractOwnerId || c.Dealer.ParentDealerId == contractOwnerId));
         }
 
+        public Contract GetContract(int contractId)
+        {
+            return _dbContext.Contracts
+                .Include(c => c.PrimaryCustomer)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .Include(c => c.SecondaryCustomers)
+                .Include(c => c.HomeOwners)
+                .Include(c => c.InitialCustomers)
+                .Include(c => c.Equipment)
+                .Include(c => c.Equipment.ExistingEquipment)
+                .Include(c => c.Equipment.NewEquipment)
+                .Include(c => c.Documents)
+                .FirstOrDefault(
+                    c =>
+                        c.Id == contractId);
+        }
+
         public Contract GetContractAsUntracked(int contractId, string contractOwnerId)
         {
             return _dbContext.Contracts
