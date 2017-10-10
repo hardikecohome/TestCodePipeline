@@ -8,17 +8,20 @@ namespace DealnetPortal.Api.Integration.Services
     public class RateCardsService : IRateCardsService
     {
         private readonly IRateCardsRepository _rateCardsRepository;
+        private readonly IContractRepository _contractRepository;
         private readonly ILoggingService _loggingService;
 
-        public RateCardsService(ILoggingService loggingService, IRateCardsRepository rateCardsRepository)
+        public RateCardsService(ILoggingService loggingService, IRateCardsRepository rateCardsRepository, IContractRepository contractRepository)
         {
             _loggingService = loggingService;
             _rateCardsRepository = rateCardsRepository;
+            _contractRepository = contractRepository;
         }
 
-        public TierDTO GetRateCardsByDealerId(string id)
+        public TierDTO GetRateCardsByDealerId(int contractId, string dealerId)
         {
-            var tier = _rateCardsRepository.GetTierByDealerId(id);
+            var contract = _contractRepository.GetContract(contractId, dealerId);
+            var tier = _rateCardsRepository.GetTierByDealerId(dealerId, contract.DateOfSubmit);
             
             return Mapper.Map<TierDTO>(tier);
         }

@@ -576,11 +576,11 @@ namespace DealnetPortal.Api.Controllers
         [Route("GetDealerTier")]
         [HttpGet]
         [AllowAnonymous]
-        public IHttpActionResult GetDealerTier()
+        public IHttpActionResult GetDealerTier(int contractId)
         {
             try
             {
-                var submitResult = RateCardsService.GetRateCardsByDealerId(LoggedInUser?.UserId);
+                var submitResult = RateCardsService.GetRateCardsByDealerId(contractId, LoggedInUser?.UserId);
 
                 return Ok(submitResult);
             }

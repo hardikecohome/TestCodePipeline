@@ -35,6 +35,8 @@ namespace DealnetPortal.Domain
 
         public DateTime? LastUpdateTime { get; set; }
 
+        public DateTime? DateOfSubmit { get; set; }
+
         /// <summary>
         /// User name that was created a contract (NULL/empty if created by customer)
         /// </summary>

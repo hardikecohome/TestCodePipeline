@@ -13,12 +13,12 @@ namespace DealnetPortal.DataAccess.Repositories
         {
         }
 
-        public Tier GetTierByDealerId(string id)
+        public Tier GetTierByDealerId(string dealerId, DateTime? validDate )
         {
             var dealer = _dbContext.Users
                 .Include(x => x.Tier)
                 .Include(x => x.Tier.RateCards)
-                .SingleOrDefault(u => u.Id == id);
+                .SingleOrDefault(u => u.Id == dealerId);
 
             return dealer.Tier;
         }

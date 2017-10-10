@@ -539,11 +539,11 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<TierDTO> GetDealerTier()
+        public async Task<TierDTO> GetDealerTier(int contractId)
         {
             try
             {
-                return await Client.GetAsyncEx<TierDTO>($"{_fullUri}/GetDealerTier", AuthenticationHeader, CurrentCulture);
+                return await Client.GetAsyncEx<TierDTO>($"{_fullUri}/GetDealerTier?contractId={contractId}", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {

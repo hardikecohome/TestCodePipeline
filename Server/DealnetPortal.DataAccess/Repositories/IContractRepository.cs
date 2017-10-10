@@ -224,5 +224,7 @@ namespace DealnetPortal.DataAccess.Repositories
         bool IsContractUnassignable(int contractId);
 
         IList<Contract> GetExpiredContracts(DateTime expiredDate);
+
+        Contract UpdateContractAspireSubmittedDate(int contractId, string contractOwnerId);
     }
 }

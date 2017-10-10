@@ -5,6 +5,6 @@ namespace DealnetPortal.Api.Integration.Services
 {
     public interface IRateCardsService
     {
-        TierDTO GetRateCardsByDealerId(string id);
+        TierDTO GetRateCardsByDealerId(int contractId, string dealerId);
     }
 }
