@@ -18,11 +18,16 @@ namespace DealnetPortal.Api.Integration.Services
             _contractRepository = contractRepository;
         }
 
+        public TierDTO GetRateCardsByDealerId(string dealerId)
+        {
+            var tier = _rateCardsRepository.GetTierByDealerId(dealerId, null);
+            return Mapper.Map<TierDTO>(tier);
+        }
+
         public TierDTO GetRateCardsByDealerId(int contractId, string dealerId)
         {
             var contract = _contractRepository.GetContract(contractId, dealerId);
             var tier = _rateCardsRepository.GetTierByDealerId(dealerId, contract.DateOfSubmit);
-            
             return Mapper.Map<TierDTO>(tier);
         }
     }

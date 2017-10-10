@@ -148,6 +148,7 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <summary>
         /// Get Rates Card by Dealer
         /// </summary>
+        Task<TierDTO> GetDealerTier();
         Task<TierDTO> GetDealerTier(int contractId);
 
         Task<IList<Alert>> AssignContract(int contractId);
