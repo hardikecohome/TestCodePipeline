@@ -101,7 +101,7 @@ function showTable () {
                     columns: [
                         {
                             "render": function (sdata, type, row) {
-                                if (row.Id != 0) {
+                                if (row.Id != 0 && !row.IsInternal) {
                                     return '<label class="custom-checkbox"><input type="checkbox"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
                                 } else {
                                     return '<label class="custom-checkbox"><input type="checkbox" disabled="disabled"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
@@ -117,9 +117,9 @@ function showTable () {
                         { "data": "Email", className: 'email-cell' },
                         { "data": "Phone", className: 'phone-cell' },
                         { "data": "Date", className: 'date-cell' },
-                        { "data": "Equipment" },
+                        { "data": "Equipment", className: 'equipment-cell' },
                         { "data": "SalesRep", className: "sales-rep-cell" },
-                        { "data": "Value" },
+                        { "data": "Value", className: 'value-cell' },
                         {
                             "data": "RemainingDescription",
                             "visible": false
@@ -237,42 +237,35 @@ function showTable () {
     });
 };
 
-function exportItem () {
-    var tr = $(this).parents('tr');
-    var id = $(tr)[0].id;
-    var arr = [];
-    arr[0] = id;
-    submitExportRequest(arr);
-};
-
-
-function previewItem () {
-    var tr = $(this).parents('tr');
-    var id = $(tr)[0].id;
-    submitSinglePreviewRequest(id);
-};
-
 $.fn.dataTable.ext.search.push(
-    function (settings, data, dataIndex) {
-        var status = $("#deal-status").val();
-        var agreementType = $("#agreement-type").val();
-        var salesRep = $("#sales-rep").val();
-        var createdBy = $("#created-by").val();
+    function () {
+        var statusEl = $("#deal-status");
+        var agreementTypeEl = $("#agreement-type");
+        var salesRepEl = $("#sales-rep");
+        var createdByEl = $("#created-by");
+        var dateToEl = $("#date-to");
+        var dateFromEl = $("#date-from");
+        return function (settings, data, dataIndex) {
+            var status = statusEl.val();
+            var agreementType = agreementTypeEl.val();
+            var salesRep = salesRepEl.val();
+            var createdBy = createdByEl.val();
 
-        var dateFrom = Date.parseExact($("#date-from").val(), "M/d/yyyy");
-        var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
-        var valueEntered = Date.parseExact(data[6], "M/d/yyyy");
-        if ((!status || status === data[2]) &&
-            (!agreementType || agreementType === data[3]) &&
-            (!salesRep || salesRep === data[8]) &&
-            (!dateTo || valueEntered <= dateTo) &&
-            (!dateFrom || valueEntered >= dateFrom) &&
-            (createdBy === '' || createdBy == data[13])) {
-            return true;
+            var dateFrom = Date.parseExact(dateFromEl.val(), "M/d/yyyy");
+            var dateTo = Date.parseExact(dateToEl.val(), "M/d/yyyy");
+            var valueEntered = Date.parseExact(data[7], "M/d/yyyy");
+            debugger
+            if ((!status || status === data[3]) &&
+                (!agreementType || agreementType === data[4]) &&
+                (!salesRep || salesRep === data[9]) &&
+                (!dateTo || valueEntered <= dateTo) &&
+                (!dateFrom || valueEntered >= dateFrom) &&
+                (createdBy === '' || createdBy == data[15])) {
+                return true;
+            }
+            return false;
         }
-        return false;
-    }
-);
+    }());
 
 function submitExportRequest (ids) {
     $("#export-ids").empty();
@@ -306,7 +299,7 @@ function createFilter () {
     var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
     var iconSearch = '<span class="icon-search-control"><svg aria-hidden="true" class="icon icon-search"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-search"></use></svg></span>';
 
-    $('#table-title').html('<div class="dealnet-large-header">' + translations['Reports'] + ' <div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
+    $('#table-title').html('<div class="dealnet-large-header">' + translations['MyWorkItems'] + ' <div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
     $('#export-all-to-excel').html('<button class="btn dealnet-button dealnet-link-button" id="export-all-excel">' + translations['ExportAllToExcel'] + '</button>');
 
     $('#table-title .icon-search-control').on('click', function () {
@@ -332,10 +325,9 @@ function getIntValue (value) {
 }
 
 function recalculateGrandTotal () {
-    var sum = 0;
-    table.column(10, { search: 'applied' }).data().each(function (value, index) {
-        sum += getIntValue(value);
-    });
+    var sum = table.column(10, { search: 'applied' }).data().reduce(function (acc, value) {
+        return acc + getIntValue(value);
+    }, 0);
 
     $('.table-footer #reports-grand-total').html('$ ' + sum.toFixed(2));
     return sum;
@@ -343,10 +335,9 @@ function recalculateGrandTotal () {
 
 function recalculateTotalForSelected () {
     var data = table.rows('tr.selected', { search: 'applied' }).data();
-    var sum = 0;
-    data.each(function (value, index) {
-        sum += getIntValue(value.Value);
-    });
+    var sum = data.reduce(function (acc, value) {
+        return acc + getIntValue(value.Value);
+    }, 0);
     $('#selectedTotal').html('$ ' + sum.toFixed(2));
     if (data.length) {
         $('.reports-table-footer').addClass('has-selected-items');
@@ -407,5 +398,4 @@ function removeContract () {
             }
         });
     });
-
 }
