@@ -777,7 +777,6 @@
     <Content Include="Content\less\pages\customer-loan-form.less" />
     <Content Include="Content\less\pages\customer-loan-success-page.less" />
     <Content Include="Content\less\components\accordion-panel.less" />
-    <Content Include="Content\files\Help.pdf" />
     <Content Include="Content\less\pages\rate-cards.less" />
     <Content Include="Content\less\slick\fonts\slick.eot" />
     <Content Include="Content\less\slick\fonts\slick.ttf" />
