@@ -15,13 +15,13 @@ namespace DealnetPortal.Api.Tests.ESignature
             var path = "Files/DocuSignNotification.xml";
             XDocument xDocument = XDocument.Load(path);            
             Assert.IsNotNull(xDocument);
-            var xmlns = "http://www.docusign.net/API/3.0";
-            var envelopeStatus = xDocument.Root.Elements().FirstOrDefault(x => x.Name.LocalName == "EnvelopeStatus");
-            var status = envelopeStatus.Elements().FirstOrDefault(x => x.Name.LocalName == "Status");
+            var xmlns = xDocument?.Root?.Attribute(XName.Get("xmlns"))?.Value ?? "http://www.docusign.net/API/3.0";
+            var envelopeStatus = xDocument.Root.Element(XName.Get("EnvelopeStatus", xmlns)); //xDocument.Root.Elements().FirstOrDefault(x => x.Name.LocalName == "EnvelopeStatus");
+            var status = envelopeStatus.Element(XName.Get("Status", xmlns));
             Assert.AreEqual(status.Value, "Completed");
 
             var documents =
-                xDocument.Root.Elements().FirstOrDefault(x => x.Name.LocalName == "DocumentPDFs");                    
+                xDocument.Root.Element(XName.Get("DocumentPDFs", xmlns));  
             var document = documents.Elements().FirstOrDefault(x => !(x.FirstNode as XElement).Value.Contains("CertificateOfCompletion"));
             Assert.IsNotNull(document);
             var docType = document.Elements().FirstOrDefault(x => x.Name.LocalName == "DocumentType");

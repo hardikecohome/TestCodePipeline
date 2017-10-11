@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
-using System.Xml;
+using System.Xml.Linq;
 using AutoMapper;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models.Contract;
@@ -14,7 +10,6 @@ using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
-using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 using Microsoft.AspNet.Identity.Owin;
 
@@ -80,63 +75,69 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                XmlDocument xmldoc = new XmlDocument();
-                xmldoc.Load(request.Content.ReadAsStreamAsync().Result);
+                XDocument xDocument = XDocument.Parse(request.Content.ReadAsStringAsync().Result);
+                var xmlns = xDocument?.Root?.Attribute(XName.Get("xmlns"))?.Value ?? "http://www.docusign.net/API/3.0";
 
-                var mgr = new XmlNamespaceManager(xmldoc.NameTable);
-                mgr.AddNamespace("a", "http://www.docusign.net/API/3.0");
+                var envelopeStatus = xDocument.Root.Element(XName.Get("EnvelopeStatus", xmlns));
+                var envelopeId = envelopeStatus?.Element(XName.Get("EnvelopeID", xmlns))?.Value;
+                var status = envelopeStatus?.Element(XName.Get("Status", xmlns))?.Value;
 
-                XmlNode envelopeStatus = xmldoc.SelectSingleNode("//a:EnvelopeStatus", mgr);
-                XmlNode envelopeId = envelopeStatus.SelectSingleNode("//a:EnvelopeID", mgr);
-                XmlNode status = envelopeStatus.SelectSingleNode("//a:Status", mgr);
-
-                if (!string.IsNullOrEmpty(status?.InnerText) && !string.IsNullOrEmpty(envelopeId?.InnerText))
+                if (!string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(envelopeId))
                 {
                     LoggingService.LogInfo(
-                        $"DocuSign envelope {envelopeId?.InnerText} status changed to {status.InnerText}");
-                }
+                        $"DocuSign envelope {envelopeId} status changed to {status}");
 
-                if (status?.InnerText == "Completed" && !string.IsNullOrEmpty(envelopeId?.InnerText))
-                {                    
-                    var contract = _contractRepository.FindContractBySignatureId(envelopeId?.InnerText);
-                    if (contract != null)
+                    if (status == "Completed")
                     {
-                        XmlNode docs = xmldoc.SelectSingleNode("//a:DocumentPDFs", mgr);
-                        if (docs != null)
-                        {                            
-                            foreach (XmlNode doc in docs.ChildNodes)
+                        var contract = _contractRepository.FindContractBySignatureId(envelopeId);
+                        if (contract != null)
+                        {
+                            //read signed document
+                            var docs = xDocument.Root.Element(XName.Get("DocumentPDFs", xmlns));
+                            if (docs != null)
                             {
-                                string documentName = doc.ChildNodes[0].InnerText;
-                                if (!documentName.Contains("CertificateOfCompletion"))
+                                foreach (var doc in docs.Elements())
                                 {
-                                    // pdf.SelectSingleNode("//a:Name", mgr).InnerText;
-                                    string documentId = doc.ChildNodes[2].InnerText;
-                                    // pdf.SelectSingleNode("//a:DocumentID", mgr).InnerText;
-                                    string byteStr = doc.ChildNodes[1].InnerText;
-                                    // pdf.SelectSingleNode("//a:PDFBytes", mgr).InnerText;                                    
+                                    string documentName = (doc.FirstNode as XElement)?.Value;
+                                    if (!documentName?.Contains("CertificateOfCompletion") ?? false)
+                                    {                                        
+                                        string documentId = doc.Element(XName.Get("ID", xmlns))?.Value;
+                                        // pdf.SelectSingleNode("//a:DocumentID", mgr).InnerText;
+                                        string byteStr = doc.Element(XName.Get("PDFBytes", xmlns))?.Value;
+                                        if (!string.IsNullOrEmpty(byteStr))
+                                        {
+                                            // pdf.SelectSingleNode("//a:PDFBytes", mgr).InnerText;
+                                            byte[] bytes = Convert.FromBase64String(byteStr);
 
-                                    byte[] bytes = Convert.FromBase64String(byteStr);
+                                            ContractDocumentDTO document = new ContractDocumentDTO()
+                                            {
+                                                ContractId = contract.Id,
+                                                CreationDate = DateTime.Now,
+                                                DocumentTypeId = 1, // Signed contract !!
+                                                DocumentName = documentName,
+                                                DocumentBytes = bytes
+                                            };
 
-                                    ContractDocumentDTO document = new ContractDocumentDTO()
-                                    {
-                                        ContractId = contract.Id,
-                                        CreationDate = DateTime.Now,
-                                        DocumentTypeId = 1, // Signed contract !!
-                                        DocumentName = documentName,
-                                        DocumentBytes = bytes
-                                    };
-
-                                    _contractService.AddDocumentToContract(document, contract.DealerId);                                   
-                                    LoggingService.LogInfo($"Document {documentName} with size {byteStr.Length} recieved");
-                                    break; // other docs dosn't metter
-                                }                                
+                                            _contractService.AddDocumentToContract(document, contract.DealerId);
+                                            LoggingService.LogInfo(
+                                                $"Document {documentName} with size {byteStr.Length} recieved");
+                                            break; // other docs dosn't metter
+                                        }
+                                        else
+                                        {
+                                            LoggingService.LogWarning(
+                                                $"Cannot read document bytes for signature envelopeId {envelopeId}");
+                                        }                                        
+                                    }
+                                }
                             }
                         }
+                        else
+                        {
+                            LoggingService.LogWarning(
+                                $"Cannot find contract for signature envelopeId {envelopeId}");
+                        }
                     }
-                    else
-                    {
-                        LoggingService.LogWarning($"Cannot find contract for signature transactionId {envelopeId.InnerText}");
-                    }                                        
                 }
                 return Ok();
             }
@@ -144,9 +145,7 @@ namespace DealnetPortal.Api.Controllers
             {
                 LoggingService.LogError("Error occurred when received request from DocuSign", ex);
                 return InternalServerError();
-            }
-            
-        }
-         
+            }            
+        }         
     }
 }
