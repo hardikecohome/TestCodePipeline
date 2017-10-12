@@ -16,7 +16,7 @@ namespace DealnetPortal.Api.Models.Contract
         public int? ContractId { get; set; }
         public bool IsOwn { get; set; }
         public string AuthorName { get; set; }
-
         public string DealerId { get; set; }
+        public bool? IsCustomerComment { get; set; }
     }
 }

@@ -1,23 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Practices.ObjectBuilder2;
-
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Api.Integration.Utility;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
+using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.Api.Integration.Services
@@ -35,6 +37,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ICustomerWalletService _customerWalletService;
         private readonly ISignatureService _signatureService;
         private readonly IMailService _mailService;
+        private readonly IAppConfiguration _configuration;
 
         public ContractService(
             IContractRepository contractRepository, 
@@ -44,7 +47,8 @@ namespace DealnetPortal.Api.Integration.Services
             ICustomerWalletService customerWalletService,
             ISignatureService signatureService, 
             IMailService mailService, 
-            ILoggingService loggingService, IDealerRepository dealerRepository)
+            ILoggingService loggingService, IDealerRepository dealerRepository,
+            IAppConfiguration configuration)
         {
             _contractRepository = contractRepository;
             _loggingService = loggingService;
@@ -55,6 +59,7 @@ namespace DealnetPortal.Api.Integration.Services
             _customerWalletService = customerWalletService;
             _signatureService = signatureService;
             _mailService = mailService;
+            _configuration = configuration;
         }
 
         public ContractDTO CreateContract(string contractOwnerId)
@@ -141,7 +146,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (contractDTO != null)
             {
                 AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, _contractRepository.GetEquipmentTypes());
-                AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId);
+                //AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId);
             }
             return contractDTO;
         }
@@ -248,7 +253,6 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 var alerts = new List<Alert>();
-                _loggingService.LogInfo($"InitiateCreditCheck.GetContractState for [{contractId}]");
                 var contractState = _contractRepository.GetContractState(contractId, contractOwnerId);
 
                 if (contractState == null)
@@ -264,10 +268,8 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     if (contractState.Value > ContractState.Started)
                     {
-                        _loggingService.LogInfo($"InitiateCreditCheck.UpdateContractState for [{contractId}]");
                         _contractRepository.UpdateContractState(contractId, contractOwnerId,
                             ContractState.CreditCheckInitiated);
-                        _loggingService.LogInfo($"InitiateCreditCheck.Save for [{contractId}]");
                         _unitOfWork.Save();
                         _loggingService.LogInfo($"Initiated credit check for contract [{contractId}]");
                     }
@@ -360,6 +362,20 @@ namespace DealnetPortal.Api.Integration.Services
             return _signatureService.GetPrintAgreement(contractId, contractOwnerId).GetAwaiter().GetResult();
         }
 
+        public AgreementDocument GetContractsFileReport(IEnumerable<int> ids,
+            string contractOwnerId)
+        {
+            var stream = new MemoryStream();
+            var contracts = GetContracts(ids, contractOwnerId);
+            XlsxExporter.Export(contracts, stream);
+            var report = new AgreementDocument()
+            {
+                DocumentRaw = stream.ToArray(),
+                Name = $"{DateTime.Now.ToString(CultureInfo.CurrentCulture).Replace(":", ".")}-report.xlsx",
+            };
+            return report;
+        }
+
         public Tuple<AgreementDocument, IList<Alert>> GetInstallCertificate(int contractId, string contractOwnerId)
         {
             return _signatureService.GetInstallCertificate(contractId, contractOwnerId).GetAwaiter().GetResult();
@@ -441,13 +457,16 @@ namespace DealnetPortal.Api.Integration.Services
 
                 if (creditAmount.HasValue || scorecardPoints.HasValue)
                 {
+                    var contract = _contractRepository.GetContract(contractId, contractOwnerId);
                     _contractRepository.UpdateContractData(new ContractData()
                     {
                         Id = contractId,
                         Details = new ContractDetails()
                         {
                             CreditAmount = creditAmount,
-                            ScorecardPoints = scorecardPoints
+                            ScorecardPoints = scorecardPoints,
+                            HouseSize = contract.Details.HouseSize,
+                            Notes = contract.Details.Notes
                         }
                     }, contractOwnerId);
                 }
@@ -456,7 +475,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     case CreditCheckState.Approved:
                         _contractRepository.UpdateContractState(contractId, contractOwnerId,
-                            ContractState.CreditContirmed);
+                            ContractState.CreditConfirmed);
                         _unitOfWork.Save();
                         break;
                     case CreditCheckState.Declined:
@@ -466,7 +485,7 @@ namespace DealnetPortal.Api.Integration.Services
                         break;
                     case CreditCheckState.MoreInfoRequired:
                         _contractRepository.UpdateContractState(contractId, contractOwnerId,
-                            ContractState.CreditContirmed);
+                            ContractState.CreditConfirmed);
                         _unitOfWork.Save();
                         break;
                 }
@@ -551,8 +570,9 @@ namespace DealnetPortal.Api.Integration.Services
                 switch (summaryType)
                 {
                     case FlowingSummaryType.Month:
+                        var firstMonthDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
                         var grDaysM =
-                            dealerContracts.Where(c => c.CreationTime >= DateTime.Today.AddDays(-DateTime.Today.Day))
+                            dealerContracts.Where(c => c.CreationTime >= firstMonthDate)
                                 .GroupBy(c => c.CreationTime.Day)
                                 .ToList();
 
@@ -702,6 +722,33 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
+        public Tuple<ProvinceTaxRateDTO, IList<Alert>> GetVerificationId(int id)
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var verificationid = _contractRepository.GetVerficationId(id);
+                var verificationidsDto = Mapper.Map<ProvinceTaxRateDTO>(verificationid);
+                if (verificationid == null)
+                {
+                    var errorMsg = "Cannot retrieve Verification Id";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.ProvinceTaxRateRetrievalFailed,
+                        Message = errorMsg
+                    });
+                    _loggingService.LogError(errorMsg);
+                }
+                return new Tuple<ProvinceTaxRateDTO, IList<Alert>>(verificationidsDto, alerts);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Failed to retrieve Province Tax Rate", ex);
+                throw;
+            }
+        }
+
         public CustomerDTO GetCustomer(int customerId)
         {
             var customer = _contractRepository.GetCustomer(customerId);
@@ -787,7 +834,8 @@ namespace DealnetPortal.Api.Integration.Services
                 if (comment != null)
                 {
                     _unitOfWork.Save();
-                    if (comment.ContractId.HasValue)
+                    //don't send mails for Customer Comment, as we usually add these comments on contract creation (from CW or Shareble link)
+                    if (comment.ContractId.HasValue && comment.IsCustomerComment != true)
                     {
                         var contract = _contractRepository.GetContractAsUntracked(comment.ContractId.Value,
                             contractOwnerId);
@@ -976,7 +1024,6 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 
-
                 //run aspire upload async
                 var aspireAlerts = _aspireService.UploadDocument(document.ContractId, document, contractOwnerId).GetAwaiter().GetResult();
                 //var aspireAlerts = _aspireService.UploadDocument(document.ContractId, document, contractOwnerId).GetAwaiter().GetResult();

@@ -18,14 +18,15 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressSSLPort>44341</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -227,6 +228,7 @@
     <Compile Include="Controllers\AsyncCancellationController.cs" />
     <Compile Include="Controllers\CalculatorController.cs" />
     <Compile Include="Controllers\CustomerFormController.cs" />
+    <Compile Include="Controllers\DealerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InfoController.cs" />
     <Compile Include="Controllers\LeadsController.cs" />
@@ -246,21 +248,25 @@
     <Compile Include="Infrastructure\ApplicationSettingsManager.cs" />
     <Compile Include="Infrastructure\AuthenticationHttpModule.cs" />
     <Compile Include="Infrastructure\AuthFromContextAttribute.cs" />
-    <Compile Include="Infrastructure\AuthorizedHttpClient.cs" />
     <Compile Include="Infrastructure\ClaimsAuthorizationAttribute.cs" />
     <Compile Include="Infrastructure\ClaimsProvider.cs" />
     <Compile Include="Infrastructure\ContractManager.cs" />
     <Compile Include="Infrastructure\CultureSetterManager.cs" />
     <Compile Include="Infrastructure\CustomerManager.cs" />
+    <Compile Include="Infrastructure\DealerOnBoardingManager.cs" />
+    <Compile Include="Infrastructure\Extensions\ModelStateErrorHandler.cs" />
+    <Compile Include="Infrastructure\Extensions\MvcHelpersExtensions.cs" />
     <Compile Include="Infrastructure\ICustomerManager.cs" />
+    <Compile Include="Infrastructure\IDealerOnBoardingManager.cs" />
     <Compile Include="Infrastructure\IProfileManager.cs" />
     <Compile Include="Infrastructure\Managers\ISecurityManager.cs" />
     <Compile Include="Infrastructure\Managers\ISettingsManager.cs" />
     <Compile Include="Infrastructure\Managers\OwinSecurityManager.cs" />
     <Compile Include="Infrastructure\Managers\SecurityManager.cs" />
     <Compile Include="Infrastructure\Managers\SettingsManager.cs" />
+    <Compile Include="Infrastructure\MinListCountAttribute.cs" />
+    <Compile Include="Infrastructure\MinMaxListCountAttribute.cs" />
     <Compile Include="Infrastructure\ProfileManager.cs" />
-    <Compile Include="Infrastructure\TransientHttpApiClient.cs" />
     <Compile Include="Infrastructure\CustomRequiredAttribute.cs" />
     <Compile Include="Infrastructure\DynamicLessHandler.cs" />
     <Compile Include="Infrastructure\Extensions\BundleExtentions.cs" />
@@ -268,6 +274,7 @@
     <Compile Include="Infrastructure\IContractManager.cs" />
     <Compile Include="Infrastructure\LocalizedControllerActivator.cs" />
     <Compile Include="Infrastructure\ModelBinders\DateTimeBinder .cs" />
+    <Compile Include="Infrastructure\RequreSecureConnectionFilter .cs" />
     <Compile Include="Infrastructure\ViewPageWithUserIdentity.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateEquipmentInfoViewModel.cs" />
@@ -278,9 +285,20 @@
     <Compile Include="Models\ContractViewModel.cs" />
     <Compile Include="Models\CreditRejectedViewModel.cs" />
     <Compile Include="Models\CustomerContactInfoViewModel.cs" />
+    <Compile Include="Models\Dealer\AdditionalDocumentViewModel.cs" />
+    <Compile Include="Models\Dealer\CompanyInfoViewModel.cs" />
+    <Compile Include="Models\Dealer\DealerOnboardingDictionariesViewModel.cs" />
+    <Compile Include="Models\Dealer\DealerOnboardingViewModel.cs" />
+    <Compile Include="Models\Dealer\DocumentResponseViewModel.cs" />
+    <Compile Include="Models\Dealer\OwnerViewModel.cs" />
+    <Compile Include="Models\Dealer\ProductInfoViewModel.cs" />
+    <Compile Include="Models\Dealer\RequiredDocumentViewModel.cs" />
+    <Compile Include="Models\Dealer\SaveAndResumeViewModel.cs" />
+    <Compile Include="Models\Dealer\TradeReferenceViewModel.cs" />
     <Compile Include="Models\MyProfile\DealerAreaViewModel.cs" />
     <Compile Include="Models\MyProfile\ProfileViewModel.cs" />
     <Compile Include="Models\NewCustomerViewModel.cs" />
+    <Compile Include="Models\StandaloneCalculatorViewModel.cs" />
     <Compile Include="Models\SubmittedCustomerFormViewModel.cs" />
     <Compile Include="Models\CustomerFormViewModel.cs" />
     <Compile Include="Models\EquipmentInformationViewModel.cs" />
@@ -445,6 +463,8 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\email\email.html" />
+    <Content Include="Content\email\images\icon-success.png" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="Content\images\dataTables\details_close.png" />
     <Content Include="Content\images\dataTables\details_open.png" />
@@ -511,10 +531,12 @@
     <Content Include="Content\images\sprite\icon-phone.svg" />
     <Content Include="Content\images\sprite\icon-preview.svg" />
     <Content Include="Content\images\sprite\icon-print.svg" />
+    <Content Include="Content\images\sprite\icon-rate-card.svg" />
     <Content Include="Content\images\sprite\icon-rejected.svg" />
     <Content Include="Content\images\sprite\icon-remove-cross.svg" />
     <Content Include="Content\images\sprite\icon-reports-btn.svg" />
     <Content Include="Content\images\sprite\icon-reports-side.svg" />
+    <Content Include="Content\images\sprite\icon-save.svg" />
     <Content Include="Content\images\sprite\icon-scan-licen.svg" />
     <Content Include="Content\images\sprite\icon-search.svg" />
     <Content Include="Content\images\sprite\icon-shareable-link.svg" />
@@ -524,6 +546,7 @@
     <Content Include="Content\images\sprite\icon-tooltip-info.svg" />
     <Content Include="Content\images\sprite\icon-trash.svg" />
     <Content Include="Content\images\sprite\icon-upload.svg" />
+    <Content Include="Content\images\sprite\icon-user-small.svg" />
     <Content Include="Content\images\sprite\icon-user.svg" />
     <Content Include="Content\images\sprite\new-rental.svg" />
     <Content Include="Content\images\sprite\sprite.svg" />
@@ -676,6 +699,8 @@
     <Content Include="Content\less\partials\navbar-fixed-side.less" />
     <Content Include="Content\less\settings\mixins.less" />
     <Content Include="Content\less\settings\variables.less" />
+    <Content Include="Content\less\slick\ajax-loader.gif" />
+    <Content Include="Content\less\slick\fonts\slick.svg" />
     <Content Include="favicon-dealer.ico" />
     <Content Include="favicon.ico" />
     <Content Include="Favicon_Eco_Energy.ico" />
@@ -687,7 +712,6 @@
     <Content Include="Scripts\agreement-submit-success.js" />
     <Content Include="Scripts\BasicInfo\address-autocomplete.js" />
     <Content Include="Scripts\BasicInfo\basic-info.js" />
-    <Content Include="Scripts\BasicInfo\DlScanning\dl-scanning-mobile.js" />
     <Content Include="Content\DataTables\css\semanticui.scss" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
@@ -753,7 +777,22 @@
     <Content Include="Content\less\pages\customer-loan-form.less" />
     <Content Include="Content\less\pages\customer-loan-success-page.less" />
     <Content Include="Content\less\components\accordion-panel.less" />
-    <Content Include="Content\files\Help.pdf" />
+    <Content Include="Content\files\Portal-User-Guide.pdf" />
+    <Content Include="Content\less\pages\rate-cards.less" />
+    <Content Include="Content\less\slick\fonts\slick.eot" />
+    <Content Include="Content\less\slick\fonts\slick.ttf" />
+    <Content Include="Content\less\slick\fonts\slick.woff" />
+    <Content Include="Content\less\slick\slick-theme.less" />
+    <Content Include="Content\less\slick\slick.less" />
+    <Content Include="Content\less\components\carousel.less" />
+    <Content Include="Content\less\pages\onboard.less" />
+    <Content Include="Content\files\About-EcoHome-Financial.pdf" />
+    <Content Include="Content\files\Loan-Agreement-Changes-From-August-To-September.pdf" />
+    <Content Include="Content\files\Myhome-Wallet-Detailed-Description.pdf" />
+    <Content Include="Content\files\Myhome-Wallet-Short-Description.pdf" />
+    <Content Include="Content\files\Summer-Fall-2017-Promotion.pdf" />
+    <Content Include="Content\files\Consumer-Loan-Agreement.pdf" />
+    <Content Include="Content\files\EcoHome-rate-card-%28Oct 3th, 2017%29.pdf" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -763,6 +802,18 @@
     <Content Include="Scripts\contact-and-payment-management.js" />
     <Content Include="Scripts\contract-edit.js" />
     <Content Include="Scripts\custom-validation.js" />
+    <Content Include="Scripts\customer-form.js" />
+    <Content Include="Scripts\jquery.jcarousel.min.js" />
+    <Content Include="Scripts\jquery.tmpl.min.js" />
+    <Content Include="Scripts\jquery.touchSwipe.min.js" />
+    <Content Include="Scripts\Pages\calculator\calculator-conversion.js" />
+    <Content Include="Scripts\Pages\calculator\calculator-index.js" />
+    <Content Include="Scripts\Pages\calculator\calculator-init.js" />
+    <Content Include="Scripts\Pages\calculator\calculator-jcarousel.js" />
+    <Content Include="Scripts\Pages\calculator\calculator-option.js" />
+    <Content Include="Scripts\Pages\calculator\calculator-ui.js" />
+    <Content Include="Scripts\Pages\calculator\calculator-value-setters.js" />
+    <Content Include="Scripts\Pages\calculator\calculator-state.js" />
     <Content Include="Scripts\Pages\Clients\index.js" />
     <Content Include="Scripts\Pages\Clients\new-client-autocomplete.js" />
     <Content Include="Scripts\Pages\Clients\new-client-flow.js" />
@@ -888,10 +939,46 @@
     <Content Include="Scripts\Pages\MyProfile\postalCode-template.js" />
     <Content Include="Scripts\Pages\MyProfile\postalCode-handlers.js" />
     <Content Include="Scripts\Pages\Clients\new-client.js" />
+    <Content Include="Scripts\Pages\newEquipment\rate-cards-init.js" />
+    <Content Include="Scripts\Pages\newEquipment\validation.js" />
+    <Content Include="Scripts\Pages\onboarding\acknowledgment\onboarding.ackonwledgment.index.js" />
+    <Content Include="Scripts\Pages\onboarding\acknowledgment\onboarding.ackonwledgment.owners.js" />
+    <Content Include="Scripts\Pages\onboarding\company\onboarding.company.province.js" />
+    <Content Include="Scripts\Pages\onboarding\company\onboarding.company.setters.js" />
+    <Content Include="Scripts\Pages\onboarding\consent\onboarding.consent.index.js" />
+    <Content Include="Scripts\Pages\onboarding\consent\onboarding.consent.setters.js" />
+    <Content Include="Scripts\Pages\onboarding\documents\onboarding.documents.index.js" />
+    <Content Include="Scripts\Pages\onboarding\documents\onboarding.documents.setters.js" />
+    <Content Include="Scripts\Pages\onboarding\onboarding.common.js" />
+    <Content Include="Scripts\Pages\onboarding\onboarding.form.handlers.js" />
+    <Content Include="Scripts\Pages\onboarding\onboarding.index.js" />
+    <Content Include="Scripts\Pages\onboarding\onboarding.polyfill.js" />
+    <Content Include="Scripts\Pages\onboarding\onboarding.setters.js" />
+    <Content Include="Scripts\Pages\onboarding\onboarding.state.js" />
+    <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.conversion.js" />
+    <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.index.js" />
+    <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.setters.js" />
+    <Content Include="Scripts\Pages\onboarding\company\onboarding.company.index.js" />
+    <Content Include="Scripts\Pages\onboarding\owner-info\onbobarding.owner-info.additional.js" />
+    <Content Include="Scripts\Pages\onboarding\product\onboarding.product.brand.js" />
+    <Content Include="Scripts\Pages\onboarding\product\onboarding.product.equipment.js" />
+    <Content Include="Scripts\Pages\onboarding\product\onboarding.product.index.js" />
+    <Content Include="Scripts\Pages\onboarding\product\onboarding.product.setters.js" />
     <Content Include="Scripts\Reducers\customer.js" />
     <Content Include="Scripts\Reducers\new-client-reducer.js" />
     <Content Include="Scripts\Selectors\customer.js" />
     <Content Include="Scripts\Selectors\new-client-selectors.js" />
+    <Content Include="Scripts\Pages\additionalContractInfo\contract-information.js" />
+    <Content Include="Scripts\Pages\newEquipment\custom-rate-card.js" />
+    <Content Include="Scripts\Pages\newEquipment\equipment.js" />
+    <Content Include="Scripts\Pages\newEquipment\index.js" />
+    <Content Include="Scripts\Pages\newEquipment\rate-cards-ui.js" />
+    <Content Include="Scripts\Pages\newEquipment\rate-cards.js" />
+    <Content Include="Scripts\Pages\newEquipment\state.js" />
+    <Content Include="Scripts\Pages\newEquipment\template.js" />
+    <Content Include="Scripts\Pages\newEquipment\value-setters.js" />
+    <Content Include="Scripts\standalone-calculator.js" />
+    <Content Include="Scripts\Utils\financial-functions.js" />
     <Content Include="Scripts\Utils\localization-init.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\my-deals.js" />
@@ -908,9 +995,16 @@
     <Content Include="Scripts\Utils\functionUtils.js" />
     <Content Include="Scripts\Modules\index.js" />
     <Content Include="Scripts\Utils\logMiddleware.js" />
+    <Content Include="Scripts\Utils\numberUtils.js" />
     <Content Include="Scripts\Utils\objectUtils.js" />
     <Content Include="Scripts\Utils\redux.js" />
     <Content Include="Scripts\vc-scanning.js" />
+    <Content Include="Scripts\Vendor\angular\angular-touch.js" />
+    <Content Include="Scripts\Vendor\angular\angular.js" />
+    <Content Include="Scripts\Vendor\angular\angular-animate.js" />
+    <Content Include="Scripts\Vendor\angular\ui-bootstrap-csp.css" />
+    <Content Include="Scripts\Vendor\angular\ui-bootstrap-tpls.js" />
+    <Content Include="Scripts\Vendor\angular\ui-bootstrap.js" />
     <Content Include="Scripts\Vendor\cldr\cldr.js" />
     <Content Include="Scripts\Vendor\cldr\cldr\event.js" />
     <Content Include="Scripts\Vendor\cldr\cldr\supplemental.js" />
@@ -933,6 +1027,8 @@
     <Content Include="Scripts\Views\installation-address.js" />
     <Content Include="Scripts\Views\your-info.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Dealer\OnBoarding.cshtml" />
+    <Content Include="Views\Dealer\OnBoardingLayout.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -965,8 +1061,6 @@
     <Content Include="Views\Stub\CreditCheck.cshtml" />
     <Content Include="Views\Stub\MyDeals.cshtml" />
     <Content Include="Views\Stub\Reports.cshtml" />
-    <Content Include="Views\NewRental\CreditCheckConfirmation.cshtml" />
-    <Content Include="Views\NewRental\EquipmentInformation.cshtml" />
     <Content Include="Views\NewRental\ContactAndPaymentInfo.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\NewRental\CreditCheck.cshtml" />
@@ -979,7 +1073,6 @@
     <Content Include="Views\Reports\Contracts.cshtml" />
     <Content Include="Views\MyDeals\ContractEdit.cshtml" />
     <Content Include="Views\Info\Error.cshtml" />
-    <Content Include="Views\Calculator\Index.cshtml" />
     <Content Include="Views\ShareableLink\Index.cshtml" />
     <Content Include="Views\CustomerForm\Index.cshtml" />
     <Content Include="Views\CustomerForm\AgreementSubmitSuccess.cshtml" />
@@ -992,8 +1085,41 @@
     <Content Include="Views\Shared\Profile\_PostalCode.cshtml" />
     <Content Include="Views\Shared\Profile\_DealerEquipment.cshtml" />
     <Content Include="Views\MortgageBroker\CustomerCreationDecline.cshtml" />
+    <Content Include="Views\NewRental\RateCard.cshtml" />
+    <Content Include="Views\NewRental\EquipmentInformation.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_EquipmentTemplates.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_FixedRate.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_NoInterest.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_Deferral.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_CustomRateCard.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_StepsNavigation.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\Agreements\_Rental.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\Agreements\_Loan.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\Agreements\_FinancialRental.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\Agreements\_FinancialLoan.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_NewEquipments.cshtml" />
     <Content Include="Views\Shared\_AgreementPersonalData.cshtml" />
     <Content Include="Views\Info\PrivacyPolicy.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_AdditionalContractInformation.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_ExistingEquipments.cshtml" />
+    <Content Include="Views\Calculator\Index.cshtml" />
+    <Content Include="Views\Shared\Calculator\_Option.cshtml" />
+    <Content Include="Views\Shared\Calculator\_RateCard.cshtml" />
+    <Content Include="Views\Shared\Calculator\_EquipmentTemplate.cshtml" />
+    <Content Include="Views\Dealer\OnBoardingSuccess.cshtml" />
+    <Content Include="Views\Shared\OnBoarding\_ClientConsent.cshtml" />
+    <Content Include="Views\Shared\OnBoarding\_OwnerInformation.cshtml" />
+    <Content Include="Views\Shared\OnBoarding\_ProductInformation.cshtml" />
+    <Content Include="Views\Shared\OnBoarding\_TradeReferences.cshtml" />
+    <Content Include="Views\Shared\OnBoarding\_RequiredDocuments.cshtml" />
+    <Content Include="Views\Shared\OnBoarding\_Acknowledgment.cshtml" />
+    <Content Include="Views\Shared\OnBoarding\_CompanyInformation.cshtml" />
+    <Content Include="Views\Shared\OnBoarding\_AddressInfo.cshtml" />
+    <Content Include="Views\Shared\OnBoarding\_AdditionalOwnerTemplate.cshtml" />
+    <Content Include="Scripts\Pages\onboarding\acknowledgment\onboarding.ackonwledgment.setters.js" />
+    <Content Include="Views\Shared\OnBoarding\_SaveAndResumeModal.cshtml" />
+    <Content Include="Views\Dealer\OnBoardingError.cshtml" />
+    <Content Include="Views\Home\Library.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

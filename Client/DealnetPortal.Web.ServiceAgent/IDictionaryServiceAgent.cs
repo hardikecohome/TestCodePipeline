@@ -7,6 +7,7 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.UserSettings;
 
 namespace DealnetPortal.Web.ServiceAgent
@@ -25,6 +26,8 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <returns>List of Equipment Type</returns>
         Task<Tuple<IList<EquipmentTypeDTO>, IList<Alert>>> GetAllEquipmentTypes();
 
+        Task<Tuple<IList<LicenseDocumentDTO>, IList<Alert>>> GetAllLicenseDocuments();
+
         /// <summary>
         /// Get Province Tax Rate
         /// </summary>
@@ -39,6 +42,19 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<Tuple<IList<ProvinceTaxRateDTO>, IList<Alert>>> GetAllProvinceTaxRates();
 
         /// <summary>
+        /// Get Verification Id
+        /// </summary>
+        /// <param name="Id">Province abbreviation</param>
+        /// <returns>Tax Rate for particular Province</returns>
+        Task<Tuple<VarificationIdsDTO, IList<Alert>>> GetVerificationId(int id);
+
+        /// <summary>
+        /// Get all Province Tax Rates
+        /// </summary>
+        /// <returns>All Tax Rates</returns>
+        Task<Tuple<IList<VarificationIdsDTO>, IList<Alert>>> GetAllVerificationIds();
+
+        /// <summary>
         /// Get Equipment Types list
         /// </summary>
         /// <returns>List of Equipment Type</returns>
@@ -46,7 +62,7 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<ApplicationUserDTO> GetDealerInfo();
 
-        Task<string> GetDealerCulture();
+        Task<string> GetDealerCulture(string dealerName = null);
 
         Task ChangeDealerCulture(string culture);
 

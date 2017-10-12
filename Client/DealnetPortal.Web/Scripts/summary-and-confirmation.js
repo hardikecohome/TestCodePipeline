@@ -1,18 +1,25 @@
 ﻿configInitialized
     .then(function () {
-    $('.date-input').each(assignDatepicker);
-    var initPaymentTypeForm = $("#payment-type-form").find(":selected").val();
-    managePaymentFormElements(initPaymentTypeForm);
-    $("#payment-type-form").change(function () {
-        managePaymentFormElements($(this).find(":selected").val());
-    });
+        var datepickerOptions = {
+            yearRange: '1900:2200',
+            minDate: new Date()
+        };
 
-    if (recalculateTotalCash) {
-        recalculateTotalCashPrice();
-	}
-	
-});
-function managePaymentFormElements(paymentType) {
+        $('.date-input').each(function (index, input) {
+            assignDatepicker(input, datepickerOptions)
+        });
+        var initPaymentTypeForm = $("#payment-type-form").find(":selected").val();
+        managePaymentFormElements(initPaymentTypeForm);
+        $("#payment-type-form").change(function () {
+            managePaymentFormElements($(this).find(":selected").val());
+        });
+
+        if (recalculateTotalCash) {
+            recalculateTotalCashPrice();
+        }
+        ga('send', 'event', 'Summary And Confirmation', 'button_click', 'Step 5 from Dealer Portal', '100');
+    });
+function managePaymentFormElements (paymentType) {
     switch (paymentType) {
         case '0':
             $(".pap-payment-form").hide();
@@ -25,7 +32,7 @@ function managePaymentFormElements(paymentType) {
     }
 }
 
-function recalculateTotalMonthlyPayment() {
+function recalculateTotalMonthlyPayment () {
     var sum = 0;
     $(".monthly-cost").each(function () {
         var numberValue = parseFloat(this.value);
@@ -44,7 +51,7 @@ function recalculateTotalMonthlyPayment() {
     $("#total-monthly-payment-wtaxes").text(formatNumber(sum + salesTax));
 }
 
-function recalculateTotalCashPrice() {
+function recalculateTotalCashPrice () {
     var sum = 0;
     $(".equipment-cost").each(function () {
         var numberValue = parseFloat(this.value);
@@ -57,7 +64,7 @@ function recalculateTotalCashPrice() {
     calculateLoanValues();
 }
 
-function checkTotalEquipmentCost() {
+function checkTotalEquipmentCost () {
     var sum = 0;
     $(".equipment-cost").each(function () {
         var numberValue = parseFloat(this.value);
@@ -66,13 +73,13 @@ function checkTotalEquipmentCost() {
         }
     });
     if (sum > creditAmount) {
-        $('#new-equipment-validation-message').html('<span>' + translations['TotalCostGreaterThanAmount']  + '</span>');
+        $('#new-equipment-validation-message').html('<span>' + translations['TotalCostGreaterThanAmount'] + '</span>');
         return false;
     }
     return true;
 }
 
-function checkTotalMonthlyPayment() {
+function checkTotalMonthlyPayment () {
     var sum = 0;
     $(".equipment-cost").each(function () {
         var numberValue = parseFloat(this.value);
@@ -81,31 +88,31 @@ function checkTotalMonthlyPayment() {
         }
     });
     if (!checkCalculationValidity(sum)) {
-        $('#new-equipment-validation-message').text("<span>" + translations['TotalMonthlyPaymentMustBeGreaterZero'] + "</span>");
+        $('#new-equipment-validation-message').html("<span>" + translations['TotalMonthlyPaymentMustBeGreaterZero'] + "</span>");
         return false;
     }
     return true;
 }
 
-function checkProvince() {
+function checkProvince () {
     var provinceCode = toProvinceCode($("#administrative_area_level_1").val());
     var provinceTaxRate = provinceTaxRates[provinceCode];
     var rate = typeof provinceTaxRate !== 'undefined' ? provinceTaxRate.rate : 0;
     if (!checkCalculationValidity(null, rate)) {
-        $('#address-info-validation-message').html("<span>"+ translations['AfterProvinceChangeTotalMustBeGreater'] +"</span>");
+        $('#address-info-validation-message').html("<span>" + translations['AfterProvinceChangeTotalMustBeGreater'] + "</span>");
         return false;
     }
     return true;
 }
 
-function applyProvinceChange() {
+function applyProvinceChange () {
     var provinceCode = toProvinceCode($("#administrative_area_level_1").val());
     var provinceTaxRate = provinceTaxRates[provinceCode];
     var taxDescription = typeof provinceTaxRate !== 'undefined' ? provinceTaxRate.description : translations['Tax'];
     $("#tax-label").text(taxDescription);
     var rate = typeof provinceTaxRate !== 'undefined' ? provinceTaxRate.rate : 0;
     taxRate = rate;
-    switch(agreementType) {
+    switch (agreementType) {
         case 0:
             calculateLoanValues();
             break;
@@ -116,28 +123,13 @@ function applyProvinceChange() {
     }
 }
 
-function assignDatepicker() {
-    var input = $(this);
-    inputDateFocus(input);
-    input.datepicker({
-        dateFormat: 'mm/dd/yy',
-        changeYear: true,
-        changeMonth: (viewport().width < 768) ? true : false,
-        yearRange: '1900:2200',
-        minDate: new Date(),
-        onClose: function(){
-            onDateSelect($(this));
-        }
-    });
-}
-
-function assignAutocompletes() {
+function assignAutocompletes () {
     $(document)
         .ready(function () {
             initGoogleServices("street", "locality", "administrative_area_level_1", "postal_code");
             initGoogleServices("mailing_street", "mailing_locality", "mailing_administrative_area_level_1", "mailing_postal_code");
             initGoogleServices("previous_street", "previous_locality", "previous_administrative_area_level_1", "previous_postal_code");
-            for (var i = 1; i <= 3; i++) {
+            for (var i = 1;i <= 3;i++) {
                 initGoogleServices("additional-street-" + i, "additional-locality-" + i, "additional-administrative_area_level_1-" + i, "additional-postal_code-" + i);
                 initGoogleServices("additional-previous-street-" + i, "additional-previous-locality-" + i, "additional-previous-administrative_area_level_1-" + i, "additional-previous-postal_code-" + i);
             }

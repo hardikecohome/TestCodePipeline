@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Crypteron;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -16,6 +17,7 @@ namespace DealnetPortal.Domain
 
         public string AspireLogin { get; set; }
         public string AspirePassword { get; set; }
+        public string Secure_AspirePassword { get; set; }
         public string AspireAccountId { get; set; }
 
         public string Company { get; set; }
@@ -40,9 +42,16 @@ namespace DealnetPortal.Domain
         [ForeignKey("CustomerLinkId")]
         public virtual CustomerLink CustomerLink { get; set; }
 
+        /// <summary>
+        /// link for onboarding form
+        /// </summary>
+        public string OnboardingLink { get; set; }
+
         public int? DealerProfileId { get; set; }
-        //[ForeignKey("DealerProfileId")]
-        //public virtual DealerProfile DealerProfile { get; set; }
+
+        public int? TierId { get; set; }
+        [ForeignKey("TierId")]
+        public virtual Tier Tier { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {

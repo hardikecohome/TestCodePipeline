@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Models;
@@ -36,6 +37,9 @@ namespace DealnetPortal.Web.Infrastructure
             var taxes = await _dictionaryServiceAgent.GetAllProvinceTaxRates();
             model.ProvinceTaxRates = taxes.Item1 ?? new List<ProvinceTaxRateDTO>();
 
+            var verificationids = await _dictionaryServiceAgent.GetAllVerificationIds();
+            model.VerificationIds = verificationids.Item1 ?? new List<VarificationIdsDTO>();
+
             var contactMethods = new SelectList(Enum.GetValues(typeof(PreferredContactMethod))
                 .Cast<PreferredContactMethod>().Select(v => new SelectListItem
                 {
@@ -58,6 +62,7 @@ namespace DealnetPortal.Web.Infrastructure
             var customerContactInfo = Mapper.Map<CustomerDataDTO>(customer.HomeOwnerContactInfo);
             newCustomerDto.PrimaryCustomer.Emails = customerContactInfo.Emails;
             newCustomerDto.PrimaryCustomer.Phones = customerContactInfo.Phones;
+            newCustomerDto.PrimaryCustomer.AllowCommunicate = customerContactInfo.CustomerInfo.AllowCommunicate;
 
             var mainAddress = Mapper.Map<LocationDTO>(customer.HomeOwner.AddressInformation);
             mainAddress.AddressType = customer.IsLiveInCurrentAddress ? AddressType.InstallationAddress : AddressType.MainAddress;
@@ -97,6 +102,14 @@ namespace DealnetPortal.Web.Infrastructure
             //        .ThenByDescending(x => string.IsNullOrEmpty(x.Details.TransactionId))
             //        .ThenByDescending(x => x.LastUpdateTime)
             //        .ToList();
+        }
+
+        public async Task<bool> CheckCustomerExistingAsync(string email)
+        {
+            var result = await _contractServiceAgent.CheckCustomerExisting(email);
+
+            return result.Any(x => x.Type == AlertType.Error);
+
         }
     }
 }

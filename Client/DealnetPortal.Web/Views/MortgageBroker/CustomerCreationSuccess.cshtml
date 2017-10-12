@@ -2,7 +2,7 @@
 	<div class="customer-success-page-inner">
 		<div class="text-center">
 			<div class="customer-success-page-content">
-				<p><strong>@Resources.CreditCheckProceedSuccessfully</strong></p>
+				<h4>@Resources.CreditCheckProceedSuccessfully</h4>
 				<p>Congratulations, @ViewBag.FullName has been pre-approved for <strong>$@ViewBag.CreditAmount</strong></p>
 			</div>
 			<div class="btn-container">
@@ -13,9 +13,9 @@
 </div>
 @section scripts
 {
-<script type="text/javascript">
+	<script type="text/javascript">
 	$(document).ready(function () {
 			ga('send', 'event', 'PreApproved', 'Success Message Displayed', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
 		});
-</script>
+	</script>
 }

@@ -44,6 +44,8 @@ namespace DealnetPortal.Api.Integration.Services
 
         Tuple<AgreementDocument, IList<Alert>> GetPrintAgreement(int contractId, string contractOwnerId);
 
+        AgreementDocument GetContractsFileReport(IEnumerable<int> ids, string contractOwnerId);
+
         Tuple<bool, IList<Alert>> CheckPrintAgreementAvailable(int contractId, int documentTypeId, string contractOwnerId);
 
         Tuple<AgreementDocument, IList<Alert>> GetInstallCertificate(int contractId, string contractOwnerId);
@@ -70,6 +72,8 @@ namespace DealnetPortal.Api.Integration.Services
 
         Tuple<ProvinceTaxRateDTO, IList<Alert>> GetProvinceTaxRate(string province);
 
+        Tuple<ProvinceTaxRateDTO, IList<Alert>> GetVerificationId(int id);
+
         CustomerDTO GetCustomer(int customerId);
 
         IList<Alert> UpdateCustomers(CustomerDataDTO[] customers, string contractOwnerId);
@@ -81,5 +85,6 @@ namespace DealnetPortal.Api.Integration.Services
         IList<Alert> RemoveContract(int documentId, string contractOwnerId);
 
         Task<IList<Alert>> AssignContract(int contractId, string newContractOwnerId);
+        Task<IList<Alert>> CheckCustomerExistingAsync(string email);
     }
 }

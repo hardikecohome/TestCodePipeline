@@ -18,6 +18,7 @@ using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
+using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
 using FormField = DealnetPortal.Api.Models.Signature.FormField;
 
@@ -36,14 +37,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IFileRepository _fileRepository;
         private readonly IDealerRepository _dealerRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IAspireStorageReader _aspireStorageReader;
-
-        private readonly string _eCoreSignatureRole;
-        private readonly string _eCoreAgreementTemplate;
-        private readonly string _eCoreCustomerSecurityCode;
-
-        private List<string> _signatureFields = new List<string>() {"Signature1", "Signature2"}; //, "Sinature3"};
-        private List<string> _signatureRoles = new List<string>();
+        private readonly IAspireStorageReader _aspireStorageReader;               
 
         public SignatureService(
             ISignatureEngine signatureEngine, 
@@ -57,22 +51,12 @@ namespace DealnetPortal.Api.Integration.Services
         {
             _signatureEngine = signatureEngine;
             _pdfEngine = pdfEngine;
-            //_signatureServiceAgent = signatureServiceAgent;
             _contractRepository = contractRepository;
             _loggingService = loggingService;
             _dealerRepository = dealerRepository;
             _fileRepository = fileRepository;
             _unitOfWork = unitOfWork;
-            _aspireStorageReader = aspireStorageReader;
-
-            _eCoreSignatureRole = System.Configuration.ConfigurationManager.AppSettings["eCoreSignatureRole"];
-            _eCoreAgreementTemplate = System.Configuration.ConfigurationManager.AppSettings["eCoreAgreementTemplate"];
-            _eCoreCustomerSecurityCode =
-                System.Configuration.ConfigurationManager.AppSettings["eCoreCustomerSecurityCode"];
-
-            _signatureRoles.Add(_eCoreSignatureRole);
-            _signatureRoles.Add($"{_eCoreSignatureRole}2");
-            //_signatureRoles.Add($"{_eCoreSignatureRole}3");
+            _aspireStorageReader = aspireStorageReader;            
         }
 
         public async Task<IList<Alert>> ProcessContract(int contractId, string ownerUserId,
@@ -525,8 +509,7 @@ namespace DealnetPortal.Api.Integration.Services
         private List<FormField> PrepareFormFields(Contract contract, string ownerUserId)
         {
             var fields = new List<FormField>();
-            //Code to add Application Id
-           
+
             FillHomeOwnerFields(fields, contract);
             FillApplicantsFields(fields, contract);
             FillEquipmentFields(fields, contract, ownerUserId);
@@ -737,6 +720,37 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = PdfFormFields.DateOfBirth,
                     Value = contract.PrimaryCustomer.DateOfBirth.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
                 });
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = "ID1",
+                    Value = contract.PrimaryCustomer.DealerInitial
+                });
+
+                if (contract.PrimaryCustomer.VerificationIdName == "Driver’s license")
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.CheckBox,
+                        Name = "Tiv1",
+                        Value = "true"
+                    });                    
+                }
+                else if (contract.PrimaryCustomer.VerificationIdName != null)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.CheckBox,
+                        Name = "Tiv1Other",
+                        Value = "true"
+                    });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = "OtherID",
+                        Value = contract.PrimaryCustomer.VerificationIdName
+                    });
+                }
                 if (contract.PrimaryCustomer.Locations?.Any() ?? false)
                 {
                     var mainAddress =
@@ -792,6 +806,25 @@ namespace DealnetPortal.Api.Integration.Services
                             Name = PdfFormFields.MailingAddress,
                             Value =
                                 $"{mailAddress.Street}, {mailAddress.City}, {mailAddress.State}, {mailAddress.PostalCode}"
+                        });
+                    }
+                    var previousAddress =
+                        contract.PrimaryCustomer?.Locations?.FirstOrDefault(
+                            l => l.AddressType == AddressType.PreviousAddress);
+                    if (previousAddress != null)
+                    {
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.CheckBox,
+                            Name = "IsPreviousAddress",
+                            Value = "true"
+                        });
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = "PreviousAddress",
+                            Value =
+                                $"{previousAddress.Street}, {previousAddress.City}, {previousAddress.State}, {previousAddress.PostalCode}"
                         });
                     }
                     if (contract.HomeOwners?.Any(ho => ho.Id == contract.PrimaryCustomer.Id) ?? false)
@@ -931,6 +964,38 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = PdfFormFields.DateOfBirth2,
                     Value = addApplicant.DateOfBirth.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
                 });
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = "ID2",
+                    Value = addApplicant.DealerInitial
+                });
+
+                if (addApplicant.VerificationIdName == "Driver’s license")
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.CheckBox,
+                        Name = "Tiv2",
+                        Value = "true"
+                    });
+                }
+                else if (addApplicant.VerificationIdName != null)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.CheckBox,
+                        Name = "Tiv2Other",
+                        Value = "true"
+                    });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = "OtherID_2",
+                        Value = addApplicant.VerificationIdName
+                    });
+                }
+
 
                 formFields.Add(new FormField()
                 {
@@ -1044,7 +1109,7 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                     formFields.Add(new FormField()
                     {
-                        FieldType = FieldType.CheckBox,
+                        FieldType = FieldType.Text,
                         Name = PdfFormFields.EquipmentMonthlyRental,
                         Value = fstEq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture)
                     });
@@ -1250,8 +1315,24 @@ namespace DealnetPortal.Api.Integration.Services
                         });
                     }
                 }
-                // support old contracts with EstimatedInstallationDate in Equipment
-                if (contract.Equipment.EstimatedInstallationDate.HasValue ||
+                for (int i = 0; i < newEquipments.Count; i++)
+                {
+                
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = $"{PdfFormFields.EquipmentQuantity}_{i}",
+                        Value = "1"
+                    });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = $"{PdfFormFields.EquipmentDescription}_{i}",
+                        Value = $"{newEquipments.ElementAt(i).Description}"
+                    });
+                }
+                    // support old contracts with EstimatedInstallationDate in Equipment
+                    if (contract.Equipment.EstimatedInstallationDate.HasValue ||
                     ((contract.Equipment.NewEquipment?.First()?.EstimatedInstallationDate.HasValue) ?? false))
                 {
                     formFields.Add(new FormField()

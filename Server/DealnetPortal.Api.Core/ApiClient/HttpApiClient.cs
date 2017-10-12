@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Core.Helpers;
+using Newtonsoft.Json;
 
 namespace DealnetPortal.Api.Core.ApiClient
 {
@@ -52,9 +55,8 @@ namespace DealnetPortal.Api.Core.ApiClient
             CancellationToken cancellationToken = new CancellationToken())
         {
             try
-            {
-                var response = await Client.PostAsJsonAsync(requestUri, content, cancellationToken);
-
+            {                
+                var response = await Client.PostAsJsonAsync(requestUri, content, cancellationToken);                
                 if (response?.Content == null)
                     return default(T);
                 return await response.Content.ReadAsAsync<T>(cancellationToken);
@@ -84,9 +86,35 @@ namespace DealnetPortal.Api.Core.ApiClient
         }
 
         public async Task<HttpResponseMessage> PostAsyncWithHttpResponse<T>(string requestUri, T content,
+            AuthenticationHeaderValue authenticationHeader = null, string culture = null,
             CancellationToken cancellationToken = new CancellationToken())
         {
-            return await Client.PostAsJsonAsync(requestUri, content, cancellationToken);
+            try
+            {
+                var request = new HttpRequestMessage()
+                {
+                    Method = HttpMethod.Post,
+                    RequestUri = new Uri(requestUri)
+                };
+                //var formatter = new MediaTypeFormatter[] {new JsonMediaTypeFormatter()};
+                request.Content = new ObjectContent<T>(content, new JsonMediaTypeFormatter());
+                if (authenticationHeader != null)
+                {
+                    request.Headers.Authorization = authenticationHeader;
+                }
+                if (!string.IsNullOrEmpty(culture))
+                {
+                    var filteredCulture = CultureHelper.FilterCulture(culture);
+                    request.Headers.AcceptLanguage.Clear();
+                    request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(filteredCulture));
+                }
+                return await Client.SendAsync(request, cancellationToken);               
+            }
+            catch (HttpRequestException)
+            {
+                throw;
+            }
+            //return await Client.PostAsJsonAsync(requestUri, content, cancellationToken);
         }
 
         public async Task<T2> PostAsyncXmlWithXmlResponce<T1, T2>(string requestUri, T1 content,
@@ -102,6 +130,48 @@ namespace DealnetPortal.Api.Core.ApiClient
             }
             catch (HttpRequestException)
             {
+                throw;
+            }
+        }
+
+        public async Task<T2> PostAsyncEx<T1, T2>(string requestUri, T1 content,
+            AuthenticationHeaderValue authenticationHeader = null, string culture = null,
+            MediaTypeFormatter formatter = null, CancellationToken cancellationToken = new CancellationToken())
+        {
+            try
+            {
+                var request = new HttpRequestMessage()
+                {
+                    Method = HttpMethod.Post,
+                    RequestUri = new Uri(requestUri)
+                };
+                //var formatter = new MediaTypeFormatter[] {new JsonMediaTypeFormatter()};
+                request.Content = new ObjectContent<T1>(content, formatter ?? new JsonMediaTypeFormatter());
+                if (authenticationHeader != null)
+                {
+                    request.Headers.Authorization = authenticationHeader;
+                }
+                if (!string.IsNullOrEmpty(culture))
+                {
+                    var filteredCulture = CultureHelper.FilterCulture(culture);
+                    request.Headers.AcceptLanguage.Clear();
+                    request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(filteredCulture));
+                }
+                var response = await Client.SendAsync(request, cancellationToken);
+                response.EnsureSuccessStatusCode();
+                if (response?.Content == null)
+                    return default(T2);
+                if (formatter == null)
+                {
+                    return await response.Content.ReadAsAsync<T2>(cancellationToken);
+                }
+                else
+                {
+                    return await response.Content.ReadAsAsync<T2>(new[] { formatter, }, cancellationToken);
+                }
+            }
+            catch (HttpRequestException)
+            {                
                 throw;
             }
         }
@@ -146,6 +216,32 @@ namespace DealnetPortal.Api.Core.ApiClient
                 return default(T);
         }
 
+        public async Task<T> GetAsyncEx<T>(string requestUri, AuthenticationHeaderValue authenticationHeader = null, string culture = null,
+            CancellationToken cancellationToken = new CancellationToken())
+        {
+            try
+            {
+                var request = new HttpRequestMessage()
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri(requestUri)
+                };
+                //var formatter = new MediaTypeFormatter[] { new JsonMediaTypeFormatter()};
+                if (authenticationHeader != null)
+                {
+                    request.Headers.Authorization = authenticationHeader;
+                }
+                var response = await Client.SendAsync(request, cancellationToken);
+                if (response?.Content == null)
+                    return default(T);
+                return await response.Content.ReadAsAsync<T>(cancellationToken);
+            }
+            catch (HttpRequestException)
+            {
+                throw;
+            }
+        }
+
         /// <summary>
         /// See <see cref="IHttpApiClient"/>
         /// </summary>
@@ -161,6 +257,35 @@ namespace DealnetPortal.Api.Core.ApiClient
             try
             {
                 var response = await Client.PutAsJsonAsync(requestUri, content, cancellationToken);
+                return await response.Content.ReadAsAsync<T>(cancellationToken);
+            }
+            catch (HttpRequestException)
+            {
+                throw;
+            }
+        }
+
+        public async Task<T> PutAsyncEx<T>(string requestUri, T content, AuthenticationHeaderValue authenticationHeader = null,
+            string culture = null,
+            CancellationToken cancellationToken = new CancellationToken())
+        {
+            try
+            {
+                var request = new HttpRequestMessage()
+                {
+                    Method = HttpMethod.Put,
+                    RequestUri = new Uri(requestUri)
+                };
+                //var formatter = new MediaTypeFormatter[] { new JsonMediaTypeFormatter() };
+                request.Content = new ObjectContent<T>(content, new JsonMediaTypeFormatter());
+                if (authenticationHeader != null)
+                {
+                    request.Headers.Authorization = authenticationHeader;
+                }
+                var response = await Client.SendAsync(request, cancellationToken);
+                response.EnsureSuccessStatusCode();
+                if (response?.Content == null)
+                    return default(T);
                 return await response.Content.ReadAsAsync<T>(cancellationToken);
             }
             catch (HttpRequestException)
@@ -192,6 +317,65 @@ namespace DealnetPortal.Api.Core.ApiClient
                 return await response.Content.ReadAsAsync<T2>(cancellationToken);
             }
             catch (HttpRequestException ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task<T2> PutAsyncEx<T1, T2>(string requestUri, T1 content, AuthenticationHeaderValue authenticationHeader = null, string culture = null,
+            MediaTypeFormatter formatter = null, CancellationToken cancellationToken = new CancellationToken())
+        {
+            try
+            {
+                var request = new HttpRequestMessage()
+                {
+                    Method = HttpMethod.Put,
+                    RequestUri = new Uri(requestUri)
+                };
+                //var formatter = new MediaTypeFormatter[] { new JsonMediaTypeFormatter() };
+                request.Content = new ObjectContent<T1>(content, formatter ?? new JsonMediaTypeFormatter());                
+                if (authenticationHeader != null)
+                {
+                    request.Headers.Authorization = authenticationHeader;
+                }
+                var response = await Client.SendAsync(request, cancellationToken);
+                response.EnsureSuccessStatusCode();
+                if (response?.Content == null)
+                    return default(T2);
+                if (formatter == null)
+                {
+                    return await response.Content.ReadAsAsync<T2>(cancellationToken);
+                }
+                else
+                {
+                    return await response.Content.ReadAsAsync<T2>(new MediaTypeFormatter[] { formatter, }, cancellationToken);
+                }
+            }
+            catch (HttpRequestException)
+            {
+                throw;
+            }
+        }
+
+        public async Task DeleteAsyncEx(string requestUri, AuthenticationHeaderValue authenticationHeader = null,
+            string culture = null, CancellationToken cancellationToken = new CancellationToken())
+        {
+            try
+            {
+                var request = new HttpRequestMessage()
+                {
+                    Method = HttpMethod.Delete,
+                    RequestUri = new Uri(requestUri)
+                };
+                var formatter = new MediaTypeFormatter[] { new JsonMediaTypeFormatter() };
+                if (authenticationHeader != null)
+                {
+                    request.Headers.Authorization = authenticationHeader;
+                }
+                var response = await Client.SendAsync(request, cancellationToken);                
+                response.EnsureSuccessStatusCode();                
+            }
+            catch (HttpRequestException)
             {
                 throw;
             }

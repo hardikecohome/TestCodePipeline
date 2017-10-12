@@ -28,6 +28,12 @@ namespace DealnetPortal.Web
 
             routes.MapRoute(
                name: "",
+               url: "Dealer/{action}/{key}",
+               defaults: new { controller = "Dealer", action = "OnBoarding" }
+           );
+
+            routes.MapRoute(
+               name: "",
                url: "NewApplication/{action}/{contractId}",
                defaults: new { controller = "NewRental", contractId = UrlParameter.Optional }
            );

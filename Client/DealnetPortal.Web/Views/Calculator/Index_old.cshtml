@@ -1,0 +1,921 @@
+﻿@using System.Globalization
+@using DealnetPortal.Api.Common.Enumeration
+@using DealnetPortal.Api.Common.Helpers
+@using DealnetPortal.Api.Models.Contract
+@using DealnetPortal.Web.Models.Enumeration
+@using Microsoft.Ajax.Utilities
+@model DealnetPortal.Web.Models.LoanCalculatorViewModel
+
+@{
+    var deferralType = LoanDeferralType.ThreeMonth;
+}
+
+<div id="main-div" ng-cloak ng-app="calculator" ng-controller="calculator">
+    <!-- Provide standalone payment calculator screen -->
+    <div id="label-steps">
+        <div class="dealnet-action-link">@Resources.Calculator</div> >
+    </div>
+    <div class="dealnet-large-header" id="basic-info">@Resources.Calculator</div>
+
+    <div class="initial-standalone-calculator">
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs text-left switch-calculators hidden-md hidden-lg compare-mode">
+            <li class="active">
+                <a href="#" class="nav-tab-link" data-calc="0" ng-click="trySaveActiveChanges(); switchTab(0); retrieveCompareState(0);">@Resources.Type 1</a>
+                <a href="#" class="empty-calc-link" ng-click="addCalculator(0)">@Resources.AddType 1</a>
+            </li>
+            <li>
+                <a href="#" class="nav-tab-link" data-calc="1" ng-click="trySaveActiveChanges(); switchTab(1); retrieveCompareState(1);">@Resources.Type 2</a>
+                <a href="#" class="empty-calc-link" ng-click="addCalculator(1)">@Resources.AddType 2</a>
+            </li>
+            <li>
+                <a href="#" class="nav-tab-link" data-calc="2" ng-click="trySaveActiveChanges(); switchTab(2); retrieveCompareState(2);">@Resources.Type 3</a>
+                <a href="#" class="empty-calc-link" ng-click="addCalculator(2)">@Resources.AddType 3</a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+
+        <div class="form-container equipment-form-container has-loan-calc standalone-calculator">
+            <div class="form-section">
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "activeForm" }))
+                {
+                    <div class="equipment-editable-parent row">
+                        <div class="equipment-editable-section col-sm-6">
+                            <div class="form-group initial-mode">
+                                <div class="row">
+                                    <div class="col-md-4 initial-width">
+                                        <label>@Resources.ChooseProvince</label>
+                                        @Html.DropDownListFor(m => m.ProvinceTaxRates,
+                                            (Model.ProvinceTaxRates).Select(x => new SelectListItem {Value = x.Rate.ToStringInvariant(), Text = x.Province}),"",
+                                            new {@class = "form-control", id="province-tax-rate", ng_change = "assignTaxRate()", ng_model="taxRate" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="equipments-hold" reset-Form>
+                                <h3 class="dealnet-middle-header no-top-margin-compare-mode">@Resources.EquipmentInformation</h3>
+                                <div ng-repeat="item in activeEquipment">
+                                    <div class="dealnet-middle-header owner-info-label">
+                                        <span>N° {{$index + 1}}</span>
+                                        <div ng-if="$index !== 0" ng-click="removeActiveEquipment($index)" class="additional-remove">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Equipment.NewEquipment[0].Type, new { @for = "Equipment_NewEquipment_{{$index}}__Type" })
+                                        @Html.DropDownListFor(m => m.Equipment.NewEquipment[0].Type,
+                                                (Model.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
+                                                new { id = "Equipment_NewEquipment_{{$index}}__Type", Name = "Equipment.NewEquipment[{{$index}}].Type", @class = "form-control", ng_model = "item.type" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Equipment.NewEquipment[0].Description, new { @for = "Equipment_NewEquipment_{{$index}}__Description" })
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Description, new { id = "Equipment_NewEquipment_{{$index}}__Description", Name = "Equipment.NewEquipment[{{$index}}].Description", @class = "form-control dealnet-input date-input", placeholder = Resources.Description, ng_model = "item.description" })
+                                            @Html.ValidationMessageFor(m => m.Equipment.NewEquipment[0].Description, "", new { data_valmsg_for = "Equipment.NewEquipment[{{$index}}].Description", @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-4 equipment-cost-col initial-width">
+                                                @Html.LabelFor(m => m.Equipment.NewEquipment[0].Cost, new { @for = "Equipment_NewEquipment_{{$index}}__Cost" })
+                                                <div class="control-group has-addon-left">
+                                                    <div class="control-group-addon">$</div>
+                                                    @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Cost, new { id = "Equipment_NewEquipment_{{$index}}__Cost", Name = "Equipment.NewEquipment[{{$index}}].Cost", @class = "form-control dealnet-input date-input equipment-cost", type="text", placeholder = Resources.Cost, ng_change = "calculateLoanValues();", ng_model = "item.cost" })
+                                                    @Html.ValidationMessageFor(m => m.Equipment.NewEquipment[0].Cost, "", new { data_valmsg_for = "Equipment.NewEquipment[{{$index}}].Cost", @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+
+                            <div class="align-middle dealnet-info-link add-equip-link" ng-click="addActiveEquipment()">
+                                <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
+                                <span>@Resources.AddAdditionalEquipment</span>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-4 initial-width">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Equipment.AdminFee)
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.Equipment.AdminFee, new { @class = "form-control", type="text", placeholder = Resources.AdminFee, id = "admin-fee", ng_change = "calculateLoanValues()", ng_model = "activeAdminFee" })
+                                            @Html.ValidationMessageFor(m => m.Equipment.AdminFee, "", new {@class = "text-danger"})
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 initial-width">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Equipment.DownPayment)
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.Equipment.DownPayment, new { @class = "form-control", type="text", placeholder = @Resources.DownPayment, id = "down-payment", ng_change = "calculateLoanValues()", ng_model = "activeDownPayment" })
+                                            @Html.ValidationMessageFor(m => m.Equipment.DownPayment, "", new {@class = "text-danger"})
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 initial-width">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Equipment.CustomerRate)
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.Equipment.CustomerRate, new { @class = "form-control customer-rate", type="text", id= "customer-rate", placeholder = @Resources.CustomerRatePercentage, ng_change = "calculateLoanValues()", ng_model = "activeCustomerRate" })
+                                            @Html.ValidationMessageFor(m => m.Equipment.CustomerRate, "", new {@class = "text-danger"})
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h3 class="dealnet-middle-header">@Resources.TermAndRep</h3>
+                            <div class="row loan-element">
+                                <div class="col-md-4 initial-width">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Equipment.LoanTerm)
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.Equipment.LoanTerm, new { @class = "form-control dealnet-input loan-term", type="text", id= "loan-term", placeholder = Resources.LoanTerm, ng_change = "calculateLoanValues()", value = "120", ng_model = "activeLoanTerm" })
+                                            @Html.ValidationMessageFor(m => m.Equipment.LoanTerm, "", new {@class = "text-danger"})
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8 initial-width">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Equipment.AmortizationTerm)
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.Equipment.AmortizationTerm, new { @class = "form-control dealnet-input amortization-term", type="text", id= "amortization-term", placeholder = Resources.AmortizationTerm, ng_change = "calculateLoanValues()", ng_model = "activeAmortizationTerm" })
+                                            @Html.ValidationMessageFor(m => m.Equipment.AmortizationTerm, "", new {@class = "text-danger"})
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 initial-width">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Equipment.LoanDeferralType)
+                                        @Html.EnumDropDownListFor(m => deferralType, new { @class = "form-control", ng_model = "activeDeferralType" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--equipment-editable-section END-->
+
+                        <div class="col-md-6 col-sm-6 sticker-parent compare-table-calculator">
+                            <div class="calculators-hold sticker">
+                                <div class="row form-group hidden-sm hidden-xs text-semibold compare-mode">
+                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label ">@Resources.Comparing</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type0 calc-title" data-calc="0">
+                                        <span class="calc-title-inner">
+                                            @Resources.Type 1
+                                            <span class="calculator-remove" ng-click="removeCalculator(0)">
+                                                <i class="glyphicon glyphicon-remove"></i>
+                                            </span>
+                                        </span>
+                                        <a class="dealnet-section-edit-link add-calculator-btn" ng-click="addCalculator(0)">@Resources.AddType 1</a>
+                                    </div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1 calc-title compare-mode" data-calc="1">
+                                        <span class="calc-title-inner">
+                                            @Resources.Type 2
+                                            <span class="calculator-remove" ng-click="removeCalculator(1)">
+                                                <i class="glyphicon glyphicon-remove"></i>
+                                            </span>
+                                        </span>
+                                        <a class="dealnet-section-edit-link add-calculator-btn" ng-click="addCalculator(1)">@Resources.AddType 2</a>
+                                    </div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 calc-title compare-mode" data-calc="2">
+                                        <span class="calc-title-inner">
+                                            @Resources.Type 3
+                                            <span class="calculator-remove" ng-click="removeCalculator(2)">
+                                                <i class="glyphicon glyphicon-remove"></i>
+                                            </span>
+                                        </span>
+                                        <a class="dealnet-section-edit-link add-calculator-btn" ng-click="addCalculator(2)">@Resources.AddType 3</a>
+                                    </div>
+                                </div>
+                                <div class="row form-group  hidden-sm hidden-xs compare-mode">
+                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">@Resources.TypeOfEquipment</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type0 text-uppercase">{{displayedEquipmentType0}}</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type1 text-uppercase">{{displayedEquipmentType1}}</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type2 text-uppercase">{{displayedEquipmentType2}}</div>
+                                </div>
+                                <div class="row form-group  hidden-sm hidden-xs compare-mode">
+                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">@Resources.Description</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type0">{{displayedEquipmentDescription0}}</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type1">{{displayedEquipmentDescription1}}</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right calc-field-type2">{{displayedEquipmentDescription2}}</div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">@Resources.CashPriceOfEquipment</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type0">$ <span id="equipment-cash-price" ng-bind="displayedEquipmentCashPrice0">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1 compare-mode">$ <span ng-bind="displayedEquipmentCashPrice1">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span ng-bind="displayedEquipmentCashPrice2">-</span></div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label" id="tax-label"></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type0">$ <span id="hst" ng-bind="displayedHst0">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1 compare-mode">$ <span ng-bind="displayedHst1">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span ng-bind="displayedHst2">-</span></div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">@Resources.TotalCashPrice</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type0">$ <span id="total-cash-price" ng-bind="displayedTotalCashPrice0">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1 compare-mode">$ <span ng-bind="displayedTotalCashPrice1">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span ng-bind="displayedTotalCashPrice2">-</span></div>
+                                </div>
+                                <hr>
+                                <div class="row form-group">
+                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">@Resources.TotalAmountFinanced</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type0">$ <span id="total-amount-financed" ng-bind="displayedTotalAmountFinanced0">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1 compare-mode">$ <span ng-bind="displayedTotalAmountFinanced1">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span ng-bind="displayedTotalAmountFinanced2">-</span></div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">@Resources.TotalMonthlyPayment</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type0">$ <span id="loan-total-monthly-payment" ng-bind="displayedTotalMonthlyPayment0">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1 compare-mode">$ <span ng-bind="displayedTotalMonthlyPayment1">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span ng-bind="displayedTotalMonthlyPayment2">-</span></div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">@Resources.TotalAllMonthlyPayments</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type0">$ <span id="loan-total-all-monthly-payments" ng-bind="displayedTotalAllMonthlyPayments0">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1 compare-mode">$ <span ng-bind="displayedTotalAllMonthlyPayments1"></span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span ng-bind="displayedTotalAllMonthlyPayments2"></span></div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">@Resources.BalanceOwingEndOfPayments</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type0">$ <span id="residual-balance" ng-bind="displayedResidualBalance0">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1 compare-mode">$ <span ng-bind="displayedResidualBalance1">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span ng-bind="displayedResidualBalance2">-</span></div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">@Resources.TotalObligation</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type0">$ <span id="total-obligation" ng-bind="displayedTotalObligation0">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1 compare-mode">$ <span ng-bind="displayedTotalObligation1">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span ng-bind="displayedTotalObligation2">-</span></div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label">@Resources.TotalCostOfBorrowing</div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type0">$ <span id="total-borrowing-cost" ng-bind="displayedTotalBorrowingCost0">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1 compare-mode">$ <span ng-bind="displayedTotalBorrowingCost1">-</span></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 compare-mode">$ <span ng-bind="displayedTotalBorrowingCost2">-</span></div>
+                                </div>
+                                <div class="row form-group hidden-xs hidden-sm compare-mode">
+                                    <div class="col-xs-8 col-sm-8 col-md-9 calc-label"></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type0 calc-field-edit">
+                                        <a class="dealnet-section-edit-link" ng-click="copyStateToCompare(0)">@Resources.Edit</a>
+                                    </div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type1 calc-field-edit">
+                                        <a class="dealnet-section-edit-link" ng-click="copyStateToCompare(1)">@Resources.Edit</a>
+                                    </div>
+                                    <div class="col-xs-4 col-sm-4 col-md-3 text-right text-semibold calc-field-type2 calc-field-edit">
+                                        <a class="dealnet-section-edit-link" ng-click="copyStateToCompare(2)">@Resources.Edit</a>
+                                    </div>
+                                </div>
+                            </div><!--equipment-calculator END-->
+                        </div>
+
+                    </div>
+                    <!--equipment-editable-parent END-->
+                }
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="button-proceed">
+                            <input type="submit" value="@Resources.AddToComparison" class="btn dealnet-button dealnet-success-button initial-mode" ng-click="tryCopyActiveToCompare()">
+                            <button class="btn dealnet-button dealnet-success-button hidden-md hidden-lg compare-mode" id="clearCalcBtn" ng-click="removeCalculatorAndSwitch()">@Resources.Remove</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!--form-section END-->
+
+        </div><!--form-container END-->
+    </div><!--initial-standalone-calculator END-->
+
+    <!--Modal for desktop version-->
+    <div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="calculator-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div class="modal-title dealnet-large-header">@Resources.CompareTo</div>
+                </div>
+                <div class="modal-body no-padding-top">
+                    <h3 class="dealnet-middle-header no-top-margin">@Resources.EquipmentInformation</h3>
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formToCompare" }))
+                    {
+                        <div class="dealnet-credit-check-section dealnet-modal-section">
+                            <div class="equipments-hold" reset-Form>
+                                <div ng-repeat="item in equipmentToCompare">
+                                    <div class="dealnet-middle-header owner-info-label">
+                                        <span>N° {{$index + 1}}</span>
+                                        <div ng-if="$index !== 0" ng-click="removeEquipmentToCompare($index)" class="additional-remove">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.Equipment.NewEquipment[0].Type, new { @for = "Equipment_NewEquipment_{{$index}}__Type" })
+                                                @Html.DropDownListFor(m => m.Equipment.NewEquipment[0].Type,
+                                                (Model.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
+                                                new { id = "Equipment_NewEquipment_{{$index}}__Type", Name = "Equipment.NewEquipment[{{$index}}].Type", @class = "form-control", ng_model = "item.type" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.Equipment.NewEquipment[0].Description, new { @for = "Equipment_NewEquipment_{{$index}}__Description" })
+                                                <div class="control-group">
+                                                    @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Description, new { id = "Equipment_NewEquipment_{{$index}}__Description", Name = "Equipment.NewEquipment[{{$index}}].Description", @class = "form-control dealnet-input date-input", placeholder = Resources.Description, ng_model = "item.description" })
+                                                    @Html.ValidationMessageFor(m => m.Equipment.NewEquipment[0].Description, "", new { data_valmsg_for= "Equipment.NewEquipment[{{$index}}].Description", @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            @Html.LabelFor(m => m.Equipment.NewEquipment[0].Cost, new { @for = "Equipment_NewEquipment_{{$index}}__Cost" })
+                                            <div class="control-group has-addon-left">
+                                                <div class="control-group-addon">$</div>
+                                                @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Cost, new { id = "Equipment_NewEquipment_{{$index}}__Cost", Name = "Equipment.NewEquipment[{{$index}}].Cost", @class = "form-control dealnet-input date-input equipment-cost", type="text", placeholder = Resources.Cost, ng_model = "item.cost" })
+                                                @Html.ValidationMessageFor(m => m.Equipment.NewEquipment[0].Cost, "", new { data_valmsg_for = "Equipment.NewEquipment[{{$index}}].Cost", @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="align-middle dealnet-info-link add-equip-link" ng-click="addEquipmentToCompare()">
+                                <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
+                                <span>@Resources.AddAdditionalEquipment</span>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-4 initial-width">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Equipment.AdminFee)
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.Equipment.AdminFee, new { @class = "form-control", type="text", placeholder = Resources.AdminFee, ng_model = "adminFeeToCompare" })
+                                            @Html.ValidationMessageFor(m => m.Equipment.AdminFee, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 initial-width">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Equipment.DownPayment)
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.Equipment.DownPayment, new { @class = "form-control", type="text", placeholder = Resources.DownPayment, ng_model = "downPaymentToCompare" })
+                                            @Html.ValidationMessageFor(m => m.Equipment.DownPayment, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 initial-width">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Equipment.CustomerRate)
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.Equipment.CustomerRate, new { @class = "form-control customer-rate", type="text", placeholder = Resources.CustomerRatePercentage, ng_model = "customerRateToCompare" })
+                                            @Html.ValidationMessageFor(m => m.Equipment.CustomerRate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h3 class="dealnet-middle-header">Term and Rep</h3>
+                            <div class="row loan-element">
+                                <div class="col-md-4 initial-width">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Equipment.LoanTerm)
+                                        @Html.TextBoxFor(m => m.Equipment.LoanTerm, new { @class = "form-control dealnet-input loan-term", type="text", placeholder = Resources.LoanTerm, value = "120", ng_model = "loanTermToCompare" })
+                                        @Html.ValidationMessageFor(m => m.Equipment.LoanTerm, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4 initial-width">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Equipment.AmortizationTerm)
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.Equipment.AmortizationTerm, new { @class = "form-control dealnet-input amortization-term", type="text", placeholder = Resources.AmortizationTerm, ng_model = "amortizationTermToCompare" })
+                                            @Html.ValidationMessageFor(m => m.Equipment.AmortizationTerm, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 initial-width">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Equipment.LoanDeferralType)
+                                        @Html.EnumDropDownListFor(m => deferralType, new {@class = "form-control", ng_model = "deferralTypeToCompare"})
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="btn-container">
+                        <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button"
+                                ng-click="addCompareState()">
+                            @Resources.AddToComparison
+                        </button>
+                        <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section OutrunningScripts
+{
+    @Scripts.Render("~/bundles/angular")
+}
+
+@section scripts
+{
+
+    <script type="text/javascript">
+        var taxRate = 0;
+        @{
+            @: var provinceTaxRates = [];
+            foreach (var ptr in Model.ProvinceTaxRates)
+            {
+                @: provinceTaxRates["@ptr.Province"] = { rate: @ptr.Rate.ToString(CultureInfo.InvariantCulture), description: "@ptr.Description" };
+            }
+            @: var equipmentTypes = [];
+            foreach (var type in Model.EquipmentTypes)
+            {
+                @: equipmentTypes["@type.Type"] = '@type.Description';
+            }
+        }
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/localization")
+    @Scripts.Render("~/Scripts/financial-functions.js")
+    @Scripts.Render("~/Scripts/standalone-loan-calculator.js")
+
+
+    <script type="text/javascript">
+        var app = angular.module("calculator", []);
+
+        app.directive('resetForm',
+            function() {
+                return {
+                    link: function($scope, element, attrs) {
+                        var watch = $scope.$watch(function() {
+                                return element.children().length;
+                            },
+                            function() {
+                                $scope.$evalAsync(function() {
+                                    var form = element.parent().closest('form');
+                                    updateModalHeightIpad();
+                                    addIconsToFields();
+                                    toggleClearInputIcon();
+                                    customizeSelect();
+                                    resetFormValidator(form);
+                                });
+                            });
+                    }
+                };
+            });
+        app.controller("calculator",
+            function($scope) {
+                $scope.isMobileMode = false;
+                var defaultEquipmentType = '@Model.EquipmentTypes.First().Type';
+                var defaultDefferalType =
+                    '@(Convert.ChangeType((((LoanDeferralType[]) Enum.GetValues(typeof(LoanDeferralType))).First()), Enum.GetUnderlyingType(typeof(LoanDeferralType))))';
+                $scope.compareStates = [];
+                $scope.activeTabIndex = 0;
+                $scope.activeDeferralType = defaultDefferalType;
+                $scope.activeEquipment = [];
+                $scope.addActiveEquipment = function() {
+                    $scope.activeEquipment.push({
+                        type: defaultEquipmentType,
+                        description: '',
+                        cost: ''
+                    });
+                }
+                $scope.removeActiveEquipment = function(index) {
+                    $scope.activeEquipment.splice(index, 1);
+                    $scope.calculateLoanValues();
+                }
+                $scope.addActiveEquipment();
+                $scope.equipmentToCompare = [];
+                $scope.addEquipmentToCompare = function() {
+                    $scope.equipmentToCompare.push({
+                        type: defaultEquipmentType,
+                        description: '',
+                        cost: ''
+                    });
+                }
+                $scope.removeEquipmentToCompare = function(index) {
+                    $scope.equipmentToCompare.splice(index, 1);
+                }
+                $scope.addEquipmentToCompare();
+                $scope.createActiveState = function() {
+                    return {
+                        equipment: JSON.parse(JSON.stringify($scope.activeEquipment)),
+                        adminFee: $scope.activeAdminFee,
+                        downPayment: $scope.activeDownPayment,
+                        customerRate: $scope.activeCustomerRate,
+                        loanTerm: $scope.activeLoanTerm,
+                        amortizationTerm: $scope.activeAmortizationTerm,
+                        deferralType: $scope.activeDeferralType,
+                        equipmentCashPrice: $scope.displayedEquipmentCashPrice0,
+                        hst: $scope.displayedHst0,
+                        totalCashPrice: $scope.displayedTotalCashPrice0,
+                        totalAmountFinanced: $scope.displayedTotalAmountFinanced0,
+                        totalMonthlyPayment: $scope.displayedTotalMonthlyPayment0,
+                        totalAllMonthlyPayments: $scope.displayedTotalAllMonthlyPayments0,
+                        residualBalance: $scope.displayedResidualBalance0,
+                        totalObligation: $scope.displayedTotalObligation0,
+                        totalBorrowingCost: $scope.displayedTotalBorrowingCost0
+                    };
+                };
+                $scope.addActiveToCompareStates = function() {
+                    var state = $scope.createActiveState();
+                    $scope.compareStates.push(state);
+                    $scope.updateDisplayedValues(state, $scope.compareStates.length - 1);
+                };
+                $scope.trySaveActiveChanges = function() {
+                    var form = $('#activeForm');
+                    form.validate();
+                    if (!form.valid()) {
+                        return;
+                    }
+                    var activeCalcNumber = $scope.activeTabIndex;
+                    var state = $scope.createActiveState();
+                    //$scope.compareStates.splice(activeCalcNumber, 1);
+                    //$scope.compareStates.splice(activeCalcNumber, 0, state);
+                    $scope.compareStates[activeCalcNumber] = state;
+                };
+                $scope.addCompareState = function() {
+                    var form = $('#formToCompare');
+                    form.validate();
+                    if (!form.valid()) {
+                        return;
+                    }
+                    $('.calculators-hold').removeClass('stick');
+                    $('.initial-standalone-calculator').addClass('compare-mode');
+
+                    if ($scope.compareStates.length === 0) {
+                        addCalculator(0);
+                        $scope.addActiveToCompareStates();
+                        $scope.editIndex = null;
+                    }
+                    var state = {
+                        equipment: JSON.parse(JSON.stringify($scope.equipmentToCompare)),
+                        adminFee: $scope.adminFeeToCompare,
+                        downPayment: $scope.downPaymentToCompare,
+                        customerRate: $scope.customerRateToCompare,
+                        loanTerm: $scope.loanTermToCompare,
+                        amortizationTerm: $scope.amortizationTermToCompare,
+                        deferralType: $scope.deferralTypeToCompare
+                    };
+                    calculateAndAssign(state);
+                    if ($scope.editIndex !== null) {
+                        $scope.compareStates[$scope.editIndex] = state;
+                        $scope.updateDisplayedValues(state, $scope.editIndex);
+                        addCalculator($scope.editIndex);
+                    } else {
+                        $scope.compareStates.push(state);
+                        $scope.updateDisplayedValues(state, $scope.compareStates.length - 1);
+                        addCalculator($scope.compareStates.length - 1);
+                    }
+                    if ($scope.isMobileMode) {
+                        var indexToRetrieve = $scope.editIndex === null
+                            ? $scope.compareStates.length - 1
+                            : $scope.editIndex;
+                        $scope.retrieveCompareState(indexToRetrieve);
+                        $scope.switchTab(indexToRetrieve);
+                    }
+                    $('#calculator-modal').modal('hide');
+
+                    if ($('.initial-standalone-calculator').hasClass('compare-mode') && $('.calc-title.compare-mode').is(":visible")) {
+                        $('.calculators-hold').removeClass('sticker');
+                    } else{
+                        $('.calculators-hold').addClass('sticker');
+                    }
+                };
+                $scope.retrieveCompareState = function(index) {
+                    var state = $scope.compareStates[index];
+                    $scope.activeEquipment = JSON.parse(JSON.stringify(state.equipment));
+                    $scope.activeAdminFee = state.adminFee;
+                    $scope.activeDownPayment = state.downPayment;
+                    $scope.activeCustomerRate = state.customerRate;
+                    $scope.activeLoanTerm = state.loanTerm;
+                    $scope.activeAmortizationTerm = state.amortizationTerm;
+                    $scope.activeDeferralType = state.deferralType;
+                    $scope.updateDisplayedCalculations(state);
+                };
+                $scope.updateDisplayedValues = function(state, index) {
+                    var allEquipmentTypes = '';
+                    $.each(state.equipment,
+                        function(ind, value) {
+                            var description = equipmentTypes[value.type];
+                            allEquipmentTypes += ind !== 0 ? ', ' + description : description;
+                        });
+                    var allDescriptions = '';
+                    $.each(state.equipment,
+                        function(ind, value) {
+                            allDescriptions += ind !== 0 ? ', ' + value.description : value.description;
+                        });
+                    $scope['displayedEquipmentType' + index] = allEquipmentTypes;
+                    $scope['displayedEquipmentDescription' + index] = allDescriptions;
+                    $scope['displayedEquipmentCashPrice' + index] = typeof state.equipmentCashPrice === 'number' ?
+                        formatNumber(state.equipmentCashPrice) : state.equipmentCashPrice;
+                    $scope['displayedHst' + index] = typeof state.hst === 'number' ?
+                        formatNumber(state.hst) : state.hst;
+                    $scope['displayedTotalCashPrice' + index] = typeof state.totalCashPrice === 'number' ?
+                        formatNumber(state.totalCashPrice) : state.totalCashPrice;
+                    $scope['displayedTotalAmountFinanced' + index] = typeof state.totalAmountFinanced === 'number' ?
+                        formatNumber(state.totalAmountFinanced) : state.totalAmountFinanced;
+                    $scope['displayedTotalMonthlyPayment' + index] = typeof state.totalMonthlyPayment === 'number' ?
+                        formatNumber(state.totalMonthlyPayment) : state.totalMonthlyPayment;
+                    $scope['displayedTotalAllMonthlyPayments' + index] = typeof state.totalAllMonthlyPayments === 'number' ?
+                        formatNumber(state.totalAllMonthlyPayments) : state.totalAllMonthlyPayments;
+                    $scope['displayedResidualBalance' + index] = typeof state.residualBalance === 'number' ?
+                        formatNumber(state.residualBalance) : state.residualBalance;
+                    $scope['displayedTotalObligation' + index] = typeof state.totalObligation === 'number' ?
+                        formatNumber(state.totalObligation) : state.totalObligation;
+                    $scope['displayedTotalBorrowingCost' + index] = typeof state.totalBorrowingCost === 'number' ?
+                        formatNumber(state.totalBorrowingCost) : state.totalBorrowingCost;
+                };
+                $scope.resetDisplayedValues = function(index) {
+                    $scope['displayedEquipmentType' + index] = '-';
+                    $scope['displayedEquipmentDescription' + index] = '-';
+                    $scope['displayedEquipmentCashPrice' + index] = '-';
+                    $scope['displayedHst' + index] = '-';
+                    $scope['displayedTotalCashPrice' + index] = '-';
+                    $scope['displayedTotalAmountFinanced' + index] = '-';
+                    $scope['displayedTotalMonthlyPayment' + index] = '-';
+                    $scope['displayedTotalAllMonthlyPayments' + index] = '-';
+                    $scope['displayedResidualBalance' + index] = '-';
+                    $scope['displayedTotalObligation' + index] = '-';
+                    $scope['displayedTotalBorrowingCost' + index] = '-';
+                };
+                $scope.tryCopyActiveToCompare = function() {
+                    var form = $('#activeForm');
+                    form.validate();
+                    if (!form.valid()) {
+                        return;
+                    }
+
+                    $scope.equipmentToCompare = JSON.parse(JSON.stringify($scope.activeEquipment));
+                    $scope.adminFeeToCompare = $scope.activeAdminFee;
+                    $scope.downPaymentToCompare = $scope.activeDownPayment;
+                    $scope.customerRateToCompare = $scope.activeCustomerRate;
+                    $scope.loanTermToCompare = $scope.activeLoanTerm;
+                    $scope.amortizationTermToCompare = $scope.activeAmortizationTerm;
+                    $scope.deferralTypeToCompare = $scope.activeDeferralType;
+                    setTimeout(function() {
+                            $('#calculator-modal').modal();
+                        },
+                        300);
+
+                };
+                $scope.copyStateToCompare = function(index) {
+                    var state = $scope.compareStates[index];
+                    $scope.equipmentToCompare = JSON.parse(JSON.stringify(state.equipment));
+                    $scope.adminFeeToCompare = state.adminFee;
+                    $scope.downPaymentToCompare = state.downPayment;
+                    $scope.customerRateToCompare = state.customerRate;
+                    $scope.loanTermToCompare = state.loanTerm;
+                    $scope.amortizationTermToCompare = state.amortizationTerm;
+                    $scope.deferralTypeToCompare = state.deferralType;
+                    $scope.editIndex = index;
+                    setTimeout(function() {
+                            $('#calculator-modal').modal();
+                        },
+                        300);
+
+                };
+                $scope.calculateLoanValues = function() {
+                    var state = {
+                        equipment: $scope.activeEquipment,
+                        adminFee: $scope.activeAdminFee,
+                        downPayment: $scope.activeDownPayment,
+                        customerRate: $scope.activeCustomerRate,
+                        loanTerm: $scope.activeLoanTerm,
+                        amortizationTerm: $scope.activeAmortizationTerm,
+                        deferralType: $scope.activeDeferralType
+                    };
+                    calculateAndAssign(state);
+                    $scope.updateDisplayedCalculations(state);
+                };
+                $scope.updateDisplayedCalculations = function(state) {
+                    $scope.displayedEquipmentCashPrice0 = state.equipmentCashPrice != null ? typeof state.equipmentCashPrice === 'number' ?
+                    formatNumber(state.equipmentCashPrice) : state.equipmentCashPrice : '-';
+                    $scope.displayedHst0 = state.hst != null ? typeof state.hst === 'number' ?
+                        formatNumber(state.hst) : state.hst : '-';
+                    $scope.displayedTotalCashPrice0 = state.totalCashPrice != null ? typeof state.totalCashPrice === 'number' ?
+                        formatNumber(state.totalCashPrice) : state.totalCashPrice : '-';
+                    $scope.displayedTotalAmountFinanced0 = state.totalAmountFinanced != null ? typeof state.totalAmountFinanced === 'number' ?
+                        formatNumber(state.totalAmountFinanced) : state.totalAmountFinanced : '-';
+                    $scope.displayedTotalMonthlyPayment0 = state.totalMonthlyPayment != null ? typeof state.totalMonthlyPayment === 'number' ?
+                        formatNumber(state.totalMonthlyPayment) : state.totalMonthlyPayment : '-';
+                    $scope.displayedTotalAllMonthlyPayments0 = state.totalAllMonthlyPayments != null ? typeof state.totalAllMonthlyPayments === 'number' ?
+                        formatNumber(state.totalAllMonthlyPayments) : state.totalAllMonthlyPayments : '-';
+                    $scope.displayedResidualBalance0 = state.residualBalance != null ? typeof state.residualBalance === 'number' ?
+                        formatNumber(state.residualBalance) : state.residualBalance : '-';
+                    $scope.displayedTotalObligation0 = state.totalObligation != null ? typeof state.totalObligation === 'number' ?
+                        formatNumber(state.totalObligation) : state.totalObligation : '-';
+                    $scope.displayedTotalBorrowingCost0 = state.totalBorrowingCost != null ? typeof state.totalBorrowingCost === 'number' ?
+                        formatNumber(state.totalBorrowingCost) : state.totalBorrowingCost : '-';
+                };
+                $scope.assignTaxRate = function() {
+                    var provinceSelection = $('#province-tax-rate');
+                    taxRate = provinceSelection.val();
+                    var provinceTaxRate = provinceTaxRates[provinceSelection.children("option:selected").text()];
+                    if (typeof provinceTaxRate !== 'undefined') {
+                        $("#tax-label").text(provinceTaxRate.description);
+                        $scope.calculateLoanValues();
+                    }
+                };
+                $scope.addCalculator = function(calcNumber) {
+                    $scope.copyStateToCompare(findLastNotNullIndex($scope.compareStates));
+                    $scope.editIndex = calcNumber;
+                };
+                $scope.removeCalculator = function(calcNumber) {
+                    clearCalculator(calcNumber);
+                    $scope.resetDisplayedValues(calcNumber);
+                    $scope.compareStates[calcNumber] = null;
+                    if (countNotNullElements($scope.compareStates) === 1) {
+                        var indexOfLastLeft = findLastNotNullIndex($scope.compareStates);
+                        clearCalculator(indexOfLastLeft);
+                        $scope.resetDisplayedValues(indexOfLastLeft);
+                        var state = $scope.compareStates[indexOfLastLeft];
+                        $scope.compareStates[0] = state;
+                        $scope.retrieveCompareState(0);
+                        $scope.compareStates = [];
+                        $('.initial-standalone-calculator').removeClass('compare-mode');
+                        return true;
+                    }
+                    return false;
+                };
+                $scope.removeCalculatorAndSwitch = function() {
+                    var activeCalcNumber = $scope.activeTabIndex;
+                    if (!$scope.removeCalculator(activeCalcNumber)) {
+                        var indexOfLastLeft = findLastNotNullIndex($scope.compareStates);
+                        $scope.retrieveCompareState(indexOfLastLeft);
+                        $scope.switchTab(indexOfLastLeft);
+                    }
+                };
+                $scope.switchTab = function(index) {
+                    switchTab(index);
+                    $scope.activeTabIndex = index;
+                };
+                $(document)
+                    .ready(function() {
+                        if ($(window).width() < 1023) {
+                            $scope.isMobileMode = true;
+                        }
+                        makeStickCalendar();
+                        $(window)
+                            .on('resize',
+                                function() {
+                                    displayCompareCalcs();
+                                    if ($(window).width() < 1023) {
+                                        if ($('.initial-standalone-calculator').hasClass('compare-mode')) {
+                                            $('.calculators-hold').addClass('sticker');
+                                        }
+                                        if (!$scope.isMobileMode && $scope.compareStates.length) {
+                                            $scope.retrieveCompareState($scope.activeTabIndex);
+                                            $scope.$apply();
+                                        }
+                                        $scope.isMobileMode = true;
+                                    } else {
+                                        if ($('.initial-standalone-calculator').hasClass('compare-mode') && $('.calc-title.compare-mode').is(":visible")) {
+                                            $('.calculators-hold').removeClass('sticker');
+                                        } else{
+                                            $('.calculators-hold').addClass('sticker');
+                                        }
+                                        if ($scope.isMobileMode && $scope.compareStates.length) {
+                                            $scope.trySaveActiveChanges();
+                                            for (var i = 0; i < $scope.compareStates.length; i++) {
+                                                var state = $scope.compareStates[i];
+                                                if (state === null) {
+                                                    $scope.resetDisplayedValues(i);
+                                                    continue;
+                                                }
+                                                $scope.updateDisplayedValues(state, i);
+                                            }
+                                            $scope.$apply();
+                                        }
+                                        $scope.isMobileMode = false;
+                                    }
+                                });
+                    });
+                for (var i = 0; i <= 3; i++) {
+                    $scope.resetDisplayedValues(i);
+                }
+            });
+        $(document)
+            .ready(function() {
+            toggleClearInputIcon();
+            displayCompareCalcs();
+            $('#province-tax-rate').change();
+
+            $('.calc-field-edit a').hide();
+            $('.switch-calculators li .nav-tab-link').hide();
+        });
+
+        function resetFormValidator(formId) {
+            var form = $(formId);
+            form.removeData('validator');
+            form.removeData('unobtrusiveValidation');
+            $.validator.unobtrusive.parse(formId);
+            form.find('.customer-rate').rules("add", "required");
+            form.find('.amortization-term').rules("add", "required");
+            form.find('.loan-term').rules("add", "required");
+            form.find('.equipment-cost')
+                .each(function() {
+                    $(this).rules("add", "required");
+                });
+        }
+
+        function switchTab(index) {
+            var link = $('.switch-calculators li .nav-tab-link[data-calc="' + index + '"]');
+            var currLi = link.parent('li');
+            currLi.addClass('active').siblings().removeClass('active');
+        }
+
+        function findLastNotNullIndex(array) {
+            for (var i = array.length - 1; i >= 0; i--) {
+                if (array[i] != null) {
+                    return i;
+                }
+            }
+        }
+
+        function countNotNullElements(array) {
+            var count = 0;
+            for (var i = 0; i < array.length; i++) {
+                if (array[i] != null) {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        function displayCompareCalcs() {
+            if ($(window).width() < 1023) {
+                var activeCalcNumber = 0;
+                //$('.switch-calculators li a[data-calc="0"]').parents('li').addClass('active').siblings().removeClass('active');
+                $('div[class*="calc-field-type"]').not(".calc-field-type" + activeCalcNumber).hide();
+            } else {
+                $('div[class*="calc-field-type"]').show();
+            }
+        }
+
+        function makeStickCalendar() {
+            if ($('.calculators-hold.sticker').length && viewport().width >= 768) {
+                $('.calculators-hold.sticker')
+                    .each(function() {
+                        if ($('body').hasClass('ios-device')) {
+                            stickySection($(this), 'tablet-ios');
+                        } else {
+                            stickySection($(this), 'all');
+                        }
+                    });
+            }
+        }
+
+        function switchCalcs(calcNumber) {
+            $('div[class*="calc-field-type"]').hide();
+            $('.calc-field-type' + calcNumber).show();
+        }
+
+        function checkEmptyCalc() {
+            if ($('.switch-calculators li.active .empty-calc-link').hasClass('visible-btn')) {
+                $('#clearCalcBtn').hide();
+            } else {
+                $('#clearCalcBtn').show();
+            }
+        }
+
+        function clearCalculator(calculatorNumber) {
+
+            $('.calc-field-type' + calculatorNumber)
+                .not('.calc-title')
+                .not('.calc-field-edit');
+
+            $('.calc-field-type' + calculatorNumber + '.calc-field-edit a').hide();
+
+            $('.calc-field-type' + calculatorNumber + '.calc-title').find('.calc-title-inner').hide();
+
+            $('.calc-field-type' + calculatorNumber + '.calc-title').find('.add-calculator-btn').show();
+
+            $('.switch-calculators li .nav-tab-link[data-calc="' + calculatorNumber + '"]')
+                .hide()
+                .removeClass('block-btn')
+                .parents('li')
+                .find('.empty-calc-link')
+                .show()
+                .addClass('block-btn');
+
+            //checkEmptyCalc();
+        }
+
+        function addCalculator(calculatorNumber) {
+            $('.calc-field-type' + calculatorNumber + '.calc-title').find('.calc-title-inner').show();
+            $('.calc-field-type' + calculatorNumber + '.calc-field-edit').find('.dealnet-section-edit-link').show();
+
+            $('.calc-field-type' + calculatorNumber + '.calc-field-edit a').show();
+
+            $('.calc-field-type' + calculatorNumber + '.calc-title').find('.calc-title-inner').show();
+            $('.calc-field-type' + calculatorNumber + '.calc-title').find('.add-calculator-btn').hide();
+
+            $('.switch-calculators li .nav-tab-link[data-calc="' + calculatorNumber + '"]')
+                .show()
+                .addClass('block-btn')
+                .parents('li')
+                .find('.empty-calc-link')
+                .removeClass('block-btn')
+                .hide();
+        }
+    </script>
+}

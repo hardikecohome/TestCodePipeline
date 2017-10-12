@@ -30,8 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=6.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.6.1.0\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="CipherCore, Version=2017.3.6285.32338, Culture=neutral, PublicKeyToken=e0287981ec67bb47, processorArchitecture=MSIL">
+      <HintPath>..\packages\CipherCore.2017.3.1.2\lib\net45\CipherCore.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -64,9 +68,21 @@
     <Compile Include="CustomerLink.cs" />
     <Compile Include="DealerLanguage.cs" />
     <Compile Include="DealerService.cs" />
+    <Compile Include="Dealer\Address.cs" />
+    <Compile Include="Dealer\CompanyInfo.cs" />
+    <Compile Include="Dealer\CompanyProvince.cs" />
+    <Compile Include="Dealer\DealerInfo.cs" />
+    <Compile Include="Dealer\ManufacturerBrand.cs" />
+    <Compile Include="Dealer\OwnerInfo.cs" />
+    <Compile Include="Dealer\ProductInfo.cs" />
+    <Compile Include="Dealer\ProductService.cs" />
+    <Compile Include="Dealer\AdditionalDocument.cs" />
+    <Compile Include="Dealer\RequiredDocument.cs" />
     <Compile Include="DocumentType.cs" />
     <Compile Include="Email.cs" />
     <Compile Include="EquipmentInfo.cs" />
+    <Compile Include="LicenseDocument.cs" />
+    <Compile Include="LicenseType.cs" />
     <Compile Include="EquipmentType.cs" />
     <Compile Include="ExistingEquipment.cs" />
     <Compile Include="Language.cs" />
@@ -79,9 +95,12 @@
     <Compile Include="Phone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProvinceTaxRate.cs" />
+    <Compile Include="RateCard.cs" />
     <Compile Include="SettingItem.cs" />
     <Compile Include="SettingValue.cs" />
+    <Compile Include="Tier.cs" />
     <Compile Include="UserSettings.cs" />
+    <Compile Include="VerifiactionId.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DealnetPortal.Api.Common\DealnetPortal.Api.Common.csproj">

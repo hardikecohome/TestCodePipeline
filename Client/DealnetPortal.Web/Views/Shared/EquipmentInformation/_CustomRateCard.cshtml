@@ -1,0 +1,126 @@
+﻿@using DealnetPortal.Web.Models.Enumeration
+<li>
+    <div class="rate-card table-mode shown-card" id="custom-rate-card">
+        <div class="rate-card-header equal-height-row-1">
+            <h4 class="card-title">Rates Approved:<br> Pre Oct 3, 2017</h4>
+        </div>
+        <hr>
+        <div class="row row-mode">
+            <div class="col-md-6 col-cards-md-12 equal-height-row-2 row-mode">
+                <div class="clearfix row-mode">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label for="">@Resources.LoanTerm</label>
+                                <div class="control-group">
+                                    <input type="text" class="form-control form-control-not-clear" name="CustomLoanTerm" id="CustomLoanTerm">
+                                    <span class="field-validation-error text-danger" data-valmsg-for="CustomLoanTerm" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+
+                                <label for="">@Resources.AmortTerm</label>
+                                <div class="control-group">
+                                    <input type="text" class="form-control form-control-not-clear" name="CustomAmortTerm" id="CustomAmortTerm">
+                                    <span class="field-validation-error text-danger" data-valmsg-for="CustomAmortTerm" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-error" id="amortLoanTermError" style="display: none;">
+                        <div class="col-xs-12">
+                            <div class="error-message text-danger text-center">@Resources.AmortNotShorterThanLoan</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-cards-md-12 equal-height-row-3 col-sm-6">
+                <div class="clearfix">
+                    <div class="form-group">
+                        <label for="">@Resources.DeferralPeriod</label>
+                        <div class="control-group">
+                            @Html.DropDownList("CustomDeferralDropdown",
+                            EnumHelper.GetSelectList(typeof(LoanDeferralType)) ,
+                            new { @class = "form-control", @id= "CustomDeferralPeriod" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-cards-md-12 equal-height-row-4 row-mode">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <div class="equal-height-label-1">
+                                <label for="">@Resources.CustomerRate</label>
+                            </div>
+                            <div class="control-group has-addon-right">
+                                <input type="text" class="form-control rate-group form-control-not-clear" name="CustomCRate" id="CustomCRate"/>
+                                <div class="control-group-addon">%</div>
+                                <span class="field-validation-error text-danger" data-valmsg-for="CustomCRate" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <div class="equal-height-label-1">
+                                <label for="">@Resources.YourCost</label>
+                            </div>
+                            <div class="control-group has-addon-right">
+                                <input type="text" class="form-control rate-group form-control-not-clear" name="CustomYCostVal" id="CustomYCostVal"/>
+                                <div class="control-group-addon">%</div>
+                                <span class="field-validation-error text-danger" data-valmsg-for="CustomYCostVal" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-6 col-cards-md-12">
+                <div class="row form-group align-middle hidden">
+                    <div class="col-xs-6">@Resources.AdminFee</div>
+                    <div class="col-xs-6 control-cell">
+                        <div class="control-group has-addon-left">
+                            <div class="control-group-addon">$</div>
+                            <input type="text" class="form-control dealnet-input form-control-not-clear" name="CustomAFee" id="CustomAFee" value="@ViewBag.AdminFee" readonly>
+                            <span class="field-validation-error text-danger" data-valmsg-for="CustomAFee" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6 text-stronger">@Resources.MonthlyPayment</div>
+                    <div class="col-xs-6 text-right text-stronger" id="CustomMPayment">-</div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6">@Resources.CostOfBorrowing</div>
+                    <div class="col-xs-6 text-right text-stronger" id="CustomCBorrowing">-</div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6">@Resources.YourCost</div>
+                    <div class="col-xs-6 text-right text-stronger" id="CustomYCost">-</div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6 text-stronger">@Resources.TotalAmountFinanced</div>
+                    <div class="col-xs-6 text-right text-stronger" id="CustomTAFinanced">-</div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6">@Resources.TotalAllMonthlyPayments</div>
+                    <div class="col-xs-6 text-right text-stronger" id="CustomTMPayments">-</div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6">@Resources.BalanceOwingEndOfPayments</div>
+                    <div class="col-xs-6 text-right text-stronger" id="CustomRBalance">-</div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6">@Resources.TotalObligation</div>
+                    <div class="col-xs-6 text-right text-stronger" id="CustomTObligation">-</div>
+                </div>
+            </div>
+        </div>
+        <div id="hidden-option" class="hidden">Custom</div>
+        <button type="button" class="btn dealnet-button dealnet-success-button btn-select-card">@Resources.Select</button>
+    </div>
+</li>

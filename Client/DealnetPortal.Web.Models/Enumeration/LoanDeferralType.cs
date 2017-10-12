@@ -7,12 +7,12 @@ namespace DealnetPortal.Web.Models.Enumeration
         [Display(ResourceType = typeof (Resources.Resources), Name = "NoDeferral")]
         NoDeferral = 0,
         [Display(ResourceType = typeof (Resources.Resources), Name = "ThreeMonth")]
-        ThreeMonth = 2,
+        ThreeMonth = 3,
         [Display(ResourceType = typeof (Resources.Resources), Name = "SixMonth")]
-        SixMonth = 3,
+        SixMonth = 6,
         [Display(ResourceType = typeof (Resources.Resources), Name = "NineMonth")]
-        NineMonth = 4,
+        NineMonth = 9,
         [Display(ResourceType = typeof (Resources.Resources), Name = "TwelveMonth")]
-        TwelveMonth =5
+        TwelveMonth =12
     }
 }

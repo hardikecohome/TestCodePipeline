@@ -1,0 +1,71 @@
+﻿@using System.Globalization
+@using DealnetPortal.Api.Common.Enumeration
+@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+@{
+  if (Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
+  {
+    Model.ExistingEquipment = null;
+  }
+}
+<hr/>
+<div class="row"></div>
+<div class="form-section">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        @Html.LabelFor(m => m.SalesRep)
+        <div class="control-group">
+          @Html.TextBoxFor(m => m.SalesRep, new {@class = "form-control dealnet-input", placeholder = Resources.SalesRep})
+          @Html.ValidationMessageFor(m => m.SalesRep, "", new {@class = "text-danger"})
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        @Html.LabelFor(m => m.EstimatedInstallationDate)
+        <div class="control-group date-group">
+          @Html.TextBoxFor(m => m.EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input date-input", id = "estimated-installation-date", placeholder = Resources.InstallationDate, data_val_date = ""})
+          @Html.ValidationMessageFor(m => m.EstimatedInstallationDate, "", new {@class = "text-danger"})
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="form-group">
+        @Html.LabelFor(m => m.HouseSize)
+        <div class="control-group">
+          @Html.TextBoxFor(m => m.HouseSize, new {@class = "form-control dealnet-input", placeholder = Resources.HouseSize})
+          @Html.ValidationMessageFor(m => m.HouseSize, "", new {@class = "text-danger"})
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="equipment-editable-section">
+    <div id="existing-equipments">
+      <h3 class="dealnet-middle-header">@Resources.ExistingEquipmentInformation</h3>
+      @if (Model?.ExistingEquipment != null)
+      {
+        @Html.Partial("EquipmentInformation/_ExistingEquipments", Model)
+      }
+    </div>
+
+    <div class="align-middle dealnet-info-link" id="addExistingEqipment">
+      <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
+      <span>@Resources.AddAdditionalEquipment</span>
+    </div>
+  </div>
+
+  <div class="row">
+  </div>
+  <h3 class="dealnet-middle-header">@Resources.ContractNotes</h3>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="control-group">
+          @Html.TextAreaFor(m => m.Notes, new {@class = "form-control", placeholder = Resources.Notes})
+          @Html.ValidationMessageFor(m => m.Notes, "", new {@class = "text-danger"})
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

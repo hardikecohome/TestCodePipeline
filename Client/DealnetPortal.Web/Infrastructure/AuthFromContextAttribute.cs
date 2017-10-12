@@ -16,7 +16,7 @@ namespace DealnetPortal.Web.Infrastructure
         private readonly ISecurityManager _securityManager = DependencyResolver.Current.GetService<ISecurityManager>();
         public void OnAuthentication(AuthenticationContext filterContext)
         {
-            _securityManager.SetUserFromContext();
+            //_securityManager.SetUserFromContext();
         }
 
         public void OnAuthenticationChallenge(AuthenticationChallengeContext filterContext)

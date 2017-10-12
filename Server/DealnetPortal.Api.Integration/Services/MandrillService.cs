@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Models.Notification;
 using DealnetPortal.Domain;
 using DealnetPortal.Api.Models.Contract;
@@ -14,7 +15,6 @@ namespace DealnetPortal.Api.Integration.Services
 {
     public class MandrillService : IMandrillService
     {
-        //public IMandrillApi _manager;
         public static string _endPoint { get; set; }
         public static string _apiKey { get; set; }
 
@@ -52,9 +52,6 @@ namespace DealnetPortal.Api.Integration.Services
             myVariables.Add(new Variable() { name = "FNAME", content = contract.PrimaryCustomer.FirstName });
             myVariables.Add(new Variable() { name = "LNAME", content = contract.PrimaryCustomer.LastName });
             myVariables.Add(new Variable() { name = "EQUIPINFO", content = services });
-            //myVariables.Add(new Variable() { name = "DADDRESS", content = addres});
-            //myVariables.Add(new Variable() { name = "DPHONE", content = dealer.Phones.First().PhoneNum != null? dealer.Phones.First().PhoneNum: "" });
-            //myVariables.Add(new Variable() { name = "DMAIL", content = dealer.Emails.FirstOrDefault().EmailAddress != null? dealer.Emails.FirstOrDefault().EmailAddress :"" });
             request.key = _apiKey;
             request.template_name = ConfigurationManager.AppSettings["DealerLeadAcceptedTemplate"];
             request.template_content = new List<templatecontent>() {
@@ -202,35 +199,108 @@ namespace DealnetPortal.Api.Integration.Services
 
         }
 
-        //    public async Task SendEmail(string myemail)
-        //{
-        //    List<EmailAddress> to = new List<EmailAddress>();
-        //    List<RcptMergeVar> mergevariables = new List<RcptMergeVar>();
-        //    List<MergeVar> myvar = new List<MergeVar>();
-        //    myvar.Add(new MergeVar() { Name="FNAME", Content = "Hardik" });
-        //    myvar.Add(new MergeVar() { Name = "LNAME", Content = "Sharma" });
-        //    List<TemplateContent> variables = new List<TemplateContent>();
+        public async Task SendProblemsWithSubmittingOnboarding(string errorMsg, int dealerInfoId, string accessKey)
+        {
+            var draftLink = ConfigurationManager.AppSettings[WebConfigKeys.DEALER_PORTAL_DRAFTURL_KEY] + accessKey;
+            MandrillRequest request = new MandrillRequest();
+            List<Variable> myVariables = new List<Variable>();
+            myVariables.Add(new Variable() { name = "DealerInfoID", content = dealerInfoId.ToString() });
+            myVariables.Add(new Variable() { name = "DealerUniqueLink", content = draftLink });
+            myVariables.Add(new Variable() { name = "DealerErrorLog", content = errorMsg });
+            request.key = _apiKey;
+            request.template_name = ConfigurationManager.AppSettings["AspireServiceErrorTemplate"];
+            request.template_content = new List<templatecontent>() {
+                    new templatecontent(){
+                        name= $"Exception while submitting onboarding application to Aspire (DealerInfoID = {dealerInfoId})",
+                        content = $"Exception while submitting onboarding application to Aspire (DealerInfoID = {dealerInfoId})"
+                    }
+                };
 
-        //    mergevariables.Add(new RcptMergeVar() {
-        //        Rcpt = myemail,
-        //        Vars = myvar
 
-        //    });
-        //    to.Add(new EmailAddress() { Email = myemail });
-        //    EmailMessage message = new EmailMessage();
-        //    message.To = to;
+            request.message = new MandrillMessage()
+            {
+                from_email = ConfigurationManager.AppSettings["FromEmail"],
+                from_name = "EcoHome Financial",
+                html = null,
+                merge_vars = new List<MergeVariable>() {
+                        new MergeVariable(){
+                            rcpt = ConfigurationManager.AppSettings["DealNetErrorLogsEmail"],
+                            vars = myVariables
 
-        //    await _manager.SendMessageTemplate(new SendMessageTemplateRequest(new EmailMessage()
-        //    {
-        //        To = to,
-        //        Subject = "Send Email From Mandrill",
-        //        FromEmail = ConfigurationManager.AppSettings["FromEamil"],
-        //        FromName = ConfigurationManager.AppSettings["FromName"],
-        //        Merge = true,
-        //        MergeLanguage = "mailchimp"
 
-        //    }, "",));
-        //}
+                        }
+                    },
+                send_at = DateTime.Now,
+                subject = $"Exception while submitting onboarding application to Aspire (DealerInfoID = {dealerInfoId})",
+                text = $"Exception while submitting onboarding application to Aspire (DealerInfoID = {dealerInfoId})",
+                to = new List<MandrillTo>() {
+                        new MandrillTo(){
+                            email = ConfigurationManager.AppSettings["DealNetErrorLogsEmail"],
+                            name = " ",
+                            type = "to"
+                        }
+                    }
+            };
+            try
+            {
+                var result = await SendEmail(request);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
+        }
+
+        public async Task SendDraftLinkMail(string accessKey, string email)
+        {
+            var draftLink = ConfigurationManager.AppSettings["DealerPortalDraftUrl"] + accessKey;
+            MandrillRequest request = new MandrillRequest();
+            List<Variable> myVariables = new List<Variable>();
+            myVariables.Add(new Variable() { name = "DealerUniqueLink", content = draftLink });
+            request.key = _apiKey;
+            request.template_name = ConfigurationManager.AppSettings["DraftLinkTemplate"];
+            request.template_content = new List<templatecontent>() {
+                    new templatecontent(){
+                        name="Your EcoHome Financial dealer application link",
+                        content = "Your EcoHome Financial dealer application link"
+                    }
+                };
+
+
+            request.message = new MandrillMessage()
+            {
+                from_email = ConfigurationManager.AppSettings["FromEmail"],
+                from_name = "EcoHome Financial",
+                html = null,
+                merge_vars = new List<MergeVariable>() {
+                        new MergeVariable(){
+                            rcpt = email,
+                            vars = myVariables
+
+
+                        }
+                    },
+                send_at = DateTime.Now,
+                subject = "Your EcoHome Financial dealer application link",
+                text = "Your EcoHome Financial dealer application link",
+                to = new List<MandrillTo>() {
+                        new MandrillTo(){
+                            email = email,
+                            name = " ",
+                            type = "to"
+                        }
+                    }
+            };
+            try
+            {
+                var result = await SendEmail(request);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }

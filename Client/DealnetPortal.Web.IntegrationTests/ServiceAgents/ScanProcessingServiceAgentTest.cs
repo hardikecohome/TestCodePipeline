@@ -6,6 +6,7 @@ using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Web.ServiceAgent;
+using Microsoft.Owin.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -15,6 +16,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
     public class ScanProcessingServiceAgentTest
     {
         private Mock<ILoggingService> _loggingService;
+        private Mock<IAuthenticationManager> _authenticationManagerMock;
         private IHttpApiClient _client;
         private const string DefUserName = "user@user.com";
         private const string DefUserPassword = "123_Qwe";
@@ -24,6 +26,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
         public void Intialize()
         {
             _loggingService = new Mock<ILoggingService>();
+            _authenticationManagerMock = new Mock<IAuthenticationManager>();
             string baseUrl = System.Configuration.ConfigurationManager.AppSettings["ApiUrl"];
             _client = new HttpApiClient(baseUrl);
         }
@@ -37,8 +40,8 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 
 
-            IScanProcessingServiceAgent serviceAgent = new ScanProcessingServiceAgent(_client);
-            IUserManagementServiceAgent userManagementServiceAgent = new UserManagementServiceAgent(_client);
+            IScanProcessingServiceAgent serviceAgent = new ScanProcessingServiceAgent(_client, _authenticationManagerMock.Object);
+            IUserManagementServiceAgent userManagementServiceAgent = new UserManagementServiceAgent(_client, _authenticationManagerMock.Object);
 
             var imgRaw = File.ReadAllBytes("Img//Barcode-Driver_License.CA.jpg");
             ScanningRequest scanningRequest = new ScanningRequest()
@@ -64,8 +67,8 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
             var authResult = securityServiceAgent.Authenicate(DefUserName, DefUserPassword, DefPortalId).GetAwaiter().GetResult();
             securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
 
-            IScanProcessingServiceAgent serviceAgent = new ScanProcessingServiceAgent(_client);
-            IUserManagementServiceAgent userManagementServiceAgent = new UserManagementServiceAgent(_client);
+            IScanProcessingServiceAgent serviceAgent = new ScanProcessingServiceAgent(_client, _authenticationManagerMock.Object);
+            IUserManagementServiceAgent userManagementServiceAgent = new UserManagementServiceAgent(_client, _authenticationManagerMock.Object);
 
             var imgRaw = File.ReadAllBytes("Img//micr-b.jpg");
             ScanningRequest scanningRequest = new ScanningRequest()

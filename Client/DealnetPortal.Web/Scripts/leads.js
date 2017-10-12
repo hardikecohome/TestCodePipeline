@@ -1,14 +1,19 @@
 ﻿$(document).ready(function () {
     showTable();
-    assignDatepicker($(".date-control"));
-    $('.select-filter option').each(function () {
-        $(this).val($(this).text());
+    var options = {
+        yearRange: '1900:' + new Date().getFullYear(),
+        minDate: new Date("1900-01-01"),
+        maxDate: new Date()
+    };
+    $('.date-input').each(function (index, input) {
+        assignDatepicker(input, options);
     });
+
     $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
     $('.select-filter').val($('.select-filter > option:first').val());
 });
 
-function showTable() {
+function showTable () {
     var table;
     $.when($.ajax(itemsUrl, { cache: false, mode: 'GET' }))
         .done(function (data) {
@@ -55,30 +60,30 @@ function showTable() {
                         },
                         "sLengthMenu": translations['Show'] + " _MENU_ " + translations['Entries'],
                         "sZeroRecords": translations['NoMatchingRecordsFound'],
-                        "sEmptyTable": isCompletedProfile  ? translations['NoMatchingRecordsFound'] : translations['LeadsNoMatchingRecordsFound']
+                        "sEmptyTable": isCompletedProfile ? translations['NoMatchingRecordsFound'] : translations['LeadsNoMatchingRecordsFound']
                     },
                     columns: [
-					    { "data": "Date", className: 'date-cell expanded-cell' },
-					    { "data": "PostalCode", className: 'code-cell' },
-					    { "data": "PreApprovalAmount", className: 'preapproved-cell' },
-					    { "data": "Equipment", className: 'equipment-cell' },
-					    { "data": "CustomerComment", className: 'customer-cell' },
-					    {// this is Actions Column
-					        "render": function (sdata, type, row) {
-					            return '<div class="contract-controls text-center"><a class="link-accepted" data-container="body" data-toggle="popover" data-trigger="hover" data-content="' + translations['PreApprovedLoanValueFeeWillBeApplied'] + '" id = "lead' + row.Id + '"  onclick="addLead(' + row.Id + ', ' + row.TransactionId + ')"><svg aria-hidden="true" class="icon icon-accept-lead"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-accept-lead"></use></svg></a></div>';
-					        },
-					        className: 'controls-cell accept-cell',
-					        orderable: false
-					    },
+                        { "data": "Date", className: 'date-cell expanded-cell' },
+                        { "data": "PostalCode", className: 'code-cell' },
+                        { "data": "PreApprovalAmount", className: 'preapproved-cell' },
+                        { "data": "Equipment", className: 'equipment-cell' },
+                        { "data": "CustomerComment", className: 'customer-cell' },
+                        {// this is Actions Column
+                            "render": function (sdata, type, row) {
+                                return '<div class="contract-controls text-center"><a class="link-accepted" data-container="body" data-toggle="popover" data-trigger="hover" data-content="' + translations['PreApprovedLoanValueFeeWillBeApplied'] + '" id = "lead' + row.Id + '"  onclick="addLead(' + row.Id + ', ' + row.TransactionId + ')"><svg aria-hidden="true" class="icon icon-accept-lead"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-accept-lead"></use></svg></a></div>';
+                            },
+                            className: 'controls-cell accept-cell',
+                            orderable: false
+                        },
                     ],
                     dom:
-				        "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
-				        "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
-				        "<'row'<'col-md-12 col-sm-6'l>>" +
-				        "<'row'<'col-md-12''<'#section-before-table'>'>>" +
-				        "<'row'<'col-md-12'tr>>" +
-				        "<'row'<'col-md-12'p>>" +
-				        "<'row'<'col-md-12'i>>",
+                    "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
+                    "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
+                    "<'row'<'col-md-12 col-sm-6'l>>" +
+                    "<'row'<'col-md-12''<'#section-before-table'>'>>" +
+                    "<'row'<'col-md-12'tr>>" +
+                    "<'row'<'col-md-12'p>>" +
+                    "<'row'<'col-md-12'i>>",
                     renderer: 'bootstrap',
                     order: []
                 });
@@ -96,7 +101,7 @@ function showTable() {
             });
             $('#expand-table-filter').html($('.expand-filter-template').detach());
             $('.filter-button').click(function () {
-                table.draw(false);
+                table.draw();
             });
             table.on('draw.dt', function () {
                 redrawDataTablesSvgIcons();
@@ -106,16 +111,17 @@ function showTable() {
             $('#clear-filters').on('click', clearFilters);
             $('#clear-filters-mobile').on('click', clearFilters);
 
-          $('.dataTables_filter input[type="search"]').attr('placeholder','Requested service, customer comment');
-          if($('body').not('.tablet-device').not('.mobile-device').length > 0){
-            $('.link-accepted').popover({
-              placement : 'left',
-              template: '<div class="popover customer-popover accepted-leads-popover" role="tooltip"><div class="popover-inner"><div class="popover-container"><span class="popover-icon"><svg aria-hidden="true" class="icon icon-tooltip-info"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-tooltip-info"></use></svg></span><div class="popover-content text-center"></div></div></div></div>',
-            });
-          }
+            $('.dataTables_filter input[type="search"]').attr('placeholder', 'Requested service, customer comment');
+            if ($('body').not('.tablet-device').not('.mobile-device').length > 0) {
+                $('.link-accepted').popover({
+                    placement: 'left',
+                    template: '<div class="popover customer-popover accepted-leads-popover" role="tooltip"><div class="popover-inner"><div class="popover-container"><span class="popover-icon"><svg aria-hidden="true" class="icon icon-tooltip-info"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-tooltip-info"></use></svg></span><div class="popover-content text-center"></div></div></div></div>',
+                });
+            }
+
         });
 
-    function clearFilters() {
+    function clearFilters () {
         $('.filter-input').val("");
         table.search('').draw(false);
     }
@@ -139,22 +145,7 @@ $.fn.dataTable.ext.search.push(
     }
 );
 
-function assignDatepicker(input) {
-    inputDateFocus(input);
-    input.datepicker({
-        dateFormat: 'mm/dd/yy',
-        changeYear: true,
-        changeMonth: (viewport().width < 768) ? true : false,
-        yearRange: '1900:' + new Date().getFullYear(),
-        minDate: Date.parse("1900-01-01"),
-        maxDate: new Date(),
-        onClose: function () {
-            onDateSelect($(this));
-        }
-    });
-}
-
-function removeLead(id) {
+function removeLead (id) {
     var table = $('#work-items-table').DataTable();
     var rowLead = $("#lead" + id).closest('tr');
     table.row(rowLead)
@@ -162,22 +153,22 @@ function removeLead(id) {
         .draw(false);
 };
 
-function addLead(id, transactionId) {
-  $('.link-accepted').popover('hide');
+function addLead (id, transactionId) {
+    $('.link-accepted').popover('hide');
     var data = {
-        message: "<div class=\"modal-leads-content\"><div>"+translations['AreYouSure']+"</div><div>"+translations['AcceptanceOfLeadFeeAppliedToYourAccount']+"</div></div>",
+        message: "<div class=\"modal-leads-content\"><div>" + translations['AreYouSure'] + "</div><div>" + translations['AcceptanceOfLeadFeeAppliedToYourAccount'] + "</div></div>",
         title: translations['AcceptLead'],
         confirmBtnText: translations['AcceptLead'],
         class: "modal-leads"
     };
     dynamicAlertModal(data);
-    
+
     $('#confirmAlert').on('click', function () {
         showLoader();
         $.post({
             type: "POST",
             url: 'leads/acceptLead?id=' + id,
-            success: function(json) {
+            success: function (json) {
                 if (json.isError) {
                     hideLoader();
                     $('.success-message').hide();

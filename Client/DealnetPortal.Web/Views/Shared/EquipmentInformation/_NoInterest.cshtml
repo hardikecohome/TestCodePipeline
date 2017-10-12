@@ -1,0 +1,78 @@
+﻿@using DealnetPortal.Api.Common.Enumeration
+@model RateCardType
+
+@{
+    var amortizationSelectList = ((Dictionary<RateCardType, SelectList>)ViewBag.AmortizationTerm).Where(x => x.Key == Model).SelectMany(x => x.Value);
+}
+<li>
+  <div class="rate-card table-mode">
+    <div class="equal-height-row-1">
+      <div class="rate-card-header">
+        <span class="promo-label hidden" id="NoInterestPromo">@Resources.Promo</span>
+        <h4 class="card-title">@Resources.EqualPayments</h4>
+      </div>
+    </div>
+    <hr>
+    <div class="equal-height-row-2">
+      <div class="form-group">
+        <label for="">@Resources.LoanAmortTerm</label>
+        @Html.DropDownList(Model + "Amortization", amortizationSelectList, new { @class = "form-control", id = Model + "AmortizationDropdown" })
+      </div>
+    </div>
+    <div class="equal-height-row-3">
+      <div class="clearfix form-group"></div>
+    </div>
+    <div class="equal-height-row-4">
+      <div class="clearfix">
+        <div class="row form-group">
+          &nbsp;
+          <div class="col-xs-6 hidden">@Resources.YourCost</div>
+          <div class="col-xs-6 text-right text-stronger hidden" id="NoInterestYCostVal"></div>
+        </div>
+        <div class="row form-group">
+          <div class="col-xs-6">@Resources.CustomerRate</div>
+          <div class="col-xs-6 text-right text-stronger" id="NoInterestCRate"></div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="">
+      <div class="row form-group align-middle hidden">
+        <div class="col-xs-6">@Resources.AdminFee</div>
+        <div class="col-xs-6 text-right text-stronger" id="NoInterestAFee"></div>
+      </div>
+      <div class="row form-group">
+        <div class="col-xs-6 text-stronger">@Resources.MonthlyPayment</div>
+        <div class="col-xs-6 text-right text-stronger" id="NoInterestMPayment">-</div>
+      </div>
+      <div class="row form-group">
+        <div class="col-xs-6">@Resources.CostOfBorrowing</div>
+        <div class="col-xs-6 text-right text-stronger" id="NoInterestCBorrowing">-</div>
+      </div>
+      <div class="row form-group">
+        <div class="col-xs-6">@Resources.YourCost</div>
+        <div class="col-xs-6 text-right text-stronger" id="NoInterestYCost">-</div>
+      </div>
+      <div class="row form-group">
+        <div class="col-xs-6 text-stronger">@Resources.TotalAmountFinanced</div>
+        <div class="col-xs-6 text-right text-stronger" id="NoInterestTAFinanced">-</div>
+      </div>
+      <div class="row form-group">
+        <div class="col-xs-6">@Resources.TotalAllMonthlyPayments</div>
+        <div class="col-xs-6 text-right text-stronger" id="NoInterestTMPayments">-</div>
+      </div>
+      <div class="row form-group">
+        <div class="col-xs-6">@Resources.BalanceOwingEndOfPayments</div>
+        <div class="col-xs-6 text-right text-stronger" id="NoInterestRBalance">-</div>
+      </div>
+      <div class="row form-group">
+        <div class="col-xs-6">@Resources.TotalObligation</div>
+        <div class="col-xs-6 text-right text-stronger" id="NoInterestTObligation">-</div>
+      </div>
+    </div>
+    <div id="hidden-option" class="hidden">NoInterest</div>
+    <button class="btn dealnet-button dealnet-success-button btn-select-card">
+      @Resources.Select
+    </button>
+  </div>
+</li>

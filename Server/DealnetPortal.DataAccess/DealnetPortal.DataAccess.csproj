@@ -30,8 +30,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=6.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.6.1.0\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="CipherCore, Version=2017.3.6285.32338, Culture=neutral, PublicKeyToken=e0287981ec67bb47, processorArchitecture=MSIL">
+      <HintPath>..\packages\CipherCore.2017.3.1.2\lib\net45\CipherCore.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CipherDB.EF6, Version=2017.3.6285.32343, Culture=neutral, PublicKeyToken=e0287981ec67bb47, processorArchitecture=MSIL">
+      <HintPath>..\packages\CipherDB.EF6.2017.3.1.2\lib\net45\CipherDB.EF6.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
@@ -65,8 +70,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Http.WebHost">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
@@ -91,13 +96,19 @@
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\ContractRepository.cs" />
     <Compile Include="Repositories\CustomerFormRepository.cs" />
+    <Compile Include="Repositories\ILicenseDocumentRepository.cs" />
+    <Compile Include="Repositories\LicenseDocumentRepository.cs" />
+    <Compile Include="Repositories\DealerOnboardingRepository.cs" />
     <Compile Include="Repositories\FileRepository.cs" />
     <Compile Include="Repositories\IApplicationRepository.cs" />
     <Compile Include="Repositories\IContractRepository.cs" />
     <Compile Include="Repositories\ICustomerFormRepository.cs" />
+    <Compile Include="Repositories\IDealerOnboardingRepository.cs" />
     <Compile Include="Repositories\IFileRepository.cs" />
+    <Compile Include="Repositories\IRateCardsRepository.cs" />
     <Compile Include="Repositories\ISettingsRepository.cs" />
     <Compile Include="Repositories\IDealerRepository.cs" />
+    <Compile Include="Repositories\RateCardsRepository.cs" />
     <Compile Include="Repositories\SettingsRepository.cs" />
     <Compile Include="Repositories\DealerRepository.cs" />
     <Compile Include="UnitOfWork.cs" />
@@ -106,6 +117,10 @@
     <ProjectReference Include="..\DealnetPortal.Api.Common\DealnetPortal.Api.Common.csproj">
       <Project>{23FA957A-A9DE-4929-9FFD-603BAE271FBA}</Project>
       <Name>DealnetPortal.Api.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DealnetPortal.Api.Core\DealnetPortal.Api.Core.csproj">
+      <Project>{27A5C244-8CEC-4143-8F94-73D2B1FCCB07}</Project>
+      <Name>DealnetPortal.Api.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\DealnetPortal.Api.Models\DealnetPortal.Api.Models.csproj">
       <Project>{68167614-D9F6-48BC-AF28-1519BA5C67FD}</Project>

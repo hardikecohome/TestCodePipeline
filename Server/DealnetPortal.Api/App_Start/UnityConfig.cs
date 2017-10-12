@@ -1,8 +1,9 @@
-using System.Configuration;
+﻿using System.Configuration;
 using System.Web.Hosting;
 using Microsoft.Practices.Unity;
 using System.Web.Http;
 using DealnetPortal.Api.BackgroundScheduler;
+using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Controllers;
 using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Integration.ServiceAgents;
@@ -13,6 +14,7 @@ using DealnetPortal.Aspire.Integration.ServiceAgents;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.DataAccess;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Utilities.Messaging;
@@ -38,24 +40,39 @@ namespace DealnetPortal.Api
 
         public static void RegisterTypes(IUnityContainer container)
         {
-            container.RegisterType<ILoggingService, LoggingService>();
+            var configReader = new AppConfiguration(WebConfigSections.AdditionalSections);
 
             container.RegisterType<IDatabaseFactory, DatabaseFactory>(new PerResolveLifetimeManager());
             container.RegisterType<IUnitOfWork, UnitOfWork>(new PerResolveLifetimeManager());
 
+            #region Repositories
             container.RegisterType<IContractRepository, ContractRepository>();
             container.RegisterType<IFileRepository, FileRepository>();
             container.RegisterType<IApplicationRepository, ApplicationRepository>();
             container.RegisterType<ISettingsRepository, SettingsRepository>();
             container.RegisterType<ICustomerFormRepository, CustomerFormRepository>();
             container.RegisterType<IDealerRepository, DealerRepository>();
-
+            container.RegisterType<IRateCardsRepository, RateCardsRepository>();
+            container.RegisterType<IDealerOnboardingRepository, DealerOnboardingRepository>();
+            container.RegisterType<ILicenseDocumentRepository, LicenseDocumentRepository>();
+            #endregion
+            #region Services
+            container.RegisterType<ILoggingService, LoggingService>();
             container.RegisterType<IContractService, ContractService>();
             container.RegisterType<ICustomerFormService, CustomerFormService>();
+            container.RegisterType<ISignatureService, SignatureService>();
+            container.RegisterType<IMailService, MailService>();
+            container.RegisterType<IEmailService, EmailService>();
+            container.RegisterType<IRateCardsService, RateCardsService>();
+            container.RegisterType<IPersonalizedMessageService, PersonalizedMessageService>();
+            container.RegisterType<IMailСhimpService, MailChimpService>();
+            container.RegisterType<ISmsSubscriptionService, SmsSubscriptionService>();
+            container.RegisterType<IMandrillService, MandrillService>();
+            #endregion
 
-            container.RegisterType<IHttpApiClient, HttpApiClient>("AspireClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["AspireApiUrl"]));
-            container.RegisterType<IHttpApiClient, HttpApiClient>("EcoreClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["EcoreApiUrl"]));
-            container.RegisterType<IHttpApiClient, HttpApiClient>("CustomerWalletClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["CustomerWalletApiUrl"]));
+            container.RegisterType<IHttpApiClient, HttpApiClient>("AspireClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(configReader.GetSetting(WebConfigKeys.ASPIRE_APIURL_CONFIG_KEY)));
+            container.RegisterType<IHttpApiClient, HttpApiClient>("EcoreClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(configReader.GetSetting("EcoreApiUrl")));
+            container.RegisterType<IHttpApiClient, HttpApiClient>("CustomerWalletClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(configReader.GetSetting(WebConfigKeys.CW_APIURL_CONFIG_KEY)));
 
             container.RegisterType<IAspireServiceAgent, AspireServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("AspireClient")));
             container.RegisterType<IAspireService, AspireService>();
@@ -63,12 +80,12 @@ namespace DealnetPortal.Api
             container.RegisterType<ICustomerWalletServiceAgent, CustomerWalletServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("CustomerWalletClient")));
             container.RegisterType<ICustomerWalletService, CustomerWalletService>();
 
-            var queryFolderName = ConfigurationManager.AppSettings["QueriesFolder"] ?? "Queries";
+            var queryFolderName = configReader.GetSetting(WebConfigKeys.QURIES_FOLDER_CONFIG_KEY);
             var queryFolder = HostingEnvironment.MapPath($"~/{queryFolderName}") ?? queryFolderName;
 
             container.RegisterType<IQueriesStorage, QueriesFileStorage>(new InjectionConstructor(queryFolder));
             container.RegisterType<IDatabaseService, MsSqlDatabaseService>(
-                new InjectionConstructor(System.Configuration.ConfigurationManager.ConnectionStrings["AspireConnection"].ConnectionString));
+                new InjectionConstructor(ConfigurationManager.ConnectionStrings["AspireConnection"].ConnectionString));
             container.RegisterType<IAspireStorageReader, AspireStorageReader>();
             container.RegisterType<IUsersService, UsersService>();
 
@@ -81,7 +98,7 @@ namespace DealnetPortal.Api
             container.RegisterType<IEmailService, EmailService>();
             container.RegisterType<IDealerService, DealerService>();
             container.RegisterType<IBackgroundSchedulerService, BackgroundSchedulerService>();
-
+            container.RegisterType<IAppConfiguration, AppConfiguration>(new ContainerControlledLifetimeManager(), new InjectionConstructor(WebConfigSections.AdditionalSections as object));
         }
     }
 }

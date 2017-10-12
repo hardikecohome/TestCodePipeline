@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "OnBoardingError";
+}
+<div class="onboard-success-page align-middle-section">
+    <div class="navbar onboard-navbar navbar-fixed-side">
+        <div class="navbar-header customer-navbar-header">
+            <div class="dealnet-image-ecologo"></div>
+        </div>
+    </div>
+    <div class="align-middle-inner">
+        <svg aria-hidden="true" class="icon icon-error">
+            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
+        </svg>
+        <h2 class="page-heading">
+            @Resources.SomethingWentWrong <br /> @Resources.CheckYourLink
+        </h2>
+        <div>
+            @Resources.QuestionsContactDealerSupport
+            <br />
+            @Resources.Phone:
+            <a href="tel:+@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]" class="tel">
+                @System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]
+            </a>
+            <br />
+            @Resources.Email: <a href="mailto:@System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]">
+                @System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]
+            </a>
+        </div>
+    </div>
+</div>
+

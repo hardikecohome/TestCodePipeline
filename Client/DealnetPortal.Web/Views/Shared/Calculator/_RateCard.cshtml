@@ -1,0 +1,219 @@
+﻿@using DealnetPortal.Web.Models.Enumeration
+@model DealnetPortal.Web.Models.StandaloneCalculatorViewModel
+
+@*<div class="row form-group">
+    <div class="col-xs-7">
+        @Resources.TotalPriceOfEquipment
+    </div>
+    <div class="col-xs-5 text-right text-stronger" id="option1-totalEquipmentPrice">$ </div>
+</div>
+<div class="row form-group">
+    <div class="col-xs-7" id="option1-taxDescription">
+    </div>
+    <div class="col-xs-5 text-right text-stronger">
+        <span id="option1-tax">$</span>
+    </div>
+</div>*@
+<div class="row form-group">
+    <div class="col-xs-7">
+        @Resources.DealerInvoiceAmount
+    </div>
+    <div class="col-xs-5 text-right text-stronger" id="option1-totalPrice"> $ </div>
+</div>
+<h3 class="dealnet-middle-header">Financing Options</h3>
+<div>
+    <div class="row form-group align-middle @(Model.Plans.Count > 1 ? "": "hidden")">
+        <div class="col-xs-6">
+            @Resources.Plan
+        </div>
+        <div class="col-xs-6">
+            @Html.DropDownList("option1-plan", Model.Plans.Select(x => new SelectListItem { Value = x.Key, Text = x.Value }), new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row form-group align-middle">
+        <div class="col-xs-6">
+            @Resources.LoanAmortTerm
+        </div>
+        <div class="col-xs-6">
+            <select name="" id="option1-amortDropdown" class="form-control">
+                <option value="">- not selected -</option>
+                <option value="">36/36</option>
+            </select>
+        </div>
+    </div>
+    <div class="hidden" id="option1-customLoanAmortWrapper">
+            <div class="row align-top">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label for="">@Resources.LoanTerm</label>
+                        <div class="control-group">
+                            <input type="text" class="form-control form-control-not-clear" name="option1-customLoanTerm" id="option1-customLoanTerm">
+                            <span class="field-validation-error text-danger" data-valmsg-for="option1-customLoanTerm" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label for="">@Resources.AmortTerm</label>
+                        <div class="control-group">
+                            <input type="text" class="form-control form-control-not-clear" name="option1-customAmortTerm" id="option1-customAmortTerm">
+                            <span class="field-validation-error text-danger" data-valmsg-for="option1-customAmortTerm" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row row-error" id="option1-amortLoanTermError" style="display: none;">
+                <div class="col-xs-12">
+                    <div class="error-message text-danger  text-center">@Resources.AmortNotShorterThanLoan</div>
+                </div>
+            </div>
+    </div>
+
+    <div class="row form-group align-middle">
+        <div class="col-xs-6">
+            @Resources.DownPayment
+        </div>
+        <div class="col-xs-6">
+            <div class="control-group">
+                <input type="text" class="form-control form-control-not-clear" id="option1-downPayment" name="option1-downPayment">
+                <span class="field-validation-error text-danger" data-valmsg-for="option1-downPayment" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row form-group align-middle">
+        <div class="col-xs-6">
+            @Resources.DeferralPeriod
+        </div>
+        <div class="col-xs-6 text-right text-stronger @(Model.Plans.Count > 1 ? "": "hidden")" id="option1-deferral">
+            -
+        </div>
+        <div class="col-xs-6" id="option1-deferralDropdownWrapper">
+            @if (Model.Plans.Count > 1)
+            {
+                @Html.DropDownList("option1-deferralDropdown", Model.DeferralPeriods.Select(x => new SelectListItem { Value = x.Key, Text = x.Value }), new { @class = "form-control" })
+            }
+            else
+            {
+                @Html.DropDownList("option1-deferralDropdown",
+                            EnumHelper.GetSelectList(typeof(LoanDeferralType)),
+                            new { @class = "form-control", @id = "option1-deferralDropdown" })
+            }
+        </div>
+    </div>
+    <div class="row form-group align-middle">
+        <div class="col-xs-6">
+            @Resources.CustomerRate
+        </div>
+        <div class="col-xs-6 text-right text-stronger" id="option1-cRate">
+            0%
+        </div>
+        <div class="col-xs-6 hidden" id="option1-customCRateWrapper">
+            <div class="control-group has-addon-right">
+                <div class="control-group-addon">%</div>
+                <input type="text" id="option1-customCRate" name="option1-customCRate" class="form-control form-control-not-clear" />
+                <span class="field-validation-error text-danger" data-valmsg-for="option1-customCRate" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row form-group align-middle hidden" id="option1-customYCostWrapper">
+        <div class="col-xs-6">
+            @Resources.YourCost
+        </div>
+        <div class="col-xs-6 text-right text-stronger hidden" id="option1-yCostVal">
+            -
+        </div>
+        <div class="col-xs-6">
+            <div class="control-group has-addon-right">
+                <div class="control-group-addon">%</div>
+                <input type="text" id="option1-customYCostVal" name="option1-customYCostVal" class="form-control form-control-not-clear" />
+                <span class="field-validation-error text-danger" data-valmsg-for="option1-customYCostVal" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+    </div>
+<hr>
+    <div class="row form-group align-middle hidden">
+        <div class="col-xs-6">
+            @Resources.AdminFee
+        </div>
+        <div class="col-xs-6 text-right text-stronger" id="option1-aFee">
+            $-
+        </div>
+        <div class="col-xs-6 hidden" id="option1-customAFeeWrapper">
+            <div class="control-group has-addon-left">
+                <div class="control-group-addon">$</div>
+                <input type="text" id="option1-customAFee" name="option1-customAFee" class="form-control form-control-not-clear" />
+                <span class="field-validation-error text-danger" data-valmsg-for="option1-customAFee" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-rows-hold">
+    <div class="row form-group">
+        <div class="col-xs-6 text-stronger">
+            @Resources.MonthlyPayment
+        </div>
+        <div class="col-xs-6 text-right text-stronger" id="option1-mPayment">
+            -
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-6">
+            @Resources.CostOfBorrowing
+        </div>
+        <div class="col-xs-6 text-right text-stronger" id="option1-cBorrowing">
+            -
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-6">
+            @Resources.YourCost
+        </div>
+        <div class="col-xs-6 text-right text-stronger" id="option1-yCost">
+            -
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-6 text-stronger">
+            @Resources.TotalAmountFinanced
+        </div>
+        <div class="col-xs-6 text-right text-stronger" id="option1-taFinanced">
+            -
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-6">
+            @Resources.TotalAllMonthlyPayments
+        </div>
+        <div class="col-xs-6 text-right text-stronger" id="option1-tmPayments">
+            -
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-6">
+            @Resources.BalanceOwingEndOfPayments
+        </div>
+        <div class="col-xs-6 text-right text-stronger" id="option1-rBalance">
+            -
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-6">
+            @Resources.TotalObligation
+        </div>
+        <div class="col-xs-6 text-right text-stronger" id="option1-tObligation">
+            -
+        </div>
+    </div>
+    @*<div class="row form-group">
+          <div class="col-md-12">
+            <div class="text-center">
+              <a href="#" class="btn dealnet-button dealnet-link-button">Save to Draft</a>
+            </div>
+            <div class="text-center">
+              <a href="#" class="btn dealnet-button dealnet-link-button">Create new application now</a>
+            </div>
+          </div>
+        </div>*@
+</div>

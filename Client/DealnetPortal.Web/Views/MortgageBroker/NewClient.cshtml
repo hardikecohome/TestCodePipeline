@@ -86,7 +86,7 @@
           </div>
 
           <div class="row">
-              <div class="col-sm-6 col-md-4 col-lg-3">
+              <div class="col-sm-6 col-md-4 col-lg-4">
                   <div class="form-group">
                       @Html.LabelFor(m => m.HomeOwner.FirstName, new {@for = "first-name", @class = "mandatory-field"})
                       <div class="control-group">
@@ -95,7 +95,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-sm-6 col-md-4 col-lg-3">
+              <div class="col-sm-6 col-md-4 col-lg-4">
                   <div class="form-group">
                       @Html.LabelFor(m => m.HomeOwner.LastName, new {@for = "last-name", @class = "mandatory-field"})
                       <div class="control-group">
@@ -104,7 +104,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-sm-6 col-md-4 col-lg-3 col-clear-sm-6">
+              <div class="col-sm-6 col-md-4 col-lg-4 col-clear-sm-6">
                   <div class="form-group">
                       @Html.LabelFor(m => m.HomeOwner.BirthDate, new {@for = "birth-date", @class = "mandatory-field"})
                       <div class="control-group date-group">
@@ -113,7 +113,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-sm-6 col-md-4 col-lg-3 col-lg-3 col-clear-md-4">
+              <div class="hidden">
                   <div class="form-group">
                       @Html.LabelFor(m => m.HomeOwner.DriverLicenseNumber, new {@for = "dl-number"})
                       <div class="control-group control-group-pass">
@@ -297,17 +297,10 @@
             <div class="control-group">
               @Html.TextBoxFor(m => m.HomeOwnerContactInfo.EmailAddress, new { @class = "form-control dealnet-input", id = "email" })
               @Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.EmailAddress, "", new { @class = "text-danger" })
+              <span class="text-danger field-validation-error hidden" id="email-exists">@Resources.EmailExists</span>
             </div>
           </div>
         </div>
-        @*<div class="col-md-4 col-sm-6 col-lg-3 col-clear-lg-3 col-clear-sm-6">
-          <div class="form-group">
-            @Html.LabelFor(m => m.HomeOwnerContactInfo.PreferredContactMethod, new { @for="contact-method" })
-            <div class="control-group">
-              @Html.DropDownListFor(m => m.HomeOwnerContactInfo.PreferredContactMethod, Model.ContactMethods, "Please Select", new { @class = "form-control dealnet-input", id = "contact-method"})
-            </div>
-          </div>
-        </div>*@
       </div>
     </div>
   </div>
@@ -470,11 +463,11 @@
           </div>
         </div>
         <div class="form-group">
-            <label class="align-middle custom-checkbox">
-                @Html.CheckBoxFor(m => m.HomeOwnerContactInfo.AllowCommunicate, new { @class = "dealnet-checkbox address-checkbox", id = "agreement-checkbox-data2" })
-                <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                <span>@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
-            </label>
+          <label class="align-middle custom-checkbox">
+            @Html.CheckBoxFor(m => m.HomeOwnerContactInfo.AllowCommunicate, new { @class = "dealnet-checkbox address-checkbox", id="agreement-checkbox-data2" })
+            <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+            <span class="mandatory-field">@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
+          </label>
         </div>
       </div>
     </div>
@@ -505,16 +498,26 @@
     translations['CannotRecognizeDriverLicense'] = "@Html.Raw(Resources.CannotRecognizeDriverLicense)";
 }
 
+
 @section scripts
 {
   @Scripts.Render("~/bundles/jqueryval")
   @Scripts.Render("~/bundles/localization")
   @Scripts.Render("~/bundles/new-client")
 
-    <script type="text/javascript">
-        var isMobileRequest = '@ViewBag.IsMobileRequest';
-        module.require('new-client-index');
-    </script>
+  <script type="text/javascript">
+      var isMobileRequest = '@ViewBag.IsMobileRequest';
+      var checkCustomerUrl = '@Url.Action("CheckCustomerExisting", "MortgageBroker")';
+
+    configInitialized.then(function () {
+      module.require('basic-information-view');
+      module.require('address-information-view');
+      module.require('contact-information-view');
+      module.require('home-improvments-view');
+      module.require('client-consents-view');
+    });
+      module.require('new-client-index');
+  </script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=initAutocomplete" async defer></script>
 	<script type="text/javascript">
 		$(document).ready(function () {

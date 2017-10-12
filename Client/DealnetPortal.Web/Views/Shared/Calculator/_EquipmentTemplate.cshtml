@@ -1,0 +1,31 @@
+﻿@model DealnetPortal.Web.Models.StandaloneCalculatorViewModel
+
+<div class="hidden" id="equipment-template">
+    <div class="equipment-item" id="equipment-">
+        <div class="dealnet-middle-header equipment-heading">
+            <span>@Resources.Equipment  <span class="equipment-number">№1</span></span>
+            <div class="additional-remove">
+                <i class="glyphicon glyphicon-remove"></i>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Equipment.NewEquipment[0].Type)
+            @Html.DropDownListFor(m => m.Equipment.NewEquipment[0].Type, Model.EquipmentTypes.Select(x => new SelectListItem { Value = x.Type, Text = x.Description }), new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Equipment.NewEquipment[0].Description)
+            <div class="control-group">
+                @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Description, new { @class = "form-control dealnet-input date-input", placeholder = Resources.Description })
+                @Html.ValidationMessageFor(m => m.Equipment.NewEquipment[0].Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Equipment.NewEquipment[0].Cost)
+            <div class="control-group has-addon-left">
+                <div class="control-group-addon">$</div>
+                @Html.TextBoxFor(m => m.Equipment.NewEquipment[0].Cost, new { @class = "form-control dealnet-input date-input equipment-cost", type = "text", placeholder = Resources.Cost })
+                @Html.ValidationMessageFor(m => m.Equipment.NewEquipment[0].Cost, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+</div>

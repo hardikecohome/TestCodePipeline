@@ -29,7 +29,7 @@ namespace DealnetPortal.Web.Infrastructure
 
             // Append variable to override
             var sb = new StringBuilder(fileContent);
-            _securityManager.SetUserFromContext();
+            //_securityManager.SetUserFromContext();
             var hashDealerName = HttpRequestHelper.GetUrlReferrerRouteDataValues()?["hashDealerName"] as string;
             if (context.User.Identity.IsAuthenticated || hashDealerName != null)
             {

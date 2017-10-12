@@ -1,0 +1,62 @@
+﻿@using System.Web.Mvc.Html
+@model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
+
+<div class="panel customer-loan-form-panel panel-collapsed" id="cleint-aknowledgment-section">
+    <div class="panel-heading">
+        <span class="panel-step">6</span>
+        <h3 class="panel-title dealnet-middle-header">@Resources.Acknowledgment</h3>
+        <span class="arrow"><i class="glyphicon"></i></span>
+        <span class="passed-step-icon">
+            <svg aria-hidden="true" class="icon icon-checked">
+                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
+            </svg>
+        </span>
+    </div>
+    <div class="panel-body">
+        <p>@Resources.CertifyDealerInfo </p>
+        <div class="onboard-owners-hold" id="onboard-owners-hold">
+            @for (int i = 0; i < Model.Owners.Count; i++)
+            {
+                <div class="onboard-owners-row" id="owner@(i)-aknowledgment-holder">
+                    <div class="onboard-owners-col name-col">
+                        <span class="onboard-owners-label">
+                            @Resources.Owner:&nbsp;
+                        </span>
+                        <span class="onboard-owners-value text-uppercase" id="owner@(i)-name-holder">
+                            @(Model.Owners[i].FirstName?.ToUpper() + " " + Model.Owners[i].LastName?.ToUpper())
+                        </span>
+                    </div>
+                    <div class="onboard-owners-col date-col">
+                        <span class="onboard-owners-label">
+                            @Resources.Date:
+                        </span>
+                        <span class="onboard-owners-value">
+                            &nbsp;@DateTime.Now.ToString("dd.MM.yyyy")
+                        </span>
+                    </div>
+                    <div class="onboard-owners-col agree-col">
+                        <label class="align-middle custom-checkbox">
+                            @Html.CheckBoxFor(m => m.Owners[i].Acknowledge, new { @class = "dealnet-checkbox", id = "owner"+i+"-agreement" })
+                            <span class="icon checkbox-icon">
+                                <svg aria-hidden="true" class="icon icon-checked">
+                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
+                                </svg>
+                            </span>
+                            <span class="mandatory-field">@Resources.AcknowledgeAndAgree </span>
+                        </label>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="save-and-resume-hold">
+            <a class="save-and-resume dealnet-info-link">
+                <span class="icon-hold">
+                    <svg aria-hidden="true" class="icon icon-save">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-save")"></use>
+                    </svg>
+                </span>
+                <span>@Resources.SaveEntireAppAndResumeLater</span>
+            </a>
+        </div>
+    </div>
+</div>

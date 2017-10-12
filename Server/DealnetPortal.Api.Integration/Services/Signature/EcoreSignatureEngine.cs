@@ -54,12 +54,12 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             _signatureServiceAgent = signatureServiceAgent;
             _loggingService = loggingService;
 
-            _eCoreLogin = System.Configuration.ConfigurationManager.AppSettings["eCoreUser"];
-            _eCorePassword = System.Configuration.ConfigurationManager.AppSettings["eCorePassword"];
-            _eCoreOrganisation = System.Configuration.ConfigurationManager.AppSettings["eCoreOrganization"];
-            _eCoreSignatureRole = System.Configuration.ConfigurationManager.AppSettings["eCoreSignatureRole"];
-            _eCoreAgreementTemplate = System.Configuration.ConfigurationManager.AppSettings["eCoreAgreementTemplate"];
-            _eCoreCustomerSecurityCode = System.Configuration.ConfigurationManager.AppSettings["eCoreCustomerSecurityCode"];
+            _eCoreLogin = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_USER_CONFIG_KEY];
+            _eCorePassword = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_PASSWORD_CONFIG_KEY];
+            _eCoreOrganisation = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_ORGANIZATION_CONFIG_KEY];
+            _eCoreSignatureRole = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_SIGNATUREROLE_CONFIG_KEY];
+            _eCoreAgreementTemplate = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_AGREEMENTTEMPLATE_CONFIG_KEY];
+            _eCoreCustomerSecurityCode = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_CUSTOMERSECURITYCODE_CONFIG_KEY];
 
             _signatureRoles.Add(_eCoreSignatureRole);
             _signatureRoles.Add($"{_eCoreSignatureRole}2");

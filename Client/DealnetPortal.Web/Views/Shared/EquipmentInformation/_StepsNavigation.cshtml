@@ -1,0 +1,29 @@
+﻿@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+
+<div id="steps-line"></div>
+<div class="row" id="steps">
+  <div class="col-xs-4">
+    @if (Model.IsFirstStepAvailable)
+    {
+        <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.ContractId})" data-warning="true" id="step1" class="step-item">1</a>
+    }
+    else
+    {
+        <div id="step1" class="step-item">1</div>
+    }
+  </div>
+  <div class="col-xs-4">
+    <div id="step2" class="step-item step-active">2</div>
+    <div id="step3" class="step-item step">3</div>
+  </div>
+  <div class="col-xs-4">
+    @if (Model.IsAllInfoCompleted)
+    {
+        <a href="@Url.Action("SummaryAndConfirmation", "NewRental", new {contractId = Model.ContractId})" id="step4" class="step-item">4</a>
+    }
+    else
+    {
+        <div id="step4" class="step-item">4</div>
+    }
+  </div>
+</div>

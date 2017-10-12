@@ -1,4 +1,4 @@
-﻿function uploadCaptured(uploadUrl) {
+﻿function uploadCaptured (uploadUrl) {
     var dataUrl = bigCanvas.toDataURL();
     showLoader(translations['ProcessingImage']);
     $.ajax({
@@ -18,7 +18,7 @@
                 var date = new Date(json.DateOfBirthStr);
                 date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
                 var dateInput = $("#" + modal.getAttribute('data-bdToFill'));
-                dateInput.datepicker("setDate", date);
+                setDatepickerDate(dateInput, date);
                 dateInput.change();
                 document.getElementById(modal.getAttribute('data-dlToFill')).value = json.Id;
                 document.getElementById(modal.getAttribute('data-stToFill')).value = json.Street;
@@ -30,18 +30,18 @@
         },
         error: function (xhr, status, p3) {
             hideLoader();
-        alert(xhr.responseText);
-    }
+            alert(xhr.responseText);
+        }
     });
 }
 
-function submitUpload(sender, uploadUrl, fn, ln, bd, dl, st, ct, pr, pc) {
-    
+function submitUpload (sender, uploadUrl, fn, ln, bd, dl, st, ct, pr, pc) {
+
     var files = sender.files;
     if (files.length > 0) {
         if (window.FormData !== undefined) {
             var data = new FormData();
-            for (var x = 0; x < files.length; x++) {
+            for (var x = 0;x < files.length;x++) {
                 data.append("file" + x, files[x]);
             }
             showLoader(translations['ProcessingImage']);
@@ -61,9 +61,9 @@ function submitUpload(sender, uploadUrl, fn, ln, bd, dl, st, ct, pr, pc) {
                         document.getElementById(ln || modal.getAttribute('data-lnToFill')).value = json.LastName;
                         var date = new Date(json.DateOfBirthStr);
                         date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
-                        var dateInput = $("#" + (bd || modal.getAttribute('data-bdToFill')));
-                        dateInput.datepicker("setDate", date);
-                        dateInput.change();
+                        var dateId = "#" + (bd || modal.getAttribute('data-bdToFill'));
+                        setDatepickerDate(dateId, date);
+                        $(dateId).change();
                         document.getElementById(dl || modal.getAttribute('data-dlToFill')).value = json.Id;
                         document.getElementById(st || modal.getAttribute('data-stToFill')).value = json.Street;
                         document.getElementById(ct || modal.getAttribute('data-ctToFill')).value = json.City;
@@ -79,6 +79,9 @@ function submitUpload(sender, uploadUrl, fn, ln, bd, dl, st, ct, pr, pc) {
                 }
             });
             $("#upload-file").val("");
+            if (sender) {
+                sender.value = '';
+            }
         } else {
             alert(translations['BrowserNotSupportFileUpload']);
         }

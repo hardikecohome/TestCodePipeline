@@ -199,7 +199,7 @@ namespace DealnetPortal.Api.Areas.HelpPage
         /// <summary>
         /// Gets the model description generator.
         /// </summary>
-        /// <param name="config">The configuration.</param>
+        /// <param name="config">The appConfiguration.</param>
         /// <returns>The <see cref="ModelDescriptionGenerator"/></returns>
         public static ModelDescriptionGenerator GetModelDescriptionGenerator(this HttpConfiguration config)
         {

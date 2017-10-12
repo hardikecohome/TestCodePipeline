@@ -1,36 +1,34 @@
 ﻿var table;
 
 $(document)
-            .ready(function () {
-                showTable();
-                assignDatepicker($("#date-from"));
-                assignDatepicker($("#date-to"));
-                $('.select-filter option').each(function () {
-                    $(this).val($(this).text());
-                });
-                $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
-                $('.select-filter').val($('.select-filter > option:first').val());
-                $('.dataTable ');
-            });
-
-function assignDatepicker(input) {
-    inputDateFocus(input);
-    input.datepicker({
-        dateFormat: 'mm/dd/yy',
-        changeYear: true,
-        changeMonth: (viewport().width < 768) ? true : false,
-        yearRange: '1900:' + new Date().getFullYear(),
-        minDate: Date.parse("1900-01-01"),
-        maxDate: new Date(),
-        onClose: function () {
-            onDateSelect($(this));
+    .ready(function () {
+        showTable();
+        var options = {
+            yearRange: '1900:' + new Date().getFullYear(),
+            minDate: new Date("1900-01-01"),
+            maxDate: new Date()
         }
-    });
-}
+        // $('.date-input').each(function (index, input) {
+        //     assignDatepicker(input, options);
+        // });
 
-function showTable() {
-    $.when($.ajax(itemsUrl, { cache: false, mode: 'GET' }))
-        .done(function (data) {
+        assignDatepicker('#date-to', options);
+        assignDatepicker('#date-from', options);
+
+        $('#clear-filters').click(function () {
+            $('.filter-input').val("");
+            table.search('').draw();
+        });
+
+        $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
+        $('.select-filter').val($('.select-filter > option:first').val());
+    });
+
+function showTable () {
+    $.ajax(itemsUrl, {
+        cache: false,
+        mode: 'GET',
+        success: function (data) {
             var statusOptions = [];
             var agrTypeOptions = [];
             var salesRepOptions = [];
@@ -75,13 +73,13 @@ function showTable() {
                     rowId: 'Id',
                     responsive: {
                         breakpoints: [
-                          { name: 'desktop-lg', width: Infinity },
-                          { name: 'desktop', width: 1169 },
-                          { name: 'tablet-l', width: $('body').is('.tablet-device') ? 1025 : 1023 },
-                          { name: 'tablet', width: 1023 },
-                          { name: 'mobile', width: 767 },
-                          { name: 'mobile-l', width: 767 },
-                          { name: 'mobile-p', width: 480 },
+                            { name: 'desktop-lg', width: Infinity },
+                            { name: 'desktop', width: 1169 },
+                            { name: 'tablet-l', width: $('body').is('.tablet-device') ? 1025 : 1023 },
+                            { name: 'tablet', width: 1023 },
+                            { name: 'mobile', width: 767 },
+                            { name: 'mobile-l', width: 767 },
+                            { name: 'mobile-p', width: 480 },
                         ]
                     },
                     oLanguage: {
@@ -96,7 +94,10 @@ function showTable() {
                     createdRow: function (row, data, dataIndex) {
                         if (data.IsNewlyCreated) {
                             $(row).addClass('unread-deals').find('.contract-cell').prepend('<span class="label-new-deal">' + translations['New'] + '</span>');
-                        }
+						}
+						if (data.Id != 0) {
+							$(row).find('.contract-cell').wrapInner('<a href="' + editContractUrl + '/' + data.Id + '" title="' + translations['Edit'] + '"></a>');
+						}
                     },
                     columns: [
                         { "data": "TransactionId", className: 'contract-cell' },
@@ -153,12 +154,12 @@ function showTable() {
                     ],
 
                     dom:
-                        "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
-                            "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
-                            "<'row'<'col-md-12 col-sm-6'l>>" +
-                            "<'row'<'col-md-12'tr>>" +
-                            "<'row'<'col-md-12'p>>" +
-                            "<'row'<'col-md-12'i>>",
+                    "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
+                    "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
+                    "<'row'<'col-md-12 col-sm-6'l>>" +
+                    "<'row'<'col-md-12'tr>>" +
+                    "<'row'<'col-md-12'p>>" +
+                    "<'row'<'col-md-12'i>>",
                     renderer: 'bootstrap',
                     order: []
                 });
@@ -183,11 +184,8 @@ function showTable() {
                 redrawDataTablesSvgIcons();
                 resetDataTablesExpandedRows(table);
             });
-            $('#clear-filters').click(function () {
-                $('.filter-input').val("");
-                table.search('').draw();
-            });
-        });
+        }
+    });
 };
 
 $.fn.dataTable.ext.search.push(
@@ -196,6 +194,7 @@ $.fn.dataTable.ext.search.push(
         var agreementType = $("#agreement-type").val();
         var salesRep = $("#sales-rep").val();
         var createdBy = $("#created-by").val();
+
         var dateFrom = Date.parseExact($("#date-from").val(), "M/d/yyyy");
         var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
         var valueEntered = Date.parseExact(data[6], "M/d/yyyy");
@@ -210,7 +209,7 @@ $.fn.dataTable.ext.search.push(
         return false;
     }
 );
-function removeContract() {
+function removeContract () {
     var tr = $(this).parents('tr');
     var id = $(tr)[0].id;
     var data = {

@@ -1,10 +1,10 @@
-﻿function submitUpload(sender, uploadUrl, fnToFill, lnToFill, bdToFill, dlToFill, stToFill, ctToFill, prToFill, pcToFill) {
-    
+﻿function submitUpload (sender, uploadUrl, fnToFill, lnToFill, bdToFill, dlToFill, stToFill, ctToFill, prToFill, pcToFill) {
+
     var files = sender.files;
     if (files.length > 0) {
         if (window.FormData !== undefined) {
             var data = new FormData();
-            for (var x = 0; x < files.length; x++) {
+            for (var x = 0;x < files.length;x++) {
                 data.append("file" + x, files[x]);
             }
             showLoader(translations['ProcessingImage']);
@@ -25,7 +25,7 @@
                         var date = new Date(json.DateOfBirthStr);
                         date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
                         var dateInput = $("#" + bdToFill);
-                        dateInput.datepicker("setDate", date);
+                        setDaetpickerDate(dateInput, date);
                         dateInput.change();
                         document.getElementById(dlToFill).value = json.Id;
                         document.getElementById(stToFill).value = json.Street;

@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
@@ -30,10 +31,10 @@ namespace DealnetPortal.Api.Integration.Services
 
             try
             {
-                baseUri = ConfigurationManager.AppSettings["MailGun.ApiUrl"];
-                domain = ConfigurationManager.AppSettings["MailGun.Domain"];
-                key = ConfigurationManager.AppSettings["MailGun.ApiKey"];
-                sender = from ?? ConfigurationManager.AppSettings["MailGun.From"];
+                baseUri = ConfigurationManager.AppSettings[WebConfigKeys.MG_APIURL_CONFIG_KEY];
+                domain = ConfigurationManager.AppSettings[WebConfigKeys.MG_DOMAIN_CONFIG_KEY];
+                key = ConfigurationManager.AppSettings[WebConfigKeys.MG_APIKEY_CONFIG_KEY];
+                sender = from ?? ConfigurationManager.AppSettings[WebConfigKeys.MG_FROM_CONFIG_KEY];
             }
             catch (Exception ex)
             {

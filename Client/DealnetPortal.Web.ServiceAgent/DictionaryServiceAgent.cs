@@ -1,27 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
+using DealnetPortal.Web.Common;
 using DealnetPortal.Web.Common.Helpers;
+using Microsoft.Owin.Security;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
-    public class DictionaryServiceAgent : TransientApiBase, IDictionaryServiceAgent
+    public class DictionaryServiceAgent : ApiBase, IDictionaryServiceAgent
     {
         private const string ContractApi = "dict";
         private ILoggingService _loggingService;
 
-        public DictionaryServiceAgent(ITransientHttpApiClient client, ILoggingService loggingService)
-            : base(client, ContractApi)
+        public DictionaryServiceAgent(IHttpApiClient client, ILoggingService loggingService, IAuthenticationManager authenticationManager)
+            : base(client, ContractApi, authenticationManager)
         {
             _loggingService = loggingService;
         }
@@ -30,8 +35,8 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return await Client.GetAsync<Tuple<IList<EquipmentTypeDTO>, IList<Alert>>>(
-                            $"{_fullUri}/DealerEquipmentTypes");
+                return await Client.GetAsyncEx<Tuple<IList<EquipmentTypeDTO>, IList<Alert>>>(
+                            $"{_fullUri}/DealerEquipmentTypes", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {
@@ -44,8 +49,22 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return await Client.GetAsync<Tuple<IList<EquipmentTypeDTO>, IList<Alert>>>(
-                            $"{_fullUri}/AllEquipmentTypes");
+                return await Client.GetAsyncEx<Tuple<IList<EquipmentTypeDTO>, IList<Alert>>>(
+                            $"{_fullUri}/AllEquipmentTypes", null, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get Equipment Types", ex);
+                throw;
+            }
+        }
+
+        public async Task<Tuple<IList<LicenseDocumentDTO>, IList<Alert>>> GetAllLicenseDocuments()
+        {
+            try
+            {
+                return await Client.GetAsyncEx<Tuple<IList<LicenseDocumentDTO>, IList<Alert>>>(
+                            $"{_fullUri}/AllLicenseDocuments", null, CurrentCulture);
             }
             catch (Exception ex)
             {
@@ -82,6 +101,35 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
+        public async Task<Tuple<VarificationIdsDTO, IList<Alert>>> GetVerificationId(int id)
+        {
+            try
+            {
+                return await Client.GetAsync<Tuple<VarificationIdsDTO, IList<Alert>>>(
+                            $"{_fullUri}/{id}/VerificationId");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get Verification Id", ex);
+                throw;
+            }
+        }
+
+        public async Task<Tuple<IList<VarificationIdsDTO>, IList<Alert>>> GetAllVerificationIds()
+        {
+            try
+            {
+                return await Client.GetAsync<Tuple<IList<VarificationIdsDTO>, IList<Alert>>>(
+                            $"{_fullUri}/AllVerificationIds");
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get all Verification Ids", ex);
+                throw;
+            }
+        }
+
+
         /// <summary>
         /// Get Equipment Types list
         /// </summary>
@@ -104,8 +152,8 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return await Client.GetAsync<ApplicationUserDTO>(
-                            $"{_fullUri}/GetDealerInfo").ConfigureAwait(false);
+                return await Client.GetAsyncEx<ApplicationUserDTO>(
+                            $"{_fullUri}/GetDealerInfo", AuthenticationHeader, CurrentCulture).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -114,26 +162,30 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<string> GetDealerCulture()
+        public async Task<string> GetDealerCulture(string dealerName = null)
         {
             try
             {
-                return await Client.GetAsync<string>(
-                            $"{_fullUri}/GetDealerCulture");
+                var url = $"{_fullUri}/GetDealerCulture";
+                if (dealerName != null)
+                {
+                    url += $"?dealer={dealerName}";
+                }
+                return await Client.GetAsyncEx<string>(url, AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {
                 _loggingService.LogError("Can't get dealers culture", ex);
                 throw;
-            }
+            }            
         }
 
         public async Task ChangeDealerCulture(string culture)
         {
             try
             {
-                await Client.PutAsync(
-                            $"{_fullUri}/PutDealerCulture?culture={culture}", "");
+                await Client.PutAsyncEx(
+                            $"{_fullUri}/PutDealerCulture?culture={culture}", "", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {
@@ -146,8 +198,8 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return Client.GetAsync<bool>(
-                            $"{_fullUri}/CheckDealerSkinExist");
+                return Client.GetAsyncEx<bool>(
+                            $"{_fullUri}/CheckDealerSkinExist", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {
@@ -165,7 +217,7 @@ namespace DealnetPortal.Web.ServiceAgent
                 {
                     url += $"?hashDealerName={hashDealerName}";
                 }
-                return await Client.GetAsync<IList<StringSettingDTO>>(url).ConfigureAwait(false);
+                return await Client.GetAsyncEx<IList<StringSettingDTO>>(url, AuthenticationHeader, CurrentCulture).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -185,7 +237,7 @@ namespace DealnetPortal.Web.ServiceAgent
                 {
                     url += $"&hashDealerName={hashDealerName}";
                 }
-                return await Client.GetAsync<BinarySettingDTO>(url).ConfigureAwait(false);
+                return await Client.GetAsyncEx<BinarySettingDTO>(url, AuthenticationHeader, CurrentCulture).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -198,8 +250,8 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return await Client.GetAsync<CustomerLinkDTO>(
-                            $"{_fullUri}/GetCustomerLinkSettings").ConfigureAwait(false);
+                return await Client.GetAsyncEx<CustomerLinkDTO>(
+                            $"{_fullUri}/GetCustomerLinkSettings", AuthenticationHeader, CurrentCulture).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -212,8 +264,8 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return await Client.PutAsync<CustomerLinkDTO, IList<Alert>>(
-                            $"{_fullUri}/UpdateCustomerLinkSettings", customerLink);
+                return await Client.PutAsyncEx<CustomerLinkDTO, IList<Alert>>(
+                            $"{_fullUri}/UpdateCustomerLinkSettings", customerLink, AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {

@@ -26,13 +26,13 @@
     var currentAddressPreviousRequiredFields = ['pstreet', 'pcity', 'pprovince', 'ppostalCode'];
     var contactInfoRequiredFields = ['email'];
     var homeImprovmentsRequiredFields = ['improvmentStreet', 'improvmentCity', 'improvmentProvince', 'improvmentPostalCode'];
-    var clientConsentsRequiredFields = ['creditAgreement','contactAgreement'];
+    var clientConsentsRequiredFields = ['creditAgreement', 'contactAgreement'];
     var trimFieldsIds = ['unit_number', 'sin-number', 'dl-number', 'previous_unit_number', 'businessPhone', 'improvment_unit_number'];
 
     var getErrors = configGetErrors(basicInfoRequiredFields, currentAddressRequiredFields, currentAddressPreviousRequiredFields, contactInfoRequiredFields, homeImprovmentsRequiredFields, clientConsentsRequiredFields);
 
     //handlers
-  
+
     //datepickers
 
     //license-scan
@@ -40,7 +40,7 @@
     $('#retake').on('click', retakePhoto);
     $('#retake').on('click', retakePhoto);
     $('#owner-scan-button').on('click', function (e) {
-        if (!(isMobileRequest.toLowerCase() === 'true')) {
+        if (!(isMobileRequest || typeof isMobileRequest === 'string' && isMobileRequest.toLowerCase() === 'true')) {
             e.preventDefault();
             var modal = document.getElementById('camera-modal');
             modal.setAttribute('data-fnToFill', 'first-name');
@@ -50,9 +50,9 @@
             modal.setAttribute('data-stToFill', 'street');
             modal.setAttribute('data-ctToFill', 'locality');
             modal.setAttribute('data-prToFill', "province");
-			modal.setAttribute('data-pcToFill', "postal_code");
+            modal.setAttribute('data-pcToFill', "postal_code");
         }
-		//ga('send', 'event', 'Scan License', 'button_click', 'From Mortgage Portal', '100');
+        //ga('send', 'event', 'Scan License', 'button_click', 'From Mortgage Portal', '100');
         return true;
     });
 
@@ -63,7 +63,7 @@
                 event.preventDefault();
                 return false;
             }
-        });    
+        });
 
 
         // init views
@@ -90,7 +90,7 @@
         }
     });
 
-    function trimValues() {
+    function trimValues () {
         $.grep(trimFieldsIds, function (field) {
             var value = $('#' + field).val();
             if (value !== '') {
@@ -203,7 +203,8 @@
         return {
             errors: getErrors(state),
             displaySubmitErrors: state.displaySubmitErrors,
-            isChanged: state.isChanged
+            isChanged: state.isChanged,
+            emailExists: state.emailExists
         }
     })(function (props) {
         $('#ageErrors').empty();
@@ -215,11 +216,21 @@
                 });
         }
 
+        if (props.emailExists) {
+            $('#email').addClass('input-validation-error');
+            $('#email-exists').removeClass('hidden');
+        } else {
+            if ($('#email').hasClass('input-validation-error')) {
+                $('#email').removeClass('input-validation-error');
+            }
+            $('#email-exists').addClass('hidden');
+        }
+
         if (props.errors.length) {
             $('#submit').addClass('disabled');
             $('#submit').parent().popover();
         } else {
-            if ($('#main-form').valid()) {
+            if ($('#main-form').valid() && !props.emailExists) {
                 $('#submit').removeClass('disabled');
                 $('#submit').parent().popover('destroy');
             } else {

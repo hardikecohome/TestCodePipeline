@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using DealnetPortal.Domain;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using DealnetPortal.Domain;
 using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.DataAccess.Repositories
@@ -27,6 +26,11 @@ namespace DealnetPortal.DataAccess.Repositories
         public string GetUserIdByName(string userName)
         {
             return _dbContext.Users.FirstOrDefault(u => u.UserName == userName)?.Id;
+        }
+
+        public string GetUserIdByOnboardingLink(string link)
+        {
+            return !string.IsNullOrEmpty(link) ? _dbContext.Users.FirstOrDefault(u => u.OnboardingLink == link)?.Id : null;
         }
 
         public IList<string> GetUserRoles(string dealerId)

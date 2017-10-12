@@ -67,7 +67,10 @@ namespace DealnetPortal.Web.Controllers
         {
             return View();
         }
-
+        public ActionResult Library()
+        {
+            return View();
+        }
         public ActionResult Help()
         {
             return File("~/Content/files/Help.pdf", "application/pdf");
@@ -146,6 +149,15 @@ namespace DealnetPortal.Web.Controllers
                     }                    
                 });
             return Json(contractsVms, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult OnBoard()
+        {
+            return View();
+        }
+        public ActionResult OnBoardSuccess()
+        {
+            return View();
         }
     }
 }

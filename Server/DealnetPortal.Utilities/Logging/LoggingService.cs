@@ -1,7 +1,4 @@
 ﻿using System;
-using DealnetPortal.Utilities.Messaging;
-using System.Configuration;
-using System.Collections.Generic;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 

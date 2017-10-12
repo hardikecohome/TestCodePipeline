@@ -27,12 +27,14 @@ namespace DealnetPortal.Api.Controllers
     {
         private IContractService ContractService { get; set; }
         private ICustomerFormService CustomerFormService { get; set; }
+        private IRateCardsService RateCardsService { get; set; }
 
-        public ContractController(ILoggingService loggingService, IContractService contractService, ICustomerFormService customerFormService)
+        public ContractController(ILoggingService loggingService, IContractService contractService, ICustomerFormService customerFormService, IRateCardsService rateCardsService)
             : base(loggingService)
         {
             ContractService = contractService;
             CustomerFormService = customerFormService;
+            RateCardsService = rateCardsService;
         }
 
         // GET: api/Contract
@@ -363,32 +365,18 @@ namespace DealnetPortal.Api.Controllers
 
         [Route("CreateXlsxReport")]
         [HttpPost]
-        public HttpResponseMessage CreateXlsxReport(IEnumerable<int> ids)
+        public IHttpActionResult CreateXlsxReport(IEnumerable<int> ids)
         {
             try
             {
-                var stream = new MemoryStream();
-                var contracts = ContractService.GetContracts(ids, LoggedInUser?.UserId);
-                XlsxExporter.Export(contracts, stream);
-
-                var result = new HttpResponseMessage(HttpStatusCode.OK)
-                {
-                    Content = new ByteArrayContent(stream.ToArray())
-                };
-                result.Content.Headers.ContentDisposition =
-                    new ContentDispositionHeaderValue("attachment")
-                    {
-                        FileName = $"{DateTime.Now.ToString(CultureInfo.CurrentCulture).Replace(":", ".")}-report.xlsx"
-                    };
-                result.Content.Headers.ContentType =
-                    new MediaTypeHeaderValue("application/octet-stream");
-                return result;
+                var report = ContractService.GetContractsFileReport(ids, LoggedInUser.UserId);
+                return Ok(report);
             }
             catch (Exception ex)
             {
-                return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                return InternalServerError(ex);
             }
-        }
+        }        
 
         [Route("GetCustomer")]
         [HttpGet]
@@ -539,7 +527,6 @@ namespace DealnetPortal.Api.Controllers
                 {
                     alerts.AddRange(creationResult.Item2);
                 }
-
                 return Ok(creationResult);
             }
             catch (Exception ex)
@@ -550,8 +537,8 @@ namespace DealnetPortal.Api.Controllers
                     Header = ErrorConstants.ContractCreateFailed,
                     Message = ex.ToString()
                 });
+                LoggingService.LogError(ErrorConstants.ContractCreateFailed, ex);
             }
-
             return Ok(new Tuple<ContractDTO, IList<Alert>>(null, alerts));
         }                
 
@@ -577,6 +564,40 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 var result = await ContractService.AssignContract(contractId, LoggedInUser?.UserId).ConfigureAwait(false);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("GetDealerTier")]
+        [HttpGet]
+        [AllowAnonymous]
+        public IHttpActionResult GetDealerTier()
+        {
+            try
+            {
+                var submitResult = RateCardsService.GetRateCardsByDealerId(LoggedInUser?.UserId);
+
+                return Ok(submitResult);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("CheckCustomerExisting")]
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> CheckCustomerExistingAsync([FromUri]string email)
+        {
+            try
+            {
+                var result = await ContractService.CheckCustomerExistingAsync(email);
 
                 return Ok(result);
             }

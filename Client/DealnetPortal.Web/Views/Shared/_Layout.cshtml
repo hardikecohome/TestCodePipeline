@@ -47,6 +47,7 @@
         translations['GoToStep'] = "@Resources.GoToStep";
         translations['ThisFieldIsRequired'] = "@Resources.ThisFieldIsRequired";
         translations['EnterValidDate'] = "@Resources.EnterValidDate";
+        translations['Cancel'] = "@Resources.Cancel";
         @RenderSection("Translations", false)
     </script>
     @Scripts.Render("~/bundles/jquery")
@@ -89,7 +90,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <nav class="navbar navbar-inverse navbar-fixed-side">
+                <nav class="navbar navbar-inverse navbar-fixed-side @(ViewBag.AdditionalNavbarClasses!=null?ViewBag.AdditionalNavbarClasses:"")">
                     <div class="navbar-header">
                         @if (User.Identity.IsAuthenticated)
                         {
@@ -101,10 +102,10 @@
                                     <span class="icon-bar"></span>
                                 </button>
                             </div>
-                            <div class="logo-container">
-                                <div class="dealnet-image-ecologo main-logo"></div>
-                            </div>
                         }
+                        <div class="logo-container">
+                            <div class="dealnet-image-ecologo main-logo"></div>
+                        </div>
                         <div class="user-hold">
                             <div class="dealnet-login-buttons-holder pull-right">
                                 @Html.Partial("LoginButtons")
@@ -132,13 +133,13 @@
                                     @if (CultureHelper.CurrentCultureType != CultureType.English)
                                     {
                                         <li class="lang-item active">
-                                            @Html.ActionLink("English", "ChangeCulture", "Home", new {culture = "en"}, new {@class = "lang-link"})
+                                            @Html.ActionLink(Resources.English, "ChangeCulture", "Home", new {culture = "en"}, new {@class = "lang-link"})
                                         </li>
                                     }
                                     @if (CultureHelper.CurrentCultureType != CultureType.French)
                                     {
                                         <li class="lang-item">
-                                            @Html.ActionLink("Français", "ChangeCulture", "Home", new {culture = "fr"}, new {@class = "lang-link"})
+                                            @Html.ActionLink(Resources.French, "ChangeCulture", "Home", new {culture = "fr"}, new {@class = "lang-link"})
                                         </li>
                                     }
                                 </ul>
@@ -170,7 +171,7 @@
                         @*@Html.AntiForgeryToken()*@
                         <div class="dealnet-sidebar-user">
                         <span class="icon-circle-hold">
-                            <svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
+                            <svg aria-hidden="true" class="icon icon-user-small"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user-small")"></use></svg>
                         </span> @User.Identity.Name
                         </div>
 
@@ -222,7 +223,7 @@
                                 }
                                 <li class="dealnet-sidebar-item" id="sidebar-item-help">
                                     <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg></span>
-                                    @Html.ActionLink(Resources.Help, "Help", "Home", null, new {@class = "dealnet-sidebar-link", target = "_blank"})
+                                    @Html.ActionLink(Resources.Library, "Library", "Home", null, new {@class = "dealnet-sidebar-link"})
                                 </li>
                             }
                             @if ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") == true)

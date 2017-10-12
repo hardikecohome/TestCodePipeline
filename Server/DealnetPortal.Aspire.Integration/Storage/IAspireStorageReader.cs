@@ -23,5 +23,7 @@ namespace DealnetPortal.Api.Integration.Services
         Entity FindCustomer(string firstName, string lastName, DateTime dateOfBirth, string postalCode);
 
         DealerRoleEntity GetDealerRoleInfo(string dealerUserName);
+
+        string GetDealStatus(string transactionId);
     }
 }

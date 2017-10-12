@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Web.Http;
+using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
@@ -11,6 +13,7 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using DealnetPortal.Api.Providers;
 using DealnetPortal.DataAccess;
+using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.Api
 {
@@ -29,7 +32,12 @@ namespace DealnetPortal.Api
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             AuthType authType;
-            Enum.TryParse(ConfigurationManager.AppSettings.Get("AuthProvider"), out authType);
+            if (
+                Enum.TryParse(ConfigurationManager.AppSettings.Get(WebConfigKeys.AUTHPROVIDER_CONFIG_KEY), out authType) ==
+                false)
+            {
+                authType = AuthType.AuthProvider;                
+            }
 
             // Configure the application for OAuth based flow
             PublicClientId = "self";
@@ -50,7 +58,7 @@ namespace DealnetPortal.Api
                 case AuthType.Aspire:
                 case AuthType.AuthProvider:
                 default:
-                    // Configure the db context and user manager to use a single instance per request
+                    // Configure the db context and user manager to use a single instance per request                    
                     app.CreatePerOwinContext(ApplicationDbContext.Create);
                     app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
                     app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);

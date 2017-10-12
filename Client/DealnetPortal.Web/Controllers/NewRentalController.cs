@@ -30,14 +30,15 @@ namespace DealnetPortal.Web.Controllers
         private readonly IContractServiceAgent _contractServiceAgent;
         private readonly IContractManager _contractManager;
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
-
+        private readonly IDealerServiceAgent _dealerServiceAgent;
         public NewRentalController(IScanProcessingServiceAgent scanProcessingServiceAgent, IContractServiceAgent contractServiceAgent, 
-            IDictionaryServiceAgent dictionaryServiceAgent, IContractManager contractManager) : base(contractManager)
+            IDictionaryServiceAgent dictionaryServiceAgent, IContractManager contractManager, IDealerServiceAgent dealerServiceAgent) : base(contractManager)
         {
             _scanProcessingServiceAgent = scanProcessingServiceAgent;
             _contractServiceAgent = contractServiceAgent;
             _contractManager = contractManager;
             _dictionaryServiceAgent = dictionaryServiceAgent;
+            _dealerServiceAgent = dealerServiceAgent;
         }
 
         public async Task<ActionResult> ContractEdit(int contractId)
@@ -58,7 +59,7 @@ namespace DealnetPortal.Web.Controllers
                     }
                 }
 
-                if (contractResult.Item1.ContractState == ContractState.CreditContirmed && isNewlyCreated != true)
+                if (contractResult.Item1.ContractState == ContractState.CreditConfirmed && contractResult.Item1.OnCreditReview != true && isNewlyCreated != true)
                 {
                     return RedirectToAction("EquipmentInformation", new { contractId });
                 }
@@ -97,6 +98,7 @@ namespace DealnetPortal.Web.Controllers
 
             var viewModel = await _contractManager.GetBasicInfoAsync(contractId.Value);
             viewModel.ProvinceTaxRates = ( await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
+            viewModel.VarificationIds = (await _dictionaryServiceAgent.GetAllVerificationIds()).Item1;
             if (viewModel?.ContractState >= ContractState.Completed)
             {
                 var alerts = new List<Alert>()
@@ -119,24 +121,36 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> BasicInfo(BasicInfoViewModel basicInfo)
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
+
             if (!ModelState.IsValid)
             {
                 basicInfo.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
+
                 return View(basicInfo);
             }
-            var contractResult = basicInfo.ContractId == null ?
-                await _contractServiceAgent.CreateContract() :
+
+            Tuple<ContractDTO, IList<Alert>> result = basicInfo.ContractId == null ? 
+                await _contractServiceAgent.CreateContract() : 
                 await _contractServiceAgent.GetContract(basicInfo.ContractId.Value);
-            if (contractResult?.Item1 != null)
+
+            if (result.Item1 == null)
             {
-                var updateResult = await _contractManager.UpdateContractAsync(basicInfo);
-                if (updateResult.Any(r => r.Type == AlertType.Error))
-                {
-                    TempData[PortalConstants.CurrentAlerts] = updateResult;
-                    return RedirectToAction("Error", "Info");
-                }
+                return RedirectToAction("Error", "Info");
             }
-            return RedirectToAction("CreditCheckConfirmation", new { contractId = contractResult?.Item1?.Id ?? 0 });
+
+            var updateResult = await _contractManager.UpdateContractAsync(basicInfo);
+
+            if (updateResult.Any(r => r.Type == AlertType.Error))
+            {
+                TempData[PortalConstants.CurrentAlerts] = updateResult;
+
+                return RedirectToAction("Error", "Info");
+            }
+
+            //Initiate a credit check here!
+            await _contractServiceAgent.InitiateCreditCheck(result.Item1.Id);
+
+            return RedirectToAction("CreditCheck", new { contractId = result.Item1.Id });
         }
 
         public async Task<ActionResult> CreditCheckConfirmation(int contractId)
@@ -159,20 +173,20 @@ namespace DealnetPortal.Web.Controllers
             return View(viewModel);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreditCheckConfirmation(BasicInfoViewModel basicInfo)
-        {
-            ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
-            if (!ModelState.IsValid)
-            {
-                return View(basicInfo);
-            }
-            //Initiate a credit check here!
-            var initCheckResult = await _contractServiceAgent.InitiateCreditCheck(basicInfo.ContractId.Value);
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> CreditCheckConfirmation(BasicInfoViewModel basicInfo)
+        //{
+        //    ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(basicInfo);
+        //    }
+        //    //Initiate a credit check here!
+        //    var initCheckResult = await _contractServiceAgent.InitiateCreditCheck(basicInfo.ContractId.Value);
 
-            return RedirectToAction("CreditCheck", new { contractId = basicInfo.ContractId });
-        }
+        //    return RedirectToAction("CreditCheck", new { contractId = basicInfo.ContractId });
+        //}
 
         public ActionResult CreditCheck(int contractId)
         {
@@ -193,17 +207,20 @@ namespace DealnetPortal.Web.Controllers
                 {
                     break;
                 }
+
                 if (checkResult?.Item1 != null && checkResult.Item1.CreditCheckState != CreditCheckState.Initiated)
                 {
-                    break;                    
+                    break;
                 }
+
                 await Task.Delay(timeOut);
             }
 
             if ((checkResult?.Item2?.Any(a => a.Type == AlertType.Error && (a.Code == ErrorCodes.AspireConnectionFailed || a.Code == ErrorCodes.AspireTransactionNotCreated)) ?? false))
             {
                 TempData["CreditCheckErrorMessage"] = Resources.Resources.CreditCheckErrorMessage;
-                return RedirectToAction("CreditCheckConfirmation", new { contractId });
+
+                return RedirectToAction("BasicInfo", new { contractId });
             }
 
             if (checkResult?.Item1 == null && (checkResult?.Item2?.Any(a => a.Type == AlertType.Error) ?? false))
@@ -268,7 +285,7 @@ namespace DealnetPortal.Web.Controllers
             if ((checkResult?.Item2?.Any(a => a.Type == AlertType.Error && (a.Code == ErrorCodes.AspireConnectionFailed || a.Code == ErrorCodes.AspireTransactionNotCreated)) ?? false))
             {
                 TempData["CreditCheckErrorMessage"] = Resources.Resources.CreditCheckErrorMessage;
-                var redirectStr = Url.Action("CreditCheckConfirmation", new { contractId });
+                var redirectStr = Url.Action("BasicInfo", new { contractId });
                 return Json(redirectStr);
             }
 
@@ -300,34 +317,60 @@ namespace DealnetPortal.Web.Controllers
             }            
         }
 
+        public ActionResult RateCard()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public async Task<ActionResult> EquipmentInformation(int contractId)
         {
+            var model = await _contractManager.GetEquipmentInfoAsyncNew(contractId);
+
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
-            return View(await _contractManager.GetEquipmentInfoAsync(contractId));
+            ViewBag.CardTypes = model.DealerTier?.RateCards?.Select(x => x.CardType).Distinct().ToList();
+            ViewBag.AmortizationTerm = model.DealerTier?.RateCards?.ConvertToAmortizationSelectList();
+            ViewBag.DefferalPeriod = model.DealerTier?.RateCards?.ConvertToDeferralSelectList();
+            if (model.DealerTier != null && model.DealerTier.Id == Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["Amort180RateCardId"]))
+            {
+                ViewBag.totalAmountFinancedFor180amortTerm = 3999;
+            }
+            else
+            {
+                ViewBag.totalAmountFinancedFor180amortTerm = 0;
+            }
+            var NoCustomerFee = System.Configuration.ConfigurationManager.AppSettings["NoCustomerFee"].Split(',').Select(a=> a.Trim()).ToList<string>();
+            //if (NoCustomerFee.Contains(await _dealerServiceAgent.UpdateDealerParent()))
+                ViewBag.AdminFee = 0;
+            //else
+            //    ViewBag.AdminFee = 49.99;
+
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModel equipmentInfo)
+        public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModelNew equipmentInfo)
         {
             ViewBag.IsAllInfoCompleted = false;
-            if (!ModelState.IsValid)
-            {
-                ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
-                return View(equipmentInfo);
-            }
-            var updateResult = await _contractManager.UpdateContractAsync(equipmentInfo);
+
+            var updateResult = await _contractManager.UpdateContractAsyncNew(equipmentInfo);
+
             if (updateResult.Any(r => r.Type == AlertType.Error))
             {
                 TempData[PortalConstants.CurrentAlerts] = updateResult;
+
                 return RedirectToAction("Error", "Info");
             }
-            return RedirectToAction("ContactAndPaymentInfo", new {contractId = equipmentInfo.ContractId});
+
+            return RedirectToAction("ContactAndPaymentInfo", new { contractId = equipmentInfo.ContractId });
         }
 
+        [HttpGet]
         public async Task<ActionResult> ContactAndPaymentInfo(int contractId)
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
+
             return View(await _contractManager.GetContactAndPaymentInfoAsync(contractId));
         }
 
@@ -336,23 +379,29 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> ContactAndPaymentInfo(ContactAndPaymentInfoViewModel contactAndPaymentInfo)
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
+
             if (!ModelState.IsValid)
             {
                 return View();
             }
+
             var updateResult = await _contractManager.UpdateContractAsync(contactAndPaymentInfo);
+
             if (updateResult.Any(r => r.Type == AlertType.Error))
             {
                 TempData[PortalConstants.CurrentAlerts] = updateResult;
+
                 return RedirectToAction("Error", "Info");
             }
-            return RedirectToAction("SummaryAndConfirmation", new {contractId = contactAndPaymentInfo.ContractId});
+
+            return RedirectToAction("SummaryAndConfirmation", new { contractId = contactAndPaymentInfo.ContractId });
         }
 
         public async Task<ActionResult> SummaryAndConfirmation(int contractId)
         {
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
             ViewBag.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
+
             return View(await _contractManager.GetSummaryAndConfirmationAsync(contractId));
         }
         

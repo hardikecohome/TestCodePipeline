@@ -39,15 +39,15 @@ namespace DealnetPortal.Api.Common.Helpers
             var output = new Output();
             output.Hst = input.TaxRate/100*input.EquipmentCashPrice;
             output.TotalCashPrice = output.Hst + input.EquipmentCashPrice;
-            output.TotalAmountFinanced = output.TotalCashPrice + input.AdminFee - input.DownPayment;
-            output.TotalMonthlyPayment = output.TotalAmountFinanced*Financial.Pmt(input.CustomerRate/100/12, input.AmortizationTerm, -1);
-            output.TotalAllMonthlyPayments = output.TotalMonthlyPayment*input.LoanTerm;
+            output.TotalAmountFinanced = output.TotalCashPrice /*+ input.AdminFee*/ - input.DownPayment;
+            output.TotalMonthlyPayment = Math.Round(output.TotalAmountFinanced*Financial.Pmt(input.CustomerRate/100/12, input.AmortizationTerm, -1),2);
+            output.TotalAllMonthlyPayments = Math.Round(output.TotalMonthlyPayment*input.LoanTerm,2);
             if (input.LoanTerm != input.AmortizationTerm)
             {
-                output.ResidualBalance = -Financial.PV(input.CustomerRate / 100 / 12, input.AmortizationTerm - input.LoanTerm, output.TotalMonthlyPayment) * (1 + input.CustomerRate/100/12);
+                output.ResidualBalance = Math.Round(-Financial.PV(input.CustomerRate / 100 / 12, input.AmortizationTerm - input.LoanTerm, output.TotalMonthlyPayment) * (1 + input.CustomerRate/100/12),2);
             }
-            output.TotalObligation = output.ResidualBalance + output.TotalAllMonthlyPayments;
-            output.TotalBorowingCost = output.TotalObligation - output.TotalAmountFinanced;
+            output.TotalObligation = output.ResidualBalance + output.TotalAllMonthlyPayments + input.AdminFee;
+            output.TotalBorowingCost = Math.Round(output.TotalObligation - output.TotalAmountFinanced - input.AdminFee,2);
             return output;
         }
     }

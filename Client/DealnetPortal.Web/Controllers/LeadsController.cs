@@ -38,6 +38,7 @@ namespace DealnetPortal.Web.Controllers
         public async Task<JsonResult> AcceptLead(int id)
         {
             var result = await _contractServiceAgent.AssignContract(id);
+
             var errors = result.Where(x => x.Type == AlertType.Error).Select(a => a.Message).ToList();
             if (errors.Any())
             {

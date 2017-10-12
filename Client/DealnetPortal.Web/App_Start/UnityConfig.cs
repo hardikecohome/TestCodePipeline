@@ -48,10 +48,11 @@ namespace DealnetPortal.Web.App_Start
 
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
-            container.RegisterType<IHttpApiClient, AuthorizedHttpClient>(
-                new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["ApiUrl"], new ResolvedParameter<IAuthenticationManager>()));
+            //container.RegisterType<IHttpApiClient, AuthorizedHttpClient>(
+            //    new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["ApiUrl"], new ResolvedParameter<IAuthenticationManager>()));
+            container.RegisterType<IHttpApiClient, HttpApiClient>(new ContainerControlledLifetimeManager(), new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["ApiUrl"]));
+
             container.RegisterType<IHttpApiClient, HttpApiClient>("AnonymousClient", new InjectionConstructor(System.Configuration.ConfigurationManager.AppSettings["ApiUrl"]));
-            container.RegisterType<ITransientHttpApiClient, TransientHttpApiClient>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>(), new ResolvedParameter<IHttpApiClient>("AnonymousClient")));
             container.RegisterType<ISecurityServiceAgent, SecurityServiceAgent>();
             container.RegisterType<IUserManagementServiceAgent, UserManagementServiceAgent>();
             container.RegisterType<IContractServiceAgent, ContractServiceAgent>();
@@ -67,6 +68,7 @@ namespace DealnetPortal.Web.App_Start
             container.RegisterType<ISettingsManager, SettingsManager>();
             container.RegisterType<ICustomerManager, CustomerManager>();
             container.RegisterType<IProfileManager, ProfileManager>();
+            container.RegisterType<IDealerOnBoardingManager, DealerOnBoardingManager>();
 
             container.RegisterType<IAuthenticationManager>(
                 new InjectionFactory(o => HttpContext.Current?.Request.GetOwinContext().Authentication));

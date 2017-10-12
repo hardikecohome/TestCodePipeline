@@ -64,6 +64,7 @@
 
         var ppostalCode = $('#ppostalCode');
         ppostalCode.on('change', function (e) {
+            e.target.value = e.target.value.toUpperCase();
             dispatch(createAction(customerActions.SET_PPOSTAL_CODE, e.target.value));
         });
 

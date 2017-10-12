@@ -311,7 +311,7 @@
     <value>Contrat</value>
   </data>
   <data name="CreditCheckApproved" xml:space="preserve">
-    <value>Vérification du crédit approuvée</value>
+    <value>Credit check approved</value>
   </data>
   <data name="CreditCheckDeclined" xml:space="preserve">
     <value>Vérification du crédit refusée</value>
@@ -418,7 +418,7 @@
     <value>Courtier</value>
   </data>
   <data name="Spa" xml:space="preserve">
-    <value>Station Thermale</value>
+    <value>Spa</value>
   </data>
   <data name="WellPump" xml:space="preserve">
     <value>Well Pump</value>

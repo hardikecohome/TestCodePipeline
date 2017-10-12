@@ -42,7 +42,8 @@
         improvmentPostalCode: '', 
         improvmentMoveInDate: '',
         isChanged: false,
-        displayNewAddress: true
+        displayNewAddress: true,
+        emailExists: false
     };
 
     var setFormField = function (field) {
@@ -68,6 +69,7 @@
     reducerObj[clientActions.SET_CITY] = setFormField('city');
     reducerObj[clientActions.SET_PROVINCE] = setFormField('province');
     reducerObj[clientActions.SET_POSTAL_CODE] = setFormField('postalCode');
+    reducerObj[clientActions.SET_EMAIL_EXISTS] = setFormField('emailExists');
 
     reducerObj[clientActions.SET_IMPROVMENT_STREET] = setFormField('improvmentStreet');
     reducerObj[clientActions.SET_IMPROVMENT_UNIT] = setFormField('improvmentUnit');
@@ -85,7 +87,7 @@
         return $.extend({}, state, fieldObj);
     }
 
-    reducerObj[clientActions.DRIVER_LICENSE_UPLOADED] = function(state, action) {
+    reducerObj[clientActions.DRIVER_LICENSE_UPLOADED] = function (state, action) {
         return {
             name: action.payload.firstName,
             lastName: action.payload.firstName,
@@ -216,6 +218,11 @@
     reducerObj[clientActions.DISPLAY_SUBMIT_ERRORS] = setFormField('displaySubmitErrors');
     reducerObj[clientActions.DISPLAY_INSTALLATION] = setFormField('displayInstallation');
     reducerObj[clientActions.DISPLAY_CONTACT_INFO] = setFormField('displayContactInfo');
+    reducerObj[clientActions.CHECK_VALIDATION] = function (state, action) {
+        return {
+            isChanged: !state.isChanged
+        }
+    };
     reducerObj[clientActions.ACTIVATE_ADDRESS_INFO] = function () {
         return {
             displayAddressInfo: true,

@@ -1,10 +1,23 @@
-﻿<div class="customer-success-page">
+﻿@using DealnetPortal.Api.Core.Enums
+@using DealnetPortal.Api.Core.Types
+@{
+    var errors = (List<Alert>)ViewBag.Errors;
+}
+<div class="customer-success-page">
     <div class="customer-success-page-inner">
         <div class="text-center">
             <div class="customer-success-page-content">
-                <p>
-                    <strong>@Resources.UnableToProcessApplicationAutomatically</strong>
-                </p>
+                <h4>
+                  @Resources.UnableToProcessApplicationAutomatically <br />
+                  @if (errors?.Any(a => a.Type == AlertType.Error) ?? false)
+                  {
+                    var errorAlerts = errors.Where(a => a.Type == AlertType.Error).ToList();
+                    for (int i = 0; i < errorAlerts.Count; i++)
+                    {
+                        @errorAlerts[i].Message
+                    }
+                  }
+                </h4>
                 <p class="customer-decline-address">
                     @Resources.InCaseQuestionsContactSupport<br>
                     <span class="text-lowercase">@Resources.Phone:</span> 1-866-382-7468 <br>

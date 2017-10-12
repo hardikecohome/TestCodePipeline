@@ -106,11 +106,29 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to I acknowledge and agree.
+        /// </summary>
+        public static string AcknowledgeAndAgree {
+            get {
+                return ResourceManager.GetString("AcknowledgeAndAgree", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to By submitting this application, you acknowledge and agree that EcoHome Financial is authorized to obtain your credit report from one or more consumer credit reporting agencies (e.g. Equifax or TransUnion), to verify the information in your credit report with third parties as necessary, and to periodically update your credit information with credit reporting agencies. You are hereby notified that a consumer report containing credit and/or personal information may be referred to in connection with this applic [rest of string was truncated]&quot;;.
         /// </summary>
         public static string AcknowledgeAndAgreementObtainCreditReport {
             get {
                 return ResourceManager.GetString("AcknowledgeAndAgreementObtainCreditReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Acknowledgment.
+        /// </summary>
+        public static string Acknowledgment {
+            get {
+                return ResourceManager.GetString("Acknowledgment", resourceCulture);
             }
         }
         
@@ -147,6 +165,24 @@ namespace DealnetPortal.Web.Resources {
         public static string AddAdditionalEquipment {
             get {
                 return ResourceManager.GetString("AddAdditionalEquipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add additional owner.
+        /// </summary>
+        public static string AddAdditionalOwner {
+            get {
+                return ResourceManager.GetString("AddAdditionalOwner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add another brand.
+        /// </summary>
+        public static string AddAnotherBrand {
+            get {
+                return ResourceManager.GetString("AddAnotherBrand", resourceCulture);
             }
         }
         
@@ -196,6 +232,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Additional Applicant Address Information.
+        /// </summary>
+        public static string AdditionalApplicantAddressInfo {
+            get {
+                return ResourceManager.GetString("AdditionalApplicantAddressInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Additional Applicant address is not the same as borrower&apos;s address.
+        /// </summary>
+        public static string AdditionalApplicantAddressNotSameAsBorrower {
+            get {
+                return ResourceManager.GetString("AdditionalApplicantAddressNotSameAsBorrower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Additional Applicant Email.
         /// </summary>
         public static string AdditionalApplicantEmail {
@@ -241,7 +295,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Additional Applicant is home owner..
+        ///   Looks up a localized string similar to Additional Applicant is a home owner.
         /// </summary>
         public static string AdditionalIsHomeOwner {
             get {
@@ -255,6 +309,15 @@ namespace DealnetPortal.Web.Resources {
         public static string AdditionalIsOwnerOfProperty {
             get {
                 return ResourceManager.GetString("AdditionalIsOwnerOfProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Additional owner information.
+        /// </summary>
+        public static string AdditionalOwnerInformation {
+            get {
+                return ResourceManager.GetString("AdditionalOwnerInformation", resourceCulture);
             }
         }
         
@@ -273,6 +336,15 @@ namespace DealnetPortal.Web.Resources {
         public static string AddPostalCode {
             get {
                 return ResourceManager.GetString("AddPostalCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Address.
+        /// </summary>
+        public static string Address {
+            get {
+                return ResourceManager.GetString("Address", resourceCulture);
             }
         }
         
@@ -322,7 +394,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Admin Fee.
+        ///   Looks up a localized string similar to Customer Fee.
         /// </summary>
         public static string AdminFee {
             get {
@@ -376,6 +448,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You can&apos;t proceed until all applicants provide their consents..
+        /// </summary>
+        public static string AllAplicantsConsents {
+            get {
+                return ResourceManager.GetString("AllAplicantsConsents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All documents are checked.
         /// </summary>
         public static string AllDocumentsChecked {
@@ -412,11 +493,47 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Amortization term cannot be shorter than Loan term..
+        /// </summary>
+        public static string AmortNotShorterThanLoan {
+            get {
+                return ResourceManager.GetString("AmortNotShorterThanLoan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Amort. Term.
+        /// </summary>
+        public static string AmortTerm {
+            get {
+                return ResourceManager.GetString("AmortTerm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while sending report.
         /// </summary>
         public static string AnErrorWhileSendingReport {
             get {
                 return ResourceManager.GetString("AnErrorWhileSendingReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Estimated annual Sales is in incorrect format.
+        /// </summary>
+        public static string AnnualSalesIncorrectFormat {
+            get {
+                return ResourceManager.GetString("AnnualSalesIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Estimated annual sales volume.
+        /// </summary>
+        public static string AnnualSalesVolume {
+            get {
+                return ResourceManager.GetString("AnnualSalesVolume", resourceCulture);
             }
         }
         
@@ -484,6 +601,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Thank you, your application was successfully submitted..
+        /// </summary>
+        public static string ApplicationSuccessfullySubmitted {
+            get {
+                return ResourceManager.GetString("ApplicationSuccessfullySubmitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Apply.
+        /// </summary>
+        public static string Apply {
+            get {
+                return ResourceManager.GetString("Apply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Apply for financing.
         /// </summary>
         public static string ApplyForFinancing {
@@ -520,6 +655,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you with a current finance provider?.
+        /// </summary>
+        public static string AreYouWithProvider {
+            get {
+                return ResourceManager.GetString("AreYouWithProvider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to At current address.
         /// </summary>
         public static string AtCurrentAddress {
@@ -552,6 +696,24 @@ namespace DealnetPortal.Web.Resources {
         public static string AtNewHomeAddress {
             get {
                 return ResourceManager.GetString("AtNewHomeAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Average transaction size.
+        /// </summary>
+        public static string AverageTransactionSize {
+            get {
+                return ResourceManager.GetString("AverageTransactionSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Average Transaction Size is in incorrect format.
+        /// </summary>
+        public static string AverageTransactionSizeIncorrectFormat {
+            get {
+                return ResourceManager.GetString("AverageTransactionSizeIncorrectFormat", resourceCulture);
             }
         }
         
@@ -655,7 +817,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Borrower is home owner..
+        ///   Looks up a localized string similar to Borrower is a home owner.
         /// </summary>
         public static string BorrowerIsHomeOwner {
             get {
@@ -691,11 +853,47 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Both.
+        /// </summary>
+        public static string Both {
+            get {
+                return ResourceManager.GetString("Both", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Brands.
+        /// </summary>
+        public static string Brands {
+            get {
+                return ResourceManager.GetString("Brands", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Broker.
+        /// </summary>
+        public static string Broker {
+            get {
+                return ResourceManager.GetString("Broker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Browser doesn&apos;t support HTML5 file upload!.
         /// </summary>
         public static string BrowserNotSupportFileUpload {
             get {
                 return ResourceManager.GetString("BrowserNotSupportFileUpload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name of Business is in incorrect format.
+        /// </summary>
+        public static string BusinessNameIncorrectFormat {
+            get {
+                return ResourceManager.GetString("BusinessNameIncorrectFormat", resourceCulture);
             }
         }
         
@@ -741,6 +939,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} cannot be longer than {1}..
+        /// </summary>
+        public static string CannotBeLongerThan {
+            get {
+                return ResourceManager.GetString("CannotBeLongerThan", resourceCulture);
             }
         }
         
@@ -817,11 +1024,47 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to By executing below, the Principal in his or her personal capacity (“I”, “me”) and the company (“We”) certify that all the information contained in this Dealer Application is true and complete..
+        /// </summary>
+        public static string CertifyDealerInfo {
+            get {
+                return ResourceManager.GetString("CertifyDealerInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change your password.
         /// </summary>
         public static string ChangeYourPassword {
             get {
                 return ResourceManager.GetString("ChangeYourPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Channel.
+        /// </summary>
+        public static string Channel {
+            get {
+                return ResourceManager.GetString("Channel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (check all that apply).
+        /// </summary>
+        public static string CheckAllThatApply {
+            get {
+                return ResourceManager.GetString("CheckAllThatApply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check all applicable items from our list.
+        /// </summary>
+        public static string CheckApplicableItemsFromList {
+            get {
+                return ResourceManager.GetString("CheckApplicableItemsFromList", resourceCulture);
             }
         }
         
@@ -844,11 +1087,38 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please check your link and try again.
+        /// </summary>
+        public static string CheckYourLink {
+            get {
+                return ResourceManager.GetString("CheckYourLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose products.
+        /// </summary>
+        public static string ChooseProducts {
+            get {
+                return ResourceManager.GetString("ChooseProducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose province.
         /// </summary>
         public static string ChooseProvince {
             get {
                 return ResourceManager.GetString("ChooseProvince", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose provinces.
+        /// </summary>
+        public static string ChooseProvinces {
+            get {
+                return ResourceManager.GetString("ChooseProvinces", resourceCulture);
             }
         }
         
@@ -961,7 +1231,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Client has lived at current address for less than 6 months.
+        ///   Looks up a localized string similar to Client has lived at current address for less than 2 years.
         /// </summary>
         public static string ClientLivedCurrentAddressLessThenSixMonth {
             get {
@@ -988,11 +1258,29 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Comments.
         /// </summary>
         public static string Comments {
             get {
                 return ResourceManager.GetString("Comments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Company information.
+        /// </summary>
+        public static string CompanyInformation {
+            get {
+                return ResourceManager.GetString("CompanyInformation", resourceCulture);
             }
         }
         
@@ -1042,6 +1330,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connect with dealer support:.
+        /// </summary>
+        public static string ConnectWithDealerSupport {
+            get {
+                return ResourceManager.GetString("ConnectWithDealerSupport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Consent.
+        /// </summary>
+        public static string Consent {
+            get {
+                return ResourceManager.GetString("Consent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Consents.
         /// </summary>
         public static string Consents {
@@ -1060,6 +1366,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Consumer direct.
+        /// </summary>
+        public static string ConsumerDirect {
+            get {
+                return ResourceManager.GetString("ConsumerDirect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contact and Payment Information.
         /// </summary>
         public static string ContactAndPaymentInfo {
@@ -1074,6 +1389,24 @@ namespace DealnetPortal.Web.Resources {
         public static string ContactInformation {
             get {
                 return ResourceManager.GetString("ContactInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact Name is in incorrect format.
+        /// </summary>
+        public static string ContactNameIncorrectFormat {
+            get {
+                return ResourceManager.GetString("ContactNameIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contacts.
+        /// </summary>
+        public static string Contacts {
+            get {
+                return ResourceManager.GetString("Contacts", resourceCulture);
             }
         }
         
@@ -1132,6 +1465,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please copy the link below and save to resume your application later..
+        /// </summary>
+        public static string CopyLinkResumeLater {
+            get {
+                return ResourceManager.GetString("CopyLinkResumeLater", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cost.
         /// </summary>
         public static string Cost {
@@ -1146,6 +1488,24 @@ namespace DealnetPortal.Web.Resources {
         public static string CostIncorrectFormat {
             get {
                 return ResourceManager.GetString("CostIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cost of Borrowing.
+        /// </summary>
+        public static string CostOfBorrowing {
+            get {
+                return ResourceManager.GetString("CostOfBorrowing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cost (including all taxes).
+        /// </summary>
+        public static string CostWithTaxes {
+            get {
+                return ResourceManager.GetString("CostWithTaxes", resourceCulture);
             }
         }
         
@@ -1258,6 +1618,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Custom.
+        /// </summary>
+        public static string Custom {
+            get {
+                return ResourceManager.GetString("Custom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Customer.
         /// </summary>
         public static string Customer {
@@ -1272,6 +1641,24 @@ namespace DealnetPortal.Web.Resources {
         public static string CustomerComment {
             get {
                 return ResourceManager.GetString("CustomerComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customer Rate or Your Cost is Required.
+        /// </summary>
+        public static string CustomerOrYourCostRequired {
+            get {
+                return ResourceManager.GetString("CustomerOrYourCostRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customer Rate.
+        /// </summary>
+        public static string CustomerRate {
+            get {
+                return ResourceManager.GetString("CustomerRate", resourceCulture);
             }
         }
         
@@ -1344,6 +1731,24 @@ namespace DealnetPortal.Web.Resources {
         public static string Dealer {
             get {
                 return ResourceManager.GetString("Dealer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dealer&apos;s Initial.
+        /// </summary>
+        public static string DealerInitial {
+            get {
+                return ResourceManager.GetString("DealerInitial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dealer Invoice Amount.
+        /// </summary>
+        public static string DealerInvoiceAmount {
+            get {
+                return ResourceManager.GetString("DealerInvoiceAmount", resourceCulture);
             }
         }
         
@@ -1456,11 +1861,47 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deferral.
+        /// </summary>
+        public static string Deferral {
+            get {
+                return ResourceManager.GetString("Deferral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deferral Period.
+        /// </summary>
+        public static string DeferralPeriod {
+            get {
+                return ResourceManager.GetString("DeferralPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deferral/Promo.
+        /// </summary>
+        public static string DeferralPromo {
+            get {
+                return ResourceManager.GetString("DeferralPromo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deferral Type.
         /// </summary>
         public static string DeferralType {
             get {
                 return ResourceManager.GetString("DeferralType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Defferal.
+        /// </summary>
+        public static string Defferal {
+            get {
+                return ResourceManager.GetString("Defferal", resourceCulture);
             }
         }
         
@@ -1492,11 +1933,29 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Description (including make and model).
+        /// </summary>
+        public static string DescriptionWithMakeModel {
+            get {
+                return ResourceManager.GetString("DescriptionWithMakeModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Detailed Info.
         /// </summary>
         public static string DetailedInfo {
             get {
                 return ResourceManager.GetString("DetailedInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Details.
+        /// </summary>
+        public static string Details {
+            get {
+                return ResourceManager.GetString("Details", resourceCulture);
             }
         }
         
@@ -1510,11 +1969,29 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Distributor.
+        /// </summary>
+        public static string Distributor {
+            get {
+                return ResourceManager.GetString("Distributor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name of a document can&apos;t be empty.
         /// </summary>
         public static string DocumentNameEmpty {
             get {
                 return ResourceManager.GetString("DocumentNameEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Door to door sales.
+        /// </summary>
+        public static string DoorToDoor {
+            get {
+                return ResourceManager.GetString("DoorToDoor", resourceCulture);
             }
         }
         
@@ -1627,6 +2104,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The email address you have entered is already registered.
+        /// </summary>
+        public static string EmailExists {
+            get {
+                return ResourceManager.GetString("EmailExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ENBRIDGE.
         /// </summary>
         public static string EnbridgeCapital {
@@ -1663,6 +2149,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to English.
+        /// </summary>
+        public static string English {
+            get {
+                return ResourceManager.GetString("English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter a valid date!.
         /// </summary>
         public static string EnterValidDate {
@@ -1677,6 +2172,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Entries {
             get {
                 return ResourceManager.GetString("Entries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0% EQUAL PAYMENTS.
+        /// </summary>
+        public static string EqualPayments {
+            get {
+                return ResourceManager.GetString("EqualPayments", resourceCulture);
             }
         }
         
@@ -1704,6 +2208,15 @@ namespace DealnetPortal.Web.Resources {
         public static string EquipmentService {
             get {
                 return ResourceManager.GetString("EquipmentService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select at least one Product.
+        /// </summary>
+        public static string EquipmentTypeLength {
+            get {
+                return ResourceManager.GetString("EquipmentTypeLength", resourceCulture);
             }
         }
         
@@ -1834,6 +2347,33 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Finance Provider is in incorrect format.
+        /// </summary>
+        public static string FinanceProviderIncorrectFormat {
+            get {
+                return ResourceManager.GetString("FinanceProviderIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finance provider name.
+        /// </summary>
+        public static string FinanceProviderName {
+            get {
+                return ResourceManager.GetString("FinanceProviderName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Financing Options.
+        /// </summary>
+        public static string FinancingOptions {
+            get {
+                return ResourceManager.GetString("FinancingOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Find us.
         /// </summary>
         public static string FindUs {
@@ -1857,6 +2397,15 @@ namespace DealnetPortal.Web.Resources {
         public static string FirstNameIncorrectFormat {
             get {
                 return ResourceManager.GetString("FirstNameIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fixed Rate.
+        /// </summary>
+        public static string FixedRate {
+            get {
+                return ResourceManager.GetString("FixedRate", resourceCulture);
             }
         }
         
@@ -1902,6 +2451,24 @@ namespace DealnetPortal.Web.Resources {
         public static string FormUpdatedCustomersCanUse {
             get {
                 return ResourceManager.GetString("FormUpdatedCustomersCanUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to French.
+        /// </summary>
+        public static string French {
+            get {
+                return ResourceManager.GetString("French", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Full Legal Name.
+        /// </summary>
+        public static string FullLegalName {
+            get {
+                return ResourceManager.GetString("FullLegalName", resourceCulture);
             }
         }
         
@@ -2275,6 +2842,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please note, invalid fields were not saved.
+        /// </summary>
+        public static string InvalidFieldsWerentSaved {
+            get {
+                return ResourceManager.GetString("InvalidFieldsWerentSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid login attempt..
         /// </summary>
         public static string InvalidLoginAttempt {
@@ -2320,6 +2896,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Join our growing EcoHome Financial dealer network!.
+        /// </summary>
+        public static string JoinOurNetwork {
+            get {
+                return ResourceManager.GetString("JoinOurNetwork", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Name.
         /// </summary>
         public static string LastName {
@@ -2343,6 +2928,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Leads {
             get {
                 return ResourceManager.GetString("Leads", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lead generation method/s.
+        /// </summary>
+        public static string LeadsGenMethod {
+            get {
+                return ResourceManager.GetString("LeadsGenMethod", resourceCulture);
             }
         }
         
@@ -2374,7 +2968,34 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lived at current address less than 6 month.
+        ///   Looks up a localized string similar to Legal Name is in incorrect format.
+        /// </summary>
+        public static string LegalNameIncorrectFormat {
+            get {
+                return ResourceManager.GetString("LegalNameIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resources.
+        /// </summary>
+        public static string Library {
+            get {
+                return ResourceManager.GetString("Library", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Link.
+        /// </summary>
+        public static string Link {
+            get {
+                return ResourceManager.GetString("Link", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lived at current address less than 2 years.
         /// </summary>
         public static string LivedAtCurrentLessThan {
             get {
@@ -2383,7 +3004,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lived at Installation address less than 6 month.
+        ///   Looks up a localized string similar to Lived at Installation address less than 2 years.
         /// </summary>
         public static string LivedAtInstallationAddressLessThan {
             get {
@@ -2406,6 +3027,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Loan {
             get {
                 return ResourceManager.GetString("Loan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loan/Amortization Term.
+        /// </summary>
+        public static string LoanAmortTerm {
+            get {
+                return ResourceManager.GetString("LoanAmortTerm", resourceCulture);
             }
         }
         
@@ -2442,6 +3072,15 @@ namespace DealnetPortal.Web.Resources {
         public static string LoanTermMustBe3Max {
             get {
                 return ResourceManager.GetString("LoanTermMustBe3Max", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Local Advertising.
+        /// </summary>
+        public static string LocalAds {
+            get {
+                return ResourceManager.GetString("LocalAds", resourceCulture);
             }
         }
         
@@ -2509,6 +3148,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mail Sent.
+        /// </summary>
+        public static string MailSent {
+            get {
+                return ResourceManager.GetString("MailSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Make.
         /// </summary>
         public static string Make {
@@ -2527,7 +3175,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Maximum file size is limited to 50 MB for a single file..
+        ///   Looks up a localized string similar to Maximum file size is limited to 20 MB for a single file..
         /// </summary>
         public static string MaximumFileSize {
             get {
@@ -2554,6 +3202,33 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mobile Phone.
+        /// </summary>
+        public static string MobilePhone {
+            get {
+                return ResourceManager.GetString("MobilePhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mobile Phone is in incorrect format.
+        /// </summary>
+        public static string MobilePhoneIncorrectFormat {
+            get {
+                return ResourceManager.GetString("MobilePhoneIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mobile Phone must be a string with a length of 10.
+        /// </summary>
+        public static string MobilePhoneMustBeLong {
+            get {
+                return ResourceManager.GetString("MobilePhoneMustBeLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Model.
         /// </summary>
         public static string Model {
@@ -2568,6 +3243,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Month {
             get {
                 return ResourceManager.GetString("Month", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 180 month amortization is available only on loans over $4,000.
+        /// </summary>
+        public static string Month180AmortOnlyOver5000 {
+            get {
+                return ResourceManager.GetString("Month180AmortOnlyOver5000", resourceCulture);
             }
         }
         
@@ -2590,11 +3274,47 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MONTHLY PAYMENT.
+        ///   Looks up a localized string similar to Monthly deals to be deferred should be between 0 and 100.
+        /// </summary>
+        public static string MonthlyDefferedPercentRange {
+            get {
+                return ResourceManager.GetString("MonthlyDefferedPercentRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly capital value of deals financed.
+        /// </summary>
+        public static string MonthlyFinancedValue {
+            get {
+                return ResourceManager.GetString("MonthlyFinancedValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly Financed Value is in incorrect format.
+        /// </summary>
+        public static string MonthlyFinancedValueIncorrectFormat {
+            get {
+                return ResourceManager.GetString("MonthlyFinancedValueIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly Payment.
         /// </summary>
         public static string MonthlyPayment {
             get {
                 return ResourceManager.GetString("MonthlyPayment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Months.
+        /// </summary>
+        public static string Months {
+            get {
+                return ResourceManager.GetString("Months", resourceCulture);
             }
         }
         
@@ -2779,6 +3499,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No Interest.
+        /// </summary>
+        public static string NoInterest {
+            get {
+                return ResourceManager.GetString("NoInterest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No matching records found.
         /// </summary>
         public static string NoMatchingRecordsFound {
@@ -2815,11 +3544,83 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Number of Installers.
+        /// </summary>
+        public static string NumInstallers {
+            get {
+                return ResourceManager.GetString("NumInstallers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of Installers is in incorrect format.
+        /// </summary>
+        public static string NumInstallersIncorrectFormat {
+            get {
+                return ResourceManager.GetString("NumInstallersIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of Installers must be maximum 3 digits long.
+        /// </summary>
+        public static string NumInstallersMax3 {
+            get {
+                return ResourceManager.GetString("NumInstallersMax3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of Sales People.
+        /// </summary>
+        public static string NumSales {
+            get {
+                return ResourceManager.GetString("NumSales", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of sales is in incorrect format.
+        /// </summary>
+        public static string NumSalesIncorrectFormat {
+            get {
+                return ResourceManager.GetString("NumSalesIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of sales must be maximum 3 digits long.
+        /// </summary>
+        public static string NumSalesMax3 {
+            get {
+                return ResourceManager.GetString("NumSalesMax3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OEM Name.
+        /// </summary>
+        public static string OEMName {
+            get {
+                return ResourceManager.GetString("OEMName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Offered service.
         /// </summary>
         public static string OfferedService {
             get {
                 return ResourceManager.GetString("OfferedService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you wish to offer deferrals?.
+        /// </summary>
+        public static string OfferMonthlyDeferrals {
+            get {
+                return ResourceManager.GetString("OfferMonthlyDeferrals", resourceCulture);
             }
         }
         
@@ -2851,11 +3652,38 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Operating Name.
+        /// </summary>
+        public static string OperatingName {
+            get {
+                return ResourceManager.GetString("OperatingName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operating Name is in incorrect format.
+        /// </summary>
+        public static string OperatingNameIncorrectFormat {
+            get {
+                return ResourceManager.GetString("OperatingNameIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In order to proceed client needs to be aged 75 or less..
         /// </summary>
         public static string OrderProceedClientAged75OrLess {
             get {
                 return ResourceManager.GetString("OrderProceedClientAged75OrLess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other.
+        /// </summary>
+        public static string Other {
+            get {
+                return ResourceManager.GetString("Other", resourceCulture);
             }
         }
         
@@ -2883,6 +3711,42 @@ namespace DealnetPortal.Web.Resources {
         public static string Own {
             get {
                 return ResourceManager.GetString("Own", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Owner.
+        /// </summary>
+        public static string Owner {
+            get {
+                return ResourceManager.GetString("Owner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ownership.
+        /// </summary>
+        public static string Ownership {
+            get {
+                return ResourceManager.GetString("Ownership", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ownership included in this application must be 50% or greater.
+        /// </summary>
+        public static string OwnershipPercentage {
+            get {
+                return ResourceManager.GetString("OwnershipPercentage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In order to submit application you need to add additional owner.
+        /// </summary>
+        public static string OwnershipSubmit {
+            get {
+                return ResourceManager.GetString("OwnershipSubmit", resourceCulture);
             }
         }
         
@@ -2950,6 +3814,60 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Percentage of ownership.
+        /// </summary>
+        public static string PercentageOfOwnership {
+            get {
+                return ResourceManager.GetString("PercentageOfOwnership", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to % Month Deferred is in incorrect format.
+        /// </summary>
+        public static string PercentMonthDeferredIncorrectFormat {
+            get {
+                return ResourceManager.GetString("PercentMonthDeferredIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly deals to be deferred.
+        /// </summary>
+        public static string PercentMonthlyDealsDeferred {
+            get {
+                return ResourceManager.GetString("PercentMonthlyDealsDeferred", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Percentage of Ownership.
+        /// </summary>
+        public static string PercentOwnership {
+            get {
+                return ResourceManager.GetString("PercentOwnership", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to % Ownership is in incorrect format.
+        /// </summary>
+        public static string PercentOwnershipIncorrectFormat {
+            get {
+                return ResourceManager.GetString("PercentOwnershipIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Percentage of Ownership should be between {1} and {2}.
+        /// </summary>
+        public static string PercentOwnershipRange {
+            get {
+                return ResourceManager.GetString("PercentOwnershipRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Phone.
         /// </summary>
         public static string Phone {
@@ -2959,11 +3877,47 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Phone Number.
+        /// </summary>
+        public static string PhoneNumber {
+            get {
+                return ResourceManager.GetString("PhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone Number is in incorrect format.
+        /// </summary>
+        public static string PhoneNumberIncorrectFormat {
+            get {
+                return ResourceManager.GetString("PhoneNumberIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone Number must be a string with a length of 10.
+        /// </summary>
+        public static string PhoneNumberMustBeLong {
+            get {
+                return ResourceManager.GetString("PhoneNumberMustBeLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Photo of Void Cheque.
         /// </summary>
         public static string PhotoOfVoidCheque {
             get {
                 return ResourceManager.GetString("PhotoOfVoidCheque", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plan.
+        /// </summary>
+        public static string Plan {
+            get {
+                return ResourceManager.GetString("Plan", resourceCulture);
             }
         }
         
@@ -3000,6 +3954,15 @@ namespace DealnetPortal.Web.Resources {
         public static string PleaseCheckEmail {
             get {
                 return ResourceManager.GetString("PleaseCheckEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter at least 0..
+        /// </summary>
+        public static string PleaseEnterAtLeastZero {
+            get {
+                return ResourceManager.GetString("PleaseEnterAtLeastZero", resourceCulture);
             }
         }
         
@@ -3094,6 +4057,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Preferred financing products required.
+        /// </summary>
+        public static string PreferredFinancingProductsRequired {
+            get {
+                return ResourceManager.GetString("PreferredFinancingProductsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Preferred Withdrawal Date.
         /// </summary>
         public static string PrefferedWithdrawalDateIncorrectFormat {
@@ -3126,6 +4098,42 @@ namespace DealnetPortal.Web.Resources {
         public static string PreviousAddressInformation {
             get {
                 return ResourceManager.GetString("PreviousAddressInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Primary brand.
+        /// </summary>
+        public static string PrimaryBrand {
+            get {
+                return ResourceManager.GetString("PrimaryBrand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Primary Brand is in incorrect format.
+        /// </summary>
+        public static string PrimaryBrandIncorrectFormat {
+            get {
+                return ResourceManager.GetString("PrimaryBrandIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Primary manufacturer brand sold.
+        /// </summary>
+        public static string PrimaryManufacturerBrandSold {
+            get {
+                return ResourceManager.GetString("PrimaryManufacturerBrandSold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Principal/owner information.
+        /// </summary>
+        public static string PrincipalOwnerInformation {
+            get {
+                return ResourceManager.GetString("PrincipalOwnerInformation", resourceCulture);
             }
         }
         
@@ -3175,11 +4183,56 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Product &amp; sales information.
+        /// </summary>
+        public static string ProductAndSalesInformation {
+            get {
+                return ResourceManager.GetString("ProductAndSalesInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Products for financing program.
+        /// </summary>
+        public static string ProductsForFinancing {
+            get {
+                return ResourceManager.GetString("ProductsForFinancing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Program services required.
+        /// </summary>
+        public static string ProgramServiceRequired {
+            get {
+                return ResourceManager.GetString("ProgramServiceRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Project Type.
         /// </summary>
         public static string ProjectType {
             get {
                 return ResourceManager.GetString("ProjectType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Promo.
+        /// </summary>
+        public static string Promo {
+            get {
+                return ResourceManager.GetString("Promo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PROMO/CUSTOM.
+        /// </summary>
+        public static string PromoCustom {
+            get {
+                return ResourceManager.GetString("PromoCustom", resourceCulture);
             }
         }
         
@@ -3202,11 +4255,83 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Provinces.
+        /// </summary>
+        public static string Provinces {
+            get {
+                return ResourceManager.GetString("Provinces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There should be at least {0} Province.
+        /// </summary>
+        public static string ProvincesMinLength {
+            get {
+                return ResourceManager.GetString("ProvincesMinLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Questions?.
+        /// </summary>
+        public static string Questions {
+            get {
+                return ResourceManager.GetString("Questions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you have any questions please contact dealer support:.
+        /// </summary>
+        public static string QuestionsContactDealerSupport {
+            get {
+                return ResourceManager.GetString("QuestionsContactDealerSupport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Previously selected financing program is no longer available. In order to modify deal you need to select valid program..
+        /// </summary>
+        public static string RateCardNoLongerAvailable {
+            get {
+                return ResourceManager.GetString("RateCardNoLongerAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Request to Fund.
         /// </summary>
         public static string ReadyForAudit {
             get {
                 return ResourceManager.GetString("ReadyForAudit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reason For Interest.
+        /// </summary>
+        public static string ReasonForInterest {
+            get {
+                return ResourceManager.GetString("ReasonForInterest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reason for interest with Ecohome.
+        /// </summary>
+        public static string ReasonForInterestWithEcohome {
+            get {
+                return ResourceManager.GetString("ReasonForInterestWithEcohome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Referrals.
+        /// </summary>
+        public static string Referrals {
+            get {
+                return ResourceManager.GetString("Referrals", resourceCulture);
             }
         }
         
@@ -3225,6 +4350,24 @@ namespace DealnetPortal.Web.Resources {
         public static string Registration {
             get {
                 return ResourceManager.GetString("Registration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relationship structure.
+        /// </summary>
+        public static string RelationshipStructure {
+            get {
+                return ResourceManager.GetString("RelationshipStructure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relationship to.
+        /// </summary>
+        public static string RelationshipTo {
+            get {
+                return ResourceManager.GetString("RelationshipTo", resourceCulture);
             }
         }
         
@@ -3346,6 +4489,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Requested Term must be maximum 3 digits long.
+        /// </summary>
+        public static string RequestedTermMustBe3Max {
+            get {
+                return ResourceManager.GetString("RequestedTermMustBe3Max", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Required documents.
+        /// </summary>
+        public static string RequiredDocuments {
+            get {
+                return ResourceManager.GetString("RequiredDocuments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Resend Emails.
         /// </summary>
         public static string ResendEmails {
@@ -3387,6 +4548,15 @@ namespace DealnetPortal.Web.Resources {
         public static string SalesAgent {
             get {
                 return ResourceManager.GetString("SalesAgent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sales approach.
+        /// </summary>
+        public static string SalesApproach {
+            get {
+                return ResourceManager.GetString("SalesApproach", resourceCulture);
             }
         }
         
@@ -3436,11 +4606,29 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save and Resume later.
+        /// </summary>
+        public static string SaveAndResumeLater {
+            get {
+                return ResourceManager.GetString("SaveAndResumeLater", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save changes.
         /// </summary>
         public static string SaveChanges {
             get {
                 return ResourceManager.GetString("SaveChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save entire application and resume later.
+        /// </summary>
+        public static string SaveEntireAppAndResumeLater {
+            get {
+                return ResourceManager.GetString("SaveEntireAppAndResumeLater", resourceCulture);
             }
         }
         
@@ -3481,6 +4669,33 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Secondary brand.
+        /// </summary>
+        public static string SecondaryBrand {
+            get {
+                return ResourceManager.GetString("SecondaryBrand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Secondary Brand is in incorrect format.
+        /// </summary>
+        public static string SecondaryBrandIncorrectFormat {
+            get {
+                return ResourceManager.GetString("SecondaryBrandIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Secondary manufacturer brand sold.
+        /// </summary>
+        public static string SecondaryManufacturerBrandSold {
+            get {
+                return ResourceManager.GetString("SecondaryManufacturerBrandSold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to See contract details.
         /// </summary>
         public static string SeeContractDetails {
@@ -3490,11 +4705,38 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select.
+        /// </summary>
+        public static string Select {
+            get {
+                return ResourceManager.GetString("Select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select category.
         /// </summary>
         public static string SelectCategory {
             get {
                 return ResourceManager.GetString("SelectCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In order to submit application you need to add at least one product.
+        /// </summary>
+        public static string SelectOneProduct {
+            get {
+                return ResourceManager.GetString("SelectOneProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In order to submit application you need to add at least one province.
+        /// </summary>
+        public static string SelectOneProvince {
+            get {
+                return ResourceManager.GetString("SelectOneProvince", resourceCulture);
             }
         }
         
@@ -3531,6 +4773,15 @@ namespace DealnetPortal.Web.Resources {
         public static string SendEmails {
             get {
                 return ResourceManager.GetString("SendEmails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send me link.
+        /// </summary>
+        public static string SendMeLink {
+            get {
+                return ResourceManager.GetString("SendMeLink", resourceCulture);
             }
         }
         
@@ -3580,7 +4831,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Shareable Link.
+        ///   Looks up a localized string similar to Customer Link.
         /// </summary>
         public static string ShareableLink {
             get {
@@ -3652,11 +4903,47 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Site.
+        /// </summary>
+        public static string Site {
+            get {
+                return ResourceManager.GetString("Site", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Website Url is in incorrect format.
+        /// </summary>
+        public static string SiteInvalidFormat {
+            get {
+                return ResourceManager.GetString("SiteInvalidFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 6 Months.
         /// </summary>
         public static string SixMonth {
             get {
                 return ResourceManager.GetString("SixMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Something went wrong..
+        /// </summary>
+        public static string SomethingWentWrong {
+            get {
+                return ResourceManager.GetString("SomethingWentWrong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to STANDARD RATE.
+        /// </summary>
+        public static string StandardRate {
+            get {
+                return ResourceManager.GetString("StandardRate", resourceCulture);
             }
         }
         
@@ -3823,6 +5110,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The field {0} must be a string with a minimum length of {1} and a maximum length of {2}..
+        /// </summary>
+        public static string TheRangeFieldMustBeMinimumAndMaximum {
+            get {
+                return ResourceManager.GetString("TheRangeFieldMustBeMinimumAndMaximum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This field is required..
         /// </summary>
         public static string ThisFieldIsRequired {
@@ -3855,6 +5151,15 @@ namespace DealnetPortal.Web.Resources {
         public static string ToProceedYouNeedToBe75LessPleaseContact {
             get {
                 return ResourceManager.GetString("ToProceedYouNeedToBe75LessPleaseContact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In order to submit application please provide information about owners whose ownership is in total over 50%..
+        /// </summary>
+        public static string ToSubmitAppProvideOwnerInfo {
+            get {
+                return ResourceManager.GetString("ToSubmitAppProvideOwnerInfo", resourceCulture);
             }
         }
         
@@ -3958,11 +5263,47 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Total Percentage of Ownership should not exceed 100, please check fields..
+        /// </summary>
+        public static string TotalOwnershipNotExceed100 {
+            get {
+                return ResourceManager.GetString("TotalOwnershipNotExceed100", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Price of Equipment.
+        /// </summary>
+        public static string TotalPriceOfEquipment {
+            get {
+                return ResourceManager.GetString("TotalPriceOfEquipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to TOTAL VALUE.
         /// </summary>
         public static string TotalValue {
             get {
                 return ResourceManager.GetString("TotalValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trade references.
+        /// </summary>
+        public static string TradeReferences {
+            get {
+                return ResourceManager.GetString("TradeReferences", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trade Shows.
+        /// </summary>
+        public static string TradeShows {
+            get {
+                return ResourceManager.GetString("TradeShows", resourceCulture);
             }
         }
         
@@ -4035,6 +5376,15 @@ namespace DealnetPortal.Web.Resources {
         public static string TypeOfAgreement {
             get {
                 return ResourceManager.GetString("TypeOfAgreement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type of Business.
+        /// </summary>
+        public static string TypeOfBusiness {
+            get {
+                return ResourceManager.GetString("TypeOfBusiness", resourceCulture);
             }
         }
         
@@ -4165,6 +5515,42 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Customer&apos;s Verfication Id.
+        /// </summary>
+        public static string VerificationId {
+            get {
+                return ResourceManager.GetString("VerificationId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Want us to email you this link? Enter your email below and click “Send me link”..
+        /// </summary>
+        public static string WantToSendLink {
+            get {
+                return ResourceManager.GetString("WantToSendLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Website.
+        /// </summary>
+        public static string Website {
+            get {
+                return ResourceManager.GetString("Website", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Website should be between {1} and {2}.
+        /// </summary>
+        public static string WebsiteMustBeLong {
+            get {
+                return ResourceManager.GetString("WebsiteMustBeLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Week.
         /// </summary>
         public static string Week {
@@ -4174,11 +5560,29 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to We will contact you soon..
+        /// </summary>
+        public static string WellContactSoon {
+            get {
+                return ResourceManager.GetString("WellContactSoon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to What equipment/service are you interested in?.
         /// </summary>
         public static string WhatEquipmentServiceYouInterestedIn {
             get {
                 return ResourceManager.GetString("WhatEquipmentServiceYouInterestedIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to What provinces can you do business in?.
+        /// </summary>
+        public static string WhatProvincesDoBusiness {
+            get {
+                return ResourceManager.GetString("WhatProvincesDoBusiness", resourceCulture);
             }
         }
         
@@ -4219,6 +5623,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Without the link, the data you have entered cannot be retrieved and you will have to start filling out your application at the beginning..
+        /// </summary>
+        public static string WithoutLinkDataLost {
+            get {
+                return ResourceManager.GetString("WithoutLinkDataLost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Write a reply....
         /// </summary>
         public static string WriteReply {
@@ -4251,6 +5664,33 @@ namespace DealnetPortal.Web.Resources {
         public static string Years {
             get {
                 return ResourceManager.GetString("Years", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Years in Business.
+        /// </summary>
+        public static string YearsInBusiness {
+            get {
+                return ResourceManager.GetString("YearsInBusiness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Years In Business is in incorrect format.
+        /// </summary>
+        public static string YearsInBusinessIncorrectFormat {
+            get {
+                return ResourceManager.GetString("YearsInBusinessIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Years In Business must be maximum 3 digits long.
+        /// </summary>
+        public static string YearsInBusinessMax3 {
+            get {
+                return ResourceManager.GetString("YearsInBusinessMax3", resourceCulture);
             }
         }
         
@@ -4318,6 +5758,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your Cost.
+        /// </summary>
+        public static string YourCost {
+            get {
+                return ResourceManager.GetString("YourCost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your file type is not supported.
+        /// </summary>
+        public static string YourFileTypeIsNotSupported {
+            get {
+                return ResourceManager.GetString("YourFileTypeIsNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your financing application was successfully submitted..
         /// </summary>
         public static string YourFinancingApplicationWasSubmitted {
@@ -4332,6 +5790,24 @@ namespace DealnetPortal.Web.Resources {
         public static string YourInformation {
             get {
                 return ResourceManager.GetString("YourInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your Rate.
+        /// </summary>
+        public static string YourRate {
+            get {
+                return ResourceManager.GetString("YourRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your Rate is in incorrect format.
+        /// </summary>
+        public static string YourRateIncorrectFormat {
+            get {
+                return ResourceManager.GetString("YourRateIncorrectFormat", resourceCulture);
             }
         }
         

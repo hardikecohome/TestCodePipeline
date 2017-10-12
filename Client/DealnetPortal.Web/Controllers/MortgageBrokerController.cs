@@ -38,16 +38,16 @@ namespace DealnetPortal.Web.Controllers
 
             if (result?.Item2.Any(x => x.Type == AlertType.Error) ?? false)
             {
-                TempData[PortalConstants.CurrentAlerts] = result;
+                ViewBag.Errors = result.Item2;
 
                 return View("CustomerCreationDecline");
             }
-            // code need to be change for credit review
+
             if (result?.Item1 == null || result.Item1.ContractState == ContractState.CreditCheckDeclined || result.Item1.OnCreditReview == true)
             {
                 return View("CustomerCreationDecline");
             }
-
+            
             ViewBag.CreditAmount = Convert.ToInt32(result?.Item1.Details.CreditAmount).ToString("N0", CultureInfo.InvariantCulture);
             ViewBag.FullName = $"{result?.Item1.PrimaryCustomer.FirstName} {result?.Item1.PrimaryCustomer.LastName}";
 
@@ -69,6 +69,14 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> GetCreatedContracts()
         {
             var result = await _customerManager.GetCreatedContractsAsync();
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> CheckCustomerExisting(string email)
+        {
+            var result = await _customerManager.CheckCustomerExistingAsync(email);
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }

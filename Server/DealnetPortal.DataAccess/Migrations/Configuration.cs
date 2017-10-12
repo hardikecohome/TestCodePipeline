@@ -1,13 +1,17 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Configuration;
 using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Web.Configuration;
 using System.Web.Hosting;
+using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.Configuration;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Practices.ObjectBuilder2;
@@ -23,37 +27,1389 @@ namespace DealnetPortal.DataAccess.Migrations
     {
         private const string EcohomeAppId = "df460bb2-f880-42c9-aae5-9e3c76cdcd0f";
         private const string OdiAppId = "606cfa8b-0e2c-47ef-b646-66c5f639aebd";
+        private readonly IAppConfiguration _configuration;
 
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;           
+            AutomaticMigrationDataLossAllowed = true;
             ContextKey = "DealnetPortal.DataAccess.ApplicationDbContext";
+            _configuration = new Utilities.Configuration.AppConfiguration(WebConfigSections.AdditionalSections);
         }
 
         protected override void Seed(DealnetPortal.DataAccess.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
-            var applications = SetApplications(context);
-            SetRoles(context);
-            SetTestUsers(context, context.Applications.Local.ToArray());
-            SetAspireTestUsers(context, context.Applications.Local.ToArray());
-            SetTestEquipmentTypes(context);
-            SetTestProvinceTaxRates(context);
-            SetAspireStatuses(context);
-            SetDocumentTypes(context);
-            SetLanguages(context);
-            var templates = SetDocuSignTemplates(context);
-            SetInstallationCertificateTemplates(context, context.Applications.Local.ToArray());
-            SetPdfTemplates(context, templates);
-            var seedNames = templates.Select(at => at.TemplateName).ToArray();
-            var dbTemplateNames =
-                context.AgreementTemplates.Select(at => at.TemplateName).Where(tn => seedNames.All(t => t != tn)).ToArray();           
-            SetExistingPdfTemplates(context);
 
-            SetSettingItems(context);
-            SetUserSettings(context);
+            bool dataSeedEnabled = true;
+            if (_configuration.GetSetting(WebConfigKeys.INITIAL_DATA_SEED_ENABLED_CONFIG_KEY) != null)
+            {
+                bool.TryParse(_configuration.GetSetting(WebConfigKeys.INITIAL_DATA_SEED_ENABLED_CONFIG_KEY),
+                    out dataSeedEnabled);                
+            }
+
+            if (dataSeedEnabled)
+            {
+                var applications = SetApplications(context);
+                SetRoles(context);
+                SetTiers(context);
+                SetServiceUsers(context, context.Applications.Local.ToArray());
+                SetAspireTestUsers(context, context.Applications.Local.ToArray());
+                SetTestEquipmentTypes(context);
+                SetTestLicenseTypes(context);
+                SetTestProvinceTaxRates(context);
+                SetTestLicenseDocuments(context);
+		        SetTestVerficationIds(context);
+                SetAspireStatuses(context);
+                SetDocumentTypes(context);
+                SetLanguages(context);
+                var templates = SetDocuSignTemplates(context);
+                SetInstallationСertificateTemplates(context, context.Applications.Local.ToArray());
+                SetPdfTemplates(context, templates);                                
+                SetSettingItems(context);
+                SetUserSettings(context);                
+                SetRateCards(context);
+            }
+            //read updated pdt templates anyway
+            SetExistingPdfTemplates(context);
+            //read daelers logos anyway
             SetUserLogos(context);
+        }
+        private void SetTestLicenseTypes(ApplicationDbContext context)
+        {
+            //do not set equipments it DB is not empty
+            if (!context.LicenseTypes.Any())
+            {
+                var licenseTypes = new List<LicenseType>
+                {
+                    new LicenseType {Name = "Apprenticeship and Industry Training Certification"},
+                    new LicenseType {Name = "Apprenticeship and Trades Certification Division"},
+                    new LicenseType {Name = "Apprenticeship Manitoba"},
+                    new LicenseType {Name = "Apprenticeship Section Department of Innovation and Advanced Leaning Post Secondary and Continuing Education"},
+                    new LicenseType {Name = "British Columbia Industry Training Authority Certification"},
+                    new LicenseType {Name = "British Columbia Safety Authority"},
+                    new LicenseType {Name = "CMEQ (La Corporation Des Maîtres Électriciens Du Québec)"},
+                    new LicenseType {Name = "Commission De La Construction Du Québec"},
+                    new LicenseType {Name = "Departmant of Advanced Education and Skills"},
+                    new LicenseType {Name = "Department of Education, Culture & Employment"},
+                    new LicenseType {Name = "Department of Family Services, Apprenticeship, Trade and Occupations"},
+                    new LicenseType {Name = "Department of Post-Secondary Education, Training and Labour"},
+                    new LicenseType {Name = "Department of Public Safety"},
+                    new LicenseType {Name = "Department of Workforce and Advanced Learning"},
+                    new LicenseType {Name = "Emploi-Quebec"},
+                    new LicenseType {Name = "Gas and Electrical Licensing"},
+                    new LicenseType {Name = "Labour and Advanced Education"},
+                    new LicenseType {Name = "Manitoba Office of the Fire Commissioner Сertificate"},
+                    new LicenseType {Name = "Ministry of Education Сertificate"},
+                    new LicenseType {Name = "Nova Scotia Apprenticeship Agency"},
+                    new LicenseType {Name = "Ontario Colleges of Trades Certification"},
+                    new LicenseType {Name = "Saskatchewan Apprenticeship and Trade Certification Commission"},
+                    new LicenseType {Name = "Technical Standards and Safety Authority Certification"},
+                    new LicenseType {Name = "Commission de la Construction du Québec"},
+
+                };
+                //leave existing data
+                licenseTypes.RemoveAll(e => context.LicenseTypes.Any(dbe => dbe.Name == e.Name));
+                context.LicenseTypes.AddOrUpdate(e => e.Name, licenseTypes.ToArray());
+            }
+        }
+
+        private void SetTestLicenseDocuments(ApplicationDbContext context)
+        {
+            if (!context.LicenseDocuments.Any())
+            {
+                var licenseDocuments = new List<LicenseDocument>
+                {
+                    #region Air Conditioner
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="AB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="AB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="MB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="MB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Manitoba")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Post-Secondary Education, Training and Labour")
+                    },new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NL")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NL"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Trades Certification Division")
+                    },new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Education, Culture & Employment")
+                    },new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NS")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NS"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour and Advanced Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NU")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NU"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Family Services, Apprenticeship, Trade and Occupations")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="ON")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="ON"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges of Trades Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="PE")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="PE"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Section Department of Innovation and Advanced Leaning Post Secondary and Continuing Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO1") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO1"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="SK")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="SK"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Saskatchewan Apprenticeship and Trade Certification Commission")
+                    },
+                    #endregion
+                    #region  Boilers
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="AB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="AB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Safety Authority")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="MB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="MB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Сertificate")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Public Safety")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NL")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NL"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Trades Certification Division")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Education, Culture & Employment")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NS")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NS"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour and Advanced Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NU")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NU"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Family Services, Apprenticeship, Trade and Occupations")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="ON")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="ON"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges of Trades Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="ON")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="ON"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Technical Standards and Safety Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="PE")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="PE"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Section Department of Innovation and Advanced Leaning Post Secondary and Continuing Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="SK")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="SK"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Gas and Electrical Licensing")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO2") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO2"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="YT") ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="YT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Сertificate")
+                    },
+                    
+                    #endregion
+                    #region Doors
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO3") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO3"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="AB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="AB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO3") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO3"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO3") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO3"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
+                    },
+                    #endregion
+                    #region Fireplace
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="AB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="AB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Safety Authority")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="MB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="MB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Сertificate")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Public Safety")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NL")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NL"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Trades Certification Division")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Education, Culture & Employment")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NS")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NS"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour and Advanced Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NU")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NU"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Family Services, Apprenticeship, Trade and Occupations")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="ON")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="ON"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges of Trades Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="ON")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="ON"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Technical Standards and Safety Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="PE")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="PE"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Section Department of Innovation and Advanced Leaning Post Secondary and Continuing Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="SK")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="SK"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Gas and Electrical Licensing")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO4") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO4"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="YT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="YT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Сertificate")
+                    },
+                    #endregion
+                    #region Furnace
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="AB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="AB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Safety Authority")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="MB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="MB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Сertificate")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Public Safety")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NL")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NL"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Trades Certification Division")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Education, Culture & Employment")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NS")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NS"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour and Advanced Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NU")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NU"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Family Services, Apprenticeship, Trade and Occupations")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="ON")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="ON"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges of Trades Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="ON")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="ON"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Technical Standards and Safety Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="PE")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="PE"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Section Department of Innovation and Advanced Leaning Post Secondary and Continuing Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="SK")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="SK"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Gas and Electrical Licensing")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO5") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO5"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="YT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="YT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Сertificate")
+                    },
+                    #endregion
+                    #region HWT
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="AB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="AB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="MB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="MB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Сertificate")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Public Safety")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NL")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NL"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Trades Certification Division")
+                    },new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Education, Culture & Employment")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NS")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NS"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour and Advanced Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NU")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NU"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Family Services, Apprenticeship, Trade and Occupations")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="ON")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="ON"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges of Trades Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="ON")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="ON"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Technical Standards and Safety Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="PE")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="PE"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Section Department of Innovation and Advanced Leaning Post Secondary and Continuing Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="SK")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="SK"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Gas and Electrical Licensing")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO6") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO6"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="YT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="YT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Сertificate")
+                    },
+                    #endregion
+                    #region Plumbing
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO7"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="AB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="AB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO7"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO7"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="MB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="MB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Manitoba")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO7"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Post-Secondary Education, Training and Labour")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO7"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Education, Culture & Employment")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO7"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NS")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NS"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour and Advanced Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO7"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NU")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NU"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Family Services, Apprenticeship, Trade and Occupations")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO7"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="ON")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="ON"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges of Trades Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO7"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="PE")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="PE"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Workforce and Advanced Learning")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO7"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO7") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO7"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="SK")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="SK"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Saskatchewan Apprenticeship and Trade Certification Commission")
+                    },
+                    #endregion
+                    #region Roofing
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO9") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO9"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
+                    },
+                    #endregion
+                    #region Tankless Water Heater
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="AB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="AB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Safety Authority")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="MB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="MB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Сertificate")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Public Safety")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NL")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NL"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Trades Certification Division")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Education, Culture & Employment")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NS")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NS"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour and Advanced Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NU")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NU"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Family Services, Apprenticeship, Trade and Occupations")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="ON")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="ON"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges of Trades Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="ON")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="ON"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Technical Standards and Safety Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="PE")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="PE"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Section Department of Innovation and Advanced Leaning Post Secondary and Continuing Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="SK")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="SK"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Gas and Electrical Licensing")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO11") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO11"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="YT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="YT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Сertificate")
+                    },
+                    #endregion
+                    #region Windows
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO13") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO13"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="AB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="AB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO13") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO13"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO13") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO13"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
+                    },
+                    #endregion
+                    #region Sunrooms
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="AB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="AB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="MB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="MB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Manitoba")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Post-Secondary Education, Training and Labour")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO38"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="SK")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="SK"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Saskatchewan Apprenticeship and Trade Certification Commission")
+                    },
+                    #endregion
+                    #region Air Handler
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO40"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="AB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="AB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO40"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO40"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="MB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="MB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Manitoba")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO40"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Post-Secondary Education, Training and Labour")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="ON")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="ON"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges of Trades Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO40"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NL")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NL"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Trades Certification Division")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO40"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Education, Culture & Employment")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO40"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NS")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NS"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour and Advanced Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO40"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NU")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NU"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Family Services, Apprenticeship, Trade and Occupations")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO40"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="PE")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="PE"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Section Department of Innovation and Advanced Leaning Post Secondary and Continuing Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO40"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO40") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO40"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="SK")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="SK"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Saskatchewan Apprenticeship and Trade Certification Commission")
+                    },
+                    #endregion
+                    #region Flooring
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO42") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO42"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="AB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="AB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO42") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO42"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO42") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO42"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO42") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO42"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="SK")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="SK"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Gas and Electrical Licensing")
+                    },
+                    #endregion
+                    #region Porch Enclosure
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO43") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO43"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="AB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="AB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO43") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO43"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO43") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO43"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
+                    },
+                    #endregion
+                    #region Heat Pump
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="AB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="AB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Safety Authority")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="MB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="MB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Сertificate")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Public Safety")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NL")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NL"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Trades Certification Division")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Education, Culture & Employment")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NS")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NS"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour and Advanced Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NU")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NU"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Family Services, Apprenticeship, Trade and Occupations")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="ON")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="ON"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges of Trades Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="ON")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="ON"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Technical Standards and Safety Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="PE")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="PE"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Section Department of Innovation and Advanced Leaning Post Secondary and Continuing Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="SK")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="SK"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Gas and Electrical Licensing")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO45") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO45"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="YT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="YT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Сertificate")
+                    },
+                    #endregion
+                    #region HRW
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="AB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="AB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="MB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="MB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Сertificate")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Public Safety")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NL")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NL"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Trades Certification Division")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Education, Culture & Employment")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NS")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NS"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour and Advanced Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NU")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NU"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Family Services, Apprenticeship, Trade and Occupations")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="ON")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="ON"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges of Trades Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="PE")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="PE"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Section Department of Innovation and Advanced Leaning Post Secondary and Continuing Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="SK")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="SK"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Gas and Electrical Licensing")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO46") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO46"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="YT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="YT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Сertificate")
+                    },
+                    #endregion
+                    #region Bathroom
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO47"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="AB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO47"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO47"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="MB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="MB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Manitoba")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO47"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Post-Secondary Education, Training and Labour")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO47"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Education, Culture & Employment")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO47"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NS")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NS"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour and Advanced Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO47"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NU")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NU"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Family Services, Apprenticeship, Trade and Occupations")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO47"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="ON")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="ON"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges of Trades Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO47"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO47") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO47"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="SK")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="SK"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Saskatchewan Apprenticeship and Trade Certification Commission")
+                    },
+                    #endregion
+                    #region Kitchen
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO48"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="AB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO48"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO48"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="MB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="MB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Manitoba")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO48"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Post-Secondary Education, Training and Labour")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO48"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Education, Culture & Employment")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO48"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NS")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NS"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour and Advanced Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO48"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NU")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NU"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Family Services, Apprenticeship, Trade and Occupations")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO48"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="ON")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="ON"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges of Trades Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO48"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO48"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="SK")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="SK"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Saskatchewan Apprenticeship and Trade Certification Commission")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO48") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO48"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="YT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="YT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Сertificate")
+                    },
+                    #endregion
+                    #region Basement Repair
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO55") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO55"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="AB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO55") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO55"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO55") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO55"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="MB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="MB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Manitoba")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO55") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO55"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Post-Secondary Education, Training and Labour")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO55") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO55"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Education, Culture & Employment")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO55") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO55"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NS")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NS"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour and Advanced Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO55") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO55"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NU")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NU"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Family Services, Apprenticeship, Trade and Occupations")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO55") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO55"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="ON")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="ON"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges of Trades Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO55") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO55"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO55") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO55"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="SK")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="SK"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Saskatchewan Apprenticeship and Trade Certification Commission")
+                    },
+                    #endregion
+                    #region Spa
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="AB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Safety Authority")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="MB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="MB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Manitoba Office of the Fire Commissioner Сertificate")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Public Safety")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NL")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NL"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Trades Certification Division")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Education, Culture & Employment")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NS")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NS"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Labour and Advanced Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="NU")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="NU"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Department of Family Services, Apprenticeship, Trade and Occupations")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="ON")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="ON"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ontario Colleges of Trades Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="ON")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="ON"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Technical Standards and Safety Authority Certification")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="PE")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="PE"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship Section Department of Innovation and Advanced Leaning Post Secondary and Continuing Education")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="SK")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="SK"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Gas and Electrical Licensing")
+                    },
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO58") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO58"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="YT")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="YT"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Ministry of Education Сertificate")
+                    },
+                    #endregion
+                    #region Siding
+                    new LicenseDocument
+                    {
+                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO10") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO10"),
+                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="AB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="AB"),
+                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
+                    },
+                    #endregion
+                    //#region Security System
+                    //new LicenseDocument
+                    //{
+                    //    Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO52") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO52"),
+                    //    Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
+                    //    License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Commission de la Construction du Québec")
+                    //},
+                    //#endregion
+                };
+                context.LicenseDocuments.AddRange(licenseDocuments.ToArray());
+            }
+        }
+
+        public void SetTiers(ApplicationDbContext context)
+        {
+            context.Tiers.AddOrUpdate(new Tier
+            {
+                Id = 1,
+                Name = "Rate Card Tier 1"
+            });
+
+            context.Tiers.AddOrUpdate(new Tier
+            {
+                Id = 2,
+                Name = "Rate Card Tier 2",
+
+            });
         }
 
         private void SetRoles(ApplicationDbContext context)
@@ -66,84 +1422,53 @@ namespace DealnetPortal.DataAccess.Migrations
         {
             var applications = new[]
             {
-                new Application {Id = EcohomeAppId, Name = "Ecohome", LegalName = "EcoHome Financial Inc.", FinanceProgram = "EcoHome Finance Program"},
-                new Application {Id = OdiAppId, Name = "ODI"}
+                new Application {Id = EcohomeAppId, Name = "Ecohome", LegalName = "EcoHome Financial Inc.", FinanceProgram = "EcoHome Finance Program", LeadSource = "LeadSourceEcohome"},
+                new Application {Id = OdiAppId, Name = "ODI", LeadSource = "LeadSourceOdi"}
             };
 
             context.Applications.AddOrUpdate(a => a.Id, applications);
             return applications;
         }
-
-        private void SetTestUsers(ApplicationDbContext context, Application[] applications)
+        
+        /// Set special Service Users to a DB
+        private void SetServiceUsers(ApplicationDbContext context, Application[] applications)
         {
-            var user1 = new ApplicationUser()
-            {
-                Email = "user@user.com",
-                UserName = "user@user.com",
-                Application = applications.First(x => x.Id == EcohomeAppId),
-                ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = false,
-                TwoFactorEnabled = false,
-                LockoutEnabled = false,
-                AccessFailedCount = 0,
-                EsignatureEnabled = false,
-                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
-                //Password: 123_Qwe
-                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"
-            };
-            var user2 = new ApplicationUser()
-            {
-                Email = "user2@user.com",
-                UserName = "user2@user.com",
-                Application = applications.First(x => x.Id == OdiAppId),
-                ApplicationId = applications.First(x => x.Id == OdiAppId)?.Id,
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = false,
-                TwoFactorEnabled = false,
-                LockoutEnabled = false,
-                AccessFailedCount = 0,
-                EsignatureEnabled = false,
-                PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
-                //Password: 123_Qwe
-                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"
-            };
-            
-            var users = new List<ApplicationUser>() {user1, user2};
-            //leave existing users data
-            users.RemoveAll(u => context.Users.Any(dbu => dbu.UserName == u.UserName));
-            context.Users.AddOrUpdate(u => u.UserName, users.ToArray());
-
+            var customerCreatorUserName = "CustomerCreator";            
             //Add customer creator to group
             //var appRoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));            
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-            var customerCreator = new ApplicationUser()
+            if (userManager.FindByName(customerCreatorUserName) == null)
             {
-                Email = "customerCreator@user.com",
-                UserName = "CustomerCreator",
-                Application = applications.First(x => x.Id == EcohomeAppId),
-                ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = false,
-                TwoFactorEnabled = false,
-                LockoutEnabled = false,
-                AccessFailedCount = 0,
-                EsignatureEnabled = false,
-                //PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
-                //Password: 123_Qwe
-                SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"
-            };
-            var addResult = userManager.Create(customerCreator, "123_Qwe");
-            if (addResult.Succeeded)
-            {
-                userManager.AddToRole(customerCreator.Id, UserRole.CustomerCreator.ToString());
-            }            
+                var customerCreator = new ApplicationUser()
+                {
+                    Email = "customerCreator@user.com",
+                    UserName = customerCreatorUserName,
+                    Application = applications.First(x => x.Id == EcohomeAppId),
+                    ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
+                    EmailConfirmed = true,
+                    PhoneNumberConfirmed = false,
+                    TwoFactorEnabled = false,
+                    LockoutEnabled = false,
+                    AccessFailedCount = 0,
+                    EsignatureEnabled = false,
+                    //PasswordHash = "AAInS7oMLYVc0Z6tOXbu224LqdIGygS7kGnngFWX8jB4JHjRpZYSYwubaf3D6LknnA==",
+                    //Password: 123_Qwe
+                    SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"
+                };
+                var addResult = userManager.Create(customerCreator, "123_Qwe");
+                if (addResult.Succeeded)
+                {
+                    userManager.AddToRole(customerCreator.Id, UserRole.CustomerCreator.ToString());
+                }
+            }
         }
 
         private void SetAspireTestUsers(ApplicationDbContext context, Application[] applications)
         {
-            List<ApplicationUser> users = new List<ApplicationUser>();
-
+            //Do not set users to a DB is DB is not empty
+            if (!context.Users.Any())
+            {
+                List<ApplicationUser> users = new List<ApplicationUser>();
             //One Dealer users
             var onedealerUser = new ApplicationUser()
             {
@@ -234,7 +1559,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Eco Smart Home Services",
                 AspireAccountId = "70017",
                 AspireLogin = "ecosmart",
-                AspirePassword = "123456"
+                AspirePassword = "123456",
+                TierId = 1
             };
             //context.Users.Add(ecosmartUser);
             users.Add(ecosmartUser);
@@ -257,7 +1583,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Canadian Home Efficiency Services",
                 AspireAccountId = "70122",
                 AspireLogin = "canadianhome",
-                AspirePassword = "123456789"
+                AspirePassword = "123456789",
+                TierId = 1
             };
             //context.Users.Add(canadianhomeUser);
             users.Add(canadianhomeUser);
@@ -280,7 +1607,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Enertech Home Services",
                 AspireAccountId = "70133",
                 AspireLogin = "enertech",
-                AspirePassword = "123456789"
+                AspirePassword = "123456789",
+                TierId = 1
             };
             //context.Users.Add(enertechUser);
             users.Add(enertechUser);
@@ -303,7 +1631,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Efficiency Standard Home Services",
                 AspireAccountId = "70116",
                 AspireLogin = "efficiency",
-                AspirePassword = "123456789"
+                AspirePassword = "123456789",
+                TierId = 1
             };
             //context.Users.Add(efficiencyUser);
             users.Add(efficiencyUser);
@@ -328,7 +1657,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Eco Energy Home Services",
                 AspireAccountId = "70015",
                 AspireLogin = "ecoenergy",
-                AspirePassword = "123456789"
+                AspirePassword = "123456789",
+                TierId = 1
             };
 
             ecoenergyUser.SubDealers = new HashSet<ApplicationUser>();
@@ -350,7 +1680,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Apex Home Services",
                 AspireAccountId = "70015",
                 AspireLogin = "ecoenergy",
-                AspirePassword = "123456789"
+                AspirePassword = "123456789",
+                TierId = 1
             };
             ecoenergyUser.SubDealers.Add(ecoenergySubUser);
             users.Add(ecoenergySubUser);
@@ -372,7 +1703,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Ontario Safety Standards",
                 AspireAccountId = "70015",
                 AspireLogin = "ecoenergy",
-                AspirePassword = "123456789"
+                AspirePassword = "123456789",
+                TierId = 1
             };
             ecoenergyUser.SubDealers.Add(ecoenergySubUser);
             users.Add(ecoenergySubUser);
@@ -394,7 +1726,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Ikotel O/A Ontario Water Health Safety",
                 AspireAccountId = "70015",
                 AspireLogin = "ecoenergy",
-                AspirePassword = "123456789"
+                AspirePassword = "123456789",
+                TierId = 1
             };
             ecoenergyUser.SubDealers.Add(ecoenergySubUser);
             users.Add(ecoenergySubUser);
@@ -416,7 +1749,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Ontario Green Solutions",
                 AspireAccountId = "70015",
                 AspireLogin = "ecoenergy",
-                AspirePassword = "123456789"
+                AspirePassword = "123456789",
+                TierId = 1
             };
             ecoenergyUser.SubDealers.Add(ecoenergySubUser);
             users.Add(ecoenergySubUser);
@@ -438,7 +1772,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "EcoLife",
                 AspireAccountId = "70015",
                 AspireLogin = "ecoenergy",
-                AspirePassword = "123456789"
+                AspirePassword = "123456789",
+                TierId = 1
             };
             ecoenergyUser.SubDealers.Add(ecoenergySubUser);
             users.Add(ecoenergySubUser);
@@ -464,7 +1799,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Smart Home",
                 AspireAccountId = "70101",
                 AspireLogin = "smarthome",
-                AspirePassword = "password"
+                AspirePassword = "password",
+                TierId = 1
             };
             users.Add(smartHomeUser);
 
@@ -493,8 +1829,8 @@ namespace DealnetPortal.DataAccess.Migrations
 
             var clarityUser = new ApplicationUser()
             {
-                Email = "claritydealer@testdealnet.ca",
-                UserName = "clarity",
+                Email = "clarityclimatecaredealer@testdealnet.ca",
+                UserName = "clarityclimatecare",
                 Application = applications.First(x => x.Id == EcohomeAppId),
                 ApplicationId = applications.First(x => x.Id == EcohomeAppId)?.Id,
                 EmailConfirmed = true,
@@ -507,12 +1843,12 @@ namespace DealnetPortal.DataAccess.Migrations
                 //Password: 123456789
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773",
                 Company = "ECO",
-                DisplayName = "Clarity",
+                DisplayName = "Clarityclimatecare",
                 AspireAccountId = "70356",
-                AspireLogin = "clarity",
+                AspireLogin = "clarityclimatecare",
                 AspirePassword = "123456"
             };
-            users.Add(climatecareUser);
+            users.Add(clarityUser);
 
             //var climatecareUser = new ApplicationUser()
             //{
@@ -579,7 +1915,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Eco Home",
                 AspireAccountId = "70073",
                 AspireLogin = "Dangelo",
-                AspirePassword = "dangelo"
+                AspirePassword = "dangelo",
+                TierId = 1
             };
             users.Add(ecoHomeUser);
 
@@ -602,7 +1939,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Farhall Mechanical",
                 AspireAccountId = "70266",
                 AspireLogin = "fahrhall",
-                AspirePassword = "fahrhall"
+                AspirePassword = "fahrhall",
+                TierId = 1
             };
             users.Add(newUser);
 
@@ -625,7 +1963,8 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Life-Time Water",
                 AspireAccountId = "70182",
                 AspireLogin = "lifetimewater",
-                AspirePassword = "lifetimewater"
+                AspirePassword = "lifetimewater",
+                TierId = 1
             };
             users.Add(newUser);
 
@@ -648,55 +1987,93 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "PHP Home Services",
                 AspireAccountId = "70214",
                 AspireLogin = "phphome",
-                AspirePassword = "phphome"
+                AspirePassword = "phphome",
+                TierId = 1
             };
             users.Add(newUser);
-
-            //leave existing users data
-            users.RemoveAll(u => context.Users.Any(dbu => dbu.UserName == u.UserName));
-            //add new to db
-            context.Users.AddOrUpdate(u => u.UserName, users.ToArray());                       
+                //leave existing users data
+                users.RemoveAll(u => context.Users.Any(dbu => dbu.UserName == u.UserName));
+                //add new to db
+                context.Users.AddOrUpdate(u => u.UserName, users.ToArray());
+            }
         }
 
         private void SetTestEquipmentTypes(ApplicationDbContext context)
         {
-            var equipmentTypes = new List<EquipmentType>
+            //do not set equipments it DB is not empty
+            if (!context.EquipmentTypes.Any())
             {
-                new EquipmentType {Description = "Air Conditioner", DescriptionResource = "AirConditioner", Type = "ECO1"},
-                new EquipmentType {Description = "Boiler", DescriptionResource = "Boiler", Type = "ECO2"},
-                new EquipmentType {Description = "Doors", DescriptionResource = "Doors", Type = "ECO3"},
-                new EquipmentType {Description = "Fireplace", DescriptionResource = "Fireplace", Type = "ECO4"},
-                new EquipmentType {Description = "Furnace", DescriptionResource = "Furnace", Type = "ECO5"},
-                new EquipmentType {Description = "HWT", DescriptionResource = "Hwt", Type = "ECO6"},
-                new EquipmentType {Description = "Plumbing", DescriptionResource = "Plumbing", Type = "ECO7"},
-                new EquipmentType {Description = "Roofing", DescriptionResource = "Roofing", Type = "ECO9"},
-                new EquipmentType {Description = "Siding", DescriptionResource = "Siding", Type = "ECO10"},
-                new EquipmentType {Description = "Tankless Water Heater", DescriptionResource = "TanklessWaterHeater", Type = "ECO11"},
-                new EquipmentType {Description = "Windows", DescriptionResource = "Windows", Type = "ECO13"},
-                new EquipmentType {Description = "Sunrooms", DescriptionResource = "Sunrooms", Type = "ECO38"},
-                new EquipmentType {Description = "Air Handler", DescriptionResource = "AirHandler", Type = "ECO40"},
-                //new EquipmentType {Description = "Flooring", DescriptionResource = "Flooring", Type = "ECO42"},
-                new EquipmentType {Description = "Porch Enclosure", DescriptionResource = "PorchEnclosure", Type = "ECO43"},
-                new EquipmentType {Description = "Water Treatment System", DescriptionResource = "WaterTreatmentSystem", Type = "ECO44"},
-                new EquipmentType {Description = "Heat Pump", DescriptionResource = "HeatPump", Type = "ECO45"},
-                new EquipmentType {Description = "HRV", DescriptionResource = "Hrv", Type = "ECO46"},
-                new EquipmentType {Description = "Bathroom", DescriptionResource = "Bathroom", Type = "ECO47"},
-                new EquipmentType {Description = "Kitchen", DescriptionResource = "Kitchen", Type = "ECO48"},
-                new EquipmentType {Description = "Hepa System", DescriptionResource = "HepaSystem", Type = "ECO49"},
-                //new EquipmentType {Description = "Unknown", DescriptionResource = "Unknown", Type = "ECO50"},
-                //new EquipmentType {Description = "Security System", DescriptionResource = "SecuritySystem", Type = "ECO52"},
-                new EquipmentType {Description = "Basement Repair", DescriptionResource = "BasementRepair", Type = "ECO55"},
-                new EquipmentType {Description = "Spa", DescriptionResource = "Spa", Type = "ECO58"},
-                new EquipmentType {Description = "Well pump", DescriptionResource = "WellPump", Type = "ECO59"},
-                new EquipmentType {Description = "Air Filtration", DescriptionResource = "AirFiltration", Type = "ECO23"},
-                new EquipmentType {Description = "Hot Tub", DescriptionResource = "HotTub", Type = "ECO54"},
-                new EquipmentType {Description = "Vertical Fan/HRV Combo", DescriptionResource = "VerticalFanHRVCombo", Type = "ECO60"},
-                new EquipmentType {Description = "Pool", DescriptionResource = "Pool", Type = "ECO53"}
-            };
-            //leave existing data
-            //equipmentTypes.RemoveAll(e => context.EquipmentTypes.Any(dbe => dbe.Type == e.Type));
-            context.EquipmentTypes.AddOrUpdate(e => e.Type, equipmentTypes.ToArray());
-            
+                var equipmentTypes = new List<EquipmentType>
+                {
+                    new EquipmentType
+                    {
+                        Description = "Air Conditioner",
+                        DescriptionResource = "AirConditioner",
+                        Type = "ECO1"
+                    },
+                    new EquipmentType {Description = "Boiler", DescriptionResource = "Boiler", Type = "ECO2"},
+                    new EquipmentType {Description = "Doors", DescriptionResource = "Doors", Type = "ECO3"},
+                    new EquipmentType {Description = "Fireplace", DescriptionResource = "Fireplace", Type = "ECO4"},
+                    new EquipmentType {Description = "Furnace", DescriptionResource = "Furnace", Type = "ECO5"},
+                    new EquipmentType {Description = "HWT", DescriptionResource = "Hwt", Type = "ECO6"},
+                    new EquipmentType {Description = "Plumbing", DescriptionResource = "Plumbing", Type = "ECO7"},
+                    new EquipmentType {Description = "Roofing", DescriptionResource = "Roofing", Type = "ECO9"},
+                    new EquipmentType {Description = "Siding", DescriptionResource = "Siding", Type = "ECO10"},
+                    new EquipmentType
+                    {
+                        Description = "Tankless Water Heater",
+                        DescriptionResource = "TanklessWaterHeater",
+                        Type = "ECO11"
+                    },
+                    new EquipmentType {Description = "Windows", DescriptionResource = "Windows", Type = "ECO13"},
+                    new EquipmentType {Description = "Sunrooms", DescriptionResource = "Sunrooms", Type = "ECO38"},
+                    new EquipmentType {Description = "Air Handler", DescriptionResource = "AirHandler", Type = "ECO40"},
+                    new EquipmentType {Description = "Flooring", DescriptionResource = "Flooring", Type = "ECO42"},
+                    new EquipmentType
+                    {
+                        Description = "Porch Enclosure",
+                        DescriptionResource = "PorchEnclosure",
+                        Type = "ECO43"
+                    },
+                    new EquipmentType
+                    {
+                        Description = "Water Treatment System",
+                        DescriptionResource = "WaterTreatmentSystem",
+                        Type = "ECO44"
+                    },
+                    new EquipmentType {Description = "Heat Pump", DescriptionResource = "HeatPump", Type = "ECO45"},
+                    new EquipmentType {Description = "HRV", DescriptionResource = "Hrv", Type = "ECO46"},
+                    new EquipmentType {Description = "Bathroom", DescriptionResource = "Bathroom", Type = "ECO47"},
+                    new EquipmentType {Description = "Kitchen", DescriptionResource = "Kitchen", Type = "ECO48"},
+                    new EquipmentType {Description = "Hepa System", DescriptionResource = "HepaSystem", Type = "ECO49"},
+                    //new EquipmentType {Description = "Unknown", DescriptionResource = "Unknown", Type = "ECO50"},
+                    //new EquipmentType {Description = "c", DescriptionResource = "SecuritySystem", Type = "ECO52"},
+                    new EquipmentType
+                    {
+                        Description = "Basement Repair",
+                        DescriptionResource = "BasementRepair",
+                        Type = "ECO55"
+                    },
+                    new EquipmentType {Description = "Spa", DescriptionResource = "Spa", Type = "ECO58"},
+                    new EquipmentType {Description = "Well pump", DescriptionResource = "WellPump", Type = "ECO59"},
+                    new EquipmentType
+                    {
+                        Description = "Air Filtration",
+                        DescriptionResource = "AirFiltration",
+                        Type = "ECO23"
+                    },
+                    new EquipmentType {Description = "Hot Tub", DescriptionResource = "HotTub", Type = "ECO54"},
+                    new EquipmentType
+                    {
+                        Description = "Vertical Fan/HRV Combo",
+                        DescriptionResource = "VerticalFanHRVCombo",
+                        Type = "ECO60"
+                    }
+                };
+                //leave existing data
+                equipmentTypes.RemoveAll(e => context.EquipmentTypes.Any(dbe => dbe.Type == e.Type));
+                context.EquipmentTypes.AddOrUpdate(e => e.Type, equipmentTypes.ToArray());
+            }
         }
 
         private void SetTestProvinceTaxRates(ApplicationDbContext context)
@@ -704,23 +2081,43 @@ namespace DealnetPortal.DataAccess.Migrations
             //Obtained from http://www.retailcouncil.org/quickfacts/taxrates
             var taxRates = new List<ProvinceTaxRate>
             {
-                new ProvinceTaxRate {Province = "AB", Rate = 5, Description = "Gst"},
-                new ProvinceTaxRate {Province = "BC", Rate = 12, Description = "GstPst"},
-                new ProvinceTaxRate {Province = "MB", Rate = 13, Description = "GstPst"},
-                new ProvinceTaxRate {Province = "NB", Rate = 15, Description = "Hst"},
-                new ProvinceTaxRate {Province = "NL", Rate = 15, Description = "Hst"},
-                new ProvinceTaxRate {Province = "NT", Rate = 5, Description = "Gst"},
-                new ProvinceTaxRate {Province = "NS", Rate = 15, Description = "Hst"},
-                new ProvinceTaxRate {Province = "NU", Rate = 5, Description = "Gst"},
-                new ProvinceTaxRate {Province = "ON", Rate = 13, Description = "Hst"},
-                new ProvinceTaxRate {Province = "PE", Rate = 15, Description = "Hst"},
-                new ProvinceTaxRate {Province = "QC", Rate = 14.975, Description = "GstQst"},
-                new ProvinceTaxRate {Province = "SK", Rate = 11, Description = "GstPst"},
-                new ProvinceTaxRate {Province = "YT", Rate = 5, Description = "Gst"}
+                new ProvinceTaxRate {Province = "AB", Rate = 5, Description = "Gst", Name = "Alberta"},
+                new ProvinceTaxRate {Province = "BC", Rate = 12, Description = "GstPst", Name = "British Columbia"},
+                new ProvinceTaxRate {Province = "MB", Rate = 13, Description = "GstPst", Name = "Manitoba"},
+                new ProvinceTaxRate {Province = "NB", Rate = 15, Description = "Hst", Name = "New Brunswick"},
+                new ProvinceTaxRate {Province = "NL", Rate = 15, Description = "Hst", Name = "Newfoundland and Labrador"},
+                new ProvinceTaxRate {Province = "NT", Rate = 5, Description = "Gst", Name = "Northwest Territories"},
+                new ProvinceTaxRate {Province = "NS", Rate = 15, Description = "Hst", Name = "Nova Scotia"},
+                new ProvinceTaxRate {Province = "NU", Rate = 5, Description = "Gst", Name = "Nunavut"},
+                new ProvinceTaxRate {Province = "ON", Rate = 13, Description = "Hst", Name = "Ontario"},
+                new ProvinceTaxRate {Province = "PE", Rate = 15, Description = "Hst", Name = "Prince Edward Island"},
+                new ProvinceTaxRate {Province = "QC", Rate = 14.975, Description = "GstQst", Name = "Quebec"},
+                new ProvinceTaxRate {Province = "SK", Rate = 11, Description = "GstPst", Name = "Saskatchewan"},
+                new ProvinceTaxRate {Province = "YT", Rate = 5, Description = "Gst", Name = "Yukon"}
             };
             //leave existing data
-            //taxRates.RemoveAll(t => context.ProvinceTaxRates.Any(dbt => dbt.Province == t.Province));
+            taxRates.RemoveAll(t => context.ProvinceTaxRates.Any(dbt => dbt.Province == t.Province));
             context.ProvinceTaxRates.AddOrUpdate(t => t.Province, taxRates.ToArray());
+        }
+
+        private void SetTestVerficationIds(ApplicationDbContext context)
+        {
+            //Obtained from http://www.retailcouncil.org/quickfacts/taxrates
+            var VerificationIds = new List<VerifiactionId>
+            {
+                new VerifiactionId {VerificationIdName = "Driver’s license"},
+                new VerifiactionId {VerificationIdName = "BYID card"},
+                new VerifiactionId {VerificationIdName = "Canadian or foreign passport"},
+                new VerifiactionId {VerificationIdName = "Canadian citizenship card"},
+                new VerifiactionId {VerificationIdName = "Possession and Acquisition License (PAL card)"},
+                new VerifiactionId {VerificationIdName = "Permanent Residency Card"},
+                new VerifiactionId {VerificationIdName = "Certificate of Indian Status"},
+                new VerifiactionId {VerificationIdName = "Canadian National Institute for the Blind identification card"},
+                new VerifiactionId {VerificationIdName = "Canadian Military Employment Card "},
+                new VerifiactionId {VerificationIdName = "Canadian Military Family Identification Card"}
+
+            };
+            context.VerificationIds.AddOrUpdate(t => t.VerificationIdName, VerificationIds.ToArray());
         }
 
         private void SetAspireStatuses(ApplicationDbContext context)
@@ -740,15 +2137,16 @@ namespace DealnetPortal.DataAccess.Migrations
             var documentTypes = new List<DocumentType>
             {
                 new DocumentType()  {Id = (int)DocumentTemplateType.SignedContract, Description = "Signed contract", DescriptionResource = "SignedContract", Prefix = "SC_"},
-                new DocumentType()  {Id = (int)DocumentTemplateType.SignedInstallationCertificate, Description = "Signed Installation certificate", DescriptionResource = "SignedInstallationCertificate", Prefix = "SIC_"},
+                new DocumentType()  {Id = (int)DocumentTemplateType.SignedInstallationCertificate, Description = "Signed Installation Сertificate", DescriptionResource = "SignedInstallationСertificate", Prefix = "SIC_"},
                 new DocumentType()  {Id = (int)DocumentTemplateType.Invoice, Description = "Invoice", DescriptionResource = "Invoice", Prefix = "INV_"},
                 new DocumentType()  {Id = (int)DocumentTemplateType.VoidPersonalCheque, Description = "Copy of Void Personal Cheque", DescriptionResource = "VoidPersonalChequeCopy", Prefix = "VPC_"},
                 new DocumentType()  {Id = (int)DocumentTemplateType.ExtendedWarrantyForm, Description = "Extended Warranty Form", DescriptionResource = "ExtendedWarrantyForm", Prefix = "EWF_"},
                 new DocumentType()  {Id = (int)DocumentTemplateType.VerificationCall, Description = "Third party verification call", DescriptionResource = "ThirdPartyVerificationCall", Prefix = "TPV_"},
                 new DocumentType()  {Id = (int)DocumentTemplateType.Other, Description = "Other", DescriptionResource = "Other", Prefix = ""},
+                new DocumentType()  {Id = (int)DocumentTemplateType.Insurence, Description = "Proof of Insurance", DescriptionResource = "ProofOfInsurance", Prefix = ""}
             };
             //leave existing data
-            //documentTypes.RemoveAll(d => context.DocumentTypes.Any(dbd => dbd.Description == d.Description));
+            documentTypes.RemoveAll(d => context.DocumentTypes.Any(dbd => dbd.Description == d.Description));
             context.DocumentTypes.AddOrUpdate(d => d.Description, documentTypes.ToArray());
         }
 
@@ -1486,7 +2884,7 @@ namespace DealnetPortal.DataAccess.Migrations
             {
                 try
                 {
-                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings["AgreementTemplatesFolder"] ?? "SeedData";
+                    var seedDataFolder = _configuration.GetSetting(WebConfigKeys.AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY);
                     var dir = HostingEnvironment.MapPath($"~/{seedDataFolder}");
                     var path = Path.Combine(dir ?? "", t.TemplateName + ".pdf");
                     if (File.Exists(path))
@@ -1505,14 +2903,14 @@ namespace DealnetPortal.DataAccess.Migrations
             });
         }
 
-        private void SetInstallationCertificateTemplates(ApplicationDbContext context, Application[] applications)
+        private void SetInstallationСertificateTemplates(ApplicationDbContext context, Application[] applications)
         {
             List<AgreementTemplate> templates = new List<AgreementTemplate>();
 
             var template = new AgreementTemplate()
             {
                 AgreementType = AgreementType.RentalApplication,
-                TemplateName = "ONE DEALER Completion Certificate - Rental",
+                TemplateName = "ONE DEALER Completion Сertificate - Rental",
                 Application = applications.FirstOrDefault(x => x.Id == OdiAppId),
                 ApplicationId = applications.FirstOrDefault(x => x.Id == OdiAppId)?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedInstallationCertificate
@@ -1521,7 +2919,7 @@ namespace DealnetPortal.DataAccess.Migrations
 
             template = new AgreementTemplate()
             {
-                TemplateName = "EcoHome Completion Certificate - Rentals",
+                TemplateName = "EcoHome Completion Сertificate - Rentals",
                 Application = applications.FirstOrDefault(x => x.Id == EcohomeAppId),
                 ApplicationId = applications.FirstOrDefault(x => x.Id == EcohomeAppId)?.Id,
                 AgreementType = AgreementType.RentalApplication,
@@ -1530,7 +2928,7 @@ namespace DealnetPortal.DataAccess.Migrations
             templates.Add(template);
             template = new AgreementTemplate()
             {
-                TemplateName = "EcoHome Completion Certificate - Rentals",
+                TemplateName = "EcoHome Completion Сertificate - Rentals",
                 Application = applications.FirstOrDefault(x => x.Id == EcohomeAppId),
                 ApplicationId = applications.FirstOrDefault(x => x.Id == EcohomeAppId)?.Id,
                 AgreementType = AgreementType.RentalApplicationHwt,
@@ -1539,7 +2937,7 @@ namespace DealnetPortal.DataAccess.Migrations
             templates.Add(template);
             template = new AgreementTemplate()
             {
-                TemplateName = "EcoHome Certificate of Completion - Loans",
+                TemplateName = "EcoHome Сertificate of Completion - Loans",
                 Application = applications.FirstOrDefault(x => x.Id == EcohomeAppId),
                 ApplicationId = applications.FirstOrDefault(x => x.Id == EcohomeAppId)?.Id,
                 AgreementType = AgreementType.LoanApplication,
@@ -1557,7 +2955,7 @@ namespace DealnetPortal.DataAccess.Migrations
             {
                 try
                 {
-                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings["AgreementTemplatesFolder"] ?? "SeedData";
+                    var seedDataFolder = _configuration.GetSetting(WebConfigKeys.AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY);
                     var dir = HostingEnvironment.MapPath($"~/{seedDataFolder}");
                     var path = Path.Combine(dir ?? "", t.TemplateName + ".pdf");
                     if (File.Exists(path))
@@ -1891,7 +3289,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     { "@logo-height", "36px"}
             };
             SetDealerStringSettings(context, "climatecare", climatecareSettings);
-            SetDealerStringSettings(context, "clarity", claritySettings);
+            SetDealerStringSettings(context, "clarityclimatecare", claritySettings);
         }
 
         private void SetDealerStringSettings(ApplicationDbContext context, string userName, Dictionary<string, string> values)
@@ -1922,7 +3320,7 @@ namespace DealnetPortal.DataAccess.Migrations
             {
                 try
                 {
-                    var seedDataFolder = System.Configuration.ConfigurationManager.AppSettings["AgreementTemplatesFolder"] ?? "SeedData";
+                    var seedDataFolder = _configuration.GetSetting(WebConfigKeys.AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY);
                     var dir = HostingEnvironment.MapPath($"~/{seedDataFolder}") ?? "";
 
                     var files = Directory.GetFiles(dir, $"{u.UserName}*.*");
@@ -1961,6 +3359,2929 @@ namespace DealnetPortal.DataAccess.Migrations
                     // ignored
                 }
             });
+        }
+
+        private void SetRateCards(ApplicationDbContext context)
+        {
+            if (!context.RateCards.Any())
+            {
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 1,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 10.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 2,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 10.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 3,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 10.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 4,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 10.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+
+                #region RateCards - Fixed Rate 5000 - 9999.99 Tier 1
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 5,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 8.74,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 6,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 8.74,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 7,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 8.74,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 8,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 8.74,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 9,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 8.74,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Fixed Rate 10000 - 19999.99 Tier 1
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 10,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 7.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 11,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 7.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 12,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 7.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 13,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 7.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 14,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 7.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Fixed Rate 20000 - 50000 Tier 1
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 15,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 6.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 16,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 6.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 17,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 6.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 18,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 6.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 19,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 6.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - NoInterest 1000 - 50000 Tier 1
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 20,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 0,
+                    DealerCost = 8.25,
+                    AdminFee = 0,
+                    LoanTerm = 24,
+                    AmortizationTerm = 24,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.NoInterest,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 21,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 0,
+                    DealerCost = 11.8,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.NoInterest,
+                    IsPromo = false
+                });
+
+                #endregion
+
+                #region RateCards - Deferral 1000 - 4999.99 Tier 1 Defferal Period 3
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 22,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 10.99,
+                    DealerCost = 2.2,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 23,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 10.99,
+                    DealerCost = 2.2,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 24,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 10.99,
+                    DealerCost = 2.2,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 25,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 10.99,
+                    DealerCost = 2.2,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Deferral 5000 - 9999.99 Tier 1 Deferral Period 3
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 26,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 8.74,
+                    DealerCost = 2.2,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 27,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 8.74,
+                    DealerCost = 2.2,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 28,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 8.74,
+                    DealerCost = 2.2,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 29,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 8.74,
+                    DealerCost = 2.2,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 30,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 8.74,
+                    DealerCost = 2.2,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Deferral 10000 - 19999.99 Tier 1 Deferral Period 3
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 31,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 7.99,
+                    DealerCost = 2.2,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 32,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 7.99,
+                    DealerCost = 2.2,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 33,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 7.99,
+                    DealerCost = 2.2,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 34,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 7.99,
+                    DealerCost = 2.2,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 35,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 7.99,
+                    DealerCost = 2.2,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Deferral 20000 - 50000 Tier 1 Deferral Period 3
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 36,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 6.99,
+                    DealerCost = 2.2,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 37,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 6.99,
+                    DealerCost = 2.2,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 38,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 6.99,
+                    DealerCost = 2.2,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 39,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 6.99,
+                    DealerCost = 2.2,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 40,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 6.99,
+                    DealerCost = 2.2,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Deferral 1000 - 4999.99 Tier 1 Defferal Period 6
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 41,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 10.99,
+                    DealerCost = 4.5,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 42,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 10.99,
+                    DealerCost = 4.5,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 43,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 10.99,
+                    DealerCost = 4.5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 44,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 10.99,
+                    DealerCost = 4.5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Deferral 5000 - 9999.99 Tier 1 Deferral Period 6
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 45,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 8.74,
+                    DealerCost = 4.5,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 46,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 8.74,
+                    DealerCost = 4.5,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 47,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 8.74,
+                    DealerCost = 4.5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 48,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 8.74,
+                    DealerCost = 4.5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 49,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 8.74,
+                    DealerCost = 4.5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Deferral 10000 - 19999.99 Tier 1 Deferral Period 6
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 50,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 7.99,
+                    DealerCost = 4.5,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 51,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 7.99,
+                    DealerCost = 4.5,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 52,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 7.99,
+                    DealerCost = 4.5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 53,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 7.99,
+                    DealerCost = 4.5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 54,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 7.99,
+                    DealerCost = 4.5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Deferral 20000 - 50000 Tier 1 Deferral Period 6
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 55,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 6.99,
+                    DealerCost = 4.5,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 56,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 6.99,
+                    DealerCost = 4.5,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 57,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 6.99,
+                    DealerCost = 4.5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 58,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 6.99,
+                    DealerCost = 4.5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 59,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 6.99,
+                    DealerCost = 4.5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Deferral 1000 - 4999.99 Tier 1 Defferal Period 12
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 60,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 10.99,
+                    DealerCost = 9,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 61,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 10.99,
+                    DealerCost = 9,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 62,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 10.99,
+                    DealerCost = 9,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 63,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 10.99,
+                    DealerCost = 9,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Deferral 5000 - 9999.99 Tier 1 Deferral Period 12
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 64,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 8.74,
+                    DealerCost = 9,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 65,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 8.74,
+                    DealerCost = 9,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 66,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 8.74,
+                    DealerCost = 9,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 67,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 8.74,
+                    DealerCost = 9,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 68,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 8.74,
+                    DealerCost = 9,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Deferral 10000 - 19999.99 Tier 1 Deferral Period 12
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 69,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 7.99,
+                    DealerCost = 9,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 70,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 7.99,
+                    DealerCost = 9,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 71,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 7.99,
+                    DealerCost = 9,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 72,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 7.99,
+                    DealerCost = 9,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 73,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 7.99,
+                    DealerCost = 9,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Deferral 20000 - 50000 Tier 1 Deferral Period 12
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 74,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 6.99,
+                    DealerCost = 9,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 75,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 6.99,
+                    DealerCost = 9,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 76,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 6.99,
+                    DealerCost = 9,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 77,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 6.99,
+                    DealerCost = 9,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 78,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 6.99,
+                    DealerCost = 9,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Fixed Rate 1000 - 4999.99 Tier 2
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 79,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 11.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 80,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 11.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 81,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 11.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 82,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 11.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Fixed Rate 5000 - 9999.99 Tier 2
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 83,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 9.74,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 84,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 9.74,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 85,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 9.74,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 86,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 9.74,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 87,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 9.74,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Fixed Rate 10000 - 19999.99 Tier 2
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 88,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 8.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 89,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 8.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 90,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 8.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 91,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 8.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 92,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 8.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Fixed Rate 20000 - 50000 Tier 2
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 93,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 7.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 94,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 7.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 95,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 7.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 96,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 7.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 97,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 7.99,
+                    DealerCost = 0,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.FixedRate,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - NoInterest 1000 - 50000 Tier 2
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 98,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 0,
+                    DealerCost = 8.6,
+                    AdminFee = 0,
+                    LoanTerm = 24,
+                    AmortizationTerm = 24,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.NoInterest,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 99,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 0,
+                    DealerCost = 12.3,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 0,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.NoInterest,
+                    IsPromo = false
+                });
+
+                #endregion
+
+                #region RateCards - Deferral 1000 - 4999.99 Tier 2 Defferal Period 3
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 100,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 11.99,
+                    DealerCost = 2.5,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 101,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 11.99,
+                    DealerCost = 2.5,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 102,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 11.99,
+                    DealerCost = 2.5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 103,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 11.99,
+                    DealerCost = 2.5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Deferral 5000 - 9999.99 Tier 2 Deferral Period 3
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 104,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 9.74,
+                    DealerCost = 2.5,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 105,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 9.74,
+                    DealerCost = 2.5,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 106,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 9.74,
+                    DealerCost = 2.5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 107,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 9.74,
+                    DealerCost = 2.5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 108,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 9.74,
+                    DealerCost = 2.5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Deferral 10000 - 19999.99 Tier 2 Deferral Period 3
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 109,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 8.99,
+                    DealerCost = 2.5,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 110,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 8.99,
+                    DealerCost = 2.5,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 111,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 8.99,
+                    DealerCost = 2.5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 112,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 8.99,
+                    DealerCost = 2.5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 113,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 8.99,
+                    DealerCost = 2.5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Deferral 20000 - 50000 Tier 2 Deferral Period 3
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 114,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 7.99,
+                    DealerCost = 2.5,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 115,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 7.99,
+                    DealerCost = 2.5,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 116,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 7.99,
+                    DealerCost = 2.5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 117,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 7.99,
+                    DealerCost = 2.5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 118,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 7.99,
+                    DealerCost = 2.5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Deferral 1000 - 4999.99 Tier 2 Defferal Period 6
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 119,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 11.99,
+                    DealerCost = 5,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 120,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 11.99,
+                    DealerCost = 5,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 121,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 11.99,
+                    DealerCost = 5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 3,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 122,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 11.99,
+                    DealerCost = 5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Deferral 5000 - 9999.99 Tier 2 Deferral Period 6
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 123,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 9.74,
+                    DealerCost = 5,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 124,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 9.74,
+                    DealerCost = 5,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 125,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 9.74,
+                    DealerCost = 5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 126,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 9.74,
+                    DealerCost = 5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 127,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 9.74,
+                    DealerCost = 5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Deferral 10000 - 19999.99 Tier 2 Deferral Period 6
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 128,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 8.99,
+                    DealerCost = 5,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 129,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 8.99,
+                    DealerCost = 5,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 130,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 8.99,
+                    DealerCost = 5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 131,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 8.99,
+                    DealerCost = 5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 132,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 8.99,
+                    DealerCost = 5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Deferral 20000 - 50000 Tier 2 Deferral Period 6
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 133,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 7.99,
+                    DealerCost = 5,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 134,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 7.99,
+                    DealerCost = 5,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 135,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 7.99,
+                    DealerCost = 5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 136,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 7.99,
+                    DealerCost = 5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 137,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 7.99,
+                    DealerCost = 5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Deferral 1000 - 4999.99 Tier 2 Defferal Period 12
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 138,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 11.99,
+                    DealerCost = 9.7,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 139,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 11.99,
+                    DealerCost = 9.7,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 140,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 11.99,
+                    DealerCost = 9.7,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 141,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 11.99,
+                    DealerCost = 9.7,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Deferral 5000 - 9999.99 Tier 2 Deferral Period 12
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 142,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 9.74,
+                    DealerCost = 9.7,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 143,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 9.74,
+                    DealerCost = 9.7,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 144,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 9.74,
+                    DealerCost = 9.7,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 145,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 9.74,
+                    DealerCost = 9.7,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 146,
+                    LoanValueFrom = 5000,
+                    LoanValueTo = 9999.99,
+                    CustomerRate = 9.74,
+                    DealerCost = 9.7,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Deferral 10000 - 19999.99 Tier 2 Deferral Period 12
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 147,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 8.99,
+                    DealerCost = 9.7,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 148,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 8.99,
+                    DealerCost = 9.7,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 149,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 8.99,
+                    DealerCost = 9.7,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 150,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 8.99,
+                    DealerCost = 9.7,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 151,
+                    LoanValueFrom = 10000,
+                    LoanValueTo = 19999.99,
+                    CustomerRate = 8.99,
+                    DealerCost = 9.7,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                #region RateCards - Deferral 20000 - 50000 Tier 2 Deferral Period 12
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 152,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 7.99,
+                    DealerCost = 9.7,
+                    AdminFee = 0,
+                    LoanTerm = 36,
+                    AmortizationTerm = 36,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 153,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 7.99,
+                    DealerCost = 9.7,
+                    AdminFee = 0,
+                    LoanTerm = 48,
+                    AmortizationTerm = 48,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 154,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 7.99,
+                    DealerCost = 9.7,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 155,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 7.99,
+                    DealerCost = 9.7,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 120,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 156,
+                    LoanValueFrom = 20000,
+                    LoanValueTo = 50000,
+                    CustomerRate = 7.99,
+                    DealerCost = 9.7,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 180,
+                    DeferralPeriod = 12,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+                #endregion
+
+                //Missed rate cards
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 157,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 10.99,
+                    DealerCost = 4.5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 1,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+                context.RateCards.AddOrUpdate(new RateCard
+                {
+                    Id = 158,
+                    LoanValueFrom = 1000,
+                    LoanValueTo = 4999.99,
+                    CustomerRate = 11.99,
+                    DealerCost = 5,
+                    AdminFee = 0,
+                    LoanTerm = 60,
+                    AmortizationTerm = 60,
+                    DeferralPeriod = 6,
+                    ValidFrom = null,
+                    ValidTo = null,
+                    TierId = 2,
+                    CardType = RateCardType.Deferral,
+                    IsPromo = false
+                });
+
+            }
         }
 
         public static void AddOrUpdate<TEntity>(DbContext context, Expression<Func<TEntity, object>> identifiers, params TEntity[] entities) where TEntity : class

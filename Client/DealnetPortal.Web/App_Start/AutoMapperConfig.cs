@@ -11,10 +11,13 @@ using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.Profile;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Web.Models;
+using DealnetPortal.Web.Models.Dealer;
 using DealnetPortal.Web.Models.MyProfile;
+using DealnetPortal.Web.Models.Enumeration;
 using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType;
 using ContractState = DealnetPortal.Web.Models.Enumeration.ContractState;
 
@@ -217,6 +220,43 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.CustomerComment, d => d.MapFrom(src => src.CustomerComment))
                 .ForMember(x => x.HomeImprovementTypes, d => d.MapFrom(src => src.HomeImprovementTypes))
                 .ForMember(x => x.PrimaryCustomer, d => d.MapFrom(src => src.HomeOwnerContactInfo));
+            
+            cfg.CreateMap<EquipmentInformationViewModelNew, EquipmentInfoDTO>()
+                .ForMember(x => x.Id, d => d.MapFrom(src => src.ContractId ?? 0))
+                .ForMember(x => x.ValueOfDeal, d => d.Ignore())
+                .ForMember(x => x.InstallationDate, d => d.Ignore())
+                .ForMember(x => x.InstallerFirstName, d => d.Ignore())
+                .ForMember(x => x.InstallerLastName, d => d.Ignore())
+                .ForMember(x => x.DownPayment, d => d.MapFrom(s => s.DownPayment ?? 0))
+                .ForMember(x => x.RateCardId, s=>s.MapFrom( d=>d.SelectedRateCardId))
+                .ForMember(x => x.DeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.LoanDeferralType.ConvertTo<DeferralType>() : src.RentalDeferralType.ConvertTo<DeferralType>()));
+
+            cfg.CreateMap<AddressInformation, AddressDTO>()
+                .ForMember(x => x.Unit, d => d.MapFrom(src => src.UnitNumber))
+                .ForMember(x => x.State, d => d.MapFrom(src => src.Province));
+
+            cfg.CreateMap<ProductInfoViewModel, ProductInfoDTO>()
+                .ForMember(x => x.LeadGenLocalAdvertising, d => d.MapFrom(src => src.LeadGenLocalAds))
+                .ForMember(x => x.WithCurrentProvider, d => d.MapFrom(src => src.WithCurrentProvider))
+                .ForMember(x => x.OfferMonthlyDeferrals, d => d.MapFrom(src => src.OfferMonthlyDeferrals))
+                .ForMember(x => x.ServiceTypes, d => d.MapFrom(src => src.EquipmentTypes));
+
+            cfg.CreateMap<CompanyInfoViewModel, CompanyInfoDTO>();
+
+            cfg.CreateMap<OwnerViewModel, OwnerInfoDTO>()
+                .ForMember(x => x.Id, d => d.ResolveUsing(src => src.OwnerId ?? 0))
+                .ForMember(x => x.DateOfBirth, d => d.MapFrom(src => src.BirthDate))
+                .ForMember(x => x.MobilePhone, d => d.MapFrom(src => src.CellPhone));
+            cfg.CreateMap<AdditionalDocumentViewModel, AdditionalDocumentDTO>()
+                .ForMember(x => x.License, d => d.MapFrom(src => new LicenseTypeDTO {Id =src.LicenseTypeId}));
+            cfg.CreateMap<RequiredDocumentViewModel, RequiredDocumentDTO>();
+            cfg.CreateMap<DealerOnboardingViewModel, DealerInfoDTO>()
+                .ForMember(x => x.SalesRepLink, d => d.MapFrom(src => src.OnBoardingLink))
+                .ForMember(x => x.MarketingConsent, d => d.MapFrom(src => src.AllowCommunicate))
+                .ForMember(x => x.CreditCheckConsent, d => d.MapFrom(src => src.AllowCreditCheck))
+                .ForMember(x => x.RequiredDocuments, d => d.MapFrom(src => src.RequiredDocuments))
+                .ForMember(x => x.AdditionalDocuments, d => d.MapFrom(src => src.AdditionalDocuments));
+            
         }
 
         private static void MapModelsToVMs(IMapperConfigurationExpression cfg)
@@ -417,7 +457,20 @@ namespace DealnetPortal.Web.App_Start
                         }
                         return string.Empty;
                     }))
-                    .ForMember(d => d.CustomerComment, s => s.ResolveUsing(src => src.Details?.Notes));
+                    .ForMember(d => d.CustomerComment, s => s.ResolveUsing(src => 
+                    {
+                        if (src.Comments?.Any(x => x.IsCustomerComment == true) == true)
+                        {
+                            var comments = src.Comments
+                                .Where(x => x.IsCustomerComment == true)
+                                .Select(q => q.Text)
+                                .ToList();
+
+                            return string.Join(Environment.NewLine, comments);
+                        }
+
+                        return string.Empty;
+                    }));
 
             cfg.CreateMap<CustomerDTO, ApplicantPersonalInfo>()
                 .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth))
@@ -433,6 +486,7 @@ namespace DealnetPortal.Web.App_Start
 
             cfg.CreateMap<NewEquipmentDTO, NewEquipmentInformation>();
             cfg.CreateMap<ExistingEquipmentDTO, ExistingEquipmentInformation>();
+
             cfg.CreateMap<EquipmentInfoDTO, EquipmentInformationViewModel>()
                 .ForMember(x => x.ContractId, d => d.MapFrom(src => src.Id))
                 .ForMember(x => x.ProvinceTaxRate, d => d.Ignore())
@@ -486,8 +540,48 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.PostalCodes, d => d.MapFrom(src => src.PostalCodesList));
             cfg.CreateMap<DealerAreaDTO, DealerAreaViewModel>();
 
+            //New Version
+            cfg.CreateMap<EquipmentInfoDTO, EquipmentInformationViewModelNew>()
+                .ForMember(x => x.ContractId, d => d.MapFrom(src => src.Id))
+                .ForMember(x => x.DownPayment, d => d.MapFrom(src => src.DownPayment == 0 ? null : src.DownPayment))
+                .ForMember(x => x.SelectedRateCardId, d => d.MapFrom(o => o.RateCardId))
+                .ForMember(x => x.ProvinceTaxRate, d => d.Ignore())
+                .ForMember(x => x.CreditAmount, d => d.Ignore())
+                .ForMember(x => x.LoanDeferralType, d => d.ResolveUsing(src => src.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication ? src.DeferralType.ConvertTo<LoanDeferralType>() : 0))
+                .ForMember(x => x.RentalDeferralType, d => d.ResolveUsing(src => src.AgreementType != Api.Common.Enumeration.AgreementType.LoanApplication ? src.DeferralType : 0))
+                .ForMember(x => x.FullUpdate, d => d.Ignore())
+                .ForMember(x => x.IsAllInfoCompleted, d => d.Ignore())
+                .ForMember(x => x.IsApplicantsInfoEditAvailable, d => d.Ignore());
+
+            cfg.CreateMap<AddressDTO, AddressInformation>()
+                .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))
+                .ForMember(x => x.Province, d => d.MapFrom(src => src.State));
+
+            cfg.CreateMap<ProductInfoDTO, ProductInfoViewModel>()
+                .ForMember(x => x.LeadGenLocalAds, d => d.MapFrom(src => src.LeadGenLocalAdvertising ?? false))
+                .ForMember(x => x.WithCurrentProvider, d => d.MapFrom(src => src.WithCurrentProvider ?? false))
+                .ForMember(x => x.OfferMonthlyDeferrals, d => d.MapFrom(src => src.OfferMonthlyDeferrals ?? false))
+                .ForMember(x => x.EquipmentTypes, d => d.MapFrom(src => src.ServiceTypes));
+
+            cfg.CreateMap<CompanyInfoDTO, CompanyInfoViewModel>();
+
+            cfg.CreateMap<OwnerInfoDTO, OwnerViewModel>()
+                .ForMember(x => x.OwnerId, d => d.MapFrom(src => src.Id))
+                .ForMember(x => x.CellPhone, d => d.MapFrom(src => src.MobilePhone))
+                .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth));
+            cfg.CreateMap<AdditionalDocumentDTO, AdditionalDocumentViewModel>()
+                .ForMember(x => x.LicenseTypeId, d => d.MapFrom(src =>  src.License.Id));
+
+            cfg.CreateMap<RequiredDocumentDTO, RequiredDocumentViewModel>()
+                .ForMember(x => x.Name, d => d.MapFrom(src => src.DocumentName));
+
+            cfg.CreateMap<DealerInfoDTO, DealerOnboardingViewModel>()
+                .ForMember(x => x.OnBoardingLink, d =>d.MapFrom(src => src.SalesRepLink))
+                .ForMember(x => x.AllowCommunicate, d => d.MapFrom(src => src.MarketingConsent))
+                .ForMember(x => x.AllowCreditCheck, d => d.MapFrom(src => src.CreditCheckConsent))
+                .ForMember(x => x.RequiredDocuments, d => d.MapFrom(src => src.RequiredDocuments))
+                .ForMember(x => x.AdditionalDocuments, d => d.MapFrom(src => src.AdditionalDocuments));
+            
         }
-
-
     }
 }

@@ -12,6 +12,6 @@ namespace DealnetPortal.Api.Integration.ServiceAgents
     {
         Task<IList<Alert>> RegisterCustomer(RegisterCustomerBindingModel registerCustomer);
         Task<IList<Alert>> CreateTransaction(TransactionInfoDTO transactionInfo);
-        Task<bool> CheckUser(string userName);
+        Task<IList<Alert>> CheckUser(string userName);
     }
 }

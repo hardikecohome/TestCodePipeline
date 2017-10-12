@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
@@ -47,7 +48,7 @@ namespace DealnetPortal.Api.Providers
 
             _publicClientId = publicClientId;
 
-            if (!Enum.TryParse(ConfigurationManager.AppSettings.Get("AuthProvider"), out _authType))
+            if (!Enum.TryParse(ConfigurationManager.AppSettings.Get(WebConfigKeys.AUTHPROVIDER_CONFIG_KEY), out _authType))
             {
                 _authType = AuthType.AuthProvider;
             }
@@ -56,8 +57,17 @@ namespace DealnetPortal.Api.Providers
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
-            
-            ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
+            ApplicationUser user = null;
+            try
+            {            
+
+                user = await userManager.FindAsync(context.UserName, context.Password);
+            }
+            catch (Exception ex)
+            {
+
+                //throw;
+            }
 
             if (user == null || !string.IsNullOrEmpty(user.AspireLogin))
             {
@@ -215,27 +225,14 @@ namespace DealnetPortal.Api.Providers
                 }
 
                 if (alerts?.All(a => a.Type != AlertType.Error) ?? false)
-                {
+                {                    
                     var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
                     var applicationId = context.OwinContext.Get<string>("portalId");
                     var oldUser = await userManager.FindByNameAsync(context.UserName);
                  
                     if (oldUser != null)
-                    {
-                        //update password for existing aspire user
-                        var updateRes = await userManager.ChangePasswordAsync(oldUser.Id, oldUser.AspirePassword,
-                            context.Password);
-                        if (updateRes.Succeeded)
-                        {
-                            oldUser.AspirePassword = context.Password;                            
-                            updateRes = await userManager.UpdateAsync(oldUser);
-                            if (updateRes.Succeeded)
-                            {
-                                _loggingService?.LogInfo(
-                                    $"Password for Aspire user [{context.UserName}] was updated successefully");
-                                user = await userManager.FindAsync(context.UserName, context.Password);
-                            }
-                        }
+                    {                        
+                        user = oldUser;//await userManager.FindAsync(context.UserName, context.Password);
                     }
                     else
                     {
@@ -247,7 +244,7 @@ namespace DealnetPortal.Api.Providers
                             EmailConfirmed = true,
                             TwoFactorEnabled = false,
                             AspireLogin = context.UserName,
-                            AspirePassword = context.Password
+                            Secure_AspirePassword = context.Password
                         };                        
 
                         try
@@ -266,12 +263,32 @@ namespace DealnetPortal.Api.Providers
                         }
                     }
 
-                    var syncAlerts = await _usersService.SyncAspireUser(user);
-                    if (syncAlerts?.Any() ?? false)
+                    if (user != null)
                     {
-                        outAlerts.AddRange(syncAlerts);
-                    }
+                        var syncAlerts = await _usersService.SyncAspireUser(user);
+                        if (syncAlerts?.Any() ?? false)
+                        {
+                            outAlerts.AddRange(syncAlerts);
+                        }
 
+                        //check and update password
+                        if (user.Secure_AspirePassword != context.Password)
+                        {
+                            //update password for existing aspire user
+                            var resetToken = await userManager.GeneratePasswordResetTokenAsync(user.Id);
+                            var updateRes = await userManager.ResetPasswordAsync(user.Id, resetToken, context.Password);
+                            if (updateRes.Succeeded)
+                            {
+                                user.Secure_AspirePassword = context.Password;
+                                updateRes = await userManager.UpdateAsync(user);
+                                if (updateRes.Succeeded)
+                                {
+                                    _loggingService?.LogInfo(
+                                        $"Password for Aspire user [{context.UserName}] was updated successefully");
+                                }
+                            }
+                        }
+                    }
                 }
                 else
                 {

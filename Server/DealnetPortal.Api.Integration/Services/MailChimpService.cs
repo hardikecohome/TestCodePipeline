@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Models.CustomerWallet;
@@ -6,15 +7,12 @@ using MailChimp.Net;
 using MailChimp.Net.Core;
 using MailChimp.Net.Models;
 using DealnetPortal.Api.Models.Notification;
+
 namespace DealnetPortal.Api.Integration.Services
 {
     public class MailChimpService : IMailСhimpService
     {
-        public static MailChimpManager manager;
-        public MailChimpService(string apiKey)
-        {
-            manager = new MailChimpManager(apiKey);
-        }
+        private readonly MailChimpManager _manager = new MailChimpManager(ConfigurationManager.AppSettings["MailChimpApiKey"]); 
 
         public async Task AddNewSubscriberAsync(string listid, MailChimpMember member)
         {
@@ -23,6 +21,9 @@ namespace DealnetPortal.Api.Integration.Services
             subscriber.MergeFields["FNAME"] = member.FirstName;
             subscriber.MergeFields["LNAME"] = member.LastName;
             subscriber.EmailType = "HTML";
+            //if (await isSubscriber(ConfigurationManager.AppSettings["RegistrationListID"],member.Email))
+            //    subscriber.StatusIfNew = Status.Subscribed;
+            //else
             subscriber.StatusIfNew = Status.Pending;
             subscriber.ListId = listid;
             subscriber.MergeFields["ADDRESS"] = new
@@ -44,7 +45,7 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
 
-                await manager.Members.AddOrUpdateAsync(listid, subscriber);
+                await _manager.Members.AddOrUpdateAsync(listid, subscriber);
             }
             catch (MailChimpException mce)
             {
@@ -55,25 +56,12 @@ namespace DealnetPortal.Api.Integration.Services
                 throw ex;
             }
         }
-        public async Task<bool> isSubscriber(string listid, string emailid)
-        {
-            Member subscriber = new Member();
-            subscriber = await manager.Members.GetAsync(listid, emailid.ToLower());
-            if (subscriber.Status == Status.Subscribed)
-            {
 
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
         public async Task<Queue> SendUpdateNotification(string email)
         {
             try
             {
-                Queue q = await manager.AutomationEmailQueues.AddSubscriberAsync("154521", "154525", email);
+                Queue q = await _manager.AutomationEmailQueues.AddSubscriberAsync("154521", "154525", email);
                 return q;
             }
             catch (MailChimpException me)
@@ -86,100 +74,31 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        //public static MailChimpManager manager = new MailChimpManager();
-
-        //public async Task AddNewSubscriberAsync(RegisterCustomerBindingModel customerData)
-        //{
-        //    string listId = "dc1b598897";
-        //    Member subscriber = await manager.Members.GetAsync(listId, customerData.Profile.EmailAddress);
-
-        //    if (subscriber != null)
-        //    {
-        //        if (customerData.Profile.FirstName != null)
-        //        {
-        //            subscriber.MergeFields["FNAME"] = customerData.Profile.FirstName;
-        //        }
-        //        if (customerData.Profile.LastName != null)
-        //        {
-        //            subscriber.MergeFields["LNAME"] = customerData.Profile.LastName;
-        //        }
-
-        //        var location = customerData.Profile.Locations.FirstOrDefault();
-        //        if (location != null)
-        //        {
-        //            subscriber.MergeFields["ADDRESS"] = new
-        //            {
-        //                addr1 = location.Street,
-        //                addr2 = location.Unit,
-        //                city = location.City,
-        //                state = location.State,
-        //                zip = location.PostalCode,
-        //                country = "CA"
-        //            };
-        //        }
-        //        if (customerData.TransactionInfo.CreditAmount != null)
-        //        {
-        //            subscriber.MergeFields["CREDITAMT"] = customerData.TransactionInfo.CreditAmount;
-        //        }
-        //        if (customerData.TransactionInfo.AspireStatus != null)
-        //        {
-        //            subscriber.MergeFields["APPSTATUS"] = customerData.TransactionInfo.AspireStatus;
-        //        }
-        //        if (customerData.TransactionInfo.IsIncomplete == true)
-        //        {
-        //            subscriber.MergeFields["EQUIPINFO"] = "Required";
-        //        }
-        //        else
-        //        {
-        //            subscriber.MergeFields["EQUIPINFO"] = "Not Required";
-        //        }
-        //        subscriber.MergeFields["TPASSWORD"] = customerData.RegisterInfo.Password;
-        //    }
-        //    else
-        //    {
-        //        subscriber.EmailAddress = customerData.Profile.EmailAddress;
-        //        subscriber.MergeFields["FNAME"] = customerData.Profile.FirstName;
-        //        subscriber.MergeFields["LNAME"] = customerData.Profile.LastName;
-        //        subscriber.EmailType = "HTML";
-        //        subscriber.StatusIfNew = Status.Pending;
-        //        subscriber.ListId = listId;
-        //        var location = customerData.Profile.Locations.FirstOrDefault();
-        //        subscriber.MergeFields["ADDRESS"] = new
-        //        {
-        //            addr1 = location.Street,
-        //            addr2 = location.Unit,
-        //            city = location.City,
-        //            state = location.State,
-        //            zip = location.PostalCode,
-        //            country = "CA"
-        //        };
-        //        subscriber.MergeFields["CREDITAMT"] = customerData.TransactionInfo.CreditAmount;
-        //        subscriber.MergeFields["APPSTATUS"] = customerData.TransactionInfo.AspireStatus;
-        //        if (customerData.TransactionInfo.IsIncomplete == true)
-        //        {
-        //            subscriber.MergeFields["EQUIPINFO"] = "Required";
-        //        }
-        //        else
-        //        {
-        //            subscriber.MergeFields["EQUIPINFO"] = "Not Required";
-        //        }
-        //        if (customerData.RegisterInfo.Password != null)
-        //        {
-        //            subscriber.MergeFields["TPASSWORD"] = customerData.RegisterInfo.Password;
-        //        }
-        //    }
-        //    try
-        //    {
-        //        var result = await manager.Members.AddOrUpdateAsync(listId, subscriber);
-        //    }
-        //    catch (MailChimpException mce)
-        //    {
-        //        throw mce;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+        public async Task<bool> isSubscriber(string listid, string emailid)
+        {
+            try
+            {
+                var subscriber = await _manager.Members.GetAsync(listid, emailid);
+                return subscriber.Status == Status.Subscribed;
+            }
+            catch (Exception ex)
+            {
+                //throw ex;
+            }
+            return false;
+        }
+        public async Task<bool> isUnsubscribed(string listid, string emailid)
+        {
+            try
+            {
+                var subscriber = await _manager.Members.GetAsync(listid, emailid);
+                return subscriber.Status == Status.Unsubscribed;
+            }
+            catch (Exception ex)
+            {
+                //throw ex;
+            }
+            return false;
+        }
     }
 }

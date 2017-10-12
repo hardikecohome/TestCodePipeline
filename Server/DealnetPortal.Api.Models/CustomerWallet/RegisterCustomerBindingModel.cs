@@ -8,10 +8,10 @@ namespace DealnetPortal.Api.Models.CustomerWallet
 {
     public class RegisterCustomerBindingModel
     {
-        public RegisterInfo RegisterInfo { get; set; }
+        public RegisterBindingModel RegisterInfo { get; set; }
 
-        public CustomerProfile Profile { get; set; }
+        public CustomerProfileDTO Profile { get; set; }
 
-        public TransactionInfoDTO TransactionInfo { get; set; }
+        public List<TransactionInfoDTO> TransactionsInfo { get; set; }
     }
 }

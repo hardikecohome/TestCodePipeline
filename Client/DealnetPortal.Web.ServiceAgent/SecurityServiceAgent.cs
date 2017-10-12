@@ -90,12 +90,7 @@ namespace DealnetPortal.Web.ServiceAgent
                     else
                     {
                         claims.Add(new Claim(ClaimTypes.Name, userName));
-                    }
-                    //string userId;
-                    //if (results.TryGetValue("userId", out userId))
-                    //{
-                    //    claims.Add(new Claim(ClaimTypes.NameIdentifier, userId));
-                    //}                    
+                    }                                      
 
                     if (results.ContainsKey("roles"))
                     {
@@ -153,8 +148,8 @@ namespace DealnetPortal.Web.ServiceAgent
             var token = (principal?.Identity as UserIdentity)?.Token ?? (principal?.Identity as ClaimsIdentity)?.Claims.FirstOrDefault(c => c.Type == "access_token")?.Value;
 
             //Set Authorization header
-            Client.Client.DefaultRequestHeaders.Authorization =
-               new AuthenticationHeaderValue("Bearer", token ?? string.Empty);
+            //Client.Client.DefaultRequestHeaders.Authorization =
+            //   new AuthenticationHeaderValue("Bearer", token ?? string.Empty);
         }
 
         public bool IsAutorizated()

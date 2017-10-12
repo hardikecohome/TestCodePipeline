@@ -61,6 +61,717 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Saved.
+        /// </summary>
+        public static string _10_Saved {
+            get {
+                return ResourceManager.GetString("_10_Saved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quote.
+        /// </summary>
+        public static string _11_Quote {
+            get {
+                return ResourceManager.GetString("_11_Quote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submitted.
+        /// </summary>
+        public static string _12_Submitted {
+            get {
+                return ResourceManager.GetString("_12_Submitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submitted .
+        /// </summary>
+        public static string _13_Submitted {
+            get {
+                return ResourceManager.GetString("_13_Submitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CBR Warnings.
+        /// </summary>
+        public static string _14_CBRWarnings {
+            get {
+                return ResourceManager.GetString("_14_CBRWarnings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CBR Failure.
+        /// </summary>
+        public static string _16_CBRFailure {
+            get {
+                return ResourceManager.GetString("_16_CBRFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Equipment.
+        /// </summary>
+        public static string _18_Equipment {
+            get {
+                return ResourceManager.GetString("_18_Equipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit through automation.
+        /// </summary>
+        public static string _19_Submitthroughautomation {
+            get {
+                return ResourceManager.GetString("_19_Submitthroughautomation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Credit Review.
+        /// </summary>
+        public static string _20_CreditReview {
+            get {
+                return ResourceManager.GetString("_20_CreditReview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Credit Review (ECP).
+        /// </summary>
+        public static string _20_CreditReviewECP {
+            get {
+                return ResourceManager.GetString("_20_CreditReviewECP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MIR .
+        /// </summary>
+        public static string _22_MIR {
+            get {
+                return ResourceManager.GetString("_22_MIR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MIR Blue Chip.
+        /// </summary>
+        public static string _22_MIRBlueChip {
+            get {
+                return ResourceManager.GetString("_22_MIRBlueChip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MIR Northstar.
+        /// </summary>
+        public static string _22_MIRNorthstar {
+            get {
+                return ResourceManager.GetString("_22_MIRNorthstar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to More Info (w/o email notice).
+        /// </summary>
+        public static string _22_MoreInfowoemailnotice {
+            get {
+                return ResourceManager.GetString("_22_MoreInfowoemailnotice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MIR Not Received.
+        /// </summary>
+        public static string _23_MIRNotReceived {
+            get {
+                return ResourceManager.GetString("_23_MIRNotReceived", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Re-Submitted.
+        /// </summary>
+        public static string _24_Re_Submitted {
+            get {
+                return ResourceManager.GetString("_24_Re_Submitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Re-Submitted E.
+        /// </summary>
+        public static string _24_Re_SubmittedE {
+            get {
+                return ResourceManager.GetString("_24_Re_SubmittedE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Declined .
+        /// </summary>
+        public static string _25_Declined {
+            get {
+                return ResourceManager.GetString("_25_Declined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Declined Enable Deals.
+        /// </summary>
+        public static string _25_DeclinedEnableDeals {
+            get {
+                return ResourceManager.GetString("_25_DeclinedEnableDeals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Declined Northstar.
+        /// </summary>
+        public static string _25_DeclinedNorthstar {
+            get {
+                return ResourceManager.GetString("_25_DeclinedNorthstar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Declined (wo/email notice).
+        /// </summary>
+        public static string _25_Declinedwoemailnotice {
+            get {
+                return ResourceManager.GetString("_25_Declinedwoemailnotice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pre-Approved $15k.
+        /// </summary>
+        public static string _26_Pre_Approved15k {
+            get {
+                return ResourceManager.GetString("_26_Pre_Approved15k", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pre-Approved (ECP).
+        /// </summary>
+        public static string _26_Pre_ApprovedECP {
+            get {
+                return ResourceManager.GetString("_26_Pre_ApprovedECP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Final Review-Recommend Approval.
+        /// </summary>
+        public static string _27_FinalReview_RecommendApproval {
+            get {
+                return ResourceManager.GetString("_27_FinalReview_RecommendApproval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Approved .
+        /// </summary>
+        public static string _28_Approved {
+            get {
+                return ResourceManager.GetString("_28_Approved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Approved $15k.
+        /// </summary>
+        public static string _28_Approved15k {
+            get {
+                return ResourceManager.GetString("_28_Approved15k", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Approved (Eco Energy).
+        /// </summary>
+        public static string _28_ApprovedEcoEnergy {
+            get {
+                return ResourceManager.GetString("_28_ApprovedEcoEnergy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Approved (ECP).
+        /// </summary>
+        public static string _28_ApprovedECP {
+            get {
+                return ResourceManager.GetString("_28_ApprovedECP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Approved Enable.
+        /// </summary>
+        public static string _28_ApprovedEnable {
+            get {
+                return ResourceManager.GetString("_28_ApprovedEnable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Approved (Enbridge).
+        /// </summary>
+        public static string _28_ApprovedEnbridge {
+            get {
+                return ResourceManager.GetString("_28_ApprovedEnbridge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Approved Northstar.
+        /// </summary>
+        public static string _28_ApprovedNorthstar {
+            get {
+                return ResourceManager.GetString("_28_ApprovedNorthstar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Approved Northstar (w/o email).
+        /// </summary>
+        public static string _28_ApprovedNorthstarwoemail {
+            get {
+                return ResourceManager.GetString("_28_ApprovedNorthstarwoemail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Approved Second Look.
+        /// </summary>
+        public static string _28_ApprovedSecondLook {
+            get {
+                return ResourceManager.GetString("_28_ApprovedSecondLook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Approved (Utile Credit).
+        /// </summary>
+        public static string _28_ApprovedUtileCredit {
+            get {
+                return ResourceManager.GetString("_28_ApprovedUtileCredit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Approved Vault.
+        /// </summary>
+        public static string _28_ApprovedVault {
+            get {
+                return ResourceManager.GetString("_28_ApprovedVault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Approved (wo/email notice).
+        /// </summary>
+        public static string _28_Approvedwoemailnotice {
+            get {
+                return ResourceManager.GetString("_28_Approvedwoemailnotice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Declined (w/ou email notification).
+        /// </summary>
+        public static string _29_Declinedwouemailnotification {
+            get {
+                return ResourceManager.GetString("_29_Declinedwouemailnotification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DW verbal approval.
+        /// </summary>
+        public static string _29_DWverbalapproval {
+            get {
+                return ResourceManager.GetString("_29_DWverbalapproval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ready to Doc.
+        /// </summary>
+        public static string _30_ReadytoDoc {
+            get {
+                return ResourceManager.GetString("_30_ReadytoDoc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Docs Out.
+        /// </summary>
+        public static string _31_DocsOut {
+            get {
+                return ResourceManager.GetString("_31_DocsOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Docs Received.
+        /// </summary>
+        public static string _32_DocsReceived {
+            get {
+                return ResourceManager.GetString("_32_DocsReceived", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Docs Back Incomplete.
+        /// </summary>
+        public static string _34_DocsBackIncomplete {
+            get {
+                return ResourceManager.GetString("_34_DocsBackIncomplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dead Deal.
+        /// </summary>
+        public static string _35_DeadDeal {
+            get {
+                return ResourceManager.GetString("_35_DeadDeal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pending Audit Call.
+        /// </summary>
+        public static string _37_PendingAuditCall {
+            get {
+                return ResourceManager.GetString("_37_PendingAuditCall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Awaiting delivery.
+        /// </summary>
+        public static string _38_Awaitingdelivery {
+            get {
+                return ResourceManager.GetString("_38_Awaitingdelivery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deal Funding Requested.
+        /// </summary>
+        public static string _40_DealFundingRequested {
+            get {
+                return ResourceManager.GetString("_40_DealFundingRequested", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ready for Audit.
+        /// </summary>
+        public static string _42_ReadyforAudit {
+            get {
+                return ResourceManager.GetString("_42_ReadyforAudit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Funded-Syndicated.
+        /// </summary>
+        public static string _46_Funded_Syndicated {
+            get {
+                return ResourceManager.GetString("_46_Funded_Syndicated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Audit in Progress.
+        /// </summary>
+        public static string _48_AuditinProgress {
+            get {
+                return ResourceManager.GetString("_48_AuditinProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Funding Tomorrow.
+        /// </summary>
+        public static string _49_FundingTomorrow {
+            get {
+                return ResourceManager.GetString("_49_FundingTomorrow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Audited Deficient.
+        /// </summary>
+        public static string _50_AuditedDeficient {
+            get {
+                return ResourceManager.GetString("_50_AuditedDeficient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Audited Awaiting TPV.
+        /// </summary>
+        public static string _51_AuditedAwaitingTPV {
+            get {
+                return ResourceManager.GetString("_51_AuditedAwaitingTPV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TPV Confirmed.
+        /// </summary>
+        public static string _52_TPVConfirmed {
+            get {
+                return ResourceManager.GetString("_52_TPVConfirmed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TPV Internal.
+        /// </summary>
+        public static string _53_TPVInternal {
+            get {
+                return ResourceManager.GetString("_53_TPVInternal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expired Approval.
+        /// </summary>
+        public static string _84_ExpiredApproval {
+            get {
+                return ResourceManager.GetString("_84_ExpiredApproval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customer Changed Mind.
+        /// </summary>
+        public static string _85_CustomerChangedMind {
+            get {
+                return ResourceManager.GetString("_85_CustomerChangedMind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Opportunity Lost.
+        /// </summary>
+        public static string _86_OpportunityLost {
+            get {
+                return ResourceManager.GetString("_86_OpportunityLost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Master Line of Credit approval.
+        /// </summary>
+        public static string _90_MasterLineofCreditapproval {
+            get {
+                return ResourceManager.GetString("_90_MasterLineofCreditapproval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terminated.
+        /// </summary>
+        public static string _91_Terminated {
+            get {
+                return ResourceManager.GetString("_91_Terminated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Approved Blue Chip .
+        /// </summary>
+        public static string _ApprovedBlueChip {
+            get {
+                return ResourceManager.GetString("_ApprovedBlueChip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Booked.
+        /// </summary>
+        public static string _Booked {
+            get {
+                return ResourceManager.GetString("_Booked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancelled.
+        /// </summary>
+        public static string _Cancelled {
+            get {
+                return ResourceManager.GetString("_Cancelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Declined Blue Chip.
+        /// </summary>
+        public static string _DeclinedBlueChip {
+            get {
+                return ResourceManager.GetString("_DeclinedBlueChip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exported.
+        /// </summary>
+        public static string _Exported {
+            get {
+                return ResourceManager.GetString("_Exported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pre-Approved .
+        /// </summary>
+        public static string _Pre_Approved {
+            get {
+                return ResourceManager.GetString("_Pre_Approved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Approved 10 K.
+        /// </summary>
+        public static string _Pre_Approved10K {
+            get {
+                return ResourceManager.GetString("_Pre_Approved10K", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pre Approved 15 K.
+        /// </summary>
+        public static string _Pre_Approved15K {
+            get {
+                return ResourceManager.GetString("_Pre_Approved15K", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pre Approved 20 K.
+        /// </summary>
+        public static string _PreApproved20K {
+            get {
+                return ResourceManager.GetString("_PreApproved20K", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pre Approved 5 K.
+        /// </summary>
+        public static string _PreApproved5K {
+            get {
+                return ResourceManager.GetString("_PreApproved5K", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Approved.
+        /// </summary>
+        public static string _S_Approved {
+            get {
+                return ResourceManager.GetString("_S_Approved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Credit review.
+        /// </summary>
+        public static string _S_Creditreview {
+            get {
+                return ResourceManager.GetString("_S_Creditreview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dead.
+        /// </summary>
+        public static string _S_Dead {
+            get {
+                return ResourceManager.GetString("_S_Dead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Declined.
+        /// </summary>
+        public static string _S_Declined {
+            get {
+                return ResourceManager.GetString("_S_Declined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Docs in.
+        /// </summary>
+        public static string _S_Docsin {
+            get {
+                return ResourceManager.GetString("_S_Docsin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Docs out.
+        /// </summary>
+        public static string _S_Docsout {
+            get {
+                return ResourceManager.GetString("_S_Docsout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Funded.
+        /// </summary>
+        public static string _S_Funded {
+            get {
+                return ResourceManager.GetString("_S_Funded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Funding requested.
+        /// </summary>
+        public static string _S_Fundingrequested {
+            get {
+                return ResourceManager.GetString("_S_Fundingrequested", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to More information.
+        /// </summary>
+        public static string _S_Moreinformation {
+            get {
+                return ResourceManager.GetString("_S_Moreinformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submitted.
+        /// </summary>
+        public static string _S_Submitted {
+            get {
+                return ResourceManager.GetString("_S_Submitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Air Conditioner.
         /// </summary>
         public static string AirConditioner {
@@ -133,6 +844,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Broker.
+        /// </summary>
+        public static string Broker {
+            get {
+                return ResourceManager.GetString("Broker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Business phone.
         /// </summary>
         public static string BusinessPhone {
@@ -201,6 +921,15 @@ namespace DealnetPortal.Api.Resources {
         public static string Congratulations {
             get {
                 return ResourceManager.GetString("Congratulations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Consumer direct.
+        /// </summary>
+        public static string ConsumerDirect {
+            get {
+                return ResourceManager.GetString("ConsumerDirect", resourceCulture);
             }
         }
         
@@ -331,11 +1060,38 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deferral.
+        /// </summary>
+        public static string Deferral {
+            get {
+                return ResourceManager.GetString("Deferral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Distributor.
+        /// </summary>
+        public static string Distributor {
+            get {
+                return ResourceManager.GetString("Distributor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Doors.
         /// </summary>
         public static string Doors {
             get {
                 return ResourceManager.GetString("Doors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Door to door sales.
+        /// </summary>
+        public static string DoorToDoor {
+            get {
+                return ResourceManager.GetString("DoorToDoor", resourceCulture);
             }
         }
         
@@ -421,11 +1177,38 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Financing.
+        /// </summary>
+        public static string Financing {
+            get {
+                return ResourceManager.GetString("Financing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Financing + Leasing.
+        /// </summary>
+        public static string FinancingLeasing {
+            get {
+                return ResourceManager.GetString("FinancingLeasing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fireplace.
         /// </summary>
         public static string Fireplace {
             get {
                 return ResourceManager.GetString("Fireplace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fixed Rate.
+        /// </summary>
+        public static string FixedRate {
+            get {
+                return ResourceManager.GetString("FixedRate", resourceCulture);
             }
         }
         
@@ -628,6 +1411,24 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Incorporated.
+        /// </summary>
+        public static string Incorporated {
+            get {
+                return ResourceManager.GetString("Incorporated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Independent.
+        /// </summary>
+        public static string Independent {
+            get {
+                return ResourceManager.GetString("Independent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Installation address.
         /// </summary>
         public static string InstallationAddress {
@@ -664,11 +1465,56 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Leasing.
+        /// </summary>
+        public static string Leasing {
+            get {
+                return ResourceManager.GetString("Leasing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to less than 1 year.
+        /// </summary>
+        public static string LessThanOneYear {
+            get {
+                return ResourceManager.GetString("LessThanOneYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Limited.
+        /// </summary>
+        public static string Limited {
+            get {
+                return ResourceManager.GetString("Limited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loan.
         /// </summary>
         public static string LoanApplication {
             get {
                 return ResourceManager.GetString("LoanApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Local Advertising.
+        /// </summary>
+        public static string LocalAds {
+            get {
+                return ResourceManager.GetString("LocalAds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Looking for secondary.
+        /// </summary>
+        public static string LookingForSecond {
+            get {
+                return ResourceManager.GetString("LookingForSecond", resourceCulture);
             }
         }
         
@@ -691,6 +1537,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to more than 2 years.
+        /// </summary>
+        public static string MoreThanTwoYears {
+            get {
+                return ResourceManager.GetString("MoreThanTwoYears", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Name {
@@ -709,11 +1564,47 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No current financing solution.
+        /// </summary>
+        public static string NoCurrentFinancing {
+            get {
+                return ResourceManager.GetString("NoCurrentFinancing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No dealers matching customer lead (type: {0}, postal code: {1}).
         /// </summary>
         public static string NoDealersMatchingCustomerLead {
             get {
                 return ResourceManager.GetString("NoDealersMatchingCustomerLead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Interest.
+        /// </summary>
+        public static string NoInterest {
+            get {
+                return ResourceManager.GetString("NoInterest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OEM.
+        /// </summary>
+        public static string OEM {
+            get {
+                return ResourceManager.GetString("OEM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1-2 years.
+        /// </summary>
+        public static string OneToTwoYears {
+            get {
+                return ResourceManager.GetString("OneToTwoYears", resourceCulture);
             }
         }
         
@@ -741,6 +1632,15 @@ namespace DealnetPortal.Api.Resources {
         public static string Other {
             get {
                 return ResourceManager.GetString("Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Partnership.
+        /// </summary>
+        public static string Partnership {
+            get {
+                return ResourceManager.GetString("Partnership", resourceCulture);
             }
         }
         
@@ -822,6 +1722,24 @@ namespace DealnetPortal.Api.Resources {
         public static string PreferredContactMethod {
             get {
                 return ResourceManager.GetString("PreferredContactMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Proof of Insurance.
+        /// </summary>
+        public static string ProofOfInsurance {
+            get {
+                return ResourceManager.GetString("ProofOfInsurance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Referrals.
+        /// </summary>
+        public static string Referrals {
+            get {
+                return ResourceManager.GetString("Referrals", resourceCulture);
             }
         }
         
@@ -925,6 +1843,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sole Prop.
+        /// </summary>
+        public static string SoleProp {
+            get {
+                return ResourceManager.GetString("SoleProp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Spa.
         /// </summary>
         public static string Spa {
@@ -979,6 +1906,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 10 or more.
+        /// </summary>
+        public static string TenOrMore {
+            get {
+                return ResourceManager.GetString("TenOrMore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Thanks for your interest in home improvement service.
         /// </summary>
         public static string ThanksForYourInterestInHomeImprovementService {
@@ -988,7 +1924,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EcoHome Financial Customer Financing Application - New Application Submitted.
+        ///   Looks up a localized string similar to Thank you for applying for financing..
         /// </summary>
         public static string ThankYouForApplyingForFinancing {
             get {
@@ -1033,6 +1969,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Trade Shows.
+        /// </summary>
+        public static string TradeShows {
+            get {
+                return ResourceManager.GetString("TradeShows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Transaction ID.
         /// </summary>
         public static string TransactionId {
@@ -1065,6 +2010,15 @@ namespace DealnetPortal.Api.Resources {
         public static string UnfortunatelyThisLeadIsNoLongerAvailable {
             get {
                 return ResourceManager.GetString("UnfortunatelyThisLeadIsNoLongerAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unhappy with current solution.
+        /// </summary>
+        public static string UnhappyCurrentFinancing {
+            get {
+                return ResourceManager.GetString("UnhappyCurrentFinancing", resourceCulture);
             }
         }
         

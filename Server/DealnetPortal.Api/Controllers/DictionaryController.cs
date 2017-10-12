@@ -12,6 +12,7 @@ using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
@@ -30,8 +31,11 @@ namespace DealnetPortal.Api.Controllers
         private ICustomerFormService CustomerFormService { get; set; }
         private IContractService _contractService { get; set; }
 
+        private readonly IDealerRepository _dealerRepository;
+        private readonly ILicenseDocumentRepository _licenseDocumentRepository;
+
         public DictionaryController(IUnitOfWork unitOfWork, IContractRepository contractRepository, ISettingsRepository settingsRepository, ILoggingService loggingService, 
-            IAspireStorageReader aspireStorageReader, ICustomerFormService customerFormService, IContractService contractService)
+            IAspireStorageReader aspireStorageReader, ICustomerFormService customerFormService, IContractService contractService, IDealerRepository dealerRepository, ILicenseDocumentRepository licenseDocumentRepository)
             : base(loggingService)
         {
             _unitOfWork = unitOfWork;
@@ -40,6 +44,8 @@ namespace DealnetPortal.Api.Controllers
             AspireStorageReader = aspireStorageReader;
             CustomerFormService = customerFormService;
             _contractService = contractService;
+            _dealerRepository = dealerRepository;
+            _licenseDocumentRepository = licenseDocumentRepository;
         }             
 
         [Route("DocumentTypes")]
@@ -130,6 +136,36 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("AllLicenseDocuments")]
+        [HttpGet]
+        public IHttpActionResult GetAllLicenseDocuments()
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var licenseDocuments = _licenseDocumentRepository.GetAllLicenseDocuments();
+                var licenseDocumentDtos = Mapper.Map<IList<LicenseDocumentDTO>>(licenseDocuments);
+                if (licenseDocuments == null)
+                {
+                    var errorMsg = "Cannot retrieve License documents";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.LicenseDocumentsRetrievalFailed,
+                        Message = errorMsg
+                    });
+                    LoggingService.LogError(errorMsg);
+                }
+                var result = new Tuple<IList<LicenseDocumentDTO>, IList<Alert>>(licenseDocumentDtos, alerts);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError("Failed to retrieve License documents", ex);
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("{province}/ProvinceTaxRate")]
         [HttpGet]
         public IHttpActionResult GetProvinceTaxRate(string province)
@@ -190,6 +226,67 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("{id}/VerificationId")]
+        [HttpGet]
+        public IHttpActionResult GetVerificationId(int id)
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var verificationId = ContractRepository.GetVerficationId(id);
+                var verificationIdsDto = Mapper.Map<VarificationIdsDTO>(verificationId);
+                if (verificationId == null)
+                {
+                    var errorMsg = "Cannot retrieve Province Tax Rate";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.ProvinceTaxRateRetrievalFailed,
+                        Message = errorMsg
+                    });
+                    LoggingService.LogError(errorMsg);
+                }
+                var result = new Tuple<VarificationIdsDTO, IList<Alert>>(verificationIdsDto, alerts);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError("Failed to retrieve Verification Id", ex);
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("AllVerificationIds")]
+        [HttpGet]
+        public IHttpActionResult GetAllVerificationIds()
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var verificationIds = ContractRepository.GetAllVerificationIds();
+                var verificationIdsDtos = Mapper.Map<IList<VarificationIdsDTO>>(verificationIds);
+                if (verificationIds == null)
+                {
+                    var errorMsg = "Cannot retrieve all Verification Ids";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.ProvinceTaxRateRetrievalFailed,
+                        Message = errorMsg
+                    });
+                    LoggingService.LogError(errorMsg);
+                }
+                var result = new Tuple<IList<VarificationIdsDTO>, IList<Alert>>(verificationIdsDtos, alerts);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError("Failed to retrieve all Province Tax Rates", ex);
+                return InternalServerError(ex);
+            }
+        }
+
+
         [Authorize]
         [Route("GetDealerInfo")]
         [HttpGet]
@@ -225,6 +322,16 @@ namespace DealnetPortal.Api.Controllers
         public string GetDealerCulture()
         {
             return ContractRepository.GetDealer(LoggedInUser?.UserId).Culture;            
+        }
+
+        [HttpGet]
+        // GET api/dict/GetDealerCulture?dealer=dealer
+        [Route("GetDealerCulture")]
+        public string GetDealerCulture(string dealer)
+        {
+            var dealerId = _dealerRepository.GetUserIdByName(dealer);
+            var culture = ContractRepository.GetDealer(dealerId).Culture;
+            return culture;
         }
 
         [Authorize]

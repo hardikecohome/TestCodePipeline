@@ -52,6 +52,13 @@ namespace DealnetPortal.Web.Models
         public bool IsHomeOwner { get; set; }
         public bool? IsInitialCustomer { get; set; }
         public int? ContractId { get; set; }
+
+        [Display(ResourceType = typeof(Resources.Resources), Name = "VerificationId")]
+        public string VerificationIdName { get; set; }
+        [Display(ResourceType = typeof(Resources.Resources), Name = "DealerInitial")]
+        [StringLength(2, MinimumLength = 1, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
+        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "LastNameIncorrectFormat")]
+        public string DealerInitial { get; set; }
     }
 
     public class AddressInformation
@@ -103,6 +110,7 @@ namespace DealnetPortal.Web.Models
         public ContractState ContractState { get; set; }
         public bool ContractWasDeclined { get; set; }
         public IList<ProvinceTaxRateDTO> ProvinceTaxRates { get; set; }
+        public IList<VarificationIdsDTO> VarificationIds { get; set; }
     }
 
     public class ApplicantsViewModel
@@ -181,6 +189,7 @@ namespace DealnetPortal.Web.Models
         public int? ContractId { get; set; }
 
         public bool IsApplicantsInfoEditAvailable { get; set; }
+        public bool IsFirstStepAvailable { get; set; }
     }
 
     public class AdditionalInfoViewModel
@@ -193,6 +202,9 @@ namespace DealnetPortal.Web.Models
         public DateTime? LastUpdateTime { get; set; }
         public string TransactionId { get; set; }
         public bool IsCreatedByCustomer { get; set; }
+
+        [Display(ResourceType = typeof(Resources.Resources), Name = "CustomersComment")]
+        public List<string> CustomerComments { get; set; }
     }
 
     public class SummaryAndConfirmationViewModel
