@@ -619,34 +619,22 @@ namespace DealnetPortal.Api.Integration.Services
 
         public async Task SendSupportRequiredEmail(SupportRequestDTO SupportDetails)
         {
-            string mailTo = ConfigurationManager.AppSettings["DealNetEmail"];
-            var body = new StringBuilder();
-            body.AppendLine("<div>");
-            body.AppendLine($"<u>{SupportDetails.SupportType}.</u>");
-            body.AppendLine($"<p>Dealer Name: {SupportDetails.DealerName}</p>");
-            body.AppendLine($"<p><b>Requested By: {SupportDetails.YourName}</b></p>");
-            if (SupportDetails.LoanNumber != null)
+            string mailTo = ""; /*ConfigurationManager.AppSettings["DealNetEmail"];*/
+            switch (SupportDetails.SupportType)
             {
-                body.AppendLine($"<p><b>Loan Number: {SupportDetails.LoanNumber}</b></p>");
+                case "Credit Decision":
+                    mailTo = ConfigurationManager.AppSettings["CreditDecisionDealNetEmail"];
+                    break;
+                case "Credit Docs":
+                    mailTo = ConfigurationManager.AppSettings["CreditDocsDealNetEmail"];
+                    break;
+                case "Funding Docs":
+                    mailTo = ConfigurationManager.AppSettings["FundingDocsDealNetEmail"];
+                    break;
+                case "Other":
+                    mailTo = ConfigurationManager.AppSettings["OtherDealNetEmail"];
+                    break;
             }
-            body.AppendLine($"<p><b>Request Comments: {SupportDetails.HelpRequested}</b></p>");
-            body.AppendLine("<br />");
-            body.AppendLine($"<p><b>Communication Preffered by:</b>");
-            if (SupportDetails.BestWay.byPhone)
-            {
-                body.AppendLine($"Phone, ");
-            }
-            if (SupportDetails.BestWay.SameEmail)
-            {
-                body.AppendLine($"Email, ");
-            }
-            if (SupportDetails.BestWay.AlternativeEmail)
-            {
-                body.AppendLine($"<b>Alternative Email: { SupportDetails.BestWay.AlternativeEmailAddress ?? string.Empty}</b>");
-            }
-            body.AppendLine("</p></div>");
-
-            var subject = $"Support Request -{ "Who Send request" + " to which department" }";
             try
             {
                 await _mandrillService.SendSupportRequiredEmail(SupportDetails, mailTo);
