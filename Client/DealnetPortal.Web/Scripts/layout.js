@@ -667,25 +667,79 @@ function hideDynamicAlertModal () {
 
 
 function sendEmailModel(rowTransactionId) {
-
-	//var classes = obj.class ? obj.class : '';
-
 	var alertModal = $('#emailModal');
-	//alertModal.find('.modal-body p').html(obj.message);
 	alertModal.find('#emailTransactionId').html(rowTransactionId);
-	//alertModal.find('#confirmAlert').html(obj.confirmBtnText);
-	//alertModal.find('.modal-footer button[data-dismiss="modal"]').html(obj.cancelBtnText);
-	//alertModal.addClass(classes);
 	alertModal.modal('show');
+}
+function yourNameCBclick(){
+	if ($('#yourNameCB').prop('checked'))
+	{
+		$('#yourNameTxt').removeAttr("disabled");
+	}
+	else {
+		$('#yourNameTxt').attr("disabled", "disabled");
+		$('#yourNameTxt').val("");
+	}
+}
+
+function emailAlternativeEmailclick() {
+	if ($('#emailAlternativeEmail').prop('checked')) {
+		$('#emailAlternativeEmailAddress').removeClass('hidden');
+	}
+	else {
+		$('#emailAlternativeEmailAddress').addClass('hidden');
+
+	}
+}
+//$.validator.addMethod("requiredIfChecked", function (val, ele, arg) {
+//	if ($("#startClientFromWeb").is(":checked") && ($.trim(val) == '')) { return false; }
+//	return true;
+//}, "This field is required if startClientFromWeb is checked...");
+
+function validateEmail(Email) {
+	var pattern = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+	return $.trim(Email).match(pattern) ? true : false;
 }
 
 function sendEmailToSupport() {
+	//check validation
+	if ($("#yourNameCB").is(":checked") && ($.trim($('#yourNameTxt').val()) == '')) {
+		$('#yourNameTxtValidation').removeClass('hidden');
+		return false;
+	}
+	else {
+		$('#yourNameTxtValidation').addClass('hidden');
+	}
+	if ($.trim($('#emailComment').val()) == '') {
+		$('#emailCommentValidation').removeClass('hidden');
+		return false;
+	}
+	else {
+		$('#emailCommentValidation').addClass('hidden');
+	}
+	
+	if ($("#emailAlternativeEmail").is(":checked") && ($.trim($('#emailAlternativeEmailAddress').val()) == '')) {		
+		$('#emailAlternativeEmailAddressValidation').removeClass('hidden');
+		return false;
+	}
+	else {
+		var emailaddress = $('#emailAlternativeEmailAddress').val().trim();
+		if (validateEmail(emailaddress)) {
+			$('#emailAlternativeEmailAddressValidation').addClass('hidden');
+		}
+		else {
+			$('#emailAlternativeEmailAddressValidation').removeClass('hidden');
+			return false;
+			
+		}
+	}
+
 	var data = {
 		"Id": 0,
 		"DealerName": $('#emailDealerName').text(),
-		"YourName": $('#emailSubDealerName').text(),
+		"YourName": $('#yourNameCB').prop('checked') ? $('#yourNameTxt').val() : $('#emailSubDealerName').text(),
 		"LoanNumber": $('#emailTransactionId').text(),
-		"SupportType": 1,
+		"SupportType": $('input[name=SupportType]:checked').val(),
 		"HelpRequested": $('#emailComment').val(),
 		"BestWay": {
 			"byPhone": $('#emailPhone').prop('checked'),
@@ -694,25 +748,17 @@ function sendEmailToSupport() {
 			"AlternativeEmailAddress": $('#emailAlternativeEmailAddress').val()
 		}
 	};
-	alert(SupportUrl);
 	$.ajax({
 		cache: false,
 		method: "POST",
 		url: SupportUrl,
 		data: data,
 		success: function (json) {
-			alert("success");
+			$('#emailModal').modal('toggle');
+			
 		}
 	});
-
-	//$.ajax({
-	//	url: "test.html",
-	//	context: document.body
-	//}).done(function () {
-	//	$(this).addClass("done");
-	//});
-
-	alert(JSON.stringify(data));
+	
 }
 
 

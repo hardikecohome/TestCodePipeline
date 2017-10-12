@@ -649,7 +649,8 @@ namespace DealnetPortal.Api.Integration.Services
             var subject = $"Support Request -{ "Who Send request" + " to which department" }";
             try
             {
-                await _emailService.SendAsync(new List<string> { mailTo }, string.Empty, subject, body.ToString());
+                await _mandrillService.SendSupportRequiredEmail(SupportDetails, mailTo);
+                //await _emailService.SendAsync(new List<string> { mailTo }, string.Empty, subject, body.ToString());
             }
             catch (Exception ex)
             {
