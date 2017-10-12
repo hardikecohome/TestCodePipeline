@@ -131,7 +131,7 @@ namespace DealnetPortal.Web.Infrastructure
             equipmentInfo.IsFirstStepAvailable = result.Item1.ContractState != Api.Common.Enumeration.ContractState.Completed;
 
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
-            var dealerTier = await _contractServiceAgent.GetDealerTier();
+            var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
             equipmentInfo.DealerTier = dealerTier ?? new TierDTO() {RateCards = new List<RateCardDTO>()};
 
             AddAditionalContractInfo(result.Item1, equipmentInfo);

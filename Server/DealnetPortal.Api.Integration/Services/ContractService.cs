@@ -526,6 +526,7 @@ namespace DealnetPortal.Api.Integration.Services
                             ContractState.Completed);
                         break;
                 }
+                contract = _contractRepository.UpdateContractAspireSubmittedDate(contractId, contractOwnerId);
                 //var contract = _contractRepository.UpdateContractState(contractId, contractOwnerId,
                 //    ContractState.Completed);
                 if (contract != null)

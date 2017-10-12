@@ -547,7 +547,20 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                _loggingService.LogError("Can't remove contract", ex);
+                _loggingService.LogError("Can't get tier", ex);
+                throw;
+            }
+        }
+
+        public async Task<TierDTO> GetDealerTier(int contractId)
+        {
+            try
+            {
+                return await Client.GetAsyncEx<TierDTO>($"{_fullUri}/GetDealerTier?contractId={contractId}", AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get dealer tier", ex);
                 throw;
             }
         }

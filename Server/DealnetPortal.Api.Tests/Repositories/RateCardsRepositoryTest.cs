@@ -33,7 +33,7 @@ namespace DealnetPortal.Api.Tests.Repositories
         public void TestGetTierByDealerId()
         {
             var id = "d6d2142f-5339-4ca4-84f3-17c089d171a5";
-            var tier = _rateCardsRepository.GetTierByDealerId(id);
+            var tier = _rateCardsRepository.GetTierByDealerId(id, DateTime.Now);
             Assert.IsNotNull(tier);
             Assert.IsTrue(tier.RateCards.Any());
         }
