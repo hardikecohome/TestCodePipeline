@@ -21,7 +21,6 @@ using DealnetPortal.Utilities.Logging;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -260,6 +259,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var updateUser = await userManager.FindByIdAsync(userId);
                 if (updateUser != null)
                 {
+
                     //updateUser.Tier = tier;
                     updateUser.TierId = tier?.Id;
 
@@ -271,6 +271,7 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                     }
                 }
+
                 }
             catch (Exception ex)
             {
