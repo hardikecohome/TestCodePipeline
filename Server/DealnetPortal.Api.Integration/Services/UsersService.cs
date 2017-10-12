@@ -21,6 +21,7 @@ using DealnetPortal.Utilities.Logging;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Practices.ObjectBuilder2;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -251,6 +252,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     user.Tier = tier;
                     _unitOfWork.Save();
+                    Assert.IsNotNull(user);
                     _loggingService.LogInfo($"Tier [{aspireUser.Ratecard}] was set to an user [{userId}]");
                 }
             }
