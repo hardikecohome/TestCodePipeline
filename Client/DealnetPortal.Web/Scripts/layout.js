@@ -718,20 +718,21 @@ function sendEmailToSupport() {
 		$('#emailCommentValidation').addClass('hidden');
 	}
 	
-	if ($("#emailAlternativeEmail").is(":checked") && ($.trim($('#emailAlternativeEmailAddress').val()) == '')) {		
+	if ($("#emailAlternativeEmail").is(":checked") && (($.trim($('#emailAlternativeEmailAddress').val()) == '') || !(validateEmail($('#emailAlternativeEmailAddress').val().trim())))) {		
 		$('#emailAlternativeEmailAddressValidation').removeClass('hidden');
 		return false;
 	}
 	else {
-		var emailaddress = $('#emailAlternativeEmailAddress').val().trim();
-		if (validateEmail(emailaddress)) {
-			$('#emailAlternativeEmailAddressValidation').addClass('hidden');
-		}
-		else {
-			$('#emailAlternativeEmailAddressValidation').removeClass('hidden');
-			return false;
+		$('#emailAlternativeEmailAddressValidation').addClass('hidden');
+		//var emailaddress = $('#emailAlternativeEmailAddress').val().trim();
+		//if (validateEmail(emailaddress)) {
+		//	$('#emailAlternativeEmailAddressValidation').addClass('hidden');
+		//}
+		//else {
+		//	$('#emailAlternativeEmailAddressValidation').removeClass('hidden');
+		//	return false;
 			
-		}
+		//}
 	}
 
 	var data = {
