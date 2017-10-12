@@ -20,6 +20,7 @@ using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Utilities.Messaging;
 using DealnetPortal.Api.Models.Notification;
+using DealnetPortal.Api.Models.Notify;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -615,6 +616,48 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
         }
+
+        public async Task SendSupportRequiredEmail(SupportRequestDTO SupportDetails)
+        {
+            string mailTo = ConfigurationManager.AppSettings["DealNetEmail"];
+            var body = new StringBuilder();
+            body.AppendLine("<div>");
+            body.AppendLine($"<u>{SupportDetails.SupportType}.</u>");
+            body.AppendLine($"<p>Dealer Name: {SupportDetails.DealerName}</p>");
+            body.AppendLine($"<p><b>Requested By: {SupportDetails.YourName}</b></p>");
+            if (SupportDetails.LoanNumber != null)
+            {
+                body.AppendLine($"<p><b>Loan Number: {SupportDetails.LoanNumber}</b></p>");
+            }
+            body.AppendLine($"<p><b>Request Comments: {SupportDetails.HelpRequested}</b></p>");
+            body.AppendLine("<br />");
+            body.AppendLine($"<p><b>Communication Preffered by:</b>");
+            if (SupportDetails.BestWay.byPhone)
+            {
+                body.AppendLine($"Phone, ");
+            }
+            if (SupportDetails.BestWay.SameEmail)
+            {
+                body.AppendLine($"Email, ");
+            }
+            if (SupportDetails.BestWay.AlternativeEmail)
+            {
+                body.AppendLine($"<b>Alternative Email: { SupportDetails.BestWay.AlternativeEmailAddress ?? string.Empty}</b>");
+            }
+            body.AppendLine("</p></div>");
+
+            var subject = $"Support Request -{ "Who Send request" + " to which department" }";
+            try
+            {
+                await _mandrillService.SendSupportRequiredEmail(SupportDetails, mailTo);
+                //await _emailService.SendAsync(new List<string> { mailTo }, string.Empty, subject, body.ToString());
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot send email", ex);
+            }
+        }
+
 
         #endregion
 

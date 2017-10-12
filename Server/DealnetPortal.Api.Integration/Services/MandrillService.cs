@@ -10,6 +10,7 @@ using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Models.Notification;
 using DealnetPortal.Domain;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.Notify;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -284,6 +285,75 @@ namespace DealnetPortal.Api.Integration.Services
                 send_at = DateTime.Now,
                 subject = "Your EcoHome Financial dealer application link",
                 text = "Your EcoHome Financial dealer application link",
+                to = new List<MandrillTo>() {
+                        new MandrillTo(){
+                            email = email,
+                            name = " ",
+                            type = "to"
+                        }
+                    }
+            };
+            try
+            {
+                var result = await SendEmail(request);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public async Task SendSupportRequiredEmail(SupportRequestDTO SupportDetails, string email)
+        {
+            string BestWay = "";
+            if (SupportDetails.BestWay.byPhone)
+            {
+                BestWay +="Phone, ";
+            }
+            if (SupportDetails.BestWay.SameEmail)
+            {
+                BestWay += "Email, ";
+            }
+            if (SupportDetails.BestWay.AlternativeEmail)
+            {
+                BestWay += $"Alternative Email: { SupportDetails.BestWay.AlternativeEmailAddress ?? string.Empty}";
+            }
+
+            MandrillRequest request = new MandrillRequest();
+            List<Variable> myVariables = new List<Variable>();
+            myVariables.Add(new Variable() { name = "RequestType", content = SupportDetails.SupportType ?? "Not provided" });
+            myVariables.Add(new Variable() { name = "DealerName", content = SupportDetails.DealerName });
+            myVariables.Add(new Variable() { name = "YourName", content = SupportDetails.YourName });
+            myVariables.Add(new Variable() { name = "LoanNumber", content = SupportDetails.LoanNumber ?? "Not provided" });
+            myVariables.Add(new Variable() { name = "HelpRequested", content = SupportDetails.HelpRequested ?? "Not provided"});
+            myVariables.Add(new Variable() { name = "BestWay", content = BestWay ?? "Not Provided"});
+            request.key = _apiKey;
+            request.template_name = ConfigurationManager.AppSettings["SupportRequestTemplate"];
+            request.template_content = new List<templatecontent>() {
+                    new templatecontent(){
+                        name="Your EcoHome Financial dealer application link",
+                        content = "Your EcoHome Financial dealer application link"
+                    }
+                };
+
+
+            request.message = new MandrillMessage()
+            {
+                from_email = ConfigurationManager.AppSettings["FromEmail"],
+                from_name = "EcoHome Financial",
+                html = null,
+                merge_vars = new List<MergeVariable>() {
+                        new MergeVariable(){
+                            rcpt = email,
+                            vars = myVariables
+
+
+                        }
+                    },
+                send_at = DateTime.Now,
+                subject = $"Support Request - { SupportDetails.SupportType}",
+                text = $"Support Request - { SupportDetails.SupportType}",
                 to = new List<MandrillTo>() {
                         new MandrillTo(){
                             email = email,

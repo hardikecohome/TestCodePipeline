@@ -17,6 +17,7 @@ using DealnetPortal.Domain.Dealer;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
 using Microsoft.Practices.ObjectBuilder2;
+using DealnetPortal.Api.Models.Notify;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -55,6 +56,28 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var parentName = _contractRepository.GetDealer(_dealerRepository.GetParentDealerId(dealerId)?? dealerId).AspireLogin;
             return parentName;
+        }
+
+        public IList<Alert> DealerSupportRequestEmail(SupportRequestDTO dealerSupportRequest)
+        {
+            var alerts = new List<Alert>();
+
+            try
+            {
+                var result = _mailService.SendSupportRequiredEmail(dealerSupportRequest);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError($"Failed to send Dealer support request for [{dealerSupportRequest.YourName}] dealer with support ID [{dealerSupportRequest.Id}]", ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Code = ErrorCodes.FailedToUpdateSettings,
+                    Message = "Failed to send Dealer support request"
+                });
+            }
+
+            return alerts;
         }
 
         public IList<Alert> UpdateDealerProfile(DealerProfileDTO dealerProfile)

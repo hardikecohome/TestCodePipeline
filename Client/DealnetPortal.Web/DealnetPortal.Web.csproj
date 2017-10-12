@@ -240,6 +240,7 @@
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\ShareableLinkController.cs" />
     <Compile Include="Controllers\StubController.cs" />
+    <Compile Include="Controllers\SupportRequestController.cs" />
     <Compile Include="Controllers\UpdateController.cs" />
     <Compile Include="Controllers\UpdateDataController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1127,6 +1128,7 @@
     <Folder Include="Views\AsyncCancellation\" />
     <Folder Include="Views\Credits\" />
     <Folder Include="Views\Deals\" />
+    <Folder Include="Views\SupportRequest\" />
     <Folder Include="Views\UpdateData\" />
     <Folder Include="Views\Update\" />
   </ItemGroup>
