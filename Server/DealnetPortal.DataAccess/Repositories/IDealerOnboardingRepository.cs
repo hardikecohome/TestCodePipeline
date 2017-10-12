@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Domain.Dealer;
 
 namespace DealnetPortal.DataAccess.Repositories
@@ -18,6 +19,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         RequiredDocument AddDocumentToDealer(int dealerInfoId, RequiredDocument document);
         bool DeleteDocumentFromDealer(int documentId);
+        RequiredDocument SetDocumentStatus(int documentId, DocumentStatus newStatus);
         RequiredDocument AddDocumentToDealer(string accessCode, RequiredDocument document);
     }
 }

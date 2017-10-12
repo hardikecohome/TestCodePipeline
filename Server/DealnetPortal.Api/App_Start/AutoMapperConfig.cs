@@ -488,6 +488,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.DealerInfo, d => d.Ignore())
                 .ForMember(x => x.Uploaded, d => d.Ignore())
                 .ForMember(x => x.UploadDate, d => d.Ignore())
+                .ForMember(x => x.Status, d => d.Ignore())
                 //.ForMember(x => x.DealerInfoId, d => d.Ignore())
                 .ForMember(x => x.DocumentType, d => d.Ignore());
             mapperConfig.CreateMap<DealerInfoDTO, DealerInfo>()

@@ -68,6 +68,7 @@
     <Compile Include="Enumeration\Dealer\ReasonForInterest.cs" />
     <Compile Include="Enumeration\Dealer\RelationshipStructure.cs" />
     <Compile Include="Enumeration\Dealer\YearsInBusiness.cs" />
+    <Compile Include="Enumeration\DocumentStatus.cs" />
     <Compile Include="Enumeration\DocumentTemplateType.cs" />
     <Compile Include="Enumeration\AgreementType.cs" />
     <Compile Include="Enumeration\AspireStatusInterpretation.cs" />
