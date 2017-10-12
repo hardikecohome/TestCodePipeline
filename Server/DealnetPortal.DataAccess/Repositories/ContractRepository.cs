@@ -903,6 +903,18 @@ namespace DealnetPortal.DataAccess.Repositories
                 c.PrimaryCustomer.Locations.Any(l=>l.AddressType == AddressType.InstallationAddress) &&
                 c.Equipment.NewEquipment.Any()).ToList();
         }
+
+        public Contract UpdateContractAspireSubmittedDate(int contractId, string contractOwnerId)
+        {
+            var contract = GetContract(contractId, contractOwnerId);
+            if (contract != null)
+            {
+                contract.DateOfSubmit = DateTime.Now;
+                contract.LastUpdateTime = DateTime.Now;
+                contract.LastUpdateOperator = GetDealer(contractOwnerId)?.UserName;
+            }
+            return contract;
+        }
         #endregion
 
         #region Private
