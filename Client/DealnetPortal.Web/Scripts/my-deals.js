@@ -112,7 +112,18 @@ function showTable () {
                         },
                         { "data": "TransactionId", className: 'contract-cell' },
                         { "data": "CustomerName", className: 'customer-cell' },
-                        { "data": "Status", className: 'status-cell' },
+                        {
+                            //"data": 'Status',
+                            "render": function (sdata, type, row) {
+                                var status = 'icon-' + row.Status.trim().toLowerCase().replace(/\s/g, '-').replace(/()/g, '').replace(/\//g, '');
+                                return '<div class="status-hold">' +
+                                    '<span class="icon-hold"><span class="icon icon-status ' + status + '"></span>' +
+                                    '</span>' +
+                                    '<div class="status-text-hold"><span class="status-text">' +
+                                    row.Status + '</span></div></div>';
+                            },
+                            className: 'status-cell'
+                        },
                         { "data": "AgreementType", className: 'type-cell' },
                         { "data": "Email", className: 'email-cell' },
                         { "data": "Phone", className: 'phone-cell' },
@@ -254,7 +265,7 @@ $.fn.dataTable.ext.search.push(
             var dateFrom = Date.parseExact(dateFromEl.val(), "M/d/yyyy");
             var dateTo = Date.parseExact(dateToEl.val(), "M/d/yyyy");
             var valueEntered = Date.parseExact(data[7], "M/d/yyyy");
-            debugger
+
             if ((!status || status === data[3]) &&
                 (!agreementType || agreementType === data[4]) &&
                 (!salesRep || salesRep === data[9]) &&

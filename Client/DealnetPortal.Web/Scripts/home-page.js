@@ -216,16 +216,12 @@ function showTable () {
                         {
                             //"data": 'Status',
                             "render": function (sdata, type, row) {
-                                if (row.Status.indexOf('(') > -1) {
-                                    debugger
-                                }
-                                var status = 'icon-' + row.Status.toLowerCase().replace(/\s/g, '-').replace(/()/g, '');
-                                return '<span class="controls-hold"><svg aria-hidden="true" class="icon icon-edit ' +
-                                    status + '">' +
-                                    '<use xlink:href="' +
-                                    urlContent + 'Content/images/sprite/sprite.svg#icon-edit"></use>' +
-                                    '</svg><span>' +
-                                    row.Status + '</span></span>';
+                                var status = 'icon-' + row.Status.trim().toLowerCase().replace(/\s/g, '-').replace(/()/g, '').replace(/\//g, '');
+                                return '<div class="status-hold">' +
+                                    '<span class="icon-hold"><span class="icon icon-status ' + status + '"></span>' +
+                                    '</span>' +
+                                    '<div class="status-text-hold"><span class="status-text">' +
+                                    row.Status + '</span></div></div>';
                             },
                             className: 'status-cell'
                         },

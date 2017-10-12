@@ -8,40 +8,49 @@
     width: 100%;
     height: 89px;
     text-decoration: none;
-    &:hover{
+
+    &:hover {
         color: @white-color;
     }
-    .icon{
+
+    .icon {
         margin-right: 20px;
         width: 30px;
         height: 30px;
         opacity: 0.5;
-        &+span{
+
+        & + span {
             margin-left: 0;
         }
     }
-    &:not(.new-rental){
-        @media @mobile{
+
+    &:not(.new-rental) {
+        @media @mobile {
             line-height: 1.3;
             display: table;
-            .button-inner{
+
+            .button-inner {
                 display: table-cell;
                 vertical-align: middle;
             }
-            .icon{
+
+            .icon {
                 display: block;
                 margin: 0 auto 5px;
             }
         }
     }
+
     &.new-rental {
         margin-bottom: 20px;
-        @media @mobile{
+
+        @media @mobile {
             height: 50px;
             line-height: 50px;
             margin-bottom: 20px;
         }
-        .icon{
+
+        .icon {
             @media @mobile {
                 width: 20px;
                 height: 20px;
@@ -49,7 +58,8 @@
         }
     }
 }
-.scroll-more-horizontal{
+
+.scroll-more-horizontal {
     @media @mobile {
         content: '';
         position: absolute;
@@ -59,58 +69,66 @@
         width: 150px;
         background: #fff;
         pointer-events: none;
-
         background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
         background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
         background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
     }
 }
-.data-flow-container{
 
+.data-flow-container {
     position: relative;
     padding: 30px 0px 0 0;
-    &.data-loaded{
-.graph-label{
-    display: block;
-}
+
+    &.data-loaded {
+        .graph-label {
+            display: block;
+        }
     }
-    &:after{
+
+    &:after {
         .scroll-more-horizontal;
     }
-    .scrollable-container{
+
+    .scrollable-container {
         overflow-x: auto;
         padding-bottom: 20px;
-        .scrollable-content{
+
+        .scrollable-content {
             @media @mobile {
                 min-width: 800px;
             }
         }
     }
-    .graph-label{
+
+    .graph-label {
         font-weight: 600;
         display: none;
     }
-    .graph-label-x{
+
+    .graph-label-x {
         position: absolute;
         left: 0;
         top: 0;
     }
-    .graph-label-y{
+
+    .graph-label-y {
         position: absolute;
         left: 0;
         bottom: 0;
     }
 }
-body.body-scrolled{
+
+body.body-scrolled {
     overflow-y: scroll;
 }
-#data-flow-overview{
+
+#data-flow-overview {
     width: 100%;
-    height: 200px
+    height: 200px;
 }
 
-#work-items-table{
+#work-items-table {
     //table-layout: auto;
     //width: 100% !important;
     /*td{
@@ -119,11 +137,12 @@ body.body-scrolled{
 }
 
 
-.dealnet-chart-switch-button-hold{
+.dealnet-chart-switch-button-hold {
     height: auto;
     line-height: 70px;
     margin: 10px 0;
 }
+
 .dealnet-chart-switch-button {
     width: 120px;
     height: 50px;
@@ -136,11 +155,13 @@ body.body-scrolled{
     margin: 0 5px 0 0;
     cursor: pointer;
 }
-@media @mobile{
-    .dealnet-chart-switch-button-hold{
+
+@media @mobile {
+    .dealnet-chart-switch-button-hold {
         text-align: center;
     }
-    .dealnet-chart-switch-button{
+
+    .dealnet-chart-switch-button {
         width: 80px;
         margin: 0 5px;
         height: 44px;
@@ -149,10 +170,10 @@ body.body-scrolled{
     }
 }
 
-    .dealnet-chart-switch-button:hover {
-        border: solid 1px #f0f0f0;
-        border-radius: 4px;
-    }
+.dealnet-chart-switch-button:hover {
+    border: solid 1px #f0f0f0;
+    border-radius: 4px;
+}
 
 .dealnet-chart-switch-button-selected {
     border-radius: 4px;
@@ -161,91 +182,218 @@ body.body-scrolled{
 }
 
 .dealnet-home-page .row {
-   /* margin-top: 21px;*/
+    /* margin-top: 21px;*/
 }
 
 
 
-.contact-info-list{
+.contact-info-list {
     margin: 0;
     padding: 0;
     list-style: none;
-    li+li{
+
+    li + li {
         margin-top: 5px;
     }
-    .icon{
+
+    .icon {
         margin-right: 10px;
         color: #989897;
-        &.icon-phone{
+
+        &.icon-phone {
             color: #9D9D9C;
         }
     }
 }
 
-a[href^=tel]{
-    color:inherit;
-    text-decoration:inherit;
-    font-size:inherit;
-    font-style:inherit;
-    font-weight:inherit;
+a[href^=tel] {
+    color: inherit;
+    text-decoration: inherit;
+    font-size: inherit;
+    font-style: inherit;
+    font-weight: inherit;
+
     @media @desktop-up {
         cursor: default;
         pointer-events: none;
     }
 }
 
-.about-page{
+.about-page {
     max-width: 590px;
+
     @media @tablet-down {
         margin: 0 auto;
     }
-    .promo-section{
+
+    .promo-section {
         @media @desktop-up {
             font-size: 16px;
         }
+
         @media @mobile {
             font-size: 14px;
         }
     }
-    .page-section{
-        &+.page-section{
+
+    .page-section {
+        & + .page-section {
             margin-top: 20px;
         }
     }
 }
-.page-container{
+
+.page-container {
     @media @tablet-down {
         max-width: 590px;
         margin: 0 auto;
     }
-    .dealnet-success-button{
+
+    .dealnet-success-button {
         width: 100%;
         display: block;
         max-width: 355px;
         margin: 0 auto;
-/*        @media @tablet-down {
+        /*        @media @tablet-down {
             height: 49px;
             line-height: 36px;
         }*/
     }
 }
+
 .banner-container {
     margin: -16px -15px 15px;
-    img{
+
+    img {
         display: block;
         width: 100%;
         height: auto;
     }
 }
-.icon-approved, .icon-pre-approved,.icon-pre-approved-15-k,.icon-pre-approved-20-k,.icon-26-pre-approved{
-    color: #61c53c;
-}
-.icon-more-info,.icon-credit-check-initiated, .icon-started-to-fill-new-contract{
-    color:#f6a623;
-}
-.icon-declined, .icon-86-cancelled,.icon-credit-check-declined,.icon-25-declined-manual {
-    color:#e11e36;
-}
-.icon-booked, .icon-funded {
-    color:#008064;
+
+.status-hold {
+    display: inline-flex;
+    height: 100%;
+
+
+    .status-text-hold {
+        display: table;
+        height: 100%;
+
+        .status-text {
+            display: table-cell;
+            vertical-align: middle;
+        }
+    }
+
+    .icon-hold {
+        .icon-status {
+            background: #ededed;
+            height: 100%;
+            margin-right: 5px;
+            min-height: 38px;
+            width: 4px;
+        }
+
+        // .icon-status-default, 
+        // .icon-10-saved, 
+        // .icon-11-quote,
+        // .icon-submitted,
+        // .icon-12-submitted, 
+        // .icon-13-submitted, 
+        // .icon-18-equipment,
+        // .icon-19-submit-through-automation, 
+        // .icon-credit-review,
+        // .icon-20-credit-review,
+        // .icon-20-credit-review-ecp, 
+        // .icon-24-re-submitted,
+        // .icon-24-re-submitted-e, 
+        // .icon-29----dw-verbal-approval,
+        // .icon-30-ready-to-doc, 
+        // .icon-31-docs-out,         
+        // .icon-32-docs-received,
+        // .icon-37-pending-audit-call, 
+        // .icon-38---awaiting-delivery,
+        // .icon-90---Master-line-of-credit-approval, 
+        // .icon-exported,
+        // .icon-s---credit-review, 
+        // .icon-s---docs-in, 
+        // .icon-s---docs-out,
+        // .icon-s---submitted,
+        // .icon-application-submitted {
+        //     background: #ededed;
+        // }
+
+        .icon-26-pre-approved, 
+        .icon-26-pre-approved-15-k,
+        .icon-pre-approved-15-k,
+        .icon-pre-approved-20-k,
+        .icon-26-pre-approved-ecp, 
+        .icon-27-final-review-recommend-approval,
+        .icon-28-approved, 
+        .icon-28-approved-15-k, 
+        .icon-28-approved-eco-energy,
+        .icon-28-approved-ecp, 
+        .icon-28-approved-enbridge,
+        .icon-28-approved-utile-credit, 
+        .icon-28-approvedwoemail-notice,
+        .icon-28-approved-blue-chip, 
+        .icon-28-approved-enable,
+        .icon-28-approved-northstar, 
+        .icon-28-approved-northstarwo-email,
+        .icon-28-approved-second-look, 
+        .icon-28-approved-vault,
+        .icon-40-deal-funding-requested, 
+        .icon-42-ready-for-audit,
+        .icon-48-audit-in-progress, 
+        .icon-sent-to-audit,
+        .icon-49-funding-tomorrow,
+        .icon-51-audited-awaiting-tpv, 
+        .icon-52-tpv-confirmed,
+        .icon-53-tpv-internal, 
+        .icon-s---approved, 
+        .icon-s---funding-requested,
+        .icon-credit-check-approved {
+            background: #61c53c;
+        }
+
+        .icon-14-crb-warnings, 
+        .icon-16-cbr-failure, 
+        .icon-22-mir,
+        .icon-22-mir-blue-chip, 
+        .icon-22-mir-northstar,
+        .icon-22-more-info-wo-email-notice, 
+        .icon-23-mir-not-received,
+        .icon-34-docs-back-incomplete, 
+        .icon-50-audited-deficient,
+        .icon-s---more-information {
+            background: #ffda1a;
+        }
+
+        .icon-declined,
+        .icon-25-declined, 
+        .icon-25-declined-woemail-notice,
+        .icon-25-declined-blue-chip, 
+        .icon-25-declined-enable-deals,
+        .icon-25-declined-northstar, 
+        .icon-29-declined-wou-email-notification,
+        .icon-35-dead-deal, 
+        .icon-84-expired-approval,
+        .icon-85-customer-changed-mind, 
+        .icon-86-cancelled,
+        .icon-86-opportunity-lost, 
+        .icon-91-terminated,
+        .icon-s---dead, 
+        .icon-s---declined,
+        .icon-credit-check-declined {
+            background: #e11e36;
+        }
+
+        .icon-booked, 
+        .icon-funded, 
+        .icon-46-funded-syndicated, 
+        .icon-s---funded {
+            background: #008064;
+        }
+    }
 }
