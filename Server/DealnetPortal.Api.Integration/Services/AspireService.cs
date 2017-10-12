@@ -2078,6 +2078,15 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = AspireUdfFields.DefaultAddressCountry
                     },
                 });
+                if (!string.IsNullOrEmpty(previousAddress.Unit))
+                {
+                    udfList.Add(
+                        new UDF()
+                        {
+                            Name = AspireUdfFields.PreviousAddressUnit,
+                            Value = previousAddress.Unit
+                        });
+                }
             }
 
             var installationAddress = customer.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress);
@@ -2111,6 +2120,15 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = AspireUdfFields.DefaultAddressCountry
                     },
                 });
+                if (!string.IsNullOrEmpty(installationAddress.Unit))
+                {
+                    udfList.Add(
+                        new UDF()
+                        {
+                            Name = AspireUdfFields.InstallationAddressUnit,
+                            Value = installationAddress.Unit
+                        });
+                }
 
                 if (installationAddress.MoveInDate.HasValue)
                 {
@@ -2153,6 +2171,15 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = AspireUdfFields.DefaultAddressCountry
                     },
                 });
+                if (!string.IsNullOrEmpty(mailingAddress.Unit))
+                {
+                    udfList.Add(
+                        new UDF()
+                        {
+                            Name = AspireUdfFields.MailingAddressUnit,
+                            Value = mailingAddress.Unit
+                        });
+                }
             }
 
             if (isHomeOwner.HasValue)
