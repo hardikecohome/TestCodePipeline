@@ -292,6 +292,28 @@ namespace DealnetPortal.Api.Integration.Services
         public CustomerContractInfoDTO GetCustomerContractInfo(int contractId, string dealerName)
         {
             CustomerContractInfoDTO contractInfo = null;
+            if (string.IsNullOrEmpty(dealerName))
+            {
+                var contract = _contractRepository.GetContract(contractId);
+                if (contract != null)
+                {
+                    return new CustomerContractInfoDTO()
+                    {
+                        ContractId = contractId,
+                        AccountId = contract.PrimaryCustomer?.AccountId,
+                        DealerName = contract.LastUpdateOperator,
+                        TransactionId = contract.Details?.TransactionId,
+                        ContractState = contract.ContractState,
+                        Status = contract.Details?.Status,
+                        CreditAmount = contract.Details?.CreditAmount ?? 0,
+                        ScorecardPoints = contract.Details?.ScorecardPoints ?? 0,
+                        CreationTime = contract.CreationTime,
+                        LastUpdateTime = contract.LastUpdateTime,
+                        EquipmentTypes = contract.Equipment?.NewEquipment?.Select(e => e.Type).ToList()
+                    };
+
+                }
+            }
             var dealerId = _dealerRepository.GetUserIdByName(dealerName);
             if (!string.IsNullOrEmpty(dealerId))
             {

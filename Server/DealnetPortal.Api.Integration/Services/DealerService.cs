@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
@@ -103,6 +104,7 @@ namespace DealnetPortal.Api.Integration.Services
         public DealerInfoDTO GetDealerOnboardingForm(string accessKey)
         {
             var dealerInfo = _dealerOnboardingRepository.GetDealerInfoByAccessKey(accessKey);
+            RevertUnprocessedDocuments(dealerInfo);
             var mappedInfo = Mapper.Map<DealerInfoDTO>(dealerInfo);
             return mappedInfo;
         }
@@ -110,6 +112,7 @@ namespace DealnetPortal.Api.Integration.Services
         public DealerInfoDTO GetDealerOnboardingForm(int id)
         {
             var dealerInfo = _dealerOnboardingRepository.GetDealerInfoById(id);
+            RevertUnprocessedDocuments(dealerInfo);
             var mappedInfo = Mapper.Map<DealerInfoDTO>(dealerInfo);
             return mappedInfo;
         }
@@ -130,6 +133,9 @@ namespace DealnetPortal.Api.Integration.Services
                                               _dealerRepository.GetUserIdByOnboardingLink(dealerInfo.SalesRepLink);
                 var updatedInfo = _dealerOnboardingRepository.AddOrUpdateDealerInfo(mappedInfo);
                 _unitOfWork.Save();
+
+                ProcessDocuments(updatedInfo);
+
                 resultKey = new DealerInfoKeyDTO()
                 {
                     AccessKey = updatedInfo.AccessKey,
@@ -190,6 +196,8 @@ namespace DealnetPortal.Api.Integration.Services
                                               _dealerRepository.GetUserIdByOnboardingLink(dealerInfo.SalesRepLink);
                 var updatedInfo = _dealerOnboardingRepository.AddOrUpdateDealerInfo(mappedInfo);
                 _unitOfWork.Save();
+
+                ProcessDocuments(updatedInfo);
 
                 resultKey = new DealerInfoKeyDTO()
                 {
@@ -342,7 +350,7 @@ namespace DealnetPortal.Api.Integration.Services
                     var dealerInfo = _dealerOnboardingRepository.GetDealerInfoById(document.DealerInfoId.Value);
                     if (dealerInfo != null)
                     {
-                        _dealerOnboardingRepository.DeleteDocumentFromDealer(document.Id);
+                        _dealerOnboardingRepository.SetDocumentStatus(document.Id, DocumentStatus.Removing);//DeleteDocumentFromDealer(document.Id);
 
                         _unitOfWork.Save();
                     }
@@ -416,7 +424,49 @@ namespace DealnetPortal.Api.Integration.Services
                 });
             }            
         }
-    }
 
-    
+        private DealerInfo ProcessDocuments(DealerInfo dealerInfo)
+        {
+            var docForProcess = dealerInfo.RequiredDocuments?.Where(d => d.Status != null).ToList();
+            if (docForProcess?.Any() == true)
+            {
+                docForProcess.ForEach(d =>
+                {
+                    switch (d.Status)
+                    {                        
+                        case DocumentStatus.Removing:
+                            _dealerOnboardingRepository.DeleteDocumentFromDealer(d.Id);
+                            break;
+                        case DocumentStatus.Adding:
+                            d.Status = null;                        
+                            break;                                                
+                    }
+                });
+                _unitOfWork.Save();
+            }
+            return dealerInfo;
+        }
+
+        private DealerInfo RevertUnprocessedDocuments(DealerInfo dealerInfo)
+        {
+            var docForProcess = dealerInfo.RequiredDocuments?.Where(d => d.Status != null).ToList();
+            if (docForProcess?.Any() == true)
+            {
+                docForProcess.ForEach(d =>
+                {
+                    switch (d.Status)
+                    {
+                        case DocumentStatus.Removing:
+                            d.Status = null;                            
+                            break;
+                        case DocumentStatus.Adding:
+                            _dealerOnboardingRepository.DeleteDocumentFromDealer(d.Id);
+                            break;                        
+                    }
+                });
+                _unitOfWork.Save();
+            }
+            return dealerInfo;
+        }
+    }
 }

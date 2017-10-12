@@ -136,7 +136,8 @@
         hideLoader();
     }
 
-    function validate (e) {
+    function validate(e) {
+        showLoader();
         var $form = $('#onboard-form');
         $('#submitBtn').prop('disabled', true);
 
@@ -154,10 +155,10 @@
         $('#IsDocumentsUploaded').val(documentsUploaded);
 
         if (equipValid && workProvinceValid) {
-            showLoader();
             $form.submit();
         } else {
             e.preventDefault();
+            hideLoader();
         }
     }
 
