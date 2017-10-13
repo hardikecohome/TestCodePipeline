@@ -45,7 +45,9 @@
             .on('keyup', setLengthLimitedField(3));
         $('#' + ownerNumber + '-agreement').on('change', aknwoledgmentSetters.setAgreement(ownerNumber));
 
-        assignOwnerDatepicker('#' + ownerNumber + '-birthdate', ownerNumber);
+        var input = assignOwnerDatepicker('#' + ownerNumber + '-birthdate', ownerNumber);
+
+        setDatepickerDate('#' + ownerNumber + '-birthdate', state['owner-info'].owners[ownerNumber].birthdate);
 
         if (ownerNumber !== 'owner0') {
             initGoogleServices(ownerNumber + '-street',
@@ -95,7 +97,6 @@
 
                 if (field === 'birthdate' && owners[i]['BirthDate'] !== null) {
                     setters.setBirthDate(owner, owners[i]['BirthDate']);
-                    setDatepickerDate('#' + owner + '-birthdate', state['owner-info'].owners[owner].birthDate);
                 }
                 var $item = $('#' + owner + '-' + field);
                 if ($item.val())
