@@ -13,7 +13,8 @@
         var files = e.target.files;
 
         _uploadFile('voidChequeUploaded', 'cheque-upload-title', 'cheque-container', 'void-cheque-files', files[0]);
-
+		//var salesrep = $('#OnBoardingLink').val();
+		//ga('send', 'event', 'Dealer Application Document Upload', 'Void cheque', salesrep);
         e.target.value = '';
     }
 
@@ -21,7 +22,8 @@
         var files = e.target.files;
 
         _uploadFile('insurenceUploaded', 'insurence-upload-title', 'insurence-container', 'insurence-files', files[0]);
-
+		//var salesrep = $('#OnBoardingLink').val();
+		//ga('send', 'event', 'Dealer Application Document Upload', 'Insurance', salesrep);
         e.target.value = '';
     }
 
@@ -221,8 +223,11 @@
             contentType: false,
             processData: false,
             data: data,
-            success: function (json) {
-                if (json.IsSuccess) {
+			success: function (json) {
+				var salesrep = $('#OnBoardingLink').val();
+				if (json.IsSuccess) {					
+					ga('send', 'event', 'Dealer Application Document Upload', 'Upload Successful', salesrep);
+
                     if (+$('#Id').val() === 0) {
                         $('#Id').val(json.DealerInfoId);
                     }
@@ -234,7 +239,9 @@
                     _addFile(checkSelector, buttonSelector, fileContainerSelector, stateFileSection, file, json.ItemId);
                     moveTonextSection();
                     enableSubmit();
-                } else {
+				} else {
+					ga('send', 'event', 'Dealer Application Document Upload', 'Upload Fail', salesrep);
+
                     alert(json.AggregatedError);
                 }
             },
