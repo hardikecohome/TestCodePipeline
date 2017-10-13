@@ -40,7 +40,8 @@
         };
         var urlContent = "@Url.Content("~/")";
         var layotSettingsUrl = "@(User.Identity.IsAuthenticated ? Url.Action("LayoutSettings", "Home") : null)";
-        var customerDealsCountUrl = "@(User.Identity.IsAuthenticated ? Url.Action("CustomersDealsCount", "Home") : null)";
+		var customerDealsCountUrl = "@(User.Identity.IsAuthenticated ? Url.Action("CustomersDealsCount", "Home") : null)";
+		var SupportUrl = "@(User.Identity.IsAuthenticated ? Url.Action("DealerSupportRequestEmail", "Home") : null)";
         var translations = {};
         translations['IfYouChangeInfo'] = "@Resources.IfYouChangeInfo";
         translations['NavigateToStep'] = "@Resources.NavigateToStep";
@@ -71,6 +72,7 @@
     @RenderSection("OutrunningScripts", false)
     <!--<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>-->
     @Html.Raw(System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])
+
 </head>
 @{
     string themeClass;
@@ -87,8 +89,8 @@
 }
 
 <body class="@(User.Identity.IsAuthenticated ? "authorized" : "no-authorized") @themeClass">
-    <div class="container-fluid">
-        <div class="row">
+	<div class="container-fluid">
+		<div class="row">
             <div class="col-md-12">
                 <nav class="navbar navbar-inverse navbar-fixed-side @(ViewBag.AdditionalNavbarClasses!=null?ViewBag.AdditionalNavbarClasses:"")">
                     <div class="navbar-header">
@@ -264,10 +266,10 @@
                 </div>
             </div>
             }
-            <div class="@(User.Identity.IsAuthenticated ? "col-md-9 col-lg-10 col-md-offset-3 col-lg-offset-2 dealnet-body-container" : "col-md-12 col-lg-12")">
+            <div class="@(User.Identity.IsAuthenticated ? "col-md-9 col-lg-10 col-md-offset-3 col-lg-offset-2 dealnet-body-container" : "col-md-12 col-lg-12")">				
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 dealnet-body">
-                        @RenderBody()
+						@RenderBody()
                     </div>
                 </div>
             </div>
@@ -294,7 +296,212 @@
         </div>
     </div>
 </div>
+	<div class="floatingHelpBtn">
+		<div id="email_buttons">
+			@*<div class="supportEmailButton hidden">
+				<div class="col-md-3" id="dealerSupportEmail">
 
+					<i onclick="sendEmailModel();">
+						<button class="btn btn-small btn-success">
+							<svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
+							Dealer Support
+						</button>
+					</i>
+				</div>
+				<div class="col-md-3" id="creditSupprotEmail">
+					<i onclick="sendEmailModel();">
+						<button class="btn btn-small btn-success">
+							<svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
+							Credit Support
+						</button>
+					</i>
+				</div>
+				<div class="col-md-3" id="fundingSupportEmail">
+					<i onclick="sendEmailModel();">
+						<button class="btn btn-small btn-success">
+							<svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
+							Funding Support
+						</button>
+					</i>
+				</div>
+				<div class="col-md-3" id="customerServiceEmail">
+					<i onclick="sendEmailModel();">
+						<button class="btn btn-small btn-success">
+							<svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
+							Customer Service
+						</button>
+					</i>
+				</div>
+			</div>*@
+			@if (User.Identity.IsAuthenticated && ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") != true))
+            {
+			<div class="helpbutton pull-right">
+
+				<i onclick="sendEmailModel();">
+					<button class="btn btn-lg btn-success">
+						<svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg>
+						Help
+					</button>
+				</i>
+			</div>
+			}
+		</div>
+	</div>
+
+	<div id="emailModal" class="modal fade modal-wide">
+		<div class="modal-dialog modal-warning">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">How Can We Help? </h4>
+				</div>
+				<div class="modal-body">
+					<div class="col-md-12 col-xs-12 pull-left" style="margin-bottom:20px;">
+						<div class="row">
+							<div class="form-group">
+								<div class="col-md-3 col-xs-6">
+									<label class="pull-left">Dealer Name</label>
+								</div>
+								<div class="col-md-9 col-xs-6">
+									<label class="pull-left" id="emailDealerName">@User.Identity.Name</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group">
+								<div class="col-md-3 col-xs-6">
+									<label class="pull-left">Your Name</label>
+								</div>
+								<div class="col-md-9 col-xs-6">
+									<label class="pull-left" id="emailSubDealerName">@User.Identity.Name</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group">
+								<div class="col-md-3 col-xs-6">
+									<label class="pull-left align-middle custom-checkbox">
+										<input type="checkbox" class="dealnet-checkbox" id="yourNameCB" onclick="yourNameCBclick();" />
+										<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+										<span>Your Name</span>
+									</label>
+								</div>
+								<div class="col-md-9 col-xs-6">
+									<input class="pull-left form-control dealnet-input" type="text" id="yourNameTxt" placeholder="Your Name (If not the above)" disabled />
+									<span class="text-danger hidden" id="yourNameTxtValidation">Please provide your name</span>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group">
+								<div class="col-md-3 col-xs-6">
+									<label class="pull-left">Deal Number</label>
+								</div>
+								<div class="col-md-9 col-xs-6">
+									<label class="pull-left" id="emailTransactionId"></label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group">
+								<div class="col-md-3 col-xs-12">
+									<label class="pull-left">How Can We Help?</label>
+								</div>
+								<div class="col-md-9 col-xs-12">
+									<div class="row">
+										<div class="col-md-12 col-xs-12">
+											<div class="pull-left col-xs-6">
+												<label class="pull-left align-middle custom-checkbox">
+													<input type="radio" name="SupportType" value="Credit Decision" class="dealnet-checkbox" />
+													<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+													<span>Credit Decision</span>
+												</label>
+											</div>
+											<div class="pull-left col-xs-6">
+												<label class="pull-left align-middle custom-checkbox">
+													<input type="radio" name="SupportType" value="Credit Docs" class="dealnet-checkbox" />
+													<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+													<span>Credit Docs</span>
+												</label>
+											</div>
+											<div class="pull-left col-xs-6">
+												<label class="pull-left align-middle custom-checkbox">
+													<input type="radio" name="SupportType" value="Funding Docs" class="dealnet-checkbox" />
+													<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+													<span>Funding Docs</span>
+												</label>
+											</div>
+											<div class="pull-left col-xs-6">
+												<label class="pull-left align-middle custom-checkbox">
+													<input type="radio" name="SupportType" value="Other" checked class="dealnet-checkbox" />
+													<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+													<span>Other</span>
+												</label>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12 col-xs-12">
+											<textarea class="form-control pull-left full-width" id="emailComment" rows="5" placeholder="Please provide short description"></textarea>
+											<span class="text-danger hidden" id="emailCommentValidation">Please provide short description</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group">
+								<div class="col-md-3 col-xs-12">
+									<label class="pull-left">Best Way to get back to you</label>
+								</div>
+								<div class="col-md-9 col-xs-12">
+									<div class="row">
+										<div class="col-md-12 col-xs-12">
+											<div class="col-xs-6">
+												<label class="pull-left align-middle custom-checkbox">
+													<input type="checkbox" class="dealnet-checkbox" id="emailPhone" />
+													<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+													<span>@Resources.Phone</span>
+												</label>
+											</div>
+											<div class="col-xs-6">
+												<label class="pull-left align-middle custom-checkbox">
+													<input type="checkbox" class="dealnet-checkbox" id="emailSameEmail" />
+													<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+													<span>Same E-mail</span>
+												</label>
+											</div>
+											<div class="col-xs-12">
+												<label class="pull-left align-middle custom-checkbox">
+													<input type="checkbox" class="dealnet-checkbox" id="emailAlternativeEmail" onclick="emailAlternativeEmailclick();" />
+													<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+													<span>Alternative E-mail</span>
+												</label>
+											</div>
+											
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<input class="pull-left form-control dealnet-input hidden" type="text" id="emailAlternativeEmailAddress"  placeholder="Alternative Email Address" />
+											<span class="text-danger hidden" id="emailAlternativeEmailAddressValidation">Please provide Alternative E-mail Address</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				<div class="modal-footer">
+					<div class="col-md-12 col-xs-12">
+						<button type="button" class="btn dealnet-button btn-small dealnet-link-button" data-dismiss="modal">@Resources.Cancel</button>
+						<button type="button" class="btn btn-lg btn-small dealnet-button dealnet-success-button" id="emailSupport" onclick="sendEmailToSupport();">@Resources.Send</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
     @RenderSection("Scripts", false)
 </body>
 </html>

@@ -22,7 +22,7 @@ using DealnetPortal.Api.Models.Profile;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Utilities.Logging;
-
+using DealnetPortal.Api.Models.Notify;
 namespace DealnetPortal.Api.Controllers
 {
     [Authorize]
@@ -211,6 +211,21 @@ namespace DealnetPortal.Api.Controllers
             catch (Exception ex)
             {
                 LoggingService.LogError($"Failed to get dealer onboarding form with access key {accessKey}", ex);
+                return InternalServerError(ex);
+            }
+	}
+        [Route("DealerSupportRequestEmail")]
+        [HttpPost]
+        public IHttpActionResult DealerSupportRequestEmail(SupportRequestDTO dealerSupportRequest)
+        {
+            try
+            {
+                //dealerProfile.DealerId = LoggedInUser.UserId;
+                var result = _dealerService.DealerSupportRequestEmail(dealerSupportRequest);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
                 return InternalServerError(ex);
             }
         }

@@ -20,6 +20,7 @@ using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Utilities.Messaging;
 using DealnetPortal.Api.Models.Notification;
+using DealnetPortal.Api.Models.Notify;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -615,6 +616,36 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
         }
+
+        public async Task SendSupportRequiredEmail(SupportRequestDTO SupportDetails)
+        {
+            string mailTo = ""; /*ConfigurationManager.AppSettings["DealNetEmail"];*/
+            switch (SupportDetails.SupportType)
+            {
+                case "Credit Decision":
+                    mailTo = ConfigurationManager.AppSettings["CreditDecisionDealNetEmail"];
+                    break;
+                case "Credit Docs":
+                    mailTo = ConfigurationManager.AppSettings["CreditDocsDealNetEmail"];
+                    break;
+                case "Funding Docs":
+                    mailTo = ConfigurationManager.AppSettings["FundingDocsDealNetEmail"];
+                    break;
+                case "Other":
+                    mailTo = ConfigurationManager.AppSettings["OtherDealNetEmail"];
+                    break;
+            }
+            try
+            {
+                await _mandrillService.SendSupportRequiredEmail(SupportDetails, mailTo);
+                //await _emailService.SendAsync(new List<string> { mailTo }, string.Empty, subject, body.ToString());
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot send email", ex);
+            }
+        }
+
 
         #endregion
 

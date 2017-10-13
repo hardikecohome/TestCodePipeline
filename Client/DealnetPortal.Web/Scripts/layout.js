@@ -665,6 +665,104 @@ function hideDynamicAlertModal () {
   $('#confirmAlert').off('click');
 }
 
+
+function sendEmailModel(rowTransactionId) {
+	var alertModal = $('#emailModal');
+	alertModal.find('#emailTransactionId').html(rowTransactionId);
+	alertModal.modal('show');
+}
+function yourNameCBclick(){
+	if ($('#yourNameCB').prop('checked'))
+	{
+		$('#yourNameTxt').removeAttr("disabled");
+	}
+	else {
+		$('#yourNameTxt').attr("disabled", "disabled");
+		$('#yourNameTxt').val("");
+	}
+}
+
+function emailAlternativeEmailclick() {
+	if ($('#emailAlternativeEmail').prop('checked')) {
+		$('#emailAlternativeEmailAddress').removeClass('hidden');
+	}
+	else {
+		$('#emailAlternativeEmailAddress').addClass('hidden');
+
+	}
+}
+//$.validator.addMethod("requiredIfChecked", function (val, ele, arg) {
+//	if ($("#startClientFromWeb").is(":checked") && ($.trim(val) == '')) { return false; }
+//	return true;
+//}, "This field is required if startClientFromWeb is checked...");
+
+function validateEmail(Email) {
+	var pattern = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+	return $.trim(Email).match(pattern) ? true : false;
+}
+
+function sendEmailToSupport() {
+	//check validation
+	if ($("#yourNameCB").is(":checked") && ($.trim($('#yourNameTxt').val()) == '')) {
+		$('#yourNameTxtValidation').removeClass('hidden');
+		return false;
+	}
+	else {
+		$('#yourNameTxtValidation').addClass('hidden');
+	}
+	if ($.trim($('#emailComment').val()) == '') {
+		$('#emailCommentValidation').removeClass('hidden');
+		return false;
+	}
+	else {
+		$('#emailCommentValidation').addClass('hidden');
+	}
+	
+	if ($("#emailAlternativeEmail").is(":checked") && (($.trim($('#emailAlternativeEmailAddress').val()) == '') || !(validateEmail($('#emailAlternativeEmailAddress').val().trim())))) {		
+		$('#emailAlternativeEmailAddressValidation').removeClass('hidden');
+		return false;
+	}
+	else {
+		$('#emailAlternativeEmailAddressValidation').addClass('hidden');
+		//var emailaddress = $('#emailAlternativeEmailAddress').val().trim();
+		//if (validateEmail(emailaddress)) {
+		//	$('#emailAlternativeEmailAddressValidation').addClass('hidden');
+		//}
+		//else {
+		//	$('#emailAlternativeEmailAddressValidation').removeClass('hidden');
+		//	return false;
+			
+		//}
+	}
+
+	var data = {
+		"Id": 0,
+		"DealerName": $('#emailDealerName').text(),
+		"YourName": $('#yourNameCB').prop('checked') ? $('#yourNameTxt').val() : $('#emailSubDealerName').text(),
+		"LoanNumber": $('#emailTransactionId').text(),
+		"SupportType": $('input[name=SupportType]:checked').val(),
+		"HelpRequested": $('#emailComment').val(),
+		"BestWay": {
+			"byPhone": $('#emailPhone').prop('checked'),
+			"SameEmail": $('#emailSameEmail').prop('checked'),
+			"AlternativeEmail": $('#emailAlternativeEmail').prop('checked'),
+			"AlternativeEmailAddress": $('#emailAlternativeEmailAddress').val()
+		}
+	};
+	$.ajax({
+		cache: false,
+		method: "POST",
+		url: SupportUrl,
+		data: data,
+		success: function (json) {
+			$('#emailModal').modal('toggle');
+			
+		}
+	});
+	
+}
+
+
 function detectPageHeight () {
   if ($('.dealnet-body').height() > 1000) {
     $('.back-to-top-hold').show();
