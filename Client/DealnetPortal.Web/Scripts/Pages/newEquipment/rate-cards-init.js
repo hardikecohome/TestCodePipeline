@@ -1,8 +1,9 @@
-﻿module.exports('rate-cards-init', function(require) {
+﻿module.exports('rate-cards-init', function (require) {
     var state = require('state').state;
     var constants = require('state').constants;
     var rateCardBlock = require('rate-cards-ui');
     var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
+    var rateCardFound = false;
 
     /**
      * Initialize view and store rate cards in storage.
@@ -42,6 +43,10 @@
                     renderSelectedRateCardUi(option.name, items);
                 }
             });
+
+            if (state.selectedCardId !== null && !rateCardFound) {
+                $('#expired-rate-card-warning').removeClass('hidden');
+            }
         }
 
         recalculateValuesAndRender();
@@ -53,7 +58,7 @@
      * @param {Array<>} items - list of rate cards for the option
      * @returns {} 
      */
-    function renderSelectedRateCardUi(option, items) {
+    function renderSelectedRateCardUi (option, items) {
         rateCardBlock.toggle(state.isNewContract);
         if (option !== 'Custom' && state.selectedCardId !== 0) {
             setSelectedRateCard(option, items);
@@ -80,9 +85,9 @@
      * @param {Array<>} items - list of rate cards for the option
      * @returns {} 
      */
-    function setSelectedRateCard(option, items) {
+    function setSelectedRateCard (option, items) {
         var selectedCard = $.grep(items, function (card) { return card.Id === Number(state.selectedCardId); })[0];
-
+        debugger
         if (selectedCard !== null && selectedCard !== undefined) {
             state[option] = selectedCard;
             state[option].yourCost = '';
@@ -103,7 +108,7 @@
      * populate custom rate cards with values
      * @returns {} 
      */
-    function setSelectedCustomRateCard() {
+    function setSelectedCustomRateCard () {
         var deferralPeriod = $.grep(constants.customDeferralPeriods, function (period) { return period.name === $('#LoanDeferralType').val() })[0];
 
         state['Custom'].LoanTerm = Number($('#LoanTerm').val());

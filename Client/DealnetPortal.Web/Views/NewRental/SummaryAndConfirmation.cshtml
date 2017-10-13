@@ -1176,10 +1176,26 @@
             </div>
         </div>
 
-        <div class="form-group btn-container-proceed">
-            <a class="btn dealnet-button dealnet-success-button btn-finish" href="@Url.Action("SubmitDeal", "NewRental", new {contractId = Model.BasicInfo.ContractId})">
-                @Resources.SubmitDeal
-            </a>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group btn-container-proceed">
+                    <a class="btn dealnet-button dealnet-success-button btn-finish" href="@Url.Action("SubmitDeal", "NewRental", new {contractId = Model.BasicInfo.ContractId})">
+                        @Resources.SubmitDeal
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="form-group hidden" id="expired-rate-card-warning">
+                    <div class="control-group">
+                        <div class="well danger-well">
+                            <svg aria-hidden="true" class="icon icon-error">
+                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
+                            </svg>
+                            @Resources.FinProgramUnavailable
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
