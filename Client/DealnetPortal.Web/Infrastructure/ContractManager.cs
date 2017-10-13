@@ -678,7 +678,7 @@ namespace DealnetPortal.Web.Infrastructure
             {
                 var loanCalculatorInput = new LoanCalculator.Input
                 {
-                    TaxRate = summary.ProvinceTaxRate.Rate,
+                    TaxRate = 0,/* summary.ProvinceTaxRate.Rate,*/
                     LoanTerm = contract.Equipment.LoanTerm ?? 0,
                     AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
                     EquipmentCashPrice = (double?)contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
