@@ -181,13 +181,14 @@ namespace DealnetPortal.DataAccess.Repositories
                     else
                     {
                         doc.License = _dbContext.LicenseTypes.Find(doc.LicenseTypeId);
+                        doc.DealerInfoId = dbDealerInfo.Id;
                         newEntities.Add(doc);
                         dbDealerInfo.AdditionalDocuments.Add(doc);
                     }
                 });
                 var existingEntities = dbDealerInfo.AdditionalDocuments.Where(a => documents.Any(ee => ee.LicenseTypeId == a.LicenseTypeId)).ToList();
                 var entriesForDelete = dbDealerInfo.AdditionalDocuments.Except(existingEntities).Except(newEntities).ToList();
-                entriesForDelete.ForEach(e => dbDealerInfo.AdditionalDocuments.Remove(e));
+                entriesForDelete.ForEach(e => _dbContext.AdditionalDocuments.Remove(e));
             }
         }
 
