@@ -63,14 +63,16 @@ namespace DealnetPortal.DataAccess.Migrations
                 SetAspireStatuses(context);
                 SetDocumentTypes(context);
                 SetLanguages(context);
-                var templates = SetDocuSignTemplates(context);
+                SetAgreementTemplatesData(context);
+                //var templates = SetDocuSignTemplates(context);
+                SetContractAgreementTemplates(context);
                 SetInstallationCertificateTemplates(context, context.Applications.Local.ToArray());
-                SetPdfTemplates(context, templates);                                
+                //SetPdfTemplates(context, templates);                                
                 SetSettingItems(context);
                 SetUserSettings(context);                
                 SetRateCards(context);
             }
-            //read updated pdt templates anyway
+            //read updated pdf templates anyway
             SetExistingPdfTemplates(context);
             //read daelers logos anyway
             SetUserLogos(context);
@@ -2160,6 +2162,132 @@ namespace DealnetPortal.DataAccess.Migrations
             context.Languages.AddOrUpdate(l => l.Code, languages.ToArray());
         }
 
+        private void SetAgreementTemplatesData(ApplicationDbContext context)
+        {
+            List<AgreementTemplateDocument> templates = new List<AgreementTemplateDocument>();
+
+            #region Contract document templates
+            var templateData = new AgreementTemplateDocument()
+            {
+                TemplateName = "EcoHome HVAC Other Equipment GENERIC 11.99% (ON) MAR 2017 F",
+                ExternalTemplateId = "01a58df8-8ec9-4e96-b89f-9e9cdd6ec727"
+            };
+            templates.Add(templateData);
+            templateData = new AgreementTemplateDocument()
+            {
+                TemplateName = "EcoHome Rental Agreement -New Brunswick MAR 2017 F_V1",
+                ExternalTemplateId = "83c341b7-ae0c-44d3-ab3c-76c153358627"
+            };
+            templates.Add(templateData);
+            templateData = new AgreementTemplateDocument()
+            {
+                TemplateName = "EH Loan Agreement All Provinces (Except QC) No Fee v2017-08-29 - Clarity",
+                ExternalTemplateId = "87ffbebd-9a69-477d-b7ae-4f7e786f9ce0"
+            };
+            templates.Add(templateData);
+            templateData = new AgreementTemplateDocument()
+            {
+                TemplateName = "EH Loan Agreement All Provinces (Except QC) No Fee v2017-08-29 - ClimateCare",
+                ExternalTemplateId = "487fe883-b662-4dbd-9b83-4b74486ebf18"
+            };
+            templates.Add(templateData);
+            templateData = new AgreementTemplateDocument()
+            {
+                TemplateName = "EH Loan Agreement All Provinces (Except QC) No Fee v2017-08-29 - EcoHome",
+                ExternalTemplateId = "ce3d2021-9cf1-4c97-bbb7-e66ac590d32c"
+            };
+            templates.Add(templateData);
+            templateData = new AgreementTemplateDocument()
+            {
+                TemplateName = "EH Loan Agreement All Provinces (Except QC) No Fee v2017-08-29 - SmartHome",
+                ExternalTemplateId = "bff355ef-e2a6-4760-83bf-e59f27f5c018"
+            };
+            templates.Add(templateData);
+            #endregion
+            #region Installation certificates document templates
+            var template = new AgreementTemplateDocument()
+            {
+                TemplateName = "ONE DEALER Completion Certificate - Rental"
+            };
+            templates.Add(template);
+            template = new AgreementTemplateDocument()
+            {
+                TemplateName = "EcoHome Completion Certificate - Rentals"                
+            };
+            templates.Add(template);
+            template = new AgreementTemplateDocument()
+            {
+                TemplateName = "EcoHome Completion Certificate - Rentals",                
+            };
+            templates.Add(template);
+            template = new AgreementTemplateDocument()
+            {
+                TemplateName = "EcoHome Certificate of Completion - Loans",                
+            };
+            templates.Add(template);
+            #endregion
+
+            //leave existing data
+            templates.RemoveAll(d => context.AgreementTemplateDocuments.Any(dbd => dbd.TemplateName == d.TemplateName));
+            context.AgreementTemplateDocuments.AddOrUpdate(d => d.TemplateName, templates.ToArray());
+
+        }
+
+        //contract templates from MARCH 2017
+        private void SetContractAgreementTemplates(ApplicationDbContext context)
+        {
+            List<AgreementTemplate> templates = new List<AgreementTemplate>();
+            var template = new AgreementTemplate()
+            {
+                State = "AB BC MB NB NL NT NS NU ON PE SK YT",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateDocument = context.AgreementTemplateDocuments.Local.FirstOrDefault(d => d.TemplateName == "EH Loan Agreement All Provinces (Except QC) No Fee v2017-08-29 - SmartHome")
+                                   ?? context.AgreementTemplateDocuments.FirstOrDefault(d => d.TemplateName == "EH Loan Agreement All Provinces (Except QC) No Fee v2017-08-29 - SmartHome"),
+                ExternalDealerName = "smarthome",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("smarthome")) ?? context.Users.FirstOrDefault(u => u.UserName.Contains("smarthome")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("smarthome"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("smarthome"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+            template = new AgreementTemplate()
+            {
+                State = "AB BC MB NB NL NT NS NU ON PE SK YT",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateDocument = context.AgreementTemplateDocuments.Local.FirstOrDefault(d => d.TemplateName == "EH Loan Agreement All Provinces (Except QC) No Fee v2017-08-29 - ClimateCare")
+                                   ?? context.AgreementTemplateDocuments.FirstOrDefault(d => d.TemplateName == "EH Loan Agreement All Provinces (Except QC) No Fee v2017-08-29 - ClimateCare"),
+                ExternalDealerName = "climatecare",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("climatecare")) ?? context.Users.FirstOrDefault(u => u.UserName.Contains("climatecare")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("climatecare"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("climatecare"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);            
+            template = new AgreementTemplate()
+            {
+                State = "AB BC MB NB NL NT NS NU ON PE SK YT",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateDocument = context.AgreementTemplateDocuments.Local.FirstOrDefault(d => d.TemplateName == "EH Loan Agreement All Provinces (Except QC) No Fee v2017-08-29 - EH Loan Agreement All Provinces (Except QC) No Fee v2017-08-29 - Clarity")
+                                   ?? context.AgreementTemplateDocuments.FirstOrDefault(d => d.TemplateName == "EH Loan Agreement All Provinces (Except QC) No Fee v2017-08-29 - EH Loan Agreement All Provinces (Except QC) No Fee v2017-08-29 - Clarity"),
+                ExternalDealerName = "clarity",
+                Dealer = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("clarity")) ?? context.Users.FirstOrDefault(u => u.UserName.Contains("clarity")),
+                DealerId = context.Users.Local.FirstOrDefault(u => u.UserName.Contains("clarity"))?.Id ?? context.Users.FirstOrDefault(u => u.UserName.Contains("clarity"))?.Id,
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+            template = new AgreementTemplate()
+            {
+                State = "AB BC MB NB NL NT NS NU ON PE SK YT",
+                AgreementType = AgreementType.LoanApplication,
+                TemplateDocument = context.AgreementTemplateDocuments.Local.FirstOrDefault(d => d.TemplateName == "EH Loan Agreement All Provinces (Except QC) No Fee v2017-08-29 - SmartHome")
+                                   ?? context.AgreementTemplateDocuments.FirstOrDefault(d => d.TemplateName == "EH Loan Agreement All Provinces (Except QC) No Fee v2017-08-29 - SmartHome"),
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+
+            templates.RemoveAll(t => context.AgreementTemplates.Any(at => at.DealerId == t.DealerId && at.AgreementType == t.AgreementType && at.State == t.State 
+                                    && at.EquipmentType == t.EquipmentType && at.DocumentTypeId == t.DocumentTypeId));
+            AddOrUpdate(context, t => new { t.DealerId, t.AgreementType, t.State, t.EquipmentType, t.DocumentTypeId }, templates.ToArray());
+        }
+
         private AgreementTemplate[] SetDocuSignTemplates(ApplicationDbContext context)
         {
            List<AgreementTemplate> templates = new List<AgreementTemplate>();
@@ -2909,8 +3037,10 @@ namespace DealnetPortal.DataAccess.Migrations
 
             var template = new AgreementTemplate()
             {
+                TemplateDocument = context.AgreementTemplateDocuments.Local.FirstOrDefault(d => d.TemplateName == "ONE DEALER Completion Certificate - Rental")
+                                    ?? context.AgreementTemplateDocuments.FirstOrDefault(d => d.TemplateName == "ONE DEALER Completion Certificate - Rental"),
                 AgreementType = AgreementType.RentalApplication,
-                TemplateName = "ONE DEALER Completion Certificate - Rental",
+                //TemplateName = "ONE DEALER Completion Certificate - Rental",
                 Application = applications.FirstOrDefault(x => x.Id == OdiAppId),
                 ApplicationId = applications.FirstOrDefault(x => x.Id == OdiAppId)?.Id,
                 DocumentTypeId = (int)DocumentTemplateType.SignedInstallationCertificate
@@ -2919,7 +3049,9 @@ namespace DealnetPortal.DataAccess.Migrations
 
             template = new AgreementTemplate()
             {
-                TemplateName = "EcoHome Completion Certificate - Rentals",
+                TemplateDocument = context.AgreementTemplateDocuments.Local.FirstOrDefault(d => d.TemplateName == "EcoHome Completion Certificate - Rentals")
+                                   ?? context.AgreementTemplateDocuments.FirstOrDefault(d => d.TemplateName == "EcoHome Completion Certificate - Rentals"),
+                //TemplateName = "EcoHome Completion Certificate - Rentals",
                 Application = applications.FirstOrDefault(x => x.Id == EcohomeAppId),
                 ApplicationId = applications.FirstOrDefault(x => x.Id == EcohomeAppId)?.Id,
                 AgreementType = AgreementType.RentalApplication,
@@ -2928,7 +3060,9 @@ namespace DealnetPortal.DataAccess.Migrations
             templates.Add(template);
             template = new AgreementTemplate()
             {
-                TemplateName = "EcoHome Completion Certificate - Rentals",
+                TemplateDocument = context.AgreementTemplateDocuments.Local.FirstOrDefault(d => d.TemplateName == "EcoHome Completion Certificate - Rentals")
+                                   ?? context.AgreementTemplateDocuments.FirstOrDefault(d => d.TemplateName == "EcoHome Completion Certificate - Rentals"),
+                //TemplateName = "EcoHome Completion Certificate - Rentals",
                 Application = applications.FirstOrDefault(x => x.Id == EcohomeAppId),
                 ApplicationId = applications.FirstOrDefault(x => x.Id == EcohomeAppId)?.Id,
                 AgreementType = AgreementType.RentalApplicationHwt,
@@ -2937,7 +3071,9 @@ namespace DealnetPortal.DataAccess.Migrations
             templates.Add(template);
             template = new AgreementTemplate()
             {
-                TemplateName = "EcoHome Certificate of Completion - Loans",
+                TemplateDocument = context.AgreementTemplateDocuments.Local.FirstOrDefault(d => d.TemplateName == "EcoHome Certificate of Completion - Loans")
+                                   ?? context.AgreementTemplateDocuments.FirstOrDefault(d => d.TemplateName == "EcoHome Certificate of Completion - Loans"),
+                //TemplateName = "EcoHome Certificate of Completion - Loans",
                 Application = applications.FirstOrDefault(x => x.Id == EcohomeAppId),
                 ApplicationId = applications.FirstOrDefault(x => x.Id == EcohomeAppId)?.Id,
                 AgreementType = AgreementType.LoanApplication,
@@ -2945,13 +3081,13 @@ namespace DealnetPortal.DataAccess.Migrations
             };
             templates.Add(template);
 
-            templates.RemoveAll(t => context.AgreementTemplates.Any(at => at.TemplateName == t.TemplateName && at.DealerId == t.DealerId && at.AgreementType == t.AgreementType && at.ApplicationId == t.ApplicationId));
-            AddOrUpdate(context, t => new { t.TemplateName, t.DealerId, t.AgreementType }, templates.ToArray());
+            templates.RemoveAll(t => context.AgreementTemplates.Any(at => at.DocumentTypeId == t.DocumentTypeId && at.DealerId == t.DealerId && at.AgreementType == t.AgreementType && at.ApplicationId == t.ApplicationId));
+            AddOrUpdate(context, t => new { t.DocumentTypeId, t.DealerId, t.AgreementType }, templates.ToArray());
         }
 
         private void SetExistingPdfTemplates(ApplicationDbContext context)
         {
-            context.AgreementTemplates.ForEach(t =>
+            context.AgreementTemplateDocuments.ForEach(t =>
             {
                 try
                 {
@@ -2960,7 +3096,24 @@ namespace DealnetPortal.DataAccess.Migrations
                     var path = Path.Combine(dir ?? "", t.TemplateName + ".pdf");
                     if (File.Exists(path))
                     {
-                        t.AgreementForm = File.ReadAllBytes(path);                        
+                        t.TemplateBinary = File.ReadAllBytes(path);                        
+                    }
+                }
+                catch
+                {
+                    // ignored
+                }
+            });
+            context.AgreementTemplateDocuments.Local.ForEach(t =>
+            {
+                try
+                {
+                    var seedDataFolder = _configuration.GetSetting(WebConfigKeys.AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY);
+                    var dir = HostingEnvironment.MapPath($"~/{seedDataFolder}");
+                    var path = Path.Combine(dir ?? "", t.TemplateName + ".pdf");
+                    if (File.Exists(path))
+                    {
+                        t.TemplateBinary = File.ReadAllBytes(path);
                     }
                 }
                 catch

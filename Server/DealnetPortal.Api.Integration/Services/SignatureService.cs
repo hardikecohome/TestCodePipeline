@@ -576,7 +576,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     agreementTemplate = dealerTemplates.FirstOrDefault(at =>
                         (at.AgreementType == contract.Equipment.AgreementType)
-                        && at.State == province);
+                        && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false)));
                 }
 
                 if (agreementTemplate == null)
