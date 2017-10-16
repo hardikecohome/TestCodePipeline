@@ -4,7 +4,9 @@
 
     function submitDraft (e) {
         showLoader();
-        var formData = $('#onboard-form').serialize();
+		var formData = $('#onboard-form').serialize();
+		var salesrep = $('#OnBoardingLink').val();
+		ga('send', 'event', 'Dealer Application Saved', 'Save and Resume button clicked', salesrep);
         $.when($.ajax({
             type: 'POST',
             url: saveDraftUrl,
@@ -110,14 +112,16 @@
     }
 
     function successCallback (json) {
-        hideLoader();
+		hideLoader();
+		
     }
 
     function errorCallback (xhr, status, p3) {
         hideLoader();
     }
 
-    function validate (e) {
+	function validate(e) {
+		
         var $form = $('#onboard-form');
         $('#submit').prop('disabled', true);
 
@@ -131,14 +135,16 @@
             return;
         }
 
-        if (equipValid && workProvinceValid) {
-            showLoader();
+		if (equipValid && workProvinceValid) {
+			showLoader();
             $form.ajaxSubmit({
                 type: 'POST',
             });
         } else {
             e.preventDefault();
-        }
+		}
+		
+
     }
 
     return {
