@@ -118,14 +118,6 @@ namespace DealnetPortal.Api.App_Start
 
             mapperConfig.CreateMap<VerifiactionId, VarificationIdsDTO>();
                 
-
-
-
-            mapperConfig.CreateMap<AgreementTemplate, AgreementTemplateDTO>()
-                .ForMember(d => d.AgreementFormRaw, s => s.MapFrom(src => src.AgreementForm))
-                .ForMember(d => d.DealerName, s => s.ResolveUsing(src => src.Dealer?.UserName ?? string.Empty));
-            //.ForMember(d => d.EquipmentTypes, s => s.ResolveUsing(src => src.EquipmentTypes?.Select(e => e.Type)));
-
             mapperConfig.CreateMap<DocumentType, DocumentTypeDTO>().
                 ForMember(x => x.Description,
                     s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.DescriptionResource) ?? src.Description));
@@ -428,15 +420,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.LastUpdateOperator, d => d.Ignore())
                 .ForMember(x => x.IsCreatedByBroker, d => d.Ignore());
 
-            mapperConfig.CreateMap<AgreementTemplateDTO, AgreementTemplate>()
-                .ForMember(d => d.AgreementForm, s => s.MapFrom(src => src.AgreementFormRaw))
-                .ForMember(d => d.Dealer, s => s.Ignore())
-                .ForMember(d => d.DocumentTypeId, s => s.Ignore())
-                .ForMember(d => d.DocumentType, s => s.Ignore())
-                .ForMember(d => d.ApplicationId, s => s.Ignore())
-                .ForMember(d => d.Application, s => s.Ignore());
-                //.ForMember(d => d.EquipmentTypes, s => s.Ignore());
-
+            
             mapperConfig.CreateMap<DocumentTypeDTO, DocumentType>()
                 .ForMember(x => x.DescriptionResource, d => d.Ignore());
             mapperConfig.CreateMap<ContractDocumentDTO, ContractDocument>()

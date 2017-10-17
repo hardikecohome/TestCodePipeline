@@ -186,7 +186,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var agrRes = documentTypeId != (int) DocumentTemplateType.SignedInstallationCertificate
                     ? SelectAgreementTemplate(contract, ownerUserId)
                     : SelectInstallCertificateTemplate(contract, ownerUserId);
-                if (agrRes?.Item1?.AgreementForm != null)
+                if (agrRes?.Item1?.TemplateDocument?.TemplateBinary != null)
                 {
                     isAvailable = true;
                 }
@@ -245,9 +245,9 @@ namespace DealnetPortal.Api.Integration.Services
                 //Check is pdf template in db. In this case we insert fields on place
                 var agrRes = SelectAgreementTemplate(contract, ownerUserId);
 
-                if (agrRes?.Item1?.AgreementForm != null)
+                if (agrRes?.Item1?.TemplateDocument?.TemplateBinary != null)
                 {
-                    MemoryStream ms = new MemoryStream(agrRes.Item1.AgreementForm, true);
+                    MemoryStream ms = new MemoryStream(agrRes.Item1.TemplateDocument.TemplateBinary, true);
 
                     var fields = PrepareFormFields(contract, ownerUserId);
                     var insertRes = _pdfEngine.InsertFormFields(ms, fields);
@@ -264,7 +264,7 @@ namespace DealnetPortal.Api.Integration.Services
                         document = new AgreementDocument()
                         {
                             DocumentRaw = buf,
-                            Name = agrRes.Item1.TemplateName
+                            Name = agrRes.Item1.TemplateDocument.TemplateName
                         };
 
                         ReformatTempalteNameWithId(document, contract.Details.TransactionId);
@@ -306,9 +306,9 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 //Check is pdf template in db. In this case we insert fields on place
                 var agrRes = SelectInstallCertificateTemplate(contract, ownerUserId);
-                if (agrRes?.Item1?.AgreementForm != null)
+                if (agrRes?.Item1?.TemplateDocument?.TemplateBinary != null)
                 {
-                    MemoryStream ms = new MemoryStream(agrRes.Item1.AgreementForm, true);
+                    MemoryStream ms = new MemoryStream(agrRes.Item1.TemplateDocument.TemplateBinary, true);
 
                     var fields = new List<FormField>();
                     FillHomeOwnerFields(fields, contract);
@@ -329,7 +329,7 @@ namespace DealnetPortal.Api.Integration.Services
                         document = new AgreementDocument()
                         {
                             DocumentRaw = buf,
-                            Name = agrRes.Item1.TemplateName
+                            Name = agrRes.Item1.TemplateDocument.TemplateName
                         };
 
                         ReformatTempalteNameWithId(document, contract.Details?.TransactionId);
@@ -535,21 +535,28 @@ namespace DealnetPortal.Api.Integration.Services
                 (at.DealerId == contractOwnerId) && (!at.DocumentTypeId.HasValue ||
                                                      at.DocumentTypeId == (int) DocumentTemplateType.SignedContract));
 
-            if (!string.IsNullOrEmpty(contract.ExternalSubDealerName))
+            if (!string.IsNullOrEmpty(contract.ExternalSubDealerName) || dealerTemplates?.Any() != true)
             {
-                var extTemplates = _fileRepository.FindAgreementTemplates(at =>
-                    (at.ExternalDealerName == contract.ExternalSubDealerName) &&
+                var extTemplates = _fileRepository.FindAgreementTemplates(at => !string.IsNullOrEmpty(at.ExternalDealerName) &&
+                    (at.ExternalDealerName == contract.ExternalSubDealerName || at.ExternalDealerName == contract.Dealer.UserName) &&
                     (!at.DocumentTypeId.HasValue || at.DocumentTypeId == (int) DocumentTemplateType.SignedContract));
-                extTemplates?.ForEach(et => dealerTemplates.Add(et));
+                if (extTemplates?.Any() == true && dealerTemplates == null)
+                {
+                    dealerTemplates = new List<AgreementTemplate>();
+                    extTemplates.ForEach(et => dealerTemplates.Add(et));
+                }                
             }
 
             if (!dealerTemplates?.Any() ?? true)
             {
                 var parentDealerId = _dealerRepository.GetParentDealerId(contractOwnerId);
-                dealerTemplates = _fileRepository.FindAgreementTemplates(at =>
-                    (at.DealerId == parentDealerId) && (!at.DocumentTypeId.HasValue ||
-                                                        at.DocumentTypeId ==
-                                                        (int) DocumentTemplateType.SignedContract));
+                if (!string.IsNullOrEmpty(parentDealerId))
+                {
+                    dealerTemplates = _fileRepository.FindAgreementTemplates(at =>
+                        (at.DealerId == parentDealerId) && (!at.DocumentTypeId.HasValue ||
+                                                            at.DocumentTypeId ==
+                                                            (int) DocumentTemplateType.SignedContract));
+                }
             }
 
             // get agreement template 
@@ -584,24 +591,14 @@ namespace DealnetPortal.Api.Integration.Services
                     agreementTemplate =
                         dealerTemplates.FirstOrDefault(at => at.AgreementType == contract.Equipment.AgreementType);
                 }
-                //DEAL-1903 Dealer should not generate contracts that are not specific for his role
-                //if (agreementTemplate == null)
-                //{
-                //    agreementTemplate =
-                //        dealerTemplates.FirstOrDefault(at => string.IsNullOrEmpty(at.State) || at.State == province);
-                //}
-
-                //if (agreementTemplate == null)
-                //{
-                //    agreementTemplate = dealerTemplates.First();
-                //}
+                
             }
             else
             {
                 //otherwise select any common template
                 var commonTemplates =
                     _fileRepository.FindAgreementTemplates(
-                        at => string.IsNullOrEmpty(at.DealerId) &&
+                        at => string.IsNullOrEmpty(at.DealerId) && string.IsNullOrEmpty(at.ExternalDealerName) &&
                               (!at.DocumentTypeId.HasValue ||
                                at.DocumentTypeId == (int) DocumentTemplateType.SignedContract));
                 if (commonTemplates?.Any() ?? false)
@@ -609,15 +606,7 @@ namespace DealnetPortal.Api.Integration.Services
                     agreementTemplate =
                         commonTemplates.FirstOrDefault(at => at.AgreementType == contract.Equipment.AgreementType);
 
-                    //if (agreementTemplate == null)
-                    //{
-                    //    agreementTemplate = commonTemplates.FirstOrDefault(at => at.State == province);
-                    //}
-
-                    //if (agreementTemplate == null)
-                    //{
-                    //    agreementTemplate = commonTemplates.FirstOrDefault(at => at.AgreementForm != null);
-                    //}
+                   
                 }
             }
 

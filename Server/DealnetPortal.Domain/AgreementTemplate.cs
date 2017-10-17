@@ -14,8 +14,6 @@ namespace DealnetPortal.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public string TemplateName { get; set; }
-
         public AgreementType? AgreementType { get; set; }
 
         public int? DocumentTypeId { get; set; }
@@ -39,12 +37,10 @@ namespace DealnetPortal.Domain
         /// </summary>
         public string ExternalDealerName { get; set; }
 
-        public byte[] AgreementForm { get; set; }
-
-        public string ExternalTemplateId { get; set; }
 
         public int? TemplateDocumentId { get; set; }
+
         [ForeignKey(nameof(TemplateDocumentId))]
-        public AgreementTemplateDocument TemplateDocument { get; set; }       
+        public virtual AgreementTemplateDocument TemplateDocument { get; set; }       
     }
 }

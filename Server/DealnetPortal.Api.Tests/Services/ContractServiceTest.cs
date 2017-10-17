@@ -6,6 +6,7 @@ using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
+using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -25,13 +26,15 @@ namespace DealnetPortal.Api.Tests.Services
         private ISignatureService _signatureService;
         private IMailService _mailService;
         private IDealerRepository _dealerRepository;
+        private IAppConfiguration _appConfiguration;
 
         [TestInitialize]
         public void Intialize()
         {
             DealnetPortal.Api.App_Start.AutoMapperConfig.Configure();
             SetupMocks();
-            //_contractService = new ContractService(_contractRepository, _unitOfWork, _aspireService, _aspireStorageReader, _signatureService, _mailService, _loggingService);
+            _contractService = new ContractService(_contractRepository, _unitOfWork, _aspireService, _aspireStorageReader, 
+                _customerWalletService, _signatureService, _mailService, _loggingService, _dealerRepository, _appConfiguration);
         }
 
         private void SetupMocks()
@@ -45,6 +48,7 @@ namespace DealnetPortal.Api.Tests.Services
             Mock<IAspireStorageReader> aspireStorageServiceMock = new Mock<IAspireStorageReader>();
             Mock<ICustomerWalletService> customerWalletServiceMock = new Mock<ICustomerWalletService>();
             Mock<IDealerRepository> dealerRepositoryMock = new Mock<IDealerRepository>();
+            Mock<IAppConfiguration> appConfigurationMock = new Mock<IAppConfiguration>();
 
             contractRepositoryMock.Setup(s => s.CreateContract(It.IsAny<string>())).Returns(
                 new Contract()
@@ -73,6 +77,7 @@ namespace DealnetPortal.Api.Tests.Services
             _aspireStorageReader = aspireStorageServiceMock.Object;
             _customerWalletService = customerWalletServiceMock.Object;
             _dealerRepository = dealerRepositoryMock.Object;
+            _appConfiguration = appConfigurationMock.Object;
         }
 
         [TestMethod]
