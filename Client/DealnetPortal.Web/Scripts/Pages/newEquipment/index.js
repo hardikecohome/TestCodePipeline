@@ -57,6 +57,10 @@
         var onRateCardSelect = function () {
             recalculateValuesAndRender();
             var option = $(this).parent().find('#hidden-option').text();
+            if ($('#expired-rate-card-warning').is(':visible')) {
+                $('#expired-rate-card-warning').addClass('hidden');
+            }
+
             if (option === 'Custom') {
                 var isValid = validateOnSelect.call(this);
 

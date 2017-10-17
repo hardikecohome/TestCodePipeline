@@ -3,7 +3,6 @@
     var constants = require('state').constants;
     var rateCardBlock = require('rate-cards-ui');
     var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
-    var rateCardFound = false;
 
     /**
      * Initialize view and store rate cards in storage.
@@ -44,8 +43,10 @@
                 }
             });
 
-            if (state.selectedCardId !== null && !rateCardFound) {
-                $('#expired-rate-card-warning').removeClass('hidden');
+            if (state.selectedCardId !== null && state.selectedCardId !== 0) {
+                if (cards.map(function (x) { return x.Id }).indexOf(state.selectedCardId) === -1) {
+                    $('#expired-rate-card-warning').removeClass('hidden');
+                }
             }
         }
 
@@ -87,7 +88,6 @@
      */
     function setSelectedRateCard (option, items) {
         var selectedCard = $.grep(items, function (card) { return card.Id === Number(state.selectedCardId); })[0];
-        debugger
         if (selectedCard !== null && selectedCard !== undefined) {
             state[option] = selectedCard;
             state[option].yourCost = '';
