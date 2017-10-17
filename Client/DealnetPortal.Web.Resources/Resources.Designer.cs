@@ -19,7 +19,7 @@ namespace DealnetPortal.Web.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -2419,6 +2419,15 @@ namespace DealnetPortal.Web.Resources {
         public static string FindUs {
             get {
                 return ResourceManager.GetString("FindUs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Previously selected financing program is no longer available. In order to proceed please select a valid program..
+        /// </summary>
+        public static string FinProgramUnavailable {
+            get {
+                return ResourceManager.GetString("FinProgramUnavailable", resourceCulture);
             }
         }
         
