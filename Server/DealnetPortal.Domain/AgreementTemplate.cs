@@ -14,8 +14,6 @@ namespace DealnetPortal.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public string TemplateName { get; set; }
-
         public AgreementType? AgreementType { get; set; }
 
         public int? DocumentTypeId { get; set; }
@@ -23,6 +21,8 @@ namespace DealnetPortal.Domain
         public DocumentType DocumentType { get; set; }
 
         public string State { get; set; }
+
+        public string EquipmentType { get; set; }
 
         public string DealerId { get; set; }
         [ForeignKey("DealerId")]
@@ -33,14 +33,14 @@ namespace DealnetPortal.Domain
         public Application Application { get; set; }
 
         /// <summary>
-        /// For Aspire dealers
+        /// For Aspire dealers those are not in DB yet
         /// </summary>
         public string ExternalDealerName { get; set; }
 
-        public byte[] AgreementForm { get; set; }
 
-        public string ExternalTemplateId { get; set; }
+        public int? TemplateDocumentId { get; set; }
 
-        public string EquipmentType { get; set; }
+        [ForeignKey(nameof(TemplateDocumentId))]
+        public virtual AgreementTemplateDocument TemplateDocument { get; set; }       
     }
 }

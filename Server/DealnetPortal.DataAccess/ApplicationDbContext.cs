@@ -62,6 +62,8 @@ namespace DealnetPortal.DataAccess
 
         public DbSet<AgreementTemplate> AgreementTemplates { get; set; }
 
+        public DbSet<AgreementTemplateDocument> AgreementTemplateDocuments { get; set; }
+
         public virtual DbSet<ProvinceTaxRate> ProvinceTaxRates { get; set; }
 
         public virtual DbSet<AspireStatus> AspireStatuses { get; set; }
