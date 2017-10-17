@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using DealnetPortal.Aspire.Integration.Models.AspireDb;
 
-namespace DealnetPortal.Api.Integration.Services
+namespace DealnetPortal.Aspire.Integration.Storage
 {
     public interface IAspireStorageReader
     {

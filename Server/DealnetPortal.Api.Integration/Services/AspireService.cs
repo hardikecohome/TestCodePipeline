@@ -20,6 +20,7 @@ using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Aspire.Integration.Constants;
 using DealnetPortal.Aspire.Integration.Models;
 using DealnetPortal.Aspire.Integration.ServiceAgents;
+using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;

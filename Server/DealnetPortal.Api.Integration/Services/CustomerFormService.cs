@@ -18,6 +18,7 @@ using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Contract.EquipmentInformation;
+using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;

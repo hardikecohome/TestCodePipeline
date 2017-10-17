@@ -4,6 +4,7 @@ using System.Data;
 using System.Globalization;
 using System.Linq;
 using DealnetPortal.Aspire.Integration.Models.AspireDb;
+using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.Utilities.DataAccess;
 using DealnetPortal.Utilities.Logging;
 
