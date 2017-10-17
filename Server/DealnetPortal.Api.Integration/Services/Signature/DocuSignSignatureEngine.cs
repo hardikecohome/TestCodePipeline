@@ -128,11 +128,11 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
             await Task.Run(() =>
             {                
-                if (contract != null & agreementTemplate != null)
+                if (contract != null & agreementTemplate?.TemplateDocument != null)
                 {
-                    if (!string.IsNullOrEmpty(agreementTemplate.ExternalTemplateId))
+                    if (!string.IsNullOrEmpty(agreementTemplate.TemplateDocument.ExternalTemplateId))
                     {
-                        _templateId = agreementTemplate.ExternalTemplateId;
+                        _templateId = agreementTemplate.TemplateDocument.ExternalTemplateId;
                         _templateUsed = true;
                     }
                     else
@@ -140,8 +140,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         _templateUsed = false;
                         _document = new Document
                         {
-                            DocumentBase64 = System.Convert.ToBase64String(agreementTemplate.AgreementForm),
-                            Name = agreementTemplate.TemplateName,
+                            DocumentBase64 = System.Convert.ToBase64String(agreementTemplate.TemplateDocument.TemplateBinary),
+                            Name = agreementTemplate.TemplateDocument.TemplateName,
                             DocumentId = contract.Id.ToString(),
                             TransformPdfFields = "true"
                         };
