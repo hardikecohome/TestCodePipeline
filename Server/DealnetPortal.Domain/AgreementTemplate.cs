@@ -26,7 +26,7 @@ namespace DealnetPortal.Domain
 
         public string DealerId { get; set; }
         [ForeignKey("DealerId")]
-        public ApplicationUser Dealer { get; set; }
+        public virtual ApplicationUser Dealer { get; set; }
 
         public string ApplicationId { get; set; }
         [ForeignKey("ApplicationId")]
