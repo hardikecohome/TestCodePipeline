@@ -351,11 +351,13 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         dealerCustomerInfo.Name = name;
                     }
-
-                    var pname = ConvertFromDbVal<string>(dr["parent_uname"]);
-                    if (!string.IsNullOrEmpty(pname))
+                    if (dr["parent_uname"] != null)
                     {
-                        dealerCustomerInfo.ParentUserName = pname;
+                        var pname = ConvertFromDbVal<string>(dr["parent_uname"]);
+                        if (!string.IsNullOrEmpty(pname))
+                        {
+                            dealerCustomerInfo.ParentUserName = pname;
+                        }
                     }
                 }
                 catch (Exception ex)
