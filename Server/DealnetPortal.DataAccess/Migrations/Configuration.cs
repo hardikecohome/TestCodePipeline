@@ -2283,6 +2283,25 @@ namespace DealnetPortal.DataAccess.Migrations
             };
             templates.Add(template);
 
+            template = new AgreementTemplate()
+            {
+                State = "NB",
+                AgreementType = AgreementType.Rental,
+                TemplateDocument = context.AgreementTemplateDocuments.Local.FirstOrDefault(d => d.TemplateName == "EcoHome Rental Agreement -New Brunswick MAR 2017 F_V1")
+                                   ?? context.AgreementTemplateDocuments.FirstOrDefault(d => d.TemplateName == "EcoHome Rental Agreement -New Brunswick MAR 2017 F_V1"),
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };            
+            templates.Add(template);
+            template = new AgreementTemplate()
+            {
+                State = "ON",
+                AgreementType = AgreementType.Rental,
+                TemplateDocument = context.AgreementTemplateDocuments.Local.FirstOrDefault(d => d.TemplateName == "EcoHome HVAC Other Equipment GENERIC 11.99% (ON) MAR 2017 F")
+                                   ?? context.AgreementTemplateDocuments.FirstOrDefault(d => d.TemplateName == "EcoHome HVAC Other Equipment GENERIC 11.99% (ON) MAR 2017 F"),
+                DocumentTypeId = (int)DocumentTemplateType.SignedContract
+            };
+            templates.Add(template);
+
             templates.RemoveAll(t => context.AgreementTemplates.Any(at => at.DealerId == t.DealerId && at.AgreementType == t.AgreementType && at.State == t.State 
                                     && at.EquipmentType == t.EquipmentType && at.DocumentTypeId == t.DocumentTypeId));
             AddOrUpdate(context, t => new { t.DealerId, t.AgreementType, t.State, t.EquipmentType, t.DocumentTypeId }, templates.ToArray());

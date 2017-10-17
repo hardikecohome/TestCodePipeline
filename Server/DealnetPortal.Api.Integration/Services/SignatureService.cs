@@ -559,6 +559,17 @@ namespace DealnetPortal.Api.Integration.Services
                 }
             }
 
+            if (dealerTemplates?.Any() != true)
+            {
+                //otherwise select any common template
+                var commonTemplates =
+                    _fileRepository.FindAgreementTemplates(
+                        at => string.IsNullOrEmpty(at.DealerId) && string.IsNullOrEmpty(at.ExternalDealerName) &&
+                              (!at.DocumentTypeId.HasValue ||
+                               at.DocumentTypeId == (int)DocumentTemplateType.SignedContract));
+                dealerTemplates = commonTemplates;
+            }
+
             // get agreement template 
             AgreementTemplate agreementTemplate = null;
 
@@ -566,14 +577,14 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 // if dealer has templates, select one
                 agreementTemplate = dealerTemplates.FirstOrDefault(at =>
-                    (at.AgreementType == contract.Equipment.AgreementType)
+                    (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(contract.Equipment.AgreementType))
                     && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
                     && (string.IsNullOrEmpty(equipmentType) || (at.EquipmentType?.Contains(equipmentType) ?? false)));
 
                 if (agreementTemplate == null)
                 {
                     agreementTemplate = dealerTemplates.FirstOrDefault(at =>
-                        (!at.AgreementType.HasValue || at.AgreementType == contract.Equipment.AgreementType)
+                        (!at.AgreementType.HasValue || at.AgreementType.Value.HasFlag(contract.Equipment.AgreementType))
                         && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
                         && (string.IsNullOrEmpty(equipmentType) ||
                             (at.EquipmentType?.Contains(equipmentType) ?? false)));
@@ -582,33 +593,31 @@ namespace DealnetPortal.Api.Integration.Services
                 if (agreementTemplate == null)
                 {
                     agreementTemplate = dealerTemplates.FirstOrDefault(at =>
-                        (at.AgreementType == contract.Equipment.AgreementType)
+                        at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(contract.Equipment.AgreementType)
                         && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false)));
                 }
 
                 if (agreementTemplate == null)
                 {
                     agreementTemplate =
-                        dealerTemplates.FirstOrDefault(at => at.AgreementType == contract.Equipment.AgreementType);
+                        dealerTemplates.FirstOrDefault(at => at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(contract.Equipment.AgreementType));
                 }
                 
             }
-            else
-            {
-                //otherwise select any common template
-                var commonTemplates =
-                    _fileRepository.FindAgreementTemplates(
-                        at => string.IsNullOrEmpty(at.DealerId) && string.IsNullOrEmpty(at.ExternalDealerName) &&
-                              (!at.DocumentTypeId.HasValue ||
-                               at.DocumentTypeId == (int) DocumentTemplateType.SignedContract));
-                if (commonTemplates?.Any() ?? false)
-                {
-                    agreementTemplate =
-                        commonTemplates.FirstOrDefault(at => at.AgreementType == contract.Equipment.AgreementType);
-
-                   
-                }
-            }
+            //else
+            //{
+            //    //otherwise select any common template
+            //    var commonTemplates =
+            //        _fileRepository.FindAgreementTemplates(
+            //            at => string.IsNullOrEmpty(at.DealerId) && string.IsNullOrEmpty(at.ExternalDealerName) &&
+            //                  (!at.DocumentTypeId.HasValue ||
+            //                   at.DocumentTypeId == (int) DocumentTemplateType.SignedContract));
+            //    if (commonTemplates?.Any() ?? false)
+            //    {
+            //        agreementTemplate =
+            //            commonTemplates.FirstOrDefault(at => at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(contract.Equipment.AgreementType));                   
+            //    }
+            //}
 
             if (agreementTemplate == null)
             {
@@ -637,7 +646,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (dealerCertificates?.Any() ?? false)
             {
                 agreementTemplate = dealerCertificates.FirstOrDefault(
-                                        cert => cert.AgreementType == contract.Equipment.AgreementType)
+                                        cert => cert.AgreementType.HasValue && cert.AgreementType.Value.HasFlag(contract.Equipment.AgreementType))
                                     ?? dealerCertificates.FirstOrDefault();
             }
             else
@@ -651,7 +660,7 @@ namespace DealnetPortal.Api.Integration.Services
                     if (appCertificates?.Any() ?? false)
                     {
                         agreementTemplate = appCertificates.FirstOrDefault(
-                                                cert => cert.AgreementType == contract.Equipment.AgreementType)
+                                                cert => cert.AgreementType.HasValue && cert.AgreementType.Value.HasFlag(contract.Equipment.AgreementType))
                                             ?? appCertificates.FirstOrDefault();
                     }
                 }
