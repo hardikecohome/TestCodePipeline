@@ -350,15 +350,7 @@ namespace DealnetPortal.Api.Integration.Services
                     if (!string.IsNullOrEmpty(name))
                     {
                         dealerCustomerInfo.Name = name;
-                    }
-                    if (dr["parent_uname"] != null)
-                    {
-                        var pname = ConvertFromDbVal<string>(dr["parent_uname"]);
-                        if (!string.IsNullOrEmpty(pname))
-                        {
-                            dealerCustomerInfo.ParentUserName = pname;
-                        }
-                    }
+                    }                    
                 }
                 catch (Exception ex)
                 {       
@@ -397,6 +389,14 @@ namespace DealnetPortal.Api.Integration.Services
                     dealerInfo.Ratecard = ConvertFromDbVal<string>(dr["ratecard"]);
                     dealerInfo.Role = ConvertFromDbVal<string>(dr["Role"]);
                     dealerInfo.UserId = ConvertFromDbVal<string>(dr["user_id"]);
+                    if (dr["parent_uname"] != null)
+                    {
+                        var pname = ConvertFromDbVal<string>(dr["parent_uname"]);
+                        if (!string.IsNullOrEmpty(pname))
+                        {
+                            dealerInfo.ParentUserName = pname;
+                        }
+                    }
 
                     return dealerInfo;
                 }
