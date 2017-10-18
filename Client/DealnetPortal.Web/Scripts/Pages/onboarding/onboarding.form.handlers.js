@@ -112,12 +112,12 @@
     function validateDocuments() {
         var license = state['documents']['addedLicense'].filter(function (lic) {
             if (lic.noExpiry === undefined) {
-                return lic.nubmer === '' || lic.date === '';
+                return lic.number === '' || lic.date === '';
             } else {
                 if (lic.noExpiry === true) {
-                    return lic.nubmer === '';
+                    return lic.number === '';
                 } else {
-                    return lic.nubmer === '' || lic.date === null;
+                    return lic.number === '' || lic.date === null;
                 }
             }
         }).length === 0;
