@@ -2214,12 +2214,7 @@ namespace DealnetPortal.DataAccess.Migrations
             {
                 TemplateName = "EcoHome Completion Certificate - Rentals"                
             };
-            templates.Add(template);
-            template = new AgreementTemplateDocument()
-            {
-                TemplateName = "EcoHome Completion Certificate - Rentals",                
-            };
-            templates.Add(template);
+            templates.Add(template);            
             template = new AgreementTemplateDocument()
             {
                 TemplateName = "EcoHome Certificate of Completion - Loans",                
