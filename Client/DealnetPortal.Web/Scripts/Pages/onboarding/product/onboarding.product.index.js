@@ -13,10 +13,10 @@
             .on('keyup', setLengthLimitedField(50));
         $('#annual-sales-volume')
             .on('change', setters.setAnnualSales)
-            .on('keyup', setLengthLimitedField(10));
+            .on('keyup', setLengthLimitedField(11));
         $('#av-transaction-size')
             .on('change', setters.setTransactionSize)
-            .on('keyup', setLengthLimitedField(10));
+            .on('keyup', setLengthLimitedField(11));
         $('.sales-approach').on('change', setters.setSalesApproach);
         $('.lead-gen').on('change', setters.setLeadGen);
         $('#relationship').on('change', setters.setRelationship);
@@ -29,7 +29,7 @@
             .on('keyup', setLengthLimitedField(50));
         $('#monthly-financed-value')
             .on('change', setters.setMonthFinancedValue)
-            .on('keyup', setLengthLimitedField(10));
+            .on('keyup', setLengthLimitedField(11));
         $('#OfferMonthlyDeferrals').on('change', setters.setOfferDeferrals);
         $('#percent-month-deferrals')
             .on('change', setters.setPercentMonthDeferrals)
