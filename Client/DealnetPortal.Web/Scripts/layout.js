@@ -428,6 +428,8 @@ function getDatepickerDate(selector) {
 }
 
 function setDatepickerDate(selector, date) {
+  var d = new Date(date);
+  if (!isNaN(d.getTime())) {
     var input = $('body').is('.ios-device') ? $(selector).siblings('.div-datepicker') : $(selector);
 
     input.datepicker('setDate', date);
@@ -435,6 +437,10 @@ function setDatepickerDate(selector, date) {
         var formated = !date ? '' : (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
         input.siblings('input.form-control').val(formated).blur();
     }
+      var formated = !date ? '' : (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
+      input.siblings('input.form-control').val(formated).blur();
+    }
+  }
 }
 
 function addCloseButtonForInlineDatePicker() {
