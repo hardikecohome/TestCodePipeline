@@ -1320,6 +1320,7 @@ namespace DealnetPortal.Api.Integration.Services
                                     (_configuration.GetSetting(WebConfigKeys.DEFAULT_LEAD_SOURCE_KEY) ??
                                     (_configuration.GetSetting($"PortalDescriber.{contract.Dealer?.ApplicationId}") ?? contract.Dealer?.Application?.LeadSource));
 
+                bool? existingCustomer = null;
                 if (string.IsNullOrEmpty(c.AccountId))
                 {
                     //check user on Aspire
@@ -1334,6 +1335,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             account.ClientId = aspireCustomer.EntityId.Trim();
                             c.ExistingCustomer = true;
+                            existingCustomer = true;
                             //check lead source in aspire
                             if (!string.IsNullOrEmpty(aspireCustomer.LeaseSource))
                             {
@@ -1343,6 +1345,7 @@ namespace DealnetPortal.Api.Integration.Services
                         else
                         {
                             c.ExistingCustomer = false;
+                            existingCustomer = false;
                         }
                     }
                     catch (Exception ex)
@@ -1362,7 +1365,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 } 
                 
-                account.UDFs = GetCustomerUdfs(c, location, setLeadSource, contract.HomeOwners?.Any(hw => hw.Id == c.Id)).ToList();                
+                account.UDFs = GetCustomerUdfs(c, location, setLeadSource, contract.HomeOwners?.Any(hw => hw.Id == c.Id), existingCustomer).ToList();                
 
                 if (!string.IsNullOrEmpty(role))
                 {
@@ -2013,7 +2016,7 @@ namespace DealnetPortal.Api.Integration.Services
             return udfList;
         }
 
-        private IList<UDF> GetCustomerUdfs(Domain.Customer customer, Location mainLocation, string leadSource, bool? isHomeOwner = null)
+        private IList<UDF> GetCustomerUdfs(Domain.Customer customer, Location mainLocation, string leadSource, bool? isHomeOwner = null, bool? existingCustomer = null)
         {
             var udfList = new List<UDF>();
             if (!string.IsNullOrEmpty(leadSource))
@@ -2040,13 +2043,16 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = AspireUdfFields.AuthorizedConsent,
                     Value = "Y"
                 });
-            udfList.Add(
-                new UDF()
-                {
+            if (existingCustomer.HasValue)
+            {
+                udfList.Add(
+                    new UDF()
+                    {
 
-                    Name = AspireUdfFields.ExistingCustomer,
-                    Value = customer.ExistingCustomer == true || (!customer.ExistingCustomer.HasValue && !string.IsNullOrEmpty(customer.AccountId)) ? "Y" : "N"
-                });
+                        Name = AspireUdfFields.ExistingCustomer,
+                        Value = existingCustomer.Value ? "Y" : "N"
+                    });
+            }
 
             var previousAddress = customer.Locations?.FirstOrDefault(l => l.AddressType == AddressType.PreviousAddress);
             if (previousAddress != null)
