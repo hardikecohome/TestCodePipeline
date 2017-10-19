@@ -45,7 +45,7 @@
             .on('keyup', setLengthLimitedField(3));
         $('#' + ownerNumber + '-agreement').on('change', aknwoledgmentSetters.setAgreement(ownerNumber));
 
-        var input = assignOwnerDatepicker('#' + ownerNumber + '-birthdate', ownerNumber);
+        assignOwnerDatepicker('#' + ownerNumber + '-birthdate', ownerNumber);
 
         if (ownerNumber !== 'owner0') {
             initGoogleServices(ownerNumber + '-street',

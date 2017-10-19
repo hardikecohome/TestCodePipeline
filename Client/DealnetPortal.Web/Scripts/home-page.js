@@ -218,8 +218,8 @@ function showTable () {
                             "render": function (sdata, type, row) {
                                 var status = 'icon-' + row.Status.trim().toLowerCase().replace(/\s/g, '-').replace(/()/g, '').replace(/\//g, '');
                                 return '<div class="status-hold">' +
-                                    '<span class="icon-hold"><span class="icon icon-status ' + status + '"></span>' +
-                                    '</span>' +
+                                    '<div class="icon-hold"><span class="icon icon-status ' + status + '"></span>' +
+                                    '</div>' +
                                     '<div class="status-text-hold"><span class="status-text">' +
                                     row.Status + '</span></div></div>';
                             },
