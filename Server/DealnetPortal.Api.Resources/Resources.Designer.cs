@@ -565,11 +565,11 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Opportunity Lost.
+        ///   Looks up a localized string similar to Cancelled.
         /// </summary>
-        public static string _86_OpportunityLost {
+        public static string _86_Cancelled {
             get {
-                return ResourceManager.GetString("_86_OpportunityLost", resourceCulture);
+                return ResourceManager.GetString("_86_Cancelled", resourceCulture);
             }
         }
         

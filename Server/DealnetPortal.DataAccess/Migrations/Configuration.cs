@@ -2126,6 +2126,7 @@ namespace DealnetPortal.DataAccess.Migrations
             {
                  new AspireStatus { Status = "Booked", Interpretation = AspireStatusInterpretation.SentToAudit },
                  new AspireStatus { Status = "Ready for Audit", Interpretation = AspireStatusInterpretation.SentToAudit }
+                 new AspireStatus { Status = "86-Cancelled", Interpretation = AspireStatusInterpretationCancelled.Cancelled }
             };
             //leave existing data
             statuses.RemoveAll(t => context.AspireStatuses.Any(dbt => dbt.Status == t.Status));
