@@ -274,15 +274,15 @@ function showTable () {
                     "<'row'<'col-md-12'p>>" +
                     "<'row'<'col-md-12'i>>",
                     renderer: 'bootstrap',
-                    order: []
+                    order: [],
+                    drawCallback: function (settings) {
+                        resizeTableStatusCells(this);
+                    }
                 });
 
             table.on('draw.dt', function () {
                 redrawDataTablesSvgIcons();
-                resizeTableStatusCells(this);
             });
-
-            resizeTableStatusCells(table);
 
             var iconSearch = '<span class="icon-search-control"><svg aria-hidden="true" class="icon icon-search"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-search"></use></svg></span>';
             $('#table-title').html(translations['MyWorkItems'] + '  <div class="filter-controls hidden">' + iconSearch + '</div></div>');
@@ -294,9 +294,13 @@ function showTable () {
 };
 
 function resizeTableStatusCells (table) {
-    $(table).find('.status-text').each(function () {
+    $(table).find('.status-hold').each(function () {
         var $this = $(this);
         var cellHeight = $this.parents('.status-cell').height();
-        $this.parents('.status-hold').height(cellHeight);
+        var thisHeight = $this.height();
+        if (thisHeight < cellHeight)
+            $this.height(cellHeight);
+        else
+            $this.parents('.status-cell').height(thisHeight);
     })
 }

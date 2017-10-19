@@ -196,19 +196,18 @@ function showTable () {
                         } else {
                             $('#export-all-excel').removeAttr("disabled");
                         }
+                        resizeTableStatusCells(this);
                     }
                 });
 
             table.on('draw.dt', function () {
                 redrawDataTablesSvgIcons();
                 resetDataTablesExpandedRows(table);
-                resizeTableStatusCells(this);
             });
 
             getTotalForSelectedCheckboxes();
             createFilter();
             recalculateGrandTotal();
-            resizeTableStatusCells(table);
 
             table.on('search.dt', function () {
                 recalculateGrandTotal();
