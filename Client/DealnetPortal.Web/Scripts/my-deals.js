@@ -413,9 +413,11 @@ function removeContract () {
 }
 
 function resizeTableStatusCells (table) {
-    $(table).find('.status-text').each(function () {
+    $(table).find('.status-hold').each(function () {
         var $this = $(this);
         var cellHeight = $this.parents('.status-cell').height();
-        $this.parents('.status-hold').height(cellHeight);
-    })
+        var thisHeight = $this.height();
+        if (thisHeight < cellHeight)
+            $this.height(cellHeight);
+    });
 }

@@ -302,5 +302,5 @@ function resizeTableStatusCells (table) {
             $this.height(cellHeight);
         else
             $this.parents('.status-cell').height(thisHeight);
-    })
+    });
 }
