@@ -202,11 +202,13 @@ function showTable () {
             table.on('draw.dt', function () {
                 redrawDataTablesSvgIcons();
                 resetDataTablesExpandedRows(table);
+                resizeTableStatusCells(this);
             });
 
             getTotalForSelectedCheckboxes();
             createFilter();
             recalculateGrandTotal();
+            resizeTableStatusCells(table);
 
             table.on('search.dt', function () {
                 recalculateGrandTotal();
@@ -409,4 +411,12 @@ function removeContract () {
             }
         });
     });
+}
+
+function resizeTableStatusCells (table) {
+    $(table).find('.status-text').each(function () {
+        var $this = $(this);
+        var cellHeight = $this.parents('.status-cell').height();
+        $this.parents('.status-hold').height(cellHeight);
+    })
 }
