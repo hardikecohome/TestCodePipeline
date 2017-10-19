@@ -28,7 +28,7 @@ module.exports('onboarding.product.equipment', function (require) {
         var id = $(this).attr('id');
         var value = id.substr(id.indexOf('-') + 1);
         if (equipmentRemoved(value)) {
-            var substrIndex = Number(liId.substr(liId.indexOf('-') + liId.lastIndexOf('-')));
+            var substrIndex = Number(liId.split('-')[1]);
             $('li#' + liId).remove();
             $(document).trigger('equipmentRemoved');
             rebuildIndex(substrIndex);

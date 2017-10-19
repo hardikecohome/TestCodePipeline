@@ -13,6 +13,7 @@ using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Aspire.Integration.Storage;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;

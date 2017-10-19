@@ -14,6 +14,7 @@ using DealnetPortal.Web.Models;
 using System.Reflection;
 using System.Collections;
 using System.Globalization;
+using DealnetPortal.Api.Core.Types;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -85,6 +86,22 @@ namespace DealnetPortal.Web.Controllers
             }
           
             return RedirectToAction("OnBoardingSuccess");
+        }
+
+        [HttpGet]
+        public ActionResult SuccessWithoutDocuments()
+        {
+            return View(new SaveAndResumeViewModel
+            {
+                
+                AccessKey = "SS",
+                Alerts = new List<Alert>(),
+                AllowCommunicate = true,
+                Email = "ss@ss.com",
+                Id = 12,
+                InvalidFields = true,
+                Success = true
+            });
         }
 
         [HttpPost]

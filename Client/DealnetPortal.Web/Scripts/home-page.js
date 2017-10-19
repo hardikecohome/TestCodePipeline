@@ -218,8 +218,8 @@ function showTable () {
                             "render": function (sdata, type, row) {
                                 var status = 'icon-' + row.Status.trim().toLowerCase().replace(/\s/g, '-').replace(/()/g, '').replace(/\//g, '');
                                 return '<div class="status-hold">' +
-                                    '<span class="icon-hold"><span class="icon icon-status ' + status + '"></span>' +
-                                    '</span>' +
+                                    '<div class="icon-hold"><span class="icon icon-status ' + status + '"></span>' +
+                                    '</div>' +
                                     '<div class="status-text-hold"><span class="status-text">' +
                                     row.Status + '</span></div></div>';
                             },
@@ -274,7 +274,10 @@ function showTable () {
                     "<'row'<'col-md-12'p>>" +
                     "<'row'<'col-md-12'i>>",
                     renderer: 'bootstrap',
-                    order: []
+                    order: [],
+                    drawCallback: function (settings) {
+                        resizeTableStatusCells(this);
+                    }
                 });
 
             table.on('draw.dt', function () {
@@ -289,3 +292,15 @@ function showTable () {
         });
 
 };
+
+function resizeTableStatusCells (table) {
+    $(table).find('.status-hold').each(function () {
+        var $this = $(this);
+        var cellHeight = $this.parents('.status-cell').height();
+        var thisHeight = $this.height();
+        if (thisHeight < cellHeight)
+            $this.height(cellHeight);
+        else
+            $this.parents('.status-cell').height(thisHeight);
+    });
+}

@@ -24,7 +24,7 @@ namespace DealnetPortal.Domain.Dealer
         /// </summary>
         public string ParentSalesRepId { get; set; }
         [ForeignKey(nameof(ParentSalesRepId))]
-        public ApplicationUser ParentSalesRep { get; set; }
+        public virtual ApplicationUser ParentSalesRep { get; set; }
         /// <summary>
         /// Link to a draft for continue editing
         /// </summary>

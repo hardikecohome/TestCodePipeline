@@ -2423,6 +2423,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Previously selected financing program is no longer available. In order to proceed please select a valid program..
+        /// </summary>
+        public static string FinProgramUnavailable {
+            get {
+                return ResourceManager.GetString("FinProgramUnavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First Name.
         /// </summary>
         public static string FirstName {
@@ -3670,6 +3679,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Onboarding {
             get {
                 return ResourceManager.GetString("Onboarding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thank you, your application was successfully submitted and we are working on it..
+        /// </summary>
+        public static string OnboardSuccessWithoutDocumentsTitle {
+            get {
+                return ResourceManager.GetString("OnboardSuccessWithoutDocumentsTitle", resourceCulture);
             }
         }
         

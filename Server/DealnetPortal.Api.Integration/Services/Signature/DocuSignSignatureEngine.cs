@@ -40,6 +40,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         private Document _document { get; set; }
 
+        private Contract _contract;
+
         private string _templateId { get; set; }
 
         private bool _templateUsed { get; set; }
@@ -127,12 +129,13 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             var alerts = new List<Alert>();
 
             await Task.Run(() =>
-            {                
-                if (contract != null & agreementTemplate != null)
+            {
+                _contract = contract;
+                if (contract != null & agreementTemplate?.TemplateDocument != null)
                 {
-                    if (!string.IsNullOrEmpty(agreementTemplate.ExternalTemplateId))
+                    if (!string.IsNullOrEmpty(agreementTemplate.TemplateDocument.ExternalTemplateId))
                     {
-                        _templateId = agreementTemplate.ExternalTemplateId;
+                        _templateId = agreementTemplate.TemplateDocument.ExternalTemplateId;
                         _templateUsed = true;
                     }
                     else
@@ -140,8 +143,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         _templateUsed = false;
                         _document = new Document
                         {
-                            DocumentBase64 = System.Convert.ToBase64String(agreementTemplate.AgreementForm),
-                            Name = agreementTemplate.TemplateName,
+                            DocumentBase64 = System.Convert.ToBase64String(agreementTemplate.TemplateDocument.TemplateBinary),
+                            Name = agreementTemplate.TemplateDocument.TemplateName,
                             DocumentId = contract.Id.ToString(),
                             TransformPdfFields = "true"
                         };
@@ -248,9 +251,16 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     var envelope = envelopesApi.GetEnvelope(AccountId, TransactionId);
                     var reciepents = envelopesApi.ListRecipients(AccountId, TransactionId);
                     if (envelope != null)
-                    {
+                    {                        
+                        DateTime sentTime;
+                        bool contractUpdated = false;
+                        if (DateTime.TryParse(envelope.SentDateTime, out sentTime) && _contract != null)
+                        {
+                            contractUpdated = _contract.LastUpdateTime.HasValue && _contract.LastUpdateTime.Value > sentTime;
+                        }
+
                         //TODO: can't sign a draft - have to deal with it
-                        if (envelope.Status == "created")
+                        if (envelope.Status == "created" || contractUpdated)
                         {
                             recreateEnvelope = true;
                         }
@@ -291,12 +301,25 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                             }
                             else
                             {
-                                alerts.Add(new Alert()
+                                if (envelope.Status == "sent")
                                 {
-                                    Type = AlertType.Warning,
-                                    Header = "eSignature Warning",
-                                    Message = "Agreement has been sent for signature already"
-                                });
+                                    envelope = new Envelope() {};
+                                    var updateOptions = new EnvelopesApi.UpdateOptions()
+                                    {
+                                        resendEnvelope = "true"
+                                    };
+                                    var updateEnvelopeRes =
+                                        envelopesApi.Update(AccountId, TransactionId, envelope, updateOptions);
+                                }
+                                else
+                                {
+                                    alerts.Add(new Alert()
+                                    {
+                                        Type = AlertType.Warning,
+                                        Header = "eSignature Warning",
+                                        Message = "Agreement has been sent for signature already"
+                                    });
+                                }
                             }
                         }
                         catch (Exception ex)

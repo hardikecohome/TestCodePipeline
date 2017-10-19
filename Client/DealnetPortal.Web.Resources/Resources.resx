@@ -2234,4 +2234,10 @@ You can do it anytime by using the following link:</value>
   <data name="Success" xml:space="preserve">
     <value>Success</value>
   </data>
+  <data name="FinProgramUnavailable" xml:space="preserve">
+    <value>Previously selected financing program is no longer available. In order to proceed please select a valid program.</value>
+  </data>
+  <data name="OnboardSuccessWithoutDocumentsTitle" xml:space="preserve">
+    <value>Thank you, your application was successfully submitted and we are working on it.</value>
+  </data>
 </root>
