@@ -203,8 +203,7 @@ namespace DealnetPortal.Web.Infrastructure
             }
             await MapSummary(summaryAndConfirmation, contractResult, contractId);
             var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
-            summaryAndConfirmation.RateCardValid = dealerTier.RateCards.Any(x => contractResult.Equipment.RateCardId != null && x.Id == contractResult.Equipment.RateCardId.Value);
-
+            summaryAndConfirmation.RateCardValid = contractResult.Equipment.RateCardId.Value == 0 ? true : dealerTier.RateCards.Any(x => x.Id == contractResult.Equipment.RateCardId.Value);
             return summaryAndConfirmation;
         }
 
