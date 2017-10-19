@@ -63,10 +63,10 @@ namespace DealnetPortal.DataAccess.Migrations
                 SetAspireStatuses(context);
                 SetDocumentTypes(context);
                 SetLanguages(context);
-                SetAgreementTemplatesData(context);
+                //SetAgreementTemplatesData(context);
                 //var templates = SetDocuSignTemplates(context);
-                SetContractAgreementTemplates(context);
-                SetInstallationCertificateTemplates(context, context.Applications.Local.ToArray());
+                //SetContractAgreementTemplates(context);
+                //SetInstallationCertificateTemplates(context, context.Applications.Local.ToArray());
                 //SetPdfTemplates(context, templates);                                
                 SetSettingItems(context);
                 SetUserSettings(context);                
