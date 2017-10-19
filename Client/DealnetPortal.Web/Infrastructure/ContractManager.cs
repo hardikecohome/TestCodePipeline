@@ -133,7 +133,7 @@ namespace DealnetPortal.Web.Infrastructure
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
             var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
             equipmentInfo.DealerTier = dealerTier ?? new TierDTO() {RateCards = new List<RateCardDTO>()};
-
+            equipmentInfo.RateCardValid = !result.Item1.Equipment.RateCardId.HasValue || result.Item1.Equipment.RateCardId.Value == 0 ? true : dealerTier.RateCards.Any(x => x.Id == result.Item1.Equipment.RateCardId.Value);
             AddAditionalContractInfo(result.Item1, equipmentInfo);
 
             if (result.Item1.Comments.Any(x => x.IsCustomerComment == true))
@@ -203,8 +203,7 @@ namespace DealnetPortal.Web.Infrastructure
             }
             await MapSummary(summaryAndConfirmation, contractResult, contractId);
             var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
-            summaryAndConfirmation.RateCardValid = dealerTier.RateCards.Any(x => contractResult.Equipment.RateCardId != null && x.Id == contractResult.Equipment.RateCardId.Value);
-
+            summaryAndConfirmation.RateCardValid = contractResult.Equipment.RateCardId.Value == 0 ? true : dealerTier.RateCards.Any(x => x.Id == contractResult.Equipment.RateCardId.Value);
             return summaryAndConfirmation;
         }
 
