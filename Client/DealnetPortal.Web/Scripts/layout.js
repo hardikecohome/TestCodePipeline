@@ -440,7 +440,6 @@ function setDatepickerDate(selector, date) {
       var formated = !date ? '' : (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
       input.siblings('input.form-control').val(formated).blur();
     }
-  }
 }
 
 function addCloseButtonForInlineDatePicker() {
