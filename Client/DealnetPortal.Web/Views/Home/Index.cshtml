@@ -9,7 +9,7 @@
 @if (bannerExists)
 {
     <div class="banner-container">
-        <a @(!string.IsNullOrEmpty(bannerLink) ? "href=" + bannerLink + " target=\"_blank\"" : "")>
+        <a @(!string.IsNullOrEmpty(bannerLink) ? "href="+Url.Content("~/") +( bannerLink.StartsWith("/") ? bannerLink.Substring(1) : bannerLink)+ " target=\"_blank\"" : "")>
             <img src="@Url.Content(bannerImagePath)" />
         </a>
     </div>
