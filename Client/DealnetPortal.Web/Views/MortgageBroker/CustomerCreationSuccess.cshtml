@@ -2,8 +2,8 @@
 	<div class="customer-success-page-inner">
 		<div class="text-center">
 			<div class="customer-success-page-content">
-			    <h4>@Resources.CreditCheckProceedSuccessfully</h4>
-			    <h2 class="page-heading">@(Resources.CongratulationsYouBeenPreApprovedFor.Replace("{0}", $"{ViewBag.CreditAmount:0,00}"))</h2>
+			    <h4 class="header">@Resources.CreditCheckProceedSuccessfully</h4>
+			    <h4 class="page-heading">@Html.Raw(Resources.CongratulationsYouBeenPreApprovedFor.Replace("{0}", $"<span class=\"amount\">{ViewBag.CreditAmount:0,00}</span>"))</h4>
 			</div>
 			<div class="btn-container">
 				<a href="@Url.Action("MyClients", "MortgageBroker")" class="btn dealnet-button dealnet-link-button">@Resources.MyClients</a>
