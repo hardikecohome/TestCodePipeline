@@ -38,14 +38,28 @@
         var cards = sessionStorage.getItem(state.contractId + option);
         if (cards !== null) {
             var cardType = $.grep(constants.rateCards, function(c) { return c.name === option; })[0].id;
+            var filtred;
 
-            var filtred = $.parseJSON(cards).find(
-                function(v) {
-                    return v.CardType === cardType &&
-                        v.AmortizationTerm === Number(amortizationTerm) &&
-                        v.AdminFee === (slicedAdminFee.indexOf(',') > -1 ? Globalize.parseNumber(slicedAdminFee) : Number(slicedAdminFee)) &&
-                        v.CustomerRate === (slicedCustomerRate.indexOf(',') > -1 ? Globalize.parseNumber(slicedCustomerRate) : Number(slicedCustomerRate));
-                });
+            if (option === 'Defferal') {
+                var deferralPeriod = +$('#DeferralPeriodDropdown').val();
+                filtred = $.parseJSON(cards).find(
+                    function (v) {
+                        return v.CardType === cardType &&
+                            v.DeferralPeriod === deferralPeriod &&
+                            v.AmortizationTerm === Number(amortizationTerm) &&
+                            v.AdminFee === (slicedAdminFee.indexOf(',') > -1 ? Globalize.parseNumber(slicedAdminFee) : Number(slicedAdminFee)) &&
+                            v.CustomerRate === (slicedCustomerRate.indexOf(',') > -1 ? Globalize.parseNumber(slicedCustomerRate) : Number(slicedCustomerRate));
+                    });
+            } else {
+                filtred = $.parseJSON(cards).find(
+                    function (v) {
+                        return v.CardType === cardType &&
+                            v.AmortizationTerm === Number(amortizationTerm) &&
+                            v.AdminFee === (slicedAdminFee.indexOf(',') > -1 ? Globalize.parseNumber(slicedAdminFee) : Number(slicedAdminFee)) &&
+                            v.CustomerRate === (slicedCustomerRate.indexOf(',') > -1 ? Globalize.parseNumber(slicedCustomerRate) : Number(slicedCustomerRate));
+                    });
+            }
+
             if (filtred !== undefined) {
                 $('#SelectedRateCardId').val(filtred.Id);
             }
