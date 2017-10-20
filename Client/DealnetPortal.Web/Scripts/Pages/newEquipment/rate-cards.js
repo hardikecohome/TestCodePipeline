@@ -40,7 +40,7 @@
             var cardType = $.grep(constants.rateCards, function(c) { return c.name === option; })[0].id;
             var filtred;
 
-            if (option === 'Defferal') {
+            if (option === 'Deferral') {
                 var deferralPeriod = +$('#DeferralPeriodDropdown').val();
                 filtred = $.parseJSON(cards).find(
                     function (v) {
