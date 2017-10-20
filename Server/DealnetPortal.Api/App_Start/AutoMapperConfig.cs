@@ -66,16 +66,15 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.IsHomeOwner, d => d.Ignore())
                 .ForMember(x => x.IsInitialCustomer, d => d.Ignore());
             mapperConfig.CreateMap<PaymentInfo, PaymentInfoDTO>();
-            mapperConfig.CreateMap<ContractDetails, ContractDetailsDTO>()
-                .ForMember(d => d.Status, s => s.ResolveUsing(src => !string.IsNullOrEmpty(src.Status)
-                    ? ResourceHelper.GetGlobalStringResource("_" + src.Status
+            mapperConfig.CreateMap<ContractDetails, ContractDetailsDTO>()                
+                .ForMember(d => d.LocalizedStatus, s => s.ResolveUsing(src => !string.IsNullOrEmpty(src.Status) ? 
+                    ResourceHelper.GetGlobalStringResource("_" + src.Status
                         .Replace('-', '_')
                         .Replace(" ", string.Empty)
                         .Replace("$", string.Empty)
                         .Replace("/", string.Empty)
                         .Replace("(", string.Empty)
-                        .Replace(")", string.Empty))
-                    : null));
+                        .Replace(")", string.Empty)) : null));
             mapperConfig.CreateMap<Contract, ContractDTO>()
                 .ForMember(x => x.PrimaryCustomer, o => o.MapFrom(src => src.PrimaryCustomer))
                 .ForMember(x => x.SecondaryCustomers, o => o.MapFrom(src => src.SecondaryCustomers))

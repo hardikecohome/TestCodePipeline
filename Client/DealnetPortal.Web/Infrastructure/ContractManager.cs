@@ -134,7 +134,7 @@ namespace DealnetPortal.Web.Infrastructure
             var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
             equipmentInfo.DealerTier = dealerTier ?? new TierDTO() {RateCards = new List<RateCardDTO>()};
 
-            equipmentInfo.RateCardValid = result.Item1.Equipment != null && (!result.Item1.Equipment.RateCardId.HasValue || result.Item1.Equipment.RateCardId.Value == 0 ? true : dealerTier.RateCards.Any(x => x.Id == result.Item1.Equipment.RateCardId.Value));
+            equipmentInfo.RateCardValid = result.Item1.Equipment != null && (!result.Item1.Equipment.RateCardId.HasValue || result.Item1.Equipment.RateCardId.Value == 0 || dealerTier.RateCards.Any(x => x.Id == result.Item1.Equipment.RateCardId.Value));
 
             AddAditionalContractInfo(result.Item1, equipmentInfo);
 
@@ -205,7 +205,7 @@ namespace DealnetPortal.Web.Infrastructure
             }
             await MapSummary(summaryAndConfirmation, contractResult, contractId);
             var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
-            summaryAndConfirmation.RateCardValid = contractResult.Equipment.RateCardId.Value == 0 ? true : dealerTier.RateCards.Any(x => x.Id == contractResult.Equipment.RateCardId.Value);
+            summaryAndConfirmation.RateCardValid = !contractResult.Equipment.RateCardId.HasValue || contractResult.Equipment.RateCardId.Value == 0 || dealerTier.RateCards.Any(x => x.Id == contractResult.Equipment.RateCardId.Value);
             return summaryAndConfirmation;
         }
 

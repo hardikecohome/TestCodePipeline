@@ -221,7 +221,7 @@ function showTable () {
                                     '<div class="icon-hold"><span class="icon icon-status ' + status + '"></span>' +
                                     '</div>' +
                                     '<div class="status-text-hold"><span class="status-text">' +
-                                    row.Status + '</span></div></div>';
+                                    row.LocalizedStatus + '</span></div></div>';
                             },
                             className: 'status-cell'
                         },
