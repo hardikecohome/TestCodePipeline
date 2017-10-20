@@ -396,16 +396,21 @@ namespace DealnetPortal.Web.Controllers
 
             return View(await _contractManager.GetSummaryAndConfirmationAsync(contractId));
         }
-        
+
         public async Task<ActionResult> SubmitDeal(int contractId)
         {
-            var result = await _contractServiceAgent.SubmitContract(contractId);
-
-            if (result?.Item1?.CreditCheckState == CreditCheckState.Declined)
+            var model = await _contractManager.GetSummaryAndConfirmationAsync(contractId);
+            if (model.RateCardValid)
             {
-                return RedirectToAction("CreditDeclined", new { contractId });
+                var result = await _contractServiceAgent.SubmitContract(contractId);
+
+                if (result?.Item1?.CreditCheckState == CreditCheckState.Declined)
+                {
+                    return RedirectToAction("CreditDeclined", new {contractId});
+                }
+                return RedirectToAction("AgreementSubmitSuccess", new {contractId});
             }
-            return RedirectToAction("AgreementSubmitSuccess", new { contractId });            
+            return RedirectToAction("SummaryAndConfirmation", new {contractId});
         }
 
         [HttpPost]

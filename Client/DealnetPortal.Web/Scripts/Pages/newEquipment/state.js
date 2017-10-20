@@ -27,7 +27,8 @@
         numberFields: ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'DealerCost', 'AdminFee'],
         notCero: ['equipmentSum', 'LoanTerm', 'AmortizationTerm'],
         minimumLoanValue: 1000,
-        amortizationValueToDisable : 180,
+        amortizationValueToDisable: 180,
+        loanAmortValueToDisable: '60 / 180',
         totalAmountFinancedFor180amortTerm: 5000,
         maxRateCardLoanValue: 50000
     }

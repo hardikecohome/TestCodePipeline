@@ -338,12 +338,12 @@
 
     });
 
-function onDateSelect(input) {
+function onDateSelect (input) {
     input.removeClass('focus');
     $('body').removeClass('bodyHasDatepicker');
 }
 
-function initDatepicker() {
+function initDatepicker () {
     //if(!$('.date-group').children('.dealnet-disabled-input'))
     $('.date-group').each(function () {
         if ($('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length === 0) {
@@ -388,7 +388,7 @@ function initDatepicker() {
     });
 }
 
-function assignDatepicker(selector, options) {
+function assignDatepicker (selector, options) {
     var isIOS = $('body').is('.ios-device');
     var selected = $(selector);
     var input = isIOS ? selected.siblings('.div-datepicker') : selected;
@@ -422,12 +422,12 @@ function assignDatepicker(selector, options) {
     return input;
 }
 
-function getDatepickerDate(selector) {
+function getDatepickerDate (selector) {
     var input = $('body').is('.ios-device') ? $(selector).siblings('.div-datepicker') : $(selector);
     return input.datepicker('getDate');
 }
 
-function setDatepickerDate(selector, date) {
+function setDatepickerDate (selector, date) {
     var d = new Date(date);
     if (!isNaN(d.getTime())) {
         var input = $('body').is('.ios-device') ? $(selector).siblings('.div-datepicker') : $(selector);
@@ -442,7 +442,7 @@ function setDatepickerDate(selector, date) {
     }
 }
 
-function addCloseButtonForInlineDatePicker() {
+function addCloseButtonForInlineDatePicker () {
     setTimeout(function () {
         $("<button>", {
             text: translations['Cancel'],
@@ -455,7 +455,7 @@ function addCloseButtonForInlineDatePicker() {
     }, 100);
 }
 
-function panelCollapsed(elem) {
+function panelCollapsed (elem) {
     var $this = elem.closest('.panel');
     $this.find('.panel-body').slideToggle('fast', function () {
         $this.toggleClass('panel-collapsed');
@@ -466,7 +466,7 @@ function panelCollapsed(elem) {
     }
 };
 
-function detectSidebarHeight() {
+function detectSidebarHeight () {
     /*setTimeout(function(){
       if($('.sidebar-inner').height() < $('.dealnet-sidebar').height() - 20){
         $('.sidebar-bottom').addClass('stick-bottom');
@@ -476,7 +476,7 @@ function detectSidebarHeight() {
     }, 300);*/
 }
 
-function scrollPageTo(elem) {
+function scrollPageTo (elem) {
     if (elem.offset().top < $(window).scrollTop() || elem.offset().top > $(window).scrollTop() + window.innerHeight) {
         $('html, body').animate({
             scrollTop: elem.offset().top - elem.outerHeight(true) - 10
@@ -484,13 +484,13 @@ function scrollPageTo(elem) {
     }
 }
 
-function resetModalDialogMarginForIpad() {
+function resetModalDialogMarginForIpad () {
     $('.modal.in').find('.modal-dialog').css({
         'margin-bottom': 30 + 'px'
     });
 }
 
-function setModalMarginForIpad() {
+function setModalMarginForIpad () {
     if (window.innerHeight < window.innerWidth) {
         keyboardHeight = 60
     } else {
@@ -501,18 +501,18 @@ function setModalMarginForIpad() {
     });
 }
 
-function fixedOnKeyboardShownIos(fixedElem) {
+function fixedOnKeyboardShownIos (fixedElem) {
     var $fixedElement = fixedElem;
     var topPadding = 10;
 
-    function fixFixedPosition() {
+    function fixFixedPosition () {
         var absoluteTopCoord = ($(window).scrollTop() - fixedElem.parent().offset().top) + topPadding;
 
         $fixedElement.addClass('absoluted-div').css({
             top: absoluteTopCoord + 'px',
         }).fadeIn('fast')
     }
-    function resetFixedPosition() {
+    function resetFixedPosition () {
         /*$fixedElement.removeClass('absoluted-div').removeClass('stick').css({
           position: 'static',
           top: 0,
@@ -526,7 +526,7 @@ function fixedOnKeyboardShownIos(fixedElem) {
         $(document).off('scroll', updateScrollTop);
         resetModalDialogMarginForIpad();
     }
-    function updateScrollTop() {
+    function updateScrollTop () {
         var absoluteTopCoord = ($(window).scrollTop() - fixedElem.parent().offset().top) + topPadding;
         $fixedElement.css('top', absoluteTopCoord + 'px');
     }
@@ -544,7 +544,7 @@ function fixedOnKeyboardShownIos(fixedElem) {
     });
 }
 
-function updateModalHeightIpad() {
+function updateModalHeightIpad () {
 
     //If focus on input inside modal in new added blocks (which were display none when modal appears)
 
@@ -560,7 +560,7 @@ function updateModalHeightIpad() {
     }
 }
 
-function stickySection(elem, device) {
+function stickySection (elem, device) {
     var fixedHeaderHeight,
         parentDiv = elem.parents('.sticker-parent'),
         windowTopPos,
@@ -602,7 +602,7 @@ function stickySection(elem, device) {
     });
 }
 
-function setEqualHeightRows(row) {
+function setEqualHeightRows (row) {
     var maxHeight = 0;
     row.each(function () {
         if ($(this).children().eq(0).outerHeight(true) > maxHeight) {
@@ -615,7 +615,7 @@ function setEqualHeightRows(row) {
     row.height(maxHeight);
 }
 
-function has_scrollbar(elem, className) {
+function has_scrollbar (elem, className) {
     elem_id = elem.attr('id');
     if (elem[0].clientHeight < elem[0].scrollHeight)
         elem.parents('.control-group').addClass(className);
@@ -623,7 +623,7 @@ function has_scrollbar(elem, className) {
         elem.parents('.control-group').removeClass(className);
 }
 
-function inputDateFocus(input) {
+function inputDateFocus (input) {
     input.on('focus', function () {
         setTimeout(customDPSelect, 0);
         if (!navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
@@ -633,13 +633,13 @@ function inputDateFocus(input) {
     });
 }
 
-function documentsColHeight() {
+function documentsColHeight () {
     var columns = $('.report-documents-list .document-col');
     /*console.log(columns.find('.documents-inner').height());*/
     columns.find('.dealnet-credit-check-section').css('min-height', columns.find('.documents-inner').height());
 }
 
-function navigateToStep(targetLink) {
+function navigateToStep (targetLink) {
     var url = targetLink.attr('href');
     var stepName = targetLink.text();
     var data = {
@@ -654,7 +654,7 @@ function navigateToStep(targetLink) {
     });
 }
 
-function dynamicAlertModal(obj) {
+function dynamicAlertModal (obj) {
     var classes = obj.class ? obj.class : '';
     var alertModal = $('#alertModal');
     alertModal.find('.modal-body p').html(obj.message);
@@ -665,12 +665,12 @@ function dynamicAlertModal(obj) {
     alertModal.modal('show');
 }
 
-function hideDynamicAlertModal() {
+function hideDynamicAlertModal () {
     $('#alertModal').modal('hide');
     $('#confirmAlert').off('click');
 }
 
-function detectPageHeight() {
+function detectPageHeight () {
     if ($('.dealnet-body').height() > 1000) {
         $('.back-to-top-hold').show();
     } else {
@@ -678,7 +678,7 @@ function detectPageHeight() {
     }
 }
 
-function commonDataTablesSettings() {
+function commonDataTablesSettings () {
     if ($('#work-items-table').length) {
         $('#work-items-table, .total-info').hide();
         $.extend(true, $.fn.dataTable.defaults, {
@@ -691,7 +691,7 @@ function commonDataTablesSettings() {
     }
 }
 
-function resetDataTablesExpandedRows(table) {
+function resetDataTablesExpandedRows (table) {
     table.rows().every(function (i) {
         var child = this.child;
         var row = this.node();
@@ -702,7 +702,7 @@ function resetDataTablesExpandedRows(table) {
     });
 }
 
-function redrawDataTablesSvgIcons() {
+function redrawDataTablesSvgIcons () {
     /*Redraw svg icons inside dataTable only for ie browsers*/
     if (detectIE()) {
         if ($('.dataTable .edit-control a, .dataTable a.icon-link.icon-edit').length > 0) {
@@ -726,12 +726,12 @@ function redrawDataTablesSvgIcons() {
     }
 }
 
-function backToTop() {
+function backToTop () {
     $("html,body").animate({ scrollTop: 0 }, 1000);
     return false;
 };
 
-function showLoader(loadingText) {
+function showLoader (loadingText) {
     var classes = loadingText ? 'hasText loader' : 'loader';
     $.loader({
         className: classes,
@@ -741,21 +741,21 @@ function showLoader(loadingText) {
     });
 }
 
-function resetPlacehoder(elems) {
+function resetPlacehoder (elems) {
     elems.removeClass('placeholder');
     setTimeout(function () {
         elems.placeholder();
     }, 0);
 }
 
-function saveScrollPosition() {
+function saveScrollPosition () {
     var $body = $('body');
     //if open one modal right after other one
     var topOffset = $(window).scrollTop();
     $body.css('top', -topOffset);
 }
 
-function resetScrollPosition() {
+function resetScrollPosition () {
     var $body = $('body');
     var bodyOffset = Math.abs(parseInt($body.css('top')));
 
@@ -766,7 +766,7 @@ function resetScrollPosition() {
     $('html, body').scrollTop(bodyOffset);
 }
 
-function hideLoader() {
+function hideLoader () {
     $.loader('close');
 }
 
@@ -776,7 +776,7 @@ $.prototype.disableTab = function () {
     });
 };
 
-function customizeSelect() {
+function customizeSelect () {
     setTimeout(function () {
         $('select').each(function () {
             //Added opt group to each select to fix long value inside option for IOS.
@@ -796,7 +796,7 @@ function customizeSelect() {
     }, 300);
 }
 
-function addIconsToFields(fields) {
+function addIconsToFields (fields) {
     var localFields = fields || ($('.control-group input, .control-group textarea'));
     var fieldDateParent = localFields.parent('.control-group.date-group');
     var fieldPassParent = localFields.parent('.control-group.control-group-pass, .control-group.control-hidden-value');
@@ -829,7 +829,7 @@ function addIconsToFields(fields) {
     }, 100);
 }
 
-function toggleClearInputIcon(fields) {
+function toggleClearInputIcon (fields) {
     var localFields = fields || $('.control-group input, .control-group textarea');
     var fieldParent = localFields.parent('.control-group:not(.date-group):not(.control-group-pass)');
     localFields.each(function () {
@@ -844,7 +844,7 @@ function toggleClearInputIcon(fields) {
     });
 }
 
-function toggleClickInp(inp) {
+function toggleClickInp (inp) {
     if (inp.val().length !== 0) {
         inp.siblings('.clear-input').css('display', 'block');
     } else {
@@ -852,7 +852,7 @@ function toggleClickInp(inp) {
     }
 }
 
-function recoverPassword() {
+function recoverPassword () {
     var pass;
     $('.recover-pass-link').on('click', function () {
         pass = $(this).parents('.control-group').find('input');
@@ -869,7 +869,7 @@ function recoverPassword() {
  * detect IE
  * returns version of IE or false, if browser is not Internet Explorer
  */
-function detectIE() {
+function detectIE () {
     var ua = window.navigator.userAgent;
 
     // Test values; Uncomment to check result …
@@ -909,7 +909,7 @@ function detectIE() {
     return false;
 }
 
-function setDeviceClasses() {
+function setDeviceClasses () {
     var isMobile = {
         Android: function () {
             return navigator.userAgent.match(/Android/i);
@@ -948,7 +948,7 @@ function setDeviceClasses() {
     }
 }
 
-function viewport() {
+function viewport () {
     var e = window, a = 'inner';
     if (!('innerWidth' in window)) {
         a = 'client';
@@ -957,7 +957,7 @@ function viewport() {
     return { width: e[a + 'Width'], height: e[a + 'Height'] };
 }
 
-function customDPSelect(elem) {
+function customDPSelect (elem) {
     var inp = elem || $(this);
     var selectClasses = "custom-select datepicker-select";
     if ($('select.ui-datepicker-month').length && !$('.ui-datepicker-month').parents('.custom-select').length) {
@@ -980,3 +980,16 @@ function customDPSelect(elem) {
 String.prototype.toDash = function () {
     return this.replace(/([A-Z])/g, function ($1) { return "-" + $1.toLowerCase(); });
 };
+
+// work-around for FF for colored status bars in tables
+function resizeTableStatusCells (table) {
+    if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+        $(table).find('.status-hold').each(function () {
+            var $this = $(this);
+            var cellHeight = $this.parents('.status-cell').height();
+            var thisHeight = $this.height();
+            if (thisHeight < cellHeight)
+                $this.height(cellHeight);
+        });
+    }
+}

@@ -208,6 +208,7 @@ function showTable () {
             getTotalForSelectedCheckboxes();
             createFilter();
             recalculateGrandTotal();
+            resizeTableStatusCells('#work-items-table');
 
             table.on('search.dt', function () {
                 recalculateGrandTotal();
@@ -409,15 +410,5 @@ function removeContract () {
                 hideDynamicAlertModal();
             }
         });
-    });
-}
-
-function resizeTableStatusCells (table) {
-    $(table).find('.status-hold').each(function () {
-        var $this = $(this);
-        var cellHeight = $this.parents('.status-cell').height();
-        var thisHeight = $this.height();
-        if (thisHeight < cellHeight)
-            $this.height(cellHeight);
     });
 }
