@@ -79,16 +79,47 @@
                 <div class="row">
                     <div class="col-sm-6 col-md-4">
                         <div class="form-group">
+                            <label for="">@Resources.Equipment</label>
+                            <div class="control-group">
+                                <input type="text" class="form-control dealnet-input filter-input" id="equipment-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+                            <label for="">@Resources.TypeOfPayment</label>
+                            <div class="control-group">
+                                <select id="payment-type" class="form-control filter-input select-filter"></select>
+                                @*@Html.EnumDropDownListFor(s => paymentType, null, new {@class = "form-control filter-input select-filter", id = "payment-type"})*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
                             <label for="">@Resources.SalesRep</label>
                             <div class="control-group">
                                 <select class="form-control filter-input select-filter" id="sales-rep"></select>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-offset-4 col-md-4 col-sm-6 text-right">
+                    <div class="col-sm-6 col-md-4">
                         <div class="form-group">
-                            <button class="btn dealnet-button dealnet-success-button block-button filter-button">@Resources.Filter</button>
+                            <label for="">@Resources.DealValueFrom</label>
+                            <div class="control-group">
+                                <input type="text" class="form-control dealnet-input filter-input" id="deal-value-from">
+                            </div>
                         </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+                            <label for="">@Resources.DealValueTo</label>
+                            <div class="control-group">
+                                <input type="text" class="form-control dealnet-input filter-input" id="deal-value-to">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4 text-right">
+                        <button class="btn dealnet-button dealnet-success-button block-button filter-button">@Resources.Filter</button>
                     </div>
                 </div>
             </div>

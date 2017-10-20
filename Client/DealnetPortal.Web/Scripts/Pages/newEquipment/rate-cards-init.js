@@ -20,7 +20,7 @@
         state.onlyCustomRateCard = onlyCustomRateCard;
         var isValidRateCard = $('#RateCardValid').val().toLocaleLowerCase() === 'true';
 
-        if (!isValidRateCard) {
+        if (!isValidRateCard && !state.isNewContract) {
             $('#expired-rate-card-warning').removeClass('hidden');
         }
 
