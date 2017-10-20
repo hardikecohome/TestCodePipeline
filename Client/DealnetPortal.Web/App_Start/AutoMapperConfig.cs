@@ -387,6 +387,7 @@ namespace DealnetPortal.Web.App_Start
                     return string.Empty;
                 }))
                 .ForMember(d => d.Status, s => s.ResolveUsing(src => src.Details?.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription()))
+                .ForMember(d => d.LocalizedStatus, s => s.ResolveUsing(src => src.Details?.LocalizedStatus ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription()))
                 .ForMember(d => d.AgreementType, s => s.ResolveUsing(src =>
                 {
                     if (src.Equipment?.AgreementType != null && src.Equipment?.ValueOfDeal != null)

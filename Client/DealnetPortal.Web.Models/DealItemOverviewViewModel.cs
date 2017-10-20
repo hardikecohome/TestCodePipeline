@@ -12,6 +12,8 @@ namespace DealnetPortal.Web.Models
 
         public string Status { get; set; }
 
+        public string LocalizedStatus { get; set; }
+
         /// <summary>
         /// ?
         /// </summary>
