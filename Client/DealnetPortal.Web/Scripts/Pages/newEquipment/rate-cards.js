@@ -280,19 +280,36 @@
         if (!dropdown || !dropdown.options) return;
 
 
-        //var dropdowns;
+        var dropdowns;
+        Object.keys(state[option + '-dropdowns']).some(function(item) {
+            var values = item.split('-');
+            var loanFrom = ~~values[0];
+            var loanTo = ~~values[1];
 
-        //Object.keys(state[option + '-dropdowns']).some(function(item) {
-        //    var values = item.split('-');
-        //    var loanFrom = ~~values[0];
-        //    var loanTo = ~~values[1];
+            if (loanTo >= totalCash && loanFrom <= totalCash) {
+                dropdowns = state[option + '-dropdowns'][item];
+                return true;
+            }
+        });
+        
+        var amortValueForDisableExist = Object.keys(state[option + '-dropdowns']).some(function (item) {
+            return state[option + '-dropdowns'][item].indexOf(constants.loanAmortValueToDisable) !== -1;
+        });
 
-        //    if (loanTo >= totalCash && loanFrom <= totalCash) {
-        //        dropdowns = state[option + '-dropdowns'][item];
-        //        return true;
-        //    }
-        //});
-       
+        if (amortValueForDisableExist && dropdowns.indexOf(constants.loanAmortValueToDisable) === -1) {
+            dropdowns.push(constants.loanAmortValueToDisable);
+        }
+
+        var selected = $('#' + option + 'AmortizationDropdown option:selected').val();
+
+        $(dropdown).empty();
+        $(dropdowns).each(function() {
+            $("<option />", {
+                val: this.split('/')[1].trim(),
+                text: this
+            }).appendTo(dropdown);
+        });
+        $(dropdown).val(selected);
         var options = dropdown.options;
         var tooltip = $('a#' + option + 'Notify');
 

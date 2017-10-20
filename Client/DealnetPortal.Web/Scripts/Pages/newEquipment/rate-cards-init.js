@@ -139,7 +139,7 @@
                 state[option.name + '-dropdowns'][key] = [];
             }
 
-            var dropdownValue = ~~this.LoanTerm + '/' + ~~this.AmortizationTerm;
+            var dropdownValue = ~~this.LoanTerm + ' / ' + ~~this.AmortizationTerm;
 
             if (state[option.name + '-dropdowns'][key].indexOf(dropdownValue) === -1) {
                 state[option.name + '-dropdowns'][key].push(dropdownValue);
