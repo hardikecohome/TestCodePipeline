@@ -329,7 +329,9 @@ namespace DealnetPortal.Api.Integration.Services
                         try
                         {
                             Task timeoutTask = Task.Delay(_aspireRequestTimeout);
-                           
+
+                            _loggingService.LogInfo($"Submiting deal to Aspire. Dealer: {request.Header.UserId}, TransactionId: {request.Payload.Lease.Application.TransactionId}");
+
                             var aspireRequestTask = _aspireServiceAgent.DealUploadSubmission(request);
                             DealUploadResponse response = null;
 
@@ -376,7 +378,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             alerts.Where(a => a.Type == AlertType.Error).ForEach(a =>
-                _loggingService.LogError($"Aspire issue: {a.Header} {a.Message}"));
+                _loggingService.LogError($"Aspire issue during DealSubmission for transactionId {contract?.Details?.TransactionId}: {a.Header} {a.Message}"));
 
             if (alerts.All(a => a.Type != AlertType.Error))
             {
@@ -447,6 +449,8 @@ namespace DealnetPortal.Api.Integration.Services
 
                 try
                 {
+                    _loggingService.LogInfo($"Uploading onboarding form to Aspire. Dealer: {request.Header.UserId}, TransactionId: {request.Payload.Lease.Application.TransactionId}");
+
                     Task timeoutTask = Task.Delay(_aspireRequestTimeout);
                     var aspireRequestTask = _aspireServiceAgent.DealUploadSubmission(request);
                     DealUploadResponse response = null;
@@ -481,7 +485,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             alerts.Where(a => a.Type == AlertType.Error).ForEach(a =>
-                _loggingService.LogError($"Aspire issue: {a.Header} {a.Message}"));
+                _loggingService.LogError($"Aspire issue during DealSubmission for transactionId {contract?.Details?.TransactionId}: {a.Header} {a.Message}"));
 
             if (alerts.All(a => a.Type != AlertType.Error))
             {
@@ -559,8 +563,14 @@ namespace DealnetPortal.Api.Integration.Services
 
                         if (rAlerts.All(a => a.Type != AlertType.Error))
                         {
-                            _loggingService.LogInfo($"Document {document.DocumentName} to Aspire for contract {contractId} was uploaded successfully");
-                        }                        
+                            _loggingService.LogInfo(
+                                $"Document {document.DocumentName} to Aspire for contract {contractId} was uploaded successfully");
+                        }
+                        else
+                        {
+                            alerts.Where(a => a.Type == AlertType.Error).ForEach(a =>
+                                _loggingService.LogError($"Aspire issue during upload Document {document.DocumentName} to Aspire for contract {contractId} with transactionId {contract.Details?.TransactionId}: {a.Header} {a.Message}"));
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -669,6 +679,11 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             _loggingService.LogInfo($"Document {document.DocumentName} to Aspire for contract with transactionId {aspireTransactionId} was uploaded successfully");
                         }
+                        else
+                        {
+                            alerts.Where(a => a.Type == AlertType.Error).ForEach(a =>
+                                _loggingService.LogError($"Aspire issue during upload Document {document.DocumentName} to Aspire for contract with transactionId {aspireTransactionId}: {a.Header} {a.Message}"));
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -742,13 +757,19 @@ namespace DealnetPortal.Api.Integration.Services
                         if (rAlerts?.Any() == true)
                         {
                             alerts.AddRange(rAlerts);
-                        }                        
+                        }
                         if (alerts.All(a => a.Type != AlertType.Error))
                         {
                             document.Uploaded = true;
                             document.UploadDate = DateTime.Now;
                             _unitOfWork.Save();
-                            _loggingService.LogInfo($"Document {document.DocumentName} for dealer onboarding form {dealerInfoId} was uploaded to Aspire successfully");
+                            _loggingService.LogInfo(
+                                $"Document {document.DocumentName} for dealer onboarding form {dealerInfoId} was uploaded to Aspire successfully");
+                        }
+                        else
+                        {
+                            rAlerts?.Where(a => a.Type == AlertType.Error).ForEach(a =>
+                                _loggingService.LogError($"Aspire issue during upload Document {document.DocumentName} for dealer onboarding form {dealerInfoId}: {a.Header} {a.Message}"));
                         }
                     }
                     catch (Exception ex)
@@ -1002,18 +1023,7 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 alerts.AddRange(rAlerts);
                             }
-
-                            //if (contract.ContractState != ContractState.SentToAudit)
-                            //{
-                            //    alerts.Add(new Alert()
-                            //    {
-                            //        Header = "Deal wasn't sent to audit",
-                            //        Message = $"Deal wasn't sent to audit for contract with id {contractId}",
-                            //        Type = AlertType.Error
-                            //    });
-                            //    _loggingService.LogError($"Deal wasn't sent to audit for contract with id {contractId}");
-                            //}
-
+                            
                             if (rAlerts.All(a => a.Type != AlertType.Error))
                             {
                                 contract.ContractState = ContractState.SentToAudit;
@@ -1097,6 +1107,8 @@ namespace DealnetPortal.Api.Integration.Services
                         var aspireRequestTask = _aspireServiceAgent.CustomerUploadSubmission(request);
                         DecisionCustomerResponse response = null;
 
+                        _loggingService.LogInfo($"Uploading onboarding form to Aspire. Dealer: {request.Header.UserId}, TransactionId: {request.Payload.Lease.Application.TransactionId}");
+
                         if (await Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false) == aspireRequestTask)
                         {
                             response = await aspireRequestTask.ConfigureAwait(false);
@@ -1139,11 +1151,11 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             alerts.Where(a => a.Type == AlertType.Error).ForEach(a =>
-                _loggingService.LogError($"Aspire issue: {a.Header} {a.Message}"));
+                _loggingService.LogError($"Aspire issue during upload onboarding form [{dealerInfoId}] with TransactionId: {dealerInfo?.TransactionId}: {a.Header} {a.Message}"));
 
             if (alerts.All(a => a.Type != AlertType.Error))
             {
-                _loggingService.LogInfo($"Dealer onboarding info [{dealerInfoId}] submitted to Aspire successfully with transaction Id [{dealerInfo?.TransactionId}]");
+                _loggingService.LogInfo($"Dealer onboarding form [{dealerInfoId}] submitted to Aspire successfully with transaction Id [{dealerInfo?.TransactionId}]");
             }
 
             return alerts;
