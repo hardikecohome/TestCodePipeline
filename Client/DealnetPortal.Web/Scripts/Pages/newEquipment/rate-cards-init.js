@@ -18,6 +18,11 @@
         state.isNewContract = $('#IsNewContract').val().toLowerCase() === 'true';
         state.selectedCardId = $('#SelectedRateCardId').val() !== "" ? +$('#SelectedRateCardId').val() : null;
         state.onlyCustomRateCard = onlyCustomRateCard;
+        var isValidRateCard = $('#RateCardValid').val().toLocaleLowerCase() === 'true';
+
+        if (!isValidRateCard) {
+            $('#expired-rate-card-warning').removeClass('hidden');
+        }
 
         if (state.isNewContract && state.selectedCardId === null) {
             $('#submit').addClass('disabled');
@@ -32,22 +37,21 @@
             }
         } else {
             constants.rateCards.forEach(function (option) {
-                if (sessionStorage.getItem(state.contractId + option.name) === null) {
-                    var filtred = $.grep(cards, function (card) { return card.CardType === option.id; });
-                    sessionStorage.setItem(state.contractId + option.name, JSON.stringify(filtred));
+                if (sessionStorage.getItem(state.contractId + option.name) !== null) {
+                    sessionStorage.removeItem(state.contractId + option.name);
                 }
+
+                var filtred = $.grep(cards, function (card) { return card.CardType === option.id; });
+
+                _createDropdowns(filtred, option);
+
+                sessionStorage.setItem(state.contractId + option.name, JSON.stringify(filtred));
 
                 if (state.selectedCardId !== null) {
                     var items = $.parseJSON(sessionStorage.getItem(state.contractId + option.name));
                     renderSelectedRateCardUi(option.name, items);
                 }
             });
-
-            if (state.selectedCardId !== null && state.selectedCardId !== 0) {
-                if (cards.map(function (x) { return x.Id }).indexOf(state.selectedCardId) === -1) {
-                    $('#expired-rate-card-warning').removeClass('hidden');
-                }
-            }
         }
 
         recalculateValuesAndRender();
@@ -124,6 +128,23 @@
         $('#CustomCRate').val(state['Custom'].CustomerRate);
         $('#CustomAFee').val(state['Custom'].AdminFee);
         $('#CustomYCostVal').val(state['Custom'].DealerCost);
+    }
+
+    function _createDropdowns(items, option) {
+        state[option.name + '-dropdowns'] = {};
+
+        $.each(items, function () {
+            var key = this.LoanValueFrom + '-' + this.LoanValueTo;
+            if (!state[option.name + '-dropdowns'].hasOwnProperty(key)) {
+                state[option.name + '-dropdowns'][key] = [];
+            }
+
+            var dropdownValue = ~~this.LoanTerm + '/' + ~~this.AmortizationTerm;
+
+            if (state[option.name + '-dropdowns'][key].indexOf(dropdownValue) === -1) {
+                state[option.name + '-dropdowns'][key].push(dropdownValue);
+            }
+        });
     }
 
     return {

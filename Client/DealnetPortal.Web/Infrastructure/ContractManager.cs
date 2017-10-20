@@ -134,6 +134,7 @@ namespace DealnetPortal.Web.Infrastructure
             var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
             equipmentInfo.DealerTier = dealerTier ?? new TierDTO() {RateCards = new List<RateCardDTO>()};
             equipmentInfo.RateCardValid = !result.Item1.Equipment.RateCardId.HasValue || result.Item1.Equipment.RateCardId.Value == 0 ? true : dealerTier.RateCards.Any(x => x.Id == result.Item1.Equipment.RateCardId.Value);
+
             AddAditionalContractInfo(result.Item1, equipmentInfo);
 
             if (result.Item1.Comments.Any(x => x.IsCustomerComment == true))

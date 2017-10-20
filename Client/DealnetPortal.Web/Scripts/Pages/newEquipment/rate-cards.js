@@ -265,6 +265,20 @@
         var dropdown = $('#' + option + 'AmortizationDropdown')[0];
         if (!dropdown || !dropdown.options) return;
 
+
+        //var dropdowns;
+
+        //Object.keys(state[option + '-dropdowns']).some(function(item) {
+        //    var values = item.split('-');
+        //    var loanFrom = ~~values[0];
+        //    var loanTo = ~~values[1];
+
+        //    if (loanTo >= totalCash && loanFrom <= totalCash) {
+        //        dropdowns = state[option + '-dropdowns'][item];
+        //        return true;
+        //    }
+        //});
+       
         var options = dropdown.options;
         var tooltip = $('a#' + option + 'Notify');
 
