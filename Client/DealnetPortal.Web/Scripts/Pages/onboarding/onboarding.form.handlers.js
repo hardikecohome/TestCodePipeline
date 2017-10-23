@@ -6,7 +6,7 @@
         showLoader();
 		var formData = $('#onboard-form').serialize();
 		var salesrep = $('#OnBoardingLink').val();
-		ga('send', 'event', 'Dealer Application Saved', 'Save and Resume button clicked', salesrep);
+		gtag('event', 'Dealer Application Saved', { 'event_category': 'Dealer Application Saved', 'event_action': 'Save and Resume button clicked', 'event_label': salesrep });
         $.when($.ajax({
             type: 'POST',
             url: saveDraftUrl,
