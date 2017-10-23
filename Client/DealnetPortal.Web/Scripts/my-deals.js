@@ -199,7 +199,7 @@ function showTable () {
                     dom:
                     "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
                     "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
-                    "<'length-filter '<'row '<'#export-all-to-excel.col-md-3 col-sm-4 col-xs-12 col-md-push-9 col-sm-push-8'><'col-md-7 col-sm-6 col-xs-12  col-md-pull-3 col-sm-pull-4'l>>>" +
+                    "<'length-filter '<'row '<'col-md-7 col-sm-6 col-xs-12 'l>>>" +
                     "<'row'<'col-md-12'tr>>" +
                     "<'table-footer'>" +
                     "<'row'<'col-md-12'p>>" +
@@ -347,7 +347,7 @@ function createFilter () {
     var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
     var iconSearch = '<span class="icon-search-control"><svg aria-hidden="true" class="icon icon-search"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-search"></use></svg></span>';
 
-    $('#table-title').html('<div class="dealnet-large-header">' + translations['MyWorkItems'] + ' <div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
+    $('#table-title').html('<div class="dealnet-large-header">' + translations['MyWorkItems'] + ' <span id="export-all-to-excel" ></span> <span class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</span></div>');
     $('#export-all-to-excel').html('<button class="btn dealnet-button dealnet-link-button" id="export-all-excel">' + translations['ExportAllToExcel'] + '</button>');
 
     $('#table-title .icon-search-control').on('click', function () {
