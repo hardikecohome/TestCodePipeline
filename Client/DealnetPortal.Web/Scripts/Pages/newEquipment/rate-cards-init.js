@@ -2,7 +2,6 @@
     var state = require('state').state;
     var constants = require('state').constants;
     var rateCardBlock = require('rate-cards-ui');
-    var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
 
     /**
      * Initialize view and store rate cards in storage.
@@ -53,8 +52,6 @@
                 }
             });
         }
-
-        recalculateValuesAndRender();
     }
 
     /**

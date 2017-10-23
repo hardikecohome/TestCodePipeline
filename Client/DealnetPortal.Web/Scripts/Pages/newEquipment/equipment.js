@@ -331,28 +331,31 @@
         selector.attr('id', equipmentPatternId + (index - 1));
     }
 
-    var equipments = $('div#new-equipments').find('[id^=new-equipment-]').length;
-    var existingEquipments = $('div#existing-equipments').find('[id^=existing-equipment-]').length;
-
-    for (var j = 0; j < existingEquipments; j++) {
-        initExistingEquipment(j);
-    }
-
-    for (var i = 0; i < equipments; i++) {
-        // attatch handler to equipments
-        initEquipment(i);
-        if (state.agreementType === 1 || state.agreementType === 2) {
-            recalculateAndRenderRentalValues();
-        } else {
-            recalculateValuesAndRender();
+    function _initExistingEquipment() {
+        var existingEquipments = $('div#existing-equipments').find('[id^=existing-equipment-]').length;
+        for (var j = 0; j < existingEquipments; j++) {
+            initExistingEquipment(j);
         }
     }
 
-    if (equipments < 1) {
-        addEquipment();
+    function _initNewEquipment() {
+        var equipments = $('div#new-equipments').find('[id^=new-equipment-]').length;
+        for (var i = 0; i < equipments; i++) {
+            initEquipment(i);
+        }
+
+        if (equipments < 1) {
+            addEquipment();
+        }
+    }
+
+    function init() {
+        _initExistingEquipment();
+        _initNewEquipment();
     }
 
     return {
+        init: init,
         addEquipment: addEquipment,
         addExistingEquipment: addExistingEquipment
     }
