@@ -221,8 +221,10 @@
             contentType: false,
             processData: false,
             data: data,
-            success: function (json) {
-                if (json.IsSuccess) {
+			success: function (json) {
+				var salesrep = $('#OnBoardingLink').val();
+				if (json.IsSuccess) {					
+					gtag('event', 'Dealer Application Document Upload', { 'event_category': 'Dealer Application Document Upload', 'event_action': 'Upload Successful', 'event_label': salesrep });
                     if (+$('#Id').val() === 0) {
                         $('#Id').val(json.DealerInfoId);
                     }
@@ -234,7 +236,8 @@
                     _addFile(checkSelector, buttonSelector, fileContainerSelector, stateFileSection, file, json.ItemId);
                     moveTonextSection();
                     enableSubmit();
-                } else {
+				} else {
+					gtag('event', 'Dealer Application Document Upload', { 'event_category': 'Dealer Application Document Upload', 'event_action': 'Upload Fail', 'event_label': salesrep });
                     alert(json.AggregatedError);
                 }
             },
