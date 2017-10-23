@@ -226,8 +226,7 @@
 			success: function (json) {
 				var salesrep = $('#OnBoardingLink').val();
 				if (json.IsSuccess) {					
-					ga('send', 'event', 'Dealer Application Document Upload', 'Upload Successful', salesrep);
-
+					gtag('event', 'Dealer Application Document Upload', { 'event_category': 'Dealer Application Document Upload', 'event_action': 'Upload Successful', 'event_label': salesrep });
                     if (+$('#Id').val() === 0) {
                         $('#Id').val(json.DealerInfoId);
                     }
@@ -240,8 +239,7 @@
                     moveTonextSection();
                     enableSubmit();
 				} else {
-					ga('send', 'event', 'Dealer Application Document Upload', 'Upload Fail', salesrep);
-
+					gtag('event', 'Dealer Application Document Upload', { 'event_category': 'Dealer Application Document Upload', 'event_action': 'Upload Fail', 'event_label': salesrep });
                     alert(json.AggregatedError);
                 }
             },
