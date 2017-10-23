@@ -111,6 +111,7 @@
     <Compile Include="Repositories\RateCardsRepository.cs" />
     <Compile Include="Repositories\SettingsRepository.cs" />
     <Compile Include="Repositories\DealerRepository.cs" />
+    <Compile Include="SecureDbContext.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
