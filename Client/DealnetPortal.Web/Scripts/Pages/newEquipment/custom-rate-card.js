@@ -29,22 +29,6 @@
         $('#SelectedRateCardId').val(0);
     }
 
-    // custom option
-    $('#CustomLoanTerm').on('change', setters.setLoanTerm('Custom'));
-    $('#CustomLoanTerm').on('change keyup', validateCustomRateCardOnInput);
-
-    $('#CustomAmortTerm').on('change', setters.setAmortTerm('Custom'));
-    $('#CustomAmortTerm').on('change keyup', validateCustomRateCardOnInput);
-
-    $('#CustomDeferralPeriod').on('change', setters.setDeferralPeriod('Custom'));
-    $('#CustomCRate').on('change', setters.setCustomerRate('Custom'));
-    $('#CustomCRate').on('change keyup', validateCustomRateCardOnInput);
-
-    $('#CustomYCostVal').on('change', setters.setCustomYourCost('Custom'));
-    $('#CustomYCostVal').on('change keyup', validateCustomRateCardOnInput);
-
-    $('#CustomAFee').on('change', setters.setAdminFee('Custom'));
-
     function validateCustomRateCardOnInput() {
         var submit = $('#submit');
         var selectedRateCard = $('#rateCardsBlock').find('div.checked').length > 0
@@ -68,70 +52,95 @@
         $(window).resize();
     }
 
-    $('#CustomYCostVal').rules('add', {
-        required: true,
-        regex: /(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$/,
-        number: true,
-        min:0,
-        messages: {
-            regex:translations.yourCostFormat,
-            required: function (ele) {
-                if (!$('#CustomCRate').val())
-                    return translations.ThisFieldIsRequired;
-                return translations.enterZero;
+    function _initHandlers() {
+        // custom option
+        $('#CustomLoanTerm').on('change', setters.setLoanTerm('Custom'));
+        $('#CustomLoanTerm').on('change keyup', validateCustomRateCardOnInput);
+
+        $('#CustomAmortTerm').on('change', setters.setAmortTerm('Custom'));
+        $('#CustomAmortTerm').on('change keyup', validateCustomRateCardOnInput);
+
+        $('#CustomDeferralPeriod').on('change', setters.setDeferralPeriod('Custom'));
+        $('#CustomCRate').on('change', setters.setCustomerRate('Custom'));
+        $('#CustomCRate').on('change keyup', validateCustomRateCardOnInput);
+
+        $('#CustomYCostVal').on('change', setters.setCustomYourCost('Custom'));
+        $('#CustomYCostVal').on('change keyup', validateCustomRateCardOnInput);
+
+        $('#CustomAFee').on('change', setters.setAdminFee('Custom'));
+    }
+
+    function _initValidators() {
+        $('#CustomYCostVal').rules('add', {
+            required: true,
+            regex: /(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$/,
+            number: true,
+            min: 0,
+            messages: {
+                regex: translations.yourCostFormat,
+                required: function (ele) {
+                    if (!$('#CustomCRate').val())
+                        return translations.ThisFieldIsRequired;
+                    return translations.enterZero;
+                }
             }
-        }
-    });
+        });
 
-    $('#CustomCRate').rules('add', {
-        required: true,
-        regex: /(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$/,
-        min:0,
-        number: true,
-        messages: {
-            regex:translations.customerRateFormat,
-            required: function (ele) {
-                if (!$('#CustomYCostVal').val())
-                    return translations.ThisFieldIsRequired;
-                return translations.enterZero;
+        $('#CustomCRate').rules('add', {
+            required: true,
+            regex: /(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$/,
+            min: 0,
+            number: true,
+            messages: {
+                regex: translations.customerRateFormat,
+                required: function (ele) {
+                    if (!$('#CustomYCostVal').val())
+                        return translations.ThisFieldIsRequired;
+                    return translations.enterZero;
+                }
             }
-        }
-    });
+        });
 
-    $('#CustomAFee').rules('add', {
-        regex:/(^[0]?|(^[1-9]\d{0,11}))([.,][0-9]{1,2})?$/,
-        number: true,
-        min: 0,
-        messages: {
-            regex:translations.adminFeeFormat
-        }
-    });
+        $('#CustomAFee').rules('add', {
+            regex: /(^[0]?|(^[1-9]\d{0,11}))([.,][0-9]{1,2})?$/,
+            number: true,
+            min: 0,
+            messages: {
+                regex: translations.adminFeeFormat
+            }
+        });
 
-    $('#CustomAmortTerm').rules('add', {
-        required: true,
-        regex: /^[1-9]\d{0,2}?$/,
-        min: 1,
-        max:999,
-        messages: {
-            required: translations.ThisFieldIsRequired,
-            regex: translations.amortTermFormat,
-            max: translations.amortTermMax
-        }
-    });
+        $('#CustomAmortTerm').rules('add', {
+            required: true,
+            regex: /^[1-9]\d{0,2}?$/,
+            min: 1,
+            max: 999,
+            messages: {
+                required: translations.ThisFieldIsRequired,
+                regex: translations.amortTermFormat,
+                max: translations.amortTermMax
+            }
+        });
 
-    $('#CustomLoanTerm').rules('add', {
-        required: true,
-        regex: /^[1-9]\d{0,2}?$/,
-        min: 1,
-        max:999,
-        messages: {
-            required: translations.ThisFieldIsRequired,
-            regex: translations.loanTermFormat,
-            max: translations.loanTermMax
-        }
-    });
+        $('#CustomLoanTerm').rules('add', {
+            required: true,
+            regex: /^[1-9]\d{0,2}?$/,
+            min: 1,
+            max: 999,
+            messages: {
+                required: translations.ThisFieldIsRequired,
+                regex: translations.loanTermFormat,
+                max: translations.loanTermMax
+            }
+        });
+    }
 
+    var init = function() {
+        _initValidators();
+        _initHandlers();
+    }
     return {
+        init: init,
         validateOnSelect: validateOnSelect,
         submitCustomRateCard: submitCustomRateCard, 
         toggleDisableClassOnInputs: toggleDisableClassOnInputs

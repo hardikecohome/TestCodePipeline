@@ -4,7 +4,9 @@
         var submitRateCard = require('rate-cards').submitRateCard;
         var setters = require('value-setters');
         var equipment = require('equipment');
+        var rateCardsInit = require('rate-cards-init');
         var validateOnSelect = require('custom-rate-card').validateOnSelect;
+        var customRateCardInit = require('custom-rate-card').init;
         var submitCustomRateCard = require('custom-rate-card').submitCustomRateCard;
         var toggleDisableClassOnInputs = require('custom-rate-card').toggleDisableClassOnInputs;
         var rateCardBlock = require('rate-cards-ui');
@@ -93,56 +95,77 @@
             });
         }
 
-        var datepickerOptions = {
-            yearRange: '1900:2200',
-            minDate: new Date()
-        };
+        function _initHandlers() {
+            $('#submit').on('click', submitForm);
 
-        $('.date-input').each(function (index, input) {
-            assignDatepicker(input, datepickerOptions);
-        });
+            // handlers
+            constants.rateCards.forEach(function (option) { onAmortizationDropdownChange(option.name) });
 
-        $.validator.addMethod(
-            "date",
-            function (value, element) {
-                var minDate = new Date("1900-01-01");
-                var valueEntered = Date.parseExact(value, "M/d/yyyy");
-                if (!valueEntered) {
-                    return false;
-                }
-                if (valueEntered < minDate) {
-                    return false;
-                }
-                return true;
-            },
-            translations['EnterValidDate']
-        );
+            $('#addEquipment').on('click', equipment.addEquipment);
+            $('#addExistingEqipment').on('click', equipment.addExistingEquipment);
 
-        // submit
-        $('#submit').on('click', submitForm);
+            $('#loanRateCardToggle').on('click', toggleRateCardBlock);
+            $('#downPayment').on('change', setters.setDownPayment);
+            $('#typeOfAgreementSelect').on('change', setters.setAgreement).on('change', toggleCustomRateCard);
 
-        // handlers
-        constants.rateCards.forEach(function (option) { onAmortizationDropdownChange(option.name) });
+            $('#total-monthly-payment').on('change', setters.setRentalMPayment);
+            $('.btn-select-card').on('click', rateCardBlock.highlightCard);
+            $('.btn-select-card').on('click', onRateCardSelect);
 
-        $('#addEquipment').on('click', equipment.addEquipment);
-        $('#addExistingEqipment').on('click', equipment.addExistingEquipment);
+            // deferral
+            $('#deferralLATerm').on('change', function (e) {
+                var loanAmort = e.target.value.split('/');
+                setters.setLoanAmortTerm('deferral')(loanAmort[0], loanAmort[1]);
+            });
 
-        $('#loanRateCardToggle').on('click', toggleRateCardBlock);
-        $('#downPayment').on('change', setters.setDownPayment);
-        $('#typeOfAgreementSelect').on('change', setters.setAgreement).on('change', toggleCustomRateCard);
+            $('#DeferralPeriodDropdown').on('change', setters.setDeferralPeriod('Deferral'));
 
-        $('#total-monthly-payment').on('change', setters.setRentalMPayment);
-        $('.btn-select-card').on('click', rateCardBlock.highlightCard);
-        $('.btn-select-card').on('click', onRateCardSelect);
+        }
 
-        // deferral
-        $('#deferralLATerm').on('change', function (e) {
-            var loanAmort = e.target.value.split('/');
-            setters.setLoanAmortTerm('deferral')(loanAmort[0], loanAmort[1]);
-        });
+        function _initDatepickers() {
+            var datepickerOptions = {
+                yearRange: '1900:2200',
+                minDate: new Date()
+            };
 
-        $('#DeferralPeriodDropdown').on('change', setters.setDeferralPeriod('Deferral'));
+            $('.date-input').each(function (index, input) {
+                assignDatepicker(input, datepickerOptions);
+            });
 
-        var agreementType = $("#typeOfAgreementSelect").find(":selected").val();
-        state.agreementType = Number(agreementType);
+            $.validator.addMethod(
+                "date",
+                function (value, element) {
+                    var minDate = new Date("1900-01-01");
+                    var valueEntered = Date.parseExact(value, "M/d/yyyy");
+                    if (!valueEntered) {
+                        return false;
+                    }
+                    if (valueEntered < minDate) {
+                        return false;
+                    }
+                    return true;
+                },
+                translations['EnterValidDate']
+            );
+        }
+
+        function init(id, cards, onlyCustomRateCard) {
+            var agreementType = $("#typeOfAgreementSelect").find(":selected").val();
+            state.agreementType = Number(agreementType);
+            _initHandlers();
+            _initDatepickers();
+            
+            equipment.init();
+            rateCardsInit.init(id, cards, onlyCustomRateCard);
+            customRateCardInit();
+            rateCardBlock.init();
+
+            if (state.agreementType === 1 || state.agreementType === 2) {
+                recalculateAndRenderRentalValues();
+            } else {
+                recalculateValuesAndRender();
+            }
+        }
+
+        return { init: init };
     });
