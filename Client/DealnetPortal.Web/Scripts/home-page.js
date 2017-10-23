@@ -216,7 +216,7 @@ function showTable () {
                         {
                             //"data": 'Status',
                             "render": function (sdata, type, row) {
-                                var status = 'icon-' + row.Status.trim().toLowerCase().replace(/\s/g, '-').replace(/()/g, '').replace(/\//g, '');
+                                var status = 'icon-' + row.Status.trim().toLowerCase().replace(/\s/g, '-').replace(/\(/g, '').replace(/\)/g, '').replace(/\//g, '').replace(/\$/g, '');
                                 return '<div class="status-hold">' +
                                     '<div class="icon-hold"><span class="icon icon-status ' + status + '"></span>' +
                                     '</div>' +

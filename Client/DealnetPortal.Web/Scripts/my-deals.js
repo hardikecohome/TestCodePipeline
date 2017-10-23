@@ -27,9 +27,9 @@ function showTable () {
             var salesRepOptions = [];
             //var createdByCustomerCount = 0;//todo: Remove  in hole method if you saw this
             $.each(data, function (i, e) {
-                if ($.inArray(e["Status"], statusOptions) == -1)
-                    if (e["Status"]) {
-                        statusOptions.push(e["Status"]);
+                if ($.inArray(e["LocalizedStatus"], statusOptions) == -1)
+                    if (e["LocalizedStatus"]) {
+                        statusOptions.push(e["LocalizedStatus"]);
                     }
                 if ($.inArray(e["PaymentType"], paymentOptions) == -1)
                     if (e["PaymentType"]) {
@@ -52,16 +52,32 @@ function showTable () {
             //    $('#new-deals-number').text(createdByCustomerCount);
             //    $('#new-deals-number').show();
             //}
-            $.each(statusOptions, function (i, e) {
+            $.each(statusOptions.sort(function (a, b) {
+                if (a === b) return 0;
+                if (a > b) return 1;
+                return -1;
+            }), function (i, e) {
                 $("#deal-status").append($("<option />").val(e).text(e));
             });
-            $.each(agrTypeOptions, function (i, e) {
+            $.each(agrTypeOptions.sort(function (a, b) {
+                if (a === b) return 0;
+                if (a > b) return 1;
+                return -1;
+            }), function (i, e) {
                 $("#agreement-type").append($("<option />").val(e).text(e));
             });
-            $.each(paymentOptions, function (i, e) {
+            $.each(paymentOptions.sort(function (a, b) {
+                if (a === b) return 0;
+                if (a > b) return 1;
+                return -1;
+            }), function (i, e) {
                 $("#payment-type").append($("<option />").val(e).text(e));
             });
-            $.each(salesRepOptions, function (i, e) {
+            $.each(salesRepOptions.sort(function (a, b) {
+                if (a === b) return 0;
+                if (a > b) return 1;
+                return -1;
+            }), function (i, e) {
                 $("#sales-rep").append($("<option />").val(e).text(e));
             });
 
@@ -115,12 +131,12 @@ function showTable () {
                         {
                             //"data": 'Status',
                             "render": function (sdata, type, row) {
-                                var status = 'icon-' + row.Status.trim().toLowerCase().replace(/\s/g, '-').replace(/()/g, '').replace(/\//g, '');
+                                var status = 'icon-' + row.Status.trim().toLowerCase().replace(/\s/g, '-').replace(/\(/g, '').replace(/\)/g, '').replace(/\//g, '').replace(/\$/g, '');
                                 return '<div class="status-hold">' +
                                     '<span class="icon-hold"><span class="icon icon-status ' + status + '"></span>' +
                                     '</span>' +
                                     '<div class="status-text-hold"><span class="status-text">' +
-                                    row.Status + '</span></div></div>';
+                                    row.LocalizedStatus + '</span></div></div>';
                             },
                             className: 'status-cell'
                         },
@@ -175,7 +191,8 @@ function showTable () {
                         {
                             "data": "IsCreatedByCustomer",
                             "visible": false
-                        }
+                        },
+                        { "data": "LocalizedStatus", visible: false }
                     ],
                     dom:
                     "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
@@ -258,21 +275,37 @@ $.fn.dataTable.ext.search.push(
         var createdByEl = $("#created-by");
         var dateToEl = $("#date-to");
         var dateFromEl = $("#date-from");
+        var equipmentEl = $('#equipment-input');
+        var dealValueFromEl = $("#deal-value-from");
+        var dealValueToEl = $("#deal-value-to");
+        var paymentEl = $("#payment-type");
+
         return function (settings, data, dataIndex) {
             var status = statusEl.val();
             var agreementType = agreementTypeEl.val();
             var salesRep = salesRepEl.val();
             var createdBy = createdByEl.val();
+            var equipment = equipmentEl.val();
 
             var dateFrom = Date.parseExact(dateFromEl.val(), "M/d/yyyy");
             var dateTo = Date.parseExact(dateToEl.val(), "M/d/yyyy");
             var valueEntered = Date.parseExact(data[7], "M/d/yyyy");
 
-            if ((!status || status === data[3]) &&
+            var value = parseFloat(data[10].replace(/[\$,]/g, ''));
+            var valueOfDealFrom = parseFloat(dealValueFromEl.val());
+            var valueOfDealTo = parseFloat(dealValueToEl.val());
+            var paymentType = paymentEl.val();
+
+            // check dropdown status against LocalizedStatus
+            if ((!status || status === data[16]) &&
                 (!agreementType || agreementType === data[4]) &&
                 (!salesRep || salesRep === data[9]) &&
                 (!dateTo || valueEntered <= dateTo) &&
                 (!dateFrom || valueEntered >= dateFrom) &&
+                (!paymentType || paymentType === data[12]) &&
+                (!equipment || data[8].match(new RegExp(equipment, "i"))) &&
+                (isNaN(valueOfDealFrom) || !isNaN(value) && value >= valueOfDealFrom) &&
+                (isNaN(valueOfDealTo) || !isNaN(value) && value <= valueOfDealTo) &&
                 (createdBy === '' || createdBy == data[15])) {
                 return true;
             }
@@ -368,11 +401,12 @@ function getTotalForSelectedCheckboxes () {
         selectedSum = $('#selectedTotal').html() !== '' ? parseFloat($('#selectedTotal').html().replace(/[$,]/g, "")) : 0;
         var val = parseFloat(tr.find(':nth-child(11)').html().replace(/[$,]/g, ""));
         if (isNaN(val)) { val = 0; }
-        var isSelected = tr.is(".selected");
-        selectedSum = isSelected ? selectedSum + val : selectedSum - val;
+        var isRowSelected = tr.is(".selected");
+        var isSelected = table.rows('tr.selected', { search: 'applied' }).data().length > 0;
+        selectedSum = isRowSelected ? selectedSum + val : selectedSum - val;
 
         $('#selectedTotal').html('$ ' + selectedSum.toFixed(2));
-        if (selectedSum !== 0 || isSelected) {
+        if (isSelected) {
             $('.reports-table-footer').addClass('has-selected-items');
         } else {
             $('.reports-table-footer').removeClass('has-selected-items');
