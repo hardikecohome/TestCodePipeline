@@ -275,15 +275,26 @@ $.fn.dataTable.ext.search.push(
         var createdByEl = $("#created-by");
         var dateToEl = $("#date-to");
         var dateFromEl = $("#date-from");
+        var equipmentEl = $('#equipment-input');
+        var dealValueFromEl = $("#deal-value-from");
+        var dealValueToEl = $("#deal-value-to");
+        var paymentEl = $("#payment-type");
+
         return function (settings, data, dataIndex) {
             var status = statusEl.val();
             var agreementType = agreementTypeEl.val();
             var salesRep = salesRepEl.val();
             var createdBy = createdByEl.val();
+            var equipment = equipmentEl.val();
 
             var dateFrom = Date.parseExact(dateFromEl.val(), "M/d/yyyy");
             var dateTo = Date.parseExact(dateToEl.val(), "M/d/yyyy");
             var valueEntered = Date.parseExact(data[7], "M/d/yyyy");
+
+            var value = parseFloat(data[10].replace(/[\$,]/g, ''));
+            var valueOfDealFrom = parseFloat(dealValueFromEl.val());
+            var valueOfDealTo = parseFloat(dealValueToEl.val());
+            var paymentType = paymentEl.val();
 
             // check dropdown status against LocalizedStatus
             if ((!status || status === data[16]) &&
@@ -291,6 +302,10 @@ $.fn.dataTable.ext.search.push(
                 (!salesRep || salesRep === data[9]) &&
                 (!dateTo || valueEntered <= dateTo) &&
                 (!dateFrom || valueEntered >= dateFrom) &&
+                (!paymentType || paymentType === data[12]) &&
+                (!equipment || data[8].match(new RegExp(equipment, "i"))) &&
+                (isNaN(valueOfDealFrom) || !isNaN(value) && value >= valueOfDealFrom) &&
+                (isNaN(valueOfDealTo) || !isNaN(value) && value <= valueOfDealTo) &&
                 (createdBy === '' || createdBy == data[15])) {
                 return true;
             }
