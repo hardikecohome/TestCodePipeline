@@ -368,11 +368,12 @@ function getTotalForSelectedCheckboxes () {
         selectedSum = $('#selectedTotal').html() !== '' ? parseFloat($('#selectedTotal').html().replace(/[$,]/g, "")) : 0;
         var val = parseFloat(tr.find(':nth-child(11)').html().replace(/[$,]/g, ""));
         if (isNaN(val)) { val = 0; }
-        var isSelected = tr.is(".selected");
-        selectedSum = isSelected ? selectedSum + val : selectedSum - val;
+        var isRowSelected = tr.is(".selected");
+        var isSelected = table.rows('tr.selected', { search: 'applied' }).data().length > 0 ;
+        selectedSum = isRowSelected ? selectedSum + val : selectedSum - val;
 
         $('#selectedTotal').html('$ ' + selectedSum.toFixed(2));
-        if (selectedSum !== 0 || isSelected) {
+        if (isSelected) {
             $('.reports-table-footer').addClass('has-selected-items');
         } else {
             $('.reports-table-footer').removeClass('has-selected-items');
