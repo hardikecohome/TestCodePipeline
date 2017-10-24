@@ -128,7 +128,16 @@
 <table id="work-items-table" class="display responsive table-reports" width="100%">
     <thead>
         <tr>
-            <th class="all checkbox-cell"></th>
+            <th class="all checkbox-cell">
+                <label class="custom-checkbox">
+                    <input type="checkbox" id="check-all">
+                    <span class="checkbox-icon">
+                        <svg aria-hidden="true" class="icon icon-checked">
+                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
+                        </svg>
+                    </span>
+                </label>
+            </th>
             <th class="all contract-cell">@Resources.Contract&nbsp;#</th>
             <th class="all customer-cell">@Resources.Customer</th>
             <th class="min-mobile-l status-cell">@Resources.Status</th>

@@ -221,17 +221,26 @@ function showTable () {
 
             table.on('draw.dt', function () {
                 redrawDataTablesSvgIcons();
-                resetDataTablesExpandedRows(table);
+                resetDataTablesExpandedRows(this);
             });
 
-            getTotalForSelectedCheckboxes();
+
+            $('#work-items-table tbody').on('click', ':checkbox', getTotalForSelectedCheckboxes(table));
             createFilter();
-            recalculateGrandTotal();
+            recalculateGrandTotal(table);
             resizeTableStatusCells('#work-items-table');
 
             table.on('search.dt', function () {
-                recalculateGrandTotal();
-                recalculateTotalForSelected();
+                recalculateGrandTotal(this);
+                recalculateTotalForSelected(this);
+            });
+
+            table.on('page.dt', function (ev, settings) {
+                var rows = table.rows('tr.selected', { page: 'current' }).nodes();
+                if (rows.length > 0)
+                    $('#check-all').prop('checked', true);
+                else
+                    $('#check-all').prop('checked', false);
             });
 
             $('.filter-button').click(function () {
@@ -264,6 +273,21 @@ function showTable () {
                 } else {
                     submitSinglePreviewRequest(ids[0]);
                 }
+            });
+
+            $('#check-all').on('click', function () {
+                var checked = this.checked;
+                var rows = table.rows('tr', { page: 'current' }).nodes();
+                $(rows).find('input[type="checkbox"]')
+                    .attr('checked', checked)
+                    .each(function (index, item) {
+                        if (checked) {
+                            $(item).parents('tr').addClass('selected');
+                        } else {
+                            $(this).parents('tr').removeClass('selected');
+                        }
+                    });
+                recalculateSelectedTotals(table);
             });
         }
     });
@@ -372,7 +396,7 @@ function getIntValue (value) {
             value : 0;
 }
 
-function recalculateGrandTotal () {
+function recalculateGrandTotal (table) {
     var sum = table.column(10, { search: 'applied' }).data().reduce(function (acc, value) {
         return acc + getIntValue(value);
     }, 0);
@@ -381,7 +405,7 @@ function recalculateGrandTotal () {
     return sum;
 }
 
-function recalculateTotalForSelected () {
+function recalculateTotalForSelected (table) {
     var data = table.rows('tr.selected', { search: 'applied' }).data();
     var sum = data.reduce(function (acc, value) {
         return acc + getIntValue(value.Value);
@@ -394,27 +418,49 @@ function recalculateTotalForSelected () {
     }
 }
 
-function getTotalForSelectedCheckboxes () {
-    var selectedSum;
-
-    $('#work-items-table tbody').on('click', ':checkbox', function () {
-        var tr = $(this).parents('tr');
+function getTotalForSelectedCheckboxes (table) {
+    return function (ev) {
+        var tr = $(ev.target).parents('tr');
         tr.toggleClass('selected');
-        selectedSum = $('#selectedTotal').html() !== '' ? parseFloat($('#selectedTotal').html().replace(/[$,]/g, "")) : 0;
-        var val = parseFloat(tr.find(':nth-child(11)').html().replace(/[$,]/g, ""));
-        if (isNaN(val)) { val = 0; }
-        var isRowSelected = tr.is(".selected");
-        var isSelected = table.rows('tr.selected', { search: 'applied' }).data().length > 0;
-        selectedSum = isRowSelected ? selectedSum + val : selectedSum - val;
-
-        $('#selectedTotal').html('$ ' + selectedSum.toFixed(2));
-        if (isSelected) {
-            $('.reports-table-footer').addClass('has-selected-items');
-        } else {
-            $('.reports-table-footer').removeClass('has-selected-items');
-        }
-    });
+        recalculateSelectedTotals(table);
+    }
 }
+
+function recalculateSelectedTotals (table) {
+    var sel = table.rows('tr.selected', { search: 'applied' }).data();
+    var sum = sel.reduce(function (sum, item) {
+        return sum + getIntValue(item.Value);
+    }, 0.0);
+    $('#selectedTotal').html('$ ' + sum.toFixed(2));
+    if (sel.length > 0) {
+        $('.reports-table-footer').addClass('has-selected-items');
+    } else {
+        $('.reports-table-footer').removeClass('has-selected-items');
+    }
+}
+
+// function getTotalForSelectedCheckboxes () {
+//     var selectedSum;
+
+//     $('#work-items-table tbody').on('click', ':checkbox', function () {
+//         debugger
+//         var tr = $(this).parents('tr');
+//         tr.toggleClass('selected');
+//         selectedSum = $('#selectedTotal').html() !== '' ? parseFloat($('#selectedTotal').html().replace(/[$,]/g, "")) : 0;
+//         var val = parseFloat(tr.find(':nth-child(11)').html().replace(/[$,]/g, ""));
+//         if (isNaN(val)) { val = 0; }
+//         var isRowSelected = tr.is(".selected");
+//         var isSelected = table.rows('tr.selected', { search: 'applied' }).data().length > 0;
+//         selectedSum = isRowSelected ? selectedSum + val : selectedSum - val;
+
+//         $('#selectedTotal').html('$ ' + selectedSum.toFixed(2));
+//         if (isSelected) {
+//             $('.reports-table-footer').addClass('has-selected-items');
+//         } else {
+//             $('.reports-table-footer').removeClass('has-selected-items');
+//         }
+//     });
+// }
 
 function removeContract () {
     var tr = $(this).parents('tr');
