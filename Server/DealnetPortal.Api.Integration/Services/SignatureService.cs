@@ -806,6 +806,13 @@ namespace DealnetPortal.Api.Integration.Services
                             Value =
                                 $"{mailAddress.Street}, {mailAddress.City}, {mailAddress.State}, {mailAddress.PostalCode}"
                         });
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.MailingOrPreviousAddress,
+                            Value =
+                                $"{mailAddress.Street}, {mailAddress.City}, {mailAddress.State}, {mailAddress.PostalCode}"
+                        });
                     }
                     var previousAddress =
                         contract.PrimaryCustomer?.Locations?.FirstOrDefault(
@@ -815,16 +822,26 @@ namespace DealnetPortal.Api.Integration.Services
                         formFields.Add(new FormField()
                         {
                             FieldType = FieldType.CheckBox,
-                            Name = "IsPreviousAddress",
+                            Name = PdfFormFields.IsPreviousAddress,
                             Value = "true"
                         });
                         formFields.Add(new FormField()
                         {
                             FieldType = FieldType.Text,
-                            Name = "PreviousAddress",
+                            Name = PdfFormFields.PreviousAddress,
                             Value =
                                 $"{previousAddress.Street}, {previousAddress.City}, {previousAddress.State}, {previousAddress.PostalCode}"
                         });
+                        if (mailAddress == null)
+                        {
+                            formFields.Add(new FormField()
+                            {
+                                FieldType = FieldType.Text,
+                                Name = PdfFormFields.MailingOrPreviousAddress,
+                                Value =
+                                    $"{previousAddress.Street}, {previousAddress.City}, {previousAddress.State}, {previousAddress.PostalCode}"
+                            });
+                        }
                     }
                     if (contract.HomeOwners?.Any(ho => ho.Id == contract.PrimaryCustomer.Id) ?? false)
                     {

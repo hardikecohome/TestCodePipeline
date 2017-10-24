@@ -19,6 +19,8 @@ namespace DealnetPortal.Api.Integration.Services
         public static string DateOfBirth2 = "DateOfBirth_2";
         public static string InstallationAddress = "InstallationAddress";
         public static string MailingAddress = "MailingAddress";
+        public static string PreviousAddress = "PreviousAddress";
+        public static string MailingOrPreviousAddress = "MailingOrPreviousAddress";
         public static string Sin = "SIN";
         public static string DriverLicense = "DriverLicense";
         public static string Dl = "DL";
@@ -35,6 +37,7 @@ namespace DealnetPortal.Api.Integration.Services
         public static string EmailAddress = "EmailAddress";
         public static string EmailAddress2 = "EmailAddress_2";
         public static string IsMailingDifferent = "IsMailingDifferent";
+        public static string IsPreviousAddress = "IsPreviousAddress";
         public static string SuiteNo = "SuiteNo";
         public static string CustomerName = "CustomerName";
         public static string CustomerName2 = "CustomerName_2";
