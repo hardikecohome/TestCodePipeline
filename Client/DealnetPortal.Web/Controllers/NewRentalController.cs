@@ -345,17 +345,21 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModelNew equipmentInfo)
         {
             ViewBag.IsAllInfoCompleted = false;
-
-            var updateResult = await _contractManager.UpdateContractAsyncNew(equipmentInfo);
-
-            if (updateResult.Any(r => r.Type == AlertType.Error))
+            var model = await _contractManager.GetEquipmentInfoAsyncNew(equipmentInfo.ContractId.Value);
+            if (model.RateCardValid.Value)
             {
-                TempData[PortalConstants.CurrentAlerts] = updateResult;
+                var updateResult = await _contractManager.UpdateContractAsyncNew(equipmentInfo);
 
-                return RedirectToAction("Error", "Info");
+                if (updateResult.Any(r => r.Type == AlertType.Error))
+                {
+                    TempData[PortalConstants.CurrentAlerts] = updateResult;
+
+                    return RedirectToAction("Error", "Info");
+                }
+
+                return RedirectToAction("ContactAndPaymentInfo", new { contractId = equipmentInfo.ContractId });
             }
-
-            return RedirectToAction("ContactAndPaymentInfo", new { contractId = equipmentInfo.ContractId });
+            return RedirectToAction("EquipmentInformation", new { equipmentInfo.ContractId.Value });
         }
 
         [HttpGet]
