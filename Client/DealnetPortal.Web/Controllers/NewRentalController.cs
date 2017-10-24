@@ -345,8 +345,8 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModelNew equipmentInfo)
         {
             ViewBag.IsAllInfoCompleted = false;
-            var model = await _contractManager.GetEquipmentInfoAsyncNew(equipmentInfo.ContractId.Value);
-            if (model.RateCardValid.Value)
+            var ratecardValid = await _contractManager.CheckRateCard(equipmentInfo.ContractId.Value, equipmentInfo.SelectedRateCardId);
+            if (ratecardValid)
             {
                 var updateResult = await _contractManager.UpdateContractAsyncNew(equipmentInfo);
 
@@ -403,8 +403,8 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<ActionResult> SubmitDeal(int contractId)
         {
-            var model = await _contractManager.GetSummaryAndConfirmationAsync(contractId);
-            if (model.RateCardValid)
+            var rateCardValid = await _contractManager.CheckRateCard(contractId, null);
+            if (rateCardValid)
             {
                 var result = await _contractServiceAgent.SubmitContract(contractId);
 
