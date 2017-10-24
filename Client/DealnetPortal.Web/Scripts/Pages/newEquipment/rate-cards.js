@@ -291,14 +291,6 @@
                 return true;
             }
         });
-        
-        var amortValueForDisableExist = Object.keys(state[option + '-dropdowns']).some(function (item) {
-            return state[option + '-dropdowns'][item].indexOf(constants.loanAmortValueToDisable) !== -1;
-        });
-
-        if (amortValueForDisableExist && dropdowns.indexOf(constants.loanAmortValueToDisable) === -1) {
-            dropdowns.push(constants.loanAmortValueToDisable);
-        }
 
         var selected = $('#' + option + 'AmortizationDropdown option:selected').val();
 
@@ -309,7 +301,17 @@
                 text: this
             }).appendTo(dropdown);
         });
-        $(dropdown).val(selected);
+        var values = [];
+        $(dropdown.options).each(function () {
+            values.push($(this).attr('value'));
+        });
+
+        if (values.indexOf(selected) !== -1) {
+            $(dropdown).val(selected);
+        } else {
+            $(dropdown).val(values[0]);
+        }
+
         var options = dropdown.options;
         var tooltip = $('a#' + option + 'Notify');
 
@@ -344,22 +346,6 @@
                 tooltip.click();
             }
         }
-
-        $.each(options, function (i) {
-            var amortValue = +options[i].innerText.split('/')[1];
-            if (amortValue >= constants.amortizationValueToDisable) {
-
-                // if we selected max value of dropdown and totalAmountFinanced is lower then constants.amortizationValueToDisable
-                // just select first option in dropdown
-                if (options.selectedIndex === i && isDisable) {
-                    $('#' + option + 'AmortizationDropdown').val(options[0].value);
-                }
-
-                var opt = $(options[i]);
-                opt.attr('disabled', isDisable);
-                isDisable ? opt.addClass('disabled-opt') : opt.removeClass('disabled-opt');
-            }
-        });
     }
 
     /**

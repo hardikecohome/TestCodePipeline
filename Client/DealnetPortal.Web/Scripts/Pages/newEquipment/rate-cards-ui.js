@@ -166,7 +166,45 @@
         }
     }
 
-    $(document).ready(function () {
+    //$(document).ready(function () {
+    //    if (state.onlyCustomRateCard) {
+    //        $('#rateCardsBlock').addClass('one-rate-card');
+    //    }
+
+    //    $('#typeOfAgreementSelect').on('change', onAgreemntSelect).change();
+
+    //    setHeight();
+    //    carouselRateCards();
+
+    //    $(window).resize(function () {
+    //        carouselRateCards();
+    //        setHeight();
+    //    });
+
+    //    $('.link-over-notify').popover({
+    //        template: '<div class="popover customer-loan-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
+    //        placement: 'top',
+    //        trigger: $('body').is('.tablet-device') || $('body').is('.mobile-device') ? 'click' : 'hover',
+    //        content: '',
+    //    }).on('shown.bs.popover', function () {
+    //        if($('body').is('.tablet-device') || $('body').is('.mobile-device')){
+    //            $(this).parents('div[class*="equal-height-row"]').addClass('row-auto-height');
+    //        }
+    //    }).on('hide.bs.popover', function () {
+    //        if($('body').is('.tablet-device') || $('body').is('.mobile-device')){
+    //            $(this).parents('div[class*="equal-height-row"]').removeClass('row-auto-height');
+    //        }
+    //    });
+
+    //    $('textarea').keyup(function (e) {
+    //        if (e.keyCode === 13) {
+    //            var textarea = $(this);
+    //            textarea.val(textarea.val() + '\n');
+    //        }
+    //    });
+    //});
+
+    var init = function() {
         if (state.onlyCustomRateCard) {
             $('#rateCardsBlock').addClass('one-rate-card');
         }
@@ -187,11 +225,11 @@
             trigger: $('body').is('.tablet-device') || $('body').is('.mobile-device') ? 'click' : 'hover',
             content: '',
         }).on('shown.bs.popover', function () {
-            if($('body').is('.tablet-device') || $('body').is('.mobile-device')){
+            if ($('body').is('.tablet-device') || $('body').is('.mobile-device')) {
                 $(this).parents('div[class*="equal-height-row"]').addClass('row-auto-height');
             }
         }).on('hide.bs.popover', function () {
-            if($('body').is('.tablet-device') || $('body').is('.mobile-device')){
+            if ($('body').is('.tablet-device') || $('body').is('.mobile-device')) {
                 $(this).parents('div[class*="equal-height-row"]').removeClass('row-auto-height');
             }
         });
@@ -202,9 +240,10 @@
                 textarea.val(textarea.val() + '\n');
             }
         });
-    });
+    }
 
     return {
+        init: init,
         hide: hideRateCardBlock,
         show: showRateCardBlock,
         toggle: toggleRateCardBlock,
