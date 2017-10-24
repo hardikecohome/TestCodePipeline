@@ -10,7 +10,7 @@
     <div class="equal-height-row-1">
       <div class="rate-card-header">
         <span class="promo-label hidden" id="DeferralPromo">@Resources.Promo</span>
-        <h4 class="card-title">@Resources.Deferral.ToUpper()</h4>
+        <h4 class="card-title">@Resources.DeferralPromo.ToUpper()</h4>
       </div>
     </div>
     <hr>
@@ -18,11 +18,22 @@
         <div class="form-group notify-hold">
           <label for="">@Resources.LoanAmortTerm</label>
           @Html.DropDownList(Model + "Amortization", amortizationSelectList, new { @class = "form-control", id = Model + "AmortizationDropdown" })
+			@if (ViewBag.totalAmountFinancedFor180amortTerm == 3999)
+			{
+			<a class="link-over-notify" id="DeferralNotify"
+			   data-content="@Resources.Month180AmortOnlyOver4000">
+				<svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+			</a>
+			}
+			else
+			{
+				<a class="link-over-notify" id="DeferralNotify"
+				   data-content="@Resources.Month180AmortOnlyOver5000">
+					<svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+				</a>
 
-          <a class="link-over-notify" id="DeferralNotify"
-             data-content="@Resources.Month180AmortOnlyOver5000">
-            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-          </a>
+			}
+
         </div>
     </div>
     <div class="equal-height-row-3">
@@ -30,6 +41,7 @@
         <div class="form-group">
           <label for="">@Resources.DeferralPeriod</label>
           @Html.DropDownList(Model.ToString().ToLower() + "Deferral", deferralSelectList, new { @class = "form-control", id = "DeferralPeriodDropdown" })
+			
         </div>
       </div>
     </div>
@@ -48,7 +60,7 @@
     </div>
     <hr>
     <div class="">
-      <div class="row form-group align-middle">
+      <div class="row form-group align-middle hidden">
         <div class="col-xs-6">@Resources.AdminFee</div>
         <div class="col-xs-6 text-right text-stronger" id="DeferralAFee"></div>
       </div>

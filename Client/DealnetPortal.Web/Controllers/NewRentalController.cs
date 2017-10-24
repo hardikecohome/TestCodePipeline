@@ -331,11 +331,19 @@ namespace DealnetPortal.Web.Controllers
             ViewBag.CardTypes = model.DealerTier?.RateCards?.Select(x => x.CardType).Distinct().ToList();
             ViewBag.AmortizationTerm = model.DealerTier?.RateCards?.ConvertToAmortizationSelectList();
             ViewBag.DefferalPeriod = model.DealerTier?.RateCards?.ConvertToDeferralSelectList();
-            var NoCustomerFee = System.Configuration.ConfigurationManager.AppSettings["NoCustomerFee"].Split(',').Select(a=> a.Trim()).ToList<string>();
-            if (NoCustomerFee.Contains(await _dealerServiceAgent.UpdateDealerParent()))
-                ViewBag.AdminFee = 0;
+            if (model.DealerTier != null && model.DealerTier.Id == Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["Amort180RateCardId"]))
+            {
+                ViewBag.totalAmountFinancedFor180amortTerm = 3999;
+            }
             else
-                ViewBag.AdminFee = 49.99;
+            {
+                ViewBag.totalAmountFinancedFor180amortTerm = 4999;
+            }
+            var NoCustomerFee = System.Configuration.ConfigurationManager.AppSettings["NoCustomerFee"].Split(',').Select(a=> a.Trim()).ToList<string>();
+            //if (NoCustomerFee.Contains(await _dealerServiceAgent.UpdateDealerParent()))
+                ViewBag.AdminFee = 0;
+            //else
+            //    ViewBag.AdminFee = 49.99;
 
             return View(model);
         }

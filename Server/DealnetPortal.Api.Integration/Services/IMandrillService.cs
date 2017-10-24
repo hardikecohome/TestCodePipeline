@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Notification;
 using DealnetPortal.Domain;
+using DealnetPortal.Api.Models.Notify;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -14,5 +15,6 @@ namespace DealnetPortal.Api.Integration.Services
         Task SendDeclineNotificationConfirmation(string emailid, string firstName, string lastName);
         Task SendProblemsWithSubmittingOnboarding(string errorMsg, int dealerInfoId, string accessKey);
         Task SendDraftLinkMail(string accessKey, string email);
+        Task SendSupportRequiredEmail(SupportRequestDTO SupportDetails, string email);
     }
 }

@@ -1211,7 +1211,7 @@
     <comment>It's a verb (copy, paste, cut...)</comment>
   </data>
   <data name="ShareableLink" xml:space="preserve">
-    <value>Shareable Link</value>
+    <value>Customer Link</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Add</value>
@@ -2239,5 +2239,17 @@ You can do it anytime by using the following link:</value>
   </data>
   <data name="OnboardSuccessWithoutDocumentsTitle" xml:space="preserve">
     <value>Thank you, your application was successfully submitted and we are working on it.</value>
+  </data>
+  <data name="Library" xml:space="preserve">
+    <value>Resources</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="DeferralPromo" xml:space="preserve">
+    <value>Deferral/Promo</value>
+  </data>
+  <data name="Month180AmortOnlyOver4000" xml:space="preserve">
+    <value>180 month amortization is available only on loans over $4,000</value>
   </data>
 </root>

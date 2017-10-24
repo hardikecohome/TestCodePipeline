@@ -243,6 +243,7 @@
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\ShareableLinkController.cs" />
     <Compile Include="Controllers\StubController.cs" />
+    <Compile Include="Controllers\SupportRequestController.cs" />
     <Compile Include="Controllers\UpdateController.cs" />
     <Compile Include="Controllers\UpdateDataController.cs" />
     <Compile Include="Global.asax.cs">
@@ -784,7 +785,6 @@
     <Content Include="Content\less\pages\customer-loan-form.less" />
     <Content Include="Content\less\pages\customer-loan-success-page.less" />
     <Content Include="Content\less\components\accordion-panel.less" />
-    <Content Include="Content\files\Help.pdf" />
     <Content Include="Content\less\pages\rate-cards.less" />
     <Content Include="Content\less\slick\fonts\slick.eot" />
     <Content Include="Content\less\slick\fonts\slick.ttf" />
@@ -793,6 +793,13 @@
     <Content Include="Content\less\slick\slick.less" />
     <Content Include="Content\less\components\carousel.less" />
     <Content Include="Content\less\pages\onboard.less" />
+    <Content Include="Content\files\About-EcoHome-Financial.pdf" />
+    <Content Include="Content\files\Consumer-Loan-Agreement.pdf" />
+    <Content Include="Content\files\Loan-Agreement-Changes-From-August-To-September.pdf" />
+    <Content Include="Content\files\Myhome-Wallet-Detailed-Description.pdf" />
+    <Content Include="Content\files\Myhome-Wallet-Short-Description.pdf" />
+    <Content Include="Content\files\Portal-User-Guide.pdf" />
+    <Content Include="Content\files\Summer-Fall-2017-Promotion.pdf" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -1117,12 +1124,19 @@
     <Content Include="Scripts\Pages\onboarding\acknowledgment\onboarding.ackonwledgment.setters.js" />
     <Content Include="Views\Shared\OnBoarding\_SaveAndResumeModal.cshtml" />
     <Content Include="Views\Dealer\OnBoardingError.cshtml" />
+    <Content Include="Views\Home\Library.cshtml" />
     <Content Include="Views\Dealer\SuccessWithoutDocuments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
     <Folder Include="Content\themes\" />
     <Folder Include="Resources\" />
+    <Folder Include="Views\AsyncCancellation\" />
+    <Folder Include="Views\Credits\" />
+    <Folder Include="Views\Deals\" />
+    <Folder Include="Views\SupportRequest\" />
+    <Folder Include="Views\UpdateData\" />
+    <Folder Include="Views\Update\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

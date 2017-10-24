@@ -112,7 +112,10 @@ function showTable () {
                     createdRow: function (row, data, dataIndex) {
                         if (data.IsNewlyCreated) {
                             $(row).addClass('unread-deals').find('.contract-cell').prepend('<span class="label-new-deal">' + translations['New'] + '</span>');
-                        }
+						}
+						if (data.Id != 0) {
+							$(row).find('.contract-cell').wrapInner('<a href="' + editContractUrl + '/' + data.Id + '" title="' + translations['Edit'] + '"></a>');
+						}
                     },
                     columns: [
                         {
@@ -175,8 +178,11 @@ function showTable () {
                                             urlContent +
                                             'Content/images/sprite/sprite.svg#icon-trash"></use></svg></a></div>';
                                     } else {
-                                        return '<div class="controls-hold"><a class="icon-link icon-edit"  href=' + editContractUrl + '/' + row.Id + ' title="' + translations['Edit'] + '"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a></div>';
-                                    }
+                                        return '<div class="controls-hold"><a class="icon-link icon-edit" href=' + editContractUrl + '/' + row.Id + ' title="' + translations['Edit'] + '"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a>' +
+											'<i onclick= "sendEmailModel(' + row.TransactionId + ');" class="icon-link icon-edit" > ' +
+											'<svg aria-hidden="true" class="icon icon-edit" > <use xlink:href="' + urlContent + '/Content/images/sprite/sprite.svg#icon-email"></use></svg >' +
+											'</i></div>';
+									}
                                 } else {
                                     return '';
                                 }

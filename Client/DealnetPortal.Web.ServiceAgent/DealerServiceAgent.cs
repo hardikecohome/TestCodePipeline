@@ -12,6 +12,7 @@ using DealnetPortal.Web.Common;
 namespace DealnetPortal.Web.ServiceAgent
 {
     using Api.Models.Profile;
+    using DealnetPortal.Api.Models.Notify;
     using Microsoft.Owin.Security;
 
     public class DealerServiceAgent : ApiBase, IDealerServiceAgent
@@ -186,6 +187,23 @@ namespace DealnetPortal.Web.ServiceAgent
                 return null;               
             }
         }
+
+        public async Task<IList<Alert>> DealerSupportRequestEmail(SupportRequestDTO dealerSupportRequest)
+        {
+            try
+            {
+                return
+                    await
+                        Client.PostAsyncEx<SupportRequestDTO, IList<Alert>>(
+                            $"{_fullUri}/DealerSupportRequestEmail", dealerSupportRequest, AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't update dealer profile for an user", ex);
+                throw;
+            }
+        }
+
 
     }
 }
