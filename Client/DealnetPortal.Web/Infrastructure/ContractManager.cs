@@ -132,7 +132,7 @@ namespace DealnetPortal.Web.Infrastructure
 
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
             var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
-            equipmentInfo.DealerTier = dealerTier ?? new TierDTO() { RateCards = new List<RateCardDTO>() };
+            equipmentInfo.DealerTier = Mapper.Map<TierViewModel>(dealerTier)  ?? new TierViewModel() { RateCards = new List<RateCardViewModel>() };
             if (result.Item1.Equipment == null)
             {
                 equipmentInfo.RateCardValid = true;

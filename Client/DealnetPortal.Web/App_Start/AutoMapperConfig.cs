@@ -268,7 +268,8 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.RequiredDocuments, d => d.MapFrom(src => src.RequiredDocuments))
                 .ForMember(x => x.AdditionalDocuments, d => d.MapFrom(src => src.AdditionalDocuments))
                 .ForMember(x => x.LeadSource, d => d.Ignore());
-            
+            cfg.CreateMap<TierViewModel, TierDTO>();
+            cfg.CreateMap<RateCardViewModel, RateCardDTO>();
         }
 
         private static void MapModelsToVMs(IMapperConfigurationExpression cfg)
@@ -604,6 +605,9 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.RequiredDocuments, d => d.MapFrom(src => src.RequiredDocuments))
                 .ForMember(x => x.AdditionalDocuments, d => d.MapFrom(src => src.AdditionalDocuments))
                 .ForMember(x => x.DictionariesData, d => d.Ignore());
+
+            cfg.CreateMap<TierDTO, TierViewModel>();
+            cfg.CreateMap<RateCardDTO, RateCardViewModel>();
             
         }
     }
