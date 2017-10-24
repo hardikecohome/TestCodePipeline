@@ -177,7 +177,10 @@ function showTable () {
                                             urlContent +
                                             'Content/images/sprite/sprite.svg#icon-trash"></use></svg></a></div>';
                                     } else {
-                                        return '<div class="controls-hold"><a class="icon-link icon-edit"  href=' + editContractUrl + '/' + row.Id + ' title="' + translations['Edit'] + '"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a></div>';
+                                        return '<div class="controls-hold"><a class="icon-link icon-edit"  href=' + editContractUrl + '/' + row.Id + ' title="' + translations['Edit'] + '"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a>' +
+                                            '<a class="icon-link export-item" onclick="exportItem.call(this);">' +
+                                            '<svg aria-hidden="true" class="icon icon-excel">' +
+                                            '<use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-excel"></use></svg></div>';
                                     }
                                 } else {
                                     return '';
@@ -220,7 +223,7 @@ function showTable () {
 
             table.on('draw.dt', function () {
                 redrawDataTablesSvgIcons();
-                resetDataTablesExpandedRows(this);
+                resetDataTablesExpandedRows(table);
             });
 
 
