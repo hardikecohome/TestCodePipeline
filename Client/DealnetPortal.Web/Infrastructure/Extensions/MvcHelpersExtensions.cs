@@ -4,12 +4,13 @@ using System.Linq;
 using System.Web.Mvc;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Web.Models;
 
 namespace DealnetPortal.Web.Infrastructure.Extensions
 {
     public static class MvcHelpersExtensions
     {
-        public static Dictionary<RateCardType, SelectList> ConvertToAmortizationSelectList(this List<RateCardDTO> list)
+        public static Dictionary<RateCardType, SelectList> ConvertToAmortizationSelectList(this List<RateCardViewModel> list)
         {
             var result = list
                 .GroupBy(type => type.CardType, val => new { Amortization = Convert.ToInt32(val.AmortizationTerm), Loan = Convert.ToInt32(val.LoanTerm) })
@@ -23,7 +24,7 @@ namespace DealnetPortal.Web.Infrastructure.Extensions
             return result;
         }
 
-        public static Dictionary<RateCardType, SelectList> ConvertToDeferralSelectList(this List<RateCardDTO> list)
+        public static Dictionary<RateCardType, SelectList> ConvertToDeferralSelectList(this List<RateCardViewModel> list)
         {
             var result = list
                 .GroupBy(type => type.CardType, val => Convert.ToInt32(val.DeferralPeriod))

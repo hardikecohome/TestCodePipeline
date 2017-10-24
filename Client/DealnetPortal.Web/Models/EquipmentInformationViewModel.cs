@@ -135,7 +135,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public int? SelectedRateCardId { get; set; }
 
-        public TierDTO DealerTier { get; set; }
+        public TierViewModel DealerTier { get; set; }
 
         public bool? RateCardValid { get; set; }
     }
