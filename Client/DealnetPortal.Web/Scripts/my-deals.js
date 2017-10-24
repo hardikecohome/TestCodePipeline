@@ -198,8 +198,7 @@ function showTable () {
                     ],
                     dom:
                     "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
-                    "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
-                    "<'length-filter '<'row '<'col-md-7 col-sm-6 col-xs-12 'l>>>" +
+                    "<'row'<'col-md-12''<'#expand-table-filter'>'l>>" +
                     "<'row'<'col-md-12'tr>>" +
                     "<'table-footer'>" +
                     "<'row'<'col-md-12'p>>" +
@@ -383,6 +382,7 @@ function createFilter () {
         $('#expand-table-filter').slideToggle();
     });
     $('#expand-table-filter').html($('.expand-filter-template').detach());
+    $('.table-length-filter').html($('#work-items-table_length').detach());
 }
 
 function createTableFooter (row, data, start, end, display) {

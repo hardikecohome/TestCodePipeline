@@ -20,11 +20,19 @@
         <div role="tabpanel" class="tab-pane active" id="deal-info-tab">
             <div class="reset-form-inline">
                 <div class="row">
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-2">
                         <div class="form-group">
                             <label for="deal-type">@Resources.DealType</label>
                             <div class="control-group">
                                 <select id="agreement-type" class="form-control select-filter filter-input"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group">
+                            <label for="">@Resources.DealStatus</label>
+                            <div class="control-group">
+                                <select id="deal-status" class="form-control select-filter filter-input"></select>
                             </div>
                         </div>
                     </div>
@@ -44,15 +52,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group">
-                            <label for="">@Resources.DealStatus</label>
-                            <div class="control-group">
-                                <select id="deal-status" class="form-control select-filter filter-input"></select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-4">
+                    <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label for="">@Resources.ApplicationCreatedBy</label>
                             <div class="control-group">
@@ -64,7 +64,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-offset-4 col-md-4 col-sm-6 text-right">
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+                            <label for="">@Resources.SalesRep</label>
+                            <div class="control-group">
+                                <select class="form-control filter-input select-filter" id="sales-rep"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3 col-md-offset-3">
+                        <div class="form-group table-length-filter"></div>
+                    </div>
+                    <div class="col-md-2 col-sm-6 text-right">
                         <div class="form-group">
                             <button class="btn dealnet-button dealnet-success-button block-button filter-button">@Resources.Filter</button>
                         </div>
@@ -75,7 +86,7 @@
         <div role="tabpanel" class="tab-pane" id="detailed-info-tab">
             <div class="reset-form-inline">
                 <div class="row">
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label for="">@Resources.Equipment</label>
                             <div class="control-group">
@@ -83,7 +94,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label for="">@Resources.TypeOfPayment</label>
                             <div class="control-group">
@@ -92,15 +103,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group">
-                            <label for="">@Resources.SalesRep</label>
-                            <div class="control-group">
-                                <select class="form-control filter-input select-filter" id="sales-rep"></select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label for="">@Resources.DealValueFrom</label>
                             <div class="control-group">
@@ -108,7 +111,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label for="">@Resources.DealValueTo</label>
                             <div class="control-group">
@@ -116,7 +119,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-4 text-right">
+                    <div class="col-sm-6 col-md-3 col-md-offset-7">
+                        <div class="form-group table-length-filter"></div>
+                    </div>
+                    <div class="col-sm-6 col-md-2">
                         <button class="btn dealnet-button dealnet-success-button block-button filter-button">@Resources.Filter</button>
                     </div>
                 </div>
