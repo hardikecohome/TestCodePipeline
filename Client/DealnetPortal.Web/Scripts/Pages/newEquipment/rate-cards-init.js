@@ -132,14 +132,27 @@
 
         $.each(items, function () {
             var key = this.LoanValueFrom + '-' + this.LoanValueTo;
-            if (!state[option.name + '-dropdowns'].hasOwnProperty(key)) {
-                state[option.name + '-dropdowns'][key] = [];
-            }
+            if (option.name === 'Deferral') {
+                var deferralKey = ~~this.DeferralPeriod;
+                if (!state[option.name + '-' + deferralKey + '-dropdowns'].hasOwnProperty(key)) {
+                    state[option.name + '-' + deferralKey + '-dropdowns'][key] = [];
+                }
 
-            var dropdownValue = ~~this.LoanTerm + ' / ' + ~~this.AmortizationTerm;
+                var dropdownValue = ~~this.LoanTerm + ' / ' + ~~this.AmortizationTerm;
 
-            if (state[option.name + '-dropdowns'][key].indexOf(dropdownValue) === -1) {
-                state[option.name + '-dropdowns'][key].push(dropdownValue);
+                if (state[option.name + '-' + deferralKey + '-dropdowns'][key].indexOf(dropdownValue) === -1) {
+                    state[option.name + '-' + deferralKey + '-dropdowns'][key].push(dropdownValue);
+                }
+            } else {
+                if (!state[option.name + '-dropdowns'].hasOwnProperty(key)) {
+                    state[option.name + '-dropdowns'][key] = [];
+                }
+
+                var dropdownValue = ~~this.LoanTerm + ' / ' + ~~this.AmortizationTerm;
+
+                if (state[option.name + '-dropdowns'][key].indexOf(dropdownValue) === -1) {
+                    state[option.name + '-dropdowns'][key].push(dropdownValue);
+                }
             }
         });
     }
