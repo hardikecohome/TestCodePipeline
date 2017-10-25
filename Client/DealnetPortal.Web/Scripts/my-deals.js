@@ -233,8 +233,8 @@ function showTable () {
             resizeTableStatusCells('#work-items-table');
 
             table.on('search.dt', function () {
-                recalculateGrandTotal(this);
-                recalculateTotalForSelected(this);
+                recalculateGrandTotal(table);
+                recalculateTotalForSelected(table);
             });
 
             table.on('page.dt', function (ev, settings) {
