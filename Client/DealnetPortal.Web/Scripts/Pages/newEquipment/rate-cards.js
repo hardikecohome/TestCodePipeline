@@ -276,6 +276,10 @@
             totalCash = totalAmountFinanced.toFixed(2);
         }
 
+        if (totalCash >= constants.maxRateCardLoanValue) {
+            totalCash = constants.maxRateCardLoanValue;
+        }
+
         var dropdown = $('#' + option + 'AmortizationDropdown')[0];
         if (!dropdown || !dropdown.options) return;
 

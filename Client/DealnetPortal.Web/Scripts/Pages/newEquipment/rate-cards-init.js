@@ -128,12 +128,17 @@
     }
 
     function _createDropdowns(items, option) {
-        state[option.name + '-dropdowns'] = {};
+        if (option.name !== 'Deferral') {
+            state[option.name + '-dropdowns'] = {};
+        }
 
         $.each(items, function () {
             var key = this.LoanValueFrom + '-' + this.LoanValueTo;
             if (option.name === 'Deferral') {
                 var deferralKey = ~~this.DeferralPeriod;
+                if (state[option.name + '-' + deferralKey + '-dropdowns'] === undefined)
+                    state[option.name + '-' + deferralKey + '-dropdowns'] = {};
+
                 if (!state[option.name + '-' + deferralKey + '-dropdowns'].hasOwnProperty(key)) {
                     state[option.name + '-' + deferralKey + '-dropdowns'][key] = [];
                 }
