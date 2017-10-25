@@ -1400,18 +1400,21 @@ namespace DealnetPortal.DataAccess.Migrations
 
         public void SetTiers(ApplicationDbContext context)
         {
-            context.Tiers.AddOrUpdate(new Tier
+            if (!context.Tiers.Any())
             {
-                Id = 1,
-                Name = "Rate Card Tier 1"
-            });
+                context.Tiers.AddOrUpdate(new Tier
+                {
+                    Id = 1,
+                    Name = "Rate Card Tier 1"
+                });
 
-            context.Tiers.AddOrUpdate(new Tier
-            {
-                Id = 2,
-                Name = "Rate Card Tier 2",
+                context.Tiers.AddOrUpdate(new Tier
+                {
+                    Id = 2,
+                    Name = "Rate Card Tier 2",
 
-            });
+                });
+            }
         }
 
         private void SetRoles(ApplicationDbContext context)
