@@ -276,18 +276,25 @@
             totalCash = totalAmountFinanced.toFixed(2);
         }
 
+        if (totalCash >= constants.maxRateCardLoanValue) {
+            totalCash = constants.maxRateCardLoanValue;
+        }
+
         var dropdown = $('#' + option + 'AmortizationDropdown')[0];
         if (!dropdown || !dropdown.options) return;
 
 
         var dropdowns;
-        Object.keys(state[option + '-dropdowns']).some(function(item) {
+        var deferralValue = $('#DeferralPeriodDropdown').val();
+        var key = option === 'Deferral' ? option + '-' + deferralValue + '-dropdowns' : option + '-dropdowns';
+
+        Object.keys(state[key]).some(function(item) {
             var values = item.split('-');
             var loanFrom = ~~values[0];
             var loanTo = ~~values[1];
 
             if (loanTo >= totalCash && loanFrom <= totalCash) {
-                dropdowns = state[option + '-dropdowns'][item];
+                dropdowns = state[key][item];
                 return true;
             }
         });
