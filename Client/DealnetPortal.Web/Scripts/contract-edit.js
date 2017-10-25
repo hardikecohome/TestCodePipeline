@@ -295,7 +295,7 @@ function submitAllDocumentsUploaded () {
                 $('#all-documents-submitted-message').show();
                 $('.disablable').addClass('disabled');
                 $('button.disabled, input.disabled').attr('disabled', 'disabled');
-                $('.dealnet-section-edit-link').hide();
+                //$('.dealnet-section-edit-link').hide();
                 isSentToAudit = true;
             } else if (result.isError) {
                 alert(translations['AnErrorWhileSendingReport']);
