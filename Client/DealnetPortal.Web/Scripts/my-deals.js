@@ -120,7 +120,9 @@ function showTable () {
                     columns: [
                         {
                             "render": function (sdata, type, row) {
-                                if (row.Id != 0 && !row.IsInternal) {
+                                if (row.IsInternal)
+                                    return '';
+                                if (row.Id != 0) {
                                     return '<label class="custom-checkbox"><input type="checkbox"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
                                 } else {
                                     return '<label class="custom-checkbox"><input type="checkbox" disabled="disabled"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
@@ -178,11 +180,14 @@ function showTable () {
                                             urlContent +
                                             'Content/images/sprite/sprite.svg#icon-trash"></use></svg></a></div>';
                                     } else {
-                                        return '<div class="controls-hold"><a class="icon-link icon-edit" href=' + editContractUrl + '/' + row.Id + ' title="' + translations['Edit'] + '"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a>' +
-											'<i onclick= "sendEmailModel(' + row.TransactionId + ');" class="icon-link icon-edit" > ' +
+                                        return '<div class="controls-hold"><a class="icon-link icon-edit"  href=' + editContractUrl + '/' + row.Id + ' title="' + translations['Edit'] + '"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a>' +
+                                            '<a class="icon-link export-item" onclick="exportItem.call(this);">' +
+                                            '<svg aria-hidden="true" class="icon icon-excel">' +
+                                            '<use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-excel"></use></svg></a>'+
+                                            '<i onclick= "sendEmailModel(' + row.TransactionId + ');" class="icon-link icon-edit" > ' +
 											'<svg aria-hidden="true" class="icon icon-edit" > <use xlink:href="' + urlContent + '/Content/images/sprite/sprite.svg#icon-email"></use></svg >' +
 											'</i></div>';
-									}
+                                    }
                                 } else {
                                     return '';
                                 }
@@ -202,8 +207,7 @@ function showTable () {
                     ],
                     dom:
                     "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
-                    "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
-                    "<'length-filter '<'row '<'#export-all-to-excel.col-md-3 col-sm-4 col-xs-12 col-md-push-9 col-sm-push-8'><'col-md-7 col-sm-6 col-xs-12  col-md-pull-3 col-sm-pull-4'l>>>" +
+                    "<'row'<'col-md-12''<'#expand-table-filter'>'l>>" +
                     "<'row'<'col-md-12'tr>>" +
                     "<'table-footer'>" +
                     "<'row'<'col-md-12'p>>" +
@@ -228,14 +232,23 @@ function showTable () {
                 resetDataTablesExpandedRows(table);
             });
 
-            getTotalForSelectedCheckboxes();
+
+            $('#work-items-table tbody').on('click', ':checkbox', getTotalForSelectedCheckboxes(table));
             createFilter();
-            recalculateGrandTotal();
+            recalculateGrandTotal(table);
             resizeTableStatusCells('#work-items-table');
 
             table.on('search.dt', function () {
-                recalculateGrandTotal();
-                recalculateTotalForSelected();
+                recalculateGrandTotal(table);
+                recalculateTotalForSelected(table);
+            });
+
+            table.on('page.dt', function (ev, settings) {
+                var rows = table.rows('tr.selected', { page: 'current' }).nodes();
+                if (rows.length > 0)
+                    $('#check-all').prop('checked', true);
+                else
+                    $('#check-all').prop('checked', false);
             });
 
             $('.filter-button').click(function () {
@@ -268,6 +281,21 @@ function showTable () {
                 } else {
                     submitSinglePreviewRequest(ids[0]);
                 }
+            });
+
+            $('#check-all').on('click', function () {
+                var checked = this.checked;
+                var rows = table.rows('tr', { page: 'current' }).nodes();
+                $(rows).find('input[type="checkbox"]')
+                    .attr('checked', checked)
+                    .each(function (index, item) {
+                        if (checked) {
+                            $(item).parents('tr').addClass('selected');
+                        } else {
+                            $(this).parents('tr').removeClass('selected');
+                        }
+                    });
+                recalculateSelectedTotals(table);
             });
         }
     });
@@ -351,7 +379,7 @@ function createFilter () {
     var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
     var iconSearch = '<span class="icon-search-control"><svg aria-hidden="true" class="icon icon-search"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-search"></use></svg></span>';
 
-    $('#table-title').html('<div class="dealnet-large-header">' + translations['MyWorkItems'] + ' <div class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</div></div>');
+    $('#table-title').html('<div class="dealnet-large-header">' + translations['MyWorkItems'] + ' <span id="export-all-to-excel" ></span> <span class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</span></div>');
     $('#export-all-to-excel').html('<button class="btn dealnet-button dealnet-link-button" id="export-all-excel">' + translations['ExportAllToExcel'] + '</button>');
 
     $('#table-title .icon-search-control').on('click', function () {
@@ -363,6 +391,7 @@ function createFilter () {
         $('#expand-table-filter').slideToggle();
     });
     $('#expand-table-filter').html($('.expand-filter-template').detach());
+    $('.table-length-filter').html($('#work-items-table_length').detach());
 }
 
 function createTableFooter (row, data, start, end, display) {
@@ -376,7 +405,7 @@ function getIntValue (value) {
             value : 0;
 }
 
-function recalculateGrandTotal () {
+function recalculateGrandTotal (table) {
     var sum = table.column(10, { search: 'applied' }).data().reduce(function (acc, value) {
         return acc + getIntValue(value);
     }, 0);
@@ -385,7 +414,7 @@ function recalculateGrandTotal () {
     return sum;
 }
 
-function recalculateTotalForSelected () {
+function recalculateTotalForSelected (table) {
     var data = table.rows('tr.selected', { search: 'applied' }).data();
     var sum = data.reduce(function (acc, value) {
         return acc + getIntValue(value.Value);
@@ -398,27 +427,49 @@ function recalculateTotalForSelected () {
     }
 }
 
-function getTotalForSelectedCheckboxes () {
-    var selectedSum;
-
-    $('#work-items-table tbody').on('click', ':checkbox', function () {
-        var tr = $(this).parents('tr');
+function getTotalForSelectedCheckboxes (table) {
+    return function (ev) {
+        var tr = $(ev.target).parents('tr');
         tr.toggleClass('selected');
-        selectedSum = $('#selectedTotal').html() !== '' ? parseFloat($('#selectedTotal').html().replace(/[$,]/g, "")) : 0;
-        var val = parseFloat(tr.find(':nth-child(11)').html().replace(/[$,]/g, ""));
-        if (isNaN(val)) { val = 0; }
-        var isRowSelected = tr.is(".selected");
-        var isSelected = table.rows('tr.selected', { search: 'applied' }).data().length > 0;
-        selectedSum = isRowSelected ? selectedSum + val : selectedSum - val;
-
-        $('#selectedTotal').html('$ ' + selectedSum.toFixed(2));
-        if (isSelected) {
-            $('.reports-table-footer').addClass('has-selected-items');
-        } else {
-            $('.reports-table-footer').removeClass('has-selected-items');
-        }
-    });
+        recalculateSelectedTotals(table);
+    }
 }
+
+function recalculateSelectedTotals (table) {
+    var sel = table.rows('tr.selected', { search: 'applied' }).data();
+    var sum = sel.reduce(function (sum, item) {
+        return sum + getIntValue(item.Value);
+    }, 0.0);
+    $('#selectedTotal').html('$ ' + sum.toFixed(2));
+    if (sel.length > 0) {
+        $('.reports-table-footer').addClass('has-selected-items');
+    } else {
+        $('.reports-table-footer').removeClass('has-selected-items');
+    }
+}
+
+// function getTotalForSelectedCheckboxes () {
+//     var selectedSum;
+
+//     $('#work-items-table tbody').on('click', ':checkbox', function () {
+//         debugger
+//         var tr = $(this).parents('tr');
+//         tr.toggleClass('selected');
+//         selectedSum = $('#selectedTotal').html() !== '' ? parseFloat($('#selectedTotal').html().replace(/[$,]/g, "")) : 0;
+//         var val = parseFloat(tr.find(':nth-child(11)').html().replace(/[$,]/g, ""));
+//         if (isNaN(val)) { val = 0; }
+//         var isRowSelected = tr.is(".selected");
+//         var isSelected = table.rows('tr.selected', { search: 'applied' }).data().length > 0;
+//         selectedSum = isRowSelected ? selectedSum + val : selectedSum - val;
+
+//         $('#selectedTotal').html('$ ' + selectedSum.toFixed(2));
+//         if (isSelected) {
+//             $('.reports-table-footer').addClass('has-selected-items');
+//         } else {
+//             $('.reports-table-footer').removeClass('has-selected-items');
+//         }
+//     });
+// }
 
 function removeContract () {
     var tr = $(this).parents('tr');

@@ -4,8 +4,6 @@
 </div>
 
 <div class="expand-filter-template">
-    <h2 class="dealnet-middle-header">@Resources.Filter</h2>
-
     <div class="expand-filter-navigation">
         <a class="clear-data-link" id="clear-filters">
             <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span class="hidden-xs">@Resources.ClearFilters</span>
@@ -22,11 +20,19 @@
         <div role="tabpanel" class="tab-pane active" id="deal-info-tab">
             <div class="reset-form-inline">
                 <div class="row">
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-2">
                         <div class="form-group">
                             <label for="deal-type">@Resources.DealType</label>
                             <div class="control-group">
                                 <select id="agreement-type" class="form-control select-filter filter-input"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group">
+                            <label for="">@Resources.DealStatus</label>
+                            <div class="control-group">
+                                <select id="deal-status" class="form-control select-filter filter-input"></select>
                             </div>
                         </div>
                     </div>
@@ -46,15 +52,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group">
-                            <label for="">@Resources.DealStatus</label>
-                            <div class="control-group">
-                                <select id="deal-status" class="form-control select-filter filter-input"></select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-4">
+                    <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label for="">@Resources.ApplicationCreatedBy</label>
                             <div class="control-group">
@@ -66,7 +64,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-offset-4 col-md-4 col-sm-6 text-right">
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+                            <label for="">@Resources.SalesRep</label>
+                            <div class="control-group">
+                                <select class="form-control filter-input select-filter" id="sales-rep"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3 col-md-offset-3">
+                        <div class="form-group table-length-filter"></div>
+                    </div>
+                    <div class="col-md-2 col-sm-6 text-right">
                         <div class="form-group">
                             <button class="btn dealnet-button dealnet-success-button block-button filter-button">@Resources.Filter</button>
                         </div>
@@ -77,7 +86,7 @@
         <div role="tabpanel" class="tab-pane" id="detailed-info-tab">
             <div class="reset-form-inline">
                 <div class="row">
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label for="">@Resources.Equipment</label>
                             <div class="control-group">
@@ -85,7 +94,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label for="">@Resources.TypeOfPayment</label>
                             <div class="control-group">
@@ -94,15 +103,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group">
-                            <label for="">@Resources.SalesRep</label>
-                            <div class="control-group">
-                                <select class="form-control filter-input select-filter" id="sales-rep"></select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label for="">@Resources.DealValueFrom</label>
                             <div class="control-group">
@@ -110,7 +111,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label for="">@Resources.DealValueTo</label>
                             <div class="control-group">
@@ -118,7 +119,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-4 text-right">
+                    <div class="col-sm-6 col-md-3 col-md-offset-7">
+                        <div class="form-group table-length-filter"></div>
+                    </div>
+                    <div class="col-sm-6 col-md-2">
                         <button class="btn dealnet-button dealnet-success-button block-button filter-button">@Resources.Filter</button>
                     </div>
                 </div>
@@ -130,7 +134,16 @@
 <table id="work-items-table" class="display responsive table-reports" width="100%">
     <thead>
         <tr>
-            <th class="all checkbox-cell"></th>
+            <th class="all checkbox-cell">
+                <label class="custom-checkbox">
+                    <input type="checkbox" id="check-all">
+                    <span class="checkbox-icon">
+                        <svg aria-hidden="true" class="icon icon-checked">
+                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
+                        </svg>
+                    </span>
+                </label>
+            </th>
             <th class="all contract-cell">@Resources.Contract&nbsp;#</th>
             <th class="all customer-cell">@Resources.Customer</th>
             <th class="min-mobile-l status-cell">@Resources.Status</th>
