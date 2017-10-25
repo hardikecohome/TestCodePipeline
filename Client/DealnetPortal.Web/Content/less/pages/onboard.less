@@ -687,6 +687,17 @@
 }
 
 .onboard-success-page {
+    max-width: 800px;
+    margin: auto;
+    height: calc(~"100vh - 150px");
+    &:before {
+        content:'';
+        display: inline-block;
+        height: 15%;
+    }
+    @media @tablet-down {
+        width:100%;
+    }
     .onboard-navbar{
         text-align:left;
     }
@@ -697,9 +708,26 @@
         margin-bottom: 20px;
         line-height: 1.39;
     }
+    .align-middle-inner {
+        margin: auto;
+        vertical-align: middle;
+    }
+    .link-well {
+        text-align: start;
+        padding-left: 20px;
+        padding-right:20px; 
+        .btn-small {
+            width:100%;
+        }
+    }
     #send-draft-email {
         .dealnet-success-button {
-            width:200px;
+            @media @desktop-up {
+                width:200px;
+            }
+            @media @tablet-down {
+                width:100%;
+            }
         }
     }
 }
@@ -901,7 +929,7 @@
                 @media @mobile {
                     display: block;
                     margin: auto;
-                    width: 35%;
+                    width: 25%;
                 }
             }
         }
@@ -916,7 +944,11 @@
     font-weight: normal;
     word-wrap: break-word;
     width: 440px;
-    margin: 0 auto;
+    margin: 10px auto;
+    text-align: center;
+    @media @tablet-down {
+        width:100%;
+    }
 }
 
 .onboard-title-normal {
