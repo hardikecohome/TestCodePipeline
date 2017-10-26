@@ -285,9 +285,9 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 var tier = _rateCardsRepository.GetTierByName(aspireUser.Ratecard);
                 var updateUser = await userManager.FindByIdAsync(userId);
-                if (updateUser != null)
+                if (updateUser != null && tier != null)
                 {
-                    updateUser.Tier = tier;
+                    updateUser.TierId = tier.Id;
                     var updateRes = await userManager.UpdateAsync(updateUser);
                     if (updateRes.Succeeded)
                     {
@@ -295,6 +295,10 @@ namespace DealnetPortal.Api.Integration.Services
                             _loggingService.LogInfo($"Tier [{aspireUser.Ratecard}] was set to an user [{updateUser.Id}]");
                         }
                     }
+                }
+                else
+                {
+                    _loggingService.LogInfo($"Tier [{aspireUser.Ratecard}] tier is not available. Rate card is not configured for user  [{updateUser?.Id}]");
                 }
             }
             catch(Exception ex)

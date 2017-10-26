@@ -1405,13 +1405,13 @@ namespace DealnetPortal.DataAccess.Migrations
                 context.Tiers.AddOrUpdate(new Tier
                 {
                     Id = 1,
-                    Name = "Rate Card Tier 1"
+                    Name = "Tier 1"
                 });
 
                 context.Tiers.AddOrUpdate(new Tier
                 {
                     Id = 2,
-                    Name = "Rate Card Tier 2",
+                    Name = "Tier 2",
 
                 });
             }

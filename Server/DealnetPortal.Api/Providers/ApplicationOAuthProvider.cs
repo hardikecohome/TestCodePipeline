@@ -260,6 +260,8 @@ namespace DealnetPortal.Api.Providers
                         }
                         catch (Exception ex)
                         {
+                            _loggingService?.LogError(
+                                    $"Error during create new user [{context.UserName}]:{ex.Message} ");
                             user = null;
                         }
                     }

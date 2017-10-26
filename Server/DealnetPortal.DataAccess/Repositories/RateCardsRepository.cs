@@ -31,7 +31,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public Tier GetTierByName(string tierName)
         {
-            return _dbContext.Tiers.FirstOrDefault(t => t.Name == tierName);
+            return _dbContext.Tiers.SingleOrDefault(t => t.Name == tierName);
         }
     }
 }
