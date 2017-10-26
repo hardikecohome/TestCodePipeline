@@ -287,15 +287,7 @@ function showTable () {
                 var checked = this.checked;
                 var rows = table.rows('tr', { page: 'current' }).nodes();
                 $(rows).find('input[type="checkbox"]')
-                    .attr('checked', checked)
-                    .each(function (index, item) {
-                        if (checked) {
-                            $(item).parents('tr').addClass('selected');
-                        } else {
-                            $(this).parents('tr').removeClass('selected');
-                        }
-                    });
-                recalculateSelectedTotals(table);
+                    .attr('checked', !checked).click();
             });
         }
     });
@@ -430,7 +422,11 @@ function recalculateTotalForSelected (table) {
 function getTotalForSelectedCheckboxes (table) {
     return function (ev) {
         var tr = $(ev.target).parents('tr');
-        tr.toggleClass('selected');
+        if (ev.target.checked) {
+            tr.addClass('selected');
+        } else {
+            tr.removeClass('selected');
+        }
         recalculateSelectedTotals(table);
     }
 }
@@ -447,29 +443,6 @@ function recalculateSelectedTotals (table) {
         $('.reports-table-footer').removeClass('has-selected-items');
     }
 }
-
-// function getTotalForSelectedCheckboxes () {
-//     var selectedSum;
-
-//     $('#work-items-table tbody').on('click', ':checkbox', function () {
-//         debugger
-//         var tr = $(this).parents('tr');
-//         tr.toggleClass('selected');
-//         selectedSum = $('#selectedTotal').html() !== '' ? parseFloat($('#selectedTotal').html().replace(/[$,]/g, "")) : 0;
-//         var val = parseFloat(tr.find(':nth-child(11)').html().replace(/[$,]/g, ""));
-//         if (isNaN(val)) { val = 0; }
-//         var isRowSelected = tr.is(".selected");
-//         var isSelected = table.rows('tr.selected', { search: 'applied' }).data().length > 0;
-//         selectedSum = isRowSelected ? selectedSum + val : selectedSum - val;
-
-//         $('#selectedTotal').html('$ ' + selectedSum.toFixed(2));
-//         if (isSelected) {
-//             $('.reports-table-footer').addClass('has-selected-items');
-//         } else {
-//             $('.reports-table-footer').removeClass('has-selected-items');
-//         }
-//     });
-// }
 
 function removeContract () {
     var tr = $(this).parents('tr');
