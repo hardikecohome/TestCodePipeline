@@ -31,7 +31,8 @@ namespace DealnetPortal.Web.Controllers
         {
             return View();
         }
-        [HttpPost]
+
+        [System.Web.Mvc.HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<string> DealerSupportRequestEmail(SupportRequestDTO dealerSupportRequest)
         {

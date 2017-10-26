@@ -3,7 +3,7 @@
 configInitialized
     .then(function () {
         $(window).keydown(function (event) {
-            if (event.keyCode == 13) {
+            if (event.keyCode === 13) {
                 event.preventDefault();
                 return false;
             }
@@ -94,7 +94,7 @@ configInitialized
 
         addAdditionalButton = $("#add-additional-applicant");
         aditional1Section = $("#additional1-section");
-        if (aditional1Section.attr('data-initialized') == "true") {
+        if (aditional1Section.attr('data-initialized') === "true") {
             showAditional1Section();
         } else {
             hideAditional1Section();

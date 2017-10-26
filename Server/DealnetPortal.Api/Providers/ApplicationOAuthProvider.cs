@@ -245,7 +245,6 @@ namespace DealnetPortal.Api.Providers
                             EmailConfirmed = true,
                             TwoFactorEnabled = false,
                             AspireLogin = context.UserName,
-                            Secure_AspirePassword = context.Password
                         };                        
 
                         try
