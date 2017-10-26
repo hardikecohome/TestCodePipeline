@@ -287,7 +287,7 @@ function showTable () {
                 var checked = this.checked;
                 var rows = table.rows('tr', { page: 'current' }).nodes();
                 $(rows).find('input[type="checkbox"]')
-                    .attr('checked', !checked).click();
+                    .prop('checked', !checked).click();
             });
         }
     });
