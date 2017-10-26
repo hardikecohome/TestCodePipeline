@@ -27,25 +27,19 @@ namespace DealnetPortal.Api.Integration.Services
     public class UsersService : IUsersService
     {
         private readonly IAspireStorageReader _aspireStorageReader;
-        private readonly IDatabaseFactory _databaseFactory;
         private readonly ILoggingService _loggingService;
         private readonly ISettingsRepository _settingsRepository;
         private readonly IRateCardsRepository _rateCardsRepository;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IAppConfiguration _сonfiguration;
-        private readonly UserManager<ApplicationUser> _userManager;
-
-        public UsersService(IAspireStorageReader aspireStorageReader, IDatabaseFactory databaseFactory, ILoggingService loggingService, IRateCardsRepository rateCardsRepository,
-            ISettingsRepository settingsRepository, IUnitOfWork unitOfWork, IAppConfiguration appConfiguration)
+        
+        public UsersService(IAspireStorageReader aspireStorageReader, ILoggingService loggingService, IRateCardsRepository rateCardsRepository,
+            ISettingsRepository settingsRepository, IAppConfiguration appConfiguration)
         {
             _aspireStorageReader = aspireStorageReader;
-            _databaseFactory = databaseFactory;
             _loggingService = loggingService;
             _settingsRepository = settingsRepository;
             _rateCardsRepository = rateCardsRepository;
-            _unitOfWork = unitOfWork;
             _сonfiguration = appConfiguration;
-            _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_databaseFactory.Get()));
         }        
 
         public IList<Claim> GetUserClaims(string userId)
@@ -75,8 +69,13 @@ namespace DealnetPortal.Api.Integration.Services
             return claims;
         }
 
-        public async Task<IList<Alert>> SyncAspireUser(ApplicationUser user)
+        public async Task<IList<Alert>> SyncAspireUser(ApplicationUser user, UserManager<ApplicationUser> userManager)
         {
+            if (userManager == null)
+            {
+                throw new ArgumentNullException(nameof(userManager));
+            }
+
             var alerts = new List<Alert>();
 
             //get user info from aspire DB
@@ -88,19 +87,19 @@ namespace DealnetPortal.Api.Integration.Services
 
                 if (aspireDealerInfo != null)
                 {
-                    var parentAlerts = await UpdateUserParent(user.Id, aspireDealerInfo, _userManager);
+                    var parentAlerts = await UpdateUserParent(user.Id, aspireDealerInfo, userManager);
                     if (parentAlerts.Any())
                     {
                         alerts.AddRange(parentAlerts);
                     }
-                    var rolesAlerts = await UpdateUserRoles(user.Id, aspireDealerInfo, _userManager);
+                    var rolesAlerts = await UpdateUserRoles(user.Id, aspireDealerInfo, userManager);
                     if (rolesAlerts.Any())
                     {
                         alerts.AddRange(rolesAlerts);
                     }
                     if (user.Tier?.Name != aspireDealerInfo.Ratecard)
                     {
-                        var tierAlerts = UpdateUserTier(user.Id, aspireDealerInfo, _userManager);
+                        var tierAlerts = await UpdateUserTier(user.Id, aspireDealerInfo, userManager);
                         if (tierAlerts.Any())
                         {
                             alerts.AddRange(tierAlerts);
@@ -131,6 +130,46 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return alerts;
+        }
+
+        public string GetUserPassword(string userId)
+        {
+            string aspirePassword = null;
+            using (var secContext = new SecureDbContext())
+            {
+                try
+                {
+                    var user = secContext.Users.Find(userId);
+                    aspirePassword = user?.Secure_AspirePassword;
+                }
+                catch (Exception e)
+                {
+                    _loggingService?.LogError($"Cannot recieve password for user {userId}", e);
+                }
+            }
+            return aspirePassword;
+        }
+
+        public void UpdateUserPassword(string userId, string newPassword)
+        {
+            using (var secContext = new SecureDbContext())
+            {
+                try
+                {
+                    var user = secContext.Users.Find(userId);
+                    if (user.Secure_AspirePassword != newPassword)
+                    {
+                        user.Secure_AspirePassword = newPassword;
+                        secContext.SaveChanges();
+                        _loggingService?.LogInfo(
+                            $"Password for Aspire user [{userId}] was updated successefully");
+                    }
+                }
+                catch (Exception e)
+                {
+                    _loggingService?.LogError($"Cannot update password for user {userId}", e);
+                }
+            }
         }
 
         #region private

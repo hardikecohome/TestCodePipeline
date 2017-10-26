@@ -40,6 +40,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IContractRepository _contractRepository;
         private readonly IDealerOnboardingRepository _dealerOnboardingRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IUsersService _usersService;
         private readonly IAppConfiguration _configuration;
         private readonly TimeSpan _aspireRequestTimeout;
 
@@ -50,7 +51,8 @@ namespace DealnetPortal.Api.Integration.Services
 
         public AspireService(IAspireServiceAgent aspireServiceAgent, IContractRepository contractRepository, 
             IDealerOnboardingRepository dealerOnboardingRepository,
-            IUnitOfWork unitOfWork, IAspireStorageReader aspireStorageReader, ILoggingService loggingService, IAppConfiguration configuration)
+            IUnitOfWork unitOfWork, IAspireStorageReader aspireStorageReader, IUsersService usersService,
+            ILoggingService loggingService, IAppConfiguration configuration)
         {
             _aspireServiceAgent = aspireServiceAgent;
             _aspireStorageReader = aspireStorageReader;
@@ -58,6 +60,7 @@ namespace DealnetPortal.Api.Integration.Services
             _dealerOnboardingRepository = dealerOnboardingRepository;
             _loggingService = loggingService;
             _unitOfWork = unitOfWork;
+            _usersService = usersService;
             _configuration = configuration;
             _aspireRequestTimeout = TimeSpan.FromSeconds(90);
         }
@@ -1138,13 +1141,28 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 var dealer = _contractRepository.GetDealer(contractOwnerId);
-                if (dealer != null && !string.IsNullOrEmpty(dealer.AspireLogin) &&
-                    !string.IsNullOrEmpty(dealer.Secure_AspirePassword))
+                string aspirePassword = null;
+                if (!string.IsNullOrEmpty(dealer.AspireLogin))
+                {
+                    aspirePassword = _usersService.GetUserPassword(contractOwnerId);
+                    if (string.IsNullOrEmpty(aspirePassword))
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Type = AlertType.Warning,
+                            Header = "Cannot get user password",
+                            Message = $"Cannot get password for user {contractOwnerId}"
+                        });
+                        _loggingService.LogWarning($"Cannot get password for user {contractOwnerId}");
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(aspirePassword))
                 {
                     header = new RequestHeader()
                     {
                         UserId = dealer.AspireLogin,
-                        Password = dealer.Secure_AspirePassword
+                        Password = aspirePassword
                     };
                 }
                 else
