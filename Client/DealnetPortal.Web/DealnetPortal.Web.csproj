@@ -19,12 +19,9 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44322</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -243,7 +240,6 @@
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\ShareableLinkController.cs" />
     <Compile Include="Controllers\StubController.cs" />
-    <Compile Include="Controllers\SupportRequestController.cs" />
     <Compile Include="Controllers\UpdateController.cs" />
     <Compile Include="Controllers\UpdateDataController.cs" />
     <Compile Include="Global.asax.cs">
