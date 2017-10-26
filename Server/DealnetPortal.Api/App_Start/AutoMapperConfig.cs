@@ -74,7 +74,7 @@ namespace DealnetPortal.Api.App_Start
                         .Replace("$", string.Empty)
                         .Replace("/", string.Empty)
                         .Replace("(", string.Empty)
-                        .Replace(")", string.Empty))
+                        .Replace(")", string.Empty)) ?? src.Status
                     : null));
             mapperConfig.CreateMap<Contract, ContractDTO>()
                 .ForMember(x => x.PrimaryCustomer, o => o.MapFrom(src => src.PrimaryCustomer))

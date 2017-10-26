@@ -244,7 +244,6 @@ namespace DealnetPortal.Api.Providers
                             EmailConfirmed = true,
                             TwoFactorEnabled = false,
                             AspireLogin = context.UserName,
-                            Secure_AspirePassword = context.Password
                         };                        
 
                         try
@@ -272,22 +271,7 @@ namespace DealnetPortal.Api.Providers
                         }
 
                         //check and update password
-                        if (user.Secure_AspirePassword != context.Password)
-                        {
-                            //update password for existing aspire user
-                            var resetToken = await userManager.GeneratePasswordResetTokenAsync(user.Id);
-                            var updateRes = await userManager.ResetPasswordAsync(user.Id, resetToken, context.Password);
-                            if (updateRes.Succeeded)
-                            {
-                                user.Secure_AspirePassword = context.Password;
-                                updateRes = await userManager.UpdateAsync(user);
-                                if (updateRes.Succeeded)
-                                {
-                                    _loggingService?.LogInfo(
-                                        $"Password for Aspire user [{context.UserName}] was updated successefully");
-                                }
-                            }
-                        }
+                        _usersService.UpdateUserPassword(user.Id, context.Password);
                     }
                 }
                 else
