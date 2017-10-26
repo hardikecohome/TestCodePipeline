@@ -112,10 +112,10 @@ function showTable () {
                     createdRow: function (row, data, dataIndex) {
                         if (data.IsNewlyCreated) {
                             $(row).addClass('unread-deals').find('.contract-cell').prepend('<span class="label-new-deal">' + translations['New'] + '</span>');
-						}
-						if (data.Id != 0) {
-							$(row).find('.contract-cell').wrapInner('<a href="' + editContractUrl + '/' + data.Id + '" title="' + translations['Edit'] + '"></a>');
-						}
+                        }
+                        if (data.Id != 0) {
+                            $(row).find('.contract-cell').wrapInner('<a href="' + editContractUrl + '/' + data.Id + '" title="' + translations['Edit'] + '"></a>');
+                        }
                     },
                     columns: [
                         {
@@ -183,10 +183,10 @@ function showTable () {
                                         return '<div class="controls-hold"><a class="icon-link icon-edit"  href=' + editContractUrl + '/' + row.Id + ' title="' + translations['Edit'] + '"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a>' +
                                             '<a class="icon-link export-item" onclick="exportItem.call(this);">' +
                                             '<svg aria-hidden="true" class="icon icon-excel">' +
-                                            '<use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-excel"></use></svg></a>'+
+                                            '<use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-excel"></use></svg></a>' +
                                             '<i onclick= "sendEmailModel(' + row.TransactionId + ');" class="icon-link icon-edit" > ' +
-											'<svg aria-hidden="true" class="icon icon-edit" > <use xlink:href="' + urlContent + '/Content/images/sprite/sprite.svg#icon-email"></use></svg >' +
-											'</i></div>';
+                                            '<svg aria-hidden="true" class="icon icon-edit" > <use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-help-chat"></use></svg >' +
+                                            '</i></div>';
                                     }
                                 } else {
                                     return '';
@@ -379,7 +379,7 @@ function createFilter () {
     var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
     var iconSearch = '<span class="icon-search-control"><svg aria-hidden="true" class="icon icon-search"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-search"></use></svg></span>';
 
-    $('#table-title').html('<div class="dealnet-large-header">' + translations['MyWorkItems'] + ' <span id="export-all-to-excel" ></span> <span class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</span></div>');
+    $('#table-title').html('<div class="dealnet-large-header">' + translations['MyWorkItems'] + ' <span id="export-all-to-excel"></span> <span class="filter-controls hidden">' + iconFilter + ' ' + iconSearch + '</span></div>');
     $('#export-all-to-excel').html('<button class="btn dealnet-button dealnet-link-button" id="export-all-excel">' + translations['ExportAllToExcel'] + '</button>');
 
     $('#table-title .icon-search-control').on('click', function () {
