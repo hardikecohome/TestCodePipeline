@@ -255,23 +255,7 @@ namespace DealnetPortal.Api.Integration.Services
                 //upload required documents
                 if (updatedInfo.RequiredDocuments?.Any(d => !d.Uploaded) == true)
                 {
-                    UploadOnboardingDocuments(updatedInfo.Id, statusToSet ?? _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY));
-                    try
-                    {
-                        var tryChangeByCreditReview =
-                            await _aspireService.ChangeDealStatusByCreditReview(updatedInfo.TransactionId, statusToSet ?? _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY), updatedInfo.ParentSalesRepId);
-                    }
-                    catch (Exception e)
-                    {
-                        alerts.Add(new Alert()
-                        {
-                            Type = AlertType.Warning,
-                            Code = ErrorCodes.FailedToUpdateContract,
-                            Header = "Cannot update onboarding status in Aspire",
-                            Message = e.ToString()
-                        });
-                        _loggingService.LogWarning($"Cannot update onboarding status in Aspire:{e.ToString()}");
-                    }                    
+                    UploadOnboardingDocuments(updatedInfo.Id, statusToSet ?? _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY));                                        
                 }
                 else
                 {
@@ -455,12 +439,28 @@ namespace DealnetPortal.Api.Integration.Services
             var dealerInfo = _dealerOnboardingRepository.GetDealerInfoById(dealerInfoId);
             if (dealerInfo?.RequiredDocuments?.Any(d => d.DocumentBytes != null && !d.Uploaded) == true)
             {
-                Task.Run(() =>
+                Task.Run(async () =>
                 {
                     dealerInfo.RequiredDocuments.Where(d => !d.Uploaded).ForEach(doc =>
                     {
                         _aspireService.UploadOnboardingDocument(dealerInfoId, doc.Id, statusToSend).GetAwaiter().GetResult();                        
-                    });                    
+                    });
+                    try
+                    {
+                        var tryChangeByCreditReview =
+                            await _aspireService.ChangeDealStatusByCreditReview(dealerInfo.TransactionId, statusToSend ?? _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY), dealerInfo.ParentSalesRepId);
+                    }
+                    catch (Exception e)
+                    {
+                        //alerts.Add(new Alert()
+                        //{
+                        //    Type = AlertType.Warning,
+                        //    Code = ErrorCodes.FailedToUpdateContract,
+                        //    Header = "Cannot update onboarding status in Aspire",
+                        //    Message = e.ToString()
+                        //});
+                        _loggingService.LogWarning($"Cannot update onboarding form [{dealerInfoId}] status in Aspire:{e.ToString()}");
+                    }
                 });
             }            
         }
