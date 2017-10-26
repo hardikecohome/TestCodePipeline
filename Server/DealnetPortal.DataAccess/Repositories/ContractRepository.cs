@@ -909,7 +909,10 @@ namespace DealnetPortal.DataAccess.Repositories
             var contract = GetContract(contractId, contractOwnerId);
             if (contract != null)
             {
-                contract.DateOfSubmit = DateTime.Now;
+                if (!contract.DateOfSubmit.HasValue)
+                {
+                    contract.DateOfSubmit = DateTime.Now;
+                }
                 contract.LastUpdateTime = DateTime.Now;
                 contract.LastUpdateOperator = GetDealer(contractOwnerId)?.UserName;
             }
