@@ -280,43 +280,59 @@
             totalCash = constants.maxRateCardLoanValue;
         }
 
+        var items = $.parseJSON(sessionStorage.getItem(state.contractId + option));
+
+        if (!items)
+            return;
+
         var dropdown = $('#' + option + 'AmortizationDropdown')[0];
         if (!dropdown || !dropdown.options) return;
 
+        var dropdowns = [];
+        var deferralValue = +$('#DeferralPeriodDropdown').val();
 
-        var dropdowns;
-        var deferralValue = $('#DeferralPeriodDropdown').val();
-        var key = option === 'Deferral' ? option + '-' + deferralValue + '-dropdowns' : option + '-dropdowns';
-
-        Object.keys(state[key]).some(function(item) {
-            var values = item.split('-');
-            var loanFrom = ~~values[0];
-            var loanTo = ~~values[1];
-
-            if (loanTo >= totalCash && loanFrom <= totalCash) {
-                dropdowns = state[key][item];
-                return true;
+        $.each(items, function () {
+            if (this.LoanValueTo >= totalCash && this.LoanValueFrom <= totalCash) {
+                var dropdownValue = ~~this.LoanTerm + ' / ' + ~~this.AmortizationTerm;
+                if (dropdowns.indexOf(dropdownValue) === -1) {
+                    if (option === 'Deferral') {
+                        if (~~this.DeferralPeriod === deferralValue) {
+                            dropdowns.push(dropdownValue);
+                        }
+                    } else {
+                        dropdowns.push(dropdownValue);
+                    }
+                }
             }
         });
 
-        var selected = $('#' + option + 'AmortizationDropdown option:selected').val();
+        //var selected = $('#' + option + 'AmortizationDropdown option:selected').val();
+        var e = document.getElementById(option + 'AmortizationDropdown');
+        if (e !== undefined) {
+            var selected = e.options[e.selectedIndex].value;
 
-        $(dropdown).empty();
-        $(dropdowns).each(function() {
-            $("<option />", {
-                val: this.split('/')[1].trim(),
-                text: this
-            }).appendTo(dropdown);
-        });
-        var values = [];
-        $(dropdown.options).each(function () {
-            values.push($(this).attr('value'));
-        });
+            $(dropdown).empty();
+            $(dropdowns).each(function () {
+                $("<option />", {
+                    val: this.split('/')[1].trim(),
+                    text: this
+                }).appendTo(dropdown);
+            });
 
-        if (values.indexOf(selected) !== -1) {
-            $(dropdown).val(selected);
-        } else {
-            $(dropdown).val(values[0]);
+            var values = [];
+            $.grep(dropdown.options, function(i) {
+                values.push($(i).attr('value'));
+            });
+
+            if (values.indexOf(selected) !== -1) {
+                e.value = selected;
+                //$(dropdown).val(selected);
+                $('#' + option + 'AmortizationDropdown option[value=' + selected + ']').attr("selected", selected);
+            } else {
+                e.value = values[0];
+                //$(dropdown).val(values[0]);
+                $('#' + option + 'AmortizationDropdown option[value=' + values[0] + ']').attr("selected", selected);
+            }
         }
 
         var options = dropdown.options;
