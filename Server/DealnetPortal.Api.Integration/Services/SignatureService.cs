@@ -1343,9 +1343,15 @@ namespace DealnetPortal.Api.Integration.Services
                     formFields.Add(new FormField()
                     {
                         FieldType = FieldType.Text,
+                        Name = $"{PdfFormFields.EquipmentType}_{i}",
+                        Value = "1"
+                    });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
                         Name = $"{PdfFormFields.EquipmentDescription}_{i}",
                         Value = $"{newEquipments.ElementAt(i).Description}"
-                    });
+                    });                    
                 }
                     // support old contracts with EstimatedInstallationDate in Equipment
                     if (contract.Equipment.EstimatedInstallationDate.HasValue ||
