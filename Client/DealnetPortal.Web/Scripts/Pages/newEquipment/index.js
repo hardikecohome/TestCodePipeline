@@ -89,8 +89,7 @@
 
         function onAmortizationDropdownChange (option) {
             $('#' + option + 'AmortizationDropdown').change(function () {
-                $(this).find('option:selected').removeAttr('selected');
-
+                //$(this).find('option:selected').removeAttr('selected');
                 recalculateValuesAndRender();
             });
         }

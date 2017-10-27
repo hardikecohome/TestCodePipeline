@@ -77,7 +77,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             var alerts = new List<Alert>();
-            var userManagerForUpdate = userManager;
+
             //get user info from aspire DB
             DealerDTO aspireDealerInfo = null;
             try
@@ -87,19 +87,19 @@ namespace DealnetPortal.Api.Integration.Services
 
                 if (aspireDealerInfo != null)
                 {
-                    var parentAlerts = await UpdateUserParent(user.Id, aspireDealerInfo, userManagerForUpdate);
+                    var parentAlerts = await UpdateUserParent(user.Id, aspireDealerInfo, userManager);
                     if (parentAlerts.Any())
                     {
                         alerts.AddRange(parentAlerts);
                     }
-                    var rolesAlerts = await UpdateUserRoles(user.Id, aspireDealerInfo, userManagerForUpdate);
+                    var rolesAlerts = await UpdateUserRoles(user.Id, aspireDealerInfo, userManager);
                     if (rolesAlerts.Any())
                     {
                         alerts.AddRange(rolesAlerts);
                     }
                     if (user.Tier?.Name != aspireDealerInfo.Ratecard)
                     {
-                        var tierAlerts = await UpdateUserTier(user.Id, aspireDealerInfo, userManagerForUpdate);
+                        var tierAlerts = await UpdateUserTier(user.Id, aspireDealerInfo, userManager);
                         if (tierAlerts.Any())
                         {
                             alerts.AddRange(tierAlerts);

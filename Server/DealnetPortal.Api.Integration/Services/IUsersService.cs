@@ -11,7 +11,7 @@ namespace DealnetPortal.Api.Integration.Services
     public interface IUsersService
     {
         IList<Claim> GetUserClaims(string userId);
-        Task<IList<Alert>> SyncAspireUser(ApplicationUser user, UserManager<ApplicationUser> userManager = null);
+        Task<IList<Alert>> SyncAspireUser(ApplicationUser user, UserManager<ApplicationUser> userManager);
 
         string GetUserPassword(string userId);
         void UpdateUserPassword(string userId, string newPassword);
