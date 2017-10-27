@@ -1340,17 +1340,16 @@ namespace DealnetPortal.Api.Integration.Services
                         Name = $"{PdfFormFields.EquipmentQuantity}_{i}",
                         Value = "1"
                     });
-                    formFields.Add(new FormField()
-                    {
-                        FieldType = FieldType.Text,
-                        Name = $"{PdfFormFields.EquipmentType}_{i}",
-                        Value = "1"
-                    });
+
+                    var eqType = ResourceHelper.GetGlobalStringResource(newEquipments.ElementAt(i).Type) ??
+                                 newEquipments.ElementAt(i).Type;
+                    var eqDescription = !string.IsNullOrEmpty(eqType)
+                        ? $"{eqType} - {newEquipments.ElementAt(i).Description}" : newEquipments.ElementAt(i).Description;                    
                     formFields.Add(new FormField()
                     {
                         FieldType = FieldType.Text,
                         Name = $"{PdfFormFields.EquipmentDescription}_{i}",
-                        Value = $"{newEquipments.ElementAt(i).Description}"
+                        Value = eqDescription
                     });                    
                 }
                     // support old contracts with EstimatedInstallationDate in Equipment
