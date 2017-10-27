@@ -213,7 +213,12 @@
       }
       return false;
     });
-
+	$('.editToStep1').on('click', function () {
+		if ($(this).attr('href')) {
+			navigateToStep($(this));
+		}
+		return false;
+	});
     setTimeout(function () {
       documentsColHeight();
       $('.credit-check-info-hold .dealnet-credit-check-section').each(function () {
@@ -636,7 +641,7 @@ function documentsColHeight () {
 
 function navigateToStep (targetLink) {
   var url = targetLink.attr('href');
-  var stepName = targetLink.text();
+  var stepName = targetLink.text() == 'Edit' ? '1' : targetLink.text();
   var data = {
     message: translations['IfYouChangeInfo'],
     title: translations['NavigateToStep'] + ' ' + stepName + '?',

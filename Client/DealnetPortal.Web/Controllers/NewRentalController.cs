@@ -64,10 +64,10 @@ namespace DealnetPortal.Web.Controllers
                     return RedirectToAction("EquipmentInformation", new { contractId });
                 }
 
-                //if (contractResult.Item1.ContractState >= ContractState.Completed || contractResult.Item1.ContractState == ContractState.CreditCheckDeclined)
-                //{
-                //    return RedirectToAction("ContractEdit", "MyDeals", new { id = contractId });
-                //}
+                if (contractResult.Item1.ContractState >= ContractState.Completed || contractResult.Item1.ContractState == ContractState.CreditCheckDeclined)
+                {
+                    return RedirectToAction("ContractEdit", "MyDeals", new { id = contractId });
+                }
             }
             else
             {
@@ -99,20 +99,20 @@ namespace DealnetPortal.Web.Controllers
             var viewModel = await _contractManager.GetBasicInfoAsync(contractId.Value);
             viewModel.ProvinceTaxRates = ( await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
             viewModel.VarificationIds = (await _dictionaryServiceAgent.GetAllVerificationIds()).Item1;
-            //if (viewModel?.ContractState >= ContractState.Completed)
-            //{
-            //    var alerts = new List<Alert>()
-            //            {
-            //                new Alert()
-            //                {
-            //                    Type = AlertType.Error,
-            //                    Message = "Cannot edit applicants information for submitted contracts",
-            //                    Header = "Cannot edit contract"
-            //                }
-            //            };
-            //    TempData[PortalConstants.CurrentAlerts] = alerts;
-            //    return RedirectToAction("Error", "Info");
-            //}
+            if (viewModel?.ContractState >= ContractState.SentToAudit)
+            {
+                var alerts = new List<Alert>()
+                        {
+                            new Alert()
+                            {
+                                Type = AlertType.Error,
+                                Message = "Cannot edit applicants information for contracts sent to audit",
+                                Header = "Cannot edit contract"
+                            }
+                        };
+                TempData[PortalConstants.CurrentAlerts] = alerts;
+                return RedirectToAction("Error", "Info");
+            }
             return View(viewModel);
         }
 
@@ -156,20 +156,20 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> CreditCheckConfirmation(int contractId)
         {
             var viewModel = await _contractManager.GetBasicInfoAsync(contractId);
-            //if (viewModel?.ContractState >= ContractState.Completed)
-            //{
-            //    var alerts = new List<Alert>()
-            //            {
-            //                new Alert()
-            //                {
-            //                    Type = AlertType.Error,
-            //                    Message = "Cannot edit applicants information for submitted contracts",
-            //                    Header = "Cannot edit contract"
-            //                }
-            //            };
-            //    TempData[PortalConstants.CurrentAlerts] = alerts;
-            //    return RedirectToAction("Error", "Info");
-            //}
+            if (viewModel?.ContractState >= ContractState.SentToAudit)
+            {
+                var alerts = new List<Alert>()
+                        {
+                            new Alert()
+                            {
+                                Type = AlertType.Error,
+                                Message = "Cannot edit applicants information for contracts sent to audit",
+                                Header = "Cannot edit contract"
+                            }
+                        };
+                TempData[PortalConstants.CurrentAlerts] = alerts;
+                return RedirectToAction("Error", "Info");
+            }
             return View(viewModel);
         }
 

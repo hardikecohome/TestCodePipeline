@@ -42,7 +42,7 @@
   }
 }
 
-@if (Model.ContractWasDeclined)
+@*@if (Model.ContractWasDeclined)
 {
     @Html.CheckBox("home-owner-agrees", new { id = "home-owner-agrees", @checked = "checked", @class="hidden" })
     <!--Show/hide warning depend on status-deal-submitted-->
@@ -111,7 +111,7 @@
             </div>
         </div>
     </div>
-}
+}*@
 
 @if (!ViewBag.IsMobileRequest)
 {
@@ -169,7 +169,7 @@
     @Html.HiddenFor(m => m.ContractId)
 
     <!--If deal is submitted hide info for borrower and additional applicant that is already submitted-->
-    <div @if (Model.ContractWasDeclined) { <text>class="hidden"</text> }>
+    <div @*@if (Model.ContractWasDeclined) { <text>class="hidden"</text> }*@>
         @if (Model?.SubDealers?.Any() ?? false)
         {
             <div class="dealnet-middle-header">@Resources.SubDealer</div>
@@ -555,7 +555,7 @@
     <!--Add Additional Applicant-->
     for (var i = 0; i < 1; i++)
     {
-        <div id="additional@(i+1)-section" @if (Model?.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 0 && Model.AdditionalApplicants[i]?.FirstName != null) { <text> data-initialized="true" </text> if (Model.ContractWasDeclined && (Model.AdditionalApplicants[i]?.IsInitialCustomer ?? false)) { <text>class="hidden"</text> }  }>
+        <div id="additional@(i+1)-section" @if (Model?.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 0 && Model.AdditionalApplicants[i]?.FirstName != null) { <text> data-initialized="true" </text> @*if (Model.ContractWasDeclined && (Model.AdditionalApplicants[i]?.IsInitialCustomer ?? false)) { <text>class="hidden"</text> }*@  }>
             <div class="personal-info-section">
                 <div class="dealnet-middle-header owner-info-label">@Resources.AdditionalApplicantInformation<div id="additional@(i+1)-remove" class="additional-remove"><i class="glyphicon glyphicon-remove"></i></div></div>
                 <input type="hidden" name="AdditionalApplicants.Index" value="@i" />

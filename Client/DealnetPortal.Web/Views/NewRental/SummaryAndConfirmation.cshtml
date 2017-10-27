@@ -42,14 +42,14 @@
     </div>
 </div>
 
-@if (Model.BasicInfo.ContractWasDeclined)
+@*@if (Model.BasicInfo.ContractWasDeclined)
 {
     <!--Show/hide warning depend on status-deal-submitted-->
     <div class="well well-info position-well">
         <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
         @Resources.YouCantEditBecauseSubmittedYouCanAddAdditional
     </div>
-}
+}*@
 
 <div class="form-container summary-info-hold">
     <div class="form-section">
@@ -86,7 +86,8 @@
                         <div class="col-md-6 grid-column">
                             <div class="dealnet-credit-check-section" id="home-owner-section">
                                 <h3 class="dealnet-section-title">@Resources.BorrowerInformation
-									<a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();"*@>@Resources.Edit</a>
+									@*<a href="@Url.Action("BasicInfo", new {contractId = Model.BasicInfo.ContractId})" data-warning="true" id="step1" class="step-item dealnet-section-edit-link pull-right">@Resources.Edit</a>*@
+									<a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1" @*onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();"*@>@Resources.Edit</a>
 								</h3>
                                 <div class="form-group">
                                     <div class="row">
@@ -434,7 +435,7 @@
                                 <div class="col-md-6 grid-column">
                                     <div class="dealnet-credit-check-section" id="additional@(i + 1)-section">
                                         <h3 class="dealnet-section-title">@Resources.AdditionalApplicant
-											<a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();"*@>@Resources.Edit</a>
+											<a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1" @*onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();"*@>@Resources.Edit</a>
 										</h3>
                                         <div class="form-group">
                                             <div class="row">

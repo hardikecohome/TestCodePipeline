@@ -307,8 +307,10 @@
             <div class="col-md-6 grid-column">
                 <div class="dealnet-credit-check-section">
                     <h3 class="dealnet-section-title">@Resources.DealInformation
-                        <a href="@Url.Action("EquipmentInformation", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#deal-info-form'), $('#deal-info-section-modal'), false); $('#deal-info-modal').modal();"*@>@Resources.Edit</a>
-                        
+						@if (contractState != ContractState.SentToAudit)
+						{
+                        <a href="@Url.Action("EquipmentInformation", "NewRental", new { contractId = Model.BasicInfo.ContractId })" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#deal-info-form'), $('#deal-info-section-modal'), false); $('#deal-info-modal').modal();"*@>@Resources.Edit</a>
+                        }
                     </h3>
                 </div>
             </div>
@@ -482,7 +484,10 @@
             <div class="col-md-6 grid-column">
                 <div class="dealnet-credit-check-section" id="home-owner-section">
                     <h3 class="dealnet-section-title">@Resources.BorrowerInformation
-						<a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();"*@>@Resources.Edit</a>
+						@if (contractState != ContractState.SentToAudit)
+						{
+                        <a href="@Url.Action("BasicInfo", "NewRental", new { contractId = Model.BasicInfo.ContractId })" class="dealnet-section-edit-link pull-right editToStep1" @*onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();"*@>@Resources.Edit</a>
+						}
 					</h3>
 					
 
@@ -740,7 +745,10 @@
                         <div class="dealnet-credit-check-section" id="contact-info-section">
                             @Html.HiddenFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.CustomerId)
                             <h3 class="dealnet-section-title">@Resources.ContactInformation
-							    <a href="@Url.Action("ContactAndPaymentInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();"*@>@Resources.Edit</a>
+							    @if (contractState != ContractState.SentToAudit)
+								{
+								<a href="@Url.Action("ContactAndPaymentInfo", "NewRental", new { contractId = Model.BasicInfo.ContractId })" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();"*@>@Resources.Edit</a>
+								}
                             </h3>
                             <div class="form-group">
                                 <div class="row">
@@ -821,7 +829,10 @@
                             <div class="col-md-6 grid-column">
                                 <div class="dealnet-credit-check-section" id="additional@(i + 1)-section">
                                     <h3 class="dealnet-section-title">@Resources.AdditionalApplicant
-										<a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();"*@>@Resources.Edit</a>
+										@if (contractState != ContractState.SentToAudit)
+										{
+										<a href="@Url.Action("BasicInfo", "NewRental", new { contractId = Model.BasicInfo.ContractId })" class="dealnet-section-edit-link pull-right editToStep1" @*onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();"*@>@Resources.Edit</a>
+										}
 									</h3>
                                     <div class="form-group">
                                         <div class="row">
@@ -1019,8 +1030,11 @@
                                 @Html.HiddenFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].CustomerId)
                                 <h3 class="dealnet-section-title">
                                     @Resources.ContactInformation 
-									<a href="@Url.Action("ContactAndPaymentInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" @*onclick="copyFormData($('#contact-info-section@(i + 1)-coborrower'), $('#contact-info-section@(i + 1)-coborrower-modal'), false); $('#contact-info-coborrower@(i + 1)-modal').modal();"*@ class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
-                                    
+									@if (contractState != ContractState.SentToAudit)
+									{
+
+									<a href="@Url.Action("ContactAndPaymentInfo", "NewRental", new { contractId = Model.BasicInfo.ContractId })" @*onclick="copyFormData($('#contact-info-section@(i + 1)-coborrower'), $('#contact-info-section@(i + 1)-coborrower-modal'), false); $('#contact-info-coborrower@(i + 1)-modal').modal();"*@ class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
+									}
                                 </h3>
                                 <div class="form-group">
                                     <div class="row">
@@ -1070,7 +1084,7 @@
         </div>
     }
 
-    @if ((Model.BasicInfo.AdditionalApplicants == null || !Model.BasicInfo.AdditionalApplicants.Any()))
+    @if (contractState != ContractState.SentToAudit && (Model.BasicInfo.AdditionalApplicants == null || !Model.BasicInfo.AdditionalApplicants.Any()))
     {
         <div class="form-section">
                 <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="add-applicant-link add-applicant-contract-edit dealnet-info-link align-middle">
@@ -1103,8 +1117,10 @@
                     <div class="dealnet-credit-check-section">
 
                         <h3 class="dealnet-section-title">@Resources.EquipmentInformation
-                            <a href="@Url.Action("EquipmentInformation", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#new-equipment-info-section'), $('#new-equipment-info-section-modal'), false); $('#new-equipment-info-modal').modal();"*@>@Resources.Edit</a>
-                            
+							@if (contractState != ContractState.SentToAudit)
+							{
+							<a href="@Url.Action("EquipmentInformation", "NewRental", new { contractId = Model.BasicInfo.ContractId })" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#new-equipment-info-section'), $('#new-equipment-info-section-modal'), false); $('#new-equipment-info-modal').modal();"*@>@Resources.Edit</a>
+                            }
                         </h3>
 
                     </div>
@@ -1246,8 +1262,10 @@
                         <div class="dealnet-credit-check-section">
 
                             <h3 class="dealnet-section-title">@Resources.PaymentInformation
-                                <a href="@Url.Action("ContactAndPaymentInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#payment-info-section'), $('#payment-info-section-modal'), false); $('#payment-type').change(); $('#payment-info-modal').modal();"*@>@Resources.Edit</a>
-                                
+								@if (contractState != ContractState.SentToAudit)
+								{
+                                <a href="@Url.Action("ContactAndPaymentInfo", "NewRental", new { contractId = Model.BasicInfo.ContractId })" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#payment-info-section'), $('#payment-info-section-modal'), false); $('#payment-type').change(); $('#payment-info-modal').modal();"*@>@Resources.Edit</a>
+                                }
                             </h3>
 
                         </div>
@@ -1346,7 +1364,10 @@
                     <div class="dealnet-credit-check-section">
 
                         <h3 class="dealnet-section-title">@Resources.ExistingEquipmentInformation
-                            <a href="@Url.Action("EquipmentInformation", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#existing-equipment-section'), $('#existing-equipment-section-modal'), false); $('#existing-equipment-modal').modal();"*@>@Resources.Edit</a>
+                            @if (contractState != ContractState.SentToAudit)
+							{
+							<a href="@Url.Action("EquipmentInformation", "NewRental", new { contractId = Model.BasicInfo.ContractId })" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#existing-equipment-section'), $('#existing-equipment-section-modal'), false); $('#existing-equipment-modal').modal();"*@>@Resources.Edit</a>
+							}
                         </h3>
                         @for (var i = 0; i < Model.EquipmentInfo.ExistingEquipment.Count; i++)
                         {
@@ -1469,8 +1490,10 @@
                         <div class="dealnet-credit-check-section">
                           <h3 class="dealnet-section-title">
                             @Resources.AdditionalContractInformation
-                              <a href="@Url.Action("EquipmentInformation", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#edit-add-contract-section'), $('#edit-add-contract-section-modal'), false); $('#edit-add-contract-modal').modal()"*@>@Resources.Edit</a>
-                            
+							@if (contractState != ContractState.SentToAudit)
+							{
+                              <a href="@Url.Action("EquipmentInformation", "NewRental", new { contractId = Model.BasicInfo.ContractId })" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#edit-add-contract-section'), $('#edit-add-contract-section-modal'), false); $('#edit-add-contract-modal').modal()"*@>@Resources.Edit</a>
+							}                            
                           </h3>
                             @if (Model.CustomerComments != null && Model.CustomerComments.Any())
                             {
