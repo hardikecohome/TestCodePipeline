@@ -7,8 +7,6 @@ using System.Net.Http.Formatting;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using DealnetPortal.Api.Common.Constants;
-using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
@@ -549,7 +547,20 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                _loggingService.LogError("Can't remove contract", ex);
+                _loggingService.LogError("Can't get tier", ex);
+                throw;
+            }
+        }
+
+        public async Task<TierDTO> GetDealerTier(int contractId)
+        {
+            try
+            {
+                return await Client.GetAsyncEx<TierDTO>($"{_fullUri}/GetDealerTier?contractId={contractId}", AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get dealer tier", ex);
                 throw;
             }
         }

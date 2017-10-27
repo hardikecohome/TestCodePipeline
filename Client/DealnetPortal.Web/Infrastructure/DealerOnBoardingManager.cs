@@ -11,6 +11,7 @@ using DealnetPortal.Web.Models.Dealer;
 using DealnetPortal.Web.ServiceAgent;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Models.Scanning;
+using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Web.Models;
 
 namespace DealnetPortal.Web.Infrastructure
@@ -19,11 +20,14 @@ namespace DealnetPortal.Web.Infrastructure
     {
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
         private readonly IDealerServiceAgent _dealerServiceAgent;
+        private readonly string _leadSource;
 
         public DealerOnBoardingManager(IDictionaryServiceAgent dictionaryServiceAgent, IDealerServiceAgent dealerServiceAgent)
         {
             _dictionaryServiceAgent = dictionaryServiceAgent;
             _dealerServiceAgent = dealerServiceAgent;
+            _leadSource = System.Configuration.ConfigurationManager.AppSettings[PortalConstants.OnboardingLeadSourceKey] ??
+                           System.Configuration.ConfigurationManager.AppSettings[PortalConstants.DefaultLeadSourceKey];
         }
 
         public async Task<DealerOnboardingViewModel> GetNewDealerOnBoardingForm(string onboardingLink)
@@ -76,6 +80,7 @@ namespace DealnetPortal.Web.Infrastructure
         public async Task<SaveAndResumeViewModel> SaveDraft(DealerOnboardingViewModel model)
         {
             DealerInfoDTO dto = AutoMapper.Mapper.Map<DealerInfoDTO>(model);
+            dto.LeadSource = _leadSource;
             var result = await _dealerServiceAgent.UpdateDealerOnboardingForm(dto);
             return new SaveAndResumeViewModel
             {
@@ -91,10 +96,24 @@ namespace DealnetPortal.Web.Infrastructure
             };
         }
 
-        public async Task<IList<Alert>> SubmitOnBoarding(DealerOnboardingViewModel model)
+        public async Task<SaveAndResumeViewModel> SubmitOnBoarding(DealerOnboardingViewModel model)
         {
             DealerInfoDTO dto = AutoMapper.Mapper.Map<DealerInfoDTO>(model);
-            return await _dealerServiceAgent.SubmitDealerOnboardingForm(dto);
+            dto.LeadSource = _leadSource;
+
+            var result = await _dealerServiceAgent.SubmitDealerOnboardingForm(dto);
+            return new SaveAndResumeViewModel
+            {
+                Id = result.Item1?.DealerInfoId ?? 0,
+                AccessKey = result.Item1?.AccessKey ?? model.AccessKey,
+                Success = result.Item2 != null ? !result.Item2.Any(a => a.Type == AlertType.Error) : true,
+                Alerts = result.Item2,
+                Email = model.Owners.Any() && !string.IsNullOrEmpty(model.Owners.First().EmailAddress)
+                    ? model.Owners.First().EmailAddress
+                    : !string.IsNullOrEmpty(model.CompanyInfo.EmailAddress)
+                        ? model.CompanyInfo.EmailAddress
+                        : String.Empty
+            };
         }
 
         public async Task<IList<Alert>> SendDealerOnboardingDraftLink(SaveAndResumeViewModel model)
@@ -118,7 +137,8 @@ namespace DealnetPortal.Web.Infrastructure
                 DocumentBytes = documentBytes,
                 CreationDate = DateTime.UtcNow,
                 DocumentTypeId = fileModel.DocumentTypeId,
-                DealerInfoId = fileModel.DealerInfoId
+                DealerInfoId = fileModel.DealerInfoId,
+                LeadSource = _leadSource
             };
 
             var result = await _dealerServiceAgent.AddDocumentToOnboardingForm(model);

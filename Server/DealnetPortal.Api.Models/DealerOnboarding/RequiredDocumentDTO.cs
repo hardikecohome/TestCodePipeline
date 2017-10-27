@@ -14,5 +14,8 @@ namespace DealnetPortal.Api.Models.DealerOnboarding
 
         public int? DealerInfoId { get; set; }
         public bool Uploaded { get; set; }
+
+        // Lead source of a client web-portal (DP, MB, OB, CW)
+        public string LeadSource { get; set; }
     }
 }

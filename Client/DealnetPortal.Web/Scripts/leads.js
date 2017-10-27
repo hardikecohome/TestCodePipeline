@@ -13,7 +13,7 @@
     $('.select-filter').val($('.select-filter > option:first').val());
 });
 
-function showTable () {
+function showTable() {
     var table;
     $.when($.ajax(itemsUrl, { cache: false, mode: 'GET' }))
         .done(function (data) {
@@ -121,7 +121,7 @@ function showTable () {
 
         });
 
-    function clearFilters () {
+    function clearFilters() {
         $('.filter-input').val("");
         table.search('').draw(false);
     }
@@ -145,7 +145,7 @@ $.fn.dataTable.ext.search.push(
     }
 );
 
-function removeLead (id) {
+function removeLead(id) {
     var table = $('#work-items-table').DataTable();
     var rowLead = $("#lead" + id).closest('tr');
     table.row(rowLead)
@@ -153,7 +153,7 @@ function removeLead (id) {
         .draw(false);
 };
 
-function addLead (id, transactionId) {
+function addLead(id, transactionId) {
     $('.link-accepted').popover('hide');
     var data = {
         message: "<div class=\"modal-leads-content\"><div>" + translations['AreYouSure'] + "</div><div>" + translations['AcceptanceOfLeadFeeAppliedToYourAccount'] + "</div></div>",

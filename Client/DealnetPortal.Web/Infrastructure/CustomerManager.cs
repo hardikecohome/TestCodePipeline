@@ -8,6 +8,7 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
 
@@ -83,7 +84,9 @@ namespace DealnetPortal.Web.Infrastructure
                     improvmentAddress.MoveInDate = customer.EstimatedMoveInDate;
                 }
                 newCustomerDto.PrimaryCustomer.Locations.Add(improvmentAddress);               
-            }                        
+            }    
+            newCustomerDto.LeadSource = System.Configuration.ConfigurationManager.AppSettings[PortalConstants.MortgageBrokerLeadSourceKey] ??
+                                            System.Configuration.ConfigurationManager.AppSettings[PortalConstants.DefaultLeadSourceKey];
             return await _contractServiceAgent.CreateContractForCustomer(newCustomerDto);
         }
 

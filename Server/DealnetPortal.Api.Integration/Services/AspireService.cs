@@ -20,6 +20,7 @@ using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Aspire.Integration.Constants;
 using DealnetPortal.Aspire.Integration.Models;
 using DealnetPortal.Aspire.Integration.ServiceAgents;
+using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
@@ -48,6 +49,7 @@ namespace DealnetPortal.Api.Integration.Services
         private const string CodeSuccess = "T000";
         //symbols excluded from document names for upload
         private string DocumentNameReplacedSymbols = " -+=#@$%^!~&;:'`(){}.,|\"";
+        private const string BlankValue = "-";
 
         public AspireService(IAspireServiceAgent aspireServiceAgent, IContractRepository contractRepository, 
             IDealerOnboardingRepository dealerOnboardingRepository,
@@ -65,14 +67,14 @@ namespace DealnetPortal.Api.Integration.Services
             _aspireRequestTimeout = TimeSpan.FromSeconds(90);
         }
 
-        public async Task<IList<Alert>> UpdateContractCustomer(int contractId, string contractOwnerId)
+        public async Task<IList<Alert>> UpdateContractCustomer(int contractId, string contractOwnerId, string leadSource = null)
         {
             var alerts = new List<Alert>();
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
 
             if (contract != null)
             {
-                var result = await UpdateContractCustomer(contract, contractOwnerId);
+                var result = await UpdateContractCustomer(contract, contractOwnerId, leadSource);
                 if (result?.Any() == true)
                 {
                     alerts.AddRange(result);
@@ -92,7 +94,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<IList<Alert>> UpdateContractCustomer(Contract contract, string contractOwnerId)
+        public async Task<IList<Alert>> UpdateContractCustomer(Contract contract, string contractOwnerId, string leadSource = null)
         {
             var alerts = new List<Alert>();
 
@@ -114,7 +116,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             TransactionId = GetTransactionId(contract)
                         },
-                        Accounts = GetCustomersInfo(contract)
+                        Accounts = GetCustomersInfo(contract, leadSource)
                     }
                 };
 
@@ -278,7 +280,7 @@ namespace DealnetPortal.Api.Integration.Services
             return new Tuple<CreditCheckDTO, IList<Alert>>(creditCheckResult, alerts);
         }
 
-        public async Task<IList<Alert>> SubmitDeal(int contractId, string contractOwnerId)
+        public async Task<IList<Alert>> SubmitDeal(int contractId, string contractOwnerId, string leadSource = null)
         {
             var alerts = new List<Alert>();
 
@@ -295,6 +297,17 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 if (alerts.All(a => a.Type != AlertType.Error))
                 {
+                    // if case user changed province on 4 step. Recalculate value of deal.
+                    if (contract.Equipment.AgreementType == AgreementType.RentalApplication || contract.Equipment.AgreementType == AgreementType.RentalApplicationHwt)
+                    {
+                        var pTaxRate = _contractRepository.GetProvinceTaxRate(contract.PrimaryCustomer.Locations.FirstOrDefault().State);
+
+                        contract.Equipment.ValueOfDeal = contract.Equipment.ValueOfDeal =
+                            (double?)
+                            ((contract.Equipment.TotalMonthlyPayment ?? 0) +
+                             (contract.Equipment.TotalMonthlyPayment ?? 0) * (decimal)(pTaxRate.Rate / 100)); ;
+                    }
+
                     // send each equipment separately using same call for avoid Aspire issue
                     for (int i = 0; i < (contract.Equipment?.NewEquipment?.Count ?? 1); i++)
                     {
@@ -305,11 +318,11 @@ namespace DealnetPortal.Api.Integration.Services
                         // Code change to calculate down payment and admin fee on first equipment amount
                         if (i == 0 && contract.Equipment.AgreementType == AgreementType.LoanApplication)
                         {
-                            application = GetContractApplication(contract, eqToUpdate, 0);
+                            application = GetContractApplication(contract, eqToUpdate, 0, leadSource);
                         }
                         else
                         {
-                            application = GetContractApplication(contract, eqToUpdate, 1);
+                            application = GetContractApplication(contract, eqToUpdate, 1, leadSource);
                         }
                         request.Header = new RequestHeader()
                         {
@@ -330,7 +343,9 @@ namespace DealnetPortal.Api.Integration.Services
                         try
                         {
                             Task timeoutTask = Task.Delay(_aspireRequestTimeout);
-                           
+
+                            _loggingService.LogInfo($"Submiting deal to Aspire. Dealer: {request.Header.UserId}, TransactionId: {request.Payload.Lease.Application.TransactionId}");
+
                             var aspireRequestTask = _aspireServiceAgent.DealUploadSubmission(request);
                             DealUploadResponse response = null;
 
@@ -377,7 +392,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             alerts.Where(a => a.Type == AlertType.Error).ForEach(a =>
-                _loggingService.LogError($"Aspire issue: {a.Header} {a.Message}"));
+                _loggingService.LogError($"Aspire issue during DealSubmission for transactionId {contract?.Details?.TransactionId}: {a.Header} {a.Message}"));
 
             if (alerts.All(a => a.Type != AlertType.Error))
             {
@@ -388,7 +403,7 @@ namespace DealnetPortal.Api.Integration.Services
         }
 
 
-        public async Task<IList<Alert>> SendDealUDFs(int contractId, string contractOwnerId)
+        public async Task<IList<Alert>> SendDealUDFs(int contractId, string contractOwnerId, string leadSource = null)
         {
             var alerts = new List<Alert>();
 
@@ -396,7 +411,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (contract != null)
             {
-                var result = await SendDealUDFs(contract, contractOwnerId);
+                var result = await SendDealUDFs(contract, contractOwnerId, leadSource);
                 if (result?.Any() == true)
                 {
                     alerts.AddRange(result);
@@ -417,7 +432,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<IList<Alert>> SendDealUDFs(Contract contract, string contractOwnerId)
+        public async Task<IList<Alert>> SendDealUDFs(Contract contract, string contractOwnerId, string leadSource = null, ContractorDTO contractor = null)
         {
             var alerts = new List<Alert>();
 
@@ -442,14 +457,15 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     Lease = new Lease()
                     {
-                        Application = GetSimpleContractApplication(contract)
+                        Application = GetSimpleContractApplication(contract, leadSource, contractor)
                     }
                 };
 
                 try
                 {
-                    Task timeoutTask = Task.Delay(_aspireRequestTimeout);
+                    _loggingService.LogInfo($"Uploading onboarding form to Aspire. Dealer: {request.Header.UserId}, TransactionId: {request.Payload.Lease.Application.TransactionId}");
 
+                    Task timeoutTask = Task.Delay(_aspireRequestTimeout);
                     var aspireRequestTask = _aspireServiceAgent.DealUploadSubmission(request);
                     DealUploadResponse response = null;
 
@@ -483,7 +499,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             alerts.Where(a => a.Type == AlertType.Error).ForEach(a =>
-                _loggingService.LogError($"Aspire issue: {a.Header} {a.Message}"));
+                _loggingService.LogError($"Aspire issue during DealSubmission for transactionId {contract?.Details?.TransactionId}: {a.Header} {a.Message}"));
 
             if (alerts.All(a => a.Type != AlertType.Error))
             {
@@ -561,8 +577,14 @@ namespace DealnetPortal.Api.Integration.Services
 
                         if (rAlerts.All(a => a.Type != AlertType.Error))
                         {
-                            _loggingService.LogInfo($"Document {document.DocumentName} to Aspire for contract {contractId} was uploaded successfully");
-                        }                        
+                            _loggingService.LogInfo(
+                                $"Document {document.DocumentName} to Aspire for contract {contractId} was uploaded successfully");
+                        }
+                        else
+                        {
+                            alerts.Where(a => a.Type == AlertType.Error).ForEach(a =>
+                                _loggingService.LogError($"Aspire issue during upload Document {document.DocumentName} to Aspire for contract {contractId} with transactionId {contract.Details?.TransactionId}: {a.Header} {a.Message}"));
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -671,6 +693,11 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             _loggingService.LogInfo($"Document {document.DocumentName} to Aspire for contract with transactionId {aspireTransactionId} was uploaded successfully");
                         }
+                        else
+                        {
+                            alerts.Where(a => a.Type == AlertType.Error).ForEach(a =>
+                                _loggingService.LogError($"Aspire issue during upload Document {document.DocumentName} to Aspire for contract with transactionId {aspireTransactionId}: {a.Header} {a.Message}"));
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -744,13 +771,19 @@ namespace DealnetPortal.Api.Integration.Services
                         if (rAlerts?.Any() == true)
                         {
                             alerts.AddRange(rAlerts);
-                        }                        
+                        }
                         if (alerts.All(a => a.Type != AlertType.Error))
                         {
                             document.Uploaded = true;
                             document.UploadDate = DateTime.Now;
                             _unitOfWork.Save();
-                            _loggingService.LogInfo($"Document {document.DocumentName} for dealer onboarding form {dealerInfoId} was uploaded to Aspire successfully");
+                            _loggingService.LogInfo(
+                                $"Document {document.DocumentName} for dealer onboarding form {dealerInfoId} was uploaded to Aspire successfully");
+                        }
+                        else
+                        {
+                            rAlerts?.Where(a => a.Type == AlertType.Error).ForEach(a =>
+                                _loggingService.LogError($"Aspire issue during upload Document {document.DocumentName} for dealer onboarding form {dealerInfoId}: {a.Header} {a.Message}"));
                         }
                     }
                     catch (Exception ex)
@@ -799,6 +832,24 @@ namespace DealnetPortal.Api.Integration.Services
             return status;
         }
 
+        public async Task<Tuple<string, IList<Alert>>> ChangeDealStatusEx(string aspireTransactionId, string newStatus,
+            string contractOwnerId)
+        {
+            var tryChangeByCreditReview =
+                await ChangeDealStatusByCreditReview(aspireTransactionId, newStatus, contractOwnerId);
+            if (tryChangeByCreditReview?.Item2?.Any(a => a.Type == AlertType.Error) == true)
+            {
+                //sometimes we got an error with Credit Review
+                var tryChangeByDocUpload = await ChangeDealStatus(aspireTransactionId, newStatus, contractOwnerId);
+                string status = tryChangeByDocUpload?.All(e => e.Type != AlertType.Error) == true ? newStatus : null;
+                return new Tuple<string, IList<Alert>>(status, tryChangeByDocUpload);
+            }
+            else
+            {
+                return tryChangeByCreditReview;
+            }
+        }
+
         public async Task<IList<Alert>> ChangeDealStatus(string aspireTransactionId, string newStatus, string contractOwnerId, string additionalDataToPass = null)
         {
             var alerts = new List<Alert>();            
@@ -809,6 +860,15 @@ namespace DealnetPortal.Api.Integration.Services
             if (userResult.Item2.Any())
             {
                 alerts.AddRange(userResult.Item2);
+            }
+            if (string.IsNullOrEmpty(newStatus))
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "Cannot change deal status",
+                    Message = "newStatus cannot be null"
+                });
             }
             if (alerts.All(a => a.Type != AlertType.Error))
             {
@@ -867,6 +927,67 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
+        public async Task<Tuple<string, IList<Alert>>> ChangeDealStatusByCreditReview(string aspireTransactionId, string newStatus,
+            string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+            string contractStatus = null;
+            var request = new CreditCheckRequest();
+
+            var userResult = GetAspireUser(contractOwnerId);
+            if (userResult.Item2.Any())
+            {
+                alerts.AddRange(userResult.Item2);
+            }            
+            if (alerts.All(a => a.Type != AlertType.Error))
+            {
+                request.Header = userResult.Item1;
+
+                try
+                {
+                    request.Payload = new Payload()
+                    {
+                        TransactionId = aspireTransactionId,
+                        ContractStatus = newStatus
+                    };
+                    
+                    var response = await _aspireServiceAgent.CreditCheckSubmission(request).ConfigureAwait(false);
+
+                    if (response?.Header == null || response.Header.Code != CodeSuccess || !string.IsNullOrEmpty(response.Header.ErrorMsg))
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Header = response?.Header?.Status,
+                            Message = response?.Header?.Message ?? response?.Header?.ErrorMsg,
+                            Type = AlertType.Error
+                        });
+                    }
+                    if (!string.IsNullOrEmpty(response?.Payload?.ContractStatus))
+                    {
+                        contractStatus = response.Payload.ContractStatus;
+                    }
+
+                    if (alerts.All(a => a.Type != AlertType.Error))
+                    {
+                        _loggingService.LogInfo($"Aspire state for transaction {aspireTransactionId} was updated successfully");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    alerts.Add(new Alert()
+                    {
+                        Code = ErrorCodes.AspireConnectionFailed,
+                        Header = $"Can't update state for transaction {aspireTransactionId}",
+                        Message = ex.ToString(),
+                        Type = AlertType.Error
+                    });
+                    _loggingService.LogError($"Can't update state for transaction {aspireTransactionId}", ex);
+                }
+            }
+
+            return new Tuple<string, IList<Alert>>(contractStatus, alerts);
+        }
+
         public async Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId, string contractOwnerId)
         {
             var alerts = new List<Alert>();
@@ -916,18 +1037,7 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 alerts.AddRange(rAlerts);
                             }
-
-                            //if (contract.ContractState != ContractState.SentToAudit)
-                            //{
-                            //    alerts.Add(new Alert()
-                            //    {
-                            //        Header = "Deal wasn't sent to audit",
-                            //        Message = $"Deal wasn't sent to audit for contract with id {contractId}",
-                            //        Type = AlertType.Error
-                            //    });
-                            //    _loggingService.LogError($"Deal wasn't sent to audit for contract with id {contractId}");
-                            //}
-
+                            
                             if (rAlerts.All(a => a.Type != AlertType.Error))
                             {
                                 contract.ContractState = ContractState.SentToAudit;
@@ -975,20 +1085,14 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<IList<Alert>> SubmitDealerOnboarding(int dealerInfoId)
+        public async Task<IList<Alert>> SubmitDealerOnboarding(int dealerInfoId, string leadSource = null)
         {
             var alerts = new List<Alert>();
 
             var dealerInfo = _dealerOnboardingRepository.GetDealerInfoById(dealerInfoId);
 
             if (dealerInfo != null)
-            {
-                string statusToRestore = null;
-                if (dealerInfo.SentToAspire && !string.IsNullOrEmpty(dealerInfo.TransactionId))
-                {
-                    statusToRestore = _aspireStorageReader.GetDealStatus(dealerInfo.TransactionId);
-                }             
-
+            {                
                 CustomerRequest request = new CustomerRequest();
 
                 var userResult = GetAspireUser(dealerInfo.ParentSalesRepId);
@@ -1007,23 +1111,17 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 TransactionId = dealerInfo.TransactionId
                             },
-                            Accounts = GetDealerOnboardingAccounts(dealerInfo)
+                            Accounts = GetDealerOnboardingAccounts(dealerInfo, leadSource)
                         }
                     };
 
                     try
                     {
-                        //var x = new XmlSerializer(request.GetType());
-                        //var settings = new XmlWriterSettings { NewLineHandling = NewLineHandling.Entitize };
-                        //MemoryStream ms = new MemoryStream();
-                        //FileStream fs = new FileStream("d:\\onboardingTestResponse.xml", FileMode.Create);
-                        //var writer = XmlWriter.Create(fs, settings);
-                        //x.Serialize(writer, request);
-                        //writer.Flush();
-
                         Task timeoutTask = Task.Delay(_aspireRequestTimeout);
                         var aspireRequestTask = _aspireServiceAgent.CustomerUploadSubmission(request);
                         DecisionCustomerResponse response = null;
+
+                        _loggingService.LogInfo($"Uploading onboarding form to Aspire. Dealer: {request.Header.UserId}, TransactionId: {request.Payload.Lease.Application.TransactionId}");
 
                         if (await Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false) == aspireRequestTask)
                         {
@@ -1039,18 +1137,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             alerts.AddRange(rAlerts);
                         }
-
-                        //restore status for resubmiting
-                        if (!string.IsNullOrEmpty(statusToRestore) && statusToRestore != dealerInfo.Status)
-                        {                            
-                            var cAlerts = await ChangeDealStatus(dealerInfo.TransactionId, statusToRestore, dealerInfo.ParentSalesRepId);
-                            if (cAlerts?.Any() == true)
-                            {
-                                alerts.AddRange(cAlerts);
-                            }
-                            dealerInfo.Status = statusToRestore;
-                            _unitOfWork.Save();
-                        }
+                        
                     }
                     catch (Exception ex)
                     {
@@ -1078,11 +1165,11 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             alerts.Where(a => a.Type == AlertType.Error).ForEach(a =>
-                _loggingService.LogError($"Aspire issue: {a.Header} {a.Message}"));
+                _loggingService.LogError($"Aspire issue during upload onboarding form [{dealerInfoId}] with TransactionId: {dealerInfo?.TransactionId}: {a.Header} {a.Message}"));
 
             if (alerts.All(a => a.Type != AlertType.Error))
             {
-                _loggingService.LogInfo($"Dealer onboarding info [{dealerInfoId}] submitted to Aspire successfully with transaction Id [{dealerInfo?.TransactionId}]");
+                _loggingService.LogInfo($"Dealer onboarding form [{dealerInfoId}] submitted to Aspire successfully with transaction Id [{dealerInfo?.TransactionId}]");
             }
 
             return alerts;
@@ -1157,7 +1244,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 }
 
-                if (!string.IsNullOrEmpty(aspirePassword))
+                if (!string.IsNullOrEmpty(aspirePassword))                    
                 {
                     header = new RequestHeader()
                     {
@@ -1194,7 +1281,7 @@ namespace DealnetPortal.Api.Integration.Services
             return contract?.Details?.TransactionId;            
         }
 
-        private List<Account> GetCustomersInfo(Domain.Contract contract)
+        private List<Account> GetCustomersInfo(Domain.Contract contract, string leadSource = null)
         {
             const string CustRole = "CUST";
             const string GuarRole = "GUAR";
@@ -1270,6 +1357,11 @@ namespace DealnetPortal.Api.Integration.Services
                     account.Telecomm.Email = email;
                 }
 
+                string setLeadSource = !string.IsNullOrEmpty(leadSource) ? leadSource :
+                                    (_configuration.GetSetting(WebConfigKeys.DEFAULT_LEAD_SOURCE_KEY) ??
+                                    (_configuration.GetSetting($"PortalDescriber.{contract.Dealer?.ApplicationId}") ?? contract.Dealer?.Application?.LeadSource));
+
+                bool? existingCustomer = null;
                 if (string.IsNullOrEmpty(c.AccountId))
                 {
                     //check user on Aspire
@@ -1277,11 +1369,24 @@ namespace DealnetPortal.Api.Integration.Services
                         c.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.PostalCode ??
                         c.Locations?.FirstOrDefault()?.PostalCode;
                     try
-                    {                    
-                        var aspireCustomer = AutoMapper.Mapper.Map<CustomerDTO>(_aspireStorageReader.FindCustomer(c.FirstName, c.LastName, c.DateOfBirth, postalCode));
-                        if (aspireCustomer != null)
+                    {
+                        var aspireCustomer = _aspireStorageReader.FindCustomer(c.FirstName, c.LastName, c.DateOfBirth,
+                            postalCode);//AutoMapper.Mapper.Map<CustomerDTO>();
+                        if (!string.IsNullOrEmpty(aspireCustomer?.EntityId))
                         {
-                            account.ClientId = aspireCustomer.AccountId?.Trim();
+                            account.ClientId = aspireCustomer.EntityId.Trim();
+                            c.ExistingCustomer = true;
+                            existingCustomer = true;
+                            //check lead source in aspire
+                            if (!string.IsNullOrEmpty(aspireCustomer.LeaseSource))
+                            {
+                                setLeadSource = null;
+                            }
+                        }
+                        else
+                        {
+                            c.ExistingCustomer = false;
+                            existingCustomer = false;
                         }
                     }
                     catch (Exception ex)
@@ -1293,9 +1398,15 @@ namespace DealnetPortal.Api.Integration.Services
                 else
                 {
                     account.ClientId = c.AccountId;
+                    //check lead source in aspire
+                    var aspireCustomer = _aspireStorageReader.GetCustomerById(c.AccountId);
+                    if (!string.IsNullOrEmpty(aspireCustomer?.LeaseSource))
+                    {
+                        setLeadSource = null;
+                    }
                 } 
                 
-                account.UDFs = GetCustomerUdfs(c, location, portalDescriber, contract.HomeOwners?.Any(hw => hw.Id == c.Id)).ToList();                
+                account.UDFs = GetCustomerUdfs(c, location, setLeadSource, contract.HomeOwners?.Any(hw => hw.Id == c.Id), existingCustomer).ToList();                
 
                 if (!string.IsNullOrEmpty(role))
                 {
@@ -1316,13 +1427,13 @@ namespace DealnetPortal.Api.Integration.Services
             return accounts;
         }
 
-        private List<Account> GetDealerOnboardingAccounts(DealerInfo dealerInfo)
+        private List<Account> GetDealerOnboardingAccounts(DealerInfo dealerInfo, string leadSource = null)
         {            
             var accounts = new List<Account>();
             accounts.Add(GetCompanyAccount(dealerInfo));
             if (dealerInfo.Owners?.Any() == true)
             {
-                var companyOwners = GetCompanyOwnersAccounts(dealerInfo);
+                var companyOwners = GetCompanyOwnersAccounts(dealerInfo, leadSource);
                 if (companyOwners.Any())
                 {
                     accounts.Add(companyOwners.First());
@@ -1372,7 +1483,7 @@ namespace DealnetPortal.Api.Integration.Services
             return account;
         }
 
-        private IList<Account> GetCompanyOwnersAccounts(DealerInfo dealerInfo)
+        private IList<Account> GetCompanyOwnersAccounts(DealerInfo dealerInfo, string leadSource = null)
         {
             const string ownerRole = "CUST";
             var accounts = dealerInfo.Owners?.OrderBy(o => o.OwnerOrder).Select(owner =>
@@ -1415,16 +1526,24 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 };
 
+                var setLeadSource = !string.IsNullOrEmpty(leadSource) ? leadSource : _configuration.GetSetting(WebConfigKeys.ONBOARDING_LEAD_SOURCE_KEY) 
+                                                                                    ?? _configuration.GetSetting(WebConfigKeys.DEFAULT_LEAD_SOURCE_KEY);
                 if (string.IsNullOrEmpty(owner.AccountId))
                 {
                     //check user on Aspire
                     var postalCode = owner.Address?.PostalCode;
                     try
                     {
-                        var aspireCustomer = AutoMapper.Mapper.Map<CustomerDTO>(_aspireStorageReader.FindCustomer(owner.FirstName, owner.LastName, owner.DateOfBirth ?? new DateTime(), postalCode));
+                        var aspireCustomer = _aspireStorageReader.FindCustomer(owner.FirstName, owner.LastName,
+                            owner.DateOfBirth ?? new DateTime(), postalCode);
                         if (aspireCustomer != null)
                         {
-                            account.ClientId = aspireCustomer.AccountId?.Trim();
+                            account.ClientId = aspireCustomer.EntityId?.Trim();
+                            //check lead source in aspire
+                            if (!string.IsNullOrEmpty(aspireCustomer.LeaseSource))
+                            {
+                                setLeadSource = null;
+                            }
                         }
                     }
                     catch (Exception ex)
@@ -1436,32 +1555,31 @@ namespace DealnetPortal.Api.Integration.Services
                 else
                 {
                     account.ClientId = owner.AccountId;
+                    //check lead source in aspire
+                    var aspireCustomer = _aspireStorageReader.GetCustomerById(account.ClientId);
+                    if (!string.IsNullOrEmpty(aspireCustomer?.LeaseSource))
+                    {
+                        setLeadSource = null;
+                    }
                 }
 
                 var UDFs = new List<UDF>();
-                if (!string.IsNullOrEmpty(owner.HomePhone))
+                UDFs.Add(new UDF()
                 {
-                    UDFs.Add(new UDF()
-                    {
-                        Name = AspireUdfFields.HomePhoneNumber,
-                        Value = owner.HomePhone
-                    });
-                }
-                if (!string.IsNullOrEmpty(owner.MobilePhone))
+                    Name = AspireUdfFields.HomePhoneNumber,
+                    Value = !string.IsNullOrEmpty(owner.HomePhone) ? owner.HomePhone : BlankValue
+                });
+                UDFs.Add(new UDF()
                 {
-                    UDFs.Add(new UDF()
-                    {
-                        Name = AspireUdfFields.MobilePhoneNumber,
-                        Value = owner.MobilePhone
-                    });
-                }
-                var leadSource = _configuration.GetSetting(WebConfigKeys.ONBOARDING_LEAD_SOURCE_KEY);
-                if (!string.IsNullOrEmpty(leadSource))
+                    Name = AspireUdfFields.MobilePhoneNumber,
+                    Value = !string.IsNullOrEmpty(owner.MobilePhone) ? owner.MobilePhone : BlankValue
+                });
+                if (!string.IsNullOrEmpty(setLeadSource))
                 {
                     UDFs.Add(new UDF()
                     {
                         Name = AspireUdfFields.CustomerLeadSource,
-                        Value = leadSource
+                        Value = setLeadSource
                     });
                 }
                 if (UDFs.Any())
@@ -1473,7 +1591,7 @@ namespace DealnetPortal.Api.Integration.Services
             return accounts ?? new List<Account>();
         }
 
-        private Application GetContractApplication(Domain.Contract contract, ICollection<NewEquipment> newEquipments = null, int equipmentcount = 1)
+        private Application GetContractApplication(Domain.Contract contract, ICollection<NewEquipment> newEquipments = null, int equipmentcount = 1, string leadSource = null)
         {
             var application = new Application()
             {
@@ -1513,7 +1631,7 @@ namespace DealnetPortal.Api.Integration.Services
                     ? "LOAN"
                     : "RENTAL";
             }
-            application.UDFs = GetApplicationUdfs(contract).ToList();
+            application.UDFs = GetApplicationUdfs(contract, leadSource).ToList();
 
             return application;
         }
@@ -1523,7 +1641,7 @@ namespace DealnetPortal.Api.Integration.Services
         /// </summary>
         /// <param name="contract"></param>
         /// <returns></returns>
-        private Application GetSimpleContractApplication(Domain.Contract contract)
+        private Application GetSimpleContractApplication(Domain.Contract contract, string leadSource = null, ContractorDTO contractor = null)
         {
             var application = new Application()
             {
@@ -1543,7 +1661,7 @@ namespace DealnetPortal.Api.Integration.Services
             application.Notes = contract.Details?.Notes ?? contract.Equipment?.Notes;
             //TODO: Implement finance program selection
             application.FinanceProgram = contract.Dealer?.Application?.FinanceProgram;//"EcoHome Finance Program";
-            application.UDFs = GetApplicationUdfs(contract).ToList();
+            application.UDFs = GetApplicationUdfs(contract, leadSource, contractor).ToList();
 
             return application;
         }
@@ -1654,8 +1772,7 @@ namespace DealnetPortal.Api.Integration.Services
                 if (response.Payload != null)
                 {
                     if (!string.IsNullOrEmpty(response.Payload.TransactionId) && response.Payload.TransactionId != "0")
-                    {
-                        dealerInfo.SentToAspire = true;
+                    {                        
                         dealerInfo.TransactionId = response.Payload?.TransactionId;
                         _unitOfWork.Save();
                         _loggingService.LogInfo($"Aspire transaction Id [{response.Payload?.TransactionId}] created for dealer onboarding form");
@@ -1752,7 +1869,7 @@ namespace DealnetPortal.Api.Integration.Services
             return checkResult;
         }
 
-        private IList<UDF> GetApplicationUdfs(Domain.Contract contract)
+        private IList<UDF> GetApplicationUdfs(Domain.Contract contract, string leadSource = null, ContractorDTO contractor = null)
         {
             var udfList = new List<UDF>();
             if (contract?.Equipment != null)
@@ -1843,28 +1960,112 @@ namespace DealnetPortal.Api.Integration.Services
                     _loggingService.LogError("Failed to get subdealers from Aspire", ex);
                 }
             }
-            var portalDescriber = _configuration.GetSetting($"PortalDescriber.{contract.Dealer?.ApplicationId}");
-            if (!string.IsNullOrEmpty(portalDescriber))
+            var setLeadSource = !string.IsNullOrEmpty(leadSource)
+                ? leadSource
+                : (_configuration.GetSetting(WebConfigKeys.DEFAULT_LEAD_SOURCE_KEY) ??
+                   (_configuration.GetSetting($"PortalDescriber.{contract.Dealer?.ApplicationId}") ??
+                    contract.Dealer?.Application?.LeadSource));
+            if (!string.IsNullOrEmpty(contract.Details.TransactionId))
+            {
+                //check lead source in aspire
+                //setLeadSource = null;
+            }
+            if (!string.IsNullOrEmpty(setLeadSource))
             {
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.LeadSource,
-                    Value = portalDescriber
+                    Value = setLeadSource
                 });
+            }
+            if (contractor != null)
+            {
+                if (!string.IsNullOrEmpty(contractor.CompanyName))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorName,
+                        Value = contractor.CompanyName
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.City))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorCity,
+                        Value = contractor.City
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.EmailAddress))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorEmail,
+                        Value = contractor.EmailAddress
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.PhoneNumber))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorPhone,
+                        Value = contractor.PhoneNumber
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.PostalCode))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorPostalCode,
+                        Value = contractor.PostalCode
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.State))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorProvince,
+                        Value = contractor.State
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.Street))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorStreet,
+                        Value = contractor.Street
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.Unit))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorUnit,
+                        Value = contractor.Unit
+                    });
+                }
+                if (!string.IsNullOrEmpty(contractor.Website))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.ReqContractorWebsite,
+                        Value = contractor.Website
+                    });
+                }
             }
 
             return udfList;
         }
 
-        private IList<UDF> GetCustomerUdfs(Domain.Customer customer, Location mainLocation, string portalDescriber, bool? isHomeOwner = null)
+        private IList<UDF> GetCustomerUdfs(Domain.Customer customer, Location mainLocation, string leadSource, bool? isHomeOwner = null, bool? existingCustomer = null)
         {
             var udfList = new List<UDF>();
-            if (!string.IsNullOrEmpty(portalDescriber))
+            if (!string.IsNullOrEmpty(leadSource))
             {
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.CustomerLeadSource,
-                    Value = portalDescriber
+                    Value = leadSource
                 });
             }
             if (mainLocation != null)
@@ -1883,13 +2084,16 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = AspireUdfFields.AuthorizedConsent,
                     Value = "Y"
                 });
-            udfList.Add(
-                new UDF()
-                {
+            if (existingCustomer.HasValue)
+            {
+                udfList.Add(
+                    new UDF()
+                    {
 
-                    Name = AspireUdfFields.ExistingCustomer,
-                    Value = string.IsNullOrEmpty(customer.AccountId) ? "N" : "Y" // ???
-                });
+                        Name = AspireUdfFields.ExistingCustomer,
+                        Value = existingCustomer.Value ? "Y" : "N"
+                    });
+            }
 
             var previousAddress = customer.Locations?.FirstOrDefault(l => l.AddressType == AddressType.PreviousAddress);
             if (previousAddress != null)
@@ -1922,6 +2126,15 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = AspireUdfFields.DefaultAddressCountry
                     },
                 });
+                if (!string.IsNullOrEmpty(previousAddress.Unit))
+                {
+                    udfList.Add(
+                        new UDF()
+                        {
+                            Name = AspireUdfFields.PreviousAddressUnit,
+                            Value = previousAddress.Unit
+                        });
+                }
             }
 
             var installationAddress = customer.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress);
@@ -1955,6 +2168,15 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = AspireUdfFields.DefaultAddressCountry
                     },
                 });
+                if (!string.IsNullOrEmpty(installationAddress.Unit))
+                {
+                    udfList.Add(
+                        new UDF()
+                        {
+                            Name = AspireUdfFields.InstallationAddressUnit,
+                            Value = installationAddress.Unit
+                        });
+                }
 
                 if (installationAddress.MoveInDate.HasValue)
                 {
@@ -1997,6 +2219,15 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = AspireUdfFields.DefaultAddressCountry
                     },
                 });
+                if (!string.IsNullOrEmpty(mailingAddress.Unit))
+                {
+                    udfList.Add(
+                        new UDF()
+                        {
+                            Name = AspireUdfFields.MailingAddressUnit,
+                            Value = mailingAddress.Unit
+                        });
+                }
             }
 
             if (isHomeOwner.HasValue)
@@ -2076,31 +2307,23 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var udfList = new List<UDF>();
 
-            if (!string.IsNullOrEmpty(dealerInfo?.CompanyInfo?.OperatingName))
+            udfList.Add(new UDF()
             {
-                udfList.Add(new UDF()
-                {
-                    Name = AspireUdfFields.OperatingName,
-                    Value = dealerInfo.CompanyInfo.OperatingName
-                });
-            }
-
-            if (dealerInfo?.CompanyInfo?.NumberOfInstallers != null)
+                Name = AspireUdfFields.OperatingName,
+                Value = !string.IsNullOrEmpty(dealerInfo?.CompanyInfo?.OperatingName) ? dealerInfo.CompanyInfo.OperatingName : BlankValue
+            });
+            udfList.Add(new UDF()
             {
-                udfList.Add(new UDF()
-                {
-                    Name = AspireUdfFields.NumberOfInstallers,
-                    Value = dealerInfo.CompanyInfo.NumberOfInstallers.GetEnumDescription()
-                });
-            }
-            if (dealerInfo?.CompanyInfo?.NumberOfSales != null)
+                Name = AspireUdfFields.NumberOfInstallers,
+                Value = dealerInfo?.CompanyInfo?.NumberOfInstallers != null ? dealerInfo.CompanyInfo.NumberOfInstallers.GetEnumDescription()
+                        : NumberOfPeople.Zero.GetEnumDescription()
+            });
+            udfList.Add(new UDF()
             {
-                udfList.Add(new UDF()
-                {
-                    Name = AspireUdfFields.NumberOfSalesPeople,
-                    Value = dealerInfo.CompanyInfo.NumberOfSales.GetEnumDescription()
-                });
-            }
+                Name = AspireUdfFields.NumberOfSalesPeople,
+                Value = dealerInfo?.CompanyInfo?.NumberOfSales != null ? dealerInfo.CompanyInfo.NumberOfSales.GetEnumDescription()
+                        : NumberOfPeople.Zero.GetEnumDescription()
+            });
             if (dealerInfo?.CompanyInfo?.BusinessType != null)
             {
                 udfList.Add(new UDF()
@@ -2125,14 +2348,20 @@ namespace DealnetPortal.Api.Integration.Services
                     Value = GetCompanyProvincesApproved(dealerInfo)
                 });
             }
-            if (!string.IsNullOrEmpty(dealerInfo?.CompanyInfo?.Website))
+            else
             {
                 udfList.Add(new UDF()
                 {
-                    Name = AspireUdfFields.Website,
-                    Value = dealerInfo.CompanyInfo.Website
+                    Name = AspireUdfFields.ProvincesApproved,
+                    Value = BlankValue
                 });
             }
+
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.Website,
+                Value = !string.IsNullOrEmpty(dealerInfo?.CompanyInfo?.Website) ? dealerInfo.CompanyInfo.Website : BlankValue
+            });
 
             if (dealerInfo.ProductInfo?.Brands?.Any() == true || !string.IsNullOrEmpty(dealerInfo.ProductInfo?.PrimaryBrand))
             {
@@ -2151,22 +2380,27 @@ namespace DealnetPortal.Api.Integration.Services
                     Value = string.Join(", ", brandsList)
                 });
             }
-            if (dealerInfo.ProductInfo?.AnnualSalesVolume != null)
+            else
             {
                 udfList.Add(new UDF()
                 {
-                    Name = AspireUdfFields.AnnualSalesVolume,
-                    Value = dealerInfo.ProductInfo.AnnualSalesVolume?.ToString(CultureInfo.InvariantCulture)
+                    Name = AspireUdfFields.ManufacturerBrandsSold,
+                    Value = BlankValue
                 });
             }
-            if (dealerInfo.ProductInfo?.AverageTransactionSize != null)
+
+            udfList.Add(new UDF()
             {
-                udfList.Add(new UDF()
-                {
-                    Name = AspireUdfFields.AverageTransactionSize,
-                    Value = dealerInfo.ProductInfo.AverageTransactionSize?.ToString(CultureInfo.InvariantCulture)
-                });
-            }
+                Name = AspireUdfFields.AnnualSalesVolume,
+                Value = dealerInfo.ProductInfo?.AnnualSalesVolume != null ? dealerInfo.ProductInfo.AnnualSalesVolume?.ToString(CultureInfo.InvariantCulture) : BlankValue
+            });
+
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.AverageTransactionSize,
+                Value = dealerInfo.ProductInfo?.AverageTransactionSize != null ? dealerInfo.ProductInfo.AverageTransactionSize?.ToString(CultureInfo.InvariantCulture) : BlankValue
+            });
+
             if (dealerInfo.ProductInfo?.LeadGenReferrals != null)
             {
                 udfList.Add(new UDF()
@@ -2274,39 +2508,37 @@ namespace DealnetPortal.Api.Integration.Services
                     //?? equipments.FirstOrDefault(eq => eq.Id == s.EquipmentId)?.Type
                 });
             }
-            if (!string.IsNullOrEmpty(dealerInfo.ProductInfo?.OemName))
+            else
             {
                 udfList.Add(new UDF()
                 {
-                    Name = AspireUdfFields.OemName,
-                    Value = dealerInfo.ProductInfo.OemName
-                });
-            }
-            if (!string.IsNullOrEmpty(dealerInfo.ProductInfo?.FinanceProviderName))
-            {
-                udfList.Add(new UDF()
-                {
-                    Name = AspireUdfFields.FinanceProviderName,
-                    Value = dealerInfo.ProductInfo.FinanceProviderName
-                });
-            }
-            if (dealerInfo.ProductInfo?.MonthlyFinancedValue != null)
-            {
-                udfList.Add(new UDF()
-                {
-                    Name = AspireUdfFields.MonthlyCapitalValue,
-                    Value = dealerInfo.ProductInfo.MonthlyFinancedValue?.ToString(CultureInfo.InvariantCulture)
-                });
-            }
-            if (dealerInfo.ProductInfo?.PercentMonthlyDealsDeferred != null)
-            {
-                udfList.Add(new UDF()
-                {
-                    Name = AspireUdfFields.MonthlyDealsToBeDeferred,
-                    Value = $"{dealerInfo.ProductInfo.PercentMonthlyDealsDeferred?.ToString(CultureInfo.InvariantCulture)}%"
+                    Name = AspireUdfFields.ProductsForFinancingProgram,
+                    Value = BlankValue
                 });
             }
 
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.OemName,
+                Value = !string.IsNullOrEmpty(dealerInfo.ProductInfo?.OemName) ? dealerInfo.ProductInfo.OemName : BlankValue
+            });
+
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.FinanceProviderName,
+                Value = !string.IsNullOrEmpty(dealerInfo.ProductInfo?.FinanceProviderName) ? dealerInfo.ProductInfo.FinanceProviderName : BlankValue
+            });
+
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.MonthlyCapitalValue,
+                Value = dealerInfo.ProductInfo?.MonthlyFinancedValue != null ? dealerInfo.ProductInfo.MonthlyFinancedValue?.ToString(CultureInfo.InvariantCulture) : BlankValue
+            });
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.MonthlyDealsToBeDeferred,
+                Value = dealerInfo.ProductInfo?.PercentMonthlyDealsDeferred != null ? $"{dealerInfo.ProductInfo.PercentMonthlyDealsDeferred?.ToString(CultureInfo.InvariantCulture)}%" : $"{0.0M.ToString(CultureInfo.InvariantCulture)}%"
+            });
             udfList.Add(new UDF()
             {
                 Name = AspireUdfFields.MarketingConsent,
@@ -2374,109 +2606,77 @@ namespace DealnetPortal.Api.Integration.Services
 
         private IList<UDF> GetCompanyOwnersUdfs(DealerInfo dealerInfo)
         {
+            const int maxOwners = 5;
             var ownerNum = 1;
-            var udfs = dealerInfo.Owners?.OrderBy(o => o.OwnerOrder).Take(5).SelectMany(owner =>
+            var owners = dealerInfo.Owners?.OrderBy(o => o.OwnerOrder).Take(maxOwners).ToList() ?? new List<OwnerInfo>();
+            for (int i = owners.Count(); i < maxOwners; i++)
+            {
+                owners.Add(null);
+            }
+            
+            var udfs = owners.SelectMany(owner =>
             {
                 var ownerUdfs = new List<UDF>();
-                if (!string.IsNullOrEmpty(owner?.FirstName))
+                ownerUdfs.Add(new UDF()
                 {
-                    ownerUdfs.Add(new UDF()
-                    {
-                        Name = $"{AspireUdfFields.OwnerFirstName} {ownerNum}",
-                        Value = owner.FirstName
-                    });
-                }
-                if (!string.IsNullOrEmpty(owner?.LastName))
+                    Name = $"{AspireUdfFields.OwnerFirstName} {ownerNum}",
+                    Value = !string.IsNullOrEmpty(owner?.FirstName) ? owner.FirstName : BlankValue
+                });
+                ownerUdfs.Add(new UDF()
                 {
-                    ownerUdfs.Add(new UDF()
-                    {
-                        Name = $"{AspireUdfFields.OwnerLastName} {ownerNum}",
-                        Value = owner.LastName
-                    });
-                }
-                if (owner?.DateOfBirth != null)
+                    Name = $"{AspireUdfFields.OwnerLastName} {ownerNum}",
+                    Value = !string.IsNullOrEmpty(owner?.LastName) ? owner.LastName : BlankValue
+                });
+                ownerUdfs.Add(new UDF()
                 {
-                    ownerUdfs.Add(new UDF()
-                    {
-                        Name = $"{AspireUdfFields.OwnerDateOfBirth} {ownerNum}",
-                        Value = owner.DateOfBirth?.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
-                    });
-                }
-                if (!string.IsNullOrEmpty(owner?.HomePhone))
+                    Name = $"{AspireUdfFields.OwnerDateOfBirth} {ownerNum}",
+                    Value = owner?.DateOfBirth != null ? owner.DateOfBirth?.ToString("d", CultureInfo.CreateSpecificCulture("en-US")) : BlankValue
+                });
+                ownerUdfs.Add(new UDF()
                 {
-                    ownerUdfs.Add(new UDF()
-                    {
-                        Name = $"{AspireUdfFields.OwnerHomePhone} {ownerNum}",
-                        Value = owner.HomePhone
-                    });
-                }
-                if (!string.IsNullOrEmpty(owner?.MobilePhone))
+                    Name = $"{AspireUdfFields.OwnerHomePhone} {ownerNum}",
+                    Value = !string.IsNullOrEmpty(owner?.HomePhone) ? owner.HomePhone : BlankValue
+                });
+                ownerUdfs.Add(new UDF()
                 {
-                    ownerUdfs.Add(new UDF()
-                    {
-                        Name = $"{AspireUdfFields.OwnerMobilePhone} {ownerNum}",
-                        Value = owner.MobilePhone
-                    });
-                }
-                if (!string.IsNullOrEmpty(owner?.EmailAddress))
+                    Name = $"{AspireUdfFields.OwnerMobilePhone} {ownerNum}",
+                    Value = !string.IsNullOrEmpty(owner?.MobilePhone) ? owner.MobilePhone : BlankValue
+                });
+                ownerUdfs.Add(new UDF()
                 {
-                    ownerUdfs.Add(new UDF()
-                    {
-                        Name = $"{AspireUdfFields.OwnerEmail} {ownerNum}",
-                        Value = owner.EmailAddress
-                    });
-                }
-                if (owner?.Address != null)
+                    Name = $"{AspireUdfFields.OwnerEmail} {ownerNum}",
+                    Value = !string.IsNullOrEmpty(owner?.EmailAddress) ? owner.EmailAddress : BlankValue
+                });
+                ownerUdfs.Add(new UDF()
                 {
-                    if (!string.IsNullOrEmpty(owner.Address.Street))
-                    {
-                        ownerUdfs.Add(new UDF()
-                        {
-                            Name = $"{AspireUdfFields.OwnerAddress} {ownerNum}",
-                            Value = owner.Address.Street
-                        });
-                    }
-                    if (!string.IsNullOrEmpty(owner.Address.City))
-                    {
-                        ownerUdfs.Add(new UDF()
-                        {
-                            Name = $"{AspireUdfFields.OwnerAddressCity} {ownerNum}",
-                            Value = owner.Address.City
-                        });
-                    }
-                    if (!string.IsNullOrEmpty(owner.Address.PostalCode))
-                    {
-                        ownerUdfs.Add(new UDF()
-                        {
-                            Name = $"{AspireUdfFields.OwnerAddressPostalCode} {ownerNum}",
-                            Value = owner.Address.PostalCode
-                        });
-                    }
-                    if (!string.IsNullOrEmpty(owner.Address.State))
-                    {
-                        ownerUdfs.Add(new UDF()
-                        {
-                            Name = $"{AspireUdfFields.OwnerAddressState} {ownerNum}",
-                            Value = owner.Address.State
-                        });
-                    }
-                    if (!string.IsNullOrEmpty(owner.Address.Unit))
-                    {
-                        ownerUdfs.Add(new UDF()
-                        {
-                            Name = $"{AspireUdfFields.OwnerAddressUnit} {ownerNum}",
-                            Value = owner.Address.Unit
-                        });
-                    }
-                }
-                if (owner?.PercentOwnership != null)
+                    Name = $"{AspireUdfFields.OwnerAddress} {ownerNum}",
+                    Value = !string.IsNullOrEmpty(owner?.Address?.Street) ? owner.Address.Street : BlankValue
+                });
+                ownerUdfs.Add(new UDF()
                 {
-                    ownerUdfs.Add(new UDF()
-                    {
-                        Name = $"{AspireUdfFields.OwnerPercentageOfOwnership} {ownerNum}",
-                        Value = $"{owner.PercentOwnership?.ToString(CultureInfo.InvariantCulture)}%"
-                    });
-                }
+                    Name = $"{AspireUdfFields.OwnerAddressCity} {ownerNum}",
+                    Value = !string.IsNullOrEmpty(owner?.Address?.City) ? owner.Address.City : BlankValue
+                });
+                ownerUdfs.Add(new UDF()
+                {
+                    Name = $"{AspireUdfFields.OwnerAddressPostalCode} {ownerNum}",
+                    Value = !string.IsNullOrEmpty(owner?.Address?.PostalCode) ? owner.Address.PostalCode : BlankValue
+                });
+                ownerUdfs.Add(new UDF()
+                {
+                    Name = $"{AspireUdfFields.OwnerAddressState} {ownerNum}",
+                    Value = !string.IsNullOrEmpty(owner?.Address?.State) ? owner.Address.State : BlankValue
+                });
+                ownerUdfs.Add(new UDF()
+                {
+                    Name = $"{AspireUdfFields.OwnerAddressUnit} {ownerNum}",
+                    Value = !string.IsNullOrEmpty(owner?.Address?.Unit) ? owner.Address.Unit : BlankValue
+                });
+                ownerUdfs.Add(new UDF()
+                {
+                    Name = $"{AspireUdfFields.OwnerPercentageOfOwnership} {ownerNum}",
+                    Value = owner?.PercentOwnership != null ? $"{owner.PercentOwnership?.ToString(CultureInfo.InvariantCulture)}%" : $"{0.0M.ToString(CultureInfo.InvariantCulture)}%"
+                });               
 
                 ownerNum++;
                 return ownerUdfs;

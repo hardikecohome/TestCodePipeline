@@ -5,6 +5,13 @@
             minDate: new Date()
         };
 
+        var rateCardValid = $('#RateCardValid').val().toLowerCase() !== 'false' ? true : false;;
+
+        if (!rateCardValid) {
+            $('#expired-rate-card-warning').removeClass('hidden');
+            $('#submitBtn').addClass('disabled');
+        }
+
         $('.date-input').each(function (index, input) {
             assignDatepicker(input, datepickerOptions)
         });

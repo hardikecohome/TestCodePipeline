@@ -28,7 +28,7 @@ namespace DealnetPortal.Web.Models.Dealer
         public bool AllowCommunicate { get; set; }
 
         public bool AllowCreditCheck { get; set; }
-
+        public bool IsDocumentsUploaded { get; set; }
         public CompanyInfoViewModel CompanyInfo { get; set; }
         
         public List<OwnerViewModel> Owners { get; set; }

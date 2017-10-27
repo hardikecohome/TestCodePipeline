@@ -307,7 +307,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             long dpId = 0;
             List<Alert> alerts = new List<Alert>();            
 
-            if (agreementTemplate?.AgreementForm != null)
+            if (agreementTemplate?.TemplateDocument != null)
             {
                 var resPr = await _signatureServiceAgent.CreateDocumentProfile(transId, _eCoreAgreementTemplate, null).ConfigureAwait(false);
                 if (resPr.Item2?.Any() ?? false)
@@ -318,7 +318,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 {
                     dpId = resPr.Item1.sid;
 
-                    var resDv = await _signatureServiceAgent.UploadDocument(dpId, agreementTemplate.AgreementForm, agreementTemplate.TemplateName).ConfigureAwait(false);
+                    var resDv = await _signatureServiceAgent.UploadDocument(dpId, agreementTemplate.TemplateDocument.TemplateBinary, agreementTemplate.TemplateDocument.TemplateName).ConfigureAwait(false);
                     if (resDv.Item2?.Any() ?? false)
                     {
                         alerts.AddRange(resDv.Item2);

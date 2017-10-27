@@ -687,6 +687,17 @@
 }
 
 .onboard-success-page {
+    max-width: 800px;
+    margin: auto;
+    height: calc(~"100vh - 150px");
+    &:before {
+        content:'';
+        display: inline-block;
+        height: 15%;
+    }
+    @media @tablet-down {
+        width:100%;
+    }
     .onboard-navbar{
         text-align:left;
     }
@@ -696,6 +707,31 @@
     .page-heading {
         margin-bottom: 20px;
         line-height: 1.39;
+    }
+    .align-middle-inner {
+        margin: auto;
+        vertical-align: middle;
+    }
+    .well.danger-well {
+        padding: 14px 10px 12px;
+        .link-well {
+            text-align: left;
+            padding-left: 20px;
+            padding-right:20px; 
+            .btn-small {
+                width:100%;
+            }
+        }
+    }
+    #send-draft-email {
+        .dealnet-success-button {
+            @media @desktop-up {
+                width:200px;
+            }
+            @media @tablet-down {
+                width:100%;
+            }
+        }
     }
 }
 .save-and-resume-hold{
@@ -869,6 +905,13 @@
                 }
             }
         }
+    }
+    .btn-holder {
+        label {
+            margin-bottom: 8px;
+        }
+    }
+}
 
         .email-sent-success {
             font-size: 18px;
@@ -889,20 +932,27 @@
                 @media @mobile {
                     display: block;
                     margin: auto;
-                    width: 35%;
+                    width: 25%;
                 }
             }
         }
-    }
-    .btn-holder {
-        label {
-            margin-bottom: 8px;
-        }
-    }
-}
 
 .onboard-popover.top {
   @media @tablet-up {
     margin: 40px 0 0 210px;
   }
+}
+
+.onboard-success-title {
+    font-weight: normal;
+    word-wrap: break-word;
+    width: 440px;
+    margin: 10px auto;
+    @media @tablet-down {
+        width:100%;
+    }
+}
+
+.onboard-title-normal {
+    font-weight: normal;
 }

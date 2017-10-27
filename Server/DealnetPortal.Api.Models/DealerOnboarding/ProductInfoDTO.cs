@@ -11,8 +11,8 @@ namespace DealnetPortal.Api.Models.DealerOnboarding
     public class ProductInfoDTO
     {
         public int Id { get; set; }
-        public decimal? AnnualSalesVolume { get; set; }
-        public decimal? AverageTransactionSize { get; set; }
+        public string AnnualSalesVolume { get; set; }
+        public string AverageTransactionSize { get; set; }
         
         public ProgramServices? ProgramService { get; set; }
 
@@ -29,7 +29,7 @@ namespace DealnetPortal.Api.Models.DealerOnboarding
         public string OemName { get; set; }
         public bool? WithCurrentProvider { get; set; }
         public string FinanceProviderName { get; set; }
-        public decimal? MonthlyFinancedValue { get; set; }
+        public string MonthlyFinancedValue { get; set; }
         public bool? OfferMonthlyDeferrals { get; set; }
         public decimal? PercentMonthlyDealsDeferred { get; set; }
         public ReasonForInterest? ReasonForInterest { get; set; }

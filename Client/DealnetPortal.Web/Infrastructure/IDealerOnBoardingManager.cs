@@ -18,7 +18,7 @@ namespace DealnetPortal.Web.Infrastructure
         Task<DealerOnboardingViewModel> GetDealerOnBoardingFormAsync(string accessKey);
         Task<SaveAndResumeViewModel> SaveDraft(DealerOnboardingViewModel model);
         Task<IList<Alert>> SendDealerOnboardingDraftLink(SaveAndResumeViewModel model);
-        Task<IList<Alert>> SubmitOnBoarding(DealerOnboardingViewModel model);
+        Task<SaveAndResumeViewModel> SubmitOnBoarding(DealerOnboardingViewModel model);
         Task<DocumentResponseViewModel> UploadOnboardingDocument(OnboardingDocumentForUpload fileModel);
         Task<DocumentResponseViewModel> DeleteOnboardingDocument(OnboardingDocumentForDelete fileModel);
     }

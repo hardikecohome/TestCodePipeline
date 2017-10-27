@@ -18,6 +18,7 @@ using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Contract.EquipmentInformation;
+using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
@@ -196,7 +197,7 @@ namespace DealnetPortal.Api.Integration.Services
                                     var c = InitialyzeContract(dealerId, customerFormData.PrimaryCustomer,
                                         customerFormData.StartProjectDate,
                                         sRequest.PrecreatedContractId, sRequest.ServiceType,
-                                        customerFormData.CustomerComment);
+                                        customerFormData.CustomerComment, customerFormData.LeadSource, customerFormData.ContractorInfo);
                                     // mark as created by customer
                                     c.IsCreatedByCustomer = true;
                                     //check role of a dealer
@@ -256,6 +257,11 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         c.IsNewlyCreated = true;
                         c.IsCreatedByCustomer = true;
+                        if (customerFormData.ContractorInfo != null)
+                        {
+                            c.Dealer = null;
+                            c.DealerId = null;
+                        }
                     });
                     _unitOfWork.Save();
 
@@ -287,6 +293,28 @@ namespace DealnetPortal.Api.Integration.Services
         public CustomerContractInfoDTO GetCustomerContractInfo(int contractId, string dealerName)
         {
             CustomerContractInfoDTO contractInfo = null;
+            if (string.IsNullOrEmpty(dealerName))
+            {
+                var contract = _contractRepository.GetContract(contractId);
+                if (contract != null)
+                {
+                    return new CustomerContractInfoDTO()
+                    {
+                        ContractId = contractId,
+                        AccountId = contract.PrimaryCustomer?.AccountId,
+                        DealerName = contract.LastUpdateOperator,
+                        TransactionId = contract.Details?.TransactionId,
+                        ContractState = contract.ContractState,
+                        Status = contract.Details?.Status,
+                        CreditAmount = contract.Details?.CreditAmount ?? 0,
+                        ScorecardPoints = contract.Details?.ScorecardPoints ?? 0,
+                        CreationTime = contract.CreationTime,
+                        LastUpdateTime = contract.LastUpdateTime,
+                        EquipmentTypes = contract.Equipment?.NewEquipment?.Select(e => e.Type).ToList()
+                    };
+
+                }
+            }
             var dealerId = _dealerRepository.GetUserIdByName(dealerName);
             if (!string.IsNullOrEmpty(dealerId))
             {
@@ -361,7 +389,8 @@ namespace DealnetPortal.Api.Integration.Services
                     PrimaryCustomer = customerFormData.PrimaryCustomer,
                     //HomeOwners = new List<Customer> { customer },
                     DealerId = dealerId,
-                    Id = contract.Id
+                    Id = contract.Id,
+                    LeadSource = customerFormData.LeadSource
                 };
                 _contractService.UpdateContractData(contractData, dealerId);
 
@@ -530,7 +559,8 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        private Contract InitialyzeContract(string contractOwnerId, CustomerDTO primaryCustomer, DateTime? preferredStartDate, int? contractId = null, string equipmentType = null, string customerComment = null)
+        private Contract InitialyzeContract(string contractOwnerId, CustomerDTO primaryCustomer, DateTime? preferredStartDate, int? contractId = null, string equipmentType = null, 
+            string customerComment = null, string leadSource = null, ContractorDTO contractor = null)
         {
             Contract contract = null;
             //update or create a brand new contract
@@ -597,9 +627,10 @@ namespace DealnetPortal.Api.Integration.Services
                                     Description = _contractRepository.GetEquipmentTypeInfo(equipmentType)?.Description
                                 }}
                         }
-                        : null,                    
+                        : null,
+                    LeadSource = leadSource
                 };
-                _contractService.UpdateContractData(contractDataDto, contractOwnerId);
+                _contractService.UpdateContractData(contractDataDto, contractOwnerId, contractor);
             }
 
             return contract;

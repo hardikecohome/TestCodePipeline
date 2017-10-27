@@ -59,7 +59,7 @@ namespace DealnetPortal.Web.Controllers
                     }
                 }
 
-                if (contractResult.Item1.ContractState == ContractState.CreditConfirmed && contractResult.Item1.OnCreditReview != true && isNewlyCreated != true)
+                if (contractResult.Item1.ContractState == ContractState.CreditConfirmed && isNewlyCreated != true)
                 {
                     return RedirectToAction("EquipmentInformation", new { contractId });
                 }
@@ -353,17 +353,21 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModelNew equipmentInfo)
         {
             ViewBag.IsAllInfoCompleted = false;
-
-            var updateResult = await _contractManager.UpdateContractAsyncNew(equipmentInfo);
-
-            if (updateResult.Any(r => r.Type == AlertType.Error))
+            var ratecardValid = await _contractManager.CheckRateCard(equipmentInfo.ContractId.Value, equipmentInfo.SelectedRateCardId);
+            if (ratecardValid)
             {
-                TempData[PortalConstants.CurrentAlerts] = updateResult;
+                var updateResult = await _contractManager.UpdateContractAsyncNew(equipmentInfo);
 
-                return RedirectToAction("Error", "Info");
+                if (updateResult.Any(r => r.Type == AlertType.Error))
+                {
+                    TempData[PortalConstants.CurrentAlerts] = updateResult;
+
+                    return RedirectToAction("Error", "Info");
+                }
+
+                return RedirectToAction("ContactAndPaymentInfo", new { contractId = equipmentInfo.ContractId });
             }
-
-            return RedirectToAction("ContactAndPaymentInfo", new { contractId = equipmentInfo.ContractId });
+            return RedirectToAction("EquipmentInformation", new { equipmentInfo.ContractId.Value });
         }
 
         [HttpGet]
@@ -404,16 +408,21 @@ namespace DealnetPortal.Web.Controllers
 
             return View(await _contractManager.GetSummaryAndConfirmationAsync(contractId));
         }
-        
+
         public async Task<ActionResult> SubmitDeal(int contractId)
         {
-            var result = await _contractServiceAgent.SubmitContract(contractId);
-
-            if (result?.Item1?.CreditCheckState == CreditCheckState.Declined)
+            var rateCardValid = await _contractManager.CheckRateCard(contractId, null);
+            if (rateCardValid)
             {
-                return RedirectToAction("CreditDeclined", new { contractId });
+                var result = await _contractServiceAgent.SubmitContract(contractId);
+
+                if (result?.Item1?.CreditCheckState == CreditCheckState.Declined)
+                {
+                    return RedirectToAction("CreditDeclined", new {contractId});
+                }
+                return RedirectToAction("AgreementSubmitSuccess", new {contractId});
             }
-            return RedirectToAction("AgreementSubmitSuccess", new { contractId });            
+            return RedirectToAction("SummaryAndConfirmation", new {contractId});
         }
 
         [HttpPost]

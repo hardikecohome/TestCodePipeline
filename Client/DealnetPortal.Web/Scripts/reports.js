@@ -227,6 +227,7 @@ $.fn.dataTable.ext.search.push(
         var value = parseFloat(data[10].replace(/[\$,]/g, ''));
         var valueOfDealFrom = parseFloat($("#deal-value-from").val());
         var valueOfDealTo = parseFloat($("#deal-value-to").val());
+
         if ((!status || status === data[3]) &&
             (!dateTo || date <= dateTo) &&
             (!dateFrom || date >= dateFrom) &&

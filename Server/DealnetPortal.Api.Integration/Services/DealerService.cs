@@ -5,11 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.Profile;
+using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
@@ -26,6 +28,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IDealerRepository _dealerRepository;
         private readonly IDealerOnboardingRepository _dealerOnboardingRepository;
         private readonly IAspireService _aspireService;
+        private readonly IAspireStorageReader _aspireStorageReader;
         private readonly IContractRepository _contractRepository;
         private readonly ILoggingService _loggingService;
         private readonly IUnitOfWork _unitOfWork;
@@ -33,12 +36,13 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IAppConfiguration _configuration;
 
         public DealerService(IDealerRepository dealerRepository, IDealerOnboardingRepository dealerOnboardingRepository, 
-            IAspireService aspireService, ILoggingService loggingService, IUnitOfWork unitOfWork, IContractRepository contractRepository, IMailService mailService,
+            IAspireService aspireService, IAspireStorageReader aspireStorageReader, ILoggingService loggingService, IUnitOfWork unitOfWork, IContractRepository contractRepository, IMailService mailService,
             IAppConfiguration configuration)
         {
             _dealerRepository = dealerRepository;
             _dealerOnboardingRepository = dealerOnboardingRepository;
             _aspireService = aspireService;
+            _aspireStorageReader = aspireStorageReader;
             _loggingService = loggingService;
             _unitOfWork = unitOfWork;
             _contractRepository = contractRepository;
@@ -124,6 +128,7 @@ namespace DealnetPortal.Api.Integration.Services
         public DealerInfoDTO GetDealerOnboardingForm(string accessKey)
         {
             var dealerInfo = _dealerOnboardingRepository.GetDealerInfoByAccessKey(accessKey);
+            RevertUnprocessedDocuments(dealerInfo);
             var mappedInfo = Mapper.Map<DealerInfoDTO>(dealerInfo);
             return mappedInfo;
         }
@@ -131,11 +136,12 @@ namespace DealnetPortal.Api.Integration.Services
         public DealerInfoDTO GetDealerOnboardingForm(int id)
         {
             var dealerInfo = _dealerOnboardingRepository.GetDealerInfoById(id);
+            RevertUnprocessedDocuments(dealerInfo);
             var mappedInfo = Mapper.Map<DealerInfoDTO>(dealerInfo);
             return mappedInfo;
         }
 
-        public Tuple<DealerInfoKeyDTO, IList<Alert>> UpdateDealerOnboardingForm(DealerInfoDTO dealerInfo)
+        public async Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> UpdateDealerOnboardingForm(DealerInfoDTO dealerInfo)
         {
             if (dealerInfo == null)
             {
@@ -151,11 +157,39 @@ namespace DealnetPortal.Api.Integration.Services
                                               _dealerRepository.GetUserIdByOnboardingLink(dealerInfo.SalesRepLink);
                 var updatedInfo = _dealerOnboardingRepository.AddOrUpdateDealerInfo(mappedInfo);
                 _unitOfWork.Save();
+
+                ProcessDocuments(updatedInfo);
+
                 resultKey = new DealerInfoKeyDTO()
                 {
                     AccessKey = updatedInfo.AccessKey,
                     DealerInfoId = updatedInfo.Id
                 };
+                
+                //submit draft form to Aspire                                             
+                var reSubmit = updatedInfo.SentToAspire;                
+                string statusToSet = !string.IsNullOrEmpty(updatedInfo.TransactionId) ? _aspireStorageReader.GetDealStatus(updatedInfo.TransactionId) ?? updatedInfo.Status : null;
+                var submitResult = await _aspireService.SubmitDealerOnboarding(updatedInfo.Id, dealerInfo.LeadSource);
+                if (submitResult?.Any() ?? false)
+                {
+                    //for draft aspire errors is not important and can be by not full set of data
+                    submitResult.Where(r => r.Type == AlertType.Error).ForEach(r => r.Type = AlertType.Warning);
+                    alerts.AddRange(submitResult);
+                }
+                if (reSubmit || !string.IsNullOrEmpty(statusToSet))
+                {
+                    //if we don't send any docs, just change status in Aspire to needed
+                    var result = await
+                        _aspireService.ChangeDealStatusEx(updatedInfo.TransactionId,
+                            statusToSet ?? _configuration.GetSetting(WebConfigKeys.ONBOARDING_DRAFT_STATUS_KEY),
+                            updatedInfo.ParentSalesRepId);
+                    //TODO save status
+                    if (!string.IsNullOrEmpty(result.Item1))
+                    {
+                        updatedInfo.Status = result.Item1;
+                        _unitOfWork.Save(); ;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -169,7 +203,7 @@ namespace DealnetPortal.Api.Integration.Services
             return new Tuple<DealerInfoKeyDTO, IList<Alert>>(resultKey, alerts);
         }
 
-        public async Task<IList<Alert>> SubmitDealerOnboardingForm(DealerInfoDTO dealerInfo)
+        public async Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> SubmitDealerOnboardingForm(DealerInfoDTO dealerInfo)
         {
             if (dealerInfo == null)
             {
@@ -177,6 +211,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             var alerts = new List<Alert>();
+            DealerInfoKeyDTO resultKey = null;
             try
             {
                 //update draft in a database as we should have it with required documents 
@@ -185,9 +220,19 @@ namespace DealnetPortal.Api.Integration.Services
                                               _dealerRepository.GetUserIdByOnboardingLink(dealerInfo.SalesRepLink);
                 var updatedInfo = _dealerOnboardingRepository.AddOrUpdateDealerInfo(mappedInfo);
                 _unitOfWork.Save();
+
+                ProcessDocuments(updatedInfo);
+
+                resultKey = new DealerInfoKeyDTO()
+                {
+                    AccessKey = updatedInfo.AccessKey,
+                    DealerInfoId = updatedInfo.Id
+                };
+
                 //submit form to Aspire                                             
                 var reSubmit = updatedInfo.SentToAspire;
-                var submitResult = await _aspireService.SubmitDealerOnboarding(updatedInfo.Id);
+                string statusToSet = reSubmit ? _aspireStorageReader.GetDealStatus(updatedInfo.TransactionId) ?? _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY) : _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY);
+                var submitResult = await _aspireService.SubmitDealerOnboarding(updatedInfo.Id, dealerInfo.LeadSource);
                 if (submitResult?.Any() ?? false)
                 {
                     alerts.AddRange(submitResult);
@@ -198,8 +243,36 @@ namespace DealnetPortal.Api.Integration.Services
                     var errorMsg = string.Concat(submitResult.Where(x => x.Type == AlertType.Error).Select(r => r.Header + ": " + r.Message).ToArray());
                     await _mailService.SendProblemsWithSubmittingOnboarding(errorMsg, updatedInfo.Id, mappedInfo.AccessKey);
                 }
+                else
+                {
+                    if (!reSubmit)
+                    {
+                        updatedInfo.Status = statusToSet;
+                        updatedInfo.SentToAspire = true;
+                        _unitOfWork.Save();
+                    }
+                }
                 //upload required documents
-                UploadOnboardingDocuments(updatedInfo.Id, reSubmit ? updatedInfo.Status : _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY));
+                if (updatedInfo.RequiredDocuments?.Any(d => !d.Uploaded) == true)
+                {
+                    UploadOnboardingDocuments(updatedInfo.Id, statusToSet ?? _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY));                                        
+                }
+                else
+                {
+                    if (!reSubmit || !string.IsNullOrEmpty(statusToSet))
+                    {
+                        //if we don't send any docs, just change status in Aspire to needed
+                        var result = await
+                            _aspireService.ChangeDealStatusEx(updatedInfo.TransactionId,
+                                statusToSet ?? _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY),
+                                updatedInfo.ParentSalesRepId);
+                        if (!string.IsNullOrEmpty(result.Item1) && updatedInfo.Status != result.Item1)
+                        {
+                            updatedInfo.Status = result.Item1;
+                            _unitOfWork.Save();
+                        }
+                    }
+                }                
             }
             catch (Exception ex)
             {
@@ -208,12 +281,12 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     Type = AlertType.Error,
                     Code = ErrorCodes.FailedToUpdateContract,
-                    Header = ErrorConstants.SubmitFailed,
-                    Message = errorMsg
+                    Header = errorMsg,
+                    Message = ex.ToString()
                 });
-                _loggingService.LogError(errorMsg);
+                _loggingService.LogError(errorMsg, ex);
             }
-            return alerts;
+            return new Tuple<DealerInfoKeyDTO, IList<Alert>>(resultKey, alerts);
         }
 
         public async Task<IList<Alert>> SendDealerOnboardingDraftLink(DraftLinkDTO link)
@@ -301,7 +374,7 @@ namespace DealnetPortal.Api.Integration.Services
                     var dealerInfo = _dealerOnboardingRepository.GetDealerInfoById(document.DealerInfoId.Value);
                     if (dealerInfo != null)
                     {
-                        _dealerOnboardingRepository.DeleteDocumentFromDealer(document.Id);
+                        _dealerOnboardingRepository.SetDocumentStatus(document.Id, DocumentStatus.Removing);//DeleteDocumentFromDealer(document.Id);
 
                         _unitOfWork.Save();
                     }
@@ -364,18 +437,76 @@ namespace DealnetPortal.Api.Integration.Services
         private void UploadOnboardingDocuments(int dealerInfoId, string statusToSend = null)
         {
             var dealerInfo = _dealerOnboardingRepository.GetDealerInfoById(dealerInfoId);
-            if (dealerInfo?.RequiredDocuments?.Any(d => d.DocumentBytes != null) == true)
+            if (dealerInfo?.RequiredDocuments?.Any(d => d.DocumentBytes != null && !d.Uploaded) == true)
             {
-                Task.Run(() =>
+                Task.Run(async () =>
                 {
                     dealerInfo.RequiredDocuments.Where(d => !d.Uploaded).ForEach(doc =>
                     {
                         _aspireService.UploadOnboardingDocument(dealerInfoId, doc.Id, statusToSend).GetAwaiter().GetResult();                        
-                    });                    
+                    });
+                    try
+                    {
+                        var tryChangeByCreditReview =
+                            await _aspireService.ChangeDealStatusByCreditReview(dealerInfo.TransactionId, statusToSend ?? _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY), dealerInfo.ParentSalesRepId);
+                    }
+                    catch (Exception e)
+                    {
+                        //alerts.Add(new Alert()
+                        //{
+                        //    Type = AlertType.Warning,
+                        //    Code = ErrorCodes.FailedToUpdateContract,
+                        //    Header = "Cannot update onboarding status in Aspire",
+                        //    Message = e.ToString()
+                        //});
+                        _loggingService.LogWarning($"Cannot update onboarding form [{dealerInfoId}] status in Aspire:{e.ToString()}");
+                    }
                 });
-            }           
+            }            
+        }
+
+        private DealerInfo ProcessDocuments(DealerInfo dealerInfo)
+        {
+            var docForProcess = dealerInfo.RequiredDocuments?.Where(d => d.Status != null).ToList();
+            if (docForProcess?.Any() == true)
+            {
+                docForProcess.ForEach(d =>
+                {
+                    switch (d.Status)
+                    {                        
+                        case DocumentStatus.Removing:
+                            _dealerOnboardingRepository.DeleteDocumentFromDealer(d.Id);
+                            break;
+                        case DocumentStatus.Adding:
+                            d.Status = null;                        
+                            break;                                                
+                    }
+                });
+                _unitOfWork.Save();
+            }
+            return dealerInfo;
+        }
+
+        private DealerInfo RevertUnprocessedDocuments(DealerInfo dealerInfo)
+        {
+            var docForProcess = dealerInfo.RequiredDocuments?.Where(d => d.Status != null).ToList();
+            if (docForProcess?.Any() == true)
+            {
+                docForProcess.ForEach(d =>
+                {
+                    switch (d.Status)
+                    {
+                        case DocumentStatus.Removing:
+                            d.Status = null;                            
+                            break;
+                        case DocumentStatus.Adding:
+                            _dealerOnboardingRepository.DeleteDocumentFromDealer(d.Id);
+                            break;                        
+                    }
+                });
+                _unitOfWork.Save();
+            }
+            return dealerInfo;
         }
     }
-
-    
 }

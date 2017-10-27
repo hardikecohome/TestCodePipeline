@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Api.Common.Enumeration
 {
+    [Flags]
     public enum AgreementType
     {
         [Display(ResourceType = typeof (Resources.Resources), Name = "LoanApplication")]
@@ -15,6 +16,8 @@ namespace DealnetPortal.Api.Common.Enumeration
         [Display(ResourceType = typeof (Resources.Resources), Name = "RentalApplicationHwt")]
         RentalApplicationHwt = 1,
         [Display(ResourceType = typeof (Resources.Resources), Name = "RentalApplication")]
-        RentalApplication = 2
+        RentalApplication = 2,
+        [Display(ResourceType = typeof(Resources.Resources), Name = "RentalApplication")]
+        Rental = RentalApplicationHwt | RentalApplication,
     }
 }

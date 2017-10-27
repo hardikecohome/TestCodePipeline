@@ -48,6 +48,7 @@
     <Compile Include="Contract\ContractDataDTO.cs" />
     <Compile Include="Contract\ContractDetailsDTO.cs" />
     <Compile Include="Contract\ContractDocumentDTO.cs" />
+    <Compile Include="Contract\ContractorDTO.cs" />
     <Compile Include="Contract\CustomerFormDTO.cs" />
     <Compile Include="Contract\CustomerContractInfoDTO.cs" />
     <Compile Include="Contract\CustomerInfoDTO.cs" />

@@ -16,6 +16,7 @@ using DealnetPortal.Api.Integration.Utility;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Api.Models.Storage;
+using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
@@ -151,7 +152,7 @@ namespace DealnetPortal.Api.Integration.Services
             return contractDTO;
         }
 
-        public IList<Alert> UpdateContractData(ContractDataDTO contract, string contractOwnerId)
+        public IList<Alert> UpdateContractData(ContractDataDTO contract, string contractOwnerId, ContractorDTO contractor = null)
         {
             var alerts = new List<Alert>();
             try
@@ -166,18 +167,18 @@ namespace DealnetPortal.Api.Integration.Services
                     if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null)
                     {
                         var aspireAlerts = 
-                            _aspireService.UpdateContractCustomer(updatedContract, contractOwnerId).GetAwaiter().GetResult();
+                            _aspireService.UpdateContractCustomer(updatedContract, contractOwnerId, contract.LeadSource).GetAwaiter().GetResult();
                     }
                     if (updatedContract.ContractState != ContractState.Completed &&
                         updatedContract.ContractState != ContractState.SentToAudit)
                     {
                         var aspireAlerts = 
-                            _aspireService.SendDealUDFs(updatedContract, contractOwnerId).GetAwaiter().GetResult();
+                            _aspireService.SendDealUDFs(updatedContract, contractOwnerId, contract.LeadSource, contractor).GetAwaiter().GetResult();
                     }
 
                     if (updatedContract.ContractState == ContractState.Completed)
                     {
-                        var contractDTO = Mapper.Map<ContractDTO>(updatedContract);
+                        //var contractDTO = Mapper.Map<ContractDTO>(updatedContract);
                         //Task.Run(
                         //    async () =>
                         //        await
@@ -526,6 +527,7 @@ namespace DealnetPortal.Api.Integration.Services
                             ContractState.Completed);
                         break;
                 }
+                contract = _contractRepository.UpdateContractAspireSubmittedDate(contractId, contractOwnerId);
                 //var contract = _contractRepository.UpdateContractState(contractId, contractOwnerId,
                 //    ContractState.Completed);
                 if (contract != null)
@@ -804,7 +806,9 @@ namespace DealnetPortal.Api.Integration.Services
                                 //            _mailService.SendContractChangeNotification(contractDTO,
                                 //                contract.Dealer.Email));
                             }
-                            _aspireService.UpdateContractCustomer(contractId.Value, contractOwnerId);
+                            var leadSource = customers.FirstOrDefault(c => !string.IsNullOrEmpty(c.LeadSource))
+                                ?.LeadSource;
+                            _aspireService.UpdateContractCustomer(contractId.Value, contractOwnerId, leadSource);
                         }
                     }
                 }

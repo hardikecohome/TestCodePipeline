@@ -11,8 +11,8 @@ using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
@@ -31,9 +31,9 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ISettingsRepository _settingsRepository;
         private readonly IRateCardsRepository _rateCardsRepository;
         private readonly IAppConfiguration _сonfiguration;
-        
+
         public UsersService(IAspireStorageReader aspireStorageReader, ILoggingService loggingService, IRateCardsRepository rateCardsRepository,
-            ISettingsRepository settingsRepository, IAppConfiguration appConfiguration)
+            ISettingsRepository settingsRepository,  IAppConfiguration appConfiguration)
         {
             _aspireStorageReader = aspireStorageReader;
             _loggingService = loggingService;
@@ -69,7 +69,7 @@ namespace DealnetPortal.Api.Integration.Services
             return claims;
         }
 
-        public async Task<IList<Alert>> SyncAspireUser(ApplicationUser user, UserManager<ApplicationUser> userManager)
+        public async Task<IList<Alert>> SyncAspireUser(ApplicationUser user, UserManager<ApplicationUser> userManager = null)
         {
             if (userManager == null)
             {
@@ -138,7 +138,7 @@ namespace DealnetPortal.Api.Integration.Services
             using (var secContext = new SecureDbContext())
             {
                 try
-                {
+                {                
                     var user = secContext.Users.Find(userId);
                     aspirePassword = user?.Secure_AspirePassword;
                 }
@@ -281,25 +281,13 @@ namespace DealnetPortal.Api.Integration.Services
         private async Task<IList<Alert>> UpdateUserTier(string userId, DealerDTO aspireUser, UserManager<ApplicationUser> userManager)
         {
             var alerts = new List<Alert>();
-
             try
             {
                 var tier = _rateCardsRepository.GetTierByName(aspireUser.Ratecard);
-                //var user = userManager.Users.Include(u => u.Tier).FirstOrDefault(u => u.Id == userId);
-                //if (user != null)
-                //{
-                //    user.Tier = tier;
-                //    _unitOfWork.Save();
-                //    //Assert.IsNotNull(user);
-                //    _loggingService.LogInfo($"Tier [{aspireUser.Ratecard}] was set to an user [{userId}]");
-                //}
                 var updateUser = await userManager.FindByIdAsync(userId);
-                if (updateUser != null)
+                if (updateUser != null && tier != null)
                 {
-
-                    //updateUser.Tier = tier;
-                    updateUser.TierId = tier?.Id;
-
+                    updateUser.TierId = tier.Id;
                     var updateRes = await userManager.UpdateAsync(updateUser);
                     if (updateRes.Succeeded)
                     {
@@ -308,9 +296,12 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                     }
                 }
-
+                else
+                {
+                    _loggingService.LogInfo($"Tier [{aspireUser.Ratecard}] tier is not available. Rate card is not configured for user  [{updateUser?.Id}]");
                 }
-            catch (Exception ex)
+            }
+            catch(Exception ex)
             {
                 alerts.Add(new Alert()
                 {
@@ -320,7 +311,6 @@ namespace DealnetPortal.Api.Integration.Services
                 });
                 _loggingService.LogError($"Error during update user tier for an user {userId}", ex);
             }
-
             return alerts;
         }
         #endregion

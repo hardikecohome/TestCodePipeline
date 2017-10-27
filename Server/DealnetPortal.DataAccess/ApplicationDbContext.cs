@@ -1,6 +1,5 @@
 using System;
 using System.Data.Entity;
-using System.Diagnostics;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Dealer;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -45,6 +44,8 @@ namespace DealnetPortal.DataAccess
         public virtual DbSet<EquipmentType> EquipmentTypes { get; set; }
 
         public DbSet<AgreementTemplate> AgreementTemplates { get; set; }
+
+        public DbSet<AgreementTemplateDocument> AgreementTemplateDocuments { get; set; }
 
         public virtual DbSet<ProvinceTaxRate> ProvinceTaxRates { get; set; }
 

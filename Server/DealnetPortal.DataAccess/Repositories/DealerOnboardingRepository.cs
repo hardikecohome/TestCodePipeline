@@ -5,6 +5,7 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Domain.Dealer;
 using Microsoft.Practices.ObjectBuilder2;
 
@@ -95,6 +96,16 @@ namespace DealnetPortal.DataAccess.Repositories
             return true;
         }
 
+        public RequiredDocument SetDocumentStatus(int documentId, DocumentStatus newStatus)
+        {
+            var dbDoc = _dbContext.RequiredDocuments.Find(documentId);
+            if (dbDoc != null)
+            {
+                dbDoc.Status = newStatus;
+            }
+            return dbDoc;
+        }
+
         public RequiredDocument AddDocumentToDealer(string accessCode, RequiredDocument document)
         {
             var dealerInfo = string.IsNullOrEmpty(accessCode) ? GetDealerInfoByAccessKey(accessCode) : CreateDealerInfo();
@@ -127,6 +138,7 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 requiredDocument.Id = 0;
                 requiredDocument.CreationDate = DateTime.Now;
+                requiredDocument.Status = DocumentStatus.Adding;
                 dbDealerInfo.RequiredDocuments.Add(requiredDocument);
                 dbDoc = requiredDocument;
             }
@@ -197,6 +209,10 @@ namespace DealnetPortal.DataAccess.Repositories
             if (dbDealerInfo.AccessKey != updateDealerInfo.AccessKey)
             {
                 dbDealerInfo.AccessKey = updateDealerInfo.AccessKey;
+            }
+            if (string.IsNullOrEmpty(dbDealerInfo.AccessKey))
+            {
+                dbDealerInfo.AccessKey = GenerateDealerAccessCode();
             }
             if (dbDealerInfo.CreditCheckConsent != updateDealerInfo.CreditCheckConsent)
             {

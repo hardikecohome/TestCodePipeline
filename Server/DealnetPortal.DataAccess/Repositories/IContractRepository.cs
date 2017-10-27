@@ -131,6 +131,8 @@ namespace DealnetPortal.DataAccess.Repositories
         /// <returns>Contract</returns>
         Contract GetContract(int contractId, string contractOwnerId);
 
+        Contract GetContract(int contractId);
+
         /// <summary>
         /// Get contract as untracked from DB
         /// </summary>
@@ -224,5 +226,7 @@ namespace DealnetPortal.DataAccess.Repositories
         bool IsContractUnassignable(int contractId);
 
         IList<Contract> GetExpiredContracts(DateTime expiredDate);
+
+        Contract UpdateContractAspireSubmittedDate(int contractId, string contractOwnerId);
     }
 }

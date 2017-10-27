@@ -37,7 +37,7 @@
     }
 
     var initTooltip = function () {
-        var toggle = $('#submit').parent('[data-toggle="popover"]');
+        var toggle = $('#submitBtn').parent('[data-toggle="popover"]');
         var body = $('body');
         return function () {
             var isMobile = body.is('.tablet-device') || body.is('.mobile-device');
@@ -70,7 +70,7 @@
     }();
 
     var removeTooltip = function () {
-        var toggle = $('#submit').parent('[data-toggle="popover"]');
+        var toggle = $('#submitBtn').parent('[data-toggle="popover"]');
         return function () {
             toggle.off().popover('destroy');
         }

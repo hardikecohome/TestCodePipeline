@@ -135,7 +135,9 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public int? SelectedRateCardId { get; set; }
 
-        public TierDTO DealerTier { get; set; }
+        public TierViewModel DealerTier { get; set; }
+
+        public bool? RateCardValid { get; set; }
     }
 
     public class EquipmentInformationViewModel
@@ -203,6 +205,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public bool IsApplicantsInfoEditAvailable { get; set; }
         public bool IsFirstStepAvailable { get; set; }
+        public bool IsEditAvailable { get; set; }
 
         public decimal? CreditAmount { get; set; }
 

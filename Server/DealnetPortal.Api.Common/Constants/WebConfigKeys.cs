@@ -51,6 +51,7 @@
         public static readonly string ALL_DOCUMENTS_UPLOAD_STATUS_CONFIG_KEY = "AllDocumentsUploadedStatus";
         public static readonly string CREDIT_REVIEW_STATUS_CONFIG_KEY = "CreditReviewStatus";
         public static readonly string ONBOARDING_INIT_STATUS_KEY = "OnboardingInitStatus";
+        public static readonly string ONBOARDING_DRAFT_STATUS_KEY = "OnboardingDraftStatus";
 
         //Describing portal constants
         //Ecohome
@@ -58,6 +59,7 @@
         //ODI
         public static readonly string PORTAL_DESCRIBER_ODI_CONFIG_KEY = "PortalDescriber.606cfa8b-0e2c-47ef-b646-66c5f639aebd";
 
+        public static readonly string DEFAULT_LEAD_SOURCE_KEY = "DefaultLeadSource";
         public static readonly string ONBOARDING_LEAD_SOURCE_KEY = "OnboardingLeadSource";      
 
         public static readonly string INITIAL_DATA_SEED_ENABLED_CONFIG_KEY = "InitialDataSeedEnabled";

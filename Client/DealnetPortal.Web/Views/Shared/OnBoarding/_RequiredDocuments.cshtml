@@ -5,7 +5,7 @@
 <div class="panel customer-loan-form-panel panel-collapsed" id="documents-panel">
     <div class="panel-heading">
         <span class="panel-step">4</span>
-        <h3 class="panel-title dealnet-middle-header">Required documents</h3>
+        <h3 class="panel-title dealnet-middle-header">@Resources.RequiredDocuments</h3>
         <span class="arrow"><i class="glyphicon"></i></span>
         <span class="passed-step-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
         <input type="hidden" id="SupportedFileExtensions" value="@System.Configuration.ConfigurationManager.AppSettings["SupportedFileExtensions"]"/>
@@ -18,8 +18,8 @@
                         <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                     </span>
                     <div class="align-middle document-label">
-                        <h4 class="onboard-license-heading">Business void cheque  — Account to receive Ecohome funding</h4>
-                        <div class="placeholder-text">Please upload file in format PDF, Word, PNG, JPG</div>
+                        <h4 class="onboard-license-heading">@Resources.VoidCheque</h4>
+                        <div class="placeholder-text">@Resources.PleaseUploadInFormat @System.Configuration.ConfigurationManager.AppSettings["SupportedFileExtensions"]</div>
                         <ul class="uploaded-docs-list" id="cheque-container">
                             @foreach (RequiredDocumentViewModel document in Model.RequiredDocuments.Where(x => x.DocumentTypeId == (int)DocumentTemplateType.VoidPersonalCheque))
                             {
@@ -42,7 +42,7 @@
                     </div>
                     <div class="action-holder">
                         <div class="file-upload btn dealnet-button dealnet-link-button">
-                            <span id="cheque-upload-title">Upload</span>
+                            <span id="cheque-upload-title">@Resources.Upload</span>
                             <input type="file" class="upload" id="void-cheque-upload" name="files[]" multiple />
                         </div>
                     </div>
@@ -52,9 +52,9 @@
                         <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                     </span>
                     <div class="align-middle document-label">
-                        <h4 class="onboard-license-heading">Proof of insurance</h4>
-                        <div id="additional-insurence-text" class="hidden">Ecohome Financial Inc. must be listed as additional insured</div>
-                        <div class="placeholder-text" style="margin-top: 12px">Please upload file in format PDF, Word, PNG, JPG</div>
+                        <h4 class="onboard-license-heading">@Resources.ProofOfInsurance</h4>
+                        <div id="additional-insurence-text" class="hidden">@Resources.EcohomeMustBeListed</div>
+                        <div class="placeholder-text" style="margin-top: 12px">@Resources.PleaseUploadInFormat @System.Configuration.ConfigurationManager.AppSettings["SupportedFileExtensions"]</div>
                         <ul class="uploaded-docs-list" id="insurence-container">
                             @foreach (RequiredDocumentViewModel document in Model.RequiredDocuments.Where(x => x.DocumentTypeId == (int)DocumentTemplateType.Insurence))
                             {
@@ -77,14 +77,14 @@
                     </div>
                     <div class="action-holder">
                         <div class="file-upload btn dealnet-button dealnet-link-button">
-                            <span id="insurence-upload-title">Upload</span>
+                            <span id="insurence-upload-title">@Resources.Upload</span>
                             <input type="file" class="upload" id="insurence-upload" multiple />
                         </div>
                     </div>
                 </div>
             </div>
             <div class="onboard-standart-license hidden" id="licenseHolder">
-                <h4 class="onboard-required-documents-heading text-center">Provincial Safety Standard Licensing</h4>
+                <h4 class="onboard-required-documents-heading text-center">@Resources.ProvincialSafetyStandardLicensing</h4>
                 <hr>
                 @for (int i = 0; i < Model.AdditionalDocuments.Count; i++)
                 {
@@ -148,63 +148,4 @@
     </div>
 </div>
 
-<script id="fileUploadedTemplate" type="text/x-jquery-tmpl">
-    <li id="${id}-file-container">
-        <span class="uploaded-docs-title">
-            ${filename}
-            <a href="" class="remove-link remove-docs" id="${id}-file-remove" hiddenId="${id}">
-                <svg aria-hidden="true" class="icon icon-remove-cross">
-                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
-                </svg>
-            </a>
-        </span>
-    </li>
-</script>
-
-<script id="licenseDocumentTemplate" type="text/x-jquery-tmpl">
-    <div class="onboard-standart-doc-item" id="${id}-license-holder">
-        <input data-val="true" data-val-number="The field LicenseTypeId must be a number." id="${id}-license-id" name="AdditionalDocuments[0].LicenseTypeId" type="hidden" value="${id}">
-        <div class="row">
-            <div class="col-xs-12 col-md-4">
-                <div class="form-group">
-                    <div class="dealnet-label hidden-sm hidden-xs">&nbsp;</div>
-                    <div class="onboard-standart-license-title">${name}</div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4">
-                <div class="form-group">
-                    <label for="">Registration Number</label>
-                    <div class="control-group">
-                        <input type="text" value="" id="${id}-license-number" data-val="true" data-val-length="The field Number must be a string with a maximum length of 20." data-val-length-max="20" name="AdditionalDocuments[0].Number" class="form-control">
-                        <span class="text-danger field-validation-error" data-valmsg-for="AdditionalDocuments[0].Number" data-valmsg-replace="true"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-3 col-md-2">
-                <div class="form-group">
-                    <label for="">Expiry Date</label>
-                    <div class="control-group date-group">
-                        <input type="text" class="form-control dealnet-input" data-val-date name="AdditionalDocuments[0].ExpiredDate" id="${id}-license-date">
-                        <span class="field-validation-valid text-danger" data-valmsg-for="AdditionalDocuments[0].ExpiredDate" data-valmsg-replace="true"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-3 col-md-2">
-                <div class="form-group">
-                    <div class="dealnet-label hidden-xs">&nbsp;</div>
-                    <div class="control-group flex-centered-text">
-                        <label class="align-middle custom-checkbox">
-                            <input type="checkbox" class="dealnet-checkbox" id="${id}-license-checkbox" name="AdditionalDocuments[0].NotExpired" value="false" />
-                            <span class="icon checkbox-icon">
-                                <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
-                            </span>
-                            <span>No expiry</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <hr>
-</script>
 

@@ -40,21 +40,23 @@
             @Html.HiddenFor(x => x.SelectedRateCardId)
             @Html.HiddenFor(x => x.IsNewContract)
             @Html.HiddenFor(x => x.DealerCost)
+            @Html.HiddenFor(x => x.RateCardValid)
 <div class="form-container">
   <div class="form-section">
     @if (Model.CustomerComments != null && Model.CustomerComments.Any())
     {
-        <div class="customer-comments form-group">
-            <h3 class="dealnet-middle-header">@Resources.CustomersComment:</h3>
-            <div class="customer-comments-descr">
-                @foreach (var comment in Model.CustomerComments)
-                {
-                    @comment
-                    <br/>
-                }
-            </div>
+      <div class="customer-comments form-group">
+        <h3 class="dealnet-middle-header">@Resources.CustomersComment:</h3>
+        <div class="customer-comments-descr">
+          @foreach (var comment in Model.CustomerComments)
+          {
+            @comment
+            <br/>
+          }
         </div>
+      </div>
     }
+
     <div class="row form-group">
       <div class="col-md-3">
         @Html.LabelFor(m => m.AgreementType)
@@ -96,28 +98,14 @@
 
     <div class="financing-options">
       <div class="row">
-          <div class="col-md-3">
-              <h3 class="dealnet-middle-header">
-                  @Resources.FinancingOptions
-                  @*<a class="dealnet-info-link pull-right loan-element rate-card-link" href="@Url.Action("RateCard", "NewRental")">
-                            <svg aria-hidden="true" class="icon icon-info-well">
-                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
-                            </svg>
-                            Rate Card
-                            </a>*@
-                  <span class="financing-arrow" id="loanRateCardToggle">
-                      <i class="glyphicon glyphicon-chevron-down"></i>
-                  </span>
-              </h3>
-          </div>
-          <div class="col-md-12">
-              <div class="form-group hidden" id="not-selected-rc">
-                  <div class="well danger-well over-aged-well">
-                      <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-                      @Resources.RateCardNoLongerAvailable
-                  </div>
-              </div>
-          </div>
+        <div class="col-md-3">
+          <h3 class="dealnet-middle-header">
+            @Resources.FinancingOptions
+            <span class="financing-arrow" id="loanRateCardToggle">
+              <i class="glyphicon glyphicon-chevron-down"></i>
+            </span>
+          </h3>
+        </div>
       </div>
 
       @Html.Partial("EquipmentInformation/Agreements/_FinancialRental", Model)
@@ -187,16 +175,11 @@
   </script>
 
   <script type="text/javascript">
-    configInitialized.then(function () {
-      module.require('equipment');
-      module.require('new-equipment');
-      module.require('rate-cards');
-      module.require('rate-cards-ui');
-      module.require('custom-rate-card');
-      module.require('rate-cards-init').init(
-        @Model.ContractId,
-        @Html.Raw(Json.Encode(Model.DealerTier.RateCards)),
-        '@(!((List<RateCardType>) ViewBag.CardTypes != null && ((List<RateCardType>) ViewBag.CardTypes).Any()))' === 'True' ? true : false);
+      configInitialized.then(function () {
+        module.require('new-equipment').init(
+              @Model.ContractId,
+              @Html.Raw(Json.Encode(Model.DealerTier.RateCards)),
+              '@(!((List<RateCardType>) ViewBag.CardTypes != null && ((List<RateCardType>) ViewBag.CardTypes).Any()))' === 'True' ? true : false);
     });
   </script>
 }

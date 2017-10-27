@@ -22,7 +22,7 @@
           <div class="form-group">
             <label for="">@Resources.SelectCategory</label>
             <div class="control-group">
-              @Html.DropDownList("SelectedCategories", (Model.EquipmentTypes).Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Description }), "Please select",
+              @Html.DropDownList("SelectedCategories", (Model.EquipmentTypes).Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Description }), Resources.PleaseSelect,
               new { @class = "form-control dealnet-input", id = "offered-service" })
             </div>
           </div>

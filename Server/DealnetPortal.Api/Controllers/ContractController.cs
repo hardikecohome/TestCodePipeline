@@ -590,6 +590,23 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("GetDealerTier")]
+        [HttpGet]
+        [AllowAnonymous]
+        public IHttpActionResult GetDealerTier(int contractId)
+        {
+            try
+            {
+                var submitResult = RateCardsService.GetRateCardsByDealerId(contractId, LoggedInUser?.UserId);
+
+                return Ok(submitResult);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("CheckCustomerExisting")]
         [HttpGet]
         [AllowAnonymous]

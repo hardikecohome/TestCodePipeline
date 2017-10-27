@@ -11,6 +11,7 @@ using DealnetPortal.Api.Integration.ServiceAgents.ESignature;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Integration.Services.Signature;
 using DealnetPortal.Aspire.Integration.ServiceAgents;
+using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Utilities;

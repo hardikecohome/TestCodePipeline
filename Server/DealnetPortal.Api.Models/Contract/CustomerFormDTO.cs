@@ -17,5 +17,7 @@ namespace DealnetPortal.Api.Models.Contract
         /// </summary>
         public string SelectedService { get; set; }       
         public string DealUri { get; set; }
+        // Lead source of a client web-portal (DP, MB, OB, CW)
+        public string LeadSource { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using DealnetPortal.Aspire.Integration.Models.AspireDb;
 using DealnetPortal.Utilities.DataAccess;
 using DealnetPortal.Utilities.Logging;
 
-namespace DealnetPortal.Api.Integration.Services
+namespace DealnetPortal.Aspire.Integration.Storage
 {
     public class AspireStorageReader : IAspireStorageReader
     {
@@ -319,6 +319,15 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     userEntity.PhoneNum = phoneNum;                    
                 }
+
+                try
+                {
+                    userEntity.LeaseSource = ConvertFromDbVal<string>(dr["leaseSource"]);
+                }
+                catch (Exception)
+                {
+                    userEntity.LeaseSource = null;
+                }
                
                 return userEntity;
             }
@@ -341,13 +350,7 @@ namespace DealnetPortal.Api.Integration.Services
                     if (!string.IsNullOrEmpty(name))
                     {
                         dealerCustomerInfo.Name = name;
-                    }
-
-                    var pname = ConvertFromDbVal<string>(dr["parent_uname"]);
-                    if (!string.IsNullOrEmpty(pname))
-                    {
-                        dealerCustomerInfo.ParentUserName = pname;
-                    }
+                    }                    
                 }
                 catch (Exception ex)
                 {       
@@ -386,6 +389,14 @@ namespace DealnetPortal.Api.Integration.Services
                     dealerInfo.Ratecard = ConvertFromDbVal<string>(dr["ratecard"]);
                     dealerInfo.Role = ConvertFromDbVal<string>(dr["Role"]);
                     dealerInfo.UserId = ConvertFromDbVal<string>(dr["user_id"]);
+                    if (dr["parent_uname"] != null)
+                    {
+                        var pname = ConvertFromDbVal<string>(dr["parent_uname"]);
+                        if (!string.IsNullOrEmpty(pname))
+                        {
+                            dealerInfo.ParentUserName = pname;
+                        }
+                    }
 
                     return dealerInfo;
                 }

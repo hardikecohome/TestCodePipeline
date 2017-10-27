@@ -132,6 +132,7 @@
     <Compile Include="Controllers\ContractControllerTest.cs" />
     <Compile Include="Controllers\DictionaryControllerTest.cs" />
     <Compile Include="ESignature\ESignatureServiceAgentTest.cs" />
+    <Compile Include="ESignature\DocuSignTest.cs" />
     <Compile Include="Repositories\BaseRepositoryTest.cs" />
     <Compile Include="Repositories\RateCardsRepositoryTest.cs" />
     <Compile Include="Repositories\SettingsRepositoryTest.cs" />
@@ -151,6 +152,9 @@
     <Content Include="App.config">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Files\DocuSignNotification.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="Img\Barcode-Driver_License.CA.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

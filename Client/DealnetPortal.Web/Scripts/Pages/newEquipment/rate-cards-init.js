@@ -1,8 +1,7 @@
-﻿module.exports('rate-cards-init', function(require) {
+﻿module.exports('rate-cards-init', function (require) {
     var state = require('state').state;
     var constants = require('state').constants;
     var rateCardBlock = require('rate-cards-ui');
-    var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
 
     /**
      * Initialize view and store rate cards in storage.
@@ -18,6 +17,11 @@
         state.isNewContract = $('#IsNewContract').val().toLowerCase() === 'true';
         state.selectedCardId = $('#SelectedRateCardId').val() !== "" ? +$('#SelectedRateCardId').val() : null;
         state.onlyCustomRateCard = onlyCustomRateCard;
+        var isValidRateCard = $('#RateCardValid').val().toLocaleLowerCase() === 'true';
+
+        if (!isValidRateCard && !state.isNewContract) {
+            $('#expired-rate-card-warning').removeClass('hidden');
+        }
 
         if (state.isNewContract && state.selectedCardId === null) {
             $('#submit').addClass('disabled');
@@ -32,27 +36,22 @@
             }
         } else {
             constants.rateCards.forEach(function (option) {
-                if (sessionStorage.getItem(state.contractId + option.name) === null) {
-                    var filtred = $.grep(cards, function (card) { return card.CardType === option.id; });
-                    sessionStorage.setItem(state.contractId + option.name, JSON.stringify(filtred));
+                if (sessionStorage.getItem(state.contractId + option.name) !== null) {
+                    sessionStorage.removeItem(state.contractId + option.name);
                 }
+
+                var filtred = $.grep(cards, function (card) { return card.CardType === option.id; });
+
+                //_createDropdowns(filtred, option);
+
+                sessionStorage.setItem(state.contractId + option.name, JSON.stringify(filtred));
 
                 if (state.selectedCardId !== null) {
                     var items = $.parseJSON(sessionStorage.getItem(state.contractId + option.name));
-
                     renderSelectedRateCardUi(option.name, items);
-
                 }
             });
-            if (state.selectedCardId !== null && state.selectedCardId !== 0) {
-                if (cards.map(function (x) { return x.Id }).indexOf(state.selectedCardId) === -1) {
-                    $('#not-selected-rc').removeClass('hidden');
-                }
-
-            }
         }
-
-        recalculateValuesAndRender();
     }
 
     /**
@@ -61,7 +60,7 @@
      * @param {Array<>} items - list of rate cards for the option
      * @returns {} 
      */
-    function renderSelectedRateCardUi(option, items) {
+    function renderSelectedRateCardUi (option, items) {
         rateCardBlock.toggle(state.isNewContract);
         if (option !== 'Custom' && state.selectedCardId !== 0) {
             setSelectedRateCard(option, items);
@@ -88,9 +87,8 @@
      * @param {Array<>} items - list of rate cards for the option
      * @returns {} 
      */
-    function setSelectedRateCard(option, items) {
+    function setSelectedRateCard (option, items) {
         var selectedCard = $.grep(items, function (card) { return card.Id === Number(state.selectedCardId); })[0];
-
         if (selectedCard !== null && selectedCard !== undefined) {
             state[option] = selectedCard;
             state[option].yourCost = '';
@@ -111,7 +109,7 @@
      * populate custom rate cards with values
      * @returns {} 
      */
-    function setSelectedCustomRateCard() {
+    function setSelectedCustomRateCard () {
         var deferralPeriod = $.grep(constants.customDeferralPeriods, function (period) { return period.name === $('#LoanDeferralType').val() })[0];
 
         state['Custom'].LoanTerm = Number($('#LoanTerm').val());
@@ -127,6 +125,41 @@
         $('#CustomCRate').val(state['Custom'].CustomerRate);
         $('#CustomAFee').val(state['Custom'].AdminFee);
         $('#CustomYCostVal').val(state['Custom'].DealerCost);
+    }
+
+    function _createDropdowns(items, option) {
+        if (option.name !== 'Deferral') {
+            state[option.name + '-dropdowns'] = {};
+        }
+
+        $.each(items, function () {
+            var key = this.LoanValueFrom + '-' + this.LoanValueTo;
+            if (option.name === 'Deferral') {
+                var deferralKey = ~~this.DeferralPeriod;
+                if (state[option.name + '-' + deferralKey + '-dropdowns'] === undefined)
+                    state[option.name + '-' + deferralKey + '-dropdowns'] = {};
+
+                if (!state[option.name + '-' + deferralKey + '-dropdowns'].hasOwnProperty(key)) {
+                    state[option.name + '-' + deferralKey + '-dropdowns'][key] = [];
+                }
+
+                var dropdownValue = ~~this.LoanTerm + ' / ' + ~~this.AmortizationTerm;
+
+                if (state[option.name + '-' + deferralKey + '-dropdowns'][key].indexOf(dropdownValue) === -1) {
+                    state[option.name + '-' + deferralKey + '-dropdowns'][key].push(dropdownValue);
+                }
+            } else {
+                if (!state[option.name + '-dropdowns'].hasOwnProperty(key)) {
+                    state[option.name + '-dropdowns'][key] = [];
+                }
+
+                var dropdownValue = ~~this.LoanTerm + ' / ' + ~~this.AmortizationTerm;
+
+                if (state[option.name + '-dropdowns'][key].indexOf(dropdownValue) === -1) {
+                    state[option.name + '-dropdowns'][key].push(dropdownValue);
+                }
+            }
+        });
     }
 
     return {

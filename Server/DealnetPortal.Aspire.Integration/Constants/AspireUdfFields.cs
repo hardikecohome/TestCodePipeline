@@ -15,18 +15,21 @@
         public static string InstallationAddressCountry = "Installation Address Country";
         public static string InstallationAddressPostalCode = "Installation Address Postal Code";
         public static string InstallationAddressState = "Installation Address State";
+        public static string InstallationAddressUnit = "Installation Address Unit";
         //Mailing Address
         public static string MailingAddress = "Mailing Address";
         public static string MailingAddressCity = "Mailing Address City";
         public static string MailingAddressCountry = "Mailing Address Country";
         public static string MailingAddressPostalCode = "Mailing Address Postal Code";
         public static string MailingAddressState = "Mailing Address State";
+        public static string MailingAddressUnit = "Mailing Address Unit";
         //Previous Address
         public static string PreviousAddress = "Previous Address";
         public static string PreviousAddressCity = "Previous Address City";
         public static string PreviousAddressCountry = "Previous Address Country";
         public static string PreviousAddressPostalCode = "Previous Address Postal Code";
         public static string PreviousAddressState = "Previous Address State";
+        public static string PreviousAddressUnit = "Previous Address Unit";
         //Phones
         public static string HomePhoneNumber = "Home Phone Number";
         public static string MobilePhoneNumber = "Mobile Phone Number";
@@ -105,5 +108,17 @@
         #endregion
 
         public static string DefaultAddressCountry = "CAN";
+
+        #region CW Contractor UDFs
+        public static string ReqContractorCity = "Req contractor address city";
+        public static string ReqContractorPostalCode = "Req contractor address postalcode";
+        public static string ReqContractorStreet = "Req contractor address street";
+        public static string ReqContractorUnit = "Req contractor address unit";
+        public static string ReqContractorEmail = "Req contractor email";
+        public static string ReqContractorName = "Req contractor name";
+        public static string ReqContractorPhone = "Req contractor phone";
+        public static string ReqContractorProvince = "Req contractor province";
+        public static string ReqContractorWebsite = "Req contractor website";
+        #endregion
     }
 }

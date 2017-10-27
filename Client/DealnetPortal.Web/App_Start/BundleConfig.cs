@@ -275,6 +275,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/Modules/index.js")
                 .Include("~/Scripts/Utils/objectUtils.js")
                 .Include("~/Scripts/general-address-autocomplete.js")
+                .Include("~/Scripts/jquery.form.js")
                 .IncludeDirectory("~/Scripts/Pages/onboarding", "*.js", true));
         }
     }

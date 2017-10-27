@@ -14,6 +14,7 @@ using DealnetPortal.Web.Models;
 using System.Reflection;
 using System.Collections;
 using System.Globalization;
+using DealnetPortal.Api.Core.Types;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -74,12 +75,33 @@ namespace DealnetPortal.Web.Controllers
 
             var result = await _dealerOnBoardingManager.SubmitOnBoarding(model);
 
-            if(result != null && result.Any(x => x.Type == AlertType.Error))
+            if (!result.Success)
             {
                 return RedirectToAction("AnonymousError", "Info");
             }
 
+            if (!model.IsDocumentsUploaded)
+            {
+                return View("SuccessWithoutDocuments", result);
+            }
+          
             return RedirectToAction("OnBoardingSuccess");
+        }
+
+        [HttpGet]
+        public ActionResult SuccessWithoutDocuments()
+        {
+            return View(new SaveAndResumeViewModel
+            {
+                
+                AccessKey = "SS",
+                Alerts = new List<Alert>(),
+                AllowCommunicate = true,
+                Email = "ss@ss.com",
+                Id = 12,
+                InvalidFields = true,
+                Success = true
+            });
         }
 
         [HttpPost]

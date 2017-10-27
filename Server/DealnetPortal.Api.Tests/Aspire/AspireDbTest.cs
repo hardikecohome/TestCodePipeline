@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq;
 using DealnetPortal.Api.Integration.Services;
+using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.DataAccess;

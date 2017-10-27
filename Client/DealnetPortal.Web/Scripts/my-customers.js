@@ -16,7 +16,7 @@
     $('.select-filter').val($('.select-filter > option:first').val());
 });
 
-function showTable () {
+function showTable() {
     $.when($.ajax(itemsUrl, { cache: false, mode: 'GET' }))
         .done(function (data) {
             var statusOptions = [];
@@ -120,7 +120,7 @@ $.fn.dataTable.ext.search.push(
     }
 );
 
-function clearFilters () {
+function clearFilters() {
     $('.filter-input').val("");
     var table = $('#work-items-table').DataTable();
     table.search('').draw();

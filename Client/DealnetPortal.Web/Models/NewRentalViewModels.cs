@@ -69,7 +69,7 @@ namespace DealnetPortal.Web.Models
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "InstallationAddressIncorrectFormat")]
         public string Street { get; set; }
         [Display(ResourceType = typeof (Resources.Resources), Name = "UnitNumber")]
-        [StringLength(10, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
+        [StringLength(10, MinimumLength = 1, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
         [RegularExpression(@"^[a-zA-Z0-9 ]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "UnitNumberIncorrectFormat")]
         public string UnitNumber { get; set; }
         [CustomRequired]
@@ -218,6 +218,7 @@ namespace DealnetPortal.Web.Models
         [StringLength(500, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "ContractNotes")]
         public string Notes { get; set; }
+        public bool RateCardValid { get; set; }
     }
 
     public sealed class EligibleAgeAttribute : ValidationAttribute

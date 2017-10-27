@@ -38,14 +38,28 @@
         var cards = sessionStorage.getItem(state.contractId + option);
         if (cards !== null) {
             var cardType = $.grep(constants.rateCards, function(c) { return c.name === option; })[0].id;
+            var filtred;
 
-            var filtred = $.parseJSON(cards).find(
-                function(v) {
-                    return v.CardType === cardType &&
-                        v.AmortizationTerm === Number(amortizationTerm) &&
-                        v.AdminFee === (slicedAdminFee.indexOf(',') > -1 ? Globalize.parseNumber(slicedAdminFee) : Number(slicedAdminFee)) &&
-                        v.CustomerRate === (slicedCustomerRate.indexOf(',') > -1 ? Globalize.parseNumber(slicedCustomerRate) : Number(slicedCustomerRate));
-                });
+            if (option === 'Deferral') {
+                var deferralPeriod = +$('#DeferralPeriodDropdown').val();
+                filtred = $.parseJSON(cards).find(
+                    function (v) {
+                        return v.CardType === cardType &&
+                            v.DeferralPeriod === deferralPeriod &&
+                            v.AmortizationTerm === Number(amortizationTerm) &&
+                            v.AdminFee === (slicedAdminFee.indexOf(',') > -1 ? Globalize.parseNumber(slicedAdminFee) : Number(slicedAdminFee)) &&
+                            v.CustomerRate === (slicedCustomerRate.indexOf(',') > -1 ? Globalize.parseNumber(slicedCustomerRate) : Number(slicedCustomerRate));
+                    });
+            } else {
+                filtred = $.parseJSON(cards).find(
+                    function (v) {
+                        return v.CardType === cardType &&
+                            v.AmortizationTerm === Number(amortizationTerm) &&
+                            v.AdminFee === (slicedAdminFee.indexOf(',') > -1 ? Globalize.parseNumber(slicedAdminFee) : Number(slicedAdminFee)) &&
+                            v.CustomerRate === (slicedCustomerRate.indexOf(',') > -1 ? Globalize.parseNumber(slicedCustomerRate) : Number(slicedCustomerRate));
+                    });
+            }
+
             if (filtred !== undefined) {
                 $('#SelectedRateCardId').val(filtred.Id);
             }
@@ -262,8 +276,64 @@
             totalCash = totalAmountFinanced.toFixed(2);
         }
 
+        if (totalCash >= constants.maxRateCardLoanValue) {
+            totalCash = constants.maxRateCardLoanValue;
+        }
+
+        var items = $.parseJSON(sessionStorage.getItem(state.contractId + option));
+
+        if (!items)
+            return;
+
         var dropdown = $('#' + option + 'AmortizationDropdown')[0];
         if (!dropdown || !dropdown.options) return;
+
+        var dropdowns = [];
+        var deferralValue = +$('#DeferralPeriodDropdown').val();
+
+        $.each(items, function () {
+            if (this.LoanValueTo >= totalCash && this.LoanValueFrom <= totalCash) {
+                var dropdownValue = ~~this.LoanTerm + ' / ' + ~~this.AmortizationTerm;
+                if (dropdowns.indexOf(dropdownValue) === -1) {
+                    if (option === 'Deferral') {
+                        if (~~this.DeferralPeriod === deferralValue) {
+                            dropdowns.push(dropdownValue);
+                        }
+                    } else {
+                        dropdowns.push(dropdownValue);
+                    }
+                }
+            }
+        });
+
+        //var selected = $('#' + option + 'AmortizationDropdown option:selected').val();
+        var e = document.getElementById(option + 'AmortizationDropdown');
+        if (e !== undefined) {
+            var selected = e.options[e.selectedIndex].value;
+
+            $(dropdown).empty();
+            $(dropdowns).each(function () {
+                $("<option />", {
+                    val: this.split('/')[1].trim(),
+                    text: this
+                }).appendTo(dropdown);
+            });
+
+            var values = [];
+            $.grep(dropdown.options, function(i) {
+                values.push($(i).attr('value'));
+            });
+
+            if (values.indexOf(selected) !== -1) {
+                e.value = selected;
+                //$(dropdown).val(selected);
+                $('#' + option + 'AmortizationDropdown option[value=' + selected + ']').attr("selected", selected);
+            } else {
+                e.value = values[0];
+                //$(dropdown).val(values[0]);
+                $('#' + option + 'AmortizationDropdown option[value=' + values[0] + ']').attr("selected", selected);
+            }
+        }
 
         var options = dropdown.options;
         var tooltip = $('a#' + option + 'Notify');
@@ -299,22 +369,6 @@
                 tooltip.click();
             }
         }
-
-        $.each(options, function (i) {
-            var amortValue = +options[i].innerText.split('/')[1];
-            if (amortValue >= constants.amortizationValueToDisable) {
-
-                // if we selected max value of dropdown and totalAmountFinanced is lower then constants.amortizationValueToDisable
-                // just select first option in dropdown
-                if (options.selectedIndex === i && isDisable) {
-                    $('#' + option + 'AmortizationDropdown').val(options[0].value);
-                }
-
-                var opt = $(options[i]);
-                opt.attr('disabled', isDisable);
-                isDisable ? opt.addClass('disabled-opt') : opt.removeClass('disabled-opt');
-            }
-        });
     }
 
     /**
