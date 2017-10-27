@@ -18,6 +18,8 @@ namespace DealnetPortal.Api.Integration.Services
         public static string LastName2 = "LastName_2";
         public static string DateOfBirth2 = "DateOfBirth_2";
         public static string InstallationAddress = "InstallationAddress";
+        //some forms don't have separate Suite field
+        public static string InstallationAddressWithSuite = "InstallationAddressWithSuite";
         public static string MailingAddress = "MailingAddress";
         public static string PreviousAddress = "PreviousAddress";
         public static string MailingOrPreviousAddress = "MailingOrPreviousAddress";

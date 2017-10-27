@@ -766,6 +766,12 @@ namespace DealnetPortal.Api.Integration.Services
                         formFields.Add(new FormField()
                         {
                             FieldType = FieldType.Text,
+                            Name = PdfFormFields.InstallationAddressWithSuite,
+                            Value = !string.IsNullOrEmpty(mainAddress.Unit) ? $"{mainAddress.Street}, {Resources.Resources.Suite} {mainAddress.Unit}" : mainAddress.Street
+                        });
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
                             Name = PdfFormFields.City,
                             Value = mainAddress.City
                         });
@@ -1353,7 +1359,7 @@ namespace DealnetPortal.Api.Integration.Services
                     });                    
                 }
                     // support old contracts with EstimatedInstallationDate in Equipment
-                    if (contract.Equipment.EstimatedInstallationDate.HasValue ||
+                if (contract.Equipment.EstimatedInstallationDate.HasValue ||
                     ((contract.Equipment.NewEquipment?.First()?.EstimatedInstallationDate.HasValue) ?? false))
                 {
                     formFields.Add(new FormField()
