@@ -1423,6 +1423,12 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = PdfFormFields.CustomerRate,
                     Value = contract.Equipment.CustomerRate?.ToString("F", CultureInfo.InvariantCulture)
                 });
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = PdfFormFields.CustomerRate2,
+                    Value = contract.Equipment.CustomerRate?.ToString("F", CultureInfo.InvariantCulture)
+                });
 
                 if (contract.Equipment.AgreementType == AgreementType.LoanApplication &&
                     paySummary?.LoanDetails != null)
