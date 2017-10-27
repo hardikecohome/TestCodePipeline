@@ -153,7 +153,7 @@
                             <div class="dealnet-credit-check-section" id="address-section">
                                 <h3 class="dealnet-section-title">
                                     @Resources.InstallationAddressInformation
-                                    @if (Model.IsEditAvailable && !Model.BasicInfo.ContractWasDeclined)
+                                    @if (Model.EquipmentInfo.IsEditAvailable && !Model.BasicInfo.ContractWasDeclined)
                 {
                 <a href="#" onclick="copyFormData($('#address-section'), $('#address-section-modal'), false); $('#address-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
                 }
