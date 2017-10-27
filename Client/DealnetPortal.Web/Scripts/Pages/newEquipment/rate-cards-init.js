@@ -42,7 +42,7 @@
 
                 var filtred = $.grep(cards, function (card) { return card.CardType === option.id; });
 
-                _createDropdowns(filtred, option);
+                //_createDropdowns(filtred, option);
 
                 sessionStorage.setItem(state.contractId + option.name, JSON.stringify(filtred));
 
