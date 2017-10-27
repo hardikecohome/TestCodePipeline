@@ -555,6 +555,7 @@
     <Content Include="Content\images\sprite\icon-upload.svg" />
     <Content Include="Content\images\sprite\icon-user-small.svg" />
     <Content Include="Content\images\sprite\icon-user.svg" />
+    <Content Include="Content\images\sprite\new-application.svg" />
     <Content Include="Content\images\sprite\new-rental.svg" />
     <Content Include="Content\images\sprite\sprite.svg" />
     <Content Include="Content\images\add-app%402x.png" />
