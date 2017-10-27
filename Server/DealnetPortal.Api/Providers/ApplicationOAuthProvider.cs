@@ -275,7 +275,6 @@ namespace DealnetPortal.Api.Providers
 
                         //check and update password
                         _usersService.UpdateUserPassword(user.Id, context.Password);
-                        
                     }
                 }
                 else
