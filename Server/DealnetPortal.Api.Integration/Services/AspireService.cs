@@ -298,7 +298,7 @@ namespace DealnetPortal.Api.Integration.Services
                 if (alerts.All(a => a.Type != AlertType.Error))
                 {
                     // if case user changed province on 4 step. Recalculate value of deal.
-                    if (contract.Equipment.AgreementType == AgreementType.RentalApplication && contract.Equipment.AgreementType == AgreementType.RentalApplicationHwt)
+                    if (contract.Equipment.AgreementType == AgreementType.RentalApplication || contract.Equipment.AgreementType == AgreementType.RentalApplicationHwt)
                     {
                         var pTaxRate = _contractRepository.GetProvinceTaxRate(contract.PrimaryCustomer.Locations.FirstOrDefault().State);
 
