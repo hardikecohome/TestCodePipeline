@@ -293,6 +293,22 @@ function showTable () {
     });
 };
 
+function exportItem () {
+    var tr = $(this).parents('tr');
+    //var id = $(tr).find(':nth-child(2)').text();
+    var id = $(tr)[0].id;
+    var arr = [];
+    arr[0] = id;
+    submitExportRequest(arr);
+};
+
+
+function previewItem () {
+    var tr = $(this).parents('tr');
+    var id = $(tr)[0].id;
+    submitSinglePreviewRequest(id);
+};
+
 $.fn.dataTable.ext.search.push(
     function () {
         var statusEl = $("#deal-status");
