@@ -2252,4 +2252,16 @@ You can do it anytime by using the following link:</value>
   <data name="Month180AmortOnlyOver4000" xml:space="preserve">
     <value>180 month amortization is available only on loans over $4,000</value>
   </data>
+  <data name="CreditFunding" xml:space="preserve">
+    <value>Credit/Funding</value>
+  </data>
+  <data name="CustomerService" xml:space="preserve">
+    <value>Customer Service</value>
+  </data>
+  <data name="DealerSupport" xml:space="preserve">
+    <value>Dealer Support</value>
+  </data>
+  <data name="HowCanWeHelp" xml:space="preserve">
+    <value>How can we help?</value>
+  </data>
 </root>
