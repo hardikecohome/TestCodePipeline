@@ -277,7 +277,9 @@
                                     <li class="dealnet-sidebar-item">
                                         <div class="contact-phone-container">
                                             <span class="contact-header">@Resources.HowCanWeHelp</span>
-                                            <span class="contact-phone">@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]</span>
+                                            <a class="contact-phone" href="tel:+@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"].Replace("-","")">
+                                                @System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]
+                                            </a>
                                         </div>
                                     </li>
                                     <li class="dealnet-sidebar-item contact-btn credit-funding-contact">
