@@ -46,6 +46,7 @@
                 }
             }
             .contact-phone-container {
+                cursor: default;
                 line-height: 1.3;
                 margin-top: 7px;
             }
@@ -199,7 +200,7 @@ body.ios-device.modal-open .navbar-fixed-side{
         }
         .nav-sidebar{
             float: none;
-            margin: 7.5px -15px;
+            margin: 0px -15px;
             & > li{
                 float: none;
             }
@@ -207,7 +208,7 @@ body.ios-device.modal-open .navbar-fixed-side{
         
         .dealnet-sidebar-header{
             display: block;
-            margin-bottom: 15px;
+            margin-bottom: 9px;
         }
         .dealnet-sidebar-header{
             .navbar-toggle{
@@ -237,6 +238,30 @@ body.ios-device.modal-open .navbar-fixed-side{
         }
         .icon-circle-hold{
             margin-right: 15px;
+        }
+    }
+    .contact-container {
+        @media @large-tablet-end {
+            visibility: hidden;
+        }
+        .sidebar-icon {
+            width: auto;
+        }
+        .contact-btn {
+            cursor: pointer;
+        }
+        .contact-phone-container {
+            cursor: default;
+            line-height: 1.3;
+            padding-left: 15px;
+            .contact-header {
+                margin-right: 5px;
+                padding-left: 4px;
+            }
+        }
+        .contact-phone {
+            font-size: 16px;
+            font-weight: 900;
         }
     }
 }
