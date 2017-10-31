@@ -578,14 +578,14 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 // if dealer has templates, select one
                 agreementTemplate = dealerTemplates.FirstOrDefault(at =>
-                    (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(contract.Equipment.AgreementType))
+                    (agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication)
                     && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
                     && (string.IsNullOrEmpty(equipmentType) || (at.EquipmentType?.Contains(equipmentType) ?? false)));
 
                 if (agreementTemplate == null)
                 {
                     agreementTemplate = dealerTemplates.FirstOrDefault(at =>
-                        (!at.AgreementType.HasValue || at.AgreementType.Value.HasFlag(contract.Equipment.AgreementType))
+                        (!at.AgreementType.HasValue || (agreementType == at.AgreementType) || (at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
                         && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
                         && (string.IsNullOrEmpty(equipmentType) ||
                             (at.EquipmentType?.Contains(equipmentType) ?? false)));
@@ -594,14 +594,14 @@ namespace DealnetPortal.Api.Integration.Services
                 if (agreementTemplate == null)
                 {
                     agreementTemplate = dealerTemplates.FirstOrDefault(at =>
-                        at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(contract.Equipment.AgreementType)
+                        (agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication)
                         && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false)));
                 }
 
                 if (agreementTemplate == null)
                 {
                     agreementTemplate =
-                        dealerTemplates.FirstOrDefault(at => at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(contract.Equipment.AgreementType));
+                        dealerTemplates.FirstOrDefault(at => (agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication));
                 }
                 
             }
@@ -647,7 +647,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (dealerCertificates?.Any() ?? false)
             {
                 agreementTemplate = dealerCertificates.FirstOrDefault(
-                                        cert => cert.AgreementType.HasValue && cert.AgreementType.Value.HasFlag(contract.Equipment.AgreementType))
+                                        cert => (contract.Equipment.AgreementType == cert.AgreementType) || (cert.AgreementType.HasValue && cert.AgreementType.Value.HasFlag(contract.Equipment.AgreementType) && contract.Equipment.AgreementType != AgreementType.LoanApplication))
                                     ?? dealerCertificates.FirstOrDefault();
             }
             else
@@ -661,7 +661,7 @@ namespace DealnetPortal.Api.Integration.Services
                     if (appCertificates?.Any() ?? false)
                     {
                         agreementTemplate = appCertificates.FirstOrDefault(
-                                                cert => cert.AgreementType.HasValue && cert.AgreementType.Value.HasFlag(contract.Equipment.AgreementType))
+                                                cert => (contract.Equipment.AgreementType == cert.AgreementType) || (cert.AgreementType.HasValue && cert.AgreementType.Value.HasFlag(contract.Equipment.AgreementType) && contract.Equipment.AgreementType != AgreementType.LoanApplication))
                                             ?? appCertificates.FirstOrDefault();
                     }
                 }

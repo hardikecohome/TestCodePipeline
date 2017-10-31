@@ -514,48 +514,51 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     alerts.AddRange(creditCheckRes.Item2);
                 }
-                creditCheck = creditCheckRes?.Item1;
-                Contract contract = null;
-                switch (creditCheckRes?.Item1.CreditCheckState)
+                if (alerts.All(a => a.Type != AlertType.Error) && creditCheckRes?.Item1 != null)
                 {
-                    case CreditCheckState.Declined:
-                        contract = _contractRepository.UpdateContractState(contractId, contractOwnerId,
-                            ContractState.CreditCheckDeclined);
-                        break;
-                    default:
-                        contract = _contractRepository.UpdateContractState(contractId, contractOwnerId,
-                            ContractState.Completed);
-                        break;
-                }
-                contract = _contractRepository.UpdateContractAspireSubmittedDate(contractId, contractOwnerId);
-                //var contract = _contractRepository.UpdateContractState(contractId, contractOwnerId,
-                //    ContractState.Completed);
-                if (contract != null)
-                {
-                    _unitOfWork.Save();
-                    var submitState = creditCheckRes.Item1.CreditCheckState == CreditCheckState.Declined
-                        ? "declined"
-                        : "submitted";
-                    _loggingService.LogInfo($"Contract [{contractId}] {submitState}");
-
-                    var contractDTO = Mapper.Map<ContractDTO>(contract);
-                    //Task.Run(
-                    //    async () =>
-                    //        await
-                    //            _mailService.SendContractSubmitNotification(contractDTO, contract.Dealer.Email,
-                    //                creditCheckRes.Item1.CreditCheckState != CreditCheckState.Declined));
-                    //_mailService.SendContractSubmitNotification(contractId, contractOwnerId);
-                }
-                else
-                {
-                    var errorMsg = $"Cannot submit contract [{contractId}]";
-                    alerts.Add(new Alert()
+                    creditCheck = creditCheckRes?.Item1;
+                    Contract contract = null;
+                    switch (creditCheckRes?.Item1.CreditCheckState)
                     {
-                        Type = AlertType.Error,
-                        Header = ErrorConstants.SubmitFailed,
-                        Message = errorMsg
-                    });
-                    _loggingService.LogError(errorMsg);
+                        case CreditCheckState.Declined:
+                            contract = _contractRepository.UpdateContractState(contractId, contractOwnerId,
+                                ContractState.CreditCheckDeclined);
+                            break;
+                        default:
+                            contract = _contractRepository.UpdateContractState(contractId, contractOwnerId,
+                                ContractState.Completed);
+                            break;
+                    }
+                    contract = _contractRepository.UpdateContractAspireSubmittedDate(contractId, contractOwnerId);
+                    //var contract = _contractRepository.UpdateContractState(contractId, contractOwnerId,
+                    //    ContractState.Completed);
+                    if (contract != null)
+                    {
+                        _unitOfWork.Save();
+                        var submitState = creditCheckRes.Item1.CreditCheckState == CreditCheckState.Declined
+                            ? "declined"
+                            : "submitted";
+                        _loggingService.LogInfo($"Contract [{contractId}] {submitState}");
+
+                        var contractDTO = Mapper.Map<ContractDTO>(contract);
+                        //Task.Run(
+                        //    async () =>
+                        //        await
+                        //            _mailService.SendContractSubmitNotification(contractDTO, contract.Dealer.Email,
+                        //                creditCheckRes.Item1.CreditCheckState != CreditCheckState.Declined));
+                        //_mailService.SendContractSubmitNotification(contractId, contractOwnerId);
+                    }
+                    else
+                    {
+                        var errorMsg = $"Cannot submit contract [{contractId}]";
+                        alerts.Add(new Alert()
+                        {
+                            Type = AlertType.Error,
+                            Header = ErrorConstants.SubmitFailed,
+                            Message = errorMsg
+                        });
+                        _loggingService.LogError(errorMsg);
+                    }
                 }
             }
             return new Tuple<CreditCheckDTO, IList<Alert>>(creditCheck, alerts);

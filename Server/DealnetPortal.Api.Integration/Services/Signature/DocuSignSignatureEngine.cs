@@ -340,7 +340,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
                 if (recreateEnvelope)
                 {                    
-                    if (!_signers.Any() && !_copyViewers.Any())
+                    if (_signers?.Any() != true && _copyViewers?.Any() != true)
                     {                        
                         var tempSignatures = new List<SignatureUser>
                         {
