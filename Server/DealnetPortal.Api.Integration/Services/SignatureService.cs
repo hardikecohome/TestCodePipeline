@@ -1347,10 +1347,15 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = "1"
                     });
 
-                    var eqType = ResourceHelper.GetGlobalStringResource(newEquipments.ElementAt(i).Type) ??
-                                 newEquipments.ElementAt(i).Type;
-                    var eqDescription = !string.IsNullOrEmpty(eqType)
-                        ? $"{eqType} - {newEquipments.ElementAt(i).Description}" : newEquipments.ElementAt(i).Description;                    
+                    var eqType = _contractRepository.GetEquipmentTypeInfo(newEquipments.ElementAt(i).Type);
+                    string eqTypeDescr = null;
+                    if (eqType != null)
+                    {
+                        eqTypeDescr = ResourceHelper.GetGlobalStringResource(eqType.DescriptionResource) ??
+                                          eqType.Description;
+                    }                    
+                    var eqDescription = !string.IsNullOrEmpty(eqTypeDescr)
+                        ? $"{eqTypeDescr} - {newEquipments.ElementAt(i).Description}" : newEquipments.ElementAt(i).Description;                    
                     formFields.Add(new FormField()
                     {
                         FieldType = FieldType.Text,

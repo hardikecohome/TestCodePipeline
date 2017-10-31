@@ -297,6 +297,17 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 if (alerts.All(a => a.Type != AlertType.Error))
                 {
+                    // if case user changed province on 4 step. Recalculate value of deal.
+                    if (contract.Equipment.AgreementType == AgreementType.RentalApplication || contract.Equipment.AgreementType == AgreementType.RentalApplicationHwt)
+                    {
+                        var pTaxRate = _contractRepository.GetProvinceTaxRate(contract.PrimaryCustomer.Locations.FirstOrDefault().State);
+
+                        contract.Equipment.ValueOfDeal = contract.Equipment.ValueOfDeal =
+                            (double?)
+                            ((contract.Equipment.TotalMonthlyPayment ?? 0) +
+                             (contract.Equipment.TotalMonthlyPayment ?? 0) * (decimal)(pTaxRate.Rate / 100)); ;
+                    }
+
                     // send each equipment separately using same call for avoid Aspire issue
                     for (int i = 0; i < (contract.Equipment?.NewEquipment?.Count ?? 1); i++)
                     {
