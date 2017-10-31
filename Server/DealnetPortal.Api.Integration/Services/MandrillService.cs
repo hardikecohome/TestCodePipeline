@@ -309,15 +309,15 @@ namespace DealnetPortal.Api.Integration.Services
             string BestWay = "";
             if (SupportDetails.BestWay.byPhone)
             {
-                BestWay +="Phone, ";
+                BestWay +="<br /> Phone ";
             }
             if (SupportDetails.BestWay.SameEmail)
             {
-                BestWay += "Email, ";
+                BestWay += "<br /> Email ";
             }
             if (SupportDetails.BestWay.AlternativeEmail)
             {
-                BestWay += $"Alternative Email: { SupportDetails.BestWay.AlternativeEmailAddress ?? string.Empty}";
+                BestWay += $"<br /> Alternative Email: { SupportDetails.BestWay.AlternativeEmailAddress ?? string.Empty}";
             }
 
             MandrillRequest request = new MandrillRequest();
