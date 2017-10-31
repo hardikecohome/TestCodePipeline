@@ -1640,6 +1640,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Credit/Funding.
+        /// </summary>
+        public static string CreditFunding {
+            get {
+                return ResourceManager.GetString("CreditFunding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current Address.
         /// </summary>
         public static string CurrentAddress {
@@ -1730,6 +1739,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Customer Service.
+        /// </summary>
+        public static string CustomerService {
+            get {
+                return ResourceManager.GetString("CustomerService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date.
         /// </summary>
         public static string Date {
@@ -1807,6 +1825,15 @@ namespace DealnetPortal.Web.Resources {
         public static string DealerSalesAgent {
             get {
                 return ResourceManager.GetString("DealerSalesAgent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dealer Support.
+        /// </summary>
+        public static string DealerSupport {
+            get {
+                return ResourceManager.GetString("DealerSupport", resourceCulture);
             }
         }
         
@@ -2725,6 +2752,15 @@ namespace DealnetPortal.Web.Resources {
         public static string HouseSizeSquareFeet {
             get {
                 return ResourceManager.GetString("HouseSizeSquareFeet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How can we help?.
+        /// </summary>
+        public static string HowCanWeHelp {
+            get {
+                return ResourceManager.GetString("HowCanWeHelp", resourceCulture);
             }
         }
         
