@@ -669,11 +669,31 @@ function hideDynamicAlertModal () {
     $('#alertModal').modal('hide');
     $('#confirmAlert').off('click');
 }
+function clearEmailForm() {
+	//$('#emailDealerName').text("");
+	$('#yourNameCB').prop('checked', false); 
+	$('#yourNameTxt').attr("disabled", "disabled");
+	$('#yourNameTxt').val("");
+	//$('#emailSubDealerName').text("");
+	$('#emailTransactionId').val("");
+	$('input[name=SupportType][value=Other]').prop('checked', 'checked');
+	$('#emailComment').val("");
+	$('#emailPhone').prop('checked', false); 
+	$('#emailSameEmail').prop('checked', false); 
+	$('#emailAlternativeEmail').prop('checked', false); 
+	$('#emailAlternativeEmailAddress').val("");
+	$('#emailAlternativeEmailAddress').addClass('hidden');
+	$('#emailSupport').removeAttr("disabled", "disabled");
+}
 
-
-function sendEmailModel(rowTransactionId) {
+function sendEmailModel(rowTransactionId, supportType = "Other") {
+	
 	var alertModal = $('#emailModal');
-	alertModal.find('#emailTransactionId').html(rowTransactionId);
+	
+	clearEmailForm();
+	$('#emailTransactionId').val(rowTransactionId);
+	//alertModal.find('#emailTransactionId').text(rowTransactionId);
+	$('input[name=SupportType][value=' + supportType + ']').prop('checked', 'checked');
 	alertModal.modal('show');
 }
 function yourNameCBclick(){
@@ -740,11 +760,14 @@ function sendEmailToSupport() {
 		//}
 	}
 
+	//disable button
+	$('#emailSupport').attr("disabled", "disabled");
+	
 	var data = {
 		"Id": 0,
 		"DealerName": $('#emailDealerName').text(),
 		"YourName": $('#yourNameCB').prop('checked') ? $('#yourNameTxt').val() : $('#emailSubDealerName').text(),
-		"LoanNumber": $('#emailTransactionId').text(),
+		"LoanNumber": $('#emailTransactionId').val(),
 		"SupportType": $('input[name=SupportType]:checked').val(),
 		"HelpRequested": $('#emailComment').val(),
 		"BestWay": {
@@ -761,6 +784,8 @@ function sendEmailToSupport() {
 		data: data,
 		success: function (json) {
 			$('#emailModal').modal('toggle');
+			clearEmailForm();
+			//enable button
 			
 		}
 	});

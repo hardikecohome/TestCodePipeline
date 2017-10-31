@@ -352,7 +352,7 @@
 					<h4 class="modal-title">How Can We Help? </h4>
 				</div>
 				<div class="modal-body">
-					<div class="col-md-12 col-xs-12 pull-left" style="margin-bottom:20px;">
+					<div class="col-md-12 col-xs-12 pull-left allrows" style="margin-bottom:20px;">
 						<div class="row">
 							<div class="form-group">
 								<div class="col-md-3 col-xs-6">
@@ -394,7 +394,8 @@
 									<label class="pull-left">Deal Number</label>
 								</div>
 								<div class="col-md-9 col-xs-6">
-									<label class="pull-left" id="emailTransactionId"></label>
+									<input class="pull-left form-control dealnet-input" type="text" id="emailTransactionId" placeholder="Deal Number" />
+									@*<label class="pull-left" id="emailTransactionId"></label>*@
 								</div>
 							</div>
 						</div>
@@ -408,21 +409,21 @@
 										<div class="col-md-12 col-xs-12">
 											<div class="pull-left col-xs-6">
 												<label class="pull-left align-middle custom-checkbox">
-													<input type="radio" name="SupportType" value="Credit Decision" class="dealnet-checkbox" />
+													<input type="radio" name="SupportType" value="creditFunding" class="dealnet-checkbox" />
 													<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
 													<span>Credit Decision</span>
 												</label>
 											</div>
 											<div class="pull-left col-xs-6">
 												<label class="pull-left align-middle custom-checkbox">
-													<input type="radio" name="SupportType" value="Credit Docs" class="dealnet-checkbox" />
+													<input type="radio" name="SupportType" value="customerService" class="dealnet-checkbox" />
 													<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
 													<span>Credit Docs</span>
 												</label>
 											</div>
 											<div class="pull-left col-xs-6">
 												<label class="pull-left align-middle custom-checkbox">
-													<input type="radio" name="SupportType" value="Funding Docs" class="dealnet-checkbox" />
+													<input type="radio" name="SupportType" value="dealerSupport" class="dealnet-checkbox" />
 													<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
 													<span>Funding Docs</span>
 												</label>
@@ -492,7 +493,7 @@
 				<div class="modal-footer">
 					<div class="col-md-12 col-xs-12">
 						<button type="button" class="btn dealnet-button btn-small dealnet-link-button" data-dismiss="modal">@Resources.Cancel</button>
-						<button type="button" class="btn btn-lg btn-small dealnet-button dealnet-success-button" id="emailSupport" onclick="sendEmailToSupport();">@Resources.Send</button>
+						<button type="button" class="btn btn-small dealnet-button dealnet-success-button" id="emailSupport" onclick="sendEmailToSupport();">@Resources.Send</button>
 					</div>
 				</div>
 			</div>
