@@ -108,36 +108,39 @@
                         <div class="logo-container">
                             <div class="dealnet-image-ecologo main-logo"></div>
                         </div>
-                        <div class="contact-container">
-                            <div class="contact-btn contact-phone-container">
-                                <div class="contact-header">@Resources.HowCanWeHelp</div>
-                                <div class="contact-phone">@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]</div>
+                        @if (User.Identity.IsAuthenticated && (User as ClaimsPrincipal)?.IsInRole("MortgageBroker") != true)
+                        {
+                            <div class="contact-container">
+                                <div class="contact-btn contact-phone-container">
+                                    <div class="contact-header">@Resources.HowCanWeHelp</div>
+                                    <div class="contact-phone">@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]</div>
+                                </div>
+                                <div class="contact-btn credit-funding-contact">
+                                    <span>
+                                        <svg aria-hidden="true" class="icon icon-contact">
+                                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-funding")"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="contact-header">@Resources.CreditFunding</span>
+                                </div>
+                                <div class="contact-btn dealer-support-contact">
+                                    <span>
+                                        <svg aria-hidden="true" class="icon icon-contact">
+                                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-dealer-support")"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="contact-header">@Resources.DealerSupport</span>
+                                </div>
+                                <div class="contact-btn customer-service-contact">
+                                    <span>
+                                        <svg aria-hidden="true" class="icon icon-contact">
+                                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-customer-support")"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="contact-header">@Resources.CustomerService</span>
+                                </div>
                             </div>
-                            <div class="contact-btn credit-funding-contact">
-                                <span>
-                                    <svg aria-hidden="true" class="icon icon-contact">
-                                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-funding")"></use>
-                                    </svg>
-                                </span>
-                                <span class="contact-header">@Resources.CreditFunding</span>
-                            </div>
-                            <div class="contact-btn dealer-support-contact">
-                                <span>
-                                    <svg aria-hidden="true" class="icon icon-contact">
-                                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-dealer-support")"></use>
-                                    </svg>
-                                </span>
-                                <span class="contact-header">@Resources.DealerSupport</span>
-                            </div>
-                            <div class="contact-btn customer-service-contact">
-                                <span>
-                                    <svg aria-hidden="true" class="icon icon-contact">
-                                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-customer-support")"></use>
-                                    </svg>
-                                </span>
-                                <span class="contact-header">@Resources.CustomerService</span>
-                            </div>
-                        </div>
+                        }
                         <div class="user-hold">
                             <div class="dealnet-login-buttons-holder pull-right">
                                 @Html.Partial("LoginButtons")
@@ -149,31 +152,31 @@
                                         <div class="lang-item">
                                             <a href="#" class="chosen-language-link">
                                                 @switch (CultureHelper.CurrentCultureType)
-                                            {
-                                                case CultureType.English:
-                                            @:English
+                                                {
+                                                    case CultureType.English:
+                                                        @:English
                                                     break;
-                                                case CultureType.French:
-                                            @:Français
+                                                    case CultureType.French:
+                                                        @:Français
                                                     break;
-                                            }
+                                                }
                                                 <span class="caret"></span>
                                             </a>
                                         </div>
                                     </div>
                                     <ul class="lang-list">
                                         @if (CultureHelper.CurrentCultureType != CultureType.English)
-                                    {
-                                    <li class="lang-item active">
-                                        @Html.ActionLink(Resources.English, "ChangeCulture", "Home", new {culture = "en"}, new {@class = "lang-link"})
-                                    </li>
-                                    }
+                                        {
+                                            <li class="lang-item active">
+                                                @Html.ActionLink(Resources.English, "ChangeCulture", "Home", new { culture = "en" }, new { @class = "lang-link" })
+                                            </li>
+                                        }
                                         @if (CultureHelper.CurrentCultureType != CultureType.French)
-                                    {
-                                    <li class="lang-item">
-                                        @Html.ActionLink(Resources.French, "ChangeCulture", "Home", new {culture = "fr"}, new {@class = "lang-link"})
-                                    </li>
-                                    }
+                                        {
+                                            <li class="lang-item">
+                                                @Html.ActionLink(Resources.French, "ChangeCulture", "Home", new { culture = "fr" }, new { @class = "lang-link" })
+                                            </li>
+                                        }
                                     </ul>
                                 </div>
                             }
@@ -214,11 +217,11 @@
                                 {
                                     <li class="dealnet-sidebar-item" id="sidebar-item-homepage">
                                         <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-home"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-home")"></use></svg></span>
-                                        @Html.ActionLink(Resources.HomePage, "Index", "Home", null, new {@class = "dealnet-sidebar-link"})
+                                        @Html.ActionLink(Resources.HomePage, "Index", "Home", null, new { @class = "dealnet-sidebar-link" })
                                     </li>
                                     <li class="dealnet-sidebar-item" id="sidebar-item-newrental">
                                         <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-new-rental-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-application-side")"></use></svg></span>
-                                        @Html.ActionLink(Resources.NewApplication, "BasicInfo", "NewRental", null, new {@class = "dealnet-sidebar-link"})
+                                        @Html.ActionLink(Resources.NewApplication, "BasicInfo", "NewRental", null, new { @class = "dealnet-sidebar-link" })
                                     </li>
                                     <li class="dealnet-sidebar-item" id="sidebar-item-mydeals">
                                         <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-my-deals-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-deals-side")"></use></svg></span>
