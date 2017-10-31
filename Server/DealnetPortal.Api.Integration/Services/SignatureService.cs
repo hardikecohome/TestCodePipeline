@@ -102,7 +102,6 @@ namespace DealnetPortal.Api.Integration.Services
                 }
 
                 var insertRes = await _signatureEngine.InsertDocumentFields(fields);
-                //InsertAgreementFields(docId, fields);
 
                 if (insertRes?.Any() ?? false)
                 {
@@ -249,6 +248,8 @@ namespace DealnetPortal.Api.Integration.Services
                 if (agrRes?.Item1?.TemplateDocument?.TemplateBinary != null)
                 {
                     MemoryStream ms = new MemoryStream(agrRes.Item1.TemplateDocument.TemplateBinary, true);
+
+                    var formFields = _pdfEngine.GetFormfFields(ms);
 
                     var fields = PrepareFormFields(contract, ownerUserId);
                     var insertRes = _pdfEngine.InsertFormFields(ms, fields);

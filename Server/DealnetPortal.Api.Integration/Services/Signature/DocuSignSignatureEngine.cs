@@ -367,7 +367,12 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             });
                                   
             return alerts;
-        }        
+        }
+
+        public Task<Tuple<IList<FormField>, IList<Alert>>> GetFormfFields()
+        {
+            throw new NotImplementedException();
+        }
 
         public async Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument(DocumentVersion documentVersion)
         {
