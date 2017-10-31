@@ -336,6 +336,15 @@
             template: '<div class="popover customer-loan-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
         });
 
+        $('.credit-funding-contact').on('click', function () {
+            sendEmailModel('', 'creditFunding');
+        });
+        $('.dealer-support-contact').on('click', function () {
+            sendEmailModel('', 'dealerSupport');
+        });
+        $('.customer-service-contact').on('click', function () {
+            sendEmailModel('', 'customerService');
+        });
     });
 
 function onDateSelect (input) {
@@ -670,8 +679,7 @@ function hideDynamicAlertModal () {
     $('#confirmAlert').off('click');
 }
 
-
-function sendEmailModel(rowTransactionId) {
+function sendEmailModel(rowTransactionId, supportType) {
 	var alertModal = $('#emailModal');
 	alertModal.find('#emailTransactionId').html(rowTransactionId);
 	alertModal.modal('show');
