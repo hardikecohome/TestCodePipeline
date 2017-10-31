@@ -69,9 +69,7 @@ namespace DealnetPortal.Api.Integration.Services
             var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
             if (contract != null)
             {
-                _loggingService.LogInfo($"Started eSignature processing for contract [{contractId}]");
-                var fields = PrepareFormFields(contract, ownerUserId);
-                _loggingService.LogInfo($"{fields.Count} fields collected");
+                _loggingService.LogInfo($"Started eSignature processing for contract [{contractId}]");                
 
                 var logRes = await _signatureEngine.ServiceLogin().ConfigureAwait(false);
                 _signatureEngine.TransactionId = contract.Details?.SignatureTransactionId;
@@ -100,6 +98,11 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     alerts.AddRange(trRes);
                 }
+
+                var templateFields = await _signatureEngine.GetFormfFields();
+
+                var fields = PrepareFormFields(contract, templateFields?.Item1, ownerUserId);
+                _loggingService.LogInfo($"{fields.Count} fields collected");
 
                 var insertRes = await _signatureEngine.InsertDocumentFields(fields);
 
@@ -251,7 +254,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                     var formFields = _pdfEngine.GetFormfFields(ms);
 
-                    var fields = PrepareFormFields(contract, ownerUserId);
+                    var fields = PrepareFormFields(contract, formFields?.Item1, ownerUserId);
                     var insertRes = _pdfEngine.InsertFormFields(ms, fields);
 
                     if (insertRes?.Item2?.Any() ?? false)
@@ -508,7 +511,7 @@ namespace DealnetPortal.Api.Integration.Services
             });
         }
 
-        private List<FormField> PrepareFormFields(Contract contract, string ownerUserId)
+        private List<FormField> PrepareFormFields(Contract contract, IList<FormField> templateFields, string ownerUserId)
         {
             var fields = new List<FormField>();
 

@@ -369,9 +369,46 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return alerts;
         }
 
-        public Task<Tuple<IList<FormField>, IList<Alert>>> GetFormfFields()
+        public async Task<Tuple<IList<FormField>, IList<Alert>>> GetFormfFields()
         {
-            throw new NotImplementedException();
+            var alerts = new List<Alert>();
+            var formFields = new List<FormField>();
+
+            try
+            {
+                TemplatesApi templatesApi = new TemplatesApi();
+                var template = await templatesApi.GetAsync(AccountId, _templateId);
+                var tabs = template?.Recipients?.Signers?.First()?.Tabs;
+                var textTabs = tabs?.TextTabs?.Select(t => new FormField()
+                {
+                    Name = t.TabLabel,
+                    FieldType = FieldType.Text
+                }).ToList();
+                if (textTabs?.Any() == true)
+                {
+                    formFields.AddRange(textTabs);
+                }
+                var chbTabs = tabs?.CheckboxTabs?.Select(t => new FormField()
+                {
+                    Name = t.TabLabel,
+                    FieldType = FieldType.CheckBox
+                }).ToList();
+                if (chbTabs?.Any() == true)
+                {
+                    formFields.AddRange(chbTabs);
+                }
+            }                       
+            catch (Exception e)
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Warning,
+                    Header = "Cannot get DocuSign template fields",
+                    Message = e.ToString()
+                });
+            }
+
+            return new Tuple<IList<FormField>, IList<Alert>>(formFields, alerts);
         }
 
         public async Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument(DocumentVersion documentVersion)
@@ -673,3 +710,4 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         public string IntegratorKey { get; set; }
     }
 }
+
