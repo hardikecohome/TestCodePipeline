@@ -1,4 +1,5 @@
-﻿@model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
+﻿@using DealnetPortal.Api.Core.Helpers
+@model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
 
 @{
     ViewBag.Title = Resources.Onboarding;
@@ -9,7 +10,40 @@
     <div class="navbar onboard-navbar navbar-fixed-side">
         <div class="navbar-header customer-navbar-header">
             <div class="dealnet-image-ecologo"></div>
+            <div class="lang-switcher pull-right">
+                <div class="chosen-language">
+                    <div class="lang-item">
+                        <a href="#" class="chosen-language-link">
+                            @switch (CultureHelper.CurrentCultureType)
+                            {
+                                case CultureType.English:
+                                    @:English
+                                                    break;
+                                case CultureType.French:
+                                    @:Français
+                                                    break;
+                            }
+                            <span class="caret"></span>
+                        </a>
+                    </div>
+                </div>
+                <ul class="lang-list">
+                    @if (CultureHelper.CurrentCultureType != CultureType.English)
+                    {
+                        <li class="lang-item active">
+                            @Html.ActionLink(Resources.English, "ChangeCulture", "Home", new { culture = "en", redirectUrl = Request.Url.AbsolutePath }, new { @class = "lang-link" })
+                        </li>
+                    }
+                    @if (CultureHelper.CurrentCultureType != CultureType.French)
+                    {
+                        <li class="lang-item">
+                            @Html.ActionLink(Resources.French, "ChangeCulture", "Home", new { culture = "fr", redirectUrl = Request.Url.AbsolutePath }, new { @class = "lang-link" })
+                        </li>
+                    }
+                </ul>
+            </div>
         </div>
+
     </div>
     <div class="onboard-heading">
         <div class="onboard-headers-container">
