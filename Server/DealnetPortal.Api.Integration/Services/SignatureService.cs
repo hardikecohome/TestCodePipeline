@@ -515,7 +515,7 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var fields = new List<FormField>();
 
-            FillHomeOwnerFields(fields, contract);
+            FillHomeOwnerFields(fields, templateFields, contract);
             FillApplicantsFields(fields, contract);
             FillEquipmentFields(fields, contract, ownerUserId);
             FillPaymentFields(fields, contract);
@@ -692,7 +692,7 @@ namespace DealnetPortal.Api.Integration.Services
             //return _signatureServiceAgent.Logout().GetAwaiter().GetResult();
         }
 
-        private void FillHomeOwnerFields(List<FormField> formFields, Contract contract)
+        private void FillHomeOwnerFields(List<FormField> formFields, IList<FormField> templateFields, Contract contract)
         {
             if (contract.Details.TransactionId != null)
             {
@@ -760,19 +760,25 @@ namespace DealnetPortal.Api.Integration.Services
                         contract.PrimaryCustomer?.Locations?.FirstOrDefault(
                             l => l.AddressType == AddressType.MainAddress);
                     if (mainAddress != null)
-                    {
-                        formFields.Add(new FormField()
+                    {                        
+                        if (!string.IsNullOrEmpty(mainAddress.Unit) && templateFields?.All(tf => tf.Name != PdfFormFields.SuiteNo) == true)
                         {
-                            FieldType = FieldType.Text,
-                            Name = PdfFormFields.InstallationAddress,
-                            Value = mainAddress.Street
-                        });
-                        formFields.Add(new FormField()
+                            formFields.Add(new FormField()
+                            {
+                                FieldType = FieldType.Text,
+                                Name = PdfFormFields.InstallationAddress,
+                                Value = $"{mainAddress.Street}, {Resources.Resources.Suite} {mainAddress.Unit}"
+                            });
+                        }
+                        else
                         {
-                            FieldType = FieldType.Text,
-                            Name = PdfFormFields.InstallationAddressWithSuite,
-                            Value = !string.IsNullOrEmpty(mainAddress.Unit) ? $"{mainAddress.Street}, {Resources.Resources.Suite} {mainAddress.Unit}" : mainAddress.Street
-                        });
+                            formFields.Add(new FormField()
+                            {
+                                FieldType = FieldType.Text,
+                                Name = PdfFormFields.InstallationAddress,
+                                Value = mainAddress.Street
+                            });
+                        }                        
                         formFields.Add(new FormField()
                         {
                             FieldType = FieldType.Text,
