@@ -315,8 +315,10 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     MemoryStream ms = new MemoryStream(agrRes.Item1.TemplateDocument.TemplateBinary, true);
 
+                    var templateFields = _pdfEngine.GetFormfFields(ms);
+
                     var fields = new List<FormField>();
-                    FillHomeOwnerFields(fields, contract);
+                    FillHomeOwnerFields(fields, templateFields?.Item1, contract);
                     FillApplicantsFields(fields, contract);
                     FillEquipmentFields(fields, contract, ownerUserId);
                     FillDealerFields(fields, contract);
