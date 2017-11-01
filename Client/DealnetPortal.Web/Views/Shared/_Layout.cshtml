@@ -331,10 +331,10 @@
 			</div>*@
 			@if (User.Identity.IsAuthenticated && ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") != true))
             {
-			<div class="helpbutton pull-right">
+			<div class="pull-right">
 
 				<i onclick="sendEmailModel();">
-					<button class="btn btn-lg btn-success">
+					<button class="btn btn-lg btn-success helpbutton">
 						<svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg>
 						Help
 					</button>
@@ -376,7 +376,7 @@
 						<div class="row">
 							<div class="form-group">
 								<div class="col-md-3 col-xs-6">
-									<label class="pull-left align-middle custom-checkbox">
+									<label class="pull-left align-middle custom-checkbox LabelMiddle">
 										<input type="checkbox" class="dealnet-checkbox" id="yourNameCB" onclick="yourNameCBclick();" />
 										<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
 										<span>Your Name</span>
@@ -391,7 +391,7 @@
 						<div class="row">
 							<div class="form-group">
 								<div class="col-md-3 col-xs-6">
-									<label class="pull-left">Deal Number</label>
+									<label class="pull-left LabelMiddle">Deal Number</label>
 								</div>
 								<div class="col-md-9 col-xs-6">
 									<input class="pull-left form-control dealnet-input" type="text" id="emailTransactionId" placeholder="Deal Number" />
