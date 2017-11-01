@@ -306,27 +306,25 @@
 }
 
 .info-text-success {
-    @media @mobile {
-        .flex-display;
-        .align-items(center);
-        height: 100%;
-        min-height: 40px;
-    }
-}
-
-.info-text-success {
     height: 100%;
     padding-left: 30px;
 
     .icon-info-well {
         position: absolute;
         left: 0;
-        top: 8px;
+        top: 25%;
         color: @btn-success-bg;
     }
 
     .notification-text {
         color: #afafaf;
+    }
+    
+    @media @mobile {
+        .flex-display;
+        .align-items(center);
+        height: 100%;
+        min-height: 40px;
     }
 }
 
@@ -368,15 +366,8 @@
             top: 10px;
             left: 18px;
             
-            @media @mobile {
-                top: 18px;
-            }
-        }
-    }
-    #over-100 {
-        .icon-info-well {
-            @media @tablet-only {
-                top:18px;
+            @media @tablet-down {
+                top: 30%;
             }
         }
     }
@@ -832,12 +823,6 @@
     .well.danger-well {
         margin: 0;
         line-height: 1.2;
-    }
-    
-    .info-text-success .icon-info-well {
-        @media @mobile {
-            top: 18px;
-        }
     }
 }
 
