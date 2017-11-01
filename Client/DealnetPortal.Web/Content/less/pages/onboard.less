@@ -2,6 +2,11 @@
 
 .navbar.onboard-navbar{
     background: @navbar-background-color;
+    @media @mobile {
+        .lang-switcher {
+            display: inline-block;
+        }
+    }
 }
 .ie, .ios-device {
     .info-text-success .notification-text {
