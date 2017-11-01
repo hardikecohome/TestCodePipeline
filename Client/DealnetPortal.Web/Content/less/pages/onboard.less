@@ -367,6 +367,17 @@
             position: absolute;
             top: 10px;
             left: 18px;
+            
+            @media @mobile {
+                top: 18px;
+            }
+        }
+    }
+    #over-100 {
+        .icon-info-well {
+            @media @tablet-only {
+                top:18px;
+            }
         }
     }
 }
@@ -784,10 +795,18 @@
         @media @mobile {
             display: inline-block;
             margin-right: 10px;
+            padding-top: 8px;
         }
     }
     .icon-save + span {
         margin-left: 15px;
+    }
+}
+
+.icon-hold {
+    @media @mobile {
+        display: inline-block;
+        padding-top:10%;
     }
 }
 
@@ -813,6 +832,12 @@
     .well.danger-well {
         margin: 0;
         line-height: 1.2;
+    }
+    
+    .info-text-success .icon-info-well {
+        @media @mobile {
+            top: 18px;
+        }
     }
 }
 
