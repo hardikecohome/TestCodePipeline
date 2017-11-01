@@ -78,7 +78,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-sm-6">
+            <div class="col-md-4 col-sm-6 col-clear-sm-6">
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.CompanyAddress.City, new { @class = "mandatory-field" })
                     <div class="control-group">
@@ -87,7 +87,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-sm-6">
+            <div class="col-md-4 col-sm-6 col-clear-lg-4 col-clear-md-4">
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.CompanyAddress.Province, new { @class = "mandatory-field" })
                     <div class="control-group">
@@ -145,7 +145,6 @@
         <div class="row">
             <div class="col-md-2 col-sm-3">
                 <div class="form-group">
-                    @*@Html.LabelFor(m => m.CompanyInfo.BusinessType, new { @class = "mandatory-field" })*@
                     <div class="control-group">
                         @Html.EnumDropDownListFor(m => m.CompanyInfo.BusinessType, "-" + Resources.NotSelected + "-", new { @class = "form-control " + (Model.CompanyInfo.BusinessType.HasValue ? "" : "no-value"), id = "company-type" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.BusinessType, "", new { @class = "text-danger" })
@@ -154,7 +153,6 @@
             </div>
             <div class="col-md-2 col-sm-3">
                 <div class="form-group">
-                    @*@Html.LabelFor(m => m.CompanyInfo.YearsInBusiness, new { @class = "mandatory-field" })*@
                     <div class="control-group">
                         @Html.EnumDropDownListFor(m => m.CompanyInfo.YearsInBusiness, "-" + Resources.NotSelected + "-", new { @class = "form-control " + (Model.CompanyInfo.YearsInBusiness.HasValue ? "" : "no-value"), id = "years-in-business" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.YearsInBusiness, "", new { @class = "text-danger" })
@@ -163,7 +161,6 @@
             </div>
             <div class="col-md-2 col-sm-3">
                 <div class="form-group">
-                    @*@Html.LabelFor(m => m.CompanyInfo.NumberOfInstallers)*@
                     <div class="control-group">
                         @Html.EnumDropDownListFor(m => m.CompanyInfo.NumberOfInstallers, "-" + Resources.NotSelected + "-", new { id = "installers", @class = "form-control " + (Model.CompanyInfo.NumberOfInstallers.HasValue ? "" : "no-value") })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.NumberOfInstallers, "", new { @class = "text-danger" })
@@ -172,7 +169,6 @@
             </div>
             <div class="col-md-2 col-sm-3">
                 <div class="form-group">
-                    @*@Html.LabelFor(m => m.CompanyInfo.NumberOfSales)*@
                     <div class="control-group">
                         @Html.EnumDropDownListFor(m => m.CompanyInfo.NumberOfSales, "-" + Resources.NotSelected + "-", new { id = "sales", @class = "form-control " + (Model.CompanyInfo.NumberOfSales.HasValue ? "" : "no-value") })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.NumberOfSales, "", new { @class = "text-danger" })
@@ -191,7 +187,6 @@
         <div class="row">
             <div class="col-md-4 col-sm-6">
                 <div class="form-group">
-                    @*<label for="" class="mandatory-field">@Resources.WhatProvincesDoBusiness</label>*@
                     <div class="control-group">
                         @Html.DropDownList("province-select",
                        (Model.DictionariesData.ProvinceTaxRates).Select(p => new SelectListItem
@@ -206,7 +201,6 @@
             </div>
             <div class="col-md-8 col-sm-6">
                 <div class="form-group">
-                    @*<div class="dealnet-label hidden-xs">&nbsp;</div>*@
                     <ul id="province-list" class="customer-needs-list tags-list"></ul>
                 </div>
             </div>
