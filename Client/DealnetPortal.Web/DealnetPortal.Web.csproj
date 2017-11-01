@@ -518,6 +518,7 @@
     <Content Include="Content\images\sprite\icon-email2.svg" />
     <Content Include="Content\images\sprite\icon-error-upload.svg" />
     <Content Include="Content\images\sprite\icon-error.svg" />
+    <Content Include="Content\images\sprite\icon-esignature.svg" />
     <Content Include="Content\images\sprite\icon-excel.svg" />
     <Content Include="Content\images\sprite\icon-eye.svg" />
     <Content Include="Content\images\sprite\icon-fax.svg" />
@@ -1129,6 +1130,7 @@
     <Content Include="Views\Dealer\OnBoardingError.cshtml" />
     <Content Include="Views\Home\Library.cshtml" />
     <Content Include="Views\Dealer\SuccessWithoutDocuments.cshtml" />
+    <Content Include="Views\MyDeals\_EsignatureModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

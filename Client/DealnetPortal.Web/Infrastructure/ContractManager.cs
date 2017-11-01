@@ -345,7 +345,24 @@ namespace DealnetPortal.Web.Infrastructure
                         Model = eq.InstalledModel,
                         SerialNumber = eq.InstalledSerialNumber,
                     }));
-
+            contractEditViewModel.SendEmails = new SendEmailsViewModel
+            {
+                ContractId = contractId,
+                HomeOwnerFullName = $"{contractsResult.Item1.PrimaryCustomer?.FirstName} {contractsResult.Item1.PrimaryCustomer.LastName}",
+                HomeOwnerId = contractsResult.Item1.PrimaryCustomer.Id,
+                BorrowerEmail = contractsResult.Item1.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
+                contractsResult.Item1.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress,
+                SalesRep = contractsResult.Item1.Equipment?.SalesRep,
+                AdditionalApplicantsEmails = contractsResult.Item1.SecondaryCustomers.Select(c=>
+                new CustomerEmail
+                {
+                    CustomerId = c.Id,
+                    CustomerName = $"{c.FirstName} {c.LastName}",
+                    Email = c.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
+                                        c.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress
+                }).ToArray(),
+                AgreementType = contractsResult.Item1.Equipment?.AgreementType.ConvertTo<Models.Enumeration.AgreementType>() ?? Models.Enumeration.AgreementType.LoanApplication
+        };
             return contractEditViewModel;
         }
 

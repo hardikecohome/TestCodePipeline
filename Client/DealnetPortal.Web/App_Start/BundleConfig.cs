@@ -136,6 +136,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/datejs.js")
                 .Include("~/Scripts/custom-validation.js")
                 .Include("~/Scripts/contact-and-payment-management.js")
+                .Include("~/Scripts/agreement-submit-success.js")
                 .Include("~/Scripts/print-contract.js")
                 .Include("~/Scripts/jquery.form.js")
                 .Include("~/Scripts/general-address-autocomplete.js")
