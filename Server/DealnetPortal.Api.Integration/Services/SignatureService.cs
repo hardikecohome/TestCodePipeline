@@ -1216,6 +1216,7 @@ namespace DealnetPortal.Api.Integration.Services
                             othersEq.Add(eq);
                             break;
                         case "ECO5": // Furnace
+                        case "ECO40": // Air Handler - we have common 
                             if (!formFields.Exists(f => f.Name == PdfFormFields.IsFurnace))
                             {
                                 formFields.Add(new FormField()
@@ -1262,10 +1263,7 @@ namespace DealnetPortal.Api.Integration.Services
                             break;
                         case "ECO38": // Sunrooms
                             othersEq.Add(eq);
-                            break;
-                        case "ECO40": // Air Handler
-                            othersEq.Add(eq);
-                            break;
+                            break;                       
                         case "ECO42": // Flooring
                             othersEq.Add(eq);
                             break;
