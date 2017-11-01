@@ -1747,7 +1747,7 @@
     <value>Renseignements sur l’entreprise</value>
   </data>
   <data name="ConnectWithDealerSupport" xml:space="preserve">
-    <value>Communiquez avec le soutien aux courtiers pour obtenir de l’assistance :</value>
+    <value>Communiquez avec le soutien {0} aux courtiers pour obtenir de l’assistance :</value>
   </data>
   <data name="Consent" xml:space="preserve">
     <value>Consentement</value>
