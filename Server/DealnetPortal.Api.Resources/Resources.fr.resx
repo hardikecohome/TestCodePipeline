@@ -435,4 +435,418 @@
   <data name="Pool" xml:space="preserve">
     <value>Pool</value>
   </data>
+  <data name="Broker" xml:space="preserve">
+    <value>Courtier</value>
+  </data>
+  <data name="Client" xml:space="preserve">
+    <value>Client</value>
+  </data>
+  <data name="ClientsComment" xml:space="preserve">
+    <value>Commentaire du client</value>
+  </data>
+  <data name="CommentFromCustomer" xml:space="preserve">
+    <value>Commentaire du client</value>
+  </data>
+  <data name="Congratulations" xml:space="preserve">
+    <value>Félicitations</value>
+  </data>
+  <data name="ConsumerDirect" xml:space="preserve">
+    <value>Directement au consommateur</value>
+  </data>
+  <data name="ContactInformation" xml:space="preserve">
+    <value>Coordonnées</value>
+  </data>
+  <data name="CustomerLeadHasNotBeenAcceptedByAnyDealerFor" xml:space="preserve">
+    <value>La piste de client n’a été acceptée par aucun détaillant pour {0}h (type : {1},  code postal : {2})</value>
+  </data>
+  <data name="Deferral" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="Distributor" xml:space="preserve">
+    <value>Distributeur</value>
+  </data>
+  <data name="DoorToDoor" xml:space="preserve">
+    <value>Ventes de porte à porte</value>
+  </data>
+  <data name="EmailAddress" xml:space="preserve">
+    <value>Adresse de courriel</value>
+  </data>
+  <data name="Financing" xml:space="preserve">
+    <value>Financement</value>
+  </data>
+  <data name="FinancingLeasing" xml:space="preserve">
+    <value>Financement + location</value>
+  </data>
+  <data name="FixedRate" xml:space="preserve">
+    <value>Taux fixe</value>
+  </data>
+  <data name="FollowingLeadHasNotBeenAcceptedByAnyDealerFor12h" xml:space="preserve">
+    <value>La piste suivante n’a été acceptée par aucun détaillant pour {0}h</value>
+  </data>
+  <data name="For" xml:space="preserve">
+    <value>pour</value>
+  </data>
+  <data name="Hi" xml:space="preserve">
+    <value>Bonjour</value>
+  </data>
+  <data name="HomeImprovementType" xml:space="preserve">
+    <value>Type de rénovations résidentielles</value>
+  </data>
+  <data name="IfYouHaveQuestionsToHomeProfessionalPleaseContact" xml:space="preserve">
+    <value>Si vous avez des questions pour le professionnel en rénovations, veuillez communiquer avec</value>
+  </data>
+  <data name="InCaseOfQuestionsPleaseContact" xml:space="preserve">
+    <value>Si vous avez des questions, veuillez communiquer avec</value>
+  </data>
+  <data name="InCaseRemarksAboutSelectedHomeProfessionalsPleaseContact" xml:space="preserve">
+    <value>Si vous avez des commentaires au sujet des professionnels en rénovation sélectionnés, veuillez communiquer avec</value>
+  </data>
+  <data name="Incorporated" xml:space="preserve">
+    <value>Constitué</value>
+  </data>
+  <data name="Independent" xml:space="preserve">
+    <value>Indépendant</value>
+  </data>
+  <data name="Leasing" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="LessThanOneYear" xml:space="preserve">
+    <value>Moins d’un an</value>
+  </data>
+  <data name="Limited" xml:space="preserve">
+    <value>Limité</value>
+  </data>
+  <data name="LocalAds" xml:space="preserve">
+    <value>Publicité locale</value>
+  </data>
+  <data name="LookingForSecond" xml:space="preserve">
+    <value>Recherche pour secondaire</value>
+  </data>
+  <data name="Mail" xml:space="preserve">
+    <value>Courriel</value>
+  </data>
+  <data name="MobilePhone" xml:space="preserve">
+    <value>Téléphone cellulaire</value>
+  </data>
+  <data name="MoreThanTwoYears" xml:space="preserve">
+    <value>Plus de 2 ans</value>
+  </data>
+  <data name="NoCurrentFinancing" xml:space="preserve">
+    <value>Aucune solution de financement actuelle</value>
+  </data>
+  <data name="NoDealersMatchingCustomerLead" xml:space="preserve">
+    <value>Aucun détaillant ne correspond à la piste du client (type : {0}, code postal : {1})</value>
+  </data>
+  <data name="NoInterest" xml:space="preserve">
+    <value>Aucun intérêt</value>
+  </data>
+  <data name="OEM" xml:space="preserve">
+    <value>Fabricant d’équipement d’origine</value>
+  </data>
+  <data name="OneToTwoYears" xml:space="preserve">
+    <value>1 à 2 ans</value>
+  </data>
+  <data name="OnThe" xml:space="preserve">
+    <value>sur le</value>
+  </data>
+  <data name="Partnership" xml:space="preserve">
+    <value>Société de personnes</value>
+  </data>
+  <data name="PleaseSignInUsingYourEmailAddressAndFollowingPassword" xml:space="preserve">
+    <value>Veuillez ouvrir une session en utilisant votre adresse de courriel et le mot de passe suivant</value>
+  </data>
+  <data name="PreferredContactMethod" xml:space="preserve">
+    <value>Mode de communication privilégié</value>
+  </data>
+  <data name="ProofOfInsurance" xml:space="preserve">
+    <value>Preuve d’assurance</value>
+  </data>
+  <data name="Referrals" xml:space="preserve">
+    <value>Recommandations</value>
+  </data>
+  <data name="SoleProp" xml:space="preserve">
+    <value>Propriétaire unique</value>
+  </data>
+  <data name="Support" xml:space="preserve">
+    <value>Soutien</value>
+  </data>
+  <data name="TenOrMore" xml:space="preserve">
+    <value>10 ou plus</value>
+  </data>
+  <data name="ThanksForYourInterestInHomeImprovementService" xml:space="preserve">
+    <value>Merci de votre intérêt envers le service de rénovation résidentielle</value>
+  </data>
+  <data name="ThereAreNoDealersMatchingFollowingLead" xml:space="preserve">
+    <value>Aucun détaillant ne correspond à la piste suivante</value>
+  </data>
+  <data name="TradeShows" xml:space="preserve">
+    <value>Salons commerciaux</value>
+  </data>
+  <data name="TransactionId" xml:space="preserve">
+    <value>ID de transaction</value>
+  </data>
+  <data name="UnfortunatelyThisLeadIsNoLongerAvailable" xml:space="preserve">
+    <value>Malheureusement, cette piste n’est plus disponible</value>
+  </data>
+  <data name="UnhappyCurrentFinancing" xml:space="preserve">
+    <value>Insatisfait de la solution actuelle</value>
+  </data>
+  <data name="WeAreLookingForTheBestProfessionalForYourHomeImprovementProject" xml:space="preserve">
+    <value>Nous recherchons le meilleur professionnel pour votre projet de rénovation résidentielle</value>
+  </data>
+  <data name="WeAreNowLookingForheBest" xml:space="preserve">
+    <value>Nous recherchons maintenant le meilleur professionnel dans votre région. L’entrepreneur sélectionné communiquera avec vous prochainement.</value>
+  </data>
+  <data name="WeFoundHomeProfessionalForYour" xml:space="preserve">
+    <value>Nous avons trouvé un professionnel pour votre projet de rénovation résidentielle</value>
+  </data>
+  <data name="WeFoundHomeProfessionalForYourHomeImprovementProject" xml:space="preserve">
+    <value>Nous avons trouvé un professionnel pour votre projet de rénovation résidentielle</value>
+  </data>
+  <data name="WillContactYouSoonText" xml:space="preserve">
+    <value>communiquera avec vous prochainement</value>
+  </data>
+  <data name="YouCanViewYourAccountOn" xml:space="preserve">
+    <value>Vous pouvez voir votre compte sur</value>
+  </data>
+  <data name="YouHaveBeen" xml:space="preserve">
+    <value>Vous avez été</value>
+  </data>
+  <data name="_10_Saved" xml:space="preserve">
+    <value>Enregistré</value>
+  </data>
+  <data name="_11_Quote" xml:space="preserve">
+    <value>Devis</value>
+  </data>
+  <data name="_12_Submitted" xml:space="preserve">
+    <value>Soumis</value>
+  </data>
+  <data name="_13_Submitted" xml:space="preserve">
+    <value>Soumis </value>
+  </data>
+  <data name="_14_CBRWarnings" xml:space="preserve">
+    <value>Avertissements CBR</value>
+  </data>
+  <data name="_16_CBRFailure" xml:space="preserve">
+    <value>Échec CBR</value>
+  </data>
+  <data name="_18_Equipment" xml:space="preserve">
+    <value>Équipement</value>
+  </data>
+  <data name="_19_Submitthroughautomation" xml:space="preserve">
+    <value>Soumis par l’automatisation</value>
+  </data>
+  <data name="_20_CreditReview" xml:space="preserve">
+    <value>Évaluation de crédit</value>
+  </data>
+  <data name="_20_CreditReviewECP" xml:space="preserve">
+    <value>Évaluation de crédit (ECP)</value>
+  </data>
+  <data name="_22_MIR" xml:space="preserve">
+    <value>MIR </value>
+  </data>
+  <data name="_22_MIRBlueChip" xml:space="preserve">
+    <value>MIR Blue Chip</value>
+  </data>
+  <data name="_22_MIRNorthstar" xml:space="preserve">
+    <value>MIR Northstar</value>
+  </data>
+  <data name="_22_MoreInfowoemailnotice" xml:space="preserve">
+    <value>Renseignements supplémentaires (sans avis par courriel)</value>
+  </data>
+  <data name="_23_MIRNotReceived" xml:space="preserve">
+    <value>MIR non reçu</value>
+  </data>
+  <data name="_24_Re_Submitted" xml:space="preserve">
+    <value>Soumis de nouveau</value>
+  </data>
+  <data name="_24_Re_SubmittedE" xml:space="preserve">
+    <value>E soumis de nouveau</value>
+  </data>
+  <data name="_25_Declined" xml:space="preserve">
+    <value>Refusé </value>
+  </data>
+  <data name="_25_DeclinedEnableDeals" xml:space="preserve">
+    <value>Transactions activées refusées</value>
+  </data>
+  <data name="_25_DeclinedNorthstar" xml:space="preserve">
+    <value>Northstar refusé</value>
+  </data>
+  <data name="_25_Declinedwoemailnotice" xml:space="preserve">
+    <value>Refusé (sans avis par courriel)</value>
+  </data>
+  <data name="_26_Pre_Approved15k" xml:space="preserve">
+    <value>Préautorisé 15 000 $</value>
+  </data>
+  <data name="_26_Pre_ApprovedECP" xml:space="preserve">
+    <value>Préautorisé (ECP)</value>
+  </data>
+  <data name="_27_FinalReview_RecommendApproval" xml:space="preserve">
+    <value>Examen final – Recommander l’autorisation</value>
+  </data>
+  <data name="_28_Approved" xml:space="preserve">
+    <value>Autorisé </value>
+  </data>
+  <data name="_28_Approved15k" xml:space="preserve">
+    <value>Autorisé 15 000 $</value>
+  </data>
+  <data name="_28_ApprovedEcoEnergy" xml:space="preserve">
+    <value>Autorisé (écoénergétique)</value>
+  </data>
+  <data name="_28_ApprovedECP" xml:space="preserve">
+    <value>Autorisé (ECP)</value>
+  </data>
+  <data name="_28_ApprovedEnable" xml:space="preserve">
+    <value>Autorisé – activé</value>
+  </data>
+  <data name="_28_ApprovedEnbridge" xml:space="preserve">
+    <value>Autorisé (Enbridge)</value>
+  </data>
+  <data name="_28_ApprovedNorthstar" xml:space="preserve">
+    <value>Autorisé – Northstar</value>
+  </data>
+  <data name="_28_ApprovedNorthstarwoemail" xml:space="preserve">
+    <value>Autorisé – Northstar (sans courriel)</value>
+  </data>
+  <data name="_28_ApprovedSecondLook" xml:space="preserve">
+    <value>Autorisé – second examen</value>
+  </data>
+  <data name="_28_ApprovedUtileCredit" xml:space="preserve">
+    <value>Autorisé (Utile Credit)</value>
+  </data>
+  <data name="_28_ApprovedVault" xml:space="preserve">
+    <value>Autorisé Vault</value>
+  </data>
+  <data name="_28_Approvedwoemailnotice" xml:space="preserve">
+    <value>Autorisé (sans avis par courriel)</value>
+  </data>
+  <data name="_29_Declinedwouemailnotification" xml:space="preserve">
+    <value>Refusé (sans avis par courriel)</value>
+  </data>
+  <data name="_29_DWverbalapproval" xml:space="preserve">
+    <value>DW Approbation verbale</value>
+  </data>
+  <data name="_30_ReadytoDoc" xml:space="preserve">
+    <value>Prêt pour les documents</value>
+  </data>
+  <data name="_31_DocsOut" xml:space="preserve">
+    <value>Documents sortants</value>
+  </data>
+  <data name="_32_DocsReceived" xml:space="preserve">
+    <value>Documents reçus</value>
+  </data>
+  <data name="_34_DocsBackIncomplete" xml:space="preserve">
+    <value>Documents retournés incomplets</value>
+  </data>
+  <data name="_35_DeadDeal" xml:space="preserve">
+    <value>Transaction abandonnée</value>
+  </data>
+  <data name="_37_PendingAuditCall" xml:space="preserve">
+    <value>Appel de vérification en attente</value>
+  </data>
+  <data name="_38_Awaitingdelivery" xml:space="preserve">
+    <value>En attente de livraison</value>
+  </data>
+  <data name="_40_DealFundingRequested" xml:space="preserve">
+    <value>Financement d’affaire demandé</value>
+  </data>
+  <data name="_42_ReadyforAudit" xml:space="preserve">
+    <value>Prêt pour la vérification</value>
+  </data>
+  <data name="_46_Funded_Syndicated" xml:space="preserve">
+    <value>Financé – syndiqué</value>
+  </data>
+  <data name="_48_AuditinProgress" xml:space="preserve">
+    <value>Vérification en cours</value>
+  </data>
+  <data name="_49_FundingTomorrow" xml:space="preserve">
+    <value>Financement demain</value>
+  </data>
+  <data name="_50_AuditedDeficient" xml:space="preserve">
+    <value>Vérifié – déficient</value>
+  </data>
+  <data name="_51_AuditedAwaitingTPV" xml:space="preserve">
+    <value>Vérifié - En attente de TPV</value>
+  </data>
+  <data name="_52_TPVConfirmed" xml:space="preserve">
+    <value>TPV confirmé</value>
+  </data>
+  <data name="_53_TPVInternal" xml:space="preserve">
+    <value>TPV Interne</value>
+  </data>
+  <data name="_84_ExpiredApproval" xml:space="preserve">
+    <value>Autorisation expirée</value>
+  </data>
+  <data name="_85_CustomerChangedMind" xml:space="preserve">
+    <value>Le client a changé d’avis</value>
+  </data>
+  <data name="_86_OpportunityLost" xml:space="preserve">
+    <value>Occasion perdue</value>
+  </data>
+  <data name="_90_MasterLineofCreditapproval" xml:space="preserve">
+    <value>Autorisation de la marge de crédit principale</value>
+  </data>
+  <data name="_91_Terminated" xml:space="preserve">
+    <value>Terminé</value>
+  </data>
+  <data name="_ApprovedBlueChip" xml:space="preserve">
+    <value>Autorisé Blue Chip </value>
+  </data>
+  <data name="_Booked" xml:space="preserve">
+    <value>Réservé</value>
+  </data>
+  <data name="_Cancelled" xml:space="preserve">
+    <value>Annulé</value>
+  </data>
+  <data name="_DeclinedBlueChip" xml:space="preserve">
+    <value>Refusé Blue Chip</value>
+  </data>
+  <data name="_Exported" xml:space="preserve">
+    <value>Exporté</value>
+  </data>
+  <data name="_PreApproved20K" xml:space="preserve">
+    <value>Préautorisé 20 000</value>
+  </data>
+  <data name="_PreApproved5K" xml:space="preserve">
+    <value>Préautorisé 5 000</value>
+  </data>
+  <data name="_Pre_Approved" xml:space="preserve">
+    <value>Préapprouvé </value>
+  </data>
+  <data name="_Pre_Approved10K" xml:space="preserve">
+    <value>Autorisé 10 000</value>
+  </data>
+  <data name="_Pre_Approved15K" xml:space="preserve">
+    <value>Préapprouvé 15 000</value>
+  </data>
+  <data name="_S_Approved" xml:space="preserve">
+    <value>Autorisé</value>
+  </data>
+  <data name="_S_Creditreview" xml:space="preserve">
+    <value>Évaluation de crédit</value>
+  </data>
+  <data name="_S_Dead" xml:space="preserve">
+    <value>Décédé</value>
+  </data>
+  <data name="_S_Declined" xml:space="preserve">
+    <value>Refusé</value>
+  </data>
+  <data name="_S_Docsin" xml:space="preserve">
+    <value>Documents entrants</value>
+  </data>
+  <data name="_S_Docsout" xml:space="preserve">
+    <value>Documents sortants</value>
+  </data>
+  <data name="_S_Funded" xml:space="preserve">
+    <value>Financé</value>
+  </data>
+  <data name="_S_Fundingrequested" xml:space="preserve">
+    <value>Financement demandé</value>
+  </data>
+  <data name="_S_Moreinformation" xml:space="preserve">
+    <value>En savoir plus</value>
+  </data>
+  <data name="_S_Submitted" xml:space="preserve">
+    <value>Soumis</value>
+  </data>
 </root>
