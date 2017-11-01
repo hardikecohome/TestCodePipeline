@@ -363,7 +363,7 @@
         .icon-info-well {
             color: @danger-color;
             position: absolute;
-            top: 10px;
+            top: 20%;
             left: 18px;
             
             @media @tablet-down {
@@ -939,30 +939,28 @@
         }
     }
 }
-
-        .email-sent-success {
-            font-size: 18px;
-
-            .icon.icon-success {
-                height: 40px;
-                width: 43px;
-
-                @media @mobile {
-                    display: block;
-                    margin: auto;
-                }
-            }
-
-            span {
-                margin-left: 15px;
-
-                @media @mobile {
-                    display: block;
-                    margin: auto;
-                    width: 25%;
-                }
-            }
+.email-sent-success {
+    font-size: 18px;
+    
+    .icon.icon-success {
+        height: 40px;
+        width: 43px;
+        
+        @media @mobile {
+            display: block;
+            margin: auto;
         }
+    }
+
+    span {
+        margin-left: 15px;
+        @media @mobile {
+            display: block;
+            margin: auto;
+            width: 25%;
+        }
+    }
+}
 
 .onboard-popover.top {
   @media @tablet-up {
