@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using DealnetPortal.Api.Common.Enumeration.Dealer;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Models.Enumeration;
 
 namespace DealnetPortal.Web.Models.Dealer
 {
@@ -41,11 +41,11 @@ namespace DealnetPortal.Web.Models.Dealer
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "PreferredFinancingProductsRequired")]
-        public ProgramServices? ProgramService { get; set; }
+        public DealnetPortal.Api.Common.Enumeration.Dealer.ProgramServices? ProgramService { get; set; }
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "RelationshipTo")]
-        public DealnetPortal.Web.Models.Enumeration.RelationshipStructure? Relationship { get; set; }
+        public RelationshipStructure? Relationship { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "OEMName")]
         [StringLength(50, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
@@ -75,6 +75,6 @@ namespace DealnetPortal.Web.Models.Dealer
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "ReasonForInterestWithEcohome")]
-        public DealnetPortal.Web.Models.Enumeration.ReasonForInterest? ReasonForInterest { get; set; }
+        public ReasonForInterest? ReasonForInterest { get; set; }
     }
 }

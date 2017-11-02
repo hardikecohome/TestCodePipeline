@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using DealnetPortal.Api.Common.Enumeration.Dealer;
 using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Models.Enumeration;
 
 namespace DealnetPortal.Web.Models.Dealer
 {
@@ -44,17 +44,17 @@ namespace DealnetPortal.Web.Models.Dealer
         
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "YearsInBusiness")]
-        public DealnetPortal.Web.Models.Enumeration.YearsInBusiness? YearsInBusiness { get; set; }
+        public YearsInBusiness? YearsInBusiness { get; set; }
         
         [Display(ResourceType = typeof(Resources.Resources), Name = "NumInstallers")]
-        public DealnetPortal.Web.Models.Enumeration.NumberOfPeople? NumberOfInstallers { get; set; }
+        public NumberOfPeople? NumberOfInstallers { get; set; }
         
         [Display(ResourceType = typeof(Resources.Resources), Name = "NumSales")]
-        public DealnetPortal.Web.Models.Enumeration.NumberOfPeople? NumberOfSales { get; set; }
+        public NumberOfPeople? NumberOfSales { get; set; }
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name= "TypeOfBusiness")]
-        public DealnetPortal.Web.Models.Enumeration.BusinessType? BusinessType { get; set; }
+        public BusinessType? BusinessType { get; set; }
         
         [Display(ResourceType =typeof(Resources.Resources), Name = "Provinces")]
         public List<string> Provinces { get; set; }
