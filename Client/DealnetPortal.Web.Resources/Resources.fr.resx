@@ -954,7 +954,7 @@
     <value>Le compte de Enbridge Gas Distribution doit compter 12 chiffres</value>
   </data>
   <data name="HomePhoneMustBeLong" xml:space="preserve">
-    <value>Le champ du téléphone résidentiel doit compter 10 chiffres</value>
+    <value>Le numéro de téléphone résidentiel doit compter 10 chiffres</value>
   </data>
   <data name="CellPhoneMustBeLong" xml:space="preserve">
     <value>Le champ du téléphone cellulaire doit compter 10 chiffres</value>
@@ -1747,7 +1747,7 @@
     <value>Renseignements sur l’entreprise</value>
   </data>
   <data name="ConnectWithDealerSupport" xml:space="preserve">
-    <value>Communiquez avec le soutien aux courtiers pour obtenir de l’assistance :</value>
+    <value>Communiquez avec le soutien {0} aux courtiers pour obtenir de l’assistance :</value>
   </data>
   <data name="Consent" xml:space="preserve">
     <value>Consentement</value>
@@ -2326,5 +2326,57 @@
   </data>
   <data name="YouSureYouWantToAcceptLeadThenYouPay" xml:space="preserve">
     <value>Êtes-vous certain de vouloir accepter cette piste? Si c’est le cas, vous paierez des frais de {0} $.</value>
+  </data>
+  <data name="Incorporated" xml:space="preserve">
+    <value>Constitué</value>
+  </data>
+  <data name="Independent" xml:space="preserve">
+    <value>Indépendant</value>
+  </data>
+  <data name="LessThanOneYear" xml:space="preserve">
+    <value>Moins d’un an</value>
+  </data>
+  <data name="Limited" xml:space="preserve">
+    <value>Limité</value>
+  </data>
+  <data name="LookingForSecond" xml:space="preserve">
+    <value>Recherche pour secondaire</value>
+  </data>
+  <data name="MoreThanTwoYears" xml:space="preserve">
+    <value>Plus de 2 ans</value>
+  </data>
+  <data name="NoCurrentFinancing" xml:space="preserve">
+    <value>Aucune solution de financement actuelle</value>
+  </data>
+  <data name="OEM" xml:space="preserve">
+    <value>Fabricant d’équipement d’origine</value>
+  </data>
+  <data name="OnboardSuccessWithoutDocumentsTitle" xml:space="preserve">
+    <value>Merci, votre candidature a été soumise avec succès et nous y travaillons.</value>
+  </data>
+  <data name="OneToTwoYears" xml:space="preserve">
+    <value>1 à 2 ans</value>
+  </data>
+  <data name="Partnership" xml:space="preserve">
+    <value>Société de personnes</value>
+  </data>
+  <data name="ProvideDocuments" xml:space="preserve">
+    <value>N'oubliez pas de fournir tous les documents requis.
+Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
+  </data>
+  <data name="SecondBrandLengthIncorrect" xml:space="preserve">
+    <value>Le champ Marque secondaire doit être une chaîne d'une longueur minimale de 2 et d'une longueur maximale de 50.</value>
+  </data>
+  <data name="SoleProp" xml:space="preserve">
+    <value>Propriétaire unique</value>
+  </data>
+  <data name="TenOrMore" xml:space="preserve">
+    <value>10 ou plus</value>
+  </data>
+  <data name="UnhappyCurrentFinancing" xml:space="preserve">
+    <value>Insatisfait de la solution actuelle</value>
+  </data>
+  <data name="UploadAnotherFile" xml:space="preserve">
+    <value>Téléverser un autre fichier</value>
   </data>
 </root>

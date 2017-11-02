@@ -269,8 +269,8 @@
                         $('#' + documentId + '-file-container').remove();
                         state[stateSection][stateFileSection].splice(state[stateSection][stateFileSection].indexOf(filename), 1);
                         if (!state[stateSection][stateFileSection].length) {
-                            if ($('#' + buttonSelector).text() === 'Upload another file') {
-                                $('#' + buttonSelector).text('Upload');
+                            if ($('#' + buttonSelector).text() === translations['UploadAnotherFile']) {
+                                $('#' + buttonSelector).text(translations['Upload']);
                             }
 
                             if ($('#' + checkSelector).is(':visible')) {
@@ -301,8 +301,8 @@
             $('#' + checkSelector).removeClass('hidden');
         }
 
-        if ($('#' + buttonSelector).text() === 'Upload') {
-            $('#' + buttonSelector).text('Upload another file');
+        if ($('#' + buttonSelector).text() === translations['Upload']) {
+            $('#' + buttonSelector).text(translations['UploadAnotherFile']);
         }
     }
 
