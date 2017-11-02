@@ -817,19 +817,20 @@ namespace DealnetPortal.Api.Integration.Services
                             Name = PdfFormFields.IsMailingDifferent,
                             Value = "true"
                         });
+                        var sMailAddress = !string.IsNullOrEmpty(mailAddress.Unit) ? 
+                                        $"{mailAddress.Street}, {Resources.Resources.Suite} {mailAddress.Unit}, {mailAddress.City}, {mailAddress.State}, {mailAddress.PostalCode}" 
+                                        : $"{mailAddress.Street}, {mailAddress.City}, {mailAddress.State}, {mailAddress.PostalCode}";
                         formFields.Add(new FormField()
                         {
                             FieldType = FieldType.Text,
                             Name = PdfFormFields.MailingAddress,
-                            Value =
-                                $"{mailAddress.Street}  {mailAddress.Unit ?? ""}, {mailAddress.City}, {mailAddress.State}, {mailAddress.PostalCode}"
+                            Value = sMailAddress
                         });
                         formFields.Add(new FormField()
                         {
                             FieldType = FieldType.Text,
                             Name = PdfFormFields.MailingOrPreviousAddress,
-                            Value =
-                                $"{mailAddress.Street}, {mailAddress.City}, {mailAddress.State}, {mailAddress.PostalCode}"
+                            Value = sMailAddress
                         });
                     }
                     var previousAddress =
@@ -843,12 +844,15 @@ namespace DealnetPortal.Api.Integration.Services
                             Name = PdfFormFields.IsPreviousAddress,
                             Value = "true"
                         });
+                        var sPrevAddress = !string.IsNullOrEmpty(previousAddress.Unit) ?
+                            $"{previousAddress.Street}, {Resources.Resources.Suite} {previousAddress.Unit}, {previousAddress.City}, {previousAddress.State}, {previousAddress.PostalCode}"
+                            : $"{previousAddress.Street}, {previousAddress.City}, {previousAddress.State}, {previousAddress.PostalCode}";
+
                         formFields.Add(new FormField()
                         {
                             FieldType = FieldType.Text,
                             Name = PdfFormFields.PreviousAddress,
-                            Value =
-                                $"{previousAddress.Street}  {previousAddress.Unit??""}, {previousAddress.City}, {previousAddress.State}, {previousAddress.PostalCode}"
+                            Value = sPrevAddress
                         });
                         if (mailAddress == null)
                         {
@@ -856,8 +860,7 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 FieldType = FieldType.Text,
                                 Name = PdfFormFields.MailingOrPreviousAddress,
-                                Value =
-                                    $"{previousAddress.Street}, {previousAddress.City}, {previousAddress.State}, {previousAddress.PostalCode}"
+                                Value = sPrevAddress
                             });
                         }
                     }
