@@ -132,7 +132,7 @@
             </div>
         </div>
         <h4 class="heading-bordered">@Resources.Other</h4>
-        <div class="row label-row">
+        <div class="row label-row hidden-xs">
             <div class="col-md-2 col-sm-3">
                 @Html.LabelFor(m => m.CompanyInfo.BusinessType, new { @class = "mandatory-field" })
             </div>
@@ -149,6 +149,7 @@
         <div class="row">
             <div class="col-md-2 col-sm-3">
                 <div class="form-group">
+                    @Html.LabelFor(m => m.CompanyInfo.BusinessType, new { @class = "mandatory-field visible-xs" })
                     <div class="control-group">
                         <select class="form-control @(Model.CompanyInfo.BusinessType.HasValue ? "" : "no-value")" data-val="true" data-val-required="@Resources.ThisFieldIsRequired" id="company-type" name="@Html.NameFor(m=>m.CompanyInfo.BusinessType)">
                             <option value="">-non sélectionné-</option>
@@ -163,6 +164,7 @@
             </div>
             <div class="col-md-2 col-sm-3">
                 <div class="form-group">
+                    @Html.LabelFor(m => m.CompanyInfo.YearsInBusiness, new { @class = "mandatory-field visible-xs" })
                     <div class="control-group">
                         <select class="form-control @(Model.CompanyInfo.YearsInBusiness.HasValue ? "" : "no-value")" data-val="true" data-val-required="@Resources.ThisFieldIsRequired" id="years-in-business" name="@Html.NameFor(m=>m.CompanyInfo.YearsInBusiness)">
                             <option value="">-non sélectionné-</option>
@@ -176,6 +178,7 @@
             </div>
             <div class="col-md-2 col-sm-3">
                 <div class="form-group">
+                    @Html.LabelFor(m => m.CompanyInfo.NumberOfInstallers, new { @class = "visible-xs" })
                     <div class="control-group">
                         <select class="form-control @(Model.CompanyInfo.NumberOfInstallers.HasValue ? "" : "no-value")" id="installers" name="@Html.NameFor(m=>m.CompanyInfo.NumberOfInstallers)">
                             <option value="">-non sélectionné-</option>
@@ -191,6 +194,7 @@
             </div>
             <div class="col-md-2 col-sm-3">
                 <div class="form-group">
+                    @Html.LabelFor(m => m.CompanyInfo.NumberOfInstallers, new { @class = "visible-xs" })
                     <div class="control-group">
                         <select class="form-control @(Model.CompanyInfo.NumberOfSales.HasValue ? "" : "no-value")" id="sales" name="@Html.NameFor(m=>m.CompanyInfo.NumberOfSales)">
                             <option value="">-non sélectionné-</option>
