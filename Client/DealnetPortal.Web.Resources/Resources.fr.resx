@@ -2351,11 +2351,18 @@
   <data name="OEM" xml:space="preserve">
     <value>Fabricant d’équipement d’origine</value>
   </data>
+  <data name="OnboardSuccessWithoutDocumentsTitle" xml:space="preserve">
+    <value>Merci, votre candidature a été soumise avec succès et nous y travaillons.</value>
+  </data>
   <data name="OneToTwoYears" xml:space="preserve">
     <value>1 à 2 ans</value>
   </data>
   <data name="Partnership" xml:space="preserve">
     <value>Société de personnes</value>
+  </data>
+  <data name="ProvideDocuments" xml:space="preserve">
+    <value>N'oubliez pas de fournir tous les documents requis.
+Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
   </data>
   <data name="SecondBrandLengthIncorrect" xml:space="preserve">
     <value>Le champ Marque secondaire doit être une chaîne d'une longueur minimale de 2 et d'une longueur maximale de 50.</value>
