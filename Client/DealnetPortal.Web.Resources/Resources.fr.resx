@@ -954,7 +954,7 @@
     <value>Le compte de Enbridge Gas Distribution doit compter 12 chiffres</value>
   </data>
   <data name="HomePhoneMustBeLong" xml:space="preserve">
-    <value>Le champ du téléphone résidentiel doit compter 10 chiffres</value>
+    <value>Le numéro de téléphone résidentiel doit compter 10 chiffres</value>
   </data>
   <data name="CellPhoneMustBeLong" xml:space="preserve">
     <value>Le champ du téléphone cellulaire doit compter 10 chiffres</value>
@@ -2326,5 +2326,8 @@
   </data>
   <data name="YouSureYouWantToAcceptLeadThenYouPay" xml:space="preserve">
     <value>Êtes-vous certain de vouloir accepter cette piste? Si c’est le cas, vous paierez des frais de {0} $.</value>
+  </data>
+  <data name="SecondBrandLengthIncorrect" xml:space="preserve">
+    <value>Le champ Marque secondaire doit être une chaîne d'une longueur minimale de 2 et d'une longueur maximale de 50.</value>
   </data>
 </root>

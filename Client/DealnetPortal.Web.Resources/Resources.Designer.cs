@@ -2729,7 +2729,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The field Home Phone must be a string with a length of 10.
+        ///   Looks up a localized string similar to Home Phone must be a string with a length of 10.
         /// </summary>
         public static string HomePhoneMustBeLong {
             get {
@@ -4898,6 +4898,15 @@ namespace DealnetPortal.Web.Resources {
         public static string SecondaryManufacturerBrandSold {
             get {
                 return ResourceManager.GetString("SecondaryManufacturerBrandSold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The field Secondary brand must be a string with a minimum length of 2 and a maximum length of 50..
+        /// </summary>
+        public static string SecondBrandLengthIncorrect {
+            get {
+                return ResourceManager.GetString("SecondBrandLengthIncorrect", resourceCulture);
             }
         }
         

@@ -814,6 +814,7 @@
     <Content Include="Scripts\contract-edit.js" />
     <Content Include="Scripts\custom-validation.js" />
     <Content Include="Scripts\customer-form.js" />
+    <Content Include="Scripts\jquery-validate-messages-fr.js" />
     <Content Include="Scripts\jquery.jcarousel.min.js" />
     <Content Include="Scripts\jquery.tmpl.min.js" />
     <Content Include="Scripts\jquery.touchSwipe.min.js" />

@@ -954,7 +954,7 @@
     <value>The field Enbridge Gas Distribution Account must be a string with a length of 12</value>
   </data>
   <data name="HomePhoneMustBeLong" xml:space="preserve">
-    <value>The field Home Phone must be a string with a length of 10</value>
+    <value>Home Phone must be a string with a length of 10</value>
   </data>
   <data name="CellPhoneMustBeLong" xml:space="preserve">
     <value>The field Cell Phone must be a string with a length of 10</value>
@@ -2263,5 +2263,8 @@ You can do it anytime by using the following link:</value>
   </data>
   <data name="HowCanWeHelp" xml:space="preserve">
     <value>How can we help?</value>
+  </data>
+  <data name="SecondBrandLengthIncorrect" xml:space="preserve">
+    <value>The field Secondary brand must be a string with a minimum length of 2 and a maximum length of 50.</value>
   </data>
 </root>
