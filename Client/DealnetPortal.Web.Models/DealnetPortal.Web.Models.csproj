@@ -47,12 +47,14 @@
     <Compile Include="Enumeration\BusinessType.cs" />
     <Compile Include="Enumeration\ContractState.cs" />
     <Compile Include="Enumeration\LoanDeferralType.cs" />
+    <Compile Include="Enumeration\NumberOfPeople.cs" />
     <Compile Include="Enumeration\PaymentType.cs" />
     <Compile Include="Enumeration\PortalType.cs" />
     <Compile Include="Enumeration\RateCardType.cs" />
     <Compile Include="Enumeration\RentalDeferralType.cs" />
     <Compile Include="Enumeration\ResidenceType.cs" />
     <Compile Include="Enumeration\WithdrawalDateType.cs" />
+    <Compile Include="Enumeration\YearsInBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

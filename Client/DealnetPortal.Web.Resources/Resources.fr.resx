@@ -2339,4 +2339,16 @@
   <data name="SoleProp" xml:space="preserve">
     <value>Propriétaire unique</value>
   </data>
+  <data name="LessThanOneYear" xml:space="preserve">
+    <value>Moins d’un an</value>
+  </data>
+  <data name="MoreThanTwoYears" xml:space="preserve">
+    <value>Plus de 2 ans</value>
+  </data>
+  <data name="OneToTwoYears" xml:space="preserve">
+    <value>1 à 2 ans</value>
+  </data>
+  <data name="TenOrMore" xml:space="preserve">
+    <value>10 ou plus</value>
+  </data>
 </root>

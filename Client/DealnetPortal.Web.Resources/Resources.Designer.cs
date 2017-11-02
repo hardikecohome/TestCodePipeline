@@ -3089,6 +3089,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to less than 1 year.
+        /// </summary>
+        public static string LessThanOneYear {
+            get {
+                return ResourceManager.GetString("LessThanOneYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Resources.
         /// </summary>
         public static string Library {
@@ -3449,6 +3458,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to more than 2 years.
+        /// </summary>
+        public static string MoreThanTwoYears {
+            get {
+                return ResourceManager.GetString("MoreThanTwoYears", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The {0} must be at least {2} characters long..
         /// </summary>
         public static string MustBeAtLeastLong {
@@ -3787,6 +3805,15 @@ namespace DealnetPortal.Web.Resources {
         public static string OneSt {
             get {
                 return ResourceManager.GetString("OneSt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1-2 years.
+        /// </summary>
+        public static string OneToTwoYears {
+            get {
+                return ResourceManager.GetString("OneToTwoYears", resourceCulture);
             }
         }
         
@@ -5294,6 +5321,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Tax {
             get {
                 return ResourceManager.GetString("Tax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 10 or more.
+        /// </summary>
+        public static string TenOrMore {
+            get {
+                return ResourceManager.GetString("TenOrMore", resourceCulture);
             }
         }
         

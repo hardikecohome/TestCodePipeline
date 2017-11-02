@@ -44,13 +44,13 @@ namespace DealnetPortal.Web.Models.Dealer
         
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "YearsInBusiness")]
-        public YearsInBusiness? YearsInBusiness { get; set; }
+        public DealnetPortal.Web.Models.Enumeration.YearsInBusiness? YearsInBusiness { get; set; }
         
         [Display(ResourceType = typeof(Resources.Resources), Name = "NumInstallers")]
-        public NumberOfPeople? NumberOfInstallers { get; set; }
+        public DealnetPortal.Web.Models.Enumeration.NumberOfPeople? NumberOfInstallers { get; set; }
         
         [Display(ResourceType = typeof(Resources.Resources), Name = "NumSales")]
-        public NumberOfPeople? NumberOfSales { get; set; }
+        public DealnetPortal.Web.Models.Enumeration.NumberOfPeople? NumberOfSales { get; set; }
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name= "TypeOfBusiness")]
