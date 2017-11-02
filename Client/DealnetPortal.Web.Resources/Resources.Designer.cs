@@ -2855,6 +2855,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Independent.
+        /// </summary>
+        public static string Independent {
+            get {
+                return ResourceManager.GetString("Independent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Information.
         /// </summary>
         public static string Information {
@@ -3229,6 +3238,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Logout {
             get {
                 return ResourceManager.GetString("Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Looking for secondary.
+        /// </summary>
+        public static string LookingForSecond {
+            get {
+                return ResourceManager.GetString("LookingForSecond", resourceCulture);
             }
         }
         
@@ -3638,6 +3656,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No current financing solution.
+        /// </summary>
+        public static string NoCurrentFinancing {
+            get {
+                return ResourceManager.GetString("NoCurrentFinancing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No Deferral.
         /// </summary>
         public static string NoDeferral {
@@ -3751,6 +3778,15 @@ namespace DealnetPortal.Web.Resources {
         public static string NumSalesMax3 {
             get {
                 return ResourceManager.GetString("NumSalesMax3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OEM.
+        /// </summary>
+        public static string OEM {
+            get {
+                return ResourceManager.GetString("OEM", resourceCulture);
             }
         }
         
@@ -5726,6 +5762,15 @@ namespace DealnetPortal.Web.Resources {
         public static string UnableToProcessApplicationAutomatically {
             get {
                 return ResourceManager.GetString("UnableToProcessApplicationAutomatically", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unhappy with current solution.
+        /// </summary>
+        public static string UnhappyCurrentFinancing {
+            get {
+                return ResourceManager.GetString("UnhappyCurrentFinancing", resourceCulture);
             }
         }
         

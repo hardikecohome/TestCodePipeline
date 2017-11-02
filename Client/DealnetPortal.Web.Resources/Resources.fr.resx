@@ -2339,16 +2339,31 @@
   <data name="SoleProp" xml:space="preserve">
     <value>Propriétaire unique</value>
   </data>
+  <data name="Independent" xml:space="preserve">
+    <value>Indépendant</value>
+  </data>
   <data name="LessThanOneYear" xml:space="preserve">
     <value>Moins d’un an</value>
   </data>
+  <data name="LookingForSecond" xml:space="preserve">
+    <value>Recherche pour secondaire</value>
+  </data>
   <data name="MoreThanTwoYears" xml:space="preserve">
     <value>Plus de 2 ans</value>
+  </data>
+  <data name="NoCurrentFinancing" xml:space="preserve">
+    <value>Aucune solution de financement actuelle</value>
+  </data>
+  <data name="OEM" xml:space="preserve">
+    <value>Fabricant d’équipement d’origine</value>
   </data>
   <data name="OneToTwoYears" xml:space="preserve">
     <value>1 à 2 ans</value>
   </data>
   <data name="TenOrMore" xml:space="preserve">
     <value>10 ou plus</value>
+  </data>
+  <data name="UnhappyCurrentFinancing" xml:space="preserve">
+    <value>Insatisfait de la solution actuelle</value>
   </data>
 </root>

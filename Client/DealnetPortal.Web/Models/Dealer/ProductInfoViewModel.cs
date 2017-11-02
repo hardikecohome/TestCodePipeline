@@ -45,7 +45,7 @@ namespace DealnetPortal.Web.Models.Dealer
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "RelationshipTo")]
-        public RelationshipStructure? Relationship { get; set; }
+        public DealnetPortal.Web.Models.Enumeration.RelationshipStructure? Relationship { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "OEMName")]
         [StringLength(50, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
@@ -75,6 +75,6 @@ namespace DealnetPortal.Web.Models.Dealer
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "ReasonForInterestWithEcohome")]
-        public ReasonForInterest? ReasonForInterest { get; set; }
+        public DealnetPortal.Web.Models.Enumeration.ReasonForInterest? ReasonForInterest { get; set; }
     }
 }

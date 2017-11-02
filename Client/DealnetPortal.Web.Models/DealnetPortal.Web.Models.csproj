@@ -51,6 +51,8 @@
     <Compile Include="Enumeration\PaymentType.cs" />
     <Compile Include="Enumeration\PortalType.cs" />
     <Compile Include="Enumeration\RateCardType.cs" />
+    <Compile Include="Enumeration\ReasonForInterest.cs" />
+    <Compile Include="Enumeration\RelationshipStructure.cs" />
     <Compile Include="Enumeration\RentalDeferralType.cs" />
     <Compile Include="Enumeration\ResidenceType.cs" />
     <Compile Include="Enumeration\WithdrawalDateType.cs" />

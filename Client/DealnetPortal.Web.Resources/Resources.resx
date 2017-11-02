@@ -2276,16 +2276,31 @@ You can do it anytime by using the following link:</value>
   <data name="SoleProp" xml:space="preserve">
     <value>Sole Prop</value>
   </data>
+  <data name="Independent" xml:space="preserve">
+    <value>Independent</value>
+  </data>
   <data name="LessThanOneYear" xml:space="preserve">
     <value>less than 1 year</value>
   </data>
+  <data name="LookingForSecond" xml:space="preserve">
+    <value>Looking for secondary</value>
+  </data>
   <data name="MoreThanTwoYears" xml:space="preserve">
     <value>more than 2 years</value>
+  </data>
+  <data name="NoCurrentFinancing" xml:space="preserve">
+    <value>No current financing solution</value>
+  </data>
+  <data name="OEM" xml:space="preserve">
+    <value>OEM</value>
   </data>
   <data name="OneToTwoYears" xml:space="preserve">
     <value>1-2 years</value>
   </data>
   <data name="TenOrMore" xml:space="preserve">
     <value>10 or more</value>
+  </data>
+  <data name="UnhappyCurrentFinancing" xml:space="preserve">
+    <value>Unhappy with current solution</value>
   </data>
 </root>

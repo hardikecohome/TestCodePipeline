@@ -194,7 +194,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-sm-6 hidden-relationship @(Model.ProductInfo.Relationship != RelationshipStructure.OEM ? "hidden" : "")">
+            <div class="col-md-4 col-sm-6 hidden-relationship @(Model.ProductInfo.Relationship != DealnetPortal.Web.Models.Enumeration.RelationshipStructure.OEM ? "hidden" : "")">
                 <div class="form-group">
                     @Html.LabelFor(m => m.ProductInfo.OEMName, new { @class = "mandatory-field" })
                     <div class="control-group">
