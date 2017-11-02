@@ -2846,6 +2846,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Incorporated.
+        /// </summary>
+        public static string Incorporated {
+            get {
+                return ResourceManager.GetString("Incorporated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Information.
         /// </summary>
         public static string Information {
@@ -3085,6 +3094,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Library {
             get {
                 return ResourceManager.GetString("Library", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Limited.
+        /// </summary>
+        public static string Limited {
+            get {
+                return ResourceManager.GetString("Limited", resourceCulture);
             }
         }
         
@@ -3904,6 +3922,15 @@ namespace DealnetPortal.Web.Resources {
         public static string PapCapital {
             get {
                 return ResourceManager.GetString("PapCapital", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Partnership.
+        /// </summary>
+        public static string Partnership {
+            get {
+                return ResourceManager.GetString("Partnership", resourceCulture);
             }
         }
         
@@ -5132,6 +5159,15 @@ namespace DealnetPortal.Web.Resources {
         public static string SixMonth {
             get {
                 return ResourceManager.GetString("SixMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sole Prop.
+        /// </summary>
+        public static string SoleProp {
+            get {
+                return ResourceManager.GetString("SoleProp", resourceCulture);
             }
         }
         

@@ -54,7 +54,7 @@ namespace DealnetPortal.Web.Models.Dealer
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name= "TypeOfBusiness")]
-        public BusinessType? BusinessType { get; set; }
+        public DealnetPortal.Web.Models.Enumeration.BusinessType? BusinessType { get; set; }
         
         [Display(ResourceType =typeof(Resources.Resources), Name = "Provinces")]
         public List<string> Provinces { get; set; }
