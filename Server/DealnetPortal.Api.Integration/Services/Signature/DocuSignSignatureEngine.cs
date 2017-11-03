@@ -29,7 +29,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         private readonly string _dsIntegratorKey;
         private readonly string _dsDefaultBrandId;
 
-        private readonly string _baseServerAddress;
+        private readonly string _notificationsEndpoint;
 
         private readonly ILoggingService _loggingService;
 
@@ -54,9 +54,6 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         private List<CarbonCopy> _copyViewers { get; set; }
         private EnvelopeDefinition _envelopeDefinition { get; set; }
 
-        //private const string EmailSubject = "Please Sign Agreement";
-
-        private const string NotificationEndpointName = "api/Storage/NotifySignatureStatus";
 
         public DocuSignSignatureEngine(ILoggingService loggingService, IAppConfiguration configuration)
         {
@@ -66,7 +63,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             _dsPassword = configuration.GetSetting(WebConfigKeys.DOCUSIGN_PASSWORD_CONFIG_KEY);
             _dsIntegratorKey = configuration.GetSetting(WebConfigKeys.DOCUSIGN_INTEGRATORKEY_CONFIG_KEY);
             _dsDefaultBrandId = configuration.GetSetting(WebConfigKeys.DOCUSIGN_BRAND_ID);
-            _baseServerAddress = configuration.GetSetting(WebConfigKeys.SERVER_BASE_ADDRESS_CONFIG_KEY);
+            _notificationsEndpoint = configuration.GetSetting(WebConfigKeys.DOCUSIGN_NOTIFICATIONS_URL);
         }
 
         public async Task<IList<Alert>> ServiceLogin()
@@ -542,12 +539,10 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         }
 
         private EventNotification GetEventNotification()
-        {
-            
-            if (!string.IsNullOrEmpty(_baseServerAddress))
+        {            
+            if (!string.IsNullOrEmpty(_notificationsEndpoint))
             {
-                string url = string.Empty;
-                url = string.Format("{0}/{1}", _baseServerAddress, NotificationEndpointName);
+                string url = _notificationsEndpoint;
                 _loggingService.LogInfo($"DocuSign notofocations will send to {url}");
 
                 List<EnvelopeEvent> envelope_events = new List<EnvelopeEvent>();
