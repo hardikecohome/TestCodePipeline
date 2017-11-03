@@ -232,6 +232,25 @@ function showTable () {
                 resetDataTablesExpandedRows(table);
             });
 
+            $('#work-items-table th').on('click', function() {
+                var el = $(this);
+                var attr = el.attr('aria-sort');
+
+                if (attr !== undefined && attr === 'descending') {
+                    el.attr('def-sort', 'true');
+                }
+
+                if (attr !== undefined && attr === 'ascending') {
+                    if (el.attr('def-sort') !== undefined) {
+                        el.removeAttr('aria-sort')
+                            .removeAttr('def-sort')
+                            .removeClass('sorting_asc')
+                            .addClass('sorting');
+
+                        table.order.neutral().draw();
+                    }
+                }
+            });
 
             $('#work-items-table tbody').on('click', ':checkbox', getTotalForSelectedCheckboxes(table));
             createFilter();
@@ -308,6 +327,18 @@ function previewItem () {
     var id = $(tr)[0].id;
     submitSinglePreviewRequest(id);
 };
+
+$.fn.dataTable.Api.register('order.neutral()', function () {
+    return this.iterator('table', function (s) {
+        s.aaSorting.length = 0;
+        s.aiDisplay.sort(function (a, b) {
+            return a - b;
+        });
+        s.aiDisplayMaster.sort(function (a, b) {
+            return a - b;
+        });
+    });
+});
 
 $.fn.dataTable.ext.search.push(
     function () {

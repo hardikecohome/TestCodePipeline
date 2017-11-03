@@ -847,4 +847,7 @@
   <data name="Pool" xml:space="preserve">
     <value>Pool</value>
   </data>
+  <data name="Suite" xml:space="preserve">
+    <value>Suite</value>
+  </data>
 </root>

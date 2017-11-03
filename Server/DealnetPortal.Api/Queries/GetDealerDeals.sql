@@ -103,10 +103,4 @@
                   inner join entity (nolock) en on sc.oid = en.secu_oid
                  where sc.user_id  = '{0}')
                  order by 2 desc;
-
---SELECT dealer_name, transaction#, Contract_id, 
---       Customer_name, Deal_Status, Last_Update_Date, Last_Update_Time,
---       Equipment_Description, Equipment_Type, [Amount Financed],
---       Contract_Type_Code, [Customer ID], Term
---FROM sample_mydeals(NOLOCK) sd                                      
---where dealer_name = '{0}';                 
+                

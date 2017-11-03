@@ -954,7 +954,7 @@
     <value>Le compte de Enbridge Gas Distribution doit compter 12 chiffres</value>
   </data>
   <data name="HomePhoneMustBeLong" xml:space="preserve">
-    <value>Le champ du téléphone résidentiel doit compter 10 chiffres</value>
+    <value>Le numéro de téléphone résidentiel doit compter 10 chiffres</value>
   </data>
   <data name="CellPhoneMustBeLong" xml:space="preserve">
     <value>Le champ du téléphone cellulaire doit compter 10 chiffres</value>
@@ -1529,5 +1529,854 @@
   </data>
   <data name="StandardRate" xml:space="preserve">
     <value>TAUX STANDARD</value>
+  </data>
+  <data name="AcceptanceOfLeadFeeAppliedToYourAccount" xml:space="preserve">
+    <value>À l’acceptation de la piste, des frais de {0} seront facturés à votre compte à titre de frais pour les pistes.</value>
+  </data>
+  <data name="AcceptLead" xml:space="preserve">
+    <value>Accepter la piste</value>
+  </data>
+  <data name="AcknowledgeAndAgree" xml:space="preserve">
+    <value>Je reconnais et j’accepte</value>
+  </data>
+  <data name="AcknowledgeAndAgreementObtainCreditReport" xml:space="preserve">
+    <value>En soumettant cette demande, vous reconnaissez et acceptez qu’EcoHome Financial est autorisée à obtenir votre dossier de crédit d’une ou plusieurs agences d’évaluation du crédit des consommateurs (par exemple, Equifax ou TransUnion), afin de vérifier les renseignements de votre dossier de crédit auprès de tiers au besoin, et de mettre à jour, de manière périodique, les renseignements de votre dossier de crédit auprès des agences d’évaluation du crédit. Vous êtes avisé par les présentes qu’un rapport de consommation renfermant de l’information sur le crédit ou des renseignements personnels peut être consulté relativement à cette demande. Vous consentez d’accepter, de recevoir et d’utiliser en format électronique toutes les ententes et tous les avis, divulgations et autres documents ou renseignements liés à la présente demande qu’EcoHome Financial peut vous envoyer.</value>
+  </data>
+  <data name="Acknowledgment" xml:space="preserve">
+    <value>Reconnaissance</value>
+  </data>
+  <data name="AddAdditionalOwner" xml:space="preserve">
+    <value>Ajouter un propriétaire supplémentaire</value>
+  </data>
+  <data name="AddAnotherBrand" xml:space="preserve">
+    <value>Ajouter une autre marque</value>
+  </data>
+  <data name="AddAnotherClient" xml:space="preserve">
+    <value>Ajouter un autre client</value>
+  </data>
+  <data name="AddAnotherOption" xml:space="preserve">
+    <value>Ajouter une autre options aux fins de comparaison</value>
+  </data>
+  <data name="AddClient" xml:space="preserve">
+    <value>Ajouter un client</value>
+  </data>
+  <data name="AddCustomer" xml:space="preserve">
+    <value>Ajouter un client</value>
+  </data>
+  <data name="AddedOn" xml:space="preserve">
+    <value>Ajouté sur</value>
+  </data>
+  <data name="AdditionalIsOwnerOfProperty" xml:space="preserve">
+    <value>Le demandeur supplémentaire est propriétaire de la propriété</value>
+  </data>
+  <data name="AdditionalOwnerInformation" xml:space="preserve">
+    <value>Renseignements du propriétaire supplémentaire</value>
+  </data>
+  <data name="AddPostalCode" xml:space="preserve">
+    <value>Ajouter un code postal</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Adresse</value>
+  </data>
+  <data name="AddressDetermined" xml:space="preserve">
+    <value>Adresse à déterminer</value>
+  </data>
+  <data name="AddressUnknownClientShoppingOtherProperty" xml:space="preserve">
+    <value>Adresse inconnue. Le client cherche à acheter d’autres biens.</value>
+  </data>
+  <data name="AgreementPersonalData" xml:space="preserve">
+    <value>&lt;h2&gt;Collecte, utilisation et divulgation des renseignements personnels&lt;/h2&gt;
+    &lt;p&gt;EcoHome Financial peut recueillir, utiliser et divulguer les renseignements personnels que vous avez fournis dans la présente demande, obtenus dans le cadre du processus de demande (y compris, d’agences d’évaluation du crédit et d’autres sources) ou si votre demande est approuvée, obtenus de temps à autre par l’intermédiaire de l’administration ou de l’utilisation de votre compte, pour ce qui suit, en tout ou en partie :&lt;/p&gt;
+    &lt;ul&gt;
+        &lt;li&gt;
+           pour vérifier votre identité et l’information que vous avez fournie, comme vos historiques de crédit ou d’emploi
+        &lt;/li&gt;
+        &lt;li&gt;
+            pour évaluer votre solvabilité
+        &lt;/li&gt;
+        &lt;li&gt;
+            pour traiter votre demande, déterminer votre admissibilité à tout produit ou service que vous pouvez demander et, si votre demande est approuvée, pour ouvrir, administrer et gérer votre compte
+        &lt;/li&gt;
+        &lt;li&gt;
+            pour répondre à vos demandes de produits, services ou autres informations
+        &lt;/li&gt;
+        &lt;li&gt;
+            pour nous permettre et, selon le cas, pour permettre à nos tiers fournisseurs de services de vous fournir des produits et des services de façon permanente
+        &lt;/li&gt;
+        &lt;li&gt;
+            pour vérifier vos instructions
+        &lt;/li&gt;
+        &lt;li&gt;
+            pour nous protéger des erreurs et de la fraude
+        &lt;/li&gt;
+        &lt;li&gt;
+            pour enquêter sur les plaintes
+        &lt;/li&gt;
+        &lt;li&gt;
+            pour satisfaire les exigences de déclaration réglementaires ou juridiques
+        &lt;/li&gt;
+        &lt;li&gt;
+            si la loi l’autorise ou l’exige
+        &lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;p&gt;En outre, les renseignements personnels peuvent être échangés avec des agences d’évaluation du crédit, bureaux de crédit, assureurs-crédit et autres établissements financiers afin de maintenir l’intégrité du processus d’octroi de crédit et déterminer l’admissibilité à des produits financiers et services financiers.&lt;/p&gt;
+    &lt;br&gt;
+    &lt;p&gt;En soumettant cette demande, vous consentez et autorisez la présente collecte, utilisation et divulgation de renseignements.&lt;/p&gt;</value>
+  </data>
+  <data name="AllAplicantsConsents" xml:space="preserve">
+    <value>Vous ne pouvez pas continuer avant que tous les demandeurs n’aient donné leur consentement.</value>
+  </data>
+  <data name="AnnualSalesIncorrectFormat" xml:space="preserve">
+    <value>Le format des ventes annuelles estimatives est incorrect</value>
+  </data>
+  <data name="AnnualSalesVolume" xml:space="preserve">
+    <value>Estimation du volume de ventes annuel</value>
+  </data>
+  <data name="ApplicationCreatedBy" xml:space="preserve">
+    <value>Demande créée par</value>
+  </data>
+  <data name="ApplicationNumber" xml:space="preserve">
+    <value>Numéro de la demande</value>
+  </data>
+  <data name="ApplicationSuccessfullySubmitted" xml:space="preserve">
+    <value>Merci. Votre demande a été soumise avec succès.</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Soumettre une demande</value>
+  </data>
+  <data name="AreaOfMyService" xml:space="preserve">
+    <value>Région de mon service</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Êtes-vous certain?</value>
+  </data>
+  <data name="AreYouSureYouWantToRemoveThisApplication" xml:space="preserve">
+    <value>Êtes-vous certain de vouloir supprimer cette demande?</value>
+  </data>
+  <data name="AreYouWithProvider" xml:space="preserve">
+    <value>Avez-vous actuellement un fournisseur de financement?</value>
+  </data>
+  <data name="AtCurrentAddress" xml:space="preserve">
+    <value>À l’adresse actuelle</value>
+  </data>
+  <data name="AtNewHomeAddress" xml:space="preserve">
+    <value>À la nouvelle adresse du domicile</value>
+  </data>
+  <data name="AverageTransactionSize" xml:space="preserve">
+    <value>Taille de transaction moyenne</value>
+  </data>
+  <data name="AverageTransactionSizeIncorrectFormat" xml:space="preserve">
+    <value>Le format de la taille de transaction moyenne est incorrect</value>
+  </data>
+  <data name="BorrowerIsOwnerOfProperty" xml:space="preserve">
+    <value>L’emprunteur est propriétaire de la propriété</value>
+  </data>
+  <data name="BorrowerLivedAtCurrentLessThan" xml:space="preserve">
+    <value>L’emprunteur habite à l’adresse actuelle depuis moins de 6 mois</value>
+  </data>
+  <data name="BorrowerMailingAddressNotSameAsInstallation" xml:space="preserve">
+    <value>Adresse postale de l’emprunteur, si différente de l’adresse d’installation</value>
+  </data>
+  <data name="Both" xml:space="preserve">
+    <value>Les deux</value>
+  </data>
+  <data name="Brands" xml:space="preserve">
+    <value>Marques</value>
+  </data>
+  <data name="Broker" xml:space="preserve">
+    <value>Courtier</value>
+  </data>
+  <data name="BusinessNameIncorrectFormat" xml:space="preserve">
+    <value>Le format du nom de l’entreprise est incorrect</value>
+  </data>
+  <data name="Capture" xml:space="preserve">
+    <value>Saisir</value>
+  </data>
+  <data name="CertifyDealerInfo" xml:space="preserve">
+    <value>En signant ci-dessous, la partie principale en sa capacité personnelle (« je », « moi ») et la société (« nous ») attestent que tous les renseignements contenus dans la présente demande de courtier sont véridiques et complets.</value>
+  </data>
+  <data name="Channel" xml:space="preserve">
+    <value>Circuit</value>
+  </data>
+  <data name="CheckAllThatApply" xml:space="preserve">
+    <value>(cochez toutes les réponses pertinentes)</value>
+  </data>
+  <data name="CheckApplicableItemsFromList" xml:space="preserve">
+    <value>Cochez tous les éléments pertinents dans notre liste</value>
+  </data>
+  <data name="CheckYourLink" xml:space="preserve">
+    <value>Veuillez vérifier votre lien et réessayer</value>
+  </data>
+  <data name="ChooseProducts" xml:space="preserve">
+    <value>Sélectionner les produits</value>
+  </data>
+  <data name="ChooseProvinces" xml:space="preserve">
+    <value>Sélectionner les provinces</value>
+  </data>
+  <data name="Client" xml:space="preserve">
+    <value>Client</value>
+  </data>
+  <data name="ClientAgreesSendPersonalDataToCreditCheck" xml:space="preserve">
+    <value>Le client accepte d’envoyer ses données personnelles pour la vérification du crédit</value>
+  </data>
+  <data name="ClientAuthorizesReleaseToDealnetCapital" xml:space="preserve">
+    <value>Le client autorise la divulgation de renseignements personnels à DealNet Capital et à ses représentants. En outre, le client autorise DealNet Capital ou ses représentants à communiquer avec lui.</value>
+  </data>
+  <data name="ClientConsent" xml:space="preserve">
+    <value>Consentement du client</value>
+  </data>
+  <data name="ClientEmail" xml:space="preserve">
+    <value>Courriel du client</value>
+  </data>
+  <data name="ClientInformation" xml:space="preserve">
+    <value>Renseignements sur le client</value>
+  </data>
+  <data name="ClientLivedCurrentAddressLessThenSixMonth" xml:space="preserve">
+    <value>Le client a vécu à l’adresse actuelle pendant moins de 2 ans</value>
+  </data>
+  <data name="ClientProvidesExpressConsentToCreditCheck" xml:space="preserve">
+    <value>Le client donne son consentement explicite pour une vérification de crédit</value>
+  </data>
+  <data name="ClientsComment" xml:space="preserve">
+    <value>Commentaire du client</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="CompanyInformation" xml:space="preserve">
+    <value>Renseignements sur l’entreprise</value>
+  </data>
+  <data name="ConnectWithDealerSupport" xml:space="preserve">
+    <value>Communiquez avec le soutien {0} aux courtiers pour obtenir de l’assistance :</value>
+  </data>
+  <data name="Consent" xml:space="preserve">
+    <value>Consentement</value>
+  </data>
+  <data name="Consents" xml:space="preserve">
+    <value>Consentements</value>
+  </data>
+  <data name="ConsentToReceiveCommercialElectronicMessages" xml:space="preserve">
+    <value>En cochant cette case, vous consentez à recevoir des messages électroniques commerciaux d’EcoHome Financial à l’adresse de courriel et aux numéros de téléphone que vous avez fournis dans la demande ou de temps à autre relativement à votre compte, y compris des communications électroniques portant sur la commercialisation ou la promotion de nos programmes, nos produits, nos services, nos offres, nos événements et nos sondages qui pourraient vous intéresser. Vous pouvez retirer ce consentement en tout temps. Vous pouvez communiquer avec EcoHome Financial Inc. au 325, avenue Milner, bureau 300, Toronto (Ontario)  M1B 5N1</value>
+  </data>
+  <data name="ConsumerDirect" xml:space="preserve">
+    <value>Directement au consommateur</value>
+  </data>
+  <data name="ContactNameIncorrectFormat" xml:space="preserve">
+    <value>Le format du nom de la personne-ressource est incorrect</value>
+  </data>
+  <data name="Contacts" xml:space="preserve">
+    <value>Personnes-ressources</value>
+  </data>
+  <data name="CopyLinkResumeLater" xml:space="preserve">
+    <value>Veuillez copier le lien ci-dessous et enregistrer votre demande pour y revenir plus tard.</value>
+  </data>
+  <data name="CostWithTaxes" xml:space="preserve">
+    <value>Coût (y compris les taxes)</value>
+  </data>
+  <data name="CurrentAddress" xml:space="preserve">
+    <value>Adresse actuelle</value>
+  </data>
+  <data name="CustomerComment" xml:space="preserve">
+    <value>Commentaire du client</value>
+  </data>
+  <data name="CustomersComment" xml:space="preserve">
+    <value>Commentaire du client</value>
+  </data>
+  <data name="DealerInitial" xml:space="preserve">
+    <value>Montant initial du courtier</value>
+  </data>
+  <data name="DealerInvoiceAmount" xml:space="preserve">
+    <value>Montant de la facture du courtier</value>
+  </data>
+  <data name="Defferal" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="DescribeYourHomeImprovementProject" xml:space="preserve">
+    <value>Veuillez décrire votre projet de rénovation résidentielle (veuillez ne pas fournir de coordonnées ou d’adresse dans ce champ)</value>
+  </data>
+  <data name="DescriptionWithMakeModel" xml:space="preserve">
+    <value>Description (y compris la marque et le modèle)</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Détails</value>
+  </data>
+  <data name="Distributor" xml:space="preserve">
+    <value>Distributeur</value>
+  </data>
+  <data name="DoorToDoor" xml:space="preserve">
+    <value>Ventes de porte-à-porte</value>
+  </data>
+  <data name="EcohomeMustBeListed" xml:space="preserve">
+    <value>Ecohome Financial Inc. doit être désignée comme assuré supplémentaire</value>
+  </data>
+  <data name="EmailExists" xml:space="preserve">
+    <value>L’adresse de courriel que vous avez saisie est déjà enregistrée</value>
+  </data>
+  <data name="EquipmentTypeLength" xml:space="preserve">
+    <value>Sélectionnez au moins un produit</value>
+  </data>
+  <data name="EstimatedMoveInDate" xml:space="preserve">
+    <value>Date d’aménagement estimative</value>
+  </data>
+  <data name="ExpiryDate" xml:space="preserve">
+    <value>Date d’expiration</value>
+  </data>
+  <data name="FinanceProviderIncorrectFormat" xml:space="preserve">
+    <value>Le format du fournisseur de financement est incorrect</value>
+  </data>
+  <data name="FinanceProviderName" xml:space="preserve">
+    <value>Nom du fournisseur de financement</value>
+  </data>
+  <data name="FullLegalName" xml:space="preserve">
+    <value>Nom légal complet</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Aide</value>
+  </data>
+  <data name="HomeImprovement" xml:space="preserve">
+    <value>Rénovation résidentielle</value>
+  </data>
+  <data name="HomeImprovements" xml:space="preserve">
+    <value>Rénovations résidentielles</value>
+  </data>
+  <data name="HomeImprovementType" xml:space="preserve">
+    <value>Type d’amélioration de maison</value>
+  </data>
+  <data name="HouseSize" xml:space="preserve">
+    <value>Taille de la maison</value>
+  </data>
+  <data name="HowIsMyPersonalDataUsed" xml:space="preserve">
+    <value>De quelle façon mes données personnelles sont-elles utilisées?</value>
+  </data>
+  <data name="InCaseQuestionsContactSupport" xml:space="preserve">
+    <value>Si vous avez des questions, veuillez communiquer avec le service de soutien d’EcoHome Financial :</value>
+  </data>
+  <data name="InvalidFieldsWerentSaved" xml:space="preserve">
+    <value>Prenez note que les champs invalides n’ont pas été enregistrés</value>
+  </data>
+  <data name="JoinOurNetwork" xml:space="preserve">
+    <value>Joignez-vous à notre réseau de courtiers EcoHome Financial!</value>
+  </data>
+  <data name="Leads" xml:space="preserve">
+    <value>Pistes</value>
+  </data>
+  <data name="LeadsGenMethod" xml:space="preserve">
+    <value>Méthodes de génération des pistes</value>
+  </data>
+  <data name="LeadsNoMatchingRecordsFound" xml:space="preserve">
+    <value>Veuillez configurer votre profil afin d’afficher les pistes</value>
+  </data>
+  <data name="LeadWasAcceptedYouCanFind" xml:space="preserve">
+    <value>La piste choisie a été acceptée par vous. Vous la trouverez à la page {0} (nº de demande {1}).</value>
+  </data>
+  <data name="Legal" xml:space="preserve">
+    <value>Renseignements juridiques</value>
+  </data>
+  <data name="LegalNameIncorrectFormat" xml:space="preserve">
+    <value>Le format du nom légal est incorrect</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Lien</value>
+  </data>
+  <data name="LivedAtInstallationAddressLessThan" xml:space="preserve">
+    <value>A habité à l’adresse d’installation pendant moins de 2 ans</value>
+  </data>
+  <data name="LocalAds" xml:space="preserve">
+    <value>Publicité locale</value>
+  </data>
+  <data name="MailSent" xml:space="preserve">
+    <value>Courriel envoyé</value>
+  </data>
+  <data name="MobilePhone" xml:space="preserve">
+    <value>Téléphone cellulaire</value>
+  </data>
+  <data name="MobilePhoneIncorrectFormat" xml:space="preserve">
+    <value>Le format du numéro de téléphone cellulaire est incorrect</value>
+  </data>
+  <data name="MobilePhoneMustBeLong" xml:space="preserve">
+    <value>Le numéro de téléphone cellulaire doit être une chaîne de 10 chiffres</value>
+  </data>
+  <data name="MonthlyDefferedPercentRange" xml:space="preserve">
+    <value>Le nombre d’affaires mensuelles reportées doit être entre 0 et 100</value>
+  </data>
+  <data name="MonthlyFinancedValue" xml:space="preserve">
+    <value>Valeur de capital mensuelle des affaires financées</value>
+  </data>
+  <data name="MonthlyFinancedValueIncorrectFormat" xml:space="preserve">
+    <value>Le format de la valeur de financement mensuelle est incorrect</value>
+  </data>
+  <data name="MyClients" xml:space="preserve">
+    <value>Mes clients</value>
+  </data>
+  <data name="MyCustomers" xml:space="preserve">
+    <value>Mes clients</value>
+  </data>
+  <data name="MyProfile" xml:space="preserve">
+    <value>Mon profil</value>
+  </data>
+  <data name="NewClient" xml:space="preserve">
+    <value>Nouveau client</value>
+  </data>
+  <data name="NewCustomer" xml:space="preserve">
+    <value>Nouveau client</value>
+  </data>
+  <data name="NewHomeAddress" xml:space="preserve">
+    <value>Nouvelle adresse du domicile</value>
+  </data>
+  <data name="NoExpiry" xml:space="preserve">
+    <value>Aucune expiration</value>
+  </data>
+  <data name="NumInstallers" xml:space="preserve">
+    <value>Nombre d’installateurs</value>
+  </data>
+  <data name="NumInstallersIncorrectFormat" xml:space="preserve">
+    <value>Le format du nombre d’installateurs est incorrect</value>
+  </data>
+  <data name="NumInstallersMax3" xml:space="preserve">
+    <value>Le nombre d’installateurs ne doit pas dépasser 3 chiffres</value>
+  </data>
+  <data name="NumSales" xml:space="preserve">
+    <value>Nombre de membres du personnel des ventes</value>
+  </data>
+  <data name="NumSalesIncorrectFormat" xml:space="preserve">
+    <value>Le format du chiffre de ventes est incorrect</value>
+  </data>
+  <data name="NumSalesMax3" xml:space="preserve">
+    <value>Le chiffre de ventes ne doit pas dépasser 3 chiffres</value>
+  </data>
+  <data name="OEMName" xml:space="preserve">
+    <value>Nom du fabricant d’équipement d’origine</value>
+  </data>
+  <data name="OfferedService" xml:space="preserve">
+    <value>Service offert</value>
+  </data>
+  <data name="OfferMonthlyDeferrals" xml:space="preserve">
+    <value>Désirez-vous offrir des reports?</value>
+  </data>
+  <data name="Onboarding" xml:space="preserve">
+    <value>Intégration</value>
+  </data>
+  <data name="OperatingName" xml:space="preserve">
+    <value>Nom commercial</value>
+  </data>
+  <data name="OperatingNameIncorrectFormat" xml:space="preserve">
+    <value>Le format du nom commercial est incorrect</value>
+  </data>
+  <data name="Option" xml:space="preserve">
+    <value>Option</value>
+  </data>
+  <data name="OrderProceedClientAged75OrLess" xml:space="preserve">
+    <value>Afin de pouvoir continuer, le client doit être âgé de 75 ans ou moins.</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Autre</value>
+  </data>
+  <data name="Owner" xml:space="preserve">
+    <value>Propriétaire</value>
+  </data>
+  <data name="Ownership" xml:space="preserve">
+    <value>Propriété</value>
+  </data>
+  <data name="OwnershipPercentage" xml:space="preserve">
+    <value>Le pourcentage de propriété indiqué dans cette demande doit être de 50 % ou plus</value>
+  </data>
+  <data name="OwnershipSubmit" xml:space="preserve">
+    <value>Afin de soumettre la demande, vous devez ajouter un propriétaire supplémentaire</value>
+  </data>
+  <data name="PercentageOfOwnership" xml:space="preserve">
+    <value>Pourcentage de propriété</value>
+  </data>
+  <data name="PercentMonthDeferredIncorrectFormat" xml:space="preserve">
+    <value>Le format du % de report mensuel est incorrect</value>
+  </data>
+  <data name="PercentMonthlyDealsDeferred" xml:space="preserve">
+    <value>Affaires mensuelles à reporter</value>
+  </data>
+  <data name="PercentOwnership" xml:space="preserve">
+    <value>Pourcentage de propriété</value>
+  </data>
+  <data name="PercentOwnershipIncorrectFormat" xml:space="preserve">
+    <value>Le format du % de propriété est incorrect</value>
+  </data>
+  <data name="PercentOwnershipRange" xml:space="preserve">
+    <value>Le pourcentage de propriété doit être de {1} à {2}</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Numéro de téléphone</value>
+  </data>
+  <data name="PhoneNumberIncorrectFormat" xml:space="preserve">
+    <value>Le format du numéro de téléphone est incorrect</value>
+  </data>
+  <data name="PhoneNumberMustBeLong" xml:space="preserve">
+    <value>Le numéro de téléphone doit être une chaîne de 10 chiffres</value>
+  </data>
+  <data name="Plan" xml:space="preserve">
+    <value>Plan</value>
+  </data>
+  <data name="PleaseCheckContactAgreementToContinue" xml:space="preserve">
+    <value>Veuillez cocher le champ d’acceptation pour la communication afin de poursuivre la demande.</value>
+  </data>
+  <data name="PleaseSelect" xml:space="preserve">
+    <value>Veuillez sélectionner</value>
+  </data>
+  <data name="PleaseUploadInFormat" xml:space="preserve">
+    <value>Veuillez téléverser le fichier dans le format</value>
+  </data>
+  <data name="PreApprovedLoanValueFee" xml:space="preserve">
+    <value>1 % de la valeur du prêt préautorisé</value>
+  </data>
+  <data name="PreApprovedLoanValueFeeWillBeApplied" xml:space="preserve">
+    <value>1 % de la valeur du prêt préautorisé sera facturé à votre compte à titre de frais pour les pistes</value>
+  </data>
+  <data name="PreferredContactMethod" xml:space="preserve">
+    <value>Mode de communication privilégié</value>
+  </data>
+  <data name="PreferredFinancingProductsRequired" xml:space="preserve">
+    <value>Produits financiers privilégiés requis</value>
+  </data>
+  <data name="PreviousAddress" xml:space="preserve">
+    <value>Ancienne adresse</value>
+  </data>
+  <data name="PrimaryBrand" xml:space="preserve">
+    <value>Marque principale</value>
+  </data>
+  <data name="PrimaryBrandIncorrectFormat" xml:space="preserve">
+    <value>Le format de la marque principale est incorrect</value>
+  </data>
+  <data name="PrimaryManufacturerBrandSold" xml:space="preserve">
+    <value>Marque principale du fabricant vendue</value>
+  </data>
+  <data name="PrincipalOwnerInformation" xml:space="preserve">
+    <value>Renseignements sur la partie principale ou le propriétaire</value>
+  </data>
+  <data name="PrivacyPolicy" xml:space="preserve">
+    <value>Politique de confidentialité</value>
+  </data>
+  <data name="PrivacyPolicyText" xml:space="preserve">
+    <value>&lt;h2 class="dealnet-large-header"&gt;Privacy Policy _ Ecohome_External&lt;/h2&gt;
+    &lt;p&gt;&lt;strong&gt;Effective: June 15, 2017&lt;/strong&gt;&lt;/p&gt;
+    &lt;h3 class="dealnet-section-title"&gt;Our Commitment&lt;/h3&gt;
+    &lt;p&gt;At EcoHome Financial Inc. (“EcoHome Financial”, “we”, “us”, “the Company”, etc.) we are committed to providing excellent service and to ensuring that our relationship with individuals with whom we interact, such as our customers or potential customers (“you”), is conducted with integrity and in a responsible, fair, honest and ethical manner. Consistent with these objectives we maintain high standards of confidentiality with respect to your personal information in our possession or control.&lt;/p&gt;
+    &lt;p&gt;This Privacy Policy is based on the Personal Information Protection and Electronic Documents Act (Canada) including the privacy principles contained in Schedule 1 thereto (“PIPEDA”). It explains how we collect, use, disclose and otherwise handle your personal information.&lt;/p&gt;
+    &lt;p&gt;If you have any questions about this Privacy Policy or wish to request access to personal information about you in our possession or control, please contact our Compliance Officer using the contact information set out below.&lt;/p&gt;
+    &lt;h3 class="dealnet-section-title"&gt;What Personal Information We Collect; How and Why We Collect It&lt;/h3&gt;
+    &lt;p&gt;As used in this Privacy Policy, personal information means information about an identifiable individual, whether or not in recorded form, within the meaning of applicable privacy laws.&lt;/p&gt;
+    &lt;p&gt;The type of personal information we collect will depend on various factors such as the nature and purpose of our interaction, the type of products or services you may request or use, and any applicable legal and regulatory obligations. This information may include:&lt;/p&gt;
+    &lt;ul&gt;
+        &lt;li&gt;contact information that allows us to communicate with or contact you (e.g., your address, telephone number, e-mail or other electronic address, and fax number)&lt;/li&gt;
+        &lt;li&gt;identification information that allows us to confirm your identity or to meet legal and regulatory obligations (e.g., your name, date of birth, occupation, and government-issued identification)&lt;/li&gt;
+        &lt;li&gt;financial information that allows us to determine your creditworthiness or eligibility for or appropriateness of our products or services (e.g., employment and financial history with others, income, assets, liabilities, net worth, and credit reports)&lt;/li&gt;
+        &lt;li&gt;transactional information about how you use our different products or services or otherwise do business with us (e.g., whether or not credit extended, amount of credited extended, purchase and payment history)&lt;/li&gt;
+        &lt;li&gt;relationship information that helps us to improve service and understand more about you (e.g., language and communication method preferences and/or what types of products, services or offers you may like).&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;p&gt;Most of the personal information is collected directly from you, whether in person, over the telephone, by corresponding with you via email, fax, text message (SMS) or the Internet, or by other means. For instance, we may collect personal information from you: when you voluntarily make an application to or become a customer of the Company, when you create account using one of our mobile applications, when you request information from or otherwise communicate with us, and/or through your use of the products and services we provide. Some information may also be collected from other sources such as credit bureaus, financial institutions, law enforcement, media, social media, government agencies and registries, or public records.&lt;/p&gt;
+    &lt;p&gt;We may monitor or record communications between you and our representatives (e.g., telephone calls) in order to enhance and maintain customer service quality, to protect you and the Company, to confirm your decisions and our discussions with you, and/or for training purposes.&lt;/p&gt;
+    &lt;h3 class="dealnet-section-title"&gt;Our Commitment to the Privacy Principles&lt;/h3&gt;
+    &lt;p&gt;
+        &lt;strong&gt;&lt;em&gt;Principle #1:&lt;/em&gt; Accountability&lt;/strong&gt; – The Company is responsible for personal information under its control and has a designated Compliance Officer who is accountable for our compliance with this Privacy Policy and applicable privacy laws.
+    &lt;/p&gt;
+    &lt;p&gt;Our responsibility regarding personal information applies to personal information in our possession or custody, as well as personal information that we may transfer to a third party for processing or to provide services on our behalf. We use contractual or other appropriate means to require third parties who provide processing or other services on our behalf to maintain a level of privacy protection comparable to our own policies and practices.&lt;/p&gt;
+    &lt;p&gt;Your personal information may be processed or stored in any country in which we, our service providers, and other parties with whom we share information under this Privacy Policy operate (which may include locations outside of Canada). In such event, your personal information may, while in another country, be subject to the laws of that country and may be accessible to courts, law enforcement and government or regulatory agencies in that country in accordance with such laws.&lt;/p&gt;
+    &lt;p&gt;
+        &lt;strong&gt;&lt;em&gt;Principle #2:&lt;/em&gt; Identifying Purposes&lt;/strong&gt; – We shall identify the purposes for which personal information is collected at or before the time of collection.
+    &lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;Why We Collect Your Personal Information&lt;/strong&gt;  - Unless additional purposes are identified to you before or at the time of collection, we may collect, use and disclose personal information about you throughout our relationship for some or all of the following purposes:&lt;/p&gt;
+    &lt;ul&gt;
+        &lt;li&gt;to establish your identity&lt;/li&gt;
+        &lt;li&gt;to verify your identity and information provided by you, such as your employment or credit history&lt;/li&gt;
+        &lt;li&gt;to evaluate your credit-worthiness&lt;/li&gt;
+        &lt;li&gt;to process your application, determine your eligibility for products or services and to open, administer and operate your account and set up and manage those products and services &lt;/li&gt;
+        &lt;li&gt;to enable us and, as applicable, our third party vendors and service providers to provide you with products and ongoing services&lt;/li&gt;
+        &lt;li&gt;to understand your needs and what products or services may be of interest to you&lt;/li&gt;
+        &lt;li&gt;to respond to your requests for products, services or account information&lt;/li&gt;
+        &lt;li&gt;to communicate with you by various methods including email, text (SMS) and telephone&lt;/li&gt;
+        &lt;li&gt;to verify your instructions and decisions&lt;/li&gt;
+        &lt;li&gt;to manage and improve your relationship with us&lt;/li&gt;
+        &lt;li&gt;to protect against errors and criminal activity including the prevention, detection and investigation of fraud, money laundering, cyber threats and other such risks and threats&lt;/li&gt;
+        &lt;li&gt;to investigate complaints&lt;/li&gt;
+        &lt;li&gt;to comply with laws and regulations, including tax, regulatory and legal reporting requirements&lt;/li&gt;
+        &lt;li&gt;as otherwise permitted or required by law&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;p&gt;In addition, when you apply for or accept any of our financial products or services, and as long as you have a loan or credit product or service with us, personal information may be exchanged with credit reporting agencies, credit bureaus, credit insurers, financial institutions and other entities with whom you may have financial dealings to assess and update creditworthiness, manage credit risk, determine eligibility for financial products and services, deter fraud, report defaults and maintain the integrity of the credit-granting process.&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;Joint Accounts&lt;/strong&gt; - Where a customer holds a product or service jointly with another person (e.g., joint accounts, co-signed applications), we may share such customer’s information with such other person in connection with the product or service.&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;Business Transactions&lt;/strong&gt; - If we enter into a business transaction involving personal information such as a sale or other disposition of all or part of our business or assets, we may share information with the other parties as required to fulfill the obligations of the transaction (e.g., as part of due diligence and/or on completion of the transaction). We will require that the other parties to the transaction protect this information by security safeguards appropriate to the sensitivity of the information and limit their use to the purposes of the transaction and, if the transaction is completed, the purposes as set out in this Privacy Policy. In the event the transaction is not completed, we will require that the other parties return or destroy, and confirm complete return or destruction of, such personal information.&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;New Purpose&lt;/strong&gt; - If a new purpose for using your personal information should develop, we will identify that purpose to you and request your consent before using it for such purpose, unless the new purpose is required or permitted by law.&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;&lt;em&gt;Principle #3:&lt;/em&gt; Consent&lt;/strong&gt; – The knowledge and consent of an individual are required for the collection, use, or disclosure of personal information, except where permitted or required by law.&lt;/p&gt;
+    &lt;p&gt;The Company will collect, use or disclose your personal information only with your knowledge and consent, except where required or permitted by law. Generally, we will seek your consent to use and disclose your personal information for identified purposes at the time of collection. In some circumstances, however, where we identify a new purpose after collection, we may seek your consent to use and disclose your personal information for such new purpose after it has been collected.&lt;/p&gt;
+    &lt;p&gt;Consent may be express or, in some circumstances, implied, and may be given in writing (such as on an application), by using or not using a check off-box, electronically (via the internet), orally (in person or by telephone), or by your conduct, such as by voluntarily using a product or service. In determining the type of consent to obtain, we will consider all relevant factors, including the sensitivity of the information and your reasonable expectations.&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;Withdrawing Consent&lt;/strong&gt; - Subject to certain legal or contractual restrictions, you may withdraw your consent to the collection, use or disclosure of your personal information at any time upon giving us reasonable notice. We will inform you of the implications of doing so. For instance, withdrawing your consent may limit or prevent us from being able to provide or continue to provide you with certain products or services.&lt;/p&gt;
+    &lt;p&gt;In certain circumstances your consent cannot be withdrawn. For example, you may not withdraw your consent where our collection, use or sharing is required by law. Also, as long as you have a loan or credit product or service with us, you may not withdraw your consent to our ongoing collection, use or disclosure of your personal information in connection with such product or service. Further, in order to maintain the integrity of the credit reporting system, we may periodically update your information with credit bureaus as long as you have a loan or credit product or service with us. Your consent to this exchange of information cannot be withdrawn during this time.&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;Electronic Marketing Communications; Canadian Anti-Spam Legislation (CASL)&lt;/strong&gt; - Subject to applicable law, from time to time, we may send you electronic communications notifying you of new and existing products or services, including special offers or promotions, that may be of interest to you. You may unsubscribe at any time from receiving our electronic marketing messages by clicking on the unsubscribe or opt-out link or following any other unsubscribe instructions included in any such message. Please allow up to 10 business days for the change to take effect. Please note that this will not limit our right to send you certain communications relating to your account or your existing products, services or transactions with us, or as otherwise permitted or required by applicable law, and these transactional account messages and other non-commercial electronic messages will not be affected by your choice to unsubscribe or opt-out from electronic marketing messages.&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;&lt;em&gt;Principle #4:&lt;/em&gt; Limiting Collection&lt;/strong&gt; – The collection of personal information shall be limited to that which is necessary for the purposes identified by the Company. Personal information shall be collected by fair and lawful means.&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;&lt;em&gt;Principle #5:&lt;/em&gt; Limiting Use, Disclosure and Retention&lt;/strong&gt; – The Company shall not use or disclose personal information for purposes other than those for which it was collected, except with the consent of the individual or as required or permitted by law. We shall retain personal information only for as long as necessary to achieve fulfillment of those purposes or as required by law. When your information is no longer required, we will destroy, erase or make it anonymous.&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;&lt;em&gt;Principle #6:&lt;/em&gt; Keeping Personal Information Accurate&lt;/strong&gt; – The Company shall keep personal information as accurate, complete, and up-to-date as is necessary for the purposes for which it is to be used.&lt;/p&gt;
+    &lt;p&gt;While we take care to keep your personal information in our records as accurate, complete and up to date as necessary for the purposes for which it is to be used, we also rely on you to notify us when your information changes. If you wish to verify the accuracy and completeness of your personal information in our records, you may contact our Compliance Officer using the contact information listed below.&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;&lt;em&gt;Principle #7:&lt;/em&gt; Safeguarding Personal Information&lt;/strong&gt;– The Company shall protect personal information by security safeguards appropriate to the sensitivity of the information.&lt;/p&gt;
+    &lt;p&gt;We will safeguard personal information in our possession or control against loss or theft, as well as unauthorized access, disclosure, copying, use or modification. The safeguards used to protect personal information will vary depending on the sensitivity, amount, distribution, format and method of storage of the personal information. Such security measures include:&lt;/p&gt;
+    &lt;ul&gt;
+        &lt;li&gt;physical security, such as locked filing cabinets and restricted access to offices;&lt;/li&gt;
+        &lt;li&gt;organizational security, such as security clearances, controlled entry in data centres and limiting access to relevant information on a “need to know” basis; and&lt;/li&gt;
+        &lt;li&gt;technological security, such as limiting application access to specific roles, the use of passwords, personal identification numbers and encryption.&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;p&gt;The Company will use care when disposing of or destroying personal information in order to prevent unauthorized access to the information.&lt;/p&gt;
+    &lt;p&gt;Where the Company uses service providers who may have access to personal information under our control, we use contracts and other measures to require them to have policies and practices in place comparable to our own in order to protect the privacy, confidentiality and security of your personal information and to prevent such information from being used or disclosed for unauthorized purposes.&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;&lt;em&gt;Principle #8:&lt;/em&gt; Openness Concerning our Privacy Practices&lt;/strong&gt; – The Company shall ensure that specific information about our policies and practices relating to the management of personal information is made readily available to individuals with whom we interact.&lt;/p&gt;
+    &lt;p&gt;If you have any questions or concerns regarding this Privacy Policy or our privacy practices and procedures, please contact our Compliance Officer using the contact information below.&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;&lt;em&gt;Principle #9:&lt;/em&gt; Access to Information&lt;/strong&gt; – The Company shall, upon request, inform an individual of the existence, use, and disclosure of his or her personal information and shall give such individual access to that information. An individual shall be able to challenge the accuracy and completeness of the information and have it amended as appropriate.&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;Accessing Your Personal Information&lt;/strong&gt; – Upon request, we will tell you what personal information we hold about you, how that information has been used or is being made and to whom it has been disclosed. We will also provide you, upon request, with a copy of records related to your personal information, except in certain situations (for example, if they contains references to other individuals, cannot be disclosed for legal, security or proprietary reasons, are subject to solicitor-client or litigation privilege, or in other circumstances prescribed by law). In order to verify that the information is being released to the proper individual, you may be asked to provide suitable identification or to otherwise identify yourself. If we are unable to provide a list of organizations to which we have actually disclosed your personal information, we will provide a list of organizations to which we may have disclosed your personal information. If we deny your request for access, we will advise you of the reason for the refusal. If there will be a charge to access your information, we will inform you of the approximate cost prior to providing access. Requests for access should be directed in writing to our Compliance Officer using the contact information below.&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;Accuracy of Your Personal Information&lt;/strong&gt; – You may challenge the accuracy and completeness of the personal information we hold about you. If you demonstrate to us that your personal information is inaccurate, incomplete or out of date, we will amend or delete the personal information as appropriate. If necessary, we will send the amended personal information to any third parties to whom we have disclosed inaccurate, incomplete or outdated information in order to permit them to revise their records. If we do not agree to amend or delete the personal information as requested by you, you may challenge our decision. We will make a record of this challenge, and, if necessary, disclose the challenge to any third parties to whom we has disclosed the personal information. If you would like to verify the accuracy and completeness of your personal information in our records, contact our Compliance Officer using the contact information below.&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;&lt;em&gt;Principle #10:&lt;/em&gt; Challenging Compliance&lt;/strong&gt; – An individual shall be able to address a challenge concerning the Company’s compliance with this Privacy Policy or applicable privacy laws to our Compliance Officer.&lt;/p&gt;
+    &lt;p&gt;The Company has policies and procedures with respect to receiving, investigating and responding to individuals’ questions and complaints relating to the handling of their personal information.&lt;/p&gt;
+    &lt;h3 class="dealnet-section-title"&gt;Contact Us&lt;/h3&gt;
+    &lt;p&gt;If you wish to access your personal information, change your consent to the ways in which we may use or disclose your personal information, have a complaint about our Privacy Policy or the manner in which we may have handled your personal information, or if you have any questions about our Privacy Policy, please contact our Compliance Officer as follows:&lt;/p&gt;
+    &lt;p class="address-info"&gt;
+        Compliance Officer &lt;br&gt;
+        4 King Street West &lt;br&gt;
+        Toronto, Ontario &lt;br&gt;
+        M5H 1A1 &lt;br&gt;
+        Email: &lt;a href="mailto:privacy@ecohomefinancial.com" class="dealnet-info-link"&gt;privacy@ecohomefinancial.com&lt;/a&gt;&lt;br&gt;
+    &lt;/p&gt;
+    &lt;p&gt;The Company will investigate all complaints. If we find that a complaint is justified, we will take appropriate measures, including, if necessary, amending our policies and practices. If you are not satisfied with the way the Company has responded to your complaint, you may wish to contact the Office of the Privacy Commissioner of Canada:&lt;/p&gt;
+    &lt;p class="address-info"&gt;
+        Office of the Privacy Commissioner of Canada &lt;br&gt;
+        30, Victoria Street &lt;br&gt;
+        Gatineau, Quebec K1A 1H3 &lt;br&gt;
+        1-800-282- 1376 &lt;br&gt;
+        &lt;a href="https://www.priv.gc.ca/" target="_blank" class="dealnet-info-link"&gt;www.priv.gc.ca&lt;/a&gt;&lt;br&gt;
+    &lt;/p&gt;
+    &lt;h3 class="dealnet-section-title"&gt;Changes to this Privacy Policy&lt;/h3&gt;
+    &lt;p&gt;In order to ensure that our Privacy Policy is kept up to date, we reserve the right to change it from time to time. If we make any changes to this Privacy Policy, we will change the effective date of this Privacy Policy as indicated above. Notice of changes to this Privacy Policy will be posted on the Company’s website, &lt;a class="dealnet-info-link" href="http://ecohomefinancial.com/" target="_blank"&gt;www.ecohomefinancial.com&lt;/a&gt;, and may also be distributed through statements, newsletters and/or other communications. Please review our website periodically for any changes to this Privacy Policy.&lt;/p&gt;
+    &lt;h3 class="dealnet-section-title"&gt;Visiting the EcoHome Financial Website&lt;/h3&gt;
+    &lt;p&gt;&lt;strong&gt;Cookies&lt;/strong&gt;  - A "cookie" is a piece of data that a web server creates when you visit a web site. This data is information about how and when you use a site. It is placed on your computer in the form of a small text file. The information cannot be used to identify you personally. Cookies do not collect personal information such as your name, address, telephone number, or email address.&lt;/p&gt;
+    &lt;p&gt;We use session ID cookies on our website, &lt;a class="dealnet-info-link" href="http://ecohomefinancial.com/" target="_blank"&gt;www.ecohomefinancial.com&lt;/a&gt;. Session cookies identify a specific user session and allow the website to recognize you as you navigate between pages during a single browser session and allow you to use the website most efficiently. Session ID cookies are temporary cookies that expire at the end of the session when you leave the site.&lt;/p&gt;
+    &lt;p&gt;We also use Google Analytics to help analyse how visitors engage with our website. Google Analytics uses cookies to collect standard Internet log information (e.g. IP address) and to track visitor behaviour information (e.g. the web address of the page you visit), in an anonymous form. The information generated by Google Analytics cookies about your use of the site is transmitted to Google and is processed to compile statistical reports on website activity for the site. We use these reports to evaluate aggregate visitor usage so that we can manage and improve the site and its content to better meet our visitors’ needs. You may opt out of Google Analytics – for more information on opting out of being tracked by Google Analytics across all websites you use, visit &lt;a href="https://tools.google.com/dlpage/gaoptout" class="dealnet-info-link" target="_blank"&gt;https://tools.google.com/dlpage/gaoptout&lt;/a&gt;. For further information about Google Analytics, please refer to &lt;a href="https://www.google.com/policies/privacy/partners/" class="dealnet-info-link" target="_blank"&gt;https://www.google.com/policies/privacy/partners/&lt;/a&gt;.&lt;/p&gt;
+    &lt;h3 class="dealnet-section-title"&gt;Other Websites&lt;/h3&gt;
+    &lt;p&gt;Our website, &lt;a class="dealnet-info-link" href="http://ecohomefinancial.com/" target="_blank"&gt;www.ecohomefinancial.com&lt;/a&gt;, may contain links to other websites. EcoHome Financial is not responsible for the privacy practices of other web sites. We encourage users of our website to read the privacy statements of such other websites that collect your personal information.&lt;/p&gt;</value>
+  </data>
+  <data name="ProductAndSalesInformation" xml:space="preserve">
+    <value>Renseignements sur les produits et les ventes</value>
+  </data>
+  <data name="ProductsForFinancing" xml:space="preserve">
+    <value>Produits pour le programme de financement</value>
+  </data>
+  <data name="ProgramServiceRequired" xml:space="preserve">
+    <value>Services de programme requis</value>
+  </data>
+  <data name="ProjectType" xml:space="preserve">
+    <value>Type de projet</value>
+  </data>
+  <data name="ProofOfInsurance" xml:space="preserve">
+    <value>Preuve d’assurance</value>
+  </data>
+  <data name="Provinces" xml:space="preserve">
+    <value>Provinces</value>
+  </data>
+  <data name="ProvincesMinLength" xml:space="preserve">
+    <value>Il doit y avoir au moins {0} province</value>
+  </data>
+  <data name="ProvincialSafetyStandardLicensing" xml:space="preserve">
+    <value>Octroi de permis relatif aux normes de sécurité provinciales</value>
+  </data>
+  <data name="Questions" xml:space="preserve">
+    <value>Questions?</value>
+  </data>
+  <data name="QuestionsContactDealerSupport" xml:space="preserve">
+    <value>Si vous avez des questions, veuillez communiquer avec le soutien aux courtiers :</value>
+  </data>
+  <data name="ReasonForInterest" xml:space="preserve">
+    <value>Raison de l’intérêt</value>
+  </data>
+  <data name="ReasonForInterestWithEcohome" xml:space="preserve">
+    <value>Raison de l’intérêt envers Ecohome</value>
+  </data>
+  <data name="Referrals" xml:space="preserve">
+    <value>Recommandations</value>
+  </data>
+  <data name="RegistrationNumber" xml:space="preserve">
+    <value>Numéro d’enregistrement</value>
+  </data>
+  <data name="RelationshipStructure" xml:space="preserve">
+    <value>Structure de relation</value>
+  </data>
+  <data name="RelationshipTo" xml:space="preserve">
+    <value>Lien avec</value>
+  </data>
+  <data name="RequestedEquipmentService" xml:space="preserve">
+    <value>Équipement ou service requis</value>
+  </data>
+  <data name="RequestedTermMustBe3Max" xml:space="preserve">
+    <value>La durée demandée doit avoir un maximum de 3 chiffres</value>
+  </data>
+  <data name="RequiredDocuments" xml:space="preserve">
+    <value>Documents requis</value>
+  </data>
+  <data name="SalesAgent" xml:space="preserve">
+    <value>Agent de vente</value>
+  </data>
+  <data name="SalesApproach" xml:space="preserve">
+    <value>Approche de ventes</value>
+  </data>
+  <data name="SaveAndResumeLater" xml:space="preserve">
+    <value>Enregistrer et continuer plus tard</value>
+  </data>
+  <data name="SaveEntireAppAndResumeLater" xml:space="preserve">
+    <value>Enregistrer la demande entière et continuer plus tard</value>
+  </data>
+  <data name="SecondaryBrand" xml:space="preserve">
+    <value>Marque secondaire</value>
+  </data>
+  <data name="SecondaryBrandIncorrectFormat" xml:space="preserve">
+    <value>Le format de la marque secondaire est incorrect</value>
+  </data>
+  <data name="SecondaryManufacturerBrandSold" xml:space="preserve">
+    <value>Marque secondaire du fabricant vendue</value>
+  </data>
+  <data name="SelectCategory" xml:space="preserve">
+    <value>Sélectionnez la catégorie</value>
+  </data>
+  <data name="SelectOneProduct" xml:space="preserve">
+    <value>Afin de soumettre la demande, vous devez ajouter au moins un produit</value>
+  </data>
+  <data name="SelectOneProvince" xml:space="preserve">
+    <value>Afin de soumettre la demande, vous devez ajouter au moins une province</value>
+  </data>
+  <data name="SendMeLink" xml:space="preserve">
+    <value>Envoyez-moi le lien</value>
+  </data>
+  <data name="Site" xml:space="preserve">
+    <value>Site</value>
+  </data>
+  <data name="SiteInvalidFormat" xml:space="preserve">
+    <value>Le format du lien URL du site Web est incorrect</value>
+  </data>
+  <data name="SomethingWentWrong" xml:space="preserve">
+    <value>Une erreur est survenue.</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Réussite</value>
+  </data>
+  <data name="SuchPostalCodeAlreadyExist" xml:space="preserve">
+    <value>Le code postal existe déjà</value>
+  </data>
+  <data name="TheFieldIsRequired" xml:space="preserve">
+    <value>Le champ {0} est obligatoire.</value>
+  </data>
+  <data name="TheRangeFieldMustBeMinimumAndMaximum" xml:space="preserve">
+    <value>Le champ {0} doit être une chaîne d’une longueur minimale de {1} et d’une longueur maximale de {2}.</value>
+  </data>
+  <data name="ToSubmitAppProvideOwnerInfo" xml:space="preserve">
+    <value>Afin de soumettre la demande, veuillez fournir des renseignements au sujet des propriétaires dont la propriété totale est supérieure à 50 %.</value>
+  </data>
+  <data name="TotalOwnershipNotExceed100" xml:space="preserve">
+    <value>Le pourcentage de propriété total ne doit pas dépasser 100 %. Veuillez vérifier les champs.</value>
+  </data>
+  <data name="TradeReferences" xml:space="preserve">
+    <value>Références commerciales</value>
+  </data>
+  <data name="TradeShows" xml:space="preserve">
+    <value>Salons commerciaux</value>
+  </data>
+  <data name="TypeOfBusiness" xml:space="preserve">
+    <value>Type d’entreprise</value>
+  </data>
+  <data name="UnableToProcessApplicationAutomatically" xml:space="preserve">
+    <value>Malheureusement, nous ne sommes pas en mesure de traiter cette demande par voie automatique.</value>
+  </data>
+  <data name="VerificationId" xml:space="preserve">
+    <value>ID de vérification du client</value>
+  </data>
+  <data name="VoidCheque" xml:space="preserve">
+    <value>Chèque d’entreprise annulé – compte pour recevoir le financement d’Ecohome</value>
+  </data>
+  <data name="WantToSendLink" xml:space="preserve">
+    <value>Vous souhaitez que le lien vous soit envoyé? Saisissez votre adresse de courriel ci-dessous et cliquez sur « Envoyez-moi le lien ».</value>
+  </data>
+  <data name="Website" xml:space="preserve">
+    <value>Site Web</value>
+  </data>
+  <data name="WebsiteMustBeLong" xml:space="preserve">
+    <value>Le site Web doit être de {1} à {2}</value>
+  </data>
+  <data name="WellContactSoon" xml:space="preserve">
+    <value>Nous communiquerons avec vous prochainement.</value>
+  </data>
+  <data name="WhatProvincesDoBusiness" xml:space="preserve">
+    <value>Dans quelles provinces pouvez-vous exercer vos activités?</value>
+  </data>
+  <data name="WhereHomeImprovementProjectTakePlace" xml:space="preserve">
+    <value>À quel endroit ce projet de rénovation résidentielle aura-t-il lieu?</value>
+  </data>
+  <data name="WithoutLinkDataLost" xml:space="preserve">
+    <value>Sans le lien, il sera impossible de récupérer les données que vous avez saisies, et vous devrez recommencer à remplir la demande depuis le début.</value>
+  </data>
+  <data name="YearsInBusiness" xml:space="preserve">
+    <value>Années en affaires</value>
+  </data>
+  <data name="YearsInBusinessIncorrectFormat" xml:space="preserve">
+    <value>Le format des années en affaires est incorrect</value>
+  </data>
+  <data name="YearsInBusinessMax3" xml:space="preserve">
+    <value>Le nombre d’années en affaires ne doit pas dépasser 3 chiffres</value>
+  </data>
+  <data name="YourConfigurationWasSuccessfullyUpdated" xml:space="preserve">
+    <value>Votre configuration a été mise à jour avec succès</value>
+  </data>
+  <data name="YourFileTypeIsNotSupported" xml:space="preserve">
+    <value>Votre type de fichier n’est pas pris en charge</value>
+  </data>
+  <data name="YouSureYouWantToAcceptLeadThenYouPay" xml:space="preserve">
+    <value>Êtes-vous certain de vouloir accepter cette piste? Si c’est le cas, vous paierez des frais de {0} $.</value>
+  </data>
+  <data name="Incorporated" xml:space="preserve">
+    <value>Constitué</value>
+  </data>
+  <data name="Independent" xml:space="preserve">
+    <value>Indépendant</value>
+  </data>
+  <data name="LessThanOneYear" xml:space="preserve">
+    <value>Moins d’un an</value>
+  </data>
+  <data name="Limited" xml:space="preserve">
+    <value>Limité</value>
+  </data>
+  <data name="LookingForSecond" xml:space="preserve">
+    <value>Recherche pour secondaire</value>
+  </data>
+  <data name="MoreThanTwoYears" xml:space="preserve">
+    <value>Plus de 2 ans</value>
+  </data>
+  <data name="NoCurrentFinancing" xml:space="preserve">
+    <value>Aucune solution de financement actuelle</value>
+  </data>
+  <data name="OEM" xml:space="preserve">
+    <value>Fabricant d’équipement d’origine</value>
+  </data>
+  <data name="OnboardSuccessWithoutDocumentsTitle" xml:space="preserve">
+    <value>Merci, votre candidature a été soumise avec succès et nous y travaillons.</value>
+  </data>
+  <data name="OneToTwoYears" xml:space="preserve">
+    <value>1 à 2 ans</value>
+  </data>
+  <data name="Partnership" xml:space="preserve">
+    <value>Société de personnes</value>
+  </data>
+  <data name="ProvideDocuments" xml:space="preserve">
+    <value>N'oubliez pas de fournir tous les documents requis.
+Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
+  </data>
+  <data name="SecondBrandLengthIncorrect" xml:space="preserve">
+    <value>Le champ Marque secondaire doit être une chaîne d'une longueur minimale de 2 et d'une longueur maximale de 50.</value>
+  </data>
+  <data name="SoleProp" xml:space="preserve">
+    <value>Propriétaire unique</value>
+  </data>
+  <data name="TenOrMore" xml:space="preserve">
+    <value>10 ou plus</value>
+  </data>
+  <data name="UnhappyCurrentFinancing" xml:space="preserve">
+    <value>Insatisfait de la solution actuelle</value>
+  </data>
+  <data name="UploadAnotherFile" xml:space="preserve">
+    <value>Téléverser un autre fichier</value>
   </data>
 </root>

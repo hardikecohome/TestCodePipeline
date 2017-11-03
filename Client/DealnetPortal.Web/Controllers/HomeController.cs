@@ -46,10 +46,15 @@ namespace DealnetPortal.Web.Controllers
             return View();
         }
         
-        public async Task<ActionResult> ChangeCulture(string culture)
+        [AllowAnonymous]
+        public async Task<ActionResult> ChangeCulture(string culture, string redirectUrl = "")
         {
             await _cultureManager.ChangeCulture(culture);
-            return RedirectToAction("Index");
+            if (string.IsNullOrEmpty(redirectUrl))
+            {
+                return RedirectToAction("Index");
+            }
+            return Redirect(redirectUrl);
         }
 
         public async Task<JsonResult> LayoutSettings()

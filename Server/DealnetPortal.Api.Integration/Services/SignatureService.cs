@@ -69,9 +69,7 @@ namespace DealnetPortal.Api.Integration.Services
             var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
             if (contract != null)
             {
-                _loggingService.LogInfo($"Started eSignature processing for contract [{contractId}]");
-                var fields = PrepareFormFields(contract, ownerUserId);
-                _loggingService.LogInfo($"{fields.Count} fields collected");
+                _loggingService.LogInfo($"Started eSignature processing for contract [{contractId}]");                
 
                 var logRes = await _signatureEngine.ServiceLogin().ConfigureAwait(false);
                 _signatureEngine.TransactionId = contract.Details?.SignatureTransactionId;
@@ -101,8 +99,12 @@ namespace DealnetPortal.Api.Integration.Services
                     alerts.AddRange(trRes);
                 }
 
+                var templateFields = await _signatureEngine.GetFormfFields();
+
+                var fields = PrepareFormFields(contract, templateFields?.Item1, ownerUserId);
+                _loggingService.LogInfo($"{fields.Count} fields collected");
+
                 var insertRes = await _signatureEngine.InsertDocumentFields(fields);
-                //InsertAgreementFields(docId, fields);
 
                 if (insertRes?.Any() ?? false)
                 {
@@ -250,7 +252,9 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     MemoryStream ms = new MemoryStream(agrRes.Item1.TemplateDocument.TemplateBinary, true);
 
-                    var fields = PrepareFormFields(contract, ownerUserId);
+                    var formFields = _pdfEngine.GetFormfFields(ms);
+
+                    var fields = PrepareFormFields(contract, formFields?.Item1, ownerUserId);
                     var insertRes = _pdfEngine.InsertFormFields(ms, fields);
 
                     if (insertRes?.Item2?.Any() ?? false)
@@ -311,8 +315,10 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     MemoryStream ms = new MemoryStream(agrRes.Item1.TemplateDocument.TemplateBinary, true);
 
+                    var templateFields = _pdfEngine.GetFormfFields(ms);
+
                     var fields = new List<FormField>();
-                    FillHomeOwnerFields(fields, contract);
+                    FillHomeOwnerFields(fields, templateFields?.Item1, contract);
                     FillApplicantsFields(fields, contract);
                     FillEquipmentFields(fields, contract, ownerUserId);
                     FillDealerFields(fields, contract);
@@ -507,11 +513,11 @@ namespace DealnetPortal.Api.Integration.Services
             });
         }
 
-        private List<FormField> PrepareFormFields(Contract contract, string ownerUserId)
+        private List<FormField> PrepareFormFields(Contract contract, IList<FormField> templateFields, string ownerUserId)
         {
             var fields = new List<FormField>();
 
-            FillHomeOwnerFields(fields, contract);
+            FillHomeOwnerFields(fields, templateFields, contract);
             FillApplicantsFields(fields, contract);
             FillEquipmentFields(fields, contract, ownerUserId);
             FillPaymentFields(fields, contract);
@@ -578,14 +584,14 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 // if dealer has templates, select one
                 agreementTemplate = dealerTemplates.FirstOrDefault(at =>
-                    (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(contract.Equipment.AgreementType))
+                    (agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication)
                     && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
                     && (string.IsNullOrEmpty(equipmentType) || (at.EquipmentType?.Contains(equipmentType) ?? false)));
 
                 if (agreementTemplate == null)
                 {
                     agreementTemplate = dealerTemplates.FirstOrDefault(at =>
-                        (!at.AgreementType.HasValue || at.AgreementType.Value.HasFlag(contract.Equipment.AgreementType))
+                        (!at.AgreementType.HasValue || (agreementType == at.AgreementType) || (at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
                         && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
                         && (string.IsNullOrEmpty(equipmentType) ||
                             (at.EquipmentType?.Contains(equipmentType) ?? false)));
@@ -594,14 +600,14 @@ namespace DealnetPortal.Api.Integration.Services
                 if (agreementTemplate == null)
                 {
                     agreementTemplate = dealerTemplates.FirstOrDefault(at =>
-                        at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(contract.Equipment.AgreementType)
+                        (agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication)
                         && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false)));
                 }
 
                 if (agreementTemplate == null)
                 {
                     agreementTemplate =
-                        dealerTemplates.FirstOrDefault(at => at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(contract.Equipment.AgreementType));
+                        dealerTemplates.FirstOrDefault(at => (agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication));
                 }
                 
             }
@@ -647,7 +653,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (dealerCertificates?.Any() ?? false)
             {
                 agreementTemplate = dealerCertificates.FirstOrDefault(
-                                        cert => cert.AgreementType.HasValue && cert.AgreementType.Value.HasFlag(contract.Equipment.AgreementType))
+                                        cert => (contract.Equipment.AgreementType == cert.AgreementType) || (cert.AgreementType.HasValue && cert.AgreementType.Value.HasFlag(contract.Equipment.AgreementType) && contract.Equipment.AgreementType != AgreementType.LoanApplication))
                                     ?? dealerCertificates.FirstOrDefault();
             }
             else
@@ -661,7 +667,7 @@ namespace DealnetPortal.Api.Integration.Services
                     if (appCertificates?.Any() ?? false)
                     {
                         agreementTemplate = appCertificates.FirstOrDefault(
-                                                cert => cert.AgreementType.HasValue && cert.AgreementType.Value.HasFlag(contract.Equipment.AgreementType))
+                                                cert => (contract.Equipment.AgreementType == cert.AgreementType) || (cert.AgreementType.HasValue && cert.AgreementType.Value.HasFlag(contract.Equipment.AgreementType) && contract.Equipment.AgreementType != AgreementType.LoanApplication))
                                             ?? appCertificates.FirstOrDefault();
                     }
                 }
@@ -688,7 +694,7 @@ namespace DealnetPortal.Api.Integration.Services
             //return _signatureServiceAgent.Logout().GetAwaiter().GetResult();
         }
 
-        private void FillHomeOwnerFields(List<FormField> formFields, Contract contract)
+        private void FillHomeOwnerFields(List<FormField> formFields, IList<FormField> templateFields, Contract contract)
         {
             if (contract.Details.TransactionId != null)
             {
@@ -756,13 +762,25 @@ namespace DealnetPortal.Api.Integration.Services
                         contract.PrimaryCustomer?.Locations?.FirstOrDefault(
                             l => l.AddressType == AddressType.MainAddress);
                     if (mainAddress != null)
-                    {
-                        formFields.Add(new FormField()
+                    {                        
+                        if (!string.IsNullOrEmpty(mainAddress.Unit) && templateFields?.All(tf => tf.Name != PdfFormFields.SuiteNo) == true)
                         {
-                            FieldType = FieldType.Text,
-                            Name = PdfFormFields.InstallationAddress,
-                            Value = mainAddress.Street
-                        });
+                            formFields.Add(new FormField()
+                            {
+                                FieldType = FieldType.Text,
+                                Name = PdfFormFields.InstallationAddress,
+                                Value = $"{mainAddress.Street}, {Resources.Resources.Suite} {mainAddress.Unit}"
+                            });
+                        }
+                        else
+                        {
+                            formFields.Add(new FormField()
+                            {
+                                FieldType = FieldType.Text,
+                                Name = PdfFormFields.InstallationAddress,
+                                Value = mainAddress.Street
+                            });
+                        }                        
                         formFields.Add(new FormField()
                         {
                             FieldType = FieldType.Text,
@@ -799,19 +817,20 @@ namespace DealnetPortal.Api.Integration.Services
                             Name = PdfFormFields.IsMailingDifferent,
                             Value = "true"
                         });
+                        var sMailAddress = !string.IsNullOrEmpty(mailAddress.Unit) ? 
+                                        $"{mailAddress.Street}, {Resources.Resources.Suite} {mailAddress.Unit}, {mailAddress.City}, {mailAddress.State}, {mailAddress.PostalCode}" 
+                                        : $"{mailAddress.Street}, {mailAddress.City}, {mailAddress.State}, {mailAddress.PostalCode}";
                         formFields.Add(new FormField()
                         {
                             FieldType = FieldType.Text,
                             Name = PdfFormFields.MailingAddress,
-                            Value =
-                                $"{mailAddress.Street}  {mailAddress.Unit ?? ""}, {mailAddress.City}, {mailAddress.State}, {mailAddress.PostalCode}"
+                            Value = sMailAddress
                         });
                         formFields.Add(new FormField()
                         {
                             FieldType = FieldType.Text,
                             Name = PdfFormFields.MailingOrPreviousAddress,
-                            Value =
-                                $"{mailAddress.Street}, {mailAddress.City}, {mailAddress.State}, {mailAddress.PostalCode}"
+                            Value = sMailAddress
                         });
                     }
                     var previousAddress =
@@ -825,12 +844,15 @@ namespace DealnetPortal.Api.Integration.Services
                             Name = PdfFormFields.IsPreviousAddress,
                             Value = "true"
                         });
+                        var sPrevAddress = !string.IsNullOrEmpty(previousAddress.Unit) ?
+                            $"{previousAddress.Street}, {Resources.Resources.Suite} {previousAddress.Unit}, {previousAddress.City}, {previousAddress.State}, {previousAddress.PostalCode}"
+                            : $"{previousAddress.Street}, {previousAddress.City}, {previousAddress.State}, {previousAddress.PostalCode}";
+
                         formFields.Add(new FormField()
                         {
                             FieldType = FieldType.Text,
                             Name = PdfFormFields.PreviousAddress,
-                            Value =
-                                $"{previousAddress.Street}  {previousAddress.Unit??""}, {previousAddress.City}, {previousAddress.State}, {previousAddress.PostalCode}"
+                            Value = sPrevAddress
                         });
                         if (mailAddress == null)
                         {
@@ -838,8 +860,7 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 FieldType = FieldType.Text,
                                 Name = PdfFormFields.MailingOrPreviousAddress,
-                                Value =
-                                    $"{previousAddress.Street}, {previousAddress.City}, {previousAddress.State}, {previousAddress.PostalCode}"
+                                Value = sPrevAddress
                             });
                         }
                     }
@@ -1198,6 +1219,7 @@ namespace DealnetPortal.Api.Integration.Services
                             othersEq.Add(eq);
                             break;
                         case "ECO5": // Furnace
+                        case "ECO40": // Air Handler - we have common 
                             if (!formFields.Exists(f => f.Name == PdfFormFields.IsFurnace))
                             {
                                 formFields.Add(new FormField()
@@ -1244,10 +1266,7 @@ namespace DealnetPortal.Api.Integration.Services
                             break;
                         case "ECO38": // Sunrooms
                             othersEq.Add(eq);
-                            break;
-                        case "ECO40": // Air Handler
-                            othersEq.Add(eq);
-                            break;
+                            break;                       
                         case "ECO42": // Flooring
                             othersEq.Add(eq);
                             break;

@@ -231,6 +231,13 @@ namespace DealnetPortal.Api.Core.ApiClient
                 {
                     request.Headers.Authorization = authenticationHeader;
                 }
+                if (!string.IsNullOrEmpty(culture))
+                {
+                    var filteredCulture = CultureHelper.FilterCulture(culture);
+                    request.Headers.AcceptLanguage.Clear();
+                    request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(filteredCulture));
+                }
+
                 var response = await Client.SendAsync(request, cancellationToken);
                 if (response?.Content == null)
                     return default(T);
@@ -281,6 +288,12 @@ namespace DealnetPortal.Api.Core.ApiClient
                 if (authenticationHeader != null)
                 {
                     request.Headers.Authorization = authenticationHeader;
+                }
+                if (!string.IsNullOrEmpty(culture))
+                {
+                    var filteredCulture = CultureHelper.FilterCulture(culture);
+                    request.Headers.AcceptLanguage.Clear();
+                    request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(filteredCulture));
                 }
                 var response = await Client.SendAsync(request, cancellationToken);
                 response.EnsureSuccessStatusCode();
@@ -336,7 +349,13 @@ namespace DealnetPortal.Api.Core.ApiClient
                 request.Content = new ObjectContent<T1>(content, formatter ?? new JsonMediaTypeFormatter());                
                 if (authenticationHeader != null)
                 {
-                    request.Headers.Authorization = authenticationHeader;
+                    request.Headers.Authorization = authenticationHeader;                    
+                }
+                if (!string.IsNullOrEmpty(culture))
+                {
+                    var filteredCulture = CultureHelper.FilterCulture(culture);
+                    request.Headers.AcceptLanguage.Clear();
+                    request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(filteredCulture));
                 }
                 var response = await Client.SendAsync(request, cancellationToken);
                 response.EnsureSuccessStatusCode();
@@ -371,6 +390,12 @@ namespace DealnetPortal.Api.Core.ApiClient
                 if (authenticationHeader != null)
                 {
                     request.Headers.Authorization = authenticationHeader;
+                }
+                if (!string.IsNullOrEmpty(culture))
+                {
+                    var filteredCulture = CultureHelper.FilterCulture(culture);
+                    request.Headers.AcceptLanguage.Clear();
+                    request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(filteredCulture));
                 }
                 var response = await Client.SendAsync(request, cancellationToken);                
                 response.EnsureSuccessStatusCode();                
