@@ -58,8 +58,8 @@ namespace DealnetPortal.Web.Common
         {
             get
             {
-                var culture = HttpContext.Current?.Request.Cookies[CultureCookieName]?.Value ??
-                              (HttpContext.Current?.Request.RequestContext.RouteData.Values["culture"] as string);
+                var culture = (HttpContext.Current?.Request.RequestContext.RouteData.Values["culture"] as string) 
+                                ?? HttpContext.Current?.Request.Cookies[CultureCookieName]?.Value;
                 return culture;
             }
         }
