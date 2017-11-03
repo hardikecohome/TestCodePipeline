@@ -28,15 +28,15 @@ namespace DealnetPortal.Web
 
             routes.MapRoute(
                 name: "",
-                url: "Dealer/{action}/{culture}/{key}",
-                defaults: new { controller = "Dealer" }
+                url: "Dealer/{action}/{key}/{culture}",
+                defaults: new { controller = "Dealer", culture = UrlParameter.Optional }
             );
 
-            routes.MapRoute(
-                name: "",
-                url: "Dealer/{action}/{key}",
-                defaults: new { controller = "Dealer" }
-            );
+            //routes.MapRoute(
+            //    name: "",
+            //    url: "Dealer/{action}/{key}",
+            //    defaults: new { controller = "Dealer" }
+            //);
 
             // routes.MapRoute(
             //    name: "",
