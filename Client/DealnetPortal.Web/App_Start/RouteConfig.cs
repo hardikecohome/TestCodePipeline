@@ -27,10 +27,22 @@ namespace DealnetPortal.Web
            );
 
             routes.MapRoute(
-               name: "",
-               url: "Dealer/{action}/{key}",
-               defaults: new { controller = "Dealer", action = "OnBoarding" }
-           );
+                name: "",
+                url: "Dealer/{action}/{culture}/{key}",
+                defaults: new { controller = "Dealer" }
+            );
+
+            routes.MapRoute(
+                name: "",
+                url: "Dealer/{action}/{key}",
+                defaults: new { controller = "Dealer" }
+            );
+
+            // routes.MapRoute(
+            //    name: "",
+            //    url: "Dealer/{action}/{key}",
+            //    defaults: new { controller = "Dealer", action = "OnBoarding" }
+            //);
 
             routes.MapRoute(
                name: "",
