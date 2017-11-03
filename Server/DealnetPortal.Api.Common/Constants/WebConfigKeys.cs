@@ -83,5 +83,8 @@
         //Scheduler configuration-->
         public static readonly string LEAD_EXPIREDMINUTES_CONFIG_KEY = "LeadExpiredMinutes";
         public static readonly string LEAD_CHECKPERIODMINUTES_CONFIG_KEY = "CheckPeriodMinutes";
+
+        //Listener URL
+        public static readonly string LISTENER_END_POINT_CONFIG_KEY = "ListenerEndPoint";
     }
 }

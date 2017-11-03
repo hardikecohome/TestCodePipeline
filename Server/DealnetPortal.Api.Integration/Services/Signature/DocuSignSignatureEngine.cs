@@ -65,7 +65,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             _dsPassword = configuration.GetSetting(WebConfigKeys.DOCUSIGN_PASSWORD_CONFIG_KEY);
             _dsIntegratorKey = configuration.GetSetting(WebConfigKeys.DOCUSIGN_INTEGRATORKEY_CONFIG_KEY);
 
-            _baseServerAddress = configuration.GetSetting(WebConfigKeys.SERVER_BASE_ADDRESS_CONFIG_KEY);
+            _baseServerAddress = configuration.GetSetting(WebConfigKeys.LISTENER_END_POINT_CONFIG_KEY);
         }
 
         public async Task<IList<Alert>> ServiceLogin()
