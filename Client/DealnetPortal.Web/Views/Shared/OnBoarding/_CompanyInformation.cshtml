@@ -1,8 +1,4 @@
-﻿@using DealnetPortal.Web.Models.Enumeration;
-@model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
-@{
-    var rm = DealnetPortal.Api.Resources.Resources.ResourceManager;
-}
+﻿@model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
 
 <div class="panel customer-loan-form-panel active-panel" id="company-panel">
     <div class="panel-heading">
@@ -151,13 +147,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.BusinessType, new { @class = "mandatory-field visible-xs" })
                     <div class="control-group">
-                        <select class="form-control @(Model.CompanyInfo.BusinessType.HasValue ? "" : "no-value")" data-val="true" data-val-required="@Resources.ThisFieldIsRequired" id="company-type" name="@Html.NameFor(m=>m.CompanyInfo.BusinessType)">
-                            <option value="">-non sélectionné-</option>
-                            <option value="@((int)BusinessType.SoleProp)" @(BusinessType.SoleProp == Model.CompanyInfo.BusinessType ? "selected" : "")>@Resources.SoleProp</option>
-                            <option value="@((int)BusinessType.Partnership)" @(BusinessType.Partnership == Model.CompanyInfo.BusinessType ? "selected" : "")>@Resources.Partnership</option>
-                            <option value="@((int)BusinessType.Incorporated)" @(BusinessType.Incorporated == Model.CompanyInfo.BusinessType ? "selected" : "")>@Resources.Incorporated</option>
-                            <option value="@((int)BusinessType.Limited)" @(BusinessType.Limited == Model.CompanyInfo.BusinessType ? "selected" : "")>@Resources.Limited</option>
-                        </select>
+                        @Html.EnumDropDownListFor(m => m.CompanyInfo.BusinessType, "-" + Resources.NotSelected + "-", new { @class = "form-control " + (Model.CompanyInfo.BusinessType.HasValue ? "" : "no-value"), id = "company-type" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.BusinessType, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -166,12 +156,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.YearsInBusiness, new { @class = "mandatory-field visible-xs" })
                     <div class="control-group">
-                        <select class="form-control @(Model.CompanyInfo.YearsInBusiness.HasValue ? "" : "no-value")" data-val="true" data-val-required="@Resources.ThisFieldIsRequired" id="years-in-business" name="@Html.NameFor(m=>m.CompanyInfo.YearsInBusiness)">
-                            <option value="">-non sélectionné-</option>
-                            <option value="@((int)YearsInBusiness.LessThanOne)" @(YearsInBusiness.LessThanOne == Model.CompanyInfo.YearsInBusiness ? "selected" : "")>@Resources.LessThanOneYear</option>
-                            <option value="@((int)YearsInBusiness.OneToTwo)" @(YearsInBusiness.OneToTwo == Model.CompanyInfo.YearsInBusiness ? "selected" : "")>@Resources.OneToTwoYears</option>
-                            <option value="@((int)YearsInBusiness.MoreThanTwo)" @(YearsInBusiness.MoreThanTwo == Model.CompanyInfo.YearsInBusiness ? "selected" : "")>@Resources.MoreThanTwoYears</option>
-                        </select>
+                        @Html.EnumDropDownListFor(m => m.CompanyInfo.YearsInBusiness, "-" + Resources.NotSelected + "-", new { @class = "form-control " + (Model.CompanyInfo.YearsInBusiness.HasValue ? "" : "no-value"), id = "years-in-business" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.YearsInBusiness, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -180,14 +165,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.NumberOfInstallers, new { @class = "visible-xs" })
                     <div class="control-group">
-                        <select class="form-control @(Model.CompanyInfo.NumberOfInstallers.HasValue ? "" : "no-value")" id="installers" name="@Html.NameFor(m=>m.CompanyInfo.NumberOfInstallers)">
-                            <option value="">-non sélectionné-</option>
-                            <option value="@((int)NumberOfPeople.Zero)" @(NumberOfPeople.Zero == Model.CompanyInfo.NumberOfInstallers ? "selected" : "")>0</option>
-                            <option value="@((int)NumberOfPeople.OneToTwo)" @(NumberOfPeople.OneToTwo == Model.CompanyInfo.NumberOfInstallers ? "selected" : "")>1-2</option>
-                            <option value="@((int)NumberOfPeople.ThreeToFive)" @(NumberOfPeople.ThreeToFive == Model.CompanyInfo.NumberOfInstallers ? "selected" : "")>3-5</option>
-                            <option value="@((int)NumberOfPeople.SixToNine)" @(NumberOfPeople.SixToNine == Model.CompanyInfo.NumberOfInstallers ? "selected" : "")>6-9</option>
-                            <option value="@((int)NumberOfPeople.MoreThanTen)" @(NumberOfPeople.MoreThanTen == Model.CompanyInfo.NumberOfInstallers ? "selected" : "")>@Resources.TenOrMore</option>
-                        </select>
+                        @Html.EnumDropDownListFor(m => m.CompanyInfo.NumberOfInstallers, "-" + Resources.NotSelected + "-", new { id = "installers", @class = "form-control " + (Model.CompanyInfo.NumberOfInstallers.HasValue ? "" : "no-value") })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.NumberOfInstallers, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -196,14 +174,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyInfo.NumberOfInstallers, new { @class = "visible-xs" })
                     <div class="control-group">
-                        <select class="form-control @(Model.CompanyInfo.NumberOfSales.HasValue ? "" : "no-value")" id="sales" name="@Html.NameFor(m=>m.CompanyInfo.NumberOfSales)">
-                            <option value="">-non sélectionné-</option>
-                            <option value="@((int)NumberOfPeople.Zero)" @(NumberOfPeople.Zero == Model.CompanyInfo.NumberOfSales ? "selected" : "")>0</option>
-                            <option value="@((int)NumberOfPeople.OneToTwo)" @(NumberOfPeople.OneToTwo == Model.CompanyInfo.NumberOfSales ? "selected" : "")>1-2</option>
-                            <option value="@((int)NumberOfPeople.ThreeToFive)" @(NumberOfPeople.ThreeToFive == Model.CompanyInfo.NumberOfSales ? "selected" : "")>3-5</option>
-                            <option value="@((int)NumberOfPeople.SixToNine)" @(NumberOfPeople.SixToNine == Model.CompanyInfo.NumberOfSales ? "selected" : "")>6-9</option>
-                            <option value="@((int)NumberOfPeople.MoreThanTen)" @(NumberOfPeople.MoreThanTen == Model.CompanyInfo.NumberOfSales ? "selected" : "")>@Resources.TenOrMore</option>
-                        </select>
+                        @Html.EnumDropDownListFor(m => m.CompanyInfo.NumberOfSales, "-" + Resources.NotSelected + "-", new { id = "sales", @class = "form-control " + (Model.CompanyInfo.NumberOfSales.HasValue ? "" : "no-value") })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.NumberOfSales, "", new { @class = "text-danger" })
                     </div>
                 </div>

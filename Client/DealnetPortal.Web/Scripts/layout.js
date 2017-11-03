@@ -337,15 +337,18 @@
         });
 
         $('.credit-funding-contact').on('click', function () {
-            $('.navbar-toggle').click();
+            $('body').removeClass('open-menu menu-animated');
+            $('.dealnet-sidebar').removeClass('in');
             sendEmailModel('', 'creditFunding');
         });
         $('.dealer-support-contact').on('click', function () {
-            $('.navbar-toggle').click();
+            $('body').removeClass('open-menu menu-animated');
+            $('.dealnet-sidebar').removeClass('in');
             sendEmailModel('', 'dealerSupport');
         });
         $('.customer-service-contact').on('click', function () {
-            $('.navbar-toggle').click();
+            $('body').removeClass('open-menu menu-animated');
+            $('.dealnet-sidebar').removeClass('in');
             sendEmailModel('', 'customerService');
         });
     });

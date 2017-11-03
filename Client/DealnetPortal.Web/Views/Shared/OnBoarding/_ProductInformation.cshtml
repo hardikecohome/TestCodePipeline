@@ -191,13 +191,8 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.ProductInfo.Relationship, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        <select class="form-control  @(Model.ProductInfo.Relationship.HasValue ? "" : "no-value")" data-val="true" data-val-required="@Resources.ThisFieldIsRequired" id="relationship" name="@Html.NameFor(m=>m.ProductInfo.Relationship)">
-                            <option value="">-non sélectionné-</option>
-                            <option value="@((int)DealnetPortal.Web.Models.Enumeration.RelationshipStructure.Independent)" @(DealnetPortal.Web.Models.Enumeration.RelationshipStructure.Independent == Model.ProductInfo.Relationship? "selected" : "")>@Resources.Independent</option>
-                            <option value="@((int)DealnetPortal.Web.Models.Enumeration.RelationshipStructure.OEM)" @(DealnetPortal.Web.Models.Enumeration.RelationshipStructure.OEM == Model.ProductInfo.Relationship ? "selected" : "")>@Resources.OEM</option>
-                            <option value="@((int)DealnetPortal.Web.Models.Enumeration.RelationshipStructure.Distributor)" @(DealnetPortal.Web.Models.Enumeration.RelationshipStructure.Distributor == Model.ProductInfo.Relationship ? "selected" : "")>@Resources.Distributor</option>
-                        </select>
-                       </div>
+                        @Html.EnumDropDownListFor(m => m.ProductInfo.Relationship, "-" + Resources.NotSelected + "-", new { @class = "form-control " + (Model.ProductInfo.Relationship.HasValue ? "" : "no-value"), id = "relationship" })
+                    </div>
                 </div>
             </div>
             <div class="col-md-4 col-sm-6 hidden-relationship @(Model.ProductInfo.Relationship != WebEnum.RelationshipStructure.OEM ? "hidden" : "")">
@@ -304,12 +299,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.ProductInfo.ReasonForInterest, new { @class = "mandatory-field" })
                     <div class="control-group">
-                        <select class="form-control @(Model.ProductInfo.ReasonForInterest.HasValue ? "" : "no-value")" data-val="true" data-val-required="@Resources.ThisFieldIsRequired" id="reason-for-interest" name="@Html.NameFor(m=>m.ProductInfo.ReasonForInterest)">
-                            <option value="">-non sélectionné-</option>
-                            <option value="@((int)DealnetPortal.Web.Models.Enumeration.ReasonForInterest.UnhappyCurrentSolution)" @(DealnetPortal.Web.Models.Enumeration.ReasonForInterest.UnhappyCurrentSolution == Model.ProductInfo.ReasonForInterest ? "selected" : "" )>@Resources.UnhappyCurrentFinancing</option>
-                            <option value="@((int)DealnetPortal.Web.Models.Enumeration.ReasonForInterest.LookingForSecondary)" @(DealnetPortal.Web.Models.Enumeration.ReasonForInterest.LookingForSecondary == Model.ProductInfo.ReasonForInterest ? "selected" : "" )>@Resources.LookingForSecond</option>
-                            <option value="@((int)DealnetPortal.Web.Models.Enumeration.ReasonForInterest.Nocurrentfinancingsolution)" @(DealnetPortal.Web.Models.Enumeration.ReasonForInterest.Nocurrentfinancingsolution == Model.ProductInfo.ReasonForInterest ? "selected" : "" )>@Resources.NoCurrentFinancing</option>
-                        </select>
+                        @Html.EnumDropDownListFor(m => m.ProductInfo.ReasonForInterest, "-" + Resources.NotSelected + "-", new { @class = "form-control " + (Model.ProductInfo.ReasonForInterest.HasValue ? "" : "no-value"), id = "reason-for-interest" })
                         @Html.ValidationMessageFor(m => m.ProductInfo.ReasonForInterest, "", new { @class = "text-danger" })
                     </div>
                 </div>
