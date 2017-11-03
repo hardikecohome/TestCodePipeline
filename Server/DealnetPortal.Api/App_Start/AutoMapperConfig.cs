@@ -207,6 +207,14 @@ namespace DealnetPortal.Api.App_Start
                     var details = new ContractDetailsDTO()
                     {
                         TransactionId = src.TransactionId.ToString(),
+                        LocalizedStatus = !string.IsNullOrEmpty(src.DealStatus) ?
+                            ResourceHelper.GetGlobalStringResource("_" + src.DealStatus
+                                                                       .Replace('-', '_')
+                                                                       .Replace(" ", string.Empty)
+                                                                       .Replace("$", string.Empty)
+                                                                       .Replace("/", string.Empty)
+                                                                       .Replace("(", string.Empty)
+                                                                       .Replace(")", string.Empty)) ?? src.DealStatus : null,
                         Status = src.DealStatus,
                         AgreementType =
                             src.AgreementType == "RENTAL"

@@ -13,7 +13,7 @@ namespace DealnetPortal.Web.Models
         public BasicInfoViewModel BasicInfo { get; set; }
         public EquipmentInformationViewModel EquipmentInfo { get; set; }
         public ContactAndPaymentInfoViewModel ContactAndPaymentInfo { get; set; }
-        //public SendEmailsViewModel SendEmails { get; set; }
+        public SendEmailsViewModel SendEmails { get; set; }
         public AdditionalInfoViewModel AdditionalInfo { get; set; }
         public ProvinceTaxRateDTO ProvinceTaxRate { get; set; }
         public List<CommentViewModel> Comments { get; set; }

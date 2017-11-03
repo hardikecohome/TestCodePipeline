@@ -43,7 +43,16 @@ namespace DealnetPortal.Web.Controllers
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1;
-            return View(await _contractManager.GetContractEditAsync(id));
+
+            var dealer = await _dictionaryServiceAgent.GetDealerInfo();
+            ViewBag.IsEsignatureEnabled = dealer?.EsignatureEnabled ?? false;
+
+            var contract = await _contractManager.GetContractEditAsync(id);
+            if (!string.IsNullOrEmpty(dealer?.Email))
+            {
+                contract.SendEmails.SalesRepEmail = dealer.Email;
+            }
+            return View(contract);
         }
 
         [HttpPost]

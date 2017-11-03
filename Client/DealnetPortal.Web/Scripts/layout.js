@@ -336,6 +336,21 @@
             template: '<div class="popover customer-loan-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
         });
 
+        $('.credit-funding-contact').on('click', function () {
+            $('body').removeClass('open-menu menu-animated');
+            $('.dealnet-sidebar').removeClass('in');
+            sendEmailModel('', 'creditFunding');
+        });
+        $('.dealer-support-contact').on('click', function () {
+            $('body').removeClass('open-menu menu-animated');
+            $('.dealnet-sidebar').removeClass('in');
+            sendEmailModel('', 'dealerSupport');
+        });
+        $('.customer-service-contact').on('click', function () {
+            $('body').removeClass('open-menu menu-animated');
+            $('.dealnet-sidebar').removeClass('in');
+            sendEmailModel('', 'customerService');
+        });
     });
 
 function onDateSelect (input) {
@@ -696,34 +711,33 @@ function sendEmailModel(rowTransactionId, supportType = "Other") {
 	$('input[name=SupportType][value=' + supportType + ']').prop('checked', 'checked');
 	alertModal.modal('show');
 }
-function yourNameCBclick(){
-	if ($('#yourNameCB').prop('checked'))
-	{
-		$('#yourNameTxt').removeAttr("disabled");
-	}
-	else {
-		$('#yourNameTxt').attr("disabled", "disabled");
-		$('#yourNameTxt').val("");
-	}
+function yourNameCBclick () {
+    if ($('#yourNameCB').prop('checked')) {
+        $('#yourNameTxt').removeAttr("disabled");
+    }
+    else {
+        $('#yourNameTxt').attr("disabled", "disabled");
+        $('#yourNameTxt').val("");
+    }
 }
 
-function emailAlternativeEmailclick() {
-	if ($('#emailAlternativeEmail').prop('checked')) {
-		$('#emailAlternativeEmailAddress').removeClass('hidden');
-	}
-	else {
-		$('#emailAlternativeEmailAddress').addClass('hidden');
+function emailAlternativeEmailclick () {
+    if ($('#emailAlternativeEmail').prop('checked')) {
+        $('#emailAlternativeEmailAddress').removeClass('hidden');
+    }
+    else {
+        $('#emailAlternativeEmailAddress').addClass('hidden');
 
-	}
+    }
 }
 //$.validator.addMethod("requiredIfChecked", function (val, ele, arg) {
 //	if ($("#startClientFromWeb").is(":checked") && ($.trim(val) == '')) { return false; }
 //	return true;
 //}, "This field is required if startClientFromWeb is checked...");
 
-function validateEmail(Email) {
-	var pattern = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-	return $.trim(Email).match(pattern) ? true : false;
+function validateEmail (Email) {
+    var pattern = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    return $.trim(Email).match(pattern) ? true : false;
 }
 
 function sendEmailToSupport() {

@@ -954,7 +954,7 @@
     <value>The field Enbridge Gas Distribution Account must be a string with a length of 12</value>
   </data>
   <data name="HomePhoneMustBeLong" xml:space="preserve">
-    <value>The field Home Phone must be a string with a length of 10</value>
+    <value>Home Phone must be a string with a length of 10</value>
   </data>
   <data name="CellPhoneMustBeLong" xml:space="preserve">
     <value>The field Cell Phone must be a string with a length of 10</value>
@@ -2251,5 +2251,62 @@ You can do it anytime by using the following link:</value>
   </data>
   <data name="Month180AmortOnlyOver4000" xml:space="preserve">
     <value>180 month amortization is available only on loans over $4,000</value>
+  </data>
+  <data name="CreditFunding" xml:space="preserve">
+    <value>Credit/Funding</value>
+  </data>
+  <data name="CustomerService" xml:space="preserve">
+    <value>Customer Service</value>
+  </data>
+  <data name="DealerSupport" xml:space="preserve">
+    <value>Dealer Support</value>
+  </data>
+  <data name="HowCanWeHelp" xml:space="preserve">
+    <value>How can we help?</value>
+  </data>
+  <data name="Incorporated" xml:space="preserve">
+    <value>Incorporated</value>
+  </data>
+  <data name="Independent" xml:space="preserve">
+    <value>Independent</value>
+  </data>
+  <data name="LessThanOneYear" xml:space="preserve">
+    <value>less than 1 year</value>
+  </data>
+  <data name="Limited" xml:space="preserve">
+    <value>Limited</value>
+  </data>
+  <data name="LookingForSecond" xml:space="preserve">
+    <value>Looking for secondary</value>
+  </data>
+  <data name="MoreThanTwoYears" xml:space="preserve">
+    <value>more than 2 years</value>
+  </data>
+  <data name="NoCurrentFinancing" xml:space="preserve">
+    <value>No current financing solution</value>
+  </data>
+  <data name="OEM" xml:space="preserve">
+    <value>OEM</value>
+  </data>
+  <data name="OneToTwoYears" xml:space="preserve">
+    <value>1-2 years</value>
+  </data>
+  <data name="Partnership" xml:space="preserve">
+    <value>Partnership</value>
+  </data>
+  <data name="SecondBrandLengthIncorrect" xml:space="preserve">
+    <value>The field Secondary brand must be a string with a minimum length of 2 and a maximum length of 50.</value>
+  </data>
+  <data name="SoleProp" xml:space="preserve">
+    <value>Sole Prop</value>
+  </data>
+  <data name="TenOrMore" xml:space="preserve">
+    <value>10 or more</value>
+  </data>
+  <data name="UnhappyCurrentFinancing" xml:space="preserve">
+    <value>Unhappy with current solution</value>
+  </data>
+  <data name="UploadAnotherFile" xml:space="preserve">
+    <value>Upload another file</value>
   </data>
 </root>
