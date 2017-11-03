@@ -7,7 +7,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h2 class="modal-title text-center dealnet-large-header ">@Resources.SendContractForEsignature</h2>
+                <h2 class="modal-title text-left dealnet-large-header ">@Resources.SendContractForEsignature</h2>
             </div>
             <div class="modal-body">
                 <div class="sent-contract-section">
@@ -59,7 +59,7 @@
                                         </div>
                                     }
                                 }
-                                <div class="row form-group">
+                                <div class="row form-group mb-25">
                                     <div class="col-md-5 applicant-col">
                                         <div class="dealnet-label">@Resources.SalesRep</div>
                                         <div class="control-group text-middle-group text-semibold"><div class="text-hold">@Model.SalesRep</div></div>
@@ -80,7 +80,9 @@
                                 </div>
 
                                 <div class="sent-email-msg text-center" style="display: none;">
-                                    <h4 class="align-middle"><svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>@Resources.InvitesWereSentToEmails</h4>
+                                    <h4 class="align-middle"><svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
+                                        <span>@Resources.InvitesWereSentToEmails</span>
+                                    </h4>
                                     @Resources.PlatformIsPreparingCheck
                                 </div>
                             </div>

@@ -14,7 +14,7 @@ namespace DealnetPortal.Web.Models
     {
         public int CustomerId { get; set; }
 
-        //[CustomRequired]
+        [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "AdditionalApplicantEmail")]
         [EmailAddress(ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         public string Email { get; set; }

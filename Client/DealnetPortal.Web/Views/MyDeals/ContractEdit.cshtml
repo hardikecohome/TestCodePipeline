@@ -141,10 +141,21 @@
 								<svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg>@Resources.PrintTheContract
 							</a>
 
-							<div class="well danger-well error-descr collapse" id="print-error-message">
-								<svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
-								@Resources.CannotGetAgreementForPrint
-							</div>
+							    <div class="well danger-well error-descr collapse" id="print-error-message">
+							        <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+							        @Resources.CannotGetAgreementForPrint
+							    </div>
+							    if (ViewBag.IsEsignatureEnabled)
+							     {
+							         <div class="e-signature-container">
+							             <a class="dealnet-info-link" id="esignature-link" data-toggle="modal" data-target="#esignature-modal">
+							                 <svg aria-hidden="true" class="icon icon-esignature">
+							                     <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-esignature")"></use>
+							                 </svg>
+							                 <span>@Resources.SendContractForEsignature</span>
+							             </a>
+							         </div>
+							     }
 							}
 						</div>
 					}
@@ -210,17 +221,6 @@
 						</div>
 					</div>
 				</div>
-				@if (ViewBag.IsEsignatureEnabled)
-				{
-					<div class="e-signature-container">
-						<a class="dealnet-info-link" id="esignature-link" data-toggle="modal" data-target="#esignature-modal">
-							<svg aria-hidden="true" class="icon icon-esignature">
-								<use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-esignature")"></use>
-							</svg>
-							<span>@Resources.SendContractForEsignature</span>
-						</a>
-					</div>
-				}
 			</div>
 		</div>
 
@@ -1789,6 +1789,7 @@ foreach (var comment in comments)
 	translations['FinalCheck'] = "@Resources.FinalCheck";
 	translations['Proceed'] = "@Resources.Proceed";
 	translations['AnErrorWhileSendingReport'] = "@Resources.AnErrorWhileSendingReport";
+	translations['ThisFieldIsRequired'] = "@Resources.ThisFieldIsRequired";
 }
 
 @section scripts
