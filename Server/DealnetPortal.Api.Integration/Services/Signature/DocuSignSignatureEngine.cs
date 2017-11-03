@@ -27,6 +27,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         private readonly string _dsUser;
         private readonly string _dsPassword;
         private readonly string _dsIntegratorKey;
+        private readonly string _dsDefaultBrandId;
 
         private readonly string _baseServerAddress;
 
@@ -64,7 +65,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             _dsUser = configuration.GetSetting(WebConfigKeys.DOCUSIGN_USER_CONFIG_KEY);
             _dsPassword = configuration.GetSetting(WebConfigKeys.DOCUSIGN_PASSWORD_CONFIG_KEY);
             _dsIntegratorKey = configuration.GetSetting(WebConfigKeys.DOCUSIGN_INTEGRATORKEY_CONFIG_KEY);
-
+            _dsDefaultBrandId = configuration.GetSetting(WebConfigKeys.DOCUSIGN_BRAND_ID);
             _baseServerAddress = configuration.GetSetting(WebConfigKeys.SERVER_BASE_ADDRESS_CONFIG_KEY);
         }
 
@@ -504,7 +505,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         {
             EnvelopeDefinition envelopeDefinition = new EnvelopeDefinition()
             {
-                EmailSubject = Resources.Resources.PleaseSignAgreement
+                EmailSubject = Resources.Resources.PleaseSignAgreement,
+                BrandId = _dsDefaultBrandId
             };
 
             if (_templateUsed)
