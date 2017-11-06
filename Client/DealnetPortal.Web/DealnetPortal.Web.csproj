@@ -468,6 +468,7 @@
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\email\email.html" />
     <Content Include="Content\email\images\icon-success.png" />
+    <Content Include="Content\files\Banner.html" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="Content\images\dataTables\details_close.png" />
     <Content Include="Content\images\dataTables\details_open.png" />
@@ -510,16 +511,20 @@
     <Content Include="Content\images\sprite\icon-calculator-btn.svg" />
     <Content Include="Content\images\sprite\icon-calculator.svg" />
     <Content Include="Content\images\sprite\icon-calendar.svg" />
+    <Content Include="Content\images\sprite\icon-customer-support.svg" />
+    <Content Include="Content\images\sprite\icon-dealer-support.svg" />
     <Content Include="Content\images\sprite\icon-decline-circle.svg" />
     <Content Include="Content\images\sprite\icon-edit.svg" />
     <Content Include="Content\images\sprite\icon-email.svg" />
     <Content Include="Content\images\sprite\icon-email2.svg" />
     <Content Include="Content\images\sprite\icon-error-upload.svg" />
     <Content Include="Content\images\sprite\icon-error.svg" />
+    <Content Include="Content\images\sprite\icon-esignature.svg" />
     <Content Include="Content\images\sprite\icon-excel.svg" />
     <Content Include="Content\images\sprite\icon-eye.svg" />
     <Content Include="Content\images\sprite\icon-fax.svg" />
     <Content Include="Content\images\sprite\icon-filter.svg" />
+    <Content Include="Content\images\sprite\icon-funding.svg" />
     <Content Include="Content\images\sprite\icon-help-chat.svg" />
     <Content Include="Content\images\sprite\icon-help-page.svg" />
     <Content Include="Content\images\sprite\icon-home.svg" />
@@ -810,6 +815,7 @@
     <Content Include="Scripts\contract-edit.js" />
     <Content Include="Scripts\custom-validation.js" />
     <Content Include="Scripts\customer-form.js" />
+    <Content Include="Scripts\jquery-validate-messages-fr.js" />
     <Content Include="Scripts\jquery.jcarousel.min.js" />
     <Content Include="Scripts\jquery.tmpl.min.js" />
     <Content Include="Scripts\jquery.touchSwipe.min.js" />
@@ -1126,6 +1132,7 @@
     <Content Include="Views\Dealer\OnBoardingError.cshtml" />
     <Content Include="Views\Home\Library.cshtml" />
     <Content Include="Views\Dealer\SuccessWithoutDocuments.cshtml" />
+    <Content Include="Views\MyDeals\_EsignatureModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

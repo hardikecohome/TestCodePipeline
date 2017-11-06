@@ -28,7 +28,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         Task<IList<Alert>> SubmitDocument(IList<SignatureUser> signatureUsers);
 
-        //Task<IList<Alert>> CreateDraftDocument(IList<SignatureUser> signatureUsers);
+        Task<Tuple<IList<FormField>, IList<Alert>>> GetFormfFields();
 
         Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument(DocumentVersion documentVersion);
 

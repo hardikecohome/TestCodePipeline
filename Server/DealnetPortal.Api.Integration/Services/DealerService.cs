@@ -130,6 +130,8 @@ namespace DealnetPortal.Api.Integration.Services
             var dealerInfo = _dealerOnboardingRepository.GetDealerInfoByAccessKey(accessKey);
             RevertUnprocessedDocuments(dealerInfo);
             var mappedInfo = Mapper.Map<DealerInfoDTO>(dealerInfo);
+            mappedInfo.SalesRepLink = _contractRepository.GetDealer(dealerInfo.ParentSalesRepId).OnboardingLink;
+
             return mappedInfo;
         }
 

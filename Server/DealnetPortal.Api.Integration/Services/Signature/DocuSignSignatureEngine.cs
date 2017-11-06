@@ -27,8 +27,9 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         private readonly string _dsUser;
         private readonly string _dsPassword;
         private readonly string _dsIntegratorKey;
+        private readonly string _dsDefaultBrandId;
 
-        private readonly string _baseServerAddress;
+        private readonly string _notificationsEndpoint;
 
         private readonly ILoggingService _loggingService;
 
@@ -53,9 +54,6 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         private List<CarbonCopy> _copyViewers { get; set; }
         private EnvelopeDefinition _envelopeDefinition { get; set; }
 
-        //private const string EmailSubject = "Please Sign Agreement";
-
-        private const string NotificationEndpointName = "api/Storage/NotifySignatureStatus";
 
         public DocuSignSignatureEngine(ILoggingService loggingService, IAppConfiguration configuration)
         {
@@ -64,8 +62,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             _dsUser = configuration.GetSetting(WebConfigKeys.DOCUSIGN_USER_CONFIG_KEY);
             _dsPassword = configuration.GetSetting(WebConfigKeys.DOCUSIGN_PASSWORD_CONFIG_KEY);
             _dsIntegratorKey = configuration.GetSetting(WebConfigKeys.DOCUSIGN_INTEGRATORKEY_CONFIG_KEY);
-
-            _baseServerAddress = configuration.GetSetting(WebConfigKeys.SERVER_BASE_ADDRESS_CONFIG_KEY);
+            _dsDefaultBrandId = configuration.GetSetting(WebConfigKeys.DOCUSIGN_BRAND_ID);
+            _notificationsEndpoint = configuration.GetSetting(WebConfigKeys.DOCUSIGN_NOTIFICATIONS_URL);
         }
 
         public async Task<IList<Alert>> ServiceLogin()
@@ -340,7 +338,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
                 if (recreateEnvelope)
                 {                    
-                    if (!_signers.Any() && !_copyViewers.Any())
+                    if (_signers?.Any() != true && _copyViewers?.Any() != true)
                     {                        
                         var tempSignatures = new List<SignatureUser>
                         {
@@ -367,7 +365,49 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             });
                                   
             return alerts;
-        }        
+        }
+
+        public async Task<Tuple<IList<FormField>, IList<Alert>>> GetFormfFields()
+        {
+            var alerts = new List<Alert>();
+            var formFields = new List<FormField>();
+
+            try
+            {
+                TemplatesApi templatesApi = new TemplatesApi();
+                var template = await templatesApi.GetAsync(AccountId, _templateId);
+                var tabs = template?.Recipients?.Signers?.First()?.Tabs;
+                var textTabs = tabs?.TextTabs?.Select(t => new FormField()
+                {
+                    Name = t.TabLabel,
+                    FieldType = FieldType.Text
+                }).ToList();
+                if (textTabs?.Any() == true)
+                {
+                    formFields.AddRange(textTabs);
+                }
+                var chbTabs = tabs?.CheckboxTabs?.Select(t => new FormField()
+                {
+                    Name = t.TabLabel,
+                    FieldType = FieldType.CheckBox
+                }).ToList();
+                if (chbTabs?.Any() == true)
+                {
+                    formFields.AddRange(chbTabs);
+                }
+            }                       
+            catch (Exception e)
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Warning,
+                    Header = "Cannot get DocuSign template fields",
+                    Message = e.ToString()
+                });
+            }
+
+            return new Tuple<IList<FormField>, IList<Alert>>(formFields, alerts);
+        }
 
         public async Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument(DocumentVersion documentVersion)
         {
@@ -462,7 +502,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         {
             EnvelopeDefinition envelopeDefinition = new EnvelopeDefinition()
             {
-                EmailSubject = Resources.Resources.PleaseSignAgreement
+                EmailSubject = Resources.Resources.PleaseSignAgreement,
+                BrandId = _dsDefaultBrandId
             };
 
             if (_templateUsed)
@@ -498,12 +539,10 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         }
 
         private EventNotification GetEventNotification()
-        {
-            
-            if (!string.IsNullOrEmpty(_baseServerAddress))
+        {            
+            if (!string.IsNullOrEmpty(_notificationsEndpoint))
             {
-                string url = string.Empty;
-                url = string.Format("{0}/{1}", _baseServerAddress, NotificationEndpointName);
+                string url = _notificationsEndpoint;
                 _loggingService.LogInfo($"DocuSign notofocations will send to {url}");
 
                 List<EnvelopeEvent> envelope_events = new List<EnvelopeEvent>();
@@ -668,3 +707,4 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         public string IntegratorKey { get; set; }
     }
 }
+

@@ -20,7 +20,6 @@ SELECT
 	scparent.user_id as parent_uname
 FROM Entity (nolock) as e
 INNER JOIN SecurityUser (nolock) sc on sc.oid = e.secu_oid
-LEFT JOIN SecurityUser (nolock) scparent on scparent.oid = e.parent_oid
 LEFT JOIN Location (nolock) as l
     on (e.oid = l.entt_oid and e.loca_oid = l.oid)
 LEFT JOIN Phone (nolock) as main
@@ -28,9 +27,11 @@ LEFT JOIN Phone (nolock) as main
 LEFT JOIN Phone (nolock) as fax
     on (e.oid = fax.entt_oid and fax.phone_type ='F')
  LEFT JOIN Entity (nolock) as p 	on e.parent_oid = p.oid  
+ LEFT JOIN SecurityUser (nolock) scparent on scparent.oid = P.secu_oid
+
  LEFT JOIN [dbo].[Role] (NOLOCK) AS rol on rol.[oid] = sc.contract_attach_role_oid
  LEFT JOIN [DocGenAccOtherUDF-Dealer Type] d_type (NOLOCK) ON e.oid = d_type.oid
  LEFT JOIN [DocGenAccOtherUDF-ChannelType] c_type (NOLOCK) ON e.oid = c_type.oid
  LEFT JOIN [DocGenAccOtherUDF-RateCard] ratecard (NOLOCK) ON e.oid = ratecard.oid
-
+ 
  where sc.user_id  = '{0}';

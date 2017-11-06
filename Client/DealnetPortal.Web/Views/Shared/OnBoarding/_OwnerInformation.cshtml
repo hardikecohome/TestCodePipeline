@@ -19,28 +19,28 @@
                 @Html.HiddenFor(m => m.Owners[0].OwnerId)
                 <div class="col-md-4 col-sm-6">
                     <div class="form-group">
-                        @Html.LabelFor(m => m.Owners[0].FirstName, new {@class = "mandatory-field"})
+                        @Html.LabelFor(m => m.Owners[0].FirstName, new { @class = "mandatory-field" })
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.Owners[0].FirstName, null, new {@class = "form-control dealnet-input", id = "owner0-firstname"})
-                            @Html.ValidationMessageFor(m => m.Owners[0].FirstName, "", new {@class = "text-danger"})
+                            @Html.TextBoxFor(m => m.Owners[0].FirstName, null, new { @class = "form-control dealnet-input", id = "owner0-firstname" })
+                            @Html.ValidationMessageFor(m => m.Owners[0].FirstName, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
                     <div class="form-group">
-                        @Html.LabelFor(m => m.Owners[0].LastName, new {@class = "mandatory-field"})
+                        @Html.LabelFor(m => m.Owners[0].LastName, new { @class = "mandatory-field" })
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.Owners[0].LastName, null, new {@class = "form-control dealnet-input", id = "owner0-lastname"})
-                            @Html.ValidationMessageFor(m => m.Owners[0].LastName, "", new {@class = "text-danger"})
+                            @Html.TextBoxFor(m => m.Owners[0].LastName, null, new { @class = "form-control dealnet-input", id = "owner0-lastname" })
+                            @Html.ValidationMessageFor(m => m.Owners[0].LastName, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 col-clear-sm-6">
                     <div class="form-group">
-                        @Html.LabelFor(m => m.Owners[0].BirthDate, new {@for = "owner0-birthdate", @class = "mandatory-field"})
+                        @Html.LabelFor(m => m.Owners[0].BirthDate, new { @for = "owner0-birthdate", @class = "mandatory-field" })
                         <div class="control-group date-group">
-                            @Html.TextBoxFor(m => m.Owners[0].BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input check-age", id = "owner0-birthdate", data_val_date = ""})
-                            @Html.ValidationMessageFor(m => m.Owners[0].BirthDate, "", new {@class = "text-danger"})
+                            @Html.TextBoxFor(m => m.Owners[0].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input check-age", id = "owner0-birthdate", data_val_date = "" })
+                            @Html.ValidationMessageFor(m => m.Owners[0].BirthDate, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
@@ -155,13 +155,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-8 hidden" id="owner-notify">
+                <div class="col-md-8 col-sm-6 hidden" id="owner-notify">
                     <div class="form-group">
                         <div class="dealnet-label hidden-xs">&nbsp;</div>
                         <div class="control-group owner-notify">
                             <div class="info-text-success flex-centered-text">
-                                <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-                                <span class="notification-text">@Resources.OwnershipPercentage</span>
+                                <svg aria-hidden="true" class="icon icon-info-well">
+                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
+                                </svg>
+                                <span>@Resources.OwnershipPercentage</span>
                             </div>
                         </div>
                     </div>
@@ -184,28 +186,28 @@
                         @Html.HiddenFor(m => m.Owners[i].OwnerId)
                         <div class="col-md-4 col-sm-6">
                             <div class="form-group">
-                                @Html.LabelFor(m => m.Owners[i].FirstName, new {@class = "mandatory-field"})
+                                @Html.LabelFor(m => m.Owners[i].FirstName, new { @class = "mandatory-field" })
                                 <div class="control-group">
-                                    @Html.TextBoxFor(m => m.Owners[i].FirstName, null, new {@class = "form-control dealnet-input", id = "owner" + i + "-firstname"})
-                                    @Html.ValidationMessageFor(m => m.Owners[i].FirstName, "", new {@class = "text-danger"})
+                                    @Html.TextBoxFor(m => m.Owners[i].FirstName, null, new { @class = "form-control dealnet-input", id = "owner" + i + "-firstname" })
+                                    @Html.ValidationMessageFor(m => m.Owners[i].FirstName, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6">
                             <div class="form-group">
-                                @Html.LabelFor(m => m.Owners[i].LastName, new {@class = "mandatory-field"})
+                                @Html.LabelFor(m => m.Owners[i].LastName, new { @class = "mandatory-field" })
                                 <div class="control-group">
-                                    @Html.TextBoxFor(m => m.Owners[i].LastName, null, new {@class = "form-control dealnet-input", id = "owner" + i + "-lastname"})
-                                    @Html.ValidationMessageFor(m => m.Owners[i].LastName, "", new {@class = "text-danger"})
+                                    @Html.TextBoxFor(m => m.Owners[i].LastName, null, new { @class = "form-control dealnet-input", id = "owner" + i + "-lastname" })
+                                    @Html.ValidationMessageFor(m => m.Owners[i].LastName, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6 col-clear-sm-6">
                             <div class="form-group">
-                                @Html.LabelFor(m => m.Owners[i].BirthDate, new {@for = "owner" + i + "-birthdate", @class = "mandatory-field"})
+                                @Html.LabelFor(m => m.Owners[i].BirthDate, new { @for = "owner" + i + "-birthdate", @class = "mandatory-field" })
                                 <div class="control-group date-group">
-                                    @Html.TextBoxFor(m => m.Owners[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input check-age", id = "owner" + i + "-birthdate", data_val_date = ""})
-                                    @Html.ValidationMessageFor(m => m.Owners[i].BirthDate, "", new {@class = "text-danger"})
+                                    @Html.TextBoxFor(m => m.Owners[i].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input check-age", id = "owner" + i + "-birthdate", data_val_date = "" })
+                                    @Html.ValidationMessageFor(m => m.Owners[i].BirthDate, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
@@ -313,13 +315,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-8 hidden" id="owner-notify">
+                        <div class="col-sm-6 col-md-8 hidden" id="owner-notify">
                             <div class="form-group">
                                 <div class="dealnet-label hidden-xs">&nbsp;</div>
                                 <div class="control-group owner-notify">
                                     <div class="info-text-success flex-centered-text">
-                                        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-                                        <span class="notification-text">@Resources.OwnershipPercentage</span>
+                                        <span class="icon-hold">
+                                            <svg aria-hidden="true" class="icon icon-info-well">
+                                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
+                                            </svg>
+                                        </span>
+                                        <span>@Resources.OwnershipPercentage</span>
                                     </div>
                                 </div>
                             </div>
@@ -342,7 +348,7 @@
                 @Resources.OwnershipSubmit
             </div>
             <div class="well danger-well hidden" id="over-100">
-                <svg aria-hidden="true" class="icon icon-error">
+                <svg aria-hidden="true" class="icon icon-info-well">
                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
                 </svg>
                 <span>@Resources.TotalOwnershipNotExceed100</span>

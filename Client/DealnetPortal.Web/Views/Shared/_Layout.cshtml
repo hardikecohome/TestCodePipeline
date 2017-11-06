@@ -67,6 +67,7 @@
 		"juillet", "août", "septembre", "octobre", "novembre", "décembre" ];
                 $.datepicker.setDefaults($.datepicker.regional['fr']);
             </script>
+            @Scripts.Render("~/bundles/jqueryval-msg-fr")
             break;
     }
     @RenderSection("OutrunningScripts", false)
@@ -89,8 +90,8 @@
 }
 
 <body class="@(User.Identity.IsAuthenticated ? "authorized" : "no-authorized") @themeClass">
-	<div class="container-fluid">
-		<div class="row">
+    <div class="container-fluid">
+        <div class="row">
             <div class="col-md-12">
                 <nav class="navbar navbar-inverse navbar-fixed-side @(ViewBag.AdditionalNavbarClasses!=null?ViewBag.AdditionalNavbarClasses:"")">
                     <div class="navbar-header">
@@ -108,44 +109,77 @@
                         <div class="logo-container">
                             <div class="dealnet-image-ecologo main-logo"></div>
                         </div>
+                        @if (User.Identity.IsAuthenticated && (User as ClaimsPrincipal)?.IsInRole("MortgageBroker") != true)
+                        {
+                            <div class="contact-container">
+                                <div class="contact-btn contact-phone-container">
+                                    <div class="contact-header">@Resources.HowCanWeHelp</div>
+                                    <div class="contact-phone">@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]</div>
+                                </div>
+                                <div class="contact-btn credit-funding-contact">
+                                    <span>
+                                        <svg aria-hidden="true" class="icon icon-contact">
+                                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-funding")"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="contact-header">@Resources.CreditFunding</span>
+                                </div>
+                                <div class="contact-btn dealer-support-contact">
+                                    <span>
+                                        <svg aria-hidden="true" class="icon icon-contact">
+                                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-dealer-support")"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="contact-header">@Resources.DealerSupport</span>
+                                </div>
+                                <div class="contact-btn customer-service-contact">
+                                    <span>
+                                        <svg aria-hidden="true" class="icon icon-contact">
+                                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-customer-support")"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="contact-header">@Resources.CustomerService</span>
+                                </div>
+                            </div>
+                        }
                         <div class="user-hold">
                             <div class="dealnet-login-buttons-holder pull-right">
                                 @Html.Partial("LoginButtons")
                             </div>
                             @if (User.Identity.IsAuthenticated && ((bool?)TempData["LangSwitcherAvailable"] ?? false))
                             {
-                            <div class="lang-switcher pull-right">
-                                <div class="chosen-language">
-                                    <div class="lang-item">
-                                        <a href="#" class="chosen-language-link">
-                                            @switch (CultureHelper.CurrentCultureType)
-                                            {
-                                                case CultureType.English:
-                                                    @:English
+                                <div class="lang-switcher pull-right">
+                                    <div class="chosen-language">
+                                        <div class="lang-item">
+                                            <a href="#" class="chosen-language-link">
+                                                @switch (CultureHelper.CurrentCultureType)
+                                                {
+                                                    case CultureType.English:
+                                                        @:English
                                                     break;
-                                                case CultureType.French:
-                                                    @:Français
+                                                    case CultureType.French:
+                                                        @:Français
                                                     break;
-                                            }
-                                            <span class="caret"></span>
-                                        </a>
+                                                }
+                                                <span class="caret"></span>
+                                            </a>
+                                        </div>
                                     </div>
+                                    <ul class="lang-list">
+                                        @if (CultureHelper.CurrentCultureType != CultureType.English)
+                                        {
+                                            <li class="lang-item active">
+                                                @Html.ActionLink(Resources.English, "ChangeCulture", "Home", new { culture = "en" }, new { @class = "lang-link" })
+                                            </li>
+                                        }
+                                        @if (CultureHelper.CurrentCultureType != CultureType.French)
+                                        {
+                                            <li class="lang-item">
+                                                @Html.ActionLink(Resources.French, "ChangeCulture", "Home", new { culture = "fr" }, new { @class = "lang-link" })
+                                            </li>
+                                        }
+                                    </ul>
                                 </div>
-                                <ul class="lang-list">
-                                    @if (CultureHelper.CurrentCultureType != CultureType.English)
-                                    {
-                                        <li class="lang-item active">
-                                            @Html.ActionLink(Resources.English, "ChangeCulture", "Home", new {culture = "en"}, new {@class = "lang-link"})
-                                        </li>
-                                    }
-                                    @if (CultureHelper.CurrentCultureType != CultureType.French)
-                                    {
-                                        <li class="lang-item">
-                                            @Html.ActionLink(Resources.French, "ChangeCulture", "Home", new {culture = "fr"}, new {@class = "lang-link"})
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
                             }
                         </div>
                     </div>
@@ -155,117 +189,156 @@
         <div class="row">
             @if (User.Identity.IsAuthenticated)
             {
-            <div class="dealnet-sidebar collapse navbar-collapse" aria-expanded="false">
-                <div class="sidebar-inner">
-                    <div class="sidebar-row sidebar-row-expanded">
-                        <div class="dealnet-sidebar-header">
-                            <div class="dealnet-image-ecologo"></div>
-                            <button class="navbar-toggle pull-right" data-target=".navbar-collapse" data-toggle="collapse">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                        </div>
-                        @if (Request.IsAuthenticated)
-                        {
-                        {
-                        @*@Html.AntiForgeryToken()*@
-                        <div class="dealnet-sidebar-user">
-                        <span class="icon-circle-hold">
-                            <svg aria-hidden="true" class="icon icon-user-small"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user-small")"></use></svg>
-                        </span> @User.Identity.Name
-                        </div>
-
-                        }
-                        }
-                        <ul class="nav nav-sidebar">
-                            @if ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") != true)
+                <div class="dealnet-sidebar collapse navbar-collapse" aria-expanded="false">
+                    <div class="sidebar-inner">
+                        <div class="sidebar-row sidebar-row-expanded">
+                            <div class="dealnet-sidebar-header">
+                                <div class="dealnet-image-ecologo"></div>
+                                <button class="navbar-toggle pull-right" data-target=".navbar-collapse" data-toggle="collapse">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                            </div>
+                            @if (Request.IsAuthenticated)
                             {
-                                <li class="dealnet-sidebar-item" id="sidebar-item-homepage">
-                                    <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-home"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-home")"></use></svg></span>
-                                    @Html.ActionLink(Resources.HomePage, "Index", "Home", null, new {@class = "dealnet-sidebar-link"})
-                                </li>
-                                <li class="dealnet-sidebar-item" id="sidebar-item-newrental">
-                                    <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-new-rental-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-application-side")"></use></svg></span>
-                                    @Html.ActionLink(Resources.NewApplication, "BasicInfo", "NewRental", null, new {@class = "dealnet-sidebar-link"})
-                                </li>
-                                <li class="dealnet-sidebar-item" id="sidebar-item-mydeals">
-                                    <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-my-deals-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-deals-side")"></use></svg></span>
-                                    @Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new {@class = "dealnet-sidebar-link"})
-                                    <span class="new-deals-number collapse" id="new-deals-number" ></span>
-                                </li>
-                                <li class="dealnet-sidebar-item" id="sidebar-item-calculator">
-                                    <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-calculator"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-calculator")"></use></svg></span>
-                                    @Html.ActionLink(Resources.Calculator, "Index", "Calculator", null, new {@class = "dealnet-sidebar-link"})
-                                </li>
-                                <li class="dealnet-sidebar-item">
-                                    <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-share-link"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-share-link")"></use></svg></span>
-                                    @Html.ActionLink(Resources.ShareableLink, "Index", "ShareableLink", null, new {@class = "dealnet-sidebar-link"})
-                                </li>
-                                <li class="dealnet-sidebar-item">
-                                    <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-list-request"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-list-request")"></use></svg></span>
-                                    @Html.ActionLink("Leads", "Index", "Leads", null, new {@class = "dealnet-sidebar-link"})
-                                </li>
-                                <li class="dealnet-sidebar-item">
-                                    <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-my-account-one-person"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-account-one-person")"></use></svg></span>
-                                    @Html.ActionLink("My Profile", "Index", "Profile", null, new {@class = "dealnet-sidebar-link"})
-                                </li>
+                                {
+                                    @*@Html.AntiForgeryToken()*@
+                                    <div class="dealnet-sidebar-user">
+                                        <span class="icon-circle-hold">
+                                            <svg aria-hidden="true" class="icon icon-user-small"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user-small")"></use></svg>
+                                        </span> @User.Identity.Name
+                                    </div>
 
-                                if ((User as ClaimsPrincipal)?.HasClaim("ShowAbout", "True") ?? false)
+                                }
+                            }
+                            <ul class="nav nav-sidebar">
+                                @if ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") != true)
+                                {
+                                    <li class="dealnet-sidebar-item" id="sidebar-item-homepage">
+                                        <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-home"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-home")"></use></svg></span>
+                                        @Html.ActionLink(Resources.HomePage, "Index", "Home", null, new { @class = "dealnet-sidebar-link" })
+                                    </li>
+                                    <li class="dealnet-sidebar-item" id="sidebar-item-newrental">
+                                        <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-new-rental-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-application-side")"></use></svg></span>
+                                        @Html.ActionLink(Resources.NewApplication, "BasicInfo", "NewRental", null, new { @class = "dealnet-sidebar-link" })
+                                    </li>
+                                    <li class="dealnet-sidebar-item" id="sidebar-item-mydeals">
+                                        <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-my-deals-side"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-deals-side")"></use></svg></span>
+                                        @Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new { @class = "dealnet-sidebar-link" })
+                                        <span class="new-deals-number collapse" id="new-deals-number"></span>
+                                    </li>
+                                    <li class="dealnet-sidebar-item" id="sidebar-item-calculator">
+                                        <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-calculator"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-calculator")"></use></svg></span>
+                                        @Html.ActionLink(Resources.Calculator, "Index", "Calculator", null, new { @class = "dealnet-sidebar-link" })
+                                    </li>
+                                    <li class="dealnet-sidebar-item">
+                                        <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-share-link"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-share-link")"></use></svg></span>
+                                        @Html.ActionLink(Resources.ShareableLink, "Index", "ShareableLink", null, new { @class = "dealnet-sidebar-link" })
+                                    </li>
+                                    <li class="dealnet-sidebar-item">
+                                        <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-list-request"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-list-request")"></use></svg></span>
+                                        @Html.ActionLink("Leads", "Index", "Leads", null, new { @class = "dealnet-sidebar-link" })
+                                    </li>
+                                    <li class="dealnet-sidebar-item">
+                                        <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-my-account-one-person"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-account-one-person")"></use></svg></span>
+                                        @Html.ActionLink("My Profile", "Index", "Profile", null, new { @class = "dealnet-sidebar-link" })
+                                    </li>
+                                    if ((User as ClaimsPrincipal)?.HasClaim("ShowAbout", "True") ?? false)
+                                    {
+                                        <li class="dealnet-sidebar-item">
+                                            <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg></span>
+                                            @Html.ActionLink(Resources.AboutUs, "About", "Home", null, new { @class = "dealnet-sidebar-link" })
+                                        </li>
+                                    }
+                                    <li class="dealnet-sidebar-item" id="sidebar-item-help">
+                                        <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg></span>
+                                        @Html.ActionLink(Resources.Library, "Library", "Home", null, new { @class = "dealnet-sidebar-link" })
+                                    </li>
+
+                                }
+                                @if ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") == true)
                                 {
                                     <li class="dealnet-sidebar-item">
-                                        <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg></span>
-                                        @Html.ActionLink(Resources.AboutUs, "About", "Home", null, new { @class = "dealnet-sidebar-link" })
+                                        <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-new-client"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-new-client")"></use></svg></span>
+                                        @Html.ActionLink("New Client", "NewClient", "MortgageBroker", null, new { @class = "dealnet-sidebar-link" })
+                                    </li>
+                                    <li class="dealnet-sidebar-item">
+                                        <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-my-account"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-account")"></use></svg></span>
+                                        @Html.ActionLink("My Clients", "MyClients", "MortgageBroker", null, new { @class = "dealnet-sidebar-link" })
                                     </li>
                                 }
-                                <li class="dealnet-sidebar-item" id="sidebar-item-help">
-                                    <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg></span>
-                                    @Html.ActionLink(Resources.Library, "Library", "Home", null, new {@class = "dealnet-sidebar-link"})
-                                </li>
-                            }
-                            @if ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") == true)
-                            {
-                                <li class="dealnet-sidebar-item">
-                                    <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-new-client"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-new-client")"></use></svg></span>
-                                    @Html.ActionLink("New Client", "NewClient", "MortgageBroker", null, new {@class = "dealnet-sidebar-link"})
-                                </li>
-                                <li class="dealnet-sidebar-item">
-                                    <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-my-account"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-account")"></use></svg></span>
-                                    @Html.ActionLink("My Clients", "MyClients", "MortgageBroker", null, new {@class = "dealnet-sidebar-link"})
-                                </li>
-                            }
-                        </ul>
-
-                    </div>
+                            </ul>
 
 
-                    <div class="sidebar-bottom sidebar-row">
-                        @if (((bool?)TempData["LangSwitcherAvailable"] ?? false))
+
+                        </div>
+                        @if ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") != true)
                         {
-                            <div class="dealnet-sidebar-item sidebar-lang-item">
+                            <div class="sidebar-row sidebar-row-expanded contact-container">
+                                <ul class="nav nav-sidebar">
+                                    <li class="dealnet-sidebar-item">
+                                        <div class="contact-phone-container">
+                                            <span class="contact-header">@Resources.HowCanWeHelp</span>
+                                            <a class="contact-phone" href="tel:+@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"].Replace("-","")">
+                                                @System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li class="dealnet-sidebar-item contact-btn credit-funding-contact">
+                                        <span class="sidebar-icon">
+                                            <svg aria-hidden="true" class="icon icon-contact">
+                                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-funding")"></use>
+                                            </svg>
+                                        </span>
+                                        <a class="dealnet-sidebar-link">@Resources.CreditFunding</a>
+                                    </li>
+                                    <li class="dealnet-sidebar-item contact-btn dealer-support-contact">
+                                        <span class="sidebar-icon">
+                                            <svg aria-hidden="true" class="icon icon-contact">
+                                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-dealer-support")"></use>
+                                            </svg>
+                                        </span>
+                                        <a class="dealnet-sidebar-link">@Resources.DealerSupport</a>
+                                    </li>
+                                    <li class="dealnet-sidebar-item contact-btn customer-service-contact">
+                                        <span class="sidebar-icon">
+                                            <svg aria-hidden="true" class="icon icon-contact">
+                                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-customer-support")"></use>
+                                            </svg>
+                                        </span>
+                                        <a class="dealnet-sidebar-link">@Resources.CustomerService</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+                        <div class="sidebar-bottom sidebar-row">
+                            @if (((bool?)TempData["LangSwitcherAvailable"] ?? false))
+                            {
+                                <div class="dealnet-sidebar-item sidebar-lang-item">
                                     @switch (CultureHelper.CurrentCultureType)
                                     {
                                         case CultureType.English:
-                                            @:@Html.ActionLink("Switch to French", "ChangeCulture", "Home", new {culture = "fr"}, new {@class = "dealnet-sidebar-link no-icon"})
+                                            @:@Html.ActionLink("Switch to French", "ChangeCulture", "Home", new { culture = "fr" }, new { @class = "dealnet-sidebar-link no-icon" })
                                             break;
                                         case CultureType.French:
-                                            @:@Html.ActionLink("Switch to English", "ChangeCulture", "Home", new {culture = "en"}, new {@class = "dealnet-sidebar-link no-icon"})
+                                            @:@Html.ActionLink("Switch to English", "ChangeCulture", "Home", new { culture = "en" }, new { @class = "dealnet-sidebar-link no-icon" })
                                             break;
                                     }
+                                </div>
+                            }
+                            <div class="dealnet-sidebar-item">
+                                @Html.ActionLink(Resources.Logout, "LogOff", "Account", null, new { @class = "dealnet-sidebar-link no-icon" })
                             </div>
-                        }
-                        <div class="dealnet-sidebar-item">
-                            @Html.ActionLink(Resources.Logout, "LogOff", "Account", null, new { @class = "dealnet-sidebar-link no-icon" })
                         </div>
                     </div>
                 </div>
-            </div>
             }
-            <div class="@(User.Identity.IsAuthenticated ? "col-md-9 col-lg-10 col-md-offset-3 col-lg-offset-2 dealnet-body-container" : "col-md-12 col-lg-12")">				
+            <div class="@(User.Identity.IsAuthenticated ? "col-md-9 col-lg-10 col-md-offset-3 col-lg-offset-2 dealnet-body-container" : "col-md-12 col-lg-12")">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 dealnet-body">
-						@RenderBody()
+                        @RenderBody()
                     </div>
                 </div>
             </div>
@@ -273,68 +346,68 @@
     </div>
     <div class="overlay"></div>
 
-<div id="alertModal" class="modal fade modal-wide">
-    <div class="modal-dialog modal-warning">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Modal title</h4>
-            </div>
-            <div class="modal-body">
-                <p>One fine body&hellip;</p>
-            </div>
-            <div class="modal-footer">
-                <div class="btn-container">
-                    <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" id="confirmAlert">@Resources.Yes</button>
-                    <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
+    <div id="alertModal" class="modal fade modal-wide">
+        <div class="modal-dialog modal-warning">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <p>One fine body&hellip;</p>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-container">
+                        <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" id="confirmAlert">@Resources.Yes</button>
+                        <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-	<div class="floatingHelpBtn">
-		<div id="email_buttons">
-			@*<div class="supportEmailButton hidden">
-				<div class="col-md-3" id="dealerSupportEmail">
+    <div class="floatingHelpBtn">
+        <div id="email_buttons">
+            @*<div class="supportEmailButton hidden">
+                    <div class="col-md-3" id="dealerSupportEmail">
 
-					<i onclick="sendEmailModel();">
-						<button class="btn btn-small btn-success">
-							<svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
-							Dealer Support
-						</button>
-					</i>
-				</div>
-				<div class="col-md-3" id="creditSupprotEmail">
-					<i onclick="sendEmailModel();">
-						<button class="btn btn-small btn-success">
-							<svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
-							Credit Support
-						</button>
-					</i>
-				</div>
-				<div class="col-md-3" id="fundingSupportEmail">
-					<i onclick="sendEmailModel();">
-						<button class="btn btn-small btn-success">
-							<svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
-							Funding Support
-						</button>
-					</i>
-				</div>
-				<div class="col-md-3" id="customerServiceEmail">
-					<i onclick="sendEmailModel();">
-						<button class="btn btn-small btn-success">
-							<svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
-							Customer Service
-						</button>
-					</i>
-				</div>
-			</div>*@
-			@if (User.Identity.IsAuthenticated && ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") != true))
+                        <i onclick="sendEmailModel();">
+                            <button class="btn btn-small btn-success">
+                                <svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
+                                Dealer Support
+                            </button>
+                        </i>
+                    </div>
+                    <div class="col-md-3" id="creditSupprotEmail">
+                        <i onclick="sendEmailModel();">
+                            <button class="btn btn-small btn-success">
+                                <svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
+                                Credit Support
+                            </button>
+                        </i>
+                    </div>
+                    <div class="col-md-3" id="fundingSupportEmail">
+                        <i onclick="sendEmailModel();">
+                            <button class="btn btn-small btn-success">
+                                <svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
+                                Funding Support
+                            </button>
+                        </i>
+                    </div>
+                    <div class="col-md-3" id="customerServiceEmail">
+                        <i onclick="sendEmailModel();">
+                            <button class="btn btn-small btn-success">
+                                <svg aria- hidden="true" class="icon"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Content/images/sprite/sprite.svg#icon-email"></use></svg>
+                                Customer Service
+                            </button>
+                        </i>
+                    </div>
+                </div>*@
+            @if (User.Identity.IsAuthenticated && ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") != true))
             {
-			<div class="helpbutton pull-right">
+			<div class="pull-right">
 
 				<i onclick="sendEmailModel();">
-					<button class="btn btn-lg btn-success">
+					<button class="btn btn-lg btn-success helpbutton">
 						<svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg>
 						Help
 					</button>
@@ -376,7 +449,7 @@
 						<div class="row">
 							<div class="form-group">
 								<div class="col-md-3 col-xs-6">
-									<label class="pull-left align-middle custom-checkbox">
+									<label class="pull-left align-middle custom-checkbox LabelMiddle">
 										<input type="checkbox" class="dealnet-checkbox" id="yourNameCB" onclick="yourNameCBclick();" />
 										<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
 										<span>Your Name</span>
@@ -391,7 +464,7 @@
 						<div class="row">
 							<div class="form-group">
 								<div class="col-md-3 col-xs-6">
-									<label class="pull-left">Deal Number</label>
+									<label class="pull-left LabelMiddle">Deal Number</label>
 								</div>
 								<div class="col-md-9 col-xs-6">
 									<input class="pull-left form-control dealnet-input" type="text" id="emailTransactionId" placeholder="Deal Number" />

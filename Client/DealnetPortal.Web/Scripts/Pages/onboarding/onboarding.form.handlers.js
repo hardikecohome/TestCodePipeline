@@ -4,7 +4,9 @@
 
     function submitDraft (e) {
         showLoader();
-        var formData = $('#onboard-form').serialize();
+		var formData = $('#onboard-form').serialize();
+		var salesrep = $('#OnBoardingLink').val();
+		gtag('event', 'Dealer Application Saved', { 'event_category': 'Dealer Application Saved', 'event_action': 'Save and Resume button clicked', 'event_label': salesrep });
         $.when($.ajax({
             type: 'POST',
             url: saveDraftUrl,

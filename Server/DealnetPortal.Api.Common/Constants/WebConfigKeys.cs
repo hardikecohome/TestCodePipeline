@@ -41,7 +41,8 @@
         public static readonly string DOCUSIGN_USER_CONFIG_KEY = "DocuSignUser";
         public static readonly string DOCUSIGN_PASSWORD_CONFIG_KEY = "DocuSignPassword";
         public static readonly string DOCUSIGN_INTEGRATORKEY_CONFIG_KEY = "DocuSignIntegratorKey";
-        public static readonly string SERVER_BASE_ADDRESS_CONFIG_KEY = "ServerBaseAddress";
+        public static readonly string DOCUSIGN_BRAND_ID = "DocuSignBrandId";
+        public static readonly string DOCUSIGN_NOTIFICATIONS_URL = "DocuSignNotificationsUrl";
         public static readonly string DEALER_PORTAL_DRAFTURL_KEY = "DealerPortalDraftUrl";
 
         //Aspire statuses
@@ -83,5 +84,8 @@
         //Scheduler configuration-->
         public static readonly string LEAD_EXPIREDMINUTES_CONFIG_KEY = "LeadExpiredMinutes";
         public static readonly string LEAD_CHECKPERIODMINUTES_CONFIG_KEY = "CheckPeriodMinutes";
+
+        //Listener URL
+        public static readonly string LISTENER_END_POINT_CONFIG_KEY = "ListenerEndPoint";
     }
 }

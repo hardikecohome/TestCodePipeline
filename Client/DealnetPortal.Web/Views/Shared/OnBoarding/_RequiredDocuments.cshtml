@@ -99,7 +99,7 @@
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-4">
                                 <div class="form-group">
-                                    <label for="">Registration Number</label>
+                                    <label for="">@Resources.RegistrationNumber</label>
                                     <div class="control-group">
                                         @Html.TextBoxFor(m => m.AdditionalDocuments[i].Number, null, new { @class = "form-control", id = Model.AdditionalDocuments[i].LicenseTypeId + "-license-number" })
                                         @Html.ValidationMessageFor(m => m.AdditionalDocuments[i].Number, "", new { @class = "text-danger" })
@@ -108,7 +108,7 @@
                             </div>
                             <div class="col-xs-12 col-sm-3 col-md-2">
                                 <div class="form-group">
-                                    <label for="">Expiry Date</label>
+                                    <label for="">@Resources.ExpiryDate</label>
                                     <div class="control-group date-group">
                                         @Html.TextBoxFor(m => m.AdditionalDocuments[i].ExpiredDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input", id = Model.AdditionalDocuments[i].LicenseTypeId + "-license-date", data_val_date = "" })
                                         @Html.ValidationMessageFor(m => m.AdditionalDocuments[i].ExpiredDate, "", new { @class = "text-danger" })
@@ -124,7 +124,7 @@
                                             <span class="icon checkbox-icon">
                                                 <svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
                                             </span>
-                                            <span>No expiry</span>
+                                            <span>@Resources.NoExpiry</span>
                                         </label>
                                     </div>
                                 </div>

@@ -35,6 +35,7 @@ namespace DealnetPortal.Web.Controllers
         {
             var result = await _dealerOnBoardingManager.GetNewDealerOnBoardingForm(key);
 
+            TempData["LangSwitcherAvailable"] = true;
             if (result == null)
             {
                 return RedirectToAction("OnBoardingError");
@@ -48,6 +49,7 @@ namespace DealnetPortal.Web.Controllers
         {
             var result = await _dealerOnBoardingManager.GetDealerOnBoardingFormAsync(key);
 
+            TempData["LangSwitcherAvailable"] = true;
             if (result == null)
             {
                 return RedirectToAction("OnBoardingError");

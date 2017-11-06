@@ -25,6 +25,9 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/jquery.validate*")
                 .Include("~/Scripts/jquery-validation-messages.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/jqueryval-msg-fr")
+                .Include("~/Scripts/jquery-validate-messages-fr.js"));
+
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr")
@@ -136,6 +139,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/datejs.js")
                 .Include("~/Scripts/custom-validation.js")
                 .Include("~/Scripts/contact-and-payment-management.js")
+                .Include("~/Scripts/agreement-submit-success.js")
                 .Include("~/Scripts/print-contract.js")
                 .Include("~/Scripts/jquery.form.js")
                 .Include("~/Scripts/general-address-autocomplete.js")

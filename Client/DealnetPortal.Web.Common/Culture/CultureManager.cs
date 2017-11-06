@@ -15,7 +15,8 @@ namespace DealnetPortal.Web.Common.Culture
 
         public void EnsureCorrectCulture(string cultureFromRoute = null)
         {
-            SetCultureToThread(CultureHelper.FilterCulture(cultureFromRoute ?? HttpContext.Current.Request.Cookies[CookieName]?.Value));
+            SetCulture(CultureHelper.FilterCulture(cultureFromRoute ?? HttpContext.Current.Request.Cookies[CookieName]?.Value));
+            //SetCultureToThread(CultureHelper.FilterCulture(cultureFromRoute ?? HttpContext.Current.Request.Cookies[CookieName]?.Value));
         }
 
         public void SetCulture(string culture, bool createCookie = true)
