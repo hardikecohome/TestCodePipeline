@@ -110,11 +110,16 @@ function showTable () {
                         "sZeroRecords": translations['NoMatchingRecordsFound']
                     },
                     createdRow: function (row, data, dataIndex) {
+                        var status = 'icon-' + data.Status.trim()
+                            .toLowerCase().replace(/\s/g, '-')
+                            .replace(/\(/g, '').replace(/\)/g, '').replace(/\//g, '').replace(/\$/g, '');
+                        $(row).find('.icon-status').addClass(status);
+
                         if (data.IsNewlyCreated) {
-                            $(row).addClass('unread-deals').find('.contract-cell').prepend('<span class="label-new-deal">' + translations['New'] + '</span>');
-                        }
-                        if (data.Id != 0) {
-                            $(row).find('.contract-cell').wrapInner('<a href="' + editContractUrl + '/' + data.Id + '" title="' + translations['Edit'] + '"></a>');
+                            $(row)
+                                .addClass('unread-deals')
+                                .find('.contract-cell')
+                                .prepend('<span class="label-new-deal">' + translations['New'] + '</span>');
                         }
                     },
                     columns: [
@@ -131,16 +136,26 @@ function showTable () {
                             className: 'checkbox-cell',
                             orderable: false
                         },
-                        { "data": "TransactionId", className: 'contract-cell' },
+                        {
+                            //"data": 'TransactionId',
+                            render: function (sdate, type, row) {
+                                var content = row.Id === 0 ? row.TransactionId : '<a href="' + editContractUrl + '/' + row.Id + '" title="' + translations['Edit'] + '">' + row.TransactionId + '</a>';
+
+                                return '<div class="status-hold">' +
+                                    '<div class="icon-hold"><span class="icon icon-status"></span></div>' +
+                                    '<div class="text-hold"><span class="text">' +
+                                    content + '</span></div></div>';
+                            },
+                            className: 'contract-cell'
+                        },
                         { "data": "CustomerName", className: 'customer-cell' },
                         {
                             //"data": 'Status',
                             "render": function (sdata, type, row) {
-                                var status = 'icon-' + row.Status.trim().toLowerCase().replace(/\s/g, '-').replace(/\(/g, '').replace(/\)/g, '').replace(/\//g, '').replace(/\$/g, '');
                                 return '<div class="status-hold">' +
-                                    '<span class="icon-hold"><span class="icon icon-status ' + status + '"></span>' +
-                                    '</span>' +
-                                    '<div class="status-text-hold"><span class="status-text">' +
+                                    '<div class="icon-hold"><span class="icon icon-status"></span>' +
+                                    '</div>' +
+                                    '<div class="text-hold"><span class="text">' +
                                     row.LocalizedStatus + '</span></div></div>';
                             },
                             className: 'status-cell'
@@ -232,7 +247,12 @@ function showTable () {
                 resetDataTablesExpandedRows(table);
             });
 
-            $('#work-items-table th').on('click', function() {
+            table.on('responsive-display', function (e, datatable, row, showHide, update) {
+                var status = 'icon-' + row.data().Status.trim().toLowerCase().replace(/\s/g, '-').replace(/\(/g, '').replace(/\)/g, '').replace(/\//g, '').replace(/\$/g, '');
+                $(row.child()).find('.icon-status').addClass(status);
+            });
+
+            $('#work-items-table th').on('click', function () {
                 var el = $(this);
                 var attr = el.attr('aria-sort');
 
