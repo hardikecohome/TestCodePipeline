@@ -27,7 +27,7 @@ namespace DealnetPortal.Api.Models.Contract
 
         public SignatureStatus? SignatureStatus { get; set; }
 
-        public DateTime? SignatureTime { get; set; }
+        public DateTime? SignatureLastUpdateTime { get; set; }
 
         public int? ScorecardPoints { get; set; }
 

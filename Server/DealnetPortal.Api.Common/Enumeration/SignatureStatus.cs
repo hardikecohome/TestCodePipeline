@@ -10,9 +10,10 @@ namespace DealnetPortal.Api.Common.Enumeration
     {
         NotInitiated = 0,
         Draft = 1,
-        //ProfileCreated = 1,
-        //FieldsMerged = 2,
-        InvitationsSent = 2,
-        Signed = 2
+        Sent = 2,
+        Signed = 3,
+        Completed = 4,
+        Declined = 5,
+        Deleted = 6
     }
 }

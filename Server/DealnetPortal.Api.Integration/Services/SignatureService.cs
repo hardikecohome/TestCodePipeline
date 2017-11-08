@@ -155,7 +155,7 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogInfo(
                     $"Invitations for agreement document form sent successefully. TransactionId: [{_signatureEngine.TransactionId}], DocumentID [{_signatureEngine.DocumentId}]");
                 var updateStatus = signatureUsers?.Any() ?? false
-                    ? SignatureStatus.InvitationsSent
+                    ? SignatureStatus.Sent
                     : SignatureStatus.Draft;
                 UpdateContractDetails(contractId, ownerUserId, _signatureEngine.TransactionId,
                     _signatureEngine.DocumentId, updateStatus);
@@ -483,7 +483,7 @@ namespace DealnetPortal.Api.Integration.Services
                     if (updated)
                     {
                         contract.Details.SignatureInitiatedTime = DateTime.Now;
-                        contract.Details.SignatureTime = DateTime.Now;
+                        contract.Details.SignatureLastUpdateTime = DateTime.Now;
                         _unitOfWork.Save();
                     }
                 }

@@ -220,6 +220,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
                 .Include(c => c.Documents)
+                .Include(c => c.Signers)
                 .FirstOrDefault(
                     c =>
                         c.Id == contractId &&
@@ -1238,9 +1239,9 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 contract.Details.SignatureStatus = contractDetails.SignatureStatus;
             }
-            if (contractDetails.SignatureTime.HasValue)
+            if (contractDetails.SignatureLastUpdateTime.HasValue)
             {
-                contract.Details.SignatureTime = contractDetails.SignatureTime;
+                contract.Details.SignatureLastUpdateTime = contractDetails.SignatureLastUpdateTime;
             }
             if (contractDetails.ScorecardPoints.HasValue)
             {
