@@ -804,6 +804,7 @@
     <Content Include="Content\files\Myhome-Wallet-Short-Description.pdf" />
     <Content Include="Content\files\Portal-User-Guide.pdf" />
     <Content Include="Content\files\Summer-Fall-2017-Promotion.pdf" />
+    <Content Include="Content\less\components\status-colors.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
