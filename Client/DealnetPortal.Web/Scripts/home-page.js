@@ -218,19 +218,18 @@ function showTable () {
                         "sZeroRecords": translations['NoMatchingRecordsFound']
                     },
                     createdRow: function (row, data, dataIndex) {
-
-                        var status = 'icon-' + data.Status.trim().toLowerCase().replace(/\s/g, '-').replace(/\(/g, '').replace(/\)/g, '').replace(/\//g, '').replace(/\$/g, '');
-                        var $row = $(row);
-                        $row.find('.icon-status').addClass(status);
+                        var status = mapStatusToColorClass(data.Status);
+                        $(row).find('.icon-status').addClass(status);
                         if (data.IsNewlyCreated) {
-                            $row.addClass('unread-deals').find('.contract-cell').prepend('<span class="label-new-deal">' + translations['New'] + '</span>');
+                            $(row).addClass('unread-deals').find('.contract-cell').prepend('<span class="label-new-deal">' + translations['New'] + '</span>');
                         }
                     },
                     columns: [
                         {
                             //"data": 'TransactionId',
                             render: function (sdate, type, row) {
-                                var content = row.Id === 0 ? row.TransactionId : '<a href="' + editItemUrl + '/' + row.Id + '" title="' + translations['Edit'] + '">' + row.TransactionId + '</a>';
+                                var content = row.Id === 0 ? row.TransactionId :
+                                    '<a href="' + editItemUrl + '/' + row.Id + '" title="' + translations['Edit'] + '">' + row.TransactionId + '</a>';
 
                                 return '<div class="status-hold">' +
                                     '<div class="icon-hold"><span class="icon icon-status"></span></div>' +
@@ -335,8 +334,8 @@ function showTable () {
             });
 
             table.on('responsive-display', function (e, datatable, row, showHide, update) {
-                var status = 'icon-' + row.data().Status.trim().toLowerCase().replace(/\s/g, '-').replace(/\(/g, '').replace(/\)/g, '').replace(/\//g, '').replace(/\$/g, '');
-                $(row.child()).find('.icon-status').addClass(status);
+                var status = mapStatusToColorClass(row.data().Status);
+                showHide ? $(row.child()).find('.icon-status').addClass(status) : $(row.child()).find('.icon-status').removeClass(status);
             });
 
             resizeTableStatusCells('#work-items-table');
