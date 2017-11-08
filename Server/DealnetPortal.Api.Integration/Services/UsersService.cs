@@ -278,19 +278,27 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        private IList<Alert> UpdateUserTier(string userId, DealerDTO aspireUser, UserManager<ApplicationUser> userManager)
+        private async Task<IList<Alert>> UpdateUserTier(string userId, DealerDTO aspireUser, UserManager<ApplicationUser> userManager)
         {
             var alerts = new List<Alert>();
-
             try
             {
                 var tier = _rateCardsRepository.GetTierByName(aspireUser.Ratecard);
-                var user = userManager.Users.Include(u => u.Tier).FirstOrDefault(u => u.Id == userId);
-                if (user != null)
+                var updateUser = await userManager.FindByIdAsync(userId);
+                if (updateUser != null && tier != null)
                 {
-                    user.Tier = tier;
-                    _unitOfWork.Save();
-                    _loggingService.LogInfo($"Tier [{aspireUser.Ratecard}] was set to an user [{userId}]");
+                    updateUser.TierId = tier.Id;
+                    var updateRes = await userManager.UpdateAsync(updateUser);
+                    if (updateRes.Succeeded)
+                    {
+                        {
+                            _loggingService.LogInfo($"Tier [{aspireUser.Ratecard}] was set to an user [{updateUser.Id}]");
+                        }
+                    }
+                }
+                else
+                {
+                    _loggingService.LogInfo($"Tier [{aspireUser.Ratecard}] tier is not available. Rate card is not configured for user  [{updateUser?.Id}]");
                 }
             }
             catch (Exception ex)
@@ -303,7 +311,6 @@ namespace DealnetPortal.Api.Integration.Services
                 });
                 _loggingService.LogError($"Error during update user tier for an user {userId}", ex);
             }
-
             return alerts;
         }
         #endregion
