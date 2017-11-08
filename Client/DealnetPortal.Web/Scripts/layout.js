@@ -691,16 +691,24 @@ function clearEmailForm() {
 	$('#yourNameTxt').val("");
 	//$('#emailSubDealerName').text("");
 	$('#emailTransactionId').val("");
-	$('input[name=SupportType][value=Other]').prop('checked', 'checked');
+	$('#SupportType').val("Other");
+	$('#CommunicationPreffered').val("Phone");
 	$('#emailComment').val("");
 	$('#emailPhone').prop('checked', false); 
 	$('#emailSameEmail').prop('checked', false); 
 	$('#emailAlternativeEmail').prop('checked', false); 
 	$('#emailAlternativeEmailAddress').val("");
-	$('#emailAlternativeEmailAddress').addClass('hidden');
+	$('#alternativeEmailDiv').addClass('hidden');
 	$('#emailSupport').removeAttr("disabled", "disabled");
+	$('#yourNameTxtValidation').addClass('hidden');
+	$('#emailCommentValidation').addClass('hidden');
+	$('#emailAlternativeEmailAddressValidation').addClass('hidden');
 }
-
+function CommunicationPreffered() {
+	$('#ContactDetails').text($('#CommunicationPreffered').find("option:selected").text());
+	$('#emailAlternativeEmailAddress').val("");
+	$('#emailAlternativeEmailAddressValidation').addClass('hidden');
+}
 function sendEmailModel(rowTransactionId, supportType = "Other") {
 	
 	var alertModal = $('#emailModal');
@@ -708,7 +716,7 @@ function sendEmailModel(rowTransactionId, supportType = "Other") {
 	clearEmailForm();
 	$('#emailTransactionId').val(rowTransactionId);
 	//alertModal.find('#emailTransactionId').text(rowTransactionId);
-	$('input[name=SupportType][value=' + supportType + ']').prop('checked', 'checked');
+	$('#SupportType').val(supportType);
 	alertModal.modal('show');
 }
 function yourNameCBclick () {
@@ -717,19 +725,20 @@ function yourNameCBclick () {
     }
     else {
         $('#yourNameTxt').attr("disabled", "disabled");
-        $('#yourNameTxt').val("");
+		$('#yourNameTxt').val("");
+		$('#yourNameTxtValidation').addClass('hidden');
     }
 }
 
-function emailAlternativeEmailclick () {
-    if ($('#emailAlternativeEmail').prop('checked')) {
-        $('#emailAlternativeEmailAddress').removeClass('hidden');
-    }
-    else {
-        $('#emailAlternativeEmailAddress').addClass('hidden');
+//function emailAlternativeEmailclick () {
+//    if ($('#emailAlternativeEmail').prop('checked')) {
+//        $('#emailAlternativeEmailAddress').removeClass('hidden');
+//    }
+//    else {
+//        $('#emailAlternativeEmailAddress').addClass('hidden');
 
-    }
-}
+//    }
+//}
 //$.validator.addMethod("requiredIfChecked", function (val, ele, arg) {
 //	if ($("#startClientFromWeb").is(":checked") && ($.trim(val) == '')) { return false; }
 //	return true;
@@ -739,7 +748,14 @@ function validateEmail (Email) {
     var pattern = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     return $.trim(Email).match(pattern) ? true : false;
 }
-
+function validatePhone(Phone) {
+	if (Phone.length != 10 || isNaN(Phone)) {
+		return false;
+	}
+	else {
+		return true;
+	}
+}
 function sendEmailToSupport() {
 	//check validation
 	if ($("#yourNameCB").is(":checked") && ($.trim($('#yourNameTxt').val()) == '')) {
@@ -757,23 +773,19 @@ function sendEmailToSupport() {
 		$('#emailCommentValidation').addClass('hidden');
 	}
 	
-	if ($("#emailAlternativeEmail").is(":checked") && (($.trim($('#emailAlternativeEmailAddress').val()) == '') || !(validateEmail($('#emailAlternativeEmailAddress').val().trim())))) {		
+	if ($('#CommunicationPreffered').val() == "Email" && (($.trim($('#emailAlternativeEmailAddress').val()) == '') || !(validateEmail($('#emailAlternativeEmailAddress').val().trim())))) {		
+		$('#emailAlternativeEmailAddressValidation').removeClass('hidden');
+		return false;
+	}
+	else if ($('#CommunicationPreffered').val() == "Phone" && (($.trim($('#emailAlternativeEmailAddress').val()) == '') || !(validatePhone($('#emailAlternativeEmailAddress').val().trim()))))
+	{
 		$('#emailAlternativeEmailAddressValidation').removeClass('hidden');
 		return false;
 	}
 	else {
-		$('#emailAlternativeEmailAddressValidation').addClass('hidden');
-		//var emailaddress = $('#emailAlternativeEmailAddress').val().trim();
-		//if (validateEmail(emailaddress)) {
-		//	$('#emailAlternativeEmailAddressValidation').addClass('hidden');
-		//}
-		//else {
-		//	$('#emailAlternativeEmailAddressValidation').removeClass('hidden');
-		//	return false;
-			
-		//}
+		$('#emailAlternativeEmailAddressValidation').addClass('hidden');		
 	}
-
+	
 	//disable button
 	$('#emailSupport').attr("disabled", "disabled");
 	
@@ -782,14 +794,10 @@ function sendEmailToSupport() {
 		"DealerName": $('#emailDealerName').text(),
 		"YourName": $('#yourNameCB').prop('checked') ? $('#yourNameTxt').val() : $('#emailSubDealerName').text(),
 		"LoanNumber": $('#emailTransactionId').val(),
-		"SupportType": $('input[name=SupportType]:checked').val(),
+		"SupportType": $('#SupportType').val(),
 		"HelpRequested": $('#emailComment').val(),
-		"BestWay": {
-			"byPhone": $('#emailPhone').prop('checked'),
-			"SameEmail": $('#emailSameEmail').prop('checked'),
-			"AlternativeEmail": $('#emailAlternativeEmail').prop('checked'),
-			"AlternativeEmailAddress": $('#emailAlternativeEmailAddress').val()
-		}
+		"BestWay": $('#CommunicationPreffered').val(),
+		"ContactDetails": $('#emailAlternativeEmailAddress').val()		
 	};
 	$.ajax({
 		cache: false,

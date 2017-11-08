@@ -307,17 +307,13 @@ namespace DealnetPortal.Api.Integration.Services
         public async Task SendSupportRequiredEmail(SupportRequestDTO SupportDetails, string email)
         {
             string BestWay = "";
-            if (SupportDetails.BestWay.byPhone)
+            if (SupportDetails.BestWay == "Phone")
             {
-                BestWay +="<br /> Phone ";
+                BestWay =$"<strong>Phone : </strong> { SupportDetails.ContactDetails ?? string.Empty}";
             }
-            if (SupportDetails.BestWay.SameEmail)
+            else if (SupportDetails.BestWay == "Email")
             {
-                BestWay += "<br /> Email ";
-            }
-            if (SupportDetails.BestWay.AlternativeEmail)
-            {
-                BestWay += $"<br /> Alternative Email: { SupportDetails.BestWay.AlternativeEmailAddress ?? string.Empty}";
+                BestWay = $"<strong>Email: </strong> { SupportDetails.ContactDetails ?? string.Empty}";
             }
 
             MandrillRequest request = new MandrillRequest();

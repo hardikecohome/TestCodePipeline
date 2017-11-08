@@ -28,7 +28,6 @@
             definePolyfill();
 		}
 		var salesrep = $('#OnBoardingLink').val();
-		alert(salesrep);
 		if ($(location).attr('href').toLowerCase().indexOf('resumeonboarding') >= 0) {
 			gtag('event', 'Dealer Application Start', { 'event_category': 'Dealer Application Start', 'event_action': 'Resume Link open', 'event_label': salesrep });
 		}
