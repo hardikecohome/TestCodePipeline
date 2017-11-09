@@ -2,6 +2,11 @@
     .then(function () {
         togglePrintButton(checkUrl);
 
+        $('.contract-tab').on('click', function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+
         $('#print-button').on('click', printContract(downloadUrl));
        
         $('.date-input').each(function (index, input) {

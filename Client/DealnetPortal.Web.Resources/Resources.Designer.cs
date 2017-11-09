@@ -830,6 +830,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Borrower declined to sign the contract.
+        /// </summary>
+        public static string BorrowerDeclinedSignature {
+            get {
+                return ResourceManager.GetString("BorrowerDeclinedSignature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Borrower Email.
         /// </summary>
         public static string BorrowerEmail {
@@ -970,6 +979,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel digital signature.
+        /// </summary>
+        public static string CancelDigitalSignature {
+            get {
+                return ResourceManager.GetString("CancelDigitalSignature", resourceCulture);
             }
         }
         
@@ -1442,6 +1460,16 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Before re-sending invites please contact person who declined to sign. Consider 
+        ///changing contract terms or signing contract on paper..
+        /// </summary>
+        public static string ContactPersonWhoDeclinedSignature {
+            get {
+                return ResourceManager.GetString("ContactPersonWhoDeclinedSignature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contacts.
         /// </summary>
         public static string Contacts {
@@ -1492,6 +1520,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Contracts {
             get {
                 return ResourceManager.GetString("Contracts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contract signed.
+        /// </summary>
+        public static string ContractSigned {
+            get {
+                return ResourceManager.GetString("ContractSigned", resourceCulture);
             }
         }
         
@@ -2041,6 +2078,15 @@ namespace DealnetPortal.Web.Resources {
         public static string DidYouUploadAllDocuments {
             get {
                 return ResourceManager.GetString("DidYouUploadAllDocuments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Digital contract.
+        /// </summary>
+        public static string DigitalContract {
+            get {
+                return ResourceManager.GetString("DigitalContract", resourceCulture);
             }
         }
         
@@ -2999,6 +3045,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invites for digital signing of the contract  were sent successfully - waiting for signatures..
+        /// </summary>
+        public static string InvitesSentWaitingSignatures {
+            get {
+                return ResourceManager.GetString("InvitesSentWaitingSignatures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invites were sent to emails.
         /// </summary>
         public static string InvitesWereSentToEmails {
@@ -3845,6 +3900,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to One of the signers declined to sign. Remaining invites were cancelled..
+        /// </summary>
+        public static string OneSignerDeclinedRemainingCanceled {
+            get {
+                return ResourceManager.GetString("OneSignerDeclinedRemainingCanceled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 1st.
         /// </summary>
         public static string OneSt {
@@ -3994,6 +4058,15 @@ namespace DealnetPortal.Web.Resources {
         public static string PapCapital {
             get {
                 return ResourceManager.GetString("PapCapital", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paper contract.
+        /// </summary>
+        public static string PaperContract {
+            get {
+                return ResourceManager.GetString("PaperContract", resourceCulture);
             }
         }
         
@@ -4830,6 +4903,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resend invite.
+        /// </summary>
+        public static string ResendInvite {
+            get {
+                return ResourceManager.GetString("ResendInvite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Re-send invites.
+        /// </summary>
+        public static string ResendInvites {
+            get {
+                return ResourceManager.GetString("ResendInvites", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Residence.
         /// </summary>
         public static string Residence {
@@ -5096,6 +5187,15 @@ namespace DealnetPortal.Web.Resources {
         public static string SendEmails {
             get {
                 return ResourceManager.GetString("SendEmails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send invites.
+        /// </summary>
+        public static string SendInvites {
+            get {
+                return ResourceManager.GetString("SendInvites", resourceCulture);
             }
         }
         
@@ -5820,6 +5920,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update email.
+        /// </summary>
+        public static string UpdateEmail {
+            get {
+                return ResourceManager.GetString("UpdateEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Upload.
         /// </summary>
         public static string Upload {
@@ -5906,6 +6015,15 @@ namespace DealnetPortal.Web.Resources {
         public static string VoidCheque {
             get {
                 return ResourceManager.GetString("VoidCheque", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waiting for signature.
+        /// </summary>
+        public static string WaitingSignature {
+            get {
+                return ResourceManager.GetString("WaitingSignature", resourceCulture);
             }
         }
         

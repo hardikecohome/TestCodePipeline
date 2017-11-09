@@ -2309,10 +2309,50 @@ You can do it anytime by using the following link:</value>
   <data name="UploadAnotherFile" xml:space="preserve">
     <value>Upload another file</value>
   </data>
+  <data name="BorrowerDeclinedSignature" xml:space="preserve">
+    <value>Borrower declined to sign the contract</value>
+  </data>
+  <data name="CancelDigitalSignature" xml:space="preserve">
+    <value>Cancel digital signature</value>
+  </data>
+  <data name="ContactPersonWhoDeclinedSignature" xml:space="preserve">
+    <value>Before re-sending invites please contact person who declined to sign. Consider 
+changing contract terms or signing contract on paper.</value>
+  </data>
+  <data name="ContractSigned" xml:space="preserve">
+    <value>Contract signed</value>
+  </data>
   <data name="CreateAnotherApplicationForHomeOwner" xml:space="preserve">
     <value>Create another application for this home owner</value>
   </data>
+  <data name="DigitalContract" xml:space="preserve">
+    <value>Digital contract</value>
+  </data>
+  <data name="InvitesSentWaitingSignatures" xml:space="preserve">
+    <value>Invites for digital signing of the contract  were sent successfully - waiting for signatures.</value>
+  </data>
+  <data name="OneSignerDeclinedRemainingCanceled" xml:space="preserve">
+    <value>One of the signers declined to sign. Remaining invites were cancelled.</value>
+  </data>
+  <data name="PaperContract" xml:space="preserve">
+    <value>Paper contract</value>
+  </data>
   <data name="PleaseSignContractOr" xml:space="preserve">
     <value>Please sign the contract {0} or </value>
+  </data>
+  <data name="ResendInvite" xml:space="preserve">
+    <value>Resend invite</value>
+  </data>
+  <data name="ResendInvites" xml:space="preserve">
+    <value>Re-send invites</value>
+  </data>
+  <data name="SendInvites" xml:space="preserve">
+    <value>Send invites</value>
+  </data>
+  <data name="UpdateEmail" xml:space="preserve">
+    <value>Update email</value>
+  </data>
+  <data name="WaitingSignature" xml:space="preserve">
+    <value>Waiting for signature</value>
   </data>
 </root>
