@@ -19,7 +19,7 @@ namespace DealnetPortal.Domain
         public string EmailAddress { get; set; }
         public SignatureRole SignerType { get; set; }
         public SignatureStatus? SignatureStatus { get; set; }
-        public string SignatureStatusId { get; set; }
+        public string SignatureStatusQualifier { get; set; }
         public DateTime? StatusLastUpdateTime { get; set; }
         public string Comment { get; set; }
     }

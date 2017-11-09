@@ -31,7 +31,7 @@ namespace DealnetPortal.Domain
 
         public SignatureStatus? SignatureStatus { get; set; }
         
-        public string SignatureStatusId { get; set; }
+        public string SignatureStatusQualifier { get; set; }
 
         public DateTime? SignatureLastUpdateTime { get; set; }
 
