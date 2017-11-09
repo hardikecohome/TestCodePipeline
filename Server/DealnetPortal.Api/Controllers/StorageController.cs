@@ -87,7 +87,6 @@ namespace DealnetPortal.Api.Controllers
                 {
                     LoggingService.LogInfo(
                         $"DocuSign envelope {envelopeId} status changed to {status}");
-
                     if (status == "Completed")
                     {
                         var contract = _contractRepository.FindContractBySignatureId(envelopeId);
@@ -115,7 +114,7 @@ namespace DealnetPortal.Api.Controllers
                                                 ContractId = contract.Id,
                                                 CreationDate = DateTime.Now,
                                                 DocumentTypeId = 1, // Signed contract !!
-                                                DocumentName = DateTime.Now.ToString("MM-dd-yyyy hh-mm-ss", CultureInfo.InvariantCulture) + "_" + documentName,
+                                                DocumentName = DateTime.Now.ToString("MM-dd-yyyy HH-mm-ss", CultureInfo.InvariantCulture) + "_" + documentName,
                                                 DocumentBytes = bytes
                                             };
 
