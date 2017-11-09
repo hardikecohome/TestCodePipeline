@@ -2309,4 +2309,10 @@ You can do it anytime by using the following link:</value>
   <data name="UploadAnotherFile" xml:space="preserve">
     <value>Upload another file</value>
   </data>
+  <data name="CreateAnotherApplicationForHomeOwner" xml:space="preserve">
+    <value>Create another application for this home owner</value>
+  </data>
+  <data name="PleaseSignContractOr" xml:space="preserve">
+    <value>Please sign the contract {0} or </value>
+  </data>
 </root>

@@ -1550,6 +1550,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create another application for this home owner.
+        /// </summary>
+        public static string CreateAnotherApplicationForHomeOwner {
+            get {
+                return ResourceManager.GetString("CreateAnotherApplicationForHomeOwner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create another application for this borrower.
         /// </summary>
         public static string CreateAnotherApplicationForThis {
@@ -4237,6 +4246,15 @@ namespace DealnetPortal.Web.Resources {
         public static string PleaseSelectDocumentFile {
             get {
                 return ResourceManager.GetString("PleaseSelectDocumentFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please sign the contract {0} or .
+        /// </summary>
+        public static string PleaseSignContractOr {
+            get {
+                return ResourceManager.GetString("PleaseSignContractOr", resourceCulture);
             }
         }
         

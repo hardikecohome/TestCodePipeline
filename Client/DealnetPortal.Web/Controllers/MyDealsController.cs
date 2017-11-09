@@ -39,13 +39,14 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> ContractEdit(int id)
+        public async Task<ActionResult> ContractEdit(int id, bool newlySubmitted = false)
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1;
 
             var dealer = await _dictionaryServiceAgent.GetDealerInfo();
             ViewBag.IsEsignatureEnabled = dealer?.EsignatureEnabled ?? false;
+            ViewBag.IsNewlySubmitted = newlySubmitted;
 
             var contract = await _contractManager.GetContractEditAsync(id);
             if (!string.IsNullOrEmpty(dealer?.Email))
