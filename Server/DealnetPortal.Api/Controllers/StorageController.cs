@@ -115,7 +115,7 @@ namespace DealnetPortal.Api.Controllers
                                                 ContractId = contract.Id,
                                                 CreationDate = DateTime.Now,
                                                 DocumentTypeId = 1, // Signed contract !!
-                                                DocumentName = DateTime.Now.ToString("MM-dd-yyyy hh-mm-ss", CultureInfo.InvariantCulture) + "_" + documentName,,
+                                                DocumentName = DateTime.Now.ToString("MM-dd-yyyy hh-mm-ss", CultureInfo.InvariantCulture) + "_" + documentName,
                                                 DocumentBytes = bytes
                                             };
 
