@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -114,7 +115,7 @@ namespace DealnetPortal.Api.Controllers
                                                 ContractId = contract.Id,
                                                 CreationDate = DateTime.Now,
                                                 DocumentTypeId = 1, // Signed contract !!
-                                                DocumentName = documentName,
+                                                DocumentName = DateTime.Now.ToString("MM-dd-yyyy hh-mm-ss", CultureInfo.InvariantCulture) + "_" + documentName,,
                                                 DocumentBytes = bytes
                                             };
 
