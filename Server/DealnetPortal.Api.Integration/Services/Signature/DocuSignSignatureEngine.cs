@@ -659,7 +659,6 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 {
                     new TextCustomField
                     {
-                        FieldId = "",
                         Name = "TransactionID",
                         Required = "true",
                         Show = "true",
@@ -667,7 +666,6 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     }
                     ,new TextCustomField
                     {
-                        FieldId = "",
                         Name = "DealerID",
                         Required = "true",
                         Show = "true",
