@@ -23,14 +23,17 @@ namespace DealnetPortal.Api.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IContractRepository _contractRepository;
         private readonly IContractService _contractService;
+        private readonly ISignatureService _signatureService;
 
         public StorageController(ILoggingService loggingService, IContractService contractService,
+            ISignatureService signatureService,
             IContractRepository contractRepository, IFileRepository fileRepository, IUnitOfWork unitOfWork) : base(loggingService)
         {
             _fileRepository = fileRepository;
             _unitOfWork = unitOfWork;
             _contractRepository = contractRepository;
             _contractService = contractService;
+            _signatureService = signatureService;
         }
 
         //[AllowAnonymous]
@@ -72,10 +75,14 @@ namespace DealnetPortal.Api.Controllers
         [AllowAnonymous]
         [Route("NotifySignatureStatus")]
         [HttpPost]
-        public IHttpActionResult PostNotifySignatureStatus(HttpRequestMessage request)
+        public async Task<IHttpActionResult> PostNotifySignatureStatus(HttpRequestMessage request)
         {
             try
             {
+                var requestMsg = await request.Content.ReadAsStringAsync();
+                var alerts = await _signatureService.ProcessSignatureEvent(requestMsg);
+
+
                 XDocument xDocument = XDocument.Parse(request.Content.ReadAsStringAsync().Result);
                 var xmlns = xDocument?.Root?.Attribute(XName.Get("xmlns"))?.Value ?? "http://www.docusign.net/API/3.0";
 

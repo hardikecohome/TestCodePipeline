@@ -228,5 +228,7 @@ namespace DealnetPortal.DataAccess.Repositories
         IList<Contract> GetExpiredContracts(DateTime expiredDate);
 
         Contract UpdateContractAspireSubmittedDate(int contractId, string contractOwnerId);
+
+        Contract UpdateContractSigners(int contractId, IList<ContractSigner> signers, string contractOwnerId);
     }
 }

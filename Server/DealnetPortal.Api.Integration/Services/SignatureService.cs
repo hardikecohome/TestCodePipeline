@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Microsoft.Practices.ObjectBuilder2;
 
 using DealnetPortal.Api.Common.Constants;
@@ -115,12 +116,7 @@ namespace DealnetPortal.Api.Integration.Services
                     _loggingService.LogWarning($"Fields merged with agreement document with errors");
                     LogAlerts(alerts);
                     return alerts;
-                }
-                //else
-                //{
-                //    _loggingService.LogInfo($"Fields merged with agreement document form {docId} successefully");
-                //    UpdateContractDetails(contractId, ownerUserId, null, null, SignatureStatus.FieldsMerged);
-                //}     
+                }                
 
                 insertRes = await _signatureEngine.InsertSignatures(signatureUsers);
 
@@ -152,13 +148,14 @@ namespace DealnetPortal.Api.Integration.Services
                     return alerts;
                 }
 
+                UpdateSignersInfo(contractId, ownerUserId, signatureUsers);
                 _loggingService.LogInfo(
                     $"Invitations for agreement document form sent successefully. TransactionId: [{_signatureEngine.TransactionId}], DocumentID [{_signatureEngine.DocumentId}]");
-                var updateStatus = signatureUsers?.Any() ?? false
-                    ? SignatureStatus.InvitationsSent
-                    : SignatureStatus.Draft;
-                UpdateContractDetails(contractId, ownerUserId, _signatureEngine.TransactionId,
-                    _signatureEngine.DocumentId, updateStatus);
+                //var updateStatus = signatureUsers?.Any() ?? false
+                //    ? SignatureStatus.Sent
+                //    : SignatureStatus.Draft;
+                //UpdateContractDetails(contractId, ownerUserId, _signatureEngine.TransactionId,
+                //    _signatureEngine.DocumentId, updateStatus);
             }
             else
             {
@@ -453,6 +450,86 @@ namespace DealnetPortal.Api.Integration.Services
             return status;
         }
 
+        public Task<IList<Alert>> CancelSignatureProcess(int contractId, string ownerUserId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IList<Alert>> UpdateSignatureUsers(int contractId, string ownerUserId, SignatureUser[] signatureUsers,
+            bool reSend = false)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IList<Alert>> ProcessSignatureEvent(string notificationMsg)
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+
+                XDocument xDocument = XDocument.Parse(notificationMsg);
+                var xmlns = xDocument?.Root?.Attribute(XName.Get("xmlns"))?.Value ?? "http://www.docusign.net/API/3.0";
+
+                var envelopeStatusSection = xDocument?.Root?.Element(XName.Get("EnvelopeStatus", xmlns));
+                var envelopeId = envelopeStatusSection?.Element(XName.Get("EnvelopeID", xmlns))?.Value;
+
+                var contract = _contractRepository.FindContractBySignatureId(envelopeId);
+                if (contract != null)
+                {
+                    bool updated = false;
+                    var envelopeStatus = envelopeStatusSection?.Element(XName.Get("Status", xmlns))?.Value;
+                    if (!string.IsNullOrEmpty(envelopeStatus))
+                    {
+                        _loggingService.LogInfo($"Recieved DocuSign {envelopeStatus} status for envelope {envelopeId}");
+                        var envelopeStatusTimeValue = envelopeStatusSection?.Element(XName.Get(envelopeStatus, xmlns))?.Value;
+                        if (!DateTime.TryParse(envelopeStatusTimeValue, out var envelopeStatusTime))
+                        {
+                            envelopeStatusTime = DateTime.Now;
+                        }
+                        updated = ProcessSignatureStatus(contract, envelopeStatus, envelopeStatusTime);
+                    }
+
+                    if (updated)
+                    {
+                        _unitOfWork.Save();
+                    }
+                }
+                else
+                {
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Code = ErrorCodes.CantGetContractFromDb,
+                        Header = "Cannot find contract",
+                        Message = $"Cannot find contract for signature envelopeId {envelopeId}"
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Error occurred during parsing request from DocuSign", ex);
+            }
+            return await Task.FromResult(alerts);
+        }
+
+        #region private      
+        private void UpdateSignersInfo(int contractId, string ownerUserId, SignatureUser[] signatureUsers)
+        {
+            try
+            {
+                var signers = AutoMapper.Mapper.Map<ContractSigner[]>(signatureUsers);
+                if (signers?.Any() == true)
+                {
+                    _contractRepository.UpdateContractSigners(contractId, signers, ownerUserId);
+                    _unitOfWork.Save();
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError($"Error on update signers for contract {contractId}", ex);
+            }            
+        }
+
         private void UpdateContractDetails(int contractId, string ownerUserId, string transactionId, string dpId,
             SignatureStatus? status)
         {
@@ -483,7 +560,7 @@ namespace DealnetPortal.Api.Integration.Services
                     if (updated)
                     {
                         contract.Details.SignatureInitiatedTime = DateTime.Now;
-                        contract.Details.SignatureTime = DateTime.Now;
+                        contract.Details.SignatureLastUpdateTime = DateTime.Now;
                         _unitOfWork.Save();
                     }
                 }
@@ -492,6 +569,54 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 _loggingService.LogError("Error on update contract details", ex);
             }
+        }
+
+        private bool ProcessSignatureStatus(Contract contract, string signatureStatus, DateTime updateTime)
+        {
+            bool updated = false;            
+            var status = ParseSignatureStatus(signatureStatus);
+            
+            switch (status)
+            {
+                case SignatureStatus.Completed:
+                    //TODO: upload doc from docuSign
+                    break;
+            }
+
+            if (status.HasValue && contract.Details.SignatureStatus != status)
+            {
+                contract.Details.SignatureStatus = status;
+                updated = true;
+            }
+            if (contract.Details.SignatureStatusQualifier != signatureStatus)
+            {
+                contract.Details.SignatureStatusQualifier = signatureStatus;
+                updated = true;
+            }
+            if (updated)
+            {
+                contract.Details.SignatureLastUpdateTime = updateTime;
+            }
+
+            return updated;
+        }
+
+        private SignatureStatus? ParseSignatureStatus(string status)
+        {
+            SignatureStatus? signatureStatus = null;
+            switch (status?.ToLowerInvariant())
+            {
+                case "sent":
+                    signatureStatus = SignatureStatus.Sent;
+                    break;
+                case "signed":
+                    signatureStatus = SignatureStatus.Signed;
+                    break;
+                case "completed":
+                    signatureStatus = SignatureStatus.Completed;
+                    break;
+            }
+            return signatureStatus;
         }
 
         private void LogAlerts(IList<Alert> alerts)
@@ -1842,5 +1967,7 @@ namespace DealnetPortal.Api.Integration.Services
             var defaultName = document.Name;
             document.Name = $"{transactionId} {defaultName}";
         }
+
+        #endregion
     }
 }

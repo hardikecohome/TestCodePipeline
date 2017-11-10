@@ -17,6 +17,7 @@ namespace DealnetPortal.Domain
             InitialCustomers = new HashSet<Customer>();
             Details = new ContractDetails();
             Documents = new HashSet<ContractDocument>();
+            Signers = new HashSet<ContractSigner>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]        
@@ -95,5 +96,7 @@ namespace DealnetPortal.Domain
         /// true, if it's a new contract created by customer and isn't edited by dealer
         /// </summary>
         public bool? IsNewlyCreated { get; set; }
+
+        public ICollection<ContractSigner> Signers { get; set; }
     }
 }
