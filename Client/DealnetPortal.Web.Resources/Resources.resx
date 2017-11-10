@@ -2358,4 +2358,10 @@ changing contract terms or signing contract on paper.</value>
   <data name="WaitingSignature" xml:space="preserve">
     <value>Waiting for signature</value>
   </data>
+  <data name="Coborrower" xml:space="preserve">
+    <value>Co-borrower</value>
+  </data>
+  <data name="InviteSentWhenSigns" xml:space="preserve">
+    <value>Invitation will be sent when {0} signs</value>
+  </data>
 </root>

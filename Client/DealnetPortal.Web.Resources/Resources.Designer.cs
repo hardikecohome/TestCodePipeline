@@ -1325,6 +1325,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Co-borrower.
+        /// </summary>
+        public static string Coborrower {
+            get {
+                return ResourceManager.GetString("Coborrower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Comments.
         /// </summary>
         public static string Comments {
@@ -3032,6 +3041,15 @@ namespace DealnetPortal.Web.Resources {
         public static string InvalidLoginAttempt {
             get {
                 return ResourceManager.GetString("InvalidLoginAttempt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invitation will be sent when {0} signs.
+        /// </summary>
+        public static string InviteSentWhenSigns {
+            get {
+                return ResourceManager.GetString("InviteSentWhenSigns", resourceCulture);
             }
         }
         

@@ -96,181 +96,7 @@
                                     </h3>
                                     if (ViewBag.IsEsignatureEnabled)
                                     {
-                                        <div class="signed-contract">
-                                            <ul class="nav nav-tabs" role="tablist">
-                                                <li role="presentation" class="active"><a href="#digital-contract" role="tab" class="contract-tab">@Resources.DigitalContract</a></li>
-                                                <li role="presentation"><a href="#paper-contract" role="tab" class="contract-tab">@Resources.PaperContract</a></li>
-                                            </ul>
-                                            <div class="tab-content">
-                                                <div role="tabpanel" class="tab-pane fade in active" id="digital-contract">
-                                                    <div class="signature-notification">
-                                                        @Resources.OneSignerDeclinedRemainingCanceled
-                                                    </div>
-                                                    <div class="sent-contract-secton">
-                                                        <div class="rental-summary-emails">
-                                                            <div class="rental-summary-inner">
-                                                                <div class="row form-group">
-                                                                    <div class="col-md-2 applicant-col">
-                                                                        <div class="dealnet-label">@Resources.Borrower</div>
-                                                                        <div class="control-group text-middle-group text-semibold">
-                                                                            <div class="text-hold">@Model.BasicInfo.HomeOwner.FirstName @Model.BasicInfo.HomeOwner.LastName</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-5">
-                                                                        <label>@Resources.Email</label>
-                                                                        @Html.TextBoxFor(m => m.SendEmails.BorrowerEmail, new { @class = "dealnet-input form-control", type = "email", id = "borrower-email" })
-                                                                    </div>
-                                                                    <div class="col-md-5">
-                                                                        <label class="">&nbsp;</label>
-                                                                        <div class="signature-status">
-                                                                            <svg aria-hidden="true" class="icon icon-front icon-success">
-                                                                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
-                                                                            </svg>
-                                                                            <div class="signature-hold">
-                                                                                <div class="signature-header">@Resources.ContractSigned</div>
-                                                                                <div class="signature-date">(10/08/2017 10:30 AM)</div>
-                                                                            </div>
-                                                                            <svg aria-hidden="true" class="icon icon-comment">
-                                                                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-comment")"></use>
-                                                                            </svg>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row form-group">
-                                                                    <div class="col-md-2 applicant-col">
-                                                                        <div class="dealnet-label">@Resources.Borrower</div>
-                                                                        <div class="control-group text-middle-group text-semibold">
-                                                                            <div class="text-hold">@Model.BasicInfo.HomeOwner.FirstName @Model.BasicInfo.HomeOwner.LastName</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-5">
-                                                                        <label>@Resources.Email</label>
-                                                                        @Html.TextBoxFor(m => m.SendEmails.BorrowerEmail, new { @class = "dealnet-input form-control", type = "email", id = "borrower-email" })
-                                                                    </div>
-                                                                    <div class="col-md-5">
-                                                                        <label class="hidden">&nbsp;</label>
-                                                                        <div class="signature-status signature-declined">
-                                                                            <svg aria-hidden="true" class="icon icon-front icon-error">
-                                                                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
-                                                                            </svg>
-                                                                            <div class="signature-hold">
-                                                                                <div class="signature-header">@Resources.BorrowerDeclinedSignature</div>
-                                                                                <div class="signature-date">(10/08/2017 10:30 AM)</div>
-                                                                                <a class="btn dealnet-link-button">@Resources.ResendInvite</a>
-                                                                            </div>
-                                                                            <svg aria-hidden="true" class="icon icon-comment">
-                                                                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-comment")"></use>
-                                                                            </svg>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-md-2 applicant-col form-group">
-                                                                        <div class="dealnet-label">@Resources.SalesRep</div>
-                                                                        <div class="control-group text-middle-group text-semibold">
-                                                                            <div class="text-hold">@Model.BasicInfo.HomeOwner.FirstName @Model.BasicInfo.HomeOwner.LastName</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-5 form-group">
-                                                                        <label>@Resources.Email</label>
-                                                                        @Html.TextBoxFor(m => m.SendEmails.BorrowerEmail, new { @class = "dealnet-input form-control", type = "email", id = "borrower-email" })
-                                                                    </div>
-                                                                    <div class="col-md-5 form-group">
-                                                                        <label class="hidden">&nbsp;</label>
-                                                                        <div class="signature-status control-group">
-                                                                            <svg aria-hidden="true" class="icon icon-front icon-waiting">
-                                                                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-waiting")"></use>
-                                                                            </svg>
-                                                                            <div class="signature-hold">
-                                                                                <div class="signature-header">@Resources.WaitingSignature</div>
-                                                                                <div class="signature-date">(10/08/2017 10:30 AM)</div>
-                                                                                <a class="btn dealnet-link-button">@Resources.UpdateEmail</a>
-                                                                            </div>
-                                                                            
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="well well-info" id="contact-before-resend">
-                                                                    <span class="icon-hold">
-                                                                        <svg aria-hidden="true" class="icon icon-info-well">
-                                                                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
-                                                                        </svg>
-                                                                    </span>
-                                                                    <span>@Resources.ContactPersonWhoDeclinedSignature</span>
-                                                                </div>
-                                                                <div class="row form-group">
-                                                                    <div class="col-md-2 hidden-xs">&nbsp;</div>
-                                                                    <button class="dealnet-success-button col-md-5">@Resources.ResendInvites</button>
-                                                                    <div id="type-reminder">
-                                                                        <div class="info-text-success flex-centered-text">
-                                                                            <span class="icon-hold">
-                                                                                <svg aria-hidden="true" class="icon icon-info-well">
-                                                                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
-                                                                                </svg>
-                                                                            </span>
-                                                                            <span>@Resources.ToDigitalySignContract</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div role="tabpanel" class="tab-pane fade" id="paper-contract">
-                                                    @using (Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new { enctype = "multipart/form-data", data_container = "tab-container-" + (i + 1) }))
-                                                    {
-                                                        <div class="well danger-well error-descr collapse">
-                                                            <svg aria-hidden="true" class="icon icon-error">
-                                                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
-                                                            </svg>
-                                                            <span class="error-message"></span>
-                                                        </div>
-
-                                                        <div class="documents-list">
-                                                            <div class="document-item block-item @(document != null ? " " : "collapse" )">
-                                                                <svg aria-hidden="true" class="icon icon-pdf">
-                                                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use>
-                                                                </svg>
-                                                                <span class="document-naming">@(document?.DocumentName)</span>
-                                                                <br />
-                                                                <span class="document-lastUpdateTime">@(document?.LastUpdateTime)</span>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="progress-container collapse">
-                                                            <div class="progress">
-                                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-                                                            </div>
-                                                            <div class="progress-bar-value text-center">0%</div>
-                                                            <a href="#" class="clear-data-link">
-                                                                <svg aria-hidden="true" class="icon icon-remove">
-                                                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
-                                                                </svg>
-                                                            </a>
-                                                        </div>
-                                                        @Html.AntiForgeryToken()
-                                                        @Html.Hidden("OperationGuid")
-                                                        @Html.HiddenFor(m => m.BasicInfo.ContractId, new { Name = "ContractId" })
-                                                        @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[i].Value, new { Name = "DocumentTypeId" })
-                                                        <div class="form-group clearfix">
-                                                            <div @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>     } class="file-upload btn dealnet-button dealnet-success-button disablable @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) {<text>disabled</text>}">
-                                                                <span>@Resources.Upload</span>
-                                                                <input type="file" name="File" class="upload main-document-upload" />
-                                                            </div>
-                                                        </div>
-                                                    }
-                                                    <a href="#" id="print-button" class="dealnet-info-link doc-tab-print-link @if (contractState == ContractState.CreditCheckDeclined)
-                               { <text>disabled</text> } ">
-                                                        <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg>@Resources.PrintTheContract
-                                                    </a>
-
-                                                    <div class="well danger-well error-descr collapse" id="print-error-message">
-                                                        <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
-                                                        @Resources.CannotGetAgreementForPrint
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        @Html.Partial("Esignature", Model)
                                     }
                                     else
                                     {
@@ -310,7 +136,7 @@
                                             @Html.HiddenFor(m => m.BasicInfo.ContractId, new { Name = "ContractId" })
                                             @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[i].Value, new { Name = "DocumentTypeId" })
                                             <div class="form-group clearfix">
-                                                <div @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>   } class="file-upload btn dealnet-button dealnet-success-button disablable @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) {<text>disabled</text>}">
+                                                <div @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>     } class="file-upload btn dealnet-button dealnet-success-button disablable @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) {<text>disabled</text>}">
                                                     <span>@Resources.Upload</span>
                                                     <input type="file" name="File" class="upload main-document-upload" />
                                                 </div>
@@ -376,7 +202,7 @@
                                         @Html.HiddenFor(m => m.BasicInfo.ContractId, new { Name = "ContractId" })
                                         @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[i].Value, new { Name = "DocumentTypeId" })
                                         <div class="form-group clearfix">
-                                            <div @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>          } class="file-upload btn dealnet-button dealnet-success-button disablable @if(contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text>disabled</text> }">
+                                            <div @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>            } class="file-upload btn dealnet-button dealnet-success-button disablable @if(contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text>disabled</text> }">
                                                 <span>@Resources.Upload</span>
                                                 <input type="file" name="File" class="upload main-document-upload" />
                                             </div>
@@ -416,7 +242,7 @@
                                             <br />
                                             <span class="document-lastUpdateTime">@(document?.LastUpdateTime)</span>
                                             @Html.Hidden("DocumentName", document.DocumentName)
-                                            <a class="upload-doc-link file-upload disablable @if(contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text>disabled</text> }" href="#" @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>          }>
+                                            <a class="upload-doc-link file-upload disablable @if(contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text>disabled</text> }" href="#" @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>            }>
                                                 <svg aria-hidden="true" class="icon icon-upload"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-upload")"></use></svg>
                                                 @Resources.Reupload
                                                 <input type="file" name="File" class="upload uploaded-other-document-input" />
@@ -440,7 +266,7 @@
                                 <div class="collapse" id="empty-document-name-message">
                                     <span class="text-danger">@Resources.DocumentNameEmpty</span>
                                 </div>
-                                <div class="file-upload btn dealnet-button dealnet-success-button disablable @if(contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined ) { <text>disabled</text> }" id="other-documents-upload-button" @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>          }>
+                                <div class="file-upload btn dealnet-button dealnet-success-button disablable @if(contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined ) { <text>disabled</text> }" id="other-documents-upload-button" @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>            }>
                                     <span>@Resources.Upload</span>
                                     <input type="file" name="File" class="upload" id="other-documents-upload" />
                                 </div>
@@ -508,7 +334,7 @@
             </div>
         </div>
         <div class="btn-hold">
-            <button class="btn dealnet-button dealnet-success-button disablable disabled" id="send-all-documents-report" @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>          }>
+            <button class="btn dealnet-button dealnet-success-button disablable disabled" id="send-all-documents-report" @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>            }>
                 @Resources.ReadyForAudit
             </button>
         </div>
@@ -1797,7 +1623,7 @@ foreach (var comment in comments)
             <div class="comment-body">
                 <input hidden name="comment-id" value="@comment.Id" />
                 <p style="white-space: pre-wrap;">@comment.Text</p>
-                <a href="#" class="comment-remove-link" @if (!comment.IsOwn || (comment.Replies != null && comment.Replies.Any())) { <text> style="display:none;" </text>          }><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
+                <a href="#" class="comment-remove-link" @if (!comment.IsOwn || (comment.Replies != null && comment.Replies.Any())) { <text> style="display:none;" </text>            }><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
             </div>
             <div class="comment-footer">
                 <a href="#" class="show-comments-answers"><span class="answers-quantity">@(comment.Replies?.Count() ?? 0)</span> @Resources.Answers</a>
@@ -1991,10 +1817,6 @@ foreach (var comment in comments)
     </div>
 </div>
 
-@if (ViewBag.IsEsignatureEnabled)
-{
-    @Html.Partial("_EsignatureModal", Model.SendEmails)
-}
 @section Translations
     {
     translations['MaximumFileSize'] = "@Resources.MaximumFileSize";
