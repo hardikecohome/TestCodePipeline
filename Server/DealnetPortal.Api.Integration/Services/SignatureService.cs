@@ -344,19 +344,6 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     alerts.AddRange(docResult.Item2);
                 }
-
-                else
-                {
-                    var errorMsg = $"Can't get Document for contract [{contractId}] from Esignature";
-                    alerts.Add(new Alert()
-                    {
-                        Code = ErrorCodes.CantGetContractFromDb,
-                        Type = AlertType.Error,
-                        Header = "eSignature error",
-                        Message = errorMsg
-                    });
-                    _loggingService.LogError(errorMsg);
-                }
                 LogAlerts(alerts);
                 return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
             }
