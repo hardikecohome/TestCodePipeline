@@ -1,12 +1,16 @@
-﻿using System;
+﻿using DealnetPortal.Api.Common.Enumeration;
+using System;
 
 namespace DealnetPortal.Web.Models
 {
     public class SigneeViewModel
     {
-        public string Name { get; set; }
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string Email { get; set; }
         public string Comment { get; set; }
         public DateTime? StatusLastUpdateTime { get; set; }
+        public SignatureStatus? SignatureStatus { get; set; }
     }
 }

@@ -353,7 +353,7 @@ namespace DealnetPortal.Web.Infrastructure
                 BorrowerEmail = contractsResult.Item1.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
                 contractsResult.Item1.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress,
                 SalesRep = contractsResult.Item1.Equipment?.SalesRep,
-                AdditionalApplicantsEmails = contractsResult.Item1.SecondaryCustomers.Select(c=>
+                AdditionalApplicantsEmails = contractsResult.Item1.SecondaryCustomers.Select(c =>
                 new CustomerEmail
                 {
                     CustomerId = c.Id,
@@ -362,7 +362,8 @@ namespace DealnetPortal.Web.Infrastructure
                                         c.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress
                 }).ToArray(),
                 AgreementType = contractsResult.Item1.Equipment?.AgreementType.ConvertTo<Models.Enumeration.AgreementType>() ?? Models.Enumeration.AgreementType.LoanApplication
-        };
+            };
+            contractEditViewModel.ESignature = MapESignature(contractsResult.Item1);
             return contractEditViewModel;
         }
 
@@ -808,6 +809,57 @@ namespace DealnetPortal.Web.Infrastructure
                 equipmentInfo.SalesRep = contract.Equipment.SalesRep;
                 equipmentInfo.ExistingEquipment = Mapper.Map<List<ExistingEquipmentInformation>>(contract.Equipment.ExistingEquipment);
             }
+        }
+
+        private ESignatureViewModel MapESignature(ContractDTO contract)
+        {
+            var borrower = contract.Signers.FirstOrDefault(s => s.SignerType == SignatureRole.HomeOwner);
+            var salesRep = contract.Signers.FirstOrDefault(s => s.SignerType == SignatureRole.Dealer);
+            var additionSigners = contract.Signers.Where(s => s.SignerType == SignatureRole.AdditionalApplicant);
+            return new ESignatureViewModel
+            {
+                ContractId = contract.Id,
+                Borrower = new SigneeViewModel
+                {
+                    Id = borrower != null ? borrower.Id : 0,
+                    FirstName = borrower != null ? borrower.FirstName : contract.PrimaryCustomer?.FirstName,
+                    LastName = borrower != null ? borrower.LastName : contract.PrimaryCustomer?.LastName,
+                    Email = borrower != null ? borrower.EmailAddress : contract.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
+                contract.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress,
+                    StatusLastUpdateTime = borrower?.StatusLastUpdateTime,
+                    Comment = borrower?.Comment,
+                    SignatureStatus = borrower != null ? borrower.SignatureStatus : contract.Details.SignatureStatus
+                },
+                HomeOwnerId = contract.PrimaryCustomer.Id,
+                SalesRep = new SigneeViewModel
+                {
+                    Id = salesRep != null ? salesRep.Id : 0,
+                    FirstName = salesRep != null ? salesRep.FirstName : contract.Equipment?.SalesRep,
+                    LastName = salesRep?.LastName,
+                    Email = salesRep?.EmailAddress,
+                    Comment = salesRep?.Comment,
+                    StatusLastUpdateTime = salesRep?.StatusLastUpdateTime,
+                    SignatureStatus = salesRep != null ? salesRep.SignatureStatus : contract.Details.SignatureStatus
+                },
+                AdditionalApplicants = additionSigners.Any() ? additionSigners
+                .Select(s => new SigneeViewModel
+                {
+                    Id = s.Id,
+                    Comment = s.Comment,
+                    Email = s.EmailAddress,
+                    FirstName = s.FirstName,
+                    LastName = s.LastName,
+                    SignatureStatus = s.SignatureStatus,
+                    StatusLastUpdateTime = s.StatusLastUpdateTime
+                }).ToList() : contract.SecondaryCustomers
+                .Select(s => new SigneeViewModel {
+                    Id =0,
+                    Email=s.Emails.FirstOrDefault(e=>e.EmailType==EmailType.Notification).EmailAddress,
+                    FirstName=s.FirstName,
+                    LastName=s.LastName,
+                    SignatureStatus = SignatureStatus.NotInitiated
+                }).ToList()
+            };
         }
     }
 }

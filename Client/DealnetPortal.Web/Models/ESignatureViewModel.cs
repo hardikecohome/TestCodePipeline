@@ -9,7 +9,7 @@ namespace DealnetPortal.Web.Models
 
         public SigneeViewModel Borrower { get; set; }
 
-        public List<SigneeViewModel> AdditionalApplicants { get; set; }
+        public IList<SigneeViewModel> AdditionalApplicants { get; set; }
 
         public SigneeViewModel SalesRep { get; set; }
     }
