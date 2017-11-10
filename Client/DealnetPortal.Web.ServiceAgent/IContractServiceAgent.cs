@@ -153,5 +153,7 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<IList<Alert>> AssignContract(int contractId);
         Task<IList<Alert>> CheckCustomerExisting(string email);
+
+        Task<Tuple<AgreementDocument, IList<Alert>>> GetContractDocument(int contractId);
     }
 }

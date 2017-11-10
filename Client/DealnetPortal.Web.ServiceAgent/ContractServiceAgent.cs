@@ -268,6 +268,22 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
+        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetContractDocument(int contractId)
+        {
+            try
+            {
+                return
+                    await
+                        Client.GetAsyncEx<Tuple<AgreementDocument, IList<Alert>>>(
+                            $"{_fullUri}/GetContractDocument?contractId={contractId}", AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get contract document from Esignature", ex);
+                throw;
+            }
+        }
+
         public async Task<IList<Alert>> UpdateInstallationData(InstallationCertificateDataDTO installationCertificateData)
         {
             try

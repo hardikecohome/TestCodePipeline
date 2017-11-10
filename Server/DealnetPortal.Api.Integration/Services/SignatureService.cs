@@ -299,6 +299,86 @@ namespace DealnetPortal.Api.Integration.Services
             return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
         }
 
+
+        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetPrintDocument(int contractId, string ownerUserId)
+        {
+            List<Alert> alerts = new List<Alert>();
+            AgreementDocument document = null;
+
+            // Get contract
+            var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
+            if (contract != null)
+            {
+                //check is agreement created
+                if (!string.IsNullOrEmpty(contract.Details.SignatureTransactionId))
+                {
+                    var logRes = await _signatureEngine.ServiceLogin().ConfigureAwait(false);
+                    if (logRes.Any(a => a.Type == AlertType.Error))
+                    {
+                        LogAlerts(alerts);
+                        return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
+                    }
+
+                    _signatureEngine.TransactionId = contract.Details.SignatureTransactionId;
+                    _signatureEngine.DocumentId = contract.Details.SignatureDocumentId;
+                }
+                else
+                {
+                    var errorMsg = $"Can't get DocuSign data for [{contractId}].";
+                    alerts.Add(new Alert()
+                    {
+                        Code = ErrorCodes.CantGetContractFromDb,
+                        Type = AlertType.Error,
+                        Header = "eSignature error",
+                        Message = errorMsg
+                    });
+                    _loggingService.LogError(errorMsg);
+                }
+
+                var docResult = await _signatureEngine.GetDocument().ConfigureAwait(false);
+                document = docResult.Item1;
+
+                ReformatTempalteNameWithId(document, contract.Details?.TransactionId);
+
+                if (docResult.Item2.Any())
+                {
+                    alerts.AddRange(docResult.Item2);
+                }
+
+                else
+                {
+                    var errorMsg = $"Can't get Document for contract [{contractId}] from Esignature";
+                    alerts.Add(new Alert()
+                    {
+                        Code = ErrorCodes.CantGetContractFromDb,
+                        Type = AlertType.Error,
+                        Header = "eSignature error",
+                        Message = errorMsg
+                    });
+                    _loggingService.LogError(errorMsg);
+                }
+                LogAlerts(alerts);
+                return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
+            }
+            else
+            {
+                var errorMsg = $"Can't get contract [{contractId}] for processing";
+                alerts.Add(new Alert()
+                {
+                    Code = ErrorCodes.CantGetContractFromDb,
+                    Type = AlertType.Error,
+                    Header = "eSignature error",
+                    Message = errorMsg
+                });
+
+                _loggingService.LogError(errorMsg);
+            }
+
+            LogAlerts(alerts);
+
+            return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
+        }
+
         public async Task<Tuple<AgreementDocument, IList<Alert>>> GetInstallCertificate(int contractId,
             string ownerUserId)
         {
@@ -402,7 +482,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 }
 
-                var docResult = await _signatureEngine.GetDocument(DocumentVersion.Draft).ConfigureAwait(false);
+                var docResult = await _signatureEngine.GetDocument().ConfigureAwait(false);
                 document = docResult.Item1;
 
                 ReformatTempalteNameWithId(document, contract.Details?.TransactionId);

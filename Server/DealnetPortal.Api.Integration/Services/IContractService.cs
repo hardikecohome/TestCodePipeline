@@ -86,5 +86,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         Task<IList<Alert>> AssignContract(int contractId, string newContractOwnerId);
         Task<IList<Alert>> CheckCustomerExistingAsync(string email);
+
+        Tuple<AgreementDocument, IList<Alert>> GetPrintDocument(int contractId, string contractOwnerId);
     }
 }
