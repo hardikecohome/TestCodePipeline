@@ -121,7 +121,7 @@
                                                                         @Html.TextBoxFor(m => m.SendEmails.BorrowerEmail, new { @class = "dealnet-input form-control", type = "email", id = "borrower-email" })
                                                                     </div>
                                                                     <div class="col-md-5">
-                                                                        <label>&nbsp;</label>
+                                                                        <label class="">&nbsp;</label>
                                                                         <div class="signature-status">
                                                                             <svg aria-hidden="true" class="icon icon-front icon-success">
                                                                                 <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
@@ -148,7 +148,7 @@
                                                                         @Html.TextBoxFor(m => m.SendEmails.BorrowerEmail, new { @class = "dealnet-input form-control", type = "email", id = "borrower-email" })
                                                                     </div>
                                                                     <div class="col-md-5">
-                                                                        <label>&nbsp;</label>
+                                                                        <label class="hidden">&nbsp;</label>
                                                                         <div class="signature-status signature-declined">
                                                                             <svg aria-hidden="true" class="icon icon-front icon-error">
                                                                                 <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
@@ -156,6 +156,7 @@
                                                                             <div class="signature-hold">
                                                                                 <div class="signature-header">@Resources.BorrowerDeclinedSignature</div>
                                                                                 <div class="signature-date">(10/08/2017 10:30 AM)</div>
+                                                                                <a class="btn dealnet-link-button">@Resources.ResendInvite</a>
                                                                             </div>
                                                                             <svg aria-hidden="true" class="icon icon-comment">
                                                                                 <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-comment")"></use>
@@ -163,27 +164,29 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row form-group">
-                                                                    <div class="col-md-2 applicant-col">
+                                                                <div class="row">
+                                                                    <div class="col-md-2 applicant-col form-group">
                                                                         <div class="dealnet-label">@Resources.SalesRep</div>
                                                                         <div class="control-group text-middle-group text-semibold">
                                                                             <div class="text-hold">@Model.BasicInfo.HomeOwner.FirstName @Model.BasicInfo.HomeOwner.LastName</div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-md-5">
+                                                                    <div class="col-md-5 form-group">
                                                                         <label>@Resources.Email</label>
                                                                         @Html.TextBoxFor(m => m.SendEmails.BorrowerEmail, new { @class = "dealnet-input form-control", type = "email", id = "borrower-email" })
                                                                     </div>
-                                                                    <div class="col-md-5">
-                                                                        <label>&nbsp;</label>
-                                                                        <div class="signature-status">
+                                                                    <div class="col-md-5 form-group">
+                                                                        <label class="hidden">&nbsp;</label>
+                                                                        <div class="signature-status control-group">
                                                                             <svg aria-hidden="true" class="icon icon-front icon-waiting">
                                                                                 <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-waiting")"></use>
                                                                             </svg>
                                                                             <div class="signature-hold">
                                                                                 <div class="signature-header">@Resources.WaitingSignature</div>
                                                                                 <div class="signature-date">(10/08/2017 10:30 AM)</div>
+                                                                                <a class="btn dealnet-link-button">@Resources.UpdateEmail</a>
                                                                             </div>
+                                                                            
                                                                         </div>
                                                                     </div>
                                                                 </div>
