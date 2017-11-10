@@ -2349,6 +2349,9 @@ changing contract terms or signing contract on paper.</value>
   <data name="SendInvites" xml:space="preserve">
     <value>Send invites</value>
   </data>
+  <data name="ToDigitalySignContract" xml:space="preserve">
+    <value>To digitaly sign contract</value>
+  </data>
   <data name="UpdateEmail" xml:space="preserve">
     <value>Update email</value>
   </data>

@@ -5605,6 +5605,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To digitaly sign contract.
+        /// </summary>
+        public static string ToDigitalySignContract {
+            get {
+                return ResourceManager.GetString("ToDigitalySignContract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In order to proceed you need to be aged 75 or less. Please contact dealer directly..
         /// </summary>
         public static string ToProceedYouNeedToBe75LessPleaseContact {
