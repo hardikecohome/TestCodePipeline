@@ -11,9 +11,10 @@ namespace DealnetPortal.Api.Common.Enumeration
         NotInitiated = 0,
         Draft = 1,
         Sent = 2,
-        Signed = 3,
-        Completed = 4,
-        Declined = 5,
-        Deleted = 6
+        Delivered =3,
+        Signed = 4,
+        Completed = 5,
+        Declined = 6,
+        Deleted = 7
     }
 }
