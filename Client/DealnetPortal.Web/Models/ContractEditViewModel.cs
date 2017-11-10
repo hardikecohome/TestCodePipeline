@@ -20,6 +20,7 @@ namespace DealnetPortal.Web.Models
         public LoanCalculator.Output LoanCalculatorOutput { get; set; }
         public UploadDocumentsViewModel UploadDocumentsInfo { get; set; }
         public CertificateInformationViewModel InstallCertificateInformation { get; set; }
+        public ESignatureViewModel ESignature { get; set; }
 
         [StringLength(500, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "ContractNotes")]
