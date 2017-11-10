@@ -14,6 +14,7 @@ using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.Profile;
+using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.Aspire.Integration.Models.AspireDb;
@@ -75,6 +76,7 @@ namespace DealnetPortal.Api.App_Start
                         .Replace("/", string.Empty)
                         .Replace("(", string.Empty)
                         .Replace(")", string.Empty)) ?? src.Status : null));
+            mapperConfig.CreateMap<ContractSigner, ContractSignerDTO>();
             mapperConfig.CreateMap<Contract, ContractDTO>()
                 .ForMember(x => x.PrimaryCustomer, o => o.MapFrom(src => src.PrimaryCustomer))
                 .ForMember(x => x.SecondaryCustomers, o => o.MapFrom(src => src.SecondaryCustomers))
@@ -269,7 +271,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.WasDeclined, s => s.Ignore())
                 .ForMember(d => d.IsCreatedByCustomer, s => s.Ignore())
                 .ForMember(d => d.OnCreditReview, s => s.Ignore())
-                .ForMember(d => d.IsNewlyCreated, s => s.Ignore());
+                .ForMember(d => d.IsNewlyCreated, s => s.Ignore())
+                .ForMember(d => d.Signers, s => s.Ignore());
 
             mapperConfig.CreateMap<Aspire.Integration.Models.AspireDb.Entity, CustomerDTO>()
                 .ForMember(d => d.Id, s => s.UseValue(0))
@@ -425,8 +428,9 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.InitialCustomers, d => d.Ignore())
                 .ForMember(x => x.CreateOperator, d => d.Ignore())
                 .ForMember(x => x.LastUpdateOperator, d => d.Ignore())
-                .ForMember(x => x.IsCreatedByBroker, d => d.Ignore());
-
+                .ForMember(x => x.IsCreatedByBroker, d => d.Ignore())
+                .ForMember(x => x.Signers, d => d.Ignore())
+                .ForMember(x => x.DateOfSubmit, d => d.Ignore());
             
             mapperConfig.CreateMap<DocumentTypeDTO, DocumentType>()
                 .ForMember(x => x.DescriptionResource, d => d.Ignore());
@@ -455,6 +459,15 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Dealer, d => d.Ignore());
             mapperConfig.CreateMap<ProvinceTaxRateDTO, ProvinceTaxRate>()
                 .ForMember(x => x.Name, d => d.Ignore());
+            mapperConfig.CreateMap<SignatureUser, ContractSigner>()
+                .ForMember(x => x.SignerType, d => d.MapFrom(src => src.Role))
+                .ForMember(x => x.Contract, d => d.Ignore())
+                .ForMember(x => x.ContractId, d => d.Ignore())
+                .ForMember(x => x.Comment, d => d.Ignore())
+                .ForMember(x => x.SignatureStatus, d => d.Ignore())
+                .ForMember(x => x.SignatureStatusQualifier, d => d.Ignore())                
+                .ForMember(x => x.Contract, d => d.Ignore())
+                .ForMember(x => x.StatusLastUpdateTime, d => d.Ignore());
 
             mapperConfig.CreateMap<AddressDTO, Address>();
             mapperConfig.CreateMap<CompanyInfoDTO, CompanyInfo>()
@@ -480,7 +493,6 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Uploaded, d => d.Ignore())
                 .ForMember(x => x.UploadDate, d => d.Ignore())
                 .ForMember(x => x.Status, d => d.Ignore())
-                //.ForMember(x => x.DealerInfoId, d => d.Ignore())
                 .ForMember(x => x.DocumentType, d => d.Ignore());
             mapperConfig.CreateMap<DealerInfoDTO, DealerInfo>()
                 .ForMember(x => x.CompanyInfo, d => d.MapFrom(src => src.CompanyInfo))
