@@ -500,7 +500,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         private EnvelopeDefinition PrepareEnvelope(string statusOnCreation = "sent")
         {
-            EnvelopeDefinition envelopeDefinition = new EnvelopeDefinition()
+            EnvelopeDefinition envelopeDefinition = new EnvelopeDefinition
             {
                 EmailSubject = Resources.Resources.PleaseSignAgreement,
                 BrandId = _dsDefaultBrandId
@@ -514,7 +514,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             {
                 envelopeDefinition.CompositeTemplates = new List<CompositeTemplate>()
                 {
-                    new CompositeTemplate()
+                    new CompositeTemplate
                     {
                         InlineTemplates = new List<InlineTemplate>()
                         {
@@ -534,7 +534,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             }
             envelopeDefinition.Status = statusOnCreation;
             envelopeDefinition.EventNotification = GetEventNotification();
-
+            envelopeDefinition.CustomFields = GenerateEnvolveCustomFields();
             return envelopeDefinition;
         }
 
@@ -635,7 +635,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             });
 
             envelopeDefinition.TemplateId = _templateId;
-            envelopeDefinition.TemplateRoles = rolesList;            
+            envelopeDefinition.TemplateRoles = rolesList;
         }
 
         private string CreateAuthHeader(string userName, string password, string integratorKey)
@@ -649,6 +649,33 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
             string authHeader = Newtonsoft.Json.JsonConvert.SerializeObject(dsCreds);
             return authHeader;
+        }
+
+        private CustomFields GenerateEnvolveCustomFields()
+        {
+            return new CustomFields
+            {
+                TextCustomFields = new List<TextCustomField>
+                {
+                    new TextCustomField
+                    {
+                        FieldId = "",
+                        Name = "TransactionID",
+                        Required = "true",
+                        Show = "true",
+                        Value = TransactionId
+                    }
+                    ,new TextCustomField
+                    {
+                        FieldId = "",
+                        Name = "DealerID",
+                        Required = "true",
+                        Show = "true",
+                        Value = _contract.DealerId
+                    }
+                }
+
+            };
         }
 
         private Signer CreateSigner(SignatureUser signatureUser, int routingOrder, bool isDealer = false)
