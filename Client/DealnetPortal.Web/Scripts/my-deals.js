@@ -153,7 +153,11 @@ function showTable () {
                                     '<div class="icon-hold"><span class="icon icon-status"></span>' +
                                     '</div>' +
                                     '<div class="text-hold"><span class="text">' +
-                                    row.LocalizedStatus + '</span></div></div>';
+                                    row.LocalizedStatus + '</span></div>' +
+                                    '<div class="icon-esig-hold"><svg aria-hidden="true" class="icon icon-esignature"><use xlink:href="' +
+                                    urlContent +
+                                    'Content/images/sprite/sprite.svg#icon-esignature"></use></svg ></div>' +
+                                    '</div>';
                             },
                             className: 'status-cell'
                         },
