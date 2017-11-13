@@ -25,7 +25,7 @@
                             @Html.HiddenFor(m=>m.ESignature.Signers[i].SignatureStatus, new { id=$"signer-status-{i}" })
                             @Html.HiddenFor(m=>m.ESignature.Signers[i].StatusLastUpdateTime, new { id=$"signer-update-{i}" })
                             @Html.HiddenFor(m=>m.ESignature.Signers[i].Role,new { id=$"signer-role-{i}"})
-                            @*@Html.HiddenFor(m=>m.ESignature.Signers[i].)*@
+                            @Html.HiddenFor(m=>m.ESignature.Signers[i].CustomerId, new { id=$"signer-customer-id-{i}" })
                             <div class="row form-group">
                                 <div class="col-md-2 applicant-col">
                                     <div class="dealnet-label">

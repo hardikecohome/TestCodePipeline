@@ -827,9 +827,10 @@ namespace DealnetPortal.Web.Infrastructure
                     new SigneeViewModel
                     {
                         Id = borrower != null ? borrower.Id : 0,
+                        CustomerId = borrower!=null?borrower.CustomerId:contract.PrimaryCustomer.Id,
                         FirstName = borrower != null ? borrower.FirstName : contract.PrimaryCustomer?.FirstName,
                         LastName = borrower != null ? borrower.LastName : contract.PrimaryCustomer?.LastName,
-                        Email = borrower != null ? borrower.EmailAddress : contract.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ?? 
+                        Email = borrower != null ? borrower.EmailAddress : contract.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
                         contract.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress,
                         StatusLastUpdateTime = borrower?.StatusLastUpdateTime,
                         Comment = borrower?.Comment,
@@ -845,6 +846,7 @@ namespace DealnetPortal.Web.Infrastructure
                 .Select(s => new SigneeViewModel
                 {
                     Id = s.Id,
+                    CustomerId = s.CustomerId,
                     Comment = s.Comment,
                     Email = s.EmailAddress,
                     FirstName = s.FirstName,
@@ -853,7 +855,9 @@ namespace DealnetPortal.Web.Infrastructure
                     StatusLastUpdateTime = s.StatusLastUpdateTime,
                     Role = s.SignerType
                 }).ToList())
+                {
                     model.Signers.Add(signer);
+                }
             }
             else
             {
@@ -861,18 +865,22 @@ namespace DealnetPortal.Web.Infrastructure
                 .Select(s => new SigneeViewModel
                 {
                     Id = 0,
+                    CustomerId = s.Id,
                     Email = s.Emails.FirstOrDefault(e => e.EmailType == EmailType.Notification).EmailAddress,
                     FirstName = s.FirstName,
                     LastName = s.LastName,
                     SignatureStatus = SignatureStatus.NotInitiated,
                     Role = SignatureRole.AdditionalApplicant
                 }).ToList())
+                {
                     model.Signers.Add(signer);
+                }
             }
 
             model.Signers.Add(new SigneeViewModel
             {
                 Id = salesRep != null ? salesRep.Id : 0,
+                CustomerId = null,
                 FirstName = salesRep != null ? salesRep.FirstName : contract.Equipment?.SalesRep,
                 LastName = salesRep?.LastName,
                 Email = salesRep?.EmailAddress,
