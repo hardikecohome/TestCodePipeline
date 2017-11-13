@@ -220,6 +220,10 @@ function showTable () {
                     createdRow: function (row, data, dataIndex) {
                         var status = mapStatusToColorClass(data.Status);
                         $(row).find('.icon-status').addClass(status);
+
+                        var signatureStatus = mapSignatureStatusToColorClass(data.SignatureStatus);
+                        $(row).find('.icon-esig-hold').addClass(signatureStatus);
+
                         if (data.IsNewlyCreated) {
                             $(row).addClass('unread-deals').find('.contract-cell').prepend('<span class="label-new-deal">' + translations['New'] + '</span>');
                         }
@@ -246,7 +250,11 @@ function showTable () {
                                     '<div class="icon-hold"><span class="icon icon-status"></span>' +
                                     '</div>' +
                                     '<div class="text-hold"><span class="text">' +
-                                    row.LocalizedStatus + '</span></div></div>';
+                                    row.LocalizedStatus + '</span></div>' +
+                                    '<div class="icon-esig-hold"><svg aria-hidden="true" class="icon icon-esignature"><use xlink:href="' +
+                                        urlContent +
+                                        'Content/images/sprite/sprite.svg#icon-esignature"></use></svg ></div>' +
+                                        '</div>';
                             },
                             className: 'status-cell'
                         },
@@ -336,6 +344,9 @@ function showTable () {
             table.on('responsive-display', function (e, datatable, row, showHide, update) {
                 var status = mapStatusToColorClass(row.data().Status);
                 showHide ? $(row.child()).find('.icon-status').addClass(status) : $(row.child()).find('.icon-status').removeClass(status);
+
+                var signatureStatus = mapSignatureStatusToColorClass(row.data().SignatureStatus);
+                showHide ? $(row.child()).find('.icon-esig-hold').addClass(signatureStatus) : $(row.child()).find('.icon-status').removeClass(signatureStatus);
             });
 
             resizeTableStatusCells('#work-items-table');

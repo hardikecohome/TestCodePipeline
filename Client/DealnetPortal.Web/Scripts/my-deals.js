@@ -112,6 +112,10 @@ function showTable () {
                     createdRow: function (row, data, dataIndex) {
                         var status = mapStatusToColorClass(data.Status);
                         $(row).find('.icon-status').addClass(status);
+
+                        var signatureStatus = mapSignatureStatusToColorClass(data.SignatureStatus);
+                        $(row).find('.icon-esig-hold').addClass(signatureStatus);
+
                         if (data.IsNewlyCreated) {
                             $(row)
                                 .addClass('unread-deals')
@@ -251,6 +255,9 @@ function showTable () {
             table.on('responsive-display', function (e, datatable, row, showHide, update) {
                 var status = mapStatusToColorClass(row.data().Status);
                 showHide ? $(row.child()).find('.icon-status').addClass(status) : $(row.child()).find('.icon-status').removeClass(status);
+
+                var signatureStatus = mapSignatureStatusToColorClass(row.data().SignatureStatus);
+                showHide ? $(row.child()).find('.icon-esig-hold').addClass(signatureStatus) : $(row.child()).find('.icon-status').removeClass(signatureStatus);
             });
 
             $('#work-items-table th').on('click', function () {

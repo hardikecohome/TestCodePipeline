@@ -373,11 +373,13 @@ namespace DealnetPortal.Web.App_Start
                     return string.Empty;
                 }))
                 .ForMember(d => d.SalesAgent, s => s.Ignore());
-                
+
 
             cfg.CreateMap<ContractDTO, DealItemOverviewViewModel>()
-                .ForMember(d => d.TransactionId, s => s.ResolveUsing(src => src.Details?.TransactionId ?? string.Concat(Resources.Resources.Internal, $" : {src.Id}")))
-                .ForMember(d => d.IsInternal, s => s.ResolveUsing(src => src.Details?.TransactionId == null ))
+                .ForMember(d => d.TransactionId,
+                    s => s.ResolveUsing(src =>
+                        src.Details?.TransactionId ?? string.Concat(Resources.Resources.Internal, $" : {src.Id}")))
+                .ForMember(d => d.IsInternal, s => s.ResolveUsing(src => src.Details?.TransactionId == null))
                 .ForMember(d => d.CustomerName, s => s.ResolveUsing(src =>
                 {
                     var customer = src.PrimaryCustomer;
@@ -387,8 +389,13 @@ namespace DealnetPortal.Web.App_Start
                     }
                     return string.Empty;
                 }))
-                .ForMember(d => d.Status, s => s.ResolveUsing(src => src.Details?.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription()))
-                .ForMember(d => d.LocalizedStatus, s => s.ResolveUsing(src => src.Details?.LocalizedStatus ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription()))
+                .ForMember(d => d.Status,
+                    s => s.ResolveUsing(src =>
+                        src.Details?.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription()))
+                .ForMember(d => d.LocalizedStatus,
+                    s => s.ResolveUsing(src =>
+                        src.Details?.LocalizedStatus ??
+                        (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription()))
                 .ForMember(d => d.AgreementType, s => s.ResolveUsing(src =>
                 {
                     if (src.Equipment?.AgreementType != null && src.Equipment?.ValueOfDeal != null)
@@ -399,93 +406,114 @@ namespace DealnetPortal.Web.App_Start
 
                     return string.Empty;
                 }))
-                .ForMember(d => d.PaymentType, s => s.ResolveUsing(src => src.PaymentInfo?.PaymentType.ConvertTo<Models.Enumeration.PaymentType>().GetEnumDescription() ))
+                .ForMember(d => d.PaymentType,
+                    s => s.ResolveUsing(src =>
+                        src.PaymentInfo?.PaymentType.ConvertTo<Models.Enumeration.PaymentType>().GetEnumDescription()))
                 .ForMember(d => d.Action, s => s.Ignore())
-                .ForMember(d => d.Email, s => s.ResolveUsing(src => src.PrimaryCustomer?.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress))                
-                .ForMember(d => d.Phone, s => s.ResolveUsing(src => src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Cell)?.PhoneNum
-                    ?? src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Home)?.PhoneNum))                
+                .ForMember(d => d.Email,
+                    s => s.ResolveUsing(src =>
+                        src.PrimaryCustomer?.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress))
+                .ForMember(d => d.Phone, s => s.ResolveUsing(src =>
+                    src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Cell)?.PhoneNum
+                    ?? src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Home)?.PhoneNum))
                 .ForMember(d => d.Date, s => s.ResolveUsing(src =>
-                    (src.LastUpdateTime?.Date ?? src.CreationTime.Date).ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)))
+                    (src.LastUpdateTime?.Date ?? src.CreationTime.Date).ToString("MM/dd/yyyy",
+                        CultureInfo.InvariantCulture)))
                 .ForMember(d => d.SalesRep, s => s.ResolveUsing(src => src.Equipment?.SalesRep ?? string.Empty))
                 .ForMember(d => d.Equipment, s => s.ResolveUsing(src =>
+                {
+                    var equipment = src.Equipment?.NewEquipment;
+                    if (equipment != null)
                     {
-                        var equipment = src.Equipment?.NewEquipment;
-                        if (equipment != null)
-                        {
-                            return equipment.Select(eq => eq.TypeDescription).ConcatWithComma();
-                        }
-                        return string.Empty;
-                    }))
-                  .ForMember(d => d.RemainingDescription, s => s.ResolveUsing(src =>
+                        return equipment.Select(eq => eq.TypeDescription).ConcatWithComma();
+                    }
+                    return string.Empty;
+                }))
+                .ForMember(d => d.RemainingDescription, s => s.ResolveUsing(src =>
+                {
+                    var stb = new StringBuilder();
+                    src.PrimaryCustomer?.Locations?.ForEach(x =>
                     {
-                        var stb = new StringBuilder();
-                        src.PrimaryCustomer?.Locations?.ForEach(x =>
-                        {
-                            stb.AppendLine(x.Street);
-                            stb.AppendLine(x.Unit);
-                            stb.AppendLine(x.City);
-                            stb.AppendLine(x.State);
-                            stb.AppendLine(x.PostalCode);
-                        });
-                        src.PrimaryCustomer?.Phones?.ForEach(p => stb.AppendLine(p.PhoneNum));
-                        src.PrimaryCustomer?.Emails?.ForEach(e => stb.AppendLine(e.EmailAddress));
-                        src.SecondaryCustomers?.ForEach(x =>
-                        {
-                            stb.AppendLine(x.FirstName);
-                            stb.AppendLine(x.LastName);
-                            x.Phones?.ForEach(p => stb.AppendLine(p.PhoneNum));
-                            x.Emails?.ForEach(e => stb.AppendLine(e.EmailAddress));
-                        });
-                        src.Equipment?.NewEquipment?.ForEach(x =>
-                        {
-                            stb.AppendLine(x.Description);
-                        });
-                        stb.AppendLine(src.Equipment?.SalesRep);
-                        stb.AppendLine(src.PaymentInfo?.EnbridgeGasDistributionAccount);
-                        stb.AppendLine(src.PaymentInfo?.AccountNumber);
-                        return stb.ToString();
-                    }))
-                    .ForMember(d => d.Value, s => s.ResolveUsing(src =>
+                        stb.AppendLine(x.Street);
+                        stb.AppendLine(x.Unit);
+                        stb.AppendLine(x.City);
+                        stb.AppendLine(x.State);
+                        stb.AppendLine(x.PostalCode);
+                    });
+                    src.PrimaryCustomer?.Phones?.ForEach(p => stb.AppendLine(p.PhoneNum));
+                    src.PrimaryCustomer?.Emails?.ForEach(e => stb.AppendLine(e.EmailAddress));
+                    src.SecondaryCustomers?.ForEach(x =>
                     {
-                        if (src.Equipment != null && src.Equipment.ValueOfDeal != null)
-                        {
-                            return FormattableString.Invariant($"$ {src.Equipment.ValueOfDeal:0.00}");
-                        }
-                        return string.Empty;
-                    }))
-                    .ForMember(d => d.PostalCode, s => s.ResolveUsing(src =>
+                        stb.AppendLine(x.FirstName);
+                        stb.AppendLine(x.LastName);
+                        x.Phones?.ForEach(p => stb.AppendLine(p.PhoneNum));
+                        x.Emails?.ForEach(e => stb.AppendLine(e.EmailAddress));
+                    });
+                    src.Equipment?.NewEquipment?.ForEach(x =>
                     {
-                        var location =
-                            src.PrimaryCustomer?.Locations?.FirstOrDefault(x => x.AddressType == AddressType.MainAddress);
-                        if (location?.PostalCode != null)
-                        {
-                            var substring = location.PostalCode.Substring(0, 3);
-                            return $"{substring.ToUpperInvariant()}***";
-                        }             
-                        return string.Empty;
-                    }))
-                    .ForMember(d => d.PreApprovalAmount, s => s.ResolveUsing(src =>
+                        stb.AppendLine(x.Description);
+                    });
+                    stb.AppendLine(src.Equipment?.SalesRep);
+                    stb.AppendLine(src.PaymentInfo?.EnbridgeGasDistributionAccount);
+                    stb.AppendLine(src.PaymentInfo?.AccountNumber);
+                    return stb.ToString();
+                }))
+                .ForMember(d => d.Value, s => s.ResolveUsing(src =>
+                {
+                    if (src.Equipment != null && src.Equipment.ValueOfDeal != null)
                     {
-                        if (src.Details?.CreditAmount != null)
-                        {
-                            return FormattableString.Invariant($"$ {src.Details.CreditAmount:0.00}");
-                        }
-                        return string.Empty;
-                    }))
-                    .ForMember(d => d.CustomerComment, s => s.ResolveUsing(src => 
+                        return FormattableString.Invariant($"$ {src.Equipment.ValueOfDeal:0.00}");
+                    }
+                    return string.Empty;
+                }))
+                .ForMember(d => d.PostalCode, s => s.ResolveUsing(src =>
+                {
+                    var location =
+                        src.PrimaryCustomer?.Locations?.FirstOrDefault(x => x.AddressType == AddressType.MainAddress);
+                    if (location?.PostalCode != null)
                     {
-                        if (src.Comments?.Any(x => x.IsCustomerComment == true) == true)
-                        {
-                            var comments = src.Comments
-                                .Where(x => x.IsCustomerComment == true)
-                                .Select(q => q.Text)
-                                .ToList();
+                        var substring = location.PostalCode.Substring(0, 3);
+                        return $"{substring.ToUpperInvariant()}***";
+                    }
+                    return string.Empty;
+                }))
+                .ForMember(d => d.PreApprovalAmount, s => s.ResolveUsing(src =>
+                {
+                    if (src.Details?.CreditAmount != null)
+                    {
+                        return FormattableString.Invariant($"$ {src.Details.CreditAmount:0.00}");
+                    }
+                    return string.Empty;
+                }))
+                .ForMember(d => d.CustomerComment, s => s.ResolveUsing(src =>
+                {
+                    if (src.Comments?.Any(x => x.IsCustomerComment == true) == true)
+                    {
+                        var comments = src.Comments
+                            .Where(x => x.IsCustomerComment == true)
+                            .Select(q => q.Text)
+                            .ToList();
 
-                            return string.Join(Environment.NewLine, comments);
-                        }
+                        return string.Join(Environment.NewLine, comments);
+                    }
 
-                        return string.Empty;
-                    }));
+                    return string.Empty;
+                }))
+                .ForMember(d => d.SignatureStatus, s => s.ResolveUsing(src =>
+                {
+                    if (src.Details.SignatureStatus == null) return string.Empty;
+
+                    if (src.Details.SignatureStatus == SignatureStatus.Sent)
+                    {
+                        if (src.Details.SignatureLastUpdateTime == null ||
+                            (src.Details.SignatureLastUpdateTime.Value - DateTime.Now).TotalDays < 3)
+                        {
+                            return src.Details.SignatureStatus.ToString().ToLower() + "less3";
+                        }
+                    }
+
+                    return src.Details.SignatureStatus.ToString().ToLower();
+                }));
 
             cfg.CreateMap<CustomerDTO, ApplicantPersonalInfo>()
                 .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth))

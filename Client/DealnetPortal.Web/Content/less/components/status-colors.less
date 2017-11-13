@@ -25,6 +25,11 @@
     height: 100%;
     justify-content: space-between;
     width: 100%;
+
+    @media @mobile {
+        width: auto;
+    }
+
     .text-hold {
         display: table;
         height: 100%;
@@ -204,5 +209,31 @@
     .icon-s---funded,
     .icon-funded-syndicated {
         background: #008064;
+    }
+}
+
+.status-hold {
+    .icon-esig-,
+    .icon-esig-notinitiated,
+    .icon-esig-draft {
+        opacity: 0
+    }
+
+    .icon-esig-sentless3 {
+        color: #c3c2c2
+    }
+
+    .icon-esig-sent {
+        color: #ffda1a
+    }
+
+    .icon-esig-completed,
+    .icon-esig-signed {
+        color: #61c53c
+    }
+
+    .icon-esig-declined,
+    .icon-esig-deleted {
+        color: #e11e36
     }
 }

@@ -1108,3 +1108,8 @@ function resizeTableStatusCells (table) {
 function mapStatusToColorClass (status) {
     return 'icon-' + status.trim().toLowerCase().replace(/\s/g, '-').replace(/\(/g, '').replace(/\)/g, '').replace(/\//g, '').replace(/\$/g, '');
 }
+
+function mapSignatureStatusToColorClass(signatureStatus) {
+    return 'icon-esig-' + signatureStatus;
+}
+
