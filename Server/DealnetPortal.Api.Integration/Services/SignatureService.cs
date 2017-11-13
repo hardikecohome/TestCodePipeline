@@ -151,14 +151,15 @@ namespace DealnetPortal.Api.Integration.Services
                     return alerts;
                 }
 
-                UpdateSignersInfo(contractId, ownerUserId, signatureUsers);
-                _loggingService.LogInfo(
-                    $"Invitations for agreement document form sent successefully. TransactionId: [{_signatureEngine.TransactionId}], DocumentID [{_signatureEngine.DocumentId}]");
                 //var updateStatus = signatureUsers?.Any() ?? false
                 //    ? SignatureStatus.Sent
                 //    : SignatureStatus.Draft;
-                //UpdateContractDetails(contractId, ownerUserId, _signatureEngine.TransactionId,
-                //    _signatureEngine.DocumentId, updateStatus);
+                UpdateContractDetails(contractId, ownerUserId, _signatureEngine.TransactionId,
+                    _signatureEngine.DocumentId, null);
+
+                UpdateSignersInfo(contractId, ownerUserId, signatureUsers);
+                _loggingService.LogInfo(
+                    $"Invitations for agreement document form sent successefully. TransactionId: [{_signatureEngine.TransactionId}], DocumentID [{_signatureEngine.DocumentId}]");                
             }
             else
             {
@@ -639,7 +640,8 @@ namespace DealnetPortal.Api.Integration.Services
             bool updated = false;
 
             var signer =
-                contract.Signers?.FirstOrDefault(s => userName.Contains(s.FirstName) && userName.Contains(s.LastName));
+                contract.Signers?.FirstOrDefault(s => (string.IsNullOrEmpty(s.FirstName) || userName.Contains(s.FirstName)) 
+                && (string.IsNullOrEmpty(s.LastName) || userName.Contains(s.LastName)));
             //if (signer == null)
             //{
             //    signer = new ContractSigner()
