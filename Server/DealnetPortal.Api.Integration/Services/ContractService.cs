@@ -301,29 +301,31 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 List<SignatureUser> usersForProcessing = new List<SignatureUser>();
                 var contract = _contractRepository.GetContract(contractId, contractOwnerId);
-                var homeOwner = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.HomeOwner);
-                if (homeOwner != null)
-                {
-                    homeOwner.FirstName = contract?.PrimaryCustomer?.FirstName;
-                    homeOwner.LastName = contract?.PrimaryCustomer?.LastName;
-                    usersForProcessing.Add(homeOwner);
-                }
+                var suHomeOwner = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.HomeOwner);
+                var homeOwner = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.HomeOwner) 
+                                    ?? new SignatureUser() {Role = SignatureRole.HomeOwner};                
+                homeOwner.FirstName = !string.IsNullOrEmpty(homeOwner.FirstName) ? homeOwner.FirstName : contract?.PrimaryCustomer?.FirstName;
+                homeOwner.LastName = !string.IsNullOrEmpty(homeOwner.LastName) ? homeOwner.LastName : contract?.PrimaryCustomer?.LastName;
+                homeOwner.CustomerId = homeOwner.CustomerId ?? contract?.PrimaryCustomer?.Id;
+                homeOwner.EmailAddress = !string.IsNullOrEmpty(homeOwner.EmailAddress)
+                    ? homeOwner.EmailAddress
+                    : contract?.PrimaryCustomer?.Emails.FirstOrDefault()?.EmailAddress;
+                usersForProcessing.Add(homeOwner);
 
-                var coCustomers = signatureUsers.Where(u => u.Role == SignatureRole.AdditionalApplicant).ToList();
-                if (coCustomers.Any())
+                contract?.SecondaryCustomers?.ForEach(cc =>
                 {
-                    int i = 0;
-                    contract?.SecondaryCustomers?.ForEach(cc =>
-                    {
-                        if (i < coCustomers.Count && !string.IsNullOrEmpty(coCustomers[i].EmailAddress))
-                        {
-                            coCustomers[i].FirstName = cc.FirstName;
-                            coCustomers[i].LastName = cc.LastName;
-                            usersForProcessing.Add(coCustomers[i]);
-                            i++;
-                        }
-                    });
-                }
+                    var su = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.AdditionalApplicant &&
+                                                       (cc.Id == u.CustomerId) ||
+                                                       (cc.FirstName == u.FirstName && cc.LastName == u.LastName));
+                    var coBorrower = su ?? new SignatureUser() {Role = SignatureRole.AdditionalApplicant};
+                    coBorrower.FirstName = !string.IsNullOrEmpty(coBorrower.FirstName) ? coBorrower.FirstName : cc.FirstName;
+                    coBorrower.LastName = !string.IsNullOrEmpty(coBorrower.LastName) ? coBorrower.LastName : cc.LastName;
+                    coBorrower.CustomerId = coBorrower.CustomerId ?? cc.Id;
+                    coBorrower.EmailAddress = !string.IsNullOrEmpty(coBorrower.EmailAddress)
+                        ? coBorrower.EmailAddress
+                        : cc.Emails.FirstOrDefault()?.EmailAddress;
+                    usersForProcessing.Add(coBorrower);                    
+                });
 
                 var dealerUser = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.Dealer);
                 if (dealerUser != null)

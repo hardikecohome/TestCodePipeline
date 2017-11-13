@@ -926,15 +926,24 @@ namespace DealnetPortal.DataAccess.Repositories
             return contract;
         }
 
-        public Contract UpdateContractSigners(int contractId, IList<ContractSigner> signers, string contractOwnerId)
+        public Contract AddOrUpdateContractSigners(int contractId, IList<ContractSigner> signers, string contractOwnerId)
         {
             var contract = GetContract(contractId, contractOwnerId);
             if (contract != null)
-            {                
+            {
+                var existingEntities =
+                    contract.Signers.Where(
+                        cs => signers.Any(s => s.Id == cs.Id 
+                                || cs.CustomerId != null && s.CustomerId == cs.CustomerId
+                                || cs.SignerType == s.SignerType)).ToList();
+                var entriesForDelete = contract.Signers.Except(existingEntities).ToList();
+                entriesForDelete.ForEach(e => contract.Signers.Remove(e));
+
                 signers.ForEach(s =>
                 {
                     var curSigner =
-                        contract.Signers.FirstOrDefault(cs => cs.Id == s.Id
+                        contract.Signers.FirstOrDefault(cs => cs.Id == s.Id 
+                            || (s.CustomerId != null && cs.CustomerId == s.CustomerId)
                             || cs.SignerType == s.SignerType);
                     if (curSigner == null)
                     {
@@ -952,9 +961,17 @@ namespace DealnetPortal.DataAccess.Repositories
                         {
                             curSigner.LastName = s.LastName;
                         }
+                        if (curSigner.CustomerId != s.CustomerId)
+                        {
+                            curSigner.CustomerId = s.CustomerId;
+                        }
                         if (curSigner.EmailAddress != s.EmailAddress)
                         {
                             curSigner.EmailAddress = s.EmailAddress;
+                        }
+                        if (curSigner.SignerType != s.SignerType)
+                        {
+                            curSigner.SignerType = s.SignerType;
                         }
                     }
                 });
