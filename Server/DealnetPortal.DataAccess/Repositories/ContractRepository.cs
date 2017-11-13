@@ -177,7 +177,9 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public Contract FindContractBySignatureId(string signatureTransactionId)
         {
-            return _dbContext.Contracts.FirstOrDefault(c => c.Details.SignatureTransactionId == signatureTransactionId);
+            return _dbContext.Contracts
+                .Include(c => c.Signers)
+                .FirstOrDefault(c => c.Details.SignatureTransactionId == signatureTransactionId);
         }
 
         public ContractState? GetContractState(int contractId, string contractOwnerId)
