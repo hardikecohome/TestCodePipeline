@@ -780,7 +780,7 @@
   <data name="_85_CustomerChangedMind" xml:space="preserve">
     <value>Le client a changé d’avis</value>
   </data>
-  <data name="_86_OpportunityLost" xml:space="preserve">
+  <data name="_86_Cancelled" xml:space="preserve">
     <value>Occasion perdue</value>
   </data>
   <data name="_90_MasterLineofCreditapproval" xml:space="preserve">
