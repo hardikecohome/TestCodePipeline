@@ -228,6 +228,21 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("CancelDigitalSignature")]
+        [HttpPost]
+        public IHttpActionResult CancelDigitalSignature(int contractId)
+        {
+            try
+            {
+                var alerts = ContractService.CancelDigitalSignature(contractId, LoggedInUser?.UserId);
+                return Ok(alerts);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("AddDocument")]
         [HttpPut]
         public IHttpActionResult AddDocumentToContract(ContractDocumentDTO document)

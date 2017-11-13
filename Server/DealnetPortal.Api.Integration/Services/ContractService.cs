@@ -351,6 +351,11 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
+        public async Task<IList<Alert>> CancelDigitalSignature(int contractId, string contractOwnerId)
+        {
+            return await _signatureService.CancelSignatureProcess(contractId, contractOwnerId);
+        }
+
         public Tuple<bool, IList<Alert>> CheckPrintAgreementAvailable(int contractId, int documentTypeId,
             string contractOwnerId)
         {

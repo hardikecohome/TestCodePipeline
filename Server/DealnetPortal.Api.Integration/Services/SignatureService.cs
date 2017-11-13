@@ -150,7 +150,6 @@ namespace DealnetPortal.Api.Integration.Services
                     LogAlerts(alerts);
                     return alerts;
                 }
-
                 //var updateStatus = signatureUsers?.Any() ?? false
                 //    ? SignatureStatus.Sent
                 //    : SignatureStatus.Draft;
@@ -454,9 +453,48 @@ namespace DealnetPortal.Api.Integration.Services
             return status;
         }
 
-        public Task<IList<Alert>> CancelSignatureProcess(int contractId, string ownerUserId)
+        public async Task<IList<Alert>> CancelSignatureProcess(int contractId, string ownerUserId)
         {
-            throw new NotImplementedException();
+            List<Alert> alerts = new List<Alert>();
+
+            // Get contract
+            var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
+            if (contract != null)
+            {
+                _loggingService.LogInfo($"Started cancelling eSignature for contract [{contractId}]");
+                    
+                var logRes = await _signatureEngine.ServiceLogin().ConfigureAwait(false);
+                _signatureEngine.TransactionId = contract.Details?.SignatureTransactionId;
+                _signatureEngine.DocumentId = contract.Details?.SignatureDocumentId;
+                alerts.AddRange(logRes);
+
+                if (alerts.All(a => a.Type != AlertType.Error))
+                {
+                    var cancelRes = await _signatureEngine.CancelSignature();
+                    alerts.AddRange(cancelRes);
+                }
+                if (alerts.All(a => a.Type != AlertType.Error))
+                {
+                    _loggingService.LogInfo($"eSignature envelope {contract?.Details?.SignatureTransactionId} canceled for contract [{contractId}]");
+                }
+                else
+                {
+                    LogAlerts(alerts);
+                }
+            }
+            else
+            {
+                var errorMsg = $"Can't get contract [{contractId}] for processing";
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "eSignature error",
+                    Message = errorMsg
+                });
+                _loggingService.LogError(errorMsg);
+            }
+
+            return alerts;
         }
 
         public Task<IList<Alert>> UpdateSignatureUsers(int contractId, string ownerUserId, SignatureUser[] signatureUsers,

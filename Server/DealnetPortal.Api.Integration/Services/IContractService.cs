@@ -47,6 +47,8 @@ namespace DealnetPortal.Api.Integration.Services
 
         IList<Alert> InitiateDigitalSignature(int contractId, string contractOwnerId, SignatureUser[] signatureUsers);
 
+        Task<IList<Alert>> CancelDigitalSignature(int contractId, string contractOwnerId);
+
         Tuple<AgreementDocument, IList<Alert>> GetPrintAgreement(int contractId, string contractOwnerId);
 
         AgreementDocument GetContractsFileReport(IEnumerable<int> ids, string contractOwnerId);

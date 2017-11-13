@@ -447,6 +447,34 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
         }
 
+        public async Task<IList<Alert>> CancelSignature()
+        {
+            var alerts = new List<Alert>();
+            EnvelopesApi envelopesApi = new EnvelopesApi();
+            var envelope = await envelopesApi.GetEnvelopeAsync(AccountId, TransactionId);
+            if (envelope.Status != "completed")
+            {
+                envelope = new Envelope
+                {
+                    Status = "voided"
+                };
+                var updateEnvelopeRes =
+                    await envelopesApi.UpdateAsync(AccountId, TransactionId, envelope);
+                if (updateEnvelopeRes?.ErrorDetails?.ErrorCode != null)
+                {
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = "Cannot cancel signature",
+                        Message = updateEnvelopeRes?.ErrorDetails?.Message
+                    });
+                }
+            }
+            return alerts;
+        }
+
+        #region private
+
         private bool AreRecipientsEqual(Recipients recipients)
         {            
             bool areEqual = false;
@@ -594,8 +622,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 event_notification.IncludeEnvelopeVoidReason = "true";
                 event_notification.IncludeTimeZone = "true";
                 event_notification.IncludeSenderAccountAsCustomField = "true";
-                event_notification.IncludeDocumentFields = "true";
-                event_notification.IncludeCertificateOfCompletion = "true";
+                //event_notification.IncludeDocumentFields = "true";
+                //event_notification.IncludeCertificateOfCompletion = "true";
                 event_notification.EnvelopeEvents = envelope_events;
                 event_notification.RecipientEvents = recipient_events;
 
@@ -698,6 +726,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
             return signer;
         }
+
+        #endregion
     }
 
     public class DocuSignCredentials
