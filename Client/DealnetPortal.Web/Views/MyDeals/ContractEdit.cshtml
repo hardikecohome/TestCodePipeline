@@ -148,7 +148,11 @@
 							    if (ViewBag.IsEsignatureEnabled)
 							     {
 							         <div class="e-signature-container">
-							             <a class="dealnet-info-link" id="esignature-link" data-toggle="modal" data-target="#esignature-modal">
+							             <a class="dealnet-info-link @(contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined ? "disabled":"")" 
+                                            id="esignature-link" 
+                                            data-toggle="modal" 
+                                            data-target="#esignature-modal"
+                                            @(contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined ? "disabled=disabled":"")>
 							                 <svg aria-hidden="true" class="icon icon-esignature">
 							                     <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-esignature")"></use>
 							                 </svg>
