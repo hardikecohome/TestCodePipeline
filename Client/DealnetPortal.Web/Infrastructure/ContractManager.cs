@@ -821,6 +821,7 @@ namespace DealnetPortal.Web.Infrastructure
             {
                 ContractId = contract.Id,
                 HomeOwnerId = contract.PrimaryCustomer.Id,
+                Status = contract.Details.SignatureStatus,
                 Signers = new List<SigneeViewModel>
                 {
                     new SigneeViewModel
