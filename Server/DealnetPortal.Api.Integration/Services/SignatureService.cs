@@ -554,7 +554,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var signers = AutoMapper.Mapper.Map<ContractSigner[]>(signatureUsers);
                 if (signers?.Any() == true)
                 {
-                    _contractRepository.UpdateContractSigners(contractId, signers, ownerUserId);
+                    _contractRepository.AddOrUpdateContractSigners(contractId, signers, ownerUserId);
                     _unitOfWork.Save();
                 }
             }
