@@ -409,7 +409,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return new Tuple<IList<FormField>, IList<Alert>>(formFields, alerts);
         }
 
-        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument()
+        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument(DocumentVersion documentVersion)
         {
             var alerts = new List<Alert>();
             AgreementDocument document = null;
