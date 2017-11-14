@@ -9,6 +9,6 @@ namespace DealnetPortal.Web.Models
         public int HomeOwnerId { get; set; }
         public SignatureStatus? Status { get; set; }
 
-        public IList<SigneeViewModel> Signers { get; set; }
+        public IList<SignerViewModel> Signers { get; set; }
     }
 }

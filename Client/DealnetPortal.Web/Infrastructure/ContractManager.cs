@@ -822,9 +822,9 @@ namespace DealnetPortal.Web.Infrastructure
                 ContractId = contract.Id,
                 HomeOwnerId = contract.PrimaryCustomer.Id,
                 Status = contract.Details.SignatureStatus,
-                Signers = new List<SigneeViewModel>
+                Signers = new List<SignerViewModel>
                 {
-                    new SigneeViewModel
+                    new SignerViewModel
                     {
                         Id = borrower != null ? borrower.Id : 0,
                         CustomerId = borrower!=null?borrower.CustomerId:contract.PrimaryCustomer.Id,
@@ -843,7 +843,7 @@ namespace DealnetPortal.Web.Infrastructure
             if (additionSigners.Any())
             {
                 foreach (var signer in additionSigners
-                .Select(s => new SigneeViewModel
+                .Select(s => new SignerViewModel
                 {
                     Id = s.Id,
                     CustomerId = s.CustomerId,
@@ -862,7 +862,7 @@ namespace DealnetPortal.Web.Infrastructure
             else
             {
                 foreach (var signer in contract.SecondaryCustomers
-                .Select(s => new SigneeViewModel
+                .Select(s => new SignerViewModel
                 {
                     Id = 0,
                     CustomerId = s.Id,
@@ -877,7 +877,7 @@ namespace DealnetPortal.Web.Infrastructure
                 }
             }
 
-            model.Signers.Add(new SigneeViewModel
+            model.Signers.Add(new SignerViewModel
             {
                 Id = salesRep != null ? salesRep.Id : 0,
                 CustomerId = null,

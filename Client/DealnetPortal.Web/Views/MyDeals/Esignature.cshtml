@@ -17,15 +17,18 @@
                 @Resources.OneSignerDeclinedRemainingCanceled
             </div>
             <div class="sent-contract-secton">
+                @using(Html.BeginForm(null, null, FormMethod.Post, new { id = "signer-form" })) {
                 <div class="rental-summary-emails">
                     <div class="rental-summary-inner">
                         @for (var i = 0; Model.ESignature.Signers.Count > i; i++)
                         {
-                            @Html.HiddenFor(m=>m.ESignature.Signers[i].Id, new { id=$"signer-id-{i}" })
-                            @Html.HiddenFor(m=>m.ESignature.Signers[i].SignatureStatus, new { id=$"signer-status-{i}" })
-                            @Html.HiddenFor(m=>m.ESignature.Signers[i].StatusLastUpdateTime, new { id=$"signer-update-{i}" })
-                            @Html.HiddenFor(m=>m.ESignature.Signers[i].Role,new { id=$"signer-role-{i}"})
-                            @Html.HiddenFor(m=>m.ESignature.Signers[i].CustomerId, new { id=$"signer-customer-id-{i}" })
+                            <div class="hidden">
+                                @Html.HiddenFor(m => m.ESignature.Signers[i].Id, new { id = $"signer-id-{i}" })
+                                @Html.HiddenFor(m => m.ESignature.Signers[i].SignatureStatus, new { id = $"signer-status-{i}" })
+                                @Html.HiddenFor(m => m.ESignature.Signers[i].StatusLastUpdateTime, new { id = $"signer-update-{i}" })
+                                @Html.HiddenFor(m => m.ESignature.Signers[i].Role, new { id = $"signer-role-{i}" })
+                                @Html.HiddenFor(m => m.ESignature.Signers[i].CustomerId, new { id = $"signer-customer-id-{i}" })
+                            </div>
                             <div class="row form-group">
                                 <div class="col-md-2 applicant-col">
                                     <div class="dealnet-label">
@@ -124,20 +127,22 @@
                         </div>
                         <div class="row form-group">
                             <div class="col-md-2 hidden-xs">&nbsp;</div>
-                            <button class="dealnet-success-button col-md-5">
-                                @if (!Model.ESignature.Status.HasValue || Model.ESignature.Status < ApiEnum.SignatureStatus.Sent)
-                                {
-                                    <text>@Resources.SendInvites</text>
-                                }
-                                else if (Model.ESignature.Status < ApiEnum.SignatureStatus.Completed)
-                                {
-                                    <text>@Resources.CancelDigitalSignature</text>
-                                }
-                                else
-                                {
-                                    <text>@Resources.ResendInvites</text>
-                                }
-                            </button>
+                            <div class="col-md-5">
+                                <button class="dealnet-success-button" type="submit" id="submit-digital">
+                                    @if (!Model.ESignature.Status.HasValue || Model.ESignature.Status < ApiEnum.SignatureStatus.Sent)
+                                    {
+                                        <text>@Resources.SendInvites</text>
+                                    }
+                                    else if (Model.ESignature.Status < ApiEnum.SignatureStatus.Completed)
+                                    {
+                                        <text>@Resources.CancelDigitalSignature</text>
+                                    }
+                                    else
+                                    {
+                                        <text>@Resources.ResendInvites</text>
+                                    }
+                                </button>
+                            </div>
                             <div id="type-reminder" class="col-md-5">
                                 <div class="info-text-success flex-centered-text">
                                     <span class="icon-hold">
@@ -151,6 +156,7 @@
                         </div>
                     </div>
                 </div>
+                }
             </div>
         </div>
         <div role="tabpanel" class="tab-pane fade" id="paper-contract">

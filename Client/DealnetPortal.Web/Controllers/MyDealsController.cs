@@ -180,5 +180,11 @@ namespace DealnetPortal.Web.Controllers
             }
             return new FileContentResult(new byte[] { }, "application/pdf");
         }
+
+        [HttpPost]
+        public async Task<JsonResult> SendForESigature(List<SignerViewModel> signers)
+        {
+            return Json(new {success=true });
+        }
     }
 }

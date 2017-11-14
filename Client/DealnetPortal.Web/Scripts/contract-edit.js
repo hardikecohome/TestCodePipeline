@@ -6,9 +6,11 @@
             e.preventDefault();
             $(this).tab('show');
         });
+        $('[id^="signee-btn-"]').on('click', submitOneSignature);
+        $('#submit-digital').on('click', submitAllEsignatures);
 
         $('#print-button').on('click', printContract(downloadUrl));
-       
+
         $('.date-input').each(function (index, input) {
             assignDatepicker(input,
                 {
@@ -523,4 +525,17 @@ function printCertificate (checkUrl, form) {
             $('#certificate-error-message').show();
         }
     });
+}
+
+function submitEsignature () {
+    debugger
+}
+
+function submitOneSignature (e) {
+    debugger
+}
+
+function submitAllEsignatures (e) {
+    var form = $(e.target.form);
+    debugger
 }
