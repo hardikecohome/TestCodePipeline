@@ -296,10 +296,12 @@
     <Compile Include="Models\Dealer\RequiredDocumentViewModel.cs" />
     <Compile Include="Models\Dealer\SaveAndResumeViewModel.cs" />
     <Compile Include="Models\Dealer\TradeReferenceViewModel.cs" />
+    <Compile Include="Models\ESignatureViewModel.cs" />
     <Compile Include="Models\MyProfile\DealerAreaViewModel.cs" />
     <Compile Include="Models\MyProfile\ProfileViewModel.cs" />
     <Compile Include="Models\NewCustomerViewModel.cs" />
     <Compile Include="Models\RateCardViewModel.cs" />
+    <Compile Include="Models\SignerViewModel.cs" />
     <Compile Include="Models\StandaloneCalculatorViewModel.cs" />
     <Compile Include="Models\SubmittedCustomerFormViewModel.cs" />
     <Compile Include="Models\CustomerFormViewModel.cs" />
@@ -510,6 +512,7 @@
     <Content Include="Content\images\sprite\icon-calculator-btn.svg" />
     <Content Include="Content\images\sprite\icon-calculator.svg" />
     <Content Include="Content\images\sprite\icon-calendar.svg" />
+    <Content Include="Content\images\sprite\icon-comment.svg" />
     <Content Include="Content\images\sprite\icon-customer-support.svg" />
     <Content Include="Content\images\sprite\icon-dealer-support.svg" />
     <Content Include="Content\images\sprite\icon-decline-circle.svg" />
@@ -559,6 +562,7 @@
     <Content Include="Content\images\sprite\icon-upload.svg" />
     <Content Include="Content\images\sprite\icon-user-small.svg" />
     <Content Include="Content\images\sprite\icon-user.svg" />
+    <Content Include="Content\images\sprite\icon-waiting.svg" />
     <Content Include="Content\images\sprite\new-application.svg" />
     <Content Include="Content\images\sprite\new-rental.svg" />
     <Content Include="Content\images\sprite\sprite.svg" />
@@ -1133,6 +1137,7 @@
     <Content Include="Views\Home\Library.cshtml" />
     <Content Include="Views\Dealer\SuccessWithoutDocuments.cshtml" />
     <Content Include="Views\MyDeals\_EsignatureModal.cshtml" />
+    <Content Include="Views\MyDeals\Esignature.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

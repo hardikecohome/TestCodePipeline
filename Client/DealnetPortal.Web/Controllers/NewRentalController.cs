@@ -420,7 +420,7 @@ namespace DealnetPortal.Web.Controllers
                 {
                     return RedirectToAction("CreditDeclined", new {contractId});
                 }
-                return RedirectToAction("AgreementSubmitSuccess", new {contractId});
+                return RedirectToAction("ContractEdit","MyDeals", new {id=contractId, newlySubmitted = true});
             }
             return RedirectToAction("SummaryAndConfirmation", new {contractId});
         }

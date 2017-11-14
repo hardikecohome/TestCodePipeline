@@ -50,7 +50,8 @@ namespace DealnetPortal.Api.Tests.ESignature
                         docuSignResipientStatuses.Any(ds => rse.Name.LocalName.Contains(ds)))
                     .Select(rse =>
                     {
-                        if (!DateTime.TryParse(rse.Value, out var statusTime))
+                        DateTime statusTime;
+                        if (!DateTime.TryParse(rse.Value, out statusTime))
                         {
                             statusTime = new DateTime();
                         }

@@ -602,7 +602,8 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         _loggingService.LogInfo($"Recieved DocuSign {envelopeStatus} status for envelope {envelopeId}");
                         var envelopeStatusTimeValue = envelopeStatusSection?.Element(XName.Get(envelopeStatus, xmlns))?.Value;
-                        if (!DateTime.TryParse(envelopeStatusTimeValue, out var envelopeStatusTime))
+                        DateTime envelopeStatusTime;
+                        if (!DateTime.TryParse(envelopeStatusTimeValue, out envelopeStatusTime))
                         {
                             envelopeStatusTime = DateTime.Now;
                         }
@@ -621,7 +622,8 @@ namespace DealnetPortal.Api.Integration.Services
                                     docuSignResipientStatuses.Any(ds => rse.Name.LocalName.Contains(ds)))
                                 .Select(rse =>
                                 {
-                                    if (!DateTime.TryParse(rse.Value, out var statusTime))
+                                    DateTime statusTime;
+                                    if (!DateTime.TryParse(rse.Value, out statusTime))
                                     {
                                         statusTime = new DateTime();
                                     }

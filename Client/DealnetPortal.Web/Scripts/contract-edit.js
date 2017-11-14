@@ -2,8 +2,15 @@
     .then(function () {
         togglePrintButton(checkUrl);
 
+        $('.contract-tab').on('click', function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+        $('[id^="signee-btn-"]').on('click', submitOneSignature);
+        $('#submit-digital').on('click', submitAllEsignatures);
+
         $('#print-button').on('click', printContract(downloadUrl));
-       
+
         $('.date-input').each(function (index, input) {
             assignDatepicker(input,
                 {
@@ -518,4 +525,50 @@ function printCertificate (checkUrl, form) {
             $('#certificate-error-message').show();
         }
     });
+}
+
+function submitEsignature (signers, callback) {
+    return $.ajax({
+        url: esignUrl,
+        method: 'POST',
+        contentType: 'aplication/json',
+        data: JSON.stringify({
+            ContractId: $('#contract-id').val(),
+            HomeOwnerId: $('#home-owner-id').val(),
+            Status: $('#status').val(),
+            Signers: signers
+        }),
+        contentType: false,
+        processData: false
+    });
+}
+
+function submitOneSignature (e) {
+    debugger
+}
+
+function submitAllEsignatures (e) {
+    e.preventDefault();
+    var $form = $(e.target.form);
+    if ($form.valid()) {
+        var signers = [];
+        $form.find('.signer-row').each(function (index, el) {
+            var $el = $(el);
+            var rowId = $el.find('#row-id').val();
+            var signer = {
+                Id: $el.find('#signer-id-' + rowId).val(),
+                SignatureStatus: $el.find('#signer-status-' + rowId).val(),
+                StatusLastUpdateTime: $el.find('#signer-update-' + rowId).val(),
+                Role: $el.find('#signer-role-' + rowId).val(),
+                CustomerId: $el.find('#signer-customer-id-' + rowId).val(),
+                Email: $el.find('#signer-email-' + rowId).val()
+            };
+            signers.push(signer);
+        });
+        submitEsignature(signers).done(function (data) {
+            debugger
+        }).fail(function (xhr, status, result) {
+            debugger
+        });
+    }
 }

@@ -39,13 +39,14 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> ContractEdit(int id)
+        public async Task<ActionResult> ContractEdit(int id, bool newlySubmitted = false)
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1;
 
             var dealer = await _dictionaryServiceAgent.GetDealerInfo();
             ViewBag.IsEsignatureEnabled = dealer?.EsignatureEnabled ?? false;
+            ViewBag.IsNewlySubmitted = newlySubmitted;
 
             var contract = await _contractManager.GetContractEditAsync(id);
             if (!string.IsNullOrEmpty(dealer?.Email))
@@ -178,6 +179,12 @@ namespace DealnetPortal.Web.Controllers
                 return response;
             }
             return new FileContentResult(new byte[] { }, "application/pdf");
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> SendForESigature(ESignatureViewModel viewModel)
+        {
+            return Json(new {success=true });
         }
     }
 }
