@@ -569,9 +569,9 @@ namespace DealnetPortal.Web.Controllers
             return new FileContentResult(new byte[] {}, "application/pdf");
         }
 
-        public async Task<FileResult> GetContractDocument(int contractId)
+        public async Task<FileResult> GetSignedContract(int contractId)
         {
-            var result = await _contractServiceAgent.GetContractDocument(contractId);
+            var result = await _contractServiceAgent.GetSignedAgreement(contractId);
 
             if (result.Item1 != null)
             {

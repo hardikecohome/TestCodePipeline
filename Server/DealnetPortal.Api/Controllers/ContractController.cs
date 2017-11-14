@@ -321,14 +321,13 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("GetContractDocument")]
+        [Route("GetSignedAgreement")]
         [HttpGet]
-        public IHttpActionResult GetContractDocument(int contractId)
+        public async Task<IHttpActionResult> GetSignedAgreement(int contractId)
         {
             try
-            {
-                var result = ContractService.GetPrintDocument(contractId, LoggedInUser?.UserId);
-
+            {                
+                var result = await SignatureService.GetSignedAgreement(contractId, LoggedInUser?.UserId);
                 return Ok(result);
             }
             catch (Exception ex)
