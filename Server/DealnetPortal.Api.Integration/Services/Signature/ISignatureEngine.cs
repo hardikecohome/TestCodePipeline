@@ -32,6 +32,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument();
 
+        Task<IList<Alert>> CancelSignature();
+
         string TransactionId { get; set; }
 
         string DocumentId { get; set; }

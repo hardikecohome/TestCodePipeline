@@ -37,7 +37,6 @@ namespace DealnetPortal.Api
             {
                 
             }
-            
         }
 
         private static void CleanAllJobs()

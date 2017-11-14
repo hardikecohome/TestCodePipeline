@@ -30,6 +30,11 @@ namespace DealnetPortal.Api.Integration.Services
 
         IList<ContractDTO> GetDealerLeads(string userId);
 
+        /// <summary>
+        /// Used for return contracts created by user and even assigned to other users at the moment
+        /// </summary>
+        /// <param name="userId">Id of an user</param>
+        /// <returns></returns>
         IList<ContractDTO> GetCreatedContracts(string userId);
 
         ContractDTO GetContract(int contractId, string contractOwnerId);
@@ -40,15 +45,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         IList<Alert> InitiateCreditCheck(int contractId, string contractOwnerId);
 
-        IList<Alert> InitiateDigitalSignature(int contractId, string contractOwnerId, SignatureUser[] signatureUsers);
-
-        Tuple<AgreementDocument, IList<Alert>> GetPrintAgreement(int contractId, string contractOwnerId);
-
         AgreementDocument GetContractsFileReport(IEnumerable<int> ids, string contractOwnerId);
-
-        Tuple<bool, IList<Alert>> CheckPrintAgreementAvailable(int contractId, int documentTypeId, string contractOwnerId);
-
-        Tuple<AgreementDocument, IList<Alert>> GetInstallCertificate(int contractId, string contractOwnerId);
 
         IList<Alert> UpdateInstallationData(InstallationCertificateDataDTO installationCertificateData, string contractOwnerId);
 

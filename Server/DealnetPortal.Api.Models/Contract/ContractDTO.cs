@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Models.Signature;
 
 namespace DealnetPortal.Api.Models.Contract
 {
@@ -50,5 +51,7 @@ namespace DealnetPortal.Api.Models.Contract
         public bool? IsNewlyCreated { get; set; }
 
         public bool? OnCreditReview { get; set; }
+
+        public List<ContractSignerDTO> Signers { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Xml.Linq;
 using AutoMapper;
+using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Storage;
@@ -13,6 +14,7 @@ using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities.Logging;
 using Microsoft.AspNet.Identity.Owin;
+using System.Web.Hosting;
 
 namespace DealnetPortal.Api.Controllers
 {
@@ -23,14 +25,16 @@ namespace DealnetPortal.Api.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IContractRepository _contractRepository;
         private readonly IContractService _contractService;
+        private readonly ISignatureService _signatureService;
 
         public StorageController(ILoggingService loggingService, IContractService contractService,
-            IContractRepository contractRepository, IFileRepository fileRepository, IUnitOfWork unitOfWork) : base(loggingService)
+            IContractRepository contractRepository, IFileRepository fileRepository, IUnitOfWork unitOfWork, ISignatureService signatureService) : base(loggingService)
         {
             _fileRepository = fileRepository;
             _unitOfWork = unitOfWork;
             _contractRepository = contractRepository;
             _contractService = contractService;
+            _signatureService = signatureService;
         }
 
         //[AllowAnonymous]

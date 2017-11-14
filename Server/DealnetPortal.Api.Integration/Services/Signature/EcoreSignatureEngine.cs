@@ -43,6 +43,11 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             throw new NotImplementedException();
         }
 
+        public Task<IList<Alert>> CancelSignature()
+        {
+            throw new NotImplementedException();
+        }
+
         public string TransactionId { get; set; }
 
         public string DocumentId { get; set; }

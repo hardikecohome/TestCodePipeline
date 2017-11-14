@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Microsoft.Practices.ObjectBuilder2;
 
 using DealnetPortal.Api.Common.Constants;
@@ -38,6 +39,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IFileRepository _fileRepository;
         private readonly IDealerRepository _dealerRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IAspireService _aspireService;
         private readonly IAspireStorageReader _aspireStorageReader;               
 
         public SignatureService(
@@ -46,6 +48,7 @@ namespace DealnetPortal.Api.Integration.Services
             IContractRepository contractRepository,
             IFileRepository fileRepository, 
             IUnitOfWork unitOfWork, 
+            IAspireService aspireService,
             IAspireStorageReader aspireStorageReader,
             ILoggingService loggingService, 
             IDealerRepository dealerRepository)
@@ -57,6 +60,7 @@ namespace DealnetPortal.Api.Integration.Services
             _dealerRepository = dealerRepository;
             _fileRepository = fileRepository;
             _unitOfWork = unitOfWork;
+            _aspireService = aspireService;
             _aspireStorageReader = aspireStorageReader;            
         }
 
@@ -65,112 +69,119 @@ namespace DealnetPortal.Api.Integration.Services
         {
             List<Alert> alerts = new List<Alert>();
 
-            // Get contract
-            var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
-            if (contract != null)
+            try
             {
-                _loggingService.LogInfo($"Started eSignature processing for contract [{contractId}]");                
-
-                var logRes = await _signatureEngine.ServiceLogin().ConfigureAwait(false);
-                _signatureEngine.TransactionId = contract.Details?.SignatureTransactionId;
-                _signatureEngine.DocumentId = contract.Details?.SignatureDocumentId;
-
-                if (logRes.Any(a => a.Type == AlertType.Error))
+                // Get contract
+                var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
+                if (contract != null)
                 {
-                    LogAlerts(alerts);
-                    return alerts;
-                }
+                    _loggingService.LogInfo($"Started eSignature processing for contract [{contractId}]");
 
-                var agrRes = SelectAgreementTemplate(contract, ownerUserId);
+                    signatureUsers = PrepareSignatureUsers(contract, signatureUsers);
 
-                if (agrRes.Item1 == null || agrRes.Item2.Any(a => a.Type == AlertType.Error))
-                {
-                    alerts.AddRange(agrRes.Item2);
-                    LogAlerts(alerts);
-                    return alerts;
-                }
+                    var logRes = await _signatureEngine.ServiceLogin().ConfigureAwait(false);
+                    _signatureEngine.TransactionId = contract.Details?.SignatureTransactionId;
+                    _signatureEngine.DocumentId = contract.Details?.SignatureDocumentId;
 
-                var agreementTemplate = agrRes.Item1;
+                    if (logRes.Any(a => a.Type == AlertType.Error))
+                    {
+                        LogAlerts(alerts);
+                        return alerts;
+                    }
 
-                var trRes = await _signatureEngine.InitiateTransaction(contract, agreementTemplate);
+                    var agrRes = SelectAgreementTemplate(contract, ownerUserId);
 
-                if (trRes?.Any() ?? false)
-                {
-                    alerts.AddRange(trRes);
-                }
+                    if (agrRes.Item1 == null || agrRes.Item2.Any(a => a.Type == AlertType.Error))
+                    {
+                        alerts.AddRange(agrRes.Item2);
+                        LogAlerts(alerts);
+                        return alerts;
+                    }
 
-                var templateFields = await _signatureEngine.GetFormfFields();
+                    var agreementTemplate = agrRes.Item1;
 
-                var fields = PrepareFormFields(contract, templateFields?.Item1, ownerUserId);
-                _loggingService.LogInfo($"{fields.Count} fields collected");
+                    var trRes = await _signatureEngine.InitiateTransaction(contract, agreementTemplate);
 
-                var insertRes = await _signatureEngine.InsertDocumentFields(fields);
+                    if (trRes?.Any() ?? false)
+                    {
+                        alerts.AddRange(trRes);
+                    }
 
-                if (insertRes?.Any() ?? false)
-                {
-                    alerts.AddRange(insertRes);
-                }
-                if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
-                {
-                    _loggingService.LogWarning($"Fields merged with agreement document with errors");
-                    LogAlerts(alerts);
-                    return alerts;
-                }
-                //else
-                //{
-                //    _loggingService.LogInfo($"Fields merged with agreement document form {docId} successefully");
-                //    UpdateContractDetails(contractId, ownerUserId, null, null, SignatureStatus.FieldsMerged);
-                //}     
+                    var templateFields = await _signatureEngine.GetFormfFields();
 
-                insertRes = await _signatureEngine.InsertSignatures(signatureUsers);
+                    var fields = PrepareFormFields(contract, templateFields?.Item1, ownerUserId);
+                    _loggingService.LogInfo($"{fields.Count} fields collected");
 
-                if (insertRes?.Any() ?? false)
-                {
-                    alerts.AddRange(insertRes);
-                }
-                if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
-                {
-                    _loggingService.LogWarning($"Signature fields inserted into agreement document form with errors");
-                    //LogAlerts(alerts);
-                    //return alerts;
+                    var insertRes = await _signatureEngine.InsertDocumentFields(fields);
+
+                    if (insertRes?.Any() ?? false)
+                    {
+                        alerts.AddRange(insertRes);
+                    }
+                    if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
+                    {
+                        _loggingService.LogWarning($"Fields merged with agreement document with errors");
+                        LogAlerts(alerts);
+                        return alerts;
+                    }
+
+                    insertRes = await _signatureEngine.InsertSignatures(signatureUsers);
+
+                    if (insertRes?.Any() ?? false)
+                    {
+                        alerts.AddRange(insertRes);
+                    }
+                    if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
+                    {
+                        _loggingService.LogWarning($"Signature fields inserted into agreement document form with errors");
+                        //LogAlerts(alerts);
+                        //return alerts;
+                    }
+                    else
+                    {
+                        _loggingService.LogInfo(
+                            $"Signature fields inserted into agreement document form successefully");
+                    }
+
+                    insertRes = await _signatureEngine.SubmitDocument(signatureUsers);
+
+                    if (insertRes?.Any() ?? false)
+                    {
+                        alerts.AddRange(insertRes);
+                    }
+                    if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
+                    {
+                        LogAlerts(alerts);
+                        return alerts;
+                    }
+                    //var updateStatus = signatureUsers?.Any() ?? false
+                    //    ? SignatureStatus.Sent
+                    //    : SignatureStatus.Draft;
+                    UpdateContractDetails(contractId, ownerUserId, _signatureEngine.TransactionId,
+                        _signatureEngine.DocumentId, null);
+
+                    UpdateSignersInfo(contractId, ownerUserId, signatureUsers);
+                    _loggingService.LogInfo(
+                        $"Invitations for agreement document form sent successefully. TransactionId: [{_signatureEngine.TransactionId}], DocumentID [{_signatureEngine.DocumentId}]");
                 }
                 else
                 {
-                    _loggingService.LogInfo(
-                        $"Signature fields inserted into agreement document form successefully");
+                    var errorMsg = $"Can't get contract [{contractId}] for processing";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = "eSignature error",
+                        Message = errorMsg
+                    });
+                    _loggingService.LogError(errorMsg);
                 }
-
-                insertRes = await _signatureEngine.SubmitDocument(signatureUsers);
-
-                if (insertRes?.Any() ?? false)
-                {
-                    alerts.AddRange(insertRes);
-                }
-                if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
-                {
-                    LogAlerts(alerts);
-                    return alerts;
-                }
-
-                _loggingService.LogInfo(
-                    $"Invitations for agreement document form sent successefully. TransactionId: [{_signatureEngine.TransactionId}], DocumentID [{_signatureEngine.DocumentId}]");
-                var updateStatus = signatureUsers?.Any() ?? false
-                    ? SignatureStatus.InvitationsSent
-                    : SignatureStatus.Draft;
-                UpdateContractDetails(contractId, ownerUserId, _signatureEngine.TransactionId,
-                    _signatureEngine.DocumentId, updateStatus);
             }
-            else
+            catch(Exception ex)
             {
-                var errorMsg = $"Can't get contract [{contractId}] for processing";
-                alerts.Add(new Alert()
-                {
-                    Type = AlertType.Error,
-                    Header = "eSignature error",
-                    Message = errorMsg
-                });
-                _loggingService.LogError(errorMsg);
+                _loggingService.LogError($"Failed to initiate a digital signature for contract [{contractId}]", ex);
+                throw;
             }
+
             LogAlerts(alerts);
             return alerts;
         }
@@ -520,6 +531,198 @@ namespace DealnetPortal.Api.Integration.Services
             return status;
         }
 
+        public async Task<IList<Alert>> CancelSignatureProcess(int contractId, string ownerUserId)
+        {
+            List<Alert> alerts = new List<Alert>();
+
+            // Get contract
+            var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
+            if (contract != null)
+            {
+                _loggingService.LogInfo($"Started cancelling eSignature for contract [{contractId}]");
+                    
+                var logRes = await _signatureEngine.ServiceLogin().ConfigureAwait(false);
+                _signatureEngine.TransactionId = contract.Details?.SignatureTransactionId;
+                _signatureEngine.DocumentId = contract.Details?.SignatureDocumentId;
+                alerts.AddRange(logRes);
+
+                if (alerts.All(a => a.Type != AlertType.Error))
+                {
+                    var cancelRes = await _signatureEngine.CancelSignature();
+                    alerts.AddRange(cancelRes);
+                }
+                if (alerts.All(a => a.Type != AlertType.Error))
+                {
+                    _loggingService.LogInfo($"eSignature envelope {contract?.Details?.SignatureTransactionId} canceled for contract [{contractId}]");
+                }
+                else
+                {
+                    LogAlerts(alerts);
+                }
+            }
+            else
+            {
+                var errorMsg = $"Can't get contract [{contractId}] for processing";
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "eSignature error",
+                    Message = errorMsg
+                });
+                _loggingService.LogError(errorMsg);
+            }
+
+            return alerts;
+        }
+
+        public Task<IList<Alert>> UpdateSignatureUsers(int contractId, string ownerUserId, SignatureUser[] signatureUsers,
+            bool reSend = false)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IList<Alert>> ProcessSignatureEvent(string notificationMsg)
+        {
+            var docuSignResipientStatuses = new string[] {"Created", "Sent", "Delivered", "Signed", "Declined"};
+            var alerts = new List<Alert>();
+            try
+            {
+                XDocument xDocument = XDocument.Parse(notificationMsg);
+                var xmlns = xDocument?.Root?.Attribute(XName.Get("xmlns"))?.Value ?? "http://www.docusign.net/API/3.0";
+
+                var envelopeStatusSection = xDocument?.Root?.Element(XName.Get("EnvelopeStatus", xmlns));
+                var envelopeId = envelopeStatusSection?.Element(XName.Get("EnvelopeID", xmlns))?.Value;
+
+                var contract = _contractRepository.FindContractBySignatureId(envelopeId);
+                if (contract != null && envelopeStatusSection != null)
+                {
+                    bool updated = false;
+                    var envelopeStatus = envelopeStatusSection?.Element(XName.Get("Status", xmlns))?.Value;
+                    if (!string.IsNullOrEmpty(envelopeStatus))
+                    {
+                        _loggingService.LogInfo($"Recieved DocuSign {envelopeStatus} status for envelope {envelopeId}");
+                        var envelopeStatusTimeValue = envelopeStatusSection?.Element(XName.Get(envelopeStatus, xmlns))?.Value;
+                        if (!DateTime.TryParse(envelopeStatusTimeValue, out var envelopeStatusTime))
+                        {
+                            envelopeStatusTime = DateTime.Now;
+                        }
+                        updated = await ProcessSignatureStatus(contract, envelopeStatus, envelopeStatusTime);
+                    }
+
+                    //proceed with recipients statuses
+                    var recipientStatusesSection = envelopeStatusSection?.Element(XName.Get("RecipientStatuses", xmlns));
+                    if (recipientStatusesSection != null)
+                    {
+                        var recipientStatuses = recipientStatusesSection.Descendants(XName.Get("RecipientStatus", xmlns));
+                        recipientStatuses.ForEach(rs =>
+                        {
+                            var rsStatus = rs.Element(XName.Get("Status", xmlns))?.Value;
+                            var rsLastStatusTime = rs.Elements().Where(rse =>
+                                    docuSignResipientStatuses.Any(ds => rse.Name.LocalName.Contains(ds)))
+                                .Select(rse =>
+                                {
+                                    if (!DateTime.TryParse(rse.Value, out var statusTime))
+                                    {
+                                        statusTime = new DateTime();
+                                    }
+                                    return statusTime;
+                                }).OrderByDescending(rst => rst).FirstOrDefault();
+                            var rsName = rs.Element(XName.Get("UserName", xmlns))?.Value;
+                            var rsEmail = rs.Element(XName.Get("Email", xmlns))?.Value;
+                            var rsComment = rs.Element(XName.Get("DeclineReason", xmlns))?.Value;
+                            updated |= ProcessSignerStatus(contract, rsName, rsEmail, rsStatus, rsComment, rsLastStatusTime);
+                        });
+                    }
+                    if (updated)
+                    {
+                        _unitOfWork.Save();
+                    }
+                }
+                else
+                {
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Code = ErrorCodes.CantGetContractFromDb,
+                        Header = "Cannot find contract",
+                        Message = $"Cannot find contract for signature envelopeId {envelopeId}"
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,                   
+                    Header = "Cannot parse DocuSign notification",
+                    Message = $"Error occurred during parsing request from DocuSign: {ex.ToString()}"
+                });
+                _loggingService.LogError("Error occurred during parsing request from DocuSign", ex);
+            }
+            return await Task.FromResult(alerts);
+        }
+
+        #region private  
+
+        private SignatureUser[] PrepareSignatureUsers(Contract contract, SignatureUser[] signatureUsers)
+        {
+            List<SignatureUser> usersForProcessing = new List<SignatureUser>();
+            var suHomeOwner = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.HomeOwner);
+            var homeOwner = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.HomeOwner)
+                                ?? new SignatureUser() { Role = SignatureRole.HomeOwner };
+            homeOwner.FirstName = !string.IsNullOrEmpty(homeOwner.FirstName) ? homeOwner.FirstName : contract?.PrimaryCustomer?.FirstName;
+            homeOwner.LastName = !string.IsNullOrEmpty(homeOwner.LastName) ? homeOwner.LastName : contract?.PrimaryCustomer?.LastName;
+            homeOwner.CustomerId = homeOwner.CustomerId ?? contract?.PrimaryCustomer?.Id;
+            homeOwner.EmailAddress = !string.IsNullOrEmpty(homeOwner.EmailAddress)
+                ? homeOwner.EmailAddress
+                : contract?.PrimaryCustomer?.Emails.FirstOrDefault()?.EmailAddress;
+            usersForProcessing.Add(homeOwner);
+
+            contract?.SecondaryCustomers?.ForEach(cc =>
+            {
+                var su = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.AdditionalApplicant &&
+                                                   (cc.Id == u.CustomerId) ||
+                                                   (cc.FirstName == u.FirstName && cc.LastName == u.LastName));
+                var coBorrower = su ?? new SignatureUser() { Role = SignatureRole.AdditionalApplicant };
+                coBorrower.FirstName = !string.IsNullOrEmpty(coBorrower.FirstName) ? coBorrower.FirstName : cc.FirstName;
+                coBorrower.LastName = !string.IsNullOrEmpty(coBorrower.LastName) ? coBorrower.LastName : cc.LastName;
+                coBorrower.CustomerId = coBorrower.CustomerId ?? cc.Id;
+                coBorrower.EmailAddress = !string.IsNullOrEmpty(coBorrower.EmailAddress)
+                    ? coBorrower.EmailAddress
+                    : cc.Emails.FirstOrDefault()?.EmailAddress;
+                usersForProcessing.Add(coBorrower);
+            });
+
+            var dealerUser = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.Dealer);
+            if (dealerUser != null)
+            {
+                var dealer = contract.Dealer;
+                if (dealer != null)
+                {
+                    dealerUser.LastName = dealer.UserName;                    
+                }
+                usersForProcessing.Add(dealerUser);
+            }
+            return usersForProcessing.ToArray();
+        }
+
+        private void UpdateSignersInfo(int contractId, string ownerUserId, SignatureUser[] signatureUsers)
+        {
+            try
+            {
+                var signers = AutoMapper.Mapper.Map<ContractSigner[]>(signatureUsers);
+                if (signers?.Any() == true)
+                {
+                    _contractRepository.AddOrUpdateContractSigners(contractId, signers, ownerUserId);
+                    _unitOfWork.Save();
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError($"Error on update signers for contract {contractId}", ex);
+            }            
+        }
+
         private void UpdateContractDetails(int contractId, string ownerUserId, string transactionId, string dpId,
             SignatureStatus? status)
         {
@@ -550,7 +753,7 @@ namespace DealnetPortal.Api.Integration.Services
                     if (updated)
                     {
                         contract.Details.SignatureInitiatedTime = DateTime.Now;
-                        contract.Details.SignatureTime = DateTime.Now;
+                        contract.Details.SignatureLastUpdateTime = DateTime.Now;
                         _unitOfWork.Save();
                     }
                 }
@@ -559,6 +762,141 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 _loggingService.LogError("Error on update contract details", ex);
             }
+        }
+
+        private async Task<bool> ProcessSignatureStatus(Contract contract, string signatureStatus, DateTime updateTime)
+        {
+            bool updated = false;            
+            var status = ParseSignatureStatus(signatureStatus);
+            
+            switch (status)
+            {
+                case SignatureStatus.Completed:
+                    //upload doc from docuSign to Aspire
+                    updated |= await TransferSignedContractAgreement(contract);
+                    break;
+            }
+
+            if (status.HasValue && contract.Details.SignatureStatus != status)
+            {
+                contract.Details.SignatureStatus = status;
+                updated = true;
+            }
+            if (contract.Details.SignatureStatusQualifier != signatureStatus)
+            {
+                contract.Details.SignatureStatusQualifier = signatureStatus;
+                updated = true;
+            }
+            if (updated)
+            {
+                contract.Details.SignatureLastUpdateTime = updateTime;
+            }
+
+            return updated;
+        }
+
+        private bool ProcessSignerStatus(Contract contract, string userName, string email, string status, string comment, DateTime statusTime)
+        {
+            bool updated = false;
+
+            var signer =
+                contract.Signers?.FirstOrDefault(s => (string.IsNullOrEmpty(s.FirstName) || userName.Contains(s.FirstName)) 
+                && (string.IsNullOrEmpty(s.LastName) || userName.Contains(s.LastName)));
+            //if (signer == null)
+            //{
+            //    signer = new ContractSigner()
+            //    {
+            //        Contract = contract,
+            //        ContractId = contract.Id,
+            //        EmailAddress = email,
+            //    };
+            //    contract.Signers.Add(signer);
+            //    updated = true;
+            //}
+            if (signer != null)
+            {
+                var sStatus = ParseSignatureStatus(status);
+                if (sStatus != null && signer.SignatureStatus != sStatus)
+                {
+                    signer.SignatureStatus = sStatus;
+                    signer.SignatureStatusQualifier = status;
+                    signer.StatusLastUpdateTime = statusTime;
+                    if (!string.IsNullOrEmpty(comment))
+                    {
+                        signer.Comment = comment;
+                    }
+                    updated = true;
+                }
+            }
+
+            return updated;
+        }
+
+        private async Task<bool> TransferSignedContractAgreement(Contract contract)
+        {
+            bool updated = false;
+            try
+            {            
+                _signatureEngine.TransactionId = contract.Details.SignatureTransactionId;
+                var docResult = await _signatureEngine.GetDocument(DocumentVersion.Signed);
+                if (docResult?.Item1 != null)
+                {
+                    _loggingService.LogInfo(
+                        $"Signer contract {docResult.Item1.Name} for contract {contract.Id} was downloaded from DocuSign");
+                    ContractDocumentDTO document = new ContractDocumentDTO()
+                    {
+                        ContractId = contract.Id,
+                        CreationDate = DateTime.Now,
+                        DocumentTypeId = (int)DocumentTemplateType.SignedContract, // Signed contract !!
+                        DocumentName = docResult.Item1.Name,
+                        DocumentBytes = docResult.Item1.DocumentRaw
+                    };
+                    _contractRepository.AddDocumentToContract(contract.Id, AutoMapper.Mapper.Map<ContractDocument>(document), contract.DealerId);
+                    updated = true;
+                    var alerts = await _aspireService.UploadDocument(contract.Id, document, contract.DealerId);
+                    if (alerts?.All(a => a.Type != AlertType.Error) == true)
+                    {
+                        _loggingService.LogInfo(
+                            $"Signer contract {docResult.Item1.Name} for contract {contract.Id} uploaded to Aspire successfully");                    
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError(
+                    $"Cannot transfer signed contract from DocuSign for contract {contract.Id} ", ex);
+            }
+            return updated;
+        }
+
+        private SignatureStatus? ParseSignatureStatus(string status)
+        {
+            SignatureStatus? signatureStatus = null;
+            switch (status?.ToLowerInvariant())
+            {
+                case "created":
+                    signatureStatus = SignatureStatus.Created;
+                    break;
+                case "sent":
+                    signatureStatus = SignatureStatus.Sent;
+                    break;
+                case "delivered":
+                    signatureStatus = SignatureStatus.Delivered;
+                    break;
+                case "signed":
+                    signatureStatus = SignatureStatus.Signed;
+                    break;
+                case "completed":
+                    signatureStatus = SignatureStatus.Completed;
+                    break;
+                case "declined":
+                    signatureStatus = SignatureStatus.Declined;
+                    break;
+                case "deleted":
+                    signatureStatus = SignatureStatus.Deleted;
+                    break;
+            }
+            return signatureStatus;
         }
 
         private void LogAlerts(IList<Alert> alerts)
@@ -1909,5 +2247,7 @@ namespace DealnetPortal.Api.Integration.Services
             var defaultName = document.Name;
             document.Name = $"{transactionId} {defaultName}";
         }
+
+        #endregion
     }
 }

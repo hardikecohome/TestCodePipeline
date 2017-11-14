@@ -9,7 +9,7 @@ using DealnetPortal.Api.Models.Storage;
 namespace DealnetPortal.Api.Integration.Services
 {
     /// <summary>
-    /// Service for e-signature of contracts
+    /// Service for e-signature and PDF-versions of contracts
     /// </summary>
     public interface ISignatureService
     {
@@ -21,6 +21,12 @@ namespace DealnetPortal.Api.Integration.Services
         /// <param name="signatureUsers"></param>
         /// <returns></returns>
         Task<IList<Alert>> ProcessContract(int contractId, string ownerUserId, SignatureUser[] signatureUsers);
+
+        Task<IList<Alert>> CancelSignatureProcess(int contractId, string ownerUserId);
+
+        Task<IList<Alert>> UpdateSignatureUsers(int contractId, string ownerUserId, SignatureUser[] signatureUsers, bool reSend = false);
+
+        Task<IList<Alert>> ProcessSignatureEvent(string notificationMsg);
 
         Task<Tuple<AgreementDocument, IList<Alert>>> GetContractAgreement(int contractId, string ownerUserId);
 

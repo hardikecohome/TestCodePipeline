@@ -220,6 +220,22 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
+        public async Task<IList<Alert>> CancelDigitalSignature(int contractId)
+        {
+            try
+            {
+                return
+                    await
+                        Client.PostAsyncEx<string, IList<Alert>>(
+                            $"{_fullUri}/CancelDigitalSignature?contractId={contractId}", "", AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                this._loggingService.LogError($"Can't cancel digital signature for contract {contractId}", ex);
+                throw;
+            }
+        }
+
         public async Task<Tuple<CreditCheckDTO, IList<Alert>>> SubmitContract(int contractId)
         {
             try
