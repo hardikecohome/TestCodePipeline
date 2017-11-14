@@ -14,6 +14,7 @@ using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities.Logging;
 using Microsoft.AspNet.Identity.Owin;
+using System.Web.Hosting;
 
 namespace DealnetPortal.Api.Controllers
 {
@@ -72,6 +73,15 @@ namespace DealnetPortal.Api.Controllers
             {
                 var requestMsg = await request.Content.ReadAsStringAsync();
                 var alerts = await _signatureService.ProcessSignatureEvent(requestMsg);
+                //log DocuSign notification for tests
+                //if (!string.IsNullOrEmpty(requestMsg))
+                //{
+                //    var dir = HostingEnvironment.MapPath($"~/Logs");
+                //    var file = $"{DateTime.Now.ToString()}.xml";
+                //    file = file.Replace(':','_').Replace('/','_');
+                //    var path = System.IO.Path.Combine(dir, file);
+                //    System.IO.File.WriteAllText(path, requestMsg);
+                //}
                 if (alerts?.All(a => a.Type != AlertType.Error) == true)
                 {
                     return Ok();
@@ -79,7 +89,7 @@ namespace DealnetPortal.Api.Controllers
                 else
                 {
                     return BadRequest();
-                }
+                }                
             }
             catch (Exception ex)
             {

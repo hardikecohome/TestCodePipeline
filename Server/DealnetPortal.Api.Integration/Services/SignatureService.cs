@@ -516,7 +516,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         public async Task<IList<Alert>> ProcessSignatureEvent(string notificationMsg)
         {
-            var docuSignResipientStatuses = new string[] {"Sent", "Delivered", "Signed", "Declined"};
+            var docuSignResipientStatuses = new string[] {"Created", "Sent", "Delivered", "Signed", "Declined"};
             var alerts = new List<Alert>();
             try
             {
@@ -562,7 +562,8 @@ namespace DealnetPortal.Api.Integration.Services
                                 }).OrderByDescending(rst => rst).FirstOrDefault();
                             var rsName = rs.Element(XName.Get("UserName", xmlns))?.Value;
                             var rsEmail = rs.Element(XName.Get("Email", xmlns))?.Value;
-                            updated |= ProcessSignerStatus(contract, rsName, rsEmail, rsStatus, rsLastStatusTime);
+                            var rsComment = rs.Element(XName.Get("DeclineReason", xmlns))?.Value;
+                            updated |= ProcessSignerStatus(contract, rsName, rsEmail, rsStatus, rsComment, rsLastStatusTime);
                         });
                     }
                     if (updated)
@@ -727,7 +728,7 @@ namespace DealnetPortal.Api.Integration.Services
             return updated;
         }
 
-        private bool ProcessSignerStatus(Contract contract, string userName, string email, string status, DateTime statusTime)
+        private bool ProcessSignerStatus(Contract contract, string userName, string email, string status, string comment, DateTime statusTime)
         {
             bool updated = false;
 
@@ -753,6 +754,10 @@ namespace DealnetPortal.Api.Integration.Services
                     signer.SignatureStatus = sStatus;
                     signer.SignatureStatusQualifier = status;
                     signer.StatusLastUpdateTime = statusTime;
+                    if (!string.IsNullOrEmpty(comment))
+                    {
+                        signer.Comment = comment;
+                    }
                     updated = true;
                 }
             }
@@ -802,6 +807,9 @@ namespace DealnetPortal.Api.Integration.Services
             SignatureStatus? signatureStatus = null;
             switch (status?.ToLowerInvariant())
             {
+                case "created":
+                    signatureStatus = SignatureStatus.Created;
+                    break;
                 case "sent":
                     signatureStatus = SignatureStatus.Sent;
                     break;
