@@ -182,7 +182,7 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> SendForESigature(List<SignerViewModel> signers)
+        public async Task<JsonResult> SendForESigature(ESignatureViewModel viewModel)
         {
             return Json(new {success=true });
         }
