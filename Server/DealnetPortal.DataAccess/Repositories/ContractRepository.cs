@@ -933,7 +933,7 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 var existingEntities =
                     contract.Signers.Where(
-                        cs => signers.Any(s => s.Id == cs.Id 
+                        cs => signers.Any(s => s.Id != 0 && s.Id == cs.Id 
                                 || cs.CustomerId != null && s.CustomerId == cs.CustomerId
                                 || cs.SignerType == s.SignerType)).ToList();
                 var entriesForDelete = contract.Signers.Except(existingEntities).ToList();
@@ -942,7 +942,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 signers.ForEach(s =>
                 {
                     var curSigner =
-                        contract.Signers.FirstOrDefault(cs => cs.Id == s.Id 
+                        contract.Signers.FirstOrDefault(cs => s.Id != 0 && cs.Id == s.Id 
                             || (s.CustomerId != null && cs.CustomerId == s.CustomerId)
                             || cs.SignerType == s.SignerType);
                     if (curSigner == null)
