@@ -178,8 +178,14 @@ namespace DealnetPortal.Api.Integration.Services
             }
             catch(Exception ex)
             {
-                _loggingService.LogError($"Failed to initiate a digital signature for contract [{contractId}]", ex);
-                throw;
+                var msg = $"Failed to initiate a digital signature for contract [{contractId}]";
+                _loggingService.LogError(msg, ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "eSignature error",
+                    Message = $"{msg}:{ex.ToString()}"
+                });
             }
 
             LogAlerts(alerts);
@@ -575,12 +581,44 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public Task<IList<Alert>> UpdateSignatureUsers(int contractId, string ownerUserId, SignatureUser[] signatureUsers,
-            bool reSend = false)
+        public async Task<IList<Alert>> UpdateSignatureUsers(int contractId, string ownerUserId, SignatureUser[] signatureUsers)
         {
-            throw new NotImplementedException();
-        }
+            List<Alert> alerts = new List<Alert>();
 
+            try
+            {
+                // Get contract
+                var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
+                if (contract != null)
+                {
+                }
+                else
+                {
+                    var errorMsg = $"Can't get contract [{contractId}] for processing";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = "eSignature error",
+                        Code = ErrorCodes.CantGetContractFromDb,
+                        Message = errorMsg
+                    });
+                    _loggingService.LogError(errorMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                var msg = $"Failed to update signature users for contract [{contractId}]";
+                _loggingService.LogError(msg, ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "eSignature error",
+                    Message = $"{msg}:{ex.ToString()}"
+                });
+            }
+
+            return await Task.FromResult(alerts);
+        }
         public async Task<IList<Alert>> ProcessSignatureEvent(string notificationMsg)
         {
             var docuSignResipientStatuses = new string[] {"Created", "Sent", "Delivered", "Signed", "Declined"};

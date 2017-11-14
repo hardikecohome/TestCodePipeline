@@ -24,7 +24,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         Task<IList<Alert>> CancelSignatureProcess(int contractId, string ownerUserId);
 
-        Task<IList<Alert>> UpdateSignatureUsers(int contractId, string ownerUserId, SignatureUser[] signatureUsers, bool reSend = false);
+        Task<IList<Alert>> UpdateSignatureUsers(int contractId, string ownerUserId, SignatureUser[] signatureUsers);
 
         Task<IList<Alert>> ProcessSignatureEvent(string notificationMsg);
 
