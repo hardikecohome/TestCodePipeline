@@ -291,6 +291,11 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }                
 
+        public Tuple<AgreementDocument, IList<Alert>> GetPrintDocument(int contractId, string contractOwnerId)
+        {
+            return _signatureService.GetPrintDocument(contractId, contractOwnerId).GetAwaiter().GetResult();
+        }
+
         public AgreementDocument GetContractsFileReport(IEnumerable<int> ids,
             string contractOwnerId)
         {

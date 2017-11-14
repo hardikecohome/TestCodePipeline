@@ -321,6 +321,22 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("GetContractDocument")]
+        [HttpGet]
+        public IHttpActionResult GetContractDocument(int contractId)
+        {
+            try
+            {
+                var result = ContractService.GetPrintDocument(contractId, LoggedInUser?.UserId);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("CheckContractAgreementAvailable")]
         [HttpGet]
         public async Task<IHttpActionResult> CheckContractAgreementAvailable(int contractId)

@@ -84,12 +84,61 @@ namespace DealnetPortal.Api.Controllers
                 //}
                 if (alerts?.All(a => a.Type != AlertType.Error) == true)
                 {
-                    return Ok();
+                    LoggingService.LogInfo(
+                        $"DocuSign envelope {envelopeId} status changed to {status}");
+                    if (status == "Completed")
+                    {
+                        var contract = _contractRepository.FindContractBySignatureId(envelopeId);
+                        if (contract != null)
+                        {
+                            //read signed document
+                            var docs = xDocument.Root.Element(XName.Get("DocumentPDFs", xmlns));
+                            if (docs != null)
+                            {
+                                foreach (var doc in docs.Elements())
+                                {
+                                    string documentName = (doc.FirstNode as XElement)?.Value;
+                                    if (!documentName?.Contains("CertificateOfCompletion") ?? false)
+                                    {                                        
+                                        string documentId = doc.Element(XName.Get("ID", xmlns))?.Value;
+                                        // pdf.SelectSingleNode("//a:DocumentID", mgr).InnerText;
+                                        string byteStr = doc.Element(XName.Get("PDFBytes", xmlns))?.Value;
+                                        if (!string.IsNullOrEmpty(byteStr))
+                                        {
+                                            // pdf.SelectSingleNode("//a:PDFBytes", mgr).InnerText;
+                                            byte[] bytes = Convert.FromBase64String(byteStr);
+
+                                            ContractDocumentDTO document = new ContractDocumentDTO()
+                                            {
+                                                ContractId = contract.Id,
+                                                CreationDate = DateTime.Now,
+                                                DocumentTypeId = 1, // Signed contract !!
+                                                DocumentName = "_ESIGN_"+DateTime.Now.ToString("MM-dd-yyyy HH-mm-ss", CultureInfo.InvariantCulture) + "_" + documentName,
+                                                DocumentBytes = bytes
+                                            };
+
+                                            _contractService.AddDocumentToContract(document, contract.DealerId);
+                                            LoggingService.LogInfo(
+                                                $"Document {documentName} with size {byteStr.Length} recieved");
+                                            break; // other docs dosn't metter
+                                        }
+                                        else
+                                        {
+                                            LoggingService.LogWarning(
+                                                $"Cannot read document bytes for signature envelopeId {envelopeId}");
+                                        }                                        
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            LoggingService.LogWarning(
+                                $"Cannot find contract for signature envelopeId {envelopeId}");
+                        }
+                    }
                 }
-                else
-                {
-                    return BadRequest();
-                }                
+                return Ok();
             }
             catch (Exception ex)
             {

@@ -569,6 +569,26 @@ namespace DealnetPortal.Web.Controllers
             return new FileContentResult(new byte[] {}, "application/pdf");
         }
 
+        public async Task<FileResult> GetContractDocument(int contractId)
+        {
+            var result = await _contractServiceAgent.GetContractDocument(contractId);
+
+            if (result.Item1 != null)
+            {
+                var response = new FileContentResult(result.Item1.DocumentRaw, "application/pdf")
+                {
+                    FileDownloadName = result.Item1.Name
+                };
+                if (!string.IsNullOrEmpty(response.FileDownloadName) && !response.FileDownloadName.ToLowerInvariant().EndsWith(".pdf"))
+                {
+                    response.FileDownloadName += ".pdf";
+                }
+                return response;
+            }
+
+            return new FileContentResult(new byte[] { }, "application/pdf");
+        }
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<JsonResult> RecognizeDriverLicense(string imgBase64)
