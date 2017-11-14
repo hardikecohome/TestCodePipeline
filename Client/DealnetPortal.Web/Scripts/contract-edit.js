@@ -550,13 +550,14 @@ function submitDigital (status) {
 }
 
 function cancelSignatures (e) {
+    e.preventDefault();
     var $form = $(e.target.form);
-    var contractId = $form.find('#contract-id');
+    var id = $form.find('#contract-id').val();
     $.ajax({
         url: cancelEsignUrl,
         method: 'POST',
         contentType: 'aplication/json',
-        data: contractId
+        data: JSON.stringify({ contractId: id })
     }).done(function (data) {
         debugger;
     }).fail(function (xhr, status, result) {
