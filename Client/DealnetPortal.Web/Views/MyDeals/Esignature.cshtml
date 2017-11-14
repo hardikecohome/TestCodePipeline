@@ -17,7 +17,7 @@
                 @Resources.OneSignerDeclinedRemainingCanceled
             </div>
             <div class="sent-contract-secton">
-                @if (@Model.ESignature.Status == ApiEnum.SignatureStatus.Completed)
+                @if (@Model.ESignature.Status == ApiEnum.SignatureStatus.Signed)
                 {
                     <a href="#" id="print-signed-button" class="dealnet-info-link doc-tab-print-link" >
                         <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg> Print Signed Contract
@@ -66,7 +66,7 @@
                 @Html.HiddenFor(m => m.BasicInfo.ContractId, new { Name = "ContractId" })
                 @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[0].Value, new { Name = "DocumentTypeId" })
                 <div class="form-group clearfix">
-                    <div @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>                           }
+                    <div @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>                            }
                          class="file-upload btn dealnet-button dealnet-success-button disablable @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) {<text>disabled</text>}">
                         <span>@Resources.Upload</span>
                         <input type="file" name="File" class="upload main-document-upload" />

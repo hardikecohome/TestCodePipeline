@@ -1839,8 +1839,10 @@ foreach (var comment in comments)
 
         var checkUrl = '@Url.Action("CheckContractAgreement", "NewRental", new {contractId = Model.BasicInfo.ContractId })';
         var downloadUrl = '@Url.Action("PrintContract", "NewRental", new { contractId = Model.BasicInfo.ContractId })';
+
         var downloadSignedUrl = '@Url.Action("PrintContract", "NewRental", new { contractId = Model.BasicInfo.ContractId })';
         var esignUrl = '@Url.Action("SendForESigature")';
+        var cancelEsignUrl = '@Url.Action("CancelDigitalSignature")';
         var maxFileUploadSize = 20 * 1024 * 1024 ;
     </script>
     @Scripts.Render("~/bundles/jqueryval")

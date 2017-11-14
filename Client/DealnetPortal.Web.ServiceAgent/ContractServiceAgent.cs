@@ -284,14 +284,14 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetContractDocument(int contractId)
+        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetSignedAgreement(int contractId)
         {
             try
             {
                 return
                     await
                         Client.GetAsyncEx<Tuple<AgreementDocument, IList<Alert>>>(
-                            $"{_fullUri}/GetContractDocument?contractId={contractId}", AuthenticationHeader, CurrentCulture);
+                            $"{_fullUri}/GetSignedAgreement?contractId={contractId}", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {

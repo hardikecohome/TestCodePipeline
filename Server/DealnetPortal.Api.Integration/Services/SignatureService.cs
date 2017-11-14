@@ -178,8 +178,14 @@ namespace DealnetPortal.Api.Integration.Services
             }
             catch(Exception ex)
             {
-                _loggingService.LogError($"Failed to initiate a digital signature for contract [{contractId}]", ex);
-                throw;
+                var msg = $"Failed to initiate a digital signature for contract [{contractId}]";
+                _loggingService.LogError(msg, ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "eSignature error",
+                    Message = $"{msg}:{ex.ToString()}"
+                });
             }
 
             LogAlerts(alerts);
@@ -311,7 +317,7 @@ namespace DealnetPortal.Api.Integration.Services
         }
 
 
-        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetPrintDocument(int contractId, string ownerUserId)
+        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetSignedAgreement(int contractId, string ownerUserId)
         {
             List<Alert> alerts = new List<Alert>();
             AgreementDocument document = null;
@@ -575,12 +581,44 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public Task<IList<Alert>> UpdateSignatureUsers(int contractId, string ownerUserId, SignatureUser[] signatureUsers,
-            bool reSend = false)
+        public async Task<IList<Alert>> UpdateSignatureUsers(int contractId, string ownerUserId, SignatureUser[] signatureUsers)
         {
-            throw new NotImplementedException();
-        }
+            List<Alert> alerts = new List<Alert>();
 
+            try
+            {
+                // Get contract
+                var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
+                if (contract != null)
+                {
+                }
+                else
+                {
+                    var errorMsg = $"Can't get contract [{contractId}] for processing";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = "eSignature error",
+                        Code = ErrorCodes.CantGetContractFromDb,
+                        Message = errorMsg
+                    });
+                    _loggingService.LogError(errorMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                var msg = $"Failed to update signature users for contract [{contractId}]";
+                _loggingService.LogError(msg, ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "eSignature error",
+                    Message = $"{msg}:{ex.ToString()}"
+                });
+            }
+
+            return await Task.FromResult(alerts);
+        }
         public async Task<IList<Alert>> ProcessSignatureEvent(string notificationMsg)
         {
             var docuSignResipientStatuses = new string[] {"Created", "Sent", "Delivered", "Signed", "Declined"};
@@ -840,7 +878,7 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {            
                 _signatureEngine.TransactionId = contract.Details.SignatureTransactionId;
-                var docResult = await _signatureEngine.GetDocument(DocumentVersion.Signed);
+                var docResult = await _signatureEngine.GetDocument();
                 if (docResult?.Item1 != null)
                 {
                     _loggingService.LogInfo(
@@ -850,7 +888,7 @@ namespace DealnetPortal.Api.Integration.Services
                         ContractId = contract.Id,
                         CreationDate = DateTime.Now,
                         DocumentTypeId = (int)DocumentTemplateType.SignedContract, // Signed contract !!
-                        DocumentName = docResult.Item1.Name,
+                        DocumentName = "_ESIGN_" + DateTime.Now.ToString("MM-dd-yyyy HH-mm-ss", CultureInfo.InvariantCulture) + "_" + docResult.Item1.Name,
                         DocumentBytes = docResult.Item1.DocumentRaw
                     };
                     _contractRepository.AddDocumentToContract(contract.Id, AutoMapper.Mapper.Map<ContractDocument>(document), contract.DealerId);
