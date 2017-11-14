@@ -34,11 +34,11 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ILoggingService _loggingService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAspireService _aspireService;
-        private readonly ISignatureService _signatureService;
         private readonly IAspireStorageReader _aspireStorageReader;
         private readonly ICustomerWalletService _customerWalletService;
         private readonly IMailService _mailService;
         private readonly IAppConfiguration _configuration;
+        private readonly ISignatureService _signatureService;
 
         public ContractService(
             IContractRepository contractRepository, 
