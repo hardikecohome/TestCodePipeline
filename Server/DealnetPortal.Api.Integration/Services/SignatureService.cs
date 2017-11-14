@@ -878,7 +878,7 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {            
                 _signatureEngine.TransactionId = contract.Details.SignatureTransactionId;
-                var docResult = await _signatureEngine.GetDocument();
+                var docResult = await _signatureEngine.GetDocument(DocumentVersion.Signed);
                 if (docResult?.Item1 != null)
                 {
                     _loggingService.LogInfo(
