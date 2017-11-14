@@ -182,9 +182,32 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> SendForESigature(ESignatureViewModel viewModel)
+        public async Task<JsonResult> SendForESignature(ESignatureViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return Json(new { success = false });
+            }
             return Json(new {success=true });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> CancelDigitalSignature(int contractId)
+        {
+            try
+            {
+                var alerts = await _contractServiceAgent.CancelDigitalSignature(contractId);
+                if (alerts.Any(a => a.Type == AlertType.Error))
+                {
+                    var first = alerts.FirstOrDefault(a => a.Type == AlertType.Error);
+                    return Json(new { success = false, message = first.Message });
+                }
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
         }
     }
 }

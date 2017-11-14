@@ -7,7 +7,7 @@
             $(this).tab('show');
         });
         $('[id^="signee-btn-"]').on('click', submitOneSignature);
-        $('#submit-digital').on('click', submitAllEsignatures);
+        $('#submit-digital').on('click', submitDigital($('#signature-status').val()));
 
         $('#print-button').on('click', printContract(downloadUrl));
 
@@ -543,8 +543,50 @@ function submitEsignature (signers, callback) {
     });
 }
 
+function submitDigital (status) {
+    if (status.toLowerCase() === 'sent')
+        return cancelSignatures;
+    return submitAllEsignatures;
+}
+
+function cancelSignatures (e) {
+    e.preventDefault();
+    var $form = $(e.target.form);
+    var id = $form.find('#contract-id').val();
+    $.ajax({
+        url: cancelEsignUrl,
+        method: 'POST',
+        contentType: 'aplication/json',
+        data: JSON.stringify({ contractId: id })
+    }).done(function (data) {
+        debugger;
+    }).fail(function (xhr, status, result) {
+        debugger;
+    });
+}
+
 function submitOneSignature (e) {
     debugger
+    e.preventDefault();
+    var $row = $(e.target).parents('.signer-row');
+    var email = $row.find('#signer-email-' + rowId);
+    if (email.valid()) {
+        var rowId = $row.find('#row-id');
+        var signer = {
+            Id: $row.find('#signer-id-' + rowId).val(),
+            SignatureStatus: $row.find('#signer-status-' + rowId).val(),
+            StatusLastUpdateTime: $row.find('#signer-update-' + rowId).val(),
+            Role: $row.find('#signer-role-' + rowId).val(),
+            CustomerId: $row.find('#signer-customer-id-' + rowId).val(),
+            Email: email.val()
+        }
+        submitEsignature(signer)
+            .done(function (data) {
+                debugger;
+            }).fail(function (xhr, status, result) {
+                debugger;
+            });
+    }
 }
 
 function submitAllEsignatures (e) {
