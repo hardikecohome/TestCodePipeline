@@ -45,17 +45,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         IList<Alert> InitiateCreditCheck(int contractId, string contractOwnerId);
 
-        IList<Alert> InitiateDigitalSignature(int contractId, string contractOwnerId, SignatureUser[] signatureUsers);
-
-        Task<IList<Alert>> CancelDigitalSignature(int contractId, string contractOwnerId);
-
-        Tuple<AgreementDocument, IList<Alert>> GetPrintAgreement(int contractId, string contractOwnerId);
-
         AgreementDocument GetContractsFileReport(IEnumerable<int> ids, string contractOwnerId);
-
-        Tuple<bool, IList<Alert>> CheckPrintAgreementAvailable(int contractId, int documentTypeId, string contractOwnerId);
-
-        Tuple<AgreementDocument, IList<Alert>> GetInstallCertificate(int contractId, string contractOwnerId);
 
         IList<Alert> UpdateInstallationData(InstallationCertificateDataDTO installationCertificateData, string contractOwnerId);
 
