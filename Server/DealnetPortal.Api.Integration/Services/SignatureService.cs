@@ -69,108 +69,119 @@ namespace DealnetPortal.Api.Integration.Services
         {
             List<Alert> alerts = new List<Alert>();
 
-            // Get contract
-            var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
-            if (contract != null)
+            try
             {
-                _loggingService.LogInfo($"Started eSignature processing for contract [{contractId}]");                
-
-                var logRes = await _signatureEngine.ServiceLogin().ConfigureAwait(false);
-                _signatureEngine.TransactionId = contract.Details?.SignatureTransactionId;
-                _signatureEngine.DocumentId = contract.Details?.SignatureDocumentId;
-
-                if (logRes.Any(a => a.Type == AlertType.Error))
+                // Get contract
+                var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
+                if (contract != null)
                 {
-                    LogAlerts(alerts);
-                    return alerts;
-                }
+                    _loggingService.LogInfo($"Started eSignature processing for contract [{contractId}]");
 
-                var agrRes = SelectAgreementTemplate(contract, ownerUserId);
+                    signatureUsers = PrepareSignatureUsers(contract, signatureUsers);
 
-                if (agrRes.Item1 == null || agrRes.Item2.Any(a => a.Type == AlertType.Error))
-                {
-                    alerts.AddRange(agrRes.Item2);
-                    LogAlerts(alerts);
-                    return alerts;
-                }
+                    var logRes = await _signatureEngine.ServiceLogin().ConfigureAwait(false);
+                    _signatureEngine.TransactionId = contract.Details?.SignatureTransactionId;
+                    _signatureEngine.DocumentId = contract.Details?.SignatureDocumentId;
 
-                var agreementTemplate = agrRes.Item1;
+                    if (logRes.Any(a => a.Type == AlertType.Error))
+                    {
+                        LogAlerts(alerts);
+                        return alerts;
+                    }
 
-                var trRes = await _signatureEngine.InitiateTransaction(contract, agreementTemplate);
+                    var agrRes = SelectAgreementTemplate(contract, ownerUserId);
 
-                if (trRes?.Any() ?? false)
-                {
-                    alerts.AddRange(trRes);
-                }
+                    if (agrRes.Item1 == null || agrRes.Item2.Any(a => a.Type == AlertType.Error))
+                    {
+                        alerts.AddRange(agrRes.Item2);
+                        LogAlerts(alerts);
+                        return alerts;
+                    }
 
-                var templateFields = await _signatureEngine.GetFormfFields();
+                    var agreementTemplate = agrRes.Item1;
 
-                var fields = PrepareFormFields(contract, templateFields?.Item1, ownerUserId);
-                _loggingService.LogInfo($"{fields.Count} fields collected");
+                    var trRes = await _signatureEngine.InitiateTransaction(contract, agreementTemplate);
 
-                var insertRes = await _signatureEngine.InsertDocumentFields(fields);
+                    if (trRes?.Any() ?? false)
+                    {
+                        alerts.AddRange(trRes);
+                    }
 
-                if (insertRes?.Any() ?? false)
-                {
-                    alerts.AddRange(insertRes);
-                }
-                if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
-                {
-                    _loggingService.LogWarning($"Fields merged with agreement document with errors");
-                    LogAlerts(alerts);
-                    return alerts;
-                }                
+                    var templateFields = await _signatureEngine.GetFormfFields();
 
-                insertRes = await _signatureEngine.InsertSignatures(signatureUsers);
+                    var fields = PrepareFormFields(contract, templateFields?.Item1, ownerUserId);
+                    _loggingService.LogInfo($"{fields.Count} fields collected");
 
-                if (insertRes?.Any() ?? false)
-                {
-                    alerts.AddRange(insertRes);
-                }
-                if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
-                {
-                    _loggingService.LogWarning($"Signature fields inserted into agreement document form with errors");
-                    //LogAlerts(alerts);
-                    //return alerts;
+                    var insertRes = await _signatureEngine.InsertDocumentFields(fields);
+
+                    if (insertRes?.Any() ?? false)
+                    {
+                        alerts.AddRange(insertRes);
+                    }
+                    if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
+                    {
+                        _loggingService.LogWarning($"Fields merged with agreement document with errors");
+                        LogAlerts(alerts);
+                        return alerts;
+                    }
+
+                    insertRes = await _signatureEngine.InsertSignatures(signatureUsers);
+
+                    if (insertRes?.Any() ?? false)
+                    {
+                        alerts.AddRange(insertRes);
+                    }
+                    if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
+                    {
+                        _loggingService.LogWarning($"Signature fields inserted into agreement document form with errors");
+                        //LogAlerts(alerts);
+                        //return alerts;
+                    }
+                    else
+                    {
+                        _loggingService.LogInfo(
+                            $"Signature fields inserted into agreement document form successefully");
+                    }
+
+                    insertRes = await _signatureEngine.SubmitDocument(signatureUsers);
+
+                    if (insertRes?.Any() ?? false)
+                    {
+                        alerts.AddRange(insertRes);
+                    }
+                    if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
+                    {
+                        LogAlerts(alerts);
+                        return alerts;
+                    }
+                    //var updateStatus = signatureUsers?.Any() ?? false
+                    //    ? SignatureStatus.Sent
+                    //    : SignatureStatus.Draft;
+                    UpdateContractDetails(contractId, ownerUserId, _signatureEngine.TransactionId,
+                        _signatureEngine.DocumentId, null);
+
+                    UpdateSignersInfo(contractId, ownerUserId, signatureUsers);
+                    _loggingService.LogInfo(
+                        $"Invitations for agreement document form sent successefully. TransactionId: [{_signatureEngine.TransactionId}], DocumentID [{_signatureEngine.DocumentId}]");
                 }
                 else
                 {
-                    _loggingService.LogInfo(
-                        $"Signature fields inserted into agreement document form successefully");
+                    var errorMsg = $"Can't get contract [{contractId}] for processing";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = "eSignature error",
+                        Message = errorMsg
+                    });
+                    _loggingService.LogError(errorMsg);
                 }
-
-                insertRes = await _signatureEngine.SubmitDocument(signatureUsers);
-
-                if (insertRes?.Any() ?? false)
-                {
-                    alerts.AddRange(insertRes);
-                }
-                if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
-                {
-                    LogAlerts(alerts);
-                    return alerts;
-                }
-                //var updateStatus = signatureUsers?.Any() ?? false
-                //    ? SignatureStatus.Sent
-                //    : SignatureStatus.Draft;
-                UpdateContractDetails(contractId, ownerUserId, _signatureEngine.TransactionId,
-                    _signatureEngine.DocumentId, null);
-
-                UpdateSignersInfo(contractId, ownerUserId, signatureUsers);
-                _loggingService.LogInfo(
-                    $"Invitations for agreement document form sent successefully. TransactionId: [{_signatureEngine.TransactionId}], DocumentID [{_signatureEngine.DocumentId}]");                
             }
-            else
+            catch(Exception ex)
             {
-                var errorMsg = $"Can't get contract [{contractId}] for processing";
-                alerts.Add(new Alert()
-                {
-                    Type = AlertType.Error,
-                    Header = "eSignature error",
-                    Message = errorMsg
-                });
-                _loggingService.LogError(errorMsg);
+                _loggingService.LogError($"Failed to initiate a digital signature for contract [{contractId}]", ex);
+                throw;
             }
+
             LogAlerts(alerts);
             return alerts;
         }
@@ -583,7 +594,50 @@ namespace DealnetPortal.Api.Integration.Services
             return await Task.FromResult(alerts);
         }
 
-        #region private      
+        #region private  
+
+        private SignatureUser[] PrepareSignatureUsers(Contract contract, SignatureUser[] signatureUsers)
+        {
+            List<SignatureUser> usersForProcessing = new List<SignatureUser>();
+            var suHomeOwner = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.HomeOwner);
+            var homeOwner = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.HomeOwner)
+                                ?? new SignatureUser() { Role = SignatureRole.HomeOwner };
+            homeOwner.FirstName = !string.IsNullOrEmpty(homeOwner.FirstName) ? homeOwner.FirstName : contract?.PrimaryCustomer?.FirstName;
+            homeOwner.LastName = !string.IsNullOrEmpty(homeOwner.LastName) ? homeOwner.LastName : contract?.PrimaryCustomer?.LastName;
+            homeOwner.CustomerId = homeOwner.CustomerId ?? contract?.PrimaryCustomer?.Id;
+            homeOwner.EmailAddress = !string.IsNullOrEmpty(homeOwner.EmailAddress)
+                ? homeOwner.EmailAddress
+                : contract?.PrimaryCustomer?.Emails.FirstOrDefault()?.EmailAddress;
+            usersForProcessing.Add(homeOwner);
+
+            contract?.SecondaryCustomers?.ForEach(cc =>
+            {
+                var su = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.AdditionalApplicant &&
+                                                   (cc.Id == u.CustomerId) ||
+                                                   (cc.FirstName == u.FirstName && cc.LastName == u.LastName));
+                var coBorrower = su ?? new SignatureUser() { Role = SignatureRole.AdditionalApplicant };
+                coBorrower.FirstName = !string.IsNullOrEmpty(coBorrower.FirstName) ? coBorrower.FirstName : cc.FirstName;
+                coBorrower.LastName = !string.IsNullOrEmpty(coBorrower.LastName) ? coBorrower.LastName : cc.LastName;
+                coBorrower.CustomerId = coBorrower.CustomerId ?? cc.Id;
+                coBorrower.EmailAddress = !string.IsNullOrEmpty(coBorrower.EmailAddress)
+                    ? coBorrower.EmailAddress
+                    : cc.Emails.FirstOrDefault()?.EmailAddress;
+                usersForProcessing.Add(coBorrower);
+            });
+
+            var dealerUser = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.Dealer);
+            if (dealerUser != null)
+            {
+                var dealer = contract.Dealer;
+                if (dealer != null)
+                {
+                    dealerUser.LastName = dealer.UserName;                    
+                }
+                usersForProcessing.Add(dealerUser);
+            }
+            return usersForProcessing.ToArray();
+        }
+
         private void UpdateSignersInfo(int contractId, string ownerUserId, SignatureUser[] signatureUsers)
         {
             try

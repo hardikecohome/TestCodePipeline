@@ -36,7 +36,6 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IAspireService _aspireService;
         private readonly IAspireStorageReader _aspireStorageReader;
         private readonly ICustomerWalletService _customerWalletService;
-        private readonly ISignatureService _signatureService;
         private readonly IMailService _mailService;
         private readonly IAppConfiguration _configuration;
 
@@ -46,7 +45,6 @@ namespace DealnetPortal.Api.Integration.Services
             IAspireService aspireService,
             IAspireStorageReader aspireStorageReader, 
             ICustomerWalletService customerWalletService,
-            ISignatureService signatureService, 
             IMailService mailService, 
             ILoggingService loggingService, IDealerRepository dealerRepository,
             IAppConfiguration configuration)
@@ -58,7 +56,6 @@ namespace DealnetPortal.Api.Integration.Services
             _aspireService = aspireService;
             _aspireStorageReader = aspireStorageReader;
             _customerWalletService = customerWalletService;
-            _signatureService = signatureService;
             _mailService = mailService;
             _configuration = configuration;
         }
@@ -292,83 +289,7 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError($"Failed to initiate a credit check for contract [{contractId}]", ex);
                 throw;
             }
-        }
-
-        public IList<Alert> InitiateDigitalSignature(int contractId, string contractOwnerId,
-            SignatureUser[] signatureUsers)
-        {
-            try
-            {
-                List<SignatureUser> usersForProcessing = new List<SignatureUser>();
-                var contract = _contractRepository.GetContract(contractId, contractOwnerId);
-                var suHomeOwner = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.HomeOwner);
-                var homeOwner = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.HomeOwner) 
-                                    ?? new SignatureUser() {Role = SignatureRole.HomeOwner};                
-                homeOwner.FirstName = !string.IsNullOrEmpty(homeOwner.FirstName) ? homeOwner.FirstName : contract?.PrimaryCustomer?.FirstName;
-                homeOwner.LastName = !string.IsNullOrEmpty(homeOwner.LastName) ? homeOwner.LastName : contract?.PrimaryCustomer?.LastName;
-                homeOwner.CustomerId = homeOwner.CustomerId ?? contract?.PrimaryCustomer?.Id;
-                homeOwner.EmailAddress = !string.IsNullOrEmpty(homeOwner.EmailAddress)
-                    ? homeOwner.EmailAddress
-                    : contract?.PrimaryCustomer?.Emails.FirstOrDefault()?.EmailAddress;
-                usersForProcessing.Add(homeOwner);
-
-                contract?.SecondaryCustomers?.ForEach(cc =>
-                {
-                    var su = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.AdditionalApplicant &&
-                                                       (cc.Id == u.CustomerId) ||
-                                                       (cc.FirstName == u.FirstName && cc.LastName == u.LastName));
-                    var coBorrower = su ?? new SignatureUser() {Role = SignatureRole.AdditionalApplicant};
-                    coBorrower.FirstName = !string.IsNullOrEmpty(coBorrower.FirstName) ? coBorrower.FirstName : cc.FirstName;
-                    coBorrower.LastName = !string.IsNullOrEmpty(coBorrower.LastName) ? coBorrower.LastName : cc.LastName;
-                    coBorrower.CustomerId = coBorrower.CustomerId ?? cc.Id;
-                    coBorrower.EmailAddress = !string.IsNullOrEmpty(coBorrower.EmailAddress)
-                        ? coBorrower.EmailAddress
-                        : cc.Emails.FirstOrDefault()?.EmailAddress;
-                    usersForProcessing.Add(coBorrower);                    
-                });
-
-                var dealerUser = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.Dealer);
-                if (dealerUser != null)
-                {
-                    var dealer = _contractRepository.GetDealer(contractOwnerId);
-                    if (dealer != null)
-                    {
-                        dealerUser.LastName = dealer.UserName;
-                        usersForProcessing.Add(dealerUser);
-                    }
-                }
-
-                var alerts =
-                    _signatureService.ProcessContract(contractId, contractOwnerId, usersForProcessing.ToArray())
-                        .GetAwaiter()
-                        .GetResult();
-                return alerts;
-            }
-            catch (Exception ex)
-            {
-                _loggingService.LogError($"Failed to initiate a digital signature for contract [{contractId}]", ex);
-                throw;
-            }
-        }
-
-        public async Task<IList<Alert>> CancelDigitalSignature(int contractId, string contractOwnerId)
-        {
-            return await _signatureService.CancelSignatureProcess(contractId, contractOwnerId);
-        }
-
-        public Tuple<bool, IList<Alert>> CheckPrintAgreementAvailable(int contractId, int documentTypeId,
-            string contractOwnerId)
-        {
-            return
-                _signatureService.CheckPrintAgreementAvailable(contractId, documentTypeId, contractOwnerId)
-                    .GetAwaiter()
-                    .GetResult();
-        }
-
-        public Tuple<AgreementDocument, IList<Alert>> GetPrintAgreement(int contractId, string contractOwnerId)
-        {
-            return _signatureService.GetPrintAgreement(contractId, contractOwnerId).GetAwaiter().GetResult();
-        }
+        }                
 
         public AgreementDocument GetContractsFileReport(IEnumerable<int> ids,
             string contractOwnerId)
@@ -382,11 +303,6 @@ namespace DealnetPortal.Api.Integration.Services
                 Name = $"{DateTime.Now.ToString(CultureInfo.CurrentCulture).Replace(":", ".")}-report.xlsx",
             };
             return report;
-        }
-
-        public Tuple<AgreementDocument, IList<Alert>> GetInstallCertificate(int contractId, string contractOwnerId)
-        {
-            return _signatureService.GetInstallCertificate(contractId, contractOwnerId).GetAwaiter().GetResult();
         }
 
         public IList<Alert> UpdateInstallationData(InstallationCertificateDataDTO installationCertificateData,

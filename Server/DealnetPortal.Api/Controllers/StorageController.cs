@@ -19,21 +19,11 @@ namespace DealnetPortal.Api.Controllers
 {
     [RoutePrefix("api/Storage")]
     public class StorageController : BaseApiController
-    {
-        private readonly IFileRepository _fileRepository;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IContractRepository _contractRepository;
-        private readonly IContractService _contractService;
+    {       
         private readonly ISignatureService _signatureService;
 
-        public StorageController(ILoggingService loggingService, IContractService contractService,
-            ISignatureService signatureService,
-            IContractRepository contractRepository, IFileRepository fileRepository, IUnitOfWork unitOfWork) : base(loggingService)
-        {
-            _fileRepository = fileRepository;
-            _unitOfWork = unitOfWork;
-            _contractRepository = contractRepository;
-            _contractService = contractService;
+        public StorageController(ILoggingService loggingService, ISignatureService signatureService) : base(loggingService)
+        {            
             _signatureService = signatureService;
         }
 
