@@ -852,6 +852,10 @@ function showLoader (loadingText) {
     });
 }
 
+function hideLoader () {
+    $.loader('close');
+}
+
 function resetPlacehoder (elems) {
     elems.removeClass('placeholder');
     setTimeout(function () {
@@ -875,10 +879,6 @@ function resetScrollPosition () {
     });
 
     $('html, body').scrollTop(bodyOffset);
-}
-
-function hideLoader () {
-    $.loader('close');
 }
 
 $.prototype.disableTab = function () {
@@ -1103,4 +1103,8 @@ function resizeTableStatusCells (table) {
                 $this.height(cellHeight);
         });
     }
+}
+
+function mapStatusToColorClass (status) {
+    return 'icon-' + status.trim().toLowerCase().replace(/\s/g, '-').replace(/\(/g, '').replace(/\)/g, '').replace(/\//g, '').replace(/\$/g, '');
 }

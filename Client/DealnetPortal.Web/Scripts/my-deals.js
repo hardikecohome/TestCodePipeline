@@ -110,11 +110,8 @@ function showTable () {
                         "sZeroRecords": translations['NoMatchingRecordsFound']
                     },
                     createdRow: function (row, data, dataIndex) {
-                        var status = 'icon-' + data.Status.trim()
-                            .toLowerCase().replace(/\s/g, '-')
-                            .replace(/\(/g, '').replace(/\)/g, '').replace(/\//g, '').replace(/\$/g, '');
+                        var status = mapStatusToColorClass(data.Status);
                         $(row).find('.icon-status').addClass(status);
-
                         if (data.IsNewlyCreated) {
                             $(row)
                                 .addClass('unread-deals')
@@ -248,8 +245,8 @@ function showTable () {
             });
 
             table.on('responsive-display', function (e, datatable, row, showHide, update) {
-                var status = 'icon-' + row.data().Status.trim().toLowerCase().replace(/\s/g, '-').replace(/\(/g, '').replace(/\)/g, '').replace(/\//g, '').replace(/\$/g, '');
-                $(row.child()).find('.icon-status').addClass(status);
+                var status = mapStatusToColorClass(row.data().Status);
+                showHide ? $(row.child()).find('.icon-status').addClass(status) : $(row.child()).find('.icon-status').removeClass(status);
             });
 
             $('#work-items-table th').on('click', function () {
