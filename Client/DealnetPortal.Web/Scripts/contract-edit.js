@@ -10,6 +10,7 @@
         $('#submit-digital').on('click', submitAllEsignatures);
 
         $('#print-button').on('click', printContract(downloadUrl));
+        $('#print-signed-button').on('click', printContract(downloadSignedUrl));
 
         $('.date-input').each(function (index, input) {
             assignDatepicker(input,
