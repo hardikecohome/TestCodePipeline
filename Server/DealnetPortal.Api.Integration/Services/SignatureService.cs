@@ -317,7 +317,7 @@ namespace DealnetPortal.Api.Integration.Services
         }
 
 
-        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetPrintDocument(int contractId, string ownerUserId)
+        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetSignedAgreement(int contractId, string ownerUserId)
         {
             List<Alert> alerts = new List<Alert>();
             AgreementDocument document = null;
@@ -878,7 +878,7 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {            
                 _signatureEngine.TransactionId = contract.Details.SignatureTransactionId;
-                var docResult = await _signatureEngine.GetDocument(DocumentVersion.Signed);
+                var docResult = await _signatureEngine.GetDocument();
                 if (docResult?.Item1 != null)
                 {
                     _loggingService.LogInfo(
@@ -888,7 +888,7 @@ namespace DealnetPortal.Api.Integration.Services
                         ContractId = contract.Id,
                         CreationDate = DateTime.Now,
                         DocumentTypeId = (int)DocumentTemplateType.SignedContract, // Signed contract !!
-                        DocumentName = docResult.Item1.Name,
+                        DocumentName = "_ESIGN_" + DateTime.Now.ToString("MM-dd-yyyy HH-mm-ss", CultureInfo.InvariantCulture) + "_" + docResult.Item1.Name,
                         DocumentBytes = docResult.Item1.DocumentRaw
                     };
                     _contractRepository.AddDocumentToContract(contract.Id, AutoMapper.Mapper.Map<ContractDocument>(document), contract.DealerId);

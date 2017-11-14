@@ -289,12 +289,7 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError($"Failed to initiate a credit check for contract [{contractId}]", ex);
                 throw;
             }
-        }                
-
-        public Tuple<AgreementDocument, IList<Alert>> GetPrintDocument(int contractId, string contractOwnerId)
-        {
-            return _signatureService.GetPrintDocument(contractId, contractOwnerId).GetAwaiter().GetResult();
-        }
+        }                        
 
         public AgreementDocument GetContractsFileReport(IEnumerable<int> ids,
             string contractOwnerId)
