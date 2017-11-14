@@ -236,6 +236,20 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
+        public async Task<IList<Alert>> UpdateSigners(SignatureUsersDTO signatureUsers)
+        {
+            try
+            {
+                return
+                    await Client.PostAsyncEx<SignatureUsersDTO, IList<Alert>>($"{_fullUri}/UpdateSigners", signatureUsers, AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                this._loggingService.LogError($"Can't update signature users for contract {signatureUsers.ContractId}", ex);
+                throw;
+            }
+        }
+
         public async Task<Tuple<CreditCheckDTO, IList<Alert>>> SubmitContract(int contractId)
         {
             try

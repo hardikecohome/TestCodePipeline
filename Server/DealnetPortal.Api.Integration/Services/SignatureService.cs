@@ -589,8 +589,14 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 // Get contract
                 var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
-                if (contract != null)
+                if (!string.IsNullOrEmpty(contract?.Details?.SignatureTransactionId))
                 {
+                    var logRes = await _signatureEngine.ServiceLogin().ConfigureAwait(false);
+                    _signatureEngine.TransactionId = contract.Details?.SignatureTransactionId;
+                    _signatureEngine.DocumentId = contract.Details?.SignatureDocumentId;
+                    alerts.AddRange(logRes);
+
+
                 }
                 else
                 {

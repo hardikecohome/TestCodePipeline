@@ -246,6 +246,21 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("UpdateSigners")]
+        [HttpPost]
+        public async Task<IHttpActionResult> UpdateSigners(SignatureUsersDTO users)
+        {
+            try
+            {
+                var alerts = await SignatureService.UpdateSignatureUsers(users.ContractId, LoggedInUser?.UserId, users.Users?.ToArray());
+                return Ok(alerts);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("AddDocument")]
         [HttpPut]
         public IHttpActionResult AddDocumentToContract(ContractDocumentDTO document)
