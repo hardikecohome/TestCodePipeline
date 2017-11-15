@@ -67,6 +67,8 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <returns></returns>
         Task<IList<Alert>> InitiateDigitalSignature(SignatureUsersDTO signatureUsers);
 
+        Task<IList<Alert>> UpdateContractSigners(SignatureUsersDTO signatureUsers);
+
         /// <summary>
         /// Cancel eSignature process for contract
         /// </summary>
