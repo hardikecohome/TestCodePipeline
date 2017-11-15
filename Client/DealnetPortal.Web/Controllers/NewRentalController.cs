@@ -427,23 +427,24 @@ namespace DealnetPortal.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task SendContractEmails(SendEmailsViewModel emails)
+        public async Task SendContractEmails(ESignatureViewModel eSignatureViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return;
             }
             // update home owner notification email
-            if (!string.IsNullOrEmpty(emails.BorrowerEmail))
+            var borrowerSigner = eSignatureViewModel.Signers.SingleOrDefault(x => x.Role == SignatureRole.HomeOwner);
+            if (!string.IsNullOrEmpty(borrowerSigner.Email))
             {
-                var contractRes = await _contractServiceAgent.GetContract(emails.ContractId);
+                var contractRes = await _contractServiceAgent.GetContract(eSignatureViewModel.ContractId);
                 if (contractRes?.Item1 != null)
                 {
                     var emls = contractRes.Item1.PrimaryCustomer?.Emails;
                     if (emls?.Any(e => e.EmailType == EmailType.Notification) ?? false)
                     {
                         emls.First(e => e.EmailType == EmailType.Notification).EmailAddress =
-                            emails.BorrowerEmail;
+                            borrowerSigner.Email;
                     }
                     else
                     {
@@ -453,15 +454,15 @@ namespace DealnetPortal.Web.Controllers
                         }
                         emls.Add(new EmailDTO()
                         {
-                            CustomerId = emails.HomeOwnerId,
+                            CustomerId = borrowerSigner.CustomerId.Value,
                             EmailType = EmailType.Notification,
-                            EmailAddress = emails.BorrowerEmail
+                            EmailAddress = borrowerSigner.Email
                         });
                     }
                     var customer = new CustomerDataDTO()
                     {
-                        Id = emails.HomeOwnerId,
-                        ContractId = emails.ContractId,
+                        Id = borrowerSigner.CustomerId.Value,
+                        ContractId = eSignatureViewModel.ContractId,
                         Emails = emls
                     };
 
@@ -469,30 +470,105 @@ namespace DealnetPortal.Web.Controllers
                 }
             }
             SignatureUsersDTO signatureUsers = new SignatureUsersDTO();
-            signatureUsers.ContractId = emails.ContractId;
+            signatureUsers.ContractId = eSignatureViewModel.ContractId;
             signatureUsers.Users = new List<SignatureUser>();
             signatureUsers.Users.Add(new SignatureUser()
             {
-                EmailAddress = emails.BorrowerEmail, Role = SignatureRole.HomeOwner
+                EmailAddress = borrowerSigner.Email, Role = SignatureRole.HomeOwner
             });
 
-            emails.AdditionalApplicantsEmails?.ForEach(us =>
+            eSignatureViewModel.Signers.Where(x=>x.Role == SignatureRole.AdditionalApplicant).ForEach(us =>
             {
                 signatureUsers.Users.Add(new SignatureUser()
                 {
                     EmailAddress = us.Email, Role = SignatureRole.AdditionalApplicant
                 });
             });
-            if (!string.IsNullOrEmpty(emails.SalesRepEmail))
+            var eSignatureSigner = eSignatureViewModel.Signers.SingleOrDefault(x => x.Role == SignatureRole.Dealer);
+            if (!string.IsNullOrEmpty(borrowerSigner.Email))
             {
                 signatureUsers.Users.Add(new SignatureUser()
                 {
-                    EmailAddress = emails.SalesRepEmail,
+                    EmailAddress = eSignatureSigner.Email,
                     Role = SignatureRole.Dealer
                 });
             }
 
             await _contractServiceAgent.InitiateDigitalSignature(signatureUsers);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task UpdateContractEmails(ESignatureViewModel eSignatureViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return;
+            }
+            // update home owner notification email
+            var borrowerSigner = eSignatureViewModel.Signers.SingleOrDefault(x => x.Role == SignatureRole.HomeOwner);
+            if (!string.IsNullOrEmpty(borrowerSigner.Email))
+            {
+                var contractRes = await _contractServiceAgent.GetContract(eSignatureViewModel.ContractId);
+                if (contractRes?.Item1 != null)
+                {
+                    var emls = contractRes.Item1.PrimaryCustomer?.Emails;
+                    if (emls?.Any(e => e.EmailType == EmailType.Notification) ?? false)
+                    {
+                        emls.First(e => e.EmailType == EmailType.Notification).EmailAddress =
+                            borrowerSigner.Email;
+                    }
+                    else
+                    {
+                        if (emls == null)
+                        {
+                            emls = new List<EmailDTO>();
+                        }
+                        emls.Add(new EmailDTO()
+                        {
+                            CustomerId = borrowerSigner.CustomerId.Value,
+                            EmailType = EmailType.Notification,
+                            EmailAddress = borrowerSigner.Email
+                        });
+                    }
+                    var customer = new CustomerDataDTO()
+                    {
+                        Id = borrowerSigner.CustomerId.Value,
+                        ContractId = eSignatureViewModel.ContractId,
+                        Emails = emls
+                    };
+
+                    await _contractServiceAgent.UpdateCustomerData(new CustomerDataDTO[] { customer });
+                }
+            }
+            SignatureUsersDTO signatureUsers = new SignatureUsersDTO();
+            signatureUsers.ContractId = eSignatureViewModel.ContractId;
+            signatureUsers.Users = new List<SignatureUser>();
+            signatureUsers.Users.Add(new SignatureUser()
+            {
+                EmailAddress = borrowerSigner.Email,
+                Role = SignatureRole.HomeOwner
+            });
+
+            eSignatureViewModel.Signers.Where(x => x.Role == SignatureRole.AdditionalApplicant).ForEach(us =>
+            {
+                signatureUsers.Users.Add(new SignatureUser()
+                {
+                    EmailAddress = us.Email,
+                    Role = SignatureRole.AdditionalApplicant
+                });
+            });
+            var eSignatureSigner = eSignatureViewModel.Signers.SingleOrDefault(x => x.Role == SignatureRole.Dealer);
+            if (!string.IsNullOrEmpty(borrowerSigner.Email))
+            {
+                signatureUsers.Users.Add(new SignatureUser()
+                {
+                    EmailAddress = eSignatureSigner.Email,
+                    Role = SignatureRole.Dealer
+                });
+            }
+
+            await _contractServiceAgent.UpdateContractSigners(signatureUsers);
         }
 
         public async Task<ActionResult> AgreementSubmitSuccess(int contractId)
