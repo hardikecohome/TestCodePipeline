@@ -182,13 +182,13 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> SendForESignature(ESignatureViewModel viewModel)
+        public async Task<ActionResult> SendForESignature(ESignatureViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
-                return Json(new { success = false });
+                return GetErrorJson();
             }
-            return Json(new {success=true });
+            return Json(viewModel);
         }
 
         [HttpPost]
@@ -202,11 +202,11 @@ namespace DealnetPortal.Web.Controllers
                     var first = alerts.FirstOrDefault(a => a.Type == AlertType.Error);
                     return Json(new { success = false, message = first.Message });
                 }
-                return Json(new { success = true });
+                return GetSuccessJson();
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = ex.Message });
+                return GetErrorJson();
             }
         }
     }

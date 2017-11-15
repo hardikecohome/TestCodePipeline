@@ -3045,6 +3045,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Digital invites canceled.
+        /// </summary>
+        public static string InvitesCanceled {
+            get {
+                return ResourceManager.GetString("InvitesCanceled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invitation will be sent when {0} signs.
         /// </summary>
         public static string InviteSentWhenSigns {

@@ -52,7 +52,7 @@
                                             }
                                         </div>
                                         <div class="control-group text-middle-group text-semibold">
-                                            <div class="text-hold">@Model.ESignature.Signers[i].FirstName @Model.ESignature.Signers[i].LastName</div>
+                                            <div class="text-hold" id="signer-name-@(i)">@Model.ESignature.Signers[i].FirstName @Model.ESignature.Signers[i].LastName</div>
                                         </div>
                                     </div>
                                     <div class="col-md-5">
@@ -91,6 +91,11 @@
                                                     {
                                                         <text>@Resources.BorrowerDeclinedSignature</text>
                                                     }
+                                                    else if (i > 0 && Model.ESignature.Signers[i - 1].SignatureStatus == ApiEnum.SignatureStatus.Sent)
+                                                    {
+                                                        var borrower = Model.ESignature.Signers[i - 1].Role == ApiEnum.SignatureRole.HomeOwner ? Resources.Borrower : Resources.Coborrower;
+                                                        <text>@string.Format(Resources.InviteSentWhenSigns, borrower)</text>
+                                                    }
                                                     else
                                                     {
                                                         <text>@Resources.WaitingSignature</text>
@@ -101,19 +106,29 @@
                                                 </div>
                                                 @if (Model.ESignature.Status < ApiEnum.SignatureStatus.Declined)
                                                 {
-                                                    var j = i < 1 ? i : i - 1;
-                                                    switch (Model.ESignature.Signers[j].SignatureStatus)
+                                                    if (i > 1)
                                                     {
-                                                        case ApiEnum.SignatureStatus.Signed:
+                                                        if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Sent ||
+                                                            Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Delivered)
+                                                        {
                                                             <a class="btn dealnet-link-button" id="signee-btn-@(i)">@Resources.ResendInvite</a>
-                                                            break;
-                                                        case ApiEnum.SignatureStatus.Sent:
-                                                        case ApiEnum.SignatureStatus.Delivered:
-                                                            <a class="btn dealnet-link-button" id="signee-btn-@(i)">@Resources.ResendInvite</a>
-                                                            break;
-                                                        default:
-                                                            <a></a>
-                                                            break;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        switch (Model.ESignature.Signers[i - 1].SignatureStatus)
+                                                        {
+                                                            case ApiEnum.SignatureStatus.Signed:
+                                                                <a class="btn dealnet-link-button" id="signee-btn-@(i)">@Resources.ResendInvite</a>
+                                                                break;
+                                                            case ApiEnum.SignatureStatus.Sent:
+                                                            case ApiEnum.SignatureStatus.Delivered:
+                                                                <a class="btn dealnet-link-button" id="signee-btn-@(i)">@Resources.UpdateEmail</a>
+                                                                break;
+                                                            default:
+                                                                <a></a>
+                                                                break;
+                                                        }
                                                     }
                                                 }
                                             </div>
@@ -203,7 +218,7 @@
                 @Html.HiddenFor(m => m.BasicInfo.ContractId, new { Name = "ContractId" })
                 @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[0].Value, new { Name = "DocumentTypeId" })
                 <div class="form-group clearfix">
-                    <div @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>                            }
+                    <div @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>                                  }
                          class="file-upload btn dealnet-button dealnet-success-button disablable @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) {<text>disabled</text>}">
                         <span>@Resources.Upload</span>
                         <input type="file" name="File" class="upload main-document-upload" />

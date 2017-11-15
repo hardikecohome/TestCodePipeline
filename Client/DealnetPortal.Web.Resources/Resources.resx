@@ -2364,4 +2364,7 @@ changing contract terms or signing contract on paper.</value>
   <data name="InviteSentWhenSigns" xml:space="preserve">
     <value>Invitation will be sent when {0} signs</value>
   </data>
+  <data name="InvitesCanceled" xml:space="preserve">
+    <value>Digital invites canceled</value>
+  </data>
 </root>

@@ -7,7 +7,7 @@
             $(this).tab('show');
         });
         $('[id^="signee-btn-"]').on('click', submitOneSignature);
-        $('#submit-digital').on('click', submitDigital($('#signature-status').val()));
+        $('#submit-digital').on('click', submitDigital);
 
         $('#print-button').on('click', printContract(downloadUrl));
 
@@ -543,10 +543,10 @@ function submitEsignature (signers, callback) {
     });
 }
 
-function submitDigital (status) {
-    if (status.toLowerCase() === 'sent')
-        return cancelSignatures;
-    return submitAllEsignatures;
+function submitDigital (e) {
+    if ($('#signature-status').val().toLowerCase() === 'sent')
+        cancelSignatures(e);
+    submitAllEsignatures(e);
 }
 
 function cancelSignatures (e) {
@@ -557,16 +557,16 @@ function cancelSignatures (e) {
         url: cancelEsignUrl,
         method: 'POST',
         contentType: 'aplication/json',
+        traditional: true,
         data: JSON.stringify({ contractId: id })
     }).done(function (data) {
-        debugger;
+        $form.find('[id^="signer-status-"]').addClass('hidden');
     }).fail(function (xhr, status, result) {
-        debugger;
+        console.log(result);
     });
 }
 
 function submitOneSignature (e) {
-    debugger
     e.preventDefault();
     var $row = $(e.target).parents('.signer-row');
     var email = $row.find('#signer-email-' + rowId);
@@ -582,9 +582,11 @@ function submitOneSignature (e) {
         }
         submitEsignature(signer)
             .done(function (data) {
-                debugger;
+                if (typeof data.isSuccess === 'undefined') {
+                    alert(translations['InvitesWereSentToEmails']);
+                }
             }).fail(function (xhr, status, result) {
-                debugger;
+                console.log(result);
             });
     }
 }
@@ -607,10 +609,11 @@ function submitAllEsignatures (e) {
             };
             signers.push(signer);
         });
-        submitEsignature(signers).done(function (data) {
-            debugger
-        }).fail(function (xhr, status, result) {
-            debugger
-        });
+        submitEsignature(signers)
+            .done(function (data) {
+                debugger
+            }).fail(function (xhr, status, result) {
+                console.log(result);
+            });
     }
 }
