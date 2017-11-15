@@ -17,7 +17,7 @@
                 @Resources.OneSignerDeclinedRemainingCanceled
             </div>
             <div class="sent-contract-secton">
-                @using (Html.BeginForm("SendForESignature", "MyDeals", FormMethod.Post, new { id = "signer-form" }))
+                @using (Html.BeginForm("SendContractEmails", "NewRental", FormMethod.Post, new { id = "signer-form" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(m => m.ESignature.ContractId, new { id = "contract-id" })
@@ -73,7 +73,7 @@
                                         @Html.ValidationMessageFor(m => m.ESignature.Signers[i].Email, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-5 @(Model.ESignature.Signers[i].SignatureStatus == null ? "hidden" : "")" id="signer-status-hold-@(i)">
-                                        <label class="hidden">&nbsp;</label>
+                                        <label class="hidden-xs">&nbsp;</label>
                                         <div class="signature-status @(Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Declined ? "signature-declined" : "")">
                                             @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Signed)
                                             {
@@ -135,15 +135,18 @@
                                                                 <a class="btn dealnet-link-button" id="signee-btn-@(i)">@Resources.UpdateEmail</a>
                                                                 break;
                                                             default:
-                                                                <a class="btn dealnet-link-button" id="signee-btn-@(i)">@Resources.ResendInvite</a>                                                               
+                                                                <a class="btn dealnet-link-button" id="signee-btn-@(i)">@Resources.ResendInvite</a>
                                                                 break;
                                                         }
                                                     }
                                                 }
                                             </div>
-                                            <svg aria-hidden="true" class="icon icon-comment">
-                                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-comment")"></use>
-                                            </svg>
+                                            @if (!string.IsNullOrEmpty(Model.ESignature.Signers[i].Comment))
+                                            {
+                                                <svg aria-hidden="true" class="icon icon-comment">
+                                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-comment")"></use>
+                                                </svg>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -227,7 +230,7 @@
                 @Html.HiddenFor(m => m.BasicInfo.ContractId, new { Name = "ContractId" })
                 @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[0].Value, new { Name = "DocumentTypeId" })
                 <div class="form-group clearfix">
-                    <div @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>                                    }
+                    <div @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>                                     }
                          class="file-upload btn dealnet-button dealnet-success-button disablable @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) {<text>disabled</text>}">
                         <span>@Resources.Upload</span>
                         <input type="file" name="File" class="upload main-document-upload" />

@@ -426,7 +426,7 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task SendContractEmails(ESignatureViewModel eSignatureViewModel)
         {
             if (!ModelState.IsValid)
@@ -498,7 +498,7 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task UpdateContractEmails(ESignatureViewModel eSignatureViewModel)
         {
             if (!ModelState.IsValid)
