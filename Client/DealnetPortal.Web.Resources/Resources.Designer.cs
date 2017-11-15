@@ -677,6 +677,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to cancel ESignature for this contract.
+        /// </summary>
+        public static string AreYouSureCancelEsignature {
+            get {
+                return ResourceManager.GetString("AreYouSureCancelEsignature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to remove this application.
         /// </summary>
         public static string AreYouSureYouWantToRemoveThisApplication {

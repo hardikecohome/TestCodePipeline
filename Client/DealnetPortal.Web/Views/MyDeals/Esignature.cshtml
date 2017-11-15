@@ -130,15 +130,12 @@
                                                     {
                                                         switch (Model.ESignature.Signers[i - 1].SignatureStatus)
                                                         {
-                                                            case ApiEnum.SignatureStatus.Signed:
-                                                                <a class="btn dealnet-link-button" id="signee-btn-@(i)">@Resources.ResendInvite</a>
-                                                                break;
                                                             case ApiEnum.SignatureStatus.Sent:
                                                             case ApiEnum.SignatureStatus.Delivered:
                                                                 <a class="btn dealnet-link-button" id="signee-btn-@(i)">@Resources.UpdateEmail</a>
                                                                 break;
                                                             default:
-                                                                <a></a>
+                                                                <a class="btn dealnet-link-button" id="signee-btn-@(i)">@Resources.ResendInvite</a>                                                               
                                                                 break;
                                                         }
                                                     }
