@@ -77,6 +77,8 @@ namespace DealnetPortal.Api.App_Start
                         .Replace("(", string.Empty)
                         .Replace(")", string.Empty)) ?? src.Status : null));
             mapperConfig.CreateMap<ContractSigner, ContractSignerDTO>();
+            mapperConfig.CreateMap<ContractSigner, SignatureUser>()
+                .ForMember(x => x.Role, o => o.MapFrom(src => src.SignerType));
             mapperConfig.CreateMap<Contract, ContractDTO>()
                 .ForMember(x => x.PrimaryCustomer, o => o.MapFrom(src => src.PrimaryCustomer))
                 .ForMember(x => x.SecondaryCustomers, o => o.MapFrom(src => src.SecondaryCustomers))

@@ -589,14 +589,23 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 // Get contract
                 var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
-                if (!string.IsNullOrEmpty(contract?.Details?.SignatureTransactionId))
+                if (!string.IsNullOrEmpty(contract?.Details?.SignatureTransactionId) && signatureUsers?.Any() == true)
                 {
                     var logRes = await _signatureEngine.ServiceLogin().ConfigureAwait(false);
                     _signatureEngine.TransactionId = contract.Details?.SignatureTransactionId;
                     _signatureEngine.DocumentId = contract.Details?.SignatureDocumentId;
                     alerts.AddRange(logRes);
 
+                    signatureUsers = PrepareSignatureUsers(contract, signatureUsers);
+                    UpdateSignersInfo(contractId, ownerUserId, signatureUsers, true);
 
+                    signatureUsers = AutoMapper.Mapper.Map<SignatureUser[]>(contract.Signers.ToArray());
+
+                    var updateAlerts = await _signatureEngine.UpdateSigners(signatureUsers);
+                    if (updateAlerts?.Any() == true)
+                    {
+                        alerts.AddRange(updateAlerts);
+                    }
                 }
                 else
                 {
@@ -623,7 +632,7 @@ namespace DealnetPortal.Api.Integration.Services
                 });
             }
 
-            return await Task.FromResult(alerts);
+            return alerts;
         }
         public async Task<IList<Alert>> ProcessSignatureEvent(string notificationMsg)
         {
@@ -750,14 +759,14 @@ namespace DealnetPortal.Api.Integration.Services
             return usersForProcessing.ToArray();
         }
 
-        private void UpdateSignersInfo(int contractId, string ownerUserId, SignatureUser[] signatureUsers)
+        private void UpdateSignersInfo(int contractId, string ownerUserId, SignatureUser[] signatureUsers, bool syncOnly = false)
         {
             try
             {
                 var signers = AutoMapper.Mapper.Map<ContractSigner[]>(signatureUsers);
                 if (signers?.Any() == true)
                 {
-                    _contractRepository.AddOrUpdateContractSigners(contractId, signers, ownerUserId);
+                    _contractRepository.UpdateContractSigners(contractId, signers, ownerUserId, syncOnly);
                     _unitOfWork.Save();
                 }
             }

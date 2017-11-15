@@ -64,6 +64,9 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             _dsIntegratorKey = configuration.GetSetting(WebConfigKeys.DOCUSIGN_INTEGRATORKEY_CONFIG_KEY);
             _dsDefaultBrandId = configuration.GetSetting(WebConfigKeys.DOCUSIGN_BRAND_ID);
             _notificationsEndpoint = configuration.GetSetting(WebConfigKeys.DOCUSIGN_NOTIFICATIONS_URL);
+
+            _signers = new List<Signer>();
+            _copyViewers = new List<CarbonCopy>();
         }
 
         public async Task<IList<Alert>> ServiceLogin()
@@ -147,8 +150,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                             TransformPdfFields = "true"
                         };
                     }
-                    _signers = new List<Signer>();
-                    _copyViewers = new List<CarbonCopy>();
+                    _signers.Clear();
+                    _copyViewers.Clear();
                     _envelopeDefinition = new EnvelopeDefinition();
                 }
             });                      
@@ -232,7 +235,49 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             });
 
             return alerts;
-        }        
+        }
+
+        public async Task<IList<Alert>> UpdateSigners(IList<SignatureUser> signatureUsers)
+        {
+            var alerts = new List<Alert>();
+            EnvelopesApi envelopesApi = new EnvelopesApi();
+            if (!string.IsNullOrEmpty(TransactionId))
+            {
+                await InsertSignatures(signatureUsers);
+                var envelope = await envelopesApi.GetEnvelopeAsync(AccountId, TransactionId);
+                var reciepents = await envelopesApi.ListRecipientsAsync(AccountId, TransactionId);
+                if (envelope != null)
+                {
+                    var updateRecipients = !AreRecipientsEqual(reciepents);
+                    if (updateRecipients)
+                    {
+                        reciepents = UpdateRecipientsMails(reciepents);                        
+                        var updateRes = await envelopesApi.UpdateRecipientsAsync(AccountId, TransactionId, reciepents);
+                        if (envelope.Status == "sent")
+                        {
+                            envelope = new Envelope() { };
+                            var updateOptions = new EnvelopesApi.UpdateOptions()
+                            {
+                                resendEnvelope = "true"
+                            };
+                            var updateEnvelopeRes =
+                                await envelopesApi.UpdateAsync(AccountId, TransactionId, envelope, updateOptions);
+                        }
+                    }
+                }
+                else
+                {
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = "Can't find envelope",
+                        Message = $"Can't find envelope {TransactionId} in DocuSign"
+                    });
+                }
+            }
+
+            return alerts;
+        }
 
         public async Task<IList<Alert>> SubmitDocument(IList<SignatureUser> signatureUsers)
         {
@@ -257,12 +302,10 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                             contractUpdated = _contract.LastUpdateTime.HasValue && _contract.LastUpdateTime.Value > sentTime;
                         }
 
-                        //TODO: can't sign a draft - have to deal with it
                         if (envelope.Status == "created" || contractUpdated)
                         {
                             recreateEnvelope = true;
                         }
-                        //await InsertSignatures(signatureUsers);// ??
                         recreateRecipients = !AreRecipientsEqual(reciepents);
                         if ((envelope.Status == "sent" || envelope.Status == "completed") && recreateRecipients)
                         {
@@ -273,6 +316,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     {
                         recreateEnvelope = true;
                     }
+
                     if (!recreateEnvelope)
                     {
                         try
@@ -481,20 +525,24 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
             if (recipients != null && _signers != null)
             {
-                areEqual = _signers.All(s => recipients.Signers.Any(r => r.Email == s.Email))
-                                && (_copyViewers?.All(s => recipients.CarbonCopies?.Any(r => r.Email == s.Email) ?? true) ?? true);
-                
-                //if (recipients.Signers.Count == _signers.Count)
-                //{
-                //    areEqual = _signers.All(s => recipients.Signers.Any(r => r.Email == s.Email));
-                //    if (areEqual && recipients.CarbonCopies.Count == _copyViewers.Count)
-                //    {
-                //        areEqual = _copyViewers.All(s => recipients.CarbonCopies.Any(r => r.Email == s.Email));
-                //    }
-                //}
+                areEqual = _signers.All(s => recipients.Signers.Any(r => r.Email == s.Email && r.Name == s.Name))
+                                && (_copyViewers?.All(s => recipients.CarbonCopies?.Any(r => r.Email == s.Email && r.Name == s.Name) ?? true) ?? true);
             }
 
             return areEqual;
+        }
+
+        private Recipients UpdateRecipientsMails(Recipients recipients)
+        {
+            recipients.Signers?.ForEach(s =>
+            {
+                var signer = _signers.FirstOrDefault(us => us.Name == s.Name);
+                if (!string.IsNullOrEmpty(signer?.Email))
+                {
+                    s.Email = signer.Email;
+                }
+            });            
+            return recipients;
         }
 
         private List<Alert> CreateEnvelope(EnvelopeDefinition envelopeDefinition)
