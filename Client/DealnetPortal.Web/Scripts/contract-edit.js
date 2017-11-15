@@ -598,7 +598,10 @@ function submitOneSignature (e) {
         submitEsignature(signer)
             .done(function (data) {
                 if (!data.isError) {
-                    alert(translations['InvitesWereSentToEmails']);
+                    var data = {
+                        message: translations['InvitesWereSentToEmails']
+                    };
+                    dynamicAlertModal(data);
                     var updateDate = new Date();
                     $row.find('.signature-date-hold')
                         .text((updateDate.getMonth() + 1) + '/' + updateDate.getDate() + '/' + updateDate.getFullYear() + ' ' + updateDate.getHours() + ':' + updateDate.getMinutes() + ' ' + (updateDate.getHours() > 11 ? 'PM' : 'AM'));
@@ -644,17 +647,31 @@ function submitAllEsignatures (e) {
                     var status = $row.find('#signer-status-' + rowId).val().toLowerCase();
                     if (status !== 'signed') {
                         $row.find('.signature-date-hold').text(formated);
-                    }
-                    if (status === 'created') {
-                        var msg = signer.Role === 2 ?
-                            translations['InviteSentWhenSigns'].split('{0}').join(translations['Coborrower']) :
-                            translations['InviteSentWhenSigns'].split('{0}').join(translations['Borrower'])
-                        $row.find('.signature-header').text(msg);
-                        $row.find('.icon-front').replaceWith($form.find('.icon-waiting')[0]);
-                    }
-                    if (status === 'declined') {
-                        $row.find('.signature-header').text(translations['WaitingSignature']);
-                        $row.find('.icon-front').replaceWith($form.find('.icon-waiting')[0]);
+                        if (status === '') {
+                            var role = $row.find('#signer-role-' + rowId).val().toLowerCase();
+                            if (role === 'signer' || role === 'homeowner') {
+                                $row.find('.signature-header').text(translations['WaitingSignature']);
+                                $row.find('#signer-btn-' + rowId).text(translations['ResendInvite']);
+                            } else {
+                                var msg = role === 'additionalapplicant' ?
+                                    translations['InviteSentWhenSigns'].split('{0}').join(translations['Borrower']) :
+                                    translations['InviteSentWhenSigns'].split('{0}').join(translations['Coborrower'])
+                                $row.find('.signature-header').text(msg);
+                            }
+                        }
+                        if (status === 'created') {
+                            var msg = $row.find('#signer-role-' + rowId).val().toLowerCase() === 'additionalapplicant' ?
+                                translations['InviteSentWhenSigns'].split('{0}').join(translations['Coborrower']) :
+                                translations['InviteSentWhenSigns'].split('{0}').join(translations['Borrower'])
+                            $row.find('.signature-header').text(msg);
+                        }
+                        if (status === 'declined') {
+                            $row.find('.signature-header').text(translations['WaitingSignature']);
+                            $row.find('#signer-btn-' + rowId).text(translations['ResendInvite']);
+                        }
+                        var clone = $form.find('.icon-waiting').clone();
+                        $row.find('.icon-error').replaceWith(clone);
+                        $row.find('#signer-btn-' + rowId).removeClass('hidden');
                     }
                 });
                 $form.find('[id^="signer-status-hold-"]').removeClass('hidden');

@@ -866,10 +866,10 @@ namespace DealnetPortal.Web.Infrastructure
                 {
                     Id = 0,
                     CustomerId = s.Id,
-                    Email = s.Emails.FirstOrDefault(e => e.EmailType == EmailType.Notification).EmailAddress,
+                    Email = s.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
+                        s.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress,
                     FirstName = s.FirstName,
                     LastName = s.LastName,
-                    SignatureStatus = SignatureStatus.NotInitiated,
                     Role = SignatureRole.AdditionalApplicant
                 }).ToList())
                 {
