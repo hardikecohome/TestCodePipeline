@@ -17,12 +17,23 @@
                 @Resources.OneSignerDeclinedRemainingCanceled
             </div>
             <div class="sent-contract-secton">
-                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "signer-form" }))
+                @using (Html.BeginForm("SendForESignature", "MyDeals", FormMethod.Post, new { id = "signer-form" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(m => m.ESignature.ContractId, new { id = "contract-id" })
                     @Html.HiddenFor(m => m.ESignature.HomeOwnerId, new { id = "home-owner-id" })
                     @Html.HiddenFor(m => m.ESignature.Status, new { id = "signature-status" })
+                    <div class="hidden">
+                        <svg aria-hidden="true" class="icon icon-front icon-waiting">
+                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-waiting")"></use>
+                        </svg>
+                        <svg aria-hidden="true" class="icon icon-front icon-error">
+                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
+                        </svg>
+                        <svg aria-hidden="true" class="icon icon-front icon-success">
+                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
+                        </svg>
+                    </div>
                     <div class="rental-summary-emails">
                         <div class="rental-summary-inner">
                             @for (var i = 0; Model.ESignature.Signers.Count > i; i++)
@@ -35,6 +46,7 @@
                                         @Html.HiddenFor(m => m.ESignature.Signers[i].StatusLastUpdateTime, new { id = $"signer-update-{i}" })
                                         @Html.HiddenFor(m => m.ESignature.Signers[i].Role, new { id = $"signer-role-{i}" })
                                         @Html.HiddenFor(m => m.ESignature.Signers[i].CustomerId, new { id = $"signer-customer-id-{i}" })
+
                                     </div>
                                     <div class="col-md-2 applicant-col">
                                         <div class="dealnet-label">
@@ -60,7 +72,7 @@
                                         @Html.TextBoxFor(m => m.ESignature.Signers[i].Email, new { @class = "dealnet-input form-control", type = "email", id = $"signer-email-{i}" })
                                         @Html.ValidationMessageFor(m => m.ESignature.Signers[i].Email, "", new { @class = "text-danger" })
                                     </div>
-                                    <div class="col-md-5 @(Model.ESignature.Signers[i].SignatureStatus == null ? "hidden" : "")" id="signer-status-@(i)">
+                                    <div class="col-md-5 @(Model.ESignature.Signers[i].SignatureStatus == null ? "hidden" : "")" id="signer-status-hold-@(i)">
                                         <label class="hidden">&nbsp;</label>
                                         <div class="signature-status @(Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Declined ? "signature-declined" : "")">
                                             @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Signed)
@@ -102,7 +114,7 @@
                                                     }
                                                 </div>
                                                 <div class="signature-date">
-                                                    (<span id="signer-date-@(i)">@(Model.ESignature.Signers[i].StatusLastUpdateTime.HasValue ? Model.ESignature.Signers[i].StatusLastUpdateTime.Value.ToString("MM/dd/yyyy hh:mm tt") : "")</span>)
+                                                    (<span class="signature-date-hold">@(Model.ESignature.Signers[i].StatusLastUpdateTime.HasValue ? Model.ESignature.Signers[i].StatusLastUpdateTime.Value.ToString("MM/dd/yyyy hh:mm tt") : "")</span>)
                                                 </div>
                                                 @if (Model.ESignature.Status < ApiEnum.SignatureStatus.Declined)
                                                 {
@@ -218,7 +230,7 @@
                 @Html.HiddenFor(m => m.BasicInfo.ContractId, new { Name = "ContractId" })
                 @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[0].Value, new { Name = "DocumentTypeId" })
                 <div class="form-group clearfix">
-                    <div @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>                                  }
+                    <div @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>                                    }
                          class="file-upload btn dealnet-button dealnet-success-button disablable @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) {<text>disabled</text>}">
                         <span>@Resources.Upload</span>
                         <input type="file" name="File" class="upload main-document-upload" />

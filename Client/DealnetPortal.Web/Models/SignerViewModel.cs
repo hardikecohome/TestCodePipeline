@@ -8,7 +8,6 @@ namespace DealnetPortal.Web.Models
     public class SignerViewModel
     {
         public int Id { get; set; }
-        [CustomRequired]
         public int? CustomerId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -19,7 +18,6 @@ namespace DealnetPortal.Web.Models
         public DateTime? StatusLastUpdateTime { get; set; }
         [CustomRequired]
         public SignatureRole? Role { get; set; }
-        [CustomRequired]
         public SignatureStatus? SignatureStatus { get; set; }
     }
 }
