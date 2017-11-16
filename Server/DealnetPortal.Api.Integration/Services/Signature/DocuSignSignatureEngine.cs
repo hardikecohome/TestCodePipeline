@@ -748,6 +748,13 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         Show = "true",
                         Value = _contract.DealerId
                     }
+                    ,new TextCustomField
+                    {
+                        Name = PdfFormFields.DealerName,
+                        Required = "true",
+                        Show = "true",
+                        Value = _contract.Dealer.AspireLogin
+                    }
                 }
 
             };

@@ -82,8 +82,7 @@
                                     <div class="col-md-5 signer-status-hold @Model.ESignature.Signers[i].SignatureStatus.ToString().ToLower()">
 
                                         <div class="signature-status">
-                                            @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Signed ||
-Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Completed)
+                                            @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Signed || Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Completed)
                                             {
                                                 <svg aria-hidden="true" class="icon icon-front icon-success">
                                                     <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
@@ -103,8 +102,7 @@ Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Completed
                                             }
                                             <div class="signature-hold">
                                                 <div class="signature-header">
-                                                    @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Signed ||
-Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Completed)
+                                                    @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Signed || Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Completed)
                                                     {
                                                         <text>@Resources.ContractSigned</text>
                                                     }
@@ -128,8 +126,7 @@ Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Completed
                                                 <div class="signature-date">(<span class="signature-date-hold">@(Model.ESignature.Signers[i].StatusLastUpdateTime.HasValue ? Model.ESignature.Signers[i].StatusLastUpdateTime.Value.ToString("MM/dd/yyyy hh:mm tt") : "")</span>)</div>
 
                                                 <a class="btn dealnet-link-button" id="signer-btn-@(i)">
-                                                    @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Sent ||
-Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Delivered)
+                                                    @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Sent || Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Delivered)
                                                     {
                                                         @Resources.ResendInvite
                                                     }
@@ -195,7 +192,7 @@ Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Delivered
                     </div>
                 }
                 <a href="#" id="print-signed-button" class="dealnet-info-link doc-tab-print-link">
-                    <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg> @Resources.PrintSignedContract
+                    <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg> @Resources.DownloadSignedContract
                 </a>
             </div>
         </div>
@@ -236,7 +233,7 @@ Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Delivered
                 @Html.HiddenFor(m => m.BasicInfo.ContractId, new { Name = "ContractId" })
                 @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[0].Value, new { Name = "DocumentTypeId" })
                 <div class="form-group clearfix">
-                    <div @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>                                                    }
+                    <div @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>                                                     }
                          class="file-upload btn dealnet-button dealnet-success-button disablable @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) {<text>disabled</text>}">
                         <span>@Resources.Upload</span>
                         <input type="file" name="File" class="upload main-document-upload" />
