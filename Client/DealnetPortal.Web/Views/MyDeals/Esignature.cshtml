@@ -21,7 +21,7 @@
                 @if (@Model.ESignature.Status == ApiEnum.SignatureStatus.Completed)
                 {
                     <a href="#" id="print-signed-button" class="dealnet-info-link doc-tab-print-link">
-                        <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg> @Resources.PrintSignedContract
+                        <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg> @Resources.DownloadSignedContract
                     </a>
                 }
             </div>
