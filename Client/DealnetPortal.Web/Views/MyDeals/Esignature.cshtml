@@ -75,7 +75,8 @@
                                     <div class="col-md-5 signer-status-hold @Model.ESignature.Signers[i].SignatureStatus.ToString().ToLower()">
 
                                         <div class="signature-status">
-                                            @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Signed)
+                                            @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Signed ||
+                        Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Completed)
                                             {
                                                 <svg aria-hidden="true" class="icon icon-front icon-success">
                                                     <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
@@ -95,7 +96,8 @@
                                             }
                                             <div class="signature-hold">
                                                 <div class="signature-header">
-                                                    @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Signed)
+                                                    @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Signed ||
+                        Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Completed)
                                                     {
                                                         <text>@Resources.ContractSigned</text>
                                                     }
@@ -120,7 +122,7 @@
 
                                                 <a class="btn dealnet-link-button" id="signer-btn-@(i)">
                                                     @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Sent ||
-                    Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Delivered)
+Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Delivered)
                                                     {
                                                         @Resources.ResendInvite
                                                     }
@@ -141,7 +143,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                        }
+                            }
                             <div class="well well-info @(Model.ESignature.Status != ApiEnum.SignatureStatus.Declined?"hidden":"")" id="contact-before-resend">
                                 <span class="icon-hold">
                                     <svg aria-hidden="true" class="icon icon-info-well">
@@ -184,7 +186,7 @@
                             </div>
                         </div>
                     </div>
-                                        }
+                }
             </div>
         </div>
         <div role="tabpanel" class="tab-pane fade" id="paper-contract">
@@ -224,7 +226,7 @@
                 @Html.HiddenFor(m => m.BasicInfo.ContractId, new { Name = "ContractId" })
                 @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[0].Value, new { Name = "DocumentTypeId" })
                 <div class="form-group clearfix">
-                    <div @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>                                          }
+                    <div @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>                                            }
                          class="file-upload btn dealnet-button dealnet-success-button disablable @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) {<text>disabled</text>}">
                         <span>@Resources.Upload</span>
                         <input type="file" name="File" class="upload main-document-upload" />

@@ -240,7 +240,8 @@
     .signer-status-hold {
       line-height: 1.2;
       display: none;
-      &.created {
+      &.created,
+      &.sent {
         display: block;
         .signature-hold {
           padding-top: 5px;
@@ -252,7 +253,8 @@
           padding-top: 15px;
         }
       }
-      &.signed {
+      &.signed,
+      &.completed {
         display: block;
         @media @desktop-up {
           padding-top: 30px;
