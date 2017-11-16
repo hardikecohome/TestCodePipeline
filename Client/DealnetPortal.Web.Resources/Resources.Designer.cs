@@ -2154,6 +2154,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download signed contract.
+        /// </summary>
+        public static string DownloadSignedContract {
+            get {
+                return ResourceManager.GetString("DownloadSignedContract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Down Payment.
         /// </summary>
         public static string DownPayment {
@@ -4526,15 +4535,6 @@ namespace DealnetPortal.Web.Resources {
         public static string PrincipalOwnerInformation {
             get {
                 return ResourceManager.GetString("PrincipalOwnerInformation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Print Signed Contract.
-        /// </summary>
-        public static string PrintSignedContract {
-            get {
-                return ResourceManager.GetString("PrintSignedContract", resourceCulture);
             }
         }
         
