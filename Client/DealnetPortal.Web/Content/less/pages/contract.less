@@ -240,7 +240,7 @@
     .signer-status-hold {
       line-height: 1.2;
       display: none;
-      padding-left: 15px; 
+      padding-left: 20px; 
       &.created,
       &.sent {
         display: block;
@@ -321,9 +321,17 @@
         margin: 10px 10px 0 0;
       }
     }
-    .info-text-success .icon-info-well {
-      position: static;
-      margin-right: 10px;
+    .info-text-success {
+      .icon-info-well {
+        position: static;
+        margin-right: 10px;
+      }
+      @media @tablet-down {
+        margin-top: 10px;
+      }
+      @media @mobile {
+        margin-left: 20%;
+      }
     }
   }
 }

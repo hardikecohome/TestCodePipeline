@@ -13,14 +13,13 @@
     </ul>
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane fade in active" id="digital-contract">
-            <div class="signature-notification">
+            <div class="signature-notification @(Model.ESignature.Status < ApiEnum.SignatureStatus.Declined?"hidden":"")">
                 @Resources.OneSignerDeclinedRemainingCanceled
             </div>
             <div class="sent-contract-secton">
                 @Html.Partial("_EsignatureStatus", Model)
-                @if (@Model.ESignature.Status == ApiEnum.SignatureStatus.Completed)
+                @using (Html.BeginForm("SendContractEmails", "NewRental", FormMethod.Post, new { id = "signer-form" }))
                 {
-                    @Html.AntiForgeryToken()
                     @Html.HiddenFor(m => m.ESignature.ContractId, new { id = "contract-id" })
                     @Html.HiddenFor(m => m.ESignature.HomeOwnerId, new { id = "home-owner-id" })
                     @Html.HiddenFor(m => m.ESignature.Status, new { id = "signature-status" })
@@ -191,9 +190,12 @@
                         </div>
                     </div>
                 }
+                @if (@Model.ESignature.Status == ApiEnum.SignatureStatus.Completed)
+                {
                 <a href="#" id="print-signed-button" class="dealnet-info-link doc-tab-print-link">
                     <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg> @Resources.DownloadSignedContract
                 </a>
+                }
             </div>
         </div>
         <div role="tabpanel" class="tab-pane fade" id="paper-contract">
