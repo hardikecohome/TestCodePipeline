@@ -650,12 +650,14 @@ function submitAllEsignatures (e) {
                             var role = $row.find('#signer-role-' + rowId).val().toLowerCase();
                             if (role === 'signer' || role === 'homeowner') {
                                 $row.find('.signature-header').text(translations['WaitingSignature']);
+                                $row.find('.signer-status-hold').addClass('waitingsignature');
                                 $row.find('#signer-btn-' + rowId).text(translations['ResendInvite']);
                             } else {
                                 var msg = role === 'additionalapplicant' ?
                                     translations['InviteSentWhenSigns'].split('{0}').join(translations['Borrower']) :
                                     translations['InviteSentWhenSigns'].split('{0}').join(translations['Coborrower'])
                                 $row.find('.signature-header').text(msg);
+                                $row.find('.signer-status-hold').addClass('created');
                             }
                         }
                         if (status === 'created') {
@@ -663,17 +665,19 @@ function submitAllEsignatures (e) {
                                 translations['InviteSentWhenSigns'].split('{0}').join(translations['Coborrower']) :
                                 translations['InviteSentWhenSigns'].split('{0}').join(translations['Borrower'])
                             $row.find('.signature-header').text(msg);
+                            $row.find('.signer-status-hold').addClass('created');
                         }
                         if (status === 'declined') {
                             $row.find('.signature-header').text(translations['WaitingSignature']);
                             $row.find('#signer-btn-' + rowId).text(translations['ResendInvite']);
+                            $row.find('.signer-status-hold').addClass('waitingsignature');
                         }
                         var clone = $form.find('.icon-waiting').clone();
                         $row.find('.icon-error').replaceWith(clone);
                         $row.find('#signer-btn-' + rowId).removeClass('hidden');
                     }
                 });
-                $form.find('[id^="signer-status-hold-"]').removeClass('hidden');
+                $form.find('.signer-status-hold').removeClass('hidden');
                 $form.find('#submit-digital').text(translations['CancelInvites']);
                 hideLoader();
             });
