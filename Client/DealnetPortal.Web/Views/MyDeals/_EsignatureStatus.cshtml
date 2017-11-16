@@ -108,7 +108,7 @@
                                     (<span class="signature-date-hold">@(Model.ESignature.Signers[i].StatusLastUpdateTime.HasValue ? Model.ESignature.Signers[i].StatusLastUpdateTime.Value.ToString("MM/dd/yyyy hh:mm tt") : "")</span>)
                                 </div>
 
-                                <a class="btn dealnet-link-button @(hiddenLink ? " hidden" : "")" id="signer-btn-@(i)">
+                                <a class="btn dealnet-link-button" id="signer-btn-@(i)">
                                     @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Sent ||
                                          Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Delivered)
                                     {

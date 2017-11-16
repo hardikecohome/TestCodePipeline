@@ -573,6 +573,7 @@ function cancelSignatures (e) {
         }).done(function (data) {
             $form.find('[id^="signer-status-"]').addClass('hidden');
             $form.find('#submit-digital').text(translations['SendInvites']);
+            $('#signature-status').val('');
         }).fail(function (xhr, status, result) {
             console.log(result);
         }).always(function () {
