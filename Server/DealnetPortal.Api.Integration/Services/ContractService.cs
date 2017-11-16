@@ -38,6 +38,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ICustomerWalletService _customerWalletService;
         private readonly IMailService _mailService;
         private readonly IAppConfiguration _configuration;
+        private readonly ISignatureService _signatureService;
 
         public ContractService(
             IContractRepository contractRepository, 
@@ -47,7 +48,7 @@ namespace DealnetPortal.Api.Integration.Services
             ICustomerWalletService customerWalletService,
             IMailService mailService, 
             ILoggingService loggingService, IDealerRepository dealerRepository,
-            IAppConfiguration configuration)
+            IAppConfiguration configuration, ISignatureService signatureService)
         {
             _contractRepository = contractRepository;
             _loggingService = loggingService;
@@ -58,6 +59,7 @@ namespace DealnetPortal.Api.Integration.Services
             _customerWalletService = customerWalletService;
             _mailService = mailService;
             _configuration = configuration;
+            _signatureService = signatureService;
         }
 
         public ContractDTO CreateContract(string contractOwnerId)

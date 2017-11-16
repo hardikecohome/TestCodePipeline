@@ -2373,4 +2373,7 @@ changing contract terms or signing contract on paper.</value>
   <data name="PleaseEnterAllEmails" xml:space="preserve">
     <value>Please enter all email addresses to send invites</value>
   </data>
+  <data name="DownloadSignedContract" xml:space="preserve">
+    <value>Download signed contract</value>
+  </data>
 </root>

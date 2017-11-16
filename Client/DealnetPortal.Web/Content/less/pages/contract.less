@@ -239,14 +239,41 @@
     margin: 5px 0;
     .signer-status-hold {
       line-height: 1.2;
-      &.created {
+      display: none;
+      &.created,
+      &.sent {
+        display: block;
         .signature-hold {
           padding-top: 5px;
         }
       }
-      &.waitingsignature {
+      &.waitingsignature,
+      &.sent {
+        display: block;
         .signature-hold {
           padding-top: 15px;
+        }
+      }
+      &.signed,
+      &.completed {
+        display: block;
+        @media @desktop-up {
+          padding-top: 30px;
+        }
+        .icon-front {
+          bottom: 6px;
+        }
+        .dealnet-link-button {
+          display: none;
+        }
+      }
+      &.declined { 
+        display: block;
+        .dealnet-link-button {
+          display: none;
+        }
+        @media @desktop-up {
+          padding-top: 20px; 
         }
       }
     }
@@ -263,17 +290,7 @@
           color: rgb(218, 46, 0);
         }
         &.icon-comment {
-          margin-left: 5px;
-          margin-top: -20px; 
-        }
-      }
-      &.signature-declined {
-        .icon {
-          margin-top:-35px;
-        }
-        .signature-hold {
-          padding-top: 4px;
-          line-height: 1.2;
+          right:-10px;
         }
       }
       .signature-hold {
@@ -289,7 +306,7 @@
         font-size: 11px;
       }
       .dealnet-link-button {
-        font-size: 14px;
+        font-size: 13px;
         padding-bottom: 0;
         padding-top: 0;
       }

@@ -579,7 +579,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return new Tuple<IList<FormField>, IList<Alert>>(formFields, alerts);
         }
 
-        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument()
+        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument(DocumentVersion documentVersion)
         {
             var alerts = new List<Alert>();
             AgreementDocument document = null;
@@ -878,7 +878,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         Name = PdfFormFields.DealerID,
                         Required = "true",
                         Show = "true",
-                        Value = _contract?.Dealer?.UserName
+                        Value = _contract.Dealer.UserName
                     });
             }
             return customFields;

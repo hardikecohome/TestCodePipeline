@@ -10,6 +10,7 @@
         $('#submit-digital').on('click', submitDigital);
 
         $('#print-button').on('click', printContract(downloadUrl));
+        $('#print-signed-button').on('click', printContract(downloadSignedUrl));
 
         $('.date-input').each(function (index, input) {
             assignDatepicker(input,
@@ -572,6 +573,7 @@ function cancelSignatures (e) {
         }).done(function (data) {
             $form.find('[id^="signer-status-"]').addClass('hidden');
             $form.find('#submit-digital').text(translations['SendInvites']);
+            $('#signature-status').val('');
         }).fail(function (xhr, status, result) {
             console.log(result);
         }).always(function () {

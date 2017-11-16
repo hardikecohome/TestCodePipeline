@@ -1851,6 +1851,8 @@ foreach (var comment in comments)
 
         var checkUrl = '@Url.Action("CheckContractAgreement", "NewRental", new {contractId = Model.BasicInfo.ContractId })';
         var downloadUrl = '@Url.Action("PrintContract", "NewRental", new { contractId = Model.BasicInfo.ContractId })';
+
+        var downloadSignedUrl = '@Url.Action("GetSignedContract", "NewRental", new { contractId = Model.BasicInfo.ContractId })';
         var esignUrl = '@Url.Action("SendContractEmails", "NewRental")';
         var updateEsignUrl = '@Url.Action("UpdateContractEmails", "NewRental")';
         var cancelEsignUrl = '@Url.Action("CancelDigitalSignature")';

@@ -348,7 +348,7 @@ namespace DealnetPortal.Api.Integration.Services
                     _loggingService.LogError(errorMsg);
                 }
 
-                var docResult = await _signatureEngine.GetDocument().ConfigureAwait(false);
+                var docResult = await _signatureEngine.GetDocument(DocumentVersion.Signed).ConfigureAwait(false);
                 document = docResult.Item1;
 
                 ReformatTempalteNameWithId(document, contract.Details?.TransactionId);
@@ -482,7 +482,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 }
 
-                var docResult = await _signatureEngine.GetDocument().ConfigureAwait(false);
+                var docResult = await _signatureEngine.GetDocument(DocumentVersion.Draft).ConfigureAwait(false);
                 document = docResult.Item1;
 
                 ReformatTempalteNameWithId(document, contract.Details?.TransactionId);
@@ -814,7 +814,7 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {            
                 _signatureEngine.TransactionId = contract.Details.SignatureTransactionId;
-                var docResult = await _signatureEngine.GetDocument();
+                var docResult = await _signatureEngine.GetDocument(DocumentVersion.Signed);
                 if (docResult?.Item1 != null)
                 {
                     _loggingService.LogInfo(

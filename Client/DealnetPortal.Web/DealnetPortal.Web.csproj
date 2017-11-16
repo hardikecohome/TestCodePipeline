@@ -19,9 +19,12 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44341</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -528,6 +531,7 @@
     <Content Include="Content\images\sprite\icon-filter.svg" />
     <Content Include="Content\images\sprite\icon-funding.svg" />
     <Content Include="Content\images\sprite\icon-help-chat.svg" />
+    <Content Include="Content\images\sprite\icon-help.svg" />
     <Content Include="Content\images\sprite\icon-help-page.svg" />
     <Content Include="Content\images\sprite\icon-home.svg" />
     <Content Include="Content\images\sprite\icon-info-grey.svg" />
@@ -717,6 +721,9 @@
     <Content Include="Content\less\settings\variables.less" />
     <Content Include="Content\less\slick\ajax-loader.gif" />
     <Content Include="Content\less\slick\fonts\slick.svg" />
+    <Content Include="DeployParameters.Web.deaslnet01vm.xml" />
+    <Content Include="DeployParameters.Web.deaslnet02vm.xml" />
+    <Content Include="Content\less\slick\ajax-loader.gif" />
     <Content Include="favicon-dealer.ico" />
     <Content Include="favicon.ico" />
     <Content Include="Favicon_Eco_Energy.ico" />
@@ -1138,6 +1145,7 @@
     <Content Include="Views\Dealer\SuccessWithoutDocuments.cshtml" />
     <Content Include="Views\MyDeals\_EsignatureModal.cshtml" />
     <Content Include="Views\MyDeals\Esignature.cshtml" />
+    <Content Include="Views\MyDeals\_EsignatureStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
