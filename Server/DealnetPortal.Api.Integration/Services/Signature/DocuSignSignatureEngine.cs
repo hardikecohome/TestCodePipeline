@@ -18,6 +18,7 @@ using DocuSign.eSign.Api;
 using DocuSign.eSign.Client;
 using DocuSign.eSign.Model;
 using Microsoft.Practices.ObjectBuilder2;
+using System.Xml.Linq;
 
 namespace DealnetPortal.Api.Integration.Services.Signature
 {
@@ -53,6 +54,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         private List<Signer> _signers { get; set; }
         private List<CarbonCopy> _copyViewers { get; set; }
         private EnvelopeDefinition _envelopeDefinition { get; set; }
+
+        private readonly string[] DocuSignResipientStatuses = new string[] { "Created", "Sent", "Delivered", "Signed", "Declined" };
 
 
         public DocuSignSignatureEngine(ILoggingService loggingService, IAppConfiguration configuration)
@@ -278,6 +281,128 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             }
 
             return alerts;
+        }
+
+        public async Task<Tuple<bool, IList<Alert>>> ParseStatusEvent(string eventNotification, Contract contract)
+        {
+            var updated = false;
+            var alerts = new List<Alert>();
+
+            try
+            {
+                XDocument xDocument = XDocument.Parse(eventNotification);
+                var xmlns = xDocument?.Root?.Attribute(XName.Get("xmlns"))?.Value ?? "http://www.docusign.net/API/3.0";
+
+                var envelopeStatusSection = xDocument?.Root?.Element(XName.Get("EnvelopeStatus", xmlns));
+                var envelopeId = envelopeStatusSection?.Element(XName.Get("EnvelopeID", xmlns))?.Value;
+
+                if (contract != null && envelopeStatusSection != null)
+                {
+                    var envelopeStatus = envelopeStatusSection?.Element(XName.Get("Status", xmlns))?.Value;
+                    if (!string.IsNullOrEmpty(envelopeStatus))
+                    {
+                        _loggingService.LogInfo($"Recieved DocuSign {envelopeStatus} status for envelope {envelopeId}");
+                        var envelopeStatusTimeValue = envelopeStatusSection?.Element(XName.Get(envelopeStatus, xmlns))?.Value;
+                        DateTime envelopeStatusTime;
+                        if (!DateTime.TryParse(envelopeStatusTimeValue, out envelopeStatusTime))
+                        {
+                            envelopeStatusTime = DateTime.Now;
+                        }
+                        updated |= ProcessSignatureStatus(contract, envelopeStatus, envelopeStatusTime);
+                    }
+
+                    //proceed with recipients statuses
+                    var recipientStatusesSection = envelopeStatusSection?.Element(XName.Get("RecipientStatuses", xmlns));
+                    if (recipientStatusesSection != null)
+                    {
+                        var recipientStatuses = recipientStatusesSection.Descendants(XName.Get("RecipientStatus", xmlns));
+                        recipientStatuses.ForEach(rs =>
+                        {
+                            var rsStatus = rs.Element(XName.Get("Status", xmlns))?.Value;
+                            var rsLastStatusTime = rs.Elements().Where(rse =>
+                                    DocuSignResipientStatuses.Any(ds => rse.Name.LocalName.Contains(ds)))
+                                .Select(rse =>
+                                {
+                                    DateTime statusTime;
+                                    if (!DateTime.TryParse(rse.Value, out statusTime))
+                                    {
+                                        statusTime = new DateTime();
+                                    }
+                                    return statusTime;
+                                }).OrderByDescending(rst => rst).FirstOrDefault();
+                            var rsName = rs.Element(XName.Get("UserName", xmlns))?.Value;
+                            var rsEmail = rs.Element(XName.Get("Email", xmlns))?.Value;
+                            var rsComment = rs.Element(XName.Get("DeclineReason", xmlns))?.Value;
+                            updated |= ProcessSignerStatus(contract, rsName, rsEmail, rsStatus, rsComment, rsLastStatusTime);
+                        });
+                    }                    
+                }
+                else
+                {
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Code = ErrorCodes.CantGetContractFromDb,
+                        Header = "Cannot find contract",
+                        Message = $"Cannot find contract for signature envelopeId {envelopeId}"
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "Cannot parse DocuSign notification",
+                    Message = $"Error occurred during parsing request from DocuSign: {ex.ToString()}"
+                });                
+            }           
+
+            return await Task.FromResult(new Tuple<bool, IList<Alert>>(updated, alerts));
+        }
+
+        public async Task<Tuple<bool, IList<Alert>>> UpdateContractStatus(Contract contract)
+        {
+            var updated = false;
+            var alerts = new List<Alert>();
+
+            if (!string.IsNullOrEmpty(contract?.Details?.SignatureTransactionId))
+            {
+                EnvelopesApi envelopesApi = new EnvelopesApi();
+                var envelope = await envelopesApi.GetEnvelopeAsync(AccountId, contract.Details.SignatureTransactionId);
+                var reciepents = await envelopesApi.ListRecipientsAsync(AccountId, contract.Details.SignatureTransactionId);
+
+                if (envelope != null)
+                {
+                    DateTime envelopeStatusTime;
+                    if (!DateTime.TryParse(envelope.StatusChangedDateTime, out envelopeStatusTime))
+                    {
+                        envelopeStatusTime = DateTime.Now;
+                    }
+                    updated |= ProcessSignatureStatus(contract, envelope.Status, envelopeStatusTime);
+                }
+                if (reciepents != null)
+                {
+                    reciepents.Signers?.ForEach(s =>
+                    {
+                        var updateTimes = new string[] { s.DeclinedDateTime, s.DeliveredDateTime, s.SentDateTime, s.SignedDateTime };
+                        var rsLastStatusTime = updateTimes.Where(ut => !string.IsNullOrEmpty(ut))
+                                .Select(ut =>
+                                {
+                                    DateTime statusTime;
+                                    if (!DateTime.TryParse(ut, out statusTime))
+                                    {
+                                        statusTime = new DateTime();
+                                    }
+                                    return statusTime;
+                                }).OrderByDescending(rst => rst).FirstOrDefault();
+
+                        updated |= ProcessSignerStatus(contract, s.Name, s.Email, s.Status, s.DeclinedReason, rsLastStatusTime);
+                    });
+                }
+            }            
+
+            return new Tuple<bool, IList<Alert>>(updated, alerts);
         }
 
         public async Task<IList<Alert>> SubmitDocument(IList<SignatureUser> signatureUsers)
@@ -730,27 +855,33 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         private CustomFields GenerateEnvolveCustomFields()
         {
-            return new CustomFields
+            var customFields = new CustomFields
             {
-                TextCustomFields = new List<TextCustomField>
-                {
+                TextCustomFields = new List<TextCustomField>()                
+            };
+            if (!string.IsNullOrEmpty(_contract?.Details?.TransactionId))
+            {
+                customFields.TextCustomFields.Add(
                     new TextCustomField
                     {
                         Name = PdfFormFields.ApplicationID,
                         Required = "true",
                         Show = "true",
-                        Value = TransactionId
-                    }
-                    ,new TextCustomField
+                        Value = _contract.Details.TransactionId
+                    });
+            }
+            if (!string.IsNullOrEmpty(_contract?.Dealer?.UserName))
+            {
+                customFields.TextCustomFields.Add(
+                    new TextCustomField
                     {
                         Name = PdfFormFields.DealerID,
                         Required = "true",
                         Show = "true",
-                        Value = _contract.DealerId
-                    }
-                }
-
-            };
+                        Value = _contract?.Dealer?.UserName
+                    });
+            }
+            return customFields;
         }
 
         private Signer CreateSigner(SignatureUser signatureUser, int routingOrder, bool isDealer = false)
@@ -762,6 +893,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 RecipientId = routingOrder.ToString(),
                 RoutingOrder = routingOrder.ToString(), //not sure, probably 1
                 RoleName = !isDealer ? $"Signer{routingOrder}" : "SignerD",
+                
                 Tabs = new Tabs()
                 {
                     SignHereTabs = new List<SignHere>()
@@ -778,7 +910,6 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     }
                 }
             };
-            //if (routingOrder == 1)
             {
                 if (_textTabs?.Any() ?? false)
                 {
@@ -799,6 +930,85 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             }
 
             return signer;
+        }
+
+        private SignatureStatus? ParseSignatureStatus(string status)
+        {
+            SignatureStatus? signatureStatus = null;
+            switch (status?.ToLowerInvariant())
+            {
+                case "created":
+                    signatureStatus = SignatureStatus.Created;
+                    break;
+                case "sent":
+                    signatureStatus = SignatureStatus.Sent;
+                    break;
+                case "delivered":
+                    signatureStatus = SignatureStatus.Delivered;
+                    break;
+                case "signed":
+                    signatureStatus = SignatureStatus.Signed;
+                    break;
+                case "completed":
+                    signatureStatus = SignatureStatus.Completed;
+                    break;
+                case "declined":
+                    signatureStatus = SignatureStatus.Declined;
+                    break;
+                case "deleted":
+                    signatureStatus = SignatureStatus.Deleted;
+                    break;
+            }
+            return signatureStatus;
+        }
+
+        private bool ProcessSignatureStatus(Contract contract, string signatureStatus, DateTime updateTime)
+        {
+            bool updated = false;
+            var status = ParseSignatureStatus(signatureStatus);            
+
+            if (status.HasValue && contract.Details.SignatureStatus != status)
+            {
+                contract.Details.SignatureStatus = status;
+                updated = true;
+            }
+            if (contract.Details.SignatureStatusQualifier != signatureStatus)
+            {
+                contract.Details.SignatureStatusQualifier = signatureStatus;
+                updated = true;
+            }
+            if (updated)
+            {
+                contract.Details.SignatureLastUpdateTime = updateTime;
+            }
+
+            return updated;
+        }
+
+        private bool ProcessSignerStatus(Contract contract, string userName, string email, string status, string comment, DateTime statusTime)
+        {
+            bool updated = false;
+
+            var signer =
+                contract.Signers?.FirstOrDefault(s => (string.IsNullOrEmpty(s.FirstName) || userName.Contains(s.FirstName))
+                && (string.IsNullOrEmpty(s.LastName) || userName.Contains(s.LastName)));            
+            if (signer != null)
+            {
+                var sStatus = ParseSignatureStatus(status);
+                if (sStatus != null && signer.SignatureStatus != sStatus)
+                {
+                    signer.SignatureStatus = sStatus;
+                    signer.SignatureStatusQualifier = status;
+                    signer.StatusLastUpdateTime = statusTime;
+                    if (!string.IsNullOrEmpty(comment))
+                    {
+                        signer.Comment = comment;
+                    }
+                    updated = true;
+                }
+            }
+
+            return updated;
         }
 
         #endregion

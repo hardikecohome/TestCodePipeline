@@ -206,6 +206,16 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             throw new NotImplementedException();
         }
 
+        public Task<Tuple<bool, IList<Alert>>> ParseStatusEvent(string eventNotification, Contract contract)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Tuple<bool, IList<Alert>>> UpdateContractStatus(Contract contract)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IList<Alert>> SubmitDocument(IList<SignatureUser> signatureUsers)
         {
             var alerts = new List<Alert>();

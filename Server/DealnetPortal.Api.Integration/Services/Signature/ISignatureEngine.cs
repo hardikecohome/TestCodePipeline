@@ -30,6 +30,10 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         Task<IList<Alert>> SubmitDocument(IList<SignatureUser> signatureUsers);
 
+        Task<Tuple<bool, IList<Alert>>> ParseStatusEvent(string eventNotification, Contract contract);
+
+        Task<Tuple<bool,IList<Alert>>> UpdateContractStatus(Contract contract);
+
         Task<Tuple<IList<FormField>, IList<Alert>>> GetFormfFields();
 
         Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument();

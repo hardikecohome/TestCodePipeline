@@ -133,9 +133,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                     if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
                     {
-                        _loggingService.LogWarning($"Signature fields inserted into agreement document form with errors");
-                        //LogAlerts(alerts);
-                        //return alerts;
+                        _loggingService.LogWarning($"Signature fields inserted into agreement document form with errors");                        
                     }
                     else
                     {
@@ -154,15 +152,13 @@ namespace DealnetPortal.Api.Integration.Services
                         LogAlerts(alerts);
                         return alerts;
                     }
-                    //var updateStatus = signatureUsers?.Any() ?? false
-                    //    ? SignatureStatus.Sent
-                    //    : SignatureStatus.Draft;
+                    
                     UpdateContractDetails(contractId, ownerUserId, _signatureEngine.TransactionId,
                         _signatureEngine.DocumentId, null);
-
                     UpdateSignersInfo(contractId, ownerUserId, signatureUsers);
                     _loggingService.LogInfo(
                         $"Invitations for agreement document form sent successefully. TransactionId: [{_signatureEngine.TransactionId}], DocumentID [{_signatureEngine.DocumentId}]");
+                    await UpdateContractStatus(contractId, ownerUserId);
                 }
                 else
                 {
@@ -649,45 +645,25 @@ namespace DealnetPortal.Api.Integration.Services
                 var contract = _contractRepository.FindContractBySignatureId(envelopeId);
                 if (contract != null && envelopeStatusSection != null)
                 {
-                    bool updated = false;
-                    var envelopeStatus = envelopeStatusSection?.Element(XName.Get("Status", xmlns))?.Value;
-                    if (!string.IsNullOrEmpty(envelopeStatus))
+                    var oldStatus = contract.Details?.SignatureStatus;
+                    var updatedRes = await _signatureEngine.ParseStatusEvent(notificationMsg, contract);                    
+                    if (updatedRes?.Item2?.Any() == true)
                     {
-                        _loggingService.LogInfo($"Recieved DocuSign {envelopeStatus} status for envelope {envelopeId}");
-                        var envelopeStatusTimeValue = envelopeStatusSection?.Element(XName.Get(envelopeStatus, xmlns))?.Value;
-                        DateTime envelopeStatusTime;
-                        if (!DateTime.TryParse(envelopeStatusTimeValue, out envelopeStatusTime))
-                        {
-                            envelopeStatusTime = DateTime.Now;
-                        }
-                        updated = await ProcessSignatureStatus(contract, envelopeStatus, envelopeStatusTime);
+                        alerts.AddRange(updatedRes.Item2);
+                    }
+                    var updated = updatedRes?.Item1 == true;                    
+
+                    switch (contract.Details.SignatureStatus)
+                    {
+                        case SignatureStatus.Completed:
+                            if (oldStatus != contract.Details.SignatureStatus)
+                            {
+                                //upload doc from docuSign to Aspire
+                                updated |= await TransferSignedContractAgreement(contract);
+                            }
+                            break;
                     }
 
-                    //proceed with recipients statuses
-                    var recipientStatusesSection = envelopeStatusSection?.Element(XName.Get("RecipientStatuses", xmlns));
-                    if (recipientStatusesSection != null)
-                    {
-                        var recipientStatuses = recipientStatusesSection.Descendants(XName.Get("RecipientStatus", xmlns));
-                        recipientStatuses.ForEach(rs =>
-                        {
-                            var rsStatus = rs.Element(XName.Get("Status", xmlns))?.Value;
-                            var rsLastStatusTime = rs.Elements().Where(rse =>
-                                    docuSignResipientStatuses.Any(ds => rse.Name.LocalName.Contains(ds)))
-                                .Select(rse =>
-                                {
-                                    DateTime statusTime;
-                                    if (!DateTime.TryParse(rse.Value, out statusTime))
-                                    {
-                                        statusTime = new DateTime();
-                                    }
-                                    return statusTime;
-                                }).OrderByDescending(rst => rst).FirstOrDefault();
-                            var rsName = rs.Element(XName.Get("UserName", xmlns))?.Value;
-                            var rsEmail = rs.Element(XName.Get("Email", xmlns))?.Value;
-                            var rsComment = rs.Element(XName.Get("DeclineReason", xmlns))?.Value;
-                            updated |= ProcessSignerStatus(contract, rsName, rsEmail, rsStatus, rsComment, rsLastStatusTime);
-                        });
-                    }
                     if (updated)
                     {
                         _unitOfWork.Save();
@@ -712,8 +688,8 @@ namespace DealnetPortal.Api.Integration.Services
                     Header = "Cannot parse DocuSign notification",
                     Message = $"Error occurred during parsing request from DocuSign: {ex.ToString()}"
                 });
-                _loggingService.LogError("Error occurred during parsing request from DocuSign", ex);
             }
+            LogAlerts(alerts);
             return await Task.FromResult(alerts);
         }
 
@@ -819,74 +795,19 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        private async Task<bool> ProcessSignatureStatus(Contract contract, string signatureStatus, DateTime updateTime)
+        private async Task UpdateContractStatus(int contractId, string ownerUserId)
         {
-            bool updated = false;            
-            var status = ParseSignatureStatus(signatureStatus);
-            
-            switch (status)
+            var contract = _contractRepository.GetContract(contractId, ownerUserId);
+            if (contract != null)
             {
-                case SignatureStatus.Completed:
-                    //upload doc from docuSign to Aspire
-                    updated |= await TransferSignedContractAgreement(contract);
-                    break;
-            }
-
-            if (status.HasValue && contract.Details.SignatureStatus != status)
-            {
-                contract.Details.SignatureStatus = status;
-                updated = true;
-            }
-            if (contract.Details.SignatureStatusQualifier != signatureStatus)
-            {
-                contract.Details.SignatureStatusQualifier = signatureStatus;
-                updated = true;
-            }
-            if (updated)
-            {
-                contract.Details.SignatureLastUpdateTime = updateTime;
-            }
-
-            return updated;
-        }
-
-        private bool ProcessSignerStatus(Contract contract, string userName, string email, string status, string comment, DateTime statusTime)
-        {
-            bool updated = false;
-
-            var signer =
-                contract.Signers?.FirstOrDefault(s => (string.IsNullOrEmpty(s.FirstName) || userName.Contains(s.FirstName)) 
-                && (string.IsNullOrEmpty(s.LastName) || userName.Contains(s.LastName)));
-            //if (signer == null)
-            //{
-            //    signer = new ContractSigner()
-            //    {
-            //        Contract = contract,
-            //        ContractId = contract.Id,
-            //        EmailAddress = email,
-            //    };
-            //    contract.Signers.Add(signer);
-            //    updated = true;
-            //}
-            if (signer != null)
-            {
-                var sStatus = ParseSignatureStatus(status);
-                if (sStatus != null && signer.SignatureStatus != sStatus)
+                var updateStatusRes = await _signatureEngine.UpdateContractStatus(contract);
+                if (updateStatusRes?.Item1 == true)
                 {
-                    signer.SignatureStatus = sStatus;
-                    signer.SignatureStatusQualifier = status;
-                    signer.StatusLastUpdateTime = statusTime;
-                    if (!string.IsNullOrEmpty(comment))
-                    {
-                        signer.Comment = comment;
-                    }
-                    updated = true;
+                    _unitOfWork.Save();
                 }
             }
-
-            return updated;
         }
-
+            
         private async Task<bool> TransferSignedContractAgreement(Contract contract)
         {
             bool updated = false;
@@ -922,37 +843,7 @@ namespace DealnetPortal.Api.Integration.Services
                     $"Cannot transfer signed contract from DocuSign for contract {contract.Id} ", ex);
             }
             return updated;
-        }
-
-        private SignatureStatus? ParseSignatureStatus(string status)
-        {
-            SignatureStatus? signatureStatus = null;
-            switch (status?.ToLowerInvariant())
-            {
-                case "created":
-                    signatureStatus = SignatureStatus.Created;
-                    break;
-                case "sent":
-                    signatureStatus = SignatureStatus.Sent;
-                    break;
-                case "delivered":
-                    signatureStatus = SignatureStatus.Delivered;
-                    break;
-                case "signed":
-                    signatureStatus = SignatureStatus.Signed;
-                    break;
-                case "completed":
-                    signatureStatus = SignatureStatus.Completed;
-                    break;
-                case "declined":
-                    signatureStatus = SignatureStatus.Declined;
-                    break;
-                case "deleted":
-                    signatureStatus = SignatureStatus.Deleted;
-                    break;
-            }
-            return signatureStatus;
-        }
+        }        
 
         private void LogAlerts(IList<Alert> alerts)
         {
