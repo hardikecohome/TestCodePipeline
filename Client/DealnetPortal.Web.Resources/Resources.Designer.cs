@@ -677,6 +677,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to cancel ESignature for this contract.
+        /// </summary>
+        public static string AreYouSureCancelEsignature {
+            get {
+                return ResourceManager.GetString("AreYouSureCancelEsignature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to remove this application.
         /// </summary>
         public static string AreYouSureYouWantToRemoveThisApplication {
@@ -3045,6 +3054,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Digital invites canceled.
+        /// </summary>
+        public static string InvitesCanceled {
+            get {
+                return ResourceManager.GetString("InvitesCanceled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invitation will be sent when {0} signs.
         /// </summary>
         public static string InviteSentWhenSigns {
@@ -4292,6 +4310,15 @@ namespace DealnetPortal.Web.Resources {
         public static string PleaseCheckEmail {
             get {
                 return ResourceManager.GetString("PleaseCheckEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter all email addresses to send invites.
+        /// </summary>
+        public static string PleaseEnterAllEmails {
+            get {
+                return ResourceManager.GetString("PleaseEnterAllEmails", resourceCulture);
             }
         }
         

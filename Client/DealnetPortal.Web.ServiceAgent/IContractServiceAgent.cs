@@ -67,12 +67,16 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <returns></returns>
         Task<IList<Alert>> InitiateDigitalSignature(SignatureUsersDTO signatureUsers);
 
+        Task<IList<Alert>> UpdateContractSigners(SignatureUsersDTO signatureUsers);
+
         /// <summary>
         /// Cancel eSignature process for contract
         /// </summary>
         /// <param name="contractId">Contract Id</param>
         /// <returns>List of alerts (warnings, errors)</returns>
         Task<IList<Alert>> CancelDigitalSignature(int contractId);
+
+        Task<IList<Alert>> UpdateSigners(SignatureUsersDTO signatureUsers);
 
         /// <summary>
         /// Get credit check results for contract

@@ -1829,6 +1829,18 @@ foreach (var comment in comments)
     translations['Proceed'] = "@Resources.Proceed";
     translations['AnErrorWhileSendingReport'] = "@Resources.AnErrorWhileSendingReport";
     translations['ThisFieldIsRequired'] = "@Resources.ThisFieldIsRequired";
+    translations['WaitingSignature'] = "@Resources.WaitingSignature";
+    translations['ResendInvite'] = "@Resources.ResendInvite";  
+    translations['ResendInvites'] = "@Resources.ResendInvites";
+    translations['SendInvites'] = "@Resources.SendInvites";
+    translations['CancelDigitalSignature'] = "@Resources.CancelDigitalSignature";
+    translations['UpdateEmail'] = "@Resources.UpdateEmail";
+    translations['InviteSentWhenSigns'] = "@Resources.InviteSentWhenSigns";
+    translations['InvitesWereSentToEmails'] = "@Resources.InvitesWereSentToEmails";
+    translations['InvitesCanceled'] = "@Resources.InvitesCanceled";
+    translations['Borrower'] = "@Resources.Borrower";
+    translations['Coborrower'] = "@Resources.Coborrower";
+    translations['AreYouSureCancelEsignature'] = "@Resources.AreYouSureCancelEsignature";
 }
 
 @section scripts
@@ -1841,7 +1853,8 @@ foreach (var comment in comments)
         var downloadUrl = '@Url.Action("PrintContract", "NewRental", new { contractId = Model.BasicInfo.ContractId })';
 
         var downloadSignedUrl = '@Url.Action("GetSignedContract", "NewRental", new { contractId = Model.BasicInfo.ContractId })';
-        var esignUrl = '@Url.Action("SendForESigature")';
+        var esignUrl = '@Url.Action("SendContractEmails", "NewRental")';
+        var updateEsignUrl = '@Url.Action("UpdateContractEmails", "NewRental")';
         var cancelEsignUrl = '@Url.Action("CancelDigitalSignature")';
         var maxFileUploadSize = 20 * 1024 * 1024 ;
     </script>
