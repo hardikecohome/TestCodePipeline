@@ -76,6 +76,8 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <returns>List of alerts (warnings, errors)</returns>
         Task<IList<Alert>> CancelDigitalSignature(int contractId);
 
+        Task<IList<Alert>> UpdateSigners(SignatureUsersDTO signatureUsers);
+
         /// <summary>
         /// Get credit check results for contract
         /// </summary>

@@ -926,18 +926,21 @@ namespace DealnetPortal.DataAccess.Repositories
             return contract;
         }
 
-        public Contract AddOrUpdateContractSigners(int contractId, IList<ContractSigner> signers, string contractOwnerId)
+        public Contract UpdateContractSigners(int contractId, IList<ContractSigner> signers, string contractOwnerId, bool syncOnly = false)
         {
             var contract = GetContract(contractId, contractOwnerId);
             if (contract != null)
             {
-                var existingEntities =
-                    contract.Signers.Where(
-                        cs => signers.Any(s => s.Id != 0 && s.Id == cs.Id 
-                                || cs.CustomerId != null && s.CustomerId == cs.CustomerId
-                                || cs.SignerType == s.SignerType)).ToList();
-                var entriesForDelete = contract.Signers.Except(existingEntities).ToList();
-                entriesForDelete.ForEach(e => contract.Signers.Remove(e));
+                if (!syncOnly)
+                {
+                    var existingEntities =
+                        contract.Signers.Where(
+                            cs => signers.Any(s => s.Id != 0 && s.Id == cs.Id
+                                                   || cs.CustomerId != null && s.CustomerId == cs.CustomerId
+                                                   || cs.SignerType == s.SignerType)).ToList();
+                    var entriesForDelete = contract.Signers.Except(existingEntities).ToList();
+                    entriesForDelete.ForEach(e => contract.Signers.Remove(e));
+                }
 
                 signers.ForEach(s =>
                 {
@@ -947,9 +950,12 @@ namespace DealnetPortal.DataAccess.Repositories
                             || cs.SignerType == s.SignerType);
                     if (curSigner == null)
                     {
-                        s.Contract = contract;
-                        s.ContractId = contractId;
-                        contract.Signers.Add(s);
+                        if (!syncOnly)
+                        {
+                            s.Contract = contract;
+                            s.ContractId = contractId;
+                            contract.Signers.Add(s);
+                        }
                     }
                     else
                     {
@@ -972,6 +978,10 @@ namespace DealnetPortal.DataAccess.Repositories
                         if (curSigner.SignerType != s.SignerType)
                         {
                             curSigner.SignerType = s.SignerType;
+                        }
+                        if (!string.IsNullOrEmpty(s.Comment) && curSigner.Comment != s.Comment)
+                        {
+                            curSigner.Comment = s.Comment;
                         }
                     }
                 });
