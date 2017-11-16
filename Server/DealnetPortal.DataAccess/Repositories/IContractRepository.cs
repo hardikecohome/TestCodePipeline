@@ -229,6 +229,6 @@ namespace DealnetPortal.DataAccess.Repositories
 
         Contract UpdateContractAspireSubmittedDate(int contractId, string contractOwnerId);
 
-        Contract AddOrUpdateContractSigners(int contractId, IList<ContractSigner> signers, string contractOwnerId);
+        Contract UpdateContractSigners(int contractId, IList<ContractSigner> signers, string contractOwnerId, bool syncOnly = false);
     }
 }

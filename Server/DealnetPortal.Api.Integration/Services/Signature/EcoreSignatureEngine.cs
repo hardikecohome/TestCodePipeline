@@ -201,6 +201,11 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return alerts;
         }
 
+        public Task<IList<Alert>> UpdateSigners(IList<SignatureUser> signatureUsers)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IList<Alert>> SubmitDocument(IList<SignatureUser> signatureUsers)
         {
             var alerts = new List<Alert>();
