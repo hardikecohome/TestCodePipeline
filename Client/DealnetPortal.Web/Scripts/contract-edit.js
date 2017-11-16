@@ -597,18 +597,16 @@ function submitOneSignature (e) {
         }];
         submitEsignature(signer)
             .done(function (data) {
-                if (!data.isError) {
-                    var data = {
-                        message: translations['InvitesWereSentToEmails']
-                    };
-                    dynamicAlertModal(data);
-                    var updateDate = new Date();
-                    $row.find('.signature-date-hold')
-                        .text((updateDate.getMonth() + 1) + '/' + updateDate.getDate() + '/' + updateDate.getFullYear() + ' ' + updateDate.getHours() + ':' + updateDate.getMinutes() + ' ' + (updateDate.getHours() > 11 ? 'PM' : 'AM'));
-                }
             }).fail(function (xhr, status, result) {
                 console.log(result);
             }).always(function () {
+                var data = {
+                    message: translations['InvitesWereSentToEmails']
+                };
+                dynamicAlertModal(data);
+                var updateDate = new Date();
+                $row.find('.signature-date-hold')
+                    .text((updateDate.getMonth() + 1) + '/' + updateDate.getDate() + '/' + updateDate.getFullYear() + ' ' + updateDate.getHours() + ':' + updateDate.getMinutes() + ' ' + (updateDate.getHours() > 11 ? 'PM' : 'AM'));
                 hideLoader();
             });
     }
@@ -619,6 +617,7 @@ function submitAllEsignatures (e) {
     var $form = $(e.target.form);
     if ($form.valid()) {
         showLoader();
+        $('#fill-all-emails').addClass('hidden')
         var signers = [];
         var rows = $form.find('.signer-row');
         rows.each(function (index, el) {
@@ -678,5 +677,7 @@ function submitAllEsignatures (e) {
                 $form.find('#submit-digital').text(translations['CancelInvites']);
                 hideLoader();
             });
+    } else {
+        $('#fill-all-emails').removeClass('hidden');
     }
 }

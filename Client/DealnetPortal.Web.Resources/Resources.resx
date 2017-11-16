@@ -2370,4 +2370,7 @@ changing contract terms or signing contract on paper.</value>
   <data name="InvitesCanceled" xml:space="preserve">
     <value>Digital invites canceled</value>
   </data>
+  <data name="PleaseEnterAllEmails" xml:space="preserve">
+    <value>Please enter all email addresses to send invites</value>
+  </data>
 </root>

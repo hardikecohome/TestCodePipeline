@@ -4314,6 +4314,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter all email addresses to send invites.
+        /// </summary>
+        public static string PleaseEnterAllEmails {
+            get {
+                return ResourceManager.GetString("PleaseEnterAllEmails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter at least 0..
         /// </summary>
         public static string PleaseEnterAtLeastZero {

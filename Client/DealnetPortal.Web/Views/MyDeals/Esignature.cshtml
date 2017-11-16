@@ -154,7 +154,10 @@
                                 </span>
                                 <span>@Resources.ContactPersonWhoDeclinedSignature</span>
                             </div>
-                            <div class="row form-group">
+                            <div class="well danger-well hidden" id="fill-all-emails">
+                                @Resources.PleaseEnterAllEmails
+                            </div>
+                            <div class="row form-group @(Model.ESignature.Status == ApiEnum.SignatureStatus.Completed || Model.ESignature.Status==ApiEnum.SignatureStatus.Signed?"hidden":"")">
                                 <div class="col-md-2 hidden-xs">&nbsp;</div>
                                 <div class="col-md-5">
                                     <button class="dealnet-success-button" type="submit" id="submit-digital">
