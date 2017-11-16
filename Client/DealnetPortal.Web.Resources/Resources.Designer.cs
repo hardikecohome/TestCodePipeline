@@ -1883,6 +1883,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to dealerapps@ecohomefinancial.com.
+        /// </summary>
+        public static string DealerSupportInfoEmail {
+            get {
+                return ResourceManager.GetString("DealerSupportInfoEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1-866-382-7468.
+        /// </summary>
+        public static string DealerSupportPhoneNumber {
+            get {
+                return ResourceManager.GetString("DealerSupportPhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deal Flow Overview.
         /// </summary>
         public static string DealFlowOverview {
@@ -5397,7 +5415,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Street.
+        ///   Looks up a localized string similar to Address.
         /// </summary>
         public static string Street {
             get {
@@ -5406,7 +5424,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to St..
+        ///   Looks up a localized string similar to Address.
         /// </summary>
         public static string StreetPlaceholder {
             get {

@@ -793,7 +793,7 @@
     <value>NAS</value>
   </data>
   <data name="StreetPlaceholder" xml:space="preserve">
-    <value>rue</value>
+    <value>Adresse</value>
   </data>
   <data name="TermAndRep" xml:space="preserve">
     <value>Modalité et représentant</value>
@@ -1147,7 +1147,7 @@
     <value>Retirer</value>
   </data>
   <data name="Street" xml:space="preserve">
-    <value>Rue</value>
+    <value>Adresse</value>
   </data>
   <data name="YouCantEditBecauseSubmittedYouCanAddAdditional" xml:space="preserve">
     <value>Impossible de modifier les renseignements sur l’emprunteur et sur les demandeurs additionnels, car cette transaction a déjà été soumise. Vous pouvez ajouter des demandeurs additionnels</value>
@@ -1540,7 +1540,7 @@
     <value>Je reconnais et j’accepte</value>
   </data>
   <data name="AcknowledgeAndAgreementObtainCreditReport" xml:space="preserve">
-    <value>En soumettant cette demande, vous reconnaissez et acceptez qu’EcoHome Financial est autorisée à obtenir votre dossier de crédit d’une ou plusieurs agences d’évaluation du crédit des consommateurs (par exemple, Equifax ou TransUnion), afin de vérifier les renseignements de votre dossier de crédit auprès de tiers au besoin, et de mettre à jour, de manière périodique, les renseignements de votre dossier de crédit auprès des agences d’évaluation du crédit. Vous êtes avisé par les présentes qu’un rapport de consommation renfermant de l’information sur le crédit ou des renseignements personnels peut être consulté relativement à cette demande. Vous consentez d’accepter, de recevoir et d’utiliser en format électronique toutes les ententes et tous les avis, divulgations et autres documents ou renseignements liés à la présente demande qu’EcoHome Financial peut vous envoyer.</value>
+    <value>En soumettant cette demande, vous reconnaissez et acceptez que la compagnie de Financement EcoHome inc. est autorisée à obtenir votre dossier de crédit d’une ou plusieurs agences d’évaluation du crédit des consommateurs (par exemple, Equifax ou trans Union), afin de vérifier les renseignements de votre dossier de crédit auprès de tiers au besoin, et de mettre à jour, de manière périodique, les renseignements de votre dossier de crédit auprès des agences d’évaluation du crédit. Vous êtes avisé par les présentes qu’un rapport de consommation renfermant de l’information sur le crédit ou des renseignements personnels, peut-être consulté relativement à cette demande. Vous consentez à, de recevoir et d’utiliser en format électronique toutes les ententes et tous les avis, divulgations et autres documents ou renseignements liés à la présente demande que la compagnie de financement ecohome inc. peut vous envoyez.</value>
   </data>
   <data name="Acknowledgment" xml:space="preserve">
     <value>Reconnaissance</value>
@@ -1756,7 +1756,7 @@
     <value>Consentements</value>
   </data>
   <data name="ConsentToReceiveCommercialElectronicMessages" xml:space="preserve">
-    <value>En cochant cette case, vous consentez à recevoir des messages électroniques commerciaux d’EcoHome Financial à l’adresse de courriel et aux numéros de téléphone que vous avez fournis dans la demande ou de temps à autre relativement à votre compte, y compris des communications électroniques portant sur la commercialisation ou la promotion de nos programmes, nos produits, nos services, nos offres, nos événements et nos sondages qui pourraient vous intéresser. Vous pouvez retirer ce consentement en tout temps. Vous pouvez communiquer avec EcoHome Financial Inc. au 325, avenue Milner, bureau 300, Toronto (Ontario)  M1B 5N1</value>
+    <value>En cochant cette case, vous consentez à recevoir des messages électroniques commerciales de la compagnie  financement EcoHome à l'adresse du courriel et aux numéros de téléphone que vous avez fournis dans la demande ou de temps à autre relativement à votre compte, y compris des communications électroniques portant sur la commercialisation ou la promotion de nos programmes, nos produits, nos services, nos offres, nos événements et nos sondages qui pourraient vous intéresser. Vous pouvez retirer ce consentement en tout temps. Vous pouvez communiquer avec la compagnie de Financement EcoHome inc. au 425, boul de Maisonneuve O, Montréal, QC H3A 3G5</value>
   </data>
   <data name="ConsumerDirect" xml:space="preserve">
     <value>Directement au consommateur</value>
@@ -2166,7 +2166,7 @@
     <value>Type de projet</value>
   </data>
   <data name="ProofOfInsurance" xml:space="preserve">
-    <value>Preuve d’assurance</value>
+    <value>Preuve d'assurance et états financiers de l'entreprise - État des profits et pertes pour l'exercice financier précédent.</value>
   </data>
   <data name="Provinces" xml:space="preserve">
     <value>Provinces</value>
@@ -2378,5 +2378,11 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
   </data>
   <data name="UploadAnotherFile" xml:space="preserve">
     <value>Téléverser un autre fichier</value>
+  </data>
+  <data name="DealerSupportInfoEmail" xml:space="preserve">
+    <value>marchants@ecohomefinancial.com</value>
+  </data>
+  <data name="DealerSupportPhoneNumber" xml:space="preserve">
+    <value>1-888-859-0059</value>
   </data>
 </root>

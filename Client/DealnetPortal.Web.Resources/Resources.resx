@@ -793,7 +793,7 @@
     <value>SIN</value>
   </data>
   <data name="StreetPlaceholder" xml:space="preserve">
-    <value>St.</value>
+    <value>Address</value>
   </data>
   <data name="TermAndRep" xml:space="preserve">
     <value>Term and Rep</value>
@@ -1168,7 +1168,7 @@
     <value>Remove</value>
   </data>
   <data name="Street" xml:space="preserve">
-    <value>Street</value>
+    <value>Address</value>
   </data>
   <data name="LoanTermMustBe3Max" xml:space="preserve">
     <value>Loan Term must be maximum 3 digits long</value>
@@ -2353,5 +2353,11 @@ You can do it anytime by using the following link:</value>
   </data>
   <data name="PreferredContactPerson" xml:space="preserve">
     <value>Preferred Contact Person</value>
+  </data>
+  <data name="DealerSupportInfoEmail" xml:space="preserve">
+    <value>dealerapps@ecohomefinancial.com</value>
+  </data>
+  <data name="DealerSupportPhoneNumber" xml:space="preserve">
+    <value>1-866-382-7468</value>
   </data>
 </root>
