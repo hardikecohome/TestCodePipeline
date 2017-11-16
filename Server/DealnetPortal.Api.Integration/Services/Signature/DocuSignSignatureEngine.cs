@@ -736,14 +736,14 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 {
                     new TextCustomField
                     {
-                        Name = "TransactionID",
+                        Name = PdfFormFields.ApplicationID,
                         Required = "true",
                         Show = "true",
                         Value = TransactionId
                     }
                     ,new TextCustomField
                     {
-                        Name = "DealerID",
+                        Name = PdfFormFields.DealerID,
                         Required = "true",
                         Show = "true",
                         Value = _contract.DealerId

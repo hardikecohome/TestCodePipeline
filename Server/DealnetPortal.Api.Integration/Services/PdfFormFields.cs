@@ -133,5 +133,9 @@ namespace DealnetPortal.Api.Integration.Services
         public static string ExistingEquipmentSerialNumber = "ExistingEquipmentSerialNumber";
         public static string ExistingEquipmentGeneralCondition = "ExistingEquipmentGeneralCondition";
         public static string ExistingEquipmentAge = "ExistingEquipmentAge";
+
+        //Custom envelop fields
+        public static string ApplicationID = "ApplicationID";
+        public static string DealerID = "DealerID";
     }
 }
