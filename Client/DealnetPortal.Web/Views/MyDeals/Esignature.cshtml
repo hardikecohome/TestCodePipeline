@@ -72,12 +72,7 @@
                                         @Html.TextBoxFor(m => m.ESignature.Signers[i].Email, new { @class = "dealnet-input form-control", type = "email", id = $"signer-email-{i}" })
                                         @Html.ValidationMessageFor(m => m.ESignature.Signers[i].Email, "", new { @class = "text-danger" })
                                     </div>
-                                    @{
-                                        var hiddenLink = Model.ESignature.Status <= ApiEnum.SignatureStatus.Declined ||
-                                            Model.ESignature.Signers[i].SignatureStatus > ApiEnum.SignatureStatus.Delivered;
-
-                                    }
-                                    <div class="col-md-5 signer-status-hold @(Model.ESignature.Signers[i].SignatureStatus == null ? "hidden" : "") @Model.ESignature.Signers[i].SignatureStatus.ToString().ToLower()">
+                                    <div class="col-md-5 signer-status-hold @Model.ESignature.Signers[i].SignatureStatus.ToString().ToLower()">
 
                                         <div class="signature-status">
                                             @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Signed)
@@ -123,7 +118,7 @@
                                                 </div>
                                                 <div class="signature-date">(<span class="signature-date-hold">@(Model.ESignature.Signers[i].StatusLastUpdateTime.HasValue ? Model.ESignature.Signers[i].StatusLastUpdateTime.Value.ToString("MM/dd/yyyy hh:mm tt") : "")</span>)</div>
 
-                                                <a class="btn dealnet-link-button @(hiddenLink ? "hidden" : "")" id="signer-btn-@(i)">
+                                                <a class="btn dealnet-link-button" id="signer-btn-@(i)">
                                                     @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Sent ||
                     Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Delivered)
                                                     {
