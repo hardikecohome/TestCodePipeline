@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -20,11 +20,20 @@ namespace DealnetPortal.Api.Controllers
 {
     [RoutePrefix("api/Storage")]
     public class StorageController : BaseApiController
-    {       
+    {
+        private readonly IFileRepository _fileRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IContractRepository _contractRepository;
+        private readonly IContractService _contractService;
         private readonly ISignatureService _signatureService;
 
-        public StorageController(ILoggingService loggingService, ISignatureService signatureService) : base(loggingService)
-        {            
+        public StorageController(ILoggingService loggingService, IContractService contractService,
+            IContractRepository contractRepository, IFileRepository fileRepository, IUnitOfWork unitOfWork, ISignatureService signatureService) : base(loggingService)
+        {
+            _fileRepository = fileRepository;
+            _unitOfWork = unitOfWork;
+            _contractRepository = contractRepository;
+            _contractService = contractService;
             _signatureService = signatureService;
         }
 
@@ -67,22 +76,18 @@ namespace DealnetPortal.Api.Controllers
         [AllowAnonymous]
         [Route("NotifySignatureStatus")]
         [HttpPost]
-        public async Task<IHttpActionResult> PostNotifySignatureStatus(HttpRequestMessage request)
+        public IHttpActionResult PostNotifySignatureStatus(HttpRequestMessage request)
         {
             try
             {
-                var requestMsg = await request.Content.ReadAsStringAsync();
-                var alerts = await _signatureService.ProcessSignatureEvent(requestMsg);
-                //log DocuSign notification for tests
-                //if (!string.IsNullOrEmpty(requestMsg))
-                //{
-                //    var dir = HostingEnvironment.MapPath($"~/Logs");
-                //    var file = $"{DateTime.Now.ToString()}.xml";
-                //    file = file.Replace(':','_').Replace('/','_');
-                //    var path = System.IO.Path.Combine(dir, file);
-                //    System.IO.File.WriteAllText(path, requestMsg);
-                //}
-                if (alerts?.All(a => a.Type != AlertType.Error) == true)
+                XDocument xDocument = XDocument.Parse(request.Content.ReadAsStringAsync().Result);
+                var xmlns = xDocument?.Root?.Attribute(XName.Get("xmlns"))?.Value ?? "http://www.docusign.net/API/3.0";
+
+                var envelopeStatus = xDocument.Root.Element(XName.Get("EnvelopeStatus", xmlns));
+                var envelopeId = envelopeStatus?.Element(XName.Get("EnvelopeID", xmlns))?.Value;
+                var status = envelopeStatus?.Element(XName.Get("Status", xmlns))?.Value;
+
+                if (!string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(envelopeId))
                 {
                     return Ok();
                 }

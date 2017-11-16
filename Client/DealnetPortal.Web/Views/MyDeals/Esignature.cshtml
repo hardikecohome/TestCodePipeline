@@ -17,7 +17,8 @@
                 @Resources.OneSignerDeclinedRemainingCanceled
             </div>
             <div class="sent-contract-secton">
-                @using (Html.BeginForm("SendContractEmails", "NewRental", FormMethod.Post, new { id = "signer-form" }))
+                @Html.Partial("_EsignatureStatus", Model)
+                @if (@Model.ESignature.Status == ApiEnum.SignatureStatus.Completed)
                 {
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(m => m.ESignature.ContractId, new { id = "contract-id" })
@@ -186,6 +187,10 @@ Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Delivered
                             </div>
                         </div>
                     </div>
+                }
+                    <a href="#" id="print-signed-button" class="dealnet-info-link doc-tab-print-link">
+                        <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg> @Resources.PrintSignedContract
+                    </a>
                 }
             </div>
         </div>
