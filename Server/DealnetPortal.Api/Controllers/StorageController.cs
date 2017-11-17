@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -20,20 +21,11 @@ namespace DealnetPortal.Api.Controllers
 {
     [RoutePrefix("api/Storage")]
     public class StorageController : BaseApiController
-    {
-        private readonly IFileRepository _fileRepository;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IContractRepository _contractRepository;
-        private readonly IContractService _contractService;
+    {        
         private readonly ISignatureService _signatureService;
 
-        public StorageController(ILoggingService loggingService, IContractService contractService,
-            IContractRepository contractRepository, IFileRepository fileRepository, IUnitOfWork unitOfWork, ISignatureService signatureService) : base(loggingService)
-        {
-            _fileRepository = fileRepository;
-            _unitOfWork = unitOfWork;
-            _contractRepository = contractRepository;
-            _contractService = contractService;
+        public StorageController(ILoggingService loggingService,ISignatureService signatureService) : base(loggingService)
+        {            
             _signatureService = signatureService;
         }
 
@@ -76,25 +68,18 @@ namespace DealnetPortal.Api.Controllers
         [AllowAnonymous]
         [Route("NotifySignatureStatus")]
         [HttpPost]
-        public IHttpActionResult PostNotifySignatureStatus(HttpRequestMessage request)
+        public async Task<IHttpActionResult> PostNotifySignatureStatus(HttpRequestMessage request)
         {
             try
             {
-                XDocument xDocument = XDocument.Parse(request.Content.ReadAsStringAsync().Result);
-                var xmlns = xDocument?.Root?.Attribute(XName.Get("xmlns"))?.Value ?? "http://www.docusign.net/API/3.0";
-
-                var envelopeStatus = xDocument.Root.Element(XName.Get("EnvelopeStatus", xmlns));
-                var envelopeId = envelopeStatus?.Element(XName.Get("EnvelopeID", xmlns))?.Value;
-                var status = envelopeStatus?.Element(XName.Get("Status", xmlns))?.Value;
-
-                if (!string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(envelopeId))
+                var requestStr = await request.Content.ReadAsStringAsync();
+                var alerts = await _signatureService.ProcessSignatureEvent(requestStr);
+                if (alerts?.All(a => a.Type != AlertType.Error) == true)
                 {
                     return Ok();
                 }
-                else
-                {
-                    return BadRequest();
-                }                
+                return BadRequest(alerts?.FirstOrDefault()?.Message);
+
             }
             catch (Exception ex)
             {
