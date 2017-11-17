@@ -558,7 +558,7 @@ function cancelSignatures (e) {
     var data = {
         message: translations['AreYouSureCancelEsignature'] + '?',
         title: translations['Cancel'],
-        confirmBtnText: translations['Cancel']
+        confirmBtnText: translations['Proceed']
     };
     dynamicAlertModal(data);
     $('#confirmAlert').one('click', function () {
@@ -681,7 +681,7 @@ function submitAllEsignatures (e) {
                     }
                 });
                 $form.find('.signer-status-hold').removeClass('hidden');
-                $form.find('#submit-digital').text(translations['CancelInvites']);
+                $form.find('#submit-digital').html(translations['CancelDigitalSignature']);
                 hideLoader();
             });
     } else {
