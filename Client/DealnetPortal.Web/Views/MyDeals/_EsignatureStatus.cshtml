@@ -146,7 +146,7 @@
             <div class="row form-group @(Model.ESignature.Status == ApiEnum.SignatureStatus.Completed || Model.ESignature.Status == ApiEnum.SignatureStatus.Signed ? " hidden" : "")">
                 <div class="col-md-2 hidden-xs">&nbsp;</div>
                 <div class="col-md-5">
-                    <button class="dealnet-success-button" type="submit" id="submit-digital">
+                    <button class="btn dealnet-success-button" type="submit" id="submit-digital">
                         @if (!Model.ESignature.Status.HasValue || Model.ESignature.Status < ApiEnum.SignatureStatus.Sent)
                         {
                             <text>@Resources.SendInvites</text>
