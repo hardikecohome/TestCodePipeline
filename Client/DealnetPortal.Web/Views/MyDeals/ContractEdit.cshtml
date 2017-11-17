@@ -147,8 +147,8 @@
 							    </div>
 							    if (ViewBag.IsEsignatureEnabled)
 							     {
-										  <div class="e-signature-container">
-							             <a class="dealnet-info-link @(contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined ? "disabled":"")"
+							         <div class="e-signature-container">
+							             <a class="dealnet-info-link @(contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined ? "disabled":"")" 
                                             id="esignature-link" 
                                             data-toggle="modal" 
                                             data-target="#esignature-modal"
