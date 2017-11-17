@@ -67,6 +67,11 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <returns></returns>
         Task<Tuple<SignatureSummaryDTO, IList<Alert>>> InitiateDigitalSignature(SignatureUsersDTO signatureUsers);
 
+        /// <summary>
+        /// Update signers (recipients) information
+        /// </summary>
+        /// <param name="signatureUsers"></param>
+        /// <returns></returns>
         Task<IList<Alert>> UpdateContractSigners(SignatureUsersDTO signatureUsers);
 
         /// <summary>
@@ -75,8 +80,6 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <param name="contractId">Contract Id</param>
         /// <returns>List of alerts (warnings, errors)</returns>
         Task<IList<Alert>> CancelDigitalSignature(int contractId);
-
-        Task<IList<Alert>> UpdateSigners(SignatureUsersDTO signatureUsers);
 
         /// <summary>
         /// Get credit check results for contract

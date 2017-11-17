@@ -229,7 +229,7 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                this._loggingService.LogError($"Can't initiate digital signature for contract {signatureUsers.ContractId}", ex);
+                this._loggingService.LogError($"Can't update signature users for contract {signatureUsers.ContractId}", ex);
                 throw;
             }
         }
@@ -248,21 +248,7 @@ namespace DealnetPortal.Web.ServiceAgent
                 this._loggingService.LogError($"Can't cancel digital signature for contract {contractId}", ex);
                 throw;
             }
-        }
-
-        public async Task<IList<Alert>> UpdateSigners(SignatureUsersDTO signatureUsers)
-        {
-            try
-            {
-                return
-                    await Client.PostAsyncEx<SignatureUsersDTO, IList<Alert>>($"{_fullUri}/UpdateSigners", signatureUsers, AuthenticationHeader, CurrentCulture);
-            }
-            catch (Exception ex)
-            {
-                this._loggingService.LogError($"Can't update signature users for contract {signatureUsers.ContractId}", ex);
-                throw;
-            }
-        }
+        }        
 
         public async Task<Tuple<CreditCheckDTO, IList<Alert>>> SubmitContract(int contractId)
         {
