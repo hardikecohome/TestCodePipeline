@@ -468,6 +468,7 @@
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\email\email.html" />
     <Content Include="Content\email\images\icon-success.png" />
+    <Content Include="Content\files\Banner.html" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="Content\images\dataTables\details_close.png" />
     <Content Include="Content\images\dataTables\details_open.png" />
