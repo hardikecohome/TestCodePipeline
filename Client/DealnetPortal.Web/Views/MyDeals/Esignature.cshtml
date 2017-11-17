@@ -123,30 +123,32 @@
                                                         <text>@Resources.WaitingSignature</text>
                                                     }
                                                 </div>
-                                                <div class="signature-date">(<span class="signature-date-hold">@(Model.ESignature.Signers[i].StatusLastUpdateTime.HasValue ? Model.ESignature.Signers[i].StatusLastUpdateTime.Value.ToString("MM/dd/yyyy hh:mm tt") : "")</span>)</div>
-
-                                                <a class="btn dealnet-link-button" id="signer-btn-@(i)">
-                                                    @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Sent || Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Delivered)
-                                                    {
-                                                        @Resources.ResendInvite
-                                                    }
-                                                    else
-                                                    {
-                                                        @Resources.UpdateEmail
-                                                    }
-                                                </a>
+                                                @if (Model.ESignature.Signers[i].StatusLastUpdateTime.HasValue)
+                                                {
+                                                    <div class="signature-date">(<span class="signature-date-hold">@(Model.ESignature.Signers[i].StatusLastUpdateTime.Value.ToString("MM/dd/yyyy hh:mm tt"))</span>)</div>
+                                                }
+                                                    <a class="btn dealnet-link-button" id="signer-btn-@(i)">
+                                                        @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Sent || Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Delivered)
+                                                        {
+                                                            @Resources.ResendInvite
+                                                        }
+                                                        else
+                                                        {
+                                                            @Resources.UpdateEmail
+                                                        }
+                                                    </a>
+                                                </div>
+                                                @if (!string.IsNullOrEmpty(Model.ESignature.Signers[i].Comment))
+                                                {
+                                                    <span data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Model.ESignature.Signers[i].Comment">
+                                                        <svg aria-hidden="true" class="icon icon-comment">
+                                                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-comment")"></use>
+                                                        </svg>
+                                                    </span>
+                                                }
                                             </div>
-                                            @if (!string.IsNullOrEmpty(Model.ESignature.Signers[i].Comment))
-                                            {
-                                                <span data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Model.ESignature.Signers[i].Comment">
-                                                    <svg aria-hidden="true" class="icon icon-comment">
-                                                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-comment")"></use>
-                                                    </svg>
-                                                </span>
-                                            }
                                         </div>
                                     </div>
-                                </div>
                             }
                             <div class="well well-info @(Model.ESignature.Status != ApiEnum.SignatureStatus.Declined?"hidden":"")" id="contact-before-resend">
                                 <span class="icon-hold">
@@ -233,7 +235,7 @@
                 @Html.HiddenFor(m => m.BasicInfo.ContractId, new { Name = "ContractId" })
                 @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[0].Value, new { Name = "DocumentTypeId" })
                 <div class="form-group clearfix">
-                    <div @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>                                                     }
+                    <div @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>                                                      }
                          class="file-upload btn dealnet-button dealnet-success-button disablable @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) {<text>disabled</text>}">
                         <span>@Resources.Upload</span>
                         <input type="file" name="File" class="upload main-document-upload" />
