@@ -302,7 +302,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     if (!string.IsNullOrEmpty(envelopeStatus))
                     {
                         _loggingService.LogInfo($"Recieved DocuSign {envelopeStatus} status for envelope {envelopeId}");
-                        var envelopeStatusTimeValue = envelopeStatusSection?.Element(XName.Get(envelopeStatus, xmlns))?.Value;
+                        var envelopeStatusTimeValue = envelopeStatusSection.Element(XName.Get(envelopeStatus, xmlns))?.Value;
                         DateTime envelopeStatusTime;
                         if (!DateTime.TryParse(envelopeStatusTimeValue, out envelopeStatusTime))
                         {
@@ -385,17 +385,18 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 {
                     reciepents.Signers?.ForEach(s =>
                     {
-                        var updateTimes = new string[] { s.DeclinedDateTime, s.DeliveredDateTime, s.SentDateTime, s.SignedDateTime };
-                        var rsLastStatusTime = updateTimes.Where(ut => !string.IsNullOrEmpty(ut))
+                        var updateTimes = new[] { s.DeclinedDateTime, s.DeliveredDateTime, s.SentDateTime, s.SignedDateTime };
+
+                        var rsLastStatusTime = updateTimes.Any(t => !string.IsNullOrEmpty(t)) ? updateTimes.Where(ut => !string.IsNullOrEmpty(ut))
                                 .Select(ut =>
                                 {
                                     DateTime statusTime;
                                     if (!DateTime.TryParse(ut, out statusTime))
                                     {
-                                        statusTime = new DateTime();
+                                        statusTime = DateTime.Now;
                                     }
                                     return statusTime;
-                                }).OrderByDescending(rst => rst).FirstOrDefault();
+                                }).OrderByDescending(rst => rst).FirstOrDefault() : DateTime.Now;
 
                         updated |= ProcessSignerStatus(contract, s.Name, s.Email, s.Status, s.DeclinedReason, rsLastStatusTime);
                     });
