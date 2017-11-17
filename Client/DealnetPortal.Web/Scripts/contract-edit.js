@@ -529,8 +529,9 @@ function printCertificate (checkUrl, form) {
 }
 
 function submitEsignature (signers, callback) {
+    var status = $('#signature-status').val().toLowerCase();
     return $.ajax({
-        url: $('#signature-status').val().toLowerCase() === 'declined' ? updateEsignUrl : esignUrl,
+        url: status !== '' || status === 'notinitiated' ? updateEsignUrl : esignUrl,
         method: 'POST',
         contentType: 'application/json',
         dataType: 'json',
