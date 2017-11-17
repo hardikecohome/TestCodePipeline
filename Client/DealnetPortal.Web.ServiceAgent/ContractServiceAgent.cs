@@ -206,12 +206,12 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<Alert>> InitiateDigitalSignature(SignatureUsersDTO signatureUsers)
+        public async Task<Tuple<SignatureSummaryDTO, IList<Alert>>> InitiateDigitalSignature(SignatureUsersDTO signatureUsers)
         {
             try
             {
                 return
-                    await Client.PutAsyncEx<SignatureUsersDTO, IList<Alert>>($"{_fullUri}/InitiateDigitalSignature", signatureUsers, AuthenticationHeader, CurrentCulture);
+                    await Client.PutAsyncEx<SignatureUsersDTO, Tuple<SignatureSummaryDTO, IList<Alert>>>($"{_fullUri}/InitiateDigitalSignature", signatureUsers, AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {

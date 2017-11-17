@@ -20,7 +20,7 @@ namespace DealnetPortal.Api.Integration.Services
         /// <param name="ownerUserId"></param>
         /// <param name="signatureUsers"></param>
         /// <returns></returns>
-        Task<IList<Alert>> ProcessContract(int contractId, string ownerUserId, SignatureUser[] signatureUsers);
+        Task<Tuple<SignatureSummaryDTO, IList<Alert>>> ProcessContract(int contractId, string ownerUserId, SignatureUser[] signatureUsers);
 
         Task<IList<Alert>> CancelSignatureProcess(int contractId, string ownerUserId);
 

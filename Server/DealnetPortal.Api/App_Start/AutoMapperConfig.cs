@@ -111,6 +111,12 @@ namespace DealnetPortal.Api.App_Start
                         d.OnCreditReview = creditReviewStates.Contains(c.Details?.Status);
                     }
                 });
+            mapperConfig.CreateMap<Contract, SignatureSummaryDTO>()
+                .ForMember(x => x.ContractId, d => d.MapFrom(src => src.Id))
+                .ForMember(x => x.SignatureTransactionId, d => d.MapFrom(src => src.Details.SignatureTransactionId))
+                .ForMember(x => x.Status, d => d.MapFrom(src => src.Details.SignatureStatus))
+                .ForMember(x => x.StatusQualifier, d => d.MapFrom(src => src.Details.SignatureStatusQualifier))
+                .ForMember(x => x.StatusTime, d => d.MapFrom(src => src.Details.SignatureLastUpdateTime));
             //.ForMember(x => x.Documents, d => d.Ignore());
             mapperConfig.CreateMap<EquipmentType, EquipmentTypeDTO>().
                 ForMember(x => x.Description,

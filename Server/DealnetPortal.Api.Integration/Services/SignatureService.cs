@@ -64,15 +64,16 @@ namespace DealnetPortal.Api.Integration.Services
             _aspireStorageReader = aspireStorageReader;            
         }
 
-        public async Task<IList<Alert>> ProcessContract(int contractId, string ownerUserId,
+        public async Task<Tuple<SignatureSummaryDTO, IList<Alert>>> ProcessContract(int contractId, string ownerUserId,
             SignatureUser[] signatureUsers)
         {
             List<Alert> alerts = new List<Alert>();
+            SignatureSummaryDTO summary = null;
 
             try
             {
                 // Get contract
-                var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
+                var contract = _contractRepository.GetContract(contractId, ownerUserId);
                 if (contract != null)
                 {
                     _loggingService.LogInfo($"Started eSignature processing for contract [{contractId}]");
@@ -83,82 +84,74 @@ namespace DealnetPortal.Api.Integration.Services
                     _signatureEngine.TransactionId = contract.Details?.SignatureTransactionId;
                     _signatureEngine.DocumentId = contract.Details?.SignatureDocumentId;
 
-                    if (logRes.Any(a => a.Type == AlertType.Error))
+                    if (logRes?.Any() == true)
                     {
-                        LogAlerts(alerts);
-                        return alerts;
+                        alerts.AddRange(logRes);
                     }
 
                     var agrRes = SelectAgreementTemplate(contract, ownerUserId);
-
-                    if (agrRes.Item1 == null || agrRes.Item2.Any(a => a.Type == AlertType.Error))
+                    if (agrRes?.Item2?.Any() == true)
                     {
                         alerts.AddRange(agrRes.Item2);
-                        LogAlerts(alerts);
-                        return alerts;
                     }
 
-                    var agreementTemplate = agrRes.Item1;
-
-                    var trRes = await _signatureEngine.InitiateTransaction(contract, agreementTemplate);
-
-                    if (trRes?.Any() ?? false)
+                    if (agrRes?.Item1 != null && alerts.All(a => a.Type != AlertType.Error))
                     {
-                        alerts.AddRange(trRes);
-                    }
+                        var agreementTemplate = agrRes.Item1;
 
-                    var templateFields = await _signatureEngine.GetFormfFields();
+                        var trRes = await _signatureEngine.InitiateTransaction(contract, agreementTemplate);
 
-                    var fields = PrepareFormFields(contract, templateFields?.Item1, ownerUserId);
-                    _loggingService.LogInfo($"{fields.Count} fields collected");
+                        if (trRes?.Any() ?? false)
+                        {
+                            alerts.AddRange(trRes);
+                        }
 
-                    var insertRes = await _signatureEngine.InsertDocumentFields(fields);
+                        var templateFields = await _signatureEngine.GetFormfFields();
 
-                    if (insertRes?.Any() ?? false)
-                    {
-                        alerts.AddRange(insertRes);
-                    }
-                    if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
-                    {
-                        _loggingService.LogWarning($"Fields merged with agreement document with errors");
-                        LogAlerts(alerts);
-                        return alerts;
-                    }
+                        var fields = PrepareFormFields(contract, templateFields?.Item1, ownerUserId);
+                        _loggingService.LogInfo($"{fields.Count} fields collected");
 
-                    insertRes = await _signatureEngine.InsertSignatures(signatureUsers);
+                        var insertRes = await _signatureEngine.InsertDocumentFields(fields);
 
-                    if (insertRes?.Any() ?? false)
-                    {
-                        alerts.AddRange(insertRes);
-                    }
-                    if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
-                    {
-                        _loggingService.LogWarning($"Signature fields inserted into agreement document form with errors");                        
-                    }
-                    else
-                    {
-                        _loggingService.LogInfo(
-                            $"Signature fields inserted into agreement document form successefully");
-                    }
+                        if (insertRes?.Any() ?? false)
+                        {
+                            alerts.AddRange(insertRes);
+                        }                        
 
-                    insertRes = await _signatureEngine.SubmitDocument(signatureUsers);
+                        insertRes = await _signatureEngine.InsertSignatures(signatureUsers);
+                        if (insertRes?.Any() ?? false)
+                        {
+                            alerts.AddRange(insertRes);
+                        }
+                        if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
+                        {
+                            _loggingService.LogWarning(
+                                $"Signature fields inserted into agreement document form with errors");
+                        }
+                        else
+                        {
+                            _loggingService.LogInfo(
+                                $"Signature fields inserted into agreement document form successefully");
+                        }
 
-                    if (insertRes?.Any() ?? false)
-                    {
-                        alerts.AddRange(insertRes);
+                        insertRes = await _signatureEngine.SubmitDocument(signatureUsers);
+
+                        if (insertRes?.Any() ?? false)
+                        {
+                            alerts.AddRange(insertRes);
+                        }
+                        if (insertRes?.All(a => a.Type != AlertType.Error) == true)
+                        {
+
+                            UpdateContractDetails(contractId, ownerUserId, _signatureEngine.TransactionId,
+                                _signatureEngine.DocumentId, null);
+                            UpdateSignersInfo(contractId, ownerUserId, signatureUsers);
+                            _loggingService.LogInfo(
+                                $"Invitations for agreement document form sent successefully. TransactionId: [{_signatureEngine.TransactionId}], DocumentID [{_signatureEngine.DocumentId}]");
+                            await UpdateContractStatus(contractId, ownerUserId);
+                            summary = AutoMapper.Mapper.Map<SignatureSummaryDTO>(contract);
+                        }
                     }
-                    if (insertRes?.Any(a => a.Type == AlertType.Error) ?? false)
-                    {
-                        LogAlerts(alerts);
-                        return alerts;
-                    }
-                    
-                    UpdateContractDetails(contractId, ownerUserId, _signatureEngine.TransactionId,
-                        _signatureEngine.DocumentId, null);
-                    UpdateSignersInfo(contractId, ownerUserId, signatureUsers);
-                    _loggingService.LogInfo(
-                        $"Invitations for agreement document form sent successefully. TransactionId: [{_signatureEngine.TransactionId}], DocumentID [{_signatureEngine.DocumentId}]");
-                    await UpdateContractStatus(contractId, ownerUserId);
                 }
                 else
                 {
@@ -185,7 +178,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             LogAlerts(alerts);
-            return alerts;
+            return new Tuple<SignatureSummaryDTO, IList<Alert>>(summary, alerts);
         }
 
         public async Task<Tuple<bool, IList<Alert>>> CheckPrintAgreementAvailable(int contractId, int documentTypeId,
@@ -217,13 +210,13 @@ namespace DealnetPortal.Api.Integration.Services
                     else
                     {
                         // create draft agreement
-                        var createAlerts = await ProcessContract(contractId, ownerUserId, null).ConfigureAwait(false);
+                        var createRes = await ProcessContract(contractId, ownerUserId, null).ConfigureAwait(false);
                         //var docAlerts = await _signatureEngine.CreateDraftDocument(null);
                         isAvailable = true;
-                        if (createAlerts.Any())
+                        if (createRes?.Item2?.Any() == true)
                         {
-                            alerts.AddRange(createAlerts);
-                            if (createAlerts.Any(a => a.Type == AlertType.Error))
+                            alerts.AddRange(createRes.Item2);
+                            if (createRes.Item2.Any(a => a.Type == AlertType.Error))
                             {
                                 isAvailable = false;
                             }
@@ -474,11 +467,11 @@ namespace DealnetPortal.Api.Integration.Services
                 else
                 {
                     // create draft agreement
-                    var createAlerts = await ProcessContract(contractId, ownerUserId, null).ConfigureAwait(false);
+                    var createRes = await ProcessContract(contractId, ownerUserId, null).ConfigureAwait(false);
                     //var docAlerts = await _signatureEngine.CreateDraftDocument(null);
-                    if (createAlerts.Any())
+                    if (createRes?.Item2?.Any() == true)
                     {
-                        alerts.AddRange(createAlerts);
+                        alerts.AddRange(createRes.Item2);
                     }
                 }
 

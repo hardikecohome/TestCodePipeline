@@ -222,8 +222,8 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var alerts = await SignatureService.ProcessContract(users.ContractId, LoggedInUser?.UserId, users.Users?.ToArray());
-                return Ok(alerts);
+                var summary = await SignatureService.ProcessContract(users.ContractId, LoggedInUser?.UserId, users.Users?.ToArray());
+                return Ok(summary);
             }
             catch (Exception ex)
             {
