@@ -334,10 +334,12 @@ namespace DealnetPortal.Web.Controllers
             if (model.DealerTier != null && model.DealerTier.Id == Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["Amort180RateCardId"]))
             {
                 ViewBag.totalAmountFinancedFor180amortTerm = 3999;
+                ViewBag.LoanOnly = true;
             }
             else
             {
                 ViewBag.totalAmountFinancedFor180amortTerm = 4999;
+                ViewBag.LoanOnly = false;
             }
             var NoCustomerFee = System.Configuration.ConfigurationManager.AppSettings["NoCustomerFee"].Split(',').Select(a=> a.Trim()).ToList<string>();
             //if (NoCustomerFee.Contains(await _dealerServiceAgent.UpdateDealerParent()))
