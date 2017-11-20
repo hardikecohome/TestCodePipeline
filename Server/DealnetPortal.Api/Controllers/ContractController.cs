@@ -252,8 +252,8 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var alerts = await SignatureService.CancelSignatureProcess(contractId, LoggedInUser?.UserId);
-                return Ok(alerts);
+                var result = await SignatureService.CancelSignatureProcess(contractId, LoggedInUser?.UserId);
+                return Ok(result);
             }
             catch (Exception ex)
             {

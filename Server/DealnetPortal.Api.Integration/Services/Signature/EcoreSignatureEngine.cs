@@ -38,7 +38,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         private List<string> _signatureFields = new List<string>() { "Signature1", "Signature2", "Signature3"};
         private List<string> _signatureRoles = new List<string>();
 
-        public Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument(DocumentVersion documentVersion)
+        public Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument()
         {
             throw new NotImplementedException();
         }
