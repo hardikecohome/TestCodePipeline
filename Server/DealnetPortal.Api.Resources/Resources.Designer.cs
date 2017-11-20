@@ -1051,6 +1051,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dealer cancelled eSignature process.
+        /// </summary>
+        public static string DealerCancelledEsign {
+            get {
+                return ResourceManager.GetString("DealerCancelledEsign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deal Info.
         /// </summary>
         public static string DealInfo {

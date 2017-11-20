@@ -186,10 +186,10 @@ namespace DealnetPortal.Web.Controllers
         {
             try
             {
-                var alerts = await _contractServiceAgent.CancelDigitalSignature(contractId);
-                if (alerts.Any(a => a.Type == AlertType.Error))
+                var cancelResult = await _contractServiceAgent.CancelDigitalSignature(contractId);
+                if (cancelResult?.Item2?.Any(a => a.Type == AlertType.Error) == true)
                 {
-                    var first = alerts.FirstOrDefault(a => a.Type == AlertType.Error);
+                    var first = cancelResult.Item2.FirstOrDefault(a => a.Type == AlertType.Error);
                     return Json(new { success = false, message = first.Message });
                 }
                 return GetSuccessJson();

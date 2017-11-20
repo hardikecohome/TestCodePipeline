@@ -526,24 +526,25 @@ namespace DealnetPortal.Api.Integration.Services
             return status;
         }
 
-        public async Task<IList<Alert>> CancelSignatureProcess(int contractId, string ownerUserId)
+        public async Task<Tuple<SignatureSummaryDTO, IList<Alert>>> CancelSignatureProcess(int contractId, string ownerUserId)
         {
             List<Alert> alerts = new List<Alert>();
+            SignatureSummaryDTO summary = null;
 
             // Get contract
-            var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
+            var contract = _contractRepository.GetContract(contractId, ownerUserId);
             if (contract != null)
             {
                 _loggingService.LogInfo($"Started cancelling eSignature for contract [{contractId}]");
                     
-                var logRes = await _signatureEngine.ServiceLogin().ConfigureAwait(false);
+                var logRes = await _signatureEngine.ServiceLogin();
                 _signatureEngine.TransactionId = contract.Details?.SignatureTransactionId;
                 _signatureEngine.DocumentId = contract.Details?.SignatureDocumentId;
                 alerts.AddRange(logRes);
 
                 if (alerts.All(a => a.Type != AlertType.Error))
                 {
-                    var cancelRes = await _signatureEngine.CancelSignature();
+                    var cancelRes = await _signatureEngine.CancelSignature().ConfigureAwait(false);
                     alerts.AddRange(cancelRes);
                 }
                 if (alerts.All(a => a.Type != AlertType.Error))
@@ -554,6 +555,8 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     LogAlerts(alerts);
                 }
+                await UpdateContractStatus(contractId, ownerUserId);
+                summary = AutoMapper.Mapper.Map<SignatureSummaryDTO>(contract);
             }
             else
             {
@@ -567,7 +570,7 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError(errorMsg);
             }
 
-            return alerts;
+            return new Tuple<SignatureSummaryDTO, IList<Alert>>(summary, alerts);
         }
 
         public async Task<IList<Alert>> UpdateSignatureUsers(int contractId, string ownerUserId, SignatureUser[] signatureUsers)

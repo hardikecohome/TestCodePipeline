@@ -850,4 +850,7 @@
   <data name="Suite" xml:space="preserve">
     <value>Suite</value>
   </data>
+  <data name="DealerCancelledEsign" xml:space="preserve">
+    <value>Dealer cancelled eSignature process</value>
+  </data>
 </root>

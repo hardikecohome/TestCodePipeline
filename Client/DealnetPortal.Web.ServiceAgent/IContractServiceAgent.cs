@@ -79,7 +79,7 @@ namespace DealnetPortal.Web.ServiceAgent
         /// </summary>
         /// <param name="contractId">Contract Id</param>
         /// <returns>List of alerts (warnings, errors)</returns>
-        Task<IList<Alert>> CancelDigitalSignature(int contractId);
+        Task<Tuple<SignatureSummaryDTO, IList<Alert>>> CancelDigitalSignature(int contractId);
 
         /// <summary>
         /// Get credit check results for contract
