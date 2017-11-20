@@ -566,6 +566,7 @@ function cancelSignatures (e) {
                     $('#signer-form [id^="signer-status-"]').addClass('hidden');
                     $('#signer-form #submit-digital').text(translations['SendInvites']);
                     $('#signature-status').val('');
+                    $('#type-reminder').removeClass('hidden');
                 }
                 hideLoader();
             },
@@ -686,13 +687,10 @@ function submitAllEsignatures (e) {
                 });
 
                 $form.find('.signer-status-hold').removeClass('hidden');
+                $form.find('#type-reminder').addClass('hidden');
                 $form.find('#submit-digital').html(translations['CancelDigitalSignature']);
             } else {
                 console.log(data);
-                dynamicAlertModal({
-                    message: data.message,
-                    confirmBtnText: translations['Proceed']
-                });
             }
         }).fail(function (xhr, status, result) {
             console.log(result);
