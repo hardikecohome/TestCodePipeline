@@ -13,6 +13,9 @@ namespace DealnetPortal.Domain
         [ForeignKey("ContractId")]
         [Required]
         public Contract Contract { get; set; }
+        public int? CustomerId { get; set; }
+        [ForeignKey(nameof(CustomerId))]
+        public Customer Customer { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         [EmailAddress]

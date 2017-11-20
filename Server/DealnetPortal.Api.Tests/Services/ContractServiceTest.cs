@@ -24,10 +24,10 @@ namespace DealnetPortal.Api.Tests.Services
         private IAspireService _aspireService;
         private ICustomerWalletService _customerWalletService;
         private IAspireStorageReader _aspireStorageReader;
-        private ISignatureService _signatureService;
         private IMailService _mailService;
         private IDealerRepository _dealerRepository;
         private IAppConfiguration _appConfiguration;
+        private ISignatureService _signatureService;
 
         [TestInitialize]
         public void Intialize()
@@ -35,7 +35,7 @@ namespace DealnetPortal.Api.Tests.Services
             DealnetPortal.Api.App_Start.AutoMapperConfig.Configure();
             SetupMocks();
             _contractService = new ContractService(_contractRepository, _unitOfWork, _aspireService, _aspireStorageReader, 
-                _customerWalletService, _signatureService, _mailService, _loggingService, _dealerRepository, _appConfiguration);
+                _customerWalletService, _mailService, _loggingService, _dealerRepository, _appConfiguration, _signatureService);
         }
 
         private void SetupMocks()
@@ -73,12 +73,12 @@ namespace DealnetPortal.Api.Tests.Services
             _unitOfWork = unitOfWorkMock.Object;
             _loggingService = loggingServiceMock.Object;
             _aspireService = aspireServiceMock.Object;
-            _signatureService = signatureServiceMock.Object;
             _mailService = mailServiceMock.Object;
             _aspireStorageReader = aspireStorageServiceMock.Object;
             _customerWalletService = customerWalletServiceMock.Object;
             _dealerRepository = dealerRepositoryMock.Object;
             _appConfiguration = appConfigurationMock.Object;
+            _signatureService = signatureServiceMock.Object;
         }
 
         [TestMethod]

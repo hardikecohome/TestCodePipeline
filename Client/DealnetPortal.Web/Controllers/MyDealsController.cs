@@ -39,13 +39,14 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> ContractEdit(int id)
+        public async Task<ActionResult> ContractEdit(int id, bool newlySubmitted = false)
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1;
 
             var dealer = await _dictionaryServiceAgent.GetDealerInfo();
             ViewBag.IsEsignatureEnabled = dealer?.EsignatureEnabled ?? false;
+            ViewBag.IsNewlySubmitted = newlySubmitted;
 
             var contract = await _contractManager.GetContractEditAsync(id);
             if (!string.IsNullOrEmpty(dealer?.Email))
@@ -178,6 +179,35 @@ namespace DealnetPortal.Web.Controllers
                 return response;
             }
             return new FileContentResult(new byte[] { }, "application/pdf");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SendForESignature(ESignatureViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return GetErrorJson();
+            }
+            return Json(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> CancelDigitalSignature(int contractId)
+        {
+            try
+            {
+                var alerts = await _contractServiceAgent.CancelDigitalSignature(contractId);
+                if (alerts.Any(a => a.Type == AlertType.Error))
+                {
+                    var first = alerts.FirstOrDefault(a => a.Type == AlertType.Error);
+                    return Json(new { success = false, message = first.Message });
+                }
+                return GetSuccessJson();
+            }
+            catch (Exception ex)
+            {
+                return GetErrorJson();
+            }
         }
     }
 }

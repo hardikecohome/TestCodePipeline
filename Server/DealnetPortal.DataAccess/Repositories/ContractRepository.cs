@@ -177,7 +177,9 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public Contract FindContractBySignatureId(string signatureTransactionId)
         {
-            return _dbContext.Contracts.FirstOrDefault(c => c.Details.SignatureTransactionId == signatureTransactionId);
+            return _dbContext.Contracts
+                .Include(c => c.Signers)
+                .FirstOrDefault(c => c.Details.SignatureTransactionId == signatureTransactionId);
         }
 
         public ContractState? GetContractState(int contractId, string contractOwnerId)
@@ -924,21 +926,36 @@ namespace DealnetPortal.DataAccess.Repositories
             return contract;
         }
 
-        public Contract UpdateContractSigners(int contractId, IList<ContractSigner> signers, string contractOwnerId)
+        public Contract UpdateContractSigners(int contractId, IList<ContractSigner> signers, string contractOwnerId, bool syncOnly = false)
         {
             var contract = GetContract(contractId, contractOwnerId);
             if (contract != null)
-            {                
+            {
+                if (!syncOnly)
+                {
+                    var existingEntities =
+                        contract.Signers.Where(
+                            cs => signers.Any(s => s.Id != 0 && s.Id == cs.Id
+                                                   || cs.CustomerId != null && s.CustomerId == cs.CustomerId
+                                                   || cs.SignerType == s.SignerType)).ToList();
+                    var entriesForDelete = contract.Signers.Except(existingEntities).ToList();
+                    entriesForDelete.ForEach(e => contract.Signers.Remove(e));
+                }
+
                 signers.ForEach(s =>
                 {
                     var curSigner =
-                        contract.Signers.FirstOrDefault(cs => cs.Id == s.Id
+                        contract.Signers.FirstOrDefault(cs => s.Id != 0 && cs.Id == s.Id 
+                            || (s.CustomerId != null && cs.CustomerId == s.CustomerId)
                             || cs.SignerType == s.SignerType);
                     if (curSigner == null)
                     {
-                        s.Contract = contract;
-                        s.ContractId = contractId;
-                        contract.Signers.Add(s);
+                        if (!syncOnly)
+                        {
+                            s.Contract = contract;
+                            s.ContractId = contractId;
+                            contract.Signers.Add(s);
+                        }
                     }
                     else
                     {
@@ -950,9 +967,21 @@ namespace DealnetPortal.DataAccess.Repositories
                         {
                             curSigner.LastName = s.LastName;
                         }
+                        if (curSigner.CustomerId != s.CustomerId)
+                        {
+                            curSigner.CustomerId = s.CustomerId;
+                        }
                         if (curSigner.EmailAddress != s.EmailAddress)
                         {
                             curSigner.EmailAddress = s.EmailAddress;
+                        }
+                        if (curSigner.SignerType != s.SignerType)
+                        {
+                            curSigner.SignerType = s.SignerType;
+                        }
+                        if (!string.IsNullOrEmpty(s.Comment) && curSigner.Comment != s.Comment)
+                        {
+                            curSigner.Comment = s.Comment;
                         }
                     }
                 });

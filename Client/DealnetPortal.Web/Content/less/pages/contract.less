@@ -1,3 +1,20 @@
+.form-section {
+  .message-header {
+    font-size: 20px;
+    margin: 15px 0;
+  }
+}
+.contract-edit {
+  .doc-tab-content {
+    @media @desktop-up {
+      padding: 0 0 0 20px !important;
+    }    
+  }
+  .document-pane-header {
+    margin-bottom: 15px
+  }
+}
+
 .documents-container{
   .no-documents{
     font-size: 20px;
@@ -205,4 +222,116 @@
 
 .mb-25 {
     margin-bottom: 25px !important;
+}
+
+.signed-contract {
+  .nav-tabs {
+    text-align: left;
+    li {
+      width: 190px;
+    }
+  }
+  .signature-notification {
+    margin:5px 0 10px;
+    font-size: 13px;
+  }
+  .sent-contract-secton {
+    margin: 5px 0;
+    .signer-status-hold {
+      line-height: 1.2;
+      display: none;
+      padding-left: 20px; 
+      &.created,
+      &.sent {
+        display: block;
+        .signature-hold {
+          padding-top: 5px;
+        }
+      }
+      &.waitingsignature,
+      &.sent {
+        display: block;
+        .signature-hold {
+          padding-top: 15px;
+        }
+      }
+      &.signed,
+      &.completed {
+        display: block;
+        padding-top: 30px;
+        @media @tablet-down {
+          padding-top: 15px;
+        }
+        .icon-front {
+          bottom: 6px;
+        }
+        .dealnet-link-button {
+          display: none;
+        }
+      }
+      &.declined { 
+        display: block;
+        .dealnet-link-button {
+          display: none;
+        }
+        padding-top: 20px; 
+        @media @tablet-down {
+          padding-top: 15px;
+        }
+      }
+    }
+    .signature-status {
+      .icon {
+        &.icon-front {
+          height: 24px;
+          width: 24px;
+          position: relative;
+          bottom:10px;
+          right: 10px;
+        }
+        &.icon-error {
+          color: rgb(218, 46, 0);
+        }
+        &.icon-comment {
+          right:-10px;
+        }
+      }
+      .signature-hold {
+        display: inline-block;
+        max-width: 150px;
+      }
+      .signature-header {
+        font-size: 12px;
+        font-weight: bold;
+        word-wrap: break-word;
+      }
+      .signature-date {
+        font-size: 11px;
+      }
+      .dealnet-link-button {
+        font-size: 13px;
+        padding-bottom: 0;
+        padding-top: 0;
+      }
+    }
+    #contact-before-resend {
+      display: inline-flex;
+      margin: 5px 0 10px;
+      .icon-hold {
+        margin: 10px 10px 0 0;
+      }
+    }
+    .info-text-success {
+      .icon-info-well {
+        position: static;
+        margin-right: 10px;
+      }
+      @media @tablet-down {
+        margin-top: 10px;
+      }
+      @media @mobile {
+        margin-left: 20%;
+      }
+    }
+  }
 }

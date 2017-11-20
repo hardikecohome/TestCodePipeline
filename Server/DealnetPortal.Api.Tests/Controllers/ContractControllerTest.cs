@@ -29,6 +29,7 @@ namespace DealnetPortal.Api.Tests.Controllers
         private Mock<ICustomerFormService> _customerFormServiceMock;
         private Mock<IRateCardsService> _rateCardsServiceMock;
         private Mock<ILoggingService> _loggingServiceMock;
+        private Mock<ISignatureService> _signatureServiceMock;
 
         [TestInitialize]
         public void Intialize()
@@ -38,8 +39,10 @@ namespace DealnetPortal.Api.Tests.Controllers
             _customerFormServiceMock = new Mock<ICustomerFormService>();
             _rateCardsServiceMock = new Mock<IRateCardsService>();
             _loggingServiceMock = new Mock<ILoggingService>();
+            _signatureServiceMock = new Mock<ISignatureService>();
 
-            _contractController = new ContractController(_loggingServiceMock.Object, _contractServiceMock.Object, _customerFormServiceMock.Object, _rateCardsServiceMock.Object);
+            _contractController = new ContractController(_loggingServiceMock.Object, _contractServiceMock.Object, _customerFormServiceMock.Object, _rateCardsServiceMock.Object,
+                _signatureServiceMock.Object);
             _contractController.Request = new HttpRequestMessage();
             _contractController.Request.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
         }

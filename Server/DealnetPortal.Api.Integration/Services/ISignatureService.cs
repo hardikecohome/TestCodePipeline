@@ -20,11 +20,11 @@ namespace DealnetPortal.Api.Integration.Services
         /// <param name="ownerUserId"></param>
         /// <param name="signatureUsers"></param>
         /// <returns></returns>
-        Task<IList<Alert>> ProcessContract(int contractId, string ownerUserId, SignatureUser[] signatureUsers);
+        Task<Tuple<SignatureSummaryDTO, IList<Alert>>> ProcessContract(int contractId, string ownerUserId, SignatureUser[] signatureUsers);
 
         Task<IList<Alert>> CancelSignatureProcess(int contractId, string ownerUserId);
 
-        Task<IList<Alert>> UpdateSignatureUsers(int contractId, string ownerUserId, SignatureUser[] signatureUsers, bool reSend = false);
+        Task<IList<Alert>> UpdateSignatureUsers(int contractId, string ownerUserId, SignatureUser[] signatureUsers);
 
         Task<IList<Alert>> ProcessSignatureEvent(string notificationMsg);
 
@@ -32,7 +32,21 @@ namespace DealnetPortal.Api.Integration.Services
 
         Task<Tuple<bool, IList<Alert>>> CheckPrintAgreementAvailable(int contractId, int documentTypeId, string ownerUserId);
 
+        /// <summary>
+        /// Get contract agreement for print. Try to use PDF template in the Database, if it not exist, try to use DocuSign template
+        /// </summary>
+        /// <param name="contractId"></param>
+        /// <param name="ownerUserId"></param>
+        /// <returns></returns>
         Task<Tuple<AgreementDocument, IList<Alert>>> GetPrintAgreement(int contractId, string ownerUserId);
+
+        /// <summary>
+        /// Get Signed contract (document). if signed doc not exists or still not completed, returns null
+        /// </summary>
+        /// <param name="contractId"></param>
+        /// <param name="ownerUserId"></param>
+        /// <returns></returns>
+        Task<Tuple<AgreementDocument, IList<Alert>>> GetSignedAgreement(int contractId, string ownerUserId);
 
         Task<Tuple<AgreementDocument, IList<Alert>>> GetInstallCertificate(int contractId, string ownerUserId);
 

@@ -53,8 +53,6 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<IList<Alert>> UpdateCustomerData(CustomerDataDTO[] customers);
 
-        //Task<IList<Alert>> UpdateEquipmentInformation(EquipmentInformationDTO equipmentInfo);
-
         /// <summary>
         /// Initiate credit check for contract
         /// </summary>
@@ -67,7 +65,21 @@ namespace DealnetPortal.Web.ServiceAgent
         /// </summary>
         /// <param name="signatureUsers"></param>
         /// <returns></returns>
-        Task<IList<Alert>> InitiateDigitalSignature(SignatureUsersDTO signatureUsers);
+        Task<Tuple<SignatureSummaryDTO, IList<Alert>>> InitiateDigitalSignature(SignatureUsersDTO signatureUsers);
+
+        /// <summary>
+        /// Update signers (recipients) information
+        /// </summary>
+        /// <param name="signatureUsers"></param>
+        /// <returns></returns>
+        Task<IList<Alert>> UpdateContractSigners(SignatureUsersDTO signatureUsers);
+
+        /// <summary>
+        /// Cancel eSignature process for contract
+        /// </summary>
+        /// <param name="contractId">Contract Id</param>
+        /// <returns>List of alerts (warnings, errors)</returns>
+        Task<IList<Alert>> CancelDigitalSignature(int contractId);
 
         /// <summary>
         /// Get credit check results for contract
@@ -153,5 +165,7 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<IList<Alert>> AssignContract(int contractId);
         Task<IList<Alert>> CheckCustomerExisting(string email);
+
+        Task<Tuple<AgreementDocument, IList<Alert>>> GetSignedAgreement(int contractId);
     }
 }

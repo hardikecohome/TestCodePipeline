@@ -18,6 +18,7 @@ using DocuSign.eSign.Api;
 using DocuSign.eSign.Client;
 using DocuSign.eSign.Model;
 using Microsoft.Practices.ObjectBuilder2;
+using System.Xml.Linq;
 
 namespace DealnetPortal.Api.Integration.Services.Signature
 {
@@ -54,6 +55,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         private List<CarbonCopy> _copyViewers { get; set; }
         private EnvelopeDefinition _envelopeDefinition { get; set; }
 
+        private readonly string[] DocuSignResipientStatuses = new string[] { "Created", "Sent", "Delivered", "Signed", "Declined" };
+
 
         public DocuSignSignatureEngine(ILoggingService loggingService, IAppConfiguration configuration)
         {
@@ -64,6 +67,9 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             _dsIntegratorKey = configuration.GetSetting(WebConfigKeys.DOCUSIGN_INTEGRATORKEY_CONFIG_KEY);
             _dsDefaultBrandId = configuration.GetSetting(WebConfigKeys.DOCUSIGN_BRAND_ID);
             _notificationsEndpoint = configuration.GetSetting(WebConfigKeys.DOCUSIGN_NOTIFICATIONS_URL);
+
+            _signers = new List<Signer>();
+            _copyViewers = new List<CarbonCopy>();
         }
 
         public async Task<IList<Alert>> ServiceLogin()
@@ -147,8 +153,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                             TransformPdfFields = "true"
                         };
                     }
-                    _signers = new List<Signer>();
-                    _copyViewers = new List<CarbonCopy>();
+                    _signers.Clear();
+                    _copyViewers.Clear();
                     _envelopeDefinition = new EnvelopeDefinition();
                 }
             });                      
@@ -232,7 +238,173 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             });
 
             return alerts;
-        }        
+        }
+
+        public async Task<IList<Alert>> UpdateSigners(IList<SignatureUser> signatureUsers)
+        {
+            var alerts = new List<Alert>();
+            EnvelopesApi envelopesApi = new EnvelopesApi();
+            if (!string.IsNullOrEmpty(TransactionId))
+            {
+                await InsertSignatures(signatureUsers);
+                var envelope = await envelopesApi.GetEnvelopeAsync(AccountId, TransactionId);
+                var reciepents = await envelopesApi.ListRecipientsAsync(AccountId, TransactionId);
+                if (envelope != null)
+                {
+                    var updateRecipients = !AreRecipientsEqual(reciepents);
+                    if (updateRecipients)
+                    {
+                        reciepents = UpdateRecipientsMails(reciepents);                        
+                        var updateRes = await envelopesApi.UpdateRecipientsAsync(AccountId, TransactionId, reciepents);
+                        //mails will send automaticaly and we don't need resendEnvelope here
+                        //if (envelope.Status == "sent")
+                        //{
+                        //    envelope = new Envelope() { };
+                        //    var updateOptions = new EnvelopesApi.UpdateOptions()
+                        //    {
+                        //        resendEnvelope = "true"
+                        //    };
+                        //    var updateEnvelopeRes =
+                        //        await envelopesApi.UpdateAsync(AccountId, TransactionId, envelope, updateOptions);
+                        //}
+                    }
+                }
+                else
+                {
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = "Can't find envelope",
+                        Message = $"Can't find envelope {TransactionId} in DocuSign"
+                    });
+                }
+            }
+
+            return alerts;
+        }
+
+        public async Task<Tuple<bool, IList<Alert>>> ParseStatusEvent(string eventNotification, Contract contract)
+        {
+            var updated = false;
+            var alerts = new List<Alert>();
+
+            try
+            {
+                XDocument xDocument = XDocument.Parse(eventNotification);
+                var xmlns = xDocument?.Root?.Attribute(XName.Get("xmlns"))?.Value ?? "http://www.docusign.net/API/3.0";
+
+                var envelopeStatusSection = xDocument?.Root?.Element(XName.Get("EnvelopeStatus", xmlns));
+                var envelopeId = envelopeStatusSection?.Element(XName.Get("EnvelopeID", xmlns))?.Value;
+
+                if (contract != null && envelopeStatusSection != null)
+                {
+                    var envelopeStatus = envelopeStatusSection?.Element(XName.Get("Status", xmlns))?.Value;
+                    if (!string.IsNullOrEmpty(envelopeStatus))
+                    {
+                        _loggingService.LogInfo($"Recieved DocuSign {envelopeStatus} status for envelope {envelopeId}");
+                        var envelopeStatusTimeValue = envelopeStatusSection.Element(XName.Get(envelopeStatus, xmlns))?.Value;
+                        DateTime envelopeStatusTime;
+                        if (!DateTime.TryParse(envelopeStatusTimeValue, out envelopeStatusTime))
+                        {
+                            envelopeStatusTime = DateTime.Now;
+                        }
+                        updated |= ProcessSignatureStatus(contract, envelopeStatus, envelopeStatusTime);
+                    }
+
+                    //proceed with recipients statuses
+                    var recipientStatusesSection = envelopeStatusSection?.Element(XName.Get("RecipientStatuses", xmlns));
+                    if (recipientStatusesSection != null)
+                    {
+                        var recipientStatuses = recipientStatusesSection.Descendants(XName.Get("RecipientStatus", xmlns));
+                        recipientStatuses.ForEach(rs =>
+                        {
+                            var rsStatus = rs.Element(XName.Get("Status", xmlns))?.Value;
+                            var rsLastStatusTime = rs.Elements().Where(rse =>
+                                    DocuSignResipientStatuses.Any(ds => rse.Name.LocalName.Contains(ds)))
+                                .Select(rse =>
+                                {
+                                    DateTime statusTime;
+                                    if (!DateTime.TryParse(rse.Value, out statusTime))
+                                    {
+                                        statusTime = new DateTime();
+                                    }
+                                    return statusTime;
+                                }).OrderByDescending(rst => rst).FirstOrDefault();
+                            var rsName = rs.Element(XName.Get("UserName", xmlns))?.Value;
+                            var rsEmail = rs.Element(XName.Get("Email", xmlns))?.Value;
+                            var rsComment = rs.Element(XName.Get("DeclineReason", xmlns))?.Value;
+                            updated |= ProcessSignerStatus(contract, rsName, rsEmail, rsStatus, rsComment, rsLastStatusTime);
+                        });
+                    }                    
+                }
+                else
+                {
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Code = ErrorCodes.CantGetContractFromDb,
+                        Header = "Cannot find contract",
+                        Message = $"Cannot find contract for signature envelopeId {envelopeId}"
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "Cannot parse DocuSign notification",
+                    Message = $"Error occurred during parsing request from DocuSign: {ex.ToString()}"
+                });                
+            }           
+
+            return await Task.FromResult(new Tuple<bool, IList<Alert>>(updated, alerts));
+        }
+
+        public async Task<Tuple<bool, IList<Alert>>> UpdateContractStatus(Contract contract)
+        {
+            var updated = false;
+            var alerts = new List<Alert>();
+
+            if (!string.IsNullOrEmpty(contract?.Details?.SignatureTransactionId))
+            {
+                EnvelopesApi envelopesApi = new EnvelopesApi();
+                var envelope = await envelopesApi.GetEnvelopeAsync(AccountId, contract.Details.SignatureTransactionId);
+                var reciepents = await envelopesApi.ListRecipientsAsync(AccountId, contract.Details.SignatureTransactionId);
+
+                if (envelope != null)
+                {
+                    DateTime envelopeStatusTime;
+                    if (!DateTime.TryParse(envelope.StatusChangedDateTime, out envelopeStatusTime))
+                    {
+                        envelopeStatusTime = DateTime.Now;
+                    }
+                    updated |= ProcessSignatureStatus(contract, envelope.Status, envelopeStatusTime);
+                }
+                if (reciepents != null)
+                {
+                    reciepents.Signers?.ForEach(s =>
+                    {
+                        var updateTimes = new[] { s.DeclinedDateTime, s.DeliveredDateTime, s.SentDateTime, s.SignedDateTime };
+
+                        var rsLastStatusTime = updateTimes.Any(t => !string.IsNullOrEmpty(t)) ? updateTimes.Where(ut => !string.IsNullOrEmpty(ut))
+                                .Select(ut =>
+                                {
+                                    DateTime statusTime;
+                                    if (!DateTime.TryParse(ut, out statusTime))
+                                    {
+                                        statusTime = DateTime.Now;
+                                    }
+                                    return statusTime;
+                                }).OrderByDescending(rst => rst).FirstOrDefault() : DateTime.Now;
+
+                        updated |= ProcessSignerStatus(contract, s.Name, s.Email, s.Status, s.DeclinedReason, rsLastStatusTime);
+                    });
+                }
+            }            
+
+            return new Tuple<bool, IList<Alert>>(updated, alerts);
+        }
 
         public async Task<IList<Alert>> SubmitDocument(IList<SignatureUser> signatureUsers)
         {
@@ -257,12 +429,10 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                             contractUpdated = _contract.LastUpdateTime.HasValue && _contract.LastUpdateTime.Value > sentTime;
                         }
 
-                        //TODO: can't sign a draft - have to deal with it
                         if (envelope.Status == "created" || contractUpdated)
                         {
                             recreateEnvelope = true;
                         }
-                        //await InsertSignatures(signatureUsers);// ??
                         recreateRecipients = !AreRecipientsEqual(reciepents);
                         if ((envelope.Status == "sent" || envelope.Status == "completed") && recreateRecipients)
                         {
@@ -273,6 +443,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     {
                         recreateEnvelope = true;
                     }
+
                     if (!recreateEnvelope)
                     {
                         try
@@ -447,26 +618,58 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
         }
 
+        public async Task<IList<Alert>> CancelSignature()
+        {
+            var alerts = new List<Alert>();
+            EnvelopesApi envelopesApi = new EnvelopesApi();
+            var envelope = await envelopesApi.GetEnvelopeAsync(AccountId, TransactionId);
+            if (envelope.Status != "completed")
+            {
+                envelope = new Envelope
+                {
+                    Status = "voided"
+                };
+                var updateEnvelopeRes =
+                    await envelopesApi.UpdateAsync(AccountId, TransactionId, envelope);
+                if (updateEnvelopeRes?.ErrorDetails?.ErrorCode != null)
+                {
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = "Cannot cancel signature",
+                        Message = updateEnvelopeRes?.ErrorDetails?.Message
+                    });
+                }
+            }
+            return alerts;
+        }
+
+        #region private
+
         private bool AreRecipientsEqual(Recipients recipients)
         {            
             bool areEqual = false;
 
             if (recipients != null && _signers != null)
             {
-                areEqual = _signers.All(s => recipients.Signers.Any(r => r.Email == s.Email))
-                                && (_copyViewers?.All(s => recipients.CarbonCopies?.Any(r => r.Email == s.Email) ?? true) ?? true);
-                
-                //if (recipients.Signers.Count == _signers.Count)
-                //{
-                //    areEqual = _signers.All(s => recipients.Signers.Any(r => r.Email == s.Email));
-                //    if (areEqual && recipients.CarbonCopies.Count == _copyViewers.Count)
-                //    {
-                //        areEqual = _copyViewers.All(s => recipients.CarbonCopies.Any(r => r.Email == s.Email));
-                //    }
-                //}
+                areEqual = _signers.All(s => recipients.Signers.Any(r => r.Email == s.Email && r.Name == s.Name))
+                                && (_copyViewers?.All(s => recipients.CarbonCopies?.Any(r => r.Email == s.Email && r.Name == s.Name) ?? true) ?? true);
             }
 
             return areEqual;
+        }
+
+        private Recipients UpdateRecipientsMails(Recipients recipients)
+        {
+            recipients.Signers?.ForEach(s =>
+            {
+                var signer = _signers.FirstOrDefault(us => us.Name == s.Name);
+                if (!string.IsNullOrEmpty(signer?.Email))
+                {
+                    s.Email = signer.Email;
+                }
+            });            
+            return recipients;
         }
 
         private List<Alert> CreateEnvelope(EnvelopeDefinition envelopeDefinition)
@@ -500,7 +703,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         private EnvelopeDefinition PrepareEnvelope(string statusOnCreation = "sent")
         {
-            EnvelopeDefinition envelopeDefinition = new EnvelopeDefinition()
+            EnvelopeDefinition envelopeDefinition = new EnvelopeDefinition
             {
                 EmailSubject = Resources.Resources.PleaseSignAgreement,
                 BrandId = _dsDefaultBrandId
@@ -514,7 +717,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             {
                 envelopeDefinition.CompositeTemplates = new List<CompositeTemplate>()
                 {
-                    new CompositeTemplate()
+                    new CompositeTemplate
                     {
                         InlineTemplates = new List<InlineTemplate>()
                         {
@@ -534,7 +737,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             }
             envelopeDefinition.Status = statusOnCreation;
             envelopeDefinition.EventNotification = GetEventNotification();
-
+            envelopeDefinition.CustomFields = GenerateEnvolveCustomFields();
             return envelopeDefinition;
         }
 
@@ -594,8 +797,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 event_notification.IncludeEnvelopeVoidReason = "true";
                 event_notification.IncludeTimeZone = "true";
                 event_notification.IncludeSenderAccountAsCustomField = "true";
-                event_notification.IncludeDocumentFields = "true";
-                event_notification.IncludeCertificateOfCompletion = "true";
+                //event_notification.IncludeDocumentFields = "true";
+                //event_notification.IncludeCertificateOfCompletion = "true";
                 event_notification.EnvelopeEvents = envelope_events;
                 event_notification.RecipientEvents = recipient_events;
 
@@ -635,7 +838,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             });
 
             envelopeDefinition.TemplateId = _templateId;
-            envelopeDefinition.TemplateRoles = rolesList;            
+            envelopeDefinition.TemplateRoles = rolesList;
         }
 
         private string CreateAuthHeader(string userName, string password, string integratorKey)
@@ -651,6 +854,37 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return authHeader;
         }
 
+        private CustomFields GenerateEnvolveCustomFields()
+        {
+            var customFields = new CustomFields
+            {
+                TextCustomFields = new List<TextCustomField>()                
+            };
+            if (!string.IsNullOrEmpty(_contract?.Details?.TransactionId))
+            {
+                customFields.TextCustomFields.Add(
+                    new TextCustomField
+                    {
+                        Name = PdfFormFields.ApplicationID,
+                        Required = "true",
+                        Show = "true",
+                        Value = _contract.Details.TransactionId
+                    });
+            }
+            if (!string.IsNullOrEmpty(_contract?.Dealer?.UserName))
+            {
+                customFields.TextCustomFields.Add(
+                    new TextCustomField
+                    {
+                        Name = PdfFormFields.DealerID,
+                        Required = "true",
+                        Show = "true",
+                        Value = _contract.Dealer.UserName
+                    });
+            }
+            return customFields;
+        }
+
         private Signer CreateSigner(SignatureUser signatureUser, int routingOrder, bool isDealer = false)
         {
             var signer = new Signer()
@@ -660,6 +894,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 RecipientId = routingOrder.ToString(),
                 RoutingOrder = routingOrder.ToString(), //not sure, probably 1
                 RoleName = !isDealer ? $"Signer{routingOrder}" : "SignerD",
+                
                 Tabs = new Tabs()
                 {
                     SignHereTabs = new List<SignHere>()
@@ -676,7 +911,6 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     }
                 }
             };
-            //if (routingOrder == 1)
             {
                 if (_textTabs?.Any() ?? false)
                 {
@@ -698,6 +932,87 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
             return signer;
         }
+
+        private SignatureStatus? ParseSignatureStatus(string status)
+        {
+            SignatureStatus? signatureStatus = null;
+            switch (status?.ToLowerInvariant())
+            {
+                case "created":
+                    signatureStatus = SignatureStatus.Created;
+                    break;
+                case "sent":
+                    signatureStatus = SignatureStatus.Sent;
+                    break;
+                case "delivered":
+                    signatureStatus = SignatureStatus.Delivered;
+                    break;
+                case "signed":
+                    signatureStatus = SignatureStatus.Signed;
+                    break;
+                case "completed":
+                    signatureStatus = SignatureStatus.Completed;
+                    break;
+                case "declined":
+                    signatureStatus = SignatureStatus.Declined;
+                    break;
+                case "deleted":
+                    signatureStatus = SignatureStatus.Deleted;
+                    break;
+            }
+            return signatureStatus;
+        }
+
+        private bool ProcessSignatureStatus(Contract contract, string signatureStatus, DateTime updateTime)
+        {
+            bool updated = false;
+            var status = ParseSignatureStatus(signatureStatus);            
+
+            if (status.HasValue && contract.Details.SignatureStatus != status)
+            {
+                contract.Details.SignatureStatus = status;
+                updated = true;
+            }
+            if (contract.Details.SignatureStatusQualifier != signatureStatus)
+            {
+                contract.Details.SignatureStatusQualifier = signatureStatus;
+                updated = true;
+            }
+            if (updated)
+            {
+                contract.Details.SignatureLastUpdateTime = updateTime;
+            }
+
+            return updated;
+        }
+
+        private bool ProcessSignerStatus(Contract contract, string userName, string email, string status, string comment, DateTime statusTime)
+        {
+            bool updated = false;
+
+            var signer =
+                contract.Signers?.FirstOrDefault(s => (string.IsNullOrEmpty(s.FirstName) || userName.Contains(s.FirstName))
+                && (string.IsNullOrEmpty(s.LastName) || userName.Contains(s.LastName)));            
+            if (signer != null)
+            {
+                var sStatus = ParseSignatureStatus(status);
+                if (sStatus != null && signer.SignatureStatus != sStatus)
+                {
+                    signer.SignatureStatus = sStatus;
+                    signer.SignatureStatusQualifier = status;
+                    signer.StatusLastUpdateTime = statusTime;
+                    if (!string.IsNullOrEmpty(comment))
+                    {
+                        signer.Comment = comment;
+                    }
+                    updated = true;
+                }
+            }
+
+            return updated;
+        }
+
+        #endregion
     }
 
     public class DocuSignCredentials

@@ -43,6 +43,11 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             throw new NotImplementedException();
         }
 
+        public Task<IList<Alert>> CancelSignature()
+        {
+            throw new NotImplementedException();
+        }
+
         public string TransactionId { get; set; }
 
         public string DocumentId { get; set; }
@@ -194,6 +199,21 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             }
 
             return alerts;
+        }
+
+        public Task<IList<Alert>> UpdateSigners(IList<SignatureUser> signatureUsers)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Tuple<bool, IList<Alert>>> ParseStatusEvent(string eventNotification, Contract contract)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Tuple<bool, IList<Alert>>> UpdateContractStatus(Contract contract)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<IList<Alert>> SubmitDocument(IList<SignatureUser> signatureUsers)

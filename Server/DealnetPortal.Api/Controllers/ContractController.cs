@@ -28,13 +28,16 @@ namespace DealnetPortal.Api.Controllers
         private IContractService ContractService { get; set; }
         private ICustomerFormService CustomerFormService { get; set; }
         private IRateCardsService RateCardsService { get; set; }
+        private ISignatureService SignatureService { get; set; }
 
-        public ContractController(ILoggingService loggingService, IContractService contractService, ICustomerFormService customerFormService, IRateCardsService rateCardsService)
+        public ContractController(ILoggingService loggingService, IContractService contractService, ICustomerFormService customerFormService, IRateCardsService rateCardsService,
+            ISignatureService signatureService)
             : base(loggingService)
         {
             ContractService = contractService;
             CustomerFormService = customerFormService;
             RateCardsService = rateCardsService;
+            SignatureService = signatureService;
         }
 
         // GET: api/Contract
@@ -215,11 +218,56 @@ namespace DealnetPortal.Api.Controllers
 
         [Route("InitiateDigitalSignature")]
         [HttpPut]
-        public IHttpActionResult InitiateDigitalSignature(SignatureUsersDTO users)
+        public async Task<IHttpActionResult> InitiateDigitalSignature(SignatureUsersDTO users)
         {
             try
             {
-                var alerts = ContractService.InitiateDigitalSignature(users.ContractId, LoggedInUser?.UserId, users.Users?.ToArray());
+                var summary = await SignatureService.ProcessContract(users.ContractId, LoggedInUser?.UserId, users.Users?.ToArray());
+                return Ok(summary);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("UpdateContractSigners")]
+        [HttpPut]
+        public async Task<IHttpActionResult> UpdateContractSigners(SignatureUsersDTO users)
+        {
+            try
+            {
+                var alerts = await SignatureService.UpdateSignatureUsers(users.ContractId, LoggedInUser?.UserId, users.Users?.ToArray());
+                return Ok(alerts);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("CancelDigitalSignature")]
+        [HttpPost]
+        public async Task<IHttpActionResult> CancelDigitalSignature(int contractId)
+        {
+            try
+            {
+                var alerts = await SignatureService.CancelSignatureProcess(contractId, LoggedInUser?.UserId);
+                return Ok(alerts);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("UpdateSigners")]
+        [HttpPost]
+        public async Task<IHttpActionResult> UpdateSigners(SignatureUsersDTO users)
+        {
+            try
+            {
+                var alerts = await SignatureService.UpdateSignatureUsers(users.ContractId, LoggedInUser?.UserId, users.Users?.ToArray());
                 return Ok(alerts);
             }
             catch (Exception ex)
@@ -290,12 +338,26 @@ namespace DealnetPortal.Api.Controllers
 
         [Route("GetContractAgreement")]
         [HttpGet]
-        public IHttpActionResult GetContractAgreement(int contractId)
+        public async Task<IHttpActionResult> GetContractAgreement(int contractId)
         {
             try
             {
-                var result = ContractService.GetPrintAgreement(contractId, LoggedInUser?.UserId);
+                var result = await SignatureService.GetPrintAgreement(contractId, LoggedInUser?.UserId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
 
+        [Route("GetSignedAgreement")]
+        [HttpGet]
+        public async Task<IHttpActionResult> GetSignedAgreement(int contractId)
+        {
+            try
+            {                
+                var result = await SignatureService.GetSignedAgreement(contractId, LoggedInUser?.UserId);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -306,12 +368,11 @@ namespace DealnetPortal.Api.Controllers
 
         [Route("CheckContractAgreementAvailable")]
         [HttpGet]
-        public IHttpActionResult CheckContractAgreementAvailable(int contractId)
+        public async Task<IHttpActionResult> CheckContractAgreementAvailable(int contractId)
         {
             try
             {
-                var result = ContractService.CheckPrintAgreementAvailable(contractId, (int) DocumentTemplateType.SignedContract, LoggedInUser?.UserId);
-
+                var result = await SignatureService.CheckPrintAgreementAvailable(contractId, (int) DocumentTemplateType.SignedContract, LoggedInUser?.UserId);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -322,11 +383,11 @@ namespace DealnetPortal.Api.Controllers
 
         [Route("GetInstallationCertificate")]
         [HttpGet]
-        public IHttpActionResult GetInstallationCertificate(int contractId)
+        public async Task<IHttpActionResult> GetInstallationCertificate(int contractId)
         {
             try
             {                
-                var result = ContractService.GetInstallCertificate(contractId, LoggedInUser?.UserId);
+                var result = await SignatureService.GetInstallCertificate(contractId, LoggedInUser?.UserId);
 
                 return Ok(result);
             }
@@ -338,11 +399,11 @@ namespace DealnetPortal.Api.Controllers
 
         [Route("CheckInstallationCertificateAvailable")]
         [HttpGet]
-        public IHttpActionResult CheckInstallationCertificateAvailable(int contractId)
+        public async Task<IHttpActionResult> CheckInstallationCertificateAvailable(int contractId)
         {
             try
             {
-                var result = ContractService.CheckPrintAgreementAvailable(contractId, (int)DocumentTemplateType.SignedInstallationCertificate, LoggedInUser?.UserId);
+                var result = await SignatureService.CheckPrintAgreementAvailable(contractId, (int)DocumentTemplateType.SignedInstallationCertificate, LoggedInUser?.UserId);
 
                 return Ok(result);
             }

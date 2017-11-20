@@ -206,12 +206,12 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<Alert>> InitiateDigitalSignature(SignatureUsersDTO signatureUsers)
+        public async Task<Tuple<SignatureSummaryDTO, IList<Alert>>> InitiateDigitalSignature(SignatureUsersDTO signatureUsers)
         {
             try
             {
                 return
-                    await Client.PutAsyncEx<SignatureUsersDTO, IList<Alert>>($"{_fullUri}/InitiateDigitalSignature", signatureUsers, AuthenticationHeader, CurrentCulture);
+                    await Client.PutAsyncEx<SignatureUsersDTO, Tuple<SignatureSummaryDTO, IList<Alert>>>($"{_fullUri}/InitiateDigitalSignature", signatureUsers, AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {
@@ -219,6 +219,36 @@ namespace DealnetPortal.Web.ServiceAgent
                 throw;
             }
         }
+
+        public async Task<IList<Alert>> UpdateContractSigners(SignatureUsersDTO signatureUsers)
+        {
+            try
+            {
+                return
+                    await Client.PutAsyncEx<SignatureUsersDTO, IList<Alert>>($"{_fullUri}/UpdateContractSigners", signatureUsers, AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                this._loggingService.LogError($"Can't update signature users for contract {signatureUsers.ContractId}", ex);
+                throw;
+            }
+        }
+
+        public async Task<IList<Alert>> CancelDigitalSignature(int contractId)
+        {
+            try
+            {
+                return
+                    await
+                        Client.PostAsyncEx<string, IList<Alert>>(
+                            $"{_fullUri}/CancelDigitalSignature?contractId={contractId}", "", AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                this._loggingService.LogError($"Can't cancel digital signature for contract {contractId}", ex);
+                throw;
+            }
+        }        
 
         public async Task<Tuple<CreditCheckDTO, IList<Alert>>> SubmitContract(int contractId)
         {
@@ -264,6 +294,22 @@ namespace DealnetPortal.Web.ServiceAgent
             catch (Exception ex)
             {
                 _loggingService.LogError("Can't get contract print agreement", ex);
+                throw;
+            }
+        }
+
+        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetSignedAgreement(int contractId)
+        {
+            try
+            {
+                return
+                    await
+                        Client.GetAsyncEx<Tuple<AgreementDocument, IList<Alert>>>(
+                            $"{_fullUri}/GetSignedAgreement?contractId={contractId}", AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get contract document from Esignature", ex);
                 throw;
             }
         }

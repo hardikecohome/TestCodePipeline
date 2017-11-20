@@ -88,12 +88,12 @@ namespace DealnetPortal.Web.Infrastructure
         public async Task<EquipmentInformationViewModelNew> GetEquipmentInfoAsyncNew(int contractId)
         {
             Tuple<ContractDTO, IList<Alert>> result = await _contractServiceAgent.GetContract(contractId);
-            
+
             if (result.Item1 == null)
             {
                 return new EquipmentInformationViewModelNew();
             }
-            
+
             var equipmentInfo = new EquipmentInformationViewModelNew()
             {
                 ContractId = contractId,
@@ -132,7 +132,7 @@ namespace DealnetPortal.Web.Infrastructure
 
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
             var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
-            equipmentInfo.DealerTier = Mapper.Map<TierViewModel>(dealerTier)  ?? new TierViewModel() { RateCards = new List<RateCardViewModel>() };
+            equipmentInfo.DealerTier = Mapper.Map<TierViewModel>(dealerTier) ?? new TierViewModel() { RateCards = new List<RateCardViewModel>() };
             if (result.Item1.Equipment == null)
             {
                 equipmentInfo.RateCardValid = true;
@@ -159,7 +159,7 @@ namespace DealnetPortal.Web.Infrastructure
         }
 
         public async Task<EquipmentInformationViewModel> GetEquipmentInfoAsync(int contractId)
-        {            
+        {
             var contractResult = await _contractServiceAgent.GetContract(contractId);
             if (contractResult.Item1 == null)
             {
@@ -195,7 +195,7 @@ namespace DealnetPortal.Web.Infrastructure
             equipmentInfo.CreditAmount = contractResult.Item1.Details?.CreditAmount;
             equipmentInfo.IsAllInfoCompleted = contractResult.Item1.PaymentInfo != null && contractResult.Item1.PrimaryCustomer?.Phones != null && contractResult.Item1.PrimaryCustomer.Phones.Any();
             equipmentInfo.IsApplicantsInfoEditAvailable = contractResult.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;
-            if (!equipmentInfo.RequestedTerm.HasValue )
+            if (!equipmentInfo.RequestedTerm.HasValue)
             {
                 equipmentInfo.RequestedTerm = 120;
             }
@@ -265,7 +265,7 @@ namespace DealnetPortal.Web.Infrastructure
                 .Where(x => x.CardType == RateCardType.Deferral)
                 .Select(q => Convert.ToInt32(q.DeferralPeriod))
                 .Distinct()
-                .Select(x => new KeyValuePair<string,string>(x.ToString(),  x + " " + (x == 1 ? Resources.Resources.Month : Resources.Resources.Months)))
+                .Select(x => new KeyValuePair<string, string>(x.ToString(), x + " " + (x == 1 ? Resources.Resources.Month : Resources.Resources.Months)))
                 .ToDictionary(s => s.Key, s => s.Value);
 
             return model;
@@ -316,7 +316,7 @@ namespace DealnetPortal.Web.Infrastructure
             }
 
             contractEditViewModel.UploadDocumentsInfo = new UploadDocumentsViewModel();
-            contractEditViewModel.UploadDocumentsInfo.ExistingDocuments = Mapper.Map<List<ExistingDocument>>(contractsResult.Item1.Documents);            
+            contractEditViewModel.UploadDocumentsInfo.ExistingDocuments = Mapper.Map<List<ExistingDocument>>(contractsResult.Item1.Documents);
             contractEditViewModel.UploadDocumentsInfo.DocumentsForUpload = new List<DocumentForUpload>();
             contractEditViewModel.UploadDocumentsInfo.MandatoryDocumentTypes = new List<int>() { (int)DocumentTemplateType.SignedContract, (int)DocumentTemplateType.SignedInstallationCertificate, 3, 4 };
             var docTypes = await _dictionaryServiceAgent.GetDocumentTypes();
@@ -325,7 +325,7 @@ namespace DealnetPortal.Web.Infrastructure
                 contractEditViewModel.UploadDocumentsInfo.DocumentTypes = docTypes.Item1.Where(d => d.Id <= (int)DocumentTemplateType.Other).Select(d => new SelectListItem()
                 {
                     Value = d.Id.ToString(),
-                    Text = d.Description                                        
+                    Text = d.Description
                 }).ToList();
             }
 
@@ -353,7 +353,7 @@ namespace DealnetPortal.Web.Infrastructure
                 BorrowerEmail = contractsResult.Item1.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
                 contractsResult.Item1.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress,
                 SalesRep = contractsResult.Item1.Equipment?.SalesRep,
-                AdditionalApplicantsEmails = contractsResult.Item1.SecondaryCustomers.Select(c=>
+                AdditionalApplicantsEmails = contractsResult.Item1.SecondaryCustomers.Select(c =>
                 new CustomerEmail
                 {
                     CustomerId = c.Id,
@@ -362,13 +362,14 @@ namespace DealnetPortal.Web.Infrastructure
                                         c.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress
                 }).ToArray(),
                 AgreementType = contractsResult.Item1.Equipment?.AgreementType.ConvertTo<Models.Enumeration.AgreementType>() ?? Models.Enumeration.AgreementType.LoanApplication
-        };
+            };
+            contractEditViewModel.ESignature = MapESignature(contractsResult.Item1);
             return contractEditViewModel;
         }
 
         public async Task MapBasicInfo(BasicInfoViewModel basicInfo, ContractDTO contract)
         {
-            basicInfo.HomeOwner = AutoMapper.Mapper.Map<ApplicantPersonalInfo>(contract.PrimaryCustomer);            
+            basicInfo.HomeOwner = AutoMapper.Mapper.Map<ApplicantPersonalInfo>(contract.PrimaryCustomer);
             basicInfo.AdditionalApplicants = AutoMapper.Mapper.Map<List<ApplicantPersonalInfo>>(contract.SecondaryCustomers);
 
             basicInfo.SubmittingDealerId = contract.ExternalSubDealerId ?? contract.DealerId;
@@ -427,8 +428,8 @@ namespace DealnetPortal.Web.Infrastructure
                     contractData.DealerId = basicInfo.SubmittingDealerId;
                     contractData.ExternalSubDealerId = string.Empty;
                     contractData.ExternalSubDealerName = string.Empty;
-                }                
-            }            
+                }
+            }
             contractData.PrimaryCustomer = AutoMapper.Mapper.Map<CustomerDTO>(basicInfo.HomeOwner);
             contractData.PrimaryCustomer.Locations = new List<LocationDTO>();
             var mainAddress = Mapper.Map<LocationDTO>(basicInfo.HomeOwner.AddressInformation);
@@ -464,7 +465,7 @@ namespace DealnetPortal.Web.Infrastructure
                     previousAddress.AddressType = AddressType.PreviousAddress;
                     customer.Locations.Add(previousAddress);
                 }
-                contractData.SecondaryCustomers.Add(customer);                
+                contractData.SecondaryCustomers.Add(customer);
             });
             return await _contractServiceAgent.UpdateContractData(contractData);
         }
@@ -554,7 +555,7 @@ namespace DealnetPortal.Web.Infrastructure
             if (contactAndPaymentInfo.PaymentInfo != null)
             {
                 var paymentInfo = AutoMapper.Mapper.Map<PaymentInfoDTO>(contactAndPaymentInfo.PaymentInfo);
-                contractData.PaymentInfo = paymentInfo;                
+                contractData.PaymentInfo = paymentInfo;
             }
             alerts.AddRange(await _contractServiceAgent.UpdateContractData(contractData));
             return alerts;
@@ -636,7 +637,7 @@ namespace DealnetPortal.Web.Infrastructure
                     var contractData = new ContractDataDTO()
                     {
                         Id = newContractRes.Item1.Id,
-                        PrimaryCustomer = customer,   
+                        PrimaryCustomer = customer,
                         LeadSource = _leadSource
                     };
 
@@ -691,7 +692,7 @@ namespace DealnetPortal.Web.Infrastructure
 
             if (result.Item1.Equipment == null)
             {
-                return  true;
+                return true;
             }
             if (rateCardId.HasValue)
             {
@@ -708,8 +709,8 @@ namespace DealnetPortal.Web.Infrastructure
         {
             summary.BasicInfo = new BasicInfoViewModel();
             summary.BasicInfo.ContractId = contractId;
-            await MapBasicInfo(summary.BasicInfo, contract);            
-            summary.EquipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contract.Equipment);                        
+            await MapBasicInfo(summary.BasicInfo, contract);
+            summary.EquipmentInfo = AutoMapper.Mapper.Map<EquipmentInformationViewModel>(contract.Equipment);
             if (summary.EquipmentInfo != null)
             {
                 summary.EquipmentInfo.CreditAmount = contract.Details?.CreditAmount;
@@ -730,15 +731,16 @@ namespace DealnetPortal.Web.Infrastructure
 
                 summary.AdditionalInfo.CustomerComments = comments;
             }
-           
+
             summary.ContactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
             summary.ContactAndPaymentInfo.ContractId = contractId;
             MapContactAndPaymentInfo(summary.ContactAndPaymentInfo, contract);
-            if (summary.BasicInfo.HomeOwner?.AddressInformation != null) { 
+            if (summary.BasicInfo.HomeOwner?.AddressInformation != null)
+            {
                 var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(summary.BasicInfo.HomeOwner.AddressInformation.Province.ToProvinceCode())).Item1;
                 if (rate != null) { summary.ProvinceTaxRate = rate; }
             }
-                        
+
             summary.AdditionalInfo.ContractState = contract.ContractState.ConvertTo<ContractState>();
             summary.AdditionalInfo.Status = contract.Details?.Status ?? contract.ContractState.GetEnumDescription();
             summary.AdditionalInfo.LastUpdateTime = contract.LastUpdateTime;
@@ -770,11 +772,11 @@ namespace DealnetPortal.Web.Infrastructure
             contractViewModel.EquipmentInfo = summaryViewModel.EquipmentInfo;
             contractViewModel.ProvinceTaxRate = summaryViewModel.ProvinceTaxRate;
             contractViewModel.LoanCalculatorOutput = summaryViewModel.LoanCalculatorOutput;
-            
+
             contractViewModel.UploadDocumentsInfo = new UploadDocumentsViewModel();
             contractViewModel.UploadDocumentsInfo.ExistingDocuments = Mapper.Map<List<ExistingDocument>>(contract.Documents);
             contractViewModel.UploadDocumentsInfo.DocumentsForUpload = new List<DocumentForUpload>();
-            contractViewModel.UploadDocumentsInfo.MandatoryDocumentTypes = new List<int>() {(int)DocumentTemplateType.SignedContract, (int)DocumentTemplateType.SignedInstallationCertificate, 3, 4};
+            contractViewModel.UploadDocumentsInfo.MandatoryDocumentTypes = new List<int>() { (int)DocumentTemplateType.SignedContract, (int)DocumentTemplateType.SignedInstallationCertificate, 3, 4 };
             var docTypes = await _dictionaryServiceAgent.GetDocumentTypes();
             if (docTypes?.Item1 != null)
             {
@@ -808,6 +810,86 @@ namespace DealnetPortal.Web.Infrastructure
                 equipmentInfo.SalesRep = contract.Equipment.SalesRep;
                 equipmentInfo.ExistingEquipment = Mapper.Map<List<ExistingEquipmentInformation>>(contract.Equipment.ExistingEquipment);
             }
+        }
+
+        private ESignatureViewModel MapESignature(ContractDTO contract)
+        {
+            var borrower = contract.Signers.FirstOrDefault(s => s.SignerType == SignatureRole.HomeOwner);
+            var salesRep = contract.Signers.FirstOrDefault(s => s.SignerType == SignatureRole.Dealer);
+            var additionSigners = contract.Signers.Where(s => s.SignerType == SignatureRole.AdditionalApplicant);
+            var model = new ESignatureViewModel
+            {
+                ContractId = contract.Id,
+                HomeOwnerId = contract.PrimaryCustomer.Id,
+                Status = contract.Details.SignatureStatus,
+                Signers = new List<SignerViewModel>
+                {
+                    new SignerViewModel
+                    {
+                        Id = borrower != null ? borrower.Id : 0,
+                        CustomerId = borrower!=null?borrower.CustomerId:contract.PrimaryCustomer.Id,
+                        FirstName = borrower != null ? borrower.FirstName : contract.PrimaryCustomer?.FirstName,
+                        LastName = borrower != null ? borrower.LastName : contract.PrimaryCustomer?.LastName,
+                        Email = borrower != null ? borrower.EmailAddress : contract.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
+                        contract.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress,
+                        StatusLastUpdateTime = borrower?.StatusLastUpdateTime,
+                        Comment = borrower?.Comment,
+                        SignatureStatus = borrower != null ? borrower.SignatureStatus : contract.Details.SignatureStatus,
+                        Role = borrower != null ? borrower.SignerType : SignatureRole.HomeOwner
+                    }
+                }
+            };
+
+            if (additionSigners.Any())
+            {
+                foreach (var signer in additionSigners
+                .Select(s => new SignerViewModel
+                {
+                    Id = s.Id,
+                    CustomerId = s.CustomerId,
+                    Comment = s.Comment,
+                    Email = s.EmailAddress,
+                    FirstName = s.FirstName,
+                    LastName = s.LastName,
+                    SignatureStatus = s.SignatureStatus,
+                    StatusLastUpdateTime = s.StatusLastUpdateTime,
+                    Role = s.SignerType
+                }).ToList())
+                {
+                    model.Signers.Add(signer);
+                }
+            }
+            else
+            {
+                foreach (var signer in contract.SecondaryCustomers
+                .Select(s => new SignerViewModel
+                {
+                    Id = 0,
+                    CustomerId = s.Id,
+                    Email = s.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
+                        s.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress,
+                    FirstName = s.FirstName,
+                    LastName = s.LastName,
+                    Role = SignatureRole.AdditionalApplicant
+                }).ToList())
+                {
+                    model.Signers.Add(signer);
+                }
+            }
+
+            model.Signers.Add(new SignerViewModel
+            {
+                Id = salesRep != null ? salesRep.Id : 0,
+                CustomerId = null,
+                FirstName = salesRep != null ? salesRep.FirstName : contract.Equipment?.SalesRep,
+                LastName = salesRep?.LastName,
+                Email = salesRep?.EmailAddress,
+                Comment = salesRep?.Comment,
+                StatusLastUpdateTime = salesRep?.StatusLastUpdateTime,
+                SignatureStatus = salesRep != null ? salesRep.SignatureStatus : contract.Details.SignatureStatus,
+                Role = salesRep != null ? salesRep.SignerType : SignatureRole.Dealer
+            });
+            return model;
         }
     }
 }

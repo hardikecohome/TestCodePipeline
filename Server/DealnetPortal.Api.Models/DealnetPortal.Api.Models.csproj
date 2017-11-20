@@ -108,6 +108,7 @@
     <Compile Include="Scanning\VoidChequeData.cs" />
     <Compile Include="Signature\ContractSignerDTO.cs" />
     <Compile Include="Signature\FormField.cs" />
+    <Compile Include="Signature\SignatureSummaryDTO.cs" />
     <Compile Include="Signature\SignatureUser.cs" />
     <Compile Include="Signature\SignatureUsersDTO.cs" />
     <Compile Include="Storage\AgreementDocument.cs" />
