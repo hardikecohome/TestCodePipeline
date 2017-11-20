@@ -1146,6 +1146,7 @@
     <Content Include="Views\MyDeals\_EsignatureModal.cshtml" />
     <Content Include="Views\MyDeals\Esignature.cshtml" />
     <Content Include="Views\MyDeals\_EsignatureStatus.cshtml" />
+    <Content Include="Views\MyDeals\_ContractSignatureStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

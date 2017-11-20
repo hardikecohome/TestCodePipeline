@@ -1289,12 +1289,12 @@ namespace DealnetPortal.Api.Integration.Services
             var accounts = new List<Account>();
             var portalDescriber = _configuration.GetSetting($"PortalDescriber.{contract.Dealer?.ApplicationId}");
 
-            Func<Domain.Customer, string, Account> fillAccount = (c, role) =>
+            Func<Domain.Customer, bool, string, Account> fillAccount = (c, isBorrower, role) =>
             {
                 var account = new Account
                 {
                     IsIndividual = true,
-                    IsPrimary = true,
+                    IsPrimary = isBorrower,
                     Legalname = contract.Dealer?.Application?.LegalName,
                     EmailAddress = c.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
                                    c.Emails?.FirstOrDefault()?.EmailAddress,
@@ -1307,14 +1307,14 @@ namespace DealnetPortal.Api.Integration.Services
                     },
                 };
                 
-                var location = c.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress) ??
-                                      c.Locations?.FirstOrDefault();
+                var location = c.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress);
                 if (location == null)
                 {
                     // try to get primary customer location
                     location = contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress) ??
                                       contract.PrimaryCustomer?.Locations?.FirstOrDefault();
                 }
+                location = location ?? c.Locations?.FirstOrDefault();
 
                 if (location != null)
                 {                    
@@ -1418,12 +1418,12 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (contract.PrimaryCustomer != null)
             {
-                var acc = fillAccount(contract.PrimaryCustomer, CustRole);
+                var acc = fillAccount(contract.PrimaryCustomer, true, CustRole);
                 //acc.IsPrimary = true;                
                 accounts.Add(acc);
             }
 
-            contract.SecondaryCustomers?.ForEach(c => accounts.Add(fillAccount(c, GuarRole)));
+            contract.SecondaryCustomers?.ForEach(c => accounts.Add(fillAccount(c, false, GuarRole)));
             return accounts;
         }
 
@@ -2070,12 +2070,16 @@ namespace DealnetPortal.Api.Integration.Services
             }
             if (mainLocation != null)
             {
-                udfList.Add(new UDF()
+                if (isHomeOwner.HasValue)
                 {
-                    Name = AspireUdfFields.Residence,
-                    Value = mainLocation.ResidenceType == ResidenceType.Own ? "O" : "R"
-                    //<!—other value is R for rent  and O for own-->
-                });
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.Residence,
+                        Value = isHomeOwner == true ? "O" : "R"
+                        //Value = mainLocation.ResidenceType == ResidenceType.Own ? "O" : "R"
+                        //<!—other value is R for rent  and O for own-->
+                    });
+                }
             }
             udfList.Add(
                 new UDF()

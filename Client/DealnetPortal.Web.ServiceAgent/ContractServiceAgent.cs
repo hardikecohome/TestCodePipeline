@@ -234,13 +234,13 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<Alert>> CancelDigitalSignature(int contractId)
+        public async Task<Tuple<SignatureSummaryDTO, IList<Alert>>> CancelDigitalSignature(int contractId)
         {
             try
             {
                 return
                     await
-                        Client.PostAsyncEx<string, IList<Alert>>(
+                        Client.PostAsyncEx<string, Tuple<SignatureSummaryDTO, IList<Alert>>>(
                             $"{_fullUri}/CancelDigitalSignature?contractId={contractId}", "", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)

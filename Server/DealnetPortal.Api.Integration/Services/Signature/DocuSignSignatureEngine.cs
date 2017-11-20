@@ -428,8 +428,9 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         {
                             contractUpdated = _contract.LastUpdateTime.HasValue && _contract.LastUpdateTime.Value > sentTime;
                         }
-
-                        if (envelope.Status == "created" || contractUpdated)
+                        
+                        if (envelope.Status == "created" || envelope.Status == "voided"
+                            || envelope.Status == "deleted" || envelope.Status == "declined" || contractUpdated)
                         {
                             recreateEnvelope = true;
                         }
@@ -580,7 +581,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return new Tuple<IList<FormField>, IList<Alert>>(formFields, alerts);
         }
 
-        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument(DocumentVersion documentVersion)
+        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument()
         {
             var alerts = new List<Alert>();
             AgreementDocument document = null;
@@ -621,25 +622,38 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         public async Task<IList<Alert>> CancelSignature()
         {
             var alerts = new List<Alert>();
-            EnvelopesApi envelopesApi = new EnvelopesApi();
-            var envelope = await envelopesApi.GetEnvelopeAsync(AccountId, TransactionId);
-            if (envelope.Status != "completed")
+            try
             {
-                envelope = new Envelope
+                EnvelopesApi envelopesApi = new EnvelopesApi();
+                var envelope = await envelopesApi.GetEnvelopeAsync(AccountId, TransactionId);
+                if (envelope.Status != "completed")
                 {
-                    Status = "voided"
-                };
-                var updateEnvelopeRes =
-                    await envelopesApi.UpdateAsync(AccountId, TransactionId, envelope);
-                if (updateEnvelopeRes?.ErrorDetails?.ErrorCode != null)
-                {
-                    alerts.Add(new Alert()
+                    envelope = new Envelope
                     {
-                        Type = AlertType.Error,
-                        Header = "Cannot cancel signature",
-                        Message = updateEnvelopeRes?.ErrorDetails?.Message
-                    });
+                        Status = "voided",
+                        VoidedReason = Resources.Resources.DealerCancelledEsign
+                    };
+                    var updateEnvelopeRes = await
+                        envelopesApi.UpdateAsync(AccountId, TransactionId, envelope);
+                    if (updateEnvelopeRes?.ErrorDetails?.ErrorCode != null)
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Type = AlertType.Error,
+                            Header = "Cannot cancel signature",
+                            Message = updateEnvelopeRes?.ErrorDetails?.Message
+                        });
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "Cannot cancel contract",
+                    Message = $"Cannot cancel eSignature {TransactionId} for contract",
+                });
             }
             return alerts;
         }
@@ -653,7 +667,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             if (recipients != null && _signers != null)
             {
                 areEqual = _signers.All(s => recipients.Signers.Any(r => r.Email == s.Email && r.Name == s.Name))
-                                && (_copyViewers?.All(s => recipients.CarbonCopies?.Any(r => r.Email == s.Email && r.Name == s.Name) ?? true) ?? true);
+                    && (_copyViewers?.All(s => recipients.CarbonCopies?.Any(r => r.Email == s.Email && r.Name == s.Name) ?? true) ?? true);
             }
 
             return areEqual;
@@ -890,7 +904,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             var signer = new Signer()
             {
                 Email = signatureUser.EmailAddress,
-                Name = $"{signatureUser.FirstName} {signatureUser.LastName}",
+                Name = $"{signatureUser.FirstName} {signatureUser.LastName}".Trim(),
                 RecipientId = routingOrder.ToString(),
                 RoutingOrder = routingOrder.ToString(), //not sure, probably 1
                 RoleName = !isDealer ? $"Signer{routingOrder}" : "SignerD",
@@ -911,6 +925,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     }
                 }
             };
+
             {
                 if (_textTabs?.Any() ?? false)
                 {
@@ -957,6 +972,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     signatureStatus = SignatureStatus.Declined;
                     break;
                 case "deleted":
+                case "voided":
                     signatureStatus = SignatureStatus.Deleted;
                     break;
             }

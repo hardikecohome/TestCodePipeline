@@ -17,9 +17,11 @@
                 @Resources.OneSignerDeclinedRemainingCanceled
             </div>
             <div class="sent-contract-secton">
-                @Html.Partial("_EsignatureStatus", Model)
-                @if (@Model.ESignature.Status == ApiEnum.SignatureStatus.Completed)
-                {
+                @*@Html.Partial("_EsignatureStatus", Model)
+                @if (@Model.ESignature.Status == ApiEnum.SignatureStatus.Completed)*@
+
+@using (Html.BeginForm("SendContractEmails", "NewRental", FormMethod.Post, new { id = "signer-form" }))
+{
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(m => m.ESignature.ContractId, new { id = "contract-id" })
                     @Html.HiddenFor(m => m.ESignature.HomeOwnerId, new { id = "home-owner-id" })
@@ -79,7 +81,7 @@
                                         Model.ESignature.Signers[i].SignatureStatus==ApiEnum.SignatureStatus.Completed?"disabled":"data-notdisabled","disabled" } })
                                         @Html.ValidationMessageFor(m => m.ESignature.Signers[i].Email, "", new { @class = "text-danger" })
                                     </div>
-                                    <div class="col-md-5 signer-status-hold @Model.ESignature.Signers[i].SignatureStatus.ToString().ToLower()">
+                                    <div class="col-md-5 signer-status-hold @Model.ESignature.Signers[i].SignatureStatus.ToString().ToLower() @(Model.ESignature.Status == ApiEnum.SignatureStatus.Declined && Model.ESignature.Signers[i].SignatureStatus<ApiEnum.SignatureStatus.Signed?"hidden":"")">
 
                                         <div class="signature-status">
                                             @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Signed || Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Completed)
@@ -110,7 +112,7 @@
                                                     {
                                                         <text>@Resources.BorrowerDeclinedSignature</text>
                                                     }
-                                                    else if (i > 0 && Model.ESignature.Signers[i - 1].SignatureStatus == ApiEnum.SignatureStatus.Sent)
+                                                    else if (Model.ESignature.Signers.Any(s => s.Id != Model.ESignature.Signers[i].Id && s.SignatureStatus == ApiEnum.SignatureStatus.Sent))//i > 0 && Model.ESignature.Signers[i - 1].SignatureStatus == ApiEnum.SignatureStatus.Sent)
                                                     {
                                                         var borrower = Model.ESignature.Signers[i - 1].Role == ApiEnum.SignatureRole.HomeOwner ? Resources.Borrower : Resources.Coborrower;
                                                         <text>@string.Format(Resources.InviteSentWhenSigns, borrower)</text>
@@ -179,7 +181,7 @@
                                         }
                                     </button>
                                 </div>
-                                <div id="type-reminder" class="col-md-5">
+                                <div id="type-reminder" class="col-md-5 @(Model.ESignature.Status == ApiEnum.SignatureStatus.Sent || Model.ESignature.Status == ApiEnum.SignatureStatus.Delivered?"hidden":"")">
                                     <div class="info-text-success flex-centered-text">
                                         <span class="icon-hold">
                                             <svg aria-hidden="true" class="icon icon-info-well">
@@ -193,11 +195,11 @@
                         </div>
                     </div>
                 }
-                @if (@*@Model.ESignature.Status == ApiEnum.SignatureStatus.Completed*@ true)
+                @if (Model.ESignature.Status == ApiEnum.SignatureStatus.Completed)
                 {
-                    <a href="#" id="print-signed-button" class="dealnet-info-link doc-tab-print-link">
-                        <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-save")"></use></svg> @Resources.DownloadSignedContract
-                    </a>
+                <a href="#" id="print-signed-button" class="dealnet-info-link doc-tab-print-link">
+                    <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg> @Resources.DownloadSignedContract
+                </a>
                 }
             </div>
         </div>
@@ -257,3 +259,8 @@
         </div>
     </div>
 </div>
+@using (Html.BeginForm("CancelDigitalSignature", "MyDeals", FormMethod.Post, new { id = "cancel-signature-form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("contractId")
+}
