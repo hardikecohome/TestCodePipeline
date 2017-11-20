@@ -2376,4 +2376,10 @@ changing contract terms or signing contract on paper.</value>
   <data name="DownloadSignedContract" xml:space="preserve">
     <value>Download signed contract</value>
   </data>
+  <data name="DigitalSignatureStatus" xml:space="preserve">
+    <value>Digital Signature Status</value>
+  </data>
+  <data name="GoToContractDetails" xml:space="preserve">
+    <value>Go to contract details</value>
+  </data>
 </root>

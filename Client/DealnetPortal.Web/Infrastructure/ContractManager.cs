@@ -705,6 +705,13 @@ namespace DealnetPortal.Web.Infrastructure
                     dealerTier.RateCards.Any(x => x.Id == result.Item1.Equipment.RateCardId.Value));
         }
 
+        public async Task<ESignatureViewModel> GetContractSignatureStatus(int contractId)
+        {
+            var contractsResult = await _contractServiceAgent.GetContract(contractId);
+
+            return contractsResult == null ? null : MapESignature(contractsResult.Item1);
+        }
+
         private async Task MapSummary(SummaryAndConfirmationViewModel summary, ContractDTO contract, int contractId)
         {
             summary.BasicInfo = new BasicInfoViewModel();

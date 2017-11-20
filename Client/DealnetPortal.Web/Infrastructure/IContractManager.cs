@@ -53,5 +53,6 @@ namespace DealnetPortal.Web.Infrastructure
         Task<StandaloneCalculatorViewModel> GetStandaloneCalculatorInfoAsync();
 
         Task<bool> CheckRateCard(int contractId, int? rateCardId);
+        Task<ESignatureViewModel> GetContractSignatureStatus(int contractId);
     }
 }

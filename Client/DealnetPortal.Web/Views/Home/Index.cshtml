@@ -108,10 +108,24 @@
     <input type="hidden" name="contractId" id="remove-contract" />
 }
 
+<div id="contract-signature-modal" class="modal fade modal-wide">
+    <div class="modal-dialog modal-warning esig-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title pull-left">@Resources.DigitalSignatureStatus</h4>
+            </div>
+            <div class="modal-body" id="signature-body">
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     var chartUrl = '@Url.Action("GetDealFlowOverview", "Home")';
     var itemsUrl = '@Url.Action("GetWorkItems", "Home")';
-    var editItemUrl = '@Url.Action("ContractEdit", "NewRental")';
+    var editContractUrl = '@Url.Action("ContractEdit", "NewRental")';
+    var contractSignatureStatusUrl = '@Url.Action("GetEsignatureStatus", "MyDeals")';
 </script>
 
 @section Translations

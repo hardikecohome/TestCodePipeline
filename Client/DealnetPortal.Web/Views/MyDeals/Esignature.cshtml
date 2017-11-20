@@ -193,9 +193,12 @@
                         </div>
                     </div>
                 }
-                <a href="#" id="print-signed-button" class="dealnet-info-link doc-tab-print-link">
-                    <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg> @Resources.DownloadSignedContract
-                </a>
+                @if (@*@Model.ESignature.Status == ApiEnum.SignatureStatus.Completed*@ true)
+                {
+                    <a href="#" id="print-signed-button" class="dealnet-info-link doc-tab-print-link">
+                        <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-save")"></use></svg> @Resources.DownloadSignedContract
+                    </a>
+                }
             </div>
         </div>
         <div role="tabpanel" class="tab-pane fade" id="paper-contract">

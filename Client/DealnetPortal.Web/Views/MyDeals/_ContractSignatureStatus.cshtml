@@ -1,0 +1,103 @@
+﻿@using DealnetPortal.Api.Common.Enumeration
+@model DealnetPortal.Web.Models.ESignatureViewModel
+    
+<span class="signed-contract">
+    <div class="sent-contract-secton rental-summary-emails">
+        <div class="rental-summary-inner">
+            @for (var i = 0; Model.Signers.Count > i; i++)
+            {
+                <div class="row form-group signer-row">
+                    <div class="col-md-2 applicant-col">
+                        <div class="dealnet-label">
+                            @if (Model.Signers[i].Role == SignatureRole.HomeOwner)
+                            {
+                                @Resources.Borrower
+                            }
+                            else if (Model.Signers[i].Role == SignatureRole.Dealer)
+                            {
+                                @Resources.SalesRep
+                            }
+                            else
+                            {
+                                @Resources.Coborrower
+                            }
+                        </div>
+                        <div class="control-group text-middle-group text-semibold">
+                            <div class="text-hold" id="signer-name-@(i)">@Model.Signers[i].FirstName @Model.Signers[i].LastName</div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <label class="pull-left">@Resources.Email</label>
+                        @Html.TextBoxFor(m => m.Signers[i].Email, new { @class = "dealnet-input form-control", type = "email", id = $"signer-email-{i}", disabled = "true" })
+                        @Html.ValidationMessageFor(m => m.Signers[i].Email, "", new { @class = "text-danger" })
+                    </div>
+                    @{
+                        var hiddenLink = Model.Status <= SignatureStatus.Declined ||
+                                         Model.Signers[i].SignatureStatus > SignatureStatus.Delivered;
+                    }
+                    <div class="col-md-4 signer-status-hold @(Model.Signers[i].SignatureStatus == null ? " hidden" : "") @Model.Signers[i].SignatureStatus.ToString().ToLower()">
+
+                        <div class="signature-status">
+                            @if (Model.Signers[i].SignatureStatus == SignatureStatus.Signed || Model.Signers[i].SignatureStatus == SignatureStatus.Completed)
+                            {
+                                <svg aria-hidden="true" class="icon icon-front icon-success">
+                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
+                                </svg>
+                            }
+                            else if (Model.Signers[i].SignatureStatus == SignatureStatus.Declined)
+                            {
+                                <svg aria-hidden="true" class="icon icon-front icon-error">
+                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
+                                </svg>
+                            }
+                            else
+                            {
+                                <svg aria-hidden="true" class="icon icon-front icon-waiting">
+                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-waiting")"></use>
+                                </svg>
+                            }
+                            <div class="signature-hold">
+                                <div class="signature-header">
+                                    @if (Model.Signers[i].SignatureStatus == SignatureStatus.Signed || Model.Signers[i].SignatureStatus == SignatureStatus.Completed)
+                                    {
+                                        <text>@Resources.ContractSigned</text>
+                                    }
+                                    else if (Model.Signers[i].SignatureStatus == SignatureStatus.Declined)
+                                    {
+                                        <text>@Resources.BorrowerDeclinedSignature</text>
+                                    }
+                                    else if (i > 0 && Model.Signers[i - 1].SignatureStatus == SignatureStatus.Sent)
+                                    {
+                                        var borrower = Model.Signers[i - 1].Role == SignatureRole.HomeOwner ? Resources.Borrower : Resources.Coborrower;
+                                        <text>@string.Format(Resources.InviteSentWhenSigns, borrower)</text>
+                                    }
+                                    else if (i > 0 && Model.Signers[i - 1].SignatureStatus == SignatureStatus.Declined)
+                                    {
+                                    }
+                                    else
+                                    {
+                                        <text>@Resources.WaitingSignature</text>
+                                    }
+                                </div>
+                                <div class="signature-date">
+                                    (<span class="signature-date-hold">@(Model.Signers[i].StatusLastUpdateTime.HasValue ? Model.Signers[i].StatusLastUpdateTime.Value.ToString("MM/dd/yyyy hh:mm tt") : "")</span>)
+                                </div>
+                            </div>
+                            @if (!string.IsNullOrEmpty(Model.Signers[i].Comment))
+                            {
+                                <span data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Model.Signers[i].Comment">
+                                    <svg aria-hidden="true" class="icon icon-comment">
+                                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-comment")"></use>
+                                    </svg>
+                                </span>
+                            }
+                        </div>
+                    </div>
+                </div>
+                        }
+            <div class="esig-link"><a href="" id="contract-details-link" target="_blank" class="dealnet-link-button">@Resources.GoToContractDetails</a></div>
+        </div>
+    </div>
+</span>
+
+

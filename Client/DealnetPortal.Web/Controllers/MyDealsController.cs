@@ -53,6 +53,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 contract.SendEmails.SalesRepEmail = dealer.Email;
             }
+
             return View(contract);
         }
 
@@ -76,6 +77,14 @@ namespace DealnetPortal.Web.Controllers
         {
             var updateResult = await _contractServiceAgent.RemoveComment(commentId);
             return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
+        }
+
+        [HttpGet]
+        public async Task<PartialViewResult> GetEsignatureStatus(int contractId)
+        {
+            var model = await _contractManager.GetContractSignatureStatus(contractId);
+
+            return PartialView("_ContractSignatureStatus", model);
         }
 
         [HttpPost]

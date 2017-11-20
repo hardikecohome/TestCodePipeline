@@ -302,6 +302,20 @@ function showTable () {
                 table.draw();
             });
 
+            $('.icon-esignature').click(function () {
+                var tr = $(this).parents('tr');
+                var id = $(tr)[0].id;
+                $.ajax({
+                    method: "GET",
+                    url: contractSignatureStatusUrl + '?contractId=' + id,
+                }).done(function (data) {
+                    $('#signature-body').html(data);
+                    $('#contract-details-link').attr("href", editContractUrl + '/' + id);
+                    $('#contract-signature-modal').modal();
+                });
+
+            });
+
             $('#clear-filters').click(function () {
                 $('.filter-input').val("");
                 table.search('').draw();

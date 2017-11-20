@@ -2109,6 +2109,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Digital Signature Status.
+        /// </summary>
+        public static string DigitalSignatureStatus {
+            get {
+                return ResourceManager.GetString("DigitalSignatureStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Distributor.
         /// </summary>
         public static string Distributor {
@@ -2681,6 +2690,15 @@ namespace DealnetPortal.Web.Resources {
         public static string GoToApp {
             get {
                 return ResourceManager.GetString("GoToApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go to contract details.
+        /// </summary>
+        public static string GoToContractDetails {
+            get {
+                return ResourceManager.GetString("GoToContractDetails", resourceCulture);
             }
         }
         

@@ -233,7 +233,7 @@ function showTable () {
                             //"data": 'TransactionId',
                             render: function (sdate, type, row) {
                                 var content = row.Id === 0 ? row.TransactionId :
-                                    '<a href="' + editItemUrl + '/' + row.Id + '" title="' + translations['Edit'] + '">' + row.TransactionId + '</a>';
+                                    '<a href="' + editContractUrl + '/' + row.Id + '" title="' + translations['Edit'] + '">' + row.TransactionId + '</a>';
 
                                 return '<div class="status-hold">' +
                                     '<div class="icon-hold"><span class="icon icon-status"></span></div>' +
@@ -272,7 +272,7 @@ function showTable () {
                                     if (row.IsInternal) {
                                         return '<div class="controls-hold">' +
                                             '<a class="icon-link icon-edit" href=' +
-                                            editItemUrl +
+                                            editContractUrl +
                                             '/' +
                                             row.Id +
                                             ' title="' +
@@ -285,7 +285,7 @@ function showTable () {
                                             urlContent +
                                             'Content/images/sprite/sprite.svg#icon-trash"></use></svg></a></div>';
                                     } else {
-                                        return '<div class="controls-hold"><a class="icon-link icon-edit" href=' + editItemUrl + '/' + row.Id + ' title="' + translations['Edit'] + '"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a>' +
+                                        return '<div class="controls-hold"><a class="icon-link icon-edit" href=' + editContractUrl + '/' + row.Id + ' title="' + translations['Edit'] + '"><svg aria-hidden="true" class="icon icon-edit"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-edit"></use></svg></a>' +
                                             '<i onclick= "sendEmailModel(' + row.TransactionId + ');" class="icon-link icon-edit" > ' +
                                             '<svg aria-hidden="true" class="icon icon-edit" > <use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-help-chat"></use></svg >' +
                                             '</i></div>';
@@ -316,6 +316,20 @@ function showTable () {
                         $(this).find('.parent')
                     }
                 });
+
+            $('.icon-esignature').click(function () {
+                var tr = $(this).parents('tr');
+                var id = $(tr)[0].id;
+                $.ajax({
+                    method: "GET",
+                    url: contractSignatureStatusUrl + '?contractId=' + id,
+                }).done(function (data) {
+                    $('#signature-body').html(data);
+                    $('#contract-details-link').attr("href", editContractUrl + '/' + id);
+                    $('#contract-signature-modal').modal();
+                });
+
+            });
 
             $('#work-items-table th').on('click', function () {
                 var el = $(this);
