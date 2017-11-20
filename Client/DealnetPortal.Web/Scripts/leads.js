@@ -111,7 +111,7 @@ function showTable() {
             $('#clear-filters').on('click', clearFilters);
             $('#clear-filters-mobile').on('click', clearFilters);
 
-            $('.dataTables_filter input[type="search"]').attr('placeholder', 'Requested service, customer comment');
+            $('.dataTables_filter input[type="search"]').attr('placeholder', translations.RequestedService);
             if ($('body').not('.tablet-device').not('.mobile-device').length > 0) {
                 $('.link-accepted').popover({
                     placement: 'left',

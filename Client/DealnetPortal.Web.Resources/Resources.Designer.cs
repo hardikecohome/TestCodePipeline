@@ -4930,6 +4930,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Requested service, customer comment.
+        /// </summary>
+        public static string RequestedServiceCustomerComment {
+            get {
+                return ResourceManager.GetString("RequestedServiceCustomerComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Requested Term.
         /// </summary>
         public static string RequestedTerm {
