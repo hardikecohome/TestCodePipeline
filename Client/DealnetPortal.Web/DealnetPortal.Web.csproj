@@ -519,6 +519,7 @@
     <Content Include="Content\images\sprite\icon-customer-support.svg" />
     <Content Include="Content\images\sprite\icon-dealer-support.svg" />
     <Content Include="Content\images\sprite\icon-decline-circle.svg" />
+    <Content Include="Content\images\sprite\icon-download.svg" />
     <Content Include="Content\images\sprite\icon-edit.svg" />
     <Content Include="Content\images\sprite\icon-email.svg" />
     <Content Include="Content\images\sprite\icon-email2.svg" />
