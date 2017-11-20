@@ -341,7 +341,7 @@ namespace DealnetPortal.Api.Integration.Services
                     _loggingService.LogError(errorMsg);
                 }
 
-                var docResult = await _signatureEngine.GetDocument(DocumentVersion.Signed).ConfigureAwait(false);
+                var docResult = await _signatureEngine.GetDocument().ConfigureAwait(false);
                 document = docResult.Item1;
 
                 ReformatTempalteNameWithId(document, contract.Details?.TransactionId);
@@ -475,7 +475,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 }
 
-                var docResult = await _signatureEngine.GetDocument(DocumentVersion.Draft).ConfigureAwait(false);
+                var docResult = await _signatureEngine.GetDocument().ConfigureAwait(false);
                 document = docResult.Item1;
 
                 ReformatTempalteNameWithId(document, contract.Details?.TransactionId);
@@ -625,7 +625,6 @@ namespace DealnetPortal.Api.Integration.Services
         }
         public async Task<IList<Alert>> ProcessSignatureEvent(string notificationMsg)
         {
-            var docuSignResipientStatuses = new string[] {"Created", "Sent", "Delivered", "Signed", "Declined"};
             var alerts = new List<Alert>();
             try
             {
@@ -644,7 +643,13 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         alerts.AddRange(updatedRes.Item2);
                     }
-                    var updated = updatedRes?.Item1 == true;                    
+                    var updated = updatedRes?.Item1 == true;
+
+                    if (updated)
+                    {
+                        _unitOfWork.Save();
+                        updated = false;
+                    }
 
                     switch (contract.Details.SignatureStatus)
                     {
@@ -807,8 +812,11 @@ namespace DealnetPortal.Api.Integration.Services
             bool updated = false;
             try
             {            
+                _loggingService.LogInfo($"Starting download signed contract for {contract.Id} from DocuSign");
+
                 _signatureEngine.TransactionId = contract.Details.SignatureTransactionId;
-                var docResult = await _signatureEngine.GetDocument(DocumentVersion.Signed);
+                var logRes = await _signatureEngine.ServiceLogin();
+                var docResult = await _signatureEngine.GetDocument();
                 if (docResult?.Item1 != null)
                 {
                     _loggingService.LogInfo(

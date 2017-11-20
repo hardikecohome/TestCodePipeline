@@ -36,7 +36,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         Task<Tuple<IList<FormField>, IList<Alert>>> GetFormfFields();
 
-        Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument(DocumentVersion documentVersion);
+        Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument();
 
         Task<IList<Alert>> CancelSignature();
 
