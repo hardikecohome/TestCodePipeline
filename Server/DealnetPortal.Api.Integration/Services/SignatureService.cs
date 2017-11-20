@@ -41,6 +41,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAspireService _aspireService;
         private readonly IAspireStorageReader _aspireStorageReader;               
+        private readonly IMailService _mailService;               
 
         public SignatureService(
             ISignatureEngine signatureEngine, 
@@ -51,13 +52,15 @@ namespace DealnetPortal.Api.Integration.Services
             IAspireService aspireService,
             IAspireStorageReader aspireStorageReader,
             ILoggingService loggingService, 
-            IDealerRepository dealerRepository)
+            IDealerRepository dealerRepository, 
+            IMailService mailService)
         {
             _signatureEngine = signatureEngine;
             _pdfEngine = pdfEngine;
             _contractRepository = contractRepository;
             _loggingService = loggingService;
             _dealerRepository = dealerRepository;
+            _mailService = mailService;
             _fileRepository = fileRepository;
             _unitOfWork = unitOfWork;
             _aspireService = aspireService;
@@ -653,6 +656,12 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 //upload doc from docuSign to Aspire
                                 updated |= await TransferSignedContractAgreement(contract);
+                            }
+                            break;
+                        case SignatureStatus.Declined:
+                            if (oldStatus != contract.Details.SignatureStatus)
+                            {
+                                await _mailService.SendDeclineToSign(contract);
                             }
                             break;
                     }

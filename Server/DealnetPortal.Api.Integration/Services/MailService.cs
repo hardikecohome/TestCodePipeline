@@ -585,7 +585,18 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
+        public async Task SendDeclineToSign(Contract contract)
+        {
+            try
+            {
+                await _mandrillService.SendDeclineToSignDealerNotification(contract.Dealer.Email, contract.Dealer.AspireLogin, contract.Id.ToString(), contract.PrimaryCustomer.FirstName+" "+contract.PrimaryCustomer.LastName, contract.PrimaryCustomer.Emails.SingleOrDefault(x=>x.EmailType == EmailType.Main)?.EmailAddress);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot send email SendDeclineToSign", ex);
+            }
 
+        }
         #endregion
 
         #region Private
