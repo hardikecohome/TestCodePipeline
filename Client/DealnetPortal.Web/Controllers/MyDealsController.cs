@@ -180,17 +180,7 @@ namespace DealnetPortal.Web.Controllers
             }
             return new FileContentResult(new byte[] { }, "application/pdf");
         }
-
-        [HttpPost]
-        public async Task<ActionResult> SendForESignature(ESignatureViewModel viewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return GetErrorJson();
-            }
-            return Json(viewModel);
-        }
-
+        
         [HttpPost]
         public async Task<JsonResult> CancelDigitalSignature(int contractId)
         {
