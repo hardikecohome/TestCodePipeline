@@ -17,9 +17,11 @@
                 @Resources.OneSignerDeclinedRemainingCanceled
             </div>
             <div class="sent-contract-secton">
-                @Html.Partial("_EsignatureStatus", Model)
-                @if (@Model.ESignature.Status == ApiEnum.SignatureStatus.Completed)
-                {
+                @*@Html.Partial("_EsignatureStatus", Model)
+                @if (@Model.ESignature.Status == ApiEnum.SignatureStatus.Completed)*@
+
+@using (Html.BeginForm("SendContractEmails", "NewRental", FormMethod.Post, new { id = "signer-form" }))
+{
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(m => m.ESignature.ContractId, new { id = "contract-id" })
                     @Html.HiddenFor(m => m.ESignature.HomeOwnerId, new { id = "home-owner-id" })
@@ -110,7 +112,7 @@
                                                     {
                                                         <text>@Resources.BorrowerDeclinedSignature</text>
                                                     }
-                                                    else if (i > 0 && Model.ESignature.Signers[i - 1].SignatureStatus == ApiEnum.SignatureStatus.Sent)
+                                                    else if (Model.ESignature.Signers.Any(s => s.Id != Model.ESignature.Signers[i].Id && s.SignatureStatus == ApiEnum.SignatureStatus.Sent))//i > 0 && Model.ESignature.Signers[i - 1].SignatureStatus == ApiEnum.SignatureStatus.Sent)
                                                     {
                                                         var borrower = Model.ESignature.Signers[i - 1].Role == ApiEnum.SignatureRole.HomeOwner ? Resources.Borrower : Resources.Coborrower;
                                                         <text>@string.Format(Resources.InviteSentWhenSigns, borrower)</text>
@@ -254,3 +256,8 @@
         </div>
     </div>
 </div>
+@using (Html.BeginForm("CancelDigitalSignature", "MyDeals", FormMethod.Post, new { id = "cancel-signature-form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("contractId")
+}
