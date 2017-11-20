@@ -797,7 +797,10 @@
                         </div>
                     </div>
                 </div>
-                <p class="summary-tax-notification">@Resources.BeforeTaxesPaymentsAreSubject</p>
+                @if (Model.EquipmentInfo.AgreementType != AgreementType.LoanApplication)
+                {
+                    <p class="summary-tax-notification">@Resources.BeforeTaxesPaymentsAreSubject</p>
+                }
             </div>
             <div class="form-group summary-payment-info">
                 @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
