@@ -81,7 +81,7 @@
                                         Model.ESignature.Signers[i].SignatureStatus==ApiEnum.SignatureStatus.Completed?"disabled":"data-notdisabled","disabled" } })
                                         @Html.ValidationMessageFor(m => m.ESignature.Signers[i].Email, "", new { @class = "text-danger" })
                                     </div>
-                                    <div class="col-md-5 signer-status-hold @Model.ESignature.Signers[i].SignatureStatus.ToString().ToLower()">
+                                    <div class="col-md-5 signer-status-hold @Model.ESignature.Signers[i].SignatureStatus.ToString().ToLower() @(Model.ESignature.Status == ApiEnum.SignatureStatus.Declined && Model.ESignature.Signers[i].SignatureStatus<ApiEnum.SignatureStatus.Signed?"hidden":"")">
 
                                         <div class="signature-status">
                                             @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Signed || Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Completed)
@@ -195,9 +195,12 @@
                         </div>
                     </div>
                 }
+                @if (Model.ESignature.Status == ApiEnum.SignatureStatus.Completed)
+                {
                 <a href="#" id="print-signed-button" class="dealnet-info-link doc-tab-print-link">
                     <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg> @Resources.DownloadSignedContract
                 </a>
+                }
             </div>
         </div>
         <div role="tabpanel" class="tab-pane fade" id="paper-contract">

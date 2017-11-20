@@ -6,7 +6,7 @@
             e.preventDefault();
             $(this).tab('show');
         });
-        $('[id^="signee-btn-"]').on('click', submitOneSignature);
+        $('[id^="signer-btn-"]').on('click', submitOneSignature);
         $('#submit-digital').on('click', submitDigital);
 
         $('#print-button').on('click', printContract(downloadUrl));
@@ -581,11 +581,11 @@ function cancelSignatures (e) {
 function submitOneSignature (e) {
     e.preventDefault();
     var $row = $(e.target).parents('.signer-row');
+    var rowId = $row.find('#row-id').val();
     var email = $row.find('#signer-email-' + rowId);
     if (email.valid()) {
         showLoader();
-        var rowId = $row.find('#row-id');
-        var signer = [{
+        var signers = [{
             Id: $row.find('#signer-id-' + rowId).val(),
             SignatureStatus: $row.find('#signer-status-' + rowId).val(),
             StatusLastUpdateTime: $row.find('#signer-update-' + rowId).val(),
@@ -603,11 +603,11 @@ function submitOneSignature (e) {
         }).fail(function (xhr, status, result) {
             console.log(result);
         }).always(function () {
-            var data = {
-                message: translations['InvitesWereSentToEmails'],
-                confirmBtnText: translations['Proceed']
-            };
-            dynamicAlertModal(data);
+            // var data = {
+            //     message: translations['InvitesWereSentToEmails'],
+            //     //confirmBtnText: translations['Proceed']
+            // };
+            // dynamicAlertModal(data);
             var updateDate = new Date();
             $row.find('.signature-date-hold')
                 .text((updateDate.getMonth() + 1) + '/' + updateDate.getDate() + '/' + updateDate.getFullYear() + ' ' + updateDate.getHours() + ':' + updateDate.getMinutes() + ' ' + (updateDate.getHours() > 11 ? 'PM' : 'AM'));

@@ -474,14 +474,20 @@ namespace DealnetPortal.Web.Controllers
             signatureUsers.Users = new List<SignatureUser>();
             signatureUsers.Users.Add(new SignatureUser()
             {
-                EmailAddress = borrowerSigner.Email, Role = SignatureRole.HomeOwner
+                Id = borrowerSigner.Id,
+                CustomerId = borrowerSigner.CustomerId,
+                EmailAddress = borrowerSigner.Email,
+                Role = SignatureRole.HomeOwner
             });
 
             eSignatureViewModel.Signers.Where(x=>x.Role == SignatureRole.AdditionalApplicant).ForEach(us =>
             {
                 signatureUsers.Users.Add(new SignatureUser()
                 {
-                    EmailAddress = us.Email, Role = SignatureRole.AdditionalApplicant
+                    EmailAddress = us.Email,
+                    Role = SignatureRole.AdditionalApplicant,
+                    Id = us.Id,
+                    CustomerId = us.CustomerId
                 });
             });
             var eSignatureSigner = eSignatureViewModel.Signers.SingleOrDefault(x => x.Role == SignatureRole.Dealer);
@@ -490,7 +496,8 @@ namespace DealnetPortal.Web.Controllers
                 signatureUsers.Users.Add(new SignatureUser()
                 {
                     EmailAddress = eSignatureSigner.Email,
-                    Role = SignatureRole.Dealer
+                    Role = SignatureRole.Dealer,
+                    Id = eSignatureSigner.Id
                 });
             }
 
@@ -570,7 +577,9 @@ namespace DealnetPortal.Web.Controllers
             signatureUsers.Users.Add(new SignatureUser()
             {
                 EmailAddress = borrowerSigner.Email,
-                Role = SignatureRole.HomeOwner
+                Role = SignatureRole.HomeOwner,
+                Id = borrowerSigner.Id,
+                CustomerId=borrowerSigner.CustomerId
             });
 
             eSignatureViewModel.Signers.Where(x => x.Role == SignatureRole.AdditionalApplicant).ForEach(us =>
@@ -578,16 +587,19 @@ namespace DealnetPortal.Web.Controllers
                 signatureUsers.Users.Add(new SignatureUser()
                 {
                     EmailAddress = us.Email,
-                    Role = SignatureRole.AdditionalApplicant
+                    Role = SignatureRole.AdditionalApplicant,
+                    Id = us.Id,
+                    CustomerId=us.CustomerId
                 });
             });
             var eSignatureSigner = eSignatureViewModel.Signers.SingleOrDefault(x => x.Role == SignatureRole.Dealer);
-            if (!string.IsNullOrEmpty(borrowerSigner.Email))
+            if (eSignatureSigner != null && !string.IsNullOrEmpty(eSignatureSigner.Email))
             {
                 signatureUsers.Users.Add(new SignatureUser()
                 {
                     EmailAddress = eSignatureSigner.Email,
-                    Role = SignatureRole.Dealer
+                    Role = SignatureRole.Dealer,
+                    Id = eSignatureSigner.Id
                 });
             }
 
