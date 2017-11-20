@@ -691,7 +691,6 @@ namespace DealnetPortal.Api.Integration.Services
         private SignatureUser[] PrepareSignatureUsers(Contract contract, SignatureUser[] signatureUsers)
         {
             List<SignatureUser> usersForProcessing = new List<SignatureUser>();
-            var suHomeOwner = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.HomeOwner);
             var homeOwner = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.HomeOwner)
                                 ?? new SignatureUser() { Role = SignatureRole.HomeOwner };
             homeOwner.FirstName = !string.IsNullOrEmpty(homeOwner.FirstName) ? homeOwner.FirstName : contract?.PrimaryCustomer?.FirstName;
@@ -707,6 +706,8 @@ namespace DealnetPortal.Api.Integration.Services
                 var su = signatureUsers.FirstOrDefault(u => u.Role == SignatureRole.AdditionalApplicant &&
                                                    (cc.Id == u.CustomerId) ||
                                                    (cc.FirstName == u.FirstName && cc.LastName == u.LastName));
+                su = su ?? signatureUsers.FirstOrDefault(u =>
+                         u.Role == SignatureRole.AdditionalApplicant && !u.CustomerId.HasValue && string.IsNullOrEmpty(u.FirstName) && string.IsNullOrEmpty(u.LastName));
                 var coBorrower = su ?? new SignatureUser() { Role = SignatureRole.AdditionalApplicant };
                 coBorrower.FirstName = !string.IsNullOrEmpty(coBorrower.FirstName) ? coBorrower.FirstName : cc.FirstName;
                 coBorrower.LastName = !string.IsNullOrEmpty(coBorrower.LastName) ? coBorrower.LastName : cc.LastName;
