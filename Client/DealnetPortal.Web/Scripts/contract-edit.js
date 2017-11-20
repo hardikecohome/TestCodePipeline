@@ -528,20 +528,13 @@ function printCertificate (checkUrl, form) {
     });
 }
 
-function submitEsignature (signers, callback) {
-    var status = $('#signature-status').val().toLowerCase();
-    return $.ajax({
-        url: status !== '' || status === 'notinitiated' ? updateEsignUrl : esignUrl,
-        method: 'POST',
-        contentType: 'application/json',
-        dataType: 'json',
-        data: JSON.stringify({
-            __RequestVerificationToken: $('#signer-form input[name="__RequestVerificationToken"]').val(),
-            ContractId: $('#contract-id').val(),
-            HomeOwnerId: $('#home-owner-id').val(),
-            Status: $('#signature-status').val(),
-            Signers: signers
-        })
+function esignatureModel (signers) {
+    return JSON.stringify({
+        __RequestVerificationToken: $('#signer-form input[name="__RequestVerificationToken"]').val(),
+        ContractId: $('#contract-id').val(),
+        HomeOwnerId: $('#home-owner-id').val(),
+        Status: $('#signature-status').val(),
+        Signers: signers
     });
 }
 
@@ -562,42 +555,25 @@ function cancelSignatures (e) {
     };
     dynamicAlertModal(data);
     $('#confirmAlert').one('click', function () {
+        hideDynamicAlertModal();
         showLoader();
         var $form = $('#cancel-signature-form');
         $form.find('#contractId').val($('#contract-id').val());
         $form.ajaxSubmit({
             type: 'POST',
             success: function (data) {
-                $form.find('[id^="signer-status-"]').addClass('hidden');
-                $form.find('#submit-digital').text(translations['SendInvites']);
-                $('#signature-status').val('');
+                if (!data.isError) {
+                    $('#signer-form [id^="signer-status-"]').addClass('hidden');
+                    $('#signer-form #submit-digital').text(translations['SendInvites']);
+                    $('#signature-status').val('');
+                }
+                hideLoader();
             },
             error: function (xhr, status, result) {
                 console.log(result);
-            },
-            complete: function () {
                 hideLoader();
-                hideDynamicAlertModal();
             }
         });
-        // $.ajax({
-        //     url: cancelEsignUrl,
-        //     method: 'POST',
-        //     contentType: 'application/json',
-        //     traditional: true,
-        //     data: {
-        //         contractId: id
-        //     }
-        // }).done(function (data) {
-        //     $form.find('[id^="signer-status-"]').addClass('hidden');
-        //     $form.find('#submit-digital').text(translations['SendInvites']);
-        //     $('#signature-status').val('');
-        // }).fail(function (xhr, status, result) {
-        //     console.log(result);
-        // }).always(function () {
-        //     hideLoader();
-        //     hideDynamicAlertModal();
-        // });
     });
 }
 
@@ -616,21 +592,26 @@ function submitOneSignature (e) {
             CustomerId: $row.find('#signer-customer-id-' + rowId).val(),
             Email: email.val()
         }];
-        submitEsignature(signer)
-            .done(function (data) {
-            }).fail(function (xhr, status, result) {
-                console.log(result);
-            }).always(function () {
-                var data = {
-                    message: translations['InvitesWereSentToEmails'],
-                    confirmBtnText: translations['Proceed']
-                };
-                dynamicAlertModal(data);
-                var updateDate = new Date();
-                $row.find('.signature-date-hold')
-                    .text((updateDate.getMonth() + 1) + '/' + updateDate.getDate() + '/' + updateDate.getFullYear() + ' ' + updateDate.getHours() + ':' + updateDate.getMinutes() + ' ' + (updateDate.getHours() > 11 ? 'PM' : 'AM'));
-                hideLoader();
-            });
+        $.ajax({
+            url: updateEsignUrl,
+            method: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: esignatureModel(signers)
+        }).done(function (data) {
+        }).fail(function (xhr, status, result) {
+            console.log(result);
+        }).always(function () {
+            var data = {
+                message: translations['InvitesWereSentToEmails'],
+                confirmBtnText: translations['Proceed']
+            };
+            dynamicAlertModal(data);
+            var updateDate = new Date();
+            $row.find('.signature-date-hold')
+                .text((updateDate.getMonth() + 1) + '/' + updateDate.getDate() + '/' + updateDate.getFullYear() + ' ' + updateDate.getHours() + ':' + updateDate.getMinutes() + ' ' + (updateDate.getHours() > 11 ? 'PM' : 'AM'));
+            hideLoader();
+        });
     }
 }
 
@@ -666,53 +647,58 @@ function submitAllEsignatures (e) {
             };
             signers.push(signer);
         });
-        submitEsignature(signers)
-            .done(function (data) {
-                if (!data.isError) {
-                    rows.each(function (index, el) {
-                        var $el = $(el);
-                        var rowId = $el.find('#row-id').val();
-                        var id = $el.find('#signer-customer-id-' + rowId).val();
-                        var signer = data.Signers.filter(function (item) {
-                            return item.CustomerId === id;
-                        })[0];
-                        $el.find('#signer-id-' + rowId).val(signer.Id);
-                        $el.find('#signer-status-' + rowId).val(signer.SignatureStatus);
-                        $el.find('#signer-update-' + rowId).val(signer.StatusLastUpdateTime);
-                        $el.find('.signer-status-hold').removeClass().addClass('.signer-status-hold ' + statusMap[signer.SignatureStatus]);
-                        var formated = (signer.StatusLastUpdateTime.getMonth() + 1) + '/' + signer.StatusLastUpdateTime.getDate() + '/' + signer.StatusLastUpdateTime.getFullYear() + ' ' + signer.StatusLastUpdateTime.getHours() + ':' + signer.StatusLastUpdateTime.getMinutes() + ' ' + (now.getHours() > 11 ? 'PM' : 'AM');
-                        $el.find('.signature-date-hold').text(formated);
-                        if (signer.SignatureStatus === 4 || signer.SignatureStatus === 5) {
-                            $el.find('.signature-header').text(translations['ContractSigned']);
-                            $el.find('#signer-btn-' + rowId).addClass('hidden');
-                        }
-                        if (signer.SignatureStatus === 2 || signer.SignatureStatus === 3) {
-                            $el.find('.signature-header').text(translations['WaitingSignature']);
-                            $el.find('#signer-btn-' + rowId).text(translations['ResendInvite']);
-                        }
-                        if (signer.SignatureStatus === 0 || signer.SignatureStatus === 1) {
-                            var msg = $row.find('#signer-role-' + rowId).val().toLowerCase() === 'additionalapplicant' ?
-                                translations['InviteSentWhenSigns'].split('{0}').join(translations['Coborrower']) :
-                                translations['InviteSentWhenSigns'].split('{0}').join(translations['Borrower'])
-                            $el.find('.signature-header').text(msg);
-                            $el.find('#signer-btn-' + rowId).text(translations['UpdateEmail']);
-                        }
-                    });
+        $.ajax({
+            url: esignUrl,
+            method: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: esignatureModel(signers)
+        }).done(function (data) {
+            if (!data.isError) {
+                rows.each(function (index, el) {
+                    var $el = $(el);
+                    var rowId = $el.find('#row-id').val();
+                    var id = $el.find('#signer-customer-id-' + rowId).val();
+                    var signer = data.Signers.filter(function (item) {
+                        return item.CustomerId === id;
+                    })[0];
+                    $el.find('#signer-id-' + rowId).val(signer.Id);
+                    $el.find('#signer-status-' + rowId).val(signer.SignatureStatus);
+                    $el.find('#signer-update-' + rowId).val(signer.StatusLastUpdateTime);
+                    $el.find('.signer-status-hold').removeClass().addClass('.signer-status-hold ' + statusMap[signer.SignatureStatus]);
+                    var formated = (signer.StatusLastUpdateTime.getMonth() + 1) + '/' + signer.StatusLastUpdateTime.getDate() + '/' + signer.StatusLastUpdateTime.getFullYear() + ' ' + signer.StatusLastUpdateTime.getHours() + ':' + signer.StatusLastUpdateTime.getMinutes() + ' ' + (now.getHours() > 11 ? 'PM' : 'AM');
+                    $el.find('.signature-date-hold').text(formated);
+                    if (signer.SignatureStatus === 4 || signer.SignatureStatus === 5) {
+                        $el.find('.signature-header').text(translations['ContractSigned']);
+                        $el.find('#signer-btn-' + rowId).addClass('hidden');
+                    }
+                    if (signer.SignatureStatus === 2 || signer.SignatureStatus === 3) {
+                        $el.find('.signature-header').text(translations['WaitingSignature']);
+                        $el.find('#signer-btn-' + rowId).text(translations['ResendInvite']);
+                    }
+                    if (signer.SignatureStatus === 0 || signer.SignatureStatus === 1) {
+                        var msg = $row.find('#signer-role-' + rowId).val().toLowerCase() === 'additionalapplicant' ?
+                            translations['InviteSentWhenSigns'].split('{0}').join(translations['Coborrower']) :
+                            translations['InviteSentWhenSigns'].split('{0}').join(translations['Borrower'])
+                        $el.find('.signature-header').text(msg);
+                        $el.find('#signer-btn-' + rowId).text(translations['UpdateEmail']);
+                    }
+                });
 
-                    $form.find('.signer-status-hold').removeClass('hidden');
-                    $form.find('#submit-digital').html(translations['CancelDigitalSignature']);
-                } else {
-                    console.log(data);
-                    dynamicAlertModal({
-                        message: data.message,
-                        confirmBtnText: translations['Proceed']
-                    });
-                }
-            }).fail(function (xhr, status, result) {
-                console.log(result);
-            }).always(function () {
-                hideLoader();
-            });
+                $form.find('.signer-status-hold').removeClass('hidden');
+                $form.find('#submit-digital').html(translations['CancelDigitalSignature']);
+            } else {
+                console.log(data);
+                dynamicAlertModal({
+                    message: data.message,
+                    confirmBtnText: translations['Proceed']
+                });
+            }
+        }).fail(function (xhr, status, result) {
+            console.log(result);
+        }).always(function () {
+            hideLoader();
+        });
     } else {
         $('#fill-all-emails').removeClass('hidden');
     }
