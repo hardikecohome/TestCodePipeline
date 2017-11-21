@@ -244,6 +244,8 @@ function showTable () {
                             $('#export-all-excel').removeAttr("disabled");
                         }
                         resizeTableStatusCells(this);
+
+                        $('.icon-esignature').on('click', getSignatureDetails);
                     }
                 });
 
@@ -302,20 +304,6 @@ function showTable () {
                 table.draw();
             });
 
-            $('.icon-esignature').click(function () {
-                var tr = $(this).parents('tr');
-                var id = $(tr)[0].id;
-                $.ajax({
-                    method: "GET",
-                    url: contractSignatureStatusUrl + '?contractId=' + id,
-                }).done(function (data) {
-                    $('#signature-body').html(data);
-                    $('#contract-details-link').attr("href", editContractUrl + '/' + id);
-                    $('#contract-signature-modal').modal();
-                });
-
-            });
-
             $('#clear-filters').click(function () {
                 $('.filter-input').val("");
                 table.search('').draw();
@@ -363,6 +351,18 @@ function exportItem () {
     submitExportRequest(arr);
 };
 
+function getSignatureDetails() {
+    var tr = $(this).parents('tr');
+    var id = $(tr)[0].id;
+    $.ajax({
+        method: "GET",
+        url: contractSignatureStatusUrl + '?contractId=' + id,
+    }).done(function (data) {
+        $('#signature-body').html(data);
+        $('#contract-details-link').attr("href", editContractUrl + '/' + id);
+        $('#contract-signature-modal').modal();
+    });
+}
 
 function previewItem () {
     var tr = $(this).parents('tr');

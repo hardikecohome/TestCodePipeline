@@ -187,6 +187,19 @@ function removeContract () {
 
 };
 
+function getSignatureDetails() {
+    var tr = $(this).parents('tr');
+    var id = $(tr)[0].id;
+    $.ajax({
+        method: "GET",
+        url: contractSignatureStatusUrl + '?contractId=' + id,
+    }).done(function (data) {
+        $('#signature-body').html(data);
+        $('#contract-details-link').attr("href", editContractUrl + '/' + id);
+        $('#contract-signature-modal').modal();
+    });
+}
+
 function showTable () {
     $.when($.ajax(itemsUrl, { cache: false, mode: 'GET' }))
         .done(function (data) {
@@ -313,23 +326,9 @@ function showTable () {
                     order: [],
                     drawCallback: function () {
                         resizeTableStatusCells(this);
-                        $(this).find('.parent')
+                        $('.icon-esignature').on('click', getSignatureDetails);
                     }
                 });
-
-            $('.icon-esignature').click(function () {
-                var tr = $(this).parents('tr');
-                var id = $(tr)[0].id;
-                $.ajax({
-                    method: "GET",
-                    url: contractSignatureStatusUrl + '?contractId=' + id,
-                }).done(function (data) {
-                    $('#signature-body').html(data);
-                    $('#contract-details-link').attr("href", editContractUrl + '/' + id);
-                    $('#contract-signature-modal').modal();
-                });
-
-            });
 
             $('#work-items-table th').on('click', function () {
                 var el = $(this);
