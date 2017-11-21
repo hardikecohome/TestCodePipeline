@@ -2385,4 +2385,7 @@ changing contract terms or signing contract on paper.</value>
   <data name="RequestedServiceCustomerComment" xml:space="preserve">
     <value>Requested service, customer comment</value>
   </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Comment</value>
+  </data>
 </root>

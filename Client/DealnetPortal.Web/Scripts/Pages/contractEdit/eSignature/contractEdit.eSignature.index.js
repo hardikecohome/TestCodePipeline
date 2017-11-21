@@ -1,4 +1,14 @@
 ﻿module.exports('contract-edit.eSignature', function (require) {
+    var statusMap = {
+        '0': 'notinitiated',
+        '1': 'created',
+        '2': 'sent',
+        '3': 'delivered',
+        '4': 'signed',
+        '5': 'completed',
+        '6': 'declined',
+        '7': 'deleted'
+    };
 
     function esignatureModel (signers) {
         return JSON.stringify({
@@ -81,17 +91,6 @@
         }
     }
 
-    var statusMap = {
-        '0': 'notinitiated',
-        '1': 'created',
-        '2': 'sent',
-        '3': 'delivered',
-        '4': 'signed',
-        '5': 'completed',
-        '6': 'declined',
-        '7': 'deleted'
-    };
-
     function submitAllEsignatures (e) {
         e.preventDefault();
         var $form = $(e.target.form);
@@ -168,9 +167,16 @@
         }
     }
 
+    function toggleComment (e) {
+        var $row = $(e.target).parents('.signer-row');
+        var rowId = $row.find('#row-id').val();
+        $('#comment-' + rowId).toggleClass('hidden');
+    }
+
     var init = function () {
         $('[id^="signer-btn-"]').on('click', submitOneSignature);
         $('#submit-digital').on('click', submitDigital);
+        $('.comment-btn').on('click', toggleComment);
     };
 
     return {
