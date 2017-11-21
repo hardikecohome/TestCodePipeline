@@ -241,15 +241,19 @@
       line-height: 1.2;
       display: none;
       padding-left: 20px; 
-      &.created,
-      &.sent {
+      &.created {
         display: block;
         .signature-hold {
           padding-top: 5px;
         }
       }
-      &.waitingsignature,
       &.sent {
+        display: block;
+        .signature-hold {
+          padding-top: 18px; 
+        }
+      }
+      &.waitingsignature {
         display: block;
         .signature-hold {
           padding-top: 15px;
