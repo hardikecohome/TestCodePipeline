@@ -832,21 +832,23 @@ namespace DealnetPortal.Api.Integration.Services
                         DocumentName = "_ESIGN_" + DateTime.Now.ToString("MM-dd-yyyy HH-mm-ss", CultureInfo.InvariantCulture) + "_" + docResult.Item1.Name,
                         DocumentBytes = docResult.Item1.DocumentRaw
                     };
-                    _contractRepository.AddDocumentToContract(contract.Id, AutoMapper.Mapper.Map<ContractDocument>(document), contract.DealerId);
-                    updated = true;
+                    //DEAL-3306 - Digitally signed contract shouldn't be displayed in 'Paper Contract' tab on Dealer Portal
+                    //_contractRepository.AddDocumentToContract(contract.Id, AutoMapper.Mapper.Map<ContractDocument>(document), contract.DealerId);
+                    //updated = true;
                     var alerts = await _aspireService.UploadDocument(contract.Id, document, contract.DealerId);
                     if (alerts?.All(a => a.Type != AlertType.Error) == true)
                     {
                         _loggingService.LogInfo(
                             $"Signer contract {docResult.Item1.Name} for contract {contract.Id} uploaded to Aspire successfully");                    
                     }
+                    LogAlerts(alerts);
                 }
             }
             catch (Exception ex)
             {
                 _loggingService.LogError(
                     $"Cannot transfer signed contract from DocuSign for contract {contract.Id} ", ex);
-            }
+            }                        
             return updated;
         }        
 
