@@ -55,7 +55,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         private List<CarbonCopy> _copyViewers { get; set; }
         private EnvelopeDefinition _envelopeDefinition { get; set; }
 
-        private readonly string[] DocuSignResipientStatuses = new string[] { "Created", "Sent", "Delivered", "Signed", "Declined" };
+        private readonly string[] DocuSignResipientStatuses = new string[] { "Created", "Sent", "Delivered", "Signed", "Declined", "Voided" };
 
 
         public DocuSignSignatureEngine(ILoggingService loggingService, IAppConfiguration configuration)
@@ -366,42 +366,60 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             var updated = false;
             var alerts = new List<Alert>();
 
-            if (!string.IsNullOrEmpty(contract?.Details?.SignatureTransactionId))
+            try
             {
-                EnvelopesApi envelopesApi = new EnvelopesApi();
-                var envelope = await envelopesApi.GetEnvelopeAsync(AccountId, contract.Details.SignatureTransactionId);
-                var reciepents = await envelopesApi.ListRecipientsAsync(AccountId, contract.Details.SignatureTransactionId);
-
-                if (envelope != null)
+                if (!string.IsNullOrEmpty(contract?.Details?.SignatureTransactionId))
                 {
-                    DateTime envelopeStatusTime;
-                    if (!DateTime.TryParse(envelope.StatusChangedDateTime, out envelopeStatusTime))
+                    EnvelopesApi envelopesApi = new EnvelopesApi();
+                    var envelope =
+                        await envelopesApi.GetEnvelopeAsync(AccountId, contract.Details.SignatureTransactionId);
+                    var reciepents =
+                        await envelopesApi.ListRecipientsAsync(AccountId, contract.Details.SignatureTransactionId);
+
+                    if (envelope != null)
                     {
-                        envelopeStatusTime = DateTime.Now;
+                        DateTime envelopeStatusTime;
+                        if (!DateTime.TryParse(envelope.StatusChangedDateTime, out envelopeStatusTime))
+                        {
+                            envelopeStatusTime = DateTime.Now;
+                        }
+                        updated |= ProcessSignatureStatus(contract, envelope.Status, envelopeStatusTime);
                     }
-                    updated |= ProcessSignatureStatus(contract, envelope.Status, envelopeStatusTime);
-                }
-                if (reciepents != null)
-                {
-                    reciepents.Signers?.ForEach(s =>
+                    if (reciepents != null)
                     {
-                        var updateTimes = new[] { s.DeclinedDateTime, s.DeliveredDateTime, s.SentDateTime, s.SignedDateTime };
+                        reciepents.Signers?.ForEach(s =>
+                        {
+                            var updateTimes = new[]
+                                {s.DeclinedDateTime, s.DeliveredDateTime, s.SentDateTime, s.SignedDateTime};
 
-                        var rsLastStatusTime = updateTimes.Any(t => !string.IsNullOrEmpty(t)) ? updateTimes.Where(ut => !string.IsNullOrEmpty(ut))
-                                .Select(ut =>
-                                {
-                                    DateTime statusTime;
-                                    if (!DateTime.TryParse(ut, out statusTime))
+                            var rsLastStatusTime = updateTimes.Any(t => !string.IsNullOrEmpty(t))
+                                ? updateTimes.Where(ut => !string.IsNullOrEmpty(ut))
+                                    .Select(ut =>
                                     {
-                                        statusTime = DateTime.Now;
-                                    }
-                                    return statusTime;
-                                }).OrderByDescending(rst => rst).FirstOrDefault() : DateTime.Now;
+                                        DateTime statusTime;
+                                        if (!DateTime.TryParse(ut, out statusTime))
+                                        {
+                                            statusTime = DateTime.Now;
+                                        }
+                                        return statusTime;
+                                    }).OrderByDescending(rst => rst).FirstOrDefault()
+                                : DateTime.Now;
 
-                        updated |= ProcessSignerStatus(contract, s.Name, s.Email, s.Status, s.DeclinedReason, rsLastStatusTime);
-                    });
+                            updated |= ProcessSignerStatus(contract, s.Name, s.Email, s.Status, s.DeclinedReason,
+                                rsLastStatusTime);
+                        });
+                    }
                 }
-            }            
+            }
+            catch (Exception ex)
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "eSignature error",
+                    Message = ex.ToString()
+                });
+            }
 
             return new Tuple<bool, IList<Alert>>(updated, alerts);
         }
@@ -1020,6 +1038,10 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     if (!string.IsNullOrEmpty(comment))
                     {
                         signer.Comment = comment;
+                    }
+                    if (string.IsNullOrEmpty(signer.EmailAddress))
+                    {
+                        signer.EmailAddress = email;
                     }
                     updated = true;
                 }

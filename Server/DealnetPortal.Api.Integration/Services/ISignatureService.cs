@@ -50,7 +50,13 @@ namespace DealnetPortal.Api.Integration.Services
 
         Task<Tuple<AgreementDocument, IList<Alert>>> GetInstallCertificate(int contractId, string ownerUserId);
 
-        IList<Alert> GetSignatureResults(int contractId, string ownerUserId);
+        /// <summary>
+        /// Update status of signature from eSignature engine for a contract
+        /// </summary>
+        /// <param name="contractId">contract Id</param>
+        /// <param name="ownerUserId">Id of an owner of contract</param>
+        /// <returns></returns>
+        Task<IList<Alert>> SyncSignatureStatus(int contractId, string ownerUserId);
 
         SignatureStatus GetSignatureStatus(int contractId, string ownerUserId);
     }

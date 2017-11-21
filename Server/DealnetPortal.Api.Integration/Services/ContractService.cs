@@ -142,6 +142,14 @@ namespace DealnetPortal.Api.Integration.Services
         public ContractDTO GetContract(int contractId, string contractOwnerId)
         {
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+
+            //check contract signature status (for old contracts)
+            if (contract != null && !string.IsNullOrEmpty(contract.Details?.SignatureTransactionId) &&
+                contract.Signers?.Any() == false)
+            {
+                _signatureService.SyncSignatureStatus(contractId, contractOwnerId).GetAwaiter().GetResult();
+            }
+
             var contractDTO = Mapper.Map<ContractDTO>(contract);
             if (contractDTO != null)
             {
