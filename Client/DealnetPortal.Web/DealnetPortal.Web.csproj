@@ -19,12 +19,9 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44341</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -843,6 +840,8 @@
     <Content Include="Scripts\Pages\Clients\new-client-autocomplete.js" />
     <Content Include="Scripts\Pages\Clients\new-client-flow.js" />
     <Content Include="Scripts\Pages\Clients\new-client-store.js" />
+    <Content Include="Scripts\Pages\contractEdit\eSignature\contractEdit.eSignature.index.js" />
+    <Content Include="Scripts\Pages\contractEdit\contractEdit.index.js" />
     <Content Include="Scripts\Pages\customer-form.js" />
     <Content Include="Scripts\customer-validation.js" />
     <Content Include="Scripts\datejs.js" />

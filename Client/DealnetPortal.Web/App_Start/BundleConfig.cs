@@ -137,6 +137,7 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/contract-edit")
                 .Include("~/Scripts/datejs.js")
+                .Include("~/Scripts/Modules/index.js")
                 .Include("~/Scripts/custom-validation.js")
                 .Include("~/Scripts/contact-and-payment-management.js")
                 .Include("~/Scripts/agreement-submit-success.js")
@@ -144,7 +145,8 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/jquery.form.js")
                 .Include("~/Scripts/general-address-autocomplete.js")
                 .Include("~/Scripts/editable-in-modal.js")
-                .Include("~/Scripts/contract-edit.js"));
+                .Include("~/Scripts/contract-edit.js")
+                .IncludeDirectory("~/Scripts/Pages/contractEdit", "*.js", true));
 
             bundles.Add(new ScriptBundle("~/bundles/shareable-link")
                 .Include("~/Scripts/jquery.form.js")
