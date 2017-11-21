@@ -529,11 +529,11 @@ namespace DealnetPortal.Web.Controllers
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task UpdateContractEmails(ESignatureViewModel eSignatureViewModel)
+        public async Task<JsonResult> UpdateContractEmails(ESignatureViewModel eSignatureViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return;
+                return GetErrorJson();
             }
             // update home owner notification email
             var borrowerSigner = eSignatureViewModel.Signers.SingleOrDefault(x => x.Role == SignatureRole.HomeOwner);
@@ -603,7 +603,13 @@ namespace DealnetPortal.Web.Controllers
                 });
             }
 
-            await _contractServiceAgent.UpdateContractSigners(signatureUsers);
+            var result=await _contractServiceAgent.UpdateContractSigners(signatureUsers);
+
+            if (result.Any(a => a.Type == AlertType.Error))
+            {
+                return GetErrorJson();
+            }
+            return GetSuccessJson();
         }
 
         public async Task<ActionResult> AgreementSubmitSuccess(int contractId)

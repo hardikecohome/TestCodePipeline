@@ -72,6 +72,7 @@
                 dataType: 'json',
                 data: esignatureModel(signers)
             }).done(function (data) {
+                $row.find('.signer-btn-hold .icon').removeClass('hidden');
             }).fail(function (xhr, status, result) {
                 console.log(result);
             }).always(function () {
