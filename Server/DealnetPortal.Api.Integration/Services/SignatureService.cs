@@ -687,23 +687,10 @@ namespace DealnetPortal.Api.Integration.Services
                     if (updated)
                     {
                         _unitOfWork.Save();
-                        updated = false;
-                    }
-
-                    switch (contract.Details.SignatureStatus)
-                    {
-                        case SignatureStatus.Completed:
-                            if (oldStatus != contract.Details.SignatureStatus)
-                            {
-                                //upload doc from docuSign to Aspire
-                                updated |= await TransferSignedContractAgreement(contract);
-                            }
-                            break;
-                    }
-
-                    if (updated)
-                    {
-                        _unitOfWork.Save();
+                        if (oldStatus != contract.Details?.SignatureStatus)
+                        {
+                            await OnSignatureStatusChanged(contract.Id, contract.DealerId);
+                        }
                     }
                 }
                 else
@@ -731,6 +718,36 @@ namespace DealnetPortal.Api.Integration.Services
         }
 
         #region private  
+
+        private async Task OnSignatureStatusChanged(int contractId, string contractOwnerId)
+        {
+            var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+            if (contract != null)
+            {
+                try
+                {                
+                    bool updated = false;
+                    switch (contract.Details.SignatureStatus)
+                    {
+                        case SignatureStatus.Completed:
+                            //upload doc from docuSign to Aspire
+                            updated |= await TransferSignedContractAgreement(contract);
+                            break;
+                        case SignatureStatus.Deleted:
+                            updated |= CleanContractSignatureInfo(contract);
+                            break;
+                    }
+                    if (updated)
+                    {
+                        _unitOfWork.Save();
+                    }
+                }
+                catch (Exception e)
+                {
+                    _loggingService.LogError("Error during processing of OnSignatureStatusChanged", e);
+                }
+            }
+        }
 
         private SignatureUser[] PrepareSignatureUsers(Contract contract, SignatureUser[] signatureUsers)
         {
@@ -838,14 +855,63 @@ namespace DealnetPortal.Api.Integration.Services
             var contract = _contractRepository.GetContract(contractId, ownerUserId);
             if (contract != null)
             {
+                var oldStatus = contract.Details.SignatureStatus;
                 var updateStatusRes = await _signatureEngine.UpdateContractStatus(contract);
                 if (updateStatusRes?.Item1 == true)
                 {
                     _unitOfWork.Save();
-                }
+                    if (oldStatus != contract.Details.SignatureStatus)
+                    {
+                        await OnSignatureStatusChanged(contractId, ownerUserId);
+                    }
+                }                
             }
         }
-            
+
+        private bool CleanContractSignatureInfo(Contract contract)
+        {
+            bool updated = false;
+
+            if (contract.Details.SignatureStatus.HasValue)
+            {
+                contract.Details.SignatureStatus = null;
+                updated = true;
+            }
+            if (!string.IsNullOrEmpty(contract.Details.SignatureStatusQualifier))
+            {
+                contract.Details.SignatureStatusQualifier = null;
+                updated = true;
+            }
+            if (!string.IsNullOrEmpty(contract.Details.SignatureTransactionId))
+            {
+                contract.Details.SignatureTransactionId = null;
+                updated = true;
+            }
+            if (contract.Details.SignatureInitiatedTime.HasValue)
+            {
+                contract.Details.SignatureInitiatedTime = null;
+                updated = true;
+            }
+            if (contract.Details.SignatureLastUpdateTime.HasValue)
+            {
+                contract.Details.SignatureLastUpdateTime = null;
+                updated = true;
+            }
+            if (contract.Signers?.Any() == true)
+            {
+                contract.Signers.ForEach(s =>
+                {
+                    s.SignatureStatus = null;
+                    s.SignatureStatusQualifier = null;
+                    s.StatusLastUpdateTime = null;
+                    updated |= true;
+                });
+            }
+
+            return updated;
+        }
+
+
         private async Task<bool> TransferSignedContractAgreement(Contract contract)
         {
             bool updated = false;
