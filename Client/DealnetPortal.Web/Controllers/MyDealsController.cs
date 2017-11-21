@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using DealnetPortal.Api.Common.Enumeration;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -44,11 +45,12 @@ namespace DealnetPortal.Web.Controllers
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1;
 
-            var dealer = await _dictionaryServiceAgent.GetDealerInfo();
-            ViewBag.IsEsignatureEnabled = dealer?.EsignatureEnabled ?? false;
+            var dealer = await _dictionaryServiceAgent.GetDealerInfo();            
             ViewBag.IsNewlySubmitted = newlySubmitted;
 
             var contract = await _contractManager.GetContractEditAsync(id);
+            ViewBag.IsNotEditable = contract.BasicInfo.ContractState == ContractState.SentToAudit || contract.BasicInfo.ContractState == ContractState.CreditCheckDeclined;
+            ViewBag.IsEsignatureEnabled = (dealer?.EsignatureEnabled ?? false) && !ViewBag.IsNotEditable;
             if (!string.IsNullOrEmpty(dealer?.Email))
             {
                 contract.SendEmails.SalesRepEmail = dealer.Email;
