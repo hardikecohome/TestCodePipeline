@@ -315,10 +315,19 @@
       .signature-date {
         font-size: 11px;
       }
-      .dealnet-link-button {
-        font-size: 13px;
-        padding-bottom: 0;
-        padding-top: 0;
+      .signer-btn-hold{
+        .icon {
+          height: 13px;
+          width: 13px;
+        }
+        .icon:not(.hidden) + .dealnet-link-button{
+          padding-left: 0;
+        }
+        .dealnet-link-button {
+          font-size: 13px;
+          padding-bottom: 0;
+          padding-top: 0;
+        }
       }
     }
     #contact-before-resend {
