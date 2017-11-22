@@ -145,7 +145,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             //check contract signature status (for old contracts)
             if (contract != null && !string.IsNullOrEmpty(contract.Details?.SignatureTransactionId) &&
-                contract.Signers?.Any() == false)
+                (contract.Signers?.Any() == false || string.IsNullOrEmpty(contract.Details.SignatureStatusQualifier)))
             {
                 _signatureService.SyncSignatureStatus(contractId, contractOwnerId).GetAwaiter().GetResult();
             }
