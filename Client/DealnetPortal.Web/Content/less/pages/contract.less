@@ -244,13 +244,14 @@
       line-height: 1.2;
       display: none;
       padding-left: 20px; 
-      &.created {
+      &.created{
         display: block;
         .signature-hold {
           padding-top: 5px;
         }
       }
-      &.sent {
+      &.sent,
+      &.delivered  {
         display: block;
         .signature-hold {
           padding-top: 18px; 
@@ -300,7 +301,9 @@
           color: rgb(218, 46, 0);
         }
         &.icon-comment {
-          right:-10px;
+          margin-left: 5px;
+          margin-top: -25px; 
+          cursor: pointer;
         }
       }
       .signature-hold {
@@ -315,10 +318,19 @@
       .signature-date {
         font-size: 11px;
       }
-      .dealnet-link-button {
-        font-size: 13px;
-        padding-bottom: 0;
-        padding-top: 0;
+      .signer-btn-hold{
+        .icon {
+          height: 13px;
+          width: 13px;
+        }
+        .icon:not(.hidden) + .dealnet-link-button{
+          padding-left: 0;
+        }
+        .dealnet-link-button {
+          font-size: 13px;
+          padding-bottom: 0;
+          padding-top: 0;
+        }
       }
     }
     #contact-before-resend {
@@ -338,6 +350,52 @@
       }
       @media @mobile {
         margin-left: 20%;
+      }
+    }
+    .dealnet-success-button {
+      width: 100%;
+    }
+    .comment-row {
+      label {
+        margin-bottom: 0;
+      }
+      .text-middle-group {
+        padding: 20px 0;
+        border-bottom: 1px solid #dcdcdc;
+      }
+    }
+  }
+}
+.esig-modal {
+  .signed-contract .sent-contract-secton {
+    .signature-status .signature-hold {
+      max-width: 140px;
+    }
+    .signer-status-hold {
+      margin-top: 15px;
+      @media @mobile {
+        border-bottom: 1px solid #ededed;
+        padding-bottom: 15px;
+      }
+      
+      &.declined,
+      &.signed,
+      &.completed {
+        margin-top: 0; 
+      }
+      &.declined {
+        .icon-comment {
+          margin-top:-20px;
+        }
+      }
+    }
+    .icon.icon-comment {
+      margin-top:-15px;
+    }
+    .dealnet-link-button {
+      @media @desktop-up{
+        color:#338f11;
+        font-size: 14px;
       }
     }
   }

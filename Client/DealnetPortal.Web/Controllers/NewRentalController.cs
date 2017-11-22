@@ -420,7 +420,8 @@ namespace DealnetPortal.Web.Controllers
                 {
                     return RedirectToAction("CreditDeclined", new {contractId});
                 }
-                return RedirectToAction("ContractEdit","MyDeals", new {id=contractId, newlySubmitted = true});
+                TempData[PortalConstants.IsNewlySubmitted] = true;
+                return RedirectToAction("ContractEdit","MyDeals", new {id=contractId});
             }
             return RedirectToAction("SummaryAndConfirmation", new {contractId});
         }
@@ -529,15 +530,15 @@ namespace DealnetPortal.Web.Controllers
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task UpdateContractEmails(ESignatureViewModel eSignatureViewModel)
+        public async Task<JsonResult> UpdateContractEmails(ESignatureViewModel eSignatureViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return;
+                return GetErrorJson();
             }
             // update home owner notification email
             var borrowerSigner = eSignatureViewModel.Signers.SingleOrDefault(x => x.Role == SignatureRole.HomeOwner);
-            if (!string.IsNullOrEmpty(borrowerSigner.Email))
+            if (borrowerSigner !=null && !string.IsNullOrEmpty(borrowerSigner.Email))
             {
                 var contractRes = await _contractServiceAgent.GetContract(eSignatureViewModel.ContractId);
                 if (contractRes?.Item1 != null)
@@ -574,14 +575,16 @@ namespace DealnetPortal.Web.Controllers
             SignatureUsersDTO signatureUsers = new SignatureUsersDTO();
             signatureUsers.ContractId = eSignatureViewModel.ContractId;
             signatureUsers.Users = new List<SignatureUser>();
-            signatureUsers.Users.Add(new SignatureUser()
+            if (borrowerSigner != null)
             {
-                EmailAddress = borrowerSigner.Email,
-                Role = SignatureRole.HomeOwner,
-                Id = borrowerSigner.Id,
-                CustomerId=borrowerSigner.CustomerId
-            });
-
+                signatureUsers.Users.Add(new SignatureUser()
+                {
+                    EmailAddress = borrowerSigner.Email,
+                    Role = SignatureRole.HomeOwner,
+                    Id = borrowerSigner.Id,
+                    CustomerId = borrowerSigner.CustomerId
+                });
+            }
             eSignatureViewModel.Signers.Where(x => x.Role == SignatureRole.AdditionalApplicant).ForEach(us =>
             {
                 signatureUsers.Users.Add(new SignatureUser()
@@ -603,7 +606,13 @@ namespace DealnetPortal.Web.Controllers
                 });
             }
 
-            await _contractServiceAgent.UpdateContractSigners(signatureUsers);
+            var result=await _contractServiceAgent.UpdateContractSigners(signatureUsers);
+
+            if (result.Any(a => a.Type == AlertType.Error))
+            {
+                return GetErrorJson();
+            }
+            return GetSuccessJson();
         }
 
         public async Task<ActionResult> AgreementSubmitSuccess(int contractId)

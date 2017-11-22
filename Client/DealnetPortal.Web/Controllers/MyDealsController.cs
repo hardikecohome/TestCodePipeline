@@ -12,6 +12,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Web.Common.Constants;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -39,16 +41,22 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> ContractEdit(int id, bool newlySubmitted = false)
+        public async Task<ActionResult> ContractEdit(int id)
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1;
 
             var dealer = await _dictionaryServiceAgent.GetDealerInfo();
-            ViewBag.IsEsignatureEnabled = dealer?.EsignatureEnabled ?? false;
-            ViewBag.IsNewlySubmitted = newlySubmitted;
+            var isNewlySubmitted = (bool?) TempData[PortalConstants.IsNewlySubmitted];
+            if (isNewlySubmitted.HasValue)
+            {
+                TempData[PortalConstants.IsNewlySubmitted] = null;
+            }
+            ViewBag.IsNewlySubmitted = isNewlySubmitted ?? false;            
 
             var contract = await _contractManager.GetContractEditAsync(id);
+            ViewBag.IsNotEditable = contract.BasicInfo.ContractState == ContractState.SentToAudit || contract.BasicInfo.ContractState == ContractState.CreditCheckDeclined;
+            ViewBag.IsEsignatureEnabled = (dealer?.EsignatureEnabled ?? false) && !ViewBag.IsNotEditable;
             if (!string.IsNullOrEmpty(dealer?.Email))
             {
                 contract.SendEmails.SalesRepEmail = dealer.Email;

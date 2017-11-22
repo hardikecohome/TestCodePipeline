@@ -18,10 +18,10 @@
             </div>
             <div class="sent-contract-secton">
                 @*@Html.Partial("_EsignatureStatus", Model)
-                @if (@Model.ESignature.Status == ApiEnum.SignatureStatus.Completed)*@
+                    @if (@Model.ESignature.Status == ApiEnum.SignatureStatus.Completed)*@
 
-@using (Html.BeginForm("SendContractEmails", "NewRental", FormMethod.Post, new { id = "signer-form" }))
-{
+                @using (Html.BeginForm("SendContractEmails", "NewRental", FormMethod.Post, new { id = "signer-form" }))
+                {
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(m => m.ESignature.ContractId, new { id = "contract-id" })
                     @Html.HiddenFor(m => m.ESignature.HomeOwnerId, new { id = "home-owner-id" })
@@ -81,76 +81,92 @@
                                         Model.ESignature.Signers[i].SignatureStatus==ApiEnum.SignatureStatus.Completed?"disabled":"data-notdisabled","disabled" } })
                                         @Html.ValidationMessageFor(m => m.ESignature.Signers[i].Email, "", new { @class = "text-danger" })
                                     </div>
-                                    <div class="col-md-5 signer-status-hold @Model.ESignature.Signers[i].SignatureStatus.ToString().ToLower() @(Model.ESignature.Status == ApiEnum.SignatureStatus.Declined && Model.ESignature.Signers[i].SignatureStatus<ApiEnum.SignatureStatus.Signed?"hidden":"")">
+                                    <div class="col-md-5 signer-status-hold @Model.ESignature.Signers[i].SignatureStatus.ToString().ToLower() @(Model.ESignature.Status == ApiEnum.SignatureStatus.Declined && Model.ESignature.Signers[i].SignatureStatus < ApiEnum.SignatureStatus.Signed ? "hidden" : "")">
 
                                         <div class="signature-status">
                                             @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Signed || Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Completed)
                                             {
-                                                <svg aria-hidden="true" class="icon icon-front icon-success">
-                                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
-                                                </svg>
+                                            <svg aria-hidden="true" class="icon icon-front icon-success">
+                                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
+                                            </svg>
                                             }
                                             else if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Declined)
                                             {
-                                                <svg aria-hidden="true" class="icon icon-front icon-error">
-                                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
-                                                </svg>
+                                            <svg aria-hidden="true" class="icon icon-front icon-error">
+                                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
+                                            </svg>
                                             }
                                             else
                                             {
-                                                <svg aria-hidden="true" class="icon icon-front icon-waiting">
-                                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-waiting")"></use>
-                                                </svg>
+                                            <svg aria-hidden="true" class="icon icon-front icon-waiting">
+                                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-waiting")"></use>
+                                            </svg>
                                             }
                                             <div class="signature-hold">
                                                 <div class="signature-header">
                                                     @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Signed || Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Completed)
                                                     {
-                                                        <text>@Resources.ContractSigned</text>
+                                                    <text>@Resources.ContractSigned</text>
                                                     }
                                                     else if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Declined)
                                                     {
-                                                        <text>@Resources.BorrowerDeclinedSignature</text>
+                                                    <text>@Resources.BorrowerDeclinedSignature</text>
                                                     }
-                                                    else if (Model.ESignature.Signers.Any(s => s.Id != Model.ESignature.Signers[i].Id && s.SignatureStatus == ApiEnum.SignatureStatus.Sent))//i > 0 && Model.ESignature.Signers[i - 1].SignatureStatus == ApiEnum.SignatureStatus.Sent)
+                                                    else if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Created || Model.ESignature.Signers.Any(s => s.Id != Model.ESignature.Signers[i].Id && s.SignatureStatus == ApiEnum.SignatureStatus.Sent))
                                                     {
                                                         var borrower = Model.ESignature.Signers[i - 1].Role == ApiEnum.SignatureRole.HomeOwner ? Resources.Borrower : Resources.Coborrower;
-                                                        <text>@string.Format(Resources.InviteSentWhenSigns, borrower)</text>
+                                                    <text>@string.Format(Resources.InviteSentWhenSigns, borrower)</text>
                                                     }
                                                     else if (i > 0 && Model.ESignature.Signers[i - 1].SignatureStatus == ApiEnum.SignatureStatus.Declined)
                                                     {
                                                     }
                                                     else
                                                     {
-                                                        <text>@Resources.WaitingSignature</text>
+                                                    <text>@Resources.WaitingSignature</text>
                                                     }
                                                 </div>
                                                 @if (Model.ESignature.Signers[i].StatusLastUpdateTime.HasValue)
                                                 {
-                                                    <div class="signature-date">(<span class="signature-date-hold">@(Model.ESignature.Signers[i].StatusLastUpdateTime.Value.ToString("MM/dd/yyyy hh:mm tt"))</span>)</div>
+                                                <div class="signature-date">(<span class="signature-date-hold">@(Model.ESignature.Signers[i].StatusLastUpdateTime.Value.ToString("MM/dd/yyyy hh:mm tt"))</span>)</div>
                                                 }
+                                                <div class="signer-btn-hold">
+                                                    <svg aria-hidden="true" class="icon icon-success hidden">
+                                                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
+                                                    </svg>
                                                     <a class="btn dealnet-link-button" id="signer-btn-@(i)">
                                                         @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Sent || Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Delivered)
                                                         {
-                                                            @Resources.ResendInvite
+                                                        @Resources.ResendInvite
                                                         }
                                                         else
                                                         {
-                                                            @Resources.UpdateEmail
+                                                        @Resources.UpdateEmail
                                                         }
                                                     </a>
                                                 </div>
-                                                @if (!string.IsNullOrEmpty(Model.ESignature.Signers[i].Comment))
-                                                {
-                                                    <span data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Model.ESignature.Signers[i].Comment">
-                                                        <svg aria-hidden="true" class="icon icon-comment">
-                                                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-comment")"></use>
-                                                        </svg>
-                                                    </span>
-                                                }
+                                            </div>
+                                            @if (!string.IsNullOrEmpty(Model.ESignature.Signers[i].Comment))
+                                            {
+                                            <span class="comment-btn">
+                                                <svg aria-hidden="true" class="icon icon-comment">
+                                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-comment")"></use>
+                                                </svg>
+                                            </span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                if (!string.IsNullOrEmpty(Model.ESignature.Signers[i].Comment))
+                                {
+                                    <div class="row form-group comment-row hidden" id="comment-@(i)">
+                                        <div class="col-md-12">
+                                            <label>@Resources.Comment</label>
+                                            <div class="control-group text-middle-group text-semibold">
+                                                @Model.ESignature.Signers[i].Comment
                                             </div>
                                         </div>
                                     </div>
+                                }
                             }
                             <div class="well well-info @(Model.ESignature.Status != ApiEnum.SignatureStatus.Declined?"hidden":"")" id="contact-before-resend">
                                 <span class="icon-hold">
@@ -197,9 +213,9 @@
                 }
                 @if (Model.ESignature.Status == ApiEnum.SignatureStatus.Completed)
                 {
-                <a href="#" id="print-signed-button" class="dealnet-info-link doc-tab-print-link">
-                    <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-download")"></use></svg> @Resources.DownloadSignedContract
-                </a>
+                    <a href="#" id="print-signed-button" class="dealnet-info-link doc-tab-print-link">
+                        <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-download")"></use></svg> @Resources.DownloadSignedContract
+                    </a>
                 }
             </div>
         </div>
@@ -240,7 +256,7 @@
                 @Html.HiddenFor(m => m.BasicInfo.ContractId, new { Name = "ContractId" })
                 @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[0].Value, new { Name = "DocumentTypeId" })
                 <div class="form-group clearfix">
-                    <div @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>                                                      }
+                    <div @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>                                                        }
                          class="file-upload btn dealnet-button dealnet-success-button disablable @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) {<text>disabled</text>}">
                         <span>@Resources.Upload</span>
                         <input type="file" name="File" class="upload main-document-upload" />

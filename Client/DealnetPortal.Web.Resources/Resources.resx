@@ -2403,4 +2403,7 @@ changing contract terms or signing contract on paper.</value>
   <data name="VoidPersonalChequeCopy" xml:space="preserve">
     <value>Copy of Void Personal Cheque</value>
   </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Comment</value>
+  </data>
 </root>

@@ -1,4 +1,14 @@
 ﻿module.exports('contract-edit.eSignature', function (require) {
+    var statusMap = {
+        '0': 'notinitiated',
+        '1': 'created',
+        '2': 'sent',
+        '3': 'delivered',
+        '4': 'signed',
+        '5': 'completed',
+        '6': 'declined',
+        '7': 'deleted'
+    };
 
     function esignatureModel (signers) {
         return JSON.stringify({
@@ -12,7 +22,7 @@
 
     function submitDigital (e) {
         var status = $('#signature-status').val().toLowerCase();
-        if (status === 'sent')
+        if (status === 'sent' || status === 'delivered')
             cancelSignatures(e);
         else
             submitAllEsignatures(e);
@@ -72,27 +82,14 @@
                 dataType: 'json',
                 data: esignatureModel(signers)
             }).done(function (data) {
+                $row.find('.signer-btn-hold .icon').removeClass('hidden');
             }).fail(function (xhr, status, result) {
                 console.log(result);
             }).always(function () {
-                var updateDate = new Date();
-                $row.find('.signature-date-hold')
-                    .text((updateDate.getMonth() + 1) + '/' + updateDate.getDate() + '/' + updateDate.getFullYear() + ' ' + updateDate.getHours() + ':' + (updateTime.getMinutes() < 10 ? '0' + updateTime.getMinutes() : updateTime.getMinutes()) + ' ' + (updateDate.getHours() > 11 ? 'PM' : 'AM'));
                 hideLoader();
             });
         }
     }
-
-    var statusMap = {
-        '0': 'notinitiated',
-        '1': 'created',
-        '2': 'sent',
-        '3': 'delivered',
-        '4': 'signed',
-        '5': 'completed',
-        '6': 'declined',
-        '7': 'deleted'
-    };
 
     function submitAllEsignatures (e) {
         e.preventDefault();
@@ -123,6 +120,7 @@
                 data: esignatureModel(signers)
             }).done(function (data) {
                 if (!data.isError) {
+                    $('#signature-status').val(statusMap[data.Status]);
                     rows.each(function (index, el) {
                         var $el = $(el);
                         var rowId = $el.find('#row-id').val();
@@ -133,9 +131,9 @@
                         $el.find('#signer-id-' + rowId).val(signer.Id);
                         $el.find('#signer-status-' + rowId).val(signer.SignatureStatus);
                         var updateTime = new Date(parseInt(signer.StatusLastUpdateTime.substr(6)));
-                        $el.find('#signer-update-' + rowId).val(updateTime);
                         $el.find('.signer-status-hold').removeClass().addClass('col-md-5 signer-status-hold ' + statusMap[signer.SignatureStatus]);
-                        var formated = (updateTime.getMonth() + 1) + '/' + updateTime.getDate() + '/' + updateTime.getFullYear() + ' ' + updateTime.getHours() + ':' + (updateTime.getMinutes() < 10 ? '0' + updateTime.getMinutes() : updateTime.getMinutes()) + ' ' + (updateTime.getHours() > 11 ? 'PM' : 'AM');
+                        var formated = (updateTime.getMonth() + 1) + '/' + updateTime.getDate() + '/' + updateTime.getFullYear() + ' ' + (updateTime.getHours() > 12 ? updateTime.getHours() - 12 : updateTime.getHours()) + ':' + (updateTime.getMinutes() < 10 ? '0' + updateTime.getMinutes() : updateTime.getMinutes()) + ' ' + (updateTime.getHours() > 11 ? 'PM' : 'AM');
+                        $el.find('#signer-update-' + rowId).val(formated);
                         $el.find('.signature-date-hold').text(formated);
                         if (signer.SignatureStatus === 4 || signer.SignatureStatus === 5) {
                             $el.find('.signature-header').text(translations['ContractSigned']);
@@ -170,9 +168,16 @@
         }
     }
 
+    function toggleComment (e) {
+        var $row = $(e.target).parents('.signer-row');
+        var rowId = $row.find('#row-id').val();
+        $('#comment-' + rowId).toggleClass('hidden');
+    }
+
     var init = function () {
         $('[id^="signer-btn-"]').on('click', submitOneSignature);
         $('#submit-digital').on('click', submitDigital);
+        $('.comment-btn').on('click', toggleComment);
     };
 
     return {
