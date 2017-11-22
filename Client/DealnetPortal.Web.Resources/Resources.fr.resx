@@ -2382,4 +2382,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
   <data name="Month180AmortOnlyOver4000" xml:space="preserve">
     <value>L’amortissement de 180 mois est disponible seulement pour les prêts supérieurs à 4,000 $</value>
   </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Commentaire</value>
+  </data>
 </root>
