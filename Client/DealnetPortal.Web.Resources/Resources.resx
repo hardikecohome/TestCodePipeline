@@ -2031,7 +2031,7 @@
     <value>Dealer's Initial</value>
   </data>
   <data name="VerificationId" xml:space="preserve">
-    <value>Customer's Verfication Id</value>
+    <value>Customer's Verification Id</value>
   </data>
   <data name="MonthlyDefferedPercentRange" xml:space="preserve">
     <value>Monthly deals to be deferred should be between 0 and 100</value>
@@ -2384,5 +2384,23 @@ changing contract terms or signing contract on paper.</value>
   </data>
   <data name="RequestedServiceCustomerComment" xml:space="preserve">
     <value>Requested service, customer comment</value>
+  </data>
+  <data name="ExtendedWarrantyForm" xml:space="preserve">
+    <value>Extended Warranty Form</value>
+  </data>
+  <data name="Invoice" xml:space="preserve">
+    <value>Invoice</value>
+  </data>
+  <data name="SignedContract" xml:space="preserve">
+    <value>Signed contract</value>
+  </data>
+  <data name="SignedInstallationCertificate" xml:space="preserve">
+    <value>Signed Installation Certificate</value>
+  </data>
+  <data name="ThirdPartyVerificationCall" xml:space="preserve">
+    <value>Third party verification call</value>
+  </data>
+  <data name="VoidPersonalChequeCopy" xml:space="preserve">
+    <value>Copy of Void Personal Cheque</value>
   </data>
 </root>

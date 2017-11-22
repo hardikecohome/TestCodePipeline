@@ -1522,7 +1522,7 @@
     <value>Durée du prêt / amortissement</value>
   </data>
   <data name="Month180AmortOnlyOver5000" xml:space="preserve">
-    <value>180 month amortization is available only on loans over $5,000</value>
+    <value>L’amortissement de 180 mois est disponible seulement pour les prêts supérieurs à 5,000 $</value>
   </data>
   <data name="PromoCustom" xml:space="preserve">
     <value>PROMO/CUSTOM</value>
@@ -2378,5 +2378,8 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
   </data>
   <data name="UploadAnotherFile" xml:space="preserve">
     <value>Téléverser un autre fichier</value>
+  </data>
+  <data name="Month180AmortOnlyOver4000" xml:space="preserve">
+    <value>L’amortissement de 180 mois est disponible seulement pour les prêts supérieurs à 4,000 $</value>
   </data>
 </root>
