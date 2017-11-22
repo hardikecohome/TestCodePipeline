@@ -187,9 +187,14 @@ function removeContract () {
 
 };
 
-function getSignatureDetails() {
+function getSignatureDetails () {
     var tr = $(this).parents('tr');
-    var id = $(tr)[0].id;
+    var id;
+    if ($(tr).hasClass('child')) {
+        id = $('tr.parent').attr('id');
+    } else {
+        id = $(tr).attr('id');
+    }
     $.ajax({
         method: "GET",
         url: contractSignatureStatusUrl + '?contractId=' + id,
@@ -265,9 +270,9 @@ function showTable () {
                                     '<div class="text-hold"><span class="text">' +
                                     row.LocalizedStatus + '</span></div>' +
                                     '<div class="icon-esig-hold"><svg aria-hidden="true" class="icon icon-esignature"><use xlink:href="' +
-                                        urlContent +
-                                        'Content/images/sprite/sprite.svg#icon-esignature"></use></svg ></div>' +
-                                        '</div>';
+                                    urlContent +
+                                    'Content/images/sprite/sprite.svg#icon-esignature"></use></svg ></div>' +
+                                    '</div>';
                             },
                             className: 'status-cell'
                         },
@@ -326,9 +331,9 @@ function showTable () {
                     order: [],
                     drawCallback: function () {
                         resizeTableStatusCells(this);
-                        $('.icon-esignature').on('click', getSignatureDetails);
                     }
                 });
+            $('body').on('click', '.icon-esignature', getSignatureDetails);
 
             $('#work-items-table th').on('click', function () {
                 var el = $(this);
