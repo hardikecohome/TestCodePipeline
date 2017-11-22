@@ -2,10 +2,12 @@
 @using System.Collections.Generic
 @using System.Globalization
 @using System.Linq
+@using DealnetPortal.Api.Common.Enumeration
 @using DealnetPortal.Api.Common.Helpers
 @using DealnetPortal.Api.Models.Contract
 @using DealnetPortal.Web.Models
-@using DealnetPortal.Web.Models.Enumeration
+@using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType
+@using ContractState = DealnetPortal.Web.Models.Enumeration.ContractState
 @model DealnetPortal.Web.Models.ContractEditViewModel
 @{
     var contractState = Model.AdditionalInfo.ContractState;
@@ -49,7 +51,9 @@
                         @for (var i = 0; i < Model.UploadDocumentsInfo.DocumentTypes.Count; i++)
                         {
                             var document = Model.UploadDocumentsInfo.ExistingDocuments.FirstOrDefault(x => x.DocumentTypeId.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value);
-                            <li class="@(i == 0 ? "active" : "") @(document != null ? "uploaded" : "") @(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value) ? "mandatory" : "" ) documents-pills-item tab-container-@(i+1)">
+                            var documentReady = document != null
+                                                || (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "1" && Model.ESignature?.Status == SignatureStatus.Completed);
+                            <li class="@(i == 0 ? "active" : "") @( documentReady  ? "uploaded" : "") @(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value) ? "mandatory" : "" ) documents-pills-item tab-container-@(i+1)">
                                 <a href="#tab@(i+1)" class="documents-pills-link" aria-controls="tab@(i+1)" role="tab" data-toggle="tab">
                                     @if (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "7")
                                     {
@@ -77,7 +81,9 @@
                                 continue;
                             }
                             var document = Model.UploadDocumentsInfo.ExistingDocuments.FirstOrDefault(x => x.DocumentTypeId.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value);
-                            <div class="@(i == 0 ? "active" : "") @(document != null ? "uploaded" : "") @(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value) ? "mandatory" : "" ) documents-pills-item tab-container-@(i+1)">
+                            var documentReady = document != null
+                                                || (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "1" && Model.ESignature?.Status == SignatureStatus.Completed);
+                            <div class="@(i == 0 ? "active" : "") @(documentReady ? "uploaded" : "") @(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value) ? "mandatory" : "" ) documents-pills-item tab-container-@(i+1)">
                                 <a href="#tab@(i+1)" class="documents-pills-link" aria-controls="tab@(i+1)" role="tab" data-toggle="tab">
                                     <span class="mandatory-text">
                                         @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
