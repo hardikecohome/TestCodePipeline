@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Web.Common.Constants;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -40,13 +41,13 @@ namespace DealnetPortal.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> ContractEdit(int id, bool newlySubmitted = false)
+        public async Task<ActionResult> ContractEdit(int id)
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1;
 
             var dealer = await _dictionaryServiceAgent.GetDealerInfo();            
-            ViewBag.IsNewlySubmitted = newlySubmitted;
+            ViewBag.IsNewlySubmitted = (bool?)TempData[PortalConstants.IsNewlySubmitted] ?? false;
 
             var contract = await _contractManager.GetContractEditAsync(id);
             ViewBag.IsNotEditable = contract.BasicInfo.ContractState == ContractState.SentToAudit || contract.BasicInfo.ContractState == ContractState.CreditCheckDeclined;

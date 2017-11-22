@@ -12,6 +12,7 @@ namespace DealnetPortal.Web.Common.Constants
         public const string DealerSkinExistence = "DealerSkinExistence";
         public const string LogoImage2X = "LogoImage2X";
         public const string Favicon = "Favicon";
+        public const string IsNewlySubmitted = "IsNewlySubmitted";
 
         public const int MaxAdditionalApplicants = 1;
 
