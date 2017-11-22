@@ -24,6 +24,7 @@ namespace DealnetPortal.Api.Integration.Services
             _endPoint = ConfigurationManager.AppSettings["MandrillEndPoint"];
             _apiKey = ConfigurationManager.AppSettings["MandrillApiKey"];
         }
+
         public async Task<HttpResponseMessage> SendEmail(MandrillRequest request)
         {
             using (var client = new HttpClient())
@@ -42,6 +43,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
             }
         }
+
         public async Task SendDealerLeadAccepted(Contract contract, DealerDTO dealer, string services)
         {
             string emailid = contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress;
@@ -183,7 +185,7 @@ namespace DealnetPortal.Api.Integration.Services
                 text = "Unfortunately, we’re unable to process this application automatically",
                 to = new List<MandrillTo>() {
                         new MandrillTo(){
-                            email =emailid,
+                            email = emailid,
                             name = firstName+" "+lastName,
                             type = "to"
                         }
@@ -358,6 +360,59 @@ namespace DealnetPortal.Api.Integration.Services
                         new MandrillTo(){
                             email = email,
                             name = " ",
+                            type = "to"
+                        }
+                    }
+            };
+            try
+            {
+                var result = await SendEmail(request);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public async Task SendDeclineToSignDealerNotification(string dealerEmail, string dealerName, string contractId, string customerName, string customerEmail, string customerPhone)
+        {
+            MandrillRequest request = new MandrillRequest();
+            List<Variable> myVariables = new List<Variable>();
+            myVariables.Add(new Variable() { name = "ContractNumber", content = contractId });
+            myVariables.Add(new Variable() { name = "CustomerName", content = customerName });
+            myVariables.Add(new Variable() { name = "CustomerEmail", content = customerEmail });
+            myVariables.Add(new Variable() { name = "CustomerNumber", content = customerPhone });
+            request.key = _apiKey;
+            request.template_name = ConfigurationManager.AppSettings["SignatureDeclineNotification"];
+            request.template_content = new List<templatecontent>() {
+                    new templatecontent(){
+                        name="Declined to sign",
+                        content = "Declined to sign"
+                    }
+                };
+
+
+            request.message = new MandrillMessage()
+            {
+                from_email = ConfigurationManager.AppSettings["FromEmail"],
+                from_name = "Myhome Wallet by EcoHome Financial",
+                html = null,
+                merge_vars = new List<MergeVariable>() {
+                        new MergeVariable(){
+                            rcpt = dealerEmail,
+                            vars = myVariables
+
+
+                        }
+                    },
+                send_at = DateTime.Now,
+                subject = "Action required: customer declined to sign a recently submitted loan agreement",
+                text = "Action required: customer declined to sign a recently submitted loan agreement",
+                to = new List<MandrillTo>() {
+                        new MandrillTo(){
+                            email = dealerEmail,
+                            name = dealerName,
                             type = "to"
                         }
                     }

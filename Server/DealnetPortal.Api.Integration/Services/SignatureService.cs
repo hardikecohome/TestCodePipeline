@@ -41,6 +41,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAspireService _aspireService;
         private readonly IAspireStorageReader _aspireStorageReader;               
+        private readonly IMailService _mailService;               
 
         public SignatureService(
             ISignatureEngine signatureEngine, 
@@ -51,13 +52,15 @@ namespace DealnetPortal.Api.Integration.Services
             IAspireService aspireService,
             IAspireStorageReader aspireStorageReader,
             ILoggingService loggingService, 
-            IDealerRepository dealerRepository)
+            IDealerRepository dealerRepository, 
+            IMailService mailService)
         {
             _signatureEngine = signatureEngine;
             _pdfEngine = pdfEngine;
             _contractRepository = contractRepository;
             _loggingService = loggingService;
             _dealerRepository = dealerRepository;
+            _mailService = mailService;
             _fileRepository = fileRepository;
             _unitOfWork = unitOfWork;
             _aspireService = aspireService;
@@ -735,6 +738,9 @@ namespace DealnetPortal.Api.Integration.Services
                             break;
                         case SignatureStatus.Deleted:
                             updated |= CleanContractSignatureInfo(contract);
+                            break;
+                        case SignatureStatus.Declined:
+                            await _mailService.SendDeclineToSign(contract);
                             break;
                     }
                     if (updated)
