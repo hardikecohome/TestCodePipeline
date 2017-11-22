@@ -46,8 +46,13 @@ namespace DealnetPortal.Web.Controllers
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1;
 
-            var dealer = await _dictionaryServiceAgent.GetDealerInfo();            
-            ViewBag.IsNewlySubmitted = (bool?)TempData[PortalConstants.IsNewlySubmitted] ?? false;
+            var dealer = await _dictionaryServiceAgent.GetDealerInfo();
+            var isNewlySubmitted = (bool?) TempData[PortalConstants.IsNewlySubmitted];
+            if (isNewlySubmitted.HasValue)
+            {
+                TempData[PortalConstants.IsNewlySubmitted] = null;
+            }
+            ViewBag.IsNewlySubmitted = isNewlySubmitted ?? false;            
 
             var contract = await _contractManager.GetContractEditAsync(id);
             ViewBag.IsNotEditable = contract.BasicInfo.ContractState == ContractState.SentToAudit || contract.BasicInfo.ContractState == ContractState.CreditCheckDeclined;
