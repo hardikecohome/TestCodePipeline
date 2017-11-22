@@ -300,7 +300,9 @@
           color: rgb(218, 46, 0);
         }
         &.icon-comment {
-          right:-10px;
+          margin-left: 5px;
+          margin-top: -25px; 
+          cursor: pointer;
         }
       }
       .signature-hold {
@@ -360,6 +362,19 @@
         padding: 20px 0;
         border-bottom: 1px solid #dcdcdc;
       }
+    }
+  }
+}
+.esig-modal {
+  .signed-contract .sent-contract-secton {
+    .signature-status .signature-hold {
+      max-width: 140px;
+    }
+    .signer-status-hold {
+      margin-top: 15px;
+    }
+    .icon.icon-comment {
+      margin-top:-15px;
     }
   }
 }
