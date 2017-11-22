@@ -2253,13 +2253,13 @@ You can do it anytime by using the following link:</value>
     <value>180 month amortization is available only on loans over $4,000</value>
   </data>
   <data name="CreditFunding" xml:space="preserve">
-    <value>Credit/Funding</value>
+    <value>Credit</value>
   </data>
   <data name="CustomerService" xml:space="preserve">
     <value>Customer Service</value>
   </data>
   <data name="DealerSupport" xml:space="preserve">
-    <value>Dealer Support</value>
+    <value>Dealer Support/Funding</value>
   </data>
   <data name="HowCanWeHelp" xml:space="preserve">
     <value>How can we help?</value>

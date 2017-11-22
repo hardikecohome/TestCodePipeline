@@ -1685,7 +1685,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Credit/Funding.
+        ///   Looks up a localized string similar to Credit.
         /// </summary>
         public static string CreditFunding {
             get {
@@ -1874,7 +1874,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dealer Support.
+        ///   Looks up a localized string similar to Dealer Support/Funding.
         /// </summary>
         public static string DealerSupport {
             get {
