@@ -375,13 +375,14 @@ namespace DealnetPortal.Api.Integration.Services
 
         }
 
-        public async Task SendDeclineToSignDealerNotification(string dealerEmail, string dealerName, string contractId, string customerName, string customerEmail)
+        public async Task SendDeclineToSignDealerNotification(string dealerEmail, string dealerName, string contractId, string customerName, string customerEmail, string customerPhone)
         {
             MandrillRequest request = new MandrillRequest();
             List<Variable> myVariables = new List<Variable>();
             myVariables.Add(new Variable() { name = "ContractNumber", content = contractId });
-            myVariables.Add(new Variable() { name = "DealerName", content = customerName });
+            myVariables.Add(new Variable() { name = "CustomerName", content = customerName });
             myVariables.Add(new Variable() { name = "CustomerEmail", content = customerEmail });
+            myVariables.Add(new Variable() { name = "CustomerNumber", content = customerPhone });
             request.key = _apiKey;
             request.template_name = ConfigurationManager.AppSettings["SignatureDeclineNotification"];
             request.template_content = new List<templatecontent>() {
@@ -406,8 +407,8 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                     },
                 send_at = DateTime.Now,
-                subject = "Unfortunately, one of applicant declined to sign contract",
-                text = "Unfortunately, one of applicant declined to sign contract",
+                subject = "Action required: customer declined to sign a recently submitted loan agreement",
+                text = "Action required: customer declined to sign a recently submitted loan agreement",
                 to = new List<MandrillTo>() {
                         new MandrillTo(){
                             email = dealerEmail,
