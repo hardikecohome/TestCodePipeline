@@ -22,7 +22,7 @@
 
     function submitDigital (e) {
         var status = $('#signature-status').val().toLowerCase();
-        if (status === 'sent')
+        if (status === 'sent' || status === 'delivered')
             cancelSignatures(e);
         else
             submitAllEsignatures(e);
@@ -120,6 +120,7 @@
                 data: esignatureModel(signers)
             }).done(function (data) {
                 if (!data.isError) {
+                    $('#signature-status').val(statusMap[data.Status]);
                     rows.each(function (index, el) {
                         var $el = $(el);
                         var rowId = $el.find('#row-id').val();
