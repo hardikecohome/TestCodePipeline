@@ -37,7 +37,7 @@
                                         { Model.Signers[i].SignatureStatus== SignatureStatus.Signed||
                                         Model.Signers[i].SignatureStatus==SignatureStatus.Completed?"disabled":"data-notdisabled","disabled" } })
                     </div>
-                    <div class="col-md-4 signer-status-hold  @Model.Signers[i].SignatureStatus.ToString().ToLower() @(Model.Status == SignatureStatus.Declined && Model.Signers[i].SignatureStatus<SignatureStatus.Signed?"hidden":"")">
+                    <div class="col-md-5 signer-status-hold  @Model.Signers[i].SignatureStatus.ToString().ToLower() @(Model.Status == SignatureStatus.Declined && Model.Signers[i].SignatureStatus<SignatureStatus.Signed?"hidden":"")">
                         <div class="signature-status">
                             @if (Model.Signers[i].SignatureStatus == SignatureStatus.Signed || Model.Signers[i].SignatureStatus == SignatureStatus.Completed)
                             {
@@ -67,7 +67,7 @@
                                     {
                                         <text>@Resources.BorrowerDeclinedSignature</text>
                                     }
-                                    else if (i > 0 && Model.Signers[i - 1].SignatureStatus == SignatureStatus.Sent)
+                                    else if (Model.Signers.Any(s => s.Id != Model.Signers[i].Id && s.SignatureStatus == SignatureStatus.Sent))
                                     {
                                         var borrower = Model.Signers[i - 1].Role == SignatureRole.HomeOwner ? Resources.Borrower : Resources.Coborrower;
                                         <text>@string.Format(Resources.InviteSentWhenSigns, borrower)</text>
