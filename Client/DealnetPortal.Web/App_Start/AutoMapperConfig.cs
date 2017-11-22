@@ -505,8 +505,7 @@ namespace DealnetPortal.Web.App_Start
 
                     if (src.Details.SignatureStatus == SignatureStatus.Sent)
                     {
-                        if (src.Details.SignatureLastUpdateTime == null ||
-                            (src.Details.SignatureLastUpdateTime.Value - DateTime.Now).TotalDays < 3)
+                        if (src.Details.SignatureLastUpdateTime == null || (DateTime.Now - src.Details.SignatureLastUpdateTime.Value).TotalDays < 3)
                         {
                             return src.Details.SignatureStatus.ToString().ToLower() + "less3";
                         }
