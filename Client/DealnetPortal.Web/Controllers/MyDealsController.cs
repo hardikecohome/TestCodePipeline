@@ -207,7 +207,7 @@ namespace DealnetPortal.Web.Controllers
                 if (cancelResult?.Item2?.Any(a => a.Type == AlertType.Error) == true)
                 {
                     var first = cancelResult.Item2.FirstOrDefault(a => a.Type == AlertType.Error);
-                    return Json(new { success = false, message = first.Message });
+                    return Json(new { isError = true, message = first.Message });
                 }
                 return GetSuccessJson();
             }

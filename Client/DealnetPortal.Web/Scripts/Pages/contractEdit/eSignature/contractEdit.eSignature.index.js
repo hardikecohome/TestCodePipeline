@@ -138,10 +138,12 @@
                         if (signer.SignatureStatus === 4 || signer.SignatureStatus === 5) {
                             $el.find('.signature-header').text(translations['ContractSigned']);
                             $el.find('#signer-btn-' + rowId).addClass('hidden');
+                            $el.find('.icon-front').replaceWith($form.find('.icons .icon-success').clone());
                         }
                         if (signer.SignatureStatus === 2 || signer.SignatureStatus === 3) {
                             $el.find('.signature-header').text(translations['WaitingSignature']);
                             $el.find('#signer-btn-' + rowId).text(translations['ResendInvite']);
+                            $el.find('.icon-front').replaceWith($form.find('.icons .icon-waiting').clone());
                         }
                         if (signer.SignatureStatus === 0 || signer.SignatureStatus === 1) {
                             var msg = $el.find('#signer-role-' + rowId).val().toLowerCase() === 'additionalapplicant' ?
@@ -149,12 +151,22 @@
                                 translations['InviteSentWhenSigns'].split('{0}').join(translations['Borrower'])
                             $el.find('.signature-header').text(msg);
                             $el.find('#signer-btn-' + rowId).text(translations['UpdateEmail']);
+                            $el.find('.icon-front').replaceWith($form.find('.icons .icon-waiting').clone());
+                        }
+                        if (signer.Comment) {
+                            $el.find('.comment-btn').removeClass('hidden');
+                            $('#comment-' + rowId + ' text-semibold').text(signer.Comment);
+                        } else {
+                            $el.find('.comment-btn').addClass('hidden');
+                            $('#comment-' + rowId + ' text-semibold').addClass('hidden');
                         }
                     });
 
                     $form.find('.signer-status-hold').removeClass('hidden');
                     $form.find('#type-reminder').addClass('hidden');
                     $form.find('#submit-digital').html(translations['CancelDigitalSignature']);
+                    $('#contact-before-resend').addClass('hidden');
+                    $('#fill-all-emails').addClass('hidden');
                 } else {
                     console.log(data);
                 }
