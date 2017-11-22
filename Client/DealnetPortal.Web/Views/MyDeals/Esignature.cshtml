@@ -81,7 +81,7 @@
                                         Model.ESignature.Signers[i].SignatureStatus==ApiEnum.SignatureStatus.Completed?"disabled":"data-notdisabled","disabled" } })
                                         @Html.ValidationMessageFor(m => m.ESignature.Signers[i].Email, "", new { @class = "text-danger" })
                                     </div>
-                                    <div class="col-md-5 signer-status-hold @Model.ESignature.Signers[i].SignatureStatus.ToString().ToLower() @(Model.ESignature.Status == ApiEnum.SignatureStatus.Declined && Model.ESignature.Signers[i].SignatureStatus<ApiEnum.SignatureStatus.Signed?"hidden":"")">
+                                    <div class="col-md-5 signer-status-hold @Model.ESignature.Signers[i].SignatureStatus.ToString().ToLower() @(Model.ESignature.Status == ApiEnum.SignatureStatus.Declined && Model.ESignature.Signers[i].SignatureStatus < ApiEnum.SignatureStatus.Signed ? "hidden" : "")">
 
                                         <div class="signature-status">
                                             @if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Signed || Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Completed)
@@ -112,7 +112,7 @@
                                                     {
                                                     <text>@Resources.BorrowerDeclinedSignature</text>
                                                     }
-                                                    else if (Model.ESignature.Signers.Any(s => s.Id != Model.ESignature.Signers[i].Id && s.SignatureStatus == ApiEnum.SignatureStatus.Sent))
+                                                    else if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Created || Model.ESignature.Signers.Any(s => s.Id != Model.ESignature.Signers[i].Id && s.SignatureStatus == ApiEnum.SignatureStatus.Sent))
                                                     {
                                                         var borrower = Model.ESignature.Signers[i - 1].Role == ApiEnum.SignatureRole.HomeOwner ? Resources.Borrower : Resources.Coborrower;
                                                     <text>@string.Format(Resources.InviteSentWhenSigns, borrower)</text>

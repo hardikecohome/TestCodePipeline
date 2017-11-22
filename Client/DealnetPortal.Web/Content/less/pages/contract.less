@@ -244,13 +244,14 @@
       line-height: 1.2;
       display: none;
       padding-left: 20px; 
-      &.created {
+      &.created{
         display: block;
         .signature-hold {
           padding-top: 5px;
         }
       }
-      &.sent {
+      &.sent,
+      &.delivered  {
         display: block;
         .signature-hold {
           padding-top: 18px; 
@@ -372,9 +373,26 @@
     }
     .signer-status-hold {
       margin-top: 15px;
+      
+      &.declined,
+      &.signed,
+      &.completed {
+        margin-top: 0; 
+      }
+      &.declined {
+        .icon-comment {
+          margin-top:-20px;
+        }
+      }
     }
     .icon.icon-comment {
       margin-top:-15px;
+    }
+    .dealnet-link-button {
+      @media @desktop-up{
+        color:#338f11;
+        font-size: 14px;
+      }
     }
   }
 }
