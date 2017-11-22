@@ -670,7 +670,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 {
                     Type = AlertType.Error,
                     Header = "Cannot cancel contract",
-                    Message = $"Cannot cancel eSignature {TransactionId} for contract",
+                    Message = $"Cannot cancel eSignature {TransactionId} for contract: {ex.ToString()}",
                 });
             }
             return alerts;
