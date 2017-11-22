@@ -849,4 +849,16 @@
   <data name="_S_Submitted" xml:space="preserve">
     <value>Soumis</value>
   </data>
+  <data name="_26_DeclinedBlueChip" xml:space="preserve">
+    <value>Refusé Blue Chip</value>
+  </data>
+  <data name="_26_Pre_Approved" xml:space="preserve">
+    <value>Préapprouvé</value>
+  </data>
+  <data name="_28_ApprovedBlueChip" xml:space="preserve">
+    <value>Autorisé Blue Chip</value>
+  </data>
+  <data name="_86_Cancelled" xml:space="preserve">
+    <value>Annulé</value>
+  </data>
 </root>

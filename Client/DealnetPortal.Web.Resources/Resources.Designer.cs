@@ -19,7 +19,7 @@ namespace DealnetPortal.Web.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -2505,6 +2505,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Extended Warranty Form.
+        /// </summary>
+        public static string ExtendedWarrantyForm {
+            get {
+                return ResourceManager.GetString("ExtendedWarrantyForm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 15th.
         /// </summary>
         public static string FifteenTh {
@@ -3131,6 +3140,15 @@ namespace DealnetPortal.Web.Resources {
         public static string InvitesWereSentToEmails {
             get {
                 return ResourceManager.GetString("InvitesWereSentToEmails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invoice.
+        /// </summary>
+        public static string Invoice {
+            get {
+                return ResourceManager.GetString("Invoice", resourceCulture);
             }
         }
         
@@ -5380,6 +5398,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Signed contract.
+        /// </summary>
+        public static string SignedContract {
+            get {
+                return ResourceManager.GetString("SignedContract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Signed Installation Certificate.
+        /// </summary>
+        public static string SignedInstallationCertificate {
+            get {
+                return ResourceManager.GetString("SignedInstallationCertificate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SIN.
         /// </summary>
         public static string Sin {
@@ -5664,6 +5700,15 @@ namespace DealnetPortal.Web.Resources {
         public static string TheRangeFieldMustBeMinimumAndMaximum {
             get {
                 return ResourceManager.GetString("TheRangeFieldMustBeMinimumAndMaximum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Third party verification call.
+        /// </summary>
+        public static string ThirdPartyVerificationCall {
+            get {
+                return ResourceManager.GetString("ThirdPartyVerificationCall", resourceCulture);
             }
         }
         
@@ -6100,7 +6145,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Customer&apos;s Verfication Id.
+        ///   Looks up a localized string similar to Customer&apos;s Verification Id.
         /// </summary>
         public static string VerificationId {
             get {
@@ -6114,6 +6159,15 @@ namespace DealnetPortal.Web.Resources {
         public static string VoidCheque {
             get {
                 return ResourceManager.GetString("VoidCheque", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy of Void Personal Cheque.
+        /// </summary>
+        public static string VoidPersonalChequeCopy {
+            get {
+                return ResourceManager.GetString("VoidPersonalChequeCopy", resourceCulture);
             }
         }
         

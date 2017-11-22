@@ -250,6 +250,24 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Declined Blue Chip.
+        /// </summary>
+        public static string _26_DeclinedBlueChip {
+            get {
+                return ResourceManager.GetString("_26_DeclinedBlueChip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pre Approved.
+        /// </summary>
+        public static string _26_Pre_Approved {
+            get {
+                return ResourceManager.GetString("_26_Pre_Approved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pre-Approved $15k.
         /// </summary>
         public static string _26_Pre_Approved15k {
@@ -291,6 +309,15 @@ namespace DealnetPortal.Api.Resources {
         public static string _28_Approved15k {
             get {
                 return ResourceManager.GetString("_28_Approved15k", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Approved Blue Chip.
+        /// </summary>
+        public static string _28_ApprovedBlueChip {
+            get {
+                return ResourceManager.GetString("_28_ApprovedBlueChip", resourceCulture);
             }
         }
         
@@ -561,6 +588,15 @@ namespace DealnetPortal.Api.Resources {
         public static string _85_CustomerChangedMind {
             get {
                 return ResourceManager.GetString("_85_CustomerChangedMind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancelled.
+        /// </summary>
+        public static string _86_Cancelled {
+            get {
+                return ResourceManager.GetString("_86_Cancelled", resourceCulture);
             }
         }
         

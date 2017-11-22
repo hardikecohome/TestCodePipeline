@@ -29,13 +29,7 @@
                     </div>
                     <div class="col-md-5">
                         <label class="pull-left">@Resources.Email</label>
-                        @Html.TextBoxFor(m => m.Signers[i].Email, new Dictionary<string, object>
-                                        {
-                                        { "class" , "dealnet-input form-control" },
-                                        { "type" , "email" },
-                                        { "id", $"signer-email-{i}"},
-                                        { Model.Signers[i].SignatureStatus== SignatureStatus.Signed||
-                                        Model.Signers[i].SignatureStatus==SignatureStatus.Completed?"disabled":"data-notdisabled","disabled" } })
+                        @Html.TextBoxFor(m => m.Signers[i].Email, new {@class ="dealnet-input form-control" ,type="email" ,id= $"signer-email-{i}", disabled="disabled"  })
                     </div>
                     <div class="col-md-5 signer-status-hold @Model.Signers[i].SignatureStatus.ToString().ToLower() @(Model.Status == SignatureStatus.Declined && Model.Signers[i].SignatureStatus < SignatureStatus.Signed?"hidden":"")">
                         <div class="signature-status">

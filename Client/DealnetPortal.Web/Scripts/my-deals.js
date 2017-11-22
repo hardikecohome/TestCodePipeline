@@ -245,10 +245,12 @@ function showTable () {
                         }
                         resizeTableStatusCells(this);
 
-                        $('.icon-esignature').on('click', getSignatureDetails);
+                        //$('.icon-esignature').on('click', getSignatureDetails);
                     }
                 });
 
+
+            $('body').on('click', '.icon-esignature', getSignatureDetails);
             table.on('draw.dt', function () {
                 redrawDataTablesSvgIcons();
                 resetDataTablesExpandedRows(table);
@@ -351,9 +353,14 @@ function exportItem () {
     submitExportRequest(arr);
 };
 
-function getSignatureDetails() {
+function getSignatureDetails () {
     var tr = $(this).parents('tr');
-    var id = $(tr)[0].id;
+    var id;
+    if ($(tr).hasClass('child')) {
+        id = $('tr.parent').attr('id');
+    } else {
+        id = $(tr).attr('id');
+    }
     $.ajax({
         method: "GET",
         url: contractSignatureStatusUrl + '?contractId=' + id,

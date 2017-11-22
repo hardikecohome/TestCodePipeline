@@ -373,6 +373,10 @@
     }
     .signer-status-hold {
       margin-top: 15px;
+      @media @mobile {
+        border-bottom: 1px solid #ededed;
+        padding-bottom: 15px;
+      }
       
       &.declined,
       &.signed,
@@ -382,6 +386,12 @@
       &.declined {
         .icon-comment {
           margin-top:-20px;
+        }
+      }
+      &.signed,
+      &.completed {
+        .icon-front {
+          top: -10px;
         }
       }
     }
