@@ -22,7 +22,7 @@ configInitialized
                     $('#age-error-message').hide();
                 } else {
                     $('#age-error-message').hide();
-                    $('#age-warning-message').show();
+                  //  $('#age-warning-message').show();
                 }
             }
         };
@@ -53,7 +53,7 @@ configInitialized
                 $('#age-error-message').hide();
             } else {
                 $('#age-error-message').hide();
-                $('#age-warning-message').show();
+              //  $('#age-warning-message').show();
             }
         });
 
@@ -165,8 +165,8 @@ configInitialized
 
             if (!isApprovalAge) {
                 $('#age-warning-message').hide();
-                $('#age-error-message').show();
-                scrollPageTo($('#age-error-message'));
+                //$('#age-error-message').show();
+                //scrollPageTo($('#age-error-message'));
             }
             if (!isHomeOwner) {
                 $("#proceed-homeowner-errormessage").show();
