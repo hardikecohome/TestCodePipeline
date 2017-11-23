@@ -509,7 +509,7 @@ namespace DealnetPortal.Web.App_Start
 
                         if (borrower != null)
                         {
-                            if ( (DateTime.Now - borrower.StatusLastUpdateTime.Value).TotalDays < 3)
+                            if (borrower.StatusLastUpdateTime != null && (DateTime.Now - borrower.StatusLastUpdateTime.Value).TotalDays < 3)
                             {
                                 return src.Details.SignatureStatus.ToString().ToLower() + "less3";
                             }
