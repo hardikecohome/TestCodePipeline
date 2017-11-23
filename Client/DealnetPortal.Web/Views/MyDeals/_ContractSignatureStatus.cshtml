@@ -29,7 +29,7 @@
                     </div>
                     <div class="col-md-5">
                         <label class="pull-left">@Resources.Email</label>
-                        @Html.TextBoxFor(m => m.Signers[i].Email, new {@class ="dealnet-input form-control" ,type="email" ,id= $"signer-email-{i}", disabled="disabled"  })
+                        @Html.TextBoxFor(m => m.Signers[i].Email, new { @class = "dealnet-input form-control", type = "email", id = $"signer-email-{i}", disabled = "disabled" })
                     </div>
                     <div class="col-md-5 signer-status-hold @Model.Signers[i].SignatureStatus.ToString().ToLower() @(Model.Status == SignatureStatus.Declined && Model.Signers[i].SignatureStatus < SignatureStatus.Signed?"hidden":"")">
                         <div class="signature-status">
@@ -104,7 +104,9 @@
                     </div>
                 }
             }
-            <div class="esig-link"><a href="" id="contract-details-link" target="_blank" class="dealnet-link-button">@Resources.GoToContractDetails</a></div>
+            <div class="esig-link">
+                @Html.ActionLink(Resources.GoToContractDetails, "ContractEdit","MyDeals",new {id= Model.ContractId }, new { @class="dealnet-link-button" })
+            </div>
         </div>
     </div>
 </span>
