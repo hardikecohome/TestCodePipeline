@@ -785,16 +785,14 @@ namespace DealnetPortal.Api.Integration.Services
                 usersForProcessing.Add(coBorrower);
             });
 
-            var dealerUser = signatureUsers?.FirstOrDefault(u => u.Role == SignatureRole.Dealer) ?? new SignatureUser() {Role = SignatureRole.Dealer};            
+            var dealerUser = signatureUsers?.FirstOrDefault(u => u.Role == SignatureRole.Dealer) ?? new SignatureUser() {Role = SignatureRole.Dealer};
+
             if (string.IsNullOrEmpty(dealerUser.LastName) || string.IsNullOrEmpty(dealerUser.EmailAddress))
             {
                 var dealer = contract?.Signers?.FirstOrDefault(s => s.SignerType == SignatureRole.Dealer);
-                if (dealer != null)
-                {
-                    dealerUser.FirstName = dealerUser.FirstName ?? dealer.FirstName;
-                    dealerUser.LastName = dealerUser.LastName ?? dealer.LastName;
-                    dealerUser.EmailAddress = dealerUser.EmailAddress ?? dealer.EmailAddress;
-                }
+                dealerUser.FirstName = dealerUser.FirstName ?? dealer?.FirstName;
+                dealerUser.LastName = dealerUser.LastName ?? dealer?.LastName ?? contract.Dealer?.UserName;
+                dealerUser.EmailAddress = dealerUser.EmailAddress ?? dealer.EmailAddress ?? contract.Dealer?.Email;
             }
             usersForProcessing.Add(dealerUser);
             return usersForProcessing.ToArray();
