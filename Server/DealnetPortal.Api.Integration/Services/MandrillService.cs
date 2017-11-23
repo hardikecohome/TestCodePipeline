@@ -383,6 +383,7 @@ namespace DealnetPortal.Api.Integration.Services
             myVariables.Add(new Variable() { name = "CustomerName", content = customerName });
             myVariables.Add(new Variable() { name = "CustomerEmail", content = customerEmail });
             myVariables.Add(new Variable() { name = "CustomerNumber", content = customerPhone });
+            myVariables.Add(new Variable() { name = "AgreementType", content = agreementType });
             request.key = _apiKey;
             request.template_name = ConfigurationManager.AppSettings["SignatureDeclineNotification"];
             request.template_content = new List<templatecontent>() {

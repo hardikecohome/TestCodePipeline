@@ -670,7 +670,6 @@ namespace DealnetPortal.Api.Integration.Services
                 var envelopeId = envelopeStatusSection?.Element(XName.Get("EnvelopeID", xmlns))?.Value;
 
                 var contract = _contractRepository.FindContractBySignatureId(envelopeId);
-                
                 if (contract != null && envelopeStatusSection != null)
                 {
                     //check for signer users info exist in this contract
