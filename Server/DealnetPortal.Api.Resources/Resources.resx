@@ -853,7 +853,7 @@
   <data name="DealerCancelledEsign" xml:space="preserve">
     <value>Dealer cancelled eSignature process</value>
   </data>
-  <data name="_26_DeclinedBlueChip" xml:space="preserve">
+  <data name="_25_DeclinedBlueChip" xml:space="preserve">
     <value>Declined Blue Chip</value>
   </data>
   <data name="_26_Pre_Approved" xml:space="preserve">
