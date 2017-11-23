@@ -904,7 +904,7 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 contract.Details.SignatureLastUpdateTime = null;
                 updated = true;
-            }
+            }            
             if (contract.Signers?.Any() == true)
             {
                 contract.Signers.ForEach(s =>
@@ -912,6 +912,7 @@ namespace DealnetPortal.Api.Integration.Services
                     s.SignatureStatus = null;
                     s.SignatureStatusQualifier = null;
                     s.StatusLastUpdateTime = null;
+                    s.Comment = null;
                     updated |= true;
                 });
             }

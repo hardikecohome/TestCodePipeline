@@ -1047,10 +1047,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     signer.SignatureStatus = sStatus;
                     signer.SignatureStatusQualifier = status;
                     signer.StatusLastUpdateTime = statusTime;
-                    if (!string.IsNullOrEmpty(comment))
-                    {
-                        signer.Comment = comment;
-                    }
+                    signer.Comment = comment;
                     if (string.IsNullOrEmpty(signer.EmailAddress))
                     {
                         signer.EmailAddress = email;
