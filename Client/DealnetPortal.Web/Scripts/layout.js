@@ -715,8 +715,10 @@ function CommunicationPreffered() {
 	$('#emailAlternativeEmailAddress').val("");
 	$('#emailAlternativeEmailAddressValidation').addClass('hidden');
 }
-function sendEmailModel(rowTransactionId, supportType = "Other") {
-	
+function sendEmailModel(rowTransactionId, supportType) {
+	if (supportType == null) {
+		supportType = 'Other';
+	}
 	var alertModal = $('#emailModal');
 	
 	clearEmailForm();

@@ -10,7 +10,6 @@ namespace DealnetPortal.Web.Models
 {
     public class CustomerFormViewModel
     {
-        [CheckCustomersAge("AdditionalApplicants", 76)]
         [CheckHomeOwner("AdditionalApplicants")]
         public ApplicantPersonalInfo HomeOwner { get; set; }
         public CustomerContactInfoViewModel HomeOwnerContactInfo { get; set; }
