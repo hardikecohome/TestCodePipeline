@@ -242,40 +242,52 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         public async Task<IList<Alert>> UpdateSigners(IList<SignatureUser> signatureUsers)
         {
-            var alerts = new List<Alert>();
-            EnvelopesApi envelopesApi = new EnvelopesApi();
+            var alerts = new List<Alert>();            
             if (!string.IsNullOrEmpty(TransactionId))
             {
-                await InsertSignatures(signatureUsers);
-                var envelope = await envelopesApi.GetEnvelopeAsync(AccountId, TransactionId);
-                var reciepents = await envelopesApi.ListRecipientsAsync(AccountId, TransactionId);
-                if (envelope != null)
-                {
-                    var updateRecipients = !AreRecipientsEqual(reciepents);
-                    if (updateRecipients)
+                try
+                {                
+                    EnvelopesApi envelopesApi = new EnvelopesApi();
+                    await InsertSignatures(signatureUsers);
+                    var envelope = await envelopesApi.GetEnvelopeAsync(AccountId, TransactionId);
+                    var reciepents = await envelopesApi.ListRecipientsAsync(AccountId, TransactionId);
+                    if (envelope != null)
                     {
-                        reciepents = UpdateRecipientsMails(reciepents);                        
-                        var updateRes = await envelopesApi.UpdateRecipientsAsync(AccountId, TransactionId, reciepents);
-                        //mails will send automaticaly and we don't need resendEnvelope here
-                        //if (envelope.Status == "sent")
-                        //{
-                        //    envelope = new Envelope() { };
-                        //    var updateOptions = new EnvelopesApi.UpdateOptions()
-                        //    {
-                        //        resendEnvelope = "true"
-                        //    };
-                        //    var updateEnvelopeRes =
-                        //        await envelopesApi.UpdateAsync(AccountId, TransactionId, envelope, updateOptions);
-                        //}
+                        var updateRecipients = !AreRecipientsEqual(reciepents);
+                        if (updateRecipients)
+                        {
+                            reciepents = UpdateRecipientsMails(reciepents);                        
+                            var updateRes = await envelopesApi.UpdateRecipientsAsync(AccountId, TransactionId, reciepents);                        
+                            //mails will send automaticaly and we don't need resendEnvelope here
+                            //if (envelope.Status == "sent")
+                            //{
+                            //    envelope = new Envelope() { };
+                            //    var updateOptions = new EnvelopesApi.UpdateOptions()
+                            //    {
+                            //        resendEnvelope = "true"
+                            //    };
+                            //    var updateEnvelopeRes =
+                            //        await envelopesApi.UpdateAsync(AccountId, TransactionId, envelope, updateOptions);
+                            //}
+                        }
+                    }
+                    else
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Type = AlertType.Error,
+                            Header = "Can't find envelope",
+                            Message = $"Can't find envelope {TransactionId} in DocuSign"
+                        });
                     }
                 }
-                else
+                catch (Exception e)
                 {
                     alerts.Add(new Alert()
                     {
                         Type = AlertType.Error,
-                        Header = "Can't find envelope",
-                        Message = $"Can't find envelope {TransactionId} in DocuSign"
+                        Header = "eSignature error",
+                        Message = $"Can't update eSignature reciepents in DocuSign for envelope {TransactionId}: {e}"
                     });
                 }
             }
@@ -405,7 +417,13 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                                     }).OrderByDescending(rst => rst).FirstOrDefault()
                                 : DateTime.Now;
 
-                            updated |= ProcessSignerStatus(contract, s.Name, s.Email, s.Status, s.DeclinedReason,
+                            string declinedReason = s.DeclinedReason;
+                            if (!string.IsNullOrEmpty(s.DeclinedReason))
+                            {
+                                declinedReason = System.Web.HttpUtility.HtmlDecode(s.DeclinedReason);
+                            }                                                       
+
+                            updated |= ProcessSignerStatus(contract, s.Name, s.Email, s.Status, declinedReason,
                                 rsLastStatusTime);
                         });
                     }
@@ -1035,10 +1053,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     signer.SignatureStatus = sStatus;
                     signer.SignatureStatusQualifier = status;
                     signer.StatusLastUpdateTime = statusTime;
-                    if (!string.IsNullOrEmpty(comment))
-                    {
-                        signer.Comment = comment;
-                    }
+                    signer.Comment = comment;
                     if (string.IsNullOrEmpty(signer.EmailAddress))
                     {
                         signer.EmailAddress = email;

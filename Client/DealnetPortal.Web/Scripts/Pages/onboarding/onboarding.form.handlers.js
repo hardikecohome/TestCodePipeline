@@ -109,7 +109,7 @@
         return true;
     }
 
-    function validateDocuments() {
+    function validateDocuments () {
         var license = state['documents']['addedLicense'].filter(function (lic) {
             if (lic.noExpiry === undefined) {
                 return lic.number === '' || lic.date === '';
@@ -128,16 +128,7 @@
         return license && insurence && voidCheque;
     }
 
-    function successCallback (json) {
-        hideLoader();
-    }
-
-    function errorCallback (xhr, status, p3) {
-        hideLoader();
-    }
-
-    function validate(e) {
-        showLoader();
+    function validate (e) {
         var $form = $('#onboard-form');
         $('#submitBtn').prop('disabled', true);
 
@@ -158,7 +149,6 @@
             $form.submit();
         } else {
             e.preventDefault();
-            hideLoader();
         }
     }
 

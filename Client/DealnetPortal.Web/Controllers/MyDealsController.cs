@@ -55,7 +55,7 @@ namespace DealnetPortal.Web.Controllers
             ViewBag.IsNewlySubmitted = isNewlySubmitted ?? false;            
 
             var contract = await _contractManager.GetContractEditAsync(id);
-            ViewBag.IsNotEditable = contract.BasicInfo.ContractState == ContractState.SentToAudit || contract.BasicInfo.ContractState == ContractState.CreditCheckDeclined;
+            ViewBag.IsNotEditable = contract.BasicInfo.ContractState == ContractState.Closed || contract.BasicInfo.ContractState == ContractState.CreditCheckDeclined;
             ViewBag.IsEsignatureEnabled = (dealer?.EsignatureEnabled ?? false) && !ViewBag.IsNotEditable;
             if (!string.IsNullOrEmpty(dealer?.Email))
             {

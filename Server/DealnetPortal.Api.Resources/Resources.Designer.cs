@@ -223,6 +223,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Declined Blue Chip.
+        /// </summary>
+        public static string _25_DeclinedBlueChip {
+            get {
+                return ResourceManager.GetString("_25_DeclinedBlueChip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Declined Enable Deals.
         /// </summary>
         public static string _25_DeclinedEnableDeals {
@@ -246,15 +255,6 @@ namespace DealnetPortal.Api.Resources {
         public static string _25_Declinedwoemailnotice {
             get {
                 return ResourceManager.GetString("_25_Declinedwoemailnotice", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Declined Blue Chip.
-        /// </summary>
-        public static string _26_DeclinedBlueChip {
-            get {
-                return ResourceManager.GetString("_26_DeclinedBlueChip", resourceCulture);
             }
         }
         

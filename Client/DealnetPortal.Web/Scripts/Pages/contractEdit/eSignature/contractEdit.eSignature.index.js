@@ -146,9 +146,10 @@
                             $el.find('.icon-front').replaceWith($form.find('.icons .icon-waiting').clone());
                         }
                         if (signer.SignatureStatus === 0 || signer.SignatureStatus === 1) {
-                            var msg = $el.find('#signer-role-' + rowId).val().toLowerCase() === 'additionalapplicant' ?
-                                translations['InviteSentWhenSigns'].split('{0}').join(translations['Coborrower']) :
-                                translations['InviteSentWhenSigns'].split('{0}').join(translations['Borrower'])
+                            var role = $('#signer-role-' + (rowId - 1)).val().toLowerCase()
+                            var msg = role === 'homeowner' || role === 'signer' ?
+                                translations['InviteSentWhenSigns'].split('{0}').join(translations['Borrower']) :
+                                translations['InviteSentWhenSigns'].split('{0}').join(translations['Coborrower']);
                             $el.find('.signature-header').text(msg);
                             $el.find('#signer-btn-' + rowId).text(translations['UpdateEmail']);
                             $el.find('.icon-front').replaceWith($form.find('.icons .icon-waiting').clone());
@@ -189,7 +190,15 @@
     var init = function () {
         $('[id^="signer-btn-"]').on('click', submitOneSignature);
         $('#submit-digital').on('click', submitDigital);
-        $('.comment-btn').on('click', toggleComment);
+
+        //work around of IE SVG system
+        $('.comment-btn').each(function () {
+            var $this = $(this);
+            var rowId = $this.parents('.signer-row').find('#row-id').val();
+            $this.on('click', function () {
+                $('#comment-' + rowId).toggleClass('hidden');
+            });
+        });
     };
 
     return {

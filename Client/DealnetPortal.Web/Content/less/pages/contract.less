@@ -289,6 +289,9 @@
       }
     }
     .signature-status {
+      .comment-btn {
+          cursor: pointer;
+      }
       .icon {
         &.icon-front {
           height: 24px;
@@ -303,7 +306,6 @@
         &.icon-comment {
           margin-left: 5px;
           margin-top: -25px; 
-          cursor: pointer;
         }
       }
       .signature-hold {
@@ -397,6 +399,7 @@
     }
     .icon.icon-comment {
       margin-top:-15px;
+      margin-left: 10px;
     }
     .dealnet-link-button {
       @media @desktop-up{
@@ -405,4 +408,9 @@
       }
     }
   }
+}
+
+.ie .signed-contract .sent-contract-secton .comment-btn {
+  height: 50px;
+  width: 50px;
 }

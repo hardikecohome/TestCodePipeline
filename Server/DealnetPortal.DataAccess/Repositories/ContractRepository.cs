@@ -971,7 +971,7 @@ namespace DealnetPortal.DataAccess.Repositories
                         {
                             curSigner.CustomerId = s.CustomerId;
                         }
-                        if (curSigner.EmailAddress != s.EmailAddress)
+                        if (!string.IsNullOrEmpty(s.EmailAddress) && curSigner.EmailAddress != s.EmailAddress)
                         {
                             curSigner.EmailAddress = s.EmailAddress;
                         }

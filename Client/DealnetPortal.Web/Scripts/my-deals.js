@@ -366,7 +366,6 @@ function getSignatureDetails () {
         url: contractSignatureStatusUrl + '?contractId=' + id,
     }).done(function (data) {
         $('#signature-body').html(data);
-        $('#contract-details-link').attr("href", editContractUrl + '/' + id);
         $('#contract-signature-modal').modal();
     });
 }
