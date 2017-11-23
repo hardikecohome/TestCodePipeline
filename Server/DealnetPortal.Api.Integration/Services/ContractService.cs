@@ -1086,7 +1086,7 @@ namespace DealnetPortal.Api.Integration.Services
                         isChanged = true;                                                
                     }
                     //update contract state in any case
-                    UpdateContractState(contract);
+                    isChanged |= UpdateContractState(contract);
                 }                
             }
             return isChanged;
@@ -1096,15 +1096,17 @@ namespace DealnetPortal.Api.Integration.Services
         /// Logic for update internal contract state by Aspire state
         /// </summary>
         /// <param name="contract"></param>
-        private void UpdateContractState(Contract contract)
+        private bool UpdateContractState(Contract contract)
         {
+            bool isChanged = false;
             var aspireStatus = _contractRepository.GetAspireStatus(contract.Details?.Status);
             if (aspireStatus?.ContractState != null)
             {
                 if (contract.ContractState != aspireStatus.ContractState)
                 {
                     contract.ContractState = aspireStatus.ContractState.Value;
-                    contract.LastUpdateTime = DateTime.Now;                    
+                    contract.LastUpdateTime = DateTime.Now;
+                    isChanged = true;
                 }
                 switch (aspireStatus.ContractState)
                 {
@@ -1132,8 +1134,10 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     contract.ContractState = ContractState.Completed;
                     contract.LastUpdateTime = DateTime.Now;
+                    isChanged = true;
                 }
             }
+            return isChanged;
         }
 
         public IList<Alert> RemoveContract(int contractId, string contractOwnerId)
