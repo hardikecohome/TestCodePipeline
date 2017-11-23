@@ -507,14 +507,10 @@ namespace DealnetPortal.Web.App_Start
                     {
                         var borrower = src.Signers.FirstOrDefault(x => x.SignerType == SignatureRole.HomeOwner);
 
-                        if (borrower != null)
+                        if (borrower?.StatusLastUpdateTime != null && (DateTime.Now - borrower.StatusLastUpdateTime.Value).TotalDays < 3)
                         {
-                            if (borrower.StatusLastUpdateTime != null && (DateTime.Now - borrower.StatusLastUpdateTime.Value).TotalDays < 3)
-                            {
-                                return src.Details.SignatureStatus.ToString().ToLower() + "less3";
-                            }
+                            return src.Details.SignatureStatus.ToString().ToLower() + "less3";
                         }
-
                     }
 
                     return src.Details.SignatureStatus.ToString().ToLower();

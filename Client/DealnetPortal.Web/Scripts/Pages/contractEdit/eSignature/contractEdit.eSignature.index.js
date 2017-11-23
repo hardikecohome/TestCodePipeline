@@ -190,7 +190,15 @@
     var init = function () {
         $('[id^="signer-btn-"]').on('click', submitOneSignature);
         $('#submit-digital').on('click', submitDigital);
-        $('.comment-btn').on('click', toggleComment);
+
+        //work around of IE SVG system
+        $('.comment-btn').each(function () {
+            var $this = $(this);
+            var rowId = $this.parents('.signer-row').find('#row-id').val();
+            $this.on('click', function () {
+                $('#comment-' + rowId).toggleClass('hidden');
+            });
+        });
     };
 
     return {
