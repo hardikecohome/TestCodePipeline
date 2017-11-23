@@ -628,6 +628,7 @@ namespace DealnetPortal.Api.Integration.Services
                     var updateAlerts = await _signatureEngine.UpdateSigners(signatureUsers);
                     if (updateAlerts?.Any() == true)
                     {
+                        LogAlerts(updateAlerts);
                         alerts.AddRange(updateAlerts);
                     }
                 }
@@ -654,8 +655,7 @@ namespace DealnetPortal.Api.Integration.Services
                     Header = "eSignature error",
                     Message = $"{msg}:{ex.ToString()}"
                 });
-            }
-
+            }            
             return alerts;
         }
         public async Task<IList<Alert>> ProcessSignatureEvent(string notificationMsg)
@@ -786,12 +786,14 @@ namespace DealnetPortal.Api.Integration.Services
             });
 
             var dealerUser = signatureUsers?.FirstOrDefault(u => u.Role == SignatureRole.Dealer) ?? new SignatureUser() {Role = SignatureRole.Dealer};            
-            if (string.IsNullOrEmpty(dealerUser.LastName))
+            if (string.IsNullOrEmpty(dealerUser.LastName) || string.IsNullOrEmpty(dealerUser.EmailAddress))
             {
-                var dealer = contract?.Dealer;
+                var dealer = contract?.Signers?.FirstOrDefault(s => s.SignerType == SignatureRole.Dealer);
                 if (dealer != null)
                 {
-                    dealerUser.LastName = dealer.UserName;
+                    dealerUser.FirstName = dealerUser.FirstName ?? dealer.FirstName;
+                    dealerUser.LastName = dealerUser.LastName ?? dealer.LastName;
+                    dealerUser.EmailAddress = dealerUser.EmailAddress ?? dealer.EmailAddress;
                 }
             }
             usersForProcessing.Add(dealerUser);
