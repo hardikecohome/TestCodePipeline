@@ -11,10 +11,12 @@
         var ageDifMs = Date.now() - birthday.getTime();
         var ageDate = new Date(ageDifMs);
         var age = Math.abs(ageDate.getUTCFullYear() - 1970);
-        if (age < 76) {
-            atLeastOneValid = true;
-            return false;
-        }
+        //if (age < 76) {
+        //    atLeastOneValid = true;
+        //    return false;
+        //}
+		//Please uncomment above code and delete next line to implement age check condition again 
+		atLeastOneValid = true;
     });
     return atLeastOneValid;
 };
@@ -29,11 +31,12 @@ function checkApplicantAgeOnSelect (date) {
     var ageDate = new Date(ageDifMs);
     var age = Math.abs(ageDate.getUTCFullYear() - 1970);
 
-    if (age < 76) {
-        return true;
-    }
+    //if (age < 76) {
+    //    return true;
+    //}
 
-    return false;
+	//return false;
+	return true;
 }
 
 function checkHomeOwner () {
