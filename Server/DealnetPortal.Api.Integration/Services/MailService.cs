@@ -587,16 +587,26 @@ namespace DealnetPortal.Api.Integration.Services
 
         public async Task SendDeclineToSign(Contract contract)
         {
-            var phone = contract.PrimaryCustomer.Phones.SingleOrDefault(x => x.PhoneType == PhoneType.Cell)?.PhoneNum ??
-                        contract.PrimaryCustomer.Phones.SingleOrDefault(x => x.PhoneType == PhoneType.Business)?.PhoneNum ??
-                        contract.PrimaryCustomer.Phones.SingleOrDefault(x => x.PhoneType == PhoneType.Home)?.PhoneNum; 
+            var declinedSigner = contract.Signers.SingleOrDefault(s => s.SignatureStatus == SignatureStatus.Declined);
+            var declinedCustomer = new Customer();
             try
             {
-                await _mandrillService.SendDeclineToSignDealerNotification(contract.Dealer.Email, 
-                    contract.Dealer.AspireLogin, contract.Id.ToString(),
-                    contract.PrimaryCustomer.FirstName+" "+contract.PrimaryCustomer.LastName,
-                    contract.PrimaryCustomer.Emails.SingleOrDefault(x=>x.EmailType == EmailType.Main)?.EmailAddress,
-                    phone);
+                if (declinedSigner.SignerType == SignatureRole.HomeOwner)
+                    declinedCustomer = contract.PrimaryCustomer;
+                if (declinedSigner.SignerType == SignatureRole.AdditionalApplicant)
+                    declinedCustomer = contract.SecondaryCustomers.SingleOrDefault(x => x.Id == declinedSigner.CustomerId);
+                if (declinedCustomer != null)
+                {
+                    var phone = declinedCustomer.Phones.SingleOrDefault(x => x.PhoneType == PhoneType.Cell)?.PhoneNum ??
+                                declinedCustomer.Phones.SingleOrDefault(x => x.PhoneType == PhoneType.Business)?.PhoneNum ??
+                                declinedCustomer.Phones.SingleOrDefault(x => x.PhoneType == PhoneType.Home)?.PhoneNum;
+                    var agreementType = contract.Equipment.AgreementType == AgreementType.LoanApplication ? "loan" : "rental";
+                    await _mandrillService.SendDeclineToSignDealerNotification(contract.Dealer.Email,
+                        contract.Dealer.AspireLogin, contract.Details.TransactionId,
+                        declinedCustomer.FirstName + " " + declinedCustomer.LastName,
+                        declinedCustomer.Emails.SingleOrDefault(x => x.EmailType == EmailType.Main)?.EmailAddress,
+                        phone, agreementType);
+                }
             }
             catch (Exception ex)
             {

@@ -179,6 +179,8 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             return _dbContext.Contracts
                 .Include(c => c.Signers)
+                .Include(c => c.SecondaryCustomers)
+                .Include(c => c.Equipment)
                 .FirstOrDefault(c => c.Details.SignatureTransactionId == signatureTransactionId);
         }
 
