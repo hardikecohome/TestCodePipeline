@@ -2127,14 +2127,30 @@ namespace DealnetPortal.DataAccess.Migrations
 
         private void SetAspireStatuses(ApplicationDbContext context)
         {
-            var statuses = new List<AspireStatus>
+            if (!context.AspireStatuses.Any())
             {
-                 new AspireStatus { Status = "Booked", Interpretation = AspireStatusInterpretation.SentToAudit },
-                 new AspireStatus { Status = "Ready for Audit", Interpretation = AspireStatusInterpretation.SentToAudit }
-            };
-            //leave existing data
-            statuses.RemoveAll(t => context.AspireStatuses.Any(dbt => dbt.Status == t.Status));
-            context.AspireStatuses.AddOrUpdate(t => t.Status, statuses.ToArray());
+                var statuses = new List<AspireStatus>
+                {
+                    new AspireStatus
+                    {
+                        Status = "Booked",
+                        ContractState = ContractState.Closed
+                    },
+                    new AspireStatus
+                    {
+                        Status = "Ready for Audit",
+                        ContractState = ContractState.Closed
+                    },
+                    new AspireStatus
+                    {
+                        Status = "Declined",
+                        ContractState = ContractState.CreditCheckDeclined
+                    }
+                };
+                //leave existing data
+                statuses.RemoveAll(t => context.AspireStatuses.Any(dbt => dbt.Status == t.Status));
+                context.AspireStatuses.AddOrUpdate(t => t.Status, statuses.ToArray());
+            }
         }
 
         private void SetDocumentTypes(ApplicationDbContext context)

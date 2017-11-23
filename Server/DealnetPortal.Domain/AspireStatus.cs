@@ -13,6 +13,6 @@ namespace DealnetPortal.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Status { get; set; }
-        public AspireStatusInterpretation Interpretation { get; set; }
+        public ContractState? ContractState { get; set; }
     }
 }

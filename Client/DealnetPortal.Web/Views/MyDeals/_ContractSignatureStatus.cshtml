@@ -29,7 +29,7 @@
                     </div>
                     <div class="col-md-5">
                         <label class="pull-left">@Resources.Email</label>
-                        @Html.TextBoxFor(m => m.Signers[i].Email, new {@class ="dealnet-input form-control" ,type="email" ,id= $"signer-email-{i}", disabled="disabled"  })
+                        @Html.TextBoxFor(m => m.Signers[i].Email, new { @class = "dealnet-input form-control", type = "email", id = $"signer-email-{i}", disabled = "disabled" })
                     </div>
                     <div class="col-md-5 signer-status-hold @Model.Signers[i].SignatureStatus.ToString().ToLower() @(Model.Status == SignatureStatus.Declined && Model.Signers[i].SignatureStatus < SignatureStatus.Signed?"hidden":"")">
                         <div class="signature-status">
@@ -83,11 +83,11 @@
                             </div>
                             @if (!string.IsNullOrEmpty(Model.Signers[i].Comment))
                             {
-                                <span class="comment-btn">
+                                <a class="comment-btn">
                                     <svg aria-hidden="true" class="icon icon-comment">
                                         <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-comment")"></use>
                                     </svg>
-                                </span>
+                                </a>
                             }
                         </div>
                     </div>
@@ -104,18 +104,22 @@
                     </div>
                 }
             }
-            <div class="esig-link"><a href="" id="contract-details-link" target="_blank" class="dealnet-link-button">@Resources.GoToContractDetails</a></div>
+            <div class="esig-link">
+                @Html.ActionLink(Resources.GoToContractDetails, "ContractEdit","MyDeals",new {id= Model.ContractId }, new { @class="dealnet-link-button" })
+            </div>
         </div>
     </div>
 </span>
 <script>
-    function toggleComment(e) {
-        var $row = $(e.target).parents('.signer-row');
-        var rowId = $row.find('#row-id').val();
-        $('#comment-' + rowId).toggleClass('hidden');
-    }
+    // Work around of IE SVG system
     $(document).ready(function () {
-        $('.comment-btn').on('click', toggleComment);
+        $('.comment-btn').each(function () {
+            var $this = $(this);
+            var rowId = $this.parents('.signer-row').find('#row-id').val();
+            $this.on('click', function () {
+                $('#comment-' + rowId).toggleClass('hidden');
+            });
+        });
     });
 </script>
 

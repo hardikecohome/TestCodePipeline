@@ -252,8 +252,8 @@
                 @Html.HiddenFor(m => m.BasicInfo.ContractId, new { Name = "ContractId" })
                 @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[0].Value, new { Name = "DocumentTypeId" })
                 <div class="form-group clearfix">
-                    <div @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>                                                         }
-                         class="file-upload btn dealnet-button dealnet-success-button disablable @if (contractState == ContractState.SentToAudit || contractState == ContractState.CreditCheckDeclined) {<text>disabled</text>}">
+                    <div @if (contractState == ContractState.Closed || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>                                                         }
+                         class="file-upload btn dealnet-button dealnet-success-button disablable @if (contractState == ContractState.Closed || contractState == ContractState.CreditCheckDeclined) {<text>disabled</text>}">
                         <span>@Resources.Upload</span>
                         <input type="file" name="File" class="upload main-document-upload" />
                     </div>
