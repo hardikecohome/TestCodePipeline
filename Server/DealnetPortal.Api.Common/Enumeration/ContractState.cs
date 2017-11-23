@@ -21,6 +21,6 @@ namespace DealnetPortal.Api.Common.Enumeration
         [Display(ResourceType = typeof (Resources.Resources), Name = "ApplicationSubmitted")]
         Completed = 5,
         [Display(ResourceType = typeof (Resources.Resources), Name = "SentToAudit")]
-        SentToAudit = 6
+        Closed = 6
     }
 }

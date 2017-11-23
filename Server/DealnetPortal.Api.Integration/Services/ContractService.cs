@@ -177,7 +177,7 @@ namespace DealnetPortal.Api.Integration.Services
                             _aspireService.UpdateContractCustomer(updatedContract, contractOwnerId, contract.LeadSource).GetAwaiter().GetResult();
                     }
                     if (updatedContract.ContractState != ContractState.Completed &&
-                        updatedContract.ContractState != ContractState.SentToAudit)
+                        updatedContract.ContractState != ContractState.Closed)
                     {
                         var aspireAlerts = 
                             _aspireService.SendDealUDFs(updatedContract, contractOwnerId, contract.LeadSource, contractor).GetAwaiter().GetResult();
@@ -1099,25 +1099,36 @@ namespace DealnetPortal.Api.Integration.Services
         private void UpdateContractState(Contract contract)
         {
             var aspireStatus = _contractRepository.GetAspireStatus(contract.Details?.Status);
-            if (aspireStatus != null)
+            if (aspireStatus?.ContractState != null)
             {
-                if (!aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
-                    contract.ContractState == ContractState.SentToAudit)
+                if (contract.ContractState != aspireStatus.ContractState)
                 {
-                    contract.ContractState = ContractState.Completed;
-                    contract.LastUpdateTime = DateTime.Now;
+                    contract.ContractState = aspireStatus.ContractState.Value;
+                    contract.LastUpdateTime = DateTime.Now;                    
                 }
-                else if (aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
-                         contract.ContractState != ContractState.SentToAudit)
+                switch (aspireStatus.ContractState)
                 {
-                    contract.ContractState = ContractState.SentToAudit;
-                    contract.LastUpdateTime = DateTime.Now;
+                    case ContractState.CreditCheckDeclined:
+                        contract.WasDeclined = true;
+                        break;
                 }
+                //if (!aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
+                //    contract.ContractState == ContractState.Closed)
+                //{
+                //    contract.ContractState = ContractState.Completed;
+                //    contract.LastUpdateTime = DateTime.Now;
+                //}
+                //else if (aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
+                //         contract.ContractState != ContractState.Closed)
+                //{
+                //    contract.ContractState = ContractState.Closed;
+                //    contract.LastUpdateTime = DateTime.Now;
+                //}
             }
             else
             {
-                // if current status is SentToAudit reset it to Completed
-                if (contract.ContractState == ContractState.SentToAudit)
+                // if current status is Closed reset it to Completed
+                if (contract.ContractState == ContractState.Closed)
                 {
                     contract.ContractState = ContractState.Completed;
                     contract.LastUpdateTime = DateTime.Now;

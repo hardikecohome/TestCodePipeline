@@ -1040,7 +1040,7 @@ namespace DealnetPortal.Api.Integration.Services
                             
                             if (rAlerts.All(a => a.Type != AlertType.Error))
                             {
-                                contract.ContractState = ContractState.SentToAudit;
+                                contract.ContractState = ContractState.Closed;
                                 _unitOfWork.Save();
                                 _loggingService.LogInfo(
                                     $"All Documents Uploaded Request was successfully sent to Aspire for contract {contractId}");
@@ -1695,10 +1695,10 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         contract.Details.Status = response.Payload.ContractStatus;
                         var aspireStatus = _contractRepository.GetAspireStatus(response.Payload.ContractStatus);
-                        if (aspireStatus != null && aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
-                            contract.ContractState != ContractState.SentToAudit)
+                        if (aspireStatus?.ContractState == ContractState.Closed &&
+                            contract.ContractState != ContractState.Closed)
                         {
-                            contract.ContractState = ContractState.SentToAudit;
+                            contract.ContractState = ContractState.Closed;
                             contract.LastUpdateTime = DateTime.Now;
                         }
                         _unitOfWork.Save();
