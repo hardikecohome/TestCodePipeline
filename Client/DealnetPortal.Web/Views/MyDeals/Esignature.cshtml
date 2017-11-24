@@ -13,8 +13,19 @@
     </ul>
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane fade in active" id="digital-contract">
-            <div class="signature-notification @(Model.ESignature.Status < ApiEnum.SignatureStatus.Declined?"hidden":"")">
-                @Resources.OneSignerDeclinedRemainingCanceled
+            <div class="signature-notification">
+                @if (Model.ESignature.Status >= ApiEnum.SignatureStatus.Declined)
+                {
+                    @Resources.OneSignerDeclinedRemainingCanceled
+                }
+                @if (Model.ESignature.Status <=  ApiEnum.SignatureStatus.Sent)
+                {
+                    @Resources.DigitalInvitesWillBeSentToEmails
+                }
+                @if (Model.ESignature.Status == ApiEnum.SignatureStatus.Signed || Model.ESignature.Status == ApiEnum.SignatureStatus.Completed)
+                {
+                   @Resources.ContractSignedSuccessfullyCopiesSent
+                }
             </div>
             <div class="sent-contract-secton">
                 @*@Html.Partial("_EsignatureStatus", Model)
@@ -55,15 +66,15 @@
                                         <div class="dealnet-label">
                                             @if (Model.ESignature.Signers[i].Role == ApiEnum.SignatureRole.HomeOwner)
                                             {
-                                            @Resources.Borrower
+                                                @Resources.Borrower
                                             }
                                             else if (Model.ESignature.Signers[i].Role == ApiEnum.SignatureRole.Dealer)
                                             {
-                                            @Resources.SalesRep
+                                                @Resources.SalesRep
                                             }
                                             else
                                             {
-                                            @Resources.Coborrower
+                                                @Resources.Coborrower
                                             }
                                         </div>
                                         <div class="control-group text-middle-group text-semibold">
@@ -247,17 +258,17 @@
                         </svg>
                     </a>
                 </div>
-                @Html.AntiForgeryToken()
-                @Html.Hidden("OperationGuid")
-                @Html.HiddenFor(m => m.BasicInfo.ContractId, new { Name = "ContractId" })
-                @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[0].Value, new { Name = "DocumentTypeId" })
-                <div class="form-group clearfix">
-                    <div @if (contractState == ContractState.Closed || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>                                                         }
-                         class="file-upload btn dealnet-button dealnet-success-button disablable @if (contractState == ContractState.Closed || contractState == ContractState.CreditCheckDeclined) {<text>disabled</text>}">
-                        <span>@Resources.Upload</span>
-                        <input type="file" name="File" class="upload main-document-upload" />
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("OperationGuid")
+                    @Html.HiddenFor(m => m.BasicInfo.ContractId, new { Name = "ContractId" })
+                    @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[0].Value, new { Name = "DocumentTypeId" })
+                    <div class="form-group clearfix">
+                        <div @if (contractState == ContractState.Closed || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>                                                             }
+                             class="file-upload btn dealnet-button dealnet-success-button disablable @if (contractState == ContractState.Closed || contractState == ContractState.CreditCheckDeclined) {<text>disabled</text>}">
+                            <span>@Resources.Upload</span>
+                            <input type="file" name="File" class="upload main-document-upload" />
+                        </div>
                     </div>
-                </div>
             }
             <a href="#" id="print-button" class="dealnet-info-link doc-tab-print-link @if (contractState == ContractState.CreditCheckDeclined)
                                { <text>disabled</text> } ">

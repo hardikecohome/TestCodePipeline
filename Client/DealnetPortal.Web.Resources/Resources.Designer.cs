@@ -19,7 +19,7 @@ namespace DealnetPortal.Web.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -1560,6 +1560,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contract was successfully signed using digital signatures – copy of signed contract was sent to all signers.
+        /// </summary>
+        public static string ContractSignedSuccessfullyCopiesSent {
+            get {
+                return ResourceManager.GetString("ContractSignedSuccessfullyCopiesSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copy.
         /// </summary>
         public static string Copy {
@@ -2114,6 +2123,15 @@ namespace DealnetPortal.Web.Resources {
         public static string DigitalContract {
             get {
                 return ResourceManager.GetString("DigitalContract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invites for digital signing of the contract will be sent to the following emails.
+        /// </summary>
+        public static string DigitalInvitesWillBeSentToEmails {
+            get {
+                return ResourceManager.GetString("DigitalInvitesWillBeSentToEmails", resourceCulture);
             }
         }
         
