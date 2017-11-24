@@ -256,19 +256,23 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         var updateRecipients = !AreRecipientsEqual(reciepents);
                         if (updateRecipients)
                         {
-                            reciepents = UpdateRecipientsMails(reciepents);                        
-                            var updateRes = await envelopesApi.UpdateRecipientsAsync(AccountId, TransactionId, reciepents);                        
+                            reciepents = UpdateRecipientsMails(reciepents);
+                            var updateRes =
+                                await envelopesApi.UpdateRecipientsAsync(AccountId, TransactionId, reciepents);
                             //mails will send automaticaly and we don't need resendEnvelope here
-                            //if (envelope.Status == "sent")
-                            //{
-                            //    envelope = new Envelope() { };
-                            //    var updateOptions = new EnvelopesApi.UpdateOptions()
-                            //    {
-                            //        resendEnvelope = "true"
-                            //    };
-                            //    var updateEnvelopeRes =
-                            //        await envelopesApi.UpdateAsync(AccountId, TransactionId, envelope, updateOptions);
-                            //}
+                        }
+                        else
+                        {
+                            if (envelope.Status == "sent")
+                            {
+                                envelope = new Envelope() { };
+                                var updateOptions = new EnvelopesApi.UpdateOptions()
+                                {
+                                    resendEnvelope = "true"
+                                };
+                                var updateEnvelopeRes =
+                                    await envelopesApi.UpdateAsync(AccountId, TransactionId, envelope, updateOptions);
+                            }
                         }
                     }
                     else
