@@ -351,6 +351,18 @@
             $('.dealnet-sidebar').removeClass('in');
             sendEmailModel('', 'customerService');
         });
+        $('select').each(function (i, el) {
+            if (!el.value) {
+                $(el).addClass('not-selected');
+            }
+        });
+        $('select').on('change', function () {
+            if (this.value) {
+                $(this).removeClass('not-selected');
+            } else {
+                $(this).addClass('not-selected');
+            }
+        })
     });
 
 function onDateSelect (input) {
@@ -1109,7 +1121,7 @@ function mapStatusToColorClass (status) {
     return 'icon-' + status.trim().toLowerCase().replace(/\s/g, '-').replace(/\(/g, '').replace(/\)/g, '').replace(/\//g, '').replace(/\$/g, '');
 }
 
-function mapSignatureStatusToColorClass(signatureStatus) {
+function mapSignatureStatusToColorClass (signatureStatus) {
     return 'icon-esig-' + signatureStatus;
 }
 

@@ -168,14 +168,6 @@
             $.validator.addMethod('validurl', function (value, element) {
                 return $.validator.methods.url.call(this, value, element) ||  $.validator.methods.url.call(this, 'http://' + value, element);
             }, translations.SiteInvalidFormat);
-
-            $('select').on('change',function(){
-                if(!this.value){
-                    $(this).addClass('no-value');
-                }else{
-                    $(this).removeClass('no-value');
-                }
-            })
         });
 
         function clearAddress() {
