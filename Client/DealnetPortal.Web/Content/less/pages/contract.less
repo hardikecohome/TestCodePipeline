@@ -229,14 +229,36 @@
     text-align: left;
     li {
       width: 190px;
+      @media @mobile {
+        width: 170px;
+      }
     }
   }
   .signature-notification {
     margin:5px 0 10px;
     font-size: 13px;
   }
-  .signer-row .applicant-col .text-middle-group .text-hold {
-    margin-top: 15px;
+  .signer-row {
+    @media @tablet-down {
+      border-bottom: 1px solid #ededed;
+      padding-bottom: 15px;
+    }
+    .applicant-col {
+      @media @mobile {
+        div {
+          display: inline-block;
+        }
+        div + div {
+          margin-left: 20px;
+        }
+      }
+      .text-middle-group .text-hold {
+        margin-top: 15px;
+        @media @mobile {
+          font-size: 13px;
+        }
+      }
+    }
   }
   .sent-contract-secton {
     margin: 5px 0;
@@ -272,6 +294,7 @@
         }
         .icon-front {
           bottom: 6px;
+          margin-bottom: 10px;
         }
         .dealnet-link-button {
           display: none;
@@ -361,11 +384,10 @@
       label {
         margin-bottom: 0;
       }
-      .text-middle-group {
-        padding: 20px 0;
-        border-bottom: 1px solid #dcdcdc;
-      }
     }
+  }
+  .form-control[disabled] {
+    background: #eeeeee;
   }
 }
 .esig-modal {

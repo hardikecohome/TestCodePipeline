@@ -61,6 +61,13 @@ body:not(.tablet-device):not(.mobile-device){
     align-items: center;
     margin-left: 5px;
     margin-left: auto;
+    @media @tablet-down {
+      position: relative;
+      right: 0px;
+    }
+    @media @mobile {
+      right: -50px;
+    }
 }
 
 .esig-modal {
