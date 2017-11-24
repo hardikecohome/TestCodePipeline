@@ -2409,6 +2409,9 @@ changing contract terms or signing contract on paper.</value>
   <data name="ContractSignedSuccessfullyCopiesSent" xml:space="preserve">
     <value>Contract was successfully signed using digital signatures – copy of signed contract was sent to all signers</value>
   </data>
+  <data name="DeclinedToSignContract" xml:space="preserve">
+    <value>declined to sign the contract</value>
+  </data>
   <data name="DigitalInvitesWillBeSentToEmails" xml:space="preserve">
     <value>Invites for digital signing of the contract will be sent to the following emails</value>
   </data>

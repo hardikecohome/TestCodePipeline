@@ -2010,6 +2010,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to declined to sign the contract.
+        /// </summary>
+        public static string DeclinedToSignContract {
+            get {
+                return ResourceManager.GetString("DeclinedToSignContract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deferral.
         /// </summary>
         public static string Deferral {

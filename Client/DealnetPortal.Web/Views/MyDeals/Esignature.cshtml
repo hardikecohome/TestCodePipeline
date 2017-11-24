@@ -18,13 +18,13 @@
                 {
                     @Resources.OneSignerDeclinedRemainingCanceled
                 }
-                @if (Model.ESignature.Status <=  ApiEnum.SignatureStatus.Sent)
+                @if (Model.ESignature.Status <= ApiEnum.SignatureStatus.Sent)
                 {
                     @Resources.DigitalInvitesWillBeSentToEmails
                 }
                 @if (Model.ESignature.Status == ApiEnum.SignatureStatus.Signed || Model.ESignature.Status == ApiEnum.SignatureStatus.Completed)
                 {
-                   @Resources.ContractSignedSuccessfullyCopiesSent
+                    @Resources.ContractSignedSuccessfullyCopiesSent
                 }
             </div>
             <div class="sent-contract-secton">
@@ -121,7 +121,7 @@
                                                     }
                                                     else if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Declined)
                                                     {
-                                                        <text>@Resources.BorrowerDeclinedSignature</text>
+                                                        <text>@(Model.ESignature.Signers[i].Role == ApiEnum.SignatureRole.HomeOwner?Resources.Borrower:Model.ESignature.Signers[i].Role == ApiEnum.SignatureRole.AdditionalApplicant?Resources.Coborrower:Resources.SalesRep) @Resources.DeclinedToSignContract</text>
                                                     }
                                                     else if (Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Created || Model.ESignature.Signers.Any(s => s.Id != Model.ESignature.Signers[i].Id && s.SignatureStatus == ApiEnum.SignatureStatus.Sent))
                                                     {
@@ -258,17 +258,17 @@
                         </svg>
                     </a>
                 </div>
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("OperationGuid")
-                    @Html.HiddenFor(m => m.BasicInfo.ContractId, new { Name = "ContractId" })
-                    @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[0].Value, new { Name = "DocumentTypeId" })
-                    <div class="form-group clearfix">
-                        <div @if (contractState == ContractState.Closed || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>                                                             }
-                             class="file-upload btn dealnet-button dealnet-success-button disablable @if (contractState == ContractState.Closed || contractState == ContractState.CreditCheckDeclined) {<text>disabled</text>}">
-                            <span>@Resources.Upload</span>
-                            <input type="file" name="File" class="upload main-document-upload" />
-                        </div>
+                @Html.AntiForgeryToken()
+                @Html.Hidden("OperationGuid")
+                @Html.HiddenFor(m => m.BasicInfo.ContractId, new { Name = "ContractId" })
+                @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[0].Value, new { Name = "DocumentTypeId" })
+                <div class="form-group clearfix">
+                    <div @if (contractState == ContractState.Closed || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text>                                                              }
+                         class="file-upload btn dealnet-button dealnet-success-button disablable @if (contractState == ContractState.Closed || contractState == ContractState.CreditCheckDeclined) {<text>disabled</text>}">
+                        <span>@Resources.Upload</span>
+                        <input type="file" name="File" class="upload main-document-upload" />
                     </div>
+                </div>
             }
             <a href="#" id="print-button" class="dealnet-info-link doc-tab-print-link @if (contractState == ContractState.CreditCheckDeclined)
                                { <text>disabled</text> } ">

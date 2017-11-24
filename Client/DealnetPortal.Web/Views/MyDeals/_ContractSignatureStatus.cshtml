@@ -59,7 +59,7 @@
                                     }
                                     else if (Model.Signers[i].SignatureStatus == SignatureStatus.Declined)
                                     {
-                                        <text>@Resources.BorrowerDeclinedSignature</text>
+                                        <text>@(Model.Signers[i].Role == SignatureRole.HomeOwner ? Resources.Borrower : Model.Signers[i].Role == SignatureRole.AdditionalApplicant ? Resources.Coborrower : Resources.SalesRep) @Resources.DeclinedToSignContract</text>
                                     }
                                     else if (Model.Signers[i].SignatureStatus == SignatureStatus.Created || Model.Signers.Any(s => s.Id != Model.Signers[i].Id && s.SignatureStatus == SignatureStatus.Sent))
                                     {
@@ -105,7 +105,7 @@
                 }
             }
             <div class="esig-link">
-                @Html.ActionLink(Resources.GoToContractDetails, "ContractEdit","MyDeals",new {id= Model.ContractId }, new { @class="dealnet-link-button" })
+                @Html.ActionLink(Resources.GoToContractDetails, "ContractEdit", "MyDeals", new { id = Model.ContractId }, new { @class = "dealnet-link-button" })
             </div>
         </div>
     </div>
