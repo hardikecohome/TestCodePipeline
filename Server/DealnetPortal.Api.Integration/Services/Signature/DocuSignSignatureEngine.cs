@@ -419,15 +419,9 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                                         }
                                         return statusTime;
                                     }).OrderByDescending(rst => rst).FirstOrDefault()
-                                : DateTime.Now;
+                                : DateTime.Now;                                                                               
 
-                            string declinedReason = s.DeclinedReason;
-                            if (!string.IsNullOrEmpty(s.DeclinedReason))
-                            {
-                                declinedReason = System.Web.HttpUtility.HtmlDecode(s.DeclinedReason);
-                            }                                                       
-
-                            updated |= ProcessSignerStatus(contract, s.Name, s.Email, s.Status, declinedReason,
+                            updated |= ProcessSignerStatus(contract, s.Name, s.Email, s.Status, s.DeclinedReason,
                                 rsLastStatusTime);
                         });
                     }
@@ -1057,7 +1051,12 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     signer.SignatureStatus = sStatus;
                     signer.SignatureStatusQualifier = status;
                     signer.StatusLastUpdateTime = statusTime;
+                    if (!string.IsNullOrEmpty(comment))
+                    {
+                        comment = System.Web.HttpUtility.HtmlDecode(comment);
+                    }
                     signer.Comment = comment;
+
                     if (string.IsNullOrEmpty(signer.EmailAddress))
                     {
                         signer.EmailAddress = email;
