@@ -266,8 +266,17 @@
                 <div class="col-md-4 col-lg-4">
                     <div class="form-group">
                         @Html.LabelFor(m => m.HomeOwner.BirthDate, new { @for = "birth-date" })
-                        <div class="control-group date-group">
-                            @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input check-age", id = "birth-date", placeholder = Resources.DateFormat, data_val_date = ""})
+                        <div class="control-group">
+                            @Html.HiddenFor(m => m.HomeOwner.BirthDate, new {@class = "check-age", id = "birth-date", placeholder = Resources.DateFormat, data_val_date = ""})
+                            <select class="form-control dob-control dealnet-input">
+                                <option>help</option>
+                            </select>
+                            <select class="form-control dob-control dealnet-input">
+                                <option>help</option>
+                            </select>
+                            <select class="form-control dob-control dealnet-input" >
+                                <option>help</option>
+                            </select>
                             @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new {@class = "text-danger"})
                         </div>
                     </div>

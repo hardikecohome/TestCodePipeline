@@ -9,28 +9,28 @@ configInitialized
             }
         });
 
-        var datepickerOptions = {
-            yearRange: '1900:' + (new Date().getFullYear() - 18),
-            minDate: new Date("1900-01-01"),
-            maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
-            onSelect: function (date) {
-                $(this).siblings('input.form-control').val(date);
-                $(".div-datepicker").removeClass('opened');
+        // var datepickerOptions = {
+        //     yearRange: '1900:' + (new Date().getFullYear() - 18),
+        //     minDate: new Date("1900-01-01"),
+        //     maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
+        //     onSelect: function (date) {
+        //         $(this).siblings('input.form-control').val(date);
+        //         $(".div-datepicker").removeClass('opened');
 
-                if (checkApplicantsAge()) {
-                    $('#age-warning-message').hide();
-                    $('#age-error-message').hide();
-                } else {
-                    $('#age-error-message').hide();
-                    $('#age-warning-message').show();
-                }
-            }
-        };
+        //         if (checkApplicantsAge()) {
+        //             $('#age-warning-message').hide();
+        //             $('#age-error-message').hide();
+        //         } else {
+        //             $('#age-error-message').hide();
+        //             $('#age-warning-message').show();
+        //         }
+        //     }
+        // };
 
-        assignDatepicker('#birth-date', datepickerOptions);
-        assignDatepicker('#additional-birth-date-1', datepickerOptions);
-        assignDatepicker('#additional-birth-date-2', datepickerOptions);
-        assignDatepicker('#additional-birth-date-3', datepickerOptions);
+        // assignDatepicker('#birth-date', datepickerOptions);
+        // assignDatepicker('#additional-birth-date-1', datepickerOptions);
+        // assignDatepicker('#additional-birth-date-2', datepickerOptions);
+        // assignDatepicker('#additional-birth-date-3', datepickerOptions);
 
         $('#agreement-checkbox').change(function () {
             var isValid = checkCreditAgree();
