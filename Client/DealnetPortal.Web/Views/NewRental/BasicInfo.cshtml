@@ -296,7 +296,7 @@
                             <select class="form-control dealnet-input dob-year">
                                 <option value="">yyyy</option>
                                 @{ var yearLess18 = DateTime.Now.Year - 18;}
-                                @for (var i = 1900; i <= yearLess18; i++)
+                                @for (var i = yearLess18; i >= 1900; i--)
                                 {
                                     <option value="@i" @(year==i?"selected=selected":"")>@i</option>
                                 }
@@ -684,7 +684,7 @@
                         <select class="form-control dealnet-input dob-year">
                             <option value="">yyyy</option>
 
-                        @for (var j = 1900; j <= yearLess18; j++)
+                        @for (var j = yearLess18; j >= 1900; j--)
 {
                         <option value="@j" @(year == j ? "selected=selected" : "")>@j</option>
 }
