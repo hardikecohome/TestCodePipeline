@@ -612,7 +612,7 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 // Get contract
-                var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
+                var contract = _contractRepository.GetContract(contractId, ownerUserId);
                 if (!string.IsNullOrEmpty(contract?.Details?.SignatureTransactionId) && signatureUsers?.Any() == true)
                 {
                     var logRes = await _signatureEngine.ServiceLogin().ConfigureAwait(false);
@@ -757,7 +757,8 @@ namespace DealnetPortal.Api.Integration.Services
 
         private SignatureUser[] PrepareSignatureUsers(Contract contract, SignatureUser[] signatureUsers)
         {
-            List<SignatureUser> usersForProcessing = new List<SignatureUser>();
+            List<SignatureUser> usersForProcessing = new List<SignatureUser>();            
+
             var homeOwner = signatureUsers?.FirstOrDefault(u => u.Role == SignatureRole.HomeOwner)
                                 ?? new SignatureUser() { Role = SignatureRole.HomeOwner };
             homeOwner.FirstName = !string.IsNullOrEmpty(homeOwner.FirstName) ? homeOwner.FirstName : contract?.PrimaryCustomer?.FirstName;
@@ -765,7 +766,8 @@ namespace DealnetPortal.Api.Integration.Services
             homeOwner.CustomerId = homeOwner.CustomerId ?? contract?.PrimaryCustomer?.Id;
             homeOwner.EmailAddress = !string.IsNullOrEmpty(homeOwner.EmailAddress)
                 ? homeOwner.EmailAddress
-                : contract?.PrimaryCustomer?.Emails.FirstOrDefault()?.EmailAddress;
+                : contract?.Signers?.FirstOrDefault(s => s.SignerType == SignatureRole.HomeOwner)?.EmailAddress 
+                    ?? contract?.PrimaryCustomer?.Emails.FirstOrDefault()?.EmailAddress;
             usersForProcessing.Add(homeOwner);
 
             contract?.SecondaryCustomers?.ForEach(cc =>
@@ -781,7 +783,9 @@ namespace DealnetPortal.Api.Integration.Services
                 coBorrower.CustomerId = coBorrower.CustomerId ?? cc.Id;
                 coBorrower.EmailAddress = !string.IsNullOrEmpty(coBorrower.EmailAddress)
                     ? coBorrower.EmailAddress
-                    : cc.Emails.FirstOrDefault()?.EmailAddress;
+                    : contract.Signers?.FirstOrDefault(u => u.SignerType == SignatureRole.AdditionalApplicant &&
+                                                            (cc.Id == u.Id) ||
+                                                            (cc.FirstName == u.FirstName && cc.LastName == u.LastName))?.EmailAddress ?? cc.Emails.FirstOrDefault()?.EmailAddress;
                 usersForProcessing.Add(coBorrower);
             });
 
