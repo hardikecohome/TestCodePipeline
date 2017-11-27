@@ -14,18 +14,7 @@ namespace DealnetPortal.Api.Models.Notify
         public string LoanNumber { get; set; }
         public string SupportType { get; set; }
         public string HelpRequested { get; set; }
-        public BestWayDTO BestWay { get; set; }        
+        public string BestWay { get; set; }
+        public string ContactDetails { get; set; }
     }
-
-    public class BestWayDTO
-    {
-        public bool byPhone { get; set; }
-        public bool SameEmail { get; set; }
-        public bool AlternativeEmail { get; set; }
-        public string AlternativeEmailAddress { get; set; }
-    }
-
-
-
-
 }

@@ -48,23 +48,25 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         {
                             if (ff.FieldType == FieldType.CheckBox && (field is PdfCheckBoxField))
                             {
+                                (field as PdfCheckBoxField).ReadOnly = false;
                                 var bVal = false;
                                 bool.TryParse(ff.Value, out bVal);
                                 (field as PdfCheckBoxField).Checked = bVal;
-                                //(field as PdfCheckBoxField).ReadOnly = true;
+                                (field as PdfCheckBoxField).ReadOnly = true;
                             }
                             else //Text
                             {
                                 if (field is PdfTextField)
                                 {
+                                    (field as PdfTextField).ReadOnly = false;
                                     (field as PdfTextField).Value = new PdfString(ff.Value);
-                                    //(field as PdfTextField).ReadOnly = true;
-                                }                                
+                                    (field as PdfTextField).ReadOnly = true;
+                                }
                             }
                         }
+                        //field.ReadOnly = true;
                     });
                 }
-
                 outStream = new MemoryStream();
                 document.Save(outStream);               
             }
