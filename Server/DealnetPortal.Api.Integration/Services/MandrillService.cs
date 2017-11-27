@@ -11,7 +11,7 @@ using DealnetPortal.Api.Models.Notification;
 using DealnetPortal.Domain;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Notify;
-
+using DealnetPortal.Api.Core.Helpers;
 namespace DealnetPortal.Api.Integration.Services
 {
     public class MandrillService : IMandrillService
@@ -260,7 +260,7 @@ namespace DealnetPortal.Api.Integration.Services
             List<Variable> myVariables = new List<Variable>();
             myVariables.Add(new Variable() { name = "DealerUniqueLink", content = draftLink });
             request.key = _apiKey;
-            request.template_name = ConfigurationManager.AppSettings["DraftLinkTemplate"];
+            request.template_name = CultureHelper.CurrentCultureType == CultureType.French ? ConfigurationManager.AppSettings["DraftLinkTemplateFrench"] : ConfigurationManager.AppSettings["DraftLinkTemplate"];
             request.template_content = new List<templatecontent>() {
                     new templatecontent(){
                         name="Your EcoHome Financial dealer application link",
