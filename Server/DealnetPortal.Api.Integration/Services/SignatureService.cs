@@ -795,7 +795,7 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 var dealer = contract?.Signers?.FirstOrDefault(s => s.SignerType == SignatureRole.Dealer);
                 dealerUser.FirstName = dealerUser.FirstName ?? dealer?.FirstName;
-                dealerUser.LastName = dealerUser.LastName ?? dealer?.LastName ?? contract.Dealer?.UserName;
+                dealerUser.LastName = dealerUser.LastName ?? dealer?.LastName ?? contract.Equipment?.SalesRep ?? contract.Dealer?.UserName;
                 dealerUser.EmailAddress = dealerUser.EmailAddress ?? dealer.EmailAddress ?? contract.Dealer?.Email;
             }
             usersForProcessing.Add(dealerUser);
