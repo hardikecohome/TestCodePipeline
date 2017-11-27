@@ -185,6 +185,12 @@ namespace DealnetPortal.Api.Integration.Services
 
                     if (updatedContract.ContractState == ContractState.Completed)
                     {
+                        //check contract signature status
+                        if (updatedContract.Details.SignatureStatus != null || !string.IsNullOrEmpty(updatedContract.Details?.SignatureTransactionId) && 
+                            updatedContract.LastUpdateTime > updatedContract.Details.SignatureInitiatedTime)
+                        {
+                            _signatureService.CleanSignatureInfo(updatedContract.Id, contractOwnerId);
+                        }
                         //var contractDTO = Mapper.Map<ContractDTO>(updatedContract);
                         //Task.Run(
                         //    async () =>
