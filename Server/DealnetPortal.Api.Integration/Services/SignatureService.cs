@@ -605,6 +605,26 @@ namespace DealnetPortal.Api.Integration.Services
             return new Tuple<SignatureSummaryDTO, IList<Alert>>(summary, alerts);
         }
 
+        public void CleanSignatureInfo(int contractId, string ownerUserId)
+        {
+            var contract = _contractRepository.GetContract(contractId, ownerUserId);
+            if (contract != null)
+            {
+                try
+                {
+                    bool updated = CleanContractSignatureInfo(contract); ;                    
+                    if (updated)
+                    {
+                        _unitOfWork.Save();
+                    }
+                }
+                catch (Exception e)
+                {
+                    _loggingService.LogError("Error during processing of CleanSignatureInfo", e);
+                }
+            }
+        }
+
         public async Task<IList<Alert>> UpdateSignatureUsers(int contractId, string ownerUserId, SignatureUser[] signatureUsers)
         {
             List<Alert> alerts = new List<Alert>();
