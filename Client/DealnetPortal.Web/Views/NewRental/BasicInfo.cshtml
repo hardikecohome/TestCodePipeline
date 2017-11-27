@@ -179,8 +179,8 @@
                         <label for="">@Resources.ChooseSubDealer</label>
                         <div class="control-group">
                             @Html.DropDownListFor(m => m.SubmittingDealerId,
-                                Model.SubDealers.Select(x => new SelectListItem {Value = x.Id, Text = x.DisplayName, Selected = Model.SubmittingDealerId == x.Id}),
-                                new {@class = "form-control", id = "subdealers"})
+             Model.SubDealers.Select(x => new SelectListItem { Value = x.Id, Text = x.DisplayName, Selected = Model.SubmittingDealerId == x.Id }),
+             new { @class = "form-control", id = "subdealers" })
                         </div>
                     </div>
                 </div>
@@ -249,8 +249,8 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.HomeOwner.FirstName, new { @for = "first-name" })
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.HomeOwner.FirstName, new {@class = "form-control dealnet-input", id = "first-name", placeholder = Resources.FirstName})
-                            @Html.ValidationMessageFor(m => m.HomeOwner.FirstName, "", new {@class = "text-danger"})
+                            @Html.TextBoxFor(m => m.HomeOwner.FirstName, new { @class = "form-control dealnet-input", id = "first-name", placeholder = Resources.FirstName })
+                            @Html.ValidationMessageFor(m => m.HomeOwner.FirstName, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
@@ -258,24 +258,48 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.HomeOwner.LastName, new { @for = "last-name" })
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.HomeOwner.LastName, new {@class = "form-control dealnet-input", id = "last-name", placeholder = Resources.LastName })
-                            @Html.ValidationMessageFor(m => m.HomeOwner.LastName, "", new {@class = "text-danger"})
+                            @Html.TextBoxFor(m => m.HomeOwner.LastName, new { @class = "form-control dealnet-input", id = "last-name", placeholder = Resources.LastName })
+                            @Html.ValidationMessageFor(m => m.HomeOwner.LastName, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-4">
                     <div class="form-group">
                         @Html.LabelFor(m => m.HomeOwner.BirthDate, new { @for = "birth-date" })
-                        <div class="control-group">
-                            @Html.HiddenFor(m => m.HomeOwner.BirthDate, new {@class = "check-age", id = "birth-date", placeholder = Resources.DateFormat, data_val_date = ""})
-                            <select class="form-control dob-control dealnet-input">
-                                <option>help</option>
+                        <div class="control-group dob-group">
+                            @Html.HiddenFor(m => m.HomeOwner.BirthDate, new { @class = "check-age", id = "birth-date", placeholder = Resources.DateFormat, data_val_date = "" })
+                            @{ 
+                            int month = 0;
+                            int day = 0;
+                            int year = 0;
+                            if (Model.HomeOwner!=null&& Model.HomeOwner.BirthDate.HasValue)
+                            {
+                            day = Model.HomeOwner.BirthDate.Value.Day;
+                            month = Model.HomeOwner.BirthDate.Value.Month;
+                            year = Model.HomeOwner.BirthDate.Value.Year;
+                            }
+                            }
+                            <select class="form-control dealnet-input">
+                                <option value="">mm</option>
+                                @for (var i = 1; i < 13; i++)
+                                {
+                                    <option value="@i" @(month == i? "selected=selected":"") >@i</option>
+                                }
                             </select>
-                            <select class="form-control dob-control dealnet-input">
-                                <option>help</option>
+                            <select class="form-control dealnet-input">
+                                <option value="">dd</option>
+                                @for(var i = 1; i < 32; i++)
+                                {
+                                    <option value="@i" @(day == i ? "selected=selected":"")>@i</option>
+                                }
                             </select>
-                            <select class="form-control dob-control dealnet-input" >
-                                <option>help</option>
+                            <select class="form-control dealnet-input">
+                                <option value="">yyyy</option>
+                                @{ var yearLess18 = DateTime.Now.Year - 18;}
+                                @for (var i = 1900; i <= yearLess18; i++)
+                                {
+                                    <option value="@i" @(year==i?"selected=selected":"")>@i</option>
+                                }
                             </select>
                             @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new {@class = "text-danger"})
                         </div>
