@@ -163,6 +163,7 @@
                         }
                     });
 
+                    $form.find('.signature-date').removeClass('hidden');
                     $form.find('.signer-status-hold').removeClass('hidden');
                     $form.find('#type-reminder').addClass('hidden');
                     $form.find('#submit-digital').html(translations['CancelDigitalSignature']);
