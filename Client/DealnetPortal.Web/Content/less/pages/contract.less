@@ -230,7 +230,7 @@
     li {
       width: 190px;
       @media @mobile {
-        width: 170px;
+        width: 160px;
       }
     }
   }
@@ -240,11 +240,13 @@
   }
   .signer-row {
     @media @tablet-down {
-      border-bottom: 1px solid #ededed;
-      padding-bottom: 15px;
+      &.bordered {
+        border-bottom: 1px solid #ededed;
+        padding-bottom: 15px;
+      }
     }
     .applicant-col {
-      @media @mobile {
+      @media @tablet-down {
         div {
           display: inline-block;
         }
@@ -384,6 +386,10 @@
       label {
         margin-bottom: 0;
       }
+      .text-middle-group {
+        padding: 20px 0;
+        border-bottom: 1px solid #dcdcdc;
+      }
     }
   }
   .form-control[disabled] {
@@ -397,11 +403,7 @@
     }
     .signer-status-hold {
       margin-top: 15px;
-      @media @mobile {
-        border-bottom: 1px solid #ededed;
-        padding-bottom: 15px;
-      }
-      
+
       &.declined,
       &.signed,
       &.completed {

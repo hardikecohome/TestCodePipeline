@@ -194,9 +194,11 @@
         //work around of IE SVG system
         $('.comment-btn').each(function () {
             var $this = $(this);
-            var rowId = $this.parents('.signer-row').find('#row-id').val();
+            var $row = $this.parents('.signer-row');
+            var rowId = $row.find('#row-id').val();
             $this.on('click', function () {
                 $('#comment-' + rowId).toggleClass('hidden');
+                $row.toggleClass('bordered');
             });
         });
     };

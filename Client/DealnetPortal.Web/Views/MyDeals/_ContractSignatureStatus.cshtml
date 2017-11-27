@@ -6,21 +6,21 @@
         <div class="rental-summary-inner">
             @for (var i = 0; Model.Signers.Count > i; i++)
             {
-                <div class="row form-group signer-row">
+                <div class="row form-group signer-row bordered">
                     @Html.Hidden("row-id", i, new { id = "row-id" })
                     <div class="col-md-2 applicant-col">
                         <div class="dealnet-label">
                             @if (Model.Signers[i].Role == SignatureRole.HomeOwner)
                             {
-                                @Resources.Borrower
+                            @Resources.Borrower
                             }
                             else if (Model.Signers[i].Role == SignatureRole.Dealer)
                             {
-                                @Resources.SalesRep
+                            @Resources.SalesRep
                             }
                             else
                             {
-                                @Resources.Coborrower
+                            @Resources.Coborrower
                             }
                         </div>
                         <div class="control-group text-middle-group text-semibold">
@@ -35,59 +35,59 @@
                         <div class="signature-status">
                             @if (Model.Signers[i].SignatureStatus == SignatureStatus.Signed || Model.Signers[i].SignatureStatus == SignatureStatus.Completed)
                             {
-                                <svg aria-hidden="true" class="icon icon-front icon-success">
-                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
-                                </svg>
+                            <svg aria-hidden="true" class="icon icon-front icon-success">
+                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
+                            </svg>
                             }
                             else if (Model.Signers[i].SignatureStatus == SignatureStatus.Declined)
                             {
-                                <svg aria-hidden="true" class="icon icon-front icon-error">
-                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
-                                </svg>
+                            <svg aria-hidden="true" class="icon icon-front icon-error">
+                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
+                            </svg>
                             }
                             else
                             {
-                                <svg aria-hidden="true" class="icon icon-front icon-waiting">
-                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-waiting")"></use>
-                                </svg>
+                            <svg aria-hidden="true" class="icon icon-front icon-waiting">
+                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-waiting")"></use>
+                            </svg>
                             }
                             <div class="signature-hold">
                                 <div class="signature-header">
                                     @if (Model.Signers[i].SignatureStatus == SignatureStatus.Signed || Model.Signers[i].SignatureStatus == SignatureStatus.Completed)
                                     {
-                                        <text>@Resources.ContractSigned</text>
+                                    <text>@Resources.ContractSigned</text>
                                     }
                                     else if (Model.Signers[i].SignatureStatus == SignatureStatus.Declined)
                                     {
-                                        <text>@(Model.Signers[i].Role == SignatureRole.HomeOwner ? Resources.Borrower : Model.Signers[i].Role == SignatureRole.AdditionalApplicant ? Resources.Coborrower : Resources.SalesRep) @Resources.DeclinedToSignContract</text>
+                                    <text>@(Model.Signers[i].Role == SignatureRole.HomeOwner ? Resources.Borrower : Model.Signers[i].Role == SignatureRole.AdditionalApplicant ? Resources.Coborrower : Resources.SalesRep) @Resources.DeclinedToSignContract</text>
                                     }
                                     else if (Model.Signers[i].SignatureStatus == SignatureStatus.Created || Model.Signers.Any(s => s.Id != Model.Signers[i].Id && s.SignatureStatus == SignatureStatus.Sent))
                                     {
                                         var borrower = Model.Signers[i - 1].Role == SignatureRole.HomeOwner ? Resources.Borrower : Resources.Coborrower;
-                                        <text>@string.Format(Resources.InviteSentWhenSigns, borrower)</text>
+                                    <text>@string.Format(Resources.InviteSentWhenSigns, borrower)</text>
                                     }
                                     else if (i > 0 && Model.Signers[i - 1].SignatureStatus == SignatureStatus.Declined)
                                     {
                                     }
                                     else
                                     {
-                                        <text>@Resources.WaitingSignature</text>
+                                    <text>@Resources.WaitingSignature</text>
                                     }
                                 </div>
                                 @if (Model.Signers[i].StatusLastUpdateTime.HasValue)
                                 {
-                                    <div class="signature-date">
-                                        (<span class="signature-date-hold">@(Model.Signers[i].StatusLastUpdateTime.HasValue ? Model.Signers[i].StatusLastUpdateTime.Value.ToString("MM/dd/yyyy hh:mm tt") : "")</span>)
-                                    </div>
+                                <div class="signature-date">
+                                    (<span class="signature-date-hold">@(Model.Signers[i].StatusLastUpdateTime.HasValue ? Model.Signers[i].StatusLastUpdateTime.Value.ToString("MM/dd/yyyy hh:mm tt") : "")</span>)
+                                </div>
                                 }
                             </div>
                             @if (!string.IsNullOrEmpty(Model.Signers[i].Comment))
                             {
-                                <a class="comment-btn">
-                                    <svg aria-hidden="true" class="icon icon-comment">
-                                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-comment")"></use>
-                                    </svg>
-                                </a>
+                            <a class="comment-btn">
+                                <svg aria-hidden="true" class="icon icon-comment">
+                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-comment")"></use>
+                                </svg>
+                            </a>
                             }
                         </div>
                     </div>
@@ -115,9 +115,12 @@
     $(document).ready(function () {
         $('.comment-btn').each(function () {
             var $this = $(this);
-            var rowId = $this.parents('.signer-row').find('#row-id').val();
+            var row = $this.parents('.signer-row')
+            var rowId = row.find('#row-id').val();
+
             $this.on('click', function () {
                 $('#comment-' + rowId).toggleClass('hidden');
+                row.toggleClass('bordered');
             });
         });
     });
