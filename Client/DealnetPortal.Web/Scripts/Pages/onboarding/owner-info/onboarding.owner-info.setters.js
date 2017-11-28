@@ -25,12 +25,14 @@
         }
     }
 
-    var setBirthDate = function (ownerNumber, birthDate) {
-        state[stateSection]['owners'][ownerNumber].birthDate = birthDate;
+    var setBirthDate = function (ownerNumber) {
+        return function (e) {
+            state[stateSection]['owners'][ownerNumber].birthDate = e.target.value;
 
-        _spliceRequiredField(ownerNumber, ownerNumber + '-birthdate');
-        _moveTonextSection();
-        enableSubmit();
+            _spliceRequiredField(ownerNumber, e.target.id);
+            _moveTonextSection();
+            enableSubmit();
+        }
     }
 
     var setHomePhone = function (ownerNumber) {
