@@ -5749,6 +5749,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contract successfully uploaded to EcoHome.
+        /// </summary>
+        public static string SuccessfullyUploadedToAspire {
+            get {
+                return ResourceManager.GetString("SuccessfullyUploadedToAspire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Such postal code already exist.
         /// </summary>
         public static string SuchPostalCodeAlreadyExist {

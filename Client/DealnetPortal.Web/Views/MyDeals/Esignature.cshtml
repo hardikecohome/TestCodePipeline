@@ -218,6 +218,12 @@
                 }
                 @if (Model.ESignature.Status == ApiEnum.SignatureStatus.Completed)
                 {
+                    <div>
+                        <svg aria-hidden="true" class="icon icon-success">
+                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
+                        </svg>
+                        @Resources.SuccessfullyUploadedToAspire
+                    </div>
                     <a href="#" id="print-signed-button" class="dealnet-info-link doc-tab-print-link">
                         <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-download")"></use></svg> @Resources.DownloadSignedContract
                     </a>

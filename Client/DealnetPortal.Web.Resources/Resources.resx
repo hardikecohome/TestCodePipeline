@@ -2472,4 +2472,7 @@ changing contract terms or signing contract on paper.</value>
   <data name="ToProceedMustBe18" xml:space="preserve">
     <value>In order to proceed you need to be at least 18 years old. Please contact dealer directly.</value>
   </data>
+  <data name="SuccessfullyUploadedToAspire" xml:space="preserve">
+    <value>Contract successfully uploaded to EcoHome</value>
+  </data>
 </root>
