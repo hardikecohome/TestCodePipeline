@@ -346,6 +346,10 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                                     }
                                     return statusTime;
                                 }).OrderByDescending(rst => rst).FirstOrDefault();
+                            if (rsLastStatusTime == new DateTime())
+                            {
+                                rsLastStatusTime = DateTime.Now;
+                            }
                             var rsName = rs.Element(XName.Get("UserName", xmlns))?.Value;
                             var rsEmail = rs.Element(XName.Get("Email", xmlns))?.Value;
                             var rsComment = rs.Element(XName.Get("DeclineReason", xmlns))?.Value;
