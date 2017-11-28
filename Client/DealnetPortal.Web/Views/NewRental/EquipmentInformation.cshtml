@@ -59,8 +59,17 @@
 
     <div class="row form-group">
       <div class="col-md-3">
-        @Html.LabelFor(m => m.AgreementType)
-        @Html.EnumDropDownListFor(m => m.AgreementType, null, new {@class = "form-control", id = "typeOfAgreementSelect"})
+		  @if (ViewBag.LoanOnly)
+		  {
+			@Html.LabelFor(m => m.AgreementType)
+			@Html.EnumDropDownListFor(m => m.AgreementType, null, new { @class = "form-control", id = "typeOfAgreementSelect" , disabled = "disabled" })
+		  }
+		  else
+		  {
+			@Html.LabelFor(m => m.AgreementType)
+			@Html.EnumDropDownListFor(m => m.AgreementType, null, new { @class = "form-control", id = "typeOfAgreementSelect" })
+		  }
+        
       </div>
     </div>
     <div id="new-equipments">
@@ -172,6 +181,7 @@
 	  var isCalculationValid = false;
 	  var customerFee = @ViewBag.AdminFee;
 	  var TotalAmtFinancedFor180amortTerm = @ViewBag.totalAmountFinancedFor180amortTerm;
+	  
   </script>
 
   <script type="text/javascript">

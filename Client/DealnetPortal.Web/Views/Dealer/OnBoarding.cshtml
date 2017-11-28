@@ -57,8 +57,9 @@
 
             @Resources.Questions <br class="hidden-xs" />
             @Html.Raw(string.Format(Resources.ConnectWithDealerSupport,"<br/>")) <br />
-            <a href="tel:+@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]" class="tel" rel="nofollow">@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]</a><br />
-            <a href="mailto: @System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]">@System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]</a>
+			<a href="tel:+@Resources.DealerSupportPhoneNumber" class="tel" rel="nofollow">@Resources.DealerSupportPhoneNumber</a><br />
+            <a href="mailto: @Resources.DealerSupportInfoEmail">@Resources.DealerSupportInfoEmail</a>
+			
         </div>
     </div>
 

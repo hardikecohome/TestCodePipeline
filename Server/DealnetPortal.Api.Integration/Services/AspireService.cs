@@ -1287,7 +1287,7 @@ namespace DealnetPortal.Api.Integration.Services
             const string GuarRole = "GUAR";
 
             var accounts = new List<Account>();
-            var portalDescriber = _configuration.GetSetting($"PortalDescriber.{contract.Dealer?.ApplicationId}");
+            //var portalDescriber = _configuration.GetSetting($"PortalDescriber.{contract.Dealer?.ApplicationId}");
 
             Func<Domain.Customer, bool, string, Account> fillAccount = (c, isBorrower, role) =>
             {
@@ -2069,13 +2069,16 @@ namespace DealnetPortal.Api.Integration.Services
                     Value = leadSource
                 });
             }
-            udfList.Add(new UDF()
+            if (isHomeOwner == true)
             {
-                Name = AspireUdfFields.Residence,
-                Value = isHomeOwner == true ? "O" : null //"R"
-                //Value = mainLocation.ResidenceType == ResidenceType.Own ? "O" : "R"
-                //<!—other value is R for rent  and O for own-->
-            });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.Residence,
+                    Value = isHomeOwner == true ? "O" : "R"
+                    //Value = mainLocation.ResidenceType == ResidenceType.Own ? "O" : "R"
+                    //<!—other value is R for rent  and O for own-->
+                });
+            }
             udfList.Add(
                 new UDF()
                 {

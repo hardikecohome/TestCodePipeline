@@ -26,7 +26,7 @@
             @Styles.Render("~/Content/less/main-dealer.less")
             break;
     }
-    <link rel="shortcut icon" href=@Url.Action("Favicon", "Settings", new { version = DateTime.Now.Ticks.ToString(), hashDealerName = ViewBag.HashDealerName as string }) type="image/x-icon" />
+    <link rel="shortcut icon" href="@Url.Action("Favicon", "Settings", new { version = DateTime.Now.Ticks.ToString(), hashDealerName = ViewBag.HashDealerName as string })" type="image/x-icon" />
     <script type="text/javascript">
         //Next two lines for IE (God Damn It! What is that shit made of?!)
         if (!window.console) window.console = {};
@@ -404,172 +404,128 @@
                 </div>*@
             @if (User.Identity.IsAuthenticated && ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") != true))
             {
-                <div class="helpbutton pull-right">
+			<div class="pull-right">
 
-                    <i onclick="sendEmailModel();">
-                        <button class="btn btn-lg btn-success">
-                            <svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg>
-                            Help
-                        </button>
-                    </i>
-                </div>}
-        </div>
-    </div>
+				<i onclick="sendEmailModel();">
+					<button class="btn btn-lg btn-success helpbutton">
+						<svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg>
+						Help
+					</button>
+				</i>
+			</div>
+			}
+		</div>
+	</div>
 
-    <div id="emailModal" class="modal fade modal-wide">
-        <div class="modal-dialog modal-warning">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">How Can We Help? </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="col-md-12 col-xs-12 pull-left" style="margin-bottom:20px;">
-                        <div class="row">
-                            <div class="form-group">
-                                <div class="col-md-3 col-xs-6">
-                                    <label class="pull-left">Dealer Name</label>
-                                </div>
-                                <div class="col-md-9 col-xs-6">
-                                    <label class="pull-left" id="emailDealerName">@User.Identity.Name</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group">
-                                <div class="col-md-3 col-xs-6">
-                                    <label class="pull-left">Your Name</label>
-                                </div>
-                                <div class="col-md-9 col-xs-6">
-                                    <label class="pull-left" id="emailSubDealerName">@User.Identity.Name</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group">
-                                <div class="col-md-3 col-xs-6">
-                                    <label class="pull-left align-middle custom-checkbox">
-                                        <input type="checkbox" class="dealnet-checkbox" id="yourNameCB" onclick="yourNameCBclick();" />
-                                        <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                                        <span>Your Name</span>
-                                    </label>
-                                </div>
-                                <div class="col-md-9 col-xs-6">
-                                    <input class="pull-left form-control dealnet-input" type="text" id="yourNameTxt" placeholder="Your Name (If not the above)" disabled />
-                                    <span class="text-danger hidden" id="yourNameTxtValidation">Please provide your name</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group">
-                                <div class="col-md-3 col-xs-6">
-                                    <label class="pull-left">Deal Number</label>
-                                </div>
-                                <div class="col-md-9 col-xs-6">
-                                    <label class="pull-left" id="emailTransactionId"></label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group">
-                                <div class="col-md-3 col-xs-12">
-                                    <label class="pull-left">How Can We Help?</label>
-                                </div>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="row">
-                                        <div class="col-md-12 col-xs-12">
-                                            <div class="pull-left col-xs-6">
-                                                <label class="pull-left align-middle custom-checkbox">
-                                                    <input type="radio" name="SupportType" value="Credit Decision" class="dealnet-checkbox" />
-                                                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                                                    <span>Credit Decision</span>
-                                                </label>
-                                            </div>
-                                            <div class="pull-left col-xs-6">
-                                                <label class="pull-left align-middle custom-checkbox">
-                                                    <input type="radio" name="SupportType" value="Credit Docs" class="dealnet-checkbox" />
-                                                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                                                    <span>Credit Docs</span>
-                                                </label>
-                                            </div>
-                                            <div class="pull-left col-xs-6">
-                                                <label class="pull-left align-middle custom-checkbox">
-                                                    <input type="radio" name="SupportType" value="Funding Docs" class="dealnet-checkbox" />
-                                                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                                                    <span>Funding Docs</span>
-                                                </label>
-                                            </div>
-                                            <div class="pull-left col-xs-6">
-                                                <label class="pull-left align-middle custom-checkbox">
-                                                    <input type="radio" name="SupportType" value="Other" checked class="dealnet-checkbox" />
-                                                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                                                    <span>Other</span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12 col-xs-12">
-                                            <textarea class="form-control pull-left full-width" id="emailComment" rows="5" placeholder="Please provide short description"></textarea>
-                                            <span class="text-danger hidden" id="emailCommentValidation">Please provide short description</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group">
-                                <div class="col-md-3 col-xs-12">
-                                    <label class="pull-left">Best Way to get back to you</label>
-                                </div>
-                                <div class="col-md-9 col-xs-12">
-                                    <div class="row">
-                                        <div class="col-md-12 col-xs-12">
-                                            <div class="col-xs-6">
-                                                <label class="pull-left align-middle custom-checkbox">
-                                                    <input type="checkbox" class="dealnet-checkbox" id="emailPhone" />
-                                                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                                                    <span>@Resources.Phone</span>
-                                                </label>
-                                            </div>
-                                            <div class="col-xs-6">
-                                                <label class="pull-left align-middle custom-checkbox">
-                                                    <input type="checkbox" class="dealnet-checkbox" id="emailSameEmail" />
-                                                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                                                    <span>Same E-mail</span>
-                                                </label>
-                                            </div>
-                                            <div class="col-xs-12">
-                                                <label class="pull-left align-middle custom-checkbox">
-                                                    <input type="checkbox" class="dealnet-checkbox" id="emailAlternativeEmail" onclick="emailAlternativeEmailclick();" />
-                                                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-                                                    <span>Alternative E-mail</span>
-                                                </label>
-                                            </div>
+	<div id="emailModal" class="modal fade modal-wide">
+		<div class="modal-dialog modal-warning">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">@Resources.HowCanWeHelp </h4>
+				</div>
+				<div class="modal-body Email-modal-body">
+					
+					<div class="col-md-12 col-xs-12 pull-left allrows" style="margin-bottom:20px;">
+						<div class="row">
+							<h5 class="pull-left">@Resources.PleaseFillThisForm</h5>
+						</div>
+						<div class="row">
+							<div class="form-group">
+								<div class="col-md-2 col-xs-6 pull-left">
+									<label class="pull-left">@Resources.DealerName</label>
+								</div>
+								<div class="col-md-10 col-xs-6 pull-left">
+									<label class="pull-left" id="emailDealerName">@User.Identity.Name</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group">
+								<div class="col-md-2 col-xs-6">
+									<label class="pull-left LabelMiddle">@Resources.YourName</label>
+								</div>
+								<div class="col-md-2 col-xs-6">
+									<label class="pull-left LabelMiddle" id="emailSubDealerName">@User.Identity.Name</label>
+								</div>
+								<div class="col-md-4 col-xs-6">
+									<label class="Move-right-for-desktop align-middle custom-checkbox LabelMiddle">
+										<input type="checkbox" class="dealnet-checkbox" id="yourNameCB" onclick="yourNameCBclick();" />
+										<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+										<span>@Resources.PreferredContactPerson</span>
+									</label>
+								</div>
+								<div class="col-md-4 col-xs-6">
+									<input class="pull-left form-control dealnet-input" type="text" id="yourNameTxt" placeholder="@Resources.PreferredContactPerson" disabled />
+									<span class="text-danger hidden" id="yourNameTxtValidation">@Resources.PreferredContactPerson</span>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="form-group">
+								<div class="col-md-2 col-xs-6 pull-left">
+									<label class="pull-left LabelMiddle">@Resources.ContractNumber</label>
+								</div>
+								<div class="col-md-4 col-xs-6">
+									<input class="pull-left form-control dealnet-input" type="text" id="emailTransactionId" placeholder="@Resources.ContractNumber" />
+									@*<label class="pull-left" id="emailTransactionId"></label>*@
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
+								<div class="form-group">
+									<label class="pull-left margin-bottom-zero">@Resources.WhatCanWeAssistYouWith</label>
+									<select class = "form-control dealnet-input" id="SupportType">
+										<option value="creditFunding">@Resources.CreditDecision</option>
+										<option value="customerService">@Resources.CreditDocs</option>
+										<option value="dealerSupport">@Resources.FundingDocs</option>
+										<option value="Other" selected>@Resources.Other</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 col-lg-12">
+								<div class="form-group">
+									<label class="pull-left margin-bottom-zero">@Resources.PleaseProvideShortDescription</label>
+									<textarea class="form-control pull-left full-width form-control" id="emailComment" rows="5" placeholder="@Resources.PleaseProvideShortDescription"></textarea>
+									<span class="text-danger hidden" id="emailCommentValidation"><br />@Resources.PleaseProvideShortDescription</span>
+								</div>
+							</div>
+						</div>
 
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <input class="pull-left form-control dealnet-input hidden" type="text" id="emailAlternativeEmailAddress" placeholder="Alternative Email Address" />
-                                            <span class="text-danger hidden" id="emailAlternativeEmailAddressValidation">Please provide Alternative E-mail Address</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <div class="col-md-12 col-xs-12">
-                        <button type="button" class="btn dealnet-button btn-small dealnet-link-button" data-dismiss="modal">@Resources.Cancel</button>
-                        <button type="button" class="btn btn-lg btn-small dealnet-button dealnet-success-button" id="emailSupport" onclick="sendEmailToSupport();">@Resources.Send</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+						<div class="row">
+							<div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
+								<div class="form-group">
+									<label class="pull-left margin-bottom-zero">@Resources.BestWayToGetBackToYou</label>
+									<select class="form-control dealnet-input" id="CommunicationPreffered" onchange="CommunicationPreffered();">
+										<option value="Phone" selected>@Resources.Phone</option>
+										<option value="Email">@Resources.Email</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
+								<div class="form-group" id="DetailsDiv">
+									<label class="pull-left margin-bottom-zero" id="ContactDetails">@Resources.Phone</label>
+									<input class="pull-left form-control dealnet-input" type="text" id="emailAlternativeEmailAddress" placeholder="@Resources.PleaseProvideDetails" />
+									<span class="text-danger hidden" id="emailAlternativeEmailAddressValidation"><br />@Resources.PleaseProvideDetails</span>
+								</div>
+							</div>
+						</div>						
+					</div>
+					
+				</div>
+				<div class="modal-footer">
+					<div class="col-md-12 col-xs-12">
+						<button type="button" class="btn dealnet-button btn-small dealnet-link-button" data-dismiss="modal">@Resources.Cancel</button>
+						<button type="button" class="btn btn-small dealnet-button dealnet-success-button" id="emailSupport" onclick="sendEmailToSupport();">@Resources.Send</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
     @RenderSection("Scripts", false)
 </body>
 </html>

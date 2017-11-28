@@ -18,12 +18,12 @@
                 var ageDate = new Date(ageDifMs);
                 var age = Math.abs(ageDate.getUTCFullYear() - 1970);
 
-                if (age > 75) {
-                    errors.push({
-                        type: 'birthday',
-                        messageKey: 'YouShouldBe75OrLess',
-                    });
-                }
+                //if (age > 75) {
+                //    errors.push({
+                //        type: 'birthday',
+                //        messageKey: 'YouShouldBe75OrLess',
+                //    });
+                //}
             }
 
             var requiredPhones = filterObj(function (key, obj) {

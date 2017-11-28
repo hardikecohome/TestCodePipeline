@@ -561,14 +561,17 @@ namespace DealnetPortal.Api.Integration.Services
             string mailTo = ""; /*ConfigurationManager.AppSettings["DealNetEmail"];*/
             switch (SupportDetails.SupportType)
             {
-                case "Credit Decision":
+                case "creditFunding":
                     mailTo = ConfigurationManager.AppSettings["CreditDecisionDealNetEmail"];
+                    SupportDetails.SupportType = "Credit Decision";
                     break;
-                case "Credit Docs":
+                case "customerService":
                     mailTo = ConfigurationManager.AppSettings["CreditDocsDealNetEmail"];
+                    SupportDetails.SupportType = "Credit Docs";
                     break;
-                case "Funding Docs":
+                case "dealerSupport":
                     mailTo = ConfigurationManager.AppSettings["FundingDocsDealNetEmail"];
+                    SupportDetails.SupportType = "Funding Docs";
                     break;
                 case "Other":
                     mailTo = ConfigurationManager.AppSettings["OtherDealNetEmail"];

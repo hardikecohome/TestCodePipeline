@@ -26,8 +26,14 @@
 
         if (detectIe()) {
             definePolyfill();
-        }
-
+		}
+		var salesrep = $('#OnBoardingLink').val();
+		if ($(location).attr('href').toLowerCase().indexOf('resumeonboarding') >= 0) {
+			gtag('event', 'Dealer Application Start', { 'event_category': 'Dealer Application Start', 'event_action': 'Resume Link open', 'event_label': salesrep });
+		}
+		else {
+			gtag('event', 'Dealer Application Start', { 'event_category': 'Dealer Application Start',  'event_action': 'New Application Link open', 'event_label': salesrep });
+		}
         initializing = false;
     }
 

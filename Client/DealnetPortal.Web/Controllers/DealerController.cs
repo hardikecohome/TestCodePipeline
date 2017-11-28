@@ -33,6 +33,11 @@ namespace DealnetPortal.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> OnBoarding(string key)
         {
+            var linklist = System.Configuration.ConfigurationManager.AppSettings["LinkListTobeForwarded"].Split(',').Select(a => a.Trim().ToLower()).ToList<string>();
+            if (linklist.Contains(key.ToLower()))
+            {
+                key = System.Configuration.ConfigurationManager.AppSettings["LinkForwardTo"];
+            }
             var result = await _dealerOnBoardingManager.GetNewDealerOnBoardingForm(key);
 
             TempData["LangSwitcherAvailable"] = true;
