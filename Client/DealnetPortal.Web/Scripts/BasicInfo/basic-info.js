@@ -9,7 +9,10 @@ configInitialized
             }
         });
 
-        module.require('dob-selecters');
+        var initDob = module.require('dob-selecters');
+        $('.dob-group').each(function (index, el) {
+            initDob(el);
+        });
 
         $('#agreement-checkbox').change(function () {
             var isValid = checkCreditAgree();

@@ -1,11 +1,4 @@
 ﻿module.exports('dob-selecters', function () {
-
-    $(function () {
-        $('.dob-group').each(function (i, el) {
-            initDobGroup(el);
-        });
-    });
-
     function clearDate ($day) {
         $day.val('').change();
     }
