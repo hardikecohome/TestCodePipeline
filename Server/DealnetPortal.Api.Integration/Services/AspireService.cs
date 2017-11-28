@@ -1406,7 +1406,8 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 } 
                 
-                account.UDFs = GetCustomerUdfs(c, location, setLeadSource, contract.HomeOwners?.Any(hw => hw.Id == c.Id), existingCustomer).ToList();                
+                account.UDFs = GetCustomerUdfs(c, location, setLeadSource, 
+                    contract.HomeOwners?.Any(hw => hw.Id == c.Id) == true ? (bool?)true : null, existingCustomer).ToList();                
 
                 if (!string.IsNullOrEmpty(role))
                 {
@@ -1423,7 +1424,7 @@ namespace DealnetPortal.Api.Integration.Services
                 accounts.Add(acc);
             }
 
-            contract.SecondaryCustomers?.ForEach(c => accounts.Add(fillAccount(c, false, GuarRole)));
+            contract.SecondaryCustomers?.ForEach(c => accounts.Add(fillAccount(c, false, CustRole)));
             return accounts;
         }
 
@@ -2068,19 +2069,13 @@ namespace DealnetPortal.Api.Integration.Services
                     Value = leadSource
                 });
             }
-            if (mainLocation != null)
+            udfList.Add(new UDF()
             {
-                if (isHomeOwner.HasValue)
-                {
-                    udfList.Add(new UDF()
-                    {
-                        Name = AspireUdfFields.Residence,
-                        Value = isHomeOwner == true ? "O" : "R"
-                        //Value = mainLocation.ResidenceType == ResidenceType.Own ? "O" : "R"
-                        //<!—other value is R for rent  and O for own-->
-                    });
-                }
-            }
+                Name = AspireUdfFields.Residence,
+                Value = isHomeOwner == true ? "O" : null //"R"
+                //Value = mainLocation.ResidenceType == ResidenceType.Own ? "O" : "R"
+                //<!—other value is R for rent  and O for own-->
+            });
             udfList.Add(
                 new UDF()
                 {
