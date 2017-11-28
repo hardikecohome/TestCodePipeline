@@ -596,6 +596,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Applicants should be at least 18 years old..
+        /// </summary>
+        public static string ApplicantsShouldBe18 {
+            get {
+                return ResourceManager.GetString("ApplicantsShouldBe18", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Application Created By.
         /// </summary>
         public static string ApplicationCreatedBy {
@@ -5772,6 +5781,15 @@ namespace DealnetPortal.Web.Resources {
         public static string ToDigitalySignContract {
             get {
                 return ResourceManager.GetString("ToDigitalySignContract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In order to proceed you need to be at least 18 years old. Please contact dealer directly..
+        /// </summary>
+        public static string ToProceedMustBe18 {
+            get {
+                return ResourceManager.GetString("ToProceedMustBe18", resourceCulture);
             }
         }
         

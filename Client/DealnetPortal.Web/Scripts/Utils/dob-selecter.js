@@ -1,4 +1,6 @@
 ﻿module.exports('dob-selecters', function () {
+    var today = new Date();
+    var todayLess18 = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
     function clearDate ($day) {
         $day.val('').change();
     }
@@ -22,10 +24,19 @@
         }
     }
 
-    function setInputValue (day, month, year, $input) {
-        var date = new Date(year, month - 1, day);
+    function setInputValue ($day, $month, $year, $input) {
+        var date = new Date($year.val(), $month.val() - 1, $day.val());
         if (!isNaN(date.getTime())) {
-            $input.val(month + '/' + day + '/' + year);
+            $input.val($month.val() + '/' + $day.val() + '/' + $year.val());
+            if (!$input.valid()) {
+                $day.addClass('input-validation-error');
+                $month.addClass('input-validation-error');
+                $year.addClass('input-validation-error');
+            } else {
+                $day.removeClass('input-validation-error');
+                $month.removeClass('input-validation-error');
+                $year.removeClass('input-validation-error');
+            }
         }
     }
     function initDobGroup (el) {
@@ -37,10 +48,11 @@
         resetDay($day, $month, $year);
         $input.on('change', function () {
             var dateTime = new Date($input.val());
-            if (isNaN(dateTime.getTime())) {
+            if (isNaN(dateTime.getTime()) || dateTime > todayLess18) {
                 $day.val('');
                 $month.val('');
                 $year.val('');
+                $input.val('');
             } else {
                 $day.val(dateTime.getDate());
                 $month.val(dateTime.getMonth() + 1);
@@ -49,15 +61,15 @@
         });
         $day.on('change', function () {
             resetDay($day, $month, $year);
-            setInputValue($day.val(), $month.val(), $year.val(), $input);
+            setInputValue($day, $month, $year, $input);
         });
         $month.on('change', function () {
             resetDay($day, $month, $year);
-            setInputValue($day.val(), $month.val(), $year.val(), $input);
+            setInputValue($day, $month, $year, $input);
         });
         $year.on('change', function () {
             resetDay($day, $month, $year);
-            setInputValue($day.val(), $month.val(), $year.val(), $input);
+            setInputValue($day, $month, $year, $input);
         });
     }
 

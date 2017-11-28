@@ -279,28 +279,30 @@
                             year = Model.HomeOwner.BirthDate.Value.Year;
                             }
                             }
-                            <select class="form-control dealnet-input dob-month">
-                                <option value="">mm</option>
-                                @for (var i = 1; i < 13; i++)
-                                {
-                                    <option value="@i" @(month == i? "selected=selected":"") >@i</option>
-                                }
-                            </select>
-                            <select class="form-control dealnet-input dob-day">
-                                <option value="">dd</option>
-                                @for(var i = 1; i < 32; i++)
-                                {
-                                    <option value="@i" @(day == i ? "selected=selected":"")>@i</option>
-                                }
-                            </select>
-                            <select class="form-control dealnet-input dob-year">
-                                <option value="">yyyy</option>
-                                @{ var yearLess18 = DateTime.Now.Year - 18;}
-                                @for (var i = yearLess18; i >= 1900; i--)
-                                {
-                                    <option value="@i" @(year==i?"selected=selected":"")>@i</option>
-                                }
-                            </select>
+                            <div class="dealnet-input no-border">
+                                <select class="form-control dealnet-input dob-month">
+                                    <option value="">mm</option>
+                                    @for (var i = 1; i < 13; i++)
+                                    {
+                                        <option value="@i" @(month == i ? "selected=selected" : "")>@i</option>
+                                    }
+                                </select>
+                                <select class="form-control dealnet-input dob-day">
+                                    <option value="">dd</option>
+                                    @for (var i = 1; i < 32; i++)
+                                    {
+                                        <option value="@i" @(day == i ? "selected=selected" : "")>@i</option>
+                                    }
+                                </select>
+                                <select class="form-control dealnet-input dob-year">
+                                    <option value="">yyyy</option>
+                                    @{ var yearLess18 = DateTime.Now.Year - 18;}
+                                    @for (var i = yearLess18; i >= 1900; i--)
+                                    {
+                                        <option value="@i" @(year == i ? "selected=selected" : "")>@i</option>
+                                    }
+                                </select>
+                            </div>
                             @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new {@class = "text-danger"})
                         </div>
                     </div>
@@ -954,6 +956,7 @@
     translations['TheDateMustBeOver1900'] = "@Resources.TheDateMustBeOver1900";
     translations['TheApplicantNeedsToBeOver18'] = "@Resources.TheApplicantNeedsToBeOver18";
     translations['EnterValidDate'] = "@Resources.EnterValidDate";
+    translations['ApplicantsShouldBe18']="@Resources.ApplicantsShouldBe18";
 }
 
 @section scripts
