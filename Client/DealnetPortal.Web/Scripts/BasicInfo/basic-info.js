@@ -35,7 +35,7 @@ configInitialized
                 $('#age-error-message').hide();
             } else {
                 $('#age-error-message').hide();
-              //  $('#age-warning-message').show();
+                //  $('#age-warning-message').show();
             }
         });
 
@@ -112,7 +112,7 @@ configInitialized
             });
             return false;
         });
-        $("#owner-scan-button").click(function () {
+        $("#owner-scan-button").click(function (e) {
             ga('send', 'event', 'Scan License', 'button_click', 'DrivingLicense', '100');
             if (!(isMobileRequest || typeof isMobileRequest === 'string' && isMobileRequest.toLowerCase() === 'true')) {
                 e.preventDefault();
