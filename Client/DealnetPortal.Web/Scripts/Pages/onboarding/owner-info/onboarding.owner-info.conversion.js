@@ -1,15 +1,4 @@
 ﻿module.exports('onboarding.owner-info.conversion', function (require) {
-
-    var datepickerOptions = {
-        dateFormat: 'mm/dd/yy',
-        changeYear: true,
-        changeMonth: (viewport().width < 768) ? true : false,
-        yearRange: '1900:' + (new Date().getFullYear() - 18),
-        minDate: new Date("1900-01-01"),
-        maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18))
-    };
-
-    var setBirthDate = require('onboarding.owner-info.setters').setBirthDate;
     var resetFormValidation = require('onboarding.common').resetFormValidation;
 
     var recalculateOwnerIndex = function (ownerNumber) {

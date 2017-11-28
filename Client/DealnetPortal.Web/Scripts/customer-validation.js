@@ -1,7 +1,7 @@
 ﻿function checkApplicantsAge () {
     var atLeastOneValid = false;
     $('.check-age').each(function () {
-        var birthday = getDatepickerDate(this);
+        var birthday = this.value;
         if (birthday === null || birthday === undefined || birthday === "") { return true; }
 
         if (typeof birthday === "string") {

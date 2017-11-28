@@ -3,34 +3,17 @@
     var createAction = require('redux').createAction;
     var readInitialStateFromFields = require('objectUtils').readInitialStateFromFields;
 
+    var initDob = require('dob-selecters');
+
     return function (store) {
         var dispatch = store.dispatch;
 
-        var datepickerOptions = {
-            dateFormat: 'mm/dd/yy',
-            changeYear: true,
-            changeMonth: (viewport().width < 768) ? true : false,
-            yearRange: '1900:' + (new Date().getFullYear() - 18),
-            minDate: new Date("1900-01-01"),
-            maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
-            onSelect: function (day) {
-                dispatch(createAction(clientActions.SET_BIRTH, day));
-                $(this).siblings('input.form-control').val(day).blur();
-                $(".div-datepicker").removeClass('opened');
-            },
-            onClose: function () {
-                onDateSelect($(this));
-            }
-        };
+        var birth = $('#birth-date');
 
-        var birth = assignDatepicker('#birth-date', datepickerOptions);
-
-        birth.on('change', function () {
-            var day = birth.val();
-            dispatch(createAction(clientActions.SET_BIRTH, day));
+        birth.on('change', function (e) {
+            dispatch(createAction(clientActions.SET_BIRTH, e.target.value));
         });
-
-        $('#ui-datepicker-div').addClass('cards-datepicker');
+        initDob(birth.parent());
 
         function dispatchDl () {
             var obj = {

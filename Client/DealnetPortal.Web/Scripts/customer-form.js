@@ -12,6 +12,8 @@
 
     var log = require('logMiddleware');
 
+    var initDob = require('dob-selecters');
+
     // your info actions
     var SET_INITIAL_STATE = 'set_initial_state';
     var SET_NAME = 'set_name';
@@ -465,22 +467,11 @@
             $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('#selectedService'));
             $('#selectedService').val($('#selectedService > option:first').val());
 
-            assignDatepicker('#birth-date-customer', {
-                dateFormat: 'mm/dd/yy',
-                changeYear: true,
-                changeMonth: (viewport().width < 768) ? true : false,
-                yearRange: '1900:' + (new Date().getFullYear() - 18),
-                minDate: new Date("1900-01-01"),
-                maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
-                showButtonPanel: true,
-                closeText: translations['Cancel'],
-                onSelect: function (day) {
-                    dispatch(createAction(SET_BIRTH, day));
-
-                    $(this).siblings('input.form-control').val(value).blur();
-                    $(".div-datepicker").removeClass('opened');
-                }
-            })
+            var birth = $('#birth-date-customer');
+            birth.on('change', function (e) {
+                dispatch(createAction(SET_BIRTH, e.target.value));
+            });
+            initDob(birth.parent());
 
             // action dispatchers
             var name = $('#firstName');

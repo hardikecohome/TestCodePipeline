@@ -2466,4 +2466,10 @@ changing contract terms or signing contract on paper.</value>
   <data name="DealerSupportPhoneNumber" xml:space="preserve">
     <value>1-866-382-7468</value>
   </data>
+  <data name="ApplicantsShouldBe18" xml:space="preserve">
+    <value>Applicants should be at least 18 years old.</value>
+  </data>
+  <data name="ToProceedMustBe18" xml:space="preserve">
+    <value>In order to proceed you need to be at least 18 years old. Please contact dealer directly.</value>
+  </data>
 </root>

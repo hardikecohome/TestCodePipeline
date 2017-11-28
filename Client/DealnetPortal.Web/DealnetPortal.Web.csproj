@@ -815,6 +815,7 @@
     <Content Include="Content\files\Portal-User-Guide.pdf" />
     <Content Include="Content\files\Summer-Fall-2017-Promotion.pdf" />
     <Content Include="Content\less\components\status-colors.less" />
+    <Content Include="Content\less\components\dob-control.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -1004,6 +1005,7 @@
     <Content Include="Scripts\Pages\newEquipment\template.js" />
     <Content Include="Scripts\Pages\newEquipment\value-setters.js" />
     <Content Include="Scripts\standalone-calculator.js" />
+    <Content Include="Scripts\Utils\dob-selecter.js" />
     <Content Include="Scripts\Utils\financial-functions.js" />
     <Content Include="Scripts\Utils\localization-init.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />

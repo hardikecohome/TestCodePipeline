@@ -8,6 +8,7 @@
     var setLengthLimitedField = require('onboarding.setters').setLengthLimitedField;
     var enableSubmit = require('onboarding.setters').enableSubmit;
     var ownersMoveToNextSection = require('onboarding.owner-info.setters').moveToNextSection;
+    var initDob = require('dob-selecters');
 
     function _setInputHandlers (ownerNumber) {
         $('#' + ownerNumber + '-firstname')
@@ -16,6 +17,8 @@
             .on('change', aknwoledgmentSetters.setFirstName(ownerNumber));
         $('#' + ownerNumber + '-lastname')
             .on('change', setters.setLastName(ownerNumber));
+        $('#' + ownerNumber + '-birthdate')
+            .on('change', setters.setBirthDate(ownerNumber));
         $('#' + ownerNumber + '-lastname')
             .on('change', aknwoledgmentSetters.setLastName(ownerNumber));
         $('#' + ownerNumber + '-homephone')
@@ -45,7 +48,7 @@
             .on('keyup', setLengthLimitedField(3));
         $('#' + ownerNumber + '-agreement').on('change', aknwoledgmentSetters.setAgreement(ownerNumber));
 
-        assignOwnerDatepicker('#' + ownerNumber + '-birthdate', ownerNumber);
+        initDob($('#' + ownerNumber + '-birthdate').parent());
 
         if (ownerNumber !== 'owner0') {
             initGoogleServices(ownerNumber + '-street',

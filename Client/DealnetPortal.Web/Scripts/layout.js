@@ -362,7 +362,7 @@
             } else {
                 $(this).addClass('not-selected');
             }
-        })
+        });
     });
 
 function onDateSelect (input) {
