@@ -320,10 +320,10 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     if (!string.IsNullOrEmpty(timeZone))
                     {
                         tzInfo = TimeZoneInfo.FindSystemTimeZoneById(timeZone);
+                        _loggingService.LogInfo($"DocuSign envelope {envelopeId} timezone: {timeZone}");
                     }
                     if (!string.IsNullOrEmpty(envelopeStatus))
                     {
-                        _loggingService.LogInfo($"Recieved DocuSign {envelopeStatus} status for envelope {envelopeId}");
                         var envelopeStatusTimeValue = envelopeStatusSection.Element(XName.Get(envelopeStatus, xmlns))?.Value;
                         DateTime envelopeStatusTime;
                         if (!DateTime.TryParse(envelopeStatusTimeValue, out envelopeStatusTime))
@@ -337,6 +337,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                                 envelopeStatusTime = TimeZoneInfo.ConvertTime(envelopeStatusTime, tzInfo, TimeZoneInfo.Local);
                             }
                         }
+                        _loggingService.LogInfo($"Recieved DocuSign {envelopeStatus} status for envelope {envelopeId}, time {envelopeStatusTime}");
                         updated |= ProcessSignatureStatus(contract, envelopeStatus, envelopeStatusTime);
                     }
                     
@@ -373,6 +374,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                             var rsName = rs.Element(XName.Get("UserName", xmlns))?.Value;
                             var rsEmail = rs.Element(XName.Get("Email", xmlns))?.Value;
                             var rsComment = rs.Element(XName.Get("DeclineReason", xmlns))?.Value;
+                            _loggingService.LogInfo($"Recieved DocuSign recipient {rsName} status {rsStatus} status for envelope {envelopeId}, time {rsLastStatusTime}");
                             updated |= ProcessSignerStatus(contract, rsName, rsEmail, rsStatus, rsComment, rsLastStatusTime);
                         });
                     }                    
