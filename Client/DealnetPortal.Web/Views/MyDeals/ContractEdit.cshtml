@@ -18,14 +18,14 @@
 	<div class="form-section">
 		<div class="dealnet-large-header">@Resources.Contract #@(Model.AdditionalInfo.TransactionId ?? Model.BasicInfo.ContractId.ToString())</div>
 		<br />
-		@if (Model.BasicInfo.ContractWasDeclined)
+		@*@if (Model.BasicInfo.ContractWasDeclined)
 		{
 			<!--Show/hide warning depend on status-deal-submitted-->
 			<div class="well well-info position-well">
 				<svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
 				@Resources.YouCantEditBecauseSubmittedYouCanAddAdditional
 			</div>
-		}
+		}*@
 		<div class="documents-container">
 			<div class="row">
 				<div class="col-md-6">
@@ -324,7 +324,7 @@
 		<div class="col-md-6 grid-column">
 			<div class="dealnet-credit-check-section">
 				<h3 class="dealnet-section-title">
-					@Resources.DealInformation @if (contractState <= ContractState.Completed && contractState != ContractState.CreditCheckDeclined )
+					@Resources.DealInformation @if (contractState != ContractState.SentToAudit)
 						{
 					<a href="@Url.Action("EquipmentInformation", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#deal-info-form'), $('#deal-info-section-modal'), false); $('#deal-info-modal').modal();"*@>@Resources.Edit</a>
 						}
@@ -500,7 +500,12 @@
 			<div class="credit-check-info-hold fit-to-next-grid">
 				<div class="col-md-6 grid-column">
 					<div class="dealnet-credit-check-section" id="home-owner-section">
-						<h3 class="dealnet-section-title">@Resources.BorrowerInformation</h3>
+						<h3 class="dealnet-section-title">@Resources.BorrowerInformation
+						@if (contractState != ContractState.SentToAudit)
+						{
+							<a href="@Url.Action("BasicInfo", "NewRental", new { contractId = Model.BasicInfo.ContractId })" class="dealnet-section-edit-link pull-right editToStep1" @*onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();"*@>@Resources.Edit</a>
+						}
+						</h3>
 						<div class="form-group">
 							<div class="row">
 								@Html.LabelFor(m => m.BasicInfo.HomeOwner.FirstName, new { @class = "dealnet-field-caption col-xs-6" })
@@ -757,7 +762,7 @@
 					<div class="dealnet-credit-check-section" id="contact-info-section">
 						@Html.HiddenFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.CustomerId)
 						<h3 class="dealnet-section-title">
-							@Resources.ContactInformation @if (contractState <= ContractState.Completed)
+							@Resources.ContactInformation @if (contractState != ContractState.SentToAudit)
 								{
 							<a href="@Url.Action("ContactAndPaymentInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();"*@>@Resources.Edit</a>
 								}
@@ -840,7 +845,12 @@
 				<div class="credit-check-info-hold fit-to-next-grid">
 					<div class="col-md-6 grid-column">
 						<div class="dealnet-credit-check-section" id="additional@(i + 1)-section">
-							<h3 class="dealnet-section-title">@Resources.AdditionalApplicant</h3>
+							<h3 class="dealnet-section-title">@Resources.AdditionalApplicant
+							@if (contractState != ContractState.SentToAudit)
+							{
+								<a href="@Url.Action("BasicInfo", "NewRental", new { contractId = Model.BasicInfo.ContractId })" class="dealnet-section-edit-link pull-right editToStep1" @*onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();"*@>@Resources.Edit</a>
+							}
+							</h3>
 							<div class="form-group">
 								<div class="row">
 									@Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].FirstName, new { @class = "dealnet-field-caption col-xs-6" })
@@ -1036,7 +1046,8 @@
 							<div class="dealnet-credit-check-section" id="contact-info-section@(i + 1)-coborrower">
 								@Html.HiddenFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].CustomerId)
 								<h3 class="dealnet-section-title">
-									@Resources.ContactInformation @if (contractState <= ContractState.Completed)
+									@Resources.ContactInformation 
+									@if (contractState != ContractState.SentToAudit)
 									{
 									<a href="@Url.Action("ContactAndPaymentInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" @*onclick="copyFormData($('#contact-info-section@(i + 1)-coborrower'), $('#contact-info-section@(i + 1)-coborrower-modal'), false); $('#contact-info-coborrower@(i + 1)-modal').modal();"*@ class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
 									}
@@ -1089,7 +1100,7 @@
 	</div>
 }
 
-@if (contractState == ContractState.CreditCheckDeclined && (Model.BasicInfo.AdditionalApplicants == null || !Model.BasicInfo.AdditionalApplicants.Any()))
+@if (contractState != ContractState.SentToAudit && (Model.BasicInfo.AdditionalApplicants == null || !Model.BasicInfo.AdditionalApplicants.Any()))
 {
 	<div class="form-section">
 		<a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="add-applicant-link add-applicant-contract-edit dealnet-info-link align-middle">
@@ -1098,7 +1109,6 @@
 		</a>
 	</div>
 }
-
 <hr>
 <div class="form-section">
 	@if (Model.EquipmentInfo != null)
@@ -1123,7 +1133,7 @@
 
 					<h3 class="dealnet-section-title">
 						@Resources.EquipmentInformation
-					@if (contractState <= ContractState.Completed)
+					@if (contractState != ContractState.SentToAudit)
 							{
 						<a href="@Url.Action("EquipmentInformation", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#new-equipment-info-section'), $('#new-equipment-info-section-modal'), false); $('#new-equipment-info-modal').modal();"*@>@Resources.Edit</a>
 							}
@@ -1269,7 +1279,7 @@
 
 					<h3 class="dealnet-section-title">
 						@Resources.PaymentInformation
-					@if (contractState <= ContractState.Completed)
+					@if (contractState != ContractState.SentToAudit)
 								{
 							<a href="@Url.Action("ContactAndPaymentInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#payment-info-section'), $('#payment-info-section-modal'), false); $('#payment-type').change(); $('#payment-info-modal').modal();"*@>@Resources.Edit</a>
 								}
@@ -1372,9 +1382,10 @@
 
 						<h3 class="dealnet-section-title">
 							@Resources.ExistingEquipmentInformation
-						@if (contractState <= ContractState.Completed)
+						@if (contractState != ContractState.SentToAudit)
 							{
-						<a href="@Url.Action("EquipmentInformation", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#existing-equipment-section'), $('#existing-equipment-section-modal'), false); $('#existing-equipment-modal').modal();"*@>@Resources.Edit</a>}
+						<a href="@Url.Action("EquipmentInformation", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#existing-equipment-section'), $('#existing-equipment-section-modal'), false); $('#existing-equipment-modal').modal();"*@>@Resources.Edit</a>
+						}
 					</h3>
 					@for (var i = 0; i < Model.EquipmentInfo.ExistingEquipment.Count; i++)
 						{
@@ -1497,7 +1508,7 @@
 					<div class="dealnet-credit-check-section">
 						<h3 class="dealnet-section-title">
 							@Resources.AdditionalContractInformation
-							@if (contractState <= ContractState.Completed)
+							@if (contractState != ContractState.SentToAudit)
 							{
 							<a href="@Url.Action("EquipmentInformation", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#edit-add-contract-section'), $('#edit-add-contract-section-modal'), false); $('#edit-add-contract-modal').modal()"*@>@Resources.Edit</a>
 							}
