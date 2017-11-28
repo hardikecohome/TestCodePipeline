@@ -363,43 +363,6 @@
                 $(this).addClass('not-selected');
             }
         });
-        $('.dob-group').each(function (i, el) {
-            var $el = $(el);
-            var $input = $el.find('.dob-input');
-            var $day = $el.find('.dob-day');
-            var $month = $el.find('.dob-month');
-            var $year = $el.find('.dob-year');
-            $input.on('change', function () {
-                var dateTime = new Date($input.val());
-                if (isNaN(dateTime.getTime())) {
-                    $day.val('');
-                    $month.val('');
-                    $year.val('');
-                } else {
-                    $day.val(dateTime.getDate());
-                    $month.val(dateTime.getMonth() + 1);
-                    $year.val(dateTime.getFullYear());
-                }
-            });
-            $day.on('change', function () {
-                var date = new Date($year.val(), $month.val() - 1, $day.val());
-                if (!isNaN(date.getTime())) {
-                    $input.val($month.val() + '/' + $day.val() + '/' + $year.val());
-                }
-            });
-            $month.on('change', function () {
-                var date = new Date($year.val(), $month.val() - 1, $day.val());
-                if (!isNaN(date.getTime())) {
-                    $input.val($month.val() + '/' + $day.val() + '/' + $year.val());
-                }
-            });
-            $year.on('change', function () {
-                var date = new Date($year.val(), $month.val() - 1, $day.val());
-                if (!isNaN(date.getTime())) {
-                    $input.val($month.val() + '/' + $day.val() + '/' + $year.val());
-                }
-            });
-        });
     });
 
 function onDateSelect (input) {

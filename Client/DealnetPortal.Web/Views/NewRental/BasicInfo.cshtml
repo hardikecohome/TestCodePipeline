@@ -662,11 +662,15 @@
                             <div class="control-group dob-group">
                                 @Html.HiddenFor(m => m.AdditionalApplicants[i].BirthDate, new { @class = "check-age dob-input", id = "birth-date", placeholder = Resources.DateFormat, data_val_date = "" })
                         @if (Model.AdditionalApplicants[i] != null && Model.AdditionalApplicants[i].BirthDate.HasValue)
-    {
-        day = Model.AdditionalApplicants[i].BirthDate.Value.Day;
-        month = Model.AdditionalApplicants[i].BirthDate.Value.Month;
-        year = Model.AdditionalApplicants[i].BirthDate.Value.Year;
-    }
+{
+    day = Model.AdditionalApplicants[i].BirthDate.Value.Day;
+    month = Model.AdditionalApplicants[i].BirthDate.Value.Month;
+    year = Model.AdditionalApplicants[i].BirthDate.Value.Year;
+}else{
+    month = 0;
+    day = 0;
+    year = 0;
+}
                         <select class="form-control dealnet-input dob-month">
                             <option value="">mm</option>
                             @for (var j = 1; j < 13; j++)
