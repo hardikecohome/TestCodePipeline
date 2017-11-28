@@ -99,14 +99,14 @@ namespace DealnetPortal.Web.Controllers
             var viewModel = await _contractManager.GetBasicInfoAsync(contractId.Value);
             viewModel.ProvinceTaxRates = ( await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
             viewModel.VarificationIds = (await _dictionaryServiceAgent.GetAllVerificationIds()).Item1;
-            if (viewModel?.ContractState >= ContractState.Completed)
+            if (viewModel?.ContractState >= ContractState.SentToAudit)
             {
                 var alerts = new List<Alert>()
                         {
                             new Alert()
                             {
                                 Type = AlertType.Error,
-                                Message = "Cannot edit applicants information for submitted contracts",
+                                Message = "Cannot edit applicants information for contracts sent to audit",
                                 Header = "Cannot edit contract"
                             }
                         };
@@ -156,14 +156,14 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> CreditCheckConfirmation(int contractId)
         {
             var viewModel = await _contractManager.GetBasicInfoAsync(contractId);
-            if (viewModel?.ContractState >= ContractState.Completed)
+            if (viewModel?.ContractState >= ContractState.SentToAudit)
             {
                 var alerts = new List<Alert>()
                         {
                             new Alert()
                             {
                                 Type = AlertType.Error,
-                                Message = "Cannot edit applicants information for submitted contracts",
+                                Message = "Cannot edit applicants information for contracts sent to audit",
                                 Header = "Cannot edit contract"
                             }
                         };
