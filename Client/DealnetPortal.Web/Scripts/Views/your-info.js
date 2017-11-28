@@ -3,18 +3,16 @@
     var createAction = require('redux').createAction;
     var readInitialStateFromFields = require('objectUtils').readInitialStateFromFields;
 
+    var initDob = require('dob-selecters');
+
     return function (store) {
         var dispatch = store.dispatch;
-        var birth = assignDatepicker("#birth-date-customer", {
-            yearRange: '1900:' + (new Date().getFullYear() - 18),
-            minDate: new Date("1900-01-01"),
-            maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
-            onSelect: function (day, date) {
-                dispatch(createAction(customerActions.SET_BIRTH, day));
-                $(this).siblings('input.form-control').val(day);
-                $(".div-datepicker").removeClass('opened');
-            }
+
+        var birth = $('#birth-date-customer');
+        birth.on('change', function (e) {
+            dispatch(createAction(customerActions.SET_BIRTH, e.target.value));
         });
+        initDob(birth.parent());
 
         var name = $('#firstName');
         name.on('change', function (e) {

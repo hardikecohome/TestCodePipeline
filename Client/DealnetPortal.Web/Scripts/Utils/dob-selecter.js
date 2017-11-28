@@ -31,7 +31,7 @@
         if (day && month && year) {
             var date = new Date(year, month - 1, day);
             if (!isNaN(date.getTime())) {
-                $input.val(month + '/' + day + '/' + year);
+                $input.val(month + '/' + day + '/' + year).change();
                 if (!$input.valid()) {
                     $day.addClass('input-validation-error');
                     $month.addClass('input-validation-error');
