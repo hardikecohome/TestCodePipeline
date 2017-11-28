@@ -25,18 +25,25 @@
     }
 
     function setInputValue ($day, $month, $year, $input) {
-        var date = new Date($year.val(), $month.val() - 1, $day.val());
-        if (!isNaN(date.getTime())) {
-            $input.val($month.val() + '/' + $day.val() + '/' + $year.val());
-            if (!$input.valid()) {
-                $day.addClass('input-validation-error');
-                $month.addClass('input-validation-error');
-                $year.addClass('input-validation-error');
-            } else {
-                $day.removeClass('input-validation-error');
-                $month.removeClass('input-validation-error');
-                $year.removeClass('input-validation-error');
+        var day = $day.val();
+        var month = $month.val();
+        var year = $year.val();
+        if (day && month && year) {
+            var date = new Date(year, month - 1, day);
+            if (!isNaN(date.getTime())) {
+                $input.val(month + '/' + day + '/' + year);
+                if (!$input.valid()) {
+                    $day.addClass('input-validation-error');
+                    $month.addClass('input-validation-error');
+                    $year.addClass('input-validation-error');
+                } else {
+                    $day.removeClass('input-validation-error');
+                    $month.removeClass('input-validation-error');
+                    $year.removeClass('input-validation-error');
+                }
             }
+        } else {
+            $input.val('');
         }
     }
     function initDobGroup (el) {

@@ -673,28 +673,29 @@
     day = 0;
     year = 0;
 }
-                        <select class="form-control dealnet-input dob-month">
-                            <option value="">mm</option>
-                            @for (var j = 1; j < 13; j++)
-{
-                        <option value="@j" @(month == j ? "selected=selected" : "")>@j</option>
-}
-                        </select>
-                        <select class="form-control dealnet-input dob-day">
-                            <option value="">dd</option>
-                            @for (var j = 1; j < 32; j++)
-{
-                        <option value="@j" @(day == j ? "selected=selected" : "")>@j</option>
-}
-                        </select>
-                        <select class="form-control dealnet-input dob-year">
-                            <option value="">yyyy</option>
-
-                        @for (var j = yearLess18; j >= 1900; j--)
-{
-                        <option value="@j" @(year == j ? "selected=selected" : "")>@j</option>
-}
-                        </select>
+                                <div class="dealnet-input no-border">
+                                    <select class="form-control dealnet-input dob-month">
+                                        <option value="">mm</option>
+                                        @for (var j = 1; j < 13; j++)
+                                        {
+                                            <option value="@j" @(month == j ? "selected=selected" : "")>@j</option>
+                                        }
+                                    </select>
+                                    <select class="form-control dealnet-input dob-day">
+                                        <option value="">dd</option>
+                                        @for (var j = 1; j < 32; j++)
+                                        {
+                                            <option value="@j" @(day == j ? "selected=selected" : "")>@j</option>
+                                        }
+                                    </select>
+                                    <select class="form-control dealnet-input dob-year">
+                                        <option value="">yyyy</option>
+                                        @for (var j = yearLess18; j >= 1900; j--)
+                                        {
+                                            <option value="@j" @(year == j ? "selected=selected" : "")>@j</option>
+                                        }
+                                    </select>
+                                </div>
                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].BirthDate, "", new { @class = "text-danger" })
                         </div>
                             </div>
