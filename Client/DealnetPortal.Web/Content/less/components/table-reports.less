@@ -66,6 +66,17 @@ body:not(.tablet-device):not(.mobile-device){
     }
   }
 }
+
+td.contract-cell:after {
+    @media @tablet-only {
+        margin-top: -8px;
+    }
+
+    @media all and (min-width: 479px) {
+        margin-top: -8px;
+    }
+}
+
 .dataTable.table-reports {
 
     tbody {

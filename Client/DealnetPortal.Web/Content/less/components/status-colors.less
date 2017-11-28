@@ -83,9 +83,14 @@
 .contract-cell {
     .icon-hold {
         display: none;
-        @media @mobile {
+
+        @media all and (max-width: 479px) {
             display: inline-block;
         }
+
+        /*@media @mobile and (orientation:landscape) {
+            display: none;
+        }*/
     }
 }
 
