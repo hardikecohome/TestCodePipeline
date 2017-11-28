@@ -79,6 +79,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/BasicInfo/DlScanning/dl-scanning.js")
                 .Include("~/Scripts/datejs.js")
                 .Include("~/Scripts/camera-capturing.js")
+                .Include("~/Scripts/Modules/index.js")
                 .Include("~/Scripts/Utils/dob-selecter.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/credit-check")
@@ -174,8 +175,8 @@ namespace DealnetPortal.Web
                 "~/Scripts/Utils/functionUtils.js",
                 "~/Scripts/Utils/logMiddleware.js",
                 "~/Scripts/Utils/objectUtils.js",
-                "~/Scripts/Utils/redux.js")
-                .Include("~/Scripts/Utils/dob-selecter.js"));
+                "~/Scripts/Utils/redux.js",
+                "~/Scripts/Utils/dob-selecter.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/new-client")
                 .Include(
@@ -200,8 +201,8 @@ namespace DealnetPortal.Web
                 "~/Scripts/Utils/functionUtils.js",
                 "~/Scripts/Utils/logMiddleware.js",
                 "~/Scripts/Utils/objectUtils.js",
-                "~/Scripts/Utils/redux.js")
-                .Include("~/Scripts/Utils/dob-selecter.js"));
+                "~/Scripts/Utils/redux.js",
+                "~/Scripts/Utils/dob-selecter.js"));
 
             //bundles.Add(new ScriptBundle("~/bundles/new-client-mobile")
             //    .Include(
