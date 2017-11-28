@@ -328,13 +328,14 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         DateTime envelopeStatusTime;
                         if (!DateTime.TryParse(envelopeStatusTimeValue, out envelopeStatusTime))
                         {
-                            envelopeStatusTime = DateTime.Now;
+                            envelopeStatusTime = DateTime.UtcNow;
                         }
                         else
                         {
                             if (tzInfo != null)
                             {
-                                envelopeStatusTime = TimeZoneInfo.ConvertTime(envelopeStatusTime, tzInfo, TimeZoneInfo.Local);
+                                //envelopeStatusTime = TimeZoneInfo.ConvertTime(envelopeStatusTime, tzInfo, TimeZoneInfo.Local);
+                                envelopeStatusTime = TimeZoneInfo.ConvertTimeToUtc(envelopeStatusTime, tzInfo);
                             }
                         }
                         _loggingService.LogInfo($"Recieved DocuSign {envelopeStatus} status for envelope {envelopeId}, time {envelopeStatusTime}");
@@ -362,13 +363,14 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                                 }).OrderByDescending(rst => rst).FirstOrDefault();
                             if (rsLastStatusTime == new DateTime())
                             {
-                                rsLastStatusTime = DateTime.Now;
+                                rsLastStatusTime = DateTime.UtcNow;
                             }
                             else
                             {
                                 if (tzInfo != null)
                                 {
-                                    rsLastStatusTime = TimeZoneInfo.ConvertTime(rsLastStatusTime, tzInfo, TimeZoneInfo.Local);
+                                    //rsLastStatusTime = TimeZoneInfo.ConvertTime(rsLastStatusTime, tzInfo, TimeZoneInfo.Local);
+                                    rsLastStatusTime = TimeZoneInfo.ConvertTimeToUtc(rsLastStatusTime, tzInfo);
                                 }
                             }
                             var rsName = rs.Element(XName.Get("UserName", xmlns))?.Value;
@@ -423,7 +425,11 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         DateTime envelopeStatusTime;
                         if (!DateTime.TryParse(envelope.StatusChangedDateTime, out envelopeStatusTime))
                         {
-                            envelopeStatusTime = DateTime.Now;
+                            envelopeStatusTime = DateTime.UtcNow;
+                        }
+                        else
+                        {
+                            envelopeStatusTime = envelopeStatusTime.ToUniversalTime();
                         }
                         updated |= ProcessSignatureStatus(contract, envelope.Status, envelopeStatusTime);
                     }
@@ -443,9 +449,10 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                                         {
                                             statusTime = DateTime.Now;
                                         }
+                                        statusTime = statusTime.ToUniversalTime();
                                         return statusTime;
                                     }).OrderByDescending(rst => rst).FirstOrDefault()
-                                : DateTime.Now;                                                                               
+                                : DateTime.UtcNow;                                                                               
 
                             updated |= ProcessSignerStatus(contract, s.Name, s.Email, s.Status, s.DeclinedReason,
                                 rsLastStatusTime);
