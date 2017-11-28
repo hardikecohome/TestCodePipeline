@@ -20,6 +20,12 @@
     }
 }
 
+.contract-cell > .status-hold {
+    @media @tablet-up {
+        width: auto !important;
+    }
+}
+
 .status-hold {
     display: inline-flex;
     height: 100%;
@@ -28,6 +34,10 @@
 
     @media @mobile {
         width: auto;
+    }
+
+    @media @tablet-only {
+        width: 100%;
     }
 
     .text-hold {

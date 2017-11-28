@@ -17,7 +17,7 @@
           margin: 0 3px;
         }
         @media @mobile {
-          width: 60px;
+          width: 75px;
         }
       }
     }
@@ -66,29 +66,41 @@ body:not(.tablet-device):not(.mobile-device){
     }
   }
 }
-.dataTable.table-reports{
-  
-  tbody{
-    
-    td.status-cell {
-      padding: 5px 8px;
-    }
-    td.contract-cell {
-      padding: 5px 2px 5px 0;
-    }
-  }
-    th, td{
+.dataTable.table-reports {
 
-      @media @mobile{
-        &.status-cell,
-        &.action-cell{
-          width: 33%;
+    tbody {
+
+        td.status-cell {
+            padding: 5px 8px;
         }
-        &.customer-cell{
-          width:29%;
-          min-width: 60px;
+
+        td.contract-cell {
+            padding: 5px 2px 5px 0;
         }
-      }
-  }
+    }
+
+    th, td {
+
+        @media @mobile {
+            &.status-cell,
+            &.action-cell {
+                width: 33%;
+            }
+
+            &.customer-cell {
+                width: 29%;
+                min-width: 60px;
+            }
+        }
+
+        @media @tablet-up {
+            &.status-cell {
+                width: 46%
+            }
+            &.customer-cell {
+                width: 29%
+            }
+        }
+    }
 }
 
