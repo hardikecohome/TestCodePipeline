@@ -315,6 +315,12 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 if (contract != null && envelopeStatusSection != null)
                 {
                     var envelopeStatus = envelopeStatusSection?.Element(XName.Get("Status", xmlns))?.Value;
+                    var timeZone = xDocument.Root.Element(XName.Get("TimeZone", xmlns))?.Value;
+                    TimeZoneInfo tzInfo = null;
+                    if (!string.IsNullOrEmpty(timeZone))
+                    {
+                        tzInfo = TimeZoneInfo.FindSystemTimeZoneById(timeZone);
+                    }
                     if (!string.IsNullOrEmpty(envelopeStatus))
                     {
                         _loggingService.LogInfo($"Recieved DocuSign {envelopeStatus} status for envelope {envelopeId}");
@@ -324,9 +330,16 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         {
                             envelopeStatusTime = DateTime.Now;
                         }
+                        else
+                        {
+                            if (tzInfo != null)
+                            {
+                                envelopeStatusTime = TimeZoneInfo.ConvertTime(envelopeStatusTime, tzInfo, TimeZoneInfo.Local);
+                            }
+                        }
                         updated |= ProcessSignatureStatus(contract, envelopeStatus, envelopeStatusTime);
                     }
-
+                    
                     //proceed with recipients statuses
                     var recipientStatusesSection = envelopeStatusSection?.Element(XName.Get("RecipientStatuses", xmlns));
                     if (recipientStatusesSection != null)
@@ -346,6 +359,17 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                                     }
                                     return statusTime;
                                 }).OrderByDescending(rst => rst).FirstOrDefault();
+                            if (rsLastStatusTime == new DateTime())
+                            {
+                                rsLastStatusTime = DateTime.Now;
+                            }
+                            else
+                            {
+                                if (tzInfo != null)
+                                {
+                                    rsLastStatusTime = TimeZoneInfo.ConvertTime(rsLastStatusTime, tzInfo, TimeZoneInfo.Local);
+                                }
+                            }
                             var rsName = rs.Element(XName.Get("UserName", xmlns))?.Value;
                             var rsEmail = rs.Element(XName.Get("Email", xmlns))?.Value;
                             var rsComment = rs.Element(XName.Get("DeclineReason", xmlns))?.Value;
