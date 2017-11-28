@@ -302,6 +302,7 @@ function submitAllDocumentsUploaded () {
                 $('.disablable').addClass('disabled');
                 $('button.disabled, input.disabled').attr('disabled', 'disabled');
                 $('.dealnet-section-edit-link').hide();
+				$('#esignature-link').addClass('disabled');
                 isSentToAudit = true;
             } else if (result.isError) {
                 alert(translations['AnErrorWhileSendingReport']);
