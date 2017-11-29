@@ -206,7 +206,11 @@ namespace DealnetPortal.DataAccess.Repositories
                 if (contract.ContractState == ContractState.CreditCheckDeclined)
                 {
                     AddOrUpdateInitialCustomers(contract);
-                    contract.WasDeclined = true;                    
+                    contract.WasDeclined = true;
+                }
+                else
+                {
+                    contract.WasDeclined = false;
                 }
 
                 contract.LastUpdateTime = DateTime.Now;
@@ -411,7 +415,7 @@ namespace DealnetPortal.DataAccess.Repositories
                         updated = true;
                     }
 
-                    if (contractData.PrimaryCustomer != null && contract.WasDeclined != true)
+                    if (contractData.PrimaryCustomer != null/* && contract.WasDeclined != true*/)
                     {
                         // ?
                         if (contractData.PrimaryCustomer.Id == 0 && contract.PrimaryCustomer != null)
@@ -1382,7 +1386,7 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             var existingEntities =
                 contract.SecondaryCustomers.Where(
-                    ho => customers.Any(cho => cho.Id == ho.Id) || (contract.WasDeclined == true && contract.InitialCustomers.Any(ic => ic.Id == ho.Id))).ToList();
+                    ho => customers.Any(cho => cho.Id == ho.Id) /*|| (contract.WasDeclined == true && contract.InitialCustomers.Any(ic => ic.Id == ho.Id))*/).ToList();
 
             var entriesForDelete = contract.SecondaryCustomers.Except(existingEntities).ToList();
             entriesForDelete.ForEach(e => contract.SecondaryCustomers.Remove(e));
@@ -1390,8 +1394,8 @@ namespace DealnetPortal.DataAccess.Repositories
             //_dbContext.Entry(e).State = EntityState.Deleted);
             customers.ForEach(ho =>
             {
-                if (contract.WasDeclined != true || contract.InitialCustomers.All(ic => ic.Id != ho.Id))
-                {
+                //if (contract.WasDeclined != true || contract.InitialCustomers.All(ic => ic.Id != ho.Id))
+                //{
                     var customerLocations = ho.Locations;
                     var customer = AddOrUpdateCustomer(ho);
                     AddOrUpdateCustomerLocations(customer, customerLocations);
@@ -1399,7 +1403,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         contract.SecondaryCustomers.Add(ho);
                     }
-                }
+                //}
             });
 
             contract.LastUpdateTime = DateTime.Now;

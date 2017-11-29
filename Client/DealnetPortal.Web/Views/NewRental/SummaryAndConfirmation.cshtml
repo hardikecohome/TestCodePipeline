@@ -23,14 +23,8 @@
 <div id="steps-line"></div>
 <div class="row" id="steps">
     <div class="col-xs-4">
-        @if (Model.EquipmentInfo.IsFirstStepAvailable)
-        {
-            <a href="@Url.Action("BasicInfo", new {contractId = Model.BasicInfo.ContractId})" data-warning="true" id="step1" class="step-item">1</a>
-        }
-        else
-        {
-            <div id="step1" class="step-item">1</div>
-        }
+        <a href="@Url.Action("BasicInfo", new {contractId = Model.BasicInfo.ContractId})" data-warning="true" id="step1" class="step-item">1</a>
+        
     </div>
     <div class="col-xs-4">
         @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable)
@@ -48,14 +42,14 @@
     </div>
 </div>
 
-@if (Model.BasicInfo.ContractWasDeclined)
+@*@if (Model.BasicInfo.ContractWasDeclined)
 {
     <!--Show/hide warning depend on status-deal-submitted-->
     <div class="well well-info position-well">
         <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
         @Resources.YouCantEditBecauseSubmittedYouCanAddAdditional
     </div>
-}
+}*@
 
 <div class="form-container summary-info-hold">
     <div class="form-section">
@@ -92,7 +86,10 @@
                     <div class="credit-check-info-hold fit-to-next-grid">
                         <div class="col-md-6 grid-column">
                             <div class="dealnet-credit-check-section" id="home-owner-section">
-                                <h3 class="dealnet-section-title">@Resources.BorrowerInformation</h3>
+                                <h3 class="dealnet-section-title">@Resources.BorrowerInformation
+									@*<a href="@Url.Action("BasicInfo", new {contractId = Model.BasicInfo.ContractId})" data-warning="true" id="step1" class="step-item dealnet-section-edit-link pull-right">@Resources.Edit</a>*@
+									<a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1" @*onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();"*@>@Resources.Edit</a>
+								</h3>
                                 <div class="form-group">
                                     <div class="row">
                                         @Html.LabelFor(m => m.BasicInfo.HomeOwner.FirstName, new {@class = "dealnet-field-caption col-xs-6"})
@@ -438,7 +435,9 @@
                             <div class="credit-check-info-hold fit-to-next-grid">
                                 <div class="col-md-6 grid-column">
                                     <div class="dealnet-credit-check-section" id="additional@(i + 1)-section">
-                                        <h3 class="dealnet-section-title">@Resources.AdditionalApplicant</h3>
+                                        <h3 class="dealnet-section-title">@Resources.AdditionalApplicant
+											<a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1" @*onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();"*@>@Resources.Edit</a>
+										</h3>
                                         <div class="form-group">
                                             <div class="row">
                                                 @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].FirstName, new {@class = "dealnet-field-caption col-xs-6"})
