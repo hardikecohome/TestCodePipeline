@@ -688,6 +688,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                 var envelopeStatusSection = xDocument?.Root?.Element(XName.Get("EnvelopeStatus", xmlns));
                 var envelopeId = envelopeStatusSection?.Element(XName.Get("EnvelopeID", xmlns))?.Value;
+                var timeZone = xDocument?.Root?.Element(XName.Get("TimeZone", xmlns))?.Value;
 
                 var contract = _contractRepository.FindContractBySignatureId(envelopeId);
                 if (contract != null && envelopeStatusSection != null)
@@ -699,21 +700,29 @@ namespace DealnetPortal.Api.Integration.Services
                         UpdateSignersInfo(contract.Id, contract.DealerId, sUsers);
                     }
 
-                    var oldStatus = contract.Details?.SignatureStatus;
-                    var updatedRes = await _signatureEngine.ParseStatusEvent(notificationMsg, contract);                    
-                    if (updatedRes?.Item2?.Any() == true)
+                    if (timeZone != null)
                     {
-                        alerts.AddRange(updatedRes.Item2);
-                    }
-                    var updated = updatedRes?.Item1 == true;
-
-                    if (updated)
-                    {
-                        _unitOfWork.Save();
-                        if (oldStatus != contract.Details?.SignatureStatus)
+                        var oldStatus = contract.Details?.SignatureStatus;
+                        var updatedRes = await _signatureEngine.ParseStatusEvent(notificationMsg, contract);
+                        if (updatedRes?.Item2?.Any() == true)
                         {
-                            await OnSignatureStatusChanged(contract.Id, contract.DealerId);
+                            alerts.AddRange(updatedRes.Item2);
                         }
+                        var updated = updatedRes?.Item1 == true;
+
+                        if (updated)
+                        {
+                            _unitOfWork.Save();
+                            if (oldStatus != contract.Details?.SignatureStatus)
+                            {
+                                await OnSignatureStatusChanged(contract.Id, contract.DealerId);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        await _signatureEngine.ServiceLogin().ConfigureAwait(false);
+                        await UpdateContractStatus(contract.Id, contract.DealerId);
                     }
                 }
                 else

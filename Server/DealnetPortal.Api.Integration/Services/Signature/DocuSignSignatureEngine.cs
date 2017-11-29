@@ -874,7 +874,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 event_notification.UseSoapInterface = "false";
                 event_notification.IncludeCertificateWithSoap = "false";
                 event_notification.SignMessageWithX509Cert = "false";
-                event_notification.IncludeDocuments = "true";
+                //event_notification.IncludeDocuments = "true";
                 event_notification.IncludeEnvelopeVoidReason = "true";
                 event_notification.IncludeTimeZone = "true";
                 event_notification.IncludeSenderAccountAsCustomField = "true";
