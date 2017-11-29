@@ -700,29 +700,34 @@ namespace DealnetPortal.Api.Integration.Services
                         UpdateSignersInfo(contract.Id, contract.DealerId, sUsers);
                     }
 
+                    bool updated = false;
+                    var oldStatus = contract.Details?.SignatureStatus;
+
                     if (timeZone != null)
                     {
-                        var oldStatus = contract.Details?.SignatureStatus;
+                        
                         var updatedRes = await _signatureEngine.ParseStatusEvent(notificationMsg, contract);
                         if (updatedRes?.Item2?.Any() == true)
                         {
                             alerts.AddRange(updatedRes.Item2);
                         }
-                        var updated = updatedRes?.Item1 == true;
-
-                        if (updated)
-                        {
-                            _unitOfWork.Save();
-                            if (oldStatus != contract.Details?.SignatureStatus)
-                            {
-                                await OnSignatureStatusChanged(contract.Id, contract.DealerId);
-                            }
-                        }
+                        updated = updatedRes?.Item1 == true;                        
                     }
                     else
                     {
+                        _loggingService.LogInfo($"Cannot find timezone info in the signature event for envelope {envelopeId}. Trying to request DocuSign");
                         await _signatureEngine.ServiceLogin().ConfigureAwait(false);
-                        await UpdateContractStatus(contract.Id, contract.DealerId);
+                        var updateStatusRes = await _signatureEngine.UpdateContractStatus(contract);
+                        updated = updateStatusRes?.Item1 == true;                                                                                
+                    }
+
+                    if (updated)
+                    {
+                        _unitOfWork.Save();
+                        if (oldStatus != contract.Details?.SignatureStatus)
+                        {
+                            await OnSignatureStatusChanged(contract.Id, contract.DealerId);
+                        }
                     }
                 }
                 else
