@@ -589,6 +589,12 @@ namespace DealnetPortal.Web.Infrastructure
             {
                 var customerDTO = Mapper.Map<CustomerDataDTO>(applicant);
                 customerDTO.Locations = new List<LocationDTO>();
+                if (applicant.AddressInformation != null)
+                {
+                    var mainAddress = Mapper.Map<LocationDTO>(applicant.AddressInformation);
+                    mainAddress.AddressType = AddressType.MainAddress;
+                    customerDTO.Locations.Add(mainAddress);
+                }
                 if (applicant.MailingAddressInformation != null)
                 {
                     var mailAddress = Mapper.Map<LocationDTO>(applicant.MailingAddressInformation);
@@ -608,6 +614,7 @@ namespace DealnetPortal.Web.Infrastructure
                 c.ContractId = basicInfo.ContractId;
                 c.LeadSource = _leadSource;
             });
+
             return await _contractServiceAgent.UpdateCustomerData(customers.ToArray());
         }
 
@@ -696,6 +703,10 @@ namespace DealnetPortal.Web.Infrastructure
             }
             if (rateCardId.HasValue)
             {
+                if (rateCardId.Value == 0)
+                {
+                    return true;
+                }
                 return result.Item1.Equipment != null &&
                        (!result.Item1.Equipment.RateCardId.HasValue || result.Item1.Equipment.RateCardId.Value == 0 ||
                         dealerTier.RateCards.Any(x => x.Id == rateCardId.Value));

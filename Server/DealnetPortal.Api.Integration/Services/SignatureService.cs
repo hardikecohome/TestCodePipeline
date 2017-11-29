@@ -962,7 +962,7 @@ namespace DealnetPortal.Api.Integration.Services
                         ContractId = contract.Id,
                         CreationDate = DateTime.Now,
                         DocumentTypeId = (int)DocumentTemplateType.SignedContract, // Signed contract !!
-                        DocumentName = "_ESIGN_" + DateTime.Now.ToString("MM-dd-yyyy HH-mm-ss", CultureInfo.InvariantCulture) + "_" + docResult.Item1.Name,
+                        DocumentName = DateTime.Now.ToString("MM-dd-yyyy HH-mm-ss", CultureInfo.InvariantCulture) + "_" + docResult.Item1.Name,
                         DocumentBytes = docResult.Item1.DocumentRaw
                     };
                     //DEAL-3306 - Digitally signed contract shouldn't be displayed in 'Paper Contract' tab on Dealer Portal

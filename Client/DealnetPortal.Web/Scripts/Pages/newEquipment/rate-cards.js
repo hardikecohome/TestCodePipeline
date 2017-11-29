@@ -136,7 +136,7 @@
         if (notNan && validateNumber && validateNotEmpty) {
             if (option === selectedRateCard) {
                 $('#displayLoanAmortTerm').text(state[option].LoanTerm + '/' + state[option].AmortizationTerm);
-                $('#displayCustomerRate').text(state[option].CustomerRate);
+                $('#displayCustomerRate').text(formatNumber(state[option].CustomerRate));
                 $('#displayTFinanced').text(formatCurrency(data.totalAmountFinanced));
                 $('#displayMPayment').text(formatCurrency(data.monthlyPayment));
             }
@@ -401,8 +401,8 @@
             }
 
             $('#' + option.name + 'AFee').text(formatCurrency(state[option.name].AdminFee));
-            $('#' + option.name + 'CRate').text(state[option.name].CustomerRate + ' %');
-            $('#' + option.name + 'YCostVal').text(state[option.name].DealerCost + ' %');
+            $('#' + option.name + 'CRate').text(formatNumber(state[option.name].CustomerRate) + ' %');
+            $('#' + option.name + 'YCostVal').text(formatNumber(state[option.name].DealerCost) + ' %');
         }
     }
 

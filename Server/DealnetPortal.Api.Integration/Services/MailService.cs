@@ -606,10 +606,12 @@ namespace DealnetPortal.Api.Integration.Services
                         var agreementType = contract.Equipment.AgreementType == AgreementType.LoanApplication
                             ? "loan"
                             : "rental";
+                        var email = declinedCustomer.Emails.SingleOrDefault(x => x.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
+
                         await _mandrillService.SendDeclineToSignDealerNotification(contract.Dealer.Email,
                             contract.Dealer.AspireLogin, contract.Details.TransactionId,
                             declinedCustomer.FirstName + " " + declinedCustomer.LastName,
-                            declinedCustomer.Emails.SingleOrDefault(x => x.EmailType == EmailType.Main)?.EmailAddress,
+                            email,
                             phone, agreementType);
                     }
                 }

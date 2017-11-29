@@ -25,13 +25,18 @@ $(document).ready(function () {
             }
 
             var parseFloat = window.parseFloat;
-            window.parseFloat = function(number) {
+            window.parseFloat = function (number) {
                 if (typeof number === 'undefined') {
                     return number;
                 }
                 if (typeof number === 'number') {
                     return number;
                 }
+
+                if (number.indexOf(',') !== -1) {
+                    number = number.replace(/,/, '.');
+                }
+
                 if (/[a-zA-Z]*/.test(number)) {
                     return parseFloat(number);
                 }
