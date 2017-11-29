@@ -51,6 +51,7 @@
                         form.find('#submit-digital').text(translations['SendInvites']);
                         $('#signature-status').val('');
                         $('#type-reminder').removeClass('hidden');
+                        $('.signature-notification').text(translations['DigitalInvitesWillBeSentToEmails']);
                     }
                     hideLoader();
                 },
@@ -169,6 +170,7 @@
                     $form.find('.signer-status-hold').removeClass('hidden');
                     $form.find('#type-reminder').addClass('hidden');
                     $form.find('#submit-digital').html(translations['CancelDigitalSignature']);
+                    $('.signature-notification').text(translations['InvitesSentWaitingSignatures']);
                     $('#contact-before-resend').addClass('hidden');
                     $('#fill-all-emails').addClass('hidden');
                 } else {
