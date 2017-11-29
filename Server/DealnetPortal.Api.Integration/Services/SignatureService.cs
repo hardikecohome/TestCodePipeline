@@ -868,8 +868,8 @@ namespace DealnetPortal.Api.Integration.Services
 
                     if (updated)
                     {
-                        contract.Details.SignatureInitiatedTime = DateTime.Now;
-                        contract.Details.SignatureLastUpdateTime = DateTime.Now;
+                        contract.Details.SignatureInitiatedTime = DateTime.UtcNow;
+                        contract.Details.SignatureLastUpdateTime = DateTime.UtcNow;
                         _unitOfWork.Save();
                     }
                 }

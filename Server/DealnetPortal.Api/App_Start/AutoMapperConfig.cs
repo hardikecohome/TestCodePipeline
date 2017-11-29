@@ -75,8 +75,11 @@ namespace DealnetPortal.Api.App_Start
                         .Replace("$", string.Empty)
                         .Replace("/", string.Empty)
                         .Replace("(", string.Empty)
-                        .Replace(")", string.Empty)) ?? src.Status : null));
-            mapperConfig.CreateMap<ContractSigner, ContractSignerDTO>();
+                        .Replace(")", string.Empty)) ?? src.Status : null))
+                .ForMember(d => d.SignatureInitiatedTime, s => s.ResolveUsing(src => src.SignatureInitiatedTime?.ToLocalTime()))
+                .ForMember(d => d.SignatureLastUpdateTime, s => s.ResolveUsing(src => src.SignatureLastUpdateTime?.ToLocalTime()));
+            mapperConfig.CreateMap<ContractSigner, ContractSignerDTO>()
+                .ForMember(d => d.StatusLastUpdateTime, s => s.ResolveUsing(src => src.StatusLastUpdateTime?.ToLocalTime()));
             mapperConfig.CreateMap<ContractSigner, SignatureUser>()
                 .ForMember(x => x.Role, o => o.MapFrom(src => src.SignerType));
             mapperConfig.CreateMap<Contract, ContractDTO>()
@@ -116,7 +119,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.SignatureTransactionId, d => d.MapFrom(src => src.Details.SignatureTransactionId))
                 .ForMember(x => x.Status, d => d.MapFrom(src => src.Details.SignatureStatus))
                 .ForMember(x => x.StatusQualifier, d => d.MapFrom(src => src.Details.SignatureStatusQualifier))
-                .ForMember(x => x.StatusTime, d => d.MapFrom(src => src.Details.SignatureLastUpdateTime));
+                .ForMember(x => x.StatusTime, d => d.ResolveUsing(src => src.Details.SignatureLastUpdateTime?.ToLocalTime()));
             //.ForMember(x => x.Documents, d => d.Ignore());
             mapperConfig.CreateMap<EquipmentType, EquipmentTypeDTO>().
                 ForMember(x => x.Description,
