@@ -696,6 +696,10 @@ namespace DealnetPortal.Web.Infrastructure
             }
             if (rateCardId.HasValue)
             {
+                if (rateCardId.Value == 0)
+                {
+                    return true;
+                }
                 return result.Item1.Equipment != null &&
                        (!result.Item1.Equipment.RateCardId.HasValue || result.Item1.Equipment.RateCardId.Value == 0 ||
                         dealerTier.RateCards.Any(x => x.Id == rateCardId.Value));
