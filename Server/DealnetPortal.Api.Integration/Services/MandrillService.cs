@@ -389,7 +389,6 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 };
 
-
             request.message = new MandrillMessage()
             {
                 from_email = ConfigurationManager.AppSettings["FromEmail"],
