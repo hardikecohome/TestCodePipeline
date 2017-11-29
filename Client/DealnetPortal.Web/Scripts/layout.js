@@ -356,7 +356,7 @@
                 $(el).addClass('not-selected');
             }
         });
-        $('select').on('change', function () {
+        $('body').on('change', 'select', function () {
             if (this.value) {
                 $(this).removeClass('not-selected');
             } else {
