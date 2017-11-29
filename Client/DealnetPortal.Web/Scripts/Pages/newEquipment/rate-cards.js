@@ -42,22 +42,22 @@
 
             if (option === 'Deferral') {
                 var deferralPeriod = +$('#DeferralPeriodDropdown').val();
-                filtred = $.parseJSON(cards).find(
+                filtred = $.parseJSON(cards).filter(
                     function (v) {
                         return v.CardType === cardType &&
                             v.DeferralPeriod === deferralPeriod &&
                             v.AmortizationTerm === Number(amortizationTerm) &&
                             v.AdminFee === (slicedAdminFee.indexOf(',') > -1 ? Globalize.parseNumber(slicedAdminFee) : Number(slicedAdminFee)) &&
                             v.CustomerRate === (slicedCustomerRate.indexOf(',') > -1 ? Globalize.parseNumber(slicedCustomerRate) : Number(slicedCustomerRate));
-                    });
+                    })[0];
             } else {
-                filtred = $.parseJSON(cards).find(
+                filtred = $.parseJSON(cards).filter(
                     function (v) {
                         return v.CardType === cardType &&
                             v.AmortizationTerm === Number(amortizationTerm) &&
                             v.AdminFee === (slicedAdminFee.indexOf(',') > -1 ? Globalize.parseNumber(slicedAdminFee) : Number(slicedAdminFee)) &&
                             v.CustomerRate === (slicedCustomerRate.indexOf(',') > -1 ? Globalize.parseNumber(slicedCustomerRate) : Number(slicedCustomerRate));
-                    });
+                    })[0];
             }
 
             if (filtred !== undefined) {
