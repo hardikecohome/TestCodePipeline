@@ -11,14 +11,8 @@
 <div id="steps-line"></div>
 <div class="row" id="steps">
     <div class="col-xs-4">
-      @if (Model.IsFirstStepAvailable)
-      {
-        <a href="@Url.Action("BasicInfo", new {contractId = Model.ContractId})" data-warning="true" id="step1" class="step-item">1</a>
-      }
-      else
-      {
-        <div id="step1" class="step-item">1</div>
-      }
+      <a href="@Url.Action("BasicInfo", new {contractId = Model.ContractId})" data-warning="true" id="step1" class="step-item">1</a>
+      
     </div>
     <div class="col-xs-4">
         @if (Model.IsApplicantsInfoEditAvailable)
