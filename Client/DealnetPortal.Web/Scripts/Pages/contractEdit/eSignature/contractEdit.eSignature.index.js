@@ -45,8 +45,10 @@
                 type: 'POST',
                 success: function (data) {
                     if (!data.isError) {
-                        $('#signer-form .signer-status-hold').removeClass().addClass('signer-status-hold');
-                        $('#signer-form #submit-digital').text(translations['SendInvites']);
+                        var form = $('#signer-form');
+                        form.find('input').prop('disabled', false);
+                        form.find('.signer-status-hold').removeClass().addClass('signer-status-hold');
+                        form.find('#submit-digital').text(translations['SendInvites']);
                         $('#signature-status').val('');
                         $('#type-reminder').removeClass('hidden');
                     }
