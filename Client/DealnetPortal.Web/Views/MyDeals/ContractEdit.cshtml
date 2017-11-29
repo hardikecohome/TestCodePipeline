@@ -20,10 +20,10 @@
     <div class="form-section">
         <div class="dealnet-large-header">@Resources.Contract #@(Model.AdditionalInfo.TransactionId ?? Model.BasicInfo.ContractId.ToString())</div>
 
-        @**@@if (Model.BasicInfo.ContractWasDeclined)
-        {
+        @*@if (Model.BasicInfo.ContractWasDeclined)
+        {*@
         <!--Show/hide warning depend on status-deal-submitted-->
-            <div class="well well-info position-well">
+            @*<div class="well well-info position-well">
                 <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
                 @Resources.YouCantEditBecauseSubmittedYouCanAddAdditional
             </div>
@@ -554,7 +554,7 @@
 				<div class="col-md-6 grid-column">
 					<div class="dealnet-credit-check-section" id="home-owner-section">
 						<h3 class="dealnet-section-title">@Resources.BorrowerInformation
-						@if (contractState != ContractState.SentToAudit)
+						@if (contractState != ContractState.Closed)
 						{
 							<a href="@Url.Action("BasicInfo", "NewRental", new { contractId = Model.BasicInfo.ContractId })" class="dealnet-section-edit-link pull-right editToStep1" @*onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();"*@>@Resources.Edit</a>
 						}
@@ -815,7 +815,7 @@
 					<div class="dealnet-credit-check-section" id="contact-info-section">
 						@Html.HiddenFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.CustomerId)
 						<h3 class="dealnet-section-title">
-							@Resources.ContactInformation @if (contractState != ContractState.SentToAudit)
+							@Resources.ContactInformation @if (contractState != ContractState.Closed)
 								{
 							<a href="@Url.Action("ContactAndPaymentInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();"*@>@Resources.Edit</a>
 								}
@@ -899,7 +899,7 @@
 					<div class="col-md-6 grid-column">
 						<div class="dealnet-credit-check-section" id="additional@(i + 1)-section">
 							<h3 class="dealnet-section-title">@Resources.AdditionalApplicant
-							@if (contractState != ContractState.SentToAudit)
+							@if (contractState != ContractState.Closed)
 							{
 								<a href="@Url.Action("BasicInfo", "NewRental", new { contractId = Model.BasicInfo.ContractId })" class="dealnet-section-edit-link pull-right editToStep1" @*onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();"*@>@Resources.Edit</a>
 							}
