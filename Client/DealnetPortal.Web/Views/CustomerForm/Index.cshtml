@@ -111,7 +111,7 @@
                                 @Html.LabelFor(m => m.HomeOwner.BirthDate, new { @class = "mandatory-field" })
                                 <div class="control-group dob-group">
                                     <div class="dob-input-hold">
-                                        @Html.TextBoxFor(m => m.HomeOwner.BirthDate, new { @class = "dob-input", id = "birth-date-customer" })
+                                        @Html.TextBoxFor(m => m.HomeOwner.BirthDate, new { @class = "dob-input", id = "birth-date-customer", data_val_date = "" })
                                         </div>
                                         @{
                                             int month = 0;
@@ -406,6 +406,7 @@
     translations['EmptyCreditAgreement'] = "@Resources.PleaseCheckAgreementToContinue";
     // translations['EmptyContactAgreement'] = ""; TODO: add resources in next Release
     translations['NotSelected'] = "@Resources.NotSelected";
+    translations['ToProceedMustBe18'] = "@Resources.ToProceedMustBe18";
 }
 
 @section scripts
@@ -416,6 +417,29 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/customer-form")
     <script>
+        $.validator.addMethod(
+                "date",
+                function (value, element) {
+                    var minDate = new Date("1900-01-01");
+                    var maxDate = new Date(new Date().setFullYear(new Date().getFullYear() - 18));
+                    var valueEntered = new Date(value);
+                    if (!valueEntered) {
+                        $.validator.messages.date = translations['TheDateMustBeInCorrectFormat'];
+                        return false;
+                    }
+                    if (valueEntered < minDate) {
+                        $.validator.messages.date = translations['TheDateMustBeOver1900'];
+                        return false;
+                    }
+                    if (valueEntered > maxDate) {
+                        $.validator.messages.date = translations['ToProceedMustBe18'];
+                        return false;
+                    }
+                    return true;
+                },
+                translations['EnterValidDate']
+            );
+
         module.require('customer-form');
     </script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=initAutocomplete" async defer></script>

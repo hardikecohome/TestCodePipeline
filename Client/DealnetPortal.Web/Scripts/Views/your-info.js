@@ -10,6 +10,7 @@
 
         var birth = $('#birth-date-customer');
         birth.on('change', function (e) {
+            birth.valid();
             dispatch(createAction(customerActions.SET_BIRTH, e.target.value));
         });
         initDob(birth.parents('.dob-group'));

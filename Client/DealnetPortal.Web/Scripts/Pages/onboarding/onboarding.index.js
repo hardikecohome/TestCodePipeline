@@ -26,14 +26,14 @@
 
         if (detectIe()) {
             definePolyfill();
-		}
-		var salesrep = $('#OnBoardingLink').val();
-		if ($(location).attr('href').toLowerCase().indexOf('resumeonboarding') >= 0) {
-			gtag('event', 'Dealer Application Start', { 'event_category': 'Dealer Application Start', 'event_action': 'Resume Link open', 'event_label': salesrep });
-		}
-		else {
-			gtag('event', 'Dealer Application Start', { 'event_category': 'Dealer Application Start',  'event_action': 'New Application Link open', 'event_label': salesrep });
-		}
+        }
+        var salesrep = $('#OnBoardingLink').val();
+        if ($(location).attr('href').toLowerCase().indexOf('resumeonboarding') >= 0) {
+            gtag('event', 'Dealer Application Start', { 'event_category': 'Dealer Application Start', 'event_action': 'Resume Link open', 'event_label': salesrep });
+        }
+        else {
+            gtag('event', 'Dealer Application Start', { 'event_category': 'Dealer Application Start', 'event_action': 'New Application Link open', 'event_label': salesrep });
+        }
         initializing = false;
     }
 
@@ -48,4 +48,28 @@
     return {
         init: init
     }
-})
+});
+
+
+$.validator.addMethod(
+    "date",
+    function (value, element) {
+        var minDate = new Date("1900-01-01");
+        var maxDate = new Date(new Date().setFullYear(new Date().getFullYear() - 18));
+        var valueEntered = new Date(value);
+        if (!valueEntered) {
+            $.validator.messages.date = translations['TheDateMustBeInCorrectFormat'];
+            return false;
+        }
+        if (valueEntered < minDate) {
+            $.validator.messages.date = translations['TheDateMustBeOver1900'];
+            return false;
+        }
+        if (valueEntered > maxDate) {
+            $.validator.messages.date = translations['Over18'];
+            return false;
+        }
+        return true;
+    },
+    translations['EnterValidDate']
+);
