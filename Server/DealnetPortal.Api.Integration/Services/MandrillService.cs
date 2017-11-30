@@ -272,7 +272,7 @@ namespace DealnetPortal.Api.Integration.Services
             request.message = new MandrillMessage()
             {
                 from_email = ConfigurationManager.AppSettings["FromEmail"],
-                from_name = "EcoHome Financial",
+                from_name = CultureHelper.CurrentCultureType == CultureType.French ? "Financement EcoHome" : "EcoHome Financial",
                 html = null,
                 merge_vars = new List<MergeVariable>() {
                         new MergeVariable(){
@@ -283,7 +283,7 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                     },
                 send_at = DateTime.Now,
-                subject = "Your EcoHome Financial dealer application link",
+                subject = CultureHelper.CurrentCultureType == CultureType.French ? "Votre lien d'application de concessionnaire Financement EcoHome" : "Your EcoHome Financial dealer application link",
                 text = "Your EcoHome Financial dealer application link",
                 to = new List<MandrillTo>() {
                         new MandrillTo(){
