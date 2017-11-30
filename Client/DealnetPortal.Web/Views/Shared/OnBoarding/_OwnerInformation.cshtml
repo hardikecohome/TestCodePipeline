@@ -39,45 +39,47 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.Owners[0].BirthDate, new { @for = "owner0-birthdate", @class = "mandatory-field" })
                         <div class="control-group dob-group">
-                            @Html.HiddenFor(m => m.Owners[0].BirthDate, new { @class = "dob-input check-age", id = "owner0-birthdate", data_val_date = "" })
-                            @{
-                                int month = 0;
-                                int day = 0;
-                                int year = 0;
-                                if (Model.Owners[0] != null && Model.Owners[0].BirthDate.HasValue)
-                                {
-                                    day = Model.Owners[0].BirthDate.Value.Day;
-                                    month = Model.Owners[0].BirthDate.Value.Month;
-                                    year = Model.Owners[0].BirthDate.Value.Year;
+                            <div class="dob-input-hold">
+                                @Html.TextBoxFor(m => m.Owners[0].BirthDate, new { @class = "dob-input check-age", id = "owner0-birthdate", data_val_date = "" })
+                                </div>
+                                @{
+                                    int month = 0;
+                                    int day = 0;
+                                    int year = 0;
+                                    if (Model.Owners[0] != null && Model.Owners[0].BirthDate.HasValue)
+                                    {
+                                        day = Model.Owners[0].BirthDate.Value.Day;
+                                        month = Model.Owners[0].BirthDate.Value.Month;
+                                        year = Model.Owners[0].BirthDate.Value.Year;
+                                    }
                                 }
-                            }
-                            <div class="dealnet-input no-border">
-                                <select class="form-control dealnet-input dob-month">
-                                    <option value="">mm</option>
-                                    @for (var i = 1; i < 13; i++)
-                                    {
-                                        <option value="@i" @(month == i ? "selected=selected" : "")>@i</option>
-                                    }
-                                </select>
-                                <select class="form-control dealnet-input dob-day">
-                                    <option value="">dd</option>
-                                    @for (var i = 1; i < 32; i++)
-                                    {
-                                        <option value="@i" @(day == i ? "selected=selected" : "")>@i</option>
-                                    }
-                                </select>
-                                <select class="form-control dealnet-input dob-year">
-                                    <option value="">yyyy</option>
-                                    @{ var yearLess18 = DateTime.Now.Year - 18;}
-                                    @for (var i = yearLess18; i >= 1900; i--)
-                                    {
-                                        <option value="@i" @(year == i ? "selected=selected" : "")>@i</option>
-                                    }
-                                </select>
-                            </div>
+                                <div class="dealnet-input no-border">
+                                    <select class="form-control dealnet-input dob-month">
+                                        <option value="">mm</option>
+                                        @for (var i = 1; i < 13; i++)
+                                        {
+                                            <option value="@i" @(month == i ? "selected=selected" : "")>@i</option>
+                                        }
+                                    </select>
+                                    <select class="form-control dealnet-input dob-day">
+                                        <option value="">dd</option>
+                                        @for (var i = 1; i < 32; i++)
+                                        {
+                                            <option value="@i" @(day == i ? "selected=selected" : "")>@i</option>
+                                        }
+                                    </select>
+                                    <select class="form-control dealnet-input dob-year">
+                                        <option value="">yyyy</option>
+                                        @{ var yearLess18 = DateTime.Now.Year - 18;}
+                                        @for (var i = yearLess18; i >= 1900; i--)
+                                        {
+                                            <option value="@i" @(year == i ? "selected=selected" : "")>@i</option>
+                                        }
+                                    </select>
+                                </div>
 
-                            @Html.ValidationMessageFor(m => m.Owners[0].BirthDate, "", new { @class = "text-danger" })
-                        </div>
+                                @Html.ValidationMessageFor(m => m.Owners[0].BirthDate, "", new { @class = "text-danger" })
+                            </div>
                     </div>
                 </div>
             </div>
@@ -242,44 +244,46 @@
                             <div class="form-group">
                                 @Html.LabelFor(m => m.Owners[i].BirthDate, new { @for = "owner" + i + "-birthdate", @class = "mandatory-field" })
                                 <div class="control-group dob-group">
-                                    @Html.HiddenFor(m => m.Owners[i].BirthDate, new { @class = "dob-input check-age", id = "owner" + i + "-birthdate", data_val_date = "" })
-                                    @if (Model.Owners[i] != null && Model.Owners[i].BirthDate.HasValue)
-                                    {
-                                        day = Model.Owners[i].BirthDate.Value.Day;
-                                        month = Model.Owners[i].BirthDate.Value.Month;
-                                        year = Model.Owners[i].BirthDate.Value.Year;
-                                    }
-                                    else
-                                    {
-                                        day = 0;
-                                        month = 0;
-                                        year = 0;
-                                    }
-                                    <div class="dealnet-input no-border">
-                                        <select class="form-control dealnet-input dob-month">
-                                            <option value="">mm</option>
-                                            @for (var j = 1; j < 13; j++)
-                                            {
-                                                <option value="@j" @(month == j ? "selected=selected" : "")>@j</option>
-                                            }
-                                        </select>
-                                        <select class="form-control dealnet-input dob-day">
-                                            <option value="">dd</option>
-                                            @for (var j = 1; j < 32; j++)
-                                            {
-                                                <option value="@j" @(day == j ? "selected=selected" : "")>@j</option>
-                                            }
-                                        </select>
-                                        <select class="form-control dealnet-input dob-year">
-                                            <option value="">yyyy</option>
-                                            @for (var j = yearLess18; j >= 1900; j--)
-                                            {
-                                                <option value="@j" @(year == j ? "selected=selected" : "")>@j</option>
-                                            }
-                                        </select>
+                                    <div class="dob-input-hold">
+                                        @Html.TextBoxFor(m => m.Owners[i].BirthDate, new { @class = "dob-input check-age", id = "owner" + i + "-birthdate", data_val_date = "" })
+                                        </div>
+                                        @if (Model.Owners[i] != null && Model.Owners[i].BirthDate.HasValue)
+                                        {
+                                            day = Model.Owners[i].BirthDate.Value.Day;
+                                            month = Model.Owners[i].BirthDate.Value.Month;
+                                            year = Model.Owners[i].BirthDate.Value.Year;
+                                        }
+                                        else
+                                        {
+                                            day = 0;
+                                            month = 0;
+                                            year = 0;
+                                        }
+                                        <div class="dealnet-input no-border">
+                                            <select class="form-control dealnet-input dob-month">
+                                                <option value="">mm</option>
+                                                @for (var j = 1; j < 13; j++)
+                                                {
+                                                    <option value="@j" @(month == j ? "selected=selected" : "")>@j</option>
+                                                }
+                                            </select>
+                                            <select class="form-control dealnet-input dob-day">
+                                                <option value="">dd</option>
+                                                @for (var j = 1; j < 32; j++)
+                                                {
+                                                    <option value="@j" @(day == j ? "selected=selected" : "")>@j</option>
+                                                }
+                                            </select>
+                                            <select class="form-control dealnet-input dob-year">
+                                                <option value="">yyyy</option>
+                                                @for (var j = yearLess18; j >= 1900; j--)
+                                                {
+                                                    <option value="@j" @(year == j ? "selected=selected" : "")>@j</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        @Html.ValidationMessageFor(m => m.Owners[i].BirthDate, "", new { @class = "text-danger" })
                                     </div>
-                                    @Html.ValidationMessageFor(m => m.Owners[i].BirthDate, "", new { @class = "text-danger" })
-                                </div>
                             </div>
                         </div>
                     </div>

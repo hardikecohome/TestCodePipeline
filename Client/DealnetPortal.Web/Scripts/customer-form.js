@@ -12,7 +12,7 @@
 
     var log = require('logMiddleware');
 
-    var initDob = require('dob-selecters');
+    var dob = require('dob-selecters');
 
     // your info actions
     var SET_INITIAL_STATE = 'set_initial_state';
@@ -471,7 +471,7 @@
             birth.on('change', function (e) {
                 dispatch(createAction(SET_BIRTH, e.target.value));
             });
-            initDob(birth.parent());
+            dob.initDobGroup(birth.parents('.dob-group'));
 
             // action dispatchers
             var name = $('#firstName');
@@ -592,6 +592,10 @@
                 var errors = getErrors(customerFormStore.getState());
                 if (errors.length > 0 && form.valid()) {
                     e.preventDefault();
+                } else {
+                    $('.dob-input').each(function (index, el) {
+                        dob.validate(el);
+                    })
                 }
             });
 

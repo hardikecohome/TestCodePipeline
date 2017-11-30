@@ -2,11 +2,13 @@
     var state = require('onboarding.state').state;
     var resetForm = require('onboarding.common').resetFormValidation;
 
+    var validateDob = require('dob-selecters').validate;
+
     function submitDraft (e) {
         showLoader();
-		var formData = $('#onboard-form').serialize();
-		var salesrep = $('#OnBoardingLink').val();
-		gtag('event', 'Dealer Application Saved', { 'event_category': 'Dealer Application Saved', 'event_action': 'Save and Resume button clicked', 'event_label': salesrep });
+        var formData = $('#onboard-form').serialize();
+        var salesrep = $('#OnBoardingLink').val();
+        gtag('event', 'Dealer Application Saved', { 'event_category': 'Dealer Application Saved', 'event_action': 'Save and Resume button clicked', 'event_label': salesrep });
         $.when($.ajax({
             type: 'POST',
             url: saveDraftUrl,
@@ -140,6 +142,10 @@
 
         if (!$form.valid()) {
             e.preventDefault();
+
+            $('.dob-input').each(function (index, el) {
+                validateDob(el);
+            });
 
             $('#submitBtn').prop('disabled', false);
             return;

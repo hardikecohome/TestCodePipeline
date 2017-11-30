@@ -110,44 +110,46 @@
                             <div class="form-group">
                                 @Html.LabelFor(m => m.HomeOwner.BirthDate, new { @class = "mandatory-field" })
                                 <div class="control-group dob-group">
-                                    @Html.HiddenFor(m => m.HomeOwner.BirthDate, new { @class = "dob-input", id = "birth-date-customer" })
-                                    @{
-                                        int month = 0;
-                                        int day = 0;
-                                        int year = 0;
-                                        if (Model.HomeOwner != null && Model.HomeOwner.BirthDate.HasValue)
-                                        {
-                                            day = Model.HomeOwner.BirthDate.Value.Day;
-                                            month = Model.HomeOwner.BirthDate.Value.Month;
-                                            year = Model.HomeOwner.BirthDate.Value.Year;
+                                    <div class="dob-input-hold">
+                                        @Html.TextBoxFor(m => m.HomeOwner.BirthDate, new { @class = "dob-input", id = "birth-date-customer" })
+                                        </div>
+                                        @{
+                                            int month = 0;
+                                            int day = 0;
+                                            int year = 0;
+                                            if (Model.HomeOwner != null && Model.HomeOwner.BirthDate.HasValue)
+                                            {
+                                                day = Model.HomeOwner.BirthDate.Value.Day;
+                                                month = Model.HomeOwner.BirthDate.Value.Month;
+                                                year = Model.HomeOwner.BirthDate.Value.Year;
+                                            }
                                         }
-                                    }
-                                    <div class="dealnet-input no-border">
-                                        <select class="form-control dealnet-input dob-month">
-                                            <option value="">mm</option>
-                                            @for (var i = 1; i < 13; i++)
-                                            {
-                                                <option value="@i" @(month == i ? "selected=selected" : "")>@i</option>
-                                            }
-                                        </select>
-                                        <select class="form-control dealnet-input dob-day">
-                                            <option value="">dd</option>
-                                            @for (var i = 1; i < 32; i++)
-                                            {
-                                                <option value="@i" @(day == i ? "selected=selected" : "")>@i</option>
-                                            }
-                                        </select>
-                                        <select class="form-control dealnet-input dob-year">
-                                            <option value="">yyyy</option>
-                                            @{ var yearLess18 = DateTime.Now.Year - 18;}
-                                            @for (var i = yearLess18; i >= 1900; i--)
-                                            {
-                                                <option value="@i" @(year == i ? "selected=selected" : "")>@i</option>
-                                            }
-                                        </select>
+                                        <div class="dealnet-input no-border">
+                                            <select class="form-control dealnet-input dob-month">
+                                                <option value="">mm</option>
+                                                @for (var i = 1; i < 13; i++)
+                                                {
+                                                    <option value="@i" @(month == i ? "selected=selected" : "")>@i</option>
+                                                }
+                                            </select>
+                                            <select class="form-control dealnet-input dob-day">
+                                                <option value="">dd</option>
+                                                @for (var i = 1; i < 32; i++)
+                                                {
+                                                    <option value="@i" @(day == i ? "selected=selected" : "")>@i</option>
+                                                }
+                                            </select>
+                                            <select class="form-control dealnet-input dob-year">
+                                                <option value="">yyyy</option>
+                                                @{ var yearLess18 = DateTime.Now.Year - 18;}
+                                                @for (var i = yearLess18; i >= 1900; i--)
+                                                {
+                                                    <option value="@i" @(year == i ? "selected=selected" : "")>@i</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new { @class = "text-danger" })
                                     </div>
-                                    @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new { @class = "text-danger" })
-                                </div>
                             </div>
                         </div>
                     </div>

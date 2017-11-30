@@ -21,6 +21,8 @@
 
     var initAutocomplete = require('new-client-autocomplete').initAutocomplete;
 
+    var validateDob = require('dob-selecters').validate;
+
     var basicInfoRequiredFields = ['name', 'lastName', 'birthday'];
     var currentAddressRequiredFields = ['street', 'city', 'province', 'postalCode'];
     var currentAddressPreviousRequiredFields = ['pstreet', 'pcity', 'pprovince', 'ppostalCode'];
@@ -87,6 +89,9 @@
             $('#submit').prop('disabled', false);
         } else {
             trimValues();
+            $('.dob-input').each(function (index, el) {
+                validateDob(el);
+            });
         }
     });
 

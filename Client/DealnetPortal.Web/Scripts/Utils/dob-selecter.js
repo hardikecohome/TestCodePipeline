@@ -1,6 +1,38 @@
 ﻿module.exports('dob-selecters', function () {
     var today = new Date();
     var todayLess18 = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+
+    function initDobGroup (el) {
+        var $el = $(el);
+        var $input = $el.find('.dob-input');
+        var $day = $el.find('.dob-day');
+        var $month = $el.find('.dob-month');
+        var $year = $el.find('.dob-year');
+        resetDay($day, $month, $year);
+        $input.on('change', function () {
+            var dateTime = new Date($input.val());
+            if (isNaN(dateTime.getTime()) || dateTime > todayLess18) {
+                $input.val('');
+            } else {
+                $day.val(dateTime.getDate());
+                $month.val(dateTime.getMonth() + 1);
+                $year.val(dateTime.getFullYear());
+            }
+        });
+        $day.on('change', function () {
+            resetDay($day, $month, $year);
+            setInputValue($day, $month, $year, $input);
+        });
+        $month.on('change', function () {
+            resetDay($day, $month, $year);
+            setInputValue($day, $month, $year, $input);
+        });
+        $year.on('change', function () {
+            resetDay($day, $month, $year);
+            setInputValue($day, $month, $year, $input);
+        });
+    }
+
     function clearDate ($day) {
         $day.val('').change();
     }
@@ -29,56 +61,37 @@
         var month = $month.val();
         var year = $year.val();
         if (day && month && year) {
-            var date = new Date(year, month - 1, day);
-            if (!isNaN(date.getTime())) {
-                $input.val(month + '/' + day + '/' + year).change();
-                if (!$input.valid()) {
-                    $day.addClass('input-validation-error');
-                    $month.addClass('input-validation-error');
-                    $year.addClass('input-validation-error');
-                } else {
-                    $day.removeClass('input-validation-error');
-                    $month.removeClass('input-validation-error');
-                    $year.removeClass('input-validation-error');
-                }
+            $input.val(month + '/' + day + '/' + year).change();
+            if (!$input.valid()) {
+                $day.addClass('input-validation-error');
+                $month.addClass('input-validation-error');
+                $year.addClass('input-validation-error');
+            } else {
+                $day.removeClass('input-validation-error');
+                $month.removeClass('input-validation-error');
+                $year.removeClass('input-validation-error');
             }
+
         } else {
-            $input.val('');
+            $input.val('').change();
+            $day.addClass('input-validation-error');
+            $month.addClass('input-validation-error');
+            $year.addClass('input-validation-error');
         }
     }
-    function initDobGroup (el) {
-        var $el = $(el);
-        var $input = $el.find('.dob-input');
-        var $day = $el.find('.dob-day');
-        var $month = $el.find('.dob-month');
-        var $year = $el.find('.dob-year');
-        resetDay($day, $month, $year);
-        $input.on('change', function () {
-            var dateTime = new Date($input.val());
-            if (isNaN(dateTime.getTime()) || dateTime > todayLess18) {
-                $day.val('');
-                $month.val('');
-                $year.val('');
-                $input.val('');
-            } else {
-                $day.val(dateTime.getDate());
-                $month.val(dateTime.getMonth() + 1);
-                $year.val(dateTime.getFullYear());
-            }
-        });
-        $day.on('change', function () {
-            resetDay($day, $month, $year);
-            setInputValue($day, $month, $year, $input);
-        });
-        $month.on('change', function () {
-            resetDay($day, $month, $year);
-            setInputValue($day, $month, $year, $input);
-        });
-        $year.on('change', function () {
-            resetDay($day, $month, $year);
-            setInputValue($day, $month, $year, $input);
-        });
+
+    function validateInput (input) {
+        var $input = $(input);
+        var $group = $input.parents('.dob-group');
+        if (!$input.valid()) {
+            $group.find('select').addClass('input-validation-error');
+        } else {
+            $group.find('select').removeClass('input-validation-error');
+        }
     }
 
-    return initDobGroup;
+    return {
+        initDobGroup: initDobGroup,
+        validate: validateInput
+    };
 });

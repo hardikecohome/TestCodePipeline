@@ -3,7 +3,7 @@
     var createAction = require('redux').createAction;
     var readInitialStateFromFields = require('objectUtils').readInitialStateFromFields;
 
-    var initDob = require('dob-selecters');
+    var initDob = require('dob-selecters').initDobGroup;
 
     return function (store) {
         var dispatch = store.dispatch;
@@ -12,7 +12,7 @@
         birth.on('change', function (e) {
             dispatch(createAction(customerActions.SET_BIRTH, e.target.value));
         });
-        initDob(birth.parent());
+        initDob(birth.parents('.dob-group'));
 
         var name = $('#firstName');
         name.on('change', function (e) {

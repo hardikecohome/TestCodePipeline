@@ -9,9 +9,9 @@ configInitialized
             }
         });
 
-        var initDob = module.require('dob-selecters');
+        var dob = module.require('dob-selecters');
         $('.dob-group').each(function (index, el) {
-            initDob(el);
+            dob.initDobGroup(el);
         });
 
         $('#agreement-checkbox').change(function () {
@@ -163,6 +163,10 @@ configInitialized
             if (!isHomeOwner || !isApprovalAge || !isAgreesToCreditCheck) {
                 if ($('#main-form').valid()) {
                     event.preventDefault();
+                } else {
+                    $('.dob-input').each(function (index, el) {
+                        dob.validate(el);
+                    });
                 }
             }
         });
