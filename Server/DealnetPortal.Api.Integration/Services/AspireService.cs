@@ -14,6 +14,7 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Enumeration.Dealer;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
+using DealnetPortal.Api.Core.Helpers;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes;
 using DealnetPortal.Api.Models.Contract;
@@ -1526,7 +1527,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 };
 
-                var setLeadSource = !string.IsNullOrEmpty(leadSource) ? leadSource : _configuration.GetSetting(WebConfigKeys.ONBOARDING_LEAD_SOURCE_KEY) 
+                var setLeadSource = !string.IsNullOrEmpty(leadSource) ? leadSource : CultureHelper.CurrentCultureType == CultureType.French ? _configuration.GetSetting(WebConfigKeys.ONBOARDING_LEAD_SOURCE_FRENCH_KEY) : _configuration.GetSetting(WebConfigKeys.ONBOARDING_LEAD_SOURCE_KEY) 
                                                                                     ?? _configuration.GetSetting(WebConfigKeys.DEFAULT_LEAD_SOURCE_KEY);
                 if (string.IsNullOrEmpty(owner.AccountId))
                 {

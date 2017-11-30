@@ -19,5 +19,6 @@ namespace DealnetPortal.Web.Common.Constants
         public const string CustomerFormLeadSourceKey = "CustomerFormLeadSource";
         public const string MortgageBrokerLeadSourceKey = "MortgageBrokerLeadSource";
         public const string OnboardingLeadSourceKey = "OnboardingLeadSource";
+        public const string OnboardingLeadSourceFrenchKey = "OnboardingLeadSourceFrench";
     }
 }
