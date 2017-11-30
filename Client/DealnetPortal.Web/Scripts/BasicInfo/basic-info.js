@@ -14,6 +14,10 @@ configInitialized
             dob.initDobGroup(el);
         });
 
+        $('.dob-input').on('change', function () {
+            $(this).valid();
+        });
+
         $('#agreement-checkbox').change(function () {
             var isValid = checkCreditAgree();
             if (isValid) {

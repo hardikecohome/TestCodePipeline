@@ -1,7 +1,4 @@
 ﻿module.exports('dob-selecters', function () {
-    var today = new Date();
-    var todayLess18 = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
-
     function initDobGroup (el) {
         var $el = $(el);
         var $input = $el.find('.dob-input');
@@ -9,9 +6,28 @@
         var $month = $el.find('.dob-month');
         var $year = $el.find('.dob-year');
         resetDay($day, $month, $year);
+
+        $day.rules('add', {
+            required: true,
+            messages: {
+                required: translations['ThisFieldIsRequired']
+            }
+        });
+        $month.rules('add', {
+            required: true,
+            messages: {
+                required: translations['ThisFieldIsRequired']
+            }
+        });
+        $year.rules('add', {
+            required: true,
+            messages: {
+                required: translations['ThisFieldIsRequired']
+            }
+        });
         $input.on('change', function () {
             var dateTime = new Date($input.val());
-            if (isNaN(dateTime.getTime()) || dateTime > todayLess18) {
+            if (isNaN(dateTime.getTime())) {
                 $input.val('');
             } else {
                 $day.val(dateTime.getDate());
@@ -22,14 +38,17 @@
         $day.on('change', function () {
             resetDay($day, $month, $year);
             setInputValue($day, $month, $year, $input);
+            $day.valid();
         });
         $month.on('change', function () {
             resetDay($day, $month, $year);
             setInputValue($day, $month, $year, $input);
+            $month.valid();
         });
         $year.on('change', function () {
             resetDay($day, $month, $year);
             setInputValue($day, $month, $year, $input);
+            $year.valid();
         });
     }
 
@@ -62,21 +81,8 @@
         var year = $year.val();
         if (day && month && year) {
             $input.val(month + '/' + day + '/' + year).change();
-            if (!$input.valid()) {
-                $day.addClass('input-validation-error');
-                $month.addClass('input-validation-error');
-                $year.addClass('input-validation-error');
-            } else {
-                $day.removeClass('input-validation-error');
-                $month.removeClass('input-validation-error');
-                $year.removeClass('input-validation-error');
-            }
-
         } else {
             $input.val('').change();
-            $day.addClass('input-validation-error');
-            $month.addClass('input-validation-error');
-            $year.addClass('input-validation-error');
         }
     }
 

@@ -245,7 +245,7 @@
                                 @Html.LabelFor(m => m.Owners[i].BirthDate, new { @for = "owner" + i + "-birthdate", @class = "mandatory-field" })
                                 <div class="control-group dob-group">
                                     <div class="dob-input-hold">
-                                        @Html.TextBoxFor(m => m.Owners[i].BirthDate, new { @class = "dob-input check-age", id = "owner" + i + "-birthdate", data_val_date = "" })
+                                        @Html.TextBoxFor(m => m.Owners[i].BirthDate, new { @class = "dob-input check-age", id = "owner" + i + "-birthdate", data_val_date = Resources.TheApplicantNeedsToBeOver18 })
                                         </div>
                                         @if (Model.Owners[i] != null && Model.Owners[i].BirthDate.HasValue)
                                         {

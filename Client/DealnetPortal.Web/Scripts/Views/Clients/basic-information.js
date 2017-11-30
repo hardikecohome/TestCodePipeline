@@ -11,6 +11,7 @@
         var birth = $('#birth-date');
 
         birth.on('change', function (e) {
+            birth.valid();
             dispatch(createAction(clientActions.SET_BIRTH, e.target.value));
         });
         initDob(birth.parents('.dob-group'));
