@@ -13,6 +13,7 @@ using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Web.Models;
+using DealnetPortal.Api.Core.Helpers;
 
 namespace DealnetPortal.Web.Infrastructure
 {
@@ -26,7 +27,7 @@ namespace DealnetPortal.Web.Infrastructure
         {
             _dictionaryServiceAgent = dictionaryServiceAgent;
             _dealerServiceAgent = dealerServiceAgent;
-            _leadSource = System.Configuration.ConfigurationManager.AppSettings[PortalConstants.OnboardingLeadSourceKey] ??
+            _leadSource = CultureHelper.CurrentCultureType == CultureType.French ? System.Configuration.ConfigurationManager.AppSettings[PortalConstants.OnboardingLeadSourceFrenchKey] : System.Configuration.ConfigurationManager.AppSettings[PortalConstants.OnboardingLeadSourceKey] ??
                            System.Configuration.ConfigurationManager.AppSettings[PortalConstants.DefaultLeadSourceKey];
         }
 
