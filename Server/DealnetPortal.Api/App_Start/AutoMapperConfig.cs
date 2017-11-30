@@ -478,6 +478,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.SignatureStatus, d => d.Ignore())
                 .ForMember(x => x.SignatureStatusQualifier, d => d.Ignore())                
                 .ForMember(x => x.Contract, d => d.Ignore())
+                .ForMember(x => x.Customer, d => d.Ignore())
                 .ForMember(x => x.StatusLastUpdateTime, d => d.Ignore());
 
             mapperConfig.CreateMap<AddressDTO, Address>();

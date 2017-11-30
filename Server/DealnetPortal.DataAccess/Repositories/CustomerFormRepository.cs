@@ -49,7 +49,11 @@ namespace DealnetPortal.DataAccess.Repositories
                              _dbContext.CustomerLinks.FirstOrDefault(l => l.HashLink.Equals(hashLink)) : user.CustomerLink;
                 if (updatedLink == null)
                 {
-                    updatedLink = user.CustomerLink ?? new CustomerLink();
+                    if (string.IsNullOrEmpty(hashLink))
+                    {
+                        throw new ArgumentNullException(hashLink);
+                    }
+                    updatedLink = user.CustomerLink ?? new CustomerLink() {HashLink = hashLink};
                 }
                 user.CustomerLink = updatedLink;
 
@@ -85,7 +89,11 @@ namespace DealnetPortal.DataAccess.Repositories
                              _dbContext.CustomerLinks.FirstOrDefault(l => l.HashLink.Equals(hashLink)) : user.CustomerLink;
                 if (updatedLink == null)
                 {
-                    updatedLink = user.CustomerLink ?? new CustomerLink();
+                    if (string.IsNullOrEmpty(hashLink))
+                    {
+                        throw new ArgumentNullException(hashLink);
+                    }
+                    updatedLink = user.CustomerLink ?? new CustomerLink() { HashLink = hashLink };
                 }
                 user.CustomerLink = updatedLink;
 

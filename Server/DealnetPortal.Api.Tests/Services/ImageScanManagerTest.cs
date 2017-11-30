@@ -44,8 +44,8 @@ namespace DealnetPortal.Api.Tests.Services
             Assert.IsNotNull(result.Item1);
             Assert.IsNotNull(result.Item2);
             Assert.IsFalse(result.Item2.Any());
-            Assert.IsTrue(result.Item1.FirstName.Contains("First"));
-            Assert.IsTrue(result.Item1.LastName.Contains("Last"));
+            Assert.IsTrue(!string.IsNullOrEmpty(result.Item1.FirstName));
+            Assert.IsTrue(!string.IsNullOrEmpty(result.Item1.LastName));
         }
 
         [TestMethod]

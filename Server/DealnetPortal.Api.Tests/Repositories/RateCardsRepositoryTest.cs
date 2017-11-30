@@ -26,16 +26,27 @@ namespace DealnetPortal.Api.Tests.Repositories
         public void Initialize()
         {
             InitializeTestDatabase();
+            InitTiers();
             _rateCardsRepository = new RateCardsRepository(_databaseFactory);
         }
 
         [TestMethod]
         public void TestGetTierByDealerId()
         {
-            var id = "d6d2142f-5339-4ca4-84f3-17c089d171a5";
+            var id = _user.Id;
             var tier = _rateCardsRepository.GetTierByDealerId(id, DateTime.Now);
             Assert.IsNotNull(tier);
             Assert.IsTrue(tier.RateCards.Any());
+        }
+
+        private void InitTiers()
+        {
+            var tier = new Tier(){Name = "Tier 1"};
+            _databaseFactory.Get().Tiers.Add(tier);
+            var rateCard = new RateCard() {};
+            tier.RateCards.Add(rateCard);
+            _user.Tier = tier;
+            _unitOfWork.Save();                        
         }
     }
 }

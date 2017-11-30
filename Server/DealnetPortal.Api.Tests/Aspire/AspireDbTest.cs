@@ -13,6 +13,7 @@ using Moq;
 
 namespace DealnetPortal.Api.Tests.Aspire
 {
+    [Ignore]
     [TestClass]
     public class AspireDbTest
     {
