@@ -111,7 +111,7 @@
                                 @Html.LabelFor(m => m.HomeOwner.BirthDate, new { @class = "mandatory-field" })
                                 <div class="control-group dob-group">
                                     <div class="dob-input-hold">
-                                        @Html.TextBoxFor(m => m.HomeOwner.BirthDate, new { @class = "dob-input", id = "birth-date-customer", data_val_date = "" })
+                                        @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dob-input", id = "birth-date-customer", data_val_date = "" })
                                         </div>
                                         @{
                                             int month = 0;
