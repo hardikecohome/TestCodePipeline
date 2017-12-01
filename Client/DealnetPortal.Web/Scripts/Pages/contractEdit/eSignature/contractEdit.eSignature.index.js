@@ -1,4 +1,5 @@
 ﻿module.exports('contract-edit.eSignature', function (require) {
+  
     var statusMap = {
         '0': 'notinitiated',
         '1': 'created',
@@ -70,6 +71,7 @@
         var email = $row.find('#signer-email-' + rowId);
         if (email.valid()) {
             showLoader();
+
             var signers = [{
                 Id: $row.find('#signer-id-' + rowId).val(),
                 SignatureStatus: $row.find('#signer-status-' + rowId).val(),
