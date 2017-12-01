@@ -154,7 +154,9 @@ configInitialized
         });
 
         //mobile adds required to DL upload input, why???
-        $('#owner-upload-file').rules('remove');
+        if ($('#owner-upload-file').length) {
+            $('#owner-upload-file').rules('remove');
+        }
     });
 
 function setDataAttrInModal (index) {
