@@ -16,38 +16,38 @@
             }
             @if (enabledLanguages != null && enabledLanguages.Count > 1)
             {
-            <div class="lang-switcher pull-right">
-                <div class="chosen-language">
-                    <div class="lang-item">
-                        <a href="#" class="chosen-language-link">
-                            @switch (CultureHelper.CurrentCultureType)
+                <div class="lang-switcher pull-right">
+                    <div class="chosen-language">
+                        <div class="lang-item">
+                            <a href="#" class="chosen-language-link">
+                                @switch (CultureHelper.CurrentCultureType)
                                 {
                                     case CultureType.English:
-                                @:English
+                                        @:English
                                         break;
                                     case CultureType.French:
-                                @:Français
+                                        @:Français
                                         break;
                                 }
-                            <span class="caret"></span>
-                        </a>
+                                <span class="caret"></span>
+                            </a>
+                        </div>
                     </div>
+                    <ul class="lang-list">
+                        @if (CultureHelper.CurrentCultureType != CultureType.English && enabledLanguages.Any(l => l == LanguageCode.English))
+                        {
+                            <li class="lang-item">
+                                @Html.ActionLink(Resources.English, "Index", "CustomerForm", new { culture = "en", hashDealerName = Model.HashDealerName }, new { @class = "lang-link" })
+                            </li>
+                        }
+                        @if (CultureHelper.CurrentCultureType != CultureType.French && enabledLanguages.Any(l => l == LanguageCode.French))
+                        {
+                            <li class="lang-item">
+                                @Html.ActionLink(Resources.French, "Index", "CustomerForm", new { culture = "fr", hashDealerName = Model.HashDealerName }, new { @class = "lang-link" })
+                            </li>
+                        }
+                    </ul>
                 </div>
-                <ul class="lang-list">
-                    @if (CultureHelper.CurrentCultureType != CultureType.English && enabledLanguages.Any(l => l == LanguageCode.English))
-                        {
-                        <li class="lang-item">
-                            @Html.ActionLink(Resources.English, "Index", "CustomerForm", new { culture = "en", hashDealerName = Model.HashDealerName }, new { @class = "lang-link" })
-                        </li>
-                        }
-                    @if (CultureHelper.CurrentCultureType != CultureType.French && enabledLanguages.Any(l => l == LanguageCode.French))
-                        {
-                        <li class="lang-item">
-                            @Html.ActionLink(Resources.French, "Index", "CustomerForm", new { culture = "fr", hashDealerName = Model.HashDealerName }, new { @class = "lang-link" })
-                        </li>
-                        }
-                </ul>
-            </div>
             }
         </div>
     </div>
@@ -71,8 +71,8 @@
                             @Html.LabelFor(m => m.Service)
                             <div class="control-group">
                                 @Html.DropDownListFor(m => m.Service,
-                                    serviceTypes.Select(x => new SelectListItem {Value = x, Text = x}),
-                                    new {@class = "form-control", id = "selectedService"})
+                                    serviceTypes.Select(x => new SelectListItem { Value = x, Text = x }),
+                                    new { @class = "form-control", id = "selectedService" })
                             </div>
                         </div>
                     </div>
@@ -112,19 +112,20 @@
                                 <div class="control-group dob-group">
                                     <div class="dob-input-hold">
                                         @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dob-input", id = "birth-date-customer", data_val_date = "" })
-                                        </div>
-                                        @{
-                                            int month = 0;
-                                            int day = 0;
-                                            int year = 0;
-                                            if (Model.HomeOwner != null && Model.HomeOwner.BirthDate.HasValue)
-                                            {
-                                                day = Model.HomeOwner.BirthDate.Value.Day;
-                                                month = Model.HomeOwner.BirthDate.Value.Month;
-                                                year = Model.HomeOwner.BirthDate.Value.Year;
-                                            }
+                                    </div>
+                                    @{
+                                        int month = 0;
+                                        int day = 0;
+                                        int year = 0;
+                                        if (Model.HomeOwner != null && Model.HomeOwner.BirthDate.HasValue)
+                                        {
+                                            day = Model.HomeOwner.BirthDate.Value.Day;
+                                            month = Model.HomeOwner.BirthDate.Value.Month;
+                                            year = Model.HomeOwner.BirthDate.Value.Year;
                                         }
-                                        <div class="dealnet-input no-border">
+                                    }
+                                    <div class="dealnet-input no-border">
+                                        <div class="custom-select">
                                             <select class="form-control dealnet-input dob-month">
                                                 <option value="">mm</option>
                                                 @for (var i = 1; i < 13; i++)
@@ -132,6 +133,10 @@
                                                     <option value="@i" @(month == i ? "selected=selected" : "")>@i</option>
                                                 }
                                             </select>
+                                            <span class="caret"></span>
+                                        </div>
+
+                                        <div class="custom-select">
                                             <select class="form-control dealnet-input dob-day">
                                                 <option value="">dd</option>
                                                 @for (var i = 1; i < 32; i++)
@@ -139,6 +144,9 @@
                                                     <option value="@i" @(day == i ? "selected=selected" : "")>@i</option>
                                                 }
                                             </select>
+                                            <span class="caret"></span>
+                                        </div>
+                                        <div class="custom-select last">
                                             <select class="form-control dealnet-input dob-year">
                                                 <option value="">yyyy</option>
                                                 @{ var yearLess18 = DateTime.Now.Year - 18;}
@@ -147,9 +155,11 @@
                                                     <option value="@i" @(year == i ? "selected=selected" : "")>@i</option>
                                                 }
                                             </select>
+                                            <span class="caret"></span>
                                         </div>
-                                        @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new { @class = "text-danger" })
                                     </div>
+                                    @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new { @class = "text-danger" })
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -221,7 +231,7 @@
                     <!--Home Owner Information-->
                     <div id="borrower-is-homeowner" class="form-group checkbox-hold">
                         <label for="homeowner-checkbox" class="align-middle custom-checkbox">
-                            @Html.CheckBoxFor(x => x.HomeOwner.IsHomeOwner, new { @class="dealnet-checkbox", id="homeowner-checkbox"})
+                            @Html.CheckBoxFor(x => x.HomeOwner.IsHomeOwner, new { @class = "dealnet-checkbox", id = "homeowner-checkbox" })
                             <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
                             <span class="mandatory-field">@Resources.IOwnThisProperty</span>
                         </label>
@@ -361,12 +371,12 @@
                             </label>
                             <div class="consents-links">
                                 <a href="" class="dealnet-info-link j-personal-data-used-modal">@Resources.HowIsMyPersonalDataUsed</a>
-                                @Html.ActionLink(@Resources.PrivacyPolicy, "PrivacyPolicy", "Info", null, new { @class="dealnet-info-link", target = "_blank" })
+                                @Html.ActionLink(@Resources.PrivacyPolicy, "PrivacyPolicy", "Info", null, new { @class = "dealnet-info-link", target = "_blank" })
                             </div>
                         </div>
                         <div class="form-group checkbox-hold">
                             <label for="agreement2" class="align-middle custom-checkbox">
-                                @Html.CheckBoxFor(m => m.HomeOwnerContactInfo.AllowCommunicate, new { @class="dealnet-checkbox", id="agreement2" })
+                                @Html.CheckBoxFor(m => m.HomeOwnerContactInfo.AllowCommunicate, new { @class = "dealnet-checkbox", id = "agreement2" })
                                 <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
                                 <span class="mandatory-field">@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
                             </label>
@@ -374,11 +384,11 @@
                     </div>
                     @if (reCaptchaEnabled)
                     {
-                    <div class="clearfix">
-                        <div class="captcha-section mandatory-field mandatory-field-for-captcha">
-                            <div id="gcaptcha"></div>
+                        <div class="clearfix">
+                            <div class="captcha-section mandatory-field mandatory-field-for-captcha">
+                                <div id="gcaptcha"></div>
+                            </div>
                         </div>
-                    </div>
                     }
 
                     <div id="contactInfoErrors"></div>
@@ -391,7 +401,7 @@
             </div>
         </div>
         @Html.Partial("_AgreementPersonalData");
-                                                }
+                                                    }
 </div>
 
 @section Translations
