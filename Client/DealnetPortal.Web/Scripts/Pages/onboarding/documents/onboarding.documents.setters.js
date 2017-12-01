@@ -12,16 +12,18 @@
     var setVoidChequeFile = function (e) {
         var files = e.target.files;
 
-        _uploadFile('voidChequeUploaded', 'cheque-upload-title', 'cheque-container', 'void-cheque-files', files[0]);
-
+        if (files.length) {
+            _uploadFile('voidChequeUploaded', 'cheque-upload-title', 'cheque-container', 'void-cheque-files', files[0]);
+        }
         e.target.value = '';
     }
 
     var setInsurenceFile = function (e) {
         var files = e.target.files;
 
-        _uploadFile('insurenceUploaded', 'insurence-upload-title', 'insurence-container', 'insurence-files', files[0]);
-
+        if (files.length) {
+            _uploadFile('insurenceUploaded', 'insurence-upload-title', 'insurence-container', 'insurence-files', files[0]);
+        }
         e.target.value = '';
     }
 
@@ -221,10 +223,10 @@
             contentType: false,
             processData: false,
             data: data,
-			success: function (json) {
-				var salesrep = $('#OnBoardingLink').val();
-				if (json.IsSuccess) {					
-					gtag('event', 'Dealer Application Document Upload', { 'event_category': 'Dealer Application Document Upload', 'event_action': 'Upload Successful', 'event_label': salesrep });
+            success: function (json) {
+                var salesrep = $('#OnBoardingLink').val();
+                if (json.IsSuccess) {
+                    gtag('event', 'Dealer Application Document Upload', { 'event_category': 'Dealer Application Document Upload', 'event_action': 'Upload Successful', 'event_label': salesrep });
                     if (+$('#Id').val() === 0) {
                         $('#Id').val(json.DealerInfoId);
                     }
@@ -236,8 +238,8 @@
                     _addFile(checkSelector, buttonSelector, fileContainerSelector, stateFileSection, file, json.ItemId);
                     moveTonextSection();
                     enableSubmit();
-				} else {
-					gtag('event', 'Dealer Application Document Upload', { 'event_category': 'Dealer Application Document Upload', 'event_action': 'Upload Fail', 'event_label': salesrep });
+                } else {
+                    gtag('event', 'Dealer Application Document Upload', { 'event_category': 'Dealer Application Document Upload', 'event_action': 'Upload Fail', 'event_label': salesrep });
                     alert(json.AggregatedError);
                 }
             },
