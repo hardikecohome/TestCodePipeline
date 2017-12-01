@@ -12,8 +12,7 @@
         $('.date-input').each(function (index, input) {
             assignDatepicker(input, datepickerOptions);
         });
-        $.validator.addMethod(
-            "date",
+        $.validator.addMethod("date",
             function (value, element) {
                 var minDate = new Date("1900-01-01");
                 var valueEntered = Date.parseExact(value, "M/d/yyyy");

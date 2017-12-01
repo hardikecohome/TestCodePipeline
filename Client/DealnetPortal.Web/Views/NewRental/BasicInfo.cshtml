@@ -268,7 +268,7 @@
 						@Html.LabelFor(m => m.HomeOwner.BirthDate, new { @for = "birth-date" })
 						<div class="control-group dob-group">
 							<div class="dob-input-hold">
-								@Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "check-age dob-input", id = "birth-date", placeholder = Resources.DateFormat, data_val_date = "" })
+								@Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "check-age dob-input", id = "birth-date", placeholder = Resources.DateFormat, data_val_over18 = "" })
 							</div>
 							@{ 
 							int month = 0;
@@ -666,7 +666,7 @@
 							<div class="control-group dob-group">
 
 								<div class="dob-input-hold">
-									@Html.TextBoxFor(m => m.AdditionalApplicants[i].BirthDate, @"{0:MM/dd/yyyy}", new { @class = "check-age dob-input", id = "birth-date", placeholder = Resources.DateFormat, data_val_date = "" })
+									@Html.TextBoxFor(m => m.AdditionalApplicants[i].BirthDate, @"{0:MM/dd/yyyy}", new { @class = "check-age dob-input", id = "birth-date", placeholder = Resources.DateFormat })
 									</div>
 									@if (Model.AdditionalApplicants[i] != null && Model.AdditionalApplicants[i].BirthDate.HasValue)
 									{
@@ -962,7 +962,7 @@
 	translations['BrowserNotSupportFileUpload'] = "@Html.Raw(Resources.BrowserNotSupportFileUpload)";
 	translations['TheDateMustBeInCorrectFormat'] = "@Resources.TheDateMustBeInCorrectFormat";
 	translations['TheDateMustBeOver1900'] = "@Resources.TheDateMustBeOver1900";
-	translations['TheApplicantNeedsToBeOver18'] = "@Resources.TheApplicantNeedsToBeOver18";
+	translations['Over18'] = "@Resources.TheApplicantNeedsToBeOver18";
 	translations['EnterValidDate'] = "@Resources.EnterValidDate";
 	translations['ApplicantsShouldBe18']="@Resources.ApplicantsShouldBe18";
 }

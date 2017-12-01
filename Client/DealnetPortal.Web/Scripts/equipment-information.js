@@ -36,8 +36,7 @@
                 minDate: new Date()
             });
         });
-        $.validator.addMethod(
-            "date",
+        $.validator.addMethod("date",
             function (value, element) {
                 var minDate = new Date("1900-01-01");
                 var valueEntered = Date.parseExact(value, "M/d/yyyy");

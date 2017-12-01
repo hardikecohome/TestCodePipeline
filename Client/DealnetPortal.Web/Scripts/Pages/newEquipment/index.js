@@ -94,7 +94,7 @@
             });
         }
 
-        function _initHandlers() {
+        function _initHandlers () {
             $('#submit').on('click', submitForm);
 
             // handlers
@@ -121,7 +121,7 @@
 
         }
 
-        function _initDatepickers() {
+        function _initDatepickers () {
             var datepickerOptions = {
                 yearRange: '1900:2200',
                 minDate: new Date()
@@ -131,8 +131,7 @@
                 assignDatepicker(input, datepickerOptions);
             });
 
-            $.validator.addMethod(
-                "date",
+            $.validator.addMethod("date",
                 function (value, element) {
                     var minDate = new Date("1900-01-01");
                     var valueEntered = Date.parseExact(value, "M/d/yyyy");
@@ -148,12 +147,12 @@
             );
         }
 
-        function init(id, cards, onlyCustomRateCard) {
+        function init (id, cards, onlyCustomRateCard) {
             var agreementType = $("#typeOfAgreementSelect").find(":selected").val();
             state.agreementType = Number(agreementType);
             _initHandlers();
             _initDatepickers();
-            
+
             equipment.init();
             rateCardsInit.init(id, cards, onlyCustomRateCard);
             customRateCardInit();

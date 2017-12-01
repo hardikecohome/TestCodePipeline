@@ -40,7 +40,7 @@
                         @Html.LabelFor(m => m.Owners[0].BirthDate, new { @for = "owner0-birthdate", @class = "mandatory-field" })
                         <div class="control-group dob-group">
                             <div class="dob-input-hold">
-                                @Html.TextBoxFor(m => m.Owners[0].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dob-input check-age", id = "owner0-birthdate", data_val_date = "" })
+                                @Html.TextBoxFor(m => m.Owners[0].BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dob-input check-age", id = "owner0-birthdate" })
                                 </div>
                                 @{
                                     int month = 0;
@@ -245,7 +245,7 @@
                                 @Html.LabelFor(m => m.Owners[i].BirthDate, new { @for = "owner" + i + "-birthdate", @class = "mandatory-field" })
                                 <div class="control-group dob-group">
                                     <div class="dob-input-hold">
-                                        @Html.TextBoxFor(m => m.Owners[i].BirthDate, "{0:MM'/'dd'/'yyyy}", new { @class = "dob-input check-age", id = "owner" + i + "-birthdate", data_val_date = Resources.TheApplicantNeedsToBeOver18 })
+                                        @Html.TextBoxFor(m => m.Owners[i].BirthDate, "{0:MM'/'dd'/'yyyy}", new { @class = "dob-input check-age", id = "owner" + i + "-birthdate", data_val_over18 = "" })
                                         </div>
                                         @if (Model.Owners[i] != null && Model.Owners[i].BirthDate.HasValue)
                                         {

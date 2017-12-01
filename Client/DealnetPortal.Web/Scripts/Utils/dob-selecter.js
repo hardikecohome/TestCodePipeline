@@ -25,6 +25,9 @@
                 required: translations['ThisFieldIsRequired']
             }
         });
+        $input.rules('add', {
+            over18: true
+        });
         $input.on('change', function () {
             var dateTime = new Date($input.val());
             if (isNaN(dateTime.getTime())) {
@@ -96,8 +99,24 @@
         }
     }
 
+    $.validator.addMethod("over18",
+        function (value, element) {
+            debugger
+            var minDate = new Date("1900-01-01");
+            var maxDate = new Date(new Date().setFullYear(new Date().getFullYear() - 18));
+            var valueEntered = new Date(value);
+
+            if (valueEntered > maxDate) {
+                return false;
+            }
+            return true;
+        },
+        translations['Over18']
+    );
+
     return {
         initDobGroup: initDobGroup,
         validate: validateInput
     };
 });
+
