@@ -4,6 +4,9 @@
         $form.removeData("validator");
         $form.removeData("unobtrusiveValidation");
         $.validator.unobtrusive.parse(selector);
+        $form.find('.dob-input').rules('add', {
+            over18: true
+        });
     }
 
     /**

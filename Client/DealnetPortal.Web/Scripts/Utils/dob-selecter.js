@@ -25,9 +25,10 @@
                 required: translations['ThisFieldIsRequired']
             }
         });
-        $input.rules('add', {
-            over18: true
-        });
+        $input.attr('data-val-over18', translations['Over18'])
+            .rules('add', {
+                over18: true
+            });
         $input.on('change', function () {
             var dateTime = new Date($input.val());
             if (isNaN(dateTime.getTime())) {
