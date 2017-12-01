@@ -137,7 +137,7 @@
                         $el.find('#signer-status-' + rowId).val(signer.SignatureStatus);
                         var updateTime = new Date(parseInt(signer.StatusLastUpdateTime.substr(6)));
                         $el.find('.signer-status-hold').removeClass().addClass('col-md-5 signer-status-hold ' + statusMap[signer.SignatureStatus]);
-                        var formated = (updateTime.getMonth() + 1) + '/' + updateTime.getDate() + '/' + updateTime.getFullYear() + ' ' + (updateTime.getHours() > 12 ? updateTime.getHours() - 12 : updateTime.getHours()) + ':' + (updateTime.getMinutes() < 10 ? '0' + updateTime.getMinutes() : updateTime.getMinutes()) + ' ' + (updateTime.getHours() > 11 ? 'PM' : 'AM');
+                        var formated = (updateTime.getUTCMonth() + 1) + '/' + updateTime.getUTCDate() + '/' + updateTime.getUTCFullYear() + ' ' + (updateTime.getUTCHours() > 12 ? updateTime.getUTCHours() - 12 : updateTime.getUTCHours()) + ':' + (updateTime.getUTCMinutes() < 10 ? '0' + updateTime.getUTCMinutes() : updateTime.getUTCMinutes()) + ' ' + (updateTime.getUTCHours() > 11 ? 'PM' : 'AM');
                         $el.find('#signer-update-' + rowId).val(formated);
                         $el.find('.signature-date-hold').text(formated);
                         if (signer.SignatureStatus === 4 || signer.SignatureStatus === 5) {
