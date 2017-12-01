@@ -1424,7 +1424,7 @@ namespace DealnetPortal.Api.Integration.Services
                 accounts.Add(acc);
             }
 
-            contract.SecondaryCustomers?.ForEach(c => accounts.Add(fillAccount(c, false, CustRole)));
+            contract.SecondaryCustomers?.ForEach(c => accounts.Add(fillAccount(c, false, GuarRole)));
             return accounts;
         }
 
