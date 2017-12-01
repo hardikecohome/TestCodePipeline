@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using DealnetPortal.Web.Common.Helpers;
 using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType;
 
 namespace DealnetPortal.Web.Controllers
@@ -473,6 +474,7 @@ namespace DealnetPortal.Web.Controllers
                 }
             }
             SignatureUsersDTO signatureUsers = new SignatureUsersDTO();
+
             signatureUsers.ContractId = eSignatureViewModel.ContractId;
             signatureUsers.Users = new List<SignatureUser>();
             signatureUsers.Users.Add(new SignatureUser()
@@ -511,6 +513,8 @@ namespace DealnetPortal.Web.Controllers
                 return Json(new { isError = true, message = result.Item2.FirstOrDefault(a => a.Type == AlertType.Error).Message });
             }
 
+            HttpRequestHelper.TryGetTimezoneOffsetCookie();
+
             return Json(new ESignatureViewModel
             {
                 ContractId = result.Item1.ContractId,
@@ -525,7 +529,7 @@ namespace DealnetPortal.Web.Controllers
                     Id = s.Id,
                     Role = s.SignerType,
                     SignatureStatus = s.SignatureStatus,
-                    StatusLastUpdateTime = s.StatusLastUpdateTime
+                    StatusLastUpdateTime = s.StatusLastUpdateTime?.TryConvertToLocalUserDate()
                 }).ToList()
             });
         }

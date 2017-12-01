@@ -148,6 +148,8 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/general-address-autocomplete.js")
                 .Include("~/Scripts/editable-in-modal.js")
                 .Include("~/Scripts/contract-edit.js")
+                .Include("~/Scripts/common/js.cookie.js")
+                .Include("~/Scripts/common/common.timezone.js")
                 .IncludeDirectory("~/Scripts/Pages/contractEdit", "*.js", true));
 
             bundles.Add(new ScriptBundle("~/bundles/shareable-link")

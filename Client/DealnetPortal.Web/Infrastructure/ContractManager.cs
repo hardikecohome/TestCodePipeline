@@ -13,6 +13,7 @@ using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Contract.EquipmentInformation;
 using DealnetPortal.Web.Common.Constants;
+using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.Models.EquipmentInformation;
 using DealnetPortal.Web.ServiceAgent;
@@ -283,6 +284,7 @@ namespace DealnetPortal.Web.Infrastructure
         public async Task<ContractEditViewModel> GetContractEditAsync(int contractId)
         {
             var contractsResult = await _contractServiceAgent.GetContract(contractId);
+            
             if (contractsResult == null) { return null; }
             var summaryViewModel = await GetSummaryAndConfirmationAsync(contractId, contractsResult.Item1);
 
@@ -850,7 +852,7 @@ namespace DealnetPortal.Web.Infrastructure
                         LastName = borrower != null ? borrower.LastName : contract.PrimaryCustomer?.LastName,
                         Email = borrower != null ? borrower.EmailAddress : contract.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
                         contract.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress,
-                        StatusLastUpdateTime = borrower?.StatusLastUpdateTime,
+                        StatusLastUpdateTime = borrower?.StatusLastUpdateTime?.TryConvertToLocalUserDate(),
                         Comment = borrower?.Comment,
                         SignatureStatus = borrower != null ? borrower.SignatureStatus : contract.Details.SignatureStatus,
                         Role = borrower != null ? borrower.SignerType : SignatureRole.HomeOwner
@@ -870,7 +872,7 @@ namespace DealnetPortal.Web.Infrastructure
                     FirstName = s.FirstName,
                     LastName = s.LastName,
                     SignatureStatus = s.SignatureStatus,
-                    StatusLastUpdateTime = s.StatusLastUpdateTime,
+                    StatusLastUpdateTime = s.StatusLastUpdateTime?.TryConvertToLocalUserDate(),
                     Role = s.SignerType
                 }).ToList())
                 {

@@ -14,6 +14,7 @@ using System.Web.Mvc;
 using System.Web.SessionState;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Web.Common.Constants;
+using DealnetPortal.Web.Common.Helpers;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -52,7 +53,9 @@ namespace DealnetPortal.Web.Controllers
             {
                 TempData[PortalConstants.IsNewlySubmitted] = null;
             }
-            ViewBag.IsNewlySubmitted = isNewlySubmitted ?? false;            
+            ViewBag.IsNewlySubmitted = isNewlySubmitted ?? false;
+
+            HttpRequestHelper.TryGetTimezoneOffsetCookie();
 
             var contract = await _contractManager.GetContractEditAsync(id);
             ViewBag.IsNotEditable = contract.BasicInfo.ContractState == ContractState.Closed || contract.BasicInfo.ContractState == ContractState.CreditCheckDeclined;

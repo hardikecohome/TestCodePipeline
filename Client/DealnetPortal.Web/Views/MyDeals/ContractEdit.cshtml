@@ -1875,7 +1875,8 @@ foreach (var comment in comments)
         var updateEsignUrl = '@Url.Action("UpdateContractEmails", "NewRental")';
         var cancelEsignUrl = '@Url.Action("CancelDigitalSignature")';
         var maxFileUploadSize = 20 * 1024 * 1024 ;
-        $(document).ready(function(){
+        $(document).ready(function () {
+            module.require('common.timezone').createTimezoneCookie();
             module.require('contract-edit').init(@(ViewBag.IsEsignatureEnabled?1:0));
         });
     </script>
