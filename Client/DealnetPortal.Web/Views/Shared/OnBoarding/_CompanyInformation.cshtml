@@ -172,7 +172,7 @@
             </div>
             <div class="col-md-2 col-sm-3">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.CompanyInfo.NumberOfInstallers, new { @class = "visible-xs" })
+                    @Html.LabelFor(m => m.CompanyInfo.NumberOfSales, new { @class = "visible-xs" })
                     <div class="control-group">
                         @Html.EnumDropDownListFor(m => m.CompanyInfo.NumberOfSales, "-" + Resources.NotSelected + "-", new { id = "sales", @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.CompanyInfo.NumberOfSales, "", new { @class = "text-danger" })

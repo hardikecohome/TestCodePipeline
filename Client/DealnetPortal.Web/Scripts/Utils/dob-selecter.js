@@ -25,6 +25,9 @@
                 required: translations['ThisFieldIsRequired']
             }
         });
+        $input.rules('add', {
+            over18: true
+        });
         $input.on('change', function () {
             var dateTime = new Date($input.val());
             if (isNaN(dateTime.getTime())) {
@@ -82,7 +85,9 @@
         if (day && month && year) {
             $input.val(month + '/' + day + '/' + year).change();
         } else {
-            $input.val('').change();
+            if ($input.val() !== '') {
+                $input.val('').change();
+            }
         }
     }
 
@@ -96,8 +101,30 @@
         }
     }
 
+    $.validator.addMethod("over18",
+        function (value, element) {
+            var minDate = new Date("1900-01-01");
+            var maxDate = new Date(new Date().setFullYear(new Date().getFullYear() - 18));
+            var valueEntered = new Date(value);
+
+            if (valueEntered > maxDate) {
+                var selects = $(element).parents('.dob-group').find('select');
+                selects.blur();
+                // timeout added because of .blur not taking immediate effect and focused dropdown stays valid
+                setTimeout(function () {
+                    selects.removeClass('valid').addClass('input-validation-error');
+                }, 0);
+                return false;
+            }
+            $(element).parents('.dob-group').find('select').addClass('valid').removeClass('input-validation-error');
+            return true;
+        },
+        translations['Over18']
+    );
+
     return {
         initDobGroup: initDobGroup,
         validate: validateInput
     };
 });
+

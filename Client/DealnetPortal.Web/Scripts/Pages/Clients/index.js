@@ -28,13 +28,13 @@
     var currentAddressPreviousRequiredFields = ['pstreet', 'pcity', 'pprovince', 'ppostalCode'];
     var contactInfoRequiredFields = ['email'];
     var homeImprovmentsRequiredFields = ['improvmentStreet', 'improvmentCity', 'improvmentProvince', 'improvmentPostalCode'];
-    var clientConsentsRequiredFields = ['creditAgreement','contactAgreement'];
+    var clientConsentsRequiredFields = ['creditAgreement', 'contactAgreement'];
     var trimFieldsIds = ['unit_number', 'sin-number', 'dl-number', 'previous_unit_number', 'businessPhone', 'improvment_unit_number'];
 
     var getErrors = configGetErrors(basicInfoRequiredFields, currentAddressRequiredFields, currentAddressPreviousRequiredFields, contactInfoRequiredFields, homeImprovmentsRequiredFields, clientConsentsRequiredFields);
 
     //handlers
-  
+
     //datepickers
 
     //license-scan
@@ -52,9 +52,9 @@
             modal.setAttribute('data-stToFill', 'street');
             modal.setAttribute('data-ctToFill', 'locality');
             modal.setAttribute('data-prToFill', "province");
-	    modal.setAttribute('data-pcToFill', "postal_code");
+            modal.setAttribute('data-pcToFill', "postal_code");
         }
-		//ga('send', 'event', 'Scan License', 'button_click', 'From Mortgage Portal', '100');
+        //ga('send', 'event', 'Scan License', 'button_click', 'From Mortgage Portal', '100');
         return true;
     });
 
@@ -65,7 +65,7 @@
                 event.preventDefault();
                 return false;
             }
-        });    
+        });
 
 
         // init views
@@ -78,6 +78,11 @@
 
         $('#home-phone').rules('add', 'required');
         $('#cell-phone').rules('add', 'required');
+
+        //mobile adds required to DL upload input, why???
+        if ($('#owner-upload-file').length) {
+            $('#owner-upload-file').rules('remove');
+        }
     });
 
     var form = $('#main-form');
@@ -95,7 +100,7 @@
         }
     });
 
-    function trimValues() {
+    function trimValues () {
         $.grep(trimFieldsIds, function (field) {
             var value = $('#' + field).val();
             if (value !== '') {
