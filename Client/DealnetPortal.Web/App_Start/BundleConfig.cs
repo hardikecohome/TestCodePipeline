@@ -67,6 +67,9 @@ namespace DealnetPortal.Web
                     "~/Scripts/datatables/dataTables.responsive.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/home-page")
+                .Include("~/Scripts/Modules/index.js")
+                .Include("~/Scripts/common/js.cookie.js")
+                .Include("~/Scripts/common/common.timezone.js")
                 .Include(
                     "~/Scripts/chart.js",
                     "~/Scripts/jquery.form.js",
@@ -130,6 +133,9 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/my-deals")
                 .Include("~/Scripts/datejs.js")
+                .Include("~/Scripts/Modules/index.js")
+                .Include("~/Scripts/common/js.cookie.js")
+                .Include("~/Scripts/common/common.timezone.js")
                 .Include("~/Scripts/jquery.form.js")
                 .Include("~/Scripts/my-deals.js"));
 

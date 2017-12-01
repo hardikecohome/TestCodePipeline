@@ -76,8 +76,8 @@ namespace DealnetPortal.Api.App_Start
                         .Replace("/", string.Empty)
                         .Replace("(", string.Empty)
                         .Replace(")", string.Empty)) ?? src.Status : null))
-                .ForMember(d => d.SignatureInitiatedTime, s => s.ResolveUsing(src => src.SignatureInitiatedTime?.ToLocalTime()))
-                .ForMember(d => d.SignatureLastUpdateTime, s => s.ResolveUsing(src => src.SignatureLastUpdateTime?.ToLocalTime()));
+                .ForMember(d => d.SignatureInitiatedTime, s => s.ResolveUsing(src => src.SignatureInitiatedTime))
+                .ForMember(d => d.SignatureLastUpdateTime, s => s.ResolveUsing(src => src.SignatureLastUpdateTime));
             mapperConfig.CreateMap<ContractSigner, ContractSignerDTO>()
                 .ForMember(d => d.StatusLastUpdateTime, s => s.ResolveUsing(src => src.StatusLastUpdateTime));
             mapperConfig.CreateMap<ContractSigner, SignatureUser>()

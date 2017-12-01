@@ -905,7 +905,7 @@ namespace DealnetPortal.Web.Infrastructure
                 LastName = salesRep?.LastName,
                 Email = salesRep?.EmailAddress,
                 Comment = salesRep?.Comment,
-                StatusLastUpdateTime = salesRep?.StatusLastUpdateTime,
+                StatusLastUpdateTime = salesRep?.StatusLastUpdateTime?.TryConvertToLocalUserDate(),
                 SignatureStatus = salesRep != null ? salesRep.SignatureStatus : contract.Details.SignatureStatus,
                 Role = salesRep != null ? salesRep.SignerType : SignatureRole.Dealer
             });

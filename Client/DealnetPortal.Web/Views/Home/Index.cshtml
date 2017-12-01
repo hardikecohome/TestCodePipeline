@@ -120,6 +120,10 @@
     var itemsUrl = '@Url.Action("GetWorkItems", "Home")';
     var editContractUrl = '@Url.Action("ContractEdit", "NewRental")';
     var contractSignatureStatusUrl = '@Url.Action("GetEsignatureStatus", "MyDeals")';
+
+    $(document).ready(function () {
+        module.require('common.timezone').createTimezoneCookie();
+    });
 </script>
 
 @section Translations

@@ -93,6 +93,8 @@ namespace DealnetPortal.Web.Controllers
         [HttpGet]
         public async Task<PartialViewResult> GetEsignatureStatus(int contractId)
         {
+            HttpRequestHelper.TryGetTimezoneOffsetCookie();
+
             var model = await _contractManager.GetContractSignatureStatus(contractId);
 
             return PartialView("_ContractSignatureStatus", model);

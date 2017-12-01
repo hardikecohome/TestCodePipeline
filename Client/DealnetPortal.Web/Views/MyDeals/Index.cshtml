@@ -249,6 +249,9 @@
         var editContractUrl = '@Url.Action("ContractEdit", "NewRental")';
         var contractPreviewUrl = '@Url.Action("Contract", "Reports")' + '/';
         var contractSignatureStatusUrl = '@Url.Action("GetEsignatureStatus", "MyDeals")';
+        $(document).ready(function () {
+            module.require('common.timezone').createTimezoneCookie();
+        });
     </script>
 
     @Scripts.Render("~/bundles/data-tables-scripts")
