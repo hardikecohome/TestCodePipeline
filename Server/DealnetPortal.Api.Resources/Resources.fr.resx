@@ -421,16 +421,16 @@
     <value>Spa</value>
   </data>
   <data name="WellPump" xml:space="preserve">
-    <value>Well Pump</value>
+    <value>Pompe de puits</value>
   </data>
   <data name="AirFiltration" xml:space="preserve">
-    <value>Air Filtration</value>
+    <value>Filtration d’air</value>
   </data>
   <data name="HotTub" xml:space="preserve">
-    <value>Hot Tub</value>
+    <value>Cuve thermale</value>
   </data>
   <data name="VerticalFanHRVCombo" xml:space="preserve">
-    <value>Vertical Fan/HRV Combo</value>
+    <value>Combo ventilateur vertical et ventilateur-récupérateur de chaleur</value>
   </data>
   <data name="Pool" xml:space="preserve">
     <value>Pool</value>
@@ -857,8 +857,5 @@
   </data>
   <data name="_28_ApprovedBlueChip" xml:space="preserve">
     <value>Autorisé Blue Chip</value>
-  </data>
-  <data name="_86_Cancelled" xml:space="preserve">
-    <value>Annulé</value>
   </data>
 </root>
