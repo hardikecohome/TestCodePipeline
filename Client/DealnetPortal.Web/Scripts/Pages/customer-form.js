@@ -179,7 +179,9 @@
                         city: place['locality'] || '',
                         province: place['administrative_area_level_1'] || '',
                         postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : '',
-                    }));
+                        }));
+
+                    $('#province').change();
                 });
 
             gAutoCompletes.city.addListener('place_changed',
@@ -206,7 +208,9 @@
                         city: place['locality'] || '',
                         province: place['administrative_area_level_1'] || '',
                         postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : '',
-                    }));
+                        }));
+
+                    $('#pprovince').change();
                 });
 
             gPAutoCompletes.city.addListener('place_changed',
