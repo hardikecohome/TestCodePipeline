@@ -19,12 +19,9 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44341</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -533,7 +530,6 @@
     <Content Include="Content\images\sprite\icon-filter.svg" />
     <Content Include="Content\images\sprite\icon-funding.svg" />
     <Content Include="Content\images\sprite\icon-help-chat.svg" />
-    <Content Include="Content\images\sprite\icon-help.svg" />
     <Content Include="Content\images\sprite\icon-help-page.svg" />
     <Content Include="Content\images\sprite\icon-home.svg" />
     <Content Include="Content\images\sprite\icon-info-grey.svg" />
@@ -723,8 +719,6 @@
     <Content Include="Content\less\settings\variables.less" />
     <Content Include="Content\less\slick\ajax-loader.gif" />
     <Content Include="Content\less\slick\fonts\slick.svg" />
-    <Content Include="DeployParameters.Web.deaslnet01vm.xml" />
-    <Content Include="DeployParameters.Web.deaslnet02vm.xml" />
     <Content Include="Content\less\slick\ajax-loader.gif" />
     <Content Include="favicon-dealer.ico" />
     <Content Include="favicon.ico" />
