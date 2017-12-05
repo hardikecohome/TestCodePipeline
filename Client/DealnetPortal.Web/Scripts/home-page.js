@@ -197,6 +197,7 @@ function getSignatureDetails () {
     }
     $.ajax({
         method: "GET",
+        cache: false,
         url: contractSignatureStatusUrl + '?contractId=' + id,
     }).done(function (data) {
         $('#signature-body').html(data);
