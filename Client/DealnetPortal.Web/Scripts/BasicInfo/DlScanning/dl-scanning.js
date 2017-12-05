@@ -53,16 +53,16 @@ function submitUpload (sender, uploadUrl, fn, ln, bd, dl, st, ct, pr, pc) {
                     if (json.isError) {
                         alert(translations['CannotRecognizeDriverLicense']);
                     } else {
-                        var modal = document.getElementById('camera-modal');
-                        document.getElementById(fn || modal.getAttribute('data-fnToFill')).value = json.FirstName;
-                        document.getElementById(ln || modal.getAttribute('data-lnToFill')).value = json.LastName;
+                        var modal = $('#camera-modal');
+                        $('#' + (fn || modal.attr('data-fnToFill'))).val(json.FirstName);
+                        $('#' + (ln || modal.attr('data-lnToFill'))).val(json.LastName);
                         var date = new Date(json.DateOfBirthStr);
-                        $("#" + bd || modal.getAttribute('data-bdToFill')).val((date.getUTCMonth() + 1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()).change();
-                        document.getElementById(dl || modal.getAttribute('data-dlToFill')).value = json.Id;
-                        document.getElementById(st || modal.getAttribute('data-stToFill')).value = json.Street;
-                        document.getElementById(ct || modal.getAttribute('data-ctToFill')).value = json.City;
-                        document.getElementById(pr || modal.getAttribute('data-prToFill')).value = json.State;
-                        document.getElementById(pc || modal.getAttribute('data-pcToFill')).value = json.PostalCode;
+                        $("#" + (bd || modal.attr('data-bdToFill'))).val((date.getUTCMonth() + 1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()).change();
+                        $('#' + (dl || modal.attr('data-dlToFill'))).val(json.Id);
+                        $('#' + (st || modal.attr('data-stToFill'))).val(json.Street);
+                        $('#' + (ct || modal.attr('data-ctToFill'))).val(json.City);
+                        $('#' + (pr || modal.attr('data-prToFill'))).val(json.State).change();
+                        $('#' + (pc || modal.attr('data-pcToFill'))).val(json.PostalCode);
                         $('#camera-modal').modal('hide');
                         $('#' + fn).trigger('uploadSuccess');
                     }
