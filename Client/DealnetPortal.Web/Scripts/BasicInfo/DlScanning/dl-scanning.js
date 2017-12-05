@@ -57,7 +57,7 @@ function submitUpload (sender, uploadUrl, fn, ln, bd, dl, st, ct, pr, pc) {
                         document.getElementById(fn || modal.getAttribute('data-fnToFill')).value = json.FirstName;
                         document.getElementById(ln || modal.getAttribute('data-lnToFill')).value = json.LastName;
                         var date = new Date(json.DateOfBirthStr);
-                        $("#" + modal.getAttribute('data-bdToFill')).val((date.getUTCMonth() + 1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()).change();
+                        $("#" + bd || modal.getAttribute('data-bdToFill')).val((date.getUTCMonth() + 1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()).change();
                         document.getElementById(dl || modal.getAttribute('data-dlToFill')).value = json.Id;
                         document.getElementById(st || modal.getAttribute('data-stToFill')).value = json.Street;
                         document.getElementById(ct || modal.getAttribute('data-ctToFill')).value = json.City;
