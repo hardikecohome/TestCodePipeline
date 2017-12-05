@@ -1,6 +1,7 @@
 ﻿module.exports('onboarding.form.handlers', function (require) {
     var state = require('onboarding.state').state;
     var resetForm = require('onboarding.common').resetFormValidation;
+    var detectIe = require('onboarding.common').detectIe;
 
     var validateDob = require('dob-selecters').validate;
 
@@ -132,7 +133,11 @@
         return license && insurence && voidCheque;
     }
 
-    function validate (e) {
+    function validate(e) {
+        var isIe = detectIe();
+        if (!isIe) {
+            showLoader();
+        }
         var $form = $('#onboard-form');
         $('#submitBtn').prop('disabled', true);
 

@@ -213,12 +213,12 @@
             }
             return false;
         });
-	$('.editToStep1').on('click', function () {
-		if ($(this).attr('href')) {
-			navigateToStep($(this));
-		}
-		return false;
-	});
+        $('.editToStep1').on('click', function () {
+            if ($(this).attr('href')) {
+                navigateToStep($(this));
+            }
+            return false;
+        });
 
         setTimeout(function () {
             documentsColHeight();
@@ -1152,7 +1152,7 @@ function resizeTableStatusCells (table) {
             var cellHeight = $this.parents('.status-cell').height();
             var thisHeight = $this.height();
             if (thisHeight < cellHeight)
-                $this.height(cellHeight);
+                $this.height(cellHeight + 5);
         });
     }
 }
