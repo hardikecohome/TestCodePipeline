@@ -34,9 +34,9 @@
             if (isNaN(dateTime.getTime())) {
                 $input.val('');
             } else {
-                $day.val(dateTime.getDate());
-                $month.val(dateTime.getMonth() + 1);
-                $year.val(dateTime.getFullYear());
+                $day.val(dateTime.getDate()).removeClass('not-selected');
+                $month.val(dateTime.getMonth() + 1).removeClass('not-selected');
+                $year.val(dateTime.getFullYear()).removeClass('not-selected');
             }
         });
         $day.on('change', function () {
