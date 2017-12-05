@@ -675,7 +675,7 @@
 							<div class="control-group dob-group">
 
 								<div class="dob-input-hold">
-									@Html.TextBoxFor(m => m.AdditionalApplicants[i].BirthDate, @"{0:MM/dd/yyyy}", new { @class = "check-age dob-input", id = "birth-date", placeholder = Resources.DateFormat })
+									@Html.TextBoxFor(m => m.AdditionalApplicants[i].BirthDate, @"{0:MM/dd/yyyy}", new { @class = "check-age dob-input", id = "additional-birth-date-"+ (i + 1), placeholder = Resources.DateFormat })
 									</div>
 									@if (Model.AdditionalApplicants[i] != null && Model.AdditionalApplicants[i].BirthDate.HasValue)
 									{
