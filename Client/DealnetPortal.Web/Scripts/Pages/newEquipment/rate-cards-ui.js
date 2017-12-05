@@ -287,7 +287,7 @@ function carouselRateCards () {
         paginationItems = numItems;
     var width = viewport().width
 
-    var carouselItemsToView = width >= 1400 ? numItems : width >= 768 && width < 1024 ? 2 : width < 768 ? 1 : 4;
+    var carouselItemsToView = width >= 1400 ? numItems : width >= 768 && width < 1024 ? 2 : width < 768 ? 1 : numItems;
 
     jcarousel
         .on('jcarousel:reload jcarousel:create', function () {

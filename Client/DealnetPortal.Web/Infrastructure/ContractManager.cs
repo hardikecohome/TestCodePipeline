@@ -248,9 +248,9 @@ namespace DealnetPortal.Web.Infrastructure
             //TODO: FOR DEMO PUROPSE ONLY REFACTOR AS SOON AS POSSIBLE!!!
             var planDict = new Dictionary<string, string>
             {
-                {"FixedRate", "Standard Rate"},
-                {"NoInterest", "0% Equal Payments"},
-                {"Deferral", "Deferral"},
+                {"FixedRate", Resources.Resources.FixedRate},
+                {"NoInterest", Resources.Resources.EqualPayments},
+                {"Deferral", Resources.Resources.Deferral},
             };
 
             model.Plans = model.DealerTier.RateCards
@@ -260,7 +260,7 @@ namespace DealnetPortal.Web.Infrastructure
                 .Select(card => new KeyValuePair<string, string>(card, planDict[card]))
                 .ToDictionary(card => card.Key, card => card.Value);
 
-            model.Plans.Add("Custom", "Promo/Custom");
+            model.Plans.Add("Custom", Resources.Resources.Custom);
 
             model.DeferralPeriods = model.DealerTier.RateCards
                 .Where(x => x.CardType == RateCardType.Deferral)
