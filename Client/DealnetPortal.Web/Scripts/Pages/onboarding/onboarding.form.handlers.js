@@ -1,7 +1,6 @@
 ﻿module.exports('onboarding.form.handlers', function (require) {
     var state = require('onboarding.state').state;
     var resetForm = require('onboarding.common').resetFormValidation;
-    var detectIe = require('onboarding.common').detectIe;
 
     var validateDob = require('dob-selecters').validate;
 
@@ -134,10 +133,8 @@
     }
 
     function validate (e) {
-        var isIe = detectIe();
-        if (!isIe) {
-            showLoader();
-        }
+        // workaround for IE: form posting halts gif
+        setTimeout(showLoader, 0);
         var $form = $('#onboard-form');
         $('#submitBtn').prop('disabled', true);
 
