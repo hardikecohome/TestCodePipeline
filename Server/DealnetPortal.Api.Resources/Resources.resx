@@ -862,7 +862,34 @@
   <data name="_28_ApprovedBlueChip" xml:space="preserve">
     <value>Approved Blue Chip</value>
   </data>
-  <data name="_86_Cancelled" xml:space="preserve">
-    <value>Cancelled</value>
+  <data name="ByidCard" xml:space="preserve">
+    <value>BYID card</value>
+  </data>
+  <data name="CanadianBlindIdentificationCard" xml:space="preserve">
+    <value>Canadian National Institute for the Blind identification card</value>
+  </data>
+  <data name="CanadianCitizenshipCard" xml:space="preserve">
+    <value>Canadian citizenship card</value>
+  </data>
+  <data name="CanadianFamilyMilitaryCard" xml:space="preserve">
+    <value>Canadian Military Family Identification Card</value>
+  </data>
+  <data name="CanadianMilitaryCard" xml:space="preserve">
+    <value>Canadian Military Employment Card</value>
+  </data>
+  <data name="CanadianPassport" xml:space="preserve">
+    <value>Canadian or foreign passport</value>
+  </data>
+  <data name="CertificateInidanStatus" xml:space="preserve">
+    <value>Certificate of Indian Status</value>
+  </data>
+  <data name="DriverLicense" xml:space="preserve">
+    <value>Driver’s license</value>
+  </data>
+  <data name="PalCard" xml:space="preserve">
+    <value>Possession and Acquisition License (PAL card)</value>
+  </data>
+  <data name="PermanentResidencyCard" xml:space="preserve">
+    <value>Permanent Residency Card</value>
   </data>
 </root>

@@ -889,11 +889,74 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BYID card.
+        /// </summary>
+        public static string ByidCard {
+            get {
+                return ResourceManager.GetString("ByidCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Canadian National Institute for the Blind identification card.
+        /// </summary>
+        public static string CanadianBlindIdentificationCard {
+            get {
+                return ResourceManager.GetString("CanadianBlindIdentificationCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Canadian citizenship card.
+        /// </summary>
+        public static string CanadianCitizenshipCard {
+            get {
+                return ResourceManager.GetString("CanadianCitizenshipCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Canadian Military Family Identification Card.
+        /// </summary>
+        public static string CanadianFamilyMilitaryCard {
+            get {
+                return ResourceManager.GetString("CanadianFamilyMilitaryCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Canadian Military Employment Card.
+        /// </summary>
+        public static string CanadianMilitaryCard {
+            get {
+                return ResourceManager.GetString("CanadianMilitaryCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Canadian or foreign passport.
+        /// </summary>
+        public static string CanadianPassport {
+            get {
+                return ResourceManager.GetString("CanadianPassport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cell phone.
         /// </summary>
         public static string CellPhone {
             get {
                 return ResourceManager.GetString("CellPhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Certificate of Indian Status.
+        /// </summary>
+        public static string CertificateInidanStatus {
+            get {
+                return ResourceManager.GetString("CertificateInidanStatus", resourceCulture);
             }
         }
         
@@ -1128,6 +1191,15 @@ namespace DealnetPortal.Api.Resources {
         public static string DoorToDoor {
             get {
                 return ResourceManager.GetString("DoorToDoor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Driver’s license.
+        /// </summary>
+        public static string DriverLicense {
+            get {
+                return ResourceManager.GetString("DriverLicense", resourceCulture);
             }
         }
         
@@ -1672,11 +1744,29 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Possession and Acquisition License (PAL card).
+        /// </summary>
+        public static string PalCard {
+            get {
+                return ResourceManager.GetString("PalCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Partnership.
         /// </summary>
         public static string Partnership {
             get {
                 return ResourceManager.GetString("Partnership", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Permanent Residency Card.
+        /// </summary>
+        public static string PermanentResidencyCard {
+            get {
+                return ResourceManager.GetString("PermanentResidencyCard", resourceCulture);
             }
         }
         

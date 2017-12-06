@@ -138,8 +138,8 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return await Client.GetAsync<Tuple<IList<DocumentTypeDTO>, IList<Alert>>>(
-                            $"{_fullUri}/DocumentTypes");
+                return await Client.GetAsyncEx<Tuple<IList<DocumentTypeDTO>, IList<Alert>>>(
+                            $"{_fullUri}/DocumentTypes", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {

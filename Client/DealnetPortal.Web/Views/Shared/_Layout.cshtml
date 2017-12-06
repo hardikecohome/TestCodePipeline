@@ -409,7 +409,7 @@
 				<i onclick="sendEmailModel();">
 					<button class="btn btn-lg btn-success helpbutton">
 						<svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg>
-						Help
+						@Resources.Help
 					</button>
 				</i>
 			</div>
@@ -456,7 +456,7 @@
 									</label>
 								</div>
 								<div class="col-md-4 col-xs-6">
-									<input class="pull-left form-control dealnet-input" type="text" id="yourNameTxt" placeholder="@Resources.PreferredContactPerson" disabled />
+									<input class="pull-left form-control dealnet-input" type="text" id="yourNameTxt" disabled />
 									<span class="text-danger hidden" id="yourNameTxtValidation">@Resources.PreferredContactPerson</span>
 								</div>
 							</div>
@@ -468,7 +468,7 @@
 									<label class="pull-left LabelMiddle">@Resources.ContractNumber</label>
 								</div>
 								<div class="col-md-4 col-xs-6">
-									<input class="pull-left form-control dealnet-input" type="text" id="emailTransactionId" placeholder="@Resources.ContractNumber" />
+									<input class="pull-left form-control dealnet-input" type="text" id="emailTransactionId" />
 									@*<label class="pull-left" id="emailTransactionId"></label>*@
 								</div>
 							</div>
@@ -490,7 +490,7 @@
 							<div class="col-md-12 col-lg-12">
 								<div class="form-group">
 									<label class="pull-left margin-bottom-zero">@Resources.PleaseProvideShortDescription</label>
-									<textarea class="form-control pull-left full-width form-control" id="emailComment" rows="5" placeholder="@Resources.PleaseProvideShortDescription"></textarea>
+									<textarea class="form-control pull-left full-width form-control" id="emailComment" rows="5"></textarea>
 									<span class="text-danger hidden" id="emailCommentValidation"><br />@Resources.PleaseProvideShortDescription</span>
 								</div>
 							</div>
@@ -509,7 +509,7 @@
 							<div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
 								<div class="form-group" id="DetailsDiv">
 									<label class="pull-left margin-bottom-zero" id="ContactDetails">@Resources.Phone</label>
-									<input class="pull-left form-control dealnet-input" type="text" id="emailAlternativeEmailAddress" placeholder="@Resources.PleaseProvideDetails" />
+									<input class="pull-left form-control dealnet-input" type="text" id="emailAlternativeEmailAddress" />
 									<span class="text-danger hidden" id="emailAlternativeEmailAddressValidation"><br />@Resources.PleaseProvideDetails</span>
 								</div>
 							</div>

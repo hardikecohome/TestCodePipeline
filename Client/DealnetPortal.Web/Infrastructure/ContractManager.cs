@@ -762,7 +762,7 @@ namespace DealnetPortal.Web.Infrastructure
             }
 
             summary.AdditionalInfo.ContractState = contract.ContractState.ConvertTo<ContractState>();
-            summary.AdditionalInfo.Status = contract.Details?.Status ?? contract.ContractState.GetEnumDescription();
+            summary.AdditionalInfo.Status = contract.Details?.LocalizedStatus ?? contract.ContractState.GetEnumDescription();
             summary.AdditionalInfo.LastUpdateTime = contract.LastUpdateTime;
             summary.AdditionalInfo.TransactionId = contract.Details?.TransactionId;
             summary.AdditionalInfo.IsCreatedByCustomer = contract.IsCreatedByCustomer ?? false;

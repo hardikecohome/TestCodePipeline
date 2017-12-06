@@ -128,7 +128,8 @@ namespace DealnetPortal.Api.App_Start
                 ForMember(x => x.Description,
                     s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.Description) ?? src.Description));
 
-            mapperConfig.CreateMap<VerifiactionId, VarificationIdsDTO>();
+            mapperConfig.CreateMap<VerifiactionId, VarificationIdsDTO>()
+                .ForMember(x => x.VerificationIdName, s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.VerificationIdNameResource) ?? src.VerificationIdName));
                 
             mapperConfig.CreateMap<DocumentType, DocumentTypeDTO>().
                 ForMember(x => x.Description,

@@ -1153,7 +1153,7 @@
     <value>Impossible de modifier les renseignements sur l’emprunteur et sur les demandeurs additionnels, car cette transaction a déjà été soumise. Vous pouvez ajouter des demandeurs additionnels</value>
   </data>
   <data name="LivedAtCurrentLessThan" xml:space="preserve">
-    <value>A habité à l’adresse actuelle pendant moins de six mois</value>
+    <value>A habité à l’adresse actuelle pendant moins de 2 ans</value>
   </data>
   <data name="AdditionalApplicantPreviousAddressInformation" xml:space="preserve">
     <value>Renseignement sur l’adresse antérieure du demandeur additionnel</value>

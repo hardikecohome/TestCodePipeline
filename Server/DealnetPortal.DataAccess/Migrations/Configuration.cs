@@ -2110,16 +2110,16 @@ namespace DealnetPortal.DataAccess.Migrations
             //Obtained from http://www.retailcouncil.org/quickfacts/taxrates
             var VerificationIds = new List<VerifiactionId>
             {
-                new VerifiactionId {VerificationIdName = "Driver’s license"},
-                new VerifiactionId {VerificationIdName = "BYID card"},
-                new VerifiactionId {VerificationIdName = "Canadian or foreign passport"},
-                new VerifiactionId {VerificationIdName = "Canadian citizenship card"},
-                new VerifiactionId {VerificationIdName = "Possession and Acquisition License (PAL card)"},
-                new VerifiactionId {VerificationIdName = "Permanent Residency Card"},
-                new VerifiactionId {VerificationIdName = "Certificate of Indian Status"},
-                new VerifiactionId {VerificationIdName = "Canadian National Institute for the Blind identification card"},
-                new VerifiactionId {VerificationIdName = "Canadian Military Employment Card "},
-                new VerifiactionId {VerificationIdName = "Canadian Military Family Identification Card"}
+                new VerifiactionId {VerificationIdName = "Driver’s license", VerificationIdNameResource = "DriverLicense"},
+                new VerifiactionId {VerificationIdName = "BYID card", VerificationIdNameResource = "ByidCard"},
+                new VerifiactionId {VerificationIdName = "Canadian or foreign passport", VerificationIdNameResource = "CanadianPassport"},
+                new VerifiactionId {VerificationIdName = "Canadian citizenship card", VerificationIdNameResource = "CanadianCitizenshipCard" },
+                new VerifiactionId {VerificationIdName = "Possession and Acquisition License (PAL card)", VerificationIdNameResource = "PalCard" },
+                new VerifiactionId {VerificationIdName = "Permanent Residency Card", VerificationIdNameResource = "PermanentResidencyCard"},
+                new VerifiactionId {VerificationIdName = "Certificate of Indian Status", VerificationIdNameResource = "CertificateInidanStatus" },
+                new VerifiactionId {VerificationIdName = "Canadian National Institute for the Blind identification card", VerificationIdNameResource = "CanadianBlindIdentificationCard" },
+                new VerifiactionId {VerificationIdName = "Canadian Military Employment Card ", VerificationIdNameResource = "CanadianMilitaryCard" },
+                new VerifiactionId {VerificationIdName = "Canadian Military Family Identification Card", VerificationIdNameResource = "CanadianFamilyMilitaryCard" }
 
             };
             context.VerificationIds.AddOrUpdate(t => t.VerificationIdName, VerificationIds.ToArray());
