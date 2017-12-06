@@ -50,7 +50,7 @@
                         flow2.splice(index2, 1);
                     }
                     if (action.type === customerActions.SET_ADDRESS && action.payload.streeet !== '') {
-                        addressFlow.forEach(function(action) {
+                        addressFlow.forEach(function (action) {
                             var index3 = flow2.indexOf(action);
                             if (index3 >= 0) {
                                 flow2.splice(index3, 1);
@@ -110,13 +110,13 @@
     var observeCustomerFormStore = observe(customerFormStore);
 
     if (config.reCaptchaEnabled) {
-        window.onLoadCaptcha = function() {
+        window.onLoadCaptcha = function () {
             grecaptcha.render('gcaptcha', {
                 sitekey: window.config.reCaptchaKey,
-                callback: function(response) {
+                callback: function (response) {
                     dispatch(createAction(customerActions.SET_CAPTCHA_CODE, response));
                 },
-                'expired-callback': function() {
+                'expired-callback': function () {
                     dispatch(createAction(customerActions.SET_CAPTCHA_CODE, ''));
                 },
             });
@@ -129,11 +129,12 @@
         locality: 'long_name',
         administrative_area_level_1: 'short_name',
         country: 'long_name',
-        postal_code: 'short_name'
+        postal_code: 'short_name',
+        postal_code_prefix: 'short_name'
     };
 
-    var getAddress = function(addressForm) {
-        return function(addressComponent) {
+    var getAddress = function (addressForm) {
+        return function (addressComponent) {
             var addressType = addressComponent.types[0];
             if (addressForm.hasOwnProperty(addressType)) {
                 var addressObj = {};
@@ -143,7 +144,7 @@
         };
     };
 
-    var setAutocomplete = function(streetElmId, cityElmId) {
+    var setAutocomplete = function (streetElmId, cityElmId) {
         var extendCommonOpts = extendObj({
             componentRestrictions: { country: 'ca' }
         });
@@ -162,67 +163,67 @@
         };
     };
 
-    window.initAutocomplete = function() {
-        $(document).ready(function() {
+    window.initAutocomplete = function () {
+        $(document).ready(function () {
             var gAutoCompletes = setAutocomplete('street', 'city');
             var gPAutoCompletes = setAutocomplete('pstreet', 'pcity');
 
             gAutoCompletes.street.addListener('place_changed',
-                function() {
+                function () {
                     var place = gAutoCompletes.street.getPlace().address_components
                         .map(getAddress(addressForm)).reduce(concatObj);
 
                     dispatch(createAction(customerActions.SET_ADDRESS,
-                    {
-                        street: place['route'] || '',
-                        number: place['street_number'] || '',
-                        city: place['locality'] || '',
-                        province: place['administrative_area_level_1'] || '',
-                        postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : '',
+                        {
+                            street: place['route'] || '',
+                            number: place['street_number'] || '',
+                            city: place['locality'] || '',
+                            province: place['administrative_area_level_1'] || '',
+                            postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : place['postal_code_prefix'] ? place['postal_code_prefix'].replace(' ', '') : '',
                         }));
 
                     $('#province').change();
                 });
 
             gAutoCompletes.city.addListener('place_changed',
-                function() {
+                function () {
                     var place = gAutoCompletes.city.getPlace().address_components
                         .map(getAddress(addressForm)).reduce(concatObj);
 
                     dispatch(createAction(customerActions.SET_ADDRESS,
-                    {
-                        city: place['locality'] || '',
-                        province: place['administrative_area_level_1'] || '',
-                    }));
+                        {
+                            city: place['locality'] || '',
+                            province: place['administrative_area_level_1'] || '',
+                        }));
                 });
 
             gPAutoCompletes.street.addListener('place_changed',
-                function() {
+                function () {
                     var place = gPAutoCompletes.street.getPlace().address_components
                         .map(getAddress(addressForm)).reduce(concatObj);
 
                     dispatch(createAction(customerActions.SET_PADDRESS,
-                    {
-                        street: place['route'] || '',
-                        number: place['street_number'] || '',
-                        city: place['locality'] || '',
-                        province: place['administrative_area_level_1'] || '',
-                        postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : '',
+                        {
+                            street: place['route'] || '',
+                            number: place['street_number'] || '',
+                            city: place['locality'] || '',
+                            province: place['administrative_area_level_1'] || '',
+                            postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : place['postal_code_prefix'] ? place['postal_code_prefix'].replace(' ', '') : '',
                         }));
 
                     $('#pprovince').change();
                 });
 
             gPAutoCompletes.city.addListener('place_changed',
-                function() {
+                function () {
                     var place = gPAutoCompletes.city.getPlace().address_components
                         .map(getAddress(addressForm)).reduce(concatObj);
 
                     dispatch(createAction(customerActions.SET_PADDRESS,
-                    {
-                        city: place['locality'] || '',
-                        province: place['administrative_area_level_1'] || '',
-                    }));
+                        {
+                            city: place['locality'] || '',
+                            province: place['administrative_area_level_1'] || '',
+                        }));
                 });
         });
     };
@@ -256,7 +257,7 @@
                 }
             });
 
-             // observers
+            // observers
             observeCustomerFormStore(function (state) {
                 return {
                     displayInstallation: state.displayInstallation,
@@ -292,7 +293,7 @@
             });
 
             var createError = function (msg) {
-                var err = $('<div class="well danger-well over-aged-well" id="age-error-message"><svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="'+urlContent+'Content/images/sprite/sprite.svg#icon-info-well"></use></svg></div>');
+                var err = $('<div class="well danger-well over-aged-well" id="age-error-message"><svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-info-well"></use></svg></div>');
                 err.append(msg);
                 return err;
             };
@@ -313,7 +314,7 @@
                         });
                 }
 
-                var emptyError = props.errors.filter(function(error) {
+                var emptyError = props.errors.filter(function (error) {
                     return error.type === 'empty';
                 });
 
