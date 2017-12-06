@@ -133,11 +133,11 @@
         return license && insurence && voidCheque;
     }
 
-    function validate(e) {
-        var isIe = detectIe();
-        if (!isIe) {
-            showLoader();
-        }
+    function validate (e) {
+        // var isIe = detectIe();
+        // if (!isIe) {
+        showLoader();
+        //}
         var $form = $('#onboard-form');
         $('#submitBtn').prop('disabled', true);
 
