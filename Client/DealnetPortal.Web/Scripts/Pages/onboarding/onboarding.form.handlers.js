@@ -134,10 +134,10 @@
     }
 
     function validate (e) {
-        // var isIe = detectIe();
-        // if (!isIe) {
-        showLoader();
-        //}
+        var isIe = detectIe();
+        if (!isIe) {
+            showLoader();
+        }
         var $form = $('#onboard-form');
         $('#submitBtn').prop('disabled', true);
 
