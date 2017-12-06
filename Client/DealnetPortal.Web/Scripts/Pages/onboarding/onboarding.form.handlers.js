@@ -133,7 +133,7 @@
         return license && insurence && voidCheque;
     }
 
-    function validate(e) {
+    function validate (e) {
         var isIe = detectIe();
         if (!isIe) {
             showLoader();
