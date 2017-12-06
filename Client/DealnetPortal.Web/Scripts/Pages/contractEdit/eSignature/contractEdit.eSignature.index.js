@@ -26,7 +26,7 @@
         if (status === 'sent' || status === 'delivered')
             cancelSignatures(e);
         else
-            submitAllEsignatures(e);
+            submitAllEsignatures(e, status);
     }
 
     function cancelSignatures (e) {
@@ -96,7 +96,7 @@
         }
     }
 
-    function submitAllEsignatures (e) {
+    function submitAllEsignatures (e, previousStatus) {
         e.preventDefault();
         var $form = $(e.target.form);
         if ($form.valid()) {
@@ -129,6 +129,10 @@
                     rows.each(function (index, el) {
                         var $el = $(el);
                         var rowId = $el.find('#row-id').val();
+                        if (previousStatus === 'declined' && $('#signer-email-' + rowId).is(':disabled')) {
+                            $('#signer-email-' + rowId).removeAttr('disabled');
+                        }
+
                         var id = parseInt($el.find('#signer-customer-id-' + rowId).val());
                         var signer = data.Signers.filter(function (item) {
                             return isNaN(id) ? item.CustomerId === null : item.CustomerId === id;
