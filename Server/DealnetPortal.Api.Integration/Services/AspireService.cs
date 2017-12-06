@@ -463,7 +463,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                 try
                 {
-                    _loggingService.LogInfo($"Uploading onboarding form to Aspire. Dealer: {request.Header.UserId}, TransactionId: {request.Payload.Lease.Application.TransactionId}");
+                    _loggingService.LogInfo($"Sending deal [{contract.Id}] UDFs to Aspire TransactionId: {request.Payload.Lease.Application.TransactionId}");
 
                     Task timeoutTask = Task.Delay(_aspireRequestTimeout);
                     var aspireRequestTask = _aspireServiceAgent.DealUploadSubmission(request);
