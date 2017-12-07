@@ -10,28 +10,19 @@ namespace DealnetPortal.Web
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery")
                 .Include(
-                    "~/Scripts/jquery-{version}.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/angular")
-                .Include(
-                    "~/Scripts/Vendor/angular/angular.js",
-                    "~/Scripts/Vendor/angular/angular-touch.js",
-                    "~/Scripts/Vendor/angular/angular-animate.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/angular-ui")
-                .Include("~/Scripts/Vendor/angular/ui-bootstrap-tpls.js"));
+                    "~/Scripts/vendor/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").NonOrdering()
-                .Include("~/Scripts/jquery.validate*")
-                .Include("~/Scripts/jquery-validation-messages.js"));
+                .Include("~/Scripts/vendor/jquery.validate*")
+                .Include("~/Scripts/vendor/jquery-validation-messages.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval-msg-fr")
-                .Include("~/Scripts/jquery-validate-messages-fr.js"));
+                .Include("~/Scripts/vendor/jquery-validate-messages-fr.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr")
-                .Include("~/Scripts/modernizr-*"));
+                .Include("~/Scripts/vendor/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/localization")
                 .Include(
@@ -45,34 +36,34 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/dealnet")
                 .Include(
-                    "~/Scripts/jquery.tmpl.min.js",
-                    "~/Scripts/jquery.placeholder.min.js", 
-                    "~/Scripts/svgxuse.min.js",
-                    "~/Scripts/jquery.loader.js",
-                    "~/Scripts/slick.min.js",
-                    "~/Scripts/jquery.jcarousel.min.js",
-                    "~/Scripts/jquery.touchSwipe.min.js",
+                    "~/Scripts/vendor/jquery.tmpl.min.js",
+                    "~/Scripts/vendor/jquery.placeholder.min.js",
+                    "~/Scripts/vendor/svgxuse.min.js",
+                    "~/Scripts/vendor/jquery.loader.js",
+                    "~/Scripts/vendor/slick.min.js",
+                    "~/Scripts/vendor/jquery.jcarousel.min.js",
+                    "~/Scripts/vendor/jquery.touchSwipe.min.js",
                     "~/Scripts/layout.js",
-                    "~/Scripts/jquery-ui-1.12.0.js"));
+                    "~/Scripts/vendor/jquery-ui-1.12.0.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap")
                 .Include(
-                    "~/Scripts/bootstrap.js",
-                    "~/Scripts/respond.js"));
+                    "~/Scripts/vendor/bootstrap.js",
+                    "~/Scripts/vendor/respond.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/data-tables-scripts")
                 .Include(
-                    "~/Scripts/DataTables/jquery.dataTables.js",
-                    "~/Scripts/datatables/dataTables.bootstrap.js",
-                    "~/Scripts/datatables/dataTables.responsive.js"));
+                    "~/Scripts/vendor/DataTables/jquery.dataTables.js",
+                    "~/Scripts/vendor/datatables/dataTables.bootstrap.js",
+                    "~/Scripts/vendor/datatables/dataTables.responsive.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/home-page")
                 .Include("~/Scripts/Modules/index.js")
                 .Include("~/Scripts/common/js.cookie.js")
                 .Include("~/Scripts/common/common.timezone.js")
                 .Include(
-                    "~/Scripts/chart.js",
-                    "~/Scripts/jquery.form.js",
+                    "~/Scripts/vendor/chart.js",
+                    "~/Scripts/vendor/jquery.form.js",
                     "~/Scripts/home-page.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/basic-info")
@@ -80,7 +71,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/customer-validation.js")
                 .IncludeDirectory("~/Scripts/BasicInfo", "*.js")
                 .Include("~/Scripts/BasicInfo/DlScanning/dl-scanning.js")
-                .Include("~/Scripts/datejs.js")
+                .Include("~/Scripts/vendor/datejs.js")
                 .Include("~/Scripts/camera-capturing.js")
                 .Include("~/Scripts/Modules/index.js")
                 .Include("~/Scripts/Utils/dob-selecter.js"));
@@ -88,22 +79,20 @@ namespace DealnetPortal.Web
             bundles.Add(new ScriptBundle("~/bundles/credit-check")
                 .Include("~/Scripts/credit-check.js")
                 .Include("~/Scripts/datejs.js")
-                .Include("~/Scripts/jquery.form.js")
+                .Include("~/Scripts/vendor/jquery.form.js")
                 .Include("~/Scripts/general-address-autocomplete.js")
                 .Include("~/Scripts/editable-in-modal.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/equipment-information")
-                .Include("~/Scripts/financial-functions.js")
-                .Include("~/Scripts/loan-calculator.js")
-                .Include("~/Scripts/equipment-information.js")
-                .Include("~/Scripts/datejs.js")
-                .Include("~/Scripts/navigation-with-warning.js"));
+            //bundles.Add(new ScriptBundle("~/bundles/equipment-information")
+            //    .Include("~/Scripts/financial-functions.js")
+            //    .Include("~/Scripts/loan-calculator.js")
+            //    .Include("~/Scripts/equipment-information.js")
+            //    .Include("~/Scripts/datejs.js")
+            //    .Include("~/Scripts/navigation-with-warning.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/contact-and-payment")
                 .Include("~/Scripts/custom-validation.js")
                 .Include("~/Scripts/contact-and-payment-management.js")
-                /*.Include("~/Scripts/camera-capturing.js")*/
-                /*.Include("~/Scripts/vc-scanning.js")*/
                 .Include("~/Scripts/navigation-with-warning.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/summary-and-confirmation")
@@ -113,44 +102,44 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/loan-calculator.js")
                 .Include("~/Scripts/contact-and-payment-management.js")
                 .Include("~/Scripts/summary-and-confirmation.js")
-                .Include("~/Scripts/jquery.form.js")
+                .Include("~/Scripts/vendor/jquery.form.js")
                 .Include("~/Scripts/general-address-autocomplete.js")
                 .Include("~/Scripts/editable-in-modal.js")
                 .Include("~/Scripts/navigation-with-warning.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/agreement-submit-success")
-                .Include("~/Scripts/jquery.form.js")
+                .Include("~/Scripts/vendor/jquery.form.js")
                 .Include("~/Scripts/print-contract.js")
                 .Include("~/Scripts/agreement-submit-success.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/my-customers")
-                .Include("~/Scripts/datejs.js")
+                .Include("~/Scripts/vendor/datejs.js")
                 .Include("~/Scripts/my-customers.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/leads")
-                .Include("~/Scripts/datejs.js")
+                .Include("~/Scripts/vendor/datejs.js")
                 .Include("~/Scripts/leads.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/my-deals")
-                .Include("~/Scripts/datejs.js")
+                .Include("~/Scripts/vendor/datejs.js")
                 .Include("~/Scripts/Modules/index.js")
                 .Include("~/Scripts/common/js.cookie.js")
                 .Include("~/Scripts/common/common.timezone.js")
-                .Include("~/Scripts/jquery.form.js")
+                .Include("~/Scripts/vendor/jquery.form.js")
                 .Include("~/Scripts/my-deals.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/reports")
-                .Include("~/Scripts/datejs.js")
+                .Include("~/Scripts/vendor/datejs.js")
                 .Include("~/Scripts/reports.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/contract-edit")
-                .Include("~/Scripts/datejs.js")
+                .Include("~/Scripts/vendor/datejs.js")
                 .Include("~/Scripts/Modules/index.js")
                 .Include("~/Scripts/custom-validation.js")
                 .Include("~/Scripts/contact-and-payment-management.js")
                 .Include("~/Scripts/agreement-submit-success.js")
                 .Include("~/Scripts/print-contract.js")
-                .Include("~/Scripts/jquery.form.js")
+                .Include("~/Scripts/vendor/jquery.form.js")
                 .Include("~/Scripts/general-address-autocomplete.js")
                 .Include("~/Scripts/editable-in-modal.js")
                 .Include("~/Scripts/contract-edit.js")
@@ -159,7 +148,7 @@ namespace DealnetPortal.Web
                 .IncludeDirectory("~/Scripts/Pages/contractEdit", "*.js", true));
 
             bundles.Add(new ScriptBundle("~/bundles/shareable-link")
-                .Include("~/Scripts/jquery.form.js")
+                .Include("~/Scripts/vendor/jquery.form.js")
                 .Include("~/Scripts/shareable-link.js"));
 
             bundles.Add(new StyleBundle("~/bundles/data-tables-content")
@@ -169,7 +158,7 @@ namespace DealnetPortal.Web
                     "~/Content/datatables/css/responsive.bootstrap.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/customer-form").Include(
-                "~/Scripts/datejs.js",
+                "~/Scripts/vendor/datejs.js",
                 "~/Scripts/Modules/index.js",
                 "~/Scripts/Logger/logdebug.js",
                 "~/Scripts/Pages/customer-form.js",
@@ -191,7 +180,7 @@ namespace DealnetPortal.Web
                 "~/Scripts/general-address-autocomplete.js",
                 "~/Scripts/BasicInfo/DlScanning/dl-scanning.js",
                 "~/Scripts/camera-capturing.js",
-                "~/Scripts/datejs.js",
+                "~/Scripts/vendor/datejs.js",
                 "~/Scripts/Modules/index.js",
                 "~/Scripts/Logger/logdebug.js",
                 "~/Scripts/Selectors/new-client-selectors.js",
@@ -237,7 +226,7 @@ namespace DealnetPortal.Web
             //        "~/Scripts/Utils/objectUtils.js",
             //        "~/Scripts/Utils/redux.js"));
             bundles.Add(new ScriptBundle("~/bundles/my-profile")
-                .Include("~/Scripts/jquery.form.js")
+                .Include("~/Scripts/vendor/jquery.form.js")
                 .Include("~/Scripts/Modules/index.js")
                 .Include("~/Scripts/Pages/MyProfile/index.js")
                 .Include("~/Scripts/Pages/MyProfile/form-handlers.js")
@@ -246,11 +235,10 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/Pages/MyProfile/my-profile-state.js")
                 .Include("~/Scripts/Pages/MyProfile/postalCode-template.js")
                 .Include("~/Scripts/Pages/MyProfile/category-template.js")
-                .Include("~/Scripts/jquery.form.js")
             );
 
             bundles.Add(new ScriptBundle("~/bundles/new-equipment-information")
-                .Include("~/Scripts/datejs.js")
+                .Include("~/Scripts/vendor/datejs.js")
                 .Include("~/Scripts/financial-functions.js")
                 .Include("~/Scripts/loan-calculator.js")
                 .Include("~/Scripts/Modules/index.js")
@@ -269,13 +257,13 @@ namespace DealnetPortal.Web
             );
 
             bundles.Add(new ScriptBundle("~/bundles/additional-equipment-information")
-                .Include("~/Scripts/datejs.js")
+                .Include("~/Scripts/vendor/datejs.js")
                 .Include("~/Scripts/Pages/additionalContractInfo/contract-information.js")
             );
 
             bundles.Add(new ScriptBundle("~/bundles/standalone-calculator")
                 .Include("~/Scripts/financial-functions.js")
-                .Include("~/Scripts/datejs.js")
+                .Include("~/Scripts/vendor/datejs.js")
                 .Include("~/Scripts/loan-calculator.js")
                 .Include("~/Scripts/Modules/index.js")
                 .Include("~/Scripts/Logger/log.js")
@@ -293,7 +281,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/Modules/index.js")
                 .Include("~/Scripts/Utils/objectUtils.js")
                 .Include("~/Scripts/general-address-autocomplete.js")
-                .Include("~/Scripts/jquery.form.js")
+                .Include("~/Scripts/vendor/jquery.form.js")
                 .IncludeDirectory("~/Scripts/Pages/onboarding", "*.js", true)
                 .Include("~/Scripts/Utils/dob-selecter.js"));
         }
