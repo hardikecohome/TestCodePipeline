@@ -824,13 +824,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return alerts;
-        }
-
-        public async Task<string> GetDealStatus(string aspireTransactionId)
-        {
-            var status = await Task.Run(() => _aspireStorageReader.GetDealStatus(aspireTransactionId));
-            return status;
-        }
+        }        
 
         public async Task<Tuple<string, IList<Alert>>> ChangeDealStatusEx(string aspireTransactionId, string newStatus,
             string contractOwnerId)

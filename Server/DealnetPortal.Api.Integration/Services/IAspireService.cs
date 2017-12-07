@@ -31,7 +31,6 @@ namespace DealnetPortal.Api.Integration.Services
         /// <param name="leadSource">value of lead source of a client app</param>
         /// <returns></returns>
         Task<IList<Alert>> SubmitDeal(int contractId, string contractOwnerId, string leadSource = null);
-
         /// <summary>
         /// Submit deal without equipment information - send UDFs only
         /// </summary>
@@ -41,20 +40,18 @@ namespace DealnetPortal.Api.Integration.Services
         /// <returns></returns>
         Task<IList<Alert>> SendDealUDFs(int contractId, string contractOwnerId, string leadSource = null);
         Task<IList<Alert>> SendDealUDFs(Contract contract, string contractOwnerId, string leadSource = null, ContractorDTO contractor = null);
-
-        Task<IList<Alert>> UploadDocument(int contractId, ContractDocumentDTO document, string contractOwnerId);
-
-        Task<string> GetDealStatus(string aspireTransactionId);
-
-        Task<Tuple<string, IList<Alert>>> ChangeDealStatusEx(string aspireTransactionId, string newStatus, string contractOwnerId);
-        Task<IList<Alert>> ChangeDealStatus(string aspireTransactionId, string newStatus, string contractOwnerId, string additionalDataToPass = null);
-
-        Task<Tuple<string, IList<Alert>>> ChangeDealStatusByCreditReview(string aspireTransactionId, string newStatus, string contractOwnerId);        
         /// <summary>
         /// Submit dealer's onboarding form data
         /// </summary>
         /// <returns></returns>
-        Task<IList<Alert>> SubmitDealerOnboarding(int dealerInfoId, string leadSource = null);
+        Task<IList<Alert>> SubmitDealerOnboarding(int dealerInfoId, string leadSource = null);        
+
+        Task<Tuple<string, IList<Alert>>> ChangeDealStatusEx(string aspireTransactionId, string newStatus, string contractOwnerId);
+        Task<IList<Alert>> ChangeDealStatus(string aspireTransactionId, string newStatus, string contractOwnerId, string additionalDataToPass = null);
+
+        Task<Tuple<string, IList<Alert>>> ChangeDealStatusByCreditReview(string aspireTransactionId, string newStatus, string contractOwnerId);                
+
+        Task<IList<Alert>> UploadDocument(int contractId, ContractDocumentDTO document, string contractOwnerId);
         Task<IList<Alert>> UploadDocument(string aspireTransactionId, ContractDocumentDTO document, string contractOwnerId);
         Task<IList<Alert>> UploadOnboardingDocument(int dealerInfoId, int requiredDocId, string statusToSend = null);
     }
