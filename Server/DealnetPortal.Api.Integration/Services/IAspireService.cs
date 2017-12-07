@@ -49,9 +49,7 @@ namespace DealnetPortal.Api.Integration.Services
         Task<Tuple<string, IList<Alert>>> ChangeDealStatusEx(string aspireTransactionId, string newStatus, string contractOwnerId);
         Task<IList<Alert>> ChangeDealStatus(string aspireTransactionId, string newStatus, string contractOwnerId, string additionalDataToPass = null);
 
-        Task<Tuple<string, IList<Alert>>> ChangeDealStatusByCreditReview(string aspireTransactionId, string newStatus, string contractOwnerId);
-
-        Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId, string contractOwnerId);
+        Task<Tuple<string, IList<Alert>>> ChangeDealStatusByCreditReview(string aspireTransactionId, string newStatus, string contractOwnerId);        
         /// <summary>
         /// Submit dealer's onboarding form data
         /// </summary>

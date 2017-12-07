@@ -1048,27 +1048,58 @@ namespace DealnetPortal.Api.Integration.Services
         public async Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId, string contractOwnerId)
         {
             var alerts = new List<Alert>();
-            try
+
+            var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+
+            if (contract != null)
             {
-                //run aspire upload async
-                var aspireAlerts =  await _aspireService.SubmitAllDocumentsUploaded(contractId, contractOwnerId);
-                //var aspireAlerts = _aspireService.UploadDocument(document.ContractId, document, contractOwnerId).GetAwaiter().GetResult();
-                if (aspireAlerts?.Any() ?? false)
+                // check all docs are uploaded
+                if (new[]
                 {
-                    alerts.AddRange(aspireAlerts);
+                    (int) DocumentTemplateType.SignedContract, (int) DocumentTemplateType.SignedInstallationCertificate,
+                    (int) DocumentTemplateType.Invoice, (int) DocumentTemplateType.VoidPersonalCheque
+                }.All(x => contract.Documents.Any(d => d.DocumentTypeId == x)))
+                {
+                    var status = _configuration.GetSetting(WebConfigKeys.ALL_DOCUMENTS_UPLOAD_STATUS_CONFIG_KEY);
+                    var aspireAlerts = await _aspireService.ChangeDealStatus(contract.Details?.SignatureTransactionId, status, contractOwnerId, "Request to Fund");
+                    if (aspireAlerts?.Any() ?? false)
+                    {
+                        alerts.AddRange(aspireAlerts);
+                    }
+                    if (alerts.All(a => a.Type != AlertType.Error))
+                    {
+                        contract.ContractState = ContractState.Closed;
+                        contract.Details.Status = status;
+                        contract.LastUpdateTime = DateTime.UtcNow;                        
+                        _unitOfWork.Save();
+                        _loggingService.LogInfo(
+                            $"Status for transaction {contract.Details.TransactionId} was set successfully");
+                    }
+                }                
+                else
+                {
+                    alerts.Add(new Alert()
+                    {
+                        Header = "Not all mandatory documents were uploaded",
+                        Message = $"Not all mandatory documents were uploaded for contract with id {contractId}",
+                        Type = AlertType.Error
+                    });
+                    _loggingService.LogError($"Not all mandatory documents were uploaded for contract with id {contractId}");
                 }
             }
-            catch (Exception ex)
+            else
             {
-                _loggingService.LogError("Failed to submit All Documents Uploaded Request", ex);
                 alerts.Add(new Alert()
                 {
-                    Type = AlertType.Error,
-                    Header = "Failed to submit All Documents Uploaded Request",
-                    Message = ex.ToString()
+                    Code = ErrorCodes.CantGetContractFromDb,
+                    Header = "Can't get contract",
+                    Message = $"Can't get contract with id {contractId}",
+                    Type = AlertType.Error
                 });
+                _loggingService.LogError($"Can't get contract with id {contractId}");
             }
-            return new List<Alert>(alerts);
+            
+            return alerts;
         }
 
         private bool UpdateContractsByAspireDeals(IList<Contract> contractsForUpdate, IList<ContractDTO> aspireDeals)
