@@ -148,7 +148,7 @@
             $('.dob-input').each(function (index, el) {
                 validateDob(el);
             });
-
+            setTimeout(hideLoader, 0);
             $('#submitBtn').prop('disabled', false);
             return;
         }
