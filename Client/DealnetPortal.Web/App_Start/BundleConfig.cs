@@ -26,12 +26,12 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/localization")
                 .Include(
-                    "~/Scripts/Vendor/cldr/cldr.js",
-                    "~/Scripts/Vendor/cldr/cldr/event.js",
-                    "~/Scripts/Vendor/cldr/cldr/supplemental.js",
-                    "~/Scripts/Vendor/globalize/globalize.js",
-                    "~/Scripts/Vendor/globalize/globalize/number.js",
-                    "~/Scripts/Vendor/globalize/globalize/currency.js",
+                    "~/Scripts/vendor/cldr/cldr.js",
+                    "~/Scripts/vendor/cldr/cldr/event.js",
+                    "~/Scripts/vendor/cldr/cldr/supplemental.js",
+                    "~/Scripts/vendor/globalize/globalize.js",
+                    "~/Scripts/vendor/globalize/globalize/number.js",
+                    "~/Scripts/vendor/globalize/globalize/currency.js",
                     "~/Scripts/Utils/localization-init.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/dealnet")
