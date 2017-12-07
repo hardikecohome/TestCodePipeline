@@ -34,8 +34,8 @@ namespace DealnetPortal.DataAccess.Repositories
                 contract = new Contract()
                 {
                     ContractState = ContractState.Started,
-                    CreationTime = DateTime.Now,
-                    LastUpdateTime = DateTime.Now,
+                    CreationTime = DateTime.UtcNow,
+                    LastUpdateTime = DateTime.UtcNow,
                     Dealer = dealer,
                     CreateOperator = dealer.UserName,
                 };
@@ -213,7 +213,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     contract.WasDeclined = false;
                 }
 
-                contract.LastUpdateTime = DateTime.Now;
+                contract.LastUpdateTime = DateTime.UtcNow;
                 contract.LastUpdateOperator = GetDealer(contractOwnerId)?.UserName;
             }
             return contract;
@@ -320,7 +320,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     contract.IsNewlyCreated = true;
                     contract.IsCreatedByBroker = false;
                     contract.IsCreatedByCustomer = false;
-                    contract.LastUpdateTime = DateTime.Now;
+                    contract.LastUpdateTime = DateTime.UtcNow;
 
                     _dbContext.Entry(contract).State = EntityState.Modified;
 
@@ -379,7 +379,7 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             contract.ContractState = ContractState.CustomerInfoInputted;
             _dbContext.Entry(contract).State = EntityState.Modified;
-            contract.LastUpdateTime = DateTime.Now;
+            contract.LastUpdateTime = DateTime.UtcNow;
             contract.LastUpdateOperator = GetDealer(contractOwnerId)?.UserName;
             return contract;
         }
@@ -487,7 +487,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
                     if (updated)
                     {
-                        contract.LastUpdateTime = DateTime.Now;
+                        contract.LastUpdateTime = DateTime.UtcNow;
                         contract.LastUpdateOperator = GetDealer(contractOwnerId)?.UserName;
                     }
 
@@ -925,9 +925,9 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 if (!contract.DateOfSubmit.HasValue)
                 {
-                    contract.DateOfSubmit = DateTime.Now;
+                    contract.DateOfSubmit = DateTime.UtcNow;
                 }
-                contract.LastUpdateTime = DateTime.Now;
+                contract.LastUpdateTime = DateTime.UtcNow;
                 contract.LastUpdateOperator = GetDealer(contractOwnerId)?.UserName;
             }
             return contract;
@@ -1406,7 +1406,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 //}
             });
 
-            contract.LastUpdateTime = DateTime.Now;
+            contract.LastUpdateTime = DateTime.UtcNow;
 
             return true;
         }

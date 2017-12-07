@@ -45,8 +45,8 @@ namespace DealnetPortal.DataAccess.Repositories
             if (dbDealer == null)
             {
                 //add new
-                dealerInfo.CreationTime = DateTime.Now;
-                dealerInfo.LastUpdateTime = DateTime.Now;
+                dealerInfo.CreationTime = DateTime.UtcNow;
+                dealerInfo.LastUpdateTime = DateTime.UtcNow;
                 //dealerInfo.ProductInfo?.Services?.ForEach(s => 
                 //    s.Equipment = _dbContext.EquipmentTypes.Find(s.EquipmentId));
                 dealerInfo.AccessKey = GenerateDealerAccessCode();
@@ -118,8 +118,8 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             var dealerInfo = new DealerInfo()
             {
-                CreationTime = DateTime.Now,
-                LastUpdateTime = DateTime.Now,
+                CreationTime = DateTime.UtcNow,
+                LastUpdateTime = DateTime.UtcNow,
                 AccessKey = GenerateDealerAccessCode()
             };
             _dbContext.DealerInfos.Add(dealerInfo);
@@ -137,14 +137,14 @@ namespace DealnetPortal.DataAccess.Repositories
             if (dbDoc?.DealerInfo?.Id != dbDealerInfo.Id)
             {
                 requiredDocument.Id = 0;
-                requiredDocument.CreationDate = DateTime.Now;
+                requiredDocument.CreationDate = DateTime.UtcNow;
                 requiredDocument.Status = DocumentStatus.Adding;
                 dbDealerInfo.RequiredDocuments.Add(requiredDocument);
                 dbDoc = requiredDocument;
             }
             else
             {
-                requiredDocument.CreationDate = DateTime.Now;
+                requiredDocument.CreationDate = DateTime.UtcNow;
                 if (requiredDocument.DocumentBytes != null)
                 {
                     dbDoc.DocumentBytes = requiredDocument.DocumentBytes;
@@ -169,7 +169,7 @@ namespace DealnetPortal.DataAccess.Repositories
             UpdateDealerProductInfo(dbDealerInfo, updateDealerInfo);
             UpdateDealerOwners(dbDealerInfo, updateDealerInfo.Owners);
             UpdateDealerAdditionalDocument(dbDealerInfo, updateDealerInfo.AdditionalDocuments);
-            dbDealerInfo.LastUpdateTime = DateTime.Now;
+            dbDealerInfo.LastUpdateTime = DateTime.UtcNow;
         }
 
         private void UpdateDealerAdditionalDocument(DealerInfo dbDealerInfo, ICollection<AdditionalDocument> documents)
