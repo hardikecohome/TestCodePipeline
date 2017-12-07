@@ -331,9 +331,9 @@ function showTable () {
                     order: [],
                     drawCallback: function () {
                         resizeTableStatusCells(this);
+                        $('.icon-esignature').on('click', getSignatureDetails);
                     }
                 });
-            $('body').on('click', '.icon-esignature', getSignatureDetails);
 
             $('#work-items-table th').on('click', function () {
                 var el = $(this);

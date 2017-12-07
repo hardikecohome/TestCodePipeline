@@ -85,6 +85,7 @@
                 method: 'POST',
                 contentType: 'application/json',
                 dataType: 'json',
+                cache: false,
                 data: esignatureModel(signers)
             }).done(function (data) {
                 $row.find('.signer-btn-hold .icon').removeClass('hidden');
@@ -122,6 +123,7 @@
                 method: 'POST',
                 contentType: 'application/json',
                 dataType: 'json',
+                cache: false,
                 data: esignatureModel(signers)
             }).done(function (data) {
                 if (!data.isError) {
