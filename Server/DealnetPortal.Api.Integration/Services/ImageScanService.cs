@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using ClearMicr;
-using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Utility;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Scanning;
 using Inlite.ClearImageNet;
 
@@ -31,7 +28,6 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (scanningRequest?.ImageForReadRaw != null)
             {
-                var mStream = new MemoryStream(scanningRequest.ImageForReadRaw);
                 string aamva = string.Empty;
                 try
                 {

@@ -34,7 +34,6 @@ namespace DealnetPortal.Api.Integration.Services
     {
         private readonly IContractRepository _contractRepository;
         private readonly ICustomerFormRepository _customerFormRepository;
-        private readonly IAspireService _aspireService;
         private readonly IAspireStorageReader _aspireStorageReader;
         private readonly IMailService _mailService;
         private readonly ISettingsRepository _settingsRepository;
@@ -48,13 +47,12 @@ namespace DealnetPortal.Api.Integration.Services
             ICustomerFormRepository customerFormRepository,
             IDealerRepository dealerRepository, ISettingsRepository settingsRepository, IUnitOfWork unitOfWork,
             IContractService contractService,
-            ILoggingService loggingService, IMailService mailService, IAspireService aspireService,
+            ILoggingService loggingService, IMailService mailService,
             IAspireStorageReader aspireStorageReader, IAppConfiguration configuration)
         {
             _contractRepository = contractRepository;
             _customerFormRepository = customerFormRepository;
             _dealerRepository = dealerRepository;
-            _aspireService = aspireService;
             _aspireStorageReader = aspireStorageReader;
             _settingsRepository = settingsRepository;
             _mailService = mailService;

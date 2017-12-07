@@ -478,14 +478,6 @@ namespace DealnetPortal.Api.Integration.Services
                             ? "declined"
                             : "submitted";
                         _loggingService.LogInfo($"Contract [{contractId}] {submitState}");
-
-                        var contractDTO = Mapper.Map<ContractDTO>(contract);
-                        //Task.Run(
-                        //    async () =>
-                        //        await
-                        //            _mailService.SendContractSubmitNotification(contractDTO, contract.Dealer.Email,
-                        //                creditCheckRes.Item1.CreditCheckState != CreditCheckState.Declined));
-                        //_mailService.SendContractSubmitNotification(contractId, contractOwnerId);
                     }
                     else
                     {
@@ -739,15 +731,6 @@ namespace DealnetPortal.Api.Integration.Services
                         // update customers on aspire
                         if (contract != null)
                         {
-                            if (contract.ContractState == ContractState.Completed)
-                            {
-                                var contractDTO = Mapper.Map<ContractDTO>(contract);
-                                //Task.Run(
-                                //    async () =>
-                                //        await
-                                //            _mailService.SendContractChangeNotification(contractDTO,
-                                //                contract.Dealer.Email));
-                            }
                             var leadSource = customers.FirstOrDefault(c => !string.IsNullOrEmpty(c.LeadSource))
                                 ?.LeadSource;
                             _aspireService.UpdateContractCustomer(contractId.Value, contractOwnerId, leadSource);
@@ -781,15 +764,6 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     _unitOfWork.Save();
                     //don't send mails for Customer Comment, as we usually add these comments on contract creation (from CW or Shareble link)
-                    if (comment.ContractId.HasValue && comment.IsCustomerComment != true)
-                    {
-                        var contract = _contractRepository.GetContractAsUntracked(comment.ContractId.Value,
-                            contractOwnerId);
-                        var contractDTO = Mapper.Map<ContractDTO>(contract);
-                        //Task.Run(
-                        //    async () =>
-                        //        await _mailService.SendContractChangeNotification(contractDTO, contract.Dealer.Email));
-                    }
                 }
                 else
                 {
@@ -827,12 +801,6 @@ namespace DealnetPortal.Api.Integration.Services
                 if (removedCommentContractId != null)
                 {
                     _unitOfWork.Save();
-                    var contract = _contractRepository.GetContractAsUntracked(removedCommentContractId.Value,
-                        contractOwnerId);
-                    var contractDTO = Mapper.Map<ContractDTO>(contract);
-                    //Task.Run(
-                    //    async () =>
-                    //        await _mailService.SendContractChangeNotification(contractDTO, contract.Dealer.Email));
                 }
                 else
                 {
@@ -972,11 +940,6 @@ namespace DealnetPortal.Api.Integration.Services
                 
                 //run aspire upload async
                 var aspireAlerts = _aspireService.UploadDocument(document.ContractId, document, contractOwnerId).GetAwaiter().GetResult();
-                //var aspireAlerts = _aspireService.UploadDocument(document.ContractId, document, contractOwnerId).GetAwaiter().GetResult();
-                //if (aspireAlerts?.Any() ?? false)
-                //{
-                //    alerts.AddRange(aspireAlerts);
-                //}
                 if (aspireAlerts.Any())
                 {
                     alerts.Add(new Alert()
@@ -992,11 +955,8 @@ namespace DealnetPortal.Api.Integration.Services
                     doc = _contractRepository.AddDocumentToContract(document.ContractId, Mapper.Map<ContractDocument>(document),
                     contractOwnerId);
                     _unitOfWork.Save();
-                    var contract = _contractRepository.GetContractAsUntracked(doc.ContractId, contractOwnerId);
-                    var contractDTO = Mapper.Map<ContractDTO>(contract);
                     
                 }
-                    //Task.Run(async () => await _mailService.SendContractChangeNotification(contractDTO, contract.Dealer.Email));
             }
             catch (Exception ex)
             {
