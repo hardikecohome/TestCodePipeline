@@ -728,18 +728,7 @@ namespace DealnetPortal.Api.Integration.Services
                             contract = _contractRepository.GetContractAsUntracked(contractId.Value, contractOwnerId);
                         }                        
                         if (contract != null)
-                        {
-                            //check signature info and clean if needed
-                            if (contract.ContractState == ContractState.Completed)
-                            {
-                                //check contract signature status and clean if it is not valid (created before update)
-                                if (contract.Details.SignatureStatus != null || !string.IsNullOrEmpty(contract.Details?.SignatureTransactionId) &&
-                                    contract.LastUpdateTime > contract.Details.SignatureInitiatedTime)
-                                {
-                                    _signatureService.CleanSignatureInfo(contract.Id, contractOwnerId);
-                                }                                
-                            }
-
+                        {                            
                             // update customers on aspire
                             var leadSource = customers.FirstOrDefault(c => !string.IsNullOrEmpty(c.LeadSource))
                                 ?.LeadSource;

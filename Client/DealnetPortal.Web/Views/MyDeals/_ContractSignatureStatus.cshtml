@@ -63,10 +63,10 @@
                                     }
                                     else if (Model.Signers[i].SignatureStatus == SignatureStatus.Created || Model.Signers.Any(s => s.Id != Model.Signers[i].Id && s.SignatureStatus == SignatureStatus.Sent))
                                     {
-                                        var borrower = Model.Signers[i - 1].Role == SignatureRole.HomeOwner ? Resources.Borrower : Resources.Coborrower;
+                                        var borrower = Model.Signers[i].Role == SignatureRole.HomeOwner ? Resources.Borrower : Resources.Coborrower;
                                     <text>@string.Format(Resources.InviteSentWhenSigns, borrower)</text>
                                     }
-                                    else if (i > 0 && Model.Signers[i - 1].SignatureStatus == SignatureStatus.Declined)
+                                    else if (i > 0 && Model.Signers[i].SignatureStatus == SignatureStatus.Declined)
                                     {
                                     }
                                     else
