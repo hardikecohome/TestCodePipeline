@@ -1135,7 +1135,7 @@
     <value>Nom de l'installateur</value>
   </data>
   <data name="MailingAddressNotSameAsInstallation" xml:space="preserve">
-    <value>Adresse, si différente de l'adresse d'installation</value>
+    <value>Adresse mail, si différente de l'adresse d'installation</value>
   </data>
   <data name="PreviousAddressInformation" xml:space="preserve">
     <value>Adresse précédente</value>

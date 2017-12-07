@@ -2475,4 +2475,7 @@ changing contract terms or signing contract on paper.</value>
   <data name="SuccessfullyUploadedToAspire" xml:space="preserve">
     <value>Contract successfully uploaded to EcoHome</value>
   </data>
+  <data name="RatesApproved" xml:space="preserve">
+    <value>Rates Approved</value>
+  </data>
 </root>

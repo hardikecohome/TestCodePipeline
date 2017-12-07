@@ -56,18 +56,25 @@ body:not(.tablet-device):not(.mobile-device){
       }
   }
 }
+
+.status-cell {
+  .status-hold {
+    position: relative;
+    width: 100%;
+    .text-hold {
+      position: absolute;
+      left: 10px;
+    }
+  }
+}
 .icon-esig-hold {
-    display: flex;
-    align-items: center;
-    margin-left: 5px;
-    margin-left: auto;
-    @media @tablet-down {
-      position: relative;
-      right: 0px;
-    }
-    @media @mobile {
-      right: -50px;
-    }
+  position: absolute;
+  right: 2%;
+  top:45%;
+  @media @mobile {
+    right: 30%;
+    top: 7%;
+  }
 }
 
 .esig-modal {
