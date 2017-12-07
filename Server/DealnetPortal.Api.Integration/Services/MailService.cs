@@ -283,8 +283,6 @@ namespace DealnetPortal.Api.Integration.Services
             string services = string.Join(",", succededContracts.Select(i => (i.Equipment.NewEquipment.First()?.Description ??
                 _contractRepository.GetEquipmentTypeInfo(i.Equipment.NewEquipment.First()?.Type)?.Description)?.ToLower()));
 
-            var bottomStyle = "style ='font-size: 10px; !important'";
-            var pStyle = "style='font-size: 18px; !important'";
             var subject = $"{Resources.Resources.WeAreLookingForTheBestProfessionalForYourHomeImprovementProject}";
            
             try

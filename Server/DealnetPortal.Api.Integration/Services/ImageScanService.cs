@@ -177,7 +177,6 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 // Open Image
                 ClearMicr.CcMicrReader micrReader = new ClearMicr.CcMicrReader();
-                ClearMicr.EMicrReaderFlags flags = 0;
                 
                 Bitmap bmp;
                 var ms = new MemoryStream(scanningRequest.ImageForReadRaw);
