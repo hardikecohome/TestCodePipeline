@@ -60,10 +60,10 @@ namespace DealnetPortal.Web
             bundles.Add(new ScriptBundle("~/bundles/home-page")
                 .Include(
                 "~/Scripts/vendor/js.cookie.js",
-                "~/Scripts/utils/modules/index.js",
-                "~/Scripts/utils/common.timezone.js",
                 "~/Scripts/vendor/chart.js",
                 "~/Scripts/vendor/jquery.form.js",
+                "~/Scripts/utils/modules/index.js",
+                "~/Scripts/utils/common.timezone.js",
                 "~/Scripts/pages/homePage/home-page.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/basic-info")
@@ -149,8 +149,8 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/customer-form").Include(
                 "~/Scripts/vendor/datejs.js",
-                "~/Scripts/utils/modules/index.js",
                 "~/Scripts/logger/logdebug.js",
+                "~/Scripts/utils/modules/index.js",
                 "~/Scripts/utils/functionUtils.js",
                 "~/Scripts/utils/logMiddleware.js",
                 "~/Scripts/utils/objectUtils.js",
