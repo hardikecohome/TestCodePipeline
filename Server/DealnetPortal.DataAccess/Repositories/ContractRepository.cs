@@ -946,7 +946,7 @@ namespace DealnetPortal.DataAccess.Repositories
                                                    || cs.CustomerId != null && s.CustomerId == cs.CustomerId
                                                    || cs.SignerType == s.SignerType)).ToList();
                     var entriesForDelete = contract.Signers.Except(existingEntities).ToList();
-                    entriesForDelete.ForEach(e => contract.Signers.Remove(e));
+                    entriesForDelete.ForEach(e => _dbContext.Entry(e).State = EntityState.Deleted);
                 }
 
                 signers.ForEach(s =>
