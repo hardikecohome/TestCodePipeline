@@ -6,8 +6,6 @@ namespace DealnetPortal.Web.Common.Helpers
 {
     public static class HttpRequestHelper
     {
-        private const string CookieName = "timezoneoffset";
-
         public static RouteValueDictionary GetUrlReferrerRouteDataValues()
         {
             var fullUrl = HttpContext.Current.Request.UrlReferrer?.ToString();
@@ -27,19 +25,6 @@ namespace DealnetPortal.Web.Common.Helpers
 
             var routeData = RouteTable.Routes.GetRouteData(new HttpContextWrapper(httpContext));
             return routeData?.Values;
-        }
-
-        public static void TryGetTimezoneOffsetCookie()
-        {
-            if (HttpContext.Current.Request.Cookies[CookieName] == null) return;
-
-            var timeOffSet = HttpContext.Current.Request.Cookies[CookieName].Value;
-            int offset;
-            var isValid = int.TryParse(timeOffSet, out offset);
-
-            if (!isValid) return; 
-
-            TimeZoneHelper.SetOffset(offset);
         }
     }
 }

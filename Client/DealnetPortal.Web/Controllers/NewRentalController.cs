@@ -513,8 +513,6 @@ namespace DealnetPortal.Web.Controllers
                 return Json(new { isError = true, message = result.Item2.FirstOrDefault(a => a.Type == AlertType.Error).Message });
             }
 
-            HttpRequestHelper.TryGetTimezoneOffsetCookie();
-
             return Json(new ESignatureViewModel
             {
                 ContractId = result.Item1.ContractId,

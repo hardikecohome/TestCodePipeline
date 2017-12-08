@@ -882,8 +882,8 @@ namespace DealnetPortal.Web.Infrastructure
             {
                 Id = salesRep != null ? salesRep.Id : 0,
                 CustomerId = null,
-                FirstName = !string.IsNullOrEmpty(salesRep?.FirstName) ? salesRep.FirstName : contract.Equipment?.SalesRep,
-                LastName = salesRep?.LastName,
+                FirstName = salesRep?.FirstName,
+                LastName = !string.IsNullOrEmpty(salesRep?.LastName) ? salesRep.LastName : contract.Equipment?.SalesRep,
                 Email = salesRep?.EmailAddress,
                 Comment = salesRep?.Comment,
                 StatusLastUpdateTime = salesRep?.StatusLastUpdateTime?.TryConvertToLocalUserDate(),

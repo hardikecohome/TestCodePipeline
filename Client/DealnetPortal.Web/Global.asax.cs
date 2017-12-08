@@ -12,6 +12,7 @@ using DealnetPortal.Web.App_Start;
 using DealnetPortal.Web.Common.Culture;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Infrastructure.Attributes;
 using DealnetPortal.Web.Infrastructure.ModelBinders;
 
 namespace DealnetPortal.Web
@@ -21,7 +22,10 @@ namespace DealnetPortal.Web
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
+
+            GlobalFilters.Filters.Add(new TimezoneAttribute());
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutoMapperConfig.Configure();
