@@ -746,7 +746,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 }
             }
 
-            document.CreationDate = DateTime.Now;
+            document.CreationDate = DateTime.UtcNow;
 
             if (contract != null)
             {
@@ -857,7 +857,7 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             //if (!CheckContractAccess(comment.ContractId, contractOwnerId)) { return false; }
             var dealer = GetUserById(contractOwnerId);
-            comment.Date = DateTime.Now;
+            comment.Date = DateTime.UtcNow;
             comment.Dealer = dealer;
             _dbContext.Comments.AddOrUpdate(comment);
             return comment;
