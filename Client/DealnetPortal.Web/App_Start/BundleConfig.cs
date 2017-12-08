@@ -105,7 +105,7 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/my-customers")
                 .Include("~/Scripts/vendor/datejs.js")
-                .Include("~/Scripts/pages/morgageBrokers/myCustomers/my-customers.js"));
+                .Include("~/Scripts/pages/myCustomers/my-customers.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/leads")
                 .Include("~/Scripts/vendor/datejs.js")
@@ -173,23 +173,24 @@ namespace DealnetPortal.Web
                 "~/Scripts/vendor/datejs.js",
                 "~/Scripts/utils/modules/index.js",
                 "~/Scripts/logger/logdebug.js",
-                "~/Scripts/selectors/new-client-selectors.js",
-                "~/Scripts/pages/clients/index.js",
-                "~/Scripts/pages/clients/new-client-autocomplete.js",
-                "~/Scripts/pages/clients/new-client-flow.js",
-                "~/Scripts/pages/clients/new-client-store.js",
-                "~/Scripts/pages/clients/reducers/new-client-reducer.js",
-                "~/Scripts/pages/clients/actions/new-client-actions.js",
-                "~/Scripts/views/clients/basic-information.js",
-                "~/Scripts/views/clients/address-information.js",
-                "~/Scripts/views/clients/contact-information.js",
-                "~/Scripts/views/clients/home-improvments.js",
-                "~/Scripts/views/clients/client-consents.js",
+                //"~/Scripts/pages/clients/selectors/new-client-selectors.js",
+                //"~/Scripts/pages/clients/index.js",
+                //"~/Scripts/pages/clients/new-client-autocomplete.js",
+                //"~/Scripts/pages/clients/new-client-flow.js",
+                //"~/Scripts/pages/clients/new-client-store.js",
+                //"~/Scripts/pages/clients/reducers/new-client-reducer.js",
+                //"~/Scripts/pages/clients/actions/new-client-actions.js",
+                //"~/Scripts/pages/clients/views/basic-information.js",
+                //"~/Scripts/pages/clients/views/address-information.js",
+                //"~/Scripts/pages/clients/views/contact-information.js",
+                //"~/Scripts/pages/clients/views/home-improvments.js",
+                //"~/Scripts/pages/clients/views/client-consents.js",
                 "~/Scripts/utils/functionUtils.js",
                 "~/Scripts/utils/logMiddleware.js",
                 "~/Scripts/utils/objectUtils.js",
                 "~/Scripts/utils/redux.js",
-                "~/Scripts/utils/dob-selecter.js"));
+                "~/Scripts/utils/dob-selecter.js")
+                .IncludeDirectory("~/Scripts/pages/clients", "*.js",true));
 
             bundles.Add(new ScriptBundle("~/bundles/my-profile")
                 .Include("~/Scripts/vendor/jquery.form.js")
@@ -247,9 +248,9 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/modules/index.js")
                 .Include("~/Scripts/utils/objectUtils.js")
                 .Include("~/Scripts/utils/general-address-autocomplete.js")
+                .Include("~/Scripts/utils/dob-selecter.js")
                 .Include("~/Scripts/vendor/jquery.form.js")
-                .IncludeDirectory("~/Scripts/pages/onboarding", "*.js", true)
-                .Include("~/Scripts/utils/dob-selecter.js"));
+                .IncludeDirectory("~/Scripts/pages/onboarding", "*.js", true));
         }
     }
 }
