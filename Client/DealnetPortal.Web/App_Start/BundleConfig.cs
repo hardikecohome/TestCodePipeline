@@ -116,7 +116,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/common/js.cookie.js")
                 .Include("~/Scripts/common/common.timezone.js")
                 .Include("~/Scripts/vendor/jquery.form.js")
-                .Include("~/Scripts/my-deals.js"));
+                .Include("~/Scripts/pages/myDeals/my-deals.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/reports")
                 .Include("~/Scripts/vendor/datejs.js")
@@ -127,7 +127,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/modules/index.js")
                 .Include("~/Scripts/utils/custom-validation.js")
                 .Include("~/Scripts/utils/contact-and-payment-management.js")
-                .Include("~/Scripts/aggrementSubmitSuccess/agreement-submit-success.js")
+                .Include("~/Scripts/pages/aggrementSubmitSuccess/agreement-submit-success.js")
                 .Include("~/Scripts/print-contract.js")
                 .Include("~/Scripts/vendor/jquery.form.js")
                 .Include("~/Scripts/utils/general-address-autocomplete.js")
