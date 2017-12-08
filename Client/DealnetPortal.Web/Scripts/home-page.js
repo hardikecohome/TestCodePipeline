@@ -331,6 +331,7 @@ function showTable () {
                     order: [],
                     drawCallback: function () {
                         resizeTableStatusCells(this);
+                        $('.icon-esignature').off();
                         $('.icon-esignature').on('click', getSignatureDetails);
                     }
                 });

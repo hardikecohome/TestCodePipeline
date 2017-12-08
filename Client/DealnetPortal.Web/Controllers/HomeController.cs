@@ -105,7 +105,6 @@ namespace DealnetPortal.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> GetWorkItems(bool? completedOnly)
         {
-            HttpRequestHelper.TryGetTimezoneOffsetCookie();
             var contracts =
                 (completedOnly ?? false
                     ? await _contractServiceAgent.GetCompletedContracts()

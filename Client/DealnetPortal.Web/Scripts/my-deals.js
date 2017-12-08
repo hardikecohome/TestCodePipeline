@@ -245,12 +245,11 @@ function showTable () {
                         }
                         resizeTableStatusCells(this);
 
-                        //$('.icon-esignature').on('click', getSignatureDetails);
+                        $('.icon-esignature').off();
+                        $('.icon-esignature').on('click', getSignatureDetails);
                     }
                 });
 
-
-            $('body').on('click', '.icon-esignature', getSignatureDetails);
             table.on('draw.dt', function () {
                 redrawDataTablesSvgIcons();
                 resetDataTablesExpandedRows(table);

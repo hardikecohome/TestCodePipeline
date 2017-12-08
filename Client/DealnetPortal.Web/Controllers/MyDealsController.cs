@@ -55,8 +55,6 @@ namespace DealnetPortal.Web.Controllers
             }
             ViewBag.IsNewlySubmitted = isNewlySubmitted ?? false;
 
-            HttpRequestHelper.TryGetTimezoneOffsetCookie();
-
             var contract = await _contractManager.GetContractEditAsync(id);
             ViewBag.IsNotEditable = contract.BasicInfo.ContractState == ContractState.Closed || contract.BasicInfo.ContractState == ContractState.CreditCheckDeclined;
             ViewBag.IsEsignatureEnabled = (dealer?.EsignatureEnabled ?? false) && !ViewBag.IsNotEditable;
@@ -93,8 +91,6 @@ namespace DealnetPortal.Web.Controllers
         [HttpGet]
         public async Task<PartialViewResult> GetEsignatureStatus(int contractId)
         {
-            HttpRequestHelper.TryGetTimezoneOffsetCookie();
-
             var model = await _contractManager.GetContractSignatureStatus(contractId);
 
             return PartialView("_ContractSignatureStatus", model);
