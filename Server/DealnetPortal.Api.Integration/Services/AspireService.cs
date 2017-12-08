@@ -134,9 +134,6 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         throw new TimeoutException("External system operation has timed out.");
                     }
-
-                    //var response = await _aspireServiceAgent.CustomerUploadSubmission(request).ConfigureAwait(false);
-
                     var rAlerts = AnalyzeResponse(response, contract);
                     if (rAlerts.Any())
                     {
@@ -205,7 +202,6 @@ namespace DealnetPortal.Api.Integration.Services
                             Task timeoutTask = Task.Delay(_aspireRequestTimeout);
                             var aspireRequestTask = _aspireServiceAgent.CreditCheckSubmission(request);
                             CreditCheckResponse response = null;
-
                             if (await Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false) == aspireRequestTask)
                             {
                                 response = await aspireRequestTask.ConfigureAwait(false);
@@ -213,11 +209,7 @@ namespace DealnetPortal.Api.Integration.Services
                             else
                             {
                                 throw new TimeoutException("External system operation has timed out.");
-                            }
-
-                            //var response =
-                            //    await _aspireServiceAgent.CreditCheckSubmission(request).ConfigureAwait(false);
-
+                            }                            
                             var rAlerts = AnalyzeResponse(response, contract);
                             if (rAlerts.Any())
                             {

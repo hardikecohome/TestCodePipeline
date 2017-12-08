@@ -9,6 +9,7 @@ namespace DealnetPortal.Api.Integration.Services
 {
     public interface IAspireService
     {
+        Task<IList<Alert>> LoginUser(string userName, string password);
         /// <summary>
         /// Prepare request and call Aspire CustomerUpload
         /// </summary>
@@ -19,9 +20,7 @@ namespace DealnetPortal.Api.Integration.Services
         Task<IList<Alert>> UpdateContractCustomer(int contractId, string contractOwnerId, string leadSource = null);
         Task<IList<Alert>> UpdateContractCustomer(Contract contract, string contractOwnerId, string leadSource = null);
 
-        Task<Tuple<CreditCheckDTO, IList<Alert>>> InitiateCreditCheck(int contractId, string contractOwnerId);
-
-        Task<IList<Alert>> LoginUser(string userName, string password);
+        Task<Tuple<CreditCheckDTO, IList<Alert>>> InitiateCreditCheck(int contractId, string contractOwnerId);        
 
         /// <summary>
         /// Submit deal with equipment and payment information
