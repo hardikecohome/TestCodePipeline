@@ -14,6 +14,7 @@ using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.Profile;
 using DealnetPortal.Api.Models.Scanning;
+using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.Models.Dealer;
 using DealnetPortal.Web.Models.MyProfile;
@@ -417,7 +418,7 @@ namespace DealnetPortal.Web.App_Start
                     src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Cell)?.PhoneNum
                     ?? src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Home)?.PhoneNum))
                 .ForMember(d => d.Date, s => s.ResolveUsing(src =>
-                    (src.LastUpdateTime?.Date ?? src.CreationTime.Date).ToString("MM/dd/yyyy",
+                    (src.LastUpdateTime?.Date ?? src.CreationTime.Date).TryConvertToLocalUserDate().ToString("MM/dd/yyyy",
                         CultureInfo.InvariantCulture)))
                 .ForMember(d => d.SalesRep, s => s.ResolveUsing(src => src.Equipment?.SalesRep ?? string.Empty))
                 .ForMember(d => d.Equipment, s => s.ResolveUsing(src =>

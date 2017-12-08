@@ -183,20 +183,11 @@ namespace DealnetPortal.Api.Integration.Services
                             _aspireService.SendDealUDFs(updatedContract, contractOwnerId, contract.LeadSource, contractor).GetAwaiter().GetResult();
                     }
 
-                    if (updatedContract.ContractState == ContractState.Completed)
+                    //check contract signature status and clean if needed
+                    if (updatedContract.Details.SignatureStatus != null || !string.IsNullOrEmpty(updatedContract.Details?.SignatureTransactionId) &&
+                        updatedContract.LastUpdateTime > updatedContract.Details.SignatureInitiatedTime)
                     {
-                        //check contract signature status
-                        if (updatedContract.Details.SignatureStatus != null || !string.IsNullOrEmpty(updatedContract.Details?.SignatureTransactionId) && 
-                            updatedContract.LastUpdateTime > updatedContract.Details.SignatureInitiatedTime)
-                        {
-                            _signatureService.CleanSignatureInfo(updatedContract.Id, contractOwnerId);
-                        }
-                        //var contractDTO = Mapper.Map<ContractDTO>(updatedContract);
-                        //Task.Run(
-                        //    async () =>
-                        //        await
-                        //            _mailService.SendContractChangeNotification(contractDTO,
-                        //                updatedContract.Dealer.Email));
+                        _signatureService.CleanSignatureInfo(updatedContract.Id, contractOwnerId);
                     }
                 }
                 else
@@ -514,13 +505,13 @@ namespace DealnetPortal.Api.Integration.Services
                 switch (summaryType)
                 {
                     case FlowingSummaryType.Month:
-                        var firstMonthDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+                        var firstMonthDate = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1);
                         var grDaysM =
                             dealerContracts.Where(c => c.CreationTime >= firstMonthDate)
                                 .GroupBy(c => c.CreationTime.Day)
                                 .ToList();
 
-                        for (var i = 1; i <= DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); i++)
+                        for (var i = 1; i <= DateTime.DaysInMonth(DateTime.UtcNow.Year, DateTime.UtcNow.Month); i++)
                         {
                             var contractsG = grDaysM.FirstOrDefault(g => g.Key == i);
                             double totalSum = 0;
@@ -735,19 +726,10 @@ namespace DealnetPortal.Api.Integration.Services
                         if (contractId.HasValue)
                         {
                             contract = _contractRepository.GetContractAsUntracked(contractId.Value, contractOwnerId);
-                        }
-                        // update customers on aspire
+                        }                        
                         if (contract != null)
-                        {
-                            if (contract.ContractState == ContractState.Completed)
-                            {
-                                var contractDTO = Mapper.Map<ContractDTO>(contract);
-                                //Task.Run(
-                                //    async () =>
-                                //        await
-                                //            _mailService.SendContractChangeNotification(contractDTO,
-                                //                contract.Dealer.Email));
-                            }
+                        {                            
+                            // update customers on aspire
                             var leadSource = customers.FirstOrDefault(c => !string.IsNullOrEmpty(c.LeadSource))
                                 ?.LeadSource;
                             _aspireService.UpdateContractCustomer(contractId.Value, contractOwnerId, leadSource);
@@ -1088,7 +1070,7 @@ namespace DealnetPortal.Api.Integration.Services
                     if (contract.Details.Status != aspireDeal.Details.Status)
                     {
                         contract.Details.Status = aspireDeal.Details.Status;
-                        contract.LastUpdateTime = DateTime.Now;
+                        contract.LastUpdateTime = DateTime.UtcNow;
                         isChanged = true;                                                
                     }
                     //update contract state in any case
@@ -1111,7 +1093,7 @@ namespace DealnetPortal.Api.Integration.Services
                 if (contract.ContractState != aspireStatus.ContractState)
                 {
                     contract.ContractState = aspireStatus.ContractState.Value;
-                    contract.LastUpdateTime = DateTime.Now;
+                    contract.LastUpdateTime = DateTime.UtcNow;
                     isChanged = true;
                 }
                 switch (aspireStatus.ContractState)
@@ -1139,7 +1121,7 @@ namespace DealnetPortal.Api.Integration.Services
                 if (contract.ContractState == ContractState.Closed)
                 {
                     contract.ContractState = ContractState.Completed;
-                    contract.LastUpdateTime = DateTime.Now;
+                    contract.LastUpdateTime = DateTime.UtcNow;
                     isChanged = true;
                 }
             }
