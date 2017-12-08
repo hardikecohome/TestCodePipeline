@@ -226,12 +226,12 @@ function showTable () {
                         { "data": "LocalizedStatus", visible: false }
                     ],
                     dom:
-                    "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
-                    "<'row'<'col-md-12''<'#expand-table-filter'>'l>>" +
-                    "<'row'<'col-md-12'tr>>" +
-                    "<'table-footer'>" +
-                    "<'row'<'col-md-12'p>>" +
-                    "<'row'<'col-md-12'i>>",
+                        "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
+                        "<'row'<'col-md-12''<'#expand-table-filter'>'l>>" +
+                        "<'row'<'col-md-12'tr>>" +
+                        "<'table-footer'>" +
+                        "<'row'<'col-md-12'p>>" +
+                        "<'row'<'col-md-12'i>>",
                     renderer: 'bootstrap',
                     footerCallback: createTableFooter,
                     order: [],
@@ -261,6 +261,8 @@ function showTable () {
 
                 var signatureStatus = mapSignatureStatusToColorClass(row.data().SignatureStatus);
                 showHide ? $(row.child()).find('.icon-esig-hold').addClass(signatureStatus) : $(row.child()).find('.icon-status').removeClass(signatureStatus);
+
+                showHide ? $(row.child()).find('.icon-esignature').on('click', getSignatureDetails) : $(row.child()).find('.icon-esignature').off();
             });
 
             $('#work-items-table th').on('click', function () {
