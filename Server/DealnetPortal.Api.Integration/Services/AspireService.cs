@@ -767,7 +767,7 @@ namespace DealnetPortal.Api.Integration.Services
                         if (alerts.All(a => a.Type != AlertType.Error))
                         {
                             document.Uploaded = true;
-                            document.UploadDate = DateTime.Now;
+                            document.UploadDate = DateTime.UtcNow;
                             _unitOfWork.Save();
                             _loggingService.LogInfo(
                                 $"Document {document.DocumentName} for dealer onboarding form {dealerInfoId} was uploaded to Aspire successfully");
@@ -1589,7 +1589,7 @@ namespace DealnetPortal.Api.Integration.Services
                             contract.ContractState != ContractState.Closed)
                         {
                             contract.ContractState = ContractState.Closed;
-                            contract.LastUpdateTime = DateTime.Now;
+                            contract.LastUpdateTime = DateTime.UtcNow;
                         }
                         _unitOfWork.Save();
                         _loggingService.LogInfo($"Contract [{contract.Id}] state was changed to [{response.Payload.ContractStatus}]");

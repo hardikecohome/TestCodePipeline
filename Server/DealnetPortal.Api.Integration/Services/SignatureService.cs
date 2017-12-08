@@ -612,7 +612,7 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 try
                 {
-                    bool updated = CleanContractSignatureInfo(contract); ;                    
+                    bool updated = CleanContractSignatureInfo(contract);
                     if (updated)
                     {
                         _unitOfWork.Save();
@@ -949,6 +949,8 @@ namespace DealnetPortal.Api.Integration.Services
                     s.SignatureStatusQualifier = null;
                     s.StatusLastUpdateTime = null;
                     s.Comment = null;
+                    s.FirstName = null;
+                    s.LastName = null;
                     updated |= true;
                 });
             }
