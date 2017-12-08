@@ -1015,7 +1015,6 @@
     <Content Include="Scripts\vendor\globalize\globalize\unit.js" />
     <Content Include="Scripts\vendor\jquery-3.1.0.js" />
     <Content Include="Scripts\vendor\jquery-ui-1.12.0.js" />
-    <Content Include="Scripts\vendor\jquery-validate-messages-fr.js" />
     <Content Include="Scripts\vendor\jquery-validation-messages.js" />
     <Content Include="Scripts\vendor\jquery.dataTables.js" />
     <Content Include="Scripts\vendor\jquery.form.js" />
@@ -1112,7 +1111,6 @@
     <Content Include="Views\Shared\OnBoarding\_ClientConsent.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_OwnerInformation.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_ProductInformation.cshtml" />
-    <Content Include="Views\Shared\OnBoarding\_TradeReferences.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_RequiredDocuments.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_Acknowledgment.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_CompanyInformation.cshtml" />
