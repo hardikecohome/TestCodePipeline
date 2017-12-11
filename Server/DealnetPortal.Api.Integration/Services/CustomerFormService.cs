@@ -40,6 +40,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IDealerRepository _dealerRepository;
         private readonly IContractService _contractService;
+        private readonly ICreditCheckService _creditCheckService;
         private readonly ILoggingService _loggingService;
         private readonly IAppConfiguration _configuration;
 
@@ -48,7 +49,7 @@ namespace DealnetPortal.Api.Integration.Services
             IDealerRepository dealerRepository, ISettingsRepository settingsRepository, IUnitOfWork unitOfWork,
             IContractService contractService,
             ILoggingService loggingService, IMailService mailService,
-            IAspireStorageReader aspireStorageReader, IAppConfiguration configuration)
+            IAspireStorageReader aspireStorageReader, IAppConfiguration configuration, ICreditCheckService creditCheckService)
         {
             _contractRepository = contractRepository;
             _customerFormRepository = customerFormRepository;
@@ -60,6 +61,7 @@ namespace DealnetPortal.Api.Integration.Services
             _contractService = contractService;
             _loggingService = loggingService;
             _configuration = configuration;
+            _creditCheckService = creditCheckService;
         }
 
         public CustomerLinkDTO GetCustomerLinkSettings(string dealerId)
@@ -232,12 +234,12 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         //Start credit check for this contract                            
                         var creditCheckAlerts = new List<Alert>();
-                        var initAlerts = _contractService.InitiateCreditCheck(c.Id, c.DealerId);
+                        var initAlerts = _creditCheckService.InitiateCreditCheck(c.Id, c.DealerId);
                         if (initAlerts?.Any() ?? false)
                         {
                             creditCheckAlerts.AddRange(initAlerts);
                         }
-                        var checkResult = _contractService.GetCreditCheckResult(c.Id, c.DealerId);
+                        var checkResult = _creditCheckService.GetCreditCheckResult(c.Id, c.DealerId);
                         if (checkResult != null)
                         {
                             creditCheckAlerts.AddRange(checkResult.Item2);
@@ -397,12 +399,12 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     _loggingService.LogInfo($"Start credit check for contract [{contract.Id}]");
                     var creditCheckAlerts = new List<Alert>();
-                    var initAlerts = _contractService.InitiateCreditCheck(contract.Id, dealerId);
+                    var initAlerts = _creditCheckService.InitiateCreditCheck(contract.Id, dealerId);
                     if (initAlerts?.Any() ?? false)
                     {
                         creditCheckAlerts.AddRange(initAlerts);
                     }
-                    var checkResult = _contractService.GetCreditCheckResult(contract.Id, dealerId);
+                    var checkResult = _creditCheckService.GetCreditCheckResult(contract.Id, dealerId);
                     if (checkResult != null)
                     {
                         creditCheckAlerts.AddRange(checkResult.Item2);

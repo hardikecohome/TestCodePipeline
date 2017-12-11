@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
-
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Services;
-using DealnetPortal.Api.Integration.Utility;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Utilities.Logging;
@@ -29,15 +22,19 @@ namespace DealnetPortal.Api.Controllers
         private ICustomerFormService _customerFormService { get; set; }
         private IRateCardsService _rateCardsService { get; set; }
         private ISignatureService _signatureService { get; set; }
+        private ICreditCheckService _creditCheckService { get; set; }
+        private ICustomerWalletService _customerWalletService { get; set; }
 
         public ContractController(ILoggingService loggingService, IContractService contractService, ICustomerFormService customerFormService, IRateCardsService rateCardsService,
-            ISignatureService signatureService)
+            ISignatureService signatureService, ICreditCheckService creditCheckService, ICustomerWalletService customerWalletService)
             : base(loggingService)
         {
             _contractService = contractService;
             _customerFormService = customerFormService;
             _rateCardsService = rateCardsService;
             _signatureService = signatureService;
+            _creditCheckService = creditCheckService;
+            _customerWalletService = customerWalletService;
         }
 
         // GET: api/Contract
@@ -207,7 +204,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var alerts = _contractService.InitiateCreditCheck(contractId, LoggedInUser?.UserId);
+                var alerts = _creditCheckService.InitiateCreditCheck(contractId, LoggedInUser?.UserId);
                 return Ok(alerts);
             }
             catch (Exception ex)
@@ -312,7 +309,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var result = _contractService.GetCreditCheckResult(contractId, LoggedInUser?.UserId);
+                var result = _creditCheckService.GetCreditCheckResult(contractId, LoggedInUser?.UserId);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -560,34 +557,6 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("CreateContractForCustomer")]
-        [HttpPost]
-        public async Task<IHttpActionResult> CreateContractForCustomer(NewCustomerDTO customerFormData)
-        {
-            var alerts = new List<Alert>();
-            try
-            {
-                var creationResult = await _contractService.CreateContractForCustomer(LoggedInUser?.UserId, customerFormData);
-
-                if (creationResult.Item1 == null)
-                {
-                    alerts.AddRange(creationResult.Item2);
-                }
-                return Ok(creationResult);
-            }
-            catch (Exception ex)
-            {
-                alerts.Add(new Alert()
-                {
-                    Type = AlertType.Error,
-                    Header = ErrorConstants.ContractCreateFailed,
-                    Message = ex.ToString()
-                });
-                LoggingService.LogError(ErrorConstants.ContractCreateFailed, ex);
-            }
-            return Ok(new Tuple<ContractDTO, IList<Alert>>(null, alerts));
-        }                
-
         [Route("RemoveContract")]
         [HttpPost]
         public IHttpActionResult RemoveContract(int contractId)
@@ -660,7 +629,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var result = await _contractService.CheckCustomerExistingAsync(email);
+                var result = await _customerWalletService.CheckCustomerExisting(email);
 
                 return Ok(result);
             }
