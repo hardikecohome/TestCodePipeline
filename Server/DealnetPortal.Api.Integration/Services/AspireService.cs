@@ -167,13 +167,14 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var alerts = new List<Alert>();
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
-            CreditCheckDTO creditCheckResult = null;            
+            CreditCheckDTO creditCheckResult = null;
 
             if (contract != null)
             {
                 if (string.IsNullOrEmpty(contract.Details?.TransactionId))
                 {
-                    _loggingService.LogWarning($"Aspire transaction wasn't created for contract {contractId} before credit check. Try to create Aspire transaction");
+                    _loggingService.LogWarning(
+                        $"Aspire transaction wasn't created for contract {contractId} before credit check. Try to create Aspire transaction");
                     //try to call Customer Update for create aspire transaction
                     await UpdateContractCustomer(contractId, contractOwnerId).ConfigureAwait(false);
                 }
@@ -196,56 +197,90 @@ namespace DealnetPortal.Api.Integration.Services
                             TransactionId = contract.Details.TransactionId
                         };
 
-                        try
-                        {
-                            Task timeoutTask = Task.Delay(_aspireRequestTimeout);
-                            var aspireRequestTask = _aspireServiceAgent.CreditCheckSubmission(request);
-                            CreditCheckResponse response = null;
-                            if (await Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false) == aspireRequestTask)
+                        Func<DealUploadResponse, object, bool> creditCheckAnalyze =
+                            (cResponse, cResult) =>
                             {
-                                response = await aspireRequestTask.ConfigureAwait(false);
-                            }
-                            else
-                            {
-                                throw new TimeoutException("External system operation has timed out.");
-                            }                            
-                            var rAlerts = AnalyzeResponse(response, contract);
-                            if (rAlerts.Any())
-                            {
-                                alerts.AddRange(rAlerts);
-                            }
-                            if (rAlerts.All(a => a.Type != AlertType.Error))
-                            {
-                                creditCheckResult = GetCreditCheckResult(response);
-                                if (creditCheckResult != null)
+                                bool succeded = false;
+                                var ccresult = cResult as CreditCheckDTO;
+                                if (ccresult != null)
                                 {
-                                    creditCheckResult.ContractId = contractId;
+                                    var creditCheck = GetCreditCheckResult(cResponse);
+                                    if (creditCheckResult != null)
+                                    {
+                                        ccresult.CreditAmount = creditCheck.CreditAmount;
+                                        ccresult.CreditCheckState = creditCheck.CreditCheckState;
+                                        ccresult.ScorecardPoints = creditCheck.ScorecardPoints;
+                                        ccresult.ContractId = contractId;
+                                    }
+                                    succeded = true;
                                 }
-                            }                            
-                        }
-                        catch (Exception ex)
+                                return succeded;
+                            };
+
+                        creditCheckResult = new CreditCheckDTO();
+                        // Send request to Aspire
+                        var sendResult = await DoAspireRequestWithAnalyze(_aspireServiceAgent.CreditCheckSubmission,
+                            request, contract,
+                            creditCheckAnalyze, creditCheckResult).ConfigureAwait(false);
+                        if (sendResult?.Any() == true)
                         {
-                            alerts.Add(new Alert()
-                            {
-                                Code = ErrorCodes.AspireConnectionFailed,
-                                Header = ErrorConstants.AspireConnectionFailed,
-                                Type = AlertType.Error,
-                                Message = ex.ToString()
-                            });
-                            _loggingService.LogError("Failed to communicate with Aspire", ex);
+                            alerts.AddRange(sendResult);
                         }
+
+
+                        //    try
+                        //    {
+
+
+                        //        Task timeoutTask = Task.Delay(_aspireRequestTimeout);
+                        //        var aspireRequestTask = _aspireServiceAgent.CreditCheckSubmission(request);
+                        //        CreditCheckResponse response = null;
+                        //        if (await Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false) == aspireRequestTask)
+                        //        {
+                        //            response = await aspireRequestTask.ConfigureAwait(false);
+                        //        }
+                        //        else
+                        //        {
+                        //            throw new TimeoutException("External system operation has timed out.");
+                        //        }                            
+                        //        var rAlerts = AnalyzeResponse(response, contract);
+                        //        if (rAlerts.Any())
+                        //        {
+                        //            alerts.AddRange(rAlerts);
+                        //        }
+                        //        if (rAlerts.All(a => a.Type != AlertType.Error))
+                        //        {
+                        //            creditCheckResult = GetCreditCheckResult(response);
+                        //            if (creditCheckResult != null)
+                        //            {
+                        //                creditCheckResult.ContractId = contractId;
+                        //            }
+                        //        }                            
+                        //    }
+                        //    catch (Exception ex)
+                        //    {
+                        //        alerts.Add(new Alert()
+                        //        {
+                        //            Code = ErrorCodes.AspireConnectionFailed,
+                        //            Header = ErrorConstants.AspireConnectionFailed,
+                        //            Type = AlertType.Error,
+                        //            Message = ex.ToString()
+                        //        });
+                        //        _loggingService.LogError("Failed to communicate with Aspire", ex);
+                        //    }
                     }
-                }
-                else
-                {
-                    alerts.Add(new Alert()
-                    {
-                        Code = ErrorCodes.AspireTransactionNotCreated,
-                        Header = "External system error",
-                        Message = $"Can't proceed for credit check for contract {contractId}",
-                        Type = AlertType.Error
-                    });
-                    _loggingService.LogError($"Can't proceed for credit check for contract {contractId}. Aspire transaction should be created first");
+                    //}
+                    //else
+                    //{
+                    //    alerts.Add(new Alert()
+                    //    {
+                    //        Code = ErrorCodes.AspireTransactionNotCreated,
+                    //        Header = "External system error",
+                    //        Message = $"Can't proceed for credit check for contract {contractId}",
+                    //        Type = AlertType.Error
+                    //    });
+                    //    _loggingService.LogError($"Can't proceed for credit check for contract {contractId}. Aspire transaction should be created first");
+                    //}
                 }
             }
             else
@@ -1104,8 +1139,9 @@ namespace DealnetPortal.Api.Integration.Services
 
         #region private      
 
+        //exAnalyze - 
         private async Task<IList<Alert>> DoAspireRequestWithAnalyze<T1, T2>(Func<T1, Task<T2>> aspireRequest, T1 request,
-            Contract contract)
+            Contract contract, Func<T2, object, bool> postAnalyze = null, object postAnalyzeInput = null)
             where T1 : DealUploadRequest
             where T2 : DealUploadResponse
         {
@@ -1130,6 +1166,24 @@ namespace DealnetPortal.Api.Integration.Services
                 if (rAlerts?.Any() == true)
                 {
                     alerts.AddRange(rAlerts);
+                }
+                if (postAnalyze != null)
+                {
+                    try
+                    {
+                        var pUpdated = postAnalyze(response, postAnalyzeInput);
+                    }
+                    catch (Exception ePost)
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Code = ErrorCodes.AspireConnectionFailed,
+                            Header = "Failed to execute postAction analyze after communicate with Aspire",
+                            Type = AlertType.Error,
+                            Message = ePost.ToString()
+                        });
+                        _loggingService.LogError("Failed to execute postAction analyze after communicate with Aspire", ePost);
+                    }
                 }
                 //if (rAlerts?.Item1 == true)
                 //{
