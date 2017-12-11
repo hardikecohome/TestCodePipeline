@@ -60,6 +60,7 @@ namespace DealnetPortal.Web
                 "~/Scripts/vendor/chart.js",
                 "~/Scripts/vendor/jquery.form.js",
                 "~/Scripts/utils/common.timezone.js",
+                "~/Scripts/utils/loader.js",
                 "~/Scripts/pages/homePage/home-page.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/basic-info")
@@ -70,6 +71,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/dl-scanning.js")
                 .Include("~/Scripts/utils/camera-capturing.js")
                 .Include("~/Scripts/utils/dob-selecter.js")
+                .Include("~/Scripts/utils/loader.js")
                 .IncludeDirectory("~/Scripts/pages/basicInfo", "*.js",true));
 
             bundles.Add(new ScriptBundle("~/bundles/credit-check")
@@ -77,6 +79,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/vendor/jquery.form.js")
                 .Include("~/Scripts/utils/general-address-autocomplete.js")
                 .Include("~/Scripts/utils/editable-in-modal.js")
+                .Include("~/Scripts/utils/loader.js")
                 .Include("~/Scripts/pages/creditCheck/credit-check.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/contact-and-payment")
@@ -92,6 +95,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/contact-and-payment-management.js")
                 .Include("~/Scripts/utils/general-address-autocomplete.js")
                 .Include("~/Scripts/utils/editable-in-modal.js")
+                .Include("~/Scripts/utils/datepicker.js")
                 .Include("~/Scripts/pages/summaryAndConfirmation/summary-and-confirmation.js")
                 .Include("~/scripts/pages/basicInfo/address-autocomplete.js"));
 
@@ -102,10 +106,13 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/my-customers")
                 .Include("~/Scripts/vendor/datejs.js")
+                .Include("~/Scripts/utils/datepicker.js")
                 .Include("~/Scripts/pages/myCustomers/my-customers.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/leads")
                 .Include("~/Scripts/vendor/datejs.js")
+                .Include("~/Scripts/utils/datepicker.js")
+                .Include("~/Scripts/utils/loader.js")
                 .Include("~/Scripts/pages/leads/leads.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/my-deals")
@@ -114,10 +121,13 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/vendor/jquery.form.js")
                 .Include("~/Scripts/utils/modules/index.js")
                 .Include("~/Scripts/utils/common.timezone.js")
+                .Include("~/Scripts/utils/datepicker.js")
+                .Include("~/Scripts/utils/loader.js")
                 .Include("~/Scripts/pages/myDeals/my-deals.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/reports")
                 .Include("~/Scripts/vendor/datejs.js")
+                .Include("~/Scripts/utils/datepicker.js")
                 .Include("~/Scripts/pages/reports/reports.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/contract-edit")
@@ -131,11 +141,14 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/general-address-autocomplete.js")
                 .Include("~/Scripts/utils/editable-in-modal.js")
                 .Include("~/Scripts/utils/common.timezone.js")
+                .Include("~/Scripts/utils/datepicker.js")
+                .Include("~/Scripts/utils/loader.js")
                 .Include("~/Scripts/pages/aggrementSubmitSuccess/agreement-submit-success.js")
                 .IncludeDirectory("~/Scripts/pages/contractEdit", "*.js", true));
 
             bundles.Add(new ScriptBundle("~/bundles/shareable-link")
                 .Include("~/Scripts/vendor/jquery.form.js")
+                .Include("~/Scripts/utils/loader.js")
                 .Include("~/Scripts/pages/sharableLink/shareable-link.js"));
 
             bundles.Add(new StyleBundle("~/bundles/data-tables-content")
@@ -153,6 +166,7 @@ namespace DealnetPortal.Web
                 "~/Scripts/utils/objectUtils.js",
                 "~/Scripts/utils/redux.js",
                 "~/Scripts/utils/dob-selecter.js")
+                .Include("~/Scripts/utils/datepicker.js")
                 .IncludeDirectory("~/Scripts/pages/customerForm", "*.js", true));
 
             bundles.Add(new ScriptBundle("~/bundles/new-client")
@@ -168,30 +182,14 @@ namespace DealnetPortal.Web
                 "~/Scripts/utils/objectUtils.js",
                 "~/Scripts/utils/redux.js",
                 "~/Scripts/utils/dob-selecter.js")
-                //"~/Scripts/pages/clients/selectors/new-client-selectors.js",
-                //"~/Scripts/pages/clients/index.js",
-                //"~/Scripts/pages/clients/new-client-autocomplete.js",
-                //"~/Scripts/pages/clients/new-client-flow.js",
-                //"~/Scripts/pages/clients/new-client-store.js",
-                //"~/Scripts/pages/clients/reducers/new-client-reducer.js",
-                //"~/Scripts/pages/clients/actions/new-client-actions.js",
-                //"~/Scripts/pages/clients/views/basic-information.js",
-                //"~/Scripts/pages/clients/views/address-information.js",
-                //"~/Scripts/pages/clients/views/contact-information.js",
-                //"~/Scripts/pages/clients/views/home-improvments.js",
-                //"~/Scripts/pages/clients/views/client-consents.js",
+                .Include("~/Scripts/utils/datepicker.js")
+                .Include("~/Scripts/utils/loader.js")
                 .IncludeDirectory("~/Scripts/pages/clients", "*.js", true));
 
             bundles.Add(new ScriptBundle("~/bundles/my-profile")
                 .Include("~/Scripts/vendor/jquery.form.js")
                 .Include("~/Scripts/utils/modules/index.js")
-                //.Include("~/Scripts/pages/myProfile/index.js")
-                //.Include("~/Scripts/pages/myProfile/form-handlers.js")
-                //.Include("~/Scripts/pages/myProfile/category-handlers.js")
-                //.Include("~/Scripts/pages/myProfile/postalCode-handlers.js")
-                //.Include("~/Scripts/pages/myProfile/my-profile-state.js")
-                //.Include("~/Scripts/pages/myProfile/postalCode-template.js")
-                //.Include("~/Scripts/pages/myProfile/category-template.js")
+                .Include("~/Scripts/utils/loader.js")
                 .IncludeDirectory("~/Scripts/pages/myProfile", "*.js", true)
             );
 
@@ -202,16 +200,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/loan-calculator.js")
                 .Include("~/Scripts/utils/logger/log.js")
                 .Include("~/Scripts/utils/financial-functions.module.js")
-                //.Include("~/Scripts/pages/newEquipment/rate-cards.js")
-                //.Include("~/Scripts/pages/newEquipment/rate-cards-ui.js")
-                //.Include("~/Scripts/pages/newEquipment/template.js")
-                //.Include("~/Scripts/pages/newEquipment/equipment.js")
-                //.Include("~/Scripts/pages/newEquipment/value-setters.js")
-                //.Include("~/Scripts/pages/newEquipment/custom-rate-card.js")
-                //.Include("~/Scripts/pages/newEquipment/index.js")
-                //.Include("~/Scripts/pages/newEquipment/state.js")
-                //.Include("~/Scripts/pages/newEquipment/rate-cards-init.js")
-                //.Include("~/Scripts/pages/newEquipment/validation.js")
+                .Include("~/Scripts/utils/datepicker.js")
                 .IncludeDirectory("~/Scripts/pages/newEquipment", "*.js", true)
             );
 
@@ -227,14 +216,6 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/financial-functions.module.js")
                 .Include("~/Scripts/utils/loan-calculator.js")
                 .Include("~/Scripts/utils/logger/log.js")
-                //.Include("~/Scripts/pages/calculator/calculator-init.js")
-                //.Include("~/Scripts/pages/calculator/calculator-index.js")
-                //.Include("~/Scripts/pages/calculator/calculator-state.js")
-                //.Include("~/Scripts/pages/calculator/calculator-option.js")
-                //.Include("~/Scripts/pages/calculator/calculator-value-setters.js")
-                //.Include("~/Scripts/pages/calculator/calculator-ui.js")
-                //.Include("~/Scripts/pages/calculator/calculator-conversion.js")
-                //.Include("~/Scripts/pages/calculator/calculator-jcarousel.js")
                 .IncludeDirectory("~/Scripts/pages/calculator","*.js",true));
 
             bundles.Add(new ScriptBundle("~/bundles/onboarding")
@@ -243,6 +224,8 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/objectUtils.js")
                 .Include("~/Scripts/utils/general-address-autocomplete.js")
                 .Include("~/Scripts/utils/dob-selecter.js")
+                .Include("~/Scripts/utils/datepicker.js")
+                .Include("~/Scripts/utils/loader.js")
                 .IncludeDirectory("~/Scripts/pages/onboarding", "*.js", true));
         }
     }

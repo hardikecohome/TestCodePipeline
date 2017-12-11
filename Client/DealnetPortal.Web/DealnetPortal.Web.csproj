@@ -813,6 +813,8 @@
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\layout.js" />
     <Content Include="Scripts\pages\basicInfo\address-autocomplete.js" />
+    <Content Include="Scripts\utils\datepicker.js" />
+    <Content Include="Scripts\utils\loader.js" />
     <Content Include="Scripts\utils\logger\log.js" />
     <Content Include="Scripts\utils\logger\logdebug.js" />
     <Content Include="Scripts\pages\additionalContractInfo\contract-information.js" />
