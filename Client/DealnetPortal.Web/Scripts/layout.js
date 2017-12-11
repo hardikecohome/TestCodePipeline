@@ -1,26 +1,26 @@
-﻿$(document)
-    .ready(function () {
-        var isMobile = {
-            Android: function () {
-                return navigator.userAgent.match(/Android/i);
-            },
-            BlackBerry: function () {
-                return navigator.userAgent.match(/BlackBerry/i);
-            },
-            iOS: function () {
-                return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-            },
-            Opera: function () {
-                return navigator.userAgent.match(/Opera Mini/i);
-            },
-            Windows: function () {
-                return navigator.userAgent.match(/IEMobile/i);
-            },
-            any: function () {
-                return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
-            }
-        };
+﻿var isMobile = {
+    Android: function () {
+        return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function () {
+        return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function () {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function () {
+        return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function () {
+        return navigator.userAgent.match(/IEMobile/i);
+    },
+    any: function () {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    }
+};
 
+$(document)
+    .ready(function () {
         setDeviceClasses();
 
         if (detectIE()) {
@@ -249,17 +249,6 @@
                 }
             });
         }
-
-        $('.j-personal-data-used-modal').on('click', function (e) {
-            var data = {
-                message: $('#personal-data-used').html(),
-                class: "consents-modal",
-                cancelBtnText: "OK"
-            };
-            dynamicAlertModal(data);
-            e.preventDefault();
-        });
-
 
         addIconsToFields();
         toggleClearInputIcon();
@@ -522,22 +511,6 @@ function navigateToStep (targetLink) {
     });
 }
 
-function dynamicAlertModal (obj) {
-    var classes = obj.class ? obj.class : '';
-    var alertModal = $('#alertModal');
-    alertModal.find('.modal-body p').html(obj.message);
-    alertModal.find('.modal-title').html(obj.title ? obj.title : '');
-    alertModal.find('#confirmAlert').html(obj.confirmBtnText);
-    alertModal.find('.modal-footer button[data-dismiss="modal"]').html(obj.cancelBtnText);
-    alertModal.addClass(classes);
-    alertModal.modal('show');
-}
-
-function hideDynamicAlertModal () {
-    $('#alertModal').modal('hide');
-    $('#confirmAlert').off('click');
-}
-
 function detectPageHeight () {
     if ($('.dealnet-body').height() > 1000) {
         $('.back-to-top-hold').show();
@@ -764,27 +737,6 @@ function detectIE () {
 }
 
 function setDeviceClasses () {
-    var isMobile = {
-        Android: function () {
-            return navigator.userAgent.match(/Android/i);
-        },
-        BlackBerry: function () {
-            return navigator.userAgent.match(/BlackBerry/i);
-        },
-        iOS: function () {
-            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-        },
-        Opera: function () {
-            return navigator.userAgent.match(/Opera Mini/i);
-        },
-        Windows: function () {
-            return navigator.userAgent.match(/IEMobile/i);
-        },
-        any: function () {
-            return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
-        }
-    };
-
     if (isMobile.any()) {
         if (viewport().width < 768) {
             $('body').addClass('mobile-device').removeClass('tablet-device')

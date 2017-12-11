@@ -41,6 +41,7 @@ namespace DealnetPortal.Web
                     "~/Scripts/vendor/jquery.jcarousel.min.js",
                     "~/Scripts/vendor/jquery.touchSwipe.min.js",
                     "~/Scripts/utils/helpPopup.js",
+                    "~/Scripts/utils/alertModal.js",
                     "~/Scripts/layout.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap")

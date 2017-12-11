@@ -10,9 +10,19 @@
         setters.setContactAgreement({ target: { checked: contact } });
         setters.setCreditAgreement({ target: { checked: credit } });
         _setInputHandlers();
+
+        $('.j-personal-data-used-modal').on('click', function (e) {
+            var data = {
+                message: $('#personal-data-used').html(),
+                class: "consents-modal",
+                cancelBtnText: "OK"
+            };
+            dynamicAlertModal(data);
+            e.preventDefault();
+        });
     }
 
     return {
         init: init
     }
-})
+});

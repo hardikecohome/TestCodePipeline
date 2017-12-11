@@ -2,6 +2,16 @@
 
 configInitialized
     .then(function () {
+        $('.j-personal-data-used-modal').on('click', function (e) {
+            var data = {
+                message: $('#personal-data-used').html(),
+                class: "consents-modal",
+                cancelBtnText: "OK"
+            };
+            dynamicAlertModal(data);
+            e.preventDefault();
+        });
+
         $(window).keydown(function (event) {
             if (event.keyCode === 13) {
                 event.preventDefault();
