@@ -10,7 +10,7 @@
         }, true);
 
         return isValid;
-    }
+    };
 
     return {
         validateCustomCard: validateOnSelect

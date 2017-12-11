@@ -102,7 +102,7 @@
         var $form = $(e.target.form);
         if ($form.valid()) {
             showLoader();
-            $('#fill-all-emails').addClass('hidden')
+            $('#fill-all-emails').addClass('hidden');
             var signers = [];
             var rows = $form.find('.signer-row');
             rows.each(function (index, el) {
@@ -143,7 +143,7 @@
                         $el.find('#signer-status-' + rowId).val(signer.SignatureStatus);
                         var updateTime = new Date(parseInt(signer.StatusLastUpdateTime.substr(6)));
                         $el.find('.signer-status-hold').removeClass().addClass('col-md-5 signer-status-hold ' + statusMap[signer.SignatureStatus]);
-                        var formated = (updateTime.getUTCMonth() + 1) + '/' + updateTime.getUTCDate() + '/' + updateTime.getUTCFullYear() + ' ' + (updateTime.getUTCHours() > 12 ? updateTime.getUTCHours() - 12 : updateTime.getUTCHours()) + ':' + (updateTime.getUTCMinutes() < 10 ? '0' + updateTime.getUTCMinutes() : updateTime.getUTCMinutes()) + ' ' + (updateTime.getUTCHours() > 11 ? 'PM' : 'AM');
+                        var formated = updateTime.getUTCMonth() + 1 + '/' + updateTime.getUTCDate() + '/' + updateTime.getUTCFullYear() + ' ' + (updateTime.getUTCHours() > 12 ? updateTime.getUTCHours() - 12 : updateTime.getUTCHours()) + ':' + (updateTime.getUTCMinutes() < 10 ? '0' + updateTime.getUTCMinutes() : updateTime.getUTCMinutes()) + ' ' + (updateTime.getUTCHours() > 11 ? 'PM' : 'AM');
                         $el.find('#signer-update-' + rowId).val(formated);
                         $el.find('.signature-date-hold').text(formated);
                         if (signer.SignatureStatus === 4 || signer.SignatureStatus === 5) {
@@ -157,7 +157,7 @@
                             $el.find('.icon-front').replaceWith($form.find('.icons .icon-waiting').clone());
                         }
                         if (signer.SignatureStatus === 0 || signer.SignatureStatus === 1) {
-                            var role = $('#signer-role-' + (rowId - 1)).val().toLowerCase()
+                            var role = $('#signer-role-' + (rowId - 1)).val().toLowerCase();
                             var msg = role === 'homeowner' || role === 'signer' ?
                                 translations['InviteSentWhenSigns'].split('{0}').join(translations['Borrower']) :
                                 translations['InviteSentWhenSigns'].split('{0}').join(translations['Coborrower']);

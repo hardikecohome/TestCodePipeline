@@ -6,17 +6,17 @@
     var stateSection = 'documents';
     var datepickerOptions = {
         yearRange: '1900:2200',
-        minDate: new Date(),
+        minDate: new Date()
     };
 
-    var setVoidChequeFile = function (e) {
+    var setVoidChequeFile = function(e) {
         var files = e.target.files;
 
         if (files.length) {
             _uploadFile('voidChequeUploaded', 'cheque-upload-title', 'cheque-container', 'void-cheque-files', files[0]);
         }
         e.target.value = '';
-    }
+    };
 
     var setInsurenceFile = function (e) {
         var files = e.target.files;
@@ -25,39 +25,39 @@
             _uploadFile('insurenceUploaded', 'insurence-upload-title', 'insurence-container', 'insurence-files', files[0]);
         }
         e.target.value = '';
-    }
+    };
 
-    var setLicenseRegistraionNumber = function (id) {
-        return function (e) {
+    var setLicenseRegistraionNumber = function(id) {
+        return function(e) {
             var value = e.target.value;
 
-            var filtred = state[stateSection]['addedLicense'].filter(function (l) {
+            var filtred = state[stateSection]['addedLicense'].filter(function(l) {
                 return l.id === id;
             })[0];
 
             filtred.number = value;
             moveTonextSection();
             enableSubmit();
-        }
-    }
+        };
+    };
 
-    var setLicenseExpirationDate = function (id, date) {
-        var filtred = state[stateSection]['addedLicense'].filter(function (l) {
+    var setLicenseExpirationDate = function(id, date) {
+        var filtred = state[stateSection]['addedLicense'].filter(function(l) {
             return l.id === id;
         })[0];
 
         filtred.date = date;
         moveTonextSection();
         enableSubmit();
-    }
+    };
 
-    var setLicenseNoExpiry = function (id) {
+    var setLicenseNoExpiry = function(id) {
         var isIos = $('body').is('.ios-device');
         var input = $('#' + id + '-license-date');
-        return function (e) {
+        return function(e) {
             var checked = e.target.checked;
             $("#" + id + "-license-checkbox").val(checked);
-            var lic = state[stateSection]['addedLicense'].find(function (item) {
+            var lic = state[stateSection]['addedLicense'].find(function(item) {
                 if (item !== undefined && item !== null)
                     return item.id === id;
             });
@@ -70,7 +70,7 @@
                     input.parents('.form-group')
                         .addClass('group-disabled');
                     input.prop('disabled', true);
-                    isIos && _removeDatepicker(id)
+                    isIos && _removeDatepicker(id);
                 }
             } else {
                 if (input.is(":disabled")) {
@@ -82,66 +82,75 @@
                 }
             }
             moveTonextSection();
-        }
-    }
+        };
+    };
 
-    var addLicense = function (e) {
+    var addLicense = function(e) {
         var filtred = _getDocumentsArray();
 
-        $.grep(filtred, function (license) {
-            var addedLicense = state[stateSection]['addedLicense'].map(function (l) { return l.id });
+        $.grep(filtred,
+            function(license) {
+                var addedLicense = state[stateSection]['addedLicense'].map(function(l) { return l.id; });
 
-            if (addedLicense.indexOf(license.License.Id) !== -1) {
-                return;
-            }
-
-            state[stateSection]['addedLicense'].push({ 'id': license.License.Id, 'number': '', 'date': '' });
-
-            var result = $('#licenseDocumentTemplate')
-                .tmpl({ 'name': license.License.Name, 'id': license.License.Id });
-
-            var inputs = result.find('input, textarea')
-            addIconsToFields(inputs);
-            toggleClearInputIcon(inputs);
-
-            result.appendTo('#licenseHolder');
-
-            _rebuildIndex();
-
-            $('#' + license.License.Id + '-license-number').on('change', setLicenseRegistraionNumber(license.License.Id));
-
-            result.find('.date-group').each(function () {
-                $('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length === 0 ? $('<div/>', {
-                    class: 'div-datepicker-value',
-                    text: $(this).find('.form-control').val()
-                }).appendTo(this) : '';
-                $('body').is('.ios-device') ? $('<div/>', {
-                    class: 'div-datepicker',
-                }).appendTo(this) : '';
-            });
-
-            result.find('.div-datepicker-value').on('click', function () {
-                $('.div-datepicker').removeClass('opened');
-                $(this).siblings('.div-datepicker').toggleClass('opened');
-                if (!$('.div-datepicker .ui-datepicker-close').length) {
-                    addCloseButtonForInlineDatePicker();
+                if (addedLicense.indexOf(license.License.Id) !== -1) {
+                    return;
                 }
-            });
 
-            _initDatepicker(license.License.Id);
+                state[stateSection]['addedLicense'].push({ 'id': license.License.Id, 'number': '', 'date': '' });
 
-            if (state[stateSection]['addedLicense'].length > 0) {
-                if ($('#licenseHolder').is(':hidden')) {
-                    $('#licenseHolder').removeClass('hidden');
+                var result = $('#licenseDocumentTemplate')
+                    .tmpl({ 'name': license.License.Name, 'id': license.License.Id });
+
+                var inputs = result.find('input, textarea');
+                addIconsToFields(inputs);
+                toggleClearInputIcon(inputs);
+
+                result.appendTo('#licenseHolder');
+
+                _rebuildIndex();
+
+                $('#' + license.License.Id + '-license-number')
+                    .on('change', setLicenseRegistraionNumber(license.License.Id));
+
+                result.find('.date-group').each(function() {
+                    $('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length === 0
+                        ? $('<div/>',
+                            {
+                                class: 'div-datepicker-value',
+                                text: $(this).find('.form-control').val()
+                            }).appendTo(this)
+                        : '';
+                    $('body').is('.ios-device')
+                        ? $('<div/>',
+                            {
+                                class: 'div-datepicker'
+                            }).appendTo(this)
+                        : '';
+                });
+
+                result.find('.div-datepicker-value').on('click',
+                    function() {
+                        $('.div-datepicker').removeClass('opened');
+                        $(this).siblings('.div-datepicker').toggleClass('opened');
+                        if (!$('.div-datepicker .ui-datepicker-close').length) {
+                            addCloseButtonForInlineDatePicker();
+                        }
+                    });
+
+                _initDatepicker(license.License.Id);
+
+                if (state[stateSection]['addedLicense'].length > 0) {
+                    if ($('#licenseHolder').is(':hidden')) {
+                        $('#licenseHolder').removeClass('hidden');
+                    }
                 }
-            }
 
-            $('#' + license.License.Id + '-license-checkbox').on('change', setLicenseNoExpiry(license.License.Id));
-        });
+                $('#' + license.License.Id + '-license-checkbox').on('change', setLicenseNoExpiry(license.License.Id));
+            });
 
         e.stopImmediatePropagation();
         resetForm('#onboard-form');
-    }
+    };
 
     var removeLicense = function (e) {
         var filtred = _getDocumentsArray();
@@ -151,7 +160,7 @@
             return this.filter(function (i) { return a.indexOf(i) < 0; });
         };
 
-        var diff = added.map(function (i) { return i.id }).diff(filtred.map(function (i) { return i.License.Id }));
+        var diff = added.map(function (i) { return i.id; }).diff(filtred.map(function (i) { return i.License.Id; }));
 
         $.grep(diff, function (toDel) {
             var deleteFromState = state[stateSection]['addedLicense'].filter(function (l) {
@@ -172,7 +181,7 @@
         e.stopImmediatePropagation();
         resetForm('#onboard-form');
         enableSubmit();
-    }
+    };
 
     function _getDocumentsArray () {
         var selectedProvinces = state['company'].selectedProvinces;
@@ -183,7 +192,7 @@
         });
 
         var filtredByEquipment = filtredByProvince.filter(function (lic) {
-            var selectedEquipmentIds = selectedEquipments.map(function (obj) { return +obj });
+            var selectedEquipmentIds = selectedEquipments.map(function (obj) { return +obj; });
 
             return selectedEquipmentIds.indexOf(lic.Equipment.Id) !== -1;
         });
@@ -249,8 +258,8 @@
         });
     }
 
-    var removeFile = function (checkSelector, buttonSelector, stateFileSection, filename) {
-        return function (e) {
+    var removeFile = function(checkSelector, buttonSelector, stateFileSection, filename) {
+        return function(e) {
             e.preventDefault();
             var data = new FormData();
 
@@ -269,10 +278,12 @@
                 contentType: false,
                 processData: false,
                 data: data,
-                success: function (json) {
+                success: function(json) {
                     if (json.IsSuccess) {
                         $('#' + documentId + '-file-container').remove();
-                        state[stateSection][stateFileSection].splice(state[stateSection][stateFileSection].indexOf(filename), 1);
+                        state[stateSection][stateFileSection].splice(
+                            state[stateSection][stateFileSection].indexOf(filename),
+                            1);
                         if (!state[stateSection][stateFileSection].length) {
                             if ($('#' + buttonSelector).text() === translations['UploadAnotherFile']) {
                                 $('#' + buttonSelector).text(translations['Upload']);
@@ -287,13 +298,13 @@
                         alert(json.AggregatedError);
                     }
                 },
-                error: function (xhr, status, p3) {
+                error: function(xhr, status, p3) {
                     console.log('error');
                 }
             });
             enableSubmit();
-        }
-    }
+        };
+    };
 
     function _addFile (checkSelector, buttonSelector, fileContainerSelector, stateFileSection, file, id) {
 
@@ -312,7 +323,7 @@
     }
 
     function _rebuildIndex () {
-        var licenseIdArray = state[stateSection]['addedLicense'].filter(function (l) { return l.id });
+        var licenseIdArray = state[stateSection]['addedLicense'].filter(function (l) { return l.id; });
         var index = 0;
         licenseIdArray.forEach(function (i) {
             var container = $('#' + i.id + '-license-holder');
@@ -408,9 +419,9 @@
                     .addClass('active-panel');
         } else {
             $('#' + stateSection + '-panel')
-                .removeClass('step-passed')
+                .removeClass('step-passed');
         }
-    }
+    };
 
     return {
         setVoidChequeFile: setVoidChequeFile,
@@ -422,5 +433,5 @@
         setLicenseExpirationDate: setLicenseExpirationDate,
         removeFile: removeFile,
         moveTonextSection: moveTonextSection
-    }
+    };
 });

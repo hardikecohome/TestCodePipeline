@@ -421,8 +421,8 @@ module.exports('rate-cards', function (require) {
         if (!items)
             return null;
 
-        var loanTerm = +(selectedValues[0]);
-        var amortTerm = +(selectedValues[1]);
+        var loanTerm = +selectedValues[0];
+        var amortTerm = +selectedValues[1];
         if (option.name === 'Deferral') {
             var deferralPeriod = +$('#DeferralPeriodDropdown').val();
             return $.grep(items, function (i) {
@@ -448,5 +448,5 @@ module.exports('rate-cards', function (require) {
         recalculateAndRenderRentalValues: recalculateAndRenderRentalValues,
         recalculateRentalTaxAndPrice: recalculateRentalTaxAndPrice,
         submitRateCard: submitRateCard
-    }
-})
+    };
+});

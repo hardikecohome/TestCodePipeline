@@ -39,7 +39,7 @@
             }
         });
 
-        var init = function (id, cards, onlyCustomRateCard) {
+        var init = function(id, cards, onlyCustomRateCard) {
             var agreementType = $(settings.agreementTypeId).find(":selected").val();
             state.agreementType = Number(agreementType);
             _initHandlers();
@@ -55,7 +55,7 @@
             } else {
                 recalculateAndRenderRentalValues();
             }
-        }
+        };
 
         function _submitForm (event) {
             $(settings.formId).valid();
@@ -71,7 +71,7 @@
                 return;
             }
 
-            if (isNaN(monthPayment) || (monthPayment <= 0)) {
+            if (isNaN(monthPayment) || monthPayment <= 0) {
                 event.preventDefault();
                 $(settings.equipmentValidationMessageId).text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
                 return;
@@ -126,7 +126,7 @@
 
         function _initHandlers () {
             $(settings.submitButtonId).on('click', _submitForm);
-            constants.rateCards.forEach(function (option) { $('#' + option.name + 'AmortizationDropdown').on('change', recalculateValuesAndRender) });
+            constants.rateCards.forEach(function (option) { $('#' + option.name + 'AmortizationDropdown').on('change', recalculateValuesAndRender); });
             $(settings.addEquipmentId).on('click', equipment.addEquipment);
             $(settings.addExistingEquipmentId).on('click', equipment.addExistingEquipment);
             $(settings.toggleRateCardBlockId).on('click', _toggleRateCardBlock);

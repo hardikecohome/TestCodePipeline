@@ -30,12 +30,12 @@
         amortizationValueToDisable : 180,
 		totalAmountFinancedFor180amortTerm: TotalAmtFinancedFor180amortTerm,
         maxRateCardLoanValue: 50000
-    }
+    };
 
     window.state = state;
 
     return {
         state: state,
         constants: constants
-    }
-})
+    };
+});

@@ -14,7 +14,7 @@
         };
     };
 
-    var optionSetup = function (option, callback) {
+    var optionSetup = function(option, callback) {
 
         $('#' + option + '-addEquipment').on('click', ui.addEquipment(option, callback));
 
@@ -36,28 +36,37 @@
 
             var container = $('#option1-equipment-0');
 
-            container.find('input, select, textarea').each(function () {
-                $(this).attr('id', $(this).attr('id').replace('Equipment_NewEquipment_0', 'Equipment_NewEquipment_option1_0'));
-                $(this).attr('name', $(this).attr('name').replace('Equipment.NewEquipment[0', 'Equipment.NewEquipment[option1_0'));
+            container.find('input, select, textarea').each(function() {
+                $(this).attr('id',
+                    $(this).attr('id').replace('Equipment_NewEquipment_0', 'Equipment_NewEquipment_option1_0'));
+                $(this).attr('name',
+                    $(this).attr('name').replace('Equipment.NewEquipment[0', 'Equipment.NewEquipment[option1_0'));
             });
 
-            container.find('label').each(function () {
-                $(this).attr('for', $(this).attr('for').replace('Equipment_NewEquipment_0', 'Equipment_NewEquipment_option1_0'));
+            container.find('label').each(function() {
+                $(this).attr('for',
+                    $(this).attr('for').replace('Equipment_NewEquipment_0', 'Equipment_NewEquipment_option1_0'));
             });
 
-            container.find('span').each(function () {
+            container.find('span').each(function() {
                 var valFor = $(this).attr('data-valmsg-for');
-                if (valFor === null || valFor === undefined) { return; }
+                if (valFor === null || valFor === undefined) {
+                    return;
+                }
 
-                $(this).attr('data-valmsg-for', valFor.replace('Equipment.NewEquipment[0', 'Equipment.NewEquipment[option1_0'));
+                $(this).attr('data-valmsg-for',
+                    valFor.replace('Equipment.NewEquipment[0', 'Equipment.NewEquipment[option1_0'));
             });
 
-            $('#Equipment_NewEquipment_option1_' + nextIndex + '__Cost').on('change', setters.setEquipmentCost(option, callback));
-            $('#Equipment_NewEquipment_option1_' + nextIndex + '__Description').on('change', setters.setEquipmentDescription(option));
+            $('#Equipment_NewEquipment_option1_' + nextIndex + '__Cost')
+                .on('change', setters.setEquipmentCost(option, callback));
+            $('#Equipment_NewEquipment_option1_' + nextIndex + '__Description')
+                .on('change', setters.setEquipmentDescription(option));
             $('#Equipment_NewEquipment_option1_' + nextIndex + '__Type').on('change', setters.setEquipmentType(option));
-            $('#option1-remove').on('click', function () {
-                removeOption.call(this, callback);
-            });
+            $('#option1-remove').on('click',
+                function() {
+                    removeOption.call(this, callback);
+                });
 
             state[option].equipmentNextIndex++;
 
@@ -67,10 +76,10 @@
         resetValidation(option);
 
         initValidation(option);
-    }
+    };
 
     var renderOption = function(option, data) {
-        var validateNumber = constants.numberFields.every(function (field) {
+        var validateNumber = constants.numberFields.every(function(field) {
             var result = typeof data[field] === 'number';
             return result;
         });
@@ -80,7 +89,7 @@
             }
         });
 
-        var validateNotEmpty = constants.notCero.every(function (field) {
+        var validateNotEmpty = constants.notCero.every(function(field) {
             return data[field] !== 0;
         });
 
@@ -109,7 +118,7 @@
             $('#' + option + '-tObligation').text('-');
             $('#' + option + '-yCost').text('-');
         }
-    }
+    };
 
     function removeOption(callback) {
         var optionToDelete = $(this).parent().parent().attr('id').split('-')[0];
@@ -142,7 +151,7 @@
         }
     }
 
-    var addOption = function (callback) {
+    var addOption = function(callback) {
         if (!$('#province-form').valid()) {
             return;
         }
@@ -167,17 +176,17 @@
         var template = $.parseHTML(container);
         var $template = $(template);
 
-        $template.find('[id^="' + optionToCopy + '-"]').each(function () {
+        $template.find('[id^="' + optionToCopy + '-"]').each(function() {
             var $this = $(this);
             $this.attr('id', $this.attr('id').replace(optionToCopy, newOption));
         });
 
-        $template.find('[name^="' + optionToCopy + '"]').each(function () {
+        $template.find('[name^="' + optionToCopy + '"]').each(function() {
             var $this = $(this);
             $this.attr('name', $this.attr('name').replace(optionToCopy, newOption));
         });
 
-        $template.find('[data-valmsg-for^="' + optionToCopy + '"]').each(function () {
+        $template.find('[data-valmsg-for^="' + optionToCopy + '"]').each(function() {
             var $this = $(this);
             var newValFor = $this.data('valmsg-for').replace(optionToCopy, newOption);
             $this.attr('data-valmsg-for', newValFor);
@@ -207,18 +216,20 @@
             .find('svg')
             .html('<use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-remove"></use>');
 
-        $('#option' + secondIndex + '-remove').on('click', function () {
-            removeOption.call(this, callback);
-        });
+        $('#option' + secondIndex + '-remove').on('click',
+            function() {
+                removeOption.call(this, callback);
+            });
 
         if (state[newOption].downPayment !== 0) {
             $('#' + newOption + '-downPayment').val(state[newOption].downPayment);
         }
 
-        var currentPlan = constants.rateCards.filter(function(plan) { return plan.id === state[newOption].plan; })[0].name;
+        var currentPlan = constants.rateCards.filter(function(plan) { return plan.id === state[newOption].plan; })[0]
+            .name;
         $('#' + newOption + '-plan').val(currentPlan);
 
-        var amortDropdownValue = state[newOption].LoanTerm  + '/' + state[newOption].AmortizationTerm;
+        var amortDropdownValue = state[newOption].LoanTerm + '/' + state[newOption].AmortizationTerm;
         $('#' + newOption + '-amortDropdown').val(amortDropdownValue);
 
         if (state[newOption].plan === 2) {
@@ -233,32 +244,41 @@
             $('#' + newOption + '-customAFee').val(state[newOption].AdminFee);
         }
 
-        var indexes = Object.keys(state[optionToCopy].equipments).map(function (k) {
+        var indexes = Object.keys(state[optionToCopy].equipments).map(function(k) {
             return state[optionToCopy].equipments[k].id;
         });
 
-        $.grep(indexes, function (id) {
-            $('#Equipment_NewEquipment_' + newOption + '_' + id + '__Cost').on('change', setters.setEquipmentCost(newOption, callback));
-            $('#Equipment_NewEquipment_' + newOption + '_' + id + '__Cost').val(state[newOption].equipments[id].cost);
+        $.grep(indexes,
+            function(id) {
+                $('#Equipment_NewEquipment_' + newOption + '_' + id + '__Cost')
+                    .on('change', setters.setEquipmentCost(newOption, callback));
+                $('#Equipment_NewEquipment_' + newOption + '_' + id + '__Cost')
+                    .val(state[newOption].equipments[id].cost);
 
-            $('#Equipment_NewEquipment_' + newOption + '_' + id + '__Description').on('change', setters.setEquipmentDescription(newOption));
-            $('#Equipment_NewEquipment_' + newOption + '_' + id + '__Description').val(state[newOption].equipments[id].description);
+                $('#Equipment_NewEquipment_' + newOption + '_' + id + '__Description')
+                    .on('change', setters.setEquipmentDescription(newOption));
+                $('#Equipment_NewEquipment_' + newOption + '_' + id + '__Description')
+                    .val(state[newOption].equipments[id].description);
 
-            $('#Equipment_NewEquipment_' + newOption + '_' + id + '__Type').on('change', setters.setEquipmentType(newOption));
-            $('#Equipment_NewEquipment_' + newOption + '_' + id + '__Type').val(state[newOption].equipments[id].type);
+                $('#Equipment_NewEquipment_' + newOption + '_' + id + '__Type')
+                    .on('change', setters.setEquipmentType(newOption));
+                $('#Equipment_NewEquipment_' + newOption + '_' + id + '__Type')
+                    .val(state[newOption].equipments[id].type);
 
-            if (id > 0) {
-                $('#' + newOption + '-equipment-remove-' + id).on('click', function (e) {
-                    var id = e.target.id;
-                    id = id.substr(id.lastIndexOf('-') + 1);
-                    recalculateEquipmentIndex(newOption, id);
+                if (id > 0) {
+                    $('#' + newOption + '-equipment-remove-' + id).on('click',
+                        function(e) {
+                            var id = e.target.id;
+                            id = id.substr(id.lastIndexOf('-') + 1);
+                            recalculateEquipmentIndex(newOption, id);
 
-                    setters.removeEquipment(newOption, id, callback);
-                });
-            }
-        });
+                            setters.removeEquipment(newOption, id, callback);
+                        });
+                }
+            });
 
-        ui.toggleClearInputIcon($('#' + newOption + '-container').find('.control-group input, .control-group textarea'));
+        ui.toggleClearInputIcon($('#' + newOption + '-container')
+            .find('.control-group input, .control-group textarea'));
 
         jcarousel.refreshCarouselItems();
         jcarousel.carouselRateCards();
@@ -266,7 +286,7 @@
         $('.jcarousel').jcarousel('scroll', '+=1');
 
         optionSetup(newOption, callback);
-    }
+    };
 
     /**
     * Show/hide notification and disable dropdown option depending on totalAmountFinanced option
@@ -397,5 +417,5 @@
         addOption: addOption,
         optionSetup: optionSetup,
         renderOption: renderOption
-    }
+    };
 });

@@ -127,5 +127,5 @@
         setDownPayment: setDownPayment,
         setRentalMPayment: setRentalMPayment,
         setCustomYourCost: setCustomYourCost
-    }
-})
+    };
+});

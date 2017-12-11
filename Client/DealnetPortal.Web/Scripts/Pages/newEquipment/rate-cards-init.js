@@ -10,7 +10,7 @@
      * @param {boolean} onlyCustomRateCard - if no available rate cards, show only custom rate card 
      * @returns {void} 
      */
-    var init = function (id, cards, onlyCustomRateCard) {
+    var init = function(id, cards, onlyCustomRateCard) {
         state.contractId = id;
         // check if we have any prefilled values in database
         // related to this contract, if yes contract is not new
@@ -35,12 +35,12 @@
                 renderSelectedRateCardUi('Custom');
             }
         } else {
-            constants.rateCards.forEach(function (option) {
+            constants.rateCards.forEach(function(option) {
                 if (sessionStorage.getItem(state.contractId + option.name) !== null) {
                     sessionStorage.removeItem(state.contractId + option.name);
                 }
 
-                var filtred = $.grep(cards, function (card) { return card.CardType === option.id; });
+                var filtred = $.grep(cards, function(card) { return card.CardType === option.id; });
 
                 //_createDropdowns(filtred, option);
 
@@ -52,7 +52,7 @@
                 }
             });
         }
-    }
+    };
 
     /**
      * Hide/Show block with rate cards and highlight selected rate card on initialization
@@ -67,9 +67,9 @@
 
             if (option === 'Deferral') {
                 var deferralPeriod = $.grep(constants.customDeferralPeriods,
-                    function (period) { return period.name === $('#LoanDeferralType').val() })[0];
+                    function (period) { return period.name === $('#LoanDeferralType').val(); })[0];
 
-                if ((deferralPeriod !== null && deferralPeriod !== undefined) && deferralPeriod.val !== 0) {
+                if (deferralPeriod !== null && deferralPeriod !== undefined && deferralPeriod.val !== 0) {
                     $('#DeferralPeriodDropdown').val(deferralPeriod.val.toString());
                 }
             }
@@ -110,7 +110,7 @@
      * @returns {void} 
      */
     function setSelectedCustomRateCard () {
-        var deferralPeriod = $.grep(constants.customDeferralPeriods, function (period) { return period.name === $('#LoanDeferralType').val() })[0];
+        var deferralPeriod = $.grep(constants.customDeferralPeriods, function (period) { return period.name === $('#LoanDeferralType').val(); })[0];
 
         state['Custom'].LoanTerm = Number($('#LoanTerm').val());
         state['Custom'].AmortizationTerm = Number($('#AmortizationTerm').val());
@@ -161,5 +161,5 @@
 
     return {
         init: init
-    }
+    };
 });
