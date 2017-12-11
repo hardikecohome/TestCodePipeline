@@ -22,7 +22,6 @@ namespace DealnetPortal.Api.Integration.Services
     {
         public async Task SendAsync(IList<string> recipients, string from, string subject, string body)
         {
-            var alerts = new List<Alert>();
             HttpClient client = new HttpClient();
             string baseUri = string.Empty;
             string domain = string.Empty;
@@ -36,16 +35,8 @@ namespace DealnetPortal.Api.Integration.Services
                 key = ConfigurationManager.AppSettings[WebConfigKeys.MG_APIKEY_CONFIG_KEY];
                 sender = from ?? ConfigurationManager.AppSettings[WebConfigKeys.MG_FROM_CONFIG_KEY];
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                var errorMsg = "Can't get mailgun settings from config";
-                //_loggingService.LogError(errorMsg, ex);
-                alerts.Add(new Alert()
-                {
-                    Type = AlertType.Error,
-                    Header = errorMsg,
-                    Message = ex.ToString()
-                });
             }
 
             client.BaseAddress = new Uri(baseUri);

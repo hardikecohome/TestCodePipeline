@@ -523,21 +523,6 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<Tuple<ContractDTO, IList<Alert>>> CreateContractForCustomer(NewCustomerDTO customerForm)
-        {
-            try
-            {
-                return
-                    await
-                        Client.PostAsyncEx<NewCustomerDTO, Tuple<ContractDTO, IList<Alert>>>($"{_fullUri}/CreateContractForCustomer", customerForm, AuthenticationHeader, CurrentCulture);
-            }
-            catch (Exception ex)
-            {
-                _loggingService.LogError("Can't submit New Customer", ex);
-                throw;
-            }
-        }
-
         public async Task<IList<Alert>> CheckCustomerExisting(string email)
         {
             try

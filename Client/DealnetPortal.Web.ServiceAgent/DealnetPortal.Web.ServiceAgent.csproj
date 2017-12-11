@@ -80,7 +80,9 @@
     <Compile Include="DictionaryServiceAgent.cs" />
     <Compile Include="IContractServiceAgent.cs" />
     <Compile Include="IDictionaryServiceAgent.cs" />
+    <Compile Include="IMortgageBrokerServiceAgent.cs" />
     <Compile Include="IStorageServiceAgent.cs" />
+    <Compile Include="MortgageBrokerServiceAgent.cs" />
     <Compile Include="ScanProcessingServiceAgent.cs" />
     <Compile Include="IScanProcessingServiceAgent.cs" />
     <Compile Include="IUserManagementServiceAgent.cs" />

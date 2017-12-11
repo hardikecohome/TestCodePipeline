@@ -1599,8 +1599,6 @@ namespace DealnetPortal.Api.Integration.Services
                 TransactionId = contract.Details?.TransactionId
             };
 
-            var pTaxRate = _contractRepository.GetProvinceTaxRate(contract.PrimaryCustomer.Locations.FirstOrDefault().State);
-
             if (contract.Equipment != null)
             {
                 var equipments = newEquipments ?? contract.Equipment.NewEquipment;

@@ -31,7 +31,6 @@ namespace DealnetPortal.Api.Core.Helpers
         {
             var x = new XmlSerializer(objToSerialize.GetType());
             var settings = new XmlWriterSettings { NewLineHandling = NewLineHandling.Entitize };
-            MemoryStream ms = new MemoryStream();
             FileStream fs = new FileStream(outputFileName, FileMode.Create);
             var writer = XmlWriter.Create(fs, settings);
             x.Serialize(writer, objToSerialize);

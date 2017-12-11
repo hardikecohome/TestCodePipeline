@@ -26,23 +26,31 @@ namespace DealnetPortal.Api.Tests.Controllers
     {
         private ContractController _contractController;
         private Mock<IContractService> _contractServiceMock;
+        private Mock<ICreditCheckService> _creditCheckServiceMock;
         private Mock<ICustomerFormService> _customerFormServiceMock;
         private Mock<IRateCardsService> _rateCardsServiceMock;
         private Mock<ILoggingService> _loggingServiceMock;
         private Mock<ISignatureService> _signatureServiceMock;
+        private Mock<ICustomerWalletService> _customerWalletServiceMock;
+
+        public ContractControllerTest(Mock<ICustomerWalletService> customerWalletServiceMock)
+        {
+            _customerWalletServiceMock = customerWalletServiceMock;
+        }
 
         [TestInitialize]
         public void Intialize()
         {
             DealnetPortal.Api.App_Start.AutoMapperConfig.Configure();
             _contractServiceMock = new Mock<IContractService>();
+            _creditCheckServiceMock = new Mock<ICreditCheckService>();
             _customerFormServiceMock = new Mock<ICustomerFormService>();
             _rateCardsServiceMock = new Mock<IRateCardsService>();
             _loggingServiceMock = new Mock<ILoggingService>();
             _signatureServiceMock = new Mock<ISignatureService>();
 
             _contractController = new ContractController(_loggingServiceMock.Object, _contractServiceMock.Object, _customerFormServiceMock.Object, _rateCardsServiceMock.Object,
-                _signatureServiceMock.Object);
+                _signatureServiceMock.Object, _creditCheckServiceMock.Object, _customerWalletServiceMock.Object);
             _contractController.Request = new HttpRequestMessage();
             _contractController.Request.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
         }
@@ -115,7 +123,7 @@ namespace DealnetPortal.Api.Tests.Controllers
         [TestMethod]
         public void TestGetCreditCheckResult()
         {
-            _contractServiceMock.Setup(
+            _creditCheckServiceMock.Setup(
                 s =>
                     s.GetCreditCheckResult(It.IsAny<int>(), It.IsAny<string>())
                     ).Returns(new Tuple<CreditCheckDTO, IList<Alert>>(new CreditCheckDTO(), new List<Alert>() {new Alert()}));

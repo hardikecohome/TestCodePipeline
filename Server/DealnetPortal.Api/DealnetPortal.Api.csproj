@@ -265,6 +265,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\DealerController.cs" />
+    <Compile Include="Controllers\MortgageBrokerController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
     <Compile Include="Controllers\DictionaryController.cs" />
@@ -382,6 +383,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Services\" />
     <Folder Include="Views\Contracts\" />
+    <Folder Include="Views\MortgageBroker\" />
     <Folder Include="Views\Scanning\" />
   </ItemGroup>
   <ItemGroup>

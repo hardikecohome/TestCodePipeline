@@ -37,7 +37,6 @@ namespace DealnetPortal.Api.Controllers
             _dealerService = dealerService;
         }
 
-        // GET: api/Contract
         [Route("GetDealerProfile")]
         [HttpGet]
         public IHttpActionResult GetDealerProfile()

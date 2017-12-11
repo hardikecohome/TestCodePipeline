@@ -20,8 +20,6 @@ namespace DealnetPortal.Api.Integration.Services
     {
         ContractDTO CreateContract(string contractOwnerId);
 
-        Task<Tuple<ContractDTO, IList<Alert>>> CreateContractForCustomer(string contractOwnerId, NewCustomerDTO newCustomer);
-
         IList<ContractDTO> GetContracts(string contractOwnerId);
 
         int GetCustomersContractsCount(string contractOwnerId);
@@ -43,13 +41,11 @@ namespace DealnetPortal.Api.Integration.Services
 
         IList<Alert> NotifyContractEdit(int contractId, string contractOwnerId);
 
-        IList<Alert> InitiateCreditCheck(int contractId, string contractOwnerId);
-
         AgreementDocument GetContractsFileReport(IEnumerable<int> ids, string contractOwnerId);
 
         IList<Alert> UpdateInstallationData(InstallationCertificateDataDTO installationCertificateData, string contractOwnerId);
 
-        Tuple<CreditCheckDTO, IList<Alert>> GetCreditCheckResult(int contractId, string contractOwnerId);
+        
 
         Tuple<CreditCheckDTO, IList<Alert>> SubmitContract(int contractId, string contractOwnerId);
 
@@ -82,6 +78,5 @@ namespace DealnetPortal.Api.Integration.Services
         IList<Alert> RemoveContract(int documentId, string contractOwnerId);
 
         Task<IList<Alert>> AssignContract(int contractId, string newContractOwnerId);
-        Task<IList<Alert>> CheckCustomerExistingAsync(string email);
     }
 }

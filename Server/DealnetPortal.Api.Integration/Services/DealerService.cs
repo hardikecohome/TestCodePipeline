@@ -467,7 +467,7 @@ namespace DealnetPortal.Api.Integration.Services
             }            
         }
 
-        private DealerInfo ProcessDocuments(DealerInfo dealerInfo)
+        private void ProcessDocuments(DealerInfo dealerInfo)
         {
             var docForProcess = dealerInfo.RequiredDocuments?.Where(d => d.Status != null).ToList();
             if (docForProcess?.Any() == true)
@@ -486,10 +486,9 @@ namespace DealnetPortal.Api.Integration.Services
                 });
                 _unitOfWork.Save();
             }
-            return dealerInfo;
         }
 
-        private DealerInfo RevertUnprocessedDocuments(DealerInfo dealerInfo)
+        private void RevertUnprocessedDocuments(DealerInfo dealerInfo)
         {
             var docForProcess = dealerInfo.RequiredDocuments?.Where(d => d.Status != null).ToList();
             if (docForProcess?.Any() == true)
@@ -508,7 +507,6 @@ namespace DealnetPortal.Api.Integration.Services
                 });
                 _unitOfWork.Save();
             }
-            return dealerInfo;
         }
     }
 }

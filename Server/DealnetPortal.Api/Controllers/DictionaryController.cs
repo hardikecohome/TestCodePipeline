@@ -84,19 +84,13 @@ namespace DealnetPortal.Api.Controllers
         [HttpGet]
         public IHttpActionResult GetDealerEquipmentTypes()
         {
-            var alerts = new List<Alert>();
             try
             {
                 var result = _contractService.GetDealerEquipmentTypes(LoggedInUser?.UserId);
                 if (result == null)
                 {
                     var errorMsg = "Cannot retrieve Equipment Types";
-                    alerts.Add(new Alert()
-                    {
-                        Type = AlertType.Error,
-                        Header = ErrorConstants.EquipmentTypesRetrievalFailed,
-                        Message = errorMsg
-                    });
+                    
                     LoggingService.LogError(errorMsg);
                 }
                 return Ok(result);
