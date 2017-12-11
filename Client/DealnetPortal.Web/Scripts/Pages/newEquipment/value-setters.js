@@ -16,7 +16,9 @@
     };
 
     var setLoanAmortTerm = function (optionKey) {
-        return function (loanTerm, amortTerm) {
+        return function (e) {
+            var loanTerm  = e.target.value.split('/')[0];
+            var amortTerm = e.target.value.split('/')[1];
             state[optionKey].LoanTerm = Globalize.parseNumber(loanTerm);
             state[optionKey].AmortizationTerm = Globalize.parseNumber(amortTerm);
             recalculateValuesAndRender([{ name: optionKey }]);
@@ -94,7 +96,7 @@
     function validateLoanAmortTerm() {
         var amortTerm = state['Custom'].AmortizationTerm;
         var loanTerm = state['Custom'].LoanTerm;
-        if (typeof amortTerm == 'number' && typeof loanTerm == 'number') {
+        if (typeof amortTerm === 'number' && typeof loanTerm === 'number') {
             if (loanTerm > amortTerm) {
                 if ($('#amortLoanTermError').is(':hidden')) {
                     $('#amortLoanTermError').show();

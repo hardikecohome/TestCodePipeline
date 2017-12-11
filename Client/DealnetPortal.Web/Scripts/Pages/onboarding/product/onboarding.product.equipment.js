@@ -36,7 +36,7 @@ module.exports('onboarding.product.equipment', function (require) {
     };
 
     function rebuildIndex (id) {
-        while (true) {
+        for(;;) {
             id++;
             var li = $('li#equipment-' + id + '-index');
             if (!li.length) { break; }

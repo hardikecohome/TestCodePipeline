@@ -47,7 +47,7 @@
 
             container.find('span').each(function () {
                 var valFor = $(this).attr('data-valmsg-for');
-                if (valFor == null) { return; }
+                if (valFor === null || valFor === undefined) { return; }
 
                 $(this).attr('data-valmsg-for', valFor.replace('Equipment.NewEquipment[0', 'Equipment.NewEquipment[option1_0'));
             });
@@ -272,7 +272,7 @@
     * Show/hide notification and disable dropdown option depending on totalAmountFinanced option
     * @param {string} option - name of the cards [FixedRate,Deferral,NoInterst]
     * @param {number} totalAmountFinanced - total cash value
-    * @returns {} 
+    * @returns {void} 
     */
     function renderDropdownValues(option, totalAmountFinanced) {
         var totalCash = constants.minimumLoanValue;
@@ -296,9 +296,10 @@
     /**
      * depends on totalAmountfinanced value disable/enable options 
      * values of Loan/Amortization dropdown
-     * @param {Array<>} options - array of available options for dropdown
+     * @param {string} option - option name
+     * @param {Array<string>} options - array of available options for dropdown
      * @param {boolean} isDisable - disable/enable option and show/hide tooltip
-     * @returns {} 
+     * @returns {void} 
      */
     function toggleDisabledAttributeOnOption(option, options, isDisable) {
         if (!options.length) return;

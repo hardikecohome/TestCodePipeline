@@ -32,7 +32,7 @@
             var value = e.target.value;
 
             var filtred = state[stateSection]['addedLicense'].filter(function (l) {
-                return l.id == id;
+                return l.id === id;
             })[0];
 
             filtred.number = value;
@@ -43,7 +43,7 @@
 
     var setLicenseExpirationDate = function (id, date) {
         var filtred = state[stateSection]['addedLicense'].filter(function (l) {
-            return l.id == id;
+            return l.id === id;
         })[0];
 
         filtred.date = date;
@@ -327,7 +327,7 @@
 
                 container.find('span').each(function () {
                     var curr = $(this).attr('data-valmsg-for');
-                    if (curr == null) { return; }
+                    if (curr === null || curr === undefined) { return; }
                     var toReplace = 'AdditionalDocuments[' + index + ']' + curr.substring(curr.lastIndexOf(']') + 1);
 
                     $(this).attr('data-valmsg-for', toReplace);

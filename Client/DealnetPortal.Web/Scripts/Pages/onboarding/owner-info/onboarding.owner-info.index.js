@@ -123,9 +123,9 @@
                 'owner' + i + '-province',
                 'owner' + i + '-postalcode');
         }
-        for (var i = 0;Object.keys(state['owner-info'].owners).length > i;i++) {
-            $('#owner' + i + '-street').attr('placeholder', '');
-            $('#owner' + i + '-city').attr('placeholder', '');
+        for (var j = 0;Object.keys(state['owner-info'].owners).length > j;j++) {
+            $('#owner' + j + '-street').attr('placeholder', '');
+            $('#owner' + j + '-city').attr('placeholder', '');
         }
     }
 

@@ -1,4 +1,6 @@
-﻿module.exports('rate-cards', function (require) {
+﻿'use strict';
+
+module.exports('rate-cards', function (require) {
 
     var totalObligation = require('financial-functions').totalObligation;
     var totalPrice = require('financial-functions').totalPrice;
@@ -104,8 +106,8 @@
     /**
      * Update all text field and global state object with new calculated values
      * @param {string} option  name of the cards [FixedRate,Deferral,NoInterst, Custom]
-     * @param {Object<>} data - new values
-     * @returns {} 
+     * @param {Object<string>} data - new values
+     * @returns {void} 
      */
     var renderOption = function (option, data) {
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
@@ -168,9 +170,9 @@
 
     /**
      * recalculate all financial values for Loan agreement type
-     * @param {Array<>} options - object of options for recalucaltion, if empty recalculate all values on form 
+     * @param {Array<string>} options - object of options for recalucaltion, if empty recalculate all values on form 
      *  possible values [FixedRate,Deferral,NoInterst, Custom]
-     * @returns {} 
+     * @returns {void} 
      */
     var recalculateValuesAndRender = function (options) {
         var optionsToCompute = constants.rateCards;
@@ -225,7 +227,7 @@
 
     /**
      * recalculate all financial values for Rental/RentalHwt agreement type
-     * @returns {} 
+     * @returns {void} 
      */
     var recalculateAndRenderRentalValues = function () {
         var eSum = monthlySum(state.equipments);
@@ -267,7 +269,7 @@
      * Show/hide notification and disable dropdown option depending on totalAmountFinanced option
      * @param {string} option - name of the cards [FixedRate,Deferral,NoInterst]
      * @param {number} totalAmountFinanced - total cash value
-     * @returns {} 
+     * @returns {void} 
      */
     function renderDropdownValues(option, totalAmountFinanced) {
         var totalCash = constants.minimumLoanValue;
@@ -348,10 +350,11 @@
     /**
      * depends on totalAmountfinanced value disable/enable options 
      * values of Loan/Amortization dropdown
-     * @param {Array<>} options - array of available options for dropdown
-     * @param {Object<>} tooltip - tooltip jqeury object for show/hide depends on totalAmountFinancedValue
+     * @param {string} option - option name
+     * @param {Array<string>} options - array of available options for dropdown
+     * @param {Object<string>} tooltip - tooltip jqeury object for show/hide depends on totalAmountFinancedValue
      * @param {boolean} isDisable - disable/enable option and show/hide tooltip
-     * @returns {} 
+     * @returns {void} 
      */
     function toggleDisabledAttributeOnOption(option, options, tooltip, isDisable) {
         if (!options.length) return;
@@ -365,17 +368,17 @@
             tooltip.hide();
 
             //check if notifications is visible if yes emulate click to hide it.
-            if (tooltip.parent().find('.popover-content').length) {
-                tooltip.click();
-            }
+            //if (tooltip.parent().find('.popover-content').length) {
+            //    tooltip.click();
+            //}
         }
     }
 
     /**
      * Update current card for each of rate card options
      * @param {string} option - name of the cards [FixedRate,Deferral,NoInterst]
-     * @param {Object<>} data - calculated financial data
-     * @returns {} 
+     * @param {Object<string>} data - calculated financial data
+     * @returns {void} 
      */
     function calculateRateCardValues(option, data) {
         //minimum loan value
@@ -410,7 +413,7 @@
      * Select reate cards by current values of dropdown and totalCash
      * @param {string} option - name of the cards [FixedRate,Deferral,NoInterst]
      * @param {number} totalCash - totalAmountFinancedValue for current option
-     * @returns {Object<>} - appropriate rate card object 
+     * @returns {Object<string>} - appropriate rate card object 
      */
     function filterRateCardByValues(option, totalCash) {
         var selectedValues = $('#' + option.name + 'AmortizationDropdown option:selected').text().split('/');

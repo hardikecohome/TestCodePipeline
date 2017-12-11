@@ -31,7 +31,7 @@ module.exports('onboarding.company.province', function (require) {
     };
 
     function _rebuildIndex(id) {
-        while (true) {
+        for(;;) {
             id++;
             var li = $('li#province-' + id + '-index');
             if (!li.length) { break; }

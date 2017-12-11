@@ -19,9 +19,12 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44341</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -864,7 +867,7 @@
     <Content Include="Scripts\pages\MyProfile\postalCode-template.js" />
     <Content Include="Scripts\pages\newEquipment\custom-rate-card.js" />
     <Content Include="Scripts\pages\newEquipment\equipment.js" />
-    <Content Include="Scripts\pages\newEquipment\index.js" />
+    <Content Include="Scripts\pages\newEquipment\newEquipment.index.js" />
     <Content Include="Scripts\pages\newEquipment\rate-cards-init.js" />
     <Content Include="Scripts\pages\newEquipment\rate-cards-ui.js" />
     <Content Include="Scripts\pages\newEquipment\rate-cards.js" />

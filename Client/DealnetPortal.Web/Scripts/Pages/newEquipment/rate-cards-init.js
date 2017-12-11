@@ -6,9 +6,9 @@
     /**
      * Initialize view and store rate cards in storage.
      * @param {number} id - contract id
-     * @param {Array<>} cards - array of rate cards which specifed to dealer 
+     * @param {Array<string>} cards - array of rate cards which specifed to dealer 
      * @param {boolean} onlyCustomRateCard - if no available rate cards, show only custom rate card 
-     * @returns {} 
+     * @returns {void} 
      */
     var init = function (id, cards, onlyCustomRateCard) {
         state.contractId = id;
@@ -57,8 +57,8 @@
     /**
      * Hide/Show block with rate cards and highlight selected rate card on initialization
      * @param {string} option - rate card option [NoInterest, Fixed, Deferral, Custom]
-     * @param {Array<>} items - list of rate cards for the option
-     * @returns {} 
+     * @param {Array<string>} items - list of rate cards for the option
+     * @returns {void} 
      */
     function renderSelectedRateCardUi (option, items) {
         rateCardBlock.toggle(state.isNewContract);
@@ -69,7 +69,7 @@
                 var deferralPeriod = $.grep(constants.customDeferralPeriods,
                     function (period) { return period.name === $('#LoanDeferralType').val() })[0];
 
-                if (deferralPeriod != null && deferralPeriod.val !== 0) {
+                if ((deferralPeriod !== null && deferralPeriod !== undefined) && deferralPeriod.val !== 0) {
                     $('#DeferralPeriodDropdown').val(deferralPeriod.val.toString());
                 }
             }
@@ -84,8 +84,8 @@
     /**
      * Highlight selected rate on initialization 
     * @param {string} option - rate card option [NoInterest, Fixed, Deferral, Custom]
-     * @param {Array<>} items - list of rate cards for the option
-     * @returns {} 
+     * @param {Array<string>} items - list of rate cards for the option
+     * @returns {void} 
      */
     function setSelectedRateCard (option, items) {
         var selectedCard = $.grep(items, function (card) { return card.Id === Number(state.selectedCardId); })[0];
@@ -107,7 +107,7 @@
 
     /**
      * populate custom rate cards with values
-     * @returns {} 
+     * @returns {void} 
      */
     function setSelectedCustomRateCard () {
         var deferralPeriod = $.grep(constants.customDeferralPeriods, function (period) { return period.name === $('#LoanDeferralType').val() })[0];
@@ -134,6 +134,7 @@
 
         $.each(items, function () {
             var key = this.LoanValueFrom + '-' + this.LoanValueTo;
+            var dropdownValue = ~~this.LoanTerm + ' / ' + ~~this.AmortizationTerm;
             if (option.name === 'Deferral') {
                 var deferralKey = ~~this.DeferralPeriod;
                 if (state[option.name + '-' + deferralKey + '-dropdowns'] === undefined)
@@ -143,8 +144,6 @@
                     state[option.name + '-' + deferralKey + '-dropdowns'][key] = [];
                 }
 
-                var dropdownValue = ~~this.LoanTerm + ' / ' + ~~this.AmortizationTerm;
-
                 if (state[option.name + '-' + deferralKey + '-dropdowns'][key].indexOf(dropdownValue) === -1) {
                     state[option.name + '-' + deferralKey + '-dropdowns'][key].push(dropdownValue);
                 }
@@ -152,8 +151,6 @@
                 if (!state[option.name + '-dropdowns'].hasOwnProperty(key)) {
                     state[option.name + '-dropdowns'][key] = [];
                 }
-
-                var dropdownValue = ~~this.LoanTerm + ' / ' + ~~this.AmortizationTerm;
 
                 if (state[option.name + '-dropdowns'][key].indexOf(dropdownValue) === -1) {
                     state[option.name + '-dropdowns'][key].push(dropdownValue);
