@@ -14,6 +14,8 @@ $(document)
 
         $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
         $('.select-filter').val($('.select-filter > option:first').val());
+
+        commonDataTablesSettings();
     });
 
 function showTable () {

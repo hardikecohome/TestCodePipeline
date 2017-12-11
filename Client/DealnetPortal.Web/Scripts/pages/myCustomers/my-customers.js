@@ -14,9 +14,11 @@
     });
     $('<option selected value="">' + "All" + '</option>').prependTo($('.select-filter'));
     $('.select-filter').val($('.select-filter > option:first').val());
+
+    commonDataTablesSettings();
 });
 
-function showTable() {
+function showTable () {
     $.when($.ajax(itemsUrl, { cache: false, mode: 'GET' }))
         .done(function (data) {
             var statusOptions = [];
@@ -64,12 +66,12 @@ function showTable() {
                         { "data": "Status", className: 'status-cell', orderable: false },
                     ],
                     dom:
-                    "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-12 col-sm-12 hidden-md hidden-lg''<'#filter-btn-position'>'><'col-md-4 col-sm-6'f>>" +
-                    "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
-                    "<'row'<'col-md-12 col-sm-6'l>>" +
-                    "<'row'<'col-md-12'tr>>" +
-                    "<'row'<'col-md-12'p>>" +
-                    "<'row'<'col-md-12'i>>",
+                        "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-12 col-sm-12 hidden-md hidden-lg''<'#filter-btn-position'>'><'col-md-4 col-sm-6'f>>" +
+                        "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
+                        "<'row'<'col-md-12 col-sm-6'l>>" +
+                        "<'row'<'col-md-12'tr>>" +
+                        "<'row'<'col-md-12'p>>" +
+                        "<'row'<'col-md-12'i>>",
                     renderer: 'bootstrap',
                     order: []
                 });
@@ -152,7 +154,7 @@ $.fn.dataTable.ext.search.push(
     }
 );
 
-function clearFilters() {
+function clearFilters () {
     $('.filter-input').val("");
     var table = $('#work-items-table').DataTable();
     table.search('').draw();

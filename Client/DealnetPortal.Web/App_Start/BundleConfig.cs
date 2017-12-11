@@ -64,6 +64,7 @@ namespace DealnetPortal.Web
                 "~/Scripts/vendor/jquery.form.js",
                 "~/Scripts/utils/common.timezone.js",
                 "~/Scripts/utils/loader.js",
+                "~/Scripts/utils/tables.js",
                 "~/Scripts/pages/homePage/home-page.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/basic-info")
@@ -75,7 +76,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/camera-capturing.js")
                 .Include("~/Scripts/utils/dob-selecter.js")
                 .Include("~/Scripts/utils/loader.js")
-                .IncludeDirectory("~/Scripts/pages/basicInfo", "*.js",true));
+                .IncludeDirectory("~/Scripts/pages/basicInfo", "*.js", true));
 
             bundles.Add(new ScriptBundle("~/bundles/credit-check")
                 .Include("~/Scripts/vendor/datejs.js")
@@ -110,12 +111,14 @@ namespace DealnetPortal.Web
             bundles.Add(new ScriptBundle("~/bundles/my-customers")
                 .Include("~/Scripts/vendor/datejs.js")
                 .Include("~/Scripts/utils/datepicker.js")
+                .Include("~/Scripts/utils/tables.js")
                 .Include("~/Scripts/pages/myCustomers/my-customers.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/leads")
                 .Include("~/Scripts/vendor/datejs.js")
                 .Include("~/Scripts/utils/datepicker.js")
                 .Include("~/Scripts/utils/loader.js")
+                .Include("~/Scripts/utils/tables.js")
                 .Include("~/Scripts/pages/leads/leads.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/my-deals")
@@ -126,11 +129,13 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/common.timezone.js")
                 .Include("~/Scripts/utils/datepicker.js")
                 .Include("~/Scripts/utils/loader.js")
+                .Include("~/Scripts/utils/tables.js")
                 .Include("~/Scripts/pages/myDeals/my-deals.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/reports")
                 .Include("~/Scripts/vendor/datejs.js")
                 .Include("~/Scripts/utils/datepicker.js")
+                .Include("~/Scripts/utils/tables.js")
                 .Include("~/Scripts/pages/reports/reports.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/contract-edit")
@@ -219,7 +224,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/financial-functions.module.js")
                 .Include("~/Scripts/utils/loan-calculator.js")
                 .Include("~/Scripts/utils/logger/log.js")
-                .IncludeDirectory("~/Scripts/pages/calculator","*.js",true));
+                .IncludeDirectory("~/Scripts/pages/calculator", "*.js", true));
 
             bundles.Add(new ScriptBundle("~/bundles/onboarding")
                 .Include("~/Scripts/vendor/jquery.form.js")

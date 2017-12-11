@@ -15,6 +15,7 @@ $(document)
                     showChart();
                 }, 500);
             });
+        commonDataTablesSettings();
     });
 
 function FormatLongNumber (value) {
