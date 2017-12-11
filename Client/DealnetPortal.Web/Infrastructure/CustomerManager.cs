@@ -17,14 +17,16 @@ namespace DealnetPortal.Web.Infrastructure
     public class CustomerManager : ICustomerManager
     {
         private readonly IContractServiceAgent _contractServiceAgent;
+        private readonly IMortgageBrokerServiceAgent _mortgageBrokerServiceAgent;
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
 
         public CustomerManager(
             IDictionaryServiceAgent dictionaryServiceAgent,
-            IContractServiceAgent contractServiceAgent)
+            IContractServiceAgent contractServiceAgent, IMortgageBrokerServiceAgent mortgageBrokerServiceAgent)
         {
             _dictionaryServiceAgent = dictionaryServiceAgent;
             _contractServiceAgent = contractServiceAgent;
+            _mortgageBrokerServiceAgent = mortgageBrokerServiceAgent;
         }
 
         public async Task<NewCustomerViewModel> GetTemplateAsync()
@@ -87,7 +89,7 @@ namespace DealnetPortal.Web.Infrastructure
             }    
             newCustomerDto.LeadSource = System.Configuration.ConfigurationManager.AppSettings[PortalConstants.MortgageBrokerLeadSourceKey] ??
                                             System.Configuration.ConfigurationManager.AppSettings[PortalConstants.DefaultLeadSourceKey];
-            return await _contractServiceAgent.CreateContractForCustomer(newCustomerDto);
+            return await _mortgageBrokerServiceAgent.CreateContractForCustomer(newCustomerDto);
         }
 
         public async Task<IList<ClientsInformationViewModel>> GetCreatedContractsAsync()

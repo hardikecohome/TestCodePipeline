@@ -47,8 +47,6 @@ namespace DealnetPortal.Api.Integration.Services
         public async Task SendDealerLeadAccepted(Contract contract, DealerDTO dealer, string services)
         {
             string emailid = contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress;
-            var location = dealer.Locations?.FirstOrDefault();
-            var addres = location != null ? $"{location.Street}, {location.City}, {location.State}, {location.PostalCode}" : "";
 
             MandrillRequest request = new MandrillRequest();
             List<Variable> myVariables = new List<Variable>();

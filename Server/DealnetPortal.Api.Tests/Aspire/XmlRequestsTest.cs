@@ -67,7 +67,6 @@ namespace DealnetPortal.Api.Tests.Aspire
 
             var x = new XmlSerializer(request.GetType());
             var settings = new XmlWriterSettings { NewLineHandling = NewLineHandling.Entitize };
-            MemoryStream ms = new MemoryStream();
             FileStream fs = new FileStream("testResponse.xml", FileMode.Create);
             var writer = XmlWriter.Create(fs, settings);
             x.Serialize(writer, request);

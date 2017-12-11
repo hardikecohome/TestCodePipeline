@@ -21,24 +21,13 @@
 }
 
 .contract-cell > .status-hold {
-    @media @tablet-up {
-        width: auto !important;
-    }
+    width: auto;
 }
 
 .status-hold {
     display: inline-flex;
     height: 100%;
-    justify-content: space-between;
     width: 100%;
-
-    @media @mobile {
-        width: auto;
-    }
-
-    @media @tablet-only {
-        width: 100%;
-    }
 
     .text-hold {
         display: table;
@@ -67,6 +56,14 @@
     }
 }
 
+.status-cell{
+    .status-hold {
+        .text-hold {
+            width: 75%;
+        }
+    }
+}
+
 .dtr-data {
     .status-hold {
         .icon-hold {
@@ -87,10 +84,6 @@
         @media all and (max-width: 479px) {
             display: inline-block;
         }
-
-        /*@media @mobile and (orientation:landscape) {
-            display: none;
-        }*/
     }
 }
 
@@ -231,7 +224,7 @@
     .icon-esig-,
     .icon-esig-notinitiated,
     .icon-esig-draft {
-        visibility: hidden
+        visibility: hidden;
     }
 
     .icon-esig-sentless3 {

@@ -99,7 +99,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 _loggingService.LogInfo($"eSignature transaction [{transId}] was created successefully");
                 TransactionId = transId.ToString();
 
-                var docRes = await CreateAgreementProfile(contract, agreementTemplate, transId);
+                var docRes = await CreateAgreementProfile(agreementTemplate, transId);
                 if (docRes.Item2?.Any() ?? false)
                 {
                     alerts.AddRange(docRes.Item2);
@@ -322,7 +322,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return new Tuple<long, IList<Alert>>(transId, alerts);
         }
 
-        private async Task<Tuple<long, IList<Alert>>> CreateAgreementProfile(Contract contract, AgreementTemplate agreementTemplate, long transId)
+        private async Task<Tuple<long, IList<Alert>>> CreateAgreementProfile(AgreementTemplate agreementTemplate, long transId)
         {
             long dpId = 0;
             List<Alert> alerts = new List<Alert>();            
