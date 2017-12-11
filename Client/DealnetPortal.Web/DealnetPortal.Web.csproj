@@ -815,6 +815,7 @@
     <Content Include="Scripts\pages\basicInfo\address-autocomplete.js" />
     <Content Include="Scripts\utils\alertModal.js" />
     <Content Include="Scripts\utils\datepicker.js" />
+    <Content Include="Scripts\utils\fields.js" />
     <Content Include="Scripts\utils\helpPopup.js" />
     <Content Include="Scripts\utils\loader.js" />
     <Content Include="Scripts\utils\logger\log.js" />
@@ -916,6 +917,7 @@
     <Content Include="Scripts\utils\financial-functions.module.js" />
     <Content Include="Scripts\utils\functionUtils.js" />
     <Content Include="Scripts\utils\general-address-autocomplete.js" />
+    <Content Include="Scripts\utils\tables.js" />
     <Content Include="Scripts\vendor\js.cookie.js" />
     <Content Include="Scripts\utils\loan-calculator.js" />
     <Content Include="Scripts\utils\localization-init.js" />
