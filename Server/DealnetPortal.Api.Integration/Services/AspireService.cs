@@ -117,7 +117,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 };
                 // Send request to Aspire
-                var sendResult = await DoAspireRequestWithAnalyze(_aspireServiceAgent.CustomerUploadSubmission, request, contract);
+                var sendResult = await DoAspireRequestWithAnalyze(_aspireServiceAgent.CustomerUploadSubmission, request, contract).ConfigureAwait(false);
                 if (sendResult?.Any() == true)
                 {
                     alerts.AddRange(sendResult);
@@ -1127,14 +1127,14 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 //analyze response
                 var rAlerts = AnalyzeResponse(response, contract);
-                if (rAlerts?.Item2?.Any() == true)
+                if (rAlerts?.Any() == true)
                 {
-                    alerts.AddRange(rAlerts.Item2);
+                    alerts.AddRange(rAlerts);
                 }
-                if (rAlerts?.Item1 == true)
-                {
-                    _unitOfWork.Save();
-                }
+                //if (rAlerts?.Item1 == true)
+                //{
+                //    _unitOfWork.Save();
+                //}
             }
             catch (Exception ex)
             {
@@ -1590,7 +1590,7 @@ namespace DealnetPortal.Api.Integration.Services
             return application;
         }
 
-        private Tuple<bool, IList<Alert>> AnalyzeResponse(DealUploadResponse response, Domain.Contract contract, ICollection<NewEquipment> newEquipments = null)
+        private IList<Alert> AnalyzeResponse(DealUploadResponse response, Domain.Contract contract, ICollection<NewEquipment> newEquipments = null)
         {
             bool updated = false;
             var alerts = new List<Alert>();
@@ -1673,9 +1673,13 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                     }
                 }
+                if (updated)
+                {
+                    _unitOfWork.Save();
+                }
             }      
 
-            return new Tuple<bool, IList<Alert>>(updated, alerts);
+            return alerts;
         }
 
         private IList<Alert> AnalyzeDealerUploadResponse(DealUploadResponse response, DealerInfo dealerInfo)
