@@ -1,95 +1,64 @@
-﻿module.exports('financial-functions',
-    function() {
-        var tax = function(data) {
-            return data.equipmentSum * data.tax / 100;
-        };
+﻿function pmt(rate_per_period, number_of_payments, present_value, future_value, type) {
+    if (rate_per_period != 0.0) {
+        var q = Math.pow(1 + rate_per_period, number_of_payments);
+        return -(rate_per_period * (future_value + (q * present_value))) / ((-1 + q) * (1 + rate_per_period * (type)));
 
-        var totalRentalPrice = function (data) {
-			var t = tax(data);
-			var equipmentSum = data.equipmentSum;
+    } else if (number_of_payments != 0.0) {
+        return -(future_value + present_value) / number_of_payments;
+    }
 
-			return equipmentSum + t;
-		};
+    return 0;
+}
 
+function pv(rate, nper, pmt, fv) {
 
-        var totalPrice = function(data) {
-            var t = tax(data);
-            var equipmentSum = data.equipmentSum;
+    nper = parseFloat(nper);
 
-            return equipmentSum /*+ t*/;
-        };
+    pmt = parseFloat(pmt);
 
-        var totalAmountFinanced = function(data) {
-            var tPrice = totalPrice(data);
-            var adminFee = data.AdminFee;
-            var downPayment = data.downPayment;
+    fv = parseFloat(fv);
 
-            return tPrice/* + adminFee*/ - downPayment;
-        };
+    rate = parseFloat(rate);;
 
-        var yourCost = function (data) {
-            var yCost = data.DealerCost;
+    if ((nper == 0)) {
 
-            return yCost * totalAmountFinanced(data) / 100;
-        }
+        return (0);
 
-        var monthlyPayment = function(data) {
-            var tAmountFinanced = totalAmountFinanced(data);
-            var amortizationTerm = data.AmortizationTerm;
-            var customerRate = data.CustomerRate;
+    }
 
-			return (Math.round((tAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0))*100)/100);
-        };
+    if (rate == 0) {
 
-        var totalMonthlyPayments = function(data) {
-            var mPayment = monthlyPayment(data);
-            var loanTerm = data.LoanTerm;
+        pv_value = -(fv + (pmt * nper));
 
-            return mPayment * loanTerm;
-        };
+    }
 
-        var residualBalance = function(data) {
-            var amortizationTerm = data.AmortizationTerm;
-            var loanTerm = data.LoanTerm;
-            var customerRate = data.CustomerRate;
-            var mPayment = monthlyPayment(data);
+    else {
 
-            var rbalance = 0;
-            if (loanTerm !== amortizationTerm) {
-                rbalance = -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, mPayment, 0) *
-                    (1 + customerRate / 100 / 12);
-            }
+        x = Math.pow(1 + rate, -nper);
 
-            return rbalance;
-        };
+        y = Math.pow(1 + rate, nper);
 
-        var totalObligation = function(data) {
-            var tMonthlyPayments = totalMonthlyPayments(data);
-            var rBalance = residualBalance(data);
-			var adminFee = data.AdminFee;
-			return tMonthlyPayments + rBalance + adminFee;
-        };
+        pv_value = -(x * (fv * rate - pmt + y * pmt)) / rate;
 
-        var totalBorrowingCost = function(data) {
-            var tObligation = totalObligation(data);
-			var tAmountFinanced = totalAmountFinanced(data);
-			var adminFee = data.AdminFee;
-			var borrowingCost = tObligation - tAmountFinanced - adminFee;
-            if (borrowingCost < 0)
-                borrowingCost = 0;
-            return borrowingCost;
-        };
+    }
 
-        return {
-            tax: tax,
-			totalPrice: totalPrice,
-			totalRentalPrice: totalRentalPrice,
-            totalObligation: totalObligation,
-            residualBalance: residualBalance,
-            totalMonthlyPayments: totalMonthlyPayments,
-            monthlyPayment: monthlyPayment,
-            totalAmountFinanced: totalAmountFinanced,
-            totalBorrowingCost: totalBorrowingCost,
-            yourCost: yourCost
-        };
-    });
+    pv_value = conv_number(pv_value, 2);
+
+    return (pv_value);
+
+}
+
+function conv_number(expr, decplaces) {
+    var str = "" + Math.round(eval(expr) * Math.pow(10, decplaces));
+
+    while (str.length <= decplaces) {
+
+        str = "0" + str;
+
+    }
+
+    var decpoint = str.length - decplaces;
+
+    return (str.substring(0, decpoint) + "." + str.substring(decpoint, str.length));
+
+}
