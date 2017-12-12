@@ -11,6 +11,7 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Controllers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;

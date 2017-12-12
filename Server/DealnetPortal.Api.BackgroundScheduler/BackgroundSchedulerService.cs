@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Web.Http;
+using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Api.Integration.Services;
 

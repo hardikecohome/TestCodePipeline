@@ -17,6 +17,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Utilities.Messaging;
 using DealnetPortal.Api.Models.Notification;

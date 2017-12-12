@@ -9,158 +9,134 @@ namespace DealnetPortal.Web
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery")
-                .Include(
-                    "~/Scripts/jquery-{version}.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/angular")
-                .Include(
-                    "~/Scripts/Vendor/angular/angular.js",
-                    "~/Scripts/Vendor/angular/angular-touch.js",
-                    "~/Scripts/Vendor/angular/angular-animate.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/angular-ui")
-                .Include("~/Scripts/Vendor/angular/ui-bootstrap-tpls.js"));
+                .Include("~/Scripts/vendor/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").NonOrdering()
-                .Include("~/Scripts/jquery.validate*")
-                .Include("~/Scripts/jquery-validation-messages.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/jqueryval-msg-fr")
-                .Include("~/Scripts/jquery-validate-messages-fr.js"));
+                .Include(
+                "~/Scripts/vendor/jquery.validate*",
+                "~/Scripts/vendor/jquery-validation-messages.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr")
-                .Include("~/Scripts/modernizr-*"));
+                .Include("~/Scripts/vendor/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/localization")
                 .Include(
-                    "~/Scripts/Vendor/cldr/cldr.js",
-                    "~/Scripts/Vendor/cldr/cldr/event.js",
-                    "~/Scripts/Vendor/cldr/cldr/supplemental.js",
-                    "~/Scripts/Vendor/globalize/globalize.js",
-                    "~/Scripts/Vendor/globalize/globalize/number.js",
-                    "~/Scripts/Vendor/globalize/globalize/currency.js",
-                    "~/Scripts/Utils/localization-init.js"));
+                    "~/Scripts/vendor/cldr/cldr.js",
+                    "~/Scripts/vendor/cldr/cldr/event.js",
+                    "~/Scripts/vendor/cldr/cldr/supplemental.js",
+                    "~/Scripts/vendor/globalize/globalize.js",
+                    "~/Scripts/vendor/globalize/globalize/number.js",
+                    "~/Scripts/vendor/globalize/globalize/currency.js",
+                    "~/Scripts/utils/localization-init.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/dealnet")
                 .Include(
-                    "~/Scripts/jquery.tmpl.min.js",
-                    "~/Scripts/jquery.placeholder.min.js", 
-                    "~/Scripts/svgxuse.min.js",
-                    "~/Scripts/jquery.loader.js",
-                    "~/Scripts/slick.min.js",
-                    "~/Scripts/jquery.jcarousel.min.js",
-                    "~/Scripts/jquery.touchSwipe.min.js",
-                    "~/Scripts/layout.js",
-                    "~/Scripts/jquery-ui-1.12.0.js"));
+                    "~/Scripts/vendor/jquery-ui-1.12.0.js",
+                    "~/Scripts/vendor/jquery.tmpl.min.js",
+                    "~/Scripts/vendor/jquery.placeholder.min.js",
+                    "~/Scripts/vendor/svgxuse.min.js",
+                    "~/Scripts/vendor/jquery.loader.js",
+                    "~/Scripts/vendor/jquery.jcarousel.min.js",
+                    "~/Scripts/vendor/jquery.touchSwipe.min.js",
+                    "~/Scripts/layout.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap")
                 .Include(
-                    "~/Scripts/bootstrap.js",
-                    "~/Scripts/respond.js"));
+                    "~/Scripts/vendor/bootstrap.js",
+                    "~/Scripts/vendor/respond.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/data-tables-scripts")
                 .Include(
-                    "~/Scripts/DataTables/jquery.dataTables.js",
-                    "~/Scripts/datatables/dataTables.bootstrap.js",
-                    "~/Scripts/datatables/dataTables.responsive.js"));
+                    "~/Scripts/vendor/dataTables/jquery.dataTables.js",
+                    "~/Scripts/vendor/datatables/dataTables.bootstrap.js",
+                    "~/Scripts/vendor/datatables/dataTables.responsive.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/home-page")
-                .Include("~/Scripts/Modules/index.js")
-                .Include("~/Scripts/common/js.cookie.js")
-                .Include("~/Scripts/common/common.timezone.js")
                 .Include(
-                    "~/Scripts/chart.js",
-                    "~/Scripts/jquery.form.js",
-                    "~/Scripts/home-page.js"));
+                "~/Scripts/utils/modules/index.js",
+                "~/Scripts/vendor/js.cookie.js",
+                "~/Scripts/vendor/chart.js",
+                "~/Scripts/vendor/jquery.form.js",
+                "~/Scripts/utils/common.timezone.js",
+                "~/Scripts/pages/homePage/home-page.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/basic-info")
-                .Include("~/Scripts/general-address-autocomplete.js")
-                .Include("~/Scripts/customer-validation.js")
-                .IncludeDirectory("~/Scripts/BasicInfo", "*.js")
-                .Include("~/Scripts/BasicInfo/DlScanning/dl-scanning.js")
-                .Include("~/Scripts/datejs.js")
-                .Include("~/Scripts/camera-capturing.js")
-                .Include("~/Scripts/Modules/index.js")
-                .Include("~/Scripts/Utils/dob-selecter.js"));
+                .Include("~/Scripts/vendor/datejs.js")
+                .Include("~/Scripts/utils/modules/index.js")
+                .Include("~/Scripts/utils/general-address-autocomplete.js")
+                .Include("~/Scripts/utils/customer-validation.js")
+                .Include("~/Scripts/utils/dl-scanning.js")
+                .Include("~/Scripts/utils/camera-capturing.js")
+                .Include("~/Scripts/utils/dob-selecter.js")
+                .IncludeDirectory("~/Scripts/pages/basicInfo", "*.js",true));
 
             bundles.Add(new ScriptBundle("~/bundles/credit-check")
-                .Include("~/Scripts/credit-check.js")
-                .Include("~/Scripts/datejs.js")
-                .Include("~/Scripts/jquery.form.js")
-                .Include("~/Scripts/general-address-autocomplete.js")
-                .Include("~/Scripts/editable-in-modal.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/equipment-information")
-                .Include("~/Scripts/financial-functions.js")
-                .Include("~/Scripts/loan-calculator.js")
-                .Include("~/Scripts/equipment-information.js")
-                .Include("~/Scripts/datejs.js")
-                .Include("~/Scripts/navigation-with-warning.js"));
+                .Include("~/Scripts/vendor/datejs.js")
+                .Include("~/Scripts/vendor/jquery.form.js")
+                .Include("~/Scripts/utils/general-address-autocomplete.js")
+                .Include("~/Scripts/utils/editable-in-modal.js")
+                .Include("~/Scripts/pages/creditCheck/credit-check.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/contact-and-payment")
-                .Include("~/Scripts/custom-validation.js")
-                .Include("~/Scripts/contact-and-payment-management.js")
-                /*.Include("~/Scripts/camera-capturing.js")*/
-                /*.Include("~/Scripts/vc-scanning.js")*/
-                .Include("~/Scripts/navigation-with-warning.js"));
+                .Include("~/Scripts/utils/custom-validation.js")
+                .Include("~/Scripts/utils/contact-and-payment-management.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/summary-and-confirmation")
-                .Include("~/Scripts/custom-validation.js")
-                .Include("~/Scripts/province-codes-helper.js")
-                .Include("~/Scripts/financial-functions.js")
-                .Include("~/Scripts/loan-calculator.js")
-                .Include("~/Scripts/contact-and-payment-management.js")
-                .Include("~/Scripts/summary-and-confirmation.js")
-                .Include("~/Scripts/jquery.form.js")
-                .Include("~/Scripts/general-address-autocomplete.js")
-                .Include("~/Scripts/editable-in-modal.js")
-                .Include("~/Scripts/navigation-with-warning.js"));
+                .Include("~/Scripts/vendor/jquery.form.js")
+                .Include("~/Scripts/utils/custom-validation.js")
+                .Include("~/Scripts/utils/province-codes-helper.js")
+                .Include("~/Scripts/utils/financial-functions.js")
+                .Include("~/Scripts/utils/loan-calculator.js")
+                .Include("~/Scripts/utils/contact-and-payment-management.js")
+                .Include("~/Scripts/utils/general-address-autocomplete.js")
+                .Include("~/Scripts/utils/editable-in-modal.js")
+                .Include("~/Scripts/pages/summaryAndConfirmation/summary-and-confirmation.js")
+                .Include("~/scripts/pages/basicInfo/address-autocomplete.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/agreement-submit-success")
-                .Include("~/Scripts/jquery.form.js")
-                .Include("~/Scripts/print-contract.js")
-                .Include("~/Scripts/agreement-submit-success.js"));
+                .Include("~/Scripts/vendor/jquery.form.js")
+                .Include("~/Scripts/utils/print-contract.js")
+                .Include("~/Scripts/pages/aggrementSubmitSuccess/agreement-submit-success.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/my-customers")
-                .Include("~/Scripts/datejs.js")
-                .Include("~/Scripts/my-customers.js"));
+                .Include("~/Scripts/vendor/datejs.js")
+                .Include("~/Scripts/pages/myCustomers/my-customers.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/leads")
-                .Include("~/Scripts/datejs.js")
-                .Include("~/Scripts/leads.js"));
+                .Include("~/Scripts/vendor/datejs.js")
+                .Include("~/Scripts/pages/leads/leads.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/my-deals")
-                .Include("~/Scripts/datejs.js")
-                .Include("~/Scripts/Modules/index.js")
-                .Include("~/Scripts/common/js.cookie.js")
-                .Include("~/Scripts/common/common.timezone.js")
-                .Include("~/Scripts/jquery.form.js")
-                .Include("~/Scripts/my-deals.js"));
+                .Include("~/Scripts/vendor/datejs.js")
+                .Include("~/Scripts/vendor/js.cookie.js")
+                .Include("~/Scripts/vendor/jquery.form.js")
+                .Include("~/Scripts/utils/modules/index.js")
+                .Include("~/Scripts/utils/common.timezone.js")
+                .Include("~/Scripts/pages/myDeals/my-deals.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/reports")
-                .Include("~/Scripts/datejs.js")
-                .Include("~/Scripts/reports.js"));
+                .Include("~/Scripts/vendor/datejs.js")
+                .Include("~/Scripts/pages/reports/reports.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/contract-edit")
-                .Include("~/Scripts/datejs.js")
-                .Include("~/Scripts/Modules/index.js")
-                .Include("~/Scripts/custom-validation.js")
-                .Include("~/Scripts/contact-and-payment-management.js")
-                .Include("~/Scripts/agreement-submit-success.js")
-                .Include("~/Scripts/print-contract.js")
-                .Include("~/Scripts/jquery.form.js")
-                .Include("~/Scripts/general-address-autocomplete.js")
-                .Include("~/Scripts/editable-in-modal.js")
-                .Include("~/Scripts/contract-edit.js")
-                .Include("~/Scripts/common/js.cookie.js")
-                .Include("~/Scripts/common/common.timezone.js")
-                .IncludeDirectory("~/Scripts/Pages/contractEdit", "*.js", true));
+                .Include("~/Scripts/vendor/datejs.js")
+                .Include("~/Scripts/vendor/jquery.form.js")
+                .Include("~/Scripts/vendor/js.cookie.js")
+                .Include("~/Scripts/utils/modules/index.js")
+                .Include("~/Scripts/utils/custom-validation.js")
+                .Include("~/Scripts/utils/contact-and-payment-management.js")
+                .Include("~/Scripts/utils/print-contract.js")
+                .Include("~/Scripts/utils/general-address-autocomplete.js")
+                .Include("~/Scripts/utils/editable-in-modal.js")
+                .Include("~/Scripts/utils/common.timezone.js")
+                .Include("~/Scripts/pages/aggrementSubmitSuccess/agreement-submit-success.js")
+                .IncludeDirectory("~/Scripts/pages/contractEdit", "*.js", true));
 
             bundles.Add(new ScriptBundle("~/bundles/shareable-link")
-                .Include("~/Scripts/jquery.form.js")
-                .Include("~/Scripts/shareable-link.js"));
+                .Include("~/Scripts/vendor/jquery.form.js")
+                .Include("~/Scripts/pages/sharableLink/shareable-link.js"));
 
             bundles.Add(new StyleBundle("~/bundles/data-tables-content")
                 .Include(
@@ -169,133 +145,105 @@ namespace DealnetPortal.Web
                     "~/Content/datatables/css/responsive.bootstrap.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/customer-form").Include(
-                "~/Scripts/datejs.js",
-                "~/Scripts/Modules/index.js",
-                "~/Scripts/Logger/logdebug.js",
-                "~/Scripts/Pages/customer-form.js",
-                "~/Scripts/Reducers/customer.js",
-                "~/Scripts/Actions/customer.js",
-                "~/Scripts/Selectors/customer.js",
-                "~/Scripts/Views/agreement.js",
-                "~/Scripts/Views/contact-info.js",
-                "~/Scripts/Views/your-info.js",
-                "~/Scripts/Views/installation-address.js",
-                "~/Scripts/Utils/functionUtils.js",
-                "~/Scripts/Utils/logMiddleware.js",
-                "~/Scripts/Utils/objectUtils.js",
-                "~/Scripts/Utils/redux.js",
-                "~/Scripts/Utils/dob-selecter.js"));
+                "~/Scripts/vendor/datejs.js",
+                "~/Scripts/utils/modules/index.js",
+                "~/Scripts/utils/logger/logdebug.js",
+                "~/Scripts/utils/functionUtils.js",
+                "~/Scripts/utils/logMiddleware.js",
+                "~/Scripts/utils/objectUtils.js",
+                "~/Scripts/utils/redux.js",
+                "~/Scripts/utils/dob-selecter.js")
+                .IncludeDirectory("~/Scripts/pages/customerForm", "*.js", true));
 
             bundles.Add(new ScriptBundle("~/bundles/new-client")
                 .Include(
-                "~/Scripts/general-address-autocomplete.js",
-                "~/Scripts/BasicInfo/DlScanning/dl-scanning.js",
-                "~/Scripts/camera-capturing.js",
-                "~/Scripts/datejs.js",
-                "~/Scripts/Modules/index.js",
-                "~/Scripts/Logger/logdebug.js",
-                "~/Scripts/Selectors/new-client-selectors.js",
-                "~/Scripts/Pages/Clients/index.js",
-                "~/Scripts/Pages/Clients/new-client-autocomplete.js",
-                "~/Scripts/Pages/Clients/new-client-flow.js",
-                "~/Scripts/Pages/Clients/new-client-store.js",
-                "~/Scripts/Reducers/new-client-reducer.js",
-                "~/Scripts/Actions/new-client-actions.js",
-                "~/Scripts/Views/Clients/basic-information.js",
-                "~/Scripts/Views/Clients/address-information.js",
-                "~/Scripts/Views/Clients/contact-information.js",
-                "~/Scripts/Views/Clients/home-improvments.js",
-                "~/Scripts/Views/Clients/client-consents.js",
-                "~/Scripts/Utils/functionUtils.js",
-                "~/Scripts/Utils/logMiddleware.js",
-                "~/Scripts/Utils/objectUtils.js",
-                "~/Scripts/Utils/redux.js",
-                "~/Scripts/Utils/dob-selecter.js"));
+                "~/Scripts/vendor/datejs.js",
+                "~/Scripts/utils/general-address-autocomplete.js",
+                "~/Scripts/utils/dl-scanning.js",
+                "~/Scripts/utils/camera-capturing.js",
+                "~/Scripts/utils/modules/index.js",
+                "~/Scripts/utils/logger/logdebug.js",
+                "~/Scripts/utils/functionUtils.js",
+                "~/Scripts/utils/logMiddleware.js",
+                "~/Scripts/utils/objectUtils.js",
+                "~/Scripts/utils/redux.js",
+                "~/Scripts/utils/dob-selecter.js")
+                //"~/Scripts/pages/clients/selectors/new-client-selectors.js",
+                //"~/Scripts/pages/clients/index.js",
+                //"~/Scripts/pages/clients/new-client-autocomplete.js",
+                //"~/Scripts/pages/clients/new-client-flow.js",
+                //"~/Scripts/pages/clients/new-client-store.js",
+                //"~/Scripts/pages/clients/reducers/new-client-reducer.js",
+                //"~/Scripts/pages/clients/actions/new-client-actions.js",
+                //"~/Scripts/pages/clients/views/basic-information.js",
+                //"~/Scripts/pages/clients/views/address-information.js",
+                //"~/Scripts/pages/clients/views/contact-information.js",
+                //"~/Scripts/pages/clients/views/home-improvments.js",
+                //"~/Scripts/pages/clients/views/client-consents.js",
+                .IncludeDirectory("~/Scripts/pages/clients", "*.js", true));
 
-            //bundles.Add(new ScriptBundle("~/bundles/new-client-mobile")
-            //    .Include(
-            //        "~/Scripts/general-address-autocomplete.js",
-            //        "~/Scripts/BasicInfo/DlScanning/dl-scanning-mobile.js",
-            //        "~/Scripts/camera-capturing.js",
-            //        "~/Scripts/datejs.js",
-            //        "~/Scripts/Modules/index.js",
-            //        "~/Scripts/Logger/logdebug.js",
-            //        "~/Scripts/Selectors/new-client-selectors.js",
-            //        "~/Scripts/Pages/Clients/index.js",
-            //        "~/Scripts/Pages/Clients/new-client-autocomplete.js",
-            //        "~/Scripts/Pages/Clients/new-client-flow.js",
-            //        "~/Scripts/Pages/Clients/new-client-store.js",
-            //        "~/Scripts/Reducers/new-client-reducer.js",
-            //        "~/Scripts/Actions/new-client-actions.js",
-            //        "~/Scripts/Views/Clients/basic-information.js",
-            //        "~/Scripts/Views/Clients/address-information.js",
-            //        "~/Scripts/Views/Clients/contact-information.js",
-            //        "~/Scripts/Views/Clients/home-improvments.js",
-            //        "~/Scripts/Views/Clients/client-consents.js",
-            //        "~/Scripts/Utils/functionUtils.js",
-            //        "~/Scripts/Utils/logMiddleware.js",
-            //        "~/Scripts/Utils/objectUtils.js",
-            //        "~/Scripts/Utils/redux.js"));
             bundles.Add(new ScriptBundle("~/bundles/my-profile")
-                .Include("~/Scripts/jquery.form.js")
-                .Include("~/Scripts/Modules/index.js")
-                .Include("~/Scripts/Pages/MyProfile/index.js")
-                .Include("~/Scripts/Pages/MyProfile/form-handlers.js")
-                .Include("~/Scripts/Pages/MyProfile/category-handlers.js")
-                .Include("~/Scripts/Pages/MyProfile/postalCode-handlers.js")
-                .Include("~/Scripts/Pages/MyProfile/my-profile-state.js")
-                .Include("~/Scripts/Pages/MyProfile/postalCode-template.js")
-                .Include("~/Scripts/Pages/MyProfile/category-template.js")
-                .Include("~/Scripts/jquery.form.js")
+                .Include("~/Scripts/vendor/jquery.form.js")
+                .Include("~/Scripts/utils/modules/index.js")
+                //.Include("~/Scripts/pages/myProfile/index.js")
+                //.Include("~/Scripts/pages/myProfile/form-handlers.js")
+                //.Include("~/Scripts/pages/myProfile/category-handlers.js")
+                //.Include("~/Scripts/pages/myProfile/postalCode-handlers.js")
+                //.Include("~/Scripts/pages/myProfile/my-profile-state.js")
+                //.Include("~/Scripts/pages/myProfile/postalCode-template.js")
+                //.Include("~/Scripts/pages/myProfile/category-template.js")
+                .IncludeDirectory("~/Scripts/pages/myProfile", "*.js", true)
             );
 
             bundles.Add(new ScriptBundle("~/bundles/new-equipment-information")
-                .Include("~/Scripts/datejs.js")
-                .Include("~/Scripts/financial-functions.js")
-                .Include("~/Scripts/loan-calculator.js")
-                .Include("~/Scripts/Modules/index.js")
-                .Include("~/Scripts/Logger/log.js")
-                .Include("~/Scripts/Utils/financial-functions.js")
-                .Include("~/Scripts/Pages/newEquipment/rate-cards.js")
-                .Include("~/Scripts/Pages/newEquipment/rate-cards-ui.js")
-                .Include("~/Scripts/Pages/newEquipment/template.js")
-                .Include("~/Scripts/Pages/newEquipment/equipment.js")
-                .Include("~/Scripts/Pages/newEquipment/value-setters.js")
-                .Include("~/Scripts/Pages/newEquipment/custom-rate-card.js")
-                .Include("~/Scripts/Pages/newEquipment/index.js")
-                .Include("~/Scripts/Pages/newEquipment/state.js")
-                .Include("~/Scripts/Pages/newEquipment/rate-cards-init.js")
-                .Include("~/Scripts/Pages/newEquipment/validation.js")
+                .Include("~/Scripts/vendor/datejs.js")
+                .Include("~/Scripts/utils/modules/index.js")
+                .Include("~/Scripts/utils/financial-functions.js")
+                .Include("~/Scripts/utils/loan-calculator.js")
+                .Include("~/Scripts/utils/logger/log.js")
+                .Include("~/Scripts/utils/financial-functions.module.js")
+                //.Include("~/Scripts/pages/newEquipment/rate-cards.js")
+                //.Include("~/Scripts/pages/newEquipment/rate-cards-ui.js")
+                //.Include("~/Scripts/pages/newEquipment/template.js")
+                //.Include("~/Scripts/pages/newEquipment/equipment.js")
+                //.Include("~/Scripts/pages/newEquipment/value-setters.js")
+                //.Include("~/Scripts/pages/newEquipment/custom-rate-card.js")
+                //.Include("~/Scripts/pages/newEquipment/index.js")
+                //.Include("~/Scripts/pages/newEquipment/state.js")
+                //.Include("~/Scripts/pages/newEquipment/rate-cards-init.js")
+                //.Include("~/Scripts/pages/newEquipment/validation.js")
+                .IncludeDirectory("~/Scripts/pages/newEquipment", "*.js", true)
             );
 
             bundles.Add(new ScriptBundle("~/bundles/additional-equipment-information")
-                .Include("~/Scripts/datejs.js")
-                .Include("~/Scripts/Pages/additionalContractInfo/contract-information.js")
+                .Include("~/Scripts/vendor/datejs.js")
+                .Include("~/Scripts/pages/additionalContractInfo/contract-information.js")
             );
 
             bundles.Add(new ScriptBundle("~/bundles/standalone-calculator")
-                .Include("~/Scripts/financial-functions.js")
-                .Include("~/Scripts/datejs.js")
-                .Include("~/Scripts/loan-calculator.js")
-                .Include("~/Scripts/Modules/index.js")
-                .Include("~/Scripts/Logger/log.js")
-                .Include("~/Scripts/Pages/calculator/calculator-init.js")
-                .Include("~/Scripts/Pages/calculator/calculator-index.js")
-                .Include("~/Scripts/Pages/calculator/calculator-state.js")
-                .Include("~/Scripts/Pages/calculator/calculator-option.js")
-                .Include("~/Scripts/Pages/calculator/calculator-value-setters.js")
-                .Include("~/Scripts/Pages/calculator/calculator-ui.js")
-                .Include("~/Scripts/Pages/calculator/calculator-conversion.js")
-                .Include("~/Scripts/Pages/calculator/calculator-jcarousel.js")
-                .Include("~/Scripts/Utils/financial-functions.js"));
+                .Include("~/Scripts/vendor/datejs.js")
+                .Include("~/Scripts/utils/modules/index.js")
+                .Include("~/Scripts/utils/financial-functions.js")
+                .Include("~/Scripts/utils/financial-functions.module.js")
+                .Include("~/Scripts/utils/loan-calculator.js")
+                .Include("~/Scripts/utils/logger/log.js")
+                //.Include("~/Scripts/pages/calculator/calculator-init.js")
+                //.Include("~/Scripts/pages/calculator/calculator-index.js")
+                //.Include("~/Scripts/pages/calculator/calculator-state.js")
+                //.Include("~/Scripts/pages/calculator/calculator-option.js")
+                //.Include("~/Scripts/pages/calculator/calculator-value-setters.js")
+                //.Include("~/Scripts/pages/calculator/calculator-ui.js")
+                //.Include("~/Scripts/pages/calculator/calculator-conversion.js")
+                //.Include("~/Scripts/pages/calculator/calculator-jcarousel.js")
+                .IncludeDirectory("~/Scripts/pages/calculator","*.js",true));
 
             bundles.Add(new ScriptBundle("~/bundles/onboarding")
-                .Include("~/Scripts/Modules/index.js")
-                .Include("~/Scripts/Utils/objectUtils.js")
-                .Include("~/Scripts/general-address-autocomplete.js")
-                .Include("~/Scripts/jquery.form.js")
-                .IncludeDirectory("~/Scripts/Pages/onboarding", "*.js", true)
-                .Include("~/Scripts/Utils/dob-selecter.js"));
+                .Include("~/Scripts/vendor/jquery.form.js")
+                .Include("~/Scripts/utils/modules/index.js")
+                .Include("~/Scripts/utils/objectUtils.js")
+                .Include("~/Scripts/utils/general-address-autocomplete.js")
+                .Include("~/Scripts/utils/dob-selecter.js")
+                .IncludeDirectory("~/Scripts/pages/onboarding", "*.js", true));
         }
     }
 }
