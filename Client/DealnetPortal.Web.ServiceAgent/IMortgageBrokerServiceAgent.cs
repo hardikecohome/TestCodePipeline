@@ -11,5 +11,6 @@ namespace DealnetPortal.Web.ServiceAgent
     public interface IMortgageBrokerServiceAgent
     {
         Task<Tuple<ContractDTO, IList<Alert>>> CreateContractForCustomer(NewCustomerDTO customerForm);
+        Task<IList<ContractDTO>> GetCreatedContracts();
     }
 }

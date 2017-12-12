@@ -736,48 +736,6 @@ namespace DealnetPortal.Api.Integration.Services
             return contractDTOs;
         }
 
-        public IList<ContractDTO> GetCreatedContracts(string userId)
-        {
-            var contracts = _contractRepository.GetContractsCreatedByUser(userId);
-            var contractDTOs = Mapper.Map<IList<ContractDTO>>(contracts);
-            AftermapContracts(contracts, contractDTOs, userId);
-            return contractDTOs;
-        }
-
-        private void AftermapContracts(IList<Contract> contracts, IList<ContractDTO> contractDTOs, string ownerUserId)
-        {
-            var equipmentTypes = _contractRepository.GetEquipmentTypes();
-            foreach (var contractDTO in contractDTOs)
-            {
-                AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, equipmentTypes);
-                var contract = contracts.FirstOrDefault(x => x.Id == contractDTO.Id);
-                if (contract != null) { AftermapComments(contract.Comments, contractDTO.Comments, ownerUserId); }
-            }
-        }
-
-        private void AftermapNewEquipment(IList<NewEquipmentDTO> equipment, IList<EquipmentType> equipmentTypes)
-        {
-            equipment?.ForEach(eq => eq.TypeDescription = ResourceHelper.GetGlobalStringResource(equipmentTypes.FirstOrDefault(eqt => eqt.Type == eq.Type)?.DescriptionResource));
-        }
-
-        private void AftermapComments(IEnumerable<Comment> src, IEnumerable<CommentDTO> dest, string contractOwnerId)
-        {
-            var srcComments = src.ToArray();
-            foreach (var destComment in dest)
-            {
-                var scrComment = srcComments.FirstOrDefault(x => x.Id == destComment.Id);
-                if (scrComment == null)
-                {
-                    continue;
-                }
-                destComment.IsOwn = scrComment.DealerId == contractOwnerId;
-                if (destComment.Replies.Any())
-                {
-                    AftermapComments(scrComment.Replies, destComment.Replies, contractOwnerId);
-                }
-            }
-        }
-
         private IList<ContractDTO> GetAspireDealsForDealer(string contractOwnerId)
         {
             var user = _contractRepository.GetDealer(contractOwnerId);
@@ -977,18 +935,6 @@ namespace DealnetPortal.Api.Integration.Services
                         contract.WasDeclined = true;
                         break;
                 }
-                //if (!aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
-                //    contract.ContractState == ContractState.Closed)
-                //{
-                //    contract.ContractState = ContractState.Completed;
-                //    contract.LastUpdateTime = DateTime.Now;
-                //}
-                //else if (aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
-                //         contract.ContractState != ContractState.Closed)
-                //{
-                //    contract.ContractState = ContractState.Closed;
-                //    contract.LastUpdateTime = DateTime.Now;
-                //}
             }
             else
             {
@@ -1080,6 +1026,40 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return alerts;
+        }
+
+        private void AftermapContracts(IList<Contract> contracts, IList<ContractDTO> contractDTOs, string ownerUserId)
+        {
+            var equipmentTypes = _contractRepository.GetEquipmentTypes();
+            foreach (var contractDTO in contractDTOs)
+            {
+                AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, equipmentTypes);
+                var contract = contracts.FirstOrDefault(x => x.Id == contractDTO.Id);
+                if (contract != null) { AftermapComments(contract.Comments, contractDTO.Comments, ownerUserId); }
+            }
+        }
+
+        private void AftermapNewEquipment(IList<NewEquipmentDTO> equipment, IList<EquipmentType> equipmentTypes)
+        {
+            equipment?.ForEach(eq => eq.TypeDescription = ResourceHelper.GetGlobalStringResource(equipmentTypes.FirstOrDefault(eqt => eqt.Type == eq.Type)?.DescriptionResource));
+        }
+
+        private void AftermapComments(IEnumerable<Comment> src, IEnumerable<CommentDTO> dest, string contractOwnerId)
+        {
+            var srcComments = src.ToArray();
+            foreach (var destComment in dest)
+            {
+                var scrComment = srcComments.FirstOrDefault(x => x.Id == destComment.Id);
+                if (scrComment == null)
+                {
+                    continue;
+                }
+                destComment.IsOwn = scrComment.DealerId == contractOwnerId;
+                if (destComment.Replies.Any())
+                {
+                    AftermapComments(scrComment.Replies, destComment.Replies, contractOwnerId);
+                }
+            }
         }
     }
 }
