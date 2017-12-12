@@ -3,6 +3,10 @@
 configInitialized
     .then(function () {
         var dynamicAlertModal = module.require('alertModal').dynamicAlertModal;
+        var checkApplicantsAge = module.require('customer-validation').checkApplicantsAge;
+        var checkHomeOwner = module.require('customer-validation').checkHomeOwner;
+        var checkCreditAgree = module.require('customer-validation').checkCreditAgree;
+
         $('.j-personal-data-used-modal').on('click', function (e) {
             var data = {
                 message: $('#personal-data-used').html(),
