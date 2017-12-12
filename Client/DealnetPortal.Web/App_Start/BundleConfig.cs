@@ -76,6 +76,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/camera-capturing.js")
                 .Include("~/Scripts/utils/dob-selecter.js")
                 .Include("~/Scripts/utils/loader.js")
+                .Include("~/Scripts/utils/navigateToStep.js")
                 .IncludeDirectory("~/Scripts/pages/basicInfo", "*.js", true));
 
             bundles.Add(new ScriptBundle("~/bundles/credit-check")
@@ -84,9 +85,11 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/general-address-autocomplete.js")
                 .Include("~/Scripts/utils/editable-in-modal.js")
                 .Include("~/Scripts/utils/loader.js")
+                .Include("~/Scripts/utils/navigateToStep.js")
                 .Include("~/Scripts/pages/creditCheck/credit-check.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/contact-and-payment")
+                .Include("~/Scripts/utils/navigateToStep.js")
                 .Include("~/Scripts/utils/custom-validation.js")
                 .Include("~/Scripts/utils/contact-and-payment-management.js"));
 
@@ -100,8 +103,9 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/general-address-autocomplete.js")
                 .Include("~/Scripts/utils/editable-in-modal.js")
                 .Include("~/Scripts/utils/datepicker.js")
+                .Include("~/Scripts/utils/navigateToStep.js")
                 .Include("~/Scripts/pages/summaryAndConfirmation/summary-and-confirmation.js")
-                .Include("~/scripts/pages/basicInfo/address-autocomplete.js"));
+                .Include("~/Scripts/pages/basicInfo/address-autocomplete.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/agreement-submit-success")
                 .Include("~/Scripts/vendor/jquery.form.js")
@@ -149,6 +153,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/common.timezone.js")
                 .Include("~/Scripts/utils/datepicker.js")
                 .Include("~/Scripts/utils/loader.js")
+                .Include("~/Scripts/utils/navigateToStep.js")
                 .Include("~/Scripts/pages/aggrementSubmitSuccess/agreement-submit-success.js")
                 .IncludeDirectory("~/Scripts/pages/contractEdit", "*.js", true));
 
@@ -203,6 +208,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/logger/log.js")
                 .Include("~/Scripts/utils/financial-functions.module.js")
                 .Include("~/Scripts/utils/datepicker.js")
+                .Include("~/Scripts/utils/navigateToStep.js")
                 .IncludeDirectory("~/Scripts/pages/newEquipment", "*.js", true)
             );
 

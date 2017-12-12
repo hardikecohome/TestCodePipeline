@@ -169,19 +169,6 @@ $(document)
             return false;
         });
 
-        $('#steps .step-item[data-warning="true"]').on('click', function () {
-            if ($(this).attr('href')) {
-                navigateToStep($(this));
-            }
-            return false;
-        });
-        $('.editToStep1').on('click', function () {
-            if ($(this).attr('href')) {
-                navigateToStep($(this));
-            }
-            return false;
-        });
-
         setTimeout(function () {
             documentsColHeight();
             $('.credit-check-info-hold .dealnet-credit-check-section').each(function () {
@@ -328,33 +315,9 @@ function setEqualHeightRows (row) {
     row.height(maxHeight);
 }
 
-function has_scrollbar (elem, className) {
-    elem_id = elem.attr('id');
-    if (elem[0].clientHeight < elem[0].scrollHeight)
-        elem.parents('.control-group').addClass(className);
-    else
-        elem.parents('.control-group').removeClass(className);
-}
-
 function documentsColHeight () {
     var columns = $('.report-documents-list .document-col');
-    /*console.log(columns.find('.documents-inner').height());*/
     columns.find('.dealnet-credit-check-section').css('min-height', columns.find('.documents-inner').height());
-}
-
-function navigateToStep (targetLink) {
-    var url = targetLink.attr('href');
-    var stepName = targetLink.text() === 'Edit' ? '1' : targetLink.text();
-    var data = {
-        message: translations['IfYouChangeInfo'],
-        title: translations['NavigateToStep'] + ' ' + stepName + '?',
-        confirmBtnText: translations['GoToStep'] + ' ' + stepName
-    };
-    dynamicAlertModal(data);
-
-    $('#confirmAlert').on('click', function () {
-        window.location.href = url;
-    });
 }
 
 function detectPageHeight () {

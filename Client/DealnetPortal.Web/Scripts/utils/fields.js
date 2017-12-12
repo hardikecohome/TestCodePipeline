@@ -148,3 +148,11 @@ function recoverPassword (e) {
     }
     return false;
 }
+
+function has_scrollbar (elem, className) {
+    elem_id = elem.attr('id');
+    if (elem[0].clientHeight < elem[0].scrollHeight)
+        elem.parents('.control-group').addClass(className);
+    else
+        elem.parents('.control-group').removeClass(className);
+}

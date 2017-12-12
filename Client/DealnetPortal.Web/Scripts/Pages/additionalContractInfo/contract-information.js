@@ -26,6 +26,15 @@
             },
             translations['EnterValidDate']
         );
+
+        var navigateToStep = module.require('navigateToStep');
+
+        $('.editToStep1').on('click', function () {
+            if ($(this).attr('href')) {
+                navigateToStep($(this));
+            }
+            return false;
+        });
     });
 
 function addExistingEquipment () {

@@ -904,7 +904,7 @@
     <Content Include="Scripts\pages\onboarding\product\onboarding.product.setters.js" />
     <Content Include="Scripts\pages\reports\reports.js" />
     <Content Include="Scripts\pages\sharableLink\shareable-link.js" />
-    <Content Include="Scripts\pages\summaryAdnConfirmation\summary-and-confirmation.js" />
+    <Content Include="Scripts\pages\summaryAndConfirmation\summary-and-confirmation.js" />
     <Content Include="Scripts\utils\camera-capturing.js" />
     <Content Include="Scripts\utils\common.timezone.js" />
     <Content Include="Scripts\utils\contact-and-payment-management.js" />
@@ -918,6 +918,7 @@
     <Content Include="Scripts\utils\functionUtils.js" />
     <Content Include="Scripts\utils\general-address-autocomplete.js" />
     <Content Include="Scripts\utils\modals.js" />
+    <Content Include="Scripts\utils\navigateToStep.js" />
     <Content Include="Scripts\utils\tables.js" />
     <Content Include="Scripts\vendor\js.cookie.js" />
     <Content Include="Scripts\utils\loan-calculator.js" />

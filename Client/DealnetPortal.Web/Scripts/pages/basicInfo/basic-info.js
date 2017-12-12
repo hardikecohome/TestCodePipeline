@@ -167,6 +167,14 @@ configInitialized
         if ($('#owner-upload-file').length) {
             $('#owner-upload-file').rules('remove');
         }
+
+        var navigateToStep = module.require('navigateToStep');
+        $('#steps .step-item[data-warning="true"]').on('click', function () {
+            if ($(this).attr('href')) {
+                navigateToStep($(this));
+            }
+            return false;
+        });
     });
 
 function setDataAttrInModal (index) {
