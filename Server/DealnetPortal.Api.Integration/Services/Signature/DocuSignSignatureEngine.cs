@@ -55,7 +55,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         private List<CarbonCopy> _copyViewers { get; set; }
         private EnvelopeDefinition _envelopeDefinition { get; set; }
 
-        private readonly string[] DocuSignResipientStatuses = new string[] { "Created", "Sent", "Delivered", "Signed", "Declined", "Completed", "Voided" };
+        private readonly string[] DocuSignResipientStatuses = { "Created", "Sent", "Delivered", "Signed", "Declined", "Completed", "Voided" };
 
 
         public DocuSignSignatureEngine(ILoggingService loggingService, IAppConfiguration configuration)

@@ -1,24 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Api.Integration.Interfaces;
+using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Aspire.Integration.Storage;
+using DealnetPortal.DataAccess;
+using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
+using DealnetPortal.Utilities.Configuration;
+using DealnetPortal.Utilities.Logging;
 using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Api.Integration.Services
 {
-    public partial class ContractService
+    public class MortgageBrokerService : IMortgageBrokerService
     {
-        //check if customer exist on MB part
-        public async Task<IList<Alert>> CheckCustomerExistingAsync(string email)
+
+        private readonly IContractRepository _contractRepository;
+        private readonly ILoggingService _loggingService;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IAspireService _aspireService;
+        private readonly ICustomerWalletService _customerWalletService;
+        private readonly IMailService _mailService;
+        private readonly ICreditCheckService _creditCheckService;
+        private readonly IAppConfiguration _configuration;
+
+        public MortgageBrokerService(IContractRepository contractRepository, ILoggingService loggingService, IUnitOfWork unitOfWork, IAspireService aspireService, ICustomerWalletService customerWalletService, IMailService mailService, IAppConfiguration configuration, ICreditCheckService creditCheckService)
         {
-            return await _customerWalletService.CheckCustomerExisting(email);
+            _contractRepository = contractRepository;
+            _loggingService = loggingService;
+            _unitOfWork = unitOfWork;
+            _aspireService = aspireService;
+            _customerWalletService = customerWalletService;
+            _mailService = mailService;
+            _configuration = configuration;
+            _creditCheckService = creditCheckService;
         }
 
         public async Task<Tuple<ContractDTO, IList<Alert>>> CreateContractForCustomer(string contractOwnerId, NewCustomerDTO newCustomer)
@@ -70,14 +94,14 @@ namespace DealnetPortal.Api.Integration.Services
 
                 foreach (var contractResult in contractsResultList.Where(x => x.Item1 != null).ToList())
                 {
-                    var initAlerts = InitiateCreditCheck(contractResult.Item1.Id, contractOwnerId);
+                    var initAlerts = _creditCheckService.InitiateCreditCheck(contractResult.Item1.Id, contractOwnerId);
 
                     if (initAlerts?.Any() ?? false)
                     {
                         creditCheckAlerts.AddRange(initAlerts);
                     }
 
-                    var checkResult = GetCreditCheckResult(contractResult.Item1.Id, contractOwnerId);
+                    var checkResult = _creditCheckService.GetCreditCheckResult(contractResult.Item1.Id, contractOwnerId);
                     if (checkResult != null)
                     {
                         creditCheckAlerts.AddRange(checkResult.Item2);
@@ -126,7 +150,7 @@ namespace DealnetPortal.Api.Integration.Services
                             .PrimaryCustomer.Locations
                             .FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress) != null;
 
-                        if (succededContracts.Select(x => x.Equipment?.NewEquipment?.FirstOrDefault()).Any(i=>i!=null) && hasInstallationAddress)
+                        if (succededContracts.Select(x => x.Equipment?.NewEquipment?.FirstOrDefault()).Any(i => i != null) && hasInstallationAddress)
                         {
                             await _mailService.SendHomeImprovementMailToCustomer(succededContracts);
 
@@ -154,7 +178,7 @@ namespace DealnetPortal.Api.Integration.Services
                 //remove all newly created "internal" (unsubmitted to aspire) contracts here
                 contractsResultList.Where(r => r.Item1 != null && string.IsNullOrEmpty(r.Item1.Details?.TransactionId)).ForEach(
                     cr =>
-                    {                        
+                    {
                         _loggingService.LogWarning($"Internal Contract {cr.Item1.Id} is removing from DB");
                         creditCheckAlerts.Add(new Alert()
                         {
@@ -170,7 +194,7 @@ namespace DealnetPortal.Api.Integration.Services
                     });
 
                 //?
-                var contractDTO = Mapper.Map<ContractDTO>(succededContracts.FirstOrDefault() ?? contractsResultList?.FirstOrDefault()?.Item1);                
+                var contractDTO = Mapper.Map<ContractDTO>(succededContracts.FirstOrDefault() ?? contractsResultList?.FirstOrDefault()?.Item1);
                 return new Tuple<ContractDTO, IList<Alert>>(contractDTO, creditCheckAlerts);
             }
             catch (Exception ex)
@@ -194,13 +218,9 @@ namespace DealnetPortal.Api.Integration.Services
                 var contractData = new ContractData
                 {
                     PrimaryCustomer = customer,
-                    HomeOwners = new List<Customer> {customer},
+                    HomeOwners = new List<Customer> { customer },
                     DealerId = contractOwnerId,
                     Id = contract.Id,
-                    //Equipment = new EquipmentInfo
-                    //{
-                    //    EstimatedInstallationDate = newCustomer.EstimatedMoveInDate
-                    //}
                 };
 
                 if (!string.IsNullOrEmpty(improvmentType))
@@ -215,9 +235,14 @@ namespace DealnetPortal.Api.Integration.Services
                 return await UpdateNewContractForCustomer(contractOwnerId, newCustomer, contractData);
             }
 
-           _loggingService.LogError($"Failed to create a new contract for customer [{contractOwnerId}] with improvment type [{improvmentType}]");
+            _loggingService.LogError($"Failed to create a new contract for customer [{contractOwnerId}] with improvment type [{improvmentType}]");
 
             return new Tuple<Contract, bool>(null, false);
+        }
+
+        private bool IsContractUnassignable(int contractId)
+        {
+            return _contractRepository.IsContractUnassignable(contractId);
         }
 
         private async Task<Tuple<Contract, bool>> UpdateNewContractForCustomer(string contractOwnerId, NewCustomerDTO newCustomer, ContractData contractData)
@@ -238,21 +263,54 @@ namespace DealnetPortal.Api.Integration.Services
                     IsCustomerComment = true,
                     Text = newCustomer.CustomerComment
                 };
-                _contractRepository.TryAddComment(comment, contractOwnerId);                                
+                _contractRepository.TryAddComment(comment, contractOwnerId);
             }
             _unitOfWork.Save();
 
             if (updatedContract.PrimaryCustomer != null)
             {
                 await _aspireService.UpdateContractCustomer(updatedContract.Id, contractOwnerId);
-            }            
+            }
 
             return new Tuple<Contract, bool>(updatedContract, true);
         }
 
-        private bool IsContractUnassignable(int contractId)
+        private IList<Alert> RemoveContract(int contractId, string contractOwnerId)
         {
-            return _contractRepository.IsContractUnassignable(contractId);
+            var alerts = new List<Alert>();
+
+            try
+            {
+                if (_contractRepository.DeleteContract(contractOwnerId, contractId))
+                {
+                    _unitOfWork.Save();
+                }
+                else
+                {
+                    var errorMsg = "Cannot remove contract";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.ContractRemoveFailed,
+                        Message = errorMsg
+                    });
+                    _loggingService.LogError(errorMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Failed to remove contract", ex);
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.DocumentUpdateFailed,
+                    Message = ex.ToString()
+                });
+            }
+
+            return alerts;
         }
     }
+
+    
 }

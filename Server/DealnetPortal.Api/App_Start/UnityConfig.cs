@@ -6,6 +6,7 @@ using DealnetPortal.Api.BackgroundScheduler;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Controllers;
 using DealnetPortal.Api.Core.ApiClient;
+using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Integration.ServiceAgents;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature;
 using DealnetPortal.Api.Integration.Services;
@@ -60,6 +61,8 @@ namespace DealnetPortal.Api
             #region Services
             container.RegisterType<ILoggingService, LoggingService>();
             container.RegisterType<IContractService, ContractService>();
+            container.RegisterType<IMortgageBrokerService, MortgageBrokerService>();
+            container.RegisterType<ICreditCheckService, CreditCheckService>();
             container.RegisterType<ICustomerFormService, CustomerFormService>();
             container.RegisterType<ISignatureService, SignatureService>();
             container.RegisterType<IMailService, MailService>();

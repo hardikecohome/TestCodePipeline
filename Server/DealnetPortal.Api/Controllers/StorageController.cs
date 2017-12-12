@@ -16,6 +16,7 @@ using DealnetPortal.Domain;
 using DealnetPortal.Utilities.Logging;
 using Microsoft.AspNet.Identity.Owin;
 using System.Web.Hosting;
+using DealnetPortal.Api.Integration.Interfaces;
 
 namespace DealnetPortal.Api.Controllers
 {

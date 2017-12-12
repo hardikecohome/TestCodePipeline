@@ -15,6 +15,7 @@ using DealnetPortal.Api.Common.Enumeration.Dealer;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Aspire.Integration.Constants;
@@ -995,80 +996,66 @@ namespace DealnetPortal.Api.Integration.Services
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
 
             if (contract != null)
-            {
-                if (new[] { (int) DocumentTemplateType.SignedContract, (int) DocumentTemplateType.SignedInstallationCertificate, 3, 4}.
-                    All(x => contract.Documents.Any(d => d.DocumentTypeId == x)))
+            {                
+                var request = new DocumentUploadRequest();
+
+                var userResult = GetAspireUser(contractOwnerId);
+                if (userResult.Item2.Any())
                 {
-                    var request = new DocumentUploadRequest();
+                    alerts.AddRange(userResult.Item2);
+                }
+                if (alerts.All(a => a.Type != AlertType.Error))
+                {
+                    request.Header = userResult.Item1;
 
-                    var userResult = GetAspireUser(contractOwnerId);
-                    if (userResult.Item2.Any())
+                    try
                     {
-                        alerts.AddRange(userResult.Item2);
-                    }
-                    if (alerts.All(a => a.Type != AlertType.Error))
-                    {
-                        request.Header = userResult.Item1;
-
-                        try
+                        request.Payload = new DocumentUploadPayload()
                         {
-                            request.Payload = new DocumentUploadPayload()
-                            {
-                                TransactionId = contract.Details.TransactionId,
-                                Status = _configuration.GetSetting(WebConfigKeys.ALL_DOCUMENTS_UPLOAD_STATUS_CONFIG_KEY)
-                            };
+                            TransactionId = contract.Details.TransactionId,
+                            Status = _configuration.GetSetting(WebConfigKeys.ALL_DOCUMENTS_UPLOAD_STATUS_CONFIG_KEY)
+                        };
 
-                            var submitString = "Request to Fund";
-                            var submitStrBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(submitString));
-                            request.Payload.Documents = new List<Document>()
+                        var submitString = "Request to Fund";
+                        var submitStrBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(submitString));
+                        request.Payload.Documents = new List<Document>()
+                        {
+                            new Document()
                             {
-                                new Document()
-                                {
-                                    Name = "ReadyForAudit",
-                                    Data = submitStrBase64,
-                                    Ext = "txt"
-                                }
-                            };
-
-                            var docUploadResponse =
-                                await _aspireServiceAgent.DocumentUploadSubmission(request).ConfigureAwait(false);
-                            var rAlerts = AnalyzeResponse(docUploadResponse, contract);
-                            if (rAlerts.Any())
-                            {
-                                alerts.AddRange(rAlerts);
+                                Name = "ReadyForAudit",
+                                Data = submitStrBase64,
+                                Ext = "txt"
                             }
+                        };
+
+                        var docUploadResponse =
+                            await _aspireServiceAgent.DocumentUploadSubmission(request).ConfigureAwait(false);
+                        var rAlerts = AnalyzeResponse(docUploadResponse, contract);
+                        if (rAlerts.Any())
+                        {
+                            alerts.AddRange(rAlerts);
+                        }
                             
-                            if (rAlerts.All(a => a.Type != AlertType.Error))
-                            {
-                                contract.ContractState = ContractState.Closed;
-                                _unitOfWork.Save();
-                                _loggingService.LogInfo(
-                                    $"All Documents Uploaded Request was successfully sent to Aspire for contract {contractId}");
-                            }
-                        }
-                        catch (Exception ex)
+                        if (rAlerts.All(a => a.Type != AlertType.Error))
                         {
-                            alerts.Add(new Alert()
-                            {
-                                Code = ErrorCodes.AspireConnectionFailed,
-                                Header = "Can't upload document",
-                                Message = ex.ToString(),
-                                Type = AlertType.Error
-                            });
-                            _loggingService.LogError($"Can't upload document to Aspire for contract {contractId}", ex);
+                            contract.ContractState = ContractState.Closed;
+                            _unitOfWork.Save();
+                            _loggingService.LogInfo(
+                                $"All Documents Uploaded Request was successfully sent to Aspire for contract {contractId}");
                         }
                     }
-                }
-                else
-                {
-                    alerts.Add(new Alert()
+                    catch (Exception ex)
                     {
-                        Header = "Not all mandatory documents were uploaded",
-                        Message = $"Not all mandatory documents were uploaded for contract with id {contractId}",
-                        Type = AlertType.Error
-                    });
-                    _loggingService.LogError($"Not all mandatory documents were uploaded for contract with id {contractId}");
-                }
+                        alerts.Add(new Alert()
+                        {
+                            Code = ErrorCodes.AspireConnectionFailed,
+                            Header = "Can't upload document",
+                            Message = ex.ToString(),
+                            Type = AlertType.Error
+                        });
+                        _loggingService.LogError($"Can't upload document to Aspire for contract {contractId}", ex);
+                    }
+                }                                
             }
             else
             {
@@ -1218,7 +1205,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        #region private      
+        #region private              
 
         private Tuple<RequestHeader, IList<Alert>> GetAspireUser(string contractOwnerId)
         {
@@ -1270,7 +1257,7 @@ namespace DealnetPortal.Api.Integration.Services
                     Message = errorMsg,
                     Type = AlertType.Error
                 });
-                _loggingService.LogError("Can't obtain Aspire user credentials");
+                _loggingService.LogError("Can't obtain Aspire user credentials", ex);
             }
 
             return new Tuple<RequestHeader, IList<Alert>>(header, alerts);
@@ -1598,8 +1585,6 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 TransactionId = contract.Details?.TransactionId
             };
-
-            var pTaxRate = _contractRepository.GetProvinceTaxRate(contract.PrimaryCustomer.Locations.FirstOrDefault().State);
 
             if (contract.Equipment != null)
             {

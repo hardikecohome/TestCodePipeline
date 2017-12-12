@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using DealnetPortal.Api.Common.Constants;
+using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Models.Notification;
 using DealnetPortal.Domain;
 using DealnetPortal.Api.Models.Contract;
@@ -47,8 +48,6 @@ namespace DealnetPortal.Api.Integration.Services
         public async Task SendDealerLeadAccepted(Contract contract, DealerDTO dealer, string services)
         {
             string emailid = contract.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress;
-            var location = dealer.Locations?.FirstOrDefault();
-            var addres = location != null ? $"{location.Street}, {location.City}, {location.State}, {location.PostalCode}" : "";
 
             MandrillRequest request = new MandrillRequest();
             List<Variable> myVariables = new List<Variable>();

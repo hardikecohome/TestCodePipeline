@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-
 using DealnetPortal.Api.Core.Types;
 
-namespace DealnetPortal.Api.Integration.Services
+namespace DealnetPortal.Api.Integration.Interfaces
 {
     public interface ICustomerWalletService
     {

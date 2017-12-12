@@ -10,6 +10,7 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
@@ -84,19 +85,13 @@ namespace DealnetPortal.Api.Controllers
         [HttpGet]
         public IHttpActionResult GetDealerEquipmentTypes()
         {
-            var alerts = new List<Alert>();
             try
             {
                 var result = _contractService.GetDealerEquipmentTypes(LoggedInUser?.UserId);
                 if (result == null)
                 {
                     var errorMsg = "Cannot retrieve Equipment Types";
-                    alerts.Add(new Alert()
-                    {
-                        Type = AlertType.Error,
-                        Header = ErrorConstants.EquipmentTypesRetrievalFailed,
-                        Message = errorMsg
-                    });
+                    
                     LoggingService.LogError(errorMsg);
                 }
                 return Ok(result);

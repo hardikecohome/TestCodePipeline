@@ -10,10 +10,10 @@ using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.Aspire.Integration.Storage;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
@@ -29,7 +29,6 @@ namespace DealnetPortal.Api.Providers
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
         private readonly IAspireService _aspireService;
-        private readonly IAspireStorageReader _aspireStorageReader;
         private readonly IUsersService _usersService;
         private readonly ILoggingService _loggingService;
         private readonly string _publicClientId;
@@ -38,7 +37,6 @@ namespace DealnetPortal.Api.Providers
         public ApplicationOAuthProvider(string publicClientId)
         {
             _aspireService = (IAspireService) GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAspireService));
-            _aspireStorageReader = (IAspireStorageReader)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAspireStorageReader));
             _usersService = (IUsersService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IUsersService));
             _loggingService = (ILoggingService) GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILoggingService));
 

@@ -129,26 +129,29 @@
     <Compile Include="ServiceAgents\ESignature\EOriginalTypes\Transformation\Instructions.cs" />
     <Compile Include="ServiceAgents\ESignature\ESignatureServiceAgent.cs" />
     <Compile Include="ServiceAgents\ESignature\IESignatureServiceAgent.cs" />
-    <Compile Include="Services\ContractService.Customer.cs" />
+    <Compile Include="Services\CreditCheckService.cs" />
     <Compile Include="Services\CustomerFormService.cs" />
     <Compile Include="Services\CustomerWalletService.cs" />
     <Compile Include="Services\DealerService.cs" />
     <Compile Include="Services\EmailMailgunService.cs" />
-    <Compile Include="Services\IAspireService.cs" />
-    <Compile Include="Services\IContractService.cs" />
-    <Compile Include="Services\ICustomerFormService.cs" />
-    <Compile Include="Services\ICustomerWalletService.cs" />
-    <Compile Include="Services\IDealerService.cs" />
+    <Compile Include="Interfaces\IAspireService.cs" />
+    <Compile Include="Interfaces\IContractService.cs" />
+    <Compile Include="Interfaces\ICreditCheckService.cs" />
+    <Compile Include="Interfaces\ICustomerFormService.cs" />
+    <Compile Include="Interfaces\ICustomerWalletService.cs" />
+    <Compile Include="Interfaces\IDealerService.cs" />
     <Compile Include="Services\ImageScanService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\IMailChimpService.cs" />
-    <Compile Include="Services\IMailService.cs" />
-    <Compile Include="Services\IMandrillService.cs" />
-    <Compile Include="Services\IPersonalizedMessageService.cs" />
-    <Compile Include="Services\ISmsSubscriptionService.cs" />
-    <Compile Include="Services\IUsersService.cs" />
-    <Compile Include="Services\IRateCardsService.cs" />
+    <Compile Include="Interfaces\IMailChimpService.cs" />
+    <Compile Include="Interfaces\IMailService.cs" />
+    <Compile Include="Interfaces\IMandrillService.cs" />
+    <Compile Include="Interfaces\IMortgageBrokerService.cs" />
+    <Compile Include="Interfaces\IPersonalizedMessageService.cs" />
+    <Compile Include="Interfaces\ISmsSubscriptionService.cs" />
+    <Compile Include="Interfaces\IUsersService.cs" />
+    <Compile Include="Interfaces\IRateCardsService.cs" />
     <Compile Include="Services\MandrillService.cs" />
+    <Compile Include="Services\MortgageBrokerService.cs" />
     <Compile Include="Services\PersonalizedMessageService.cs" />
     <Compile Include="Services\RateCardsService.cs" />
     <Compile Include="Services\MailChimpService.cs" />
@@ -156,7 +159,7 @@
     <Compile Include="Services\Signature\EcoreSignatureEngine.cs" />
     <Compile Include="Services\Signature\IPdfEngine.cs" />
     <Compile Include="Services\Signature\ISignatureEngine.cs" />
-    <Compile Include="Services\ISignatureService.cs" />
+    <Compile Include="Interfaces\ISignatureService.cs" />
     <Compile Include="Services\MailService.cs" />
     <Compile Include="Services\PdfFormFields.cs" />
     <Compile Include="Services\SignatureService.cs" />
@@ -263,6 +266,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

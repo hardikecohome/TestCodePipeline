@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.DataAccess.Repositories;
-using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -9,11 +9,9 @@ namespace DealnetPortal.Api.Integration.Services
     {
         private readonly IRateCardsRepository _rateCardsRepository;
         private readonly IContractRepository _contractRepository;
-        private readonly ILoggingService _loggingService;
 
-        public RateCardsService(ILoggingService loggingService, IRateCardsRepository rateCardsRepository, IContractRepository contractRepository)
+        public RateCardsService(IRateCardsRepository rateCardsRepository, IContractRepository contractRepository)
         {
-            _loggingService = loggingService;
             _rateCardsRepository = rateCardsRepository;
             _contractRepository = contractRepository;
         }

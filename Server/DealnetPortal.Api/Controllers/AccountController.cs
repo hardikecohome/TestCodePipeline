@@ -49,18 +49,6 @@ namespace DealnetPortal.Api.Controllers
             InitController();
         }
 
-        //public AccountController(IApplicationRepository applicationRepository, ApplicationUserManager userManager,
-        //    ISecureDataFormat<AuthenticationTicket> accessTokenFormat,
-        //    ILoggingService loggingService)
-        //{
-        //    _applicationRepository = applicationRepository;
-        //    //TODO: add role manager
-        //    UserManager = userManager;
-        //    AccessTokenFormat = accessTokenFormat;
-        //    _loggingService = loggingService;
-        //    InitController();            
-        //}
-
         private void InitController()
         {
             if (!Enum.TryParse(ConfigurationManager.AppSettings.Get(WebConfigKeys.AUTHPROVIDER_CONFIG_KEY), out _authType))

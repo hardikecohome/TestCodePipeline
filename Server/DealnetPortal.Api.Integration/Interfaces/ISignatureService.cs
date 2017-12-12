@@ -6,7 +6,7 @@ using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Api.Models.Storage;
 
-namespace DealnetPortal.Api.Integration.Services
+namespace DealnetPortal.Api.Integration.Interfaces
 {
     /// <summary>
     /// Service for e-signature and PDF-versions of contracts
