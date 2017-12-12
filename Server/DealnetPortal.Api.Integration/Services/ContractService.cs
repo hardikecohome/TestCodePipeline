@@ -906,103 +906,54 @@ namespace DealnetPortal.Api.Integration.Services
         public async Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId, string contractOwnerId)
         {
             var alerts = new List<Alert>();
-            try
-            {
-                //run aspire upload async
-                var aspireAlerts =  await _aspireService.SubmitAllDocumentsUploaded(contractId, contractOwnerId);
-                //var aspireAlerts = _aspireService.UploadDocument(document.ContractId, document, contractOwnerId).GetAwaiter().GetResult();
-                if (aspireAlerts?.Any() ?? false)
-                {
-                    alerts.AddRange(aspireAlerts);
-                }
-            }
-            catch (Exception ex)
-            {
-                _loggingService.LogError("Failed to submit All Documents Uploaded Request", ex);
-                alerts.Add(new Alert()
-                {
-                    Type = AlertType.Error,
-                    Header = "Failed to submit All Documents Uploaded Request",
-                    Message = ex.ToString()
-                });
-            }
-            return new List<Alert>(alerts);
-        }
 
-        private bool UpdateContractsByAspireDeals(IList<Contract> contractsForUpdate, IList<ContractDTO> aspireDeals)
-        {
-            bool isChanged = false;
-            foreach (var aspireDeal in aspireDeals)
+            var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+            if (contract != null)
             {
-                if (aspireDeal.Details?.TransactionId == null)
+                if (IsSentToAuditValid(contract))
                 {
-                    continue;
-                }
-                var contract =
-                    contractsForUpdate.FirstOrDefault(
-                        c => (c.Details?.TransactionId?.Contains(aspireDeal.Details.TransactionId) ?? false));
-                if (contract != null)
-                {
-                    if (contract.Details.Status != aspireDeal.Details.Status)
+                    try
                     {
-                        contract.Details.Status = aspireDeal.Details.Status;
-                        contract.LastUpdateTime = DateTime.UtcNow;
-                        isChanged = true;                                                
+                        var aspireAlerts = await _aspireService.SubmitAllDocumentsUploaded(contractId, contractOwnerId);
+                        if (aspireAlerts?.Any() ?? false)
+                        {
+                            alerts.AddRange(aspireAlerts);
+                        }
                     }
-                    //update contract state in any case
-                    isChanged |= UpdateContractState(contract);
-                }                
-            }
-            return isChanged;
-        }
-
-        /// <summary>
-        /// Logic for update internal contract state by Aspire state
-        /// </summary>
-        /// <param name="contract"></param>
-        private bool UpdateContractState(Contract contract)
-        {
-            bool isChanged = false;
-            var aspireStatus = _contractRepository.GetAspireStatus(contract.Details?.Status);
-            if (aspireStatus?.ContractState != null)
-            {
-                if (contract.ContractState != aspireStatus.ContractState)
-                {
-                    contract.ContractState = aspireStatus.ContractState.Value;
-                    contract.LastUpdateTime = DateTime.UtcNow;
-                    isChanged = true;
+                    catch (Exception ex)
+                    {
+                        _loggingService.LogError("Failed to submit All Documents Uploaded Request", ex);
+                        alerts.Add(new Alert()
+                        {
+                            Type = AlertType.Error,
+                            Header = "Failed to submit All Documents Uploaded Request",
+                            Message = ex.ToString()
+                        });
+                    }
                 }
-                switch (aspireStatus.ContractState)
+                else
                 {
-                    case ContractState.CreditCheckDeclined:
-                        contract.WasDeclined = true;
-                        break;
+                    alerts.Add(new Alert()
+                    {
+                        Header = "Not all mandatory documents were uploaded",
+                        Message = $"Not all mandatory documents were uploaded for contract with id {contractId}",
+                        Type = AlertType.Error
+                    });
+                    _loggingService.LogError($"Not all mandatory documents were uploaded for contract with id {contractId}");
                 }
-                //if (!aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
-                //    contract.ContractState == ContractState.Closed)
-                //{
-                //    contract.ContractState = ContractState.Completed;
-                //    contract.LastUpdateTime = DateTime.Now;
-                //}
-                //else if (aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
-                //         contract.ContractState != ContractState.Closed)
-                //{
-                //    contract.ContractState = ContractState.Closed;
-                //    contract.LastUpdateTime = DateTime.Now;
-                //}
             }
             else
             {
-                // if current status is Closed reset it to Completed
-                if (contract.ContractState == ContractState.Closed)
+                alerts.Add(new Alert()
                 {
-                    contract.ContractState = ContractState.Completed;
-                    contract.LastUpdateTime = DateTime.UtcNow;
-                    isChanged = true;
-                }
-            }
-            return isChanged;
-        }
+                    Type = AlertType.Error,
+                    Code = ErrorCodes.CantGetContractFromDb,
+                    Header = "Cannot find contract",
+                    Message = $"Cannot find contract [{contractId}] for update"
+                });
+            }                        
+            return alerts;
+        }        
 
         public IList<Alert> RemoveContract(int contractId, string contractOwnerId)
         {
@@ -1081,6 +1032,97 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return alerts;
+        }
+
+        private bool UpdateContractsByAspireDeals(IList<Contract> contractsForUpdate, IList<ContractDTO> aspireDeals)
+        {
+            bool isChanged = false;
+            foreach (var aspireDeal in aspireDeals)
+            {
+                if (aspireDeal.Details?.TransactionId == null)
+                {
+                    continue;
+                }
+                var contract =
+                    contractsForUpdate.FirstOrDefault(
+                        c => (c.Details?.TransactionId?.Contains(aspireDeal.Details.TransactionId) ?? false));
+                if (contract != null)
+                {
+                    if (contract.Details.Status != aspireDeal.Details.Status)
+                    {
+                        contract.Details.Status = aspireDeal.Details.Status;
+                        contract.LastUpdateTime = DateTime.UtcNow;
+                        isChanged = true;
+                    }
+                    //update contract state in any case
+                    isChanged |= UpdateContractState(contract);
+                }
+            }
+            return isChanged;
+        }
+
+        /// <summary>
+        /// Logic for update internal contract state by Aspire state
+        /// </summary>
+        /// <param name="contract"></param>
+        private bool UpdateContractState(Contract contract)
+        {
+            bool isChanged = false;
+            var aspireStatus = _contractRepository.GetAspireStatus(contract.Details?.Status);
+            if (aspireStatus?.ContractState != null)
+            {
+                if (contract.ContractState != aspireStatus.ContractState)
+                {
+                    contract.ContractState = aspireStatus.ContractState.Value;
+                    contract.LastUpdateTime = DateTime.UtcNow;
+                    isChanged = true;
+                }
+                switch (aspireStatus.ContractState)
+                {
+                    case ContractState.CreditCheckDeclined:
+                        contract.WasDeclined = true;
+                        break;
+                }
+                //if (!aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
+                //    contract.ContractState == ContractState.Closed)
+                //{
+                //    contract.ContractState = ContractState.Completed;
+                //    contract.LastUpdateTime = DateTime.Now;
+                //}
+                //else if (aspireStatus.Interpretation.HasFlag(AspireStatusInterpretation.SentToAudit) &&
+                //         contract.ContractState != ContractState.Closed)
+                //{
+                //    contract.ContractState = ContractState.Closed;
+                //    contract.LastUpdateTime = DateTime.Now;
+                //}
+            }
+            else
+            {
+                // if current status is Closed reset it to Completed
+                if (contract.ContractState == ContractState.Closed)
+                {
+                    contract.ContractState = ContractState.Completed;
+                    contract.LastUpdateTime = DateTime.UtcNow;
+                    isChanged = true;
+                }
+            }
+            return isChanged;
+        }
+
+        private bool IsSentToAuditValid(Contract contract)
+        {
+            bool isValid = false;
+
+            //required documents
+            isValid |= new[]
+                    { (int) DocumentTemplateType.SignedInstallationCertificate, (int) DocumentTemplateType.VoidPersonalCheque, (int) DocumentTemplateType.Invoice }
+                .All(x => contract.Documents.Any(d => d.DocumentTypeId == x));
+
+            //signed document
+            isValid &= (contract.Details?.SignatureStatus == SignatureStatus.Completed ||
+                        contract.Documents?.Any(d => d.DocumentTypeId == (int)DocumentTemplateType.SignedContract) == true);
+
+            return isValid;
         }
     }
 }
