@@ -921,6 +921,14 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             alerts.AddRange(aspireAlerts);
                         }
+
+                        if (alerts.All(a => a.Type != AlertType.Error))
+                        {
+                            contract.ContractState = ContractState.Closed;
+                            _unitOfWork.Save();
+                            _loggingService.LogInfo(
+                                $"Request to Audit was successfully sent to Aspire for contract {contractId}");
+                        }
                     }
                     catch (Exception ex)
                     {
