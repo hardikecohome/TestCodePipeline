@@ -23,13 +23,6 @@ namespace DealnetPortal.Api.Integration.Interfaces
 
         IList<ContractDTO> GetDealerLeads(string userId);
 
-        /// <summary>
-        /// Used for return contracts created by user and even assigned to other users at the moment
-        /// </summary>
-        /// <param name="userId">Id of an user</param>
-        /// <returns></returns>
-        IList<ContractDTO> GetCreatedContracts(string userId);
-
         ContractDTO GetContract(int contractId, string contractOwnerId);
 
         IList<Alert> UpdateContractData(ContractDataDTO contract, string contractOwnerId, ContractorDTO contractor = null);
