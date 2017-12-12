@@ -1,16 +1,4 @@
-﻿$(document).ready(function () {
-    $('.j-personal-data-used-modal').on('click', function (e) {
-        var data = {
-            message: $('#personal-data-used').html(),
-            class: "consents-modal",
-            cancelBtnText: "OK"
-        };
-        dynamicAlertModal(data);
-        e.preventDefault();
-    });
-});
-
-module.exports('customer-form', function (require) {
+﻿module.exports('customer-form', function (require) {
     var applyMiddleware = require('redux').applyMiddleware;
     var makeStore = require('redux').makeStore;
     var createAction = require('redux').createAction;
@@ -31,6 +19,8 @@ module.exports('customer-form', function (require) {
     var initAgreement = require('agreement-view');
 
     var log = require('logMiddleware');
+
+    var dynamicAlertModal = require('alertModal').dynamicAlertModal;
 
     var requiredFields = ['name', 'lastName', 'birthday', 'street', 'province', 'postalCode', 'email', 'creditAgreement', 'contactAgreement', 'ownership', 'captchaCode'];
     var requiredPFields = ['birthday', 'pstreet', 'pprovince', 'ppostalCode'];
@@ -250,6 +240,16 @@ module.exports('customer-form', function (require) {
             initInstallationAddress(customerFormStore);
             initContactInfo(customerFormStore);
             initAgreement(customerFormStore);
+
+            $('.j-personal-data-used-modal').on('click', function (e) {
+                var data = {
+                    message: $('#personal-data-used').html(),
+                    class: "consents-modal",
+                    cancelBtnText: "OK"
+                };
+                dynamicAlertModal(data);
+                e.preventDefault();
+            });
 
             var form = $('#mainForm');
             form.submit(function (e) {

@@ -1,16 +1,4 @@
-﻿$(document).ready(function () {
-    $('.j-personal-data-used-modal').on('click', function (e) {
-        var data = {
-            message: $('#personal-data-used').html(),
-            class: "consents-modal",
-            cancelBtnText: "OK"
-        };
-        dynamicAlertModal(data);
-        e.preventDefault();
-    });
-});
-
-module.exports('new-client-index', function (require) {
+﻿module.exports('new-client-index', function (require) {
 
     var observe = require('redux').observe;
     var createAction = require('redux').createAction;
@@ -25,6 +13,8 @@ module.exports('new-client-index', function (require) {
     var clientStore = require('new-client-store');
 
     var configGetErrors = require('new-client-selectors').getErrors;
+
+    var dynamicAlertModal = require('alertModal').dynamicAlertModal;
 
     var dispatch = clientStore.dispatch;
 
@@ -79,14 +69,12 @@ module.exports('new-client-index', function (require) {
             }
         });
 
-
         // init views
         initBasicInfo(clientStore);
         initAddressInfo(clientStore);
         initContactInfo(clientStore);
         initHomeImprovment(clientStore);
         initClientConsents(clientStore);
-
 
         $('#home-phone').rules('add', 'required');
         $('#cell-phone').rules('add', 'required');
@@ -95,6 +83,16 @@ module.exports('new-client-index', function (require) {
         if ($('#owner-upload-file').length) {
             $('#owner-upload-file').rules('remove');
         }
+
+        $('.j-personal-data-used-modal').on('click', function (e) {
+            var data = {
+                message: $('#personal-data-used').html(),
+                class: "consents-modal",
+                cancelBtnText: "OK"
+            };
+            dynamicAlertModal(data);
+            e.preventDefault();
+        });
     });
 
     var form = $('#main-form');

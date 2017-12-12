@@ -283,7 +283,8 @@ function auditConfirmModal () {
         title: translations['FinalCheck'],
         confirmBtnText: translations['Proceed']
     };
-    dynamicAlertModal(data);
+
+    module.require('alertModal').dynamicAlertModal(data);
     $('#confirmAlert').on('click', function () {
         submitAllDocumentsUploaded();
 
@@ -301,9 +302,9 @@ function submitAllDocumentsUploaded () {
                 $('#all-documents-submitted-message').show();
                 $('.disablable').addClass('disabled');
                 $('button.disabled, input.disabled').attr('disabled', 'disabled');
-				$('.dealnet-section-edit-link').hide();
-				$('.add-applicant-link').hide();
-				$('#esignature-link').addClass('disabled');
+                $('.dealnet-section-edit-link').hide();
+                $('.add-applicant-link').hide();
+                $('#esignature-link').addClass('disabled');
                 isSentToAudit = true;
             } else if (result.isError) {
                 alert(translations['AnErrorWhileSendingReport']);
@@ -313,7 +314,7 @@ function submitAllDocumentsUploaded () {
         },
         complete: function (xhr) {
             hideLoader();
-            hideDynamicAlertModal();
+            module.require('alertModal').hideDynamicAlertModal();
         }
     });
 }

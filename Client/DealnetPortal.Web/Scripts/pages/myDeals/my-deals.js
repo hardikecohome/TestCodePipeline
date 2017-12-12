@@ -550,7 +550,7 @@ function removeContract () {
         title: translations['Remove'],
         confirmBtnText: translations['Remove']
     };
-    dynamicAlertModal(data);
+    module.require('alertModal').dynamicAlertModal(data);
 
     $('#confirmAlert').on('click', function () {
         $("#remove-contract").val(id);
@@ -569,7 +569,7 @@ function removeContract () {
             },
             complete: function (xhr) {
                 hideLoader();
-                hideDynamicAlertModal();
+                module.require('alertModal').hideDynamicAlertModal();
             }
         });
     });

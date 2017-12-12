@@ -163,7 +163,7 @@ function addLead (id, transactionId) {
         confirmBtnText: translations['AcceptLead'],
         class: "modal-leads"
     };
-    dynamicAlertModal(data);
+    module.require('alertModal').dynamicAlertModal(data);
 
     $('#confirmAlert').on('click', function () {
         showLoader();

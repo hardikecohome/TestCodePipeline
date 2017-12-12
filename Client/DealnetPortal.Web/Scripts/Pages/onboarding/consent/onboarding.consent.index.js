@@ -1,5 +1,6 @@
 ﻿module.exports('onboarding.consent.index', function (require) {
     var setters = require('onboarding.consent.setters');
+    var dynamicAlertModal = require('alertModal').dynamicAlertModal;
 
     function _setInputHandlers () {
         $('#contactAgreement').on('click', setters.setContactAgreement);

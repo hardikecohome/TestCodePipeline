@@ -1,4 +1,5 @@
-﻿module.exports('navigateToStep', function () {
+﻿module.exports('navigateToStep', function (require) {
+    var dynamicAlertModal = require('alertModal').dynamicAlertModal;
     return function navigateToStep (targetLink) {
         var url = targetLink.attr('href');
         var stepName = targetLink.text() === 'Edit' ? '1' : targetLink.text();

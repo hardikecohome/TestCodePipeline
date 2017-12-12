@@ -2,6 +2,7 @@
 
 configInitialized
     .then(function () {
+        var dynamicAlertModal = module.require('alertModal').dynamicAlertModal;
         $('.j-personal-data-used-modal').on('click', function (e) {
             var data = {
                 message: $('#personal-data-used').html(),

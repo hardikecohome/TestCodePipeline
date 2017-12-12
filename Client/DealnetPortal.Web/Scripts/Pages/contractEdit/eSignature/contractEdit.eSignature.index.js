@@ -1,5 +1,8 @@
 ﻿module.exports('contract-edit.eSignature', function (require) {
-  
+
+    var dynamicAlertModal = module.require('alertModal').dynamicAlertModal;
+    var hideDynamicAlertModal = module.require('alertModal').hideDynamicAlertModal;
+
     var statusMap = {
         '0': 'notinitiated',
         '1': 'created',
