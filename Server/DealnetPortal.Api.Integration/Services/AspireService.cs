@@ -469,7 +469,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             new Document()
                             {
-                                Name = uploadName,//Path.GetFileNameWithoutExtension(document.DocumentName), 
+                                Name = uploadName,
                                 Data = Convert.ToBase64String(document.DocumentBytes),
                                 Ext = extn
                             }
@@ -2306,14 +2306,11 @@ namespace DealnetPortal.Api.Integration.Services
                 });
             }
             if (dealerInfo.ProductInfo?.Services?.Any() == true)
-            {
-                //sometimes equipment doesn't come with ProductInfo entity
-                //var equipments = _contractRepository.GetEquipmentTypes();
+            {                
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.ProductsForFinancingProgram,
                     Value = string.Join(", ", dealerInfo.ProductInfo.Services.Select(s => s.Equipment?.Type))
-                    //?? equipments.FirstOrDefault(eq => eq.Id == s.EquipmentId)?.Type
                 });
             }
             else
