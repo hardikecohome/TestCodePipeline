@@ -89,31 +89,6 @@ $(document)
             $('#sidebar-item-newrental').addClass('dealnet-sidebar-item-selected');
         }
 
-        $(document).on('show.bs.modal', function () {
-            saveScrollPosition();
-            toggleClearInputIcon();
-        }).on('shown.bs.modal', function () {
-            $('textarea').each(function () {
-                has_scrollbar($(this), 'textarea-has-scroll');
-            });
-        }).on('hidden.bs.modal', function () {
-            if (isMobile.iOS()) {
-                $('.div-datepicker').removeClass('opened');
-                resetScrollPosition();
-                if (viewport().width >= 768) {
-                    resetModalDialogMarginForIpad();
-                }
-            } else {
-                if ($('.modal:visible').length == 0) {
-                    resetScrollPosition();
-                }
-            }
-        });
-
-        $('#alertModal').on('hidden.bs.modal', function () {
-            $('#confirmAlert').off('click');
-        });
-
         $('.navbar-toggle').click(function () {
             if ($('.navbar-collapse').attr('aria-expanded') === 'false') {
                 saveScrollPosition();
@@ -130,15 +105,6 @@ $(document)
             }
         });
 
-        $('.overlay').click(function () {
-            $('.navbar-toggle').trigger('click');
-            $('body').removeClass('open-menu');
-            resetScrollPosition();
-            $(this).hide();
-            setTimeout(function () {
-                $('body').removeClass('menu-animated');
-            }, 400);
-        });
 
         $('.credit-check-info-hold.fit-to-next-grid').each(function () {
 
@@ -240,47 +206,21 @@ $(document)
             return false;
         });
 
-        if ($('.loan-sticker').length && viewport().width >= 768) {
-            $('.loan-sticker').each(function () {
-                if (isMobile.iOS()) {
-                    stickySection($(this), 'tablet-ios');
-                } else {
-                    stickySection($(this), 'all');
-                }
-            });
-        }
-
-        recoverPassword();
+        // if ($('.loan-sticker').length && viewport().width >= 768) {
+        //     $('.loan-sticker').each(function () {
+        //         if (isMobile.iOS()) {
+        //             stickySection($(this), 'tablet-ios');
+        //         } else {
+        //             stickySection($(this), 'all');
+        //         }
+        //     });
+        // }
 
         /*Settings for propper work of datepicker inside bootstrap modal*/
 
         $.fn.modal.Constructor.prototype.enforceFocus = function () { };
 
         /*END Settings for propper work of datepicker inside bootstrap modal*/
-
-        var resizeInt = null;
-        $('textarea').each(function () {
-            var textField = $(this);
-            setTimeout(function () {
-                has_scrollbar(textField, 'textarea-has-scroll');
-            }, 100);
-
-            textField.on("mousedown", function (e) {
-                resizeInt = setInterval(function () {
-                    has_scrollbar(textField, 'textarea-has-scroll');
-                }, 1000 / 15);
-            });
-        });
-
-        $('textarea').on('keyup', function () {
-            has_scrollbar($(this), 'textarea-has-scroll');
-        });
-        $(window).on("mouseup", function (e) {
-            if (resizeInt !== null) {
-                clearInterval(resizeInt);
-            }
-            //resizeEvent();
-        });
 
         /*Responsive tabs*/
         if ($('.responsive-tabs').length) {
@@ -312,19 +252,6 @@ $(document)
         $('[data-toggle="popover"]').popover({
             template: '<div class="popover customer-loan-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
         });
-
-        $('select').each(function (i, el) {
-            if (!el.value) {
-                $(el).addClass('not-selected');
-            }
-        });
-        $('body').on('change', 'select', function () {
-            if (this.value) {
-                $(this).removeClass('not-selected');
-            } else {
-                $(this).addClass('not-selected');
-            }
-        });
     });
 
 function panelCollapsed (elem) {
@@ -346,123 +273,47 @@ function scrollPageTo (elem) {
     }
 }
 
-function resetModalDialogMarginForIpad () {
-    $('.modal.in').find('.modal-dialog').css({
-        'margin-bottom': 30 + 'px'
-    });
-}
+//function stickySection (elem, device) {
+// var fixedHeaderHeight,
+//     parentDiv = elem.parents('.sticker-parent'),
+//     windowTopPos,
+//     parentOffsetTop,
+//     parentOffsetLeft,
+//     stickerTopPos,
+//     stickerWidth,
+//     stickerLeftPos,
+//     topPadding = 10,
+//     device = device || 'all'; // iOS or other devices(desktop and android)
 
-function setModalMarginForIpad () {
-    if (window.innerHeight < window.innerWidth) {
-        keyboardHeight = 60
-    } else {
-        keyboardHeight = 40
-    }
-    $('.modal.in').find('.modal-dialog').css({
-        'margin-bottom': keyboardHeight + 'vh'
-    });
-}
-
-function updateModalHeightIpad () {
-
-    //If focus on input inside modal in new added blocks (which were display none when modal appears)
-
-    if ($('body').is('.ios-device.tablet-device') && viewport().width >= 768) {
-        $('input, textarea, [contenteditable=true], select').on({
-            focus: function () {
-                setModalMarginForIpad();
-            },
-            blur: function () {
-                resetModalDialogMarginForIpad();
-            }
-        });
-    }
-}
-
-function fixedOnKeyboardShownIos (fixedElem) {
-    var $fixedElement = fixedElem;
-    var topPadding = 10;
-
-    function fixFixedPosition () {
-        var absoluteTopCoord = ($(window).scrollTop() - fixedElem.parent().offset().top) + topPadding;
-
-        $fixedElement.addClass('absoluted-div').css({
-            top: absoluteTopCoord + 'px',
-        }).fadeIn('fast')
-    }
-    function resetFixedPosition () {
-        /*$fixedElement.removeClass('absoluted-div').removeClass('stick').css({
-          position: 'static',
-          top: 0,
-          left: 0,
-          right: 0,
-          width: '100%'
-        });*/
-        $fixedElement.removeClass('absoluted-div').css({
-            top: 60
-        });
-        $(document).off('scroll', updateScrollTop);
-        resetModalDialogMarginForIpad();
-    }
-    function updateScrollTop () {
-        var absoluteTopCoord = ($(window).scrollTop() - fixedElem.parent().offset().top) + topPadding;
-        $fixedElement.css('top', absoluteTopCoord + 'px');
-    }
-
-    $('input, textarea, [contenteditable=true], select').on({
-        focus: function () {
-            if ($(this).parents('.modal.in').length === 1) {
-                setModalMarginForIpad();
-            } else {
-                setTimeout(fixFixedPosition, 100);
-            }
-            $(document).scroll(updateScrollTop);
-        },
-        blur: resetFixedPosition
-    });
-}
-
-function stickySection (elem, device) {
-    var fixedHeaderHeight,
-        parentDiv = elem.parents('.sticker-parent'),
-        windowTopPos,
-        parentOffsetTop,
-        parentOffsetLeft,
-        stickerTopPos,
-        stickerWidth,
-        stickerLeftPos,
-        topPadding = 10,
-        device = device || 'all'; // iOS or other devices(desktop and android)
-
-    $(window).on('scroll resize', function () {
-        fixedHeaderHeight = parseInt($('.navbar-header').height());
-        windowTopPos = $(window).scrollTop() + fixedHeaderHeight;
-        parentOffsetTop = parentDiv.offset().top;
-        parentOffsetLeft = parentDiv.offset().left;
-        stickerWidth = parentDiv.width();
-        stickerLeftPos = parentOffsetLeft;
+// $(window).on('scroll resize', function () {
+//     fixedHeaderHeight = parseInt($('.navbar-header').height());
+//     windowTopPos = $(window).scrollTop() + fixedHeaderHeight;
+//     parentOffsetTop = parentDiv.offset().top;
+//     parentOffsetLeft = parentDiv.offset().left;
+//     stickerWidth = parentDiv.width();
+//     stickerLeftPos = parentOffsetLeft;
 
 
-        if (windowTopPos >= parentOffsetTop) {
-            elem.addClass("stick");
-            stickerTopPos = fixedHeaderHeight + topPadding;
+//     if (windowTopPos >= parentOffsetTop) {
+//         elem.addClass("stick");
+//         stickerTopPos = fixedHeaderHeight + topPadding;
 
-            if (device === 'tablet-ios') {
-                fixedOnKeyboardShownIos(elem);
-            } else {
-                elem.css({
-                    top: stickerTopPos + 'px',
-                    width: 'auto',
-                    right: 0,
-                    left: stickerLeftPos + 'px'
-                });
-            }
-        } else {
-            elem.removeClass("stick");
-            stickerTopPos = 0;
-        }
-    });
-}
+//         if (device === 'tablet-ios') {
+//             fixedOnKeyboardShownIos(elem);
+//         } else {
+//             elem.css({
+//                 top: stickerTopPos + 'px',
+//                 width: 'auto',
+//                 right: 0,
+//                 left: stickerLeftPos + 'px'
+//             });
+//         }
+//     } else {
+//         elem.removeClass("stick");
+//         stickerTopPos = 0;
+//     }
+// });
+//}
 
 function setEqualHeightRows (row) {
     var maxHeight = 0;

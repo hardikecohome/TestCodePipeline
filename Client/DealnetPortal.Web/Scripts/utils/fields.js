@@ -4,7 +4,45 @@
     customizeSelect();
 
     $('.recover-pass-link').on('click', recoverPassword);
-})
+
+    var resizeInt = null;
+    $('textarea').each(function () {
+        var textField = $(this);
+        setTimeout(function () {
+            has_scrollbar(textField, 'textarea-has-scroll');
+        }, 100);
+
+        textField.on("mousedown", function (e) {
+            resizeInt = setInterval(function () {
+                has_scrollbar(textField, 'textarea-has-scroll');
+            }, 1000 / 15);
+        });
+    });
+
+    $('textarea').on('keyup', function () {
+        has_scrollbar($(this), 'textarea-has-scroll');
+    });
+
+    $('select').each(function (i, el) {
+        if (!el.value) {
+            $(el).addClass('not-selected');
+        }
+    });
+    $('body').on('change', 'select', function () {
+        if (this.value) {
+            $(this).removeClass('not-selected');
+        } else {
+            $(this).addClass('not-selected');
+        }
+    });
+
+    $(window).on("mouseup", function (e) {
+        if (resizeInt !== null) {
+            clearInterval(resizeInt);
+        }
+    });
+
+});
 
 function addIconsToFields (fields) {
     var localFields = fields || ($('.control-group input, .control-group textarea'));

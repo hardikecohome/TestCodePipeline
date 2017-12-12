@@ -917,6 +917,7 @@
     <Content Include="Scripts\utils\financial-functions.module.js" />
     <Content Include="Scripts\utils\functionUtils.js" />
     <Content Include="Scripts\utils\general-address-autocomplete.js" />
+    <Content Include="Scripts\utils\modals.js" />
     <Content Include="Scripts\utils\tables.js" />
     <Content Include="Scripts\vendor\js.cookie.js" />
     <Content Include="Scripts\utils\loan-calculator.js" />
@@ -1127,7 +1128,6 @@
     <Content Include="Views\Dealer\OnBoardingError.cshtml" />
     <Content Include="Views\Home\Library.cshtml" />
     <Content Include="Views\Dealer\SuccessWithoutDocuments.cshtml" />
-    <Content Include="Views\MyDeals\_EsignatureModal.cshtml" />
     <Content Include="Views\MyDeals\Esignature.cshtml" />
     <Content Include="Views\MyDeals\_EsignatureStatus.cshtml" />
     <Content Include="Views\MyDeals\_ContractSignatureStatus.cshtml" />
