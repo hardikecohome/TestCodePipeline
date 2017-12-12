@@ -9,7 +9,7 @@ $(document)
             maxDate: new Date()
         }
         $('.date-input').each(function (index, input) {
-            assignDatepicker(input, options);
+            module.require('datepicker').assignDatepicker(input, options);
         });
 
         $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));

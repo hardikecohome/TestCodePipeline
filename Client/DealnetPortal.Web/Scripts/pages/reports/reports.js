@@ -8,7 +8,7 @@ $(document)
             maxDate: new Date()
         };
         $('.date-input').each(function (index, input) {
-            assignDatepicker(input, options);
+            module.require('datepicker').assignDatepicker(input, options);
         });
 
         setTimeout(function () {

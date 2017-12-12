@@ -13,7 +13,7 @@
         }
 
         $('.date-input').each(function (index, input) {
-            assignDatepicker(input, datepickerOptions)
+            module.require('datepicker').assignDatepicker(input, datepickerOptions)
         });
         var initPaymentTypeForm = $("#payment-type-form").find(":selected").val();
         managePaymentFormElements(initPaymentTypeForm);

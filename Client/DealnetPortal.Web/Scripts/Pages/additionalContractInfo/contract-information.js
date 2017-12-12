@@ -10,7 +10,7 @@
             minDate: new Date()
         };
         $('.date-input').each(function (index, input) {
-            assignDatepicker(input, datepickerOptions);
+            module.require('datepicker').assignDatepicker(input, datepickerOptions);
         });
         $.validator.addMethod("date",
             function (value, element) {

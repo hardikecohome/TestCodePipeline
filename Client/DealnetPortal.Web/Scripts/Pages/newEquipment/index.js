@@ -9,6 +9,7 @@
         var customRateCardInit = require('custom-rate-card').init;
         var submitCustomRateCard = require('custom-rate-card').submitCustomRateCard;
         var toggleDisableClassOnInputs = require('custom-rate-card').toggleDisableClassOnInputs;
+        var assignDatepicker = require('datepicker').assignDatepicker;
         var rateCardBlock = require('rate-cards-ui');
         var state = require('state').state;
         var constants = require('state').constants;

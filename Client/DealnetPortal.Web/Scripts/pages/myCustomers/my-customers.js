@@ -6,7 +6,7 @@
         maxDate: new Date()
     };
     $('.date-input').each(function (index, input) {
-        assignDatepicker(input, options);
+        module.require('datepicker').assignDatepicker(input, options);
     });
 
     $('.select-filter option').each(function () {
