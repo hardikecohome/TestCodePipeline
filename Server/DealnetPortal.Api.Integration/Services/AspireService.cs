@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Serialization;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Enumeration.Dealer;
@@ -29,6 +26,7 @@ using DealnetPortal.Domain.Dealer;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
 using Microsoft.Practices.ObjectBuilder2;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using Address = DealnetPortal.Aspire.Integration.Models.Address;
 using Application = DealnetPortal.Aspire.Integration.Models.Application;
 
@@ -91,7 +89,6 @@ namespace DealnetPortal.Api.Integration.Services
                 });
                 _loggingService.LogError($"Can't get contract with id {contractId}");
             }            
-
             return alerts;
         }
 
@@ -108,6 +105,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             if (alerts.All(a => a.Type != AlertType.Error))
             {
+                // Prepare request
                 request.Header = userResult.Item1;
                 request.Payload = new Payload
                 {
@@ -115,50 +113,19 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         Application = new Application()
                         {
-                            TransactionId = GetTransactionId(contract)
+                            TransactionId = contract?.Details?.TransactionId
                         },
                         Accounts = GetCustomersInfo(contract, leadSource)
                     }
                 };
-
-                try
+                // Send request to Aspire
+                var sendResult = await DoAspireRequestWithAnalyze(_aspireServiceAgent.CustomerUploadSubmission, request, 
+                    (r,c) => AnalyzeResponse(r,c), contract).ConfigureAwait(false);
+                if (sendResult?.Any() == true)
                 {
-                    Task timeoutTask = Task.Delay(_aspireRequestTimeout);
-                    var aspireRequestTask = _aspireServiceAgent.CustomerUploadSubmission(request);
-                    DecisionCustomerResponse response = null;
-
-                    if (await Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false) == aspireRequestTask)
-                    {
-                        response = await aspireRequestTask.ConfigureAwait(false);
-                    }
-                    else
-                    {
-                        throw new TimeoutException("External system operation has timed out.");
-                    }
-
-                    //var response = await _aspireServiceAgent.CustomerUploadSubmission(request).ConfigureAwait(false);
-
-                    var rAlerts = AnalyzeResponse(response, contract);
-                    if (rAlerts.Any())
-                    {
-                        alerts.AddRange(rAlerts);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    alerts.Add(new Alert()
-                    {
-                        Code = ErrorCodes.AspireConnectionFailed,
-                        Header = ErrorConstants.AspireConnectionFailed,
-                        Type = AlertType.Error,
-                        Message = ex.ToString()
-                    });
-                    _loggingService.LogError("Failed to communicate with Aspire", ex);
-                }
+                    alerts.AddRange(sendResult);
+                }                
             }
-
-            alerts.Where(a => a.Type == AlertType.Error).ForEach(a =>
-                _loggingService.LogError($"Aspire issue: {a.Header} {a.Message}"));
 
             if (alerts.All(a => a.Type != AlertType.Error))
             {
@@ -172,13 +139,14 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var alerts = new List<Alert>();
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
-            CreditCheckDTO creditCheckResult = null;            
+            CreditCheckDTO creditCheckResult = new CreditCheckDTO();
 
             if (contract != null)
             {
                 if (string.IsNullOrEmpty(contract.Details?.TransactionId))
                 {
-                    _loggingService.LogWarning($"Aspire transaction wasn't created for contract {contractId} before credit check. Try to create Aspire transaction");
+                    _loggingService.LogWarning(
+                        $"Aspire transaction wasn't created for contract {contractId} before credit check. Try to create Aspire transaction");
                     //try to call Customer Update for create aspire transaction
                     await UpdateContractCustomer(contractId, contractOwnerId).ConfigureAwait(false);
                 }
@@ -201,61 +169,34 @@ namespace DealnetPortal.Api.Integration.Services
                             TransactionId = contract.Details.TransactionId
                         };
 
-                        try
+                        bool CreditCheckAnalyze(DealUploadResponse cResponse, object cResult)
                         {
-                            Task timeoutTask = Task.Delay(_aspireRequestTimeout);
-                            var aspireRequestTask = _aspireServiceAgent.CreditCheckSubmission(request);
-                            CreditCheckResponse response = null;
-
-                            if (await Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false) == aspireRequestTask)
+                            bool succeded = false;
+                            var ccresult = cResult as CreditCheckDTO;
+                            if (ccresult != null)
                             {
-                                response = await aspireRequestTask.ConfigureAwait(false);
-                            }
-                            else
-                            {
-                                throw new TimeoutException("External system operation has timed out.");
-                            }
-
-                            //var response =
-                            //    await _aspireServiceAgent.CreditCheckSubmission(request).ConfigureAwait(false);
-
-                            var rAlerts = AnalyzeResponse(response, contract);
-                            if (rAlerts.Any())
-                            {
-                                alerts.AddRange(rAlerts);
-                            }
-                            if (rAlerts.All(a => a.Type != AlertType.Error))
-                            {
-                                creditCheckResult = GetCreditCheckResult(response);
-                                if (creditCheckResult != null)
+                                var creditCheck = GetCreditCheckResult(cResponse);
+                                if (creditCheck != null)
                                 {
-                                    creditCheckResult.ContractId = contractId;
+                                    ccresult.CreditAmount = creditCheck.CreditAmount;
+                                    ccresult.CreditCheckState = creditCheck.CreditCheckState;
+                                    ccresult.ScorecardPoints = creditCheck.ScorecardPoints;
+                                    ccresult.ContractId = contractId;
                                 }
-                            }                            
+                                succeded = true;
+                            }
+                            return succeded;
                         }
-                        catch (Exception ex)
+
+                        // Send request to Aspire
+                        var sendResult = await DoAspireRequestWithAnalyze(_aspireServiceAgent.CreditCheckSubmission,
+                            request, (r,c) => AnalyzeResponse(r,c), contract,
+                            (Func<DealUploadResponse, object, bool>) CreditCheckAnalyze, creditCheckResult).ConfigureAwait(false);
+                        if (sendResult?.Any() == true)
                         {
-                            alerts.Add(new Alert()
-                            {
-                                Code = ErrorCodes.AspireConnectionFailed,
-                                Header = ErrorConstants.AspireConnectionFailed,
-                                Type = AlertType.Error,
-                                Message = ex.ToString()
-                            });
-                            _loggingService.LogError("Failed to communicate with Aspire", ex);
+                            alerts.AddRange(sendResult);
                         }
                     }
-                }
-                else
-                {
-                    alerts.Add(new Alert()
-                    {
-                        Code = ErrorCodes.AspireTransactionNotCreated,
-                        Header = "External system error",
-                        Message = $"Can't proceed for credit check for contract {contractId}",
-                        Type = AlertType.Error
-                    });
-                    _loggingService.LogError($"Can't proceed for credit check for contract {contractId}. Aspire transaction should be created first");
                 }
             }
             else
@@ -275,7 +216,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (alerts.All(a => a.Type != AlertType.Error))
             {
-                _loggingService.LogInfo($"Aspire credit check for contract [{contractId}] with transaction Id [{contract?.Details.TransactionId}] initiated successfully");
+                _loggingService.LogInfo($"Aspire credit check for contract [{contractId}] with transaction Id [{contract?.Details?.TransactionId}] initiated successfully");
             }
 
             return new Tuple<CreditCheckDTO, IList<Alert>>(creditCheckResult, alerts);
@@ -309,13 +250,37 @@ namespace DealnetPortal.Api.Integration.Services
                              (contract.Equipment.TotalMonthlyPayment ?? 0) * (decimal)(pTaxRate.Rate / 100)); ;
                     }
 
+                    Func<DealUploadResponse, object, bool> equipmentAnalyze =
+                        (cResponse, cEquipments) =>
+                        {
+                            bool succeded = false;
+                            var ceqList = (cEquipments as IList<NewEquipment>) ?? contract?.Equipment?.NewEquipment;
+                            if (ceqList != null)
+                            {
+                                if (cResponse?.Payload?.Asset != null)
+                                {
+                                    var eqCollection = ceqList;
+                                    var aEq = eqCollection?.FirstOrDefault(
+                                        eq => eq.Description == cResponse.Payload.Asset.Name);
+                                    if (aEq != null)
+                                    {
+                                        aEq.AssetNumber = cResponse.Payload.Asset.Number;
+                                        succeded = true;
+                                        _loggingService.LogInfo($"Aspire asset number {cResponse.Payload?.Asset?.Number} assigned for equipment for contract {contract.Id}");
+                                    }
+                                }
+                            }
+                            return succeded;
+                        };
+
+                    _loggingService.LogInfo($"Submitting deal [{contract.Id}] to Aspire, TransactionId: {contract.Details?.TransactionId}");
                     // send each equipment separately using same call for avoid Aspire issue
                     for (int i = 0; i < (contract.Equipment?.NewEquipment?.Count ?? 1); i++)
                     {
                         var eqToUpdate = (contract.Equipment?.NewEquipment?.Any() ?? false)
                             ? new List<NewEquipment> {contract.Equipment?.NewEquipment.ElementAt(i)}
                             : null;
-                        var application = new Application();
+                        Application application;
                         // Code change to calculate down payment and admin fee on first equipment amount
                         if (i == 0 && contract.Equipment.AgreementType == AgreementType.LoanApplication)
                         {
@@ -341,42 +306,13 @@ namespace DealnetPortal.Api.Integration.Services
                             }
                         };
 
-                        try
+                        var sendResult = await DoAspireRequestWithAnalyze(_aspireServiceAgent.DealUploadSubmission,
+                            request, (r,c) => AnalyzeResponse(r,c), contract,
+                            equipmentAnalyze, eqToUpdate).ConfigureAwait(false);
+                        if (sendResult?.Any() == true)
                         {
-                            Task timeoutTask = Task.Delay(_aspireRequestTimeout);
-
-                            _loggingService.LogInfo($"Submiting deal to Aspire. Dealer: {request.Header.UserId}, TransactionId: {request.Payload.Lease.Application.TransactionId}");
-
-                            var aspireRequestTask = _aspireServiceAgent.DealUploadSubmission(request);
-                            DealUploadResponse response = null;
-
-                            if (await Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false) ==
-                                aspireRequestTask)
-                            {
-                                response = await aspireRequestTask.ConfigureAwait(false);
-                            }
-                            else
-                            {
-                                throw new TimeoutException("External system operation has timed out.");
-                            }
-
-                            var rAlerts = AnalyzeResponse(response, contract, eqToUpdate);
-                            if (rAlerts.Any())
-                            {
-                                alerts.AddRange(rAlerts);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            alerts.Add(new Alert()
-                            {
-                                Code = ErrorCodes.AspireConnectionFailed,
-                                Header = ErrorConstants.AspireConnectionFailed,
-                                Type = AlertType.Error,
-                                Message = ex.ToString()
-                            });
-                            _loggingService.LogError("Failed to communicate with Aspire", ex);
-                        }
+                            alerts.AddRange(sendResult);
+                        }                        
                     }
                 }
             }
@@ -402,7 +338,6 @@ namespace DealnetPortal.Api.Integration.Services
 
             return alerts;
         }
-
 
         public async Task<IList<Alert>> SendDealUDFs(int contractId, string contractOwnerId, string leadSource = null)
         {
@@ -462,40 +397,13 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 };
 
-                try
+                _loggingService.LogInfo($"Sending deal [{contract.Id}] UDFs to Aspire TransactionId: {request.Payload.Lease.Application.TransactionId}");
+
+                var sendResult = await DoAspireRequestWithAnalyze(_aspireServiceAgent.DealUploadSubmission,
+                    request, (r,c) => AnalyzeResponse(r,c), contract).ConfigureAwait(false);
+                if (sendResult?.Any() == true)
                 {
-                    _loggingService.LogInfo($"Sending deal [{contract.Id}] UDFs to Aspire TransactionId: {request.Payload.Lease.Application.TransactionId}");
-
-                    Task timeoutTask = Task.Delay(_aspireRequestTimeout);
-                    var aspireRequestTask = _aspireServiceAgent.DealUploadSubmission(request);
-                    DealUploadResponse response = null;
-
-                    if (await Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false) ==
-                        aspireRequestTask)
-                    {
-                        response = await aspireRequestTask.ConfigureAwait(false);
-                    }
-                    else
-                    {
-                        throw new TimeoutException("External system operation has timed out.");
-                    }
-
-                    var rAlerts = AnalyzeResponse(response, contract);
-                    if (rAlerts.Any())
-                    {
-                        alerts.AddRange(rAlerts);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    alerts.Add(new Alert()
-                    {
-                        Code = ErrorCodes.AspireConnectionFailed,
-                        Header = ErrorConstants.AspireConnectionFailed,
-                        Type = AlertType.Error,
-                        Message = ex.ToString()
-                    });
-                    _loggingService.LogError("Failed to communicate with Aspire", ex);
+                    alerts.AddRange(sendResult);
                 }
             }
 
@@ -563,29 +471,18 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             new Document()
                             {
-                                Name = uploadName,//Path.GetFileNameWithoutExtension(document.DocumentName), 
+                                Name = uploadName,
                                 Data = Convert.ToBase64String(document.DocumentBytes),
                                 Ext = extn
                             }
                         };
 
-                        var docUploadResponse = await _aspireServiceAgent.DocumentUploadSubmission(request).ConfigureAwait(false);
-                        var rAlerts = AnalyzeResponse(docUploadResponse, contract);
-                        if (rAlerts.Any())
+                        var sendResult = await DoAspireRequestWithAnalyze(_aspireServiceAgent.DocumentUploadSubmission,
+                            request, (r,c) => AnalyzeResponse(r,c), contract).ConfigureAwait(false);
+                        if (sendResult?.Any() == true)
                         {
-                            alerts.AddRange(rAlerts);
-                        }
-
-                        if (rAlerts.All(a => a.Type != AlertType.Error))
-                        {
-                            _loggingService.LogInfo(
-                                $"Document {document.DocumentName} to Aspire for contract {contractId} was uploaded successfully");
-                        }
-                        else
-                        {
-                            alerts.Where(a => a.Type == AlertType.Error).ForEach(a =>
-                                _loggingService.LogError($"Aspire issue during upload Document {document.DocumentName} to Aspire for contract {contractId} with transactionId {contract.Details?.TransactionId}: {a.Header} {a.Message}"));
-                        }
+                            alerts.AddRange(sendResult);
+                        }                        
                     }
                     catch (Exception ex)
                     {
@@ -673,7 +570,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             new Document()
                             {
-                                Name = uploadName,//Path.GetFileNameWithoutExtension(document.DocumentName),
+                                Name = uploadName,
                                 Data = Convert.ToBase64String(document.DocumentBytes),
                                 Ext = Path.GetExtension(document.DocumentName)?.Substring(1)
                             }
@@ -761,31 +658,33 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             new Document()
                             {
-                                Name = uploadName,//Path.GetFileNameWithoutExtension(document.DocumentName),
+                                Name = uploadName,
                                 Data = Convert.ToBase64String(document.DocumentBytes),
                                 Ext = Path.GetExtension(document.DocumentName)?.Substring(1)
                             }
                         };
 
-                        var docUploadResponse = await _aspireServiceAgent.DocumentUploadSubmission(request).ConfigureAwait(false);
-                        var rAlerts = AnalyzeDealerUploadResponse(docUploadResponse, dealerInfo);
-                        if (rAlerts?.Any() == true)
+                        _loggingService.LogInfo($"Uploading document {document.DocumentName} for onboarding form");
+                        var sendResults = await DoAspireRequestWithAnalyze(_aspireServiceAgent.DocumentUploadSubmission,
+                            request, AnalyzeDealerUploadResponse, dealerInfo,
+                            (r, o) =>
+                            {
+                                document.Uploaded = true;
+                                document.UploadDate = DateTime.UtcNow;
+                                _loggingService.LogInfo(
+                                    $"Document {document.DocumentName} for dealer onboarding form {dealerInfoId} was uploaded to Aspire successfully");
+                                return true;
+                            }).ConfigureAwait(false);
+
+                        if (sendResults?.Any() == true)
                         {
-                            alerts.AddRange(rAlerts);
-                        }
-                        if (alerts.All(a => a.Type != AlertType.Error))
-                        {
-                            document.Uploaded = true;
-                            document.UploadDate = DateTime.UtcNow;
-                            _unitOfWork.Save();
-                            _loggingService.LogInfo(
-                                $"Document {document.DocumentName} for dealer onboarding form {dealerInfoId} was uploaded to Aspire successfully");
+                            alerts.AddRange(sendResults);
                         }
                         else
                         {
-                            rAlerts?.Where(a => a.Type == AlertType.Error).ForEach(a =>
-                                _loggingService.LogError($"Aspire issue during upload Document {document.DocumentName} for dealer onboarding form {dealerInfoId}: {a.Header} {a.Message}"));
-                        }
+                            sendResults?.Where(a => a.Type == AlertType.Error).ForEach(a =>
+                                    _loggingService.LogError($"Aspire issue during upload Document {document.DocumentName} for dealer onboarding form {dealerInfoId}: {a.Header} {a.Message}"));
+                        }                        
                     }
                     catch (Exception ex)
                     {
@@ -825,13 +724,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return alerts;
-        }
-
-        public async Task<string> GetDealStatus(string aspireTransactionId)
-        {
-            var status = await Task.Run(() => _aspireStorageReader.GetDealStatus(aspireTransactionId));
-            return status;
-        }
+        }        
 
         public async Task<Tuple<string, IList<Alert>>> ChangeDealStatusEx(string aspireTransactionId, string newStatus,
             string contractOwnerId)
@@ -894,9 +787,7 @@ namespace DealnetPortal.Api.Integration.Services
                             Ext = "txt"
                         }
                     };
-
                     var docUploadResponse = await _aspireServiceAgent.DocumentUploadSubmission(request).ConfigureAwait(false);
-
                     if(docUploadResponse?.Header == null || docUploadResponse.Header.Code != CodeSuccess || !string.IsNullOrEmpty(docUploadResponse.Header.ErrorMsg))
                     {
                         alerts.Add(new Alert()
@@ -906,7 +797,6 @@ namespace DealnetPortal.Api.Integration.Services
                             Type = AlertType.Error
                         });
                     }                    
-
                     if (alerts.All(a => a.Type != AlertType.Error))
                     {
                         _loggingService.LogInfo($"Aspire state for transaction {aspireTransactionId} was updated successfully");
@@ -953,7 +843,6 @@ namespace DealnetPortal.Api.Integration.Services
                     };
                     
                     var response = await _aspireServiceAgent.CreditCheckSubmission(request).ConfigureAwait(false);
-
                     if (response?.Header == null || response.Header.Code != CodeSuccess || !string.IsNullOrEmpty(response.Header.ErrorMsg))
                     {
                         alerts.Add(new Alert()
@@ -988,90 +877,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             return new Tuple<string, IList<Alert>>(contractStatus, alerts);
         }
-
-        public async Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId, string contractOwnerId)
-        {
-            var alerts = new List<Alert>();
-
-            var contract = _contractRepository.GetContract(contractId, contractOwnerId);
-
-            if (contract != null)
-            {                
-                var request = new DocumentUploadRequest();
-
-                var userResult = GetAspireUser(contractOwnerId);
-                if (userResult.Item2.Any())
-                {
-                    alerts.AddRange(userResult.Item2);
-                }
-                if (alerts.All(a => a.Type != AlertType.Error))
-                {
-                    request.Header = userResult.Item1;
-
-                    try
-                    {
-                        request.Payload = new DocumentUploadPayload()
-                        {
-                            TransactionId = contract.Details.TransactionId,
-                            Status = _configuration.GetSetting(WebConfigKeys.ALL_DOCUMENTS_UPLOAD_STATUS_CONFIG_KEY)
-                        };
-
-                        var submitString = "Request to Fund";
-                        var submitStrBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(submitString));
-                        request.Payload.Documents = new List<Document>()
-                        {
-                            new Document()
-                            {
-                                Name = "ReadyForAudit",
-                                Data = submitStrBase64,
-                                Ext = "txt"
-                            }
-                        };
-
-                        var docUploadResponse =
-                            await _aspireServiceAgent.DocumentUploadSubmission(request).ConfigureAwait(false);
-                        var rAlerts = AnalyzeResponse(docUploadResponse, contract);
-                        if (rAlerts.Any())
-                        {
-                            alerts.AddRange(rAlerts);
-                        }
-                            
-                        if (rAlerts.All(a => a.Type != AlertType.Error))
-                        {
-                            contract.ContractState = ContractState.Closed;
-                            _unitOfWork.Save();
-                            _loggingService.LogInfo(
-                                $"All Documents Uploaded Request was successfully sent to Aspire for contract {contractId}");
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        alerts.Add(new Alert()
-                        {
-                            Code = ErrorCodes.AspireConnectionFailed,
-                            Header = "Can't upload document",
-                            Message = ex.ToString(),
-                            Type = AlertType.Error
-                        });
-                        _loggingService.LogError($"Can't upload document to Aspire for contract {contractId}", ex);
-                    }
-                }                                
-            }
-            else
-            {
-                alerts.Add(new Alert()
-                {
-                    Code = ErrorCodes.CantGetContractFromDb,
-                    Header = "Can't get contract",
-                    Message = $"Can't get contract with id {contractId}",
-                    Type = AlertType.Error
-                });
-                _loggingService.LogError($"Can't get contract with id {contractId}");
-            }
-
-            return alerts;
-        }
-
+        
         public async Task<IList<Alert>> SubmitDealerOnboarding(int dealerInfoId, string leadSource = null)
         {
             var alerts = new List<Alert>();
@@ -1101,42 +907,13 @@ namespace DealnetPortal.Api.Integration.Services
                             Accounts = GetDealerOnboardingAccounts(dealerInfo, leadSource)
                         }
                     };
-
-                    try
+                    _loggingService.LogInfo($"Uploading onboarding form to Aspire. Dealer: {dealerInfo.ParentSalesRepId}, TransactionId: {dealerInfo.TransactionId}");
+                    var sendResult = await DoAspireRequestWithAnalyze(_aspireServiceAgent.CustomerUploadSubmission,
+                        request, AnalyzeDealerUploadResponse, dealerInfo).ConfigureAwait(false);
+                    if (sendResult.Any())
                     {
-                        Task timeoutTask = Task.Delay(_aspireRequestTimeout);
-                        var aspireRequestTask = _aspireServiceAgent.CustomerUploadSubmission(request);
-                        DecisionCustomerResponse response = null;
-
-                        _loggingService.LogInfo($"Uploading onboarding form to Aspire. Dealer: {request.Header.UserId}, TransactionId: {request.Payload.Lease.Application.TransactionId}");
-
-                        if (await Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false) == aspireRequestTask)
-                        {
-                            response = await aspireRequestTask.ConfigureAwait(false);
-                        }
-                        else
-                        {
-                            throw new TimeoutException("External system operation has timed out.");
-                        }
-
-                        var rAlerts = AnalyzeDealerUploadResponse(response, dealerInfo);
-                        if (rAlerts.Any())
-                        {
-                            alerts.AddRange(rAlerts);
-                        }
-                        
-                    }
-                    catch (Exception ex)
-                    {
-                        alerts.Add(new Alert()
-                        {
-                            Code = ErrorCodes.AspireConnectionFailed,
-                            Header = ErrorConstants.AspireConnectionFailed,
-                            Type = AlertType.Error,
-                            Message = ex.ToString()
-                        });
-                        _loggingService.LogError("Failed to communicate with Aspire", ex);
-                    }
+                        alerts.AddRange(sendResult);
+                    }                    
                 }
             }
             else
@@ -1174,7 +951,6 @@ namespace DealnetPortal.Api.Integration.Services
                     Password = password
                 }
             };
-
             try
             {
                 var response = await _aspireServiceAgent.LoginSubmission(request);
@@ -1182,8 +958,8 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     alerts.Add(new Alert()
                     {
-                        Header = response.Header.Code,
-                        Message = response.Header.Message ?? response.Header.ErrorMsg,
+                        Header = response?.Header?.Code,
+                        Message = response?.Header?.Message ?? response?.Header?.ErrorMsg,
                         Type = AlertType.Error
                     });
                 }                
@@ -1199,13 +975,80 @@ namespace DealnetPortal.Api.Integration.Services
                 });
                 _loggingService.LogError("Failed to communicate with Aspire", ex);
             }
-            
-
-
             return alerts;
         }
 
-        #region private              
+        #region private      
+
+        private async Task<IList<Alert>> DoAspireRequestWithAnalyze<T1, T2, T3>(Func<T1, Task<T2>> aspireRequest, T1 request,
+            Func<T2, T3, Tuple<bool, IList<Alert>>> analyzeResponse, T3 analyzeInput, 
+            Func<T2, object, bool> postAnalyze = null, object postAnalyzeInput = null)
+            where T1 : DealUploadRequest
+            where T2 : DealUploadResponse
+        {
+            var alerts = new List<Alert>();
+            // Send request to Aspire
+            try
+            {
+                Task timeoutTask = Task.Delay(_aspireRequestTimeout);
+                var aspireRequestTask = aspireRequest(request);
+                T2 response = null;
+
+                if (await Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false) == aspireRequestTask)
+                {
+                    response = await aspireRequestTask.ConfigureAwait(false);
+                }
+                else
+                {
+                    throw new TimeoutException("External system operation has timed out.");
+                }
+                bool updated = false;
+                //analyze response
+                if (analyzeResponse != null)
+                {
+                    var aResult = analyzeResponse(response, analyzeInput);
+                    if (aResult?.Item2?.Any() == true)
+                    {
+                        alerts.AddRange(aResult.Item2);
+                    }
+                    updated |= aResult?.Item1 == true;
+                }
+                if (postAnalyze != null)
+                {
+                    try
+                    {
+                        updated |= postAnalyze(response, postAnalyzeInput);
+                    }
+                    catch (Exception ePost)
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Code = ErrorCodes.AspireConnectionFailed,
+                            Header = "Failed to execute postAction analyze after communicate with Aspire",
+                            Type = AlertType.Error,
+                            Message = ePost.ToString()
+                        });
+                        _loggingService.LogError("Failed to execute postAction analyze after communicate with Aspire", ePost);
+                    }
+                }
+                if (updated)
+                {
+                    _unitOfWork.Save();
+                }
+            }
+            catch (Exception ex)
+            {
+                alerts.Add(new Alert()
+                {
+                    Code = ErrorCodes.AspireConnectionFailed,
+                    Header = ErrorConstants.AspireConnectionFailed,
+                    Type = AlertType.Error,
+                    Message = ex.ToString()
+                });
+                _loggingService.LogError("Failed to communicate with Aspire", ex);
+            }
+            return alerts;
+        }
 
         private Tuple<RequestHeader, IList<Alert>> GetAspireUser(string contractOwnerId)
         {
@@ -1262,11 +1105,6 @@ namespace DealnetPortal.Api.Integration.Services
 
             return new Tuple<RequestHeader, IList<Alert>>(header, alerts);
         }        
-
-        private string GetTransactionId(Domain.Contract contract)
-        {
-            return contract?.Details?.TransactionId;            
-        }
 
         private List<Account> GetCustomersInfo(Domain.Contract contract, string leadSource = null)
         {
@@ -1607,7 +1445,7 @@ namespace DealnetPortal.Api.Integration.Services
                         AssetClass = new AssetClass() { AssetCode = eq.Type }
                     });
                 });
-                application.AmtRequested = contract.Equipment.ValueOfDeal.Value.ToString();
+                application.AmtRequested = contract.Equipment?.ValueOfDeal?.ToString();
                 application.TermRequested = contract.Equipment.AmortizationTerm?.ToString();
                 application.Notes = contract.Details?.Notes ?? contract.Equipment.Notes;
                 //TODO: Implement finance program selection
@@ -1652,8 +1490,9 @@ namespace DealnetPortal.Api.Integration.Services
             return application;
         }
 
-        private IList<Alert> AnalyzeResponse(DealUploadResponse response, Domain.Contract contract, ICollection<NewEquipment> newEquipments = null)
+        private Tuple<bool, IList<Alert>> AnalyzeResponse(DealUploadResponse response, Domain.Contract contract, ICollection<NewEquipment> newEquipments = null)
         {
+            bool updated = false;
             var alerts = new List<Alert>();
 
             if (response?.Header == null || response.Header.Code != CodeSuccess || !string.IsNullOrEmpty(response.Header.ErrorMsg))
@@ -1672,7 +1511,7 @@ namespace DealnetPortal.Api.Integration.Services
                     if (!string.IsNullOrEmpty(response.Payload.TransactionId) && contract.Details != null && contract.Details.TransactionId != response.Payload?.TransactionId)
                     {
                         contract.Details.TransactionId = response.Payload?.TransactionId;
-                        _unitOfWork.Save();
+                        updated = true;
                         _loggingService.LogInfo($"Aspire transaction Id [{response.Payload?.TransactionId}] created for contract [{contract.Id}]");
                     }
 
@@ -1687,7 +1526,7 @@ namespace DealnetPortal.Api.Integration.Services
                             contract.ContractState = ContractState.Closed;
                             contract.LastUpdateTime = DateTime.UtcNow;
                         }
-                        _unitOfWork.Save();
+                        updated = true;
                         _loggingService.LogInfo($"Contract [{contract.Id}] state was changed to [{response.Payload.ContractStatus}]");
                     }
 
@@ -1716,40 +1555,28 @@ namespace DealnetPortal.Api.Integration.Services
 
                         if (idUpdated)
                         {
-                            _unitOfWork.Save();
+                            updated = idUpdated;
                             _loggingService.LogInfo($"Aspire accounts created for {response.Payload.Accounts.Count} customers");
                         }
-                    }                    
-
-                    if (response.Payload.Asset != null)
-                    {
-                        var eqCollection = newEquipments ?? contract?.Equipment?.NewEquipment;
-                        var aEq = eqCollection?.FirstOrDefault(
-                                eq => eq.Description == response.Payload.Asset.Name);
-                        if (aEq != null)
-                        {
-                            aEq.AssetNumber = response.Payload.Asset.Number;
-                            _unitOfWork.Save();
-                            _loggingService.LogInfo($"Aspire asset number {response.Payload.Asset.Number} assigned for equipment for contract {contract.Id}");
-                        }
-                    }
-                }
+                    }                                        
+                }                
             }      
 
-            return alerts;
+            return new Tuple<bool, IList<Alert>>(updated, alerts);
         }
 
-        private IList<Alert> AnalyzeDealerUploadResponse(DealUploadResponse response, DealerInfo dealerInfo)
+        private Tuple<bool, IList<Alert>> AnalyzeDealerUploadResponse(DealUploadResponse response, DealerInfo dealerInfo)
         {
             var alerts = new List<Alert>();
+            bool idUpdated = false;
 
             if (response?.Header == null || response.Header.Code != CodeSuccess ||
                 !string.IsNullOrEmpty(response.Header.ErrorMsg))
             {
                 alerts.Add(new Alert()
                 {
-                    Header = response.Header.Status,
-                    Message = response.Header.Message ?? response.Header.ErrorMsg,
+                    Header = response?.Header?.Status,
+                    Message = response?.Header?.Message ?? response?.Header?.ErrorMsg,
                     Type = AlertType.Error
                 });
             }
@@ -1772,7 +1599,6 @@ namespace DealnetPortal.Api.Integration.Services
 
                     if (response.Payload.Accounts?.Any() ?? false)
                     {
-                        var idUpdated = false;
                         response.Payload.Accounts.ForEach(a =>
                         {
                             if (dealerInfo.CompanyInfo != null && a.Name.Contains(dealerInfo.CompanyInfo?.FullLegalName) && dealerInfo.CompanyInfo?.AccountId != a.Id)
@@ -1800,7 +1626,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 }
             }
-            return alerts;
+            return new Tuple<bool, IList<Alert>>(idUpdated, alerts);
         }
 
         private CreditCheckDTO GetCreditCheckResult(DealUploadResponse response)
@@ -1813,10 +1639,7 @@ namespace DealnetPortal.Api.Integration.Services
                 int.TryParse(response.Payload.ScorecardPoints, out scorePoints))
             {
                 checkResult.ScorecardPoints = scorePoints;
-                //if (scorePoints > 0 && scorePoints <= 180)
-                //{
-                //    checkResult.CreditAmount = 5000;
-                //}
+
                 if (scorePoints > 180 && scorePoints <= 220)
                 {
                     checkResult.CreditAmount = 15000;
@@ -2485,14 +2308,11 @@ namespace DealnetPortal.Api.Integration.Services
                 });
             }
             if (dealerInfo.ProductInfo?.Services?.Any() == true)
-            {
-                //sometimes equipment doesn't come with ProductInfo entity
-                //var equipments = _contractRepository.GetEquipmentTypes();
+            {                
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.ProductsForFinancingProgram,
                     Value = string.Join(", ", dealerInfo.ProductInfo.Services.Select(s => s.Equipment?.Type))
-                    //?? equipments.FirstOrDefault(eq => eq.Id == s.EquipmentId)?.Type
                 });
             }
             else

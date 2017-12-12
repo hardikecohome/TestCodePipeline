@@ -914,7 +914,9 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     try
                     {
-                        var aspireAlerts = await _aspireService.SubmitAllDocumentsUploaded(contractId, contractOwnerId);
+                        var status = _configuration.GetSetting(WebConfigKeys.ALL_DOCUMENTS_UPLOAD_STATUS_CONFIG_KEY);
+                        var aspireAlerts = await _aspireService.ChangeDealStatus(contract.Details?.SignatureTransactionId, status, contractOwnerId, "Request to Fund");
+                        //var aspireAlerts = await _aspireService.SubmitAllDocumentsUploaded(contractId, contractOwnerId);
                         if (aspireAlerts?.Any() ?? false)
                         {
                             alerts.AddRange(aspireAlerts);
