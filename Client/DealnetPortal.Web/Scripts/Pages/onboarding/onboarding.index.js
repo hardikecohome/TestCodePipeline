@@ -12,6 +12,8 @@
     var definePolyfill = require('onboarding.polyfill');
     var initTooltip = require('onboarding.common').initTooltip;
 
+    var panelCollapsed = require('panelCollapsed');
+
     function init (model) {
         initializing = true;
         company.initCompany(model !== undefined ? model.CompanyInfo : {});
@@ -34,6 +36,11 @@
         else {
             gtag('event', 'Dealer Application Start', { 'event_category': 'Dealer Application Start', 'event_action': 'New Application Link open', 'event_label': salesrep });
         }
+
+        $('.customer-loan-form-panel .panel-heading').on('click', function () {
+            panelCollapsed($(this))
+        });
+
         initializing = false;
     }
 

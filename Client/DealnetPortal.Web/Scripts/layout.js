@@ -76,9 +76,6 @@ $(document)
             }
         });
 
-        //Apply function placeholder for ie browsers
-        $("input, textarea").placeholder();
-
         $('.dealnet-sidebar-item a[href="' + window.location.pathname + '"]')
             .parents('.dealnet-sidebar-item')
             .addClass('dealnet-sidebar-item-selected');
@@ -115,22 +112,6 @@ $(document)
 
         });
 
-        $('.dealnet-disabled-input, input.control-disabled, textarea.control-disabled, select.control-disabled').each(function () {
-            $(this).attr('type', 'hidden');
-            var inpValue = $(this).is('select') ? $(this).find("option:selected").text() : $(this).is('textarea') ? $(this).text() : $(this).val();
-            if ($(this).is('.control-disabled')) {
-                $(this).after($('<div/>', {
-                    class: "control-disabled",
-                    text: inpValue
-                }));
-            } else {
-                $(this).after($('<div/>', {
-                    class: "dealnet-disabled-input dealnet-disabled-input-value",
-                    html: inpValue.replace(/\r?\n/g, '<br />')
-                }));
-            }
-        });
-
         $(window).on('scroll', function () {
             detectPageHeight();
         }).on('resize', function () {
@@ -146,27 +127,6 @@ $(document)
             if ($(".dataTable").length !== 0) {
                 $('.dataTable td.dataTables_empty').attr('colspan', $('.dataTable th').length);
             }
-        });
-
-        $('.reports-contract-item').each(function () {
-            $('.contract-hidden-info').hide();
-        });
-
-        $('.show-full-conract-link').on('click', function () {
-            $(this).parents('.reports-contract-item').find('.contract-hidden-info').show();
-            $(this).hide();
-            $('.hide-full-conract-link').show();
-            return false;
-        });
-
-        $('.hide-full-conract-link').on('click', function () {
-            $(this).parents('.reports-contract-item').find('.contract-hidden-info').hide();
-            $(this).hide();
-            $('.show-full-conract-link').show();
-            /* $('html, body').animate({
-             scrollTop: $(this).parents('.reports-contract-item').offset().top - 60
-             }, 2000);*/
-            return false;
         });
 
         setTimeout(function () {
@@ -187,21 +147,6 @@ $(document)
                 }
             });
         }, 500);
-
-        $('.scanlicence-info-link').on('click', function () {
-            $(this).toggleClass('active');
-            return false;
-        });
-
-        // if ($('.loan-sticker').length && viewport().width >= 768) {
-        //     $('.loan-sticker').each(function () {
-        //         if (isMobile.iOS()) {
-        //             stickySection($(this), 'tablet-ios');
-        //         } else {
-        //             stickySection($(this), 'all');
-        //         }
-        //     });
-        // }
 
         /*Settings for propper work of datepicker inside bootstrap modal*/
 
@@ -232,25 +177,12 @@ $(document)
                 currentTab.parents('.documents-pills-item').addClass('active');
             });
         }
-        $('.customer-loan-form-panel .panel-heading, .accordion-panels-hold .panel-heading').on('click', function () {
-            panelCollapsed($(this));
-        });
 
         $('[data-toggle="popover"]').popover({
             template: '<div class="popover customer-loan-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
         });
     });
 
-function panelCollapsed (elem) {
-    var $this = elem.closest('.panel');
-    $this.find('.panel-body').slideToggle('fast', function () {
-        $this.toggleClass('panel-collapsed');
-    });
-
-    if ($('#onboard-accordion').length) {
-        setEqualHeightRows($("#onboard-accordion .equal-height-section-1"));
-    }
-};
 
 function scrollPageTo (elem) {
     if (elem.offset().top < $(window).scrollTop() || elem.offset().top > $(window).scrollTop() + window.innerHeight) {
@@ -259,48 +191,6 @@ function scrollPageTo (elem) {
         }, 2000);
     }
 }
-
-//function stickySection (elem, device) {
-// var fixedHeaderHeight,
-//     parentDiv = elem.parents('.sticker-parent'),
-//     windowTopPos,
-//     parentOffsetTop,
-//     parentOffsetLeft,
-//     stickerTopPos,
-//     stickerWidth,
-//     stickerLeftPos,
-//     topPadding = 10,
-//     device = device || 'all'; // iOS or other devices(desktop and android)
-
-// $(window).on('scroll resize', function () {
-//     fixedHeaderHeight = parseInt($('.navbar-header').height());
-//     windowTopPos = $(window).scrollTop() + fixedHeaderHeight;
-//     parentOffsetTop = parentDiv.offset().top;
-//     parentOffsetLeft = parentDiv.offset().left;
-//     stickerWidth = parentDiv.width();
-//     stickerLeftPos = parentOffsetLeft;
-
-
-//     if (windowTopPos >= parentOffsetTop) {
-//         elem.addClass("stick");
-//         stickerTopPos = fixedHeaderHeight + topPadding;
-
-//         if (device === 'tablet-ios') {
-//             fixedOnKeyboardShownIos(elem);
-//         } else {
-//             elem.css({
-//                 top: stickerTopPos + 'px',
-//                 width: 'auto',
-//                 right: 0,
-//                 left: stickerLeftPos + 'px'
-//             });
-//         }
-//     } else {
-//         elem.removeClass("stick");
-//         stickerTopPos = 0;
-//     }
-// });
-//}
 
 function setEqualHeightRows (row) {
     var maxHeight = 0;
@@ -362,6 +252,10 @@ $.prototype.disableTab = function () {
     this.each(function () {
         $(this).attr('tabindex', '500');
     });
+};
+
+String.prototype.toDash = function () {
+    return this.replace(/([A-Z])/g, function ($1) { return "-" + $1.toLowerCase(); });
 };
 
 /**
@@ -434,7 +328,3 @@ function viewport () {
     }
     return { width: e[a + 'Width'], height: e[a + 'Height'] };
 }
-
-String.prototype.toDash = function () {
-    return this.replace(/([A-Z])/g, function ($1) { return "-" + $1.toLowerCase(); });
-};

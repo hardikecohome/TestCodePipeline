@@ -3,7 +3,23 @@
     toggleClearInputIcon();
     customizeSelect();
 
-    $('.recover-pass-link').on('click', recoverPassword);
+    $('body').on('click', '.recover-pass-link', recoverPassword);
+
+    $('.dealnet-disabled-input, input.control-disabled, textarea.control-disabled, select.control-disabled').each(function () {
+        $(this).attr('type', 'hidden');
+        var inpValue = $(this).is('select') ? $(this).find("option:selected").text() : $(this).is('textarea') ? $(this).text() : $(this).val();
+        if ($(this).is('.control-disabled')) {
+            $(this).after($('<div/>', {
+                class: "control-disabled",
+                text: inpValue
+            }));
+        } else {
+            $(this).after($('<div/>', {
+                class: "dealnet-disabled-input dealnet-disabled-input-value",
+                html: inpValue.replace(/\r?\n/g, '<br />')
+            }));
+        }
+    });
 
     var resizeInt = null;
     $('textarea').each(function () {
@@ -42,6 +58,8 @@
         }
     });
 
+    //Apply function placeholder for ie browsers
+    $("input, textarea").placeholder();
 });
 
 function addIconsToFields (fields) {

@@ -177,6 +177,7 @@ namespace DealnetPortal.Web
                 "~/Scripts/utils/redux.js",
                 "~/Scripts/utils/dob-selecter.js")
                 .Include("~/Scripts/utils/datepicker.js")
+                .Include("~/Scripts/utils/panelCollapsed.js")
                 .IncludeDirectory("~/Scripts/pages/customerForm", "*.js", true));
 
             bundles.Add(new ScriptBundle("~/bundles/new-client")
@@ -193,6 +194,7 @@ namespace DealnetPortal.Web
                 "~/Scripts/utils/dob-selecter.js")
                 .Include("~/Scripts/utils/datepicker.js")
                 .Include("~/Scripts/utils/loader.js")
+                .Include("~/Scripts/utils/panelCollapsed.js")
                 .IncludeDirectory("~/Scripts/pages/clients", "*.js", true));
 
             bundles.Add(new ScriptBundle("~/bundles/my-profile")
@@ -232,6 +234,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/dob-selecter.js")
                 .Include("~/Scripts/utils/datepicker.js")
                 .Include("~/Scripts/utils/loader.js")
+                .Include("~/Scripts/utils/panelCollapsed.js")
                 .IncludeDirectory("~/Scripts/pages/onboarding", "*.js", true));
         }
     }

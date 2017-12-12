@@ -7,6 +7,11 @@ configInitialized
         var checkHomeOwner = module.require('customer-validation').checkHomeOwner;
         var checkCreditAgree = module.require('customer-validation').checkCreditAgree;
 
+        $('.scanlicence-info-link').on('click', function () {
+            $(this).toggleClass('active');
+            return false;
+        });
+
         $('.j-personal-data-used-modal').on('click', function (e) {
             var data = {
                 message: $('#personal-data-used').html(),

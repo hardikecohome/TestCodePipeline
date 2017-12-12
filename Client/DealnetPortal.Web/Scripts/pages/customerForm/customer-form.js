@@ -21,6 +21,7 @@
     var log = require('logMiddleware');
 
     var dynamicAlertModal = require('alertModal').dynamicAlertModal;
+    var panelCollapsed = require('panelCollapsed');
 
     var requiredFields = ['name', 'lastName', 'birthday', 'street', 'province', 'postalCode', 'email', 'creditAgreement', 'contactAgreement', 'ownership', 'captchaCode'];
     var requiredPFields = ['birthday', 'pstreet', 'pprovince', 'ppostalCode'];
@@ -249,6 +250,10 @@
                 };
                 dynamicAlertModal(data);
                 e.preventDefault();
+            });
+
+            $('.customer-loan-form-panel .panel-heading').on('click', function () {
+                panelCollapsed($(this))
             });
 
             var form = $('#mainForm');

@@ -919,6 +919,7 @@
     <Content Include="Scripts\utils\general-address-autocomplete.js" />
     <Content Include="Scripts\utils\modals.js" />
     <Content Include="Scripts\utils\navigateToStep.js" />
+    <Content Include="Scripts\utils\panelCollapsed.js" />
     <Content Include="Scripts\utils\tables.js" />
     <Content Include="Scripts\vendor\js.cookie.js" />
     <Content Include="Scripts\utils\loan-calculator.js" />

@@ -15,6 +15,7 @@
     var configGetErrors = require('new-client-selectors').getErrors;
 
     var dynamicAlertModal = require('alertModal').dynamicAlertModal;
+    var panelCollapsed = require('panelCollapsed');
 
     var dispatch = clientStore.dispatch;
 
@@ -92,6 +93,9 @@
             };
             dynamicAlertModal(data);
             e.preventDefault();
+        });
+        $('.accordion-panels-hold .panel-heading').on('click', function () {
+            panelCollapsed($(this));
         });
     });
 

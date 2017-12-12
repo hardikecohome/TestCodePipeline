@@ -44,7 +44,6 @@
             }
         });
 
-
         row.height(maxHeight);
     }
 
