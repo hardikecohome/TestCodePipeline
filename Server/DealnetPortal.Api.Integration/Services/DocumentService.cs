@@ -27,15 +27,11 @@ using FormField = DealnetPortal.Api.Models.Signature.FormField;
 
 namespace DealnetPortal.Api.Integration.Services
 {
-    public class SignatureService : ISignatureService
+    public class DocumentService : IDocumentService
     {
         private readonly ISignatureEngine _signatureEngine;
-
         private readonly IPdfEngine _pdfEngine;
-
-        //private readonly IESignatureServiceAgent _signatureServiceAgent;
         private readonly IContractRepository _contractRepository;
-
         private readonly ILoggingService _loggingService;
         private readonly IFileRepository _fileRepository;
         private readonly IDealerRepository _dealerRepository;
@@ -44,7 +40,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IAspireStorageReader _aspireStorageReader;               
         private readonly IMailService _mailService;               
 
-        public SignatureService(
+        public DocumentService(
             ISignatureEngine signatureEngine, 
             IPdfEngine pdfEngine,
             IContractRepository contractRepository,
@@ -68,7 +64,7 @@ namespace DealnetPortal.Api.Integration.Services
             _aspireStorageReader = aspireStorageReader;            
         }
 
-        public async Task<Tuple<SignatureSummaryDTO, IList<Alert>>> ProcessContract(int contractId, string ownerUserId,
+        public async Task<Tuple<SignatureSummaryDTO, IList<Alert>>> StartSignatureProcess(int contractId, string ownerUserId,
             SignatureUser[] signatureUsers)
         {
             List<Alert> alerts = new List<Alert>();
@@ -214,7 +210,7 @@ namespace DealnetPortal.Api.Integration.Services
                     else
                     {
                         // create draft agreement
-                        var createRes = await ProcessContract(contractId, ownerUserId, null).ConfigureAwait(false);
+                        var createRes = await StartSignatureProcess(contractId, ownerUserId, null).ConfigureAwait(false);
                         //var docAlerts = await _signatureEngine.CreateDraftDocument(null);
                         isAvailable = true;
                         if (createRes?.Item2?.Any() == true)
@@ -471,7 +467,7 @@ namespace DealnetPortal.Api.Integration.Services
                 else
                 {
                     // create draft agreement
-                    var createRes = await ProcessContract(contractId, ownerUserId, null).ConfigureAwait(false);
+                    var createRes = await StartSignatureProcess(contractId, ownerUserId, null).ConfigureAwait(false);
                     //var docAlerts = await _signatureEngine.CreateDraftDocument(null);
                     if (createRes?.Item2?.Any() == true)
                     {
@@ -548,16 +544,16 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public SignatureStatus GetSignatureStatus(int contractId, string ownerUserId)
-        {
-            SignatureStatus status = SignatureStatus.NotInitiated;
-            var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
-            if (contract != null)
-            {
-                status = contract.Details.SignatureStatus ?? SignatureStatus.NotInitiated;
-            }
-            return status;
-        }
+        //public SignatureStatus GetSignatureStatus(int contractId, string ownerUserId)
+        //{
+        //    SignatureStatus status = SignatureStatus.NotInitiated;
+        //    var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
+        //    if (contract != null)
+        //    {
+        //        status = contract.Details.SignatureStatus ?? SignatureStatus.NotInitiated;
+        //    }
+        //    return status;
+        //}
 
         public async Task<Tuple<SignatureSummaryDTO, IList<Alert>>> CancelSignatureProcess(int contractId, string ownerUserId)
         {

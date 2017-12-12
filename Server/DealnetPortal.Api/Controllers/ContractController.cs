@@ -22,18 +22,18 @@ namespace DealnetPortal.Api.Controllers
         private IContractService _contractService { get; set; }
         private ICustomerFormService _customerFormService { get; set; }
         private IRateCardsService _rateCardsService { get; set; }
-        private ISignatureService _signatureService { get; set; }
+        private IDocumentService _documentService { get; set; }
         private ICreditCheckService _creditCheckService { get; set; }
         private ICustomerWalletService _customerWalletService { get; set; }
 
         public ContractController(ILoggingService loggingService, IContractService contractService, ICustomerFormService customerFormService, IRateCardsService rateCardsService,
-            ISignatureService signatureService, ICreditCheckService creditCheckService, ICustomerWalletService customerWalletService)
+            IDocumentService documentService, ICreditCheckService creditCheckService, ICustomerWalletService customerWalletService)
             : base(loggingService)
         {
             _contractService = contractService;
             _customerFormService = customerFormService;
             _rateCardsService = rateCardsService;
-            _signatureService = signatureService;
+            _documentService = documentService;
             _creditCheckService = creditCheckService;
             _customerWalletService = customerWalletService;
         }
@@ -220,7 +220,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var summary = await _signatureService.ProcessContract(users.ContractId, LoggedInUser?.UserId, users.Users?.ToArray());
+                var summary = await _documentService.StartSignatureProcess(users.ContractId, LoggedInUser?.UserId, users.Users?.ToArray());
                 return Ok(summary);
             }
             catch (Exception ex)
@@ -235,7 +235,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var alerts = await _signatureService.UpdateSignatureUsers(users.ContractId, LoggedInUser?.UserId, users.Users?.ToArray());
+                var alerts = await _documentService.UpdateSignatureUsers(users.ContractId, LoggedInUser?.UserId, users.Users?.ToArray());
                 return Ok(alerts);
             }
             catch (Exception ex)
@@ -250,7 +250,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var result = await _signatureService.CancelSignatureProcess(contractId, LoggedInUser?.UserId);
+                var result = await _documentService.CancelSignatureProcess(contractId, LoggedInUser?.UserId);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -325,7 +325,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var result = await _signatureService.GetPrintAgreement(contractId, LoggedInUser?.UserId);
+                var result = await _documentService.GetPrintAgreement(contractId, LoggedInUser?.UserId);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -340,7 +340,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {                
-                var result = await _signatureService.GetSignedAgreement(contractId, LoggedInUser?.UserId);
+                var result = await _documentService.GetSignedAgreement(contractId, LoggedInUser?.UserId);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -355,7 +355,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var result = await _signatureService.CheckPrintAgreementAvailable(contractId, (int) DocumentTemplateType.SignedContract, LoggedInUser?.UserId);
+                var result = await _documentService.CheckPrintAgreementAvailable(contractId, (int) DocumentTemplateType.SignedContract, LoggedInUser?.UserId);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -370,7 +370,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {                
-                var result = await _signatureService.GetInstallCertificate(contractId, LoggedInUser?.UserId);
+                var result = await _documentService.GetInstallCertificate(contractId, LoggedInUser?.UserId);
 
                 return Ok(result);
             }
@@ -386,7 +386,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var result = await _signatureService.CheckPrintAgreementAvailable(contractId, (int)DocumentTemplateType.SignedInstallationCertificate, LoggedInUser?.UserId);
+                var result = await _documentService.CheckPrintAgreementAvailable(contractId, (int)DocumentTemplateType.SignedInstallationCertificate, LoggedInUser?.UserId);
 
                 return Ok(result);
             }

@@ -28,7 +28,7 @@ namespace DealnetPortal.Api.Tests.Services
         private IMailService _mailService;
         private IDealerRepository _dealerRepository;
         private IAppConfiguration _appConfiguration;
-        private ISignatureService _signatureService;
+        private IDocumentService _documentService;
 
         [TestInitialize]
         public void Intialize()
@@ -36,7 +36,7 @@ namespace DealnetPortal.Api.Tests.Services
             DealnetPortal.Api.App_Start.AutoMapperConfig.Configure();
             SetupMocks();
             _contractService = new ContractService(_contractRepository, _unitOfWork, _aspireService, _aspireStorageReader, 
-                _customerWalletService, _mailService, _loggingService, _dealerRepository, _appConfiguration, _signatureService);
+                _customerWalletService, _mailService, _loggingService, _dealerRepository, _appConfiguration, _documentService);
         }
 
         private void SetupMocks()
@@ -44,7 +44,7 @@ namespace DealnetPortal.Api.Tests.Services
             Mock<IContractRepository> contractRepositoryMock = new Mock<IContractRepository>();
             Mock<IUnitOfWork> unitOfWorkMock = new Mock<IUnitOfWork>();
             Mock<ILoggingService> loggingServiceMock = new Mock<ILoggingService>();
-            Mock<ISignatureService> signatureServiceMock = new Mock<ISignatureService>();
+            Mock<IDocumentService> signatureServiceMock = new Mock<IDocumentService>();
             Mock<IMailService> mailServiceMock = new Mock<IMailService>();
             Mock<IAspireService> aspireServiceMock = new Mock<IAspireService>();
             Mock<IAspireStorageReader> aspireStorageServiceMock = new Mock<IAspireStorageReader>();
@@ -79,7 +79,7 @@ namespace DealnetPortal.Api.Tests.Services
             _customerWalletService = customerWalletServiceMock.Object;
             _dealerRepository = dealerRepositoryMock.Object;
             _appConfiguration = appConfigurationMock.Object;
-            _signatureService = signatureServiceMock.Object;
+            _documentService = signatureServiceMock.Object;
         }
 
         [TestMethod]
