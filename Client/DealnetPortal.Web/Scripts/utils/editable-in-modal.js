@@ -1,16 +1,4 @@
-﻿$(document)
-  .ready(function () {
-    /* $('.dealnet-disabled-input').each(function(){
-         $(this).attr('type', 'hidden');
-         var inpValue = $(this).is('select')? $(this).find("option:selected").text() : $(this).val();
-         $(this).after($('<div/>',{
-                            class: "dealnet-disabled-input dealnet-disabled-input-value",
-                            text: inpValue
-                            }));
-     });*/
-  });
-
-function copyFormData(form1, form2, validate, additionalValidation) {
+﻿function copyFormData (form1, form2, validate, additionalValidation) {
     if (validate) {
         form1.validate();
         if (!form1.valid() || (typeof additionalValidation == 'function' && !additionalValidation())) {
@@ -29,9 +17,9 @@ function copyFormData(form1, form2, validate, additionalValidation) {
     $('.text-danger span', form2).remove();
     $(':input[name]', form2).removeClass('input-validation-error');
 
-    setTimeout(function(){
-        $('input, select, textarea', form2).each(function(){
-            var inpValue = $(this).is('select')? $(this).find("option:selected").text() : $(this).val();
+    setTimeout(function () {
+        $('input, select, textarea', form2).each(function () {
+            var inpValue = $(this).is('select') ? $(this).find("option:selected").text() : $(this).val();
             $(this).parents(".dealnet-field-holder").find('.dealnet-disabled-input-value').html(inpValue.replace(/\r?\n/g, '<br />'));
         });
     }, 300);
@@ -39,7 +27,7 @@ function copyFormData(form1, form2, validate, additionalValidation) {
     return true;
 }
 
-function saveChanges(form1, form2, url, mainform, afterCopy, additionalValidation) {
+function saveChanges (form1, form2, url, mainform, afterCopy, additionalValidation) {
 
     if (copyFormData(form1, form2, true, additionalValidation)) {
         if (typeof afterCopy == 'function') { afterCopy(); }
@@ -49,8 +37,8 @@ function saveChanges(form1, form2, url, mainform, afterCopy, additionalValidatio
     return false;
 };
 
-function submitChanges(url, mainform) {
-    showLoader();
+function submitChanges (url, mainform) {
+    module.require('loader').showLoader();
     mainform.ajaxSubmit({
         type: "POST",
         url: url,

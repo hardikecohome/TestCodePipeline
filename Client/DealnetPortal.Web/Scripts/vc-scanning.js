@@ -1,6 +1,6 @@
-﻿function uploadCaptured(uploadUrl) {
+﻿function uploadCaptured (uploadUrl) {
     var dataUrl = bigCanvas.toDataURL();
-    showLoader(translations['ProcessingImage']);
+    module.require('loader').showLoader(translations['ProcessingImage']);
     $.ajax({
         type: "POST",
         url: uploadUrl,
@@ -8,7 +8,7 @@
             imgBase64: dataUrl
         },
         success: function (json) {
-            hideLoader();
+            module.require('loader').hideLoader();
             if (json.isError) {
                 alert(translations['CannotRecognizeVoidCheque']);
             } else {
@@ -19,22 +19,22 @@
             }
         },
         error: function (xhr, status, p3) {
-            hideLoader();
+            module.require('loader').hideLoader();
             alert(xhr.responseText);
         }
     });
 }
 
-function submitUpload(sender, uploadUrl) {
+function submitUpload (sender, uploadUrl) {
 
     var files = sender.files;
     if (files.length > 0) {
         if (window.FormData !== undefined) {
             var data = new FormData();
-            for (var x = 0; x < files.length; x++) {
+            for (var x = 0;x < files.length;x++) {
                 data.append("file" + x, files[x]);
             }
-            showLoader(translations['ProcessingImage']);
+            module.require('loader').showLoader(translations['ProcessingImage']);
             $.ajax({
                 type: "POST",
                 url: uploadUrl,
@@ -42,7 +42,7 @@ function submitUpload(sender, uploadUrl) {
                 processData: false,
                 data: data,
                 success: function (json) {
-                    hideLoader();
+                    module.require('loader').hideLoader();
                     if (json.isError) {
                         alert(translations['CannotRecognizeVoidCheque']);
                     } else {
@@ -53,7 +53,7 @@ function submitUpload(sender, uploadUrl) {
                     }
                 },
                 error: function (xhr, status, p3) {
-                    hideLoader();
+                    module.require('loader').hideLoader();
                     alert(p3);
                 }
             });

@@ -1,7 +1,9 @@
 ﻿module.exports('contract-edit.eSignature', function (require) {
 
-    var dynamicAlertModal = module.require('alertModal').dynamicAlertModal;
-    var hideDynamicAlertModal = module.require('alertModal').hideDynamicAlertModal;
+    var dynamicAlertModal = require('alertModal').dynamicAlertModal;
+    var hideDynamicAlertModal = require('alertModal').hideDynamicAlertModal;
+    var showLoader = require('loader').showLoader;
+    var hideLoader = require('loader').hideLoader;
 
     var statusMap = {
         '0': 'notinitiated',

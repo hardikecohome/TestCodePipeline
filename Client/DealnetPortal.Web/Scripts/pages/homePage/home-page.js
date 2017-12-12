@@ -166,7 +166,7 @@ function removeContract () {
 
     $('#confirmAlert').on('click', function () {
         $("#remove-contract").val(id);
-        showLoader();
+        module.require('loader').showLoader();
         $("#remove-contract-form").ajaxSubmit({
             method: 'post',
             success: function (result) {
@@ -180,7 +180,7 @@ function removeContract () {
                 alert(translations['Error']);
             },
             complete: function (xhr) {
-                hideLoader();
+                module.require('loader').hideLoader();
                 module.require('alertModal').hideDynamicAlertModal();
             }
         });

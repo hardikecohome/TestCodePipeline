@@ -166,19 +166,19 @@ function addLead (id, transactionId) {
     module.require('alertModal').dynamicAlertModal(data);
 
     $('#confirmAlert').on('click', function () {
-        showLoader();
+        module.require('loader').showLoader();
         $.post({
             type: "POST",
             url: 'leads/acceptLead?id=' + id,
             success: function (json) {
                 if (json.isError) {
-                    hideLoader();
+                    module.require('loader').hideLoader();
                     $('.success-message').hide();
                     $("#error-msg-text").html(json.Errors);
                     $('#section-before-table').append($('#leads-error-message'));
                     $('#section-before-table #leads-error-message').show();
                 } else if (json.isSuccess) {
-                    hideLoader();
+                    module.require('loader').hideLoader();
                     var template = $('#success-message-template').html();
                     $('#lead-msg').html(template.replace('{1}', transactionId));
                     $('#leads-error-message').hide();

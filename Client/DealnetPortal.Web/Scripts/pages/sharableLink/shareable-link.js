@@ -1,5 +1,5 @@
 ﻿$(document)
-    .ready(function() {
+    .ready(function () {
         var EN = 'EN';
         var FR = 'FR';
 
@@ -38,11 +38,11 @@
         });
 
         $('#saveBtn').on('click', function () {
-            showLoader();
+            module.require('loader').showLoader();
             $('#mainForm').ajaxSubmit({
                 type: "POST",
                 success: function (json) {
-                    hideLoader();
+                    module.require('loader').hideLoader();
                     if (json.isError) {
                         $('.success-message').hide();
                         alert(translations['ErrorWhileUpdatingData']);
@@ -57,7 +57,7 @@
                     }
                 },
                 error: function (xhr, status, p3) {
-                    hideLoader();
+                    module.require('loader').hideLoader();
                     $('.success-message').hide();
                     alert(translations['ErrorWhileUpdatingData']);
                 }
@@ -66,14 +66,14 @@
 
         var isIOS = navigator.userAgent.match(/ipad|ipod|iphone/i);
 
-        var selectElement = function(el) {
+        var selectElement = function (el) {
             if (el.nodeName === "TEXTAREA" || el.nodeName === "INPUT")
                 el.select();
             if (el.setSelectionRange && isIOS)
                 el.setSelectionRange(0, 999999);
         };
 
-        var copyCommand = function() {
+        var copyCommand = function () {
             if (document.queryCommandSupported("copy")) {
                 document.execCommand('copy');
             }
@@ -86,14 +86,14 @@
             var activeLink = '';
 
             $('#copyEn').on('click',
-                function() {
+                function () {
                     activeLink = enLink.value;
                     selectElement(enLink);
                     copyCommand();
                 });
 
             $('#copyFr').on('click',
-                function() {
+                function () {
                     activeLink = frLink.value;
                     selectElement(frLink);
                     copyCommand();

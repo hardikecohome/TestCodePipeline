@@ -1,5 +1,10 @@
-﻿configInitialized
+﻿var showLoader, hideLoader;
+
+configInitialized
     .then(function () {
+        showLoader = module.require('loader').showLoader;
+        hideLoader = module.require('loader').hideLoader;
+
         togglePrintButton(checkUrl);
 
         $('.contract-tab').on('click', function (e) {
