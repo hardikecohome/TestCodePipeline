@@ -141,6 +141,10 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/tables.js")
                 .Include("~/Scripts/pages/reports/reports.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/report-contracts")
+                .Include("~/Scripts/utils/init-responsive-tabs.js")
+                .Include("~/Scripts/pages/reportContracts/index.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/contract-edit")
                 .Include("~/Scripts/vendor/datejs.js")
                 .Include("~/Scripts/vendor/jquery.form.js")
@@ -154,6 +158,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/datepicker.js")
                 .Include("~/Scripts/utils/loader.js")
                 .Include("~/Scripts/utils/navigateToStep.js")
+                .Include("~/Scripts/utils/init-responsive-tabs.js")
                 .Include("~/Scripts/pages/aggrementSubmitSuccess/agreement-submit-success.js")
                 .IncludeDirectory("~/Scripts/pages/contractEdit", "*.js", true));
 
