@@ -134,6 +134,15 @@ module.exports('rate-cards', function (require) {
         if (state.onlyCustomRateCard) {
             selectedRateCard = 'Custom';
         }
+        var obj = {
+            'MPayment': 'monthlyPayment',
+            'CBorrowing': 'costOfBorrowing',
+            'TAFinanced': 'totalAmountFinanced',
+            'TMPayments': 'totalMonthlyPayments',
+            'RBalance': 'residualBalance',
+            'TObligation': 'totalObligation',
+            'YCost': 'yourCost'
+        };
 
         if (notNan && validateNumber && validateNotEmpty) {
             if (option === selectedRateCard) {
@@ -143,13 +152,15 @@ module.exports('rate-cards', function (require) {
                 $('#displayMPayment').text(formatCurrency(data.monthlyPayment));
             }
 
-            $('#' + option + 'MPayment').text(formatCurrency(data.monthlyPayment));
-            $('#' + option + 'CBorrowing').text(formatCurrency(data.costOfBorrowing));
-            $('#' + option + 'TAFinanced').text(formatCurrency(data.totalAmountFinanced));
-            $('#' + option + 'TMPayments').text(formatCurrency(data.totalMonthlyPayments));
-            $('#' + option + 'RBalance').text(formatCurrency(data.residualBalance));
-            $('#' + option + 'TObligation').text(formatCurrency(data.totalObligation));
-            $('#' + option + 'YCost').text(formatCurrency(data.yourCost));
+            Object.keys(obj).map(function(key) { $('#' + option + key).text(formatCurrency(data[obj[key]])); });
+
+            //$('#' + option + 'MPayment').text(formatCurrency(data.monthlyPayment));
+            //$('#' + option + 'CBorrowing').text(formatCurrency(data.costOfBorrowing));
+            //$('#' + option + 'TAFinanced').text(formatCurrency(data.totalAmountFinanced));
+            //$('#' + option + 'TMPayments').text(formatCurrency(data.totalMonthlyPayments));
+            //$('#' + option + 'RBalance').text(formatCurrency(data.residualBalance));
+            //$('#' + option + 'TObligation').text(formatCurrency(data.totalObligation));
+            //$('#' + option + 'YCost').text(formatCurrency(data.yourCost));
         } else {
             if (option === selectedRateCard) {
                 $('#displayLoanAmortTerm').text('-');
@@ -158,13 +169,15 @@ module.exports('rate-cards', function (require) {
                 $('#displayMPayment').text('-');
             }
 
-            $('#' + option + 'MPayment').text('-');
-            $('#' + option + 'CBorrowing').text('-');
-            $('#' + option + 'TAFinanced').text('-');
-            $('#' + option + 'TMPayments').text('-');
-            $('#' + option + 'RBalance').text('-');
-            $('#' + option + 'TObligation').text('-');
-            $('#' + option + 'YCost').text('-');
+            Object.keys(obj).map(function (key) { $('#' + option + key).text('-'); });
+
+            //$('#' + option + 'MPayment').text('-');
+            //$('#' + option + 'CBorrowing').text('-');
+            //$('#' + option + 'TAFinanced').text('-');
+            //$('#' + option + 'TMPayments').text('-');
+            //$('#' + option + 'RBalance').text('-');
+            //$('#' + option + 'TObligation').text('-');
+            //$('#' + option + 'YCost').text('-');
         }
     };
 
@@ -183,6 +196,7 @@ module.exports('rate-cards', function (require) {
         
         var eSum = equipmentSum(state.equipments);
 
+        //TODO: replace with ratecards.render.renderTotalPrice()
         renderTotalPrice({
             equipmentSum: eSum !== 0 ? eSum : '-',
             tax: eSum !== 0 ? tax({ equipmentSum: eSum, tax: state.tax }) : '-',
@@ -200,9 +214,14 @@ module.exports('rate-cards', function (require) {
                     tax: state.tax
                 });
 
+            //TODO: replace with ratecards.index.filterRateCard()
+            //var ratecard = ratecards.index.filterRateCard()
+            //ratecards.render.renderAfterFiltration()
             calculateRateCardValues(option, $.extend({}, data, { totalAmountFinanced: totalAmountFinanced(data) }));
 
             if (option.name !== 'Custom') {
+
+                //TODO: replace with ratecards.render.renderDropdown()
                 renderDropdownValues(option.name, totalAmountFinanced(data));
             }
 
@@ -213,6 +232,7 @@ module.exports('rate-cards', function (require) {
                     tax: state.tax
                 });
 
+            //TODO: replace with ratecards.render.render()
             renderOption(option.name, $.extend({}, data, {
                 monthlyPayment: monthlyPayment(data),
                 costOfBorrowing: totalBorrowingCost(data),

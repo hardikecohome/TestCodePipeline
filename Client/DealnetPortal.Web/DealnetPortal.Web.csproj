@@ -865,7 +865,7 @@
     <Content Include="Scripts\pages\MyProfile\my-profile-state.js" />
     <Content Include="Scripts\pages\MyProfile\postalCode-handlers.js" />
     <Content Include="Scripts\pages\MyProfile\postalCode-template.js" />
-    <Content Include="Scripts\pages\newEquipment\custom-rate-card.js" />
+    <Content Include="Scripts\pages\newEquipment\newEquipment.custom-rate-card.js" />
     <Content Include="Scripts\pages\newEquipment\equipment.js" />
     <Content Include="Scripts\pages\newEquipment\newEquipment.index.js" />
     <Content Include="Scripts\pages\newEquipment\rate-cards-init.js" />
@@ -915,6 +915,9 @@
     <Content Include="Scripts\utils\financial-functions.module.js" />
     <Content Include="Scripts\utils\functionUtils.js" />
     <Content Include="Scripts\utils\general-address-autocomplete.js" />
+    <Content Include="Scripts\utils\rateCards\rateCards.index.js" />
+    <Content Include="Scripts\utils\rateCards\rateCards.render.js" />
+    <Content Include="Scripts\utils\rateCards\rateCards.state.js" />
     <Content Include="Scripts\vendor\js.cookie.js" />
     <Content Include="Scripts\utils\loan-calculator.js" />
     <Content Include="Scripts\utils\localization-init.js" />

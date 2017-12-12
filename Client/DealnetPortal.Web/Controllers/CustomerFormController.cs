@@ -27,13 +27,14 @@ namespace DealnetPortal.Web.Controllers
             _contractServiceAgent = contractServiceAgent;
             _cultureManager = cultureManager;
         }
-
+        
         public async Task<ActionResult> Index(string hashDealerName, string culture)
         {
             if (hashDealerName == null || culture == null)
             {
                 return RedirectToAction("AnonymousError", "Info");
             }
+
             var languageOptions = await _dictionaryServiceAgent.GetCustomerLinkLanguageOptions(hashDealerName, culture);
             if (languageOptions == null || !languageOptions.IsLanguageEnabled)
             {
