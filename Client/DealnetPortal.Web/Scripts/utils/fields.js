@@ -2,6 +2,8 @@
     addIconsToFields();
     toggleClearInputIcon();
     customizeSelect();
+
+    $('.recover-pass-link').on('click', recoverPassword);
 })
 
 function addIconsToFields (fields) {
@@ -24,7 +26,7 @@ function addIconsToFields (fields) {
                 fieldParent.append(iconClearField);
             }
         }
-    })
+    });
 
     if (fieldPassParent.length && fieldPassParent.children('.recover-pass-link').length === 0) {
         fieldPassParent.append(iconPassField);
@@ -97,4 +99,14 @@ function customizeSelect () {
 
         $('select.dealnet-disabled-input').disableTab();
     }, 300);
+}
+
+function recoverPassword (e) {
+    var pass = $(e.target).parents('.control-group').find('input');
+    if (pass.prop('type') == "password") {
+        pass.prop('type', 'text');
+    } else {
+        pass.prop('type', 'password');
+    }
+    return false;
 }

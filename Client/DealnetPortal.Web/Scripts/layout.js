@@ -252,7 +252,6 @@ $(document)
 
         recoverPassword();
 
-
         /*Settings for propper work of datepicker inside bootstrap modal*/
 
         $.fn.modal.Constructor.prototype.enforceFocus = function () { };
@@ -550,19 +549,6 @@ $.prototype.disableTab = function () {
         $(this).attr('tabindex', '500');
     });
 };
-
-function recoverPassword () {
-    var pass;
-    $('.recover-pass-link').on('click', function () {
-        pass = $(this).parents('.control-group').find('input');
-        if (pass.prop('type') == "password") {
-            pass.prop('type', 'text');
-        } else {
-            pass.prop('type', 'password');
-        }
-        return false;
-    });
-}
 
 /**
  * detect IE
