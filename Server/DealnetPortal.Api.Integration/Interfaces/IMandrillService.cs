@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Notification;
-using DealnetPortal.Domain;
 using DealnetPortal.Api.Models.Notify;
+using DealnetPortal.Domain;
 
-namespace DealnetPortal.Api.Integration.Services
+namespace DealnetPortal.Api.Integration.Interfaces
 {
     public interface IMandrillService
     {

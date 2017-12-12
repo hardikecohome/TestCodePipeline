@@ -3,16 +3,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Storage;
-using DealnetPortal.Domain;
 
-namespace DealnetPortal.Api.Integration.Services
+namespace DealnetPortal.Api.Integration.Interfaces
 {
-    using Models.Contract.EquipmentInformation;
-    using Models.Signature;
-
     /// <summary>
     /// Helper service for work with contracts that integrate DB and 3rd party services requests
     /// </summary>

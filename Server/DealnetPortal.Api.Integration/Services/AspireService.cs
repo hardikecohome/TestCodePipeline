@@ -15,6 +15,7 @@ using DealnetPortal.Api.Common.Enumeration.Dealer;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Aspire.Integration.Constants;
@@ -1270,7 +1271,7 @@ namespace DealnetPortal.Api.Integration.Services
                     Message = errorMsg,
                     Type = AlertType.Error
                 });
-                _loggingService.LogError("Can't obtain Aspire user credentials");
+                _loggingService.LogError("Can't obtain Aspire user credentials", ex);
             }
 
             return new Tuple<RequestHeader, IList<Alert>>(header, alerts);

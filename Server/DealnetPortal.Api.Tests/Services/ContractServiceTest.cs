@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity.Infrastructure;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;

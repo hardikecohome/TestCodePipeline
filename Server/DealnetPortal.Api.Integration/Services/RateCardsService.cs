@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.DataAccess.Repositories;
 
