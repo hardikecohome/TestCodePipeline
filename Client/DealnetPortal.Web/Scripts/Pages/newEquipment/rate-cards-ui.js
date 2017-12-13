@@ -171,7 +171,7 @@
             $('#rateCardsBlock').addClass('one-rate-card');
         }
 
-        $('#typeOfAgreementSelect').on('change', onAgreemntSelect).change();
+        //$('#typeOfAgreementSelect').on('change', onAgreemntSelect).change();
 
         setHeight();
         carouselRateCards();

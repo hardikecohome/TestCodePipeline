@@ -2,6 +2,7 @@
     function (require) {
         var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
         var submitRateCard = require('rate-cards').submitRateCard;
+        var rateCardCalculationInit = require('rate-cards').init;
         var setters = require('value-setters');
         var equipment = require('equipment');
         var rateCardsInit = require('rate-cards-init');
@@ -49,6 +50,7 @@
             rateCardsInit.init(id, cards, onlyCustomRateCard);
             customRateCardInit();
             rateCardBlock.init();
+            rateCardCalculationInit();
 
             if (agreementType === settings.applicationType.loanApplication) {
                 recalculateValuesAndRender();

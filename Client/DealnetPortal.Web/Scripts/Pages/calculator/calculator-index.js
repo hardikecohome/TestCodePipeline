@@ -123,7 +123,7 @@
      * Update current card for each of rate card options
      * @param {string} option - name of the cards [FixedRate,Deferral,NoInterst]
      * @param {Object<>} data - calculated financial data
-     * @returns {} 
+     * @returns {void} 
      */
     function selectRateCard(option, totalFinanced) {
         //minimum loan value

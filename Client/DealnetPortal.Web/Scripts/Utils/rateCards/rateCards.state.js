@@ -1,5 +1,6 @@
 ﻿module.exports('rateCards.state', function () {
     var state = {
+        rateCards: {},
         agreementType: 0,
         equipments: {},
         existingEquipments: {},

@@ -2,6 +2,7 @@
     var state = require('state').state;
     var constants = require('state').constants;
     var rateCardBlock = require('rate-cards-ui');
+    var rateCardsCaclulationEngine = require('rateCards.index');
 
     /**
      * Initialize view and store rate cards in storage.
@@ -32,25 +33,17 @@
 
         if (state.onlyCustomRateCard) {
             if (state.selectedCardId !== null) {
-                renderSelectedRateCardUi('Custom');
+                renderRateCardOption('Custom');
             }
         } else {
-            constants.rateCards.forEach(function(option) {
-                if (sessionStorage.getItem(state.contractId + option.name) !== null) {
-                    sessionStorage.removeItem(state.contractId + option.name);
-                }
+            rateCardsCaclulationEngine.init(cards);
 
-                var filtred = $.grep(cards, function(card) { return card.CardType === option.id; });
-
-                //_createDropdowns(filtred, option);
-
-                sessionStorage.setItem(state.contractId + option.name, JSON.stringify(filtred));
-
-                if (state.selectedCardId !== null) {
-                    var items = $.parseJSON(sessionStorage.getItem(state.contractId + option.name));
-                    renderSelectedRateCardUi(option.name, items);
-                }
-            });
+            if (state.selectedCardId !== null) {
+                constants.rateCards.forEach(function (option) {
+                    var filtred = $.grep(cards, function (card) { return card.CardType === option.id; });
+                    renderRateCardOption(option.name, filtred);
+                });
+            }
         }
     };
 
@@ -60,7 +53,7 @@
      * @param {Array<string>} items - list of rate cards for the option
      * @returns {void} 
      */
-    function renderSelectedRateCardUi (option, items) {
+    function renderRateCardOption (option, items) {
         rateCardBlock.toggle(state.isNewContract);
         if (option !== 'Custom' && state.selectedCardId !== 0) {
             setSelectedRateCard(option, items);
@@ -125,38 +118,6 @@
         $('#CustomCRate').val(state['Custom'].CustomerRate);
         $('#CustomAFee').val(state['Custom'].AdminFee);
         $('#CustomYCostVal').val(state['Custom'].DealerCost);
-    }
-
-    function _createDropdowns(items, option) {
-        if (option.name !== 'Deferral') {
-            state[option.name + '-dropdowns'] = {};
-        }
-
-        $.each(items, function () {
-            var key = this.LoanValueFrom + '-' + this.LoanValueTo;
-            var dropdownValue = ~~this.LoanTerm + ' / ' + ~~this.AmortizationTerm;
-            if (option.name === 'Deferral') {
-                var deferralKey = ~~this.DeferralPeriod;
-                if (state[option.name + '-' + deferralKey + '-dropdowns'] === undefined)
-                    state[option.name + '-' + deferralKey + '-dropdowns'] = {};
-
-                if (!state[option.name + '-' + deferralKey + '-dropdowns'].hasOwnProperty(key)) {
-                    state[option.name + '-' + deferralKey + '-dropdowns'][key] = [];
-                }
-
-                if (state[option.name + '-' + deferralKey + '-dropdowns'][key].indexOf(dropdownValue) === -1) {
-                    state[option.name + '-' + deferralKey + '-dropdowns'][key].push(dropdownValue);
-                }
-            } else {
-                if (!state[option.name + '-dropdowns'].hasOwnProperty(key)) {
-                    state[option.name + '-dropdowns'][key] = [];
-                }
-
-                if (state[option.name + '-dropdowns'][key].indexOf(dropdownValue) === -1) {
-                    state[option.name + '-dropdowns'][key].push(dropdownValue);
-                }
-            }
-        });
     }
 
     return {

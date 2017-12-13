@@ -4,11 +4,14 @@
         notCero: ['equipmentSum', 'LoanTerm', 'AmortizationTerm']
     };
 
+    var state = require('rateCards.state').state;
+    var constants = require('rateCards.state').constants;
+
     var init = function(viewSettings) {
         $.extend(settings, viewSettings);
     }
 
-    var render = function(option, data) {
+    var renderOption = function(option, data) {
         if (_isEmpty(settings))
             throw new Error('settings are empty. Use init method first.');
 
@@ -17,42 +20,137 @@
         var validateNotEmpty = settings.notCero.every(function (field) { return data[field] !== 0; });
 
         if (notNan && validateNumber && validateNotEmpty) {
+          
+            $('#displayLoanAmortTerm').text(data.loanAmortTerm);
+            Object.keys(settings.displaySectionFields).map(function (key) { $('#' + key).text(formatCurrency(data[settings.displaySectionFields[key]])); });
             Object.keys(settings.rateCardFields).map(function (key) { $('#' + option + key).text(formatCurrency(data[settings.rateCardFields[key]])); });
         } else {
+            $('#displayLoanAmortTerm').text('-');
+            Object.keys(settings.displaySectionFields).map(function (key) { $('#' + key).text(formatCurrency(data[settings.displaySectionFields[key]])); });
             Object.keys(settings.rateCardFields).map(function (key) { $('#' + option + key).text('-'); });
         }
     }
 
-    var renderTotalPrice = function (option, data) {
+    var renderTotalPrice = function (data) {
         var notNan = !Object.keys(data).map(_idToValue(data)).some(function (val) { return isNaN(val); });
         if (notNan) {
-            Object.keys(settings.totalPriceFields).map(function (key) { $('#' + option + key).text(formatCurrency(data[settings.totalPriceFields[key]])); });
-            $('#totalEquipmentPrice').text(formatNumber(data.equipmentSum));
-            $('#tax').text(formatNumber(data.tax));
-            $('#totalPrice').text(formatNumber(data.totalPrice));
+            Object.keys(settings.totalPriceFields).map(function (key) { $('#' + key).text(formatCurrency(data[settings.totalPriceFields[key]])); });
         } else {
-            Object.keys(settings.totalPriceFields).map(function (key) { $('#' + option + key).text(formatCurrency(data[settings.totalPriceFields[key]])); });
-            $('#totalEquipmentPrice').text('-');
-            $('#tax').text('-');
-            $('#totalPrice').text('-');
+            Object.keys(settings.totalPriceFields).map(function (key) { $('#' + key).text('-'); });
         }
     };
 
-    var renderDropdownValues = function(items) {
+    var renderDropdownValues = function(option) {
+        var totalCash = constants.minimumLoanValue;
         
-    }
-
-    var renderAfterFiltration = function(option) {
-
-        rateCardBlock.togglePromoLabel(option.name);
-
-        if (option.name === 'Deferral') {
-            $('#DeferralPeriodDropdown').val(state[option.name].DeferralPeriod);
+        if (state[option.name].totalAmountFinanced > 1000) {
+            totalCash = totalAmountFinanced.toFixed(2);
         }
 
-        $('#' + option.name + 'AFee').text(formatCurrency(state[option.name].AdminFee));
-        $('#' + option.name + 'CRate').text(formatNumber(state[option.name].CustomerRate) + ' %');
-        $('#' + option.name + 'YCostVal').text(formatNumber(state[option.name].DealerCost) + ' %');
+        if (totalCash >= constants.maxRateCardLoanValue) {
+            totalCash = constants.maxRateCardLoanValue;
+        }
+
+        var items = state.rateCards[option];
+
+        if (!items)
+            return;
+
+        var dropdown = $('#' + option + 'AmortizationDropdown')[0];
+        if (!dropdown || !dropdown.options) return;
+
+        var dropdowns = [];
+        var deferralValue = +$('#DeferralPeriodDropdown').val();
+
+        $.each(items, function () {
+            if (this.LoanValueTo >= totalCash && this.LoanValueFrom <= totalCash) {
+                var dropdownValue = ~~this.LoanTerm + ' / ' + ~~this.AmortizationTerm;
+                if (dropdowns.indexOf(dropdownValue) === -1) {
+                    if (option === 'Deferral') {
+                        if (~~this.DeferralPeriod === deferralValue) {
+                            dropdowns.push(dropdownValue);
+                        }
+                    } else {
+                        dropdowns.push(dropdownValue);
+                    }
+                }
+            }
+        });
+
+        //var selected = $('#' + option + 'AmortizationDropdown option:selected').val();
+        var e = document.getElementById(option + 'AmortizationDropdown');
+        if (e !== undefined) {
+            var selected = e.options[e.selectedIndex].value;
+
+            $(dropdown).empty();
+            $(dropdowns).each(function () {
+                $("<option />", {
+                    val: this.split('/')[1].trim(),
+                    text: this
+                }).appendTo(dropdown);
+            });
+
+            var values = [];
+            $.grep(dropdown.options, function (i) {
+                values.push($(i).attr('value'));
+            });
+
+            if (values.indexOf(selected) !== -1) {
+                e.value = selected;
+                //$(dropdown).val(selected);
+                $('#' + option + 'AmortizationDropdown option[value=' + selected + ']').attr("selected", selected);
+            } else {
+                e.value = values[0];
+                //$(dropdown).val(values[0]);
+                $('#' + option + 'AmortizationDropdown option[value=' + values[0] + ']').attr("selected", selected);
+            }
+        }
+
+        var options = dropdown.options;
+        var tooltip = $('a#' + option + 'Notify');
+
+        if (+totalCash >= constants.totalAmountFinancedFor180amortTerm) {
+            toggleDisabledAttributeOnOption(option, options, tooltip, false);
+        } else {
+            toggleDisabledAttributeOnOption(option, options, tooltip, true);
+        }
+    }
+
+    /**
+     * depends on totalAmountfinanced value disable/enable options 
+     * values of Loan/Amortization dropdown
+     * @param {string} option - option name
+     * @param {Array<string>} options - array of available options for dropdown
+     * @param {Object<string>} tooltip - tooltip jqeury object for show/hide depends on totalAmountFinancedValue
+     * @param {boolean} isDisable - disable/enable option and show/hide tooltip
+     * @returns {void} 
+     */
+    function toggleDisabledAttributeOnOption(option, options, tooltip, isDisable) {
+        if (!options.length) return;
+
+        var formGroup = tooltip.closest('.form-group');
+        if (isDisable) {
+            formGroup.addClass('notify-hold');
+            tooltip.show();
+        } else {
+            formGroup.removeClass('notify-hold');
+            tooltip.hide();
+
+            //check if notifications is visible if yes emulate click to hide it.
+            //if (tooltip.parent().find('.popover-content').length) {
+            //    tooltip.click();
+            //}
+        }
+    }
+
+    var renderAfterFiltration = function(option, data) {
+        if (option === 'Deferral') {
+            $('#DeferralPeriodDropdown').val(data.deferralPeriod);
+        }
+
+        $('#' + option + 'AFee').text(formatCurrency(data.adminFee));
+        $('#' + option + 'CRate').text(formatNumber(data.customerRate) + ' %');
+        $('#' + option + 'YCostVal').text(formatNumber(data.dealerCost) + ' %');
     }
 
     function _isEmpty(obj) {
@@ -75,7 +173,9 @@
 
     return {
         init: init,
-        render: render,
+        renderAfterFiltration: renderAfterFiltration,
+        renderDropdownValues: renderDropdownValues,
+        renderOption: renderOption,
         renderTotalPrice: renderTotalPrice
     };
 });

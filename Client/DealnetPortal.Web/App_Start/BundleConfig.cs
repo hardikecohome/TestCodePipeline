@@ -213,6 +213,7 @@ namespace DealnetPortal.Web
                 //.Include("~/Scripts/pages/newEquipment/rate-cards-init.js")
                 //.Include("~/Scripts/pages/newEquipment/validation.js")
                 .IncludeDirectory("~/Scripts/pages/newEquipment", "*.js", true)
+                .IncludeDirectory("~/Scripts/utils/rateCards", "*.js", true)
             );
 
             bundles.Add(new ScriptBundle("~/bundles/additional-equipment-information")
