@@ -938,7 +938,6 @@
     <Content Include="Scripts\utils\print-contract.js" />
     <Content Include="Scripts\utils\province-codes-helper.js" />
     <Content Include="Scripts\utils\redux.js" />
-    <Content Include="Scripts\vc-scanning.js" />
     <Content Include="Scripts\vendor\bootstrap.js" />
     <Content Include="Scripts\vendor\bootstrap.min.js" />
     <Content Include="Scripts\vendor\Chart.js" />
@@ -1047,6 +1046,7 @@
     <Content Include="Scripts\vendor\modernizr-2.6.2.js" />
     <Content Include="Scripts\vendor\respond.js" />
     <Content Include="Scripts\vendor\svgxuse.min.js" />
+    <Content Include="Scripts\components\.gitkeep" />
     <None Include="Scripts\_references.js" />
     <Content Include="Views\Dealer\OnBoarding.cshtml" />
     <Content Include="Views\Dealer\OnBoardingLayout.cshtml" />
