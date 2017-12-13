@@ -77,6 +77,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/dob-selecter.js")
                 .Include("~/Scripts/utils/loader.js")
                 .Include("~/Scripts/utils/navigateToStep.js")
+                .Include("~/Scripts/utils/scrollPageTo.js")
                 .IncludeDirectory("~/Scripts/pages/basicInfo", "*.js", true));
 
             bundles.Add(new ScriptBundle("~/bundles/credit-check")
@@ -142,7 +143,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/pages/reports/reports.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/report-contracts")
-                .Include("~/Scripts/utils/init-responsive-tabs.js")
+                .Include("~/Scripts/common/init-responsive-tabs.js")
                 .Include("~/Scripts/pages/reportContracts/index.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/contract-edit")
@@ -158,7 +159,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/datepicker.js")
                 .Include("~/Scripts/utils/loader.js")
                 .Include("~/Scripts/utils/navigateToStep.js")
-                .Include("~/Scripts/utils/init-responsive-tabs.js")
+                .Include("~/Scripts/common/init-responsive-tabs.js")
                 .Include("~/Scripts/pages/aggrementSubmitSuccess/agreement-submit-success.js")
                 .IncludeDirectory("~/Scripts/pages/contractEdit", "*.js", true));
 
@@ -216,6 +217,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/financial-functions.module.js")
                 .Include("~/Scripts/utils/datepicker.js")
                 .Include("~/Scripts/utils/navigateToStep.js")
+                .Include("~/Scripts/utils/setEqualHeightRows.js")
                 .IncludeDirectory("~/Scripts/pages/newEquipment", "*.js", true)
             );
 
@@ -240,6 +242,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/datepicker.js")
                 .Include("~/Scripts/utils/loader.js")
                 .Include("~/Scripts/utils/panelCollapsed.js")
+                .Include("~/Scripts/utils/setEqualHeightRows.js")
                 .IncludeDirectory("~/Scripts/pages/onboarding", "*.js", true));
         }
     }

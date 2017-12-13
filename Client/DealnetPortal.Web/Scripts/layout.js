@@ -159,28 +159,6 @@ $(document)
         });
     });
 
-
-function scrollPageTo (elem) {
-    if (elem.offset().top < $(window).scrollTop() || elem.offset().top > $(window).scrollTop() + window.innerHeight) {
-        $('html, body').animate({
-            scrollTop: elem.offset().top - elem.outerHeight(true) - 10
-        }, 2000);
-    }
-}
-
-function setEqualHeightRows (row) {
-    var maxHeight = 0;
-    row.each(function () {
-        if ($(this).children().eq(0).outerHeight(true) > maxHeight) {
-            maxHeight = $(this).children().eq(0).outerHeight(true);
-        }
-    });
-    if (row.children().eq(0)) {
-
-    }
-    row.height(maxHeight);
-}
-
 function documentsColHeight () {
     var columns = $('.report-documents-list .document-col');
     columns.find('.dealnet-credit-check-section').css('min-height', columns.find('.documents-inner').height());

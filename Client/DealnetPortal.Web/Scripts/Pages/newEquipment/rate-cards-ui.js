@@ -3,6 +3,8 @@
     var state = require('state').state;
     var validateCustomCard = require('validation').validateCustomCard;
 
+    var setEqualHeightRows = require('setEqualHeightRows');
+
     var showRateCardBlock = function () {
         $('#rateCardsBlock').addClass('opened')
             .removeClass('closed');
@@ -34,19 +36,6 @@
     var toggleRateCardBlock = function (isOpenCondition) {
         isOpenCondition === true ? showRateCardBlock() : hideRateCardBlock();
     }
-
-    var setEqualHeightRows = function (row) {
-
-        var maxHeight = 0;
-        row.each(function () {
-            if ($(this).children().eq(0).outerHeight(true) > maxHeight) {
-                maxHeight = $(this).children().eq(0).outerHeight(true);
-            }
-        });
-
-        row.height(maxHeight);
-    }
-
 
     var updateEquipmentCosts = function (agreementType) {
         if (agreementType === 0) {

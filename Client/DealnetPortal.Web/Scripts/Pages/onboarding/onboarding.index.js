@@ -13,6 +13,8 @@
     var initTooltip = require('onboarding.common').initTooltip;
 
     var panelCollapsed = require('panelCollapsed');
+    var setEqualHeightRows = require('setEqualHeightRows');
+    var clearAddress = require('clearAddress');
 
     function init (model) {
         initializing = true;
@@ -40,6 +42,18 @@
         $('.customer-loan-form-panel .panel-heading').on('click', function () {
             panelCollapsed($(this))
         });
+
+        ($(".equal-height-section-1"));
+
+        $(window).on('resize', function () {
+            setEqualHeightRows($(".equal-height-section-1"));
+        });
+
+        $('.clear-address').on('click', clearAddress);
+
+        $.validator.addMethod('validurl', function (value, element) {
+            return $.validator.methods.url.call(this, value, element) || $.validator.methods.url.call(this, 'http://' + value, element);
+        }, translations.SiteInvalidFormat);
 
         initializing = false;
     }

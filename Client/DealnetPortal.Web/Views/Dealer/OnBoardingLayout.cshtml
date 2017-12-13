@@ -156,31 +156,6 @@
     </script>
 
     <script type="text/javascript">
-        $(function () {
-            setEqualHeightRows($(".equal-height-section-1"));
-
-
-            $(window).on('resize', function () {
-                setEqualHeightRows($(".equal-height-section-1"));
-            });
-            clearAddress();
-
-            $.validator.addMethod('validurl', function (value, element) {
-                return $.validator.methods.url.call(this, value, element) ||  $.validator.methods.url.call(this, 'http://' + value, element);
-            }, translations.SiteInvalidFormat);
-        });
-
-        function clearAddress() {
-            $('.clear-address').click(function () {
-                $(this).parents('.address-container').find('input, select').each(function () {
-                    if ($(this).not('.placeholder')) {
-                        $(this).val("");
-                    }
-                });
-                return false;
-            });
-        }
-
         var saveDraftUrl = '@Url.Action("SaveDraft")';
         var sendLinkUrl = '@Url.Action("SendDraftLink")';
         var uploadDocumentUrl = '@Url.Action("UploadDocument")';

@@ -6,6 +6,7 @@ configInitialized
         var checkApplicantsAge = module.require('customer-validation').checkApplicantsAge;
         var checkHomeOwner = module.require('customer-validation').checkHomeOwner;
         var checkCreditAgree = module.require('customer-validation').checkCreditAgree;
+        var scrollPageTo = module.require('scrollPageTo');
 
         $('.scanlicence-info-link').on('click', function () {
             $(this).toggleClass('active');
