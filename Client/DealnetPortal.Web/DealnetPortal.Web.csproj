@@ -813,10 +813,14 @@
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\layout.js" />
     <Content Include="Scripts\pages\basicInfo\address-autocomplete.js" />
+    <Content Include="Scripts\pages\reportContracts\index.js" />
     <Content Include="Scripts\utils\alertModal.js" />
+    <Content Include="Scripts\utils\backToTop.js" />
+    <Content Include="Scripts\utils\clearAddress.js" />
     <Content Include="Scripts\utils\datepicker.js" />
     <Content Include="Scripts\utils\fields.js" />
     <Content Include="Scripts\utils\helpPopup.js" />
+    <Content Include="Scripts\common\init-responsive-tabs.js" />
     <Content Include="Scripts\utils\loader.js" />
     <Content Include="Scripts\utils\logger\log.js" />
     <Content Include="Scripts\utils\logger\logdebug.js" />
@@ -920,6 +924,9 @@
     <Content Include="Scripts\utils\modals.js" />
     <Content Include="Scripts\utils\navigateToStep.js" />
     <Content Include="Scripts\utils\panelCollapsed.js" />
+    <Content Include="Scripts\utils\resetPlaceholder.js" />
+    <Content Include="Scripts\utils\scrollPageTo.js" />
+    <Content Include="Scripts\utils\setEqualHeightRows.js" />
     <Content Include="Scripts\utils\tables.js" />
     <Content Include="Scripts\vendor\js.cookie.js" />
     <Content Include="Scripts\utils\loan-calculator.js" />

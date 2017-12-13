@@ -8,7 +8,6 @@
     var documents = require('onboarding.documents.index');
     var submitDraft = require('onboarding.form.handlers').submitDraft;
     var resetForm = require('onboarding.common').resetFormValidation;
-    var detectIe = require('onboarding.common').detectIe;
     var definePolyfill = require('onboarding.polyfill');
     var initTooltip = require('onboarding.common').initTooltip;
 
@@ -28,7 +27,7 @@
         $('#submitBtn').on('click', validateAndSubmit);
         $('.save-and-resume').on('click', submitDraft);
 
-        if (detectIe()) {
+        if (detectIE()) {
             definePolyfill();
         }
         var salesrep = $('#OnBoardingLink').val();
