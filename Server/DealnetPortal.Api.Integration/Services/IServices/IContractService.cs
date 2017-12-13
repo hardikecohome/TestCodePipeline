@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Storage;
+using DealnetPortal.Domain;
 
-namespace DealnetPortal.Api.Integration.Interfaces
+namespace DealnetPortal.Api.Integration.Services
 {
+    using Models.Contract.EquipmentInformation;
+    using Models.Signature;
+
     /// <summary>
     /// Helper service for work with contracts that integrate DB and 3rd party services requests
     /// </summary>
@@ -32,8 +37,6 @@ namespace DealnetPortal.Api.Integration.Interfaces
         AgreementDocument GetContractsFileReport(IEnumerable<int> ids, string contractOwnerId);
 
         IList<Alert> UpdateInstallationData(InstallationCertificateDataDTO installationCertificateData, string contractOwnerId);
-
-        
 
         Tuple<CreditCheckDTO, IList<Alert>> SubmitContract(int contractId, string contractOwnerId);
 

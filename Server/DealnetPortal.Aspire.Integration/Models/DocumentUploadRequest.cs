@@ -6,18 +6,18 @@ namespace DealnetPortal.Aspire.Integration.Models
 {
     [Serializable]
     [XmlRoot(ElementName = "DocumentUploadXML")]
-    public class DocumentUploadRequest
+    public class DocumentUploadRequest : DealUploadRequest
     {
-        public RequestHeader Header { get; set; }
+        //public RequestHeader Header { get; set; }
 
-        public DocumentUploadPayload Payload { get; set; }
+        public new DocumentUploadPayload Payload { get; set; }
     }
 
     [Serializable]
-    public class DocumentUploadPayload
+    public class DocumentUploadPayload : Payload
     {
         public string ContractId { get; set; }
-        public string TransactionId { get; set; }
+        //public string TransactionId { get; set; }
         public string Status { get; set; }
 
         [XmlElement("Document")]

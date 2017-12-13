@@ -9,6 +9,7 @@ using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Utilities.Logging;
+// ReSharper disable All
 
 namespace DealnetPortal.Api.Controllers
 {
@@ -21,6 +22,22 @@ namespace DealnetPortal.Api.Controllers
         public MortgageBrokerController(ILoggingService loggingService, IMortgageBrokerService mortgageBrokerService) : base(loggingService)
         {
             _mortgageBrokerService = mortgageBrokerService;
+        }
+
+        [Route("GetCreatedContracts")]
+        [HttpGet]
+        public IHttpActionResult GetCreatedContracts()
+        {
+            try
+            {
+                var contractsOffers = _mortgageBrokerService.GetCreatedContracts(LoggedInUser.UserId);
+                return Ok(contractsOffers);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError($"Failed to get contracts created by User {LoggedInUser.UserId}", ex);
+                return InternalServerError(ex);
+            }
         }
 
         [Route("CreateContractForCustomer")]

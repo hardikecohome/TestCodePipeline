@@ -8,10 +8,10 @@ namespace DealnetPortal.Aspire.Integration.Models
     /// </summary>
     [Serializable]
     [XmlRoot(ElementName = "CustomerXML")]
-    public class CustomerRequest
+    public class CustomerRequest : DealUploadRequest
     {
-        public RequestHeader Header { set; get; }
+        //public RequestHeader Header { set; get; }
 
-        public Payload Payload { set; get; }
+        //public Payload Payload { set; get; }
     }
 }

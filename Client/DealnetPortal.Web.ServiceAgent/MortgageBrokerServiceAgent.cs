@@ -37,5 +37,18 @@ namespace DealnetPortal.Web.ServiceAgent
                 throw;
             }
         }
+
+        public async Task<IList<ContractDTO>> GetCreatedContracts()
+        {
+            try
+            {
+                return await Client.GetAsyncEx<IList<ContractDTO>>($"{_fullUri}/GetCreatedContracts", AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get contracts created by an user", ex);
+                return new List<ContractDTO>();
+            }
+        }
     }
 }
