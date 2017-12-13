@@ -112,16 +112,14 @@ $(document)
 
         });
 
-        $(window).on('scroll', function () {
-            detectPageHeight();
-        }).on('resize', function () {
+        $(window).on('resize', function () {
             setDeviceClasses();
             if (isMobile.iOS() && viewport().width >= 768) {
                 if ($('.modal.in').length === 1) {
                     setModalMarginForIpad();
                 }
             }
-            detectPageHeight();
+
             documentsColHeight();
 
             if ($(".dataTable").length !== 0) {
@@ -163,19 +161,6 @@ function documentsColHeight () {
     var columns = $('.report-documents-list .document-col');
     columns.find('.dealnet-credit-check-section').css('min-height', columns.find('.documents-inner').height());
 }
-
-function detectPageHeight () {
-    if ($('.dealnet-body').height() > 1000) {
-        $('.back-to-top-hold').show();
-    } else {
-        $('.back-to-top-hold').hide();
-    }
-}
-
-function backToTop () {
-    $("html,body").animate({ scrollTop: 0 }, 1000);
-    return false;
-};
 
 function resetPlacehoder (elems) {
     elems.removeClass('placeholder');

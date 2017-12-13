@@ -1157,9 +1157,15 @@
 </div>
 
 <div class="text-center back-to-top-hold">
-	<a href="#" class="dealnet-info-link" onClick="backToTop()"><svg aria-hidden="true" class="icon icon-back-to-top"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-back-to-top")"></use></svg>@Resources.BackToTop</a>
+	<a href="#" class="dealnet-info-link" id="back-to-top"><svg aria-hidden="true" class="icon icon-back-to-top"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-back-to-top")"></use></svg>@Resources.BackToTop</a>
 </div>
 
 @section scripts {
     @Scripts.Render("~/bundles/report-contracts")
+    
+    <script>
+        $(document).ready(function(){
+            module.require('report-contracts').init();
+        });
+    </script>
     }
