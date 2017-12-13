@@ -162,13 +162,6 @@ function documentsColHeight () {
     columns.find('.dealnet-credit-check-section').css('min-height', columns.find('.documents-inner').height());
 }
 
-function resetPlacehoder (elems) {
-    elems.removeClass('placeholder');
-    setTimeout(function () {
-        elems.placeholder();
-    }, 0);
-}
-
 function saveScrollPosition () {
     var $body = $('body');
     //if open one modal right after other one

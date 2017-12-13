@@ -160,6 +160,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/loader.js")
                 .Include("~/Scripts/utils/navigateToStep.js")
                 .Include("~/Scripts/utils/backToTop.js")
+                .Include("~/Scripts/utils/resetPlaceholder.js")
                 .Include("~/Scripts/common/init-responsive-tabs.js")
                 .Include("~/Scripts/pages/aggrementSubmitSuccess/agreement-submit-success.js")
                 .IncludeDirectory("~/Scripts/pages/contractEdit", "*.js", true));
@@ -219,11 +220,13 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/datepicker.js")
                 .Include("~/Scripts/utils/navigateToStep.js")
                 .Include("~/Scripts/utils/setEqualHeightRows.js")
+                .Include("~/Scripts/utils/resetPlaceholder.js")
                 .IncludeDirectory("~/Scripts/pages/newEquipment", "*.js", true)
             );
 
             bundles.Add(new ScriptBundle("~/bundles/additional-equipment-information")
                 .Include("~/Scripts/vendor/datejs.js")
+                .Include("~/Scripts/utils/resetPlaceholder.js")
                 .Include("~/Scripts/pages/additionalContractInfo/contract-information.js")
             );
 

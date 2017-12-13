@@ -51,7 +51,7 @@ function addExistingEquipment () {
     customizeSelect();
     toggleClearInputIcon($(newDiv).find('textarea, input'));
     sessionStorage.existingEquipmets = nextNumber;
-    resetPlacehoder($(newDiv).find('textarea, input'));
+    module.require('resetPlaceholder')($(newDiv).find('textarea, input'));
 }
 
 function removeExistingEquipment (id) {

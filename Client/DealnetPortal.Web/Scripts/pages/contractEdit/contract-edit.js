@@ -352,7 +352,7 @@ function addReplyFrom () {
         commentForm.attr("id", "");
         commentForm.appendTo(currComment);
         commentForm.find('textarea').text('');
-        resetPlacehoder(commentForm.find('textarea'));
+        module.require('resetPlaceholder')(commentForm.find('textarea'));
         commentForm.find('.reply-button').on('click', function () {
             var form = $(this).parent().closest('form');
             submitComment(form, addChildComment);
