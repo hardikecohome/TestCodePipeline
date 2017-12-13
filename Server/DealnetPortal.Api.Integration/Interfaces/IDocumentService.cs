@@ -59,14 +59,7 @@ namespace DealnetPortal.Api.Integration.Interfaces
         /// <param name="documentTypeId"></param>
         /// <param name="ownerUserId"></param>
         /// <returns></returns>
-        Task<Tuple<bool, IList<Alert>>> CheckPrintAgreementAvailable(int contractId, int documentTypeId, string ownerUserId);
-        /// <summary>
-        /// Get agreement from eSignature engine
-        /// </summary>
-        /// <param name="contractId"></param>
-        /// <param name="ownerUserId"></param>
-        /// <returns></returns>
-        Task<Tuple<AgreementDocument, IList<Alert>>> GetContractAgreement(int contractId, string ownerUserId);
+        Task<Tuple<bool, IList<Alert>>> CheckPrintAgreementAvailable(int contractId, int documentTypeId, string ownerUserId);       
         
         /// <summary>
         /// Get contract agreement for print. Try to use PDF template in the Database, if it not exist, try to use DocuSign template
@@ -75,7 +68,7 @@ namespace DealnetPortal.Api.Integration.Interfaces
         /// <param name="ownerUserId"></param>
         /// <returns></returns>
         Task<Tuple<AgreementDocument, IList<Alert>>> GetPrintAgreement(int contractId, string ownerUserId);/// <summary>
-        /// Get Signed contract (document). if signed doc not exists or still not completed, returns null
+        /// Get Signed contract (document) from eSignature engine. if signed doc not exists or still not completed, returns null
         /// </summary>
         /// <param name="contractId"></param>
         /// <param name="ownerUserId"></param>
@@ -88,8 +81,5 @@ namespace DealnetPortal.Api.Integration.Interfaces
         /// <param name="ownerUserId"></param>
         /// <returns></returns>
         Task<Tuple<AgreementDocument, IList<Alert>>> GetInstallCertificate(int contractId, string ownerUserId);
-        
-
-        //SignatureStatus GetSignatureStatus(int contractId, string ownerUserId);
     }
 }
