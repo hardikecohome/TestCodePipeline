@@ -39,7 +39,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ICustomerWalletService _customerWalletService;
         private readonly IMailService _mailService;
         private readonly IAppConfiguration _configuration;
-        private readonly ISignatureService _signatureService;
+        private readonly IDocumentService _documentService;
 
         public ContractService(
             IContractRepository contractRepository, 
@@ -49,7 +49,7 @@ namespace DealnetPortal.Api.Integration.Services
             ICustomerWalletService customerWalletService,
             IMailService mailService, 
             ILoggingService loggingService, IDealerRepository dealerRepository,
-            IAppConfiguration configuration, ISignatureService signatureService)
+            IAppConfiguration configuration, IDocumentService documentService)
         {
             _contractRepository = contractRepository;
             _loggingService = loggingService;
@@ -60,7 +60,7 @@ namespace DealnetPortal.Api.Integration.Services
             _customerWalletService = customerWalletService;
             _mailService = mailService;
             _configuration = configuration;
-            _signatureService = signatureService;
+            _documentService = documentService;
         }
 
         public ContractDTO CreateContract(string contractOwnerId)
@@ -148,7 +148,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (contract != null && !string.IsNullOrEmpty(contract.Details?.SignatureTransactionId) &&
                 (contract.Signers?.Any() == false || string.IsNullOrEmpty(contract.Details.SignatureStatusQualifier)))
             {
-                _signatureService.SyncSignatureStatus(contractId, contractOwnerId).GetAwaiter().GetResult();
+                _documentService.SyncSignatureStatus(contractId, contractOwnerId).GetAwaiter().GetResult();
             }
 
             var contractDTO = Mapper.Map<ContractDTO>(contract);
@@ -188,7 +188,7 @@ namespace DealnetPortal.Api.Integration.Services
                     if (updatedContract.Details.SignatureStatus != null || !string.IsNullOrEmpty(updatedContract.Details?.SignatureTransactionId) &&
                         updatedContract.LastUpdateTime > updatedContract.Details.SignatureInitiatedTime)
                     {
-                        _signatureService.CleanSignatureInfo(updatedContract.Id, contractOwnerId);
+                        _documentService.CleanSignatureInfo(updatedContract.Id, contractOwnerId);
                     }
                 }
                 else

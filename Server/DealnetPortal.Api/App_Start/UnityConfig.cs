@@ -64,7 +64,7 @@ namespace DealnetPortal.Api
             container.RegisterType<IMortgageBrokerService, MortgageBrokerService>();
             container.RegisterType<ICreditCheckService, CreditCheckService>();
             container.RegisterType<ICustomerFormService, CustomerFormService>();
-            container.RegisterType<ISignatureService, SignatureService>();
+            container.RegisterType<IDocumentService, DocumentService>();
             container.RegisterType<IMailService, MailService>();
             container.RegisterType<IEmailService, EmailService>();
             container.RegisterType<IRateCardsService, RateCardsService>();
@@ -96,8 +96,7 @@ namespace DealnetPortal.Api
             container.RegisterType<IESignatureServiceAgent, ESignatureServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("EcoreClient"), new ResolvedParameter<ILoggingService>()));
             container.RegisterType<ISignatureEngine, DocuSignSignatureEngine>();
             container.RegisterType<IPdfEngine, PdfSharpEngine>();
-            //container.RegisterType<ISignatureEngine, EcoreSignatureEngine>();
-            container.RegisterType<ISignatureService, SignatureService>();
+            container.RegisterType<IDocumentService, DocumentService>();
             container.RegisterType<IMailService, MailService>();
             container.RegisterType<IEmailService, EmailService>();
             container.RegisterType<IDealerService, DealerService>();

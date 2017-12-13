@@ -29,34 +29,39 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         private readonly string _dsPassword;
         private readonly string _dsIntegratorKey;
         private readonly string _dsDefaultBrandId;
-
         private readonly string _notificationsEndpoint;
-
-        private readonly ILoggingService _loggingService;
-
-        public string AccountId { get; private set; }        
-
-        public string TransactionId { get; set; }
-
-        public string DocumentId { get; set; }
-
         private Document _document { get; set; }
-
         private Contract _contract;
-
         private string _templateId { get; set; }
-
         private bool _templateUsed { get; set; }
-
         private List<Text> _textTabs { get; set; }
         private List<Checkbox> _checkboxTabs { get; set; }
         private List<SignHere> _signHereTabs { get; set; }
         private List<Signer> _signers { get; set; }
         private List<CarbonCopy> _copyViewers { get; set; }
         private EnvelopeDefinition _envelopeDefinition { get; set; }
-
         private readonly string[] DocuSignResipientStatuses = { "Created", "Sent", "Delivered", "Signed", "Declined", "Completed", "Voided" };
 
+        private readonly ILoggingService _loggingService;
+
+        private string _accountId;
+
+        public string AccountId
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_accountId))
+                {
+                    Login();
+                }
+                return _accountId;
+            }
+            private set => _accountId = value;
+        }
+
+        public string TransactionId { get; set; }
+
+        public string DocumentId { get; set; }        
 
         public DocuSignSignatureEngine(ILoggingService loggingService, IAppConfiguration configuration)
         {
@@ -70,55 +75,15 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
             _signers = new List<Signer>();
             _copyViewers = new List<CarbonCopy>();
+
+            Login();
         }
 
         public async Task<IList<Alert>> ServiceLogin()
         {
             List<Alert> alerts = new List<Alert>();
 
-            var loginAlerts = await Task.Run(() =>
-            {
-                var logAlerts = new List<Alert>();
-                ApiClient apiClient = new ApiClient(_baseUrl);
-                string authHeader = CreateAuthHeader(_dsUser, _dsPassword, _dsIntegratorKey);
-                Configuration.Default.ApiClient = apiClient;
-
-                if (Configuration.Default.DefaultHeader.ContainsKey("X-DocuSign-Authentication"))
-                {
-                    Configuration.Default.DefaultHeader.Remove("X-DocuSign-Authentication");
-                }
-                Configuration.Default.AddDefaultHeader("X-DocuSign-Authentication", authHeader);
-
-                AuthenticationApi authApi = new AuthenticationApi();
-
-                AuthenticationApi.LoginOptions options = new AuthenticationApi.LoginOptions();
-                options.apiPassword = "true";
-                options.includeAccountIdGuid = "true";
-                LoginInformation loginInfo = authApi.Login(options);
-
-                // find the default account for this user
-                foreach (LoginAccount loginAcct in loginInfo.LoginAccounts)
-                {
-                    if (loginAcct.IsDefault == "true")
-                    {
-                        AccountId = loginAcct.AccountId;
-                        break;
-                    }
-                }
-
-                if (string.IsNullOrEmpty(AccountId))
-                {
-                    _loggingService.LogError("Can't login to DocuSign service");
-                    logAlerts.Add(new Alert()
-                    {
-                        Type = AlertType.Error,
-                        Header = "DocuSign error",
-                        Message = "Can't login to DocuSign service"
-                    });
-                }
-
-                return logAlerts;
-            }).ConfigureAwait(false);
+            var loginAlerts = await Task.Run(() => Login()).ConfigureAwait(false);
 
             if (loginAlerts.Any())
             {
@@ -262,52 +227,49 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                             if (updateRecipients)
                             {
                                 reciepents = UpdateRecipientsMails(reciepents);
-                                var updateRes =
-                                    await envelopesApi.UpdateRecipientsAsync(AccountId, TransactionId, reciepents);
-                                //mails will send automaticaly and we don't need resendEnvelope here
                             }
-                            else
+                            var uAlerts = await UpdateOrResendRecipients(updateRecipients ? reciepents : null, envelope);
+                            if (uAlerts?.Any() == true)
                             {
-                                if (envelope.Status == "sent")
-                                {
-                                    envelope = new Envelope() { };
-                                    var updateOptions = new EnvelopesApi.UpdateOptions()
-                                    {
-                                        resendEnvelope = "true"
-                                    };
-                                    var updateEnvelopeRes =
-                                        await envelopesApi.UpdateAsync(AccountId, TransactionId, envelope,
-                                            updateOptions);
-                                }
+                                alerts.AddRange(uAlerts);
                             }
                         }
                         else
                         {
+                            var errorMsg =
+                                $"Can't update eSignature reciepents in DocuSign for envelope {TransactionId} as current Envelope status is {envelope.Status}";
+                            _loggingService.LogError(errorMsg);
                             alerts.Add(new Alert()
                             {
                                 Type = AlertType.Error,
                                 Header = "Can't update envelope",
-                                Message = $"Can't update eSignature reciepents in DocuSign for envelope {TransactionId} as current Envelope status is {envelope.Status}"
+                                Message = errorMsg
                             });
                         }
                     }
                     else
                     {
+                        var errorMsg =
+                            $"Can't find envelope {TransactionId} in DocuSign";
+                        _loggingService.LogError(errorMsg);
                         alerts.Add(new Alert()
                         {
                             Type = AlertType.Error,
                             Header = "Can't find envelope",
-                            Message = $"Can't find envelope {TransactionId} in DocuSign"
+                            Message = errorMsg
                         });
                     }
                 }
                 catch (Exception e)
                 {
+                    var errorMsg =
+                        $"Can't update eSignature reciepents in DocuSign for envelope {TransactionId}";
+                    _loggingService.LogError(errorMsg, e);
                     alerts.Add(new Alert()
                     {
                         Type = AlertType.Error,
                         Header = "eSignature error",
-                        Message = $"Can't update eSignature reciepents in DocuSign for envelope {TransactionId}: {e}"
+                        Message = $"{errorMsg}: {e}"
                     });
                 }
             }
@@ -350,7 +312,6 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         {
                             if (tzInfo != null)
                             {
-                                //envelopeStatusTime = TimeZoneInfo.ConvertTime(envelopeStatusTime, tzInfo, TimeZoneInfo.Local);
                                 envelopeStatusTime = TimeZoneInfo.ConvertTimeToUtc(envelopeStatusTime, tzInfo);
                             }
                         }
@@ -385,7 +346,6 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                             {
                                 if (tzInfo != null)
                                 {
-                                    //rsLastStatusTime = TimeZoneInfo.ConvertTime(rsLastStatusTime, tzInfo, TimeZoneInfo.Local);
                                     rsLastStatusTime = TimeZoneInfo.ConvertTimeToUtc(rsLastStatusTime, tzInfo);
                                 }
                             }
@@ -493,108 +453,73 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         {
             var alerts = new List<Alert>();
 
-            await Task.Run(() =>
-            {
-                EnvelopesApi envelopesApi = new EnvelopesApi();
-                bool recreateEnvelope = false;
-                bool recreateRecipients = false;
+            EnvelopesApi envelopesApi = new EnvelopesApi();
+            bool recreateEnvelope = false;
+            bool recreateRecipients = false;
 
-                if (!string.IsNullOrEmpty(TransactionId))
+            if (!string.IsNullOrEmpty(TransactionId))
+            {
+                var envelope = await envelopesApi.GetEnvelopeAsync(AccountId, TransactionId);
+                var reciepents = await envelopesApi.ListRecipientsAsync(AccountId, TransactionId);
+                if (envelope != null)
                 {
-                    var envelope = envelopesApi.GetEnvelope(AccountId, TransactionId);
-                    var reciepents = envelopesApi.ListRecipients(AccountId, TransactionId);
-                    if (envelope != null)
-                    {                        
-                        DateTime sentTime;
-                        bool contractUpdated = false;
-                        if (DateTime.TryParse(envelope.SentDateTime, out sentTime) && _contract != null)
-                        {
-                            contractUpdated = _contract.LastUpdateTime.HasValue && _contract.LastUpdateTime.Value > sentTime;
-                        }
-                        
-                        if (envelope.Status == "created" || envelope.Status == "voided"
-                            || envelope.Status == "deleted" || envelope.Status == "declined" || contractUpdated)
-                        {
-                            recreateEnvelope = true;
-                        }
-                        recreateRecipients = !AreRecipientsEqual(reciepents);
-                        if ((envelope.Status == "sent" || envelope.Status == "completed") && recreateRecipients)
-                        {
-                            recreateEnvelope = true;
-                        }
+                    DateTime sentTime;
+                    bool contractUpdated = false;
+                    if (DateTime.TryParse(envelope.SentDateTime, out sentTime) && _contract != null)
+                    {
+                        contractUpdated = _contract.LastUpdateTime.HasValue &&
+                                          _contract.LastUpdateTime.Value > sentTime;
                     }
-                    else
+
+                    recreateRecipients = !AreRecipientsEqual(reciepents);
+
+                    if (envelope.Status == "voided" || envelope.Status == "deleted" || envelope.Status == "declined" ||
+                        envelope.Status == "completed" ||
+                        contractUpdated || (envelope.Status == "sent" && recreateRecipients))
                     {
                         recreateEnvelope = true;
-                    }
-
-                    if (!recreateEnvelope)
-                    {
-                        try
-                        {                        
-                            if (recreateRecipients)
-                            {
-                                if (reciepents.Signers.Any() || reciepents.CarbonCopies.Any())
-                                {
-                                    var delRec = envelopesApi.DeleteRecipients(AccountId, TransactionId, reciepents);
-                                }
-                                reciepents = new Recipients()
-                                {
-                                    Signers = _signers,
-                                    CarbonCopies = _copyViewers
-                                };
-                                var updateRes = envelopesApi.UpdateRecipients(AccountId, TransactionId, reciepents);
-                            }
-                            if (envelope.Status == "created")
-                            {
-                                envelope = new Envelope();
-                                envelope.Status = "sent";                                
-                                var updateEnvelopeRes =                                    
-                                        envelopesApi.Update(AccountId, TransactionId, envelope);
-                            }
-                            else
-                            {
-                                if (envelope.Status == "sent")
-                                {
-                                    envelope = new Envelope() {};
-                                    var updateOptions = new EnvelopesApi.UpdateOptions()
-                                    {
-                                        resendEnvelope = "true"
-                                    };
-                                    var updateEnvelopeRes =
-                                        envelopesApi.Update(AccountId, TransactionId, envelope, updateOptions);
-                                }
-                                else
-                                {
-                                    alerts.Add(new Alert()
-                                    {
-                                        Type = AlertType.Warning,
-                                        Header = "eSignature Warning",
-                                        Message = "Agreement has been sent for signature already"
-                                    });
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            alerts.Add(new Alert()
-                            {
-                                Type = AlertType.Error,
-                                Header = "eSignature error",
-                                Message = ex.ToString()
-                            });
-                        }
                     }
                 }
                 else
                 {
                     recreateEnvelope = true;
-                }                
+                }
+
+                if (!recreateEnvelope && !recreateRecipients)
+                {
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Warning,
+                        Header = "eSignature Warning",
+                        Message = "Agreement has been sent for signature already"
+                    });
+                }
+
+                if (!recreateEnvelope)
+                {
+                    try
+                    {
+                        var uAlerts = await UpdateOrResendRecipients(recreateRecipients ? reciepents : null, envelope);
+                        if (uAlerts?.Any() == true)
+                        {
+                            alerts.AddRange(uAlerts);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Type = AlertType.Error,
+                            Header = "eSignature error",
+                            Message = ex.ToString()
+                        });
+                    }
+                }
 
                 if (recreateEnvelope)
-                {                    
+                {
                     if (_signers?.Any() != true && _copyViewers?.Any() != true)
-                    {                        
+                    {
                         var tempSignatures = new List<SignatureUser>
                         {
                             new SignatureUser()
@@ -608,17 +533,16 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     else
                     {
                         _envelopeDefinition = PrepareEnvelope();
-                    }                    
+                    }
 
-                    var envAlerts = CreateEnvelope(_envelopeDefinition);
+                    var envAlerts = SubmitEnvelope(_envelopeDefinition);
                     if (envAlerts.Any())
                     {
                         alerts.AddRange(envAlerts);
                     }
                 }
+            }
 
-            });
-                                  
             return alerts;
         }
 
@@ -769,7 +693,75 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return recipients;
         }
 
-        private List<Alert> CreateEnvelope(EnvelopeDefinition envelopeDefinition)
+        private async Task<IList<Alert>> UpdateOrResendRecipients(Recipients updateRecipients, Envelope envelope)
+        {
+            var alerts = new List<Alert>();
+            EnvelopesApi envelopesApi = new EnvelopesApi();
+            if (updateRecipients != null)
+            {
+                var updateRes =
+                    await envelopesApi.UpdateRecipientsAsync(AccountId, TransactionId, updateRecipients);
+                if (updateRes?.RecipientUpdateResults?.Any() == true)
+                {
+                    updateRes.RecipientUpdateResults.Where(rr => !string.IsNullOrEmpty(rr.ErrorDetails?.Message)).ForEach(rr =>
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Type = AlertType.Error,
+                            Header = "DocuSign error",
+                            Message = rr.ErrorDetails?.Message
+                        });
+                        _loggingService.LogError($"DocuSign error: {rr.ErrorDetails?.Message}");
+                    });                    
+                }
+            }
+            else
+            {
+                if (envelope.Status == "sent")
+                {
+                    envelope = new Envelope() { };
+                    var updateOptions = new EnvelopesApi.UpdateOptions()
+                    {
+                        resendEnvelope = "true"
+                    };
+                    var updateEnvelopeRes =
+                        await envelopesApi.UpdateAsync(AccountId, TransactionId, envelope,
+                            updateOptions);
+                    if (updateEnvelopeRes?.ErrorDetails?.Message != null)
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Type = AlertType.Error,
+                            Header = "DocuSign error",
+                            Message = updateEnvelopeRes.ErrorDetails.Message
+                        });
+                        _loggingService.LogError($"DocuSign error: {updateEnvelopeRes.ErrorDetails.Message}");
+                    }
+                }
+                if (envelope.Status == "created")
+                {
+                    envelope = new Envelope()
+                    {
+                        Status = "sent"
+                    };
+                    var updateEnvelopeRes =
+                       await envelopesApi.UpdateAsync(AccountId, TransactionId, envelope);
+                    if (updateEnvelopeRes?.ErrorDetails?.Message != null)
+                    {
+                        alerts.Add(new Alert()
+                        {
+                            Type = AlertType.Error,
+                            Header = "DocuSign error",
+                            Message = updateEnvelopeRes.ErrorDetails.Message
+                        });
+                        _loggingService.LogError($"DocuSign error: {updateEnvelopeRes.ErrorDetails.Message}");
+                    }
+                }
+            }
+            return alerts;
+        }
+
+        private List<Alert> SubmitEnvelope(EnvelopeDefinition envelopeDefinition)
         {
             List<Alert> alerts = new List<Alert>();
 
@@ -1115,6 +1107,50 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             }
 
             return updated;
+        }
+
+        private IList<Alert> Login()
+        {
+            var logAlerts = new List<Alert>();
+            ApiClient apiClient = new ApiClient(_baseUrl);
+            string authHeader = CreateAuthHeader(_dsUser, _dsPassword, _dsIntegratorKey);
+            Configuration.Default.ApiClient = apiClient;
+
+            if (Configuration.Default.DefaultHeader.ContainsKey("X-DocuSign-Authentication"))
+            {
+                Configuration.Default.DefaultHeader.Remove("X-DocuSign-Authentication");
+            }
+            Configuration.Default.AddDefaultHeader("X-DocuSign-Authentication", authHeader);
+
+            AuthenticationApi authApi = new AuthenticationApi();
+
+            AuthenticationApi.LoginOptions options = new AuthenticationApi.LoginOptions();
+            options.apiPassword = "true";
+            options.includeAccountIdGuid = "true";
+            LoginInformation loginInfo = authApi.Login(options);
+
+            // find the default account for this user
+            foreach (LoginAccount loginAcct in loginInfo.LoginAccounts)
+            {
+                if (loginAcct.IsDefault == "true")
+                {
+                    AccountId = loginAcct.AccountId;
+                    break;
+                }
+            }
+
+            if (string.IsNullOrEmpty(AccountId))
+            {
+                _loggingService.LogError("Can't login to DocuSign service");
+                logAlerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "DocuSign error",
+                    Message = "Can't login to DocuSign service"
+                });
+            }
+
+            return logAlerts;
         }
 
         #endregion
