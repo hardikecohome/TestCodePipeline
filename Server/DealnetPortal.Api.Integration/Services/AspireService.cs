@@ -169,7 +169,7 @@ namespace DealnetPortal.Api.Integration.Services
                             TransactionId = contract.Details.TransactionId
                         };
 
-                        bool CreditCheckAnalyze(DealUploadResponse cResponse, object cResult)
+                        Func<DealUploadResponse, object, bool> CreditCheckAnalyze = (cResponse, cResult) =>
                         {
                             bool succeded = false;
                             var ccresult = cResult as CreditCheckDTO;
@@ -186,12 +186,12 @@ namespace DealnetPortal.Api.Integration.Services
                                 succeded = true;
                             }
                             return succeded;
-                        }
+                        };
 
                         // Send request to Aspire
                         var sendResult = await DoAspireRequestWithAnalyze(_aspireServiceAgent.CreditCheckSubmission,
                             request, (r,c) => AnalyzeResponse(r,c), contract,
-                            (Func<DealUploadResponse, object, bool>) CreditCheckAnalyze, creditCheckResult).ConfigureAwait(false);
+                            CreditCheckAnalyze, creditCheckResult).ConfigureAwait(false);
                         if (sendResult?.Any() == true)
                         {
                             alerts.AddRange(sendResult);
