@@ -159,10 +159,10 @@
     <Compile Include="Services\Signature\EcoreSignatureEngine.cs" />
     <Compile Include="Services\Signature\IPdfEngine.cs" />
     <Compile Include="Services\Signature\ISignatureEngine.cs" />
-    <Compile Include="Interfaces\ISignatureService.cs" />
+    <Compile Include="Interfaces\IDocumentService.cs" />
     <Compile Include="Services\MailService.cs" />
     <Compile Include="Services\PdfFormFields.cs" />
-    <Compile Include="Services\SignatureService.cs" />
+    <Compile Include="Services\DocumentService.cs" />
     <Compile Include="Services\Signature\PdfSharpEngine.cs" />
     <Compile Include="Services\SmsSubscriptionService.cs" />
     <Compile Include="Services\UsersService.cs" />

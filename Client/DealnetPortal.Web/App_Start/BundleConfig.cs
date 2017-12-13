@@ -247,6 +247,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/dob-selecter.js")
                 .Include("~/Scripts/utils/datepicker.js")
                 .Include("~/Scripts/utils/loader.js")
+                .Include("~/Scripts/utils/clearAddress.js")
                 .Include("~/Scripts/utils/panelCollapsed.js")
                 .Include("~/Scripts/utils/setEqualHeightRows.js")
                 .IncludeDirectory("~/Scripts/pages/onboarding", "*.js", true));
