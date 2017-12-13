@@ -56,7 +56,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 }
                 return _accountId;
             }
-            private set => _accountId = value;
+            private set { _accountId = value; }
         }
 
         public string TransactionId { get; set; }
