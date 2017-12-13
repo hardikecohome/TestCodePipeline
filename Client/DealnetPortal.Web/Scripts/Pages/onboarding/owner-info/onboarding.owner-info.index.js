@@ -8,6 +8,7 @@
     var setLengthLimitedField = require('onboarding.setters').setLengthLimitedField;
     var enableSubmit = require('onboarding.setters').enableSubmit;
     var ownersMoveToNextSection = require('onboarding.owner-info.setters').moveToNextSection;
+
     var initDob = require('dob-selecters').initDobGroup;
 
     function _setInputHandlers (ownerNumber) {
@@ -98,7 +99,6 @@
 
                 if (field === 'birthdate' && owners[i]['BirthDate'] !== null) {
                     setters.setBirthDate(owner, new Date(parseInt(owners[i]['BirthDate'].substr(6))));
-                    setDatepickerDate('#' + owner + '-birthdate', state['owner-info'].owners[owner].birthDate);
                 }
 
                 var $item = $('#' + owner + '-' + field);

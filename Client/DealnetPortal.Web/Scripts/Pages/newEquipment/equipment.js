@@ -5,6 +5,8 @@
     var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
     var recalculateAndRenderRentalValues = require('rate-cards').recalculateAndRenderRentalValues;
 
+    var resetPlaceholder = require('resetPlaceholder')
+
     /**
      * Add new equipment ot list of new equipments
      * Takes template of equipment replace razor generated ids, names with new id index
@@ -18,7 +20,7 @@
             type: '',
             description: '',
             cost: '',
-            monthlyCost:''
+            monthlyCost: ''
         };
 
         //create new template with appropiate id and names
@@ -31,13 +33,13 @@
                 equipmentDiv: 'div#new-equipments'
             });
 
-		if (id > 0) {
-			newTemplate.find('div.additional-remove').attr('id', 'addequipment-remove-' + id);
-		}
-		if (id == 2) {
-			$('.add-equip-link').addClass("hidden");
-		}
-		state.equipments[newId].template = newTemplate;
+        if (id > 0) {
+            newTemplate.find('div.additional-remove').attr('id', 'addequipment-remove-' + id);
+        }
+        if (id == 2) {
+            $('.add-equip-link').addClass("hidden");
+        }
+        state.equipments[newId].template = newTemplate;
 
         // equipment handlers
         newTemplate.find('.equipment-cost').on('change', updateCost);
@@ -48,12 +50,12 @@
                 equipmentName: 'NewEquipment',
                 equipmentRemovePattern: 'addequipment-remove-'
             }));
-            
+
         newTemplate.find('.monthly-cost').on('change', updateMonthlyCost);
 
         customizeSelect();
         toggleClearInputIcon($(newTemplate).find('textarea, input'));
-        resetPlacehoder($(newTemplate).find('textarea, input'));
+        resetPlaceholder($(newTemplate).find('textarea, input'));
 
         $('#new-equipments').append(newTemplate);
 
@@ -66,7 +68,7 @@
      * Takes template of equipment replace razor generated ids, names with new id index
      * @returns {} 
      */
-    var addExistingEquipment = function() {
+    var addExistingEquipment = function () {
         var id = $('div#existing-equipments').find('[id^=existing-equipment-]').length;
         var newId = id.toString();
         state.existingEquipments[newId] = {
@@ -106,14 +108,14 @@
 
         customizeSelect();
         toggleClearInputIcon($(newTemplate).find('textarea, input'));
-        resetPlacehoder($(newTemplate).find('textarea, input'));
+        resetPlaceholder($(newTemplate).find('textarea, input'));
 
         $('#existing-equipments').append(newTemplate);
         resetFormValidator("#equipment-form");
     }
 
-    function setRemoveEquipment(options) {
-        return function(e) {
+    function setRemoveEquipment (options) {
+        return function (e) {
             removeEquipment.call(this, options);
         }
     }
@@ -131,7 +133,7 @@
      *  options.equipmentName - common name of razor generated values for new/existing equipment [NewEquipment, ExistingEquipment]
      * @returns {} 
      */
-    function removeEquipment(options) {
+    function removeEquipment (options) {
         var fullId = $(this).attr('id');
         var id = fullId.substr(fullId.lastIndexOf('-') + 1);
         if (!state[options.name].hasOwnProperty(id)) {
@@ -164,9 +166,9 @@
                 recalculateAndRenderRentalValues();
             } else {
                 recalculateValuesAndRender();
-			}
-			$('.add-equip-link').removeClass("hidden");
-		}		
+            }
+            $('.add-equip-link').removeClass("hidden");
+        }
     };
 
     /**
@@ -175,8 +177,8 @@
      * @param {number} i - new id for new equipment 
      * @returns {} 
      */
-    function initEquipment(i) {
-		var cost = Globalize.parseNumber($('#NewEquipment_' + i + '__Cost').val());
+    function initEquipment (i) {
+        var cost = Globalize.parseNumber($('#NewEquipment_' + i + '__Cost').val());
         if (state.equipments[i] === undefined) {
             state.equipments[i] = { id: i.toString(), cost: cost }
         } else {
@@ -201,10 +203,10 @@
                     equipmentName: 'NewEquipment',
                     equipmentRemovePattern: 'addequipment-remove-'
                 }));
-		}
-		if (i == 2) {
-			$('.add-equip-link').addClass("hidden");
-		}
+        }
+        if (i == 2) {
+            $('.add-equip-link').addClass("hidden");
+        }
     }
 
     /**
@@ -213,7 +215,7 @@
      * @param {number} i - new id for new equipment 
      * @returns {} 
      */
-    function initExistingEquipment(i) {
+    function initExistingEquipment (i) {
         state.existingEquipments[i] = { id: i.toString() };
         $('#remove-existing-equipment-' + i).on('click', setRemoveEquipment(
             {
@@ -224,7 +226,7 @@
             }));
     }
 
-    function resetFormValidator(formId) {
+    function resetFormValidator (formId) {
         $(formId).removeData('validator');
         $(formId).removeData('unobtrusiveValidation');
         $.validator.unobtrusive.parse($(formId));
@@ -236,7 +238,7 @@
      * method uses only for Loan agreement type
      * @returns {} 
      */
-    function updateCost() {
+    function updateCost () {
         var mvcId = $(this).attr("id");
         var id = mvcId.split('__Cost')[0].substr(mvcId.split('__Cost')[0].lastIndexOf('_') + 1);
         state.equipments[id].cost = Globalize.parseNumber($(this).val());
@@ -253,7 +255,7 @@
      * method uses only for Rental/RentalHwt agreement type
      * @returns {} 
      */
-    function updateMonthlyCost() {
+    function updateMonthlyCost () {
         var mvcId = $(this).attr("id");
         var id = mvcId.split('__MonthlyCost')[0].substr(mvcId.split('__MonthlyCost')[0].lastIndexOf('_') + 1);
         state.equipments[id].monthlyCost = Globalize.parseNumber($(this).val());
@@ -272,7 +274,7 @@
      * @param {} name - name of equipment [NewEquipment, ExistingEquipment]
      * @returns {} 
      */
-    function updateLabelIndex(selector, index, name) {
+    function updateLabelIndex (selector, index, name) {
         var labels = selector.find('label');
         labels.each(function () {
             $(this).attr('for', $(this).attr('for').replace(name + '_' + index, name + '_' + (index - 1)));
@@ -287,7 +289,7 @@
     * @param {} name - name of equipment [NewEquipment, ExistingEquipment]
     * @returns {} 
     */
-    function updateInputIndex(selector, index, name) {
+    function updateInputIndex (selector, index, name) {
         var inputs = selector.find('input, select, textarea');
 
         inputs.each(function () {
@@ -305,7 +307,7 @@
     * @param {} name - name of equipment [NewEquipment, ExistingEquipment]
     * @returns {} 
     */
-    function updateValidationIndex(selector, index, name) {
+    function updateValidationIndex (selector, index, name) {
         var spans = selector.find('span');
 
         spans.each(function () {
@@ -324,23 +326,23 @@
      * @param {} equipmentRemovePattern - common name of id value for removing new/existing equipment [remove-existing-equipment-, addequipment-remove-]
      * @returns {} 
      */
-    function updateButtonIndex(selector, index, equipmentPatternId, equipmentRemovePattern) {
+    function updateButtonIndex (selector, index, equipmentPatternId, equipmentRemovePattern) {
         selector.find('.equipment-number').text('№' + index);
         var removeButton = selector.find('#' + equipmentRemovePattern + index);
         removeButton.attr('id', equipmentRemovePattern + (index - 1));
         selector.attr('id', equipmentPatternId + (index - 1));
     }
 
-    function _initExistingEquipment() {
+    function _initExistingEquipment () {
         var existingEquipments = $('div#existing-equipments').find('[id^=existing-equipment-]').length;
-        for (var j = 0; j < existingEquipments; j++) {
+        for (var j = 0;j < existingEquipments;j++) {
             initExistingEquipment(j);
         }
     }
 
-    function _initNewEquipment() {
+    function _initNewEquipment () {
         var equipments = $('div#new-equipments').find('[id^=new-equipment-]').length;
-        for (var i = 0; i < equipments; i++) {
+        for (var i = 0;i < equipments;i++) {
             initEquipment(i);
         }
 
@@ -349,7 +351,7 @@
         }
     }
 
-    function init() {
+    function init () {
         _initExistingEquipment();
         _initNewEquipment();
     }

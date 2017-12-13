@@ -1,4 +1,10 @@
-﻿function uploadCaptured (uploadUrl) {
+﻿var showLoader, hideLoader;
+$(document).ready(function () {
+    showLoader = module.require('loader').showLoader;
+    hideLoader = module.require('loader').hideLoader;
+})
+
+function uploadCaptured (uploadUrl) {
     var dataUrl = bigCanvas.toDataURL();
     showLoader(translations['ProcessingImage']);
     $.ajax({

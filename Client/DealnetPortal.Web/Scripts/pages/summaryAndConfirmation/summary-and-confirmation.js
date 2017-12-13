@@ -13,7 +13,7 @@
         }
 
         $('.date-input').each(function (index, input) {
-            assignDatepicker(input, datepickerOptions)
+            module.require('datepicker').assignDatepicker(input, datepickerOptions)
         });
         var initPaymentTypeForm = $("#payment-type-form").find(":selected").val();
         managePaymentFormElements(initPaymentTypeForm);
@@ -24,8 +24,19 @@
         if (recalculateTotalCash) {
             recalculateTotalCashPrice();
         }
+
+        var navigateToStep = module.require('navigateToStep');
+
+        $('.editToStep1, #steps .step-item[data-warning="true"]').on('click', function () {
+            if ($(this).attr('href')) {
+                navigateToStep($(this));
+            }
+            return false;
+        });
+
         ga('send', 'event', 'Summary And Confirmation', 'button_click', 'Step 5 from Dealer Portal', '100');
     });
+
 function managePaymentFormElements (paymentType) {
     switch (paymentType) {
         case '0':

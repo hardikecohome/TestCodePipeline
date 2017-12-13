@@ -1,6 +1,6 @@
 ﻿configInitialized
-    .then(function() {
-        $("#check-credit-button").click(function(event) {
+    .then(function () {
+        $("#check-credit-button").click(function (event) {
 
             if (!$('#home-owner-agrees').is(':checked') || !$('#agreement-checkbox-data2').is(':checked')) {
                 event.preventDefault();

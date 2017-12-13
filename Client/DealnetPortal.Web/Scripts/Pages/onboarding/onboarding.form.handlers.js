@@ -1,6 +1,8 @@
 ﻿module.exports('onboarding.form.handlers', function (require) {
     var state = require('onboarding.state').state;
     var resetForm = require('onboarding.common').resetFormValidation;
+    var showLoader = require('loader').showLoader;
+    var hideLoader = require('loader').hideLoader;
 
     var validateDob = require('dob-selecters').validate;
 

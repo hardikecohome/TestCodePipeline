@@ -9,9 +9,11 @@
         var customRateCardInit = require('custom-rate-card').init;
         var submitCustomRateCard = require('custom-rate-card').submitCustomRateCard;
         var toggleDisableClassOnInputs = require('custom-rate-card').toggleDisableClassOnInputs;
+        var assignDatepicker = require('datepicker').assignDatepicker;
         var rateCardBlock = require('rate-cards-ui');
         var state = require('state').state;
         var constants = require('state').constants;
+        var navigateToStep = require('navigateToStep');
 
         var submitForm = function (event) {
             $('#equipment-form').valid();
@@ -163,6 +165,13 @@
             } else {
                 recalculateValuesAndRender();
             }
+
+            $('#steps .step-item[data-warning="true"]').on('click', function () {
+                if ($(this).attr('href')) {
+                    navigateToStep($(this));
+                }
+                return false;
+            });
         }
 
         return { init: init };

@@ -8,7 +8,7 @@ $(document)
             maxDate: new Date()
         };
         $('.date-input').each(function (index, input) {
-            assignDatepicker(input, options);
+            module.require('datepicker').assignDatepicker(input, options);
         });
 
         setTimeout(function () {
@@ -17,6 +17,8 @@ $(document)
 
         $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
         $('.select-filter').val($('.select-filter > option:first').val());
+
+        commonDataTablesSettings();
     });
 
 function showTable () {
@@ -132,13 +134,13 @@ function showTable () {
                         }
                     ],
                     dom:
-                    "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
-                    "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
-                    "<'length-filter '<'row '<'#export-all-to-excel.col-md-3 col-sm-4 col-xs-12 col-md-push-9 col-sm-push-8'><'col-md-7 col-sm-6 col-xs-12  col-md-pull-3 col-sm-pull-4'l>>>" +
-                    "<'row'<'col-md-12'tr>>" +
-                    "<'table-footer'>" +
-                    "<'row'<'col-md-12'p>>" +
-                    "<'row'<'col-md-12'i>>",
+                        "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
+                        "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
+                        "<'length-filter '<'row '<'#export-all-to-excel.col-md-3 col-sm-4 col-xs-12 col-md-push-9 col-sm-push-8'><'col-md-7 col-sm-6 col-xs-12  col-md-pull-3 col-sm-pull-4'l>>>" +
+                        "<'row'<'col-md-12'tr>>" +
+                        "<'table-footer'>" +
+                        "<'row'<'col-md-12'p>>" +
+                        "<'row'<'col-md-12'i>>",
                     renderer: 'bootstrap',
                     footerCallback: createTableFooter,
                     order: [],
