@@ -811,13 +811,14 @@
     <Content Include="Content\less\components\dob-control.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
-    <Content Include="Scripts\layout.js" />
+    <Content Include="Scripts\index.js" />
     <Content Include="Scripts\pages\basicInfo\address-autocomplete.js" />
     <Content Include="Scripts\pages\reportContracts\index.js" />
     <Content Include="Scripts\utils\alertModal.js" />
     <Content Include="Scripts\utils\backToTop.js" />
     <Content Include="Scripts\utils\clearAddress.js" />
     <Content Include="Scripts\utils\datepicker.js" />
+    <Content Include="Scripts\utils\detectIE.js" />
     <Content Include="Scripts\utils\fields.js" />
     <Content Include="Scripts\utils\helpPopup.js" />
     <Content Include="Scripts\common\init-responsive-tabs.js" />
@@ -825,7 +826,7 @@
     <Content Include="Scripts\utils\logger\log.js" />
     <Content Include="Scripts\utils\logger\logdebug.js" />
     <Content Include="Scripts\pages\additionalContractInfo\contract-information.js" />
-    <Content Include="Scripts\pages\aggrementSubmitSuccess\agreement-submit-success.js" />
+    <Content Include="Scripts\pages\agrementSubmitSuccess\agreement-submit-success.js" />
     <Content Include="Scripts\pages\basicInfo\basic-info.js" />
     <Content Include="Scripts\pages\calculator\calculator-conversion.js" />
     <Content Include="Scripts\pages\calculator\calculator-index.js" />
@@ -926,6 +927,7 @@
     <Content Include="Scripts\utils\panelCollapsed.js" />
     <Content Include="Scripts\utils\resetPlaceholder.js" />
     <Content Include="Scripts\utils\scrollPageTo.js" />
+    <Content Include="Scripts\utils\scrollPosition.js" />
     <Content Include="Scripts\utils\setEqualHeightRows.js" />
     <Content Include="Scripts\utils\tables.js" />
     <Content Include="Scripts\vendor\js.cookie.js" />

@@ -1,4 +1,4 @@
-﻿module.exoprts('backToTop', function () {
+﻿module.exports('backToTop', function () {
     function toggleBackToTopVisibility() {
         if ($('.dealnet-body').height() > 1000) {
             $('.back-to-top-hold').show();

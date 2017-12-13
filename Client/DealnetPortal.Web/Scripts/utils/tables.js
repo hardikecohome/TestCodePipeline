@@ -24,7 +24,7 @@ function resetDataTablesExpandedRows (table) {
 
 function redrawDataTablesSvgIcons () {
     /*Redraw svg icons inside dataTable only for ie browsers*/
-    if (detectIE()) {
+    if (module.require('detectIE')()) {
         if ($('.dataTable .edit-control a, .dataTable a.icon-link.icon-edit').length > 0) {
             $('.edit-control a, a.icon-link.icon-edit').html('<svg aria-hidden="true" class="icon icon-edit"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-edit"></use></svg>');
         }

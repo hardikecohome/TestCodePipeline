@@ -9,6 +9,9 @@
         alertModal.find('.modal-footer button[data-dismiss="modal"]').html(obj.cancelBtnText);
         alertModal.addClass(classes);
         alertModal.modal('show');
+        alertModal.one('hidden.bs.modal', function () {
+            $('#confirmAlert').off('click');
+        });
     }
 
     function hideDynamicAlertModal () {

@@ -147,7 +147,7 @@ function customizeSelect () {
             var selectClasses = $(this).hasClass("dealnet-disabled-input") || $(this).hasClass("control-disabled") ? "custom-select-disabled" : "custom-select";
             if (!$(this).parents(".ui-datepicker").length && !$(this).parents(".custom-select").length && !$(this).parents(".custom-select-disabled").length) {
                 $(this).wrap('<div class=' + selectClasses + '>');
-                if (detectIE() === false) {
+                if (module.require('detectIE')() === false) {
                     $(this).after('<span class="caret">');
                 }
             }

@@ -40,12 +40,14 @@ namespace DealnetPortal.Web
                     "~/Scripts/vendor/jquery.loader.js",
                     "~/Scripts/vendor/jquery.jcarousel.min.js",
                     "~/Scripts/vendor/jquery.touchSwipe.min.js",
-                "~/Scripts/utils/modules/index.js",
+                    "~/Scripts/utils/modules/index.js",
                     "~/Scripts/utils/helpPopup.js",
                     "~/Scripts/utils/alertModal.js",
                     "~/Scripts/utils/fields.js",
                     "~/Scripts/utils/modal.js",
-                    "~/Scripts/layout.js"));
+                    "~/Scripts/utils/scrollPosition.js",
+                    "~/Scripts/utils/detectIE.js",
+                    "~/Scripts/index.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap")
                 .Include(
@@ -111,7 +113,7 @@ namespace DealnetPortal.Web
             bundles.Add(new ScriptBundle("~/bundles/agreement-submit-success")
                 .Include("~/Scripts/vendor/jquery.form.js")
                 .Include("~/Scripts/utils/print-contract.js")
-                .Include("~/Scripts/pages/aggrementSubmitSuccess/agreement-submit-success.js"));
+                .Include("~/Scripts/pages/agrementSubmitSuccess/agreement-submit-success.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/my-customers")
                 .Include("~/Scripts/vendor/datejs.js")

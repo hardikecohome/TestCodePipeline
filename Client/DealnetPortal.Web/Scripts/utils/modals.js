@@ -1,4 +1,6 @@
 ﻿$(document).ready(function () {
+    var saveScrollPosition = module.require('scrollPosition').save;
+    var resetScrollPosition = module.require('scrollPosition').reset;
 
     $(document).on('show.bs.modal', function () {
         saveScrollPosition();
@@ -20,11 +22,6 @@
             }
         }
     });
-
-    $('#alertModal').on('hidden.bs.modal', function () {
-        $('#confirmAlert').off('click');
-    });
-
 
     $('.overlay').click(function () {
         $('.navbar-toggle').trigger('click');

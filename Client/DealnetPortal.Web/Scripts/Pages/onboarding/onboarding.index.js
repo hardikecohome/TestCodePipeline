@@ -14,6 +14,7 @@
     var panelCollapsed = require('panelCollapsed');
     var setEqualHeightRows = require('setEqualHeightRows');
     var clearAddress = require('clearAddress');
+    var detectIE = require('detectIE');
 
     function init (model) {
         initializing = true;

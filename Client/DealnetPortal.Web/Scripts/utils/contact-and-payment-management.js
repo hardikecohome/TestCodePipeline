@@ -30,7 +30,13 @@
             managePaymentElements($(this).find(":selected").val());
         });
 
-
+        var navigateToStep = module.require('navigateToStep');
+        $('#steps .step-item[data-warning="true"]').on('click', function () {
+            if ($(this).attr('href')) {
+                navigateToStep($(this));
+            }
+            return false;
+        });
 
         $('form').on('submit', function (e) {
             if (!$('form').valid()) {
