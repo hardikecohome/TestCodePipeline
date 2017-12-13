@@ -120,15 +120,12 @@ $(document)
                 }
             }
 
-            documentsColHeight();
-
             if ($(".dataTable").length !== 0) {
                 $('.dataTable td.dataTables_empty').attr('colspan', $('.dataTable th').length);
             }
         });
 
         setTimeout(function () {
-            documentsColHeight();
             $('.credit-check-info-hold .dealnet-credit-check-section').each(function () {
                 var col = $(this).parents('.col-md-6');
                 if (col.not('.col-md-push-6')) {
@@ -156,11 +153,6 @@ $(document)
             template: '<div class="popover customer-loan-popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
         });
     });
-
-function documentsColHeight () {
-    var columns = $('.report-documents-list .document-col');
-    columns.find('.dealnet-credit-check-section').css('min-height', columns.find('.documents-inner').height());
-}
 
 function saveScrollPosition () {
     var $body = $('body');
