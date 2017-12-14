@@ -1,4 +1,4 @@
-﻿module.exports('calculator-jcarousel', function(require) {
+﻿module.exports('calculator.jcarousel', function(require) {
     
     function refreshCarouselItems() {
         var number = $('.jcarousel-pagination').find('.active').text();
@@ -6,7 +6,6 @@
         $('.jcarousel').jcarousel('reload');
         $('.jcarousel-pagination').find('.active').removeClass('active');
         $('.jcarousel-pagination').find('a:contains("' + number + '")').addClass('active');
-
 
         if (viewport().width >= 1024) {
             $('.control-add-calc').css('left', $('.rate-card-col').length * $('.rate-card-col').outerWidth() - 5);
@@ -106,8 +105,19 @@
             });
     }
 
+
+    var init = function () {
+        $(window).resize(function () {
+            carouselRateCards();
+            refreshCarouselItems();
+        });
+
+        carouselRateCards();
+    }
+
     return {
         refreshCarouselItems: refreshCarouselItems,
-        carouselRateCards: carouselRateCards
+        carouselRateCards: carouselRateCards,
+        init: init
     }
 })

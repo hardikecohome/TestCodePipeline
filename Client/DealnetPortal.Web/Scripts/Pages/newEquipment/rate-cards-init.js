@@ -91,7 +91,7 @@
             //just find parent div
             rateCardBlock.highlightCardBySelector('#' + option + 'AFee');
 
-            $('#' + option + 'AmortizationDropdown').val(state[option].AmortizationTerm);
+            $('#' + option + '-amortDropdown').val(state[option].AmortizationTerm);
             $('#' + option + 'AFee').text(formatCurrency(state[option].AdminFee));
             $('#' + option + 'CRate').text(state[option].CustomerRate + ' %');
             $('#' + option + 'YCostVal').text(state[option].DealerCost + ' %');

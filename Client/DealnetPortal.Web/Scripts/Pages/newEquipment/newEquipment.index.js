@@ -1,6 +1,7 @@
 ﻿module.exports('newEquipment.index',
     function (require) {
         var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
+        var recalculateAndRenderRentalValues = require('rate-cards').recalculateAndRenderRentalValues;
         var submitRateCard = require('rate-cards').submitRateCard;
         var rateCardCalculationInit = require('rate-cards').init;
         var setters = require('value-setters');
@@ -49,8 +50,8 @@
             equipment.init();
             rateCardsInit.init(id, cards, onlyCustomRateCard);
             customRateCardInit();
-            rateCardBlock.init();
             rateCardCalculationInit();
+            rateCardBlock.init();
 
             if (agreementType === settings.applicationType.loanApplication) {
                 recalculateValuesAndRender();
@@ -128,7 +129,7 @@
 
         function _initHandlers () {
             $(settings.submitButtonId).on('click', _submitForm);
-            constants.rateCards.forEach(function (option) { $('#' + option.name + 'AmortizationDropdown').on('change', recalculateValuesAndRender); });
+            constants.rateCards.forEach(function (option) { $('#' + option.name + '-amortDropdown').on('change', recalculateValuesAndRender); });
             $(settings.addEquipmentId).on('click', equipment.addEquipment);
             $(settings.addExistingEquipmentId).on('click', equipment.addExistingEquipment);
             $(settings.toggleRateCardBlockId).on('click', _toggleRateCardBlock);
@@ -137,8 +138,8 @@
             $(settings.totalMonthlyPaymentId).on('change', setters.setRentalMPayment);
             $(settings.selectRateCardButtonClass).on('click', rateCardBlock.highlightCard);
             $(settings.selectRateCardButtonClass).on('click', _onRateCardSelect);
-            $(settings.deferralTermId).on('change', setters.setLoanAmortTerm('deferral'));
-            $(settings.deferralDropdownId).on('change', setters.setDeferralPeriod('deferral'));
+            $(settings.deferralTermId).on('change', setters.setLoanAmortTerm('Deferral'));
+            $(settings.deferralDropdownId).on('change', setters.setDeferralPeriod('Deferral'));
         }
 
         function _initDatepickers () {

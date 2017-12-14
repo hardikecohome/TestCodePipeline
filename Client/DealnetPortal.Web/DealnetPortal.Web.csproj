@@ -816,19 +816,19 @@
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\layout.js" />
     <Content Include="Scripts\pages\basicInfo\address-autocomplete.js" />
+    <Content Include="Scripts\pages\calculator\calculator.validation.js" />
     <Content Include="Scripts\utils\logger\log.js" />
     <Content Include="Scripts\utils\logger\logdebug.js" />
     <Content Include="Scripts\pages\additionalContractInfo\contract-information.js" />
     <Content Include="Scripts\pages\aggrementSubmitSuccess\agreement-submit-success.js" />
     <Content Include="Scripts\pages\basicInfo\basic-info.js" />
-    <Content Include="Scripts\pages\calculator\calculator-conversion.js" />
-    <Content Include="Scripts\pages\calculator\calculator-index.js" />
-    <Content Include="Scripts\pages\calculator\calculator-init.js" />
-    <Content Include="Scripts\pages\calculator\calculator-jcarousel.js" />
-    <Content Include="Scripts\pages\calculator\calculator-option.js" />
-    <Content Include="Scripts\pages\calculator\calculator-state.js" />
-    <Content Include="Scripts\pages\calculator\calculator-ui.js" />
-    <Content Include="Scripts\pages\calculator\calculator-value-setters.js" />
+    <Content Include="Scripts\pages\calculator\calculator.conversion.js" />
+    <Content Include="Scripts\pages\calculator\calculator.init.js" />
+    <Content Include="Scripts\pages\calculator\calculator.jcarousel.js" />
+    <Content Include="Scripts\pages\calculator\calculator.option.js" />
+    <Content Include="Scripts\pages\calculator\calculator.state.js" />
+    <Content Include="Scripts\pages\calculator\calculator.ui.js" />
+    <Content Include="Scripts\pages\calculator\calculator.value-setters.js" />
     <Content Include="Scripts\pages\Clients\actions\new-client-actions.js" />
     <Content Include="Scripts\pages\Clients\index.js" />
     <Content Include="Scripts\pages\Clients\new-client-autocomplete.js" />
@@ -1137,7 +1137,6 @@
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
     <Folder Include="Content\themes\" />
-    <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

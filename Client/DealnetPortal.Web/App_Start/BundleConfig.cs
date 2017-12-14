@@ -236,7 +236,8 @@ namespace DealnetPortal.Web
                 //.Include("~/Scripts/pages/calculator/calculator-ui.js")
                 //.Include("~/Scripts/pages/calculator/calculator-conversion.js")
                 //.Include("~/Scripts/pages/calculator/calculator-jcarousel.js")
-                .IncludeDirectory("~/Scripts/pages/calculator","*.js",true));
+                .IncludeDirectory("~/Scripts/pages/calculator","*.js",true)
+                .IncludeDirectory("~/Scripts/utils/rateCards", "*.js", true));
 
             bundles.Add(new ScriptBundle("~/bundles/onboarding")
                 .Include("~/Scripts/vendor/jquery.form.js")

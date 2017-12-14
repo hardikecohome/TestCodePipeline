@@ -1,4 +1,4 @@
-﻿module.exports('calculator-option', function (require) {
+﻿module.exports('calculator.option', function (require) {
     var setters = require('calculator-value-setters');
     var state = require('calculator-state').state;
     var constants = require('calculator-state').constants;
@@ -6,7 +6,8 @@
     var recalculateEquipmentIndex = require('calculator-conversion').recalculateEquipmentIndex;
     var recalculateEquipmentId = require('calculator-conversion').recalculateEquipmentId;
     var resetValidation = require('calculator-conversion').resetValidation;
-    var jcarousel = require('calculator-jcarousel');
+    var jcarousel = require('calculator.jcarousel');
+    var validation = require('calculator.validation');
 
     var idToValue = function (obj) {
         return function (id) {
@@ -14,7 +15,32 @@
         };
     };
 
-    var optionSetup = function(option, callback) {
+    var rateCardsCalculator = require('rateCards.index');
+    var rateCardsRenderEngine = require('rateCards.render');
+
+    var settings = {
+        rateCardFields: {
+            '-mPayment': 'monthlyPayment',
+            '-cBorrowing': 'costOfBorrowing',
+            '-taFinanced': 'totalAmountFinanced',
+            '-tmPayments': 'totalMonthlyPayments',
+            '-rBalance': 'residualBalance',
+            '-tObligation': 'totalObligation',
+            '-yCost': 'yourCost'
+        },
+        totalPriceFields: {
+            '-totalEquipmentPrice': 'equipmentSum',
+            '-tax': 'tax',
+            '-totalPrice': 'totalPrice'
+        },
+        displaySectionFields: {
+            'displayCustomerRate': 'CustomerRate',
+            'displayTFinanced': 'totalAmountFinanced',
+            'displayMPayment': 'monthlyPayment'
+        }
+    }
+
+    function _optionSetup(option, callback) {
 
         $('#' + option + '-addEquipment').on('click', ui.addEquipment(option, callback));
 
@@ -65,7 +91,7 @@
             $('#Equipment_NewEquipment_option1_' + nextIndex + '__Type').on('change', setters.setEquipmentType(option));
             $('#option1-remove').on('click',
                 function() {
-                    removeOption.call(this, callback);
+                    _removeOption.call(this, callback);
                 });
 
             state[option].equipmentNextIndex++;
@@ -75,52 +101,10 @@
 
         resetValidation(option);
 
-        initValidation(option);
+        validation.setValidationForOption(option);
     };
 
-    var renderOption = function(option, data) {
-        var validateNumber = constants.numberFields.every(function(field) {
-            var result = typeof data[field] === 'number';
-            return result;
-        });
-        var notNan = !Object.keys(data).map(idToValue(data)).some(function(val) {
-            if (typeof val !== 'object') {
-                return isNaN(val);
-            }
-        });
-
-        var validateNotEmpty = constants.notCero.every(function(field) {
-            return data[field] !== 0;
-        });
-
-        $('#' + option + '-aFee').text(data.adminFee);
-        $('#' + option + '-cRate').text(data.customerRate + ' %');
-        $('#' + option + '-yCostVal').text(data.dealerCost + ' %');
-
-        if (state[option].plan === 0 || state[option].plan === 2) {
-            renderDropdownValues(option, data.totalAmountFinanced);
-        }
-
-        if (notNan && validateNumber && validateNotEmpty) {
-            $('#' + option + '-mPayment').text(formatCurrency(data.monthlyPayment));
-            $('#' + option + '-cBorrowing').text(formatCurrency(data.costOfBorrowing));
-            $('#' + option + '-taFinanced').text(formatCurrency(data.totalAmountFinanced));
-            $('#' + option + '-tmPayments').text(formatCurrency(data.totalMonthlyPayments));
-            $('#' + option + '-rBalance').text(formatCurrency(data.residualBalance));
-            $('#' + option + '-tObligation').text(formatCurrency(data.totalObligation));
-            $('#' + option + '-yCost').text(formatCurrency(data.yourCost));
-        } else {
-            $('#' + option + '-mPayment').text('-');
-            $('#' + option + '-cBorrowing').text('-');
-            $('#' + option + '-taFinanced').text('-');
-            $('#' + option + '-tmPayments').text('-');
-            $('#' + option + '-rBalance').text('-');
-            $('#' + option + '-tObligation').text('-');
-            $('#' + option + '-yCost').text('-');
-        }
-    };
-
-    function removeOption(callback) {
+    function _removeOption(callback) {
         var optionToDelete = $(this).parent().parent().attr('id').split('-')[0];
         if (optionToDelete === 'option1') {
             ui.clearFirstOption(callback);
@@ -143,7 +127,7 @@
                 ui.deleteSecondOption(callback);
 
                 $('#option2-remove').on('click', function () {
-                    removeOption.call(this, callback);
+                    _removeOption.call(this, callback);
                 });
 
                 optionSetup('option2', callback);
@@ -151,7 +135,7 @@
         }
     }
 
-    var addOption = function(callback) {
+    function _addOption(callback) {
         if (!$('#province-form').valid()) {
             return;
         }
@@ -218,7 +202,7 @@
 
         $('#option' + secondIndex + '-remove').on('click',
             function() {
-                removeOption.call(this, callback);
+                _removeOption.call(this, callback);
             });
 
         if (state[newOption].downPayment !== 0) {
@@ -285,137 +269,60 @@
 
         $('.jcarousel').jcarousel('scroll', '+=1');
 
-        optionSetup(newOption, callback);
+        _optionSetup(newOption, callback);
     };
 
-    /**
-    * Show/hide notification and disable dropdown option depending on totalAmountFinanced option
-    * @param {string} option - name of the cards [FixedRate,Deferral,NoInterst]
-    * @param {number} totalAmountFinanced - total cash value
-    * @returns {void} 
-    */
-    function renderDropdownValues(option, totalAmountFinanced) {
-        var totalCash = constants.minimumLoanValue;
-
-        if (totalAmountFinanced > constants.minimumLoanValue) {
-            totalCash = totalAmountFinanced.toFixed(2);
-        }
-
-        var dropdown = $('#' + option + '-amortDropdown')[0];
-        if (!dropdown || !dropdown.options) return;
-
-        var options = dropdown.options;
-
-        if (+totalCash >= constants.totalAmountFinancedFor180amortTerm) {
-            toggleDisabledAttributeOnOption(option, options, false);
-        } else {
-            toggleDisabledAttributeOnOption(option, options, true);
-        }
-    }
-
-    /**
-     * depends on totalAmountfinanced value disable/enable options 
-     * values of Loan/Amortization dropdown
-     * @param {string} option - option name
-     * @param {Array<string>} options - array of available options for dropdown
-     * @param {boolean} isDisable - disable/enable option and show/hide tooltip
-     * @returns {void} 
-     */
-    function toggleDisabledAttributeOnOption(option, options, isDisable) {
-        if (!options.length) return;
-
-        $.each(options, function (i) {
-            var amortValue = +options[i].innerText.split('/')[1];
-            if (amortValue >= constants.amortizationValueToDisable) {
-
-                // if we selected max value of dropdown and totalAmountFinanced is lower then constants.amortizationValueToDisable
-                // just select first option in dropdown
-                if (options.selectedIndex === i && isDisable) {
-                    $('#' + option + '-amortDropdown').val(options[0].value);
-                }
-
-                var opt = $(options[i]);
-                opt.attr('disabled', isDisable);
-                isDisable ? opt.addClass('disabled-opt') : opt.removeClass('disabled-opt');
+    function _renderOption(options) {
+        if (options === undefined || typeof options !== "object") {
+            options = ['option1'];
+            if (state['option2'] !== undefined) {
+                options.push('option2');
             }
+            if (state['option3'] !== undefined) {
+                options.push('option3');
+            }
+        }
+
+        options.forEach(function (option) {
+            var eSumData = rateCardsCalculator.calculateTotalPrice(state[option].equipments, state.downPayment, state.tax);
+
+            rateCardsRenderEngine.renderTotalPrice(eSumData);
+
+            var rateCard = rateCardsCalculator.filterRateCard(state[option].plan);
+
+            if (rateCard !== null && rateCard !== undefined) {
+                $.extend(state[option], rateCard);
+                rateCardsRenderEngine.renderAfterFiltration(state[option].plan, { deferralPeriod: state[option].DeferralPeriod, adminFee: state[option].AdminFee, dealerCost: state[option].DealerCost, customerRate: state[option].CustomerRate });
+            }
+
+            if (option.name !== 'Custom') {
+                rateCardsRenderEngine.renderDropdownValues(state[option].plan);
+            }
+
+            var data = rateCardsCalculator.calculateValuesForRender($.extend({}, idToValue(state)(state[option])));
+            var selectedRateCard = $('#rateCardsBlock').find('div.checked').length > 0
+                ? $('#rateCardsBlock').find('div.checked').find('#hidden-option').text()
+                : '';
+
+            rateCardsRenderEngine.renderOption(option.name, selectedRateCard, data);
         });
     }
 
-    var initValidation = function initValidation(option) {
-        $('#' + option + '-downPayment').rules('add', {
-            regex: /(^[0]?|(^[1-9]\d{0,11}))([.,][0-9]{1,2})?$/,
-            messages: {
-                regex: translations.downPaymentInvalidFormat
-            }
-        });
+    function _initHandlers() {
+        $('#province-tax-rate').on('change', setTax(_renderOption));
+        $('.btn-add-calc-option').on('click', function () { _addOption(_renderOption); });
+    }
 
-        $('#' + option + '-customYCostVal').rules('add', {
-            required: true,
-            regex: /(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$/,
-            number: true,
-            min: 0,
-            messages: {
-                regex: translations.yourCostFormat,
-                required: function (ele) {
-                    if (!$('#' + option + '-customCRate').val())
-                        return translations.ThisFieldIsRequired;
-                    return translations.enterZero;
-                }
-            }
-        });
+    var init = function() {
+        var name = 'option1';
 
-        $('#' + option + '-customCRate').rules('add', {
-            required: true,
-            regex: /(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$/,
-            min: 0,
-            number: true,
-            messages: {
-                regex: translations.customerRateFormat,
-                required: function (ele) {
-                    if (!$('#' + option + '-customYCostVal').val())
-                        return translations.ThisFieldIsRequired;
-                    return translations.enterZero;
-                }
-            }
-        });
-
-        $('#' + option + '-customAFee').rules('add', {
-            regex: /(^[0]?|(^[1-9]\d{0,11}))([.,][0-9]{1,2})?$/,
-            number: true,
-            min: 0,
-            messages: {
-                regex: translations.adminFeeFormat
-            }
-        });
-
-        $('#' + option + '-customAmortTerm').rules('add', {
-            required: true,
-            regex: /^[1-9]\d{0,2}?$/,
-            min: 1,
-            max: 999,
-            messages: {
-                required: translations.ThisFieldIsRequired,
-                regex: translations.amortTermFormat,
-                max: translations.amortTermMax
-            }
-        });
-
-        $('#' + option + '-customLoanTerm').rules('add', {
-            required: true,
-            regex: /^[1-9]\d{0,2}?$/,
-            min: 1,
-            max: 999,
-            messages: {
-                required: translations.ThisFieldIsRequired,
-                regex: translations.loanTermFormat,
-                max: translations.loanTermMax
-            }
-        });
-    };
-
+        rateCardsRenderEngine.init(settings);
+        _initHandlers();
+        _optionSetup(name, _renderOption);
+        _renderOption(name);
+    }
+  
     return {
-        addOption: addOption,
-        optionSetup: optionSetup,
-        renderOption: renderOption
+        init: init
     };
 });

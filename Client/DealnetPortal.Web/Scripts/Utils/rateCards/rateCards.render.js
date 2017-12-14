@@ -11,7 +11,7 @@
         $.extend(settings, viewSettings);
     }
 
-    var renderOption = function(option, data) {
+    var renderOption = function (option, selectedRateCard, data) {
         if (_isEmpty(settings))
             throw new Error('settings are empty. Use init method first.');
 
@@ -20,13 +20,17 @@
         var validateNotEmpty = settings.notCero.every(function (field) { return data[field] !== 0; });
 
         if (notNan && validateNumber && validateNotEmpty) {
-          
-            $('#displayLoanAmortTerm').text(data.loanAmortTerm);
-            Object.keys(settings.displaySectionFields).map(function (key) { $('#' + key).text(formatCurrency(data[settings.displaySectionFields[key]])); });
+            if (option === selectedRateCard) {
+                $('#displayLoanAmortTerm').text(data.loanTerm + '/' + data.amortTerm);
+                Object.keys(settings.displaySectionFields).map(function (key) { $('#' + key).text(formatCurrency(data[settings.displaySectionFields[key]])); });
+            }
+
             Object.keys(settings.rateCardFields).map(function (key) { $('#' + option + key).text(formatCurrency(data[settings.rateCardFields[key]])); });
         } else {
-            $('#displayLoanAmortTerm').text('-');
-            Object.keys(settings.displaySectionFields).map(function (key) { $('#' + key).text(formatCurrency(data[settings.displaySectionFields[key]])); });
+            if (option === selectedRateCard) {
+                $('#displayLoanAmortTerm').text('-');
+                Object.keys(settings.displaySectionFields).map(function (key) { $('#' + key).text('-'); });
+            }
             Object.keys(settings.rateCardFields).map(function (key) { $('#' + option + key).text('-'); });
         }
     }
@@ -34,7 +38,7 @@
     var renderTotalPrice = function (data) {
         var notNan = !Object.keys(data).map(_idToValue(data)).some(function (val) { return isNaN(val); });
         if (notNan) {
-            Object.keys(settings.totalPriceFields).map(function (key) { $('#' + key).text(formatCurrency(data[settings.totalPriceFields[key]])); });
+            Object.keys(settings.totalPriceFields).map(function (key) { $('#' + key).text(formatNumber(data[settings.totalPriceFields[key]])); });
         } else {
             Object.keys(settings.totalPriceFields).map(function (key) { $('#' + key).text('-'); });
         }
@@ -43,8 +47,8 @@
     var renderDropdownValues = function(option) {
         var totalCash = constants.minimumLoanValue;
         
-        if (state[option.name].totalAmountFinanced > 1000) {
-            totalCash = totalAmountFinanced.toFixed(2);
+        if (state[option].totalAmountFinanced > 1000) {
+            totalCash = state[option].totalAmountFinanced.toFixed(2);
         }
 
         if (totalCash >= constants.maxRateCardLoanValue) {
@@ -56,7 +60,7 @@
         if (!items)
             return;
 
-        var dropdown = $('#' + option + 'AmortizationDropdown')[0];
+        var dropdown = $('#' + option + '-amortDropdown')[0];
         if (!dropdown || !dropdown.options) return;
 
         var dropdowns = [];
@@ -78,7 +82,7 @@
         });
 
         //var selected = $('#' + option + 'AmortizationDropdown option:selected').val();
-        var e = document.getElementById(option + 'AmortizationDropdown');
+        var e = document.getElementById(option + '-amortDropdown');
         if (e !== undefined) {
             var selected = e.options[e.selectedIndex].value;
 
@@ -98,11 +102,11 @@
             if (values.indexOf(selected) !== -1) {
                 e.value = selected;
                 //$(dropdown).val(selected);
-                $('#' + option + 'AmortizationDropdown option[value=' + selected + ']').attr("selected", selected);
+                $('#' + option + '-amortDropdown option[value=' + selected + ']').attr("selected", selected);
             } else {
                 e.value = values[0];
                 //$(dropdown).val(values[0]);
-                $('#' + option + 'AmortizationDropdown option[value=' + values[0] + ']').attr("selected", selected);
+                $('#' + option + '-amortDropdown option[value=' + values[0] + ']').attr("selected", selected);
             }
         }
 

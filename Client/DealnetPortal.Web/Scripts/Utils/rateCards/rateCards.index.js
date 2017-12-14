@@ -7,7 +7,7 @@
     var residualBalance = require('financial-functions').residualBalance;
     var totalBorrowingCost = require('financial-functions').totalBorrowingCost;
     var yourCost = require('financial-functions').yourCost;
-    var totalRentalPrice = require('financial-functions').totalRentalPrice;
+    var tax = require('financial-functions').tax;
     var notNaN = function (num) { return !isNaN(num); };
 
     var state = require('rateCards.state').state;
@@ -34,7 +34,7 @@
     var filterRateCard = function(option) {
         var totalCash = constants.minimumLoanValue;
         var totalAmount = totalAmountFinanced($.extend({}, { equipmentSum: state.eSum, downPayment: state.downPayment }));
-        state[option.name].totalAmountFinanced = totalAmount;
+        state[option.name] = $.extend({}, { totalAmountFinanced: totalAmount });
 
         if (!isNaN(totalAmount)) {
             if (totalAmount > totalCash) {
@@ -45,9 +45,9 @@
         return _filterRateCardByValues(option, totalCash);
     }
 
-    var calculateTotalPrice = function(equipments, downPayment, tax) {
+    var calculateTotalPrice = function(equipments, downPayment, regionTax) {
         state.downPayment = downPayment;
-        state.tax = tax;
+        state.tax = regionTax;
 
         var eSum = equipmentSum(equipments);
         state.eSum = eSum;
@@ -59,10 +59,10 @@
         }
     }
 
-    var calculateValuesForRender = function(option, data) {
+    var calculateValuesForRender = function(data) {
         data = $.extend({}, data,
             {
-                equipmentSum: eSum,
+                equipmentSum: state.eSum,
                 downPayment: state.downPayment,
                 tax: state.tax
             });
@@ -76,7 +76,8 @@
                 residualBalance: residualBalance(data),
                 totalObligation: totalObligation(data),
                 yourCost: yourCost(data),
-                loanAmortTerm: data.LoanTerm + '/' + data.AmortizationTerm
+                loanTerm: data.LoanTerm,
+                amortTerm: data.AmortizationTerm
             });
     }
 
@@ -87,7 +88,7 @@
      * @returns {Object<string>} - appropriate rate card object 
      */
     function _filterRateCardByValues(option, totalCash) {
-        var selectedValues = $('#' + option.name + 'AmortizationDropdown option:selected').text().split('/');
+        var selectedValues = $('#' + option.name + '-amortDropdown option:selected').text().split('/');
         var items = state.rateCards[option.name];
 
         if (!items)

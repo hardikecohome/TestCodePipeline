@@ -24,9 +24,8 @@ module.exports('rate-cards', function (require) {
             'tax': 'tax',
             'totalPrice': 'totalPrice'
         },
-        displayFields: {
-            'displayLoanAmortTerm': 'loanAmortTerm',
-            'displayCustomerRate': 'customerRate',
+        displaySectionFields: {
+            'displayCustomerRate': 'CustomerRate',
             'displayTFinanced': 'totalAmountFinanced',
             'displayMPayment': 'monthlyPayment'
         }
@@ -46,8 +45,8 @@ module.exports('rate-cards', function (require) {
         }
 
         //remove percentage symbol
-        var amortizationTerm = $('#' + option + 'AmortizationDropdown').val();
-        var selectedValuescustom = $('#' + option + 'AmortizationDropdown option:selected').text().split('/');
+        var amortizationTerm = $('#' + option + '-amortDropdown').val();
+        var selectedValuescustom = $('#' + option + '-amortDropdown option:selected').text().split('/');
         var loanTerm = selectedValuescustom[0];
         var slicedCustomerRate = $('#' + option + 'CRate').text().slice(0, -2);
         var slicedAdminFee = $('#' + option + 'AFee').text().replace('$', '').trim();
@@ -132,7 +131,11 @@ module.exports('rate-cards', function (require) {
             }
 
             var data = rateCardsCalculator.calculateValuesForRender($.extend({}, idToValue(state)(option.name)));
-            rateCardsRenderEngine.renderOption(option.name, data);
+            var selectedRateCard = $('#rateCardsBlock').find('div.checked').length > 0
+                ? $('#rateCardsBlock').find('div.checked').find('#hidden-option').text()
+                : '';
+
+            rateCardsRenderEngine.renderOption(option.name, selectedRateCard, data);
         });
     };
 
