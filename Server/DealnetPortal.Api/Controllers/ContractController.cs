@@ -493,21 +493,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("SubmitCustomerForm")]
-        [HttpPost]
-        [AllowAnonymous]
-        public IHttpActionResult SubmitCustomerForm(CustomerFormDTO customerFormData)
-        {
-            try
-            {
-                var submitResult = _customerFormService.SubmitCustomerFormData(customerFormData);
-                return Ok(submitResult);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
+        
 
         [Route("SubmitCustomerServiceRequest")]
         [HttpPost]
@@ -517,23 +503,6 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 var submitResult = await _customerFormService.CustomerServiceRequest(customerServiceRequest).ConfigureAwait(false);
-                return Ok(submitResult);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
-
-        [Route("GetCustomerContractInfo")]
-        [HttpGet]
-        // GET api//Contract/GetCustomerContractInfo?contractId={contractId}&dealerName={dealerName}
-        [AllowAnonymous]
-        public IHttpActionResult GetCustomerContractInfo(int contractId, string dealerName)
-        {
-            try
-            {
-                var submitResult = _customerFormService.GetCustomerContractInfo(contractId, dealerName);
                 return Ok(submitResult);
             }
             catch (Exception ex)

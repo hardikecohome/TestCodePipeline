@@ -19,13 +19,13 @@ namespace DealnetPortal.Web.Controllers
     public class CustomerFormController : Controller
     {
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
-        private readonly IContractServiceAgent _contractServiceAgent;
+        private readonly ICustomerFormServiceAgent _customerFormServiceAgent;
         private readonly ICultureManager _cultureManager;
-        public CustomerFormController(IDictionaryServiceAgent dictionaryServiceAgent, IContractServiceAgent contractServiceAgent, ICultureManager cultureManager)
+        public CustomerFormController(IDictionaryServiceAgent dictionaryServiceAgent, ICultureManager cultureManager, ICustomerFormServiceAgent customerFormServiceAgent)
         {
             _dictionaryServiceAgent = dictionaryServiceAgent;
-            _contractServiceAgent = contractServiceAgent;
             _cultureManager = cultureManager;
+            _customerFormServiceAgent = customerFormServiceAgent;
         }
 
         public async Task<ActionResult> Index(string hashDealerName, string culture)
@@ -86,7 +86,7 @@ namespace DealnetPortal.Web.Controllers
             customerFormDto.DealUri = urlBuilder.ToString();
             customerFormDto.LeadSource = System.Configuration.ConfigurationManager.AppSettings[PortalConstants.CustomerFormLeadSourceKey] ??
                                             System.Configuration.ConfigurationManager.AppSettings[PortalConstants.DefaultLeadSourceKey];
-            var submitResult = await _contractServiceAgent.SubmitCustomerForm(customerFormDto);
+            var submitResult = await _customerFormServiceAgent.SubmitCustomerForm(customerFormDto);
 
             if (submitResult == null || (submitResult.Item2?.Any(x => x.Type == AlertType.Error) ?? false))
             {
@@ -99,7 +99,7 @@ namespace DealnetPortal.Web.Controllers
         {
             var languageOptions = await _dictionaryServiceAgent.GetCustomerLinkLanguageOptions(hashDealerName, culture);
             var viewModel = new SubmittedCustomerFormViewModel();
-            var submitedData = await _contractServiceAgent.GetCustomerContractInfo(contractId, languageOptions.DealerName);
+            var submitedData = await _customerFormServiceAgent.GetCustomerContractInfo(contractId, languageOptions.DealerName);
             viewModel.CreditAmount = submitedData.CreditAmount;
             viewModel.DealerName = submitedData.DealerName;
             viewModel.Street = submitedData.DealerAdress?.Street;
