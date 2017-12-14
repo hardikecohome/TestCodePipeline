@@ -1,18 +1,11 @@
-﻿using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Core.Enums;
-using DealnetPortal.Api.Models.Contract;
+﻿using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
-
-using AutoMapper;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Web.Infrastructure;
 
 namespace DealnetPortal.Web.Controllers
