@@ -26,7 +26,7 @@ namespace DealnetPortal.Web.Infrastructure
             _dictionaryServiceAgent = dictionaryServiceAgent;
         }
 
-        public async Task<Tuple<CustomerContractInfoDTO, IList<Alert>>> SubmitResult(CustomerFormViewModel customerForm, UriBuilder urlBuilder)
+        public async Task<Tuple<CustomerContractInfoDTO, IList<Alert>>> SubmitCustomerForm(CustomerFormViewModel customerForm, UriBuilder urlBuilder)
         {
             var customerFormDto = new CustomerFormDTO();
             customerFormDto.PrimaryCustomer = AutoMapper.Mapper.Map<CustomerDTO>(customerForm.HomeOwner);
@@ -55,7 +55,7 @@ namespace DealnetPortal.Web.Infrastructure
             return submitResult;
         }
 
-        public async Task<SubmittedCustomerFormViewModel> SubmittedCustomerFormViewModel(int contractId, string hashDealerName, string culture)
+        public async Task<SubmittedCustomerFormViewModel> GetSubmittedCustomerFormSummary(int contractId, string hashDealerName, string culture)
         {
             var languageOptions = await _dictionaryServiceAgent.GetCustomerLinkLanguageOptions(hashDealerName, culture);
             var viewModel = new SubmittedCustomerFormViewModel();

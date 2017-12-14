@@ -64,7 +64,7 @@ namespace DealnetPortal.Web.Controllers
                 Path = Url.Action("ContractEdit", "NewRental"),
                 Query = null,
             };
-            var submitResult = await _customerFormManager.SubmitResult(customerForm, urlBuilder);
+            var submitResult = await _customerFormManager.SubmitCustomerForm(customerForm, urlBuilder);
 
             if (submitResult == null || (submitResult.Item2?.Any(x => x.Type == AlertType.Error) ?? false))
             {
@@ -75,7 +75,7 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<ActionResult> AgreementSubmitSuccess(int contractId, string hashDealerName, string culture)
         {
-            var viewModel = await _customerFormManager.SubmittedCustomerFormViewModel(contractId, hashDealerName, culture);
+            var viewModel = await _customerFormManager.GetSubmittedCustomerFormSummary(contractId, hashDealerName, culture);
             ViewBag.HashDealerName = hashDealerName;
             return View(viewModel);
         }
