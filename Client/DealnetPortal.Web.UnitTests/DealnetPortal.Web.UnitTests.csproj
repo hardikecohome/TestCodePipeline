@@ -113,6 +113,8 @@
     <Content Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="chutzpah.json" />
+    <None Include="JsTests\.gitkeep" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
