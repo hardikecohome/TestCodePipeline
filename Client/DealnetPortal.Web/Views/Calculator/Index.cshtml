@@ -112,15 +112,17 @@
 </script>
 
 @section scripts {
-  @Scripts.Render("~/bundles/jqueryval")
-  @Scripts.Render("~/bundles/localization");
-  @Scripts.Render("~/bundles/standalone-calculator");
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/localization");
+    @Scripts.Render("~/bundles/standalone-calculator");
 
     <script type="text/javascript">
-        module.require('calculator.init').init(
-            @Html.Raw(Json.Encode(Model.Plans)),
-            @Html.Raw(Json.Encode(Model.DealerTier.RateCards)),
-            @Html.Raw(Json.Encode(Model.ProvinceTaxRates)));
+        configInitialized.then(function() {
+            module.require('calculator.init').init(
+                @Html.Raw(Json.Encode(Model.Plans)),
+                @Html.Raw(Json.Encode(Model.DealerTier.RateCards)),
+                @Html.Raw(Json.Encode(Model.ProvinceTaxRates)));
+        });
     </script>
 }
 

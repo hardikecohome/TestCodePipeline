@@ -31,10 +31,10 @@
         constants.rateCards.forEach(function (option) { state.rateCards[option.name] = $.grep(ratecards, function (card) { return card.CardType === option.id; }); });
     }
 
-    var filterRateCard = function(option) {
+    var filterRateCard = function(dataObject) {
         var totalCash = constants.minimumLoanValue;
         var totalAmount = totalAmountFinanced($.extend({}, { equipmentSum: state.eSum, downPayment: state.downPayment }));
-        state[option.name] = $.extend({}, { totalAmountFinanced: totalAmount });
+        state[dataObject.rateCardPlan] = $.extend({}, { totalAmountFinanced: totalAmount });
 
         if (!isNaN(totalAmount)) {
             if (totalAmount > totalCash) {
@@ -42,7 +42,7 @@
             }
         }
 
-        return _filterRateCardByValues(option, totalCash);
+        return _filterRateCardByValues(dataObject, totalCash);
     }
 
     var calculateTotalPrice = function(equipments, downPayment, regionTax) {
@@ -87,16 +87,31 @@
      * @param {number} totalCash - totalAmountFinancedValue for current option
      * @returns {Object<string>} - appropriate rate card object 
      */
-    function _filterRateCardByValues(option, totalCash) {
-        var selectedValues = $('#' + option.name + '-amortDropdown option:selected').text().split('/');
-        var items = state.rateCards[option.name];
+    function _filterRateCardByValues(dataObject, totalCash) {
+        var selectedValues;
+
+        if (dataObject.hasOwnProperty('standaloneOption')) {
+            selectedValues = $('#' + dataObject.standaloneOption + '-amortDropdown option:selected').text().split('/');
+        } else {
+            selectedValues = $('#' + dataObject.rateCardPlan + '-amortDropdown option:selected').text().split('/');
+        }
+
+        var items = state.rateCards[dataObject.rateCardPlan];
 
         if (!items)
             return null;
 
         var loanTerm = +selectedValues[0];
         var amortTerm = +selectedValues[1];
-        var deferralPeriod = option.name === 'Deferral' ? +$('#DeferralPeriodDropdown').val() : 0;
+        var deferralPeriod = 0;
+        if (dataObject.rateCardPlan === 'Deferral') {
+            if ($('#DeferralPeriodDropdown').length) {
+                deferralPeriod = +$('#DeferralPeriodDropdown').val();
+            } else {
+                deferralPeriod = $('#' + dataObject.standaloneOption + '-deferralDropdown').val();
+            }
+        }
+
         return $.grep(items, function (i) {
             if (totalCash >= constants.maxRateCardLoanValue) {
                 return i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= constants.maxRateCardLoanValue;

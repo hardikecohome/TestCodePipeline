@@ -28,7 +28,9 @@ module.exports('rate-cards', function (require) {
             'displayCustomerRate': 'CustomerRate',
             'displayTFinanced': 'totalAmountFinanced',
             'displayMPayment': 'monthlyPayment'
-        }
+        },
+        numberFields: ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'DealerCost', 'AdminFee'],
+        notCero: ['equipmentSum', 'LoanTerm', 'AmortizationTerm']
     }
 
     var idToValue = function (obj) {
@@ -117,7 +119,7 @@ module.exports('rate-cards', function (require) {
         rateCardsRenderEngine.renderTotalPrice(eSumData);
 
         optionsToCompute.forEach(function (option) {
-            var rateCard = rateCardsCalculator.filterRateCard(option);
+            var rateCard = rateCardsCalculator.filterRateCard({ rateCardPlan: option.name });
 
             if (rateCard !== null && rateCard !== undefined) {
 
@@ -127,7 +129,7 @@ module.exports('rate-cards', function (require) {
                 rateCardsRenderEngine.renderAfterFiltration(option.name, { deferralPeriod: state[option.name].DeferralPeriod, adminFee: state[option.name].AdminFee, dealerCost: state[option.name].DealerCost, customerRate: state[option.name].CustomerRate });
             }
             if (option.name !== 'Custom') {
-                rateCardsRenderEngine.renderDropdownValues(option.name);
+                rateCardsRenderEngine.renderDropdownValues({ rateCardPlan: option.name });
             }
 
             var data = rateCardsCalculator.calculateValuesForRender($.extend({}, idToValue(state)(option.name)));

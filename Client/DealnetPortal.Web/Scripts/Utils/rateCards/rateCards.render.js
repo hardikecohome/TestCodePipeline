@@ -1,7 +1,5 @@
 ﻿module.exports('rateCards.render', function (require) {
     var settings = {
-        numberFields: ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'DealerCost', 'AdminFee'],
-        notCero: ['equipmentSum', 'LoanTerm', 'AmortizationTerm']
     };
 
     var state = require('rateCards.state').state;
@@ -44,33 +42,38 @@
         }
     };
 
-    var renderDropdownValues = function(option) {
+    var renderDropdownValues = function (dataObject) {
         var totalCash = constants.minimumLoanValue;
         
-        if (state[option].totalAmountFinanced > 1000) {
-            totalCash = state[option].totalAmountFinanced.toFixed(2);
+        if (state[dataObject.rateCardPlan].totalAmountFinanced > 1000) {
+            totalCash = state[dataObject.rateCardPlan].totalAmountFinanced.toFixed(2);
         }
-
         if (totalCash >= constants.maxRateCardLoanValue) {
             totalCash = constants.maxRateCardLoanValue;
         }
 
-        var items = state.rateCards[option];
+        var items = state.rateCards[dataObject.rateCardPlan];
 
         if (!items)
             return;
 
-        var dropdown = $('#' + option + '-amortDropdown')[0];
+        var dropdown = $('#' + dataObject.standaloneOption  + '-amortDropdown')[0];
         if (!dropdown || !dropdown.options) return;
 
         var dropdowns = [];
-        var deferralValue = +$('#DeferralPeriodDropdown').val();
+        var deferralValue;
+
+        if ($('#DeferralPeriodDropdown').length) {
+            deferralValue = +$('#DeferralPeriodDropdown').val();
+        } else {
+            deferralValue = +$('#' + dataObject.standaloneOption + '-deferralDropdown').val();
+        }
 
         $.each(items, function () {
             if (this.LoanValueTo >= totalCash && this.LoanValueFrom <= totalCash) {
                 var dropdownValue = ~~this.LoanTerm + ' / ' + ~~this.AmortizationTerm;
                 if (dropdowns.indexOf(dropdownValue) === -1) {
-                    if (option === 'Deferral') {
+                    if (dataObject.rateCardPlan === 'Deferral') {
                         if (~~this.DeferralPeriod === deferralValue) {
                             dropdowns.push(dropdownValue);
                         }
@@ -81,10 +84,10 @@
             }
         });
 
-        //var selected = $('#' + option + 'AmortizationDropdown option:selected').val();
-        var e = document.getElementById(option + '-amortDropdown');
+        var selectorName = dataObject.hasOwnProperty('standaloneOption') ? dataObject.standaloneOption : dataObject.rateCardPlan;
+        var e = document.getElementById(selectorName + '-amortDropdown');
         if (e !== undefined) {
-            var selected = e.options[e.selectedIndex].value;
+            var selected = e.selectedIndex !== -1 ? e.options[e.selectedIndex].value : '';
 
             $(dropdown).empty();
             $(dropdowns).each(function () {
@@ -101,22 +104,20 @@
 
             if (values.indexOf(selected) !== -1) {
                 e.value = selected;
-                //$(dropdown).val(selected);
-                $('#' + option + '-amortDropdown option[value=' + selected + ']').attr("selected", selected);
+                $('#' + selectorName + '-amortDropdown option[value=' + selected + ']').attr("selected", selected);
             } else {
                 e.value = values[0];
-                //$(dropdown).val(values[0]);
-                $('#' + option + '-amortDropdown option[value=' + values[0] + ']').attr("selected", selected);
+                $('#' + selectorName + '-amortDropdown option[value=' + values[0] + ']').attr("selected", selected);
             }
         }
 
         var options = dropdown.options;
-        var tooltip = $('a#' + option + 'Notify');
+        var tooltip = $('a#' + selectorName + 'Notify');
 
         if (+totalCash >= constants.totalAmountFinancedFor180amortTerm) {
-            toggleDisabledAttributeOnOption(option, options, tooltip, false);
+            toggleDisabledAttributeOnOption(options, tooltip, false);
         } else {
-            toggleDisabledAttributeOnOption(option, options, tooltip, true);
+            toggleDisabledAttributeOnOption(options, tooltip, true);
         }
     }
 
@@ -129,7 +130,7 @@
      * @param {boolean} isDisable - disable/enable option and show/hide tooltip
      * @returns {void} 
      */
-    function toggleDisabledAttributeOnOption(option, options, tooltip, isDisable) {
+    function toggleDisabledAttributeOnOption(options, tooltip, isDisable) {
         if (!options.length) return;
 
         var formGroup = tooltip.closest('.form-group');

@@ -37,7 +37,9 @@
             'displayCustomerRate': 'CustomerRate',
             'displayTFinanced': 'totalAmountFinanced',
             'displayMPayment': 'monthlyPayment'
-        }
+        },
+        numberFields: ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'DealerCost', 'AdminFee'],
+        notCero: ['equipmentSum', 'LoanTerm', 'AmortizationTerm']
     }
 
     function _optionSetup(option, callback) {
@@ -209,18 +211,15 @@
             $('#' + newOption + '-downPayment').val(state[newOption].downPayment);
         }
 
-        var currentPlan = constants.rateCards.filter(function(plan) { return plan.id === state[newOption].plan; })[0]
-            .name;
+        var currentPlan = constants.rateCards.filter(function(plan) { return plan.name === state[newOption].plan; })[0].name;
         $('#' + newOption + '-plan').val(currentPlan);
+        $('#' + newOption + '-amortDropdown').val(state[newOption].AmortizationTerm);
 
-        var amortDropdownValue = state[newOption].LoanTerm + '/' + state[newOption].AmortizationTerm;
-        $('#' + newOption + '-amortDropdown').val(amortDropdownValue);
-
-        if (state[newOption].plan === 2) {
+        if (state[newOption].plan === 'Deferral') {
             $('#' + newOption + '-deferralDropdown').val(state[newOption].DeferralPeriod);
         }
 
-        if (state[newOption].plan === 3) {
+        if (state[newOption].plan === 'Custom') {
             $('#' + newOption + '-customLoanTerm').val(state[newOption].LoanTerm);
             $('#' + newOption + '-customAmortTerm').val(state[newOption].AmortizationTerm);
             $('#' + newOption + '-customCRate').val(state[newOption].CustomerRate);
@@ -284,32 +283,38 @@
         }
 
         options.forEach(function (option) {
-            var eSumData = rateCardsCalculator.calculateTotalPrice(state[option].equipments, state.downPayment, state.tax);
+            var downPayment = +$('#' + option + '-downPayment').val();
+
+            var eSumData = rateCardsCalculator.calculateTotalPrice(state[option].equipments, downPayment, state.tax);
 
             rateCardsRenderEngine.renderTotalPrice(eSumData);
 
-            var rateCard = rateCardsCalculator.filterRateCard(state[option].plan);
+            var rateCard = rateCardsCalculator.filterRateCard({ rateCardPlan: state[option].plan, standaloneOption: option });
 
             if (rateCard !== null && rateCard !== undefined) {
                 $.extend(state[option], rateCard);
                 rateCardsRenderEngine.renderAfterFiltration(state[option].plan, { deferralPeriod: state[option].DeferralPeriod, adminFee: state[option].AdminFee, dealerCost: state[option].DealerCost, customerRate: state[option].CustomerRate });
             }
 
-            if (option.name !== 'Custom') {
-                rateCardsRenderEngine.renderDropdownValues(state[option].plan);
+            if (state[option].plan !== 'Custom') {
+                rateCardsRenderEngine.renderDropdownValues({ rateCardPlan: state[option].plan, standaloneOption: option });
             }
 
-            var data = rateCardsCalculator.calculateValuesForRender($.extend({}, idToValue(state)(state[option])));
+            var assignOption = $.extend({}, state[option]);
+            delete assignOption.plan;
+            delete assignOption.equipments;
+
+            var data = rateCardsCalculator.calculateValuesForRender($.extend({}, assignOption));
             var selectedRateCard = $('#rateCardsBlock').find('div.checked').length > 0
                 ? $('#rateCardsBlock').find('div.checked').find('#hidden-option').text()
                 : '';
 
-            rateCardsRenderEngine.renderOption(option.name, selectedRateCard, data);
+            rateCardsRenderEngine.renderOption(option, selectedRateCard, data);
         });
     }
 
     function _initHandlers() {
-        $('#province-tax-rate').on('change', setTax(_renderOption));
+        $('#province-tax-rate').on('change', setters.setTax(_renderOption));
         $('.btn-add-calc-option').on('click', function () { _addOption(_renderOption); });
     }
 
