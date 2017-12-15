@@ -5,7 +5,7 @@ using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Models;
 
-namespace DealnetPortal.Web.Infrastructure
+namespace DealnetPortal.Web.Infrastructure.Managers.Interfaces
 {
     public interface ICustomerManager
     {

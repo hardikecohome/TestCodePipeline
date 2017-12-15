@@ -7,6 +7,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.UI;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 
 namespace DealnetPortal.Web.Controllers
 {

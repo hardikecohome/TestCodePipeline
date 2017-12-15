@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Web;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Web.Models.Dealer;
-using DealnetPortal.Api.Models.DealerOnboarding;
-using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Web.Models;
+using DealnetPortal.Web.Models.Dealer;
 
-namespace DealnetPortal.Web.Infrastructure
+namespace DealnetPortal.Web.Infrastructure.Managers.Interfaces
 {
     public interface IDealerOnBoardingManager
     {

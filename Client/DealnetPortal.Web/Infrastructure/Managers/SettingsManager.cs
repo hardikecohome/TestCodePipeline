@@ -3,6 +3,7 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Web.Common.Services;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.ServiceAgent;
 
 namespace DealnetPortal.Web.Infrastructure.Managers

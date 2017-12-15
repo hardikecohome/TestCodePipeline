@@ -9,10 +9,11 @@ using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Common.Constants;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
 
-namespace DealnetPortal.Web.Infrastructure
+namespace DealnetPortal.Web.Infrastructure.Managers
 {
     public class CustomerManager : ICustomerManager
     {
@@ -102,11 +103,6 @@ namespace DealnetPortal.Web.Infrastructure
                 .ThenByDescending(x => x.Date)
                 .ThenByDescending(x => x.Id)
                 .ToList();
-
-            //await _contractServiceAgent.GetContracts()).OrderByDescending(x => x.IsNewlyCreated ?? false)
-            //        .ThenByDescending(x => string.IsNullOrEmpty(x.Details.TransactionId))
-            //        .ThenByDescending(x => x.LastUpdateTime)
-            //        .ToList();
         }
 
         public async Task<bool> CheckCustomerExistingAsync(string email)

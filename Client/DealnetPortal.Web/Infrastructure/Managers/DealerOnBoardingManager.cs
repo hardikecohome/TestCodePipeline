@@ -3,18 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
-using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.DealerOnboarding;
+using DealnetPortal.Web.Common.Constants;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
+using DealnetPortal.Web.Models;
 using DealnetPortal.Web.Models.Dealer;
 using DealnetPortal.Web.ServiceAgent;
-using DealnetPortal.Api.Core.Enums;
-using DealnetPortal.Api.Models.Scanning;
-using DealnetPortal.Web.Common.Constants;
-using DealnetPortal.Web.Models;
 
-namespace DealnetPortal.Web.Infrastructure
+namespace DealnetPortal.Web.Infrastructure.Managers
 {
     public class DealerOnBoardingManager : IDealerOnBoardingManager
     {

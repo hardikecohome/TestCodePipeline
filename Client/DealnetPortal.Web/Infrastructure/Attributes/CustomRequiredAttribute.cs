@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace DealnetPortal.Web.Infrastructure
+namespace DealnetPortal.Web.Infrastructure.Attributes
 {
     public class CustomRequiredAttribute : RequiredAttribute
     {

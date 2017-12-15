@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using DealnetPortal.Api.Models.UserSettings;
 
-namespace DealnetPortal.Web.Infrastructure.Managers
+namespace DealnetPortal.Web.Infrastructure.Managers.Interfaces
 {
     public interface ISettingsManager
     {

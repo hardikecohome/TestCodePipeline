@@ -105,17 +105,23 @@
   translations['tax']='@Resources.Tax';
 }
 
+<script type="text/javascript">
+    var taxRate = '0';
+    var customerFee = @Model.AdminFee;
+    var TotalAmtFinancedFor180amortTerm = @Model.TotalAmountFinancedFor180AmortTerm;
+</script>
+
 @section scripts {
   @Scripts.Render("~/bundles/jqueryval")
   @Scripts.Render("~/bundles/localization");
   @Scripts.Render("~/bundles/standalone-calculator");
 
-  <script type="text/javascript">
-      module.require('calculator.init').init(
-          @Html.Raw(Json.Encode(Model.Plans)),
-          @Html.Raw(Json.Encode(Model.DealerTier.RateCards)),
-          @Html.Raw(Json.Encode(Model.ProvinceTaxRates)));
-  </script>
+    <script type="text/javascript">
+        module.require('calculator.init').init(
+            @Html.Raw(Json.Encode(Model.Plans)),
+            @Html.Raw(Json.Encode(Model.DealerTier.RateCards)),
+            @Html.Raw(Json.Encode(Model.ProvinceTaxRates)));
+    </script>
 }
 
 

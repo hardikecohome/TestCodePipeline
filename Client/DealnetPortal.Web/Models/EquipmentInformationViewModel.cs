@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Infrastructure.Attributes;
 using DealnetPortal.Web.Models.Enumeration;
 using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType;
 
