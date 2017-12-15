@@ -9,7 +9,7 @@ using DealnetPortal.Domain;
 using DealnetPortal.Domain.Dealer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Address = DealnetPortal.Domain.Dealer.Address;
+using Address = DealnetPortal.Domain.Address;
 
 namespace DealnetPortal.Api.Tests.Repositories
 {

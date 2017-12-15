@@ -70,7 +70,7 @@
     <Compile Include="CustomerLink.cs" />
     <Compile Include="DealerLanguage.cs" />
     <Compile Include="DealerService.cs" />
-    <Compile Include="Dealer\Address.cs" />
+    <Compile Include="Address.cs" />
     <Compile Include="Dealer\CompanyInfo.cs" />
     <Compile Include="Dealer\CompanyProvince.cs" />
     <Compile Include="Dealer\DealerInfo.cs" />
@@ -82,6 +82,7 @@
     <Compile Include="Dealer\RequiredDocument.cs" />
     <Compile Include="DocumentType.cs" />
     <Compile Include="Email.cs" />
+    <Compile Include="EmploymentInfo.cs" />
     <Compile Include="EquipmentInfo.cs" />
     <Compile Include="LicenseDocument.cs" />
     <Compile Include="LicenseType.cs" />
