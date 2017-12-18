@@ -2505,4 +2505,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
   <data name="FinProgramUnavailable" xml:space="preserve">
     <value>Le programme de financement précédemment sélectionné n’est plus offert. Afin de pouvoir continuer, veuillez sélectionner un programme valide.</value>
   </data>
+  <data name="Quebec" xml:space="preserve">
+    <value>Québec</value>
+  </data>
 </root>

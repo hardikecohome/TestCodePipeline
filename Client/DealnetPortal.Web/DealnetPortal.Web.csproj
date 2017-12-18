@@ -1150,6 +1150,8 @@
     <Content Include="Views\MyDeals\_ContractSignatureStatus.cshtml" />
     <None Include="Scripts\vendor\jquery-3.1.0.intellisense.js" />
     <None Include="Scripts\vendor\jquery.validate-vsdoc.js" />
+    <Content Include="Views\Shared\AboutUs\_EcoHome.cshtml" />
+    <Content Include="Views\Shared\AboutUs\_Odi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
