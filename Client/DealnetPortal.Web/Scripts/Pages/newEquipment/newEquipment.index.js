@@ -15,6 +15,7 @@
         var state = require('state').state;
         var constants = require('state').constants;
         var navigateToStep = require('navigateToStep');
+        var datepicker = require('datepicker');
 
         var settings = Object.freeze({
             customRateCardName: 'Custom',
@@ -157,7 +158,7 @@
             };
 
             $('.date-input').each(function (index, input) {
-                assignDatepicker(input, datepickerOptions);
+                datepicker.assignDatepicker(input, datepickerOptions);
             });
 
             $.validator.addMethod("date",
