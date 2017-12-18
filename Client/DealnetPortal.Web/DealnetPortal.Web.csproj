@@ -1150,6 +1150,7 @@
     <None Include="Scripts\vendor\jquery-3.1.0.intellisense.js" />
     <None Include="Scripts\vendor\jquery.validate-vsdoc.js" />
     <Content Include="Views\Shared\BasicInfo\_HomeOwnerInfo.cshtml" />
+    <Content Include="Views\Shared\BasicInfo\_AdditionalApplicants.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
