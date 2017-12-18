@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Web;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Interfaces;
@@ -43,11 +44,19 @@ namespace DealnetPortal.Api.Integration.Services
             _сonfiguration = appConfiguration;
         }        
 
-        public IList<Claim> GetUserClaims(string userId)
+        public IList<Claim> GetUserClaims(ApplicationUser user)
         {
-            var settings = _settingsRepository.GetUserSettings(userId);
+            var settings = _settingsRepository.GetUserSettings(user.Id);
+
             var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, userId));
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
+
+            var aspireUserInfo = AutoMapper.Mapper.Map<DealerDTO>(_aspireStorageReader.GetDealerRoleInfo(user.UserName));
+            if (aspireUserInfo != null)
+            {
+                var dealerProvinceCode = aspireUserInfo.Locations.FirstOrDefault(x => x.AddressType == AddressType.MainAddress)?.State.ToProvinceCode();
+                claims.Add(new Claim(ClaimNames.QuebecDealer, (dealerProvinceCode != null && dealerProvinceCode == "QC").ToString()));
+            }
 
             if (settings?.SettingValues != null)
             {
