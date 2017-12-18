@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Web;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Web.Models.Dealer;
-using DealnetPortal.Api.Models.DealerOnboarding;
-using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Web.Models;
 
 namespace DealnetPortal.Web.Infrastructure
@@ -21,5 +15,6 @@ namespace DealnetPortal.Web.Infrastructure
         Task<SaveAndResumeViewModel> SubmitOnBoarding(DealerOnboardingViewModel model);
         Task<DocumentResponseViewModel> UploadOnboardingDocument(OnboardingDocumentForUpload fileModel);
         Task<DocumentResponseViewModel> DeleteOnboardingDocument(OnboardingDocumentForDelete fileModel);
+        Task<DealerOnboardingDictionariesViewModel> GetDictionariesData();
     }
 }

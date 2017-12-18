@@ -8,9 +8,13 @@
     var documents = require('onboarding.documents.index');
     var submitDraft = require('onboarding.form.handlers').submitDraft;
     var resetForm = require('onboarding.common').resetFormValidation;
-    var detectIe = require('onboarding.common').detectIe;
     var definePolyfill = require('onboarding.polyfill');
     var initTooltip = require('onboarding.common').initTooltip;
+
+    var panelCollapsed = require('panelCollapsed');
+    var setEqualHeightRows = require('setEqualHeightRows');
+    var clearAddress = require('clearAddress');
+    var detectIE = require('detectIE');
 
     function init (model) {
         initializing = true;
@@ -24,7 +28,7 @@
         $('#submitBtn').on('click', validateAndSubmit);
         $('.save-and-resume').on('click', submitDraft);
 
-        if (detectIe()) {
+        if (detectIE()) {
             definePolyfill();
         }
         var salesrep = $('#OnBoardingLink').val();
@@ -34,6 +38,23 @@
         else {
             gtag('event', 'Dealer Application Start', { 'event_category': 'Dealer Application Start', 'event_action': 'New Application Link open', 'event_label': salesrep });
         }
+
+        $('.customer-loan-form-panel .panel-heading').on('click', function () {
+            panelCollapsed($(this))
+        });
+
+        ($(".equal-height-section-1"));
+
+        $(window).on('resize', function () {
+            setEqualHeightRows($(".equal-height-section-1"));
+        });
+
+        $('.clear-address').on('click', clearAddress);
+
+        $.validator.addMethod('validurl', function (value, element) {
+            return $.validator.methods.url.call(this, value, element) || $.validator.methods.url.call(this, 'http://' + value, element);
+        }, translations.SiteInvalidFormat);
+
         initializing = false;
     }
 

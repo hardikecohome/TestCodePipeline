@@ -5,6 +5,8 @@
     var resetForm = require('onboarding.common').resetFormValidation;
     var recalculateTotalPercentage = require('onboarding.owner-info.setters').recalculateTotalPercentage;
 
+    var clearAddress = require('clearAddress');
+
     var addAditionalOwner = function (ownerIndex) {
         if ($('#additional-owner-warning').is(':visible')) {
             $('#additional-owner-warning').addClass('hidden');
@@ -64,14 +66,7 @@
             .html('<use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-remove"></use>');
 
         $('#owner' + nextOwnerIndex + '-container')
-            .find('.clear-address').click(function () {
-                $(this).parents('.address-container').find('input, select').each(function () {
-                    if ($(this).not('.placeholder')) {
-                        $(this).val("");
-                    }
-                });
-                return false;
-            });
+            .find('.clear-address').on('click', clearAddress);
 
         $('#owner' + nextOwnerIndex + '-container').find('span.text-danger').each(function () {
             if ($(this).has('span')) {

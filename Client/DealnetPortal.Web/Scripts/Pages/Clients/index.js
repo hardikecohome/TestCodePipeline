@@ -14,6 +14,9 @@
 
     var configGetErrors = require('new-client-selectors').getErrors;
 
+    var dynamicAlertModal = require('alertModal').dynamicAlertModal;
+    var panelCollapsed = require('panelCollapsed');
+
     var dispatch = clientStore.dispatch;
 
     // view layer
@@ -67,14 +70,12 @@
             }
         });
 
-
         // init views
         initBasicInfo(clientStore);
         initAddressInfo(clientStore);
         initContactInfo(clientStore);
         initHomeImprovment(clientStore);
         initClientConsents(clientStore);
-
 
         $('#home-phone').rules('add', 'required');
         $('#cell-phone').rules('add', 'required');
@@ -83,6 +84,19 @@
         if ($('#owner-upload-file').length) {
             $('#owner-upload-file').rules('remove');
         }
+
+        $('.j-personal-data-used-modal').on('click', function (e) {
+            var data = {
+                message: $('#personal-data-used').html(),
+                class: "consents-modal",
+                cancelBtnText: "OK"
+            };
+            dynamicAlertModal(data);
+            e.preventDefault();
+        });
+        $('.accordion-panels-hold .panel-heading').on('click', function () {
+            panelCollapsed($(this));
+        });
     });
 
     var form = $('#main-form');

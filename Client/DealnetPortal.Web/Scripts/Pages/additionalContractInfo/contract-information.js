@@ -10,7 +10,7 @@
             minDate: new Date()
         };
         $('.date-input').each(function (index, input) {
-            assignDatepicker(input, datepickerOptions);
+            module.require('datepicker').assignDatepicker(input, datepickerOptions);
         });
         $.validator.addMethod("date",
             function (value, element) {
@@ -26,6 +26,15 @@
             },
             translations['EnterValidDate']
         );
+
+        var navigateToStep = module.require('navigateToStep');
+
+        $('.editToStep1').on('click', function () {
+            if ($(this).attr('href')) {
+                navigateToStep($(this));
+            }
+            return false;
+        });
     });
 
 function addExistingEquipment () {
@@ -42,7 +51,7 @@ function addExistingEquipment () {
     customizeSelect();
     toggleClearInputIcon($(newDiv).find('textarea, input'));
     sessionStorage.existingEquipmets = nextNumber;
-    resetPlacehoder($(newDiv).find('textarea, input'));
+    module.require('resetPlaceholder')($(newDiv).find('textarea, input'));
 }
 
 function removeExistingEquipment (id) {

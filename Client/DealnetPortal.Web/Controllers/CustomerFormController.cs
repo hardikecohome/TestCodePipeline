@@ -1,31 +1,24 @@
-﻿using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Core.Enums;
-using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.Web.Common.Culture;
+﻿using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
-
-using AutoMapper;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using DealnetPortal.Web.Common.Constants;
+using DealnetPortal.Web.Infrastructure;
 
 namespace DealnetPortal.Web.Controllers
 {
     public class CustomerFormController : Controller
     {
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
-        private readonly IContractServiceAgent _contractServiceAgent;
-        private readonly ICultureManager _cultureManager;
-        public CustomerFormController(IDictionaryServiceAgent dictionaryServiceAgent, IContractServiceAgent contractServiceAgent, ICultureManager cultureManager)
+        private readonly ICustomerFormManager _customerFormManager;
+
+        public CustomerFormController(IDictionaryServiceAgent dictionaryServiceAgent, ICustomerFormManager customerFormManager)
         {
             _dictionaryServiceAgent = dictionaryServiceAgent;
-            _contractServiceAgent = contractServiceAgent;
-            _cultureManager = cultureManager;
+            _customerFormManager = customerFormManager;
         }
 
         public async Task<ActionResult> Index(string hashDealerName, string culture)
@@ -59,34 +52,12 @@ namespace DealnetPortal.Web.Controllers
             {
                 return RedirectToAction("AnonymousError", "Info");
             }
-            var customerFormDto = new CustomerFormDTO();
-            customerFormDto.PrimaryCustomer = AutoMapper.Mapper.Map<CustomerDTO>(customerForm.HomeOwner);
-            customerFormDto.PrimaryCustomer.Locations = new List<LocationDTO>();
-            var mainAddress = Mapper.Map<LocationDTO>(customerForm.HomeOwner.AddressInformation);
-            mainAddress.AddressType = AddressType.MainAddress;
-            customerFormDto.PrimaryCustomer.Locations.Add(mainAddress);
-            if (customerForm.HomeOwner.PreviousAddressInformation != null)
-            {
-                var previousAddress = Mapper.Map<LocationDTO>(customerForm.HomeOwner.PreviousAddressInformation);
-                previousAddress.AddressType = AddressType.PreviousAddress;
-                customerFormDto.PrimaryCustomer.Locations.Add(previousAddress);
-            }
-            var customerContactInfo = Mapper.Map<CustomerDataDTO>(customerForm.HomeOwnerContactInfo);
-            customerFormDto.PrimaryCustomer.Emails = customerContactInfo.Emails;
-            customerFormDto.PrimaryCustomer.Phones = customerContactInfo.Phones;
-            customerFormDto.PrimaryCustomer.AllowCommunicate = customerContactInfo.CustomerInfo.AllowCommunicate;
-            customerFormDto.CustomerComment = customerForm.Comment;
-            customerFormDto.SelectedService = customerForm.Service;
-            customerFormDto.DealerName = customerForm.DealerName;
             var urlBuilder = new UriBuilder(Request.Url.AbsoluteUri)
             {
                 Path = Url.Action("ContractEdit", "NewRental"),
                 Query = null,
             };
-            customerFormDto.DealUri = urlBuilder.ToString();
-            customerFormDto.LeadSource = System.Configuration.ConfigurationManager.AppSettings[PortalConstants.CustomerFormLeadSourceKey] ??
-                                            System.Configuration.ConfigurationManager.AppSettings[PortalConstants.DefaultLeadSourceKey];
-            var submitResult = await _contractServiceAgent.SubmitCustomerForm(customerFormDto);
+            var submitResult = await _customerFormManager.SubmitCustomerForm(customerForm, urlBuilder);
 
             if (submitResult == null || (submitResult.Item2?.Any(x => x.Type == AlertType.Error) ?? false))
             {
@@ -97,19 +68,10 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<ActionResult> AgreementSubmitSuccess(int contractId, string hashDealerName, string culture)
         {
-            var languageOptions = await _dictionaryServiceAgent.GetCustomerLinkLanguageOptions(hashDealerName, culture);
-            var viewModel = new SubmittedCustomerFormViewModel();
-            var submitedData = await _contractServiceAgent.GetCustomerContractInfo(contractId, languageOptions.DealerName);
-            viewModel.CreditAmount = submitedData.CreditAmount;
-            viewModel.DealerName = submitedData.DealerName;
-            viewModel.Street = submitedData.DealerAdress?.Street;
-            viewModel.City = submitedData.DealerAdress?.City;
-            viewModel.Province = submitedData.DealerAdress?.State;
-            viewModel.PostalCode = submitedData.DealerAdress?.PostalCode;
-            viewModel.Phone = submitedData.DealerPhone;
-            viewModel.Email = submitedData.DealerEmail;
+            var viewModel = await _customerFormManager.GetSubmittedCustomerFormSummary(contractId, hashDealerName, culture);
             ViewBag.HashDealerName = hashDealerName;
             return View(viewModel);
         }
+
     }
 }

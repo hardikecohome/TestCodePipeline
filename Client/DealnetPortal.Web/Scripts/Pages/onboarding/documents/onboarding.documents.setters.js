@@ -3,6 +3,9 @@
     var constants = require('onboarding.state').constants;
     var enableSubmit = require('onboarding.setters').enableSubmit;
     var resetForm = require('onboarding.common').resetFormValidation;
+    var assignDatepicker = require('datepicker').assignDatepicker;
+    var setDatepickerDate = require('datepicker').setDatepickerDate;
+
     var stateSection = 'documents';
     var datepickerOptions = {
         yearRange: '1900:2200',
@@ -109,24 +112,6 @@
             _rebuildIndex();
 
             $('#' + license.License.Id + '-license-number').on('change', setLicenseRegistraionNumber(license.License.Id));
-
-            result.find('.date-group').each(function () {
-                $('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length === 0 ? $('<div/>', {
-                    class: 'div-datepicker-value',
-                    text: $(this).find('.form-control').val()
-                }).appendTo(this) : '';
-                $('body').is('.ios-device') ? $('<div/>', {
-                    class: 'div-datepicker',
-                }).appendTo(this) : '';
-            });
-
-            result.find('.div-datepicker-value').on('click', function () {
-                $('.div-datepicker').removeClass('opened');
-                $(this).siblings('.div-datepicker').toggleClass('opened');
-                if (!$('.div-datepicker .ui-datepicker-close').length) {
-                    addCloseButtonForInlineDatePicker();
-                }
-            });
 
             _initDatepicker(license.License.Id);
 

@@ -13,6 +13,8 @@ namespace DealnetPortal.Web.Common.Helpers
 
         public static DateTime TryConvertToLocalUserDate(this DateTime time)
         {
+            if (time == default(DateTime)) return time;
+
             return ClientOffset == null ? time : time.AddMinutes(-1 * ClientOffset.Value);
         }
     }

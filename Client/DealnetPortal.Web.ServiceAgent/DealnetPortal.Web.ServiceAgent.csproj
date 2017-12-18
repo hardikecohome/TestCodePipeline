@@ -74,6 +74,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomerFormServiceAgent.cs" />
+    <Compile Include="ICustomerFormServiceAgent.cs" />
     <Compile Include="IDealerServiceAgent.cs" />
     <Compile Include="DealerServiceAgent.cs" />
     <Compile Include="ContractServiceAgent.cs" />

@@ -9,11 +9,13 @@ $(document)
             maxDate: new Date()
         }
         $('.date-input').each(function (index, input) {
-            assignDatepicker(input, options);
+            module.require('datepicker').assignDatepicker(input, options);
         });
 
         $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
         $('.select-filter').val($('.select-filter > option:first').val());
+
+        commonDataTablesSettings();
     });
 
 function showTable () {
@@ -548,11 +550,11 @@ function removeContract () {
         title: translations['Remove'],
         confirmBtnText: translations['Remove']
     };
-    dynamicAlertModal(data);
+    module.require('alertModal').dynamicAlertModal(data);
 
     $('#confirmAlert').on('click', function () {
         $("#remove-contract").val(id);
-        showLoader();
+        module.require('loader').showLoader();
         $("#remove-contract-form").ajaxSubmit({
             method: 'post',
             success: function (result) {
@@ -566,8 +568,8 @@ function removeContract () {
                 alert(translations['Error']);
             },
             complete: function (xhr) {
-                hideLoader();
-                hideDynamicAlertModal();
+                module.require('loader').hideLoader();
+                module.require('alertModal').hideDynamicAlertModal();
             }
         });
     });

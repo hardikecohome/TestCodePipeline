@@ -94,7 +94,7 @@ namespace DealnetPortal.Web.Infrastructure
 
         public async Task<IList<ClientsInformationViewModel>> GetCreatedContractsAsync()
         {
-            var contracts = await _contractServiceAgent.GetCreatedContracts();
+            var contracts = await _mortgageBrokerServiceAgent.GetCreatedContracts();
             var contractsVms = Mapper.Map<IList<ClientsInformationViewModel>>(contracts);
 
             return contractsVms
@@ -102,11 +102,6 @@ namespace DealnetPortal.Web.Infrastructure
                 .ThenByDescending(x => x.Date)
                 .ThenByDescending(x => x.Id)
                 .ToList();
-
-            //await _contractServiceAgent.GetContracts()).OrderByDescending(x => x.IsNewlyCreated ?? false)
-            //        .ThenByDescending(x => string.IsNullOrEmpty(x.Details.TransactionId))
-            //        .ThenByDescending(x => x.LastUpdateTime)
-            //        .ToList();
         }
 
         public async Task<bool> CheckCustomerExistingAsync(string email)

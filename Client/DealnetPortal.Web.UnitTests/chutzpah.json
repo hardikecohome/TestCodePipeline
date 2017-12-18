@@ -1,0 +1,14 @@
+﻿{
+  "Framework": "jasmine",
+  "References": [
+    {
+      "Path": "../dealnetportal.web/scripts",
+      "Includes": [ "*.js" ]
+    }
+  ],
+  "Tests": [
+    {
+      "Path": "JsTests"
+    }
+  ]
+}

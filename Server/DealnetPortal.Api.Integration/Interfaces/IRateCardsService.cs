@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using DealnetPortal.Api.Models.Contract;
+﻿using DealnetPortal.Api.Models.Contract;
 
-namespace DealnetPortal.Api.Integration.Services
+namespace DealnetPortal.Api.Integration.Interfaces
 {
     public interface IRateCardsService
     {

@@ -73,18 +73,7 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<ContractDTO>> GetCreatedContracts()
-        {
-            try
-            {
-                return await Client.GetAsyncEx<IList<ContractDTO>>($"{_fullUri}/GetCreatedContracts", AuthenticationHeader, CurrentCulture);
-            }
-            catch (Exception ex)
-            {
-                _loggingService.LogError("Can't get contracts created by an user", ex);
-                return new List<ContractDTO>();
-            }
-        }
+        
 
         public async Task<int> GetCustomersContractsCount()
         {
@@ -489,36 +478,6 @@ namespace DealnetPortal.Web.ServiceAgent
             catch (Exception ex)
             {
                 _loggingService.LogError("Can't remove comment to contract", ex);
-                throw;
-            }
-        }
-
-        public async Task<Tuple<CustomerContractInfoDTO, IList<Alert>>> SubmitCustomerForm(CustomerFormDTO customerForm)
-        {
-            try
-            {
-                return
-                    await
-                        Client.PostAsyncEx<CustomerFormDTO, Tuple<CustomerContractInfoDTO, IList<Alert>>>(
-                            $"{_fullUri}/SubmitCustomerForm", customerForm, null, CurrentCulture);
-            }
-            catch (Exception ex)
-            {
-                _loggingService.LogError("Can't submit Customer Form", ex);
-                throw;
-            }
-        }
-
-        public async Task<CustomerContractInfoDTO> GetCustomerContractInfo(int contractId, string dealerName)
-        {
-            try
-            {                
-                return await Client.GetAsyncEx<CustomerContractInfoDTO>(
-                        $"{_fullUri}/GetCustomerContractInfo?contractId={contractId}&dealerName={dealerName}", AuthenticationHeader, CurrentCulture).ConfigureAwait(false);            
-            }
-            catch (Exception ex)
-            {
-                _loggingService.LogError("Can't submit Customer contract info", ex);
                 throw;
             }
         }

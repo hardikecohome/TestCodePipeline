@@ -6,14 +6,16 @@
         maxDate: new Date()
     };
     $('.date-input').each(function (index, input) {
-        assignDatepicker(input, options);
+        module.require('datepicker').assignDatepicker(input, options);
     });
 
     $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
     $('.select-filter').val($('.select-filter > option:first').val());
+
+    commonDataTablesSettings();
 });
 
-function showTable() {
+function showTable () {
     var table;
     $.when($.ajax(itemsUrl, { cache: false, mode: 'GET' }))
         .done(function (data) {
@@ -77,13 +79,13 @@ function showTable() {
                         },
                     ],
                     dom:
-                    "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
-                    "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
-                    "<'row'<'col-md-12 col-sm-6'l>>" +
-                    "<'row'<'col-md-12''<'#section-before-table'>'>>" +
-                    "<'row'<'col-md-12'tr>>" +
-                    "<'row'<'col-md-12'p>>" +
-                    "<'row'<'col-md-12'i>>",
+                        "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
+                        "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
+                        "<'row'<'col-md-12 col-sm-6'l>>" +
+                        "<'row'<'col-md-12''<'#section-before-table'>'>>" +
+                        "<'row'<'col-md-12'tr>>" +
+                        "<'row'<'col-md-12'p>>" +
+                        "<'row'<'col-md-12'i>>",
                     renderer: 'bootstrap',
                     order: []
                 });
@@ -121,7 +123,7 @@ function showTable() {
 
         });
 
-    function clearFilters() {
+    function clearFilters () {
         $('.filter-input').val("");
         table.search('').draw(false);
     }
@@ -145,7 +147,7 @@ $.fn.dataTable.ext.search.push(
     }
 );
 
-function removeLead(id) {
+function removeLead (id) {
     var table = $('#work-items-table').DataTable();
     var rowLead = $("#lead" + id).closest('tr');
     table.row(rowLead)
@@ -153,7 +155,7 @@ function removeLead(id) {
         .draw(false);
 };
 
-function addLead(id, transactionId) {
+function addLead (id, transactionId) {
     $('.link-accepted').popover('hide');
     var data = {
         message: "<div class=\"modal-leads-content\"><div>" + translations['AreYouSure'] + "</div><div>" + translations['AcceptanceOfLeadFeeAppliedToYourAccount'] + "</div></div>",
@@ -161,22 +163,22 @@ function addLead(id, transactionId) {
         confirmBtnText: translations['AcceptLead'],
         class: "modal-leads"
     };
-    dynamicAlertModal(data);
+    module.require('alertModal').dynamicAlertModal(data);
 
     $('#confirmAlert').on('click', function () {
-        showLoader();
+        module.require('loader').showLoader();
         $.post({
             type: "POST",
             url: 'leads/acceptLead?id=' + id,
             success: function (json) {
                 if (json.isError) {
-                    hideLoader();
+                    module.require('loader').hideLoader();
                     $('.success-message').hide();
                     $("#error-msg-text").html(json.Errors);
                     $('#section-before-table').append($('#leads-error-message'));
                     $('#section-before-table #leads-error-message').show();
                 } else if (json.isSuccess) {
-                    hideLoader();
+                    module.require('loader').hideLoader();
                     var template = $('#success-message-template').html();
                     $('#lead-msg').html(template.replace('{1}', transactionId));
                     $('#leads-error-message').hide();

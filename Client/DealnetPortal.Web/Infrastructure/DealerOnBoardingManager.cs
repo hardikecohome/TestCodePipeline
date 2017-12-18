@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
-using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Web.Models.Dealer;
 using DealnetPortal.Web.ServiceAgent;
 using DealnetPortal.Api.Core.Enums;
-using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Web.Models;
 
@@ -32,17 +29,16 @@ namespace DealnetPortal.Web.Infrastructure
 
         public async Task<DealerOnboardingViewModel> GetNewDealerOnBoardingForm(string onboardingLink)
         {
+            var linklist = System.Configuration.ConfigurationManager.AppSettings["LinkListTobeForwarded"].Split(',').Select(a => a.Trim().ToLower()).ToList<string>();
+            if (linklist.Contains(onboardingLink.ToLower()))
+            {
+                onboardingLink = System.Configuration.ConfigurationManager.AppSettings["LinkForwardTo"];
+            }
             var valid = !string.IsNullOrEmpty(onboardingLink) && await _dealerServiceAgent.CheckOnboardingLink(onboardingLink);
             return valid ? new DealerOnboardingViewModel
             {
                 OnBoardingLink = onboardingLink,
-                DictionariesData = new DealerOnboardingDictionariesViewModel
-                {
-                    ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1,
-                    EquipmentTypes = (await _dictionaryServiceAgent.GetAllEquipmentTypes()).Item1
-                                                      ?.OrderBy(x => x.Description).ToList(),
-                    LicenseDocuments = (await _dictionaryServiceAgent.GetAllLicenseDocuments()).Item1.ToList()
-                }
+                DictionariesData = await GetDictionariesData()
             } : null;
         }
 
@@ -179,6 +175,16 @@ namespace DealnetPortal.Web.Infrastructure
             }
 
             return response;
+        }
+
+        public async Task<DealerOnboardingDictionariesViewModel> GetDictionariesData()
+        {
+            return new DealerOnboardingDictionariesViewModel
+            {
+                ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1,
+                EquipmentTypes =(await _dictionaryServiceAgent.GetAllEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList(),
+                LicenseDocuments = (await _dictionaryServiceAgent.GetAllLicenseDocuments()).Item1
+            };
         }
     }
 }

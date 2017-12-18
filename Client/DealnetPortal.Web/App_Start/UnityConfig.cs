@@ -56,6 +56,8 @@ namespace DealnetPortal.Web.App_Start
             container.RegisterType<ISecurityServiceAgent, SecurityServiceAgent>();
             container.RegisterType<IUserManagementServiceAgent, UserManagementServiceAgent>();
             container.RegisterType<IContractServiceAgent, ContractServiceAgent>();
+            container.RegisterType<ICustomerFormServiceAgent, CustomerFormServiceAgent>();
+            container.RegisterType<ICustomerFormManager, CustomerFormManager>();
             container.RegisterType<IDealerServiceAgent, DealerServiceAgent>();
             container.RegisterType<ICultureManager, CultureManager>();
             container.RegisterType<CultureSetterManager>();

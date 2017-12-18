@@ -15,6 +15,7 @@ $(document)
                     showChart();
                 }, 500);
             });
+        commonDataTablesSettings();
     });
 
 function FormatLongNumber (value) {
@@ -161,11 +162,11 @@ function removeContract () {
         title: translations['Remove'],
         confirmBtnText: translations['Remove']
     };
-    dynamicAlertModal(data);
+    module.require('alertModal').dynamicAlertModal(data);
 
     $('#confirmAlert').on('click', function () {
         $("#remove-contract").val(id);
-        showLoader();
+        module.require('loader').showLoader();
         $("#remove-contract-form").ajaxSubmit({
             method: 'post',
             success: function (result) {
@@ -179,8 +180,8 @@ function removeContract () {
                 alert(translations['Error']);
             },
             complete: function (xhr) {
-                hideLoader();
-                hideDynamicAlertModal();
+                module.require('loader').hideLoader();
+                module.require('alertModal').hideDynamicAlertModal();
             }
         });
     });

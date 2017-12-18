@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
-using DealnetPortal.Api.Models.CustomerWallet;
 using DealnetPortal.Api.Models.Notification;
 using MailChimp.Net.Models;
 
-namespace DealnetPortal.Api.Integration.Services
+namespace DealnetPortal.Api.Integration.Interfaces
 {
     public interface IMailСhimpService
     {

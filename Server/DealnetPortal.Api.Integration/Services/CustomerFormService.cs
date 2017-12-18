@@ -15,6 +15,7 @@ using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Contract.EquipmentInformation;
@@ -157,7 +158,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (contractCreationRes?.Item1 != null &&
                 (contractCreationRes.Item2?.All(a => a.Type != AlertType.Error) ?? true))
             {
-                Task.Run(async () => await SendCustomerContractCreationNotifications(customerFormData,
+                Task.Run(async () => await SendCustomerFormContractCreationNotifications(customerFormData,
                     contractCreationRes.Item1));
             }
 
@@ -387,7 +388,6 @@ namespace DealnetPortal.Api.Integration.Services
                 var contractData = new ContractDataDTO()
                 {
                     PrimaryCustomer = customerFormData.PrimaryCustomer,
-                    //HomeOwners = new List<Customer> { customer },
                     DealerId = dealerId,
                     Id = contract.Id,
                     LeadSource = customerFormData.LeadSource
@@ -521,7 +521,7 @@ namespace DealnetPortal.Api.Integration.Services
         }
 
 
-        private async Task SendCustomerContractCreationNotifications(CustomerFormDTO customerFormData, CustomerContractInfoDTO contractData)
+        private async Task SendCustomerFormContractCreationNotifications(CustomerFormDTO customerFormData, CustomerContractInfoDTO contractData)
         {
             var dealerColor = _settingsRepository.GetUserStringSettings(customerFormData.DealerName)
                                     .FirstOrDefault(s => s.Item.Name == "@navbar-header");

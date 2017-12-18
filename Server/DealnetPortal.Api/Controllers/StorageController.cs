@@ -16,17 +16,18 @@ using DealnetPortal.Domain;
 using DealnetPortal.Utilities.Logging;
 using Microsoft.AspNet.Identity.Owin;
 using System.Web.Hosting;
+using DealnetPortal.Api.Integration.Interfaces;
 
 namespace DealnetPortal.Api.Controllers
 {
     [RoutePrefix("api/Storage")]
     public class StorageController : BaseApiController
     {        
-        private readonly ISignatureService _signatureService;
+        private readonly IDocumentService _documentService;
 
-        public StorageController(ILoggingService loggingService,ISignatureService signatureService) : base(loggingService)
+        public StorageController(ILoggingService loggingService,IDocumentService documentService) : base(loggingService)
         {            
-            _signatureService = signatureService;
+            _documentService = documentService;
         }
 
         //[AllowAnonymous]
@@ -73,7 +74,7 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 var requestStr = await request.Content.ReadAsStringAsync();
-                var alerts = await _signatureService.ProcessSignatureEvent(requestStr);
+                var alerts = await _documentService.ProcessSignatureEvent(requestStr);
                 if (alerts?.All(a => a.Type != AlertType.Error) == true)
                 {
                     return Ok();
