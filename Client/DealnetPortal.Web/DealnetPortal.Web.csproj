@@ -249,6 +249,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Managers\CustomerFormManager.cs" />
+    <Compile Include="Infrastructure\Managers\Interfaces\ICustomerFormManager.cs" />
     <Compile Include="Infrastructure\Managers\ApplicationSettingsManager.cs" />
     <Compile Include="Infrastructure\Attributes\TimezoneAttribute.cs" />
     <Compile Include="Infrastructure\Attributes\AuthFromContextAttribute.cs" />
@@ -276,7 +278,7 @@
     <Compile Include="Infrastructure\Managers\Interfaces\IContractManager.cs" />
     <Compile Include="Infrastructure\LocalizedControllerActivator.cs" />
     <Compile Include="Infrastructure\ModelBinders\DateTimeBinder .cs" />
-    <Compile Include="Infrastructure\RequreSecureConnectionFilter .cs" />
+    <Compile Include="Infrastructure\RequreSecureConnectionFilter.cs" />
     <Compile Include="Infrastructure\ViewPageWithUserIdentity.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateEquipmentInfoViewModel.cs" />
@@ -814,6 +816,11 @@
     <Content Include="Scripts\index.js" />
     <Content Include="Scripts\pages\basicInfo\address-autocomplete.js" />
     <Content Include="Scripts\pages\calculator\calculator.validation.js" />
+    <Content Include="Scripts\pages\newEquipment\newEquipment.management.js" />
+    <Content Include="Scripts\pages\newEquipment\newEquipment.state.js" />
+    <Content Include="Scripts\pages\newEquipment\newEquipment.template.js" />
+    <Content Include="Scripts\pages\newEquipment\newEquipment.validation.js" />
+    <Content Include="Scripts\pages\newEquipment\newEquipment.value-setters.js" />
     <Content Include="Scripts\pages\reportContracts\index.js" />
     <Content Include="Scripts\utils\alertModal.js" />
     <Content Include="Scripts\utils\backToTop.js" />
@@ -873,15 +880,10 @@
     <Content Include="Scripts\pages\MyProfile\postalCode-handlers.js" />
     <Content Include="Scripts\pages\MyProfile\postalCode-template.js" />
     <Content Include="Scripts\pages\newEquipment\newEquipment.custom-rate-card.js" />
-    <Content Include="Scripts\pages\newEquipment\equipment.js" />
     <Content Include="Scripts\pages\newEquipment\newEquipment.index.js" />
     <Content Include="Scripts\pages\newEquipment\rate-cards-init.js" />
     <Content Include="Scripts\pages\newEquipment\rate-cards-ui.js" />
     <Content Include="Scripts\pages\newEquipment\rate-cards.js" />
-    <Content Include="Scripts\pages\newEquipment\state.js" />
-    <Content Include="Scripts\pages\newEquipment\template.js" />
-    <Content Include="Scripts\pages\newEquipment\validation.js" />
-    <Content Include="Scripts\pages\newEquipment\value-setters.js" />
     <Content Include="Scripts\pages\onboarding\acknowledgment\onboarding.ackonwledgment.index.js" />
     <Content Include="Scripts\pages\onboarding\acknowledgment\onboarding.ackonwledgment.owners.js" />
     <Content Include="Scripts\pages\onboarding\acknowledgment\onboarding.ackonwledgment.setters.js" />
