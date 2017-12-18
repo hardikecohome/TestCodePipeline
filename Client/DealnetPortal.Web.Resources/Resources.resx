@@ -2538,4 +2538,7 @@ changing contract terms or signing contract on paper.</value>
   <data name="Unemployed" xml:space="preserve">
     <value>Unemployed</value>
   </data>
+  <data name="Hourly" xml:space="preserve">
+    <value>Hourly</value>
+  </data>
 </root>

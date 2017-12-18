@@ -8,6 +8,7 @@ module.exports('employmentInformationVM', function (require) {
             hourlyRate: ko.observable(info.HourlyRate || ''),
             yearsOfEmploy: ko.observable(info.YearsOfEmployment || ''),
             monthsOfEmploy: ko.observable(info.MonthsOfEmploy || ''),
+            type: ko.observable(info.EmploymentType || ''),
             jobTitle: ko.observable(info.JobTitle || ''),
             companyName: ko.observable(info.CompanyName || ''),
             companyPhone: ko.observable(info.CompanyPhone || ''),

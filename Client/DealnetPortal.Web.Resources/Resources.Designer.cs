@@ -3045,6 +3045,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hourly.
+        /// </summary>
+        public static string Hourly {
+            get {
+                return ResourceManager.GetString("Hourly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hourly Rate.
         /// </summary>
         public static string HourlyRate {
