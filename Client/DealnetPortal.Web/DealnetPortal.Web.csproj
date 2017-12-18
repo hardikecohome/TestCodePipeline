@@ -18,7 +18,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44322</IISExpressSSLPort>
+    <IISExpressSSLPort>44341</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -281,6 +281,7 @@
     <Compile Include="Infrastructure\RequreSecureConnectionFilter .cs" />
     <Compile Include="Infrastructure\ViewPageWithUserIdentity.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AddressInfomation.cs" />
     <Compile Include="Models\CertificateEquipmentInfoViewModel.cs" />
     <Compile Include="Models\CertificateInformationViewModel.cs" />
     <Compile Include="Models\ClientsInformationViewModel.cs" />
@@ -299,6 +300,7 @@
     <Compile Include="Models\Dealer\RequiredDocumentViewModel.cs" />
     <Compile Include="Models\Dealer\SaveAndResumeViewModel.cs" />
     <Compile Include="Models\Dealer\TradeReferenceViewModel.cs" />
+    <Compile Include="Models\EmploymentInformationViewModel.cs" />
     <Compile Include="Models\ESignatureViewModel.cs" />
     <Compile Include="Models\MyProfile\DealerAreaViewModel.cs" />
     <Compile Include="Models\MyProfile\ProfileViewModel.cs" />
@@ -813,6 +815,8 @@
     <Content Include="Content\less\components\dob-control.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
+    <Content Include="Scripts\components\addressInformation.js" />
+    <Content Include="Scripts\components\employmentInformation.js" />
     <Content Include="Scripts\index.js" />
     <Content Include="Scripts\pages\basicInfo\address-autocomplete.js" />
     <Content Include="Scripts\pages\reportContracts\index.js" />
@@ -1050,7 +1054,6 @@
     <Content Include="Scripts\vendor\modernizr-2.6.2.js" />
     <Content Include="Scripts\vendor\respond.js" />
     <Content Include="Scripts\vendor\svgxuse.min.js" />
-    <Content Include="Scripts\components\.gitkeep" />
     <None Include="Scripts\_references.js" />
     <Content Include="Views\Dealer\OnBoarding.cshtml" />
     <Content Include="Views\Dealer\OnBoardingLayout.cshtml" />
@@ -1146,6 +1149,7 @@
     <Content Include="Views\MyDeals\_ContractSignatureStatus.cshtml" />
     <None Include="Scripts\vendor\jquery-3.1.0.intellisense.js" />
     <None Include="Scripts\vendor\jquery.validate-vsdoc.js" />
+    <Content Include="Views\Shared\BasicInfo\_HomeOwnerInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
