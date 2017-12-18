@@ -318,6 +318,45 @@ namespace DealnetPortal.Api.Tests.Repositories
         }
 
         [TestMethod]
+        public void TestAddAndUpdateEmploymentInfo()
+        {
+            Customer customer = new Customer()
+            {
+                FirstName = "First",
+                LastName = "Last",
+                DateOfBirth = DateTime.Today,
+                EmploymentInfo = new EmploymentInfo()
+                {
+                    AnnualSallary = "10"
+                }
+            };
+
+            var dbCustomer = _contractRepository.UpdateCustomer(customer);
+            _unitOfWork.Save();
+            dbCustomer = _contractRepository.GetCustomer(dbCustomer.Id);
+            Assert.IsNotNull(dbCustomer?.EmploymentInfo);
+            Assert.AreEqual(dbCustomer.EmploymentInfo.AnnualSallary,"10");
+
+            customer = new Customer()
+            {
+                Id = dbCustomer.Id,
+                FirstName = "First",
+                LastName = "Last",
+                DateOfBirth = DateTime.Today,
+                EmploymentInfo = new EmploymentInfo()
+                {
+                    AnnualSallary = "20"
+                }
+            };
+
+            dbCustomer = _contractRepository.UpdateCustomer(customer);
+            _unitOfWork.Save();
+            dbCustomer = _contractRepository.GetCustomer(dbCustomer.Id);
+            Assert.IsNotNull(dbCustomer?.EmploymentInfo);
+            Assert.AreEqual(dbCustomer.EmploymentInfo.AnnualSallary, "20");
+        }
+
+        [TestMethod]
         public void TestAddContractDocument()
         {
             var contract = _contractRepository.CreateContract(_user.Id);
@@ -512,5 +551,5 @@ namespace DealnetPortal.Api.Tests.Repositories
             // initial customers should be unchanged
             Assert.AreEqual(contract.InitialCustomers.Count, 2);
         }
-    }
+        }
 }

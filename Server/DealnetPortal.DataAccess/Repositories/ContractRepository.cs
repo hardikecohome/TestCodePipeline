@@ -596,6 +596,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Phones)
                 .Include(c => c.Locations)
                 .Include(c => c.Emails)
+                .Include(c => c.EmploymentInfo)
                 .FirstOrDefault(c => c.Id == customerId);
         }
 
@@ -1352,6 +1353,12 @@ namespace DealnetPortal.DataAccess.Repositories
             }
         }
 
+        private void AddOrUpdateEmploymentInfo(Customer customer, EmploymentInfo employmentInfo)
+        {
+            employmentInfo.Customer = customer;
+            _dbContext.EmploymentInfoes.AddOrUpdate(employmentInfo);                          
+        }
+
         private Customer AddOrUpdateCustomer(Customer customer)
         {
             var dbCustomer = customer.Id == 0 ? null : _dbContext.Customers.Find(customer.Id);
@@ -1372,6 +1379,12 @@ namespace DealnetPortal.DataAccess.Repositories
                 dbCustomer.VerificationIdName = customer.VerificationIdName;
                 dbCustomer.DealerInitial = customer.DealerInitial;
             }
+
+            if (customer.EmploymentInfo != null)
+            {
+                AddOrUpdateEmploymentInfo(dbCustomer, customer.EmploymentInfo);
+            }
+
             return dbCustomer;
         }
 

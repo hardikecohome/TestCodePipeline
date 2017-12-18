@@ -32,6 +32,10 @@ namespace DealnetPortal.Domain
         public string CompanyPhone { get; set; }
         public Address CompanyAddress { get; set; }
 
+        public string AnnualSallary { get; set; }
+        public string HourlyRate { get; set; }
+        public string LengthOfEmployment { get; set; }
+
         [Required]
         [ForeignKey(nameof(Id))]
         public Customer Customer { get; set; }
