@@ -76,6 +76,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             {
                 return contactAndPaymentInfo;
             }
+
             contactAndPaymentInfo.ContractId = contractResult.Item1.Id;
             contactAndPaymentInfo.IsApplicantsInfoEditAvailable = contractResult.Item1.ContractState <= Api.Common.Enumeration.ContractState.Completed;
             contactAndPaymentInfo.IsFirstStepAvailable = contractResult.Item1.ContractState != Api.Common.Enumeration.ContractState.Completed;
@@ -417,6 +418,13 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                     contract.PrimaryCustomer);
             contactAndPaymentInfo.HouseSize = contract.Details.HouseSize;
             contactAndPaymentInfo.CoBorrowersContactInfo = AutoMapper.Mapper.Map<List<ContactInfoViewModel>>(contract.SecondaryCustomers);
+
+            //DEAL-3471 
+            //Adding other payments to Enbridge gas bills is not possible outside Ontario province, therefore we should block this option for customers from other provinces.
+            var ontarioStateProvince = "ON";
+            var installationAddress = contract.PrimaryCustomer.Locations.FirstOrDefault(x => x.AddressType == AddressType.MainAddress);
+            contactAndPaymentInfo.IsAllPaymentTypesAvailable = installationAddress != null && installationAddress.State == ontarioStateProvince;
+
         }
 
         public async Task<IList<Alert>> UpdateContractAsync(BasicInfoViewModel basicInfo)

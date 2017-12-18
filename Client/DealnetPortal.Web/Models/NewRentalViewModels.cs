@@ -190,6 +190,7 @@ namespace DealnetPortal.Web.Models
 
         public bool IsApplicantsInfoEditAvailable { get; set; }
         public bool IsFirstStepAvailable { get; set; }
+        public bool IsAllPaymentTypesAvailable { get; set; }
     }
 
     public class AdditionalInfoViewModel
