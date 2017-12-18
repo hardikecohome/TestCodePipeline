@@ -6,6 +6,7 @@ using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Web.Common;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Infrastructure.Managers;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.Models.Enumeration;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.Owin.Security;

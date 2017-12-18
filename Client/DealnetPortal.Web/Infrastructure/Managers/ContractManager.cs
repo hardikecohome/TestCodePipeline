@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
@@ -9,17 +8,17 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Contract.EquipmentInformation;
 using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Web.Common.Helpers;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.Models.EquipmentInformation;
 using DealnetPortal.Web.ServiceAgent;
 using ContractState = DealnetPortal.Web.Models.Enumeration.ContractState;
 
-namespace DealnetPortal.Web.Infrastructure
+namespace DealnetPortal.Web.Infrastructure.Managers
 {
     public class ContractManager : IContractManager
     {
@@ -268,6 +267,18 @@ namespace DealnetPortal.Web.Infrastructure
                 .Distinct()
                 .Select(x => new KeyValuePair<string, string>(x.ToString(), x + " " + (x == 1 ? Resources.Resources.Month : Resources.Resources.Months)))
                 .ToDictionary(s => s.Key, s => s.Value);
+
+            if (model.DealerTier != null && model.DealerTier.Id ==
+                Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["Amort180RateCardId"]))
+            {
+                model.TotalAmountFinancedFor180AmortTerm = 4999;
+            }
+            else
+            {
+                model.TotalAmountFinancedFor180AmortTerm = 3999;
+            }
+
+            model.AdminFee = 0;
 
             return model;
         }

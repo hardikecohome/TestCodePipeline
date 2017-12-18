@@ -9,9 +9,10 @@ using DealnetPortal.Web.Models.Dealer;
 using DealnetPortal.Web.ServiceAgent;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Web.Common.Constants;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.Models;
 
-namespace DealnetPortal.Web.Infrastructure
+namespace DealnetPortal.Web.Infrastructure.Managers
 {
     public class DealerOnBoardingManager : IDealerOnBoardingManager
     {

@@ -4,7 +4,7 @@ using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Web.Models.Dealer;
 using DealnetPortal.Web.Models;
 
-namespace DealnetPortal.Web.Infrastructure
+namespace DealnetPortal.Web.Infrastructure.Managers.Interfaces
 {
     public interface IDealerOnBoardingManager
     {

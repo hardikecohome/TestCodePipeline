@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Infrastructure.Attributes;
 
 namespace DealnetPortal.Web.Models
 {

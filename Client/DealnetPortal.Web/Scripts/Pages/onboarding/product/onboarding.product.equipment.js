@@ -6,7 +6,7 @@ module.exports('onboarding.product.equipment', function (require) {
     function equipmentTemplate (index, id, description) {
         var template = $('#equipment-template').tmpl({ index: index, id: id, description: description });
         return template;
-    };
+    }
 
 
     function addEquipment (e) {
@@ -33,7 +33,7 @@ module.exports('onboarding.product.equipment', function (require) {
             $(document).trigger('equipmentRemoved');
             rebuildIndex(substrIndex);
         }
-    };
+    }
 
     function rebuildIndex (id) {
         for(;;) {
@@ -58,9 +58,9 @@ module.exports('onboarding.product.equipment', function (require) {
 
     function setRemoveClick (id) {
         $('#equipment-' + id).on('click', removeEquipment);
-    };
+    }
 
     return {
         addEquipment: addEquipment
-    }
+    };
 });

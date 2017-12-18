@@ -64,7 +64,7 @@
             additionalOwner.remove(ownerNumber);
             aknwoledgmentOwner.remove(ownerNumber);
             if (ownerNumber !== 'owner0') {
-                for (var i = ownerNumber.substr(-1);i < state['owner-info']['nextOwnerIndex'];i++) {
+                for (var i = ownerNumber.substr(-1); i < state['owner-info']['nextOwnerIndex']; i++) {
                     _setInputHandlers('owner' + i);
                 }
                 setters.recalculateTotalPercentage();
@@ -75,7 +75,7 @@
     }
 
     function _initEventHandlers (numberOfOwners) {
-        for (var i = 0;i < numberOfOwners;i++) {
+        for (var i = 0; i < numberOfOwners; i++) {
             _setInputHandlers('owner' + i);
             state['owner-info']['nextOwnerIndex']++;
         }
@@ -89,7 +89,7 @@
     }
 
     function _setLoadedData (owners) {
-        for (var i = 0;i < owners.length;i++) {
+        for (var i = 0; i < owners.length; i++) {
             var owner = 'owner' + i;
             var newOwnerState = {};
             newOwnerState[owner] = { requiredFields: constants.requiredFields.slice() };
@@ -117,13 +117,13 @@
     }
 
     function initAutocomplete () {
-        for (var i = 0;Object.keys(state['owner-info'].owners).length > i;i++) {
+        for (var i = 0; Object.keys(state['owner-info'].owners).length > i; i++) {
             initGoogleServices('owner' + i + '-street',
                 'owner' + i + '-city',
                 'owner' + i + '-province',
                 'owner' + i + '-postalcode');
         }
-        for (var j = 0;Object.keys(state['owner-info'].owners).length > j;j++) {
+        for (var j = 0; Object.keys(state['owner-info'].owners).length > j; j++) {
             $('#owner' + j + '-street').attr('placeholder', '');
             $('#owner' + j + '-city').attr('placeholder', '');
         }
@@ -132,5 +132,5 @@
     return {
         init: init,
         initAutocomplete: initAutocomplete
-    }
-})
+    };
+});

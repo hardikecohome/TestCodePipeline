@@ -28,7 +28,7 @@ module.exports('onboarding.company.province', function (require) {
             $(document).trigger('provinceRemoved');
             _rebuildIndex(substrIndex);
         }
-    };
+    }
 
     function _rebuildIndex(id) {
         for(;;) {
@@ -59,7 +59,7 @@ module.exports('onboarding.company.province', function (require) {
         $result.find('.icon-remove').attr('id', province);
 
         return $result;
-    };
+    }
 
     return {
         add: add,

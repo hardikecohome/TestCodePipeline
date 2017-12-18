@@ -11,6 +11,7 @@ using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Infrastructure.Attributes;
 using DealnetPortal.Web.Models.EquipmentInformation;
 using DealnetPortal.Web.Models.Validation;
 using PaymentType = DealnetPortal.Web.Models.Enumeration.PaymentType;

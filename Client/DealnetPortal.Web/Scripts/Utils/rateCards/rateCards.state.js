@@ -1,5 +1,6 @@
-﻿module.exports('state', function() {
+﻿module.exports('rateCards.state', function () {
     var state = {
+        rateCards: {},
         agreementType: 0,
         equipments: {},
         existingEquipments: {},
@@ -13,7 +14,7 @@
             CustomerRate: '',
             yourCost: '',
             DealerCost: 0,
-			AdminFee: customerFee
+            AdminFee: customerFee
         },
         contractId: 0,
         selectedCardId: null,
@@ -27,15 +28,15 @@
         numberFields: ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'DealerCost', 'AdminFee'],
         notCero: ['equipmentSum', 'LoanTerm', 'AmortizationTerm'],
         minimumLoanValue: 1000,
-        amortizationValueToDisable : 180,
-		totalAmountFinancedFor180amortTerm: TotalAmtFinancedFor180amortTerm,
+        amortizationValueToDisable: 180,
+        totalAmountFinancedFor180amortTerm: TotalAmtFinancedFor180amortTerm,
         maxRateCardLoanValue: 50000
-    }
+    };
 
     window.state = state;
 
     return {
         state: state,
         constants: constants
-    }
-})
+    };
+});

@@ -1,7 +1,10 @@
-﻿module.exports('calculator-init', function (require) {
+﻿module.exports('calculator.init', function (require) {
 
     var state = require('calculator-state').state;
     var constants = require('calculator-state').constants;
+    var calculatorOption = require('calculator.option');
+    var calculatorJCourusel = require('calculator.jcarousel');
+    var rateCardsCalculator = require('rateCards.index');
 
     /**
      * Initialize rate cards, page state, available plans
@@ -9,9 +12,10 @@
      * @param {Array<object>} rateCards - list of rate cards for current user
      * @returns {} 
      */
-    var init = function initPage(plans, rateCards, taxes) {
+    function _initRateCards(plans, rateCards, taxes) {
         state.cards = rateCards;
         state.taxes = taxes;
+        rateCardsCalculator.init(rateCards);
 
         $('#option1-taxDescription').text(state.description);
 
@@ -37,6 +41,12 @@
                 }
             });
         });
+    }
+
+    var init = function (plans, rateCards, taxes) {
+        _initRateCards(plans, rateCards, taxes);
+        calculatorJCourusel.init();
+        calculatorOption.init();
     }
 
     return { init: init };

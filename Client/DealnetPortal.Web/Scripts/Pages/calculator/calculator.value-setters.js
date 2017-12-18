@@ -83,21 +83,19 @@
 
     var setRateCardPlan = function(optionKey, callback) {
         return function (e) {
-            var planType = $.grep(constants.rateCards, function (c) { return c.name === e.target.value; })[0].id;
+            var planType = $.grep(constants.rateCards, function (c) { return c.name === e.target.value; })[0].name;
             state[optionKey].plan = planType;
-
-            setAmortizationDropdownValues(optionKey, planType);
 
             var dropdownParentDiv = $('#' + optionKey + '-deferralDropdownWrapper');
 
-            if (planType === 2 || planType === 3) {
+            if (planType === 'Deferral' || planType === 'Custom') {
                 if (dropdownParentDiv.is(':hidden')) {
                     $('#' + optionKey + '-deferral').addClass('hidden');
                     dropdownParentDiv.removeClass('hidden');
                     $('#' + optionKey + '-deferralDropdown').change();
                 }
 
-                if (planType === 3) {
+                if (planType === 'Custom') {
                     $('#' + optionKey + '-amortDropdown').closest('.row').addClass('hidden');
                     var defDropdown = $('#' + optionKey + '-deferralDropdown');
                     if(defDropdown.find('option[value=0]').length === 0)

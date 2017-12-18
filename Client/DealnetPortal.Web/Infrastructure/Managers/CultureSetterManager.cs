@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
-using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.ApiClient;
-using DealnetPortal.Api.Core.Helpers;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Web.Common.Culture;
 using DealnetPortal.Web.ServiceAgent;
 
-namespace DealnetPortal.Web.Infrastructure
+namespace DealnetPortal.Web.Infrastructure.Managers
 {
     public class CultureSetterManager
     {

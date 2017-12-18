@@ -1,7 +1,9 @@
 ﻿module.exports('newEquipment.index',
     function (require) {
         var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
+        var recalculateAndRenderRentalValues = require('rate-cards').recalculateAndRenderRentalValues;
         var submitRateCard = require('rate-cards').submitRateCard;
+        var rateCardCalculationInit = require('rate-cards').init;
         var setters = require('value-setters');
         var equipment = require('equipment');
         var rateCardsInit = require('rate-cards-init');
@@ -12,6 +14,7 @@
         var rateCardBlock = require('rate-cards-ui');
         var state = require('state').state;
         var constants = require('state').constants;
+        var navigateToStep = require('navigateToStep');
 
         var settings = Object.freeze({
             customRateCardName: 'Custom',
@@ -39,7 +42,7 @@
             }
         });
 
-        var init = function (id, cards, onlyCustomRateCard) {
+        var init = function(id, cards, onlyCustomRateCard) {
             var agreementType = $(settings.agreementTypeId).find(":selected").val();
             state.agreementType = Number(agreementType);
             _initHandlers();
@@ -48,6 +51,7 @@
             equipment.init();
             rateCardsInit.init(id, cards, onlyCustomRateCard);
             customRateCardInit();
+            rateCardCalculationInit();
             rateCardBlock.init();
 
             if (agreementType === settings.applicationType.loanApplication) {
@@ -55,7 +59,14 @@
             } else {
                 recalculateAndRenderRentalValues();
             }
-        }
+
+            $('#steps .step-item[data-warning="true"]').on('click', function () {
+                if ($(this).attr('href')) {
+                    navigateToStep($(this));
+                }
+                return false;
+            });
+        };
 
         function _submitForm (event) {
             $(settings.formId).valid();
@@ -71,7 +82,7 @@
                 return;
             }
 
-            if (isNaN(monthPayment) || (monthPayment <= 0)) {
+            if (isNaN(monthPayment) || monthPayment <= 0) {
                 event.preventDefault();
                 $(settings.equipmentValidationMessageId).text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
                 return;
@@ -126,7 +137,7 @@
 
         function _initHandlers () {
             $(settings.submitButtonId).on('click', _submitForm);
-            constants.rateCards.forEach(function (option) { $('#' + option.name + 'AmortizationDropdown').on('change', recalculateValuesAndRender) });
+            constants.rateCards.forEach(function (option) { $('#' + option.name + '-amortDropdown').on('change', recalculateValuesAndRender); });
             $(settings.addEquipmentId).on('click', equipment.addEquipment);
             $(settings.addExistingEquipmentId).on('click', equipment.addExistingEquipment);
             $(settings.toggleRateCardBlockId).on('click', _toggleRateCardBlock);
@@ -135,8 +146,8 @@
             $(settings.totalMonthlyPaymentId).on('change', setters.setRentalMPayment);
             $(settings.selectRateCardButtonClass).on('click', rateCardBlock.highlightCard);
             $(settings.selectRateCardButtonClass).on('click', _onRateCardSelect);
-            $(settings.deferralTermId).on('change', setters.setLoanAmortTerm('deferral'));
-            $(settings.deferralDropdownId).on('change', setters.setDeferralPeriod('deferral'));
+            $(settings.deferralTermId).on('change', setters.setLoanAmortTerm('Deferral'));
+            $(settings.deferralDropdownId).on('change', setters.setDeferralPeriod('Deferral'));
         }
 
         function _initDatepickers () {

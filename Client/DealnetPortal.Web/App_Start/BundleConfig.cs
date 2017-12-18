@@ -224,6 +224,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/setEqualHeightRows.js")
                 .Include("~/Scripts/utils/resetPlaceholder.js")
                 .IncludeDirectory("~/Scripts/pages/newEquipment", "*.js", true)
+                .IncludeDirectory("~/Scripts/utils/rateCards", "*.js", true)
             );
 
             bundles.Add(new ScriptBundle("~/bundles/additional-equipment-information")
@@ -238,7 +239,8 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/financial-functions.module.js")
                 .Include("~/Scripts/utils/loan-calculator.js")
                 .Include("~/Scripts/utils/logger/log.js")
-                .IncludeDirectory("~/Scripts/pages/calculator", "*.js", true));
+                .IncludeDirectory("~/Scripts/pages/calculator","*.js",true)
+                .IncludeDirectory("~/Scripts/utils/rateCards", "*.js", true));
 
             bundles.Add(new ScriptBundle("~/bundles/onboarding")
                 .Include("~/Scripts/vendor/jquery.form.js")

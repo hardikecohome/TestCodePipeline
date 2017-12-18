@@ -13,7 +13,7 @@
 
 
         var totalPrice = function(data) {
-            var t = tax(data);
+            //var t = tax(data);
             var equipmentSum = data.equipmentSum;
 
             return equipmentSum /*+ t*/;

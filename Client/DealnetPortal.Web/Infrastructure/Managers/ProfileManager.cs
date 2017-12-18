@@ -4,10 +4,11 @@ using System.Threading.Tasks;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Profile;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.Models.MyProfile;
 using DealnetPortal.Web.ServiceAgent;
 
-namespace DealnetPortal.Web.Infrastructure
+namespace DealnetPortal.Web.Infrastructure.Managers
 {
     public class ProfileManager : IProfileManager
     {

@@ -15,6 +15,7 @@ using System.Web.SessionState;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Web.Common.Helpers;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 
 namespace DealnetPortal.Web.Controllers
 {

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Infrastructure.Attributes;
 using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType;
 
 namespace DealnetPortal.Web.Models

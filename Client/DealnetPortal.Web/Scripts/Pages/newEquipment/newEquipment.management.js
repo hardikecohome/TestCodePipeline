@@ -92,14 +92,15 @@
 
         newTemplate.find('div.additional-remove').attr('id', 'remove-existing-equipment-' + id);
 
-        newTemplate.find('#remove-existing-equipment-' + id).on('click', setRemoveEquipment(
-            {
-                name: 'existingEquipments',
-                equipmentIdPattern: 'existing-equipment-',
-                equipmentName: 'ExistingEquipment',
-                equipmentRemovePattern: 'remove-existing-equipment-'
-            }));
-        newTemplate.find('textarea').keyup(function (e) {
+        newTemplate.find('#remove-existing-equipment-' + id).on('click',
+            setRemoveEquipment(
+                {
+                    name: 'existingEquipments',
+                    equipmentIdPattern: 'existing-equipment-',
+                    equipmentName: 'ExistingEquipment',
+                    equipmentRemovePattern: 'remove-existing-equipment-'
+                }));
+        newTemplate.find('textarea').keyup(function(e) {
             if (e.keyCode === 13) {
                 var textarea = $(this);
                 textarea.val(textarea.val() + '\n');
@@ -112,12 +113,12 @@
 
         $('#existing-equipments').append(newTemplate);
         resetFormValidator("#equipment-form");
-    }
+    };
 
     function setRemoveEquipment (options) {
         return function (e) {
             removeEquipment.call(this, options);
-        }
+        };
     }
 
     /**
@@ -166,10 +167,10 @@
                 recalculateAndRenderRentalValues();
             } else {
                 recalculateValuesAndRender();
-            }
-            $('.add-equip-link').removeClass("hidden");
-        }
-    };
+			}
+			$('.add-equip-link').removeClass("hidden");
+		}		
+    }
 
     /**
      * initialize and save new equipments which we get from server
@@ -180,13 +181,13 @@
     function initEquipment (i) {
         var cost = Globalize.parseNumber($('#NewEquipment_' + i + '__Cost').val());
         if (state.equipments[i] === undefined) {
-            state.equipments[i] = { id: i.toString(), cost: cost }
+            state.equipments[i] = { id: i.toString(), cost: cost };
         } else {
             state.equipments[i].cost = cost;
         }
         cost = Globalize.parseNumber($('#NewEquipment_' + i + '__MonthlyCost').val());
         if (state.equipments[i] === undefined) {
-            state.equipments[i] = { id: i.toString(), monthlyCost: cost }
+            state.equipments[i] = { id: i.toString(), monthlyCost: cost };
         } else {
             state.equipments[i].monthlyCost = cost;
         }
@@ -247,7 +248,7 @@
         } else {
             recalculateValuesAndRender();
         }
-    };
+    }
 
     /**
      * update monthly cost of equipment in our global state object
@@ -360,5 +361,5 @@
         init: init,
         addEquipment: addEquipment,
         addExistingEquipment: addExistingEquipment
-    }
-})
+    };
+});

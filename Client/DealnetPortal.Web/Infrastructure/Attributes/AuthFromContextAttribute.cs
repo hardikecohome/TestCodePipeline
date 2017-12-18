@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Mvc.Filters;
 using System.Web.Routing;
-using DealnetPortal.Web.Common.Security;
-using DealnetPortal.Web.Infrastructure.Managers;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 
-namespace DealnetPortal.Web.Infrastructure
+namespace DealnetPortal.Web.Infrastructure.Attributes
 {
     public class AuthFromContextAttribute : FilterAttribute, IAuthenticationFilter
     {
