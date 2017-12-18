@@ -139,6 +139,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public TierViewModel DealerTier { get; set; }
 
         public bool? RateCardValid { get; set; }
+        public bool IsOnlyLoanAvailable { get; set; }
     }
 
     public class EquipmentInformationViewModel

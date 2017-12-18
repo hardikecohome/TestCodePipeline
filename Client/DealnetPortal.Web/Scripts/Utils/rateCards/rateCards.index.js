@@ -18,7 +18,7 @@
             return obj.hasOwnProperty(id) ? obj[id] : '';
         };
     };
-
+    
     var equipmentSum = function (equipments) {
         return Object.keys(equipments)
             .map(idToValue(equipments))
@@ -29,6 +29,17 @@
 
     var init = function(ratecards) {
         constants.rateCards.forEach(function (option) { state.rateCards[option.name] = $.grep(ratecards, function (card) { return card.CardType === option.id; }); });
+    }
+
+    var getRateCardOnSubmit = function (cardType, deferral, amortTerm, adminFee, customerRate) {
+        var items = state.rateCards[cardType];
+
+        if (items === null)
+            return undefined;
+
+        return $.grep(items, function (i) {
+            return i.DeferralPeriod === deferral && i.AmortizationTerm === amortTerm && i.AdminFee === adminFee && i.CustomerRate === customerRate;
+        })[0];
     }
 
     var filterRateCard = function(dataObject) {
@@ -125,6 +136,7 @@
         init: init,
         filterRateCard: filterRateCard,
         calculateTotalPrice: calculateTotalPrice,
+        getRateCardOnSubmit: getRateCardOnSubmit,
         calculateValuesForRender: calculateValuesForRender
     };
 });

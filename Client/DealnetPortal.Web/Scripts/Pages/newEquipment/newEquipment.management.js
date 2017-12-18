@@ -3,7 +3,7 @@
     var state = require('state').state;
     var templateFactory = require('equipment-template');
     var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
-    var recalculateAndRenderRentalValues = require('rate-cards').recalculateAndRenderRentalValues;
+    var recalculateAndRenderRentalValues = require('newEquipment.rental').recalculateAndRenderRentalValues;
 
     var resetPlaceholder = require('resetPlaceholder')
 

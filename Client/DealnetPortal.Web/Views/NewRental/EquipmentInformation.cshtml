@@ -31,6 +31,7 @@
             @Html.HiddenFor(model => model.ContractId)
             @Html.HiddenFor(model => model.FullUpdate, new { Value = true })
             @Html.HiddenFor(x => x.CreditAmount)
+            @Html.HiddenFor(x => x.IsOnlyLoanAvailable)
             @Html.HiddenFor(x => x.AmortizationTerm)
             @Html.HiddenFor(x => x.AdminFee)
             @Html.HiddenFor(x => x.CustomerRate)

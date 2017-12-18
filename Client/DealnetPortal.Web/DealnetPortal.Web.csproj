@@ -817,6 +817,7 @@
     <Content Include="Scripts\pages\basicInfo\address-autocomplete.js" />
     <Content Include="Scripts\pages\calculator\calculator.validation.js" />
     <Content Include="Scripts\pages\newEquipment\newEquipment.management.js" />
+    <Content Include="Scripts\pages\newEquipment\newEquipment.rental.js" />
     <Content Include="Scripts\pages\newEquipment\newEquipment.state.js" />
     <Content Include="Scripts\pages\newEquipment\newEquipment.template.js" />
     <Content Include="Scripts\pages\newEquipment\newEquipment.validation.js" />
@@ -881,9 +882,9 @@
     <Content Include="Scripts\pages\MyProfile\postalCode-template.js" />
     <Content Include="Scripts\pages\newEquipment\newEquipment.custom-rate-card.js" />
     <Content Include="Scripts\pages\newEquipment\newEquipment.index.js" />
-    <Content Include="Scripts\pages\newEquipment\rate-cards-init.js" />
-    <Content Include="Scripts\pages\newEquipment\rate-cards-ui.js" />
-    <Content Include="Scripts\pages\newEquipment\rate-cards.js" />
+    <Content Include="Scripts\pages\newEquipment\newEquipment.rate-cards.init.js" />
+    <Content Include="Scripts\pages\newEquipment\newEquipment.rate-cards.ui.js" />
+    <Content Include="Scripts\pages\newEquipment\newEquipment.rate-cards.js" />
     <Content Include="Scripts\pages\onboarding\acknowledgment\onboarding.ackonwledgment.index.js" />
     <Content Include="Scripts\pages\onboarding\acknowledgment\onboarding.ackonwledgment.owners.js" />
     <Content Include="Scripts\pages\onboarding\acknowledgment\onboarding.ackonwledgment.setters.js" />

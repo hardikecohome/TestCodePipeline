@@ -14,9 +14,12 @@ using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.Models;
+using DealnetPortal.Web.Models.Enumeration;
 using DealnetPortal.Web.Models.EquipmentInformation;
 using DealnetPortal.Web.ServiceAgent;
+using AgreementType = DealnetPortal.Api.Common.Enumeration.AgreementType;
 using ContractState = DealnetPortal.Web.Models.Enumeration.ContractState;
+using RateCardType = DealnetPortal.Api.Common.Enumeration.RateCardType;
 
 namespace DealnetPortal.Web.Infrastructure.Managers
 {
@@ -120,17 +123,16 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 equipmentInfo.IsNewContract = true;
                 equipmentInfo.RequestedTerm = 120;
             }
-
-            var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(result.Item1.PrimaryCustomer.Locations.First(
-                        l => l.AddressType == AddressType.MainAddress).State.ToProvinceCode())).Item1;
+            var mainAddressProvinceCode = result.Item1.PrimaryCustomer.Locations.First(l => l.AddressType == AddressType.MainAddress).State.ToProvinceCode();
+            var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(mainAddressProvinceCode)).Item1;
 
             if (rate != null) { equipmentInfo.ProvinceTaxRate = rate; }
+            equipmentInfo.IsOnlyLoanAvailable = mainAddressProvinceCode == ContractProvince.QC.ToString();
 
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
             equipmentInfo.IsAllInfoCompleted = result.Item1.PaymentInfo != null && result.Item1.PrimaryCustomer?.Phones != null && result.Item1.PrimaryCustomer.Phones.Any();
             equipmentInfo.IsApplicantsInfoEditAvailable = result.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;
             equipmentInfo.IsFirstStepAvailable = result.Item1.ContractState != Api.Common.Enumeration.ContractState.Completed;
-
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
             var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
             equipmentInfo.DealerTier = Mapper.Map<TierViewModel>(dealerTier) ?? new TierViewModel() { RateCards = new List<RateCardViewModel>() };
@@ -421,10 +423,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
             //DEAL-3471 
             //Adding other payments to Enbridge gas bills is not possible outside Ontario province, therefore we should block this option for customers from other provinces.
-            var ontarioStateProvince = "ON";
-            var installationAddress = contract.PrimaryCustomer.Locations.FirstOrDefault(x => x.AddressType == AddressType.MainAddress);
-            contactAndPaymentInfo.IsAllPaymentTypesAvailable = installationAddress != null && installationAddress.State == ontarioStateProvince;
-
+            var mainAddressProvinceCode = contract.PrimaryCustomer.Locations.First(x => x.AddressType == AddressType.MainAddress).State.ToProvinceCode();
+            contactAndPaymentInfo.IsAllPaymentTypesAvailable = mainAddressProvinceCode == ContractProvince.ON.ToString();
         }
 
         public async Task<IList<Alert>> UpdateContractAsync(BasicInfoViewModel basicInfo)

@@ -3,6 +3,16 @@
     var constants = require('state').constants;
     var rateCardBlock = require('rate-cards-ui');
     var rateCardsCaclulationEngine = require('rateCards.index');
+    var customRateCardBlock = require('custom-rate-card');
+
+    var settings = {
+        isNewContractId: '#IsNewContract',
+        selectedRateCardId: '#SelectedRateCardId',
+        rateCardValidId: '#RateCardValid',
+        submitButtonId: '#submit',
+        customRateCardName: 'Custom',
+        deferralRateCardName: 'Deferral'
+    }
 
     /**
      * Initialize view and store rate cards in storage.
@@ -15,25 +25,26 @@
         state.contractId = id;
         // check if we have any prefilled values in database
         // related to this contract, if yes contract is not new
-        state.isNewContract = $('#IsNewContract').val().toLowerCase() === 'true';
-        state.selectedCardId = $('#SelectedRateCardId').val() !== "" ? +$('#SelectedRateCardId').val() : null;
+        state.isNewContract = $(settings.isNewContractId).val().toLowerCase() === 'true';
+        state.selectedCardId = $(settings.selectedRateCardId).val() !== "" ? +$(settings.selectedRateCardId).val() : null;
         state.onlyCustomRateCard = onlyCustomRateCard;
-        var isValidRateCard = $('#RateCardValid').val().toLocaleLowerCase() === 'true';
+        var isValidRateCard = $(settings.rateCardValidId).val().toLocaleLowerCase() === 'true';
 
         if (!isValidRateCard && !state.isNewContract) {
             $('#expired-rate-card-warning').removeClass('hidden');
         }
 
+        var $submitBtnSelector = $(settings.submitButtonId);
         if (state.isNewContract && state.selectedCardId === null) {
-            $('#submit').addClass('disabled');
-            $('#submit').parent().popover();
+            $submitBtnSelector.addClass('disabled');
+            $submitBtnSelector.parent().popover();
         } else {
-            $('#submit').parent().popover('destroy');
+            $submitBtnSelector.parent().popover('destroy');
         }
 
         if (state.onlyCustomRateCard) {
             if (state.selectedCardId !== null) {
-                renderRateCardOption('Custom');
+                renderRateCardOption(settings.customRateCardName);
             }
         } else {
             rateCardsCaclulationEngine.init(cards);
@@ -55,10 +66,10 @@
      */
     function renderRateCardOption (option, items) {
         rateCardBlock.toggle(state.isNewContract);
-        if (option !== 'Custom' && state.selectedCardId !== 0) {
+        if (option !== settings.customRateCardName && state.selectedCardId !== 0) {
             setSelectedRateCard(option, items);
 
-            if (option === 'Deferral') {
+            if (option === settings.deferralRateCardName) {
                 var deferralPeriod = $.grep(constants.customDeferralPeriods,
                     function (period) { return period.name === $('#LoanDeferralType').val(); })[0];
 
@@ -68,8 +79,8 @@
             }
         }
 
-        if (option === 'Custom' && state.selectedCardId === 0) {
-            setSelectedCustomRateCard();
+        if (option === settings.customRateCardName && state.selectedCardId === 0) {
+            customRateCardBlock.setSelectedCustomRateCard();
             rateCardBlock.highlightCardBySelector('#CustomLoanTerm');
         }
     }
@@ -96,28 +107,6 @@
             $('#' + option + 'CRate').text(state[option].CustomerRate + ' %');
             $('#' + option + 'YCostVal').text(state[option].DealerCost + ' %');
         }
-    }
-
-    /**
-     * populate custom rate cards with values
-     * @returns {void} 
-     */
-    function setSelectedCustomRateCard () {
-        var deferralPeriod = $.grep(constants.customDeferralPeriods, function (period) { return period.name === $('#LoanDeferralType').val(); })[0];
-
-        state['Custom'].LoanTerm = Number($('#LoanTerm').val());
-        state['Custom'].AmortizationTerm = Number($('#AmortizationTerm').val());
-        state['Custom'].DeferralPeriod = deferralPeriod === undefined ? 0 : deferralPeriod.val;
-        state['Custom'].CustomerRate = Number($('#CustomerRate').val());
-        state['Custom'].AdminFee = Number($('#AdminFee').val());
-        state['Custom'].DealerCost = Number($('#DealerCost').val());
-
-        $('#CustomLoanTerm').val(state['Custom'].LoanTerm);
-        $('#CustomAmortTerm').val(state['Custom'].AmortizationTerm);
-        $('#CustomDeferralPeriod').val(state['Custom'].DeferralPeriod);
-        $('#CustomCRate').val(state['Custom'].CustomerRate);
-        $('#CustomAFee').val(state['Custom'].AdminFee);
-        $('#CustomYCostVal').val(state['Custom'].DealerCost);
     }
 
     return {

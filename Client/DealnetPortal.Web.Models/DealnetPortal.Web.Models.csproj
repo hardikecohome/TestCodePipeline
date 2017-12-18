@@ -45,6 +45,7 @@
     <Compile Include="DriverLicenseViewModel.cs" />
     <Compile Include="Enumeration\AgreementType.cs" />
     <Compile Include="Enumeration\BusinessType.cs" />
+    <Compile Include="Enumeration\ContractProvince.cs" />
     <Compile Include="Enumeration\ContractState.cs" />
     <Compile Include="Enumeration\LoanDeferralType.cs" />
     <Compile Include="Enumeration\NumberOfPeople.cs" />

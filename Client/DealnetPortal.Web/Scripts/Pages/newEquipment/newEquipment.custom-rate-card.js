@@ -1,8 +1,7 @@
 ﻿module.exports('custom-rate-card', function (require) {
     var setters = require('value-setters');
     var state = require('state').state;
-
-    var validateOnSelect = require('validation').validateCustomCard;
+    var validation = require('validation');
 
     var settings = Object.freeze({
         customRateCardName: 'Custom',
@@ -31,6 +30,11 @@
         settings.disableInputsArr.forEach(function(field) { $('#' + field).prop('disabled', isDisable); });
     };
 
+    /**
+     * On form submit takes values from state and set them to inputs
+     * @param {any} event parent javascript event
+     * @param {string} option custom rate card name
+     */
     var submitCustomRateCard = function(event, option) {
 
         if ($(settings.amortLoanTermErrorId).is(':visible')) {
@@ -50,8 +54,34 @@
         $(settings.selectedRateCardId).val(0);
     };
 
+    /**
+     * populate custom rate cards with values
+     * @returns {void} 
+     */
+    var setSelectedCustomRateCard = function () {
+        var deferralPeriod = $.grep(constants.customDeferralPeriods, function (period) { return period.name === $(settings.loanDeferralTypeId).val(); })[0];
+
+        state[settings.customRateCardName].LoanTerm = Number($(settings.loanTermId).val());
+        state[settings.customRateCardName].AmortizationTerm = Number($(settings.amortizationTermId).val());
+        state[settings.customRateCardName].DeferralPeriod = deferralPeriod === undefined ? 0 : deferralPeriod.val;
+        state[settings.customRateCardName].CustomerRate = Number($(settings.customerRateId).val());
+        state[settings.customRateCardName].AdminFee = Number($(settings.adminFeeId).val());
+        state[settings.customRateCardName].DealerCost = Number($(settings.delaerCostId).val());
+
+        $(settings.customLoanTermId).val(state[settings.customRateCardName].LoanTerm);
+        $(settings.customAmortTermId).val(state[settings.customRateCardName].AmortizationTerm);
+        $(settings.customDeferralPeriodId).val(state[settings.customRateCardName].DeferralPeriod);
+        $(settings.customCustomerRateId).val(state[settings.customRateCardName].CustomerRate);
+        $(settings.customAdminFeeId).val(state[settings.customRateCardName].AdminFee);
+        $(settings.customYearCostId).val(state[settings.customRateCardName].DealerCost);
+    }
+
+    /**
+     * Check whether input field is valid or not, and disable submit button
+     * works for ['#CustomAmortTerm', '#CustomDeferralPeriod', '#CustomCRate', '#CustomYCostVal']
+     */
     function validateCustomRateCardOnInput() {
-        var submit = $(settings.submitButtonId);
+        var $submitBtnSelector = $(settings.submitButtonId);
         var selectedRateCard = $(settings.rateCardBlockId).find('div.checked').length > 0
             ? $(settings.rateCardBlockId).find('div.checked').find(settings.hiddenOptionId).text()
             : '';
@@ -59,15 +89,15 @@
             selectedRateCard = settings.customRateCardName;
         }
 
-        if (!validateOnSelect() && selectedRateCard === settings.customRateCardName) {
-            if (!submit.hasClass('disabled')) {
-                submit.addClass('disabled');
-                submit.parent().popover();
+        if (!validation.validateOnSelect() && selectedRateCard === settings.customRateCardName) {
+            if (!$submitBtnSelector.hasClass('disabled')) {
+                $submitBtnSelector.addClass('disabled');
+                $submitBtnSelector.parent().popover();
             }
         } else {
-            if (submit.hasClass('disabled') && selectedRateCard === settings.customRateCardName) {
-                submit.removeClass('disabled');
-                submit.parent().popover('destroy');
+            if ($submitBtnSelector.hasClass('disabled') && selectedRateCard === settings.customRateCardName) {
+                $submitBtnSelector.removeClass('disabled');
+                $submitBtnSelector.parent().popover('destroy');
             }
         }
         $(window).resize();
@@ -86,80 +116,16 @@
         $(settings.customAdminFeeId).on('change', setters.setAdminFee(settings.customRateCardName));
     }
 
-    function _initValidators() {
-        $(settings.customYearCostId).rules('add', {
-            required: true,
-            regex: /(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$/,
-            number: true,
-            min: 0,
-            messages: {
-                regex: translations.yourCostFormat,
-                required: function (ele) {
-                    if (!$(settings.customCustomerRateId).val())
-                        return translations.ThisFieldIsRequired;
-                    return translations.enterZero;
-                }
-            }
-        });
-
-        $(settings.customCustomerRateId).rules('add', {
-            required: true,
-            regex: /(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$/,
-            min: 0,
-            number: true,
-            messages: {
-                regex: translations.customerRateFormat,
-                required: function (ele) {
-                    if (!$(settings.customYearCostId).val())
-                        return translations.ThisFieldIsRequired;
-                    return translations.enterZero;
-                }
-            }
-        });
-
-        $(settings.customAdminFeeId).rules('add', {
-            regex: /(^[0]?|(^[1-9]\d{0,11}))([.,][0-9]{1,2})?$/,
-            number: true,
-            min: 0,
-            messages: {
-                regex: translations.adminFeeFormat
-            }
-        });
-
-        $(settings.amortizationTermId).rules('add', {
-            required: true,
-            regex: /^[1-9]\d{0,2}?$/,
-            min: 1,
-            max: 999,
-            messages: {
-                required: translations.ThisFieldIsRequired,
-                regex: translations.amortTermFormat,
-                max: translations.amortTermMax
-            }
-        });
-
-        $(settings.loanTermId).rules('add', {
-            required: true,
-            regex: /^[1-9]\d{0,2}?$/,
-            min: 1,
-            max: 999,
-            messages: {
-                required: translations.ThisFieldIsRequired,
-                regex: translations.loanTermFormat,
-                max: translations.loanTermMax
-            }
-        });
-    }
-
     var init = function() {
-        _initValidators();
+        validation.initValidators();
         _initHandlers();
     }
 
     return {
         init: init,
-        validateOnSelect: validateOnSelect,
+        validateOnSelect: validation.validateOnSelect,
         submitCustomRateCard: submitCustomRateCard, 
-        toggleDisableClassOnInputs: toggleDisableClassOnInputs
+        toggleDisableClassOnInputs: toggleDisableClassOnInputs,
+        setSelectedCustomRateCard: setSelectedCustomRateCard
     }
 })

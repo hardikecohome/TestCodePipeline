@@ -1,7 +1,7 @@
 ﻿module.exports('newEquipment.index',
     function (require) {
         var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
-        var recalculateAndRenderRentalValues = require('rate-cards').recalculateAndRenderRentalValues;
+        var recalculateAndRenderRentalValues = require('newEquipment.rental').recalculateAndRenderRentalValues;
         var submitRateCard = require('rate-cards').submitRateCard;
         var rateCardCalculationInit = require('rate-cards').init;
         var setters = require('value-setters');
@@ -36,6 +36,7 @@
             customRateCardId: '#custom-rate-card',
             rateCardBlockId: '#rateCardsBlock',
             rentalMonthlyPaymentId: '#rentalTMPayment',
+            isOnlyLoanAvailableId: '#IsOnlyLoanAvailable',
             applicationType: {
                 'loanApplication': '0',
                 'rentalApplicationHwt': '1',
@@ -43,7 +44,23 @@
             }
         });
 
+        /**
+          * Entry Point
+          * @param {number} id - contract id 
+          * @param {Object<>} cards - list of available rate cards for the dealer 
+          * @param {boolean} onlyCustomRateCard - flag indicates that we have only one card 
+          * @returns {void} 
+          */
         var init = function(id, cards, onlyCustomRateCard) {
+            var isOnlyLoan = $(settings.isOnlyLoanAvailableId).val().toLowerCase() === 'true';
+
+            if (isOnlyLoan) {
+                if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.loanApplication) {
+                    $(settings.agreementTypeId).val(settings.applicationType.loanApplication);
+                }
+                $(settings.agreementTypeId).attr('disabled', true);
+            }
+
             var agreementType = $(settings.agreementTypeId).find(":selected").val();
             state.agreementType = Number(agreementType);
             _initHandlers();

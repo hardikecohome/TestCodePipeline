@@ -3,8 +3,13 @@
     var state = require('state').state;
 
     var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
-    var recalculateAndRenderRentalValues = require('rate-cards').recalculateAndRenderRentalValues;
-    var recalculateRentalTaxAndPrice = require('rate-cards').recalculateRentalTaxAndPrice;
+    var recalculateAndRenderRentalValues = require('newEquipment.rental').recalculateAndRenderRentalValues;
+    var recalculateRentalTaxAndPrice = require('newEquipment.rental').recalculateRentalTaxAndPrice;
+
+    var settings = {
+        customRateCardName: 'Custom',
+        loanTermErrorId: '#amortLoanTermError'
+    };
 
     var setAgreement = function (e) {
         state.agreementType = Number(e.target.value);
@@ -29,7 +34,7 @@
         return function (e) {
             state[optionKey].LoanTerm = Globalize.parseNumber(e.target.value);
 
-            if (optionKey === 'Custom') {
+            if (optionKey === settings.customRateCardName) {
                 validateLoanAmortTerm();
             }
             recalculateValuesAndRender([{ name: optionKey }]);
@@ -40,7 +45,7 @@
         return function (e) {
             state[optionKey].AmortizationTerm = Globalize.parseNumber(e.target.value);
 
-            if (optionKey === 'Custom') {
+            if (optionKey === settings.customRateCardName) {
                 validateLoanAmortTerm();
             }
 
@@ -94,20 +99,22 @@
     };
 
     function validateLoanAmortTerm() {
-        var amortTerm = state['Custom'].AmortizationTerm;
-        var loanTerm = state['Custom'].LoanTerm;
+        var amortTerm = state[settings.customRateCardName].AmortizationTerm;
+        var loanTerm = state[settings.customRateCardName].LoanTerm;
         if (typeof amortTerm === 'number' && typeof loanTerm === 'number') {
+            var $errorSelector = $(settings.loanTermErrorId);
+
             if (loanTerm > amortTerm) {
-                if ($('#amortLoanTermError').is(':hidden')) {
-                    $('#amortLoanTermError').show();
-                    $('#amortLoanTermError').parent().find('input[type="text"]')
+                if ($errorSelector.is(':hidden')) {
+                    $errorSelector.show();
+                    $errorSelector.parent().find('input[type="text"]')
                         .addClass('input-validation-error')
                         .addClass('input-has-error');
                 }
             } else {
-                if ($('#amortLoanTermError').is(':visible')) {
-                    $('#amortLoanTermError').hide();
-                    $('#amortLoanTermError').parent().find('input[type="text"]')
+                if ($errorSelector.is(':visible')) {
+                    $errorSelector.hide();
+                    $errorSelector.parent().find('input[type="text"]')
                         .removeClass('input-validation-error')
                         .removeClass('input-has-error');
                 }
