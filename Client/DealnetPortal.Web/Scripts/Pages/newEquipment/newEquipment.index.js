@@ -14,6 +14,7 @@
         var rateCardBlock = require('rate-cards-ui');
         var state = require('state').state;
         var constants = require('state').constants;
+        var navigateToStep = require('navigateToStep');
 
         var settings = Object.freeze({
             customRateCardName: 'Custom',
@@ -58,6 +59,13 @@
             } else {
                 recalculateAndRenderRentalValues();
             }
+
+            $('#steps .step-item[data-warning="true"]').on('click', function () {
+                if ($(this).attr('href')) {
+                    navigateToStep($(this));
+                }
+                return false;
+            });
         };
 
         function _submitForm (event) {

@@ -3,6 +3,9 @@
     var createAction = require('redux').createAction;
     var readInitialStateFromFields = require('objectUtils').readInitialStateFromFields;
     var observe = require('redux').observe;
+
+    var assignDatepicker = require('datepicker').assignDatepicker;
+
     var improvments = [];
 
     return function (store) {
@@ -21,9 +24,6 @@
 
                 $(this).siblings('input.form-control').val(day).blur();
                 $(".div-datepicker").removeClass('opened');
-            },
-            onClose: function () {
-                onDateSelect($(this));
             }
         });
 

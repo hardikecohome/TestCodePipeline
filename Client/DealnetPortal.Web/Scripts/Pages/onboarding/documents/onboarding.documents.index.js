@@ -5,6 +5,7 @@
     };
     var setters = require('onboarding.documents.setters');
     var state = require('onboarding.state').state;
+    var assignDatepicker = require('datepicker').assignDatepicker;
 
     function _setInputHandlersForExistedLicense (licenseId) {
         $('#' + licenseId + '-license-number').on('change', setters.setLicenseRegistraionNumber(licenseId));

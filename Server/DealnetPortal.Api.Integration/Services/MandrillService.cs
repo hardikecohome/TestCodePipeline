@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using DealnetPortal.Api.Common.Constants;
+using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Models.Notification;
 using DealnetPortal.Domain;
 using DealnetPortal.Api.Models.Contract;

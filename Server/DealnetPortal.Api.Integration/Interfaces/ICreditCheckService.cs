@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
 
-namespace DealnetPortal.Api.Integration.Services
+namespace DealnetPortal.Api.Integration.Interfaces
 {
     public interface ICreditCheckService
     {

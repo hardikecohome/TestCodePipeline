@@ -6,12 +6,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.Practices.ObjectBuilder2;
-
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Integration.Services.Signature;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
@@ -20,21 +20,16 @@ using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
-using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
 using FormField = DealnetPortal.Api.Models.Signature.FormField;
 
 namespace DealnetPortal.Api.Integration.Services
 {
-    public class SignatureService : ISignatureService
+    public class DocumentService : IDocumentService
     {
         private readonly ISignatureEngine _signatureEngine;
-
         private readonly IPdfEngine _pdfEngine;
-
-        //private readonly IESignatureServiceAgent _signatureServiceAgent;
         private readonly IContractRepository _contractRepository;
-
         private readonly ILoggingService _loggingService;
         private readonly IFileRepository _fileRepository;
         private readonly IDealerRepository _dealerRepository;
@@ -43,7 +38,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IAspireStorageReader _aspireStorageReader;               
         private readonly IMailService _mailService;               
 
-        public SignatureService(
+        public DocumentService(
             ISignatureEngine signatureEngine, 
             IPdfEngine pdfEngine,
             IContractRepository contractRepository,
@@ -67,7 +62,7 @@ namespace DealnetPortal.Api.Integration.Services
             _aspireStorageReader = aspireStorageReader;            
         }
 
-        public async Task<Tuple<SignatureSummaryDTO, IList<Alert>>> ProcessContract(int contractId, string ownerUserId,
+        public async Task<Tuple<SignatureSummaryDTO, IList<Alert>>> StartSignatureProcess(int contractId, string ownerUserId,
             SignatureUser[] signatureUsers)
         {
             List<Alert> alerts = new List<Alert>();
@@ -83,14 +78,8 @@ namespace DealnetPortal.Api.Integration.Services
 
                     signatureUsers = PrepareSignatureUsers(contract, signatureUsers);
 
-                    var logRes = await _signatureEngine.ServiceLogin().ConfigureAwait(false);
                     _signatureEngine.TransactionId = contract.Details?.SignatureTransactionId;
-                    _signatureEngine.DocumentId = contract.Details?.SignatureDocumentId;
-
-                    if (logRes?.Any() == true)
-                    {
-                        alerts.AddRange(logRes);
-                    }
+                    _signatureEngine.DocumentId = contract.Details?.SignatureDocumentId;                    
 
                     var agrRes = SelectAgreementTemplate(contract, ownerUserId);
                     if (agrRes?.Item2?.Any() == true)
@@ -213,8 +202,7 @@ namespace DealnetPortal.Api.Integration.Services
                     else
                     {
                         // create draft agreement
-                        var createRes = await ProcessContract(contractId, ownerUserId, null).ConfigureAwait(false);
-                        //var docAlerts = await _signatureEngine.CreateDraftDocument(null);
+                        var createRes = await StartSignatureProcess(contractId, ownerUserId, null).ConfigureAwait(false);
                         isAvailable = true;
                         if (createRes?.Item2?.Any() == true)
                         {
@@ -240,7 +228,6 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError(errorMsg);
             }
             LogAlerts(alerts);
-
 
             return new Tuple<bool, IList<Alert>>(isAvailable, alerts);
         }
@@ -286,7 +273,25 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    return await GetContractAgreement(contractId, ownerUserId).ConfigureAwait(false);
+                    //try to get doc from eSignature
+                    if (string.IsNullOrEmpty(contract.Details?.SignatureTransactionId))
+                    {
+                        // create draft agreement
+                        var createRes = await StartSignatureProcess(contractId, ownerUserId, null).ConfigureAwait(false);
+                        if (createRes?.Item2?.Any() == true)
+                        {
+                            alerts.AddRange(createRes.Item2);
+                        }
+                    }
+                    if (alerts.All(a => a.Type != AlertType.Error))
+                    {
+                        var signedDoc = await GetSignedAgreement(contractId, ownerUserId).ConfigureAwait(false);
+                        document = signedDoc?.Item1;
+                        if (signedDoc?.Item2?.Any() == true)
+                        {
+                            alerts.AddRange(signedDoc.Item2);
+                        }
+                    }
                 }
             }
             else
@@ -299,10 +304,8 @@ namespace DealnetPortal.Api.Integration.Services
                     Header = "eSignature error",
                     Message = errorMsg
                 });
-
                 _loggingService.LogError(errorMsg);
             }
-
             LogAlerts(alerts);
 
             return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
@@ -320,14 +323,7 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 //check is agreement created
                 if (!string.IsNullOrEmpty(contract.Details.SignatureTransactionId))
-                {
-                    var logRes = await _signatureEngine.ServiceLogin().ConfigureAwait(false);
-                    if (logRes.Any(a => a.Type == AlertType.Error))
-                    {
-                        LogAlerts(alerts);
-                        return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
-                    }
-
+                {                    
                     _signatureEngine.TransactionId = contract.Details.SignatureTransactionId;
                     _signatureEngine.DocumentId = contract.Details.SignatureDocumentId;
                 }
@@ -366,11 +362,8 @@ namespace DealnetPortal.Api.Integration.Services
                     Header = "eSignature error",
                     Message = errorMsg
                 });
-
                 _loggingService.LogError(errorMsg);
             }
-
-            LogAlerts(alerts);
 
             return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
         }
@@ -442,67 +435,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             LogAlerts(alerts);
             return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
-        }
-
-        public async Task<Tuple<AgreementDocument, IList<Alert>>> GetContractAgreement(int contractId,
-            string ownerUserId)
-        {
-            List<Alert> alerts = new List<Alert>();
-            AgreementDocument document = null;
-
-            // Get contract
-            var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
-            if (contract != null)
-            {
-                //check is agreement created
-                if (!string.IsNullOrEmpty(contract.Details.SignatureTransactionId))
-                {
-                    var logRes = await _signatureEngine.ServiceLogin().ConfigureAwait(false);
-                    if (logRes.Any(a => a.Type == AlertType.Error))
-                    {
-                        LogAlerts(alerts);
-                        return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
-                    }
-
-                    _signatureEngine.TransactionId = contract.Details.SignatureTransactionId;
-                    _signatureEngine.DocumentId = contract.Details.SignatureDocumentId;
-                }
-                else
-                {
-                    // create draft agreement
-                    var createRes = await ProcessContract(contractId, ownerUserId, null).ConfigureAwait(false);
-                    //var docAlerts = await _signatureEngine.CreateDraftDocument(null);
-                    if (createRes?.Item2?.Any() == true)
-                    {
-                        alerts.AddRange(createRes.Item2);
-                    }
-                }
-
-                var docResult = await _signatureEngine.GetDocument().ConfigureAwait(false);
-                document = docResult.Item1;
-
-                ReformatTempalteNameWithId(document, contract.Details?.TransactionId);
-
-                if (docResult.Item2.Any())
-                {
-                    alerts.AddRange(docResult.Item2);
-                }
-            }
-            else
-            {
-                var errorMsg = $"Can't get contract [{contractId}] for processing";
-                alerts.Add(new Alert()
-                {
-                    Code = ErrorCodes.CantGetContractFromDb,
-                    Type = AlertType.Error,
-                    Header = "eSignature error",
-                    Message = errorMsg
-                });
-                _loggingService.LogError(errorMsg);
-            }
-            LogAlerts(alerts);
-            return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
-        }
+        }        
 
         public async Task<IList<Alert>> SyncSignatureStatus(int contractId, string ownerUserId)
         {
@@ -518,7 +451,6 @@ namespace DealnetPortal.Api.Integration.Services
                         var sUsers = PrepareSignatureUsers(contract, null);
                         UpdateSignersInfo(contract.Id, contract.DealerId, sUsers);
                     }
-                    await _signatureEngine.ServiceLogin().ConfigureAwait(false);
                     await UpdateContractStatus(contractId, ownerUserId);
                 }
                 catch (Exception e)
@@ -545,18 +477,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             LogAlerts(alerts);
             return alerts;
-        }
-
-        public SignatureStatus GetSignatureStatus(int contractId, string ownerUserId)
-        {
-            SignatureStatus status = SignatureStatus.NotInitiated;
-            var contract = _contractRepository.GetContractAsUntracked(contractId, ownerUserId);
-            if (contract != null)
-            {
-                status = contract.Details.SignatureStatus ?? SignatureStatus.NotInitiated;
-            }
-            return status;
-        }
+        }        
 
         public async Task<Tuple<SignatureSummaryDTO, IList<Alert>>> CancelSignatureProcess(int contractId, string ownerUserId)
         {
@@ -567,12 +488,9 @@ namespace DealnetPortal.Api.Integration.Services
             var contract = _contractRepository.GetContract(contractId, ownerUserId);
             if (contract != null)
             {
-                _loggingService.LogInfo($"Started cancelling eSignature for contract [{contractId}]");
-                    
-                var logRes = await _signatureEngine.ServiceLogin();
+                _loggingService.LogInfo($"Started cancelling eSignature for contract [{contractId}]");                    
                 _signatureEngine.TransactionId = contract.Details?.SignatureTransactionId;
                 _signatureEngine.DocumentId = contract.Details?.SignatureDocumentId;
-                alerts.AddRange(logRes);
 
                 if (alerts.All(a => a.Type != AlertType.Error))
                 {
@@ -635,10 +553,8 @@ namespace DealnetPortal.Api.Integration.Services
                 var contract = _contractRepository.GetContract(contractId, ownerUserId);
                 if (!string.IsNullOrEmpty(contract?.Details?.SignatureTransactionId) && signatureUsers?.Any() == true)
                 {
-                    var logRes = await _signatureEngine.ServiceLogin().ConfigureAwait(false);
                     _signatureEngine.TransactionId = contract.Details?.SignatureTransactionId;
                     _signatureEngine.DocumentId = contract.Details?.SignatureDocumentId;
-                    alerts.AddRange(logRes);
 
                     signatureUsers = PrepareSignatureUsers(contract, signatureUsers);
                     UpdateSignersInfo(contractId, ownerUserId, signatureUsers, true);
@@ -958,7 +874,6 @@ namespace DealnetPortal.Api.Integration.Services
             return updated;
         }
 
-
         private async Task<bool> TransferSignedContractAgreement(Contract contract)
         {
             bool updated = false;
@@ -1032,7 +947,6 @@ namespace DealnetPortal.Api.Integration.Services
 
             return fields;
         }
-
 
         private Tuple<AgreementTemplate, IList<Alert>> SelectAgreementTemplate(Contract contract,
             string contractOwnerId)
@@ -1115,23 +1029,8 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     agreementTemplate =
                         dealerTemplates.FirstOrDefault(at => (agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication));
-                }
-                
-            }
-            //else
-            //{
-            //    //otherwise select any common template
-            //    var commonTemplates =
-            //        _fileRepository.FindAgreementTemplates(
-            //            at => string.IsNullOrEmpty(at.DealerId) && string.IsNullOrEmpty(at.ExternalDealerName) &&
-            //                  (!at.DocumentTypeId.HasValue ||
-            //                   at.DocumentTypeId == (int) DocumentTemplateType.SignedContract));
-            //    if (commonTemplates?.Any() ?? false)
-            //    {
-            //        agreementTemplate =
-            //            commonTemplates.FirstOrDefault(at => at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(contract.Equipment.AgreementType));                   
-            //    }
-            //}
+                }                
+            }            
 
             if (agreementTemplate == null)
             {
@@ -1193,12 +1092,6 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return new Tuple<AgreementTemplate, IList<Alert>>(agreementTemplate, alerts);
-        }
-
-        private bool LogoutFromService()
-        {
-            return true;
-            //return _signatureServiceAgent.Logout().GetAwaiter().GetResult();
         }
 
         private void FillHomeOwnerFields(List<FormField> formFields, IList<FormField> templateFields, Contract contract)
@@ -1539,7 +1432,6 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = addApplicant.VerificationIdName
                     });
                 }
-
 
                 formFields.Add(new FormField()
                 {

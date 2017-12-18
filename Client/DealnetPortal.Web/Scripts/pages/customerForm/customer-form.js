@@ -20,6 +20,9 @@
 
     var log = require('logMiddleware');
 
+    var dynamicAlertModal = require('alertModal').dynamicAlertModal;
+    var panelCollapsed = require('panelCollapsed');
+
     var requiredFields = ['name', 'lastName', 'birthday', 'street', 'province', 'postalCode', 'email', 'creditAgreement', 'contactAgreement', 'ownership', 'captchaCode'];
     var requiredPFields = ['birthday', 'pstreet', 'pprovince', 'ppostalCode'];
 
@@ -238,6 +241,20 @@
             initInstallationAddress(customerFormStore);
             initContactInfo(customerFormStore);
             initAgreement(customerFormStore);
+
+            $('.j-personal-data-used-modal').on('click', function (e) {
+                var data = {
+                    message: $('#personal-data-used').html(),
+                    class: "consents-modal",
+                    cancelBtnText: "OK"
+                };
+                dynamicAlertModal(data);
+                e.preventDefault();
+            });
+
+            $('.customer-loan-form-panel .panel-heading').on('click', function () {
+                panelCollapsed($(this))
+            });
 
             var form = $('#mainForm');
             form.submit(function (e) {

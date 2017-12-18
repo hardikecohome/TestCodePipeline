@@ -95,7 +95,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
         public async Task<IList<ClientsInformationViewModel>> GetCreatedContractsAsync()
         {
-            var contracts = await _contractServiceAgent.GetCreatedContracts();
+            var contracts = await _mortgageBrokerServiceAgent.GetCreatedContracts();
             var contractsVms = Mapper.Map<IList<ClientsInformationViewModel>>(contracts);
 
             return contractsVms

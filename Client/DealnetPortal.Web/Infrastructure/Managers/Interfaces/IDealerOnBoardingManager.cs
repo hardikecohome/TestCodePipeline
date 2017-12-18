@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Web.Models;
 using DealnetPortal.Web.Models.Dealer;
+using DealnetPortal.Web.Models;
 
 namespace DealnetPortal.Web.Infrastructure.Managers.Interfaces
 {
@@ -15,5 +15,6 @@ namespace DealnetPortal.Web.Infrastructure.Managers.Interfaces
         Task<SaveAndResumeViewModel> SubmitOnBoarding(DealerOnboardingViewModel model);
         Task<DocumentResponseViewModel> UploadOnboardingDocument(OnboardingDocumentForUpload fileModel);
         Task<DocumentResponseViewModel> DeleteOnboardingDocument(OnboardingDocumentForDelete fileModel);
+        Task<DealerOnboardingDictionariesViewModel> GetDictionariesData();
     }
 }

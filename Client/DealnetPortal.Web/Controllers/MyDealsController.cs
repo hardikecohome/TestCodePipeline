@@ -58,7 +58,8 @@ namespace DealnetPortal.Web.Controllers
 
             var contract = await _contractManager.GetContractEditAsync(id);
             ViewBag.IsNotEditable = contract.BasicInfo.ContractState == ContractState.Closed || contract.BasicInfo.ContractState == ContractState.CreditCheckDeclined;
-            ViewBag.IsEsignatureEnabled = (dealer?.EsignatureEnabled ?? false) && !ViewBag.IsNotEditable;
+            ViewBag.IsEsignatureEnabled = (dealer?.EsignatureEnabled ?? false) && !ViewBag.IsNotEditable || 
+                contract.ESignature?.Status == SignatureStatus.Completed;
             if (!string.IsNullOrEmpty(dealer?.Email))
             {
                 contract.SendEmails.SalesRepEmail = dealer.Email;

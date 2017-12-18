@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using DealnetPortal.Api.Integration.SMSSubscriptionManagement;
 
-namespace DealnetPortal.Api.Integration.Services
+namespace DealnetPortal.Api.Integration.Interfaces
 {
     public interface ISmsSubscriptionService
     {

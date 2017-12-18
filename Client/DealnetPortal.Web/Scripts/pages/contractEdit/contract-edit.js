@@ -1,5 +1,10 @@
-﻿configInitialized
+﻿var showLoader, hideLoader;
+
+configInitialized
     .then(function () {
+        showLoader = module.require('loader').showLoader;
+        hideLoader = module.require('loader').hideLoader;
+
         togglePrintButton(checkUrl);
 
         $('.contract-tab').on('click', function (e) {
@@ -11,7 +16,7 @@
         $('#print-signed-button').on('click', printContract(downloadSignedUrl));
 
         $('.date-input').each(function (index, input) {
-            assignDatepicker(input,
+            module.require('datepicker').assignDatepicker(input,
                 {
                     yearRange: '1900:2200',
                     minDate: ($(input).hasClass('exlude-min-date')) ? new Date("1900-01-01") : new Date()
@@ -283,7 +288,8 @@ function auditConfirmModal () {
         title: translations['FinalCheck'],
         confirmBtnText: translations['Proceed']
     };
-    dynamicAlertModal(data);
+
+    module.require('alertModal').dynamicAlertModal(data);
     $('#confirmAlert').on('click', function () {
         submitAllDocumentsUploaded();
 
@@ -301,9 +307,9 @@ function submitAllDocumentsUploaded () {
                 $('#all-documents-submitted-message').show();
                 $('.disablable').addClass('disabled');
                 $('button.disabled, input.disabled').attr('disabled', 'disabled');
-				$('.dealnet-section-edit-link').hide();
-				$('.add-applicant-link').hide();
-				$('#esignature-link').addClass('disabled');
+                $('.dealnet-section-edit-link').hide();
+                $('.add-applicant-link').hide();
+                $('#esignature-link').addClass('disabled');
                 isSentToAudit = true;
             } else if (result.isError) {
                 alert(translations['AnErrorWhileSendingReport']);
@@ -313,7 +319,7 @@ function submitAllDocumentsUploaded () {
         },
         complete: function (xhr) {
             hideLoader();
-            hideDynamicAlertModal();
+            module.require('alertModal').hideDynamicAlertModal();
         }
     });
 }
@@ -346,7 +352,7 @@ function addReplyFrom () {
         commentForm.attr("id", "");
         commentForm.appendTo(currComment);
         commentForm.find('textarea').text('');
-        resetPlacehoder(commentForm.find('textarea'));
+        module.require('resetPlaceholder')(commentForm.find('textarea'));
         commentForm.find('.reply-button').on('click', function () {
             var form = $(this).parent().closest('form');
             submitComment(form, addChildComment);
