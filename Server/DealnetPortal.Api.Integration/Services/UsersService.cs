@@ -55,7 +55,7 @@ namespace DealnetPortal.Api.Integration.Services
             var aspireUserInfo = AutoMapper.Mapper.Map<DealerDTO>(_aspireStorageReader.GetDealerRoleInfo(user.UserName));
             if (aspireUserInfo != null)
             {
-                var dealerProvinceCode = aspireUserInfo.Locations.FirstOrDefault(x => x.AddressType == AddressType.MainAddress)?.State.ToProvinceCode();
+                var dealerProvinceCode = aspireUserInfo.Locations?.FirstOrDefault(x => x.AddressType == AddressType.MainAddress)?.State?.ToProvinceCode();
                 claims.Add(new Claim(ClaimNames.QuebecDealer, (dealerProvinceCode != null && dealerProvinceCode == "QC").ToString()));
             }
 
