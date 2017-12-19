@@ -379,7 +379,7 @@ else
             <div class="form-group">
                 @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus)
                 <div class="control-group">
-                    @Html.EnumDropDownListFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus, new { @class = "form-control dealnet-input", id = "ho-employment-status", data_bind = "value: homeOwner.employment.status" })
+                    @Html.EnumDropDownListFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus, new { @class = "form-control dealnet-input", id = "ho-employment-status", data_bind = "value: homeOwner.employment.status, enable: showEmployment" })
                     @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus, "", new { @class = "text-danger" })
                 </div>
             </div>
