@@ -7,7 +7,7 @@
         var setters = require('value-setters');
         var equipment = require('equipment');
         var rateCardsInit = require('rate-cards-init');
-        var validateOnSelect = require('custom-rate-card').validateOnSelect;
+        var validateCustomCard = require('custom-rate-card').validateCustomCard;
         var customRateCardInit = require('custom-rate-card').init;
         var submitCustomRateCard = require('custom-rate-card').submitCustomRateCard;
         var toggleDisableClassOnInputs = require('custom-rate-card').toggleDisableClassOnInputs;
@@ -95,7 +95,7 @@
                 Globalize.parseNumber($('#' + option + 'TMPayments').text().replace('$', '').trim()) :
                 Globalize.parseNumber($(settings.rentalMonthlyPaymentId).text());
 
-            if (rateCard.length === 0 && !state.onlyCustomRateCard) {
+            if (rateCard.length === 0 && !state.onlyCustomRateCard && agreementType === settings.applicationType.loanApplication) {
                 event.preventDefault();
                 return;
             }
@@ -106,12 +106,14 @@
                 return;
             }
 
-            if (option === settings.customRateCardName) {
-                submitCustomRateCard(event, option);
-            } else {
-                $(settings.customRateCardId).clearErrors();
-                _toggleCustomRateCard();
-                submitRateCard(option);
+            if (agreementType === settings.applicationType.loanApplication) {
+                if (option === settings.customRateCardName) {
+                    submitCustomRateCard(event, option);
+                } else {
+                    $(settings.customRateCardId).clearErrors();
+                    _toggleCustomRateCard();
+                    submitRateCard(option);
+                }
             }
 
             $(settings.formId).submit();
@@ -130,7 +132,7 @@
             }
 
             if (option === settings.customRateCardName) {
-                var isValid = validateOnSelect.call(this);
+                var isValid = validateCustomCard.call(this);
 
                 if (isValid) {
                     rateCardBlock.hide();

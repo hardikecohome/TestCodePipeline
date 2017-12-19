@@ -1,6 +1,7 @@
 ﻿module.exports('custom-rate-card', function (require) {
     var setters = require('value-setters');
     var state = require('state').state;
+    var constants = require('state').constants;
     var validation = require('validation');
 
     var settings = Object.freeze({
@@ -89,7 +90,7 @@
             selectedRateCard = settings.customRateCardName;
         }
 
-        if (!validation.validateOnSelect() && selectedRateCard === settings.customRateCardName) {
+        if (!validation.validateCustomCard() && selectedRateCard === settings.customRateCardName) {
             if (!$submitBtnSelector.hasClass('disabled')) {
                 $submitBtnSelector.addClass('disabled');
                 $submitBtnSelector.parent().popover();
@@ -123,7 +124,7 @@
 
     return {
         init: init,
-        validateOnSelect: validation.validateOnSelect,
+        validateCustomCard: validation.validateCustomCard,
         submitCustomRateCard: submitCustomRateCard, 
         toggleDisableClassOnInputs: toggleDisableClassOnInputs,
         setSelectedCustomRateCard: setSelectedCustomRateCard
