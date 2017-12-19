@@ -454,8 +454,9 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             var alerts = new List<Alert>();
 
             EnvelopesApi envelopesApi = new EnvelopesApi();
-            bool recreateEnvelope = false;
+            bool recreateEnvelope = string.IsNullOrEmpty(TransactionId);
             bool recreateRecipients = false;
+
 
             if (!string.IsNullOrEmpty(TransactionId))
             {
@@ -485,16 +486,6 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     recreateEnvelope = true;
                 }
 
-                if (!recreateEnvelope && !recreateRecipients)
-                {
-                    alerts.Add(new Alert()
-                    {
-                        Type = AlertType.Warning,
-                        Header = "eSignature Warning",
-                        Message = "Agreement has been sent for signature already"
-                    });
-                }
-
                 if (!recreateEnvelope)
                 {
                     try
@@ -515,34 +506,34 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         });
                     }
                 }
-
-                if (recreateEnvelope)
-                {
-                    if (_signers?.Any() != true && _copyViewers?.Any() != true)
-                    {
-                        var tempSignatures = new List<SignatureUser>
-                        {
-                            new SignatureUser()
-                            {
-                                Role = SignatureRole.Signer
-                            }
-                        };
-                        InsertSignatures(tempSignatures).GetAwaiter().GetResult();
-                        _envelopeDefinition = PrepareEnvelope("created");
-                    }
-                    else
-                    {
-                        _envelopeDefinition = PrepareEnvelope();
-                    }
-
-                    var envAlerts = SubmitEnvelope(_envelopeDefinition);
-                    if (envAlerts.Any())
-                    {
-                        alerts.AddRange(envAlerts);
-                    }
-                }
             }
 
+            if (recreateEnvelope)
+            {
+                if (_signers?.Any() != true && _copyViewers?.Any() != true)
+                {
+                    var tempSignatures = new List<SignatureUser>
+                    {
+                        new SignatureUser()
+                        {
+                            Role = SignatureRole.Signer
+                        }
+                    };
+                    InsertSignatures(tempSignatures).GetAwaiter().GetResult();
+                    _envelopeDefinition = PrepareEnvelope("created");
+                }
+                else
+                {
+                    _envelopeDefinition = PrepareEnvelope();
+                }
+
+                var envAlerts = SubmitEnvelope(_envelopeDefinition);
+                if (envAlerts.Any())
+                {
+                    alerts.AddRange(envAlerts);
+                }
+            }
+            
             return alerts;
         }
 

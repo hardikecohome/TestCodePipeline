@@ -20,6 +20,7 @@ using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
 using Microsoft.Practices.ObjectBuilder2;
 using DealnetPortal.Api.Models.Contract.EquipmentInformation;
+using DealnetPortal.Domain.Repositories;
 
 namespace DealnetPortal.Api.Integration.Services
 {

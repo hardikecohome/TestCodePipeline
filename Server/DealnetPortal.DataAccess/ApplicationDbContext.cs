@@ -26,7 +26,7 @@ namespace DealnetPortal.DataAccess
         public virtual DbSet<Contract> Contracts { get; set; }
 
         public virtual DbSet<Customer> Customers { get; set; }
-
+        public virtual DbSet<EmploymentInfo> EmploymentInfoes { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
 
         public virtual DbSet<Phone> Phones { get; set; }
@@ -83,7 +83,6 @@ namespace DealnetPortal.DataAccess
         public virtual DbSet<AdditionalDocument> AdditionalDocuments { get; set; }
         public virtual DbSet<LicenseType> LicenseTypes { get; set; }
         public virtual DbSet<LicenseDocument> LicenseDocuments { get; set; }
-
         public virtual DbSet<ContractSigner> ContractSigners { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
+using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;

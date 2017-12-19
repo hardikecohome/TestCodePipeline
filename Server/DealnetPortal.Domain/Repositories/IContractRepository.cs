@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Models;
-using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.Domain;
 
-namespace DealnetPortal.DataAccess.Repositories
+namespace DealnetPortal.Domain.Repositories
 {
     /// <summary>
     /// An interface for Contracts repository in DB
@@ -184,8 +181,6 @@ namespace DealnetPortal.DataAccess.Repositories
 
         //TODO: add db table field?
         decimal GetContractTotalMonthlyPayment(int contractId);
-
-        PaymentSummary GetContractPaymentsSummary(int contractId, string contractOwnerId);
 
         Comment TryAddComment(Comment comment, string contractOwnerId);
 

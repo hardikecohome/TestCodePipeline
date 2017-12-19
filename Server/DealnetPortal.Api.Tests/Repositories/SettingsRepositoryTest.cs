@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.DataAccess.Repositories;
+using DealnetPortal.Domain.Repositories;
 
 namespace DealnetPortal.Api.Tests.Repositories
 {
