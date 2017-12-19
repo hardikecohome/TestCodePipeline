@@ -99,6 +99,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProvinceTaxRate.cs" />
     <Compile Include="RateCard.cs" />
+    <Compile Include="Repositories\IApplicationRepository.cs" />
+    <Compile Include="Repositories\IContractRepository.cs" />
+    <Compile Include="Repositories\ICustomerFormRepository.cs" />
+    <Compile Include="Repositories\IDealerOnboardingRepository.cs" />
+    <Compile Include="Repositories\IDealerRepository.cs" />
+    <Compile Include="Repositories\IFileRepository.cs" />
+    <Compile Include="Repositories\ILicenseDocumentRepository.cs" />
+    <Compile Include="Repositories\IRateCardsRepository.cs" />
+    <Compile Include="Repositories\ISettingsRepository.cs" />
     <Compile Include="SettingItem.cs" />
     <Compile Include="SettingValue.cs" />
     <Compile Include="Tier.cs" />
@@ -114,6 +123,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

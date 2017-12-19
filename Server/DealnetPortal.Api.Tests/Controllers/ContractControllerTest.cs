@@ -34,9 +34,8 @@ namespace DealnetPortal.Api.Tests.Controllers
         private Mock<IDocumentService> _signatureServiceMock;
         private Mock<ICustomerWalletService> _customerWalletServiceMock;
 
-        public ContractControllerTest(Mock<ICustomerWalletService> customerWalletServiceMock)
-        {
-            _customerWalletServiceMock = customerWalletServiceMock;
+        public ContractControllerTest()
+        {            
         }
 
         [TestInitialize]
@@ -49,6 +48,7 @@ namespace DealnetPortal.Api.Tests.Controllers
             _rateCardsServiceMock = new Mock<IRateCardsService>();
             _loggingServiceMock = new Mock<ILoggingService>();
             _signatureServiceMock = new Mock<IDocumentService>();
+            _customerWalletServiceMock = new Mock<ICustomerWalletService>();
 
             _contractController = new ContractController(_loggingServiceMock.Object, _contractServiceMock.Object, _customerFormServiceMock.Object, _rateCardsServiceMock.Object,
                 _signatureServiceMock.Object, _creditCheckServiceMock.Object, _customerWalletServiceMock.Object);

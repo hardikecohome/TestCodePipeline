@@ -2,6 +2,7 @@
 using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.DataAccess.Repositories;
+using DealnetPortal.Domain.Repositories;
 
 namespace DealnetPortal.Api.Integration.Services
 {

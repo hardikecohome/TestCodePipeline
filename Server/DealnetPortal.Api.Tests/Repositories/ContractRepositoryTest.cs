@@ -8,6 +8,7 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
+using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Configuration;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
