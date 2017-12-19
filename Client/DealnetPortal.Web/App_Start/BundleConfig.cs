@@ -40,6 +40,7 @@ namespace DealnetPortal.Web
                     "~/Scripts/vendor/jquery.loader.js",
                     "~/Scripts/vendor/jquery.jcarousel.min.js",
                     "~/Scripts/vendor/jquery.touchSwipe.min.js",
+                    "~/Scripts/vendor/js.cookie.js",
                     "~/Scripts/utils/modules/index.js",
                     "~/Scripts/utils/helpPopup.js",
                     "~/Scripts/utils/alertModal.js",
@@ -47,6 +48,7 @@ namespace DealnetPortal.Web
                     "~/Scripts/utils/modal.js",
                     "~/Scripts/utils/scrollPosition.js",
                     "~/Scripts/utils/myDeals.counter.js",
+                    "~/Scripts/utils/common.timezone.js",
                     "~/Scripts/utils/detectIE.js",
                     "~/Scripts/index.js"));
 
@@ -66,7 +68,6 @@ namespace DealnetPortal.Web
                 "~/Scripts/vendor/js.cookie.js",
                 "~/Scripts/vendor/chart.js",
                 "~/Scripts/vendor/jquery.form.js",
-                "~/Scripts/utils/common.timezone.js",
                 "~/Scripts/utils/loader.js",
                 "~/Scripts/utils/tables.js",
                 "~/Scripts/pages/homePage/home-page.js"));
@@ -134,7 +135,6 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/vendor/datejs.js")
                 .Include("~/Scripts/vendor/js.cookie.js")
                 .Include("~/Scripts/vendor/jquery.form.js")
-                .Include("~/Scripts/utils/common.timezone.js")
                 .Include("~/Scripts/utils/datepicker.js")
                 .Include("~/Scripts/utils/loader.js")
                 .Include("~/Scripts/utils/tables.js")
@@ -159,7 +159,6 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/print-contract.js")
                 .Include("~/Scripts/utils/general-address-autocomplete.js")
                 .Include("~/Scripts/utils/editable-in-modal.js")
-                .Include("~/Scripts/utils/common.timezone.js")
                 .Include("~/Scripts/utils/datepicker.js")
                 .Include("~/Scripts/utils/loader.js")
                 .Include("~/Scripts/utils/navigateToStep.js")

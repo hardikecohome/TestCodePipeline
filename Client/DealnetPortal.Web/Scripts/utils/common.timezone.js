@@ -1,10 +1,11 @@
-﻿module.exports('common.timezone', function () {
+﻿$(function () {
     var settings = {
         cookieName: "timezoneoffset"
     };
 
-    var createTimezoneCookie = function() {
+    createTimezoneCookie();
 
+    function createTimezoneCookie() {
         if (!Cookies.get(settings.cookieName)) {
             Cookies.set(settings.cookieName, new Date().getTimezoneOffset());
         } else {
@@ -15,8 +16,5 @@
                 Cookies.set(settings.cookieName, currentOffset);
             }
         }
-    };
-    return {
-        createTimezoneCookie: createTimezoneCookie
     };
 });
