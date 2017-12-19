@@ -85,7 +85,7 @@
         return function (e) {
             var planType = $.grep(constants.rateCards, function (c) { return c.name === e.target.value; })[0].name;
             state[optionKey].plan = planType;
-
+          
             var dropdownParentDiv = $('#' + optionKey + '-deferralDropdownWrapper');
 
             if (planType === 'Deferral' || planType === 'Custom') {
@@ -96,10 +96,16 @@
                 }
 
                 if (planType === 'Custom') {
+                    state[optionKey].LoanTerm = '';
+                    state[optionKey].AmortizationTerm = '';
+                    state[optionKey].CustomerRate = '';
+                    state[optionKey].DealerCost = '';
+
                     $('#' + optionKey + '-amortDropdown').closest('.row').addClass('hidden');
                     var defDropdown = $('#' + optionKey + '-deferralDropdown');
-                    if(defDropdown.find('option[value=0]').length === 0)
-                        defDropdown.prepend("<option value='0' selected='selected'>No Deferral</option>");
+                    defDropdown.empty();
+                    $('#deferralDropdownForCustomRc option').clone().appendTo('#' + optionKey + '-deferralDropdown');
+
                     $.grep(constants.inputsToHide,
                         function(field) {
                             $('#' + optionKey + field).addClass('hidden');
@@ -110,7 +116,8 @@
                             $('#' + optionKey + field).removeClass('hidden').attr('disabled', false);
                         });
                 } else {
-                    $('#' + optionKey + '-deferralDropdown option[value="0"]').remove();
+                    $('#' + optionKey + '-deferralDropdown').empty();
+                    $('#deferralDropdownForDeferralRc option').clone().appendTo('#' + optionKey + '-deferralDropdown');
                     //$('#' + optionKey + '-downPayment').val('');
                     $('#' + optionKey + '-customLoanTerm').val('');
                     $('#' + optionKey + '-customAmortTerm').val('');

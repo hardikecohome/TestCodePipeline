@@ -33,12 +33,12 @@
         }
     }
 
-    var renderTotalPrice = function (data) {
+    var renderTotalPrice = function (option, data) {
         var notNan = !Object.keys(data).map(_idToValue(data)).some(function (val) { return isNaN(val); });
         if (notNan) {
-            Object.keys(settings.totalPriceFields).map(function (key) { $('#' + key).text(formatNumber(data[settings.totalPriceFields[key]])); });
+            Object.keys(settings.totalPriceFields).map(function (key) { $('#' + option + key).text(formatNumber(data[settings.totalPriceFields[key]])); });
         } else {
-            Object.keys(settings.totalPriceFields).map(function (key) { $('#' + key).text('-'); });
+            Object.keys(settings.totalPriceFields).map(function (key) { $('#' + option + key).text('-'); });
         }
     };
 
@@ -84,7 +84,9 @@
             }
         });
 
-        var selectorName = dataObject.hasOwnProperty('standaloneOption') ? dataObject.standaloneOption : dataObject.rateCardPlan;
+        var isStandalone = dataObject.hasOwnProperty('standaloneOption');
+        var selectorName = isStandalone ? dataObject.standaloneOption : dataObject.rateCardPlan;
+
         var e = document.getElementById(selectorName + '-amortDropdown');
         if (e !== undefined) {
             var selected = e.selectedIndex !== -1 ? e.options[e.selectedIndex].value : '';
@@ -102,7 +104,7 @@
                 values.push($(i).attr('value'));
             });
 
-            if (values.indexOf(selected) !== -1) {
+            if (values.indexOf(selected) !== -1 && !isStandalone) {
                 e.value = selected;
                 $('#' + selectorName + '-amortDropdown option[value=' + selected + ']').attr("selected", selected);
             } else {

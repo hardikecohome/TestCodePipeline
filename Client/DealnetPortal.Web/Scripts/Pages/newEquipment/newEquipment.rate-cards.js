@@ -87,7 +87,7 @@ module.exports('rate-cards', function (require) {
 
         var eSumData = rateCardsCalculator.calculateTotalPrice(state.equipments, state.downPayment, state.tax);
 
-        rateCardsRenderEngine.renderTotalPrice(eSumData);
+        rateCardsRenderEngine.renderTotalPrice('', eSumData);
 
         var selectedRateCard = $('#rateCardsBlock').find('div.checked').length > 0
             ? $('#rateCardsBlock').find('div.checked').find('#hidden-option').text()
