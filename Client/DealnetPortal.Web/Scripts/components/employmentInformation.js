@@ -1,18 +1,16 @@
-module.exports('employmentInformationVM', function (require) {
+module.exports('employmentInformation', function (require) {
     var addressInformation = require('addressInformation');
-    return function employmentInformationVM (info) {
-        return {
-            status: ko.observable(info.EmploymentStatus || ''),
-            incomeType: ko.observable(info.IncomType || ''),
-            annualSalary: ko.observable(info.AnnualSalary || ''),
-            hourlyRate: ko.observable(info.HourlyRate || ''),
-            yearsOfEmploy: ko.observable(info.YearsOfEmployment || ''),
-            monthsOfEmploy: ko.observable(info.MonthsOfEmploy || ''),
-            type: ko.observable(info.EmploymentType || ''),
-            jobTitle: ko.observable(info.JobTitle || ''),
-            companyName: ko.observable(info.CompanyName || ''),
-            companyPhone: ko.observable(info.CompanyPhone || ''),
-            address: ko.observable(addressInformation(info.CompanyAddress))
-        };
+    return function EmploymentInformationVM (info) {
+        this.status = ko.observable(info.EmploymentStatus || '');
+        this.incomeType = ko.observable(info.IncomType || '');
+        this.annualSalary = ko.observable(info.AnnualSalary || '');
+        this.hourlyRate = ko.observable(info.HourlyRate || '');
+        this.yearsOfEmploy = ko.observable(info.YearsOfEmployment || '');
+        this.monthsOfEmploy = ko.observable(info.MonthsOfEmploy || '');
+        this.type = ko.observable(info.EmploymentType || '');
+        this.jobTitle = ko.observable(info.JobTitle || '');
+        this.companyName = ko.observable(info.CompanyName || '');
+        this.companyPhone = ko.observable(info.CompanyPhone || '');
+        this.address = ko.observable(new addressInformation(info.CompanyAddress));
     };
 });

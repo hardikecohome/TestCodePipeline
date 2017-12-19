@@ -819,6 +819,7 @@
     <Content Include="Scripts\components\employmentInformation.js" />
     <Content Include="Scripts\index.js" />
     <Content Include="Scripts\pages\basicInfo\address-autocomplete.js" />
+    <Content Include="Scripts\pages\basicInfo\basicInfo.index.js" />
     <Content Include="Scripts\pages\reportContracts\index.js" />
     <Content Include="Scripts\utils\alertModal.js" />
     <Content Include="Scripts\utils\backToTop.js" />

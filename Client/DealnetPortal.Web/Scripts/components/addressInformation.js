@@ -19,5 +19,5 @@
         this.postalCode('');
     };
 
-    return addressInformation;
+    return AddressInformation;
 });

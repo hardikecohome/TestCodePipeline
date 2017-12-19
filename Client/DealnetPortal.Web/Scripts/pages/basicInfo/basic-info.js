@@ -30,14 +30,6 @@ configInitialized
             }
         });
 
-        var dob = module.require('dob-selecters');
-        $('.dob-group').each(function (index, el) {
-            dob.initDobGroup(el);
-        });
-
-        $('.dob-input').on('change', function () {
-            $(this).valid();
-        });
 
         $('#agreement-checkbox').change(function () {
             var isValid = checkCreditAgree();

@@ -269,13 +269,13 @@
         {
 <text>$('#subdealers').val($('#subdealers > option:first').val());</text>
 }
-        /**/
-        /**/
     </script>
     <script type="text/javascript">
     $(document).ready(function () {
         /**/
         /**/
+        module.require('basicInfo.index').init(@Html.Raw(Json.Encode(Model)));
+
         ga('send', 'event', 'New Application Start', 'Basic Info page Displayed', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString()) ? "Dealer" : "Broker") : @User.Identity.Name');
     /**/
     /**/

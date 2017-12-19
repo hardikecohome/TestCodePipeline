@@ -81,6 +81,8 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/loader.js")
                 .Include("~/Scripts/utils/navigateToStep.js")
                 .Include("~/Scripts/utils/scrollPageTo.js")
+                .Include("~/Scripts/components/addressInformation.js")
+                .Include("~/Scripts/components/employmentInformation.js")
                 .IncludeDirectory("~/Scripts/pages/basicInfo", "*.js", true));
 
             bundles.Add(new ScriptBundle("~/bundles/credit-check")
