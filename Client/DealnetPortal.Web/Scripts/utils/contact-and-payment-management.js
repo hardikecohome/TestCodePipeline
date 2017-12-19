@@ -51,7 +51,7 @@
 
         if (!isAllPaymentInfoAvailable) {
             $paymentTypeSelector.val(settings.paymentTypes.PAP);
-            $paymentTypeSelector.attr('disabled', true);
+            $paymentTypeSelector.attr('readonly', true);
         }
 
         $paymentTypeSelector.change(function () {
@@ -70,7 +70,6 @@
             if (!$('form').valid()) {
                 e.preventDefault();
             }
-
         });
     });
 
