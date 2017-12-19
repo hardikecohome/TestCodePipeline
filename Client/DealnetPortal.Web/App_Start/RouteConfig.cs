@@ -15,31 +15,23 @@ namespace DealnetPortal.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-           // routes.MapRoute(
-           //    name: "",
-           //    url: "CustomerForm/{action}/{contractId}/{hashDealerName}",
-           //    defaults: new { controller = "CustomerForm", action = "Index" }
-           //);
+            // routes.MapRoute(
+            //    name: "",
+            //    url: "CustomerForm/{action}/{contractId}/{hashDealerName}",
+            //    defaults: new { controller = "CustomerForm", action = "Index" }
+            //);
+            routes.MapRoute(
+                name: "CustomerFormWithCulture",
+                url: "{culture}/CustomerForm/{hashDealerName}",
+                defaults: new { controller = "CustomerForm", action = "Index" },
+                constraints: new { culture = @"en|fr" }
+            );
 
             routes.MapRoute(
                name: "CustomerFormDefault",
                url: "CustomerForm/{hashDealerName}",
                defaults: new {culture = "en",  controller = "CustomerForm", action = "Index" }
            );
-
-            routes.MapRoute(
-               name: "CustomerFormWithCulture",
-               url: "{culture}/CustomerForm/{hashDealerName}",
-               defaults: new { controller = "CustomerForm", action = "Index" },
-               constraints: new { culture = @"en|fr" }
-           );
-
-            routes.MapRoute(
-                name: "OnboardingDefault",
-                url: "Dealer/{action}/{key}",
-                defaults: new {  controller = "Dealer"}
-            );
-
             routes.MapRoute(
                 name: "OnboardingWithCulture",
                 url: "{culture}/Dealer/{action}/{key}",
@@ -47,19 +39,25 @@ namespace DealnetPortal.Web
                 constraints: new { culture = @"en|fr" }
             );
 
+            routes.MapRoute(
+                name: "OnboardingDefault",
+                url: "Dealer/{action}/{key}",
+                defaults: new { culture="en",  controller = "Dealer"}
+            );
+
+            routes.MapRoute(
+              name: "NewApplicationWithCulture",
+              url: "{culture}/NewApplication/{action}/{contractId}",
+              defaults: new { controller = "NewRental", contractId = UrlParameter.Optional },
+              constraints: new { culture = @"en|fr" }
+          );
 
             routes.MapRoute(
                name: "NewApplicationDefault",
                url: "NewApplication/{action}/{contractId}",
-               defaults: new {  controller = "NewRental", contractId = UrlParameter.Optional }
+               defaults: new { culture = "en", controller = "NewRental", contractId = UrlParameter.Optional }
            );
-
-            routes.MapRoute(
-               name: "NewApplicationWithCulture",
-               url: "{culture}/NewApplication/{action}/{contractId}",
-               defaults: new { controller = "NewRental", contractId = UrlParameter.Optional },
-               constraints: new { culture = @"en|fr" }
-           );
+           
 
             routes.MapRoute(
                name: "",
