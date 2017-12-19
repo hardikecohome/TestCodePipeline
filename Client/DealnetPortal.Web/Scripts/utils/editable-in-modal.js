@@ -43,13 +43,13 @@ function submitChanges (url, mainform) {
         type: "POST",
         url: url,
         success: function (json) {
-            hideLoader();
+            module.require('loader').hideLoader();
             if (json.isError) {
                 alert(translations['ErrorWhileUpdatingData']);
             }
         },
         error: function (xhr, status, p3) {
-            hideLoader();
+            module.require('loader').hideLoader();
             alert(xhr.responseText);
         }
     });

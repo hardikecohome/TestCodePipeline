@@ -115,8 +115,8 @@ namespace DealnetPortal.Api.Providers
             ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
                 CookieAuthenticationDefaults.AuthenticationType);
 
-            var claims = _usersService.GetUserClaims(user.Id);            
-
+            var claims = _usersService.GetUserClaims(user);            
+            
             if (claims?.Any() ?? false)
             {
                 oAuthIdentity.AddClaims(claims);
@@ -222,7 +222,7 @@ namespace DealnetPortal.Api.Providers
                 {
                     outAlerts.AddRange(alerts);
                 }
-
+                
                 if (alerts?.All(a => a.Type != AlertType.Error) ?? false)
                 {                    
                     var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();

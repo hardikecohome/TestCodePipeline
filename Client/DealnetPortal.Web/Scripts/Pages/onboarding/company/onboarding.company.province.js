@@ -28,10 +28,10 @@ module.exports('onboarding.company.province', function (require) {
             $(document).trigger('provinceRemoved');
             _rebuildIndex(substrIndex);
         }
-    };
+    }
 
     function _rebuildIndex(id) {
-        while (true) {
+        for(;;) {
             id++;
             var li = $('li#province-' + id + '-index');
             if (!li.length) { break; }
@@ -59,7 +59,7 @@ module.exports('onboarding.company.province', function (require) {
         $result.find('.icon-remove').attr('id', province);
 
         return $result;
-    };
+    }
 
     return {
         add: add,

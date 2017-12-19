@@ -2547,4 +2547,10 @@ changing contract terms or signing contract on paper.</value>
   <data name="CompanyPhoneMustBeLong" xml:space="preserve">
     <value>Company Phone must be a string with a length of 10</value>
   </data>
+  <data name="AllOtherProvinces" xml:space="preserve">
+    <value>All other provinces</value>
+  </data>
+  <data name="Quebec" xml:space="preserve">
+    <value>Quebec</value>
+  </data>
 </root>

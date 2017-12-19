@@ -17,7 +17,7 @@
     <div class="equal-height-row-2">
       <div class="form-group notify-hold">
         <label>@Resources.LoanAmortTerm</label>
-        @Html.DropDownList(Model + "Amortization", amortizationSelectList, new { @class = "form-control", id = Model + "AmortizationDropdown" })
+        @Html.DropDownList(Model + "Amortization", amortizationSelectList, new { @class = "form-control", id = Model + "-amortDropdown" })
         @if (ViewBag.totalAmountFinancedFor180amortTerm == 3999)
 		{
 			<a class="link-over-notify" id="DeferralNotify"

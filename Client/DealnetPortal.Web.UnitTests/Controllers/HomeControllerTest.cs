@@ -11,6 +11,7 @@ using DealnetPortal.Web.Common.Culture;
 using DealnetPortal.Web.Controllers;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Managers;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.ServiceAgent;
 using Moq;
 

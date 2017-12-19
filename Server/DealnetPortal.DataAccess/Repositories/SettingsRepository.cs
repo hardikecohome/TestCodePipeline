@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Domain;
+using DealnetPortal.Domain.Repositories;
 
 namespace DealnetPortal.DataAccess.Repositories
 {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Infrastructure.Managers;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(DealnetPortal.Web.App_Start.ApplicationSettingsActivator), "Start", Order = 1)]
 

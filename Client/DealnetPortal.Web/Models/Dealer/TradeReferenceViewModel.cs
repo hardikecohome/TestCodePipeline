@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Infrastructure.Attributes;
 
 namespace DealnetPortal.Web.Models.Dealer
 {

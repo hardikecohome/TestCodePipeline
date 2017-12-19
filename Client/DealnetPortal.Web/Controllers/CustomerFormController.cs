@@ -20,13 +20,14 @@ namespace DealnetPortal.Web.Controllers
             _dictionaryServiceAgent = dictionaryServiceAgent;
             _customerFormManager = customerFormManager;
         }
-
+        
         public async Task<ActionResult> Index(string hashDealerName, string culture)
         {
             if (hashDealerName == null || culture == null)
             {
                 return RedirectToAction("AnonymousError", "Info");
             }
+
             var languageOptions = await _dictionaryServiceAgent.GetCustomerLinkLanguageOptions(hashDealerName, culture);
             if (languageOptions == null || !languageOptions.IsLanguageEnabled)
             {

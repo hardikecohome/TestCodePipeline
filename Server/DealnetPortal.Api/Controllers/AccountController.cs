@@ -22,6 +22,7 @@ using DealnetPortal.Api.Providers;
 using DealnetPortal.Api.Results;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
+using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 

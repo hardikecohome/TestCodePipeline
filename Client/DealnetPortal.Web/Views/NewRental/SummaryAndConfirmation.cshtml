@@ -61,7 +61,7 @@
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(m => m.BasicInfo.ContractId)
                     @Html.HiddenFor(m => m.BasicInfo.HomeOwner.CustomerId)
-                    @Html.HiddenFor(m => m.BasicInfo.SubmittingDealerId)
+                    @Html.HiddenFor(m => m.ContactAndPaymentInfo.IsAllPaymentTypesAvailable, new {id= "payment-info-available" })
                     @Html.HiddenFor(m => m.RateCardValid)
                     if (Model.BasicInfo.SubDealers?.Any() ?? false)
                     {
