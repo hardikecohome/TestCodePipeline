@@ -46,6 +46,7 @@ namespace DealnetPortal.Web
                     "~/Scripts/utils/alertModal.js",
                     "~/Scripts/utils/fields.js",
                     "~/Scripts/utils/modals.js",
+                    "~/Scripts/utils/common.langSwitcher.js",
                     "~/Scripts/utils/scrollPosition.js",
                     "~/Scripts/utils/myDeals.counter.js",
                     "~/Scripts/utils/common.timezone.js",

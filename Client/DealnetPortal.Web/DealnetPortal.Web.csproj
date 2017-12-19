@@ -826,6 +826,7 @@
     <Content Include="Scripts\utils\alertModal.js" />
     <Content Include="Scripts\utils\backToTop.js" />
     <Content Include="Scripts\utils\clearAddress.js" />
+    <Content Include="Scripts\utils\common.langSwitcher.js" />
     <Content Include="Scripts\utils\datepicker.js" />
     <Content Include="Scripts\utils\detectIE.js" />
     <Content Include="Scripts\utils\fields.js" />
