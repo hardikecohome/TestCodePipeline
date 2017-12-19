@@ -14,7 +14,8 @@ namespace DealnetPortal.Web
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").NonOrdering()
                 .Include(
                 "~/Scripts/vendor/jquery.validate*",
-                "~/Scripts/vendor/jquery-validation-messages.js"));
+                "~/Scripts/vendor/jquery-validation-messages.js",
+                "~/Scripts/vendor/knockout.validation.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.

@@ -373,184 +373,188 @@ else
 <!--Home Owner Information-->
 <!--Borrower Employment Information-->
 <div id="employment-info" data-bind="visible: showEmployment">
-    <h2 class="dealnet-middle-header address-info-label no-margin-top">@Resources.BorrowerEmploymentInformation</h2>
-    <div class="row">
-        <div class="col-md-2 col-sm-6">
-            <div class="form-group">
-                @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus)
-                <div class="control-group">
-                    @Html.EnumDropDownListFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus, new { @class = "form-control dealnet-input", id = "ho-employment-status", data_bind = "value: homeOwner.employment.status, enable: showEmployment" })
-                    @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus, "", new { @class = "text-danger" })
+    <div data-bind="with: homeOwner.employment">
+        <h2 class="dealnet-middle-header address-info-label no-margin-top">@Resources.BorrowerEmploymentInformation</h2>
+        <div class="row">
+            <div class="col-md-2 col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus)
+                    <div class="control-group">
+                        @Html.EnumDropDownListFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus, new { @class = "form-control dealnet-input", id = "ho-employment-status", data_bind = "value: status, enable: $parent.showEmployment" })
+                        @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus, "", new { @class = "text-danger", data_bind = "validationMessage: status" })
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-2 col-sm-6">
-            <div class="form-group">
-                @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.IncomeType)
-                <div class="control-group">
-                    @Html.EnumDropDownListFor(m => m.HomeOwner.EmploymentInformation.IncomeType, new { @class = "form-control dealnet-input", id = "ho-employment-income-type", data_bind = "value: homeOwner.employment.incomeType" })
-                    @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.IncomeType, "", new { @class = "text-danger" })
+            <div class="col-md-2 col-sm-6" data-bind="visible: isEmployed">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.IncomeType)
+                    <div class="control-group">
+                        @Html.EnumDropDownListFor(m => m.HomeOwner.EmploymentInformation.IncomeType, new { @class = "form-control dealnet-input", id = "ho-employment-income-type", data_bind = "value: incomeType" })
+                        @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.IncomeType, "", new { @class = "text-danger", data_bind = "validationMessage: incomeType" })
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-2 col-sm-12">
-            <div class="form-group">
-                @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary)
-                <div class="control-group">
-                    <select class="form-control dealnet-input" @Html.NameFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary) data-bind="value:homeOwner.employment.annualSalary">
-                        <option value="<20000" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == "<20000" ? "selected" : "")>@Resources.LessThan $20,0000</option>
-                        @for(var i = 20000; i < 200000; i += 5000)
+            <div class="col-md-2 col-sm-12" data-bind="visible: showAnnualSalary">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary)
+                    <div class="control-group">
+                        <select class="form-control dealnet-input" @Html.NameFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary) data-bind="value: annualSalary">
+                            <option value="<20000" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == "<20000" ? "selected" : "")>@Resources.LessThan $20,0000</option>
+                            @for(var i = 20000; i < 200000; i += 5000)
                         {
                             var val = $"{i}-{i + 5000}";
                             <option value="@val" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == val ? "selected" : "")>$@i - $@(i + 5000)</option>
-                        }
-                        <option value="200000" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == "200000" ? "selected" : "")>$200000+</option>
-                    </select>
-                    @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary, "", new { @class = "text-danger" })
+                    }
+                            <option value="200000" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == "200000" ? "selected" : "")>$200000+</option>
+                        </select>
+                        @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary, "", new { @class = "text-danger", data_bind = "validationMessage: annualSalary" })
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-2 col-sm-12">
-            <div class="form-group">
-                @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.HourlyRate)
-                <div class="control-group">
-                    <select class="form-control dealnet-input" @Html.NameFor(m => m.HomeOwner.EmploymentInformation.HourlyRate) data-bind="value:homeOwner.employment.hourlyRate">
-                        <option value="<10" @(Model.HomeOwner?.EmploymentInformation?.HourlyRate == "<10" ? "selected" : "")>@Resources.LessThan $10</option>
-                        @for(var i = 10; i < 80; i += 5)
+            <div class="col-md-2 col-sm-12" data-bind="visible: showHourlyRate">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.HourlyRate)
+                    <div class="control-group">
+                        <select class="form-control dealnet-input" @Html.NameFor(m => m.HomeOwner.EmploymentInformation.HourlyRate) data-bind="value: hourlyRate">
+                            <option value="<10" @(Model.HomeOwner?.EmploymentInformation?.HourlyRate == "<10" ? "selected" : "")>@Resources.LessThan $10</option>
+                            @for(var i = 10; i < 80; i += 5)
                         {
                             var val = $"{i}-{i + 5}";
                             <option value="@val" @(Model.HomeOwner?.EmploymentInformation?.HourlyRate == val ? "selected" : "")>$@i - $@(i + 5)</option>
-                        }
-                        <option value="80+" @(Model.HomeOwner?.EmploymentInformation?.HourlyRate == "80+" ? "selected" : "")>$80+</option>
-                    </select>
-                    @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.HourlyRate, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div class="col-md-2 col-sm-12">
-            <div class="form-group">
-                <label>@Resources.LengthOfEmployment</label>
-                <div class="row control-group">
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                        @Html.EnumDropDownListFor(m => m.HomeOwner.EmploymentInformation.YearsOfEmployment, new { @class = "form-control dealnet-input", data_bind = "value:homeOwner.employment.yearsOfEmploy" })
-                        @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.YearsOfEmployment, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                        @Html.EnumDropDownListFor(m => m.HomeOwner.EmploymentInformation.MonthsOfEmployment, new { @class = "form-control dealnet-input", data_bind = "value: homeOwner.employment.monthsOfEmploy" })
-                        @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.MonthsOfEmployment, "", new { @class = "text-danger" })
+                    }
+                            <option value="80+" @(Model.HomeOwner?.EmploymentInformation?.HourlyRate == "80+" ? "selected" : "")>$80+</option>
+                        </select>
+                        @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.HourlyRate, "", new { @class = "text-danger", data_bind = "validationMessage: hourlyRate" })
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-2 col-sm-6">
-            <div class="form-group">
-                @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.EmploymentType)
-                <div class="control-group">
-                    @Html.EnumDropDownListFor(m => m.HomeOwner.EmploymentInformation.EmploymentType, new { @class = "form-control dealnet-input", data_bind = "value: homeOwner.employment.type" })
-                    @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.EmploymentType)
+            <div class="col-md-2 col-sm-12" data-bind="visible: isEmployedOrSelfEmployed">
+                <div class="form-group">
+                    <label>@Resources.LengthOfEmployment</label>
+                    <div class="row control-group">
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            @Html.EnumDropDownListFor(m => m.HomeOwner.EmploymentInformation.YearsOfEmployment, new { @class = "form-control dealnet-input", data_bind = "value: yearsOfEmploy" })
+                            @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.YearsOfEmployment, "", new { @class = "text-danger", data_bind = "validationMessage: yearsOfEmploy" })
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            @Html.EnumDropDownListFor(m => m.HomeOwner.EmploymentInformation.MonthsOfEmployment, new { @class = "form-control dealnet-input", data_bind = "value: monthsOfEmploy" })
+                            @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.MonthsOfEmployment, "", new { @class = "text-danger", data_bind = "validationMessage: monthsOfEmploy" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-6" data-bind="visible: isEmployed">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.EmploymentType)
+                    <div class="control-group">
+                        @Html.EnumDropDownListFor(m => m.HomeOwner.EmploymentInformation.EmploymentType, new { @class = "form-control dealnet-input", data_bind = "value: type" })
+                        @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.EmploymentType, "", new { @class = "text-danger", data_bind = "validationMessage: employmentType" })
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.JobTitle)
-                <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.JobTitle, new { @class = "form-control dealnet-input", data_bind = "homeOwner.employment.jobTitle" })
-                    @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.JobTitle, "", new { @class = "text-danger" })
+        <div class="row" data-bind="visible: isEmployedOrSelfEmployed">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.JobTitle)
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.JobTitle, new { @class = "form-control dealnet-input", data_bind = "jobTitle" })
+                        @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.JobTitle, "", new { @class = "text-danger", data_bind = "validationMessage: jobTitle" })
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.CompanyName)
-                <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyName, new { @class = "form-control dealnet-input", data_bind = "homeOwner.employment.companyName" })
-                    @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.CompanyName, "", new { @class = "text-danger" })
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.CompanyName)
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyName, new { @class = "form-control dealnet-input", data_bind = "companyName" })
+                        @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.CompanyName, "", new { @class = "text-danger", data_bind = "validationMessage: companyName" })
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.CompanyPhone)
-                <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyPhone, new { @class = "form-control dealnet-input", data_bind = "homeOwner.employment.companyPhone" })
-                    @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.CompanyPhone, "", new { @class = "text-danger" })
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.CompanyPhone)
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyPhone, new { @class = "form-control dealnet-input", data_bind = "companyPhone" })
+                        @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.CompanyPhone, "", new { @class = "text-danger", data_bind = "validationMessage:companyPhone" })
+                    </div>
                 </div>
-            </div>
 
-        </div>
-    </div>
-    <h3 class="dealnet-middle-header-2">@Resources.CompanyAddress</h3>
-    <div data-bind="with: homeOwner.employment.address">
-        <div class="row address-info1">
-            <div class="col-md-6 col-lg-6">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.Address.Street)
-                    <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.Address.Street, new { @class = "form-control dealnet-input", data_bind = "value: street", placeholder = Resources.StreetPlaceholder, id = "ho-employment-street" })
-                        @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.Address.Street, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-lg-2">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.Address.UnitNumber)
-                    <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.Address.UnitNumber, new { @class = "form-control dealnet-input", data_bind = "value:unit", type = "text", placeholder = "12345", id = "ho-employment-unit" })
-                        @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.Address.UnitNumber, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-lg-4">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.Address.City)
-                    <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.Address.City, new { @class = "form-control dealnet-input", data_bind = "value: city", placeholder = Resources.Ottawa, id = "ho-employment-city" })
-                        @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.Address.City, "", new { @class = "text-danger" })
-                    </div>
-                </div>
             </div>
         </div>
+        <div data-bind="visible: isEmployedOrSelfEmployed">
+            <h3 class="dealnet-middle-header-2">@Resources.CompanyAddress</h3>
+            <div data-bind="with: address">
+                <div class="row address-info1">
+                    <div class="col-md-6 col-lg-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.Street)
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.Street, new { @class = "form-control dealnet-input", data_bind = "value: street", placeholder = Resources.StreetPlaceholder, id = "ho-employment-street" })
+                                @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.Street, "", new { @class = "text-danger", data_bind="validationMessage: street" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-lg-2">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.UnitNumber)
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.UnitNumber, new { @class = "form-control dealnet-input", data_bind = "value:unit", type = "text", placeholder = "12345", id = "ho-employment-unit" })
+                                @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.UnitNumber, "", new { @class = "text-danger", data_bind="validationMessage: unit" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.City)
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.City, new { @class = "form-control dealnet-input", data_bind = "value: city", placeholder = Resources.Ottawa, id = "ho-employment-city" })
+                                @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.City, "", new { @class = "text-danger", data_bind="validationMessage: city" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="row address-info2">
-            <div class="col-md-4 col-lg-4">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.Address.Province)
-                    <div class="control-group">
-                        @Html.DropDownListFor(m => m.HomeOwner.EmploymentInformation.Address.Province, (Model.ProvinceTaxRates).Select(x => new SelectListItem
-                        {
-                            Value = x.Province,
-                            Text = x.Province,
-                            Selected = Model.HomeOwner?.EmploymentInformation?.Address?.Province == x.Province
-                        }), "", new { @class = "form-control dealnet-input", data_bind = "value:province", id = "ho-employment-province" })
-                        @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.Address.Province, "", new { @class = "text-danger" })
+                <div class="row address-info2">
+                    <div class="col-md-4 col-lg-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.Province)
+                            <div class="control-group">
+                                @Html.DropDownListFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.Province, (Model.ProvinceTaxRates).Select(x => new SelectListItem
+                            {
+                                Value = x.Province,
+                                Text = x.Province,
+                                Selected = Model.HomeOwner?.EmploymentInformation?.CompanyAddress?.Province == x.Province
+                            }), "", new { @class = "form-control dealnet-input", data_bind = "value:province", id = "ho-employment-province" })
+                                @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.Province, "", new { @class = "text-danger", data_bind="validationMessage: province" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.PostalCode)
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.PostalCode, new { @class = "form-control dealnet-input", data_bind = "textInput: postalCode", placeholder = "12345", id = "ho-employment-postalCode" })
+                                @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.PostalCode, "", new { @class = "text-danger", data_bind="validationMessage: postalCode"})
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <a href="#" class="dealnet-disabled-text clear-address" data-bind="click: clearAddress">
+                            <svg aria-hidden="true" class="icon icon-remove">
+                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
+                            </svg>
+                            <span>@Resources.ClearAddress</span>
+                        </a>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 col-lg-4">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.Address.PostalCode)
-                    <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.Address.PostalCode, new { @class = "form-control dealnet-input", data_bind = "textInput: postalCode", placeholder = "12345", id = "ho-employment-postalCode" })
-                        @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.Address.PostalCode, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-lg-4">
-                <a href="#" class="dealnet-disabled-text clear-address" data-bind="click: clearAddress">
-                    <svg aria-hidden="true" class="icon icon-remove">
-                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
-                    </svg>
-                    <span>@Resources.ClearAddress</span>
-                </a>
             </div>
         </div>
     </div>
 </div>
-
 <!--End Employment Information-->
+
 <!--Agreement section-->
 <div class="consents-checkbox-hold" id="agreement-checkbox">
     <div class="dealnet-agrees form-group">

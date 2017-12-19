@@ -440,28 +440,28 @@
                 <div class="row address-info1">
                     <div class="col-md-6 col-lg-6">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.Address.Street)
+                            @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.Street)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.Address.Street, new { @class = "form-control dealnet-input", data_bind = "value: street", placeholder = Resources.StreetPlaceholder, id = "ho-employment-street" })
-                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.Address.Street, "", new { @class = "text-danger" })
+                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.Street, new { @class = "form-control dealnet-input", data_bind = "value: street", placeholder = Resources.StreetPlaceholder, id = "ho-employment-street" })
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.Street, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
                     <div class="col-md-2 col-lg-2">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.Address.UnitNumber)
+                            @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.UnitNumber)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.Address.UnitNumber, new { @class = "form-control dealnet-input", data_bind = "value:unit", type = "text", placeholder = "12345", id = "ho-employment-unit" })
-                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.Address.UnitNumber, "", new { @class = "text-danger" })
+                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.UnitNumber, new { @class = "form-control dealnet-input", data_bind = "value:unit", type = "text", placeholder = "12345", id = "ho-employment-unit" })
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.UnitNumber, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4 col-lg-4">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.Address.City)
+                            @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.City)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.Address.City, new { @class = "form-control dealnet-input", data_bind = "value: city", placeholder = Resources.Ottawa, id = "ho-employment-city" })
-                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.Address.City, "", new { @class = "text-danger" })
+                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.City, new { @class = "form-control dealnet-input", data_bind = "value: city", placeholder = Resources.Ottawa, id = "ho-employment-city" })
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.City, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -470,24 +470,24 @@
                 <div class="row address-info2">
                     <div class="col-md-4 col-lg-4">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.Address.Province)
+                            @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.Province)
                             <div class="control-group">
-                                @Html.DropDownListFor(m => m.AdditionalApplicants[i].EmploymentInformation.Address.Province, (Model.ProvinceTaxRates).Select(x => new SelectListItem
+                                @Html.DropDownListFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.Province, (Model.ProvinceTaxRates).Select(x => new SelectListItem
                                 {
                                     Value = x.Province,
                                     Text = x.Province,
-                                    Selected = Model.AdditionalApplicants[i]?.EmploymentInformation?.Address?.Province == x.Province
+                                    Selected = Model.AdditionalApplicants[i]?.EmploymentInformation?.CompanyAddress?.Province == x.Province
                                 }), "", new { @class = "form-control dealnet-input", data_bind = "value:province", id = "ho-employment-province" })
-                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.Address.Province, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.Province, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4 col-lg-4">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.Address.PostalCode)
+                            @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.PostalCode)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.Address.PostalCode, new { @class = "form-control dealnet-input", data_bind = "value: postalCode", placeholder = "12345", id = "ho-employment-postalCode" })
-                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.Address.PostalCode, "", new { @class = "text-danger" })
+                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.PostalCode, new { @class = "form-control dealnet-input", data_bind = "value: postalCode", placeholder = "12345", id = "ho-employment-postalCode" })
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.PostalCode, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>

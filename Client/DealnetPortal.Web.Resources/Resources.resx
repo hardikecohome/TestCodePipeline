@@ -2541,4 +2541,10 @@ changing contract terms or signing contract on paper.</value>
   <data name="Hourly" xml:space="preserve">
     <value>Hourly</value>
   </data>
+  <data name="CompanyPhoneIncorrectFormat" xml:space="preserve">
+    <value>Company Phone is in incorrect format</value>
+  </data>
+  <data name="CompanyPhoneMustBeLong" xml:space="preserve">
+    <value>Company Phone must be a string with a length of 10</value>
+  </data>
 </root>

@@ -1442,6 +1442,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Company Phone is in incorrect format.
+        /// </summary>
+        public static string CompanyPhoneIncorrectFormat {
+            get {
+                return ResourceManager.GetString("CompanyPhoneIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Company Phone must be a string with a length of 10.
+        /// </summary>
+        public static string CompanyPhoneMustBeLong {
+            get {
+                return ResourceManager.GetString("CompanyPhoneMustBeLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Company Phone Number.
         /// </summary>
         public static string CompanyPhoneNumber {
