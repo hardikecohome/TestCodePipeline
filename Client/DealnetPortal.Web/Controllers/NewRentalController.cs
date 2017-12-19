@@ -20,6 +20,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using DealnetPortal.Web.Common.Helpers;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType;
 
 namespace DealnetPortal.Web.Controllers
@@ -342,11 +343,8 @@ namespace DealnetPortal.Web.Controllers
                 ViewBag.totalAmountFinancedFor180amortTerm = 4999;
                 ViewBag.LoanOnly = false;
             }
-            var NoCustomerFee = System.Configuration.ConfigurationManager.AppSettings["NoCustomerFee"].Split(',').Select(a=> a.Trim()).ToList<string>();
-            //if (NoCustomerFee.Contains(await _dealerServiceAgent.UpdateDealerParent()))
-                ViewBag.AdminFee = 0;
-            //else
-            //    ViewBag.AdminFee = 49.99;
+
+            ViewBag.AdminFee = 0;
 
             return View(model);
         }

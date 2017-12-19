@@ -9,7 +9,7 @@ namespace DealnetPortal.Api.Integration.Interfaces
 {
     public interface IUsersService
     {
-        IList<Claim> GetUserClaims(string userId);
+        IList<Claim> GetUserClaims(ApplicationUser user);
         Task<IList<Alert>> SyncAspireUser(ApplicationUser user, UserManager<ApplicationUser> userManager);
 
         string GetUserPassword(string userId);

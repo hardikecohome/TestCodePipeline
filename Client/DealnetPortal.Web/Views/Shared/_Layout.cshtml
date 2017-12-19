@@ -2,6 +2,7 @@
 @using DealnetPortal.Web.Infrastructure
 @using DealnetPortal.Web.Models.Enumeration
 @using System.Security.Claims;
+@using DealnetPortal.Web.Infrastructure.Managers
 
 <!DOCTYPE html>
 <html lang="@(CultureHelper.CurrentCultureType == CultureType.English ? "en-CA" : "fr-CA")">
@@ -86,6 +87,8 @@
             themeClass = "theme-one-dealer";
             break;
     }
+
+    
 }
 
 <body class="@(User.Identity.IsAuthenticated ? "authorized" : "no-authorized") @themeClass">
@@ -113,7 +116,7 @@
                             <div class="contact-container">
                                 <div class="contact-btn contact-phone-container">
                                     <div class="contact-header">@Resources.HowCanWeHelp</div>
-                                    <div class="contact-phone">@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]</div>
+                                    <div class="contact-phone">@((bool) ((ClaimsPrincipal) User)?.HasClaim("QuebecDealer", "True") ? System.Configuration.ConfigurationManager.AppSettings["QuebecDealerSupportPhone"] : System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"])</div>
                                 </div>
                                 <div class="contact-btn credit-funding-contact">
                                     <span>

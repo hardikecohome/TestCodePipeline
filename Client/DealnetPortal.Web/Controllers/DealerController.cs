@@ -9,6 +9,7 @@ using DealnetPortal.Web.Models;
 using System.Reflection;
 using System.Collections;
 using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 
 namespace DealnetPortal.Web.Controllers
 {

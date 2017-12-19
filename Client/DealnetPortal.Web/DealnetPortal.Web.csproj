@@ -18,10 +18,13 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44322</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>44341</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -246,39 +249,36 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\ApplicationSettingsManager.cs" />
+    <Compile Include="Infrastructure\Managers\CustomerFormManager.cs" />
+    <Compile Include="Infrastructure\Managers\Interfaces\ICustomerFormManager.cs" />
+    <Compile Include="Infrastructure\Managers\ApplicationSettingsManager.cs" />
     <Compile Include="Infrastructure\Attributes\TimezoneAttribute.cs" />
-    <Compile Include="Infrastructure\AuthenticationHttpModule.cs" />
-    <Compile Include="Infrastructure\AuthFromContextAttribute.cs" />
-    <Compile Include="Infrastructure\ClaimsAuthorizationAttribute.cs" />
-    <Compile Include="Infrastructure\ClaimsProvider.cs" />
-    <Compile Include="Infrastructure\ContractManager.cs" />
-    <Compile Include="Infrastructure\CultureSetterManager.cs" />
-    <Compile Include="Infrastructure\CustomerFormManager.cs" />
-    <Compile Include="Infrastructure\CustomerManager.cs" />
-    <Compile Include="Infrastructure\DealerOnBoardingManager.cs" />
+    <Compile Include="Infrastructure\Attributes\AuthFromContextAttribute.cs" />
+    <Compile Include="Infrastructure\Managers\ContractManager.cs" />
+    <Compile Include="Infrastructure\Managers\CultureSetterManager.cs" />
+    <Compile Include="Infrastructure\Managers\CustomerManager.cs" />
+    <Compile Include="Infrastructure\Managers\DealerOnBoardingManager.cs" />
     <Compile Include="Infrastructure\Extensions\ModelStateErrorHandler.cs" />
     <Compile Include="Infrastructure\Extensions\MvcHelpersExtensions.cs" />
-    <Compile Include="Infrastructure\ICustomerFormManager.cs" />
-    <Compile Include="Infrastructure\ICustomerManager.cs" />
-    <Compile Include="Infrastructure\IDealerOnBoardingManager.cs" />
-    <Compile Include="Infrastructure\IProfileManager.cs" />
-    <Compile Include="Infrastructure\Managers\ISecurityManager.cs" />
-    <Compile Include="Infrastructure\Managers\ISettingsManager.cs" />
+    <Compile Include="Infrastructure\Managers\Interfaces\ICustomerManager.cs" />
+    <Compile Include="Infrastructure\Managers\Interfaces\IDealerOnBoardingManager.cs" />
+    <Compile Include="Infrastructure\Managers\Interfaces\IProfileManager.cs" />
+    <Compile Include="Infrastructure\Managers\Interfaces\ISecurityManager.cs" />
+    <Compile Include="Infrastructure\Managers\Interfaces\ISettingsManager.cs" />
     <Compile Include="Infrastructure\Managers\OwinSecurityManager.cs" />
     <Compile Include="Infrastructure\Managers\SecurityManager.cs" />
     <Compile Include="Infrastructure\Managers\SettingsManager.cs" />
-    <Compile Include="Infrastructure\MinListCountAttribute.cs" />
-    <Compile Include="Infrastructure\MinMaxListCountAttribute.cs" />
-    <Compile Include="Infrastructure\ProfileManager.cs" />
-    <Compile Include="Infrastructure\CustomRequiredAttribute.cs" />
+    <Compile Include="Infrastructure\Attributes\MinListCountAttribute.cs" />
+    <Compile Include="Infrastructure\Attributes\MinMaxListCountAttribute.cs" />
+    <Compile Include="Infrastructure\Managers\ProfileManager.cs" />
+    <Compile Include="Infrastructure\Attributes\CustomRequiredAttribute.cs" />
     <Compile Include="Infrastructure\DynamicLessHandler.cs" />
     <Compile Include="Infrastructure\Extensions\BundleExtentions.cs" />
     <Compile Include="Infrastructure\Extensions\RequestExtensions.cs" />
-    <Compile Include="Infrastructure\IContractManager.cs" />
+    <Compile Include="Infrastructure\Managers\Interfaces\IContractManager.cs" />
     <Compile Include="Infrastructure\LocalizedControllerActivator.cs" />
     <Compile Include="Infrastructure\ModelBinders\DateTimeBinder .cs" />
-    <Compile Include="Infrastructure\RequreSecureConnectionFilter .cs" />
+    <Compile Include="Infrastructure\RequreSecureConnectionFilter.cs" />
     <Compile Include="Infrastructure\ViewPageWithUserIdentity.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateEquipmentInfoViewModel.cs" />
@@ -815,10 +815,18 @@
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\index.js" />
     <Content Include="Scripts\pages\basicInfo\address-autocomplete.js" />
+    <Content Include="Scripts\pages\calculator\calculator.validation.js" />
+    <Content Include="Scripts\pages\newEquipment\newEquipment.management.js" />
+    <Content Include="Scripts\pages\newEquipment\newEquipment.rental.js" />
+    <Content Include="Scripts\pages\newEquipment\newEquipment.state.js" />
+    <Content Include="Scripts\pages\newEquipment\newEquipment.template.js" />
+    <Content Include="Scripts\pages\newEquipment\newEquipment.validation.js" />
+    <Content Include="Scripts\pages\newEquipment\newEquipment.value-setters.js" />
     <Content Include="Scripts\pages\reportContracts\index.js" />
     <Content Include="Scripts\utils\alertModal.js" />
     <Content Include="Scripts\utils\backToTop.js" />
     <Content Include="Scripts\utils\clearAddress.js" />
+    <Content Include="Scripts\utils\common.langSwitcher.js" />
     <Content Include="Scripts\utils\datepicker.js" />
     <Content Include="Scripts\utils\detectIE.js" />
     <Content Include="Scripts\utils\fields.js" />
@@ -830,14 +838,13 @@
     <Content Include="Scripts\pages\additionalContractInfo\contract-information.js" />
     <Content Include="Scripts\pages\agrementSubmitSuccess\agreement-submit-success.js" />
     <Content Include="Scripts\pages\basicInfo\basic-info.js" />
-    <Content Include="Scripts\pages\calculator\calculator-conversion.js" />
-    <Content Include="Scripts\pages\calculator\calculator-index.js" />
-    <Content Include="Scripts\pages\calculator\calculator-init.js" />
-    <Content Include="Scripts\pages\calculator\calculator-jcarousel.js" />
-    <Content Include="Scripts\pages\calculator\calculator-option.js" />
-    <Content Include="Scripts\pages\calculator\calculator-state.js" />
-    <Content Include="Scripts\pages\calculator\calculator-ui.js" />
-    <Content Include="Scripts\pages\calculator\calculator-value-setters.js" />
+    <Content Include="Scripts\pages\calculator\calculator.conversion.js" />
+    <Content Include="Scripts\pages\calculator\calculator.init.js" />
+    <Content Include="Scripts\pages\calculator\calculator.jcarousel.js" />
+    <Content Include="Scripts\pages\calculator\calculator.option.js" />
+    <Content Include="Scripts\pages\calculator\calculator.state.js" />
+    <Content Include="Scripts\pages\calculator\calculator.ui.js" />
+    <Content Include="Scripts\pages\calculator\calculator.value-setters.js" />
     <Content Include="Scripts\pages\Clients\actions\new-client-actions.js" />
     <Content Include="Scripts\pages\Clients\index.js" />
     <Content Include="Scripts\pages\Clients\new-client-autocomplete.js" />
@@ -874,16 +881,11 @@
     <Content Include="Scripts\pages\MyProfile\my-profile-state.js" />
     <Content Include="Scripts\pages\MyProfile\postalCode-handlers.js" />
     <Content Include="Scripts\pages\MyProfile\postalCode-template.js" />
-    <Content Include="Scripts\pages\newEquipment\custom-rate-card.js" />
-    <Content Include="Scripts\pages\newEquipment\equipment.js" />
-    <Content Include="Scripts\pages\newEquipment\index.js" />
-    <Content Include="Scripts\pages\newEquipment\rate-cards-init.js" />
-    <Content Include="Scripts\pages\newEquipment\rate-cards-ui.js" />
-    <Content Include="Scripts\pages\newEquipment\rate-cards.js" />
-    <Content Include="Scripts\pages\newEquipment\state.js" />
-    <Content Include="Scripts\pages\newEquipment\template.js" />
-    <Content Include="Scripts\pages\newEquipment\validation.js" />
-    <Content Include="Scripts\pages\newEquipment\value-setters.js" />
+    <Content Include="Scripts\pages\newEquipment\newEquipment.custom-rate-card.js" />
+    <Content Include="Scripts\pages\newEquipment\newEquipment.index.js" />
+    <Content Include="Scripts\pages\newEquipment\newEquipment.rate-cards.init.js" />
+    <Content Include="Scripts\pages\newEquipment\newEquipment.rate-cards.ui.js" />
+    <Content Include="Scripts\pages\newEquipment\newEquipment.rate-cards.js" />
     <Content Include="Scripts\pages\onboarding\acknowledgment\onboarding.ackonwledgment.index.js" />
     <Content Include="Scripts\pages\onboarding\acknowledgment\onboarding.ackonwledgment.owners.js" />
     <Content Include="Scripts\pages\onboarding\acknowledgment\onboarding.ackonwledgment.setters.js" />
@@ -924,6 +926,10 @@
     <Content Include="Scripts\utils\financial-functions.module.js" />
     <Content Include="Scripts\utils\functionUtils.js" />
     <Content Include="Scripts\utils\general-address-autocomplete.js" />
+    <Content Include="Scripts\utils\myDeals.counter.js" />
+    <Content Include="Scripts\utils\rateCards\rateCards.index.js" />
+    <Content Include="Scripts\utils\rateCards\rateCards.render.js" />
+    <Content Include="Scripts\utils\rateCards\rateCards.state.js" />
     <Content Include="Scripts\utils\modals.js" />
     <Content Include="Scripts\utils\navigateToStep.js" />
     <Content Include="Scripts\utils\panelCollapsed.js" />
@@ -1146,11 +1152,12 @@
     <Content Include="Views\MyDeals\_ContractSignatureStatus.cshtml" />
     <None Include="Scripts\vendor\jquery-3.1.0.intellisense.js" />
     <None Include="Scripts\vendor\jquery.validate-vsdoc.js" />
+    <Content Include="Views\Shared\AboutUs\_EcoHome.cshtml" />
+    <Content Include="Views\Shared\AboutUs\_Odi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
     <Folder Include="Content\themes\" />
-    <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

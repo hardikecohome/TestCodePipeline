@@ -10,6 +10,7 @@ using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Web.Common.Security;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.Models.Enumeration;
 using DealnetPortal.Web.ServiceAgent;
 
@@ -56,20 +57,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             {
                 try
                 {
-                    var claimsPrincipal = result.Item1 as ClaimsPrincipal;
-                    if (claimsPrincipal != null)
-                    {
-                        var roles =
-                            claimsPrincipal.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToArray();
-                        var rolesClaims = ClaimsProvider.GetClaimsFromRoles(roles);
-                        if (rolesClaims.Any())
-                        {
-                            (claimsPrincipal.Identity as ClaimsIdentity)?.AddClaims(rolesClaims);
-                        }
-                    }
-
                     SetUser(result.Item1);
-                    //_securityService.SetAuthorizationHeader(result.Item1);
                 }
                 catch (Exception ex)
                 {

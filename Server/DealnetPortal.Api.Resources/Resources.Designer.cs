@@ -835,6 +835,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Annual.
+        /// </summary>
+        public static string Annual {
+            get {
+                return ResourceManager.GetString("Annual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Application submitted.
         /// </summary>
         public static string ApplicationSubmitted {
@@ -1231,6 +1240,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Employed.
+        /// </summary>
+        public static string Employed {
+            get {
+                return ResourceManager.GetString("Employed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Equipment.
         /// </summary>
         public static string Equipment {
@@ -1348,6 +1366,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Full time.
+        /// </summary>
+        public static string FullTime {
+            get {
+                return ResourceManager.GetString("FullTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Furnace.
         /// </summary>
         public static string Furnace {
@@ -1443,6 +1470,15 @@ namespace DealnetPortal.Api.Resources {
         public static string HotTub {
             get {
                 return ResourceManager.GetString("HotTub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hourly rate.
+        /// </summary>
+        public static string HourlyRate {
+            get {
+                return ResourceManager.GetString("HourlyRate", resourceCulture);
             }
         }
         
@@ -1762,6 +1798,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Part time.
+        /// </summary>
+        public static string PartTime {
+            get {
+                return ResourceManager.GetString("PartTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Permanent Residency Card.
         /// </summary>
         public static string PermanentResidencyCard {
@@ -1897,11 +1942,29 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Retired.
+        /// </summary>
+        public static string Retired {
+            get {
+                return ResourceManager.GetString("Retired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Roofing.
         /// </summary>
         public static string Roofing {
             get {
                 return ResourceManager.GetString("Roofing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Salary/Income.
+        /// </summary>
+        public static string SalaryIncome {
+            get {
+                return ResourceManager.GetString("SalaryIncome", resourceCulture);
             }
         }
         
@@ -1929,6 +1992,15 @@ namespace DealnetPortal.Api.Resources {
         public static string SelectedTypeOfService {
             get {
                 return ResourceManager.GetString("SelectedTypeOfService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Self employed.
+        /// </summary>
+        public static string SelfEmployed {
+            get {
+                return ResourceManager.GetString("SelfEmployed", resourceCulture);
             }
         }
         
@@ -2136,6 +2208,15 @@ namespace DealnetPortal.Api.Resources {
         public static string TypeOfApplication {
             get {
                 return ResourceManager.GetString("TypeOfApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unemployed.
+        /// </summary>
+        public static string Unemployed {
+            get {
+                return ResourceManager.GetString("Unemployed", resourceCulture);
             }
         }
         

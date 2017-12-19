@@ -50,20 +50,20 @@
         $('#company-city').attr('placeholder', '');
     };
 
-    var _setLoadedData = function (company) {
+    var _setLoadedData = function(company) {
         var $provinceSelect = $('#province-select');
-        company.Provinces.forEach(function (item) {
+        company.Provinces.forEach(function(item) {
             add.call($provinceSelect, { target: { value: item } });
             $(document).trigger('provinceAdded');
         });
-        constants.companyRequiredFields.forEach(function (item) {
+        constants.companyRequiredFields.forEach(function(item) {
             if (item === 'work-provinces')
                 return;
             var $item = $('#' + item);
             if ($item.val())
                 $item.change();
         });
-    }
+    };
 
     return {
         initCompany: init,

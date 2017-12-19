@@ -7,9 +7,10 @@ using DealnetPortal.Aspire.Integration.Models;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Dealer;
+using DealnetPortal.Domain.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Address = DealnetPortal.Domain.Dealer.Address;
+using Address = DealnetPortal.Domain.Address;
 
 namespace DealnetPortal.Api.Tests.Repositories
 {

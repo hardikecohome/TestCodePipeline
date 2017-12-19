@@ -8,6 +8,7 @@ using System.Web;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Web.Common.Security;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.Models.Enumeration;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.AspNet.Identity;

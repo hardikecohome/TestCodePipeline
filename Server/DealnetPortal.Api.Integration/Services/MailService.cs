@@ -22,6 +22,7 @@ using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Utilities.Messaging;
 using DealnetPortal.Api.Models.Notification;
 using DealnetPortal.Api.Models.Notify;
+using DealnetPortal.Domain.Repositories;
 
 namespace DealnetPortal.Api.Integration.Services
 {

@@ -1,0 +1,43 @@
+﻿<div class="about-page">
+    <div class="page-section col-md-6">
+        <h2 class="dealnet-large-header">@Resources.FindUs</h2>
+        <div class="vcard">
+            <div class="hidden"><span class="fn org">One Dealer Financial</span></div>
+            <div class="adr">
+                <span class="street-address">325 Milner Ave #300</span><br />
+                <span class="locality">Toronto</span>, <span class="region">ON</span> <span class="postal-code">M1B 5N1</span>
+            </div>
+        </div>
+    </div>
+    <div class="page-section col-md-6">
+        <h2 class="dealnet-large-header">@Resources.FindUs</h2>
+        <div class="vcard">
+            <div class="hidden"><span class="fn org">One Dealer Financial</span></div>
+            <div class="adr">
+                <span class="street-address">425 Boul. De Maisonneuve O.</span> <br />
+                <span class="locality">Montreal</span>, <span class="region">QС</span> <br />
+                <span class="postal-code">H3A 3G5</span>
+            </div>
+        </div>
+    </div>
+    <div class="page-section col-md-6">
+        <h2 class="dealnet-large-header">@Resources.AllOtherProvinces</h2>
+        <ul class="contact-info-list">
+            <li class="contact-tel">
+                <a href="tel:+@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]" class="tel" rel="nofollow"><svg aria-hidden="true" class="icon icon-phone"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-phone")"></use></svg>@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]</a>
+            </li>
+            <li class="contact-tel"><svg aria-hidden="true" class="icon icon-fax"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-fax")"></use></svg>@System.Configuration.ConfigurationManager.AppSettings["DealerSupportFax"]</li>
+            <li class="contact-email"><a href="mailto:@System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]" class="dealnet-info-link"><svg aria-hidden="true" class="icon icon-email2"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-email2")"></use></svg><span>@System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]</span></a></li>
+        </ul>
+    </div>
+    <div class="page-section col-md-6">
+        <h2 class="dealnet-large-header">@Resources.Quebec </h2>
+        <ul class="contact-info-list">
+            <li class="contact-tel">
+                <a href="tel:+@System.Configuration.ConfigurationManager.AppSettings["QuebecDealerSupportPhone"]" class="tel" rel="nofollow"><svg aria-hidden="true" class="icon icon-phone"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-phone")"></use></svg>@System.Configuration.ConfigurationManager.AppSettings["QuebecDealerSupportPhone"]</a>
+            </li>
+            <li class="contact-tel"><svg aria-hidden="true" class="icon icon-fax"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-fax")"></use></svg>@System.Configuration.ConfigurationManager.AppSettings["DealerSupportFax"]</li>
+            <li class="contact-email"><a href="mailto:@System.Configuration.ConfigurationManager.AppSettings["QuebecInfoEmail"]" class="dealnet-info-link"><svg aria-hidden="true" class="icon icon-email2"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-email2")"></use></svg><span>@System.Configuration.ConfigurationManager.AppSettings["QuebecInfoEmail"]</span></a></li>
+        </ul>
+    </div>
+</div>

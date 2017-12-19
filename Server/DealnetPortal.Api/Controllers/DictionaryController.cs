@@ -19,6 +19,7 @@ using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
+using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 

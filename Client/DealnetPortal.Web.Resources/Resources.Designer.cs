@@ -497,6 +497,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All other provinces.
+        /// </summary>
+        public static string AllOtherProvinces {
+            get {
+                return ResourceManager.GetString("AllOtherProvinces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Alternative E-mail.
         /// </summary>
         public static string AlternativeEmail {
@@ -4917,6 +4926,15 @@ namespace DealnetPortal.Web.Resources {
         public static string ProvincialSafetyStandardLicensing {
             get {
                 return ResourceManager.GetString("ProvincialSafetyStandardLicensing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quebec.
+        /// </summary>
+        public static string Quebec {
+            get {
+                return ResourceManager.GetString("Quebec", resourceCulture);
             }
         }
         

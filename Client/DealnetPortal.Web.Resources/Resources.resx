@@ -2478,4 +2478,10 @@ changing contract terms or signing contract on paper.</value>
   <data name="RatesApproved" xml:space="preserve">
     <value>Rates Approved</value>
   </data>
+  <data name="AllOtherProvinces" xml:space="preserve">
+    <value>All other provinces</value>
+  </data>
+  <data name="Quebec" xml:space="preserve">
+    <value>Quebec</value>
+  </data>
 </root>

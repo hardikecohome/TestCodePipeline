@@ -12,6 +12,7 @@ using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
+using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.Api.Integration.Services

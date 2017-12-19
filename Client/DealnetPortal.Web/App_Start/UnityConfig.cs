@@ -8,6 +8,7 @@ using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Common.Services;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Managers;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.Owin.Security;
 using Microsoft.Practices.Unity;

@@ -892,4 +892,31 @@
   <data name="PermanentResidencyCard" xml:space="preserve">
     <value>Permanent Residency Card</value>
   </data>
+  <data name="Employed" xml:space="preserve">
+    <value>Employed</value>
+  </data>
+  <data name="Retired" xml:space="preserve">
+    <value>Retired</value>
+  </data>
+  <data name="SelfEmployed" xml:space="preserve">
+    <value>Self employed</value>
+  </data>
+  <data name="Unemployed" xml:space="preserve">
+    <value>Unemployed</value>
+  </data>
+  <data name="Annual" xml:space="preserve">
+    <value>Annual</value>
+  </data>
+  <data name="FullTime" xml:space="preserve">
+    <value>Full time</value>
+  </data>
+  <data name="HourlyRate" xml:space="preserve">
+    <value>Hourly rate</value>
+  </data>
+  <data name="PartTime" xml:space="preserve">
+    <value>Part time</value>
+  </data>
+  <data name="SalaryIncome" xml:space="preserve">
+    <value>Salary/Income</value>
+  </data>
 </root>

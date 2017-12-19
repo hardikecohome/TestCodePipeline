@@ -1,32 +1,60 @@
 ﻿configInitialized
     .then(function () {
         var setValidationRelation = module.require('setValidationRelation');
-        $(".home-phone").each(function () {
+        var settings = {
+            homePhoneClass: '.home-phone',
+            cellPhoneClass: '.cell-phone',
+            gasAccountId: '#enbridge-gas-distribution-account',
+            meterNumberId: '#meter-number',
+            paymentInfoAvailableId: '#payment-info-available',
+            paymentTypeId: '#payment-type',
+            paymentTypes: {
+                'ENBRIDGE': '0',
+                'PAP': '1'
+            }
+        }
+
+        $(settings.homePhoneClass).each(function () {
             $(this).rules("add", "required");
         });
-        $(".cell-phone").each(function () {
+
+        $(settings.cellPhoneClass).each(function () {
             $(this).rules("add", "required");
         });
-        $("#enbridge-gas-distribution-account").rules("add", "required");
-        $("#meter-number").rules("add", "required");
+        var $gasAccountSelector = $(settings.gasAccountId);
+        var $meterNumberSelector = $(settings.meterNumberId);
+
+        $gasAccountSelector.rules("add", "required");
+        $meterNumberSelector.rules("add", "required");
 
         $('.mandatory-phones').each(function () {
-            var homePhone = $(this).find('.home-phone');
-            var cellPhone = $(this).find('.cell-phone');
+            var homePhone = $(this).find(settings.homePhoneClass);
+            var cellPhone = $(this).find(settings.cellPhoneClass);
+
             if (homePhone.length && cellPhone.length) {
                 setValidationRelation(homePhone, cellPhone);
                 setValidationRelation(cellPhone, homePhone);
             }
         });
-        setValidationRelation($("#enbridge-gas-distribution-account"), $("#meter-number"));
-        setValidationRelation($("#meter-number"), $("#enbridge-gas-distribution-account"));
-        $(".home-phone").change();
-        $(".cell-phone").change();
-        $("#enbridge-gas-distribution-account").change();
-        $("#meter-number").change();
-        var initPaymentType = $("#payment-type").find(":selected").val();
+        setValidationRelation($gasAccountSelector, $meterNumberSelector);
+        setValidationRelation($meterNumberSelector, $gasAccountSelector);
+        $(settings.homePhoneClass).change();
+        $(settings.cellPhoneClass).change();
+        $gasAccountSelector.change();
+        $meterNumberSelector.change();
+
+        var isAllPaymentInfoAvailable = $(settings.paymentInfoAvailableId).val().toLowerCase() === 'true';
+        var $paymentTypeSelector = $(settings.paymentTypeId);
+
+        var initPaymentType = isAllPaymentInfoAvailable ? $paymentTypeSelector.find(":selected").val() : settings.paymentTypes.PAP;
         managePaymentElements(initPaymentType);
-        $("#payment-type").change(function () {
+
+        if (!isAllPaymentInfoAvailable) {
+            $paymentTypeSelector.val(settings.paymentTypes.PAP);
+            $paymentTypeSelector.attr('readonly', true);
+        }
+
+        $paymentTypeSelector.change(function () {
             managePaymentElements($(this).find(":selected").val());
         });
 
@@ -42,31 +70,30 @@
             if (!$('form').valid()) {
                 e.preventDefault();
             }
-
         });
     });
 
-
-
-function managePaymentElements (paymentType) {
+function managePaymentElements(paymentType) {
+    var $papPaymentSelector = $(".pap-payment");
+    var $enbridgePaymentSelector = $(".enbridge-payment");
     switch (paymentType) {
         case '0':
-            $(".pap-payment").hide();
-            $(".pap-payment").find('input, select').each(function () {
+            $papPaymentSelector.hide();
+            $papPaymentSelector.find('input, select').each(function () {
                 $(this).prop("disabled", true);
             });
-            $(".enbridge-payment").show();
-            $(".enbridge-payment").find('input, select').each(function () {
+            $enbridgePaymentSelector.show();
+            $enbridgePaymentSelector.find('input, select').each(function () {
                 $(this).prop("disabled", false);
             });
             break;
         case '1':
-            $(".enbridge-payment").hide();
-            $(".enbridge-payment").find('input, select').each(function () {
+            $enbridgePaymentSelector.hide();
+            $enbridgePaymentSelector.find('input, select').each(function () {
                 $(this).prop("disabled", true);
             });
-            $(".pap-payment").show();
-            $(".pap-payment").find('input, select').each(function () {
+            $papPaymentSelector.show();
+            $papPaymentSelector.find('input, select').each(function () {
                 $(this).prop("disabled", false);
             });
             break;

@@ -11,6 +11,7 @@ using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Infrastructure.Attributes;
 using DealnetPortal.Web.Models.EquipmentInformation;
 using DealnetPortal.Web.Models.Validation;
 using PaymentType = DealnetPortal.Web.Models.Enumeration.PaymentType;
@@ -189,6 +190,7 @@ namespace DealnetPortal.Web.Models
 
         public bool IsApplicantsInfoEditAvailable { get; set; }
         public bool IsFirstStepAvailable { get; set; }
+        public bool IsAllPaymentTypesAvailable { get; set; }
     }
 
     public class AdditionalInfoViewModel

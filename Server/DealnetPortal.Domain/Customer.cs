@@ -50,5 +50,7 @@ namespace DealnetPortal.Domain
         public string VerificationIdName { get; set; }
 
         public string DealerInitial { get; set; }
+
+        public EmploymentInfo EmploymentInfo { get; set; }
     }
 }

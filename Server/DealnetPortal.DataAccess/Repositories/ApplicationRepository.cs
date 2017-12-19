@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Domain;
+using DealnetPortal.Domain.Repositories;
 
 namespace DealnetPortal.DataAccess.Repositories
 {

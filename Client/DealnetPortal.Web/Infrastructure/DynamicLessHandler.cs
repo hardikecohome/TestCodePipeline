@@ -11,6 +11,7 @@ using dotless.Core.configuration;
 using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Infrastructure.Managers;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.ServiceAgent;
 
 namespace DealnetPortal.Web.Infrastructure

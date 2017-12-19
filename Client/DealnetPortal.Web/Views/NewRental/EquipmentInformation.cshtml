@@ -31,6 +31,7 @@
             @Html.HiddenFor(model => model.ContractId)
             @Html.HiddenFor(model => model.FullUpdate, new { Value = true })
             @Html.HiddenFor(x => x.CreditAmount)
+            @Html.HiddenFor(x => x.IsOnlyLoanAvailable)
             @Html.HiddenFor(x => x.AmortizationTerm)
             @Html.HiddenFor(x => x.AdminFee)
             @Html.HiddenFor(x => x.CustomerRate)
@@ -186,7 +187,7 @@
 
   <script type="text/javascript">
       configInitialized.then(function () {
-        module.require('new-equipment').init(
+          module.require('newEquipment.index').init(
               @Model.ContractId,
               @Html.Raw(Json.Encode(Model.DealerTier.RateCards)),
               '@(!((List<RateCardType>) ViewBag.CardTypes != null && ((List<RateCardType>) ViewBag.CardTypes).Any()))' === 'True' ? true : false);

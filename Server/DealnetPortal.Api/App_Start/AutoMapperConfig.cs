@@ -66,6 +66,8 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<Customer, CustomerDTO>()
                 .ForMember(x => x.IsHomeOwner, d => d.Ignore())
                 .ForMember(x => x.IsInitialCustomer, d => d.Ignore());
+            mapperConfig.CreateMap<EmploymentInfo, EmploymentInfoDTO>();
+
             mapperConfig.CreateMap<PaymentInfo, PaymentInfoDTO>();
             mapperConfig.CreateMap<ContractDetails, ContractDetailsDTO>()                
                 .ForMember(d => d.LocalizedStatus, s => s.ResolveUsing(src => !string.IsNullOrEmpty(src.Status) ? 
@@ -348,7 +350,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.IsInitialCustomer, s => s.Ignore())
                 .ForMember(d => d.PreferredContactMethod, s => s.Ignore())
                 .ForMember(d=> d.VerificationIdName, s=> s.Ignore())
-                .ForMember(d=> d.DealerInitial, s=> s.Ignore());
+                .ForMember(d=> d.DealerInitial, s=> s.Ignore())
+                .ForMember(d => d.EmploymentInfo, s => s.Ignore());
                 
             mapperConfig.CreateMap<Aspire.Integration.Models.AspireDb.Entity, DealerDTO>()
                 .IncludeBase<Entity, CustomerDTO>()
@@ -358,7 +361,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.ProductType, s => s.Ignore())
                 .ForMember(d => d.ChannelType, s => s.Ignore())
                 .ForMember(d => d.Role, s => s.Ignore())
-                .ForMember(d => d.Ratecard, s => s.Ignore());
+                .ForMember(d => d.Ratecard, s => s.Ignore())
+                .ForMember(d => d.EmploymentInfo, s => s.Ignore());
 
             mapperConfig.CreateMap<Aspire.Integration.Models.AspireDb.DealerRoleEntity, DealerDTO>()
                 .IncludeBase<Entity, DealerDTO>()
@@ -368,7 +372,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.ProductType, s => s.MapFrom(src => src.ProductType))
                 .ForMember(d => d.ChannelType, s => s.MapFrom(src => src.ChannelType))
                 .ForMember(d => d.Role, s => s.MapFrom(src => src.Role))
-                .ForMember(d => d.Ratecard, s => s.MapFrom(src => src.Ratecard));
+                .ForMember(d => d.Ratecard, s => s.MapFrom(src => src.Ratecard))
+                .ForMember(d => d.EmploymentInfo, s => s.Ignore());
         }
 
         private static void MapModelsToDomains(IMapperConfigurationExpression mapperConfig)
@@ -410,7 +415,13 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Locations, d => d.Ignore())
                 .ForMember(x => x.Emails, d => d.Ignore())
                 .ForMember(x => x.Phones, d => d.Ignore())
-                .ForMember(x => x.ExistingCustomer, d => d.Ignore());
+                .ForMember(x => x.ExistingCustomer, d => d.Ignore())
+                .ForMember(x => x.EmploymentInfo, d => d.Ignore());
+
+            mapperConfig.CreateMap<EmploymentInfoDTO, EmploymentInfo>()
+                .ForMember(x => x.Id, d => d.Ignore())
+                .ForMember(x => x.Customer, d => d.Ignore());
+
 
             mapperConfig.CreateMap<ContractDataDTO, ContractData>()
                 .ForMember(x => x.HomeOwners, d => d.Ignore())
