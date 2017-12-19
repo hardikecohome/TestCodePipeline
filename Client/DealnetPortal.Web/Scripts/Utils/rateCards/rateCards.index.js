@@ -119,7 +119,7 @@
             if ($('#DeferralPeriodDropdown').length) {
                 deferralPeriod = +$('#DeferralPeriodDropdown').val();
             } else {
-                deferralPeriod = $('#' + dataObject.standaloneOption + '-deferralDropdown').val();
+                deferralPeriod = +$('#' + dataObject.standaloneOption + '-deferralDropdown').val();
             }
         }
 
