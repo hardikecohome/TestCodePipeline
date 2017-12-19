@@ -925,6 +925,7 @@
     <Content Include="Scripts\utils\financial-functions.module.js" />
     <Content Include="Scripts\utils\functionUtils.js" />
     <Content Include="Scripts\utils\general-address-autocomplete.js" />
+    <Content Include="Scripts\utils\myDeals.counter.js" />
     <Content Include="Scripts\utils\rateCards\rateCards.index.js" />
     <Content Include="Scripts\utils\rateCards\rateCards.render.js" />
     <Content Include="Scripts\utils\rateCards\rateCards.state.js" />

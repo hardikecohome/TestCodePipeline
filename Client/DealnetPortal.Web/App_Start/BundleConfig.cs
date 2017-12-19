@@ -46,6 +46,7 @@ namespace DealnetPortal.Web
                     "~/Scripts/utils/fields.js",
                     "~/Scripts/utils/modal.js",
                     "~/Scripts/utils/scrollPosition.js",
+                    "~/Scripts/utils/myDeals.counter.js",
                     "~/Scripts/utils/detectIE.js",
                     "~/Scripts/index.js"));
 
