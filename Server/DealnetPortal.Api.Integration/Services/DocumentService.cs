@@ -20,6 +20,7 @@ using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
+using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Logging;
 using FormField = DealnetPortal.Api.Models.Signature.FormField;
 
@@ -1792,7 +1793,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             if (contract.Equipment != null)
             {
-                var paySummary = _contractRepository.GetContractPaymentsSummary(contract.Id, ownerUserId);
+                var paySummary = GetContractPaymentsSummary(contract);
 
                 formFields.Add(new FormField()
                 {
@@ -2229,6 +2230,55 @@ namespace DealnetPortal.Api.Integration.Services
                     Value = exEq.EstimatedAge.ToString("F", CultureInfo.InvariantCulture)
                 });
             }
+        }
+
+        private PaymentSummary GetContractPaymentsSummary(Contract contract)
+        {
+            PaymentSummary paymentSummary = new PaymentSummary();
+
+            if (contract != null)
+            {
+                var rate =
+                    _contractRepository.GetProvinceTaxRate(
+                        (contract.PrimaryCustomer?.Locations.FirstOrDefault(
+                            l => l.AddressType == AddressType.MainAddress) ??
+                         contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
+                if (rate != null)
+                {
+                    if (contract.Equipment.AgreementType == AgreementType.LoanApplication)
+                    {
+                        var loanCalculatorInput = new LoanCalculator.Input
+                        {
+                            TaxRate = 0, //rate.Rate,
+                            LoanTerm = contract.Equipment.LoanTerm ?? 0,
+                            AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
+                            EquipmentCashPrice = (double?)contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
+                            AdminFee = contract.Equipment.AdminFee ?? 0,
+                            DownPayment = contract.Equipment.DownPayment ?? 0,
+                            CustomerRate = contract.Equipment.CustomerRate ?? 0
+                        };
+                        var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
+                        paymentSummary.Hst = (decimal)loanCalculatorOutput.Hst;
+                        paymentSummary.TotalPayment = (decimal)loanCalculatorOutput.TotalAllMonthlyPayments;
+                        paymentSummary.MonthlyPayment = (decimal)loanCalculatorOutput.TotalMonthlyPayment;
+                        paymentSummary.TotalAllMonthlyPayment = (decimal)loanCalculatorOutput.TotalAllMonthlyPayments;
+
+                        paymentSummary.LoanDetails = loanCalculatorOutput;
+                    }
+                    else
+                    {
+                        paymentSummary.MonthlyPayment = contract.Equipment.TotalMonthlyPayment;
+                        paymentSummary.Hst = (contract.Equipment.TotalMonthlyPayment ?? 0) * (decimal)(rate.Rate / 100);
+                        paymentSummary.TotalPayment = (contract.Equipment.TotalMonthlyPayment ?? 0) +
+                                                      (contract.Equipment.TotalMonthlyPayment ?? 0) *
+                                                      (decimal)(rate.Rate / 100);
+                        paymentSummary.TotalAllMonthlyPayment = paymentSummary.TotalPayment *
+                                                                (contract.Equipment.RequestedTerm ?? 0);
+                    }
+                }
+            }
+
+            return paymentSummary;
         }
 
         private void ReformatTempalteNameWithId(AgreementDocument document, string transactionId)

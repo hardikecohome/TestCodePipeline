@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Domain;
 
-namespace DealnetPortal.DataAccess.Repositories
+namespace DealnetPortal.Domain.Repositories
 {
     public interface ISettingsRepository
     {

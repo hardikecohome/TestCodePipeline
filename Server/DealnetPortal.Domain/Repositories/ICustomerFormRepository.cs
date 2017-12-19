@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using DealnetPortal.Domain;
+﻿using System.Collections.Generic;
 
-namespace DealnetPortal.DataAccess.Repositories
+namespace DealnetPortal.Domain.Repositories
 {
     public interface ICustomerFormRepository
     {

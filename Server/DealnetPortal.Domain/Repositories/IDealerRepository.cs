@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using DealnetPortal.Domain;
 
-namespace DealnetPortal.DataAccess.Repositories
+namespace DealnetPortal.Domain.Repositories
 {
     public interface IDealerRepository
     {
