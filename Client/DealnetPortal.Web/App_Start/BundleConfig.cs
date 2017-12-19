@@ -108,6 +108,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/editable-in-modal.js")
                 .Include("~/Scripts/utils/datepicker.js")
                 .Include("~/Scripts/utils/navigateToStep.js")
+                .Include("~/Scripts/utils/loader.js")
                 .Include("~/Scripts/pages/summaryAndConfirmation/summary-and-confirmation.js")
                 .Include("~/Scripts/pages/basicInfo/address-autocomplete.js"));
 
