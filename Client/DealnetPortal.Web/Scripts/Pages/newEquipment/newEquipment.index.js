@@ -95,7 +95,7 @@
                 Globalize.parseNumber($('#' + option + 'TMPayments').text().replace('$', '').trim()) :
                 Globalize.parseNumber($(settings.rentalMonthlyPaymentId).text());
 
-            if (rateCard.length === 0 && !state.onlyCustomRateCard) {
+            if (rateCard.length === 0 && !state.onlyCustomRateCard && agreementType === settings.applicationType.loanApplication) {
                 event.preventDefault();
                 return;
             }
@@ -106,12 +106,14 @@
                 return;
             }
 
-            if (option === settings.customRateCardName) {
-                submitCustomRateCard(event, option);
-            } else {
-                $(settings.customRateCardId).clearErrors();
-                _toggleCustomRateCard();
-                submitRateCard(option);
+            if (agreementType === settings.applicationType.loanApplication) {
+                if (option === settings.customRateCardName) {
+                    submitCustomRateCard(event, option);
+                } else {
+                    $(settings.customRateCardId).clearErrors();
+                    _toggleCustomRateCard();
+                    submitRateCard(option);
+                }
             }
 
             $(settings.formId).submit();
