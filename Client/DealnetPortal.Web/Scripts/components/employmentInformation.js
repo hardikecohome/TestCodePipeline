@@ -11,6 +11,6 @@ module.exports('employmentInformation', function (require) {
         this.jobTitle = ko.observable(info.JobTitle || '');
         this.companyName = ko.observable(info.CompanyName || '');
         this.companyPhone = ko.observable(info.CompanyPhone || '');
-        this.address = ko.observable(new addressInformation(info.CompanyAddress));
+        this.address = ko.observable(new addressInformation(info.CompanyAddress || {}));
     };
 });

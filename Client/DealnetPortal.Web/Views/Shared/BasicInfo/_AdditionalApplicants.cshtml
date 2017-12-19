@@ -325,14 +325,14 @@
         </div>
 
         <!--Borrower Employment Information-->
-        <div id="employment-info">
+        <div id="employment-info" data-bind="visible: showEmployment">
             <h2 class="dealnet-middle-header address-info-label no-margin-top">@Resources.BorrowerEmploymentInformation</h2>
             <div class="row">
                 <div class="col-md-2 col-sm-6">
                     <div class="form-group">
                         @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus)
                         <div class="control-group">
-                            @Html.EnumDropDownListFor(m => m.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus, new { @class = "form-control dealnet-input", id = "ho-employment-status", data_bind = "value: vm.homeOwner.employment.status" })
+                            @Html.EnumDropDownListFor(m => m.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus, new { @class = "form-control dealnet-input", id = "ho-employment-status", data_bind = "value: additionalApplicant.employment.status" })
                             @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -341,7 +341,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.IncomeType)
                         <div class="control-group">
-                            @Html.EnumDropDownListFor(m => m.AdditionalApplicants[i].EmploymentInformation.IncomeType, new { @class = "form-control dealnet-input", id = "ho-employment-income-type", data_bind = "value: vm.homeOwner.employment.incomeType" })
+                            @Html.EnumDropDownListFor(m => m.AdditionalApplicants[i].EmploymentInformation.IncomeType, new { @class = "form-control dealnet-input", id = "ho-employment-income-type", data_bind = "value: additionalApplicant.employment.incomeType" })
                             @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.IncomeType, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -350,7 +350,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.AnnualSalary)
                         <div class="control-group">
-                            <select class="form-control dealnet-input" @Html.NameFor(m => m.AdditionalApplicants[i].EmploymentInformation.AnnualSalary) data-bind="value:vm.homeOwner.employment.annualSalary">
+                            <select class="form-control dealnet-input" @Html.NameFor(m => m.AdditionalApplicants[i].EmploymentInformation.AnnualSalary) data-bind="value:additionalApplicant.employment.annualSalary">
                                 <option value="<20000" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.AnnualSalary == "<20000" ? "selected" : "")>@Resources.LessThan $20,0000</option>
                                 @for(var j = 20000; j < 200000; j += 5000)
                                 {
@@ -367,7 +367,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.HourlyRate)
                         <div class="control-group">
-                            <select class="form-control dealnet-input" @Html.NameFor(m => m.AdditionalApplicants[i].EmploymentInformation.HourlyRate) data-bind="value:vm.homeOwner.employment.hourlyRate">
+                            <select class="form-control dealnet-input" @Html.NameFor(m => m.AdditionalApplicants[i].EmploymentInformation.HourlyRate) data-bind="value:additionalApplicant.employment.hourlyRate">
                                 <option value="<10" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.HourlyRate == "<10" ? "selected" : "")>@Resources.LessThan $10</option>
                                 @for(var j = 10; j < 80; j += 5)
                                 {
@@ -385,11 +385,11 @@
                         <label>@Resources.LengthOfEmployment</label>
                         <div class="row control-group">
                             <div class="col-md-6 col-sm-6 col-xs-6">
-                                @Html.EnumDropDownListFor(m => m.AdditionalApplicants[i].EmploymentInformation.YearsOfEmployment, new { @class = "form-control dealnet-input", data_bind = "value:vm.homeOwner.employment.yearsOfEmploy" })
+                                @Html.EnumDropDownListFor(m => m.AdditionalApplicants[i].EmploymentInformation.YearsOfEmployment, new { @class = "form-control dealnet-input", data_bind = "value:additionalApplicant.employment.yearsOfEmploy" })
                                 @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.YearsOfEmployment, "", new { @class = "text-danger" })
                             </div>
                             <div class="col-md-6 col-sm-6 col-xs-6">
-                                @Html.EnumDropDownListFor(m => m.AdditionalApplicants[i].EmploymentInformation.MonthsOfEmployment, new { @class = "form-control dealnet-input", data_bind = "value: vm.homeOwner.employment.monthsOfEmploy" })
+                                @Html.EnumDropDownListFor(m => m.AdditionalApplicants[i].EmploymentInformation.MonthsOfEmployment, new { @class = "form-control dealnet-input", data_bind = "value: additionalApplicant.employment.monthsOfEmploy" })
                                 @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.MonthsOfEmployment, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -399,7 +399,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.EmploymentType)
                         <div class="control-group">
-                            @Html.EnumDropDownListFor(m => m.AdditionalApplicants[i].EmploymentInformation.EmploymentType, new { @class = "form-control dealnet-input", data_bind = "value: vm.homeOwner.employment.type" })
+                            @Html.EnumDropDownListFor(m => m.AdditionalApplicants[i].EmploymentInformation.EmploymentType, new { @class = "form-control dealnet-input", data_bind = "value: additionalApplicant.employment.type" })
                             @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.EmploymentType)
                         </div>
                     </div>
@@ -410,7 +410,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.JobTitle)
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.JobTitle, new { @class = "form-control dealnet-input", data_bind = "vm.homeOwner.employment.jobTitle" })
+                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.JobTitle, new { @class = "form-control dealnet-input", data_bind = "additionalApplicant.employment.jobTitle" })
                             @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.JobTitle, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -419,7 +419,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyName)
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyName, new { @class = "form-control dealnet-input", data_bind = "vm.homeOwner.employment.companyName" })
+                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyName, new { @class = "form-control dealnet-input", data_bind = "additionalApplicant.employment.companyName" })
                             @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyName, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -428,7 +428,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyPhone)
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyPhone, new { @class = "form-control dealnet-input", data_bind = "vm.homeOwner.employment.companyPhone" })
+                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyPhone, new { @class = "form-control dealnet-input", data_bind = "additionalApplicant.employment.companyPhone" })
                             @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyPhone, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -436,7 +436,7 @@
                 </div>
             </div>
             <h3 class="dealnet-middle-header-2">@Resources.CompanyAddress</h3>
-            <div data-bind="with: vm.additional.employment.address">
+            <div data-bind="with: additionalApplicant.employment.address">
                 <div class="row address-info1">
                     <div class="col-md-6 col-lg-6">
                         <div class="form-group">

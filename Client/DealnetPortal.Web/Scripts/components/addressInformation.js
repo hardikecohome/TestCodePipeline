@@ -7,7 +7,7 @@
         this.postalCode = ko.observable(address.PostalCode || '');
 
         this.postalCode.subscribe(function (newValue) {
-            this.postalCode(newValue.toUppperCase());
+            this.postalCode(newValue.toUpperCase());
         }, this);
     };
 
