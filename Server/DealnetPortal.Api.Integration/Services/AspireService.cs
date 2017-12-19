@@ -2109,7 +2109,16 @@ namespace DealnetPortal.Api.Integration.Services
                         Name = contactMethod, Value = "Y"
                     });
                 }
-            }            
+            }
+
+            if (customer.EmploymentInfo != null)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.AllowCommunicate,
+                    Value = customer.AllowCommunicate.Value ? "1" : "0"
+                });
+            }
 
             return udfList;
         }

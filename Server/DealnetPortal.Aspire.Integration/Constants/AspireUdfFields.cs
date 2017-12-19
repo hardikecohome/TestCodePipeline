@@ -120,5 +120,20 @@
         public static string ReqContractorProvince = "Req contractor province";
         public static string ReqContractorWebsite = "Req contractor website";
         #endregion
+
+        #region Employment information
+
+        public static string EmploymentStatus = "Employment Status";
+        public static string IncomeType = "Income Type";
+        public static string AnnualSalary = "Annual Income";
+        public static string HourlyRate = "Hourly Income";
+        public static string EmploymentLength = "Employment Length";
+        public static string EmploymentType = "Employment Type";
+        public static string JobTitle = "Job title";
+        public static string EmployerName  = "Employer Name";
+        public static string EmployerPhone = "Employer Phone Number";
+        public static string EmployerAddress = "Employer Address";
+
+        #endregion
     }
 }
