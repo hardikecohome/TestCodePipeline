@@ -444,7 +444,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.Street)
                                     <div class="control-group">
-                                        @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.Street, new { @class = "form-control dealnet-input", data_bind = "value: street, enable:$parent.isEmployedOrSelfEmployed", placeholder = Resources.StreetPlaceholder, id = "ho-employment-street" })
+                                        @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.Street, new { @class = "form-control dealnet-input", data_bind = "value: street, enable:$parent.isEmployedOrSelfEmployed", placeholder = Resources.StreetPlaceholder, id = "add-employment-street-1" })
                                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.Street, "", new { @class = "text-danger", data_bind = "validationMessage: street" })
                                     </div>
                                 </div>
@@ -453,7 +453,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.UnitNumber)
                                     <div class="control-group">
-                                        @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.UnitNumber, new { @class = "form-control dealnet-input", data_bind = "value:unit, enable:$parent.isEmployedOrSelfEmployed", type = "text", placeholder = "12345", id = "ho-employment-unit" })
+                                        @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.UnitNumber, new { @class = "form-control dealnet-input", data_bind = "value:unit, enable:$parent.isEmployedOrSelfEmployed", type = "text", placeholder = "12345", id = "add-employment-unit-1" })
                                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.UnitNumber, "", new { @class = "text-danger", data_bind = "validationMessage: unit" })
                                     </div>
                                 </div>
@@ -462,7 +462,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.City)
                                     <div class="control-group">
-                                        @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.City, new { @class = "form-control dealnet-input", data_bind = "value: city, enable:$parent.isEmployedOrSelfEmployed", placeholder = Resources.Ottawa, id = "ho-employment-city" })
+                                        @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.City, new { @class = "form-control dealnet-input", data_bind = "value: city, enable:$parent.isEmployedOrSelfEmployed", placeholder = Resources.Ottawa, id = "add-employment-city-1" })
                                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.City, "", new { @class = "text-danger", data_bind = "validationMessage: city" })
                                     </div>
                                 </div>
@@ -479,7 +479,7 @@
                                             Value = x.Province,
                                             Text = x.Province,
                                             Selected = Model.AdditionalApplicants[i]?.EmploymentInformation?.CompanyAddress?.Province == x.Province
-                                        }), "", new { @class = "form-control dealnet-input", data_bind = "value:province, enable:$parent.isEmployedOrSelfEmployed", id = "ho-employment-province" })
+                                        }), "", new { @class = "form-control dealnet-input", data_bind = "value:province, enable:$parent.isEmployedOrSelfEmployed", id = "add-employment-province-1" })
                                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.Province, "", new { @class = "text-danger", data_bind = "validationMessage: province" })
                                     </div>
                                 </div>
@@ -488,7 +488,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.PostalCode)
                                     <div class="control-group">
-                                        @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.PostalCode, new { @class = "form-control dealnet-input", data_bind = "textInput: postalCode, enable:$parent.isEmployedOrSelfEmployed", placeholder = "12345", id = "ho-employment-postalCode" })
+                                        @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.PostalCode, new { @class = "form-control dealnet-input", data_bind = "textInput: postalCode, enable:$parent.isEmployedOrSelfEmployed", placeholder = "12345", id = "add-employment-postalCode-1" })
                                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.PostalCode, "", new { @class = "text-danger", data_bind = "validationMessage: postalCode" })
                                     </div>
                                 </div>
