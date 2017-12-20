@@ -19,11 +19,11 @@ namespace DealnetPortal.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
-        public EmploymentStatus EmploymentStatus { get; set; }
+        public EmploymentStatus? EmploymentStatus { get; set; }
 
-        public IncomeType IncomeType { get; set; }
+        public IncomeType? IncomeType { get; set; }
 
-        public EmploymentType EmploymentType { get; set; }
+        public EmploymentType? EmploymentType { get; set; }
 
         [MaxLength(140)]
         public string JobTitle { get; set; }
@@ -32,7 +32,7 @@ namespace DealnetPortal.Domain
         public string CompanyPhone { get; set; }
         public Address CompanyAddress { get; set; }
 
-        public string AnnualSallary { get; set; }
+        public string AnnualSalary { get; set; }
         public string HourlyRate { get; set; }
         public string LengthOfEmployment { get; set; }
 

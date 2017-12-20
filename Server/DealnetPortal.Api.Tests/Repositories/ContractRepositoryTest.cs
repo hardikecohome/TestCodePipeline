@@ -328,7 +328,7 @@ namespace DealnetPortal.Api.Tests.Repositories
                 DateOfBirth = DateTime.Today,
                 EmploymentInfo = new EmploymentInfo()
                 {
-                    AnnualSallary = "10"
+                    AnnualSalary = "10"
                 }
             };
 
@@ -336,7 +336,7 @@ namespace DealnetPortal.Api.Tests.Repositories
             _unitOfWork.Save();
             dbCustomer = _contractRepository.GetCustomer(dbCustomer.Id);
             Assert.IsNotNull(dbCustomer?.EmploymentInfo);
-            Assert.AreEqual(dbCustomer.EmploymentInfo.AnnualSallary,"10");
+            Assert.AreEqual(dbCustomer.EmploymentInfo.AnnualSalary,"10");
 
             customer = new Customer()
             {
@@ -346,7 +346,7 @@ namespace DealnetPortal.Api.Tests.Repositories
                 DateOfBirth = DateTime.Today,
                 EmploymentInfo = new EmploymentInfo()
                 {
-                    AnnualSallary = "20"
+                    AnnualSalary = "20"
                 }
             };
 
@@ -354,7 +354,7 @@ namespace DealnetPortal.Api.Tests.Repositories
             _unitOfWork.Save();
             dbCustomer = _contractRepository.GetCustomer(dbCustomer.Id);
             Assert.IsNotNull(dbCustomer?.EmploymentInfo);
-            Assert.AreEqual(dbCustomer.EmploymentInfo.AnnualSallary, "20");
+            Assert.AreEqual(dbCustomer.EmploymentInfo.AnnualSalary, "20");
         }
 
         [TestMethod]
