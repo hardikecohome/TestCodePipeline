@@ -1,4 +1,5 @@
-﻿@model DealnetPortal.Web.Models.StandaloneCalculatorViewModel
+﻿@using DealnetPortal.Web.Models.Enumeration
+@model DealnetPortal.Web.Models.StandaloneCalculatorViewModel
 
 <div class="calculator-redesigned standalone-calculator">
   <div id="label-steps">
@@ -87,6 +88,12 @@
 </div>
 
 @Html.Partial("Calculator/_EquipmentTemplate", Model)
+<div class="hidden">
+    @Html.DropDownList("hiddenCustomDropdown",
+        EnumHelper.GetSelectList(typeof(LoanDeferralType)),
+        new { @class = "form-control hidden", @id= "deferralDropdownForCustomRc" })
+    @Html.DropDownList("deferralDropdownForDeferralRc", Model.DeferralPeriods.Select(x => new SelectListItem { Value = x.Key, Text = x.Value }), new { @class = "hidden" })
+</div>
 
 @section Translations
 {

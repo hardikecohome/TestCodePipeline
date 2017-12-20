@@ -287,7 +287,7 @@
 
             var eSumData = rateCardsCalculator.calculateTotalPrice(state[option].equipments, downPayment, state.tax);
 
-            rateCardsRenderEngine.renderTotalPrice(eSumData);
+            rateCardsRenderEngine.renderTotalPrice(option, eSumData);
 
             var rateCard = rateCardsCalculator.filterRateCard({ rateCardPlan: state[option].plan, standaloneOption: option });
 

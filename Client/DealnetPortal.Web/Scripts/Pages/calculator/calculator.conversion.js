@@ -1,5 +1,6 @@
 ﻿module.exports('calculator-conversion', function(require) {
-    
+    var state = require('calculator-state').state;
+
     var recalculateEquipmentIndex = function (option, id) {
 
         delete state[option].equipments[id];

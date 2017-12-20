@@ -152,7 +152,8 @@
                                     @Resources.InstallationAddressInformation
                                     @if (Model.EquipmentInfo.IsEditAvailable && !Model.BasicInfo.ContractWasDeclined)
                 {
-                <a href="#" onclick="copyFormData($('#address-section'), $('#address-section-modal'), false); $('#address-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
+                    <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
+
                 }
                                 </h3>
                                 <div class="form-group">
