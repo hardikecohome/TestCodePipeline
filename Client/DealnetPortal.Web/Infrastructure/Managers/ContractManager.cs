@@ -469,6 +469,13 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 contractData.PrimaryCustomer.Locations.Add(previousAddress);
             }
 
+            var isQuebec = basicInfo.HomeOwner.AddressInformation.Province.ToUpper() == "QC";
+
+            if(isQuebec)
+            {
+                contractData.PrimaryCustomer.EmploymentInfo = Mapper.Map<EmploymentInfoDTO>(basicInfo.HomeOwner.EmploymentInformation);
+            }
+
             contractData.SecondaryCustomers = new List<CustomerDTO>();
             basicInfo.AdditionalApplicants?.ForEach(a =>
             {
@@ -486,6 +493,11 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                     previousAddress.AddressType = AddressType.PreviousAddress;
                     customer.Locations.Add(previousAddress);
                 }
+                if(isQuebec)
+                {
+                    customer.EmploymentInfo = Mapper.Map<EmploymentInfoDTO>(a.EmploymentInformation);
+                }
+
                 contractData.SecondaryCustomers.Add(customer);
             });
             return await _contractServiceAgent.UpdateContractData(contractData);
