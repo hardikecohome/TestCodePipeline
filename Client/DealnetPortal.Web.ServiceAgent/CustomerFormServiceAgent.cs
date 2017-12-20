@@ -46,7 +46,7 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                _loggingService.LogError("Can't submit Customer contract info", ex);
+                _loggingService.LogError("Can't get submitted Customer contract info", ex);
                 throw;
             }
         }
