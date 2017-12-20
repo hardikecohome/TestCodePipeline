@@ -275,7 +275,8 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<EmploymentInformationViewModel, EmploymentInfoDTO>()
                 .ForMember(x => x.EmploymentStatus, d => d.MapFrom(src => src.EmploymentStatus.ConvertTo<Api.Common.Enumeration.Employment.EmploymentStatus>()))
                 .ForMember(x => x.IncomeType, d => d.MapFrom(src => src.IncomeType.ConvertTo<Api.Common.Enumeration.Employment.IncomeType>()))
-                .ForMember(x => x.EmploymentType, d => d.MapFrom(src => src.EmploymentType.ConvertTo<Api.Common.Enumeration.Employment.EmploymentType>()));
+                .ForMember(x => x.EmploymentType, d => d.MapFrom(src => src.EmploymentType.ConvertTo<Api.Common.Enumeration.Employment.EmploymentType>()))
+                .ForMember(x => x.CompanyAddress, d => d.MapFrom(src => src.CompanyAddress));
         }
 
         private static void MapModelsToVMs(IMapperConfigurationExpression cfg)
@@ -648,7 +649,8 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<EmploymentInfoDTO, EmploymentInformationViewModel>()
                 .ForMember(x => x.EmploymentStatus, d => d.MapFrom(src => src.EmploymentStatus.ConvertTo<EmploymentStatus>()))
                 .ForMember(x => x.IncomeType, d => d.MapFrom(src => src.IncomeType.ConvertTo<IncomeType>()))
-                .ForMember(x => x.EmploymentType, d => d.MapFrom(src => src.EmploymentType.ConvertTo<EmploymentType>()));
+                .ForMember(x => x.EmploymentType, d => d.MapFrom(src => src.EmploymentType.ConvertTo<EmploymentType>()))
+                .ForMember(x => x.CompanyAddress, d => d.MapFrom(src => src.CompanyAddress));
         }
     }
 }

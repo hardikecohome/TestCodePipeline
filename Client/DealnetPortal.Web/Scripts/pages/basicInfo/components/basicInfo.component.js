@@ -13,8 +13,10 @@
             employment: new EmploymentInformation(model.HomeOwner && model.HomeOwner.EmploymentInformation ? model.HomeOwner.EmploymentInformation : {})
         };
 
+        this.hasAdditional = ko.observable(model.AdditionalApplicants && model.AdditionalApplicants[0].FirstName ? true : false);
+
         this.additionalApplicant = {
-            employment: new EmploymentInformation(model.AdditionalApplicants[0].EmploymentInformation || {})
+            employment: new EmploymentInformation(model.AdditionalApplicants && model.AdditionalApplicants[0].EmploymentInformation || {})
         };
     }
 });

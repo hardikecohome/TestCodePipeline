@@ -14,6 +14,13 @@
 
         var vm = new BasicInfo(model);
 
+        $('#add-additional-applicant').on('click', function () {
+            vm.hasAdditionalApplicant(true);
+        });
+        $('#additonal1-remove').on('click', function () {
+            vm.hasAdditionalApplicant(false);
+        })
+
         ko.applyBindings(vm, document.getElementById('main-form'));
     }
 
