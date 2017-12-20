@@ -132,7 +132,7 @@ namespace DealnetPortal.Web.Controllers
                 return View(basicInfo);
             }
 
-            Tuple<ContractDTO, IList<Alert>> result = basicInfo.ContractId == null ? 
+            Tuple<ContractDTO, IList<Alert>> result = !basicInfo.ContractId.HasValue ? 
                 await _contractServiceAgent.CreateContract() : 
                 await _contractServiceAgent.GetContract(basicInfo.ContractId.Value);
 
