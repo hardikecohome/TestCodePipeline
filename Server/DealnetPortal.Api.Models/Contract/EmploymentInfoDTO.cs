@@ -10,11 +10,11 @@ namespace DealnetPortal.Api.Models.Contract
 {
     public class EmploymentInfoDTO
     {
-        public EmploymentStatus EmploymentStatus { get; set; }
+        public EmploymentStatus? EmploymentStatus { get; set; }
 
-        public IncomeType IncomeType { get; set; }
+        public IncomeType? IncomeType { get; set; }
 
-        public EmploymentType EmploymentType { get; set; }
+        public EmploymentType? EmploymentType { get; set; }
 
         [MaxLength(140)]
         public string JobTitle { get; set; }
