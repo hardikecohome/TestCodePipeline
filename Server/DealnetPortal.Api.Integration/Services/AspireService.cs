@@ -2114,39 +2114,48 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (customer.EmploymentInfo != null)
             {
-                string eStatus = null;
-                switch (customer.EmploymentInfo.EmploymentStatus)
+                if (customer.EmploymentInfo.EmploymentStatus.HasValue)
                 {
-                    case EmploymentStatus.Unemployed:
-                        eStatus = "U";
-                        break;
-                    case EmploymentStatus.SelfEmployed:
-                        eStatus = "S";
-                        break;
-                    case EmploymentStatus.Retired:
-                        eStatus = "R";
-                        break;
-                    case EmploymentStatus.Employed:
-                    default:
-                        eStatus = "E";
-                        break;
+                    string eStatus = null;
+                    switch (customer.EmploymentInfo.EmploymentStatus)
+                    {
+                        case EmploymentStatus.Unemployed:
+                            eStatus = "U";
+                            break;
+                        case EmploymentStatus.SelfEmployed:
+                            eStatus = "S";
+                            break;
+                        case EmploymentStatus.Retired:
+                            eStatus = "R";
+                            break;
+                        case EmploymentStatus.Employed:
+                        default:
+                            eStatus = "E";
+                            break;
 
+                    }
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.EmploymentStatus,
+                        Value = eStatus
+                    });
                 }
-                udfList.Add(new UDF()
+                if (customer.EmploymentInfo.EmploymentType.HasValue)
                 {
-                    Name = AspireUdfFields.EmploymentStatus,
-                    Value = eStatus
-                });
-                udfList.Add(new UDF()
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.EmploymentType,
+                        Value = customer.EmploymentInfo.EmploymentType == EmploymentType.FullTime ? "F" : "P"
+                    });
+                }
+                if (customer.EmploymentInfo.IncomeType.HasValue)
                 {
-                    Name = AspireUdfFields.EmploymentType,
-                    Value = customer.EmploymentInfo.EmploymentType == EmploymentType.FullTime ? "F" : "P"
-                });
-                udfList.Add(new UDF()
-                {
-                    Name = AspireUdfFields.IncomeType,
-                    Value = customer.EmploymentInfo.IncomeType == IncomeType.HourlyRate ? "H" : "A"
-                });
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.IncomeType,
+                        Value = customer.EmploymentInfo.IncomeType == IncomeType.HourlyRate ? "H" : "A"
+                    });
+                }
                 if (!string.IsNullOrEmpty(customer.EmploymentInfo.JobTitle))
                 {
                     udfList.Add(new UDF()
@@ -2185,9 +2194,9 @@ namespace DealnetPortal.Api.Integration.Services
                         });
                     }
                 }
-                if (!string.IsNullOrEmpty(customer.EmploymentInfo.AnnualSallary))
+                if (!string.IsNullOrEmpty(customer.EmploymentInfo.AnnualSalary))
                 {
-                    var minValue = customer.EmploymentInfo.AnnualSallary.Split('-')?[0];
+                    var minValue = customer.EmploymentInfo.AnnualSalary.Split('-')?[0];
                     decimal outValue;
                     if (decimal.TryParse(minValue, out outValue))
                     {
