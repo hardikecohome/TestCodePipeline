@@ -15,22 +15,27 @@ namespace DealnetPortal.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            // routes.MapRoute(
-            //    name: "",
-            //    url: "CustomerForm/{action}/{contractId}/{hashDealerName}",
-            //    defaults: new { controller = "CustomerForm", action = "Index" }
-            //);
             routes.MapRoute(
                 name: "CustomerFormWithCulture",
                 url: "{culture}/CustomerForm/{hashDealerName}",
                 defaults: new { controller = "CustomerForm", action = "Index" },
                 constraints: new { culture = @"en|fr" }
             );
-
             routes.MapRoute(
                name: "CustomerFormDefault",
                url: "CustomerForm/{hashDealerName}",
                defaults: new {culture = "en",  controller = "CustomerForm", action = "Index" }
+           );
+           routes.MapRoute(
+               name: "CustomerFormActionWithCulture",
+               url: "{culture}/CustomerForm/{action}/{contractId}/{hashDealerName}",
+               defaults: new { controller = "CustomerForm", action = "Index" },
+               constraints: new { culture = @"en|fr" }
+           );
+            routes.MapRoute(
+               name: "CustomerFormActionDefault",
+               url: "CustomerForm/{action}/{contractId}/{hashDealerName}",
+               defaults: new { culture = "en", controller = "CustomerForm", action = "Index" }
            );
             routes.MapRoute(
                 name: "OnboardingWithCulture",
@@ -38,7 +43,6 @@ namespace DealnetPortal.Web
                 defaults: new { controller = "Dealer" },
                 constraints: new { culture = @"en|fr" }
             );
-
             routes.MapRoute(
                 name: "OnboardingDefault",
                 url: "Dealer/{action}/{key}",
