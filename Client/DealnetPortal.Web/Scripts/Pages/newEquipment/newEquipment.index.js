@@ -7,7 +7,7 @@
         var setters = require('value-setters');
         var equipment = require('equipment');
         var rateCardsInit = require('rate-cards-init');
-        var validateOnSelect = require('custom-rate-card').validateOnSelect;
+        var validateCustomCard = require('custom-rate-card').validateCustomCard;
         var customRateCardInit = require('custom-rate-card').init;
         var submitCustomRateCard = require('custom-rate-card').submitCustomRateCard;
         var toggleDisableClassOnInputs = require('custom-rate-card').toggleDisableClassOnInputs;
@@ -132,7 +132,7 @@
             }
 
             if (option === settings.customRateCardName) {
-                var isValid = validateOnSelect.call(this);
+                var isValid = validateCustomCard.call(this);
 
                 if (isValid) {
                     rateCardBlock.hide();

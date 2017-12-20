@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Enumeration.Dealer;
+using DealnetPortal.Api.Common.Enumeration.Employment;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
@@ -2109,7 +2110,111 @@ namespace DealnetPortal.Api.Integration.Services
                         Name = contactMethod, Value = "Y"
                     });
                 }
-            }            
+            }
+
+            if (customer.EmploymentInfo != null)
+            {
+                string eStatus = null;
+                switch (customer.EmploymentInfo.EmploymentStatus)
+                {
+                    case EmploymentStatus.Unemployed:
+                        eStatus = "U";
+                        break;
+                    case EmploymentStatus.SelfEmployed:
+                        eStatus = "S";
+                        break;
+                    case EmploymentStatus.Retired:
+                        eStatus = "R";
+                        break;
+                    case EmploymentStatus.Employed:
+                    default:
+                        eStatus = "E";
+                        break;
+
+                }
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.EmploymentStatus,
+                    Value = eStatus
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.EmploymentType,
+                    Value = customer.EmploymentInfo.EmploymentType == EmploymentType.FullTime ? "F" : "P"
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.IncomeType,
+                    Value = customer.EmploymentInfo.IncomeType == IncomeType.HourlyRate ? "H" : "A"
+                });
+                if (!string.IsNullOrEmpty(customer.EmploymentInfo.JobTitle))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.JobTitle,
+                        Value = customer.EmploymentInfo.JobTitle
+                    });
+                }
+                if (!string.IsNullOrEmpty(customer.EmploymentInfo.CompanyName))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.EmployerName,
+                        Value = customer.EmploymentInfo.CompanyName
+                    });
+                }
+                if (!string.IsNullOrEmpty(customer.EmploymentInfo.CompanyPhone))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.EmployerPhone,
+                        Value = customer.EmploymentInfo.CompanyPhone
+                    });
+                }
+                if (customer.EmploymentInfo.CompanyAddress != null)
+                {
+                    var cAddress = !string.IsNullOrEmpty(customer.EmploymentInfo.CompanyAddress.Unit)
+                        ? $"{customer.EmploymentInfo.CompanyAddress.Street}, {Resources.Resources.Suite} {customer.EmploymentInfo.CompanyAddress.Unit}, {customer.EmploymentInfo.CompanyAddress.City}, {customer.EmploymentInfo.CompanyAddress.State}, {customer.EmploymentInfo.CompanyAddress.PostalCode}"
+                        : $"{customer.EmploymentInfo.CompanyAddress.Street}, {customer.EmploymentInfo.CompanyAddress.City}, {customer.EmploymentInfo.CompanyAddress.State}, {customer.EmploymentInfo.CompanyAddress.PostalCode}";
+                    if (!string.IsNullOrEmpty(cAddress))
+                    {
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.EmployerAddress,
+                            Value = cAddress
+                        });
+                    }
+                }
+                if (!string.IsNullOrEmpty(customer.EmploymentInfo.AnnualSallary))
+                {
+                    var minValue = customer.EmploymentInfo.AnnualSallary.Split('-')?[0];
+                    decimal outValue;
+                    if (decimal.TryParse(minValue, out outValue))
+                    {
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.AnnualSalary,
+                            Value = outValue.ToString(CultureInfo.InvariantCulture)
+                        });
+                    }
+                }
+                if (!string.IsNullOrEmpty(customer.EmploymentInfo.HourlyRate))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.HourlyRate,
+                        Value = customer.EmploymentInfo.HourlyRate.Replace("$", "").Replace(" ", "")
+                    });
+                }
+                if (!string.IsNullOrEmpty(customer.EmploymentInfo.LengthOfEmployment))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.EmploymentLength,
+                        Value = customer.EmploymentInfo.LengthOfEmployment
+                    });
+                }
+            }
 
             return udfList;
         }
