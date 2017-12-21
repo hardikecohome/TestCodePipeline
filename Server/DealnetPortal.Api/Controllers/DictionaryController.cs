@@ -19,6 +19,7 @@ using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
+using DealnetPortal.Domain;
 using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
@@ -319,7 +320,7 @@ namespace DealnetPortal.Api.Controllers
         [Route("GetDealerCulture")]
         public string GetDealerCulture()
         {
-            return ContractRepository.GetDealer(LoggedInUser?.UserId).Culture;            
+            return ContractRepository.GetDealer(LoggedInUser?.UserId).Culture ?? _dealerRepository.GetDealerProfile(LoggedInUser?.UserId)?.Culture;
         }
 
         [HttpGet]
@@ -328,7 +329,7 @@ namespace DealnetPortal.Api.Controllers
         public string GetDealerCulture(string dealer)
         {
             var dealerId = _dealerRepository.GetUserIdByName(dealer);
-            var culture = ContractRepository.GetDealer(dealerId).Culture;
+            var culture = ContractRepository.GetDealer(dealerId).Culture ?? _dealerRepository.GetDealerProfile(dealerId)?.Culture;
             return culture;
         }
 
@@ -341,6 +342,11 @@ namespace DealnetPortal.Api.Controllers
             try
             {
                 ContractRepository.GetDealer(LoggedInUser?.UserId).Culture = culture;
+                var profile = _dealerRepository.GetDealerProfile(LoggedInUser?.UserId);
+                if (profile != null)
+                {
+                    profile.Culture = culture;
+                }                    
                 _unitOfWork.Save();
                 return Ok();
             }

@@ -140,11 +140,19 @@ module.exports('employmentInformation', function (require) {
             });
         self.address = new addressInformation(info.CompanyAddress || {});
 
-        self.isValid = function () {
+        self.valid = function () {
+            var addressValid = self.isEmployedOrSelfEmployed() ? self.address.isValid() : true;
             return self.status() != '' &&
                 self.incomeType.isValid() &&
                 self.annualSalary.isValid() &&
-                self.hourlyRate.isValid() && self.yearsOfEmploy.isValid() && self.monthsOfEmploy.isValid() && self.type.isValid() && self.jobTitle.isValid() && self.companyName.isValid() && self.companyPhone.isValid() && self.address.isValid();
+                self.hourlyRate.isValid() &&
+                self.yearsOfEmploy.isValid() &&
+                self.monthsOfEmploy.isValid() &&
+                self.type.isValid() &&
+                self.jobTitle.isValid() &&
+                self.companyName.isValid() &&
+                self.companyPhone.isValid() &&
+                addressValid;
         };
 
         self.showAllMessages = function () {

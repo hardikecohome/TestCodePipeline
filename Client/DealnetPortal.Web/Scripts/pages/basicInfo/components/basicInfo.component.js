@@ -22,9 +22,9 @@
         this.valid = function () {
             var valid = true;
             if (this.showEmployment()) {
-                valid = this.homeOwner.employment.isValid();
+                valid = this.homeOwner.employment.valid();
                 if (this.hasAdditional()) {
-                    valid = valid && this.additionalApplicant.employment.isValid();
+                    valid = valid && this.additionalApplicant.employment.valid();
                 }
             }
             if (!valid) {

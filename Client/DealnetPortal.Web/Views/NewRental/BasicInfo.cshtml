@@ -179,8 +179,8 @@
                                 <label for="">@Resources.ChooseSubDealer</label>
                                 <div class="control-group">
                                     @Html.DropDownListFor(m => m.SubmittingDealerId,
-                                                                                                       Model.SubDealers.Select(x => new SelectListItem { Value = x.Id, Text = x.DisplayName, Selected = Model.SubmittingDealerId == x.Id }),
-                                                                                                       new { @class = "form-control", id = "subdealers" })
+                                                                                                                                Model.SubDealers.Select(x => new SelectListItem { Value = x.Id, Text = x.DisplayName, Selected = Model.SubmittingDealerId == x.Id }),
+                                                                                                                                new { @class = "form-control", id = "subdealers" })
                                 </div>
                             </div>
                         </div>
@@ -260,6 +260,8 @@
     translations['PostalCodeIncorrectFormat'] = '@Resources.PostalCodeIncorrectFormat';
     translations['CompanyPhoneMustBeLong'] = '@Resources.CompanyPhoneMustBeLong';
     translations['CompanyPhoneIncorrectFormat'] = '@Resources.CompanyPhoneIncorrectFormat';
+    translations['JobTitleIncorrectFormat'] = '@Resources.JobTitleIncorrectFormat';
+    translations['CompanyNameIncorrectFormat'] = '@Resources.CompanyNameIncorrectFormat';
 }
 
 @section scripts
