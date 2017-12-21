@@ -138,9 +138,9 @@
     }
 
     function _addOption(callback) {
-        if (!$('#province-form').valid()) {
-            return;
-        }
+        //if (!$('#province-form').valid()) {
+        //    return;
+        //}
 
         var index = $('#options-container').find('.rate-card-col').length;
 
@@ -292,7 +292,7 @@
             var rateCard = rateCardsCalculator.filterRateCard({ rateCardPlan: state[option].plan, standaloneOption: option });
 
             if (rateCard !== null && rateCard !== undefined) {
-                $.extend(state[option], rateCard);
+                $.extend(true, state[option], rateCard);
                 rateCardsRenderEngine.renderAfterFiltration(state[option].plan, { deferralPeriod: state[option].DeferralPeriod, adminFee: state[option].AdminFee, dealerCost: state[option].DealerCost, customerRate: state[option].CustomerRate });
             }
 
@@ -314,7 +314,7 @@
     }
 
     function _initHandlers() {
-        $('#province-tax-rate').on('change', setters.setTax(_renderOption));
+        //$('#province-tax-rate').on('change', setters.setTax(_renderOption));
         $('.btn-add-calc-option').on('click', function () { _addOption(_renderOption); });
     }
 

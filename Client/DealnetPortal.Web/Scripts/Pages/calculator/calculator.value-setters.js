@@ -87,7 +87,8 @@
             state[optionKey].plan = planType;
           
             var dropdownParentDiv = $('#' + optionKey + '-deferralDropdownWrapper');
-
+            var e = document.getElementById(optionKey + '-amortDropdown');
+            e.selectedIndex = -1;
             if (planType === 'Deferral' || planType === 'Custom') {
                 if (dropdownParentDiv.is(':hidden')) {
                     $('#' + optionKey + '-deferral').addClass('hidden');
@@ -149,8 +150,8 @@
                 if (dropdownParentDiv.is(':visible')) {
                     dropdownParentDiv.addClass('hidden');
                 }
-
                 $('#' + optionKey + '-amortDropdown').closest('.row').removeClass('hidden');
+
                 $.grep(constants.inputsToHide, function (field) {
                     $('#' + optionKey + field).removeClass('hidden');
                 });
@@ -211,24 +212,24 @@
         callback([optionKey]);
     }
 
-    var setTax = function(callback) {
-        return function(e) {
-            var name = e.target.value;
-            if (name === '') {
-                state.tax = 0;
-                state.description = translations.tax;
-            } else {
-                var filtered = state.taxes.filter(function (tax) {
-                    return tax.Province === name;
-                });
+    //var setTax = function(callback) {
+    //    return function(e) {
+    //        var name = e.target.value;
+    //        if (name === '') {
+    //            state.tax = 0;
+    //            state.description = translations.tax;
+    //        } else {
+    //            var filtered = state.taxes.filter(function (tax) {
+    //                return tax.Province === name;
+    //            });
 
-                state.tax = filtered[0].Rate;
-                state.description = filtered[0].Description;
-            }
+    //            state.tax = filtered[0].Rate;
+    //            state.description = filtered[0].Description;
+    //        }
 
-            callback();
-        }
-    }
+    //        callback();
+    //    }
+    //}
 
     function setAmortizationDropdownValues(optionKey, planType) {
         var options = $('#' + optionKey + '-amortDropdown');
@@ -280,7 +281,7 @@
         setEquipmentDescription: setEquipmentDescription,
         setNewEquipment: setNewEquipment,
         removeEquipment: removeEquipment,
-        setTax: setTax,
+        //setTax: setTax,
         setLoanTerm: setLoanTerm,
         setAmortTerm: setAmortTerm
     }

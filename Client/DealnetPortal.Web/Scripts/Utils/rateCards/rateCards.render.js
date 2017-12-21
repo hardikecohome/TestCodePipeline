@@ -104,7 +104,7 @@
                 values.push($(i).attr('value'));
             });
 
-            if (values.indexOf(selected) !== -1 && !isStandalone) {
+            if (values.indexOf(selected) !== -1) {
                 e.value = selected;
                 $('#' + selectorName + '-amortDropdown option[value=' + selected + ']').attr("selected", selected);
             } else {
