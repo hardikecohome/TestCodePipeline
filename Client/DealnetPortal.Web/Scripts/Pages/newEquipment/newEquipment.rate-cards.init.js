@@ -42,12 +42,13 @@
             $submitBtnSelector.parent().popover('destroy');
         }
 
+        rateCardsCaclulationEngine.init(cards);
+
         if (state.onlyCustomRateCard) {
             if (state.selectedCardId !== null) {
                 renderRateCardOption(settings.customRateCardName);
             }
         } else {
-            rateCardsCaclulationEngine.init(cards);
 
             if (state.selectedCardId !== null) {
                 constants.rateCards.forEach(function (option) {

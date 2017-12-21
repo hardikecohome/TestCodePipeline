@@ -45,7 +45,12 @@
     var filterRateCard = function(dataObject) {
         var totalCash = constants.minimumLoanValue;
         var totalAmount = totalAmountFinanced($.extend({}, { equipmentSum: state.eSum, downPayment: state.downPayment }));
-        state[dataObject.rateCardPlan] = $.extend({}, { totalAmountFinanced: totalAmount });
+
+        if (state[dataObject.rateCardPlan] === undefined) {
+            state[dataObject.rateCardPlan] = $.extend({}, { totalAmountFinanced: totalAmount });
+        } else {
+            state[dataObject.rateCardPlan].totalAmountFinanced = totalAmount;
+        }
 
         if (!isNaN(totalAmount)) {
             if (totalAmount > totalCash) {
@@ -123,13 +128,14 @@
             }
         }
 
-        return $.grep(items, function (i) {
+        var card = $.grep(items, function (i) {
             if (totalCash >= constants.maxRateCardLoanValue) {
                 return i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= constants.maxRateCardLoanValue;
             } else {
                 return i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
             }
         })[0];
+        return card;
     }
 
     return {

@@ -280,13 +280,13 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.LengthOfEmployment, d => d.ResolveUsing(src =>
                 {
                     string temp = null;
-                    if(src.YearsOfEmployment.HasValue)
+                    if(!string.IsNullOrEmpty(src.YearsOfEmployment))
                     {
-                        temp = src.YearsOfEmployment.Value.ToString();
+                        temp = src.YearsOfEmployment;
                     }
-                    if(src.MonthsOfEmployment.HasValue)
+                    if(!string.IsNullOrEmpty(src.MonthsOfEmployment))
                     {
-                        temp += "/" + src.MonthsOfEmployment.Value.ToString();
+                        temp += "/" + src.MonthsOfEmployment;
                     }
                     return temp;
                 }));
@@ -665,20 +665,25 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.EmploymentType, d => d.MapFrom(src => src.EmploymentType.ConvertTo<EmploymentType>()))
                 .ForMember(x => x.CompanyAddress, d => d.MapFrom(src => src.CompanyAddress))
                 .ForMember(x => x.MonthsOfEmployment, d => d.ResolveUsing(src => {
-                    var months = MonthsOfEmployment.Zero;
                     if(!string.IsNullOrWhiteSpace(src.LengthOfEmployment))
                     {
-                        Enum.TryParse(src.LengthOfEmployment.Split('/')[1],out months);
+                        if(src.LengthOfEmployment.Contains("/"))
+                        {
+                            return src.LengthOfEmployment.Split('/')[1];
+                        }
                     }
-                    return months;
+                    return string.Empty;
                 }))
                 .ForMember(x => x.YearsOfEmployment, d => d.ResolveUsing(src => {
-                    var years = YearsOfEmployment.Zero;
                     if(!string.IsNullOrWhiteSpace(src.LengthOfEmployment))
                     {
-                        Enum.TryParse(src.LengthOfEmployment.Split('/')[0], out years);
+                        if(src.LengthOfEmployment.Contains("/"))
+                        {
+                         return   src.LengthOfEmployment.Split('/')[0];
+                        }
+                        return src.LengthOfEmployment;
                     }
-                    return years;
+                    return string.Empty;
                 }));
         }
     }
