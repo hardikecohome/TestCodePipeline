@@ -24,7 +24,7 @@ namespace DealnetPortal.Web
             routes.MapRoute(
                name: "CustomerFormDefault",
                url: "CustomerForm/{hashDealerName}",
-               defaults: new {culture = "en",  controller = "CustomerForm", action = "Index" }
+               defaults: new {controller = "CustomerForm", action = "Index" }
            );
            routes.MapRoute(
                name: "CustomerFormActionWithCulture",
@@ -35,7 +35,7 @@ namespace DealnetPortal.Web
             routes.MapRoute(
                name: "CustomerFormActionDefault",
                url: "CustomerForm/{action}/{contractId}/{hashDealerName}",
-               defaults: new { culture = "en", controller = "CustomerForm", action = "Index" }
+               defaults: new { controller = "CustomerForm", action = "Index" }
            );
             routes.MapRoute(
                 name: "OnboardingWithCulture",
@@ -46,7 +46,7 @@ namespace DealnetPortal.Web
             routes.MapRoute(
                 name: "OnboardingDefault",
                 url: "Dealer/{action}/{key}",
-                defaults: new { culture="en",  controller = "Dealer"}
+                defaults: new {  controller = "Dealer"}
             );
 
             routes.MapRoute(
@@ -59,7 +59,7 @@ namespace DealnetPortal.Web
             routes.MapRoute(
                name: "NewApplicationDefault",
                url: "NewApplication/{action}/{contractId}",
-               defaults: new { culture = "en", controller = "NewRental", contractId = UrlParameter.Optional }
+               defaults: new { controller = "NewRental", contractId = UrlParameter.Optional }
            );
            
 
@@ -85,7 +85,7 @@ namespace DealnetPortal.Web
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { culture = "en", controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new {  controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
         }
     }
