@@ -18,5 +18,19 @@
         this.additionalApplicant = {
             employment: new EmploymentInformation(model.AdditionalApplicants && model.AdditionalApplicants[0].EmploymentInformation || {})
         };
+
+        this.valid = function () {
+            var valid = true;
+            if (this.showEmployment()) {
+                valid = this.homeOwner.employment.isValid();
+                if (this.hasAdditional()) {
+                    valid = valid && this.additionalApplicant.employment.isValid();
+                }
+            }
+            if (!valid) {
+                this.homeOwner.employment.showAllMessages();
+            }
+            return valid;
+        }
     }
 });

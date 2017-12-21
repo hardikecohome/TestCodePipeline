@@ -11,6 +11,11 @@ namespace DealnetPortal.Domain
 {
     public class DealerProfile
     {
+        public DealerProfile()
+        {
+            Address = new Address();            
+        }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
@@ -18,6 +23,15 @@ namespace DealnetPortal.Domain
         public string DealerId { get; set; }
         [ForeignKey("DealerId")]
         public virtual ApplicationUser Dealer { get; set; }
+
+        public Address Address { get; set; }
+
+        [EmailAddress]
+        public string EmailAddress { get; set; }
+
+        public string Phone { get; set; }
+
+        public string Culture { get; set; }
 
         public virtual ICollection<DealerEquipment> Equipments { get; set; }
 

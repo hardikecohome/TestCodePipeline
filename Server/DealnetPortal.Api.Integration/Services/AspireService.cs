@@ -2196,16 +2196,11 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 if (!string.IsNullOrEmpty(customer.EmploymentInfo.AnnualSalary))
                 {
-                    var minValue = customer.EmploymentInfo.AnnualSalary.Split('-')?[0];
-                    decimal outValue;
-                    if (decimal.TryParse(minValue, out outValue))
+                    udfList.Add(new UDF()
                     {
-                        udfList.Add(new UDF()
-                        {
-                            Name = AspireUdfFields.AnnualSalary,
-                            Value = outValue.ToString(CultureInfo.InvariantCulture)
-                        });
-                    }
+                        Name = AspireUdfFields.AnnualSalary,
+                        Value = customer.EmploymentInfo.AnnualSalary.Replace("$", "").Replace(" ", "")
+                    });
                 }
                 if (!string.IsNullOrEmpty(customer.EmploymentInfo.HourlyRate))
                 {

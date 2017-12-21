@@ -20,7 +20,7 @@
         // <script> tag: use the global `ko` object, attaching a `mapping` property
         factory(ko, ko.validation = {});
     }
-}(function ( ko, exports ) {
+}(function (ko, exports) {
 
     if (typeof (ko) === undefined) { throw 'Knockout is required, please ensure it is loaded before loading this validation plug-in'; }
 
@@ -33,13 +33,13 @@
         messagesOnModified: true,
         errorsAsTitleOnModified: false, // shows the error when hovering the input field (decorateElement must be true)
         messageTemplate: null,
-        insertMessages: true,           // automatically inserts validation messages as <span></span>
-        parseInputAttributes: false,    // parses the HTML5 validation attribute from a form element and adds that to the object
+        insertMessages: false,           // automatically inserts validation messages as <span></span>
+        parseInputAttributes: true,    // parses the HTML5 validation attribute from a form element and adds that to the object
         writeInputAttributes: false,    // adds HTML5 input validation attributes to form elements that ko observable's are bound to
-        decorateElement: false,         // false to keep backward compatibility
+        decorateElement: true,         // false to keep backward compatibility
         errorClass: null,               // single class for error message and element
-        errorElementClass: 'validationElement',  // class to decorate error element
-        errorMessageClass: 'validationMessage',  // class to decorate error message
+        errorElementClass: 'input-validation-error',  // class to decorate error element
+        errorMessageClass: 'text-danger',  // class to decorate error message
         grouping: {
             deep: false,        //by default grouping is shallow
             observable: true    //and using observables
@@ -141,7 +141,7 @@
                 }
             }
         };
-    } ());
+    }());
 
     //#endregion
 
@@ -190,46 +190,46 @@
             //      deep: false, // if true, will walk past the first level of viewModel properties
             //      observable: false // if true, returns a computed observable indicating if the viewModel is valid
             // }
-            group: function group(obj, options) { // array of observables or viewModel
+            group: function group (obj, options) { // array of observables or viewModel
                 var options = ko.utils.extend(configuration.grouping, options),
-                validatables = ko.observableArray([]),
-                result = null,
+                    validatables = ko.observableArray([]),
+                    result = null,
 
-                //anonymous, immediate function to traverse objects hierarchically
-                //if !options.deep then it will stop on top level
-                traverse = function traverse(obj, level) {
-                    var objValues = [],
-                        val = ko.utils.unwrapObservable(obj);
+                    //anonymous, immediate function to traverse objects hierarchically
+                    //if !options.deep then it will stop on top level
+                    traverse = function traverse (obj, level) {
+                        var objValues = [],
+                            val = ko.utils.unwrapObservable(obj);
 
-                    //default level value depends on deep option.
-                    level = (level !== undefined ? level : options.deep ? 1 : -1);
+                        //default level value depends on deep option.
+                        level = (level !== undefined ? level : options.deep ? 1 : -1);
 
-                    // if object is observable then add it to the list
-                    if (ko.isObservable(obj)) {
+                        // if object is observable then add it to the list
+                        if (ko.isObservable(obj)) {
 
-                        //make sure it is validatable object
-                        if (!obj.isValid) obj.extend({ validatable: true });
-                        validatables.push(obj);
-                    }
-
-                    //get list of values either from array or object but ignore non-objects
-                    if (val) {
-                        if (utils.isArray(val)) {
-                            objValues = val;
-                        } else if (utils.isObject(val)) {
-                            objValues = utils.values(val);
+                            //make sure it is validatable object
+                            if (!obj.isValid) obj.extend({ validatable: true });
+                            validatables.push(obj);
                         }
-                    }
 
-                    //process recurisvely if it is deep grouping
-                    if (level !== 0) {
-                        ko.utils.arrayForEach(objValues, function (observable) {
+                        //get list of values either from array or object but ignore non-objects
+                        if (val) {
+                            if (utils.isArray(val)) {
+                                objValues = val;
+                            } else if (utils.isObject(val)) {
+                                objValues = utils.values(val);
+                            }
+                        }
 
-                            //but not falsy things and not HTML Elements
-                            if (observable && !observable.nodeType) traverse(observable, level + 1);
-                        });
-                    }
-                };
+                        //process recurisvely if it is deep grouping
+                        if (level !== 0) {
+                            ko.utils.arrayForEach(objValues, function (observable) {
+
+                                //but not falsy things and not HTML Elements
+                                if (observable && !observable.nodeType) traverse(observable, level + 1);
+                            });
+                        }
+                    };
 
                 //if using observables then traverse structure once and add observables
                 if (options.observable) {
@@ -278,12 +278,12 @@
                 obj.isValid = function () {
                     return obj.errors().length === 0;
                 };
-                obj.isAnyMessageShown = function() {
+                obj.isAnyMessageShown = function () {
                     var invalidAndModifiedPresent = false;
-                    
+
                     // ensure we have latest changes
                     result();
-                    
+
                     ko.utils.arrayForEach(validatables(), function (observable) {
                         if (!observable.isValid() && observable.isModified()) {
                             invalidAndModifiedPresent = true;
@@ -333,7 +333,7 @@
             addAnonymousRule: function (observable, ruleObj) {
                 var ruleName = utils.newId();
 
-                if ( ruleObj['message'] === undefined ) {
+                if (ruleObj['message'] === undefined) {
                     ruleObj['message'] = 'Error';
                 }
 
@@ -651,7 +651,7 @@
     //now register all of these!
     (function () {
         validation.registerExtenders();
-    } ());
+    }());
 
     //#endregion
 
@@ -714,7 +714,7 @@
 
             return ko.bindingHandlers['validationCore'].init(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext);
         };
-    } ());
+    }());
 
 
     ko.bindingHandlers['validationMessage'] = { // individual error message, if modified or post binding
@@ -725,12 +725,12 @@
                 msg = null,
                 isModified = false,
                 isValid = false;
-                
+
             obsv.extend({ validatable: true });
 
             isModified = obsv.isModified();
             isValid = obsv.isValid();
-            
+
             // create a handler to correctly return an error message
             var errorMsgAccessor = function () {
                 if (!config.messagesOnModified || isModified) {
@@ -820,7 +820,7 @@
                 }
             }
         };
-    } ());
+    }());
     //#endregion
 
     //#region Knockout Extenders
@@ -920,7 +920,7 @@
         return observable;
     };
 
-    function validateSync(observable, rule, ctx) {
+    function validateSync (observable, rule, ctx) {
         //Execute the validator and see if its valid
         if (!rule.validator(observable(), ctx.params === undefined ? true : ctx.params)) { // default param is true, eg. required = true
 
@@ -933,7 +933,7 @@
         }
     }
 
-    function validateAsync(observable, rule, ctx) {
+    function validateAsync (observable, rule, ctx) {
         observable.isValidating(true);
 
         var callBack = function (valObj) {
@@ -977,7 +977,7 @@
             ruleContexts = observable.rules(), //cache for iterator
             len = ruleContexts.length; //cache for iterator
 
-        for (; i < len; i++) {
+        for (;i < len;i++) {
 
             //get the Rule Context info to give to the core Rule
             ctx = ruleContexts[i];

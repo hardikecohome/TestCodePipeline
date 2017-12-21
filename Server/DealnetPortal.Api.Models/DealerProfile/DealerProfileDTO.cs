@@ -12,6 +12,14 @@ namespace DealnetPortal.Api.Models.Profile
 
         public string DealerId { get; set; }
 
+        public AddressDTO Address { get; set; }
+
+        public string EmailAddress { get; set; }
+
+        public string Phone { get; set; }
+
+        public string Culture { get; set; }
+
         public IList<DealerEquipmentDTO> EquipmentList { get; set; }
 
         public IList<DealerAreaDTO> PostalCodesList { get; set; }

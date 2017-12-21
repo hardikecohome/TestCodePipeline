@@ -135,37 +135,6 @@ configInitialized
             hideAditional1Section();
         });
 
-        $("#save-and-proceed-button").click(function (event) {
-            var isApprovalAge = checkApplicantsAge();
-            var isHomeOwner = checkHomeOwner();
-            var isAgreesToCreditCheck = checkCreditAgree();
-
-            if (!isApprovalAge) {
-                $('#age-warning-message').hide();
-                //$('#age-error-message').show();
-                //scrollPageTo($('#age-error-message'));
-            }
-            if (!isHomeOwner) {
-                $("#proceed-homeowner-errormessage").show();
-                scrollPageTo($("#borrower-is-homeowner"));
-            }
-
-            if (!isAgreesToCreditCheck) {
-                $('#proceed-error-message').show();
-                scrollPageTo($("#proceed-error-message"));
-            }
-
-            if (!isHomeOwner || !isApprovalAge || !isAgreesToCreditCheck) {
-                if ($('#main-form').valid()) {
-                    event.preventDefault();
-                } else {
-                    $('.dob-input').each(function (index, el) {
-                        dob.validate(el);
-                    });
-                }
-            }
-        });
-
         //mobile adds required to DL upload input, why???
         if ($('#owner-upload-file').length) {
             $('#owner-upload-file').rules('remove');

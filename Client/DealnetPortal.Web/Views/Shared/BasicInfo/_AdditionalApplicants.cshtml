@@ -218,13 +218,13 @@
                         @Html.LabelFor(m => m.AdditionalApplicants[i].AddressInformation.Province, new { @for = "additional-administrative_area_level_1-" + (i + 1) })
                         <div class="control-group">
                             @Html.DropDownListFor(m => m.AdditionalApplicants[i].AddressInformation.Province,
-                                                        (Model.ProvinceTaxRates).Select(x => new SelectListItem
-                                                        {
-                                                            Value = x.Province,
-                                                            Text = x.Province,
-                                                            Selected = Model.AdditionalApplicants?[i]?.AddressInformation?.Province == x.Province
-                                                        }), "",
-                                                        new { @class = "form-control dealnet-input", id = "additional-administrative_area_level_1-" + (i + 1) })
+                                                                  (Model.ProvinceTaxRates).Select(x => new SelectListItem
+                                                                  {
+                                                                      Value = x.Province,
+                                                                      Text = x.Province,
+                                                                      Selected = Model.AdditionalApplicants?[i]?.AddressInformation?.Province == x.Province
+                                                                  }), "",
+                                                                  new { @class = "form-control dealnet-input", id = "additional-administrative_area_level_1-" + (i + 1) })
                             @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].AddressInformation.Province, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -291,8 +291,8 @@
                         @Html.LabelFor(m => m.AdditionalApplicants[i].PreviousAddressInformation.Province, new { @for = "additional-previous-administrative_area_level_1-" + (i + 1) })
                         <div class="control-group">
                             @Html.DropDownListFor(m => m.AdditionalApplicants[i].PreviousAddressInformation.Province,
-                                                        (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.AdditionalApplicants?[i]?.PreviousAddressInformation?.Province == x.Province }), "",
-                                                        new { @class = "form-control dealnet-input", id = "additional-previous-administrative_area_level_1-" + (i + 1) })
+                                                                  (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.AdditionalApplicants?[i]?.PreviousAddressInformation?.Province == x.Province }), "",
+                                                                  new { @class = "form-control dealnet-input", id = "additional-previous-administrative_area_level_1-" + (i + 1) })
                             @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].PreviousAddressInformation.Province, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -386,11 +386,24 @@
                             <label>@Resources.LengthOfEmployment</label>
                             <div class="row control-group">
                                 <div class="col-md-6 col-sm-6 col-xs-6">
-                                    @Html.EnumDropDownListFor(m => m.AdditionalApplicants[i].EmploymentInformation.YearsOfEmployment, new { @class = "form-control dealnet-input", data_bind = "value: yearsOfEmploy, enable: isEmployedOrSelfEmployed" })
+                                    <select name="@Html.NameFor(m => m.AdditionalApplicants[i].EmploymentInformation.YearsOfEmployment)" class="form-control dealnet-input" data-bind="value: yearsOfEmploy, enable: isEmployedOrSelfEmployed">
+                                        <option value="" @(string.IsNullOrEmpty(Model.AdditionalApplicants[i]?.EmploymentInformation?.YearsOfEmployment) ? "selected" : "")></option>
+                                        @for(int j = 0; j < 10; j++)
+                                        {
+                                            <option value="@j" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.YearsOfEmployment == j.ToString() ? "selected" : "")>@j</option>
+                                        }
+                                        <option value="10+" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.YearsOfEmployment == "10+" ? "selected" : "")>10+</option>
+                                    </select>
                                     @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.YearsOfEmployment, "", new { @class = "text-danger", data_bind = "validationMessage: yearsOfEmploy" })
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-6">
-                                    @Html.EnumDropDownListFor(m => m.AdditionalApplicants[i].EmploymentInformation.MonthsOfEmployment, new { @class = "form-control dealnet-input", data_bind = "value: monthsOfEmploy, enable: isEmployedOrSelfEmployed" })
+                                    <select name="@Html.NameFor(m => m.AdditionalApplicants[i].EmploymentInformation.MonthsOfEmployment)" class="form-control dealnet-input" data-bind="value: monthsOfEmploy, enable:isEmployedOrSelfEmployed">
+                                        <option value="" @(string.IsNullOrEmpty(Model.AdditionalApplicants[i]?.EmploymentInformation?.MonthsOfEmployment) ? "selected" : "")></option>
+                                        @for(int j = 0; j < 12; j++)
+                                        {
+                                            <option value="@j" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.MonthsOfEmployment == j.ToString() ? "selected" : "")>@j</option>
+                                        }
+                                    </select>
                                     @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.MonthsOfEmployment, "", new { @class = "text-danger", data_bind = "validationMessage: monthsOfEmploy" })
                                 </div>
                             </div>
@@ -411,7 +424,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.JobTitle)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.JobTitle, new { @class = "form-control dealnet-input", data_bind = "value:jobTitle, enable: isEmployedOrSelfEmployed" })
+                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.JobTitle, new { @class = "form-control dealnet-input", data_bind = "value:jobTitle, enable: isEmployedOrSelfEmployed, attr:{required:isEmployedOrSelfEmployed}" })
                                 @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.JobTitle, "", new { @class = "text-danger", data_bind = "validationMessage: jobTitle" })
                             </div>
                         </div>
@@ -420,7 +433,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyName)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyName, new { @class = "form-control dealnet-input", data_bind = "value:companyName, enable: isEmployedOrSelfEmployed" })
+                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyName, new { @class = "form-control dealnet-input", data_bind = "value:companyName, enable: isEmployedOrSelfEmployed, attr:{required:isEmployedOrSelfEmployed}" })
                                 @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyName, "", new { @class = "text-danger", data_bind = "validationMessage: companyName" })
                             </div>
                         </div>
@@ -429,7 +442,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyPhone)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyPhone, new { @class = "form-control dealnet-input", data_bind = "value:companyPhone, enable: isEmployedOrSelfEmployed" })
+                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyPhone, new { @class = "form-control dealnet-input", data_bind = "value:companyPhone, enable: isEmployedOrSelfEmployed, attr:{required:isEmployedOrSelfEmployed}" })
                                 @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyPhone, "", new { @class = "text-danger", data_bind = "validationMessage:companyPhone" })
                             </div>
                         </div>
