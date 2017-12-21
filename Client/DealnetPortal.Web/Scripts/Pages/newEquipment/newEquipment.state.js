@@ -32,8 +32,6 @@
         maxRateCardLoanValue: 50000
     };
 
-    window.state = state;
-
     return {
         state: state,
         constants: constants

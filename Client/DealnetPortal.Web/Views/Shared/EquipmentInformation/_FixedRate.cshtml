@@ -15,10 +15,10 @@
     </div>
     <hr>
     <div class="equal-height-row-2">
-      <div class="form-group notify-hold">
+      <div class="form-group">
         <label>@Resources.LoanAmortTerm</label>
         @Html.DropDownList(Model + "Amortization", amortizationSelectList, new { @class = "form-control", id = Model + "-amortDropdown" })
-        @if (ViewBag.totalAmountFinancedFor180amortTerm == 3999)
+        @*@if (ViewBag.totalAmountFinancedFor180amortTerm == 3999)
 		{
 			<a class="link-over-notify" id="DeferralNotify"
 			   data-content="@Resources.Month180AmortOnlyOver4000">
@@ -32,7 +32,7 @@
 				<svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
 			</a>
 
-		}
+		}*@
       </div>
     </div>
     <div class="equal-height-row-3">
