@@ -815,6 +815,7 @@
     <Content Include="Scripts\components\addressInformation.js" />
     <Content Include="Scripts\components\employmentInformation.js" />
     <Content Include="Scripts\index.js" />
+    <Content Include="Scripts\pages\Clients\views\employment-info.js" />
     <Content Include="Scripts\vendor\knockout.validation.js" />
     <Content Include="Scripts\pages\basicInfo\address-autocomplete.js" />
     <Content Include="Scripts\pages\calculator\calculator.validation.js" />
