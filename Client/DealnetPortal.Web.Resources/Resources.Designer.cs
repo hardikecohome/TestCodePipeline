@@ -2478,6 +2478,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Employment Information.
+        /// </summary>
+        public static string EmploymentInformation {
+            get {
+                return ResourceManager.GetString("EmploymentInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Employment Status.
         /// </summary>
         public static string EmploymentStatus {
@@ -3824,6 +3833,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Month {
             get {
                 return ResourceManager.GetString("Month", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to month(s).
+        /// </summary>
+        public static string Month_s_ {
+            get {
+                return ResourceManager.GetString("Month_s_", resourceCulture);
             }
         }
         
@@ -6744,6 +6762,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Year {
             get {
                 return ResourceManager.GetString("Year", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to year(s).
+        /// </summary>
+        public static string Year_s_ {
+            get {
+                return ResourceManager.GetString("Year_s_", resourceCulture);
             }
         }
         

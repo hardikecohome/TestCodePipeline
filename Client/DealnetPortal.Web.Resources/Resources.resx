@@ -2553,4 +2553,13 @@ changing contract terms or signing contract on paper.</value>
   <data name="Quebec" xml:space="preserve">
     <value>Quebec</value>
   </data>
+  <data name="EmploymentInformation" xml:space="preserve">
+    <value>Employment Information</value>
+  </data>
+  <data name="Month_s_" xml:space="preserve">
+    <value>month(s)</value>
+  </data>
+  <data name="Year_s_" xml:space="preserve">
+    <value>year(s)</value>
+  </data>
 </root>
