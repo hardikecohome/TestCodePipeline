@@ -6,11 +6,11 @@
                     message: translations.ThisFieldIsRequired,
                     params: true
                 },
-                min: {
+                minLength: {
                     message: translations.TheFieldMustBeMinimumAndMaximum,
                     params: 2
                 },
-                max: {
+                maxLength: {
                     message: translations.TheFieldMustBeMinimumAndMaximum,
                     params: 100
                 },
@@ -21,11 +21,11 @@
             });
         this.unit = ko.observable(address.Unit || '')
             .extend({
-                min: {
+                minLength: {
                     message: translations.TheFieldMustBeMinimumAndMaximum,
                     params: 1
                 },
-                max: {
+                maxLength: {
                     message: translations.TheFieldMustBeMinimumAndMaximum,
                     params: 10
                 },
@@ -40,11 +40,11 @@
                     message: translations.ThisFieldIsRequired,
                     params: true
                 },
-                min: {
+                minLength: {
                     message: translations.TheFieldMustBeMinimumAndMaximum,
                     params: 2
                 },
-                max: {
+                maxLength: {
                     message: translations.TheFieldMustBeMinimumAndMaximum,
                     params: 50
                 },
@@ -70,11 +70,11 @@
                     message: translations.ThisFieldIsRequired,
                     params: true
                 },
-                min: {
+                minLength: {
                     message: translations.TheFieldMustBeMinimumAndMaximum,
                     params: 5
                 },
-                max: {
+                maxLength: {
                     message: translations.TheFieldMustBeMinimumAndMaximum,
                     params: 6
                 },

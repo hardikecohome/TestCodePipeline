@@ -140,8 +140,8 @@ module.exports('employmentInformation', function (require) {
             });
         self.address = new addressInformation(info.CompanyAddress || {});
 
-        self.isValid = function () {
-            var addressValid = !self.isEmployedOrSelfEmployed() || self.address.isValid();
+        self.valid = function () {
+            var addressValid = self.isEmployedOrSelfEmployed() ? self.address.isValid() : true;
             return self.status() != '' &&
                 self.incomeType.isValid() &&
                 self.annualSalary.isValid() &&
