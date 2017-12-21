@@ -19,12 +19,9 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44341</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -495,6 +492,9 @@
     <Content Include="Content\images\logos\logo-eco-energy-w%402x.png" />
     <Content Include="Content\images\logos\logo-eco-energy-w%403x.png" />
     <Content Include="Content\images\logos\logo-eco-energy-w.png" />
+    <Content Include="Content\images\logos\logo-eco-home-fr%402x.png" />
+    <Content Include="Content\images\logos\logo-eco-home-fr%403x.png" />
+    <Content Include="Content\images\logos\logo-eco-home-fr.png" />
     <Content Include="Content\images\logos\logo-life-time-w%402x.png" />
     <Content Include="Content\images\logos\logo-life-time-w%403x.png" />
     <Content Include="Content\images\logos\logo-life-time-w.png" />

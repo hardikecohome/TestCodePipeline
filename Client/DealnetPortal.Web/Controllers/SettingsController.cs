@@ -7,6 +7,8 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.UI;
+using DealnetPortal.Api.Core.Helpers;
+using DealnetPortal.Web.Common.Culture;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -32,16 +34,36 @@ namespace DealnetPortal.Web.Controllers
                 return File(image.ValueBytes, "application/octet-stream");
             }
             //fallback:
-            Stream stream; 
-            switch (ApplicationSettingsManager.PortalType)
+            Stream stream;
+            if (CultureHelper.CurrentCultureType != CultureType.French)
             {
-                case PortalType.Ecohome:
-                default:
-                    stream = new FileStream(Server.MapPath("~/Content/images/logos/logo-eco-home@2x.png"), FileMode.Open, FileAccess.Read);
-                    break;
-                case PortalType.Odi:
-                    stream = new FileStream(Server.MapPath("~/Content/images/logos/logo-one-dealer@2x.png"), FileMode.Open, FileAccess.Read);
-                    break;
+                switch (ApplicationSettingsManager.PortalType)
+                {
+                    case PortalType.Ecohome:
+                    default:
+                        stream = new FileStream(Server.MapPath("~/Content/images/logos/logo-eco-home@2x.png"),
+                            FileMode.Open, FileAccess.Read);
+                        break;
+                    case PortalType.Odi:
+                        stream = new FileStream(Server.MapPath("~/Content/images/logos/logo-one-dealer@2x.png"),
+                            FileMode.Open, FileAccess.Read);
+                        break;
+                }
+            }
+            else
+            {
+                switch (ApplicationSettingsManager.PortalType)
+                {
+                    case PortalType.Ecohome:
+                    default:
+                        stream = new FileStream(Server.MapPath("~/Content/images/logos/logo-eco-home-fr@2x.png"),
+                            FileMode.Open, FileAccess.Read);
+                        break;
+                    case PortalType.Odi:
+                        stream = new FileStream(Server.MapPath("~/Content/images/logos/logo-one-dealer@2x.png"),
+                            FileMode.Open, FileAccess.Read);
+                        break;
+                }
             }
             return File(stream, "image/png");
         }

@@ -14,18 +14,18 @@
         <h2 class="page-heading">
             @Resources.ApplicationSuccessfullySubmitted<br /> @Resources.WellContactSoon
         </h2>
-        <div>
-            @Resources.QuestionsContactDealerSupport<br />
-            @Resources.Phone:
-            <a href="tel:+@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]" class="tel">
-                @System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]
-            </a>
-            <br />
-            @Resources.Email:
-            <a href="mailto:@System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]">
-                @System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]
-            </a>
-        </div>
+	    <div>
+		    @Resources.QuestionsContactDealerSupport<br/>
+		    @Resources.Phone:
+		    <a href="tel:+@Resources.DealerSupportPhoneNumber" class="tel">
+			    @Resources.DealerSupportPhoneNumber
+		    </a>
+		    <br/>
+		    @Resources.Email:
+		    <a href="mailto: @Resources.DealerSupportInfoEmail">
+			    @Resources.DealerSupportInfoEmail
+		    </a>
+	    </div>
     </div>
 </div>
 <script type="text/javascript">
