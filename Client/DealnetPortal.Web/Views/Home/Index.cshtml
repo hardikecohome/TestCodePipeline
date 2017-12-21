@@ -2,16 +2,13 @@
 @{
     ViewBag.Title = Resources.HomePage;
     var bannerLink = System.Configuration.ConfigurationManager.AppSettings["HomeBannerLink"];
-    var bannerImagePath = Request.Browser.IsMobileDevice ?
-        System.Configuration.ConfigurationManager.AppSettings["MobileBannerPath"] :
-        System.Configuration.ConfigurationManager.AppSettings["DesktopBannerPath"];
-    var bannerExists = File.Exists(Server.MapPath(bannerImagePath));
+    var bannerExists = !string.IsNullOrEmpty((string) ViewBag.Banner);
 }
 @if (bannerExists)
 {
     <div class="banner-container">
         <a @(!string.IsNullOrEmpty(bannerLink) ? "href="+ bannerLink + " target=\"_blank\"" : "")>
-            <img src="@Url.Content(bannerImagePath)" />
+            <img src="@Url.Content(ViewBag.Banner)" />
         </a>
     </div>
 }

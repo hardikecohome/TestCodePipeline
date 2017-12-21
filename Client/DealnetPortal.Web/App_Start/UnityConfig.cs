@@ -73,6 +73,7 @@ namespace DealnetPortal.Web.App_Start
             container.RegisterType<IProfileManager, ProfileManager>();
             container.RegisterType<IDealerOnBoardingManager, DealerOnBoardingManager>();
             container.RegisterType<IMortgageBrokerServiceAgent, MortgageBrokerServiceAgent>();
+            container.RegisterType<IContentManager, ContentManager>();
 
             container.RegisterType<IAuthenticationManager>(
                 new InjectionFactory(o => HttpContext.Current?.Request.GetOwinContext().Authentication));
