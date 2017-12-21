@@ -18,9 +18,9 @@ namespace DealnetPortal.Web.Models
         [Display(ResourceType = typeof(Resources.Resources), Name = "HourlyRate")]
         public string HourlyRate { get; set; }
 
-        public YearsOfEmployment? YearsOfEmployment { get; set; }
+        public string YearsOfEmployment { get; set; }
 
-        public MonthsOfEmployment? MonthsOfEmployment { get; set; }
+        public string MonthsOfEmployment { get; set; }
 
         [Display(ResourceType =typeof(Resources.Resources),Name ="TypeOfEmployment")]
         public EmploymentType? EmploymentType { get; set; }
