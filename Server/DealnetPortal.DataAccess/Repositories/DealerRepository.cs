@@ -64,8 +64,51 @@ namespace DealnetPortal.DataAccess.Repositories
                 return profile;
             }
             profile.Id = dbProfile.Id;
-            UpdateProfileEquipments(profile, dbProfile.Equipments.ToList());
-            UpdateProfileArears(profile, dbProfile.Areas.ToList());
+
+            if (profile.Culture != null)
+            {
+                dbProfile.Culture = profile.Culture;
+            }
+            if (profile.EmailAddress != null)
+            {
+                dbProfile.EmailAddress = profile.EmailAddress;
+            }
+            if (profile.Phone != null)
+            {
+                dbProfile.Phone = profile.Phone;
+            }
+            if (profile.Address != null)
+            {
+                if (dbProfile.Address.City != profile.Address.City)
+                {
+                    dbProfile.Address.City = profile.Address.City;
+                }
+                if (dbProfile.Address.PostalCode != profile.Address.PostalCode)
+                {
+                    dbProfile.Address.PostalCode = profile.Address.PostalCode;
+                }
+                if (dbProfile.Address.State != profile.Address.State)
+                {
+                    dbProfile.Address.State = profile.Address.State;
+                }
+                if (dbProfile.Address.Street != profile.Address.Street)
+                {
+                    dbProfile.Address.Street = profile.Address.Street;
+                }
+                if (dbProfile.Address.Unit != profile.Address.Unit)
+                {
+                    dbProfile.Address.Unit = profile.Address.Unit;
+                }
+            }            
+
+            if (profile.Equipments != null)
+            {
+                UpdateProfileEquipments(profile, dbProfile.Equipments.ToList());
+            }
+            if (profile.Areas != null)
+            {
+                UpdateProfileArears(profile, dbProfile.Areas.ToList());
+            }
 
             return dbProfile;
         }
