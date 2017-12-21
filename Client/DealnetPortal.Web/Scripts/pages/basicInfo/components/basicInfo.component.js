@@ -10,13 +10,13 @@
         }, this);
 
         this.homeOwner = {
-            employment: ko.validatedObservable(new EmploymentInformation(model.HomeOwner && model.HomeOwner.EmploymentInformation ? model.HomeOwner.EmploymentInformation : {}))
+            employment: new EmploymentInformation(model.HomeOwner && model.HomeOwner.EmploymentInformation ? model.HomeOwner.EmploymentInformation : {})
         };
 
         this.hasAdditional = ko.observable(model.AdditionalApplicants && model.AdditionalApplicants[0].FirstName ? true : false);
 
         this.additionalApplicant = {
-            employment: ko.validatedObservable(new EmploymentInformation(model.AdditionalApplicants && model.AdditionalApplicants[0].EmploymentInformation || {}))
+            employment: new EmploymentInformation(model.AdditionalApplicants && model.AdditionalApplicants[0].EmploymentInformation || {})
         };
 
         this.valid = function () {
@@ -26,6 +26,9 @@
                 if (this.hasAdditional()) {
                     valid = valid && this.additionalApplicant.employment.isValid();
                 }
+            }
+            if (!valid) {
+                this.homeOwner.employment.showAllMessages();
             }
             return valid;
         }

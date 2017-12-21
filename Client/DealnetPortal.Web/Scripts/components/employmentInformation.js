@@ -3,9 +3,9 @@ module.exports('employmentInformation', function (require) {
     return function EmploymentInformationVM (info) {
         var self = this;
 
-        self.status = ko.observable(info.EmploymentStatus || '');
+        self.status = ko.observable(new String(info.EmploymentStatus));
 
-        self.incomeType = ko.observable(info.IncomeType || '')
+        self.incomeType = ko.observable(info.IncomeType)
             .extend({
                 required: {
                     message: translations['ThisFieldIsRequired'],
@@ -28,10 +28,10 @@ module.exports('employmentInformation', function (require) {
         }, self);
 
         self.isEmployedOrSelfEmployed = ko.computed(function () {
-            return this.isEmployed() || this.status() == '2';
+            return this.status() == '0' || this.status() == '2';
         }, self);
 
-        self.annualSalary = ko.observable(info.AnnualSalary || '')
+        self.annualSalary = ko.observable(info.AnnualSalary)
             .extend({
                 required: {
                     onlyIf: function () {
@@ -39,7 +39,7 @@ module.exports('employmentInformation', function (require) {
                     }
                 }
             });
-        self.hourlyRate = ko.observable(info.HourlyRate || '')
+        self.hourlyRate = ko.observable(info.HourlyRate)
             .extend({
                 required: {
                     message: translations.ThisFieldIsRequired,
@@ -48,7 +48,7 @@ module.exports('employmentInformation', function (require) {
                     }
                 }
             });
-        self.yearsOfEmploy = ko.observable(info.YearsOfEmployment || '')
+        self.yearsOfEmploy = ko.observable(info.YearsOfEmployment)
             .extend({
                 required: {
                     message: translations.ThisFieldIsRequired,
@@ -57,7 +57,7 @@ module.exports('employmentInformation', function (require) {
                     }
                 }
             });
-        self.monthsOfEmploy = ko.observable(info.MonthsOfEmploy || '')
+        self.monthsOfEmploy = ko.observable(info.MonthsOfEmploy)
             .extend({
                 required: {
                     message: translations.ThisFieldIsRequired,
@@ -66,7 +66,7 @@ module.exports('employmentInformation', function (require) {
                     }
                 }
             });
-        self.type = ko.observable(info.EmploymentType || '')
+        self.type = ko.observable(info.EmploymentType)
             .extend({
                 required: {
                     message: translations.ThisFieldIsRequired,
@@ -75,7 +75,7 @@ module.exports('employmentInformation', function (require) {
                     }
                 }
             });
-        self.jobTitle = ko.observable(info.JobTitle || '')
+        self.jobTitle = ko.observable(info.JobTitle)
             .extend({
                 required: {
                     message: translations.ThisFieldIsRequired,
@@ -83,11 +83,11 @@ module.exports('employmentInformation', function (require) {
                         return self.isEmployedOrSelfEmployed();
                     }
                 },
-                min: {
+                minLength: {
                     message: translations.TheFieldMustBeMinimumAndMaximum,
                     params: 2
                 },
-                max: {
+                maxLength: {
                     message: translations.TheFieldMustBeMinimumAndMaximum,
                     params: 140
                 },
@@ -102,19 +102,19 @@ module.exports('employmentInformation', function (require) {
                     message: translations.ThisFieldIsRequired,
                     onlyIf: function () {
                         return self.isEmployedOrSelfEmployed();
-                    },
-                    min: {
-                        message: translations.TheFieldMustBeMinimumAndMaximum,
-                        params: 2
-                    },
-                    max: {
-                        message: translations.TheFieldMustBeMinimumAndMaximum,
-                        params: 140
-                    },
-                    pattern: {
-                        message: translations.CompanyNameIncorrectFormat,
-                        params: "^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$"
                     }
+                },
+                minLength: {
+                    message: translations.TheFieldMustBeMinimumAndMaximum,
+                    params: 2
+                },
+                maxLength: {
+                    message: translations.TheFieldMustBeMinimumAndMaximum,
+                    params: 140
+                },
+                pattern: {
+                    message: translations.CompanyNameIncorrectFormat,
+                    params: "^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$"
                 }
             });
         self.companyPhone = ko.observable(info.CompanyPhone || '')
@@ -125,27 +125,30 @@ module.exports('employmentInformation', function (require) {
                         return self.isEmployedOrSelfEmployed();
                     }
                 },
-                min: {
+                minLength: {
                     message: translations.CompanyPhoneMustBeLong,
                     params: 10
                 },
-                max: {
+                maxLength: {
                     message: translations.CompanyPhoneMustBeLong,
                     params: 10
                 },
                 pattern: {
-                    message: translations.CityIncorrectFormat,
+                    message: translations.CompanyPhoneIncorrectFormat,
                     params: "^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$"
                 }
             });
-        self.address = ko.validatedObservable(new addressInformation(info.CompanyAddress || {}))
-            .extend({
-                required: {
-                    message: translations.ThisFieldIsRequired,
-                    onlyIf: function () {
-                        return self.isEmployedOrSelfEmployed();
-                    }
-                }
-            });
+        self.address = new addressInformation(info.CompanyAddress || {});
+
+        self.isValid = function () {
+            return self.status() != '' &&
+                self.incomeType.isValid() &&
+                self.annualSalary.isValid() &&
+                self.hourlyRate.isValid() && self.yearsOfEmploy.isValid() && self.monthsOfEmploy.isValid() && self.type.isValid() && self.jobTitle.isValid() && self.companyName.isValid() && self.companyPhone.isValid() && self.address.isValid();
+        };
+
+        self.showAllMessages = function () {
+            ko.validation.group(self, { deep: true }).showAllMessages(true);
+        }
     };
 });

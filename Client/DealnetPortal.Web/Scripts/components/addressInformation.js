@@ -87,6 +87,14 @@
         this.postalCode.subscribe(function (newValue) {
             this.postalCode(newValue.toUpperCase());
         }, this);
+
+        this.isValid = function () {
+            return this.street.isValid() &&
+                this.unit.isValid() &&
+                this.city.isValid() &&
+                this.province.isValid() &&
+                this.postalCode.isValid();
+        }
     };
 
     AddressInformation.prototype.clearAddress = function () {
