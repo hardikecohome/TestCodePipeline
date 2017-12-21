@@ -105,7 +105,7 @@ module.exports('rate-cards', function (require) {
 
             if (rateCard !== null && rateCard !== undefined) {
 
-                state[option.name] = rateCard;
+                state[option.name] = $.extend(true, {}, rateCard);
                 state[option.name].yourCost = '';
 
                 rateCardsRenderEngine.renderAfterFiltration(option.name, { deferralPeriod: state[option.name].DeferralPeriod, adminFee: state[option.name].AdminFee, dealerCost: state[option.name].DealerCost, customerRate: state[option.name].CustomerRate });

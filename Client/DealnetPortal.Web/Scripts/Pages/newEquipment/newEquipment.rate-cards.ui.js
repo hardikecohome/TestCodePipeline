@@ -192,19 +192,7 @@
         });
     }
 
-    return {
-        init: init,
-        hide: hideRateCardBlock,
-        show: showRateCardBlock,
-        toggle: toggleRateCardBlock,
-        highlightCard: highlightCard,
-        togglePromoLabel: togglePromoLabel,
-        highlightCardBySelector: highlightCardBySelector
-    };
-});
-
-
-function carouselRateCards () {
+    function carouselRateCards () {
 
     if (state.onlyCustomRateCard) {
         return;
@@ -319,3 +307,15 @@ function carouselRateCards () {
             }
         });
 }
+
+    return {
+        init: init,
+        hide: hideRateCardBlock,
+        show: showRateCardBlock,
+        toggle: toggleRateCardBlock,
+        highlightCard: highlightCard,
+        togglePromoLabel: togglePromoLabel,
+        highlightCardBySelector: highlightCardBySelector
+    };
+});
+
