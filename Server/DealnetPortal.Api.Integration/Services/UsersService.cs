@@ -33,15 +33,19 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ILoggingService _loggingService;
         private readonly ISettingsRepository _settingsRepository;
         private readonly IRateCardsRepository _rateCardsRepository;
+        private readonly IDealerRepository _dealerRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IAppConfiguration _сonfiguration;
 
         public UsersService(IAspireStorageReader aspireStorageReader, ILoggingService loggingService, IRateCardsRepository rateCardsRepository,
-            ISettingsRepository settingsRepository,  IAppConfiguration appConfiguration)
+            ISettingsRepository settingsRepository, IDealerRepository dealerRepository, IUnitOfWork unitOfWork, IAppConfiguration appConfiguration)
         {
             _aspireStorageReader = aspireStorageReader;
             _loggingService = loggingService;
             _settingsRepository = settingsRepository;
             _rateCardsRepository = rateCardsRepository;
+            _dealerRepository = dealerRepository;
+            _unitOfWork = unitOfWork;
             _сonfiguration = appConfiguration;
         }        
 
@@ -116,14 +120,11 @@ namespace DealnetPortal.Api.Integration.Services
                             alerts.AddRange(tierAlerts);
                         }
                     }
-                    //currently email update isn't work correctly
-                    //var dealerEmail = aspireDealerInfo.Emails?.FirstOrDefault()?.EmailAddress;
-                    //if (!string.IsNullOrEmpty(dealerEmail) && dealerEmail != user.Email)
-                    //{
-                    //    await _userManager.SetEmailAsync(user.Id, dealerEmail);
-                    //    user.EmailConfirmed = true;
-                    //    await _userManager.UpdateAsync(user);
-                    //}
+                    var profileAlerts = await UpdateDealerProfile(user.Id, aspireDealerInfo);
+                    if (profileAlerts.Any())
+                    {
+                        alerts.AddRange(profileAlerts);
+                    }                    
                 }                
             }
             catch (Exception ex)
@@ -324,6 +325,46 @@ namespace DealnetPortal.Api.Integration.Services
             }
             return alerts;
         }
+
+        private async Task<IList<Alert>> UpdateDealerProfile(string userId, DealerDTO aspireUser)
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var dealerProfile = new DealerProfile()
+                {
+                    DealerId = userId,
+                    EmailAddress = aspireUser.Emails?.FirstOrDefault(e => !string.IsNullOrEmpty(e.EmailAddress))?.EmailAddress,
+                    Phone = aspireUser.Phones?.FirstOrDefault(p => !string.IsNullOrEmpty(p.PhoneNum))?.PhoneNum,                    
+                };
+                if (aspireUser.Locations?.Any() == true)
+                {
+                    var address = aspireUser.Locations.FirstOrDefault();
+                    dealerProfile.Address = new Address()
+                    {
+                        City = address.City,
+                        State = address.State,
+                        PostalCode = address.PostalCode,
+                        Street = address.Street,
+                        Unit = address.Unit
+                    };
+                }
+                _dealerRepository.UpdateDealerProfile(dealerProfile);
+                _unitOfWork.Save();
+            }
+            catch (Exception ex)
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "Error during update dealer profile",
+                    Message = $"Error during update dealer profile for an user {userId}"
+                });
+                _loggingService.LogError($"Error during update dealer profile for an user {userId}", ex);
+            }
+            return alerts;
+        }
+
         #endregion
     }
 }
