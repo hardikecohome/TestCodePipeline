@@ -6,7 +6,7 @@
     return function (store) {
         var dispatch = store.dispatch;
 
-        var status = $('#employment-status');
+        var status = $('#emp-status');
 
         var incomeType = $('#income-type');
 
@@ -18,6 +18,22 @@
 
         var months = $('#emp-months');
 
-        var
+        var empType = $('#emp-type');
+
+        var jobTitle = $('#job-title');
+
+        var companyName = $('#company-name');
+
+        var companyPhone = $('#company-phone');
+
+        var comapanyStreet = $('#company-street');
+
+        var companyUnit = $('#company-unit');
+
+        var companyCity = $('#company-city');
+
+        var companyProvince = $('#company-province');
+
+        var companyPostal = $('#company-postal-code')
     }
 });
