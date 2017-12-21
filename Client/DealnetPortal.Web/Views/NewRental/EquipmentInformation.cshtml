@@ -62,7 +62,7 @@
 		  @if (ViewBag.LoanOnly)
 		  {
 			@Html.LabelFor(m => m.AgreementType)
-			@Html.EnumDropDownListFor(m => m.AgreementType, null, new { @class = "form-control", id = "typeOfAgreementSelect" , disabled = "disabled" })
+			@Html.EnumDropDownListFor(m => m.AgreementType, null, new { @class = "form-control loan-only-dropdown-disabled", id = "typeOfAgreementSelect" , disabled = "disabled" })
 		  }
 		  else
 		  {
