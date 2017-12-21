@@ -179,8 +179,8 @@
                                 <label for="">@Resources.ChooseSubDealer</label>
                                 <div class="control-group">
                                     @Html.DropDownListFor(m => m.SubmittingDealerId,
-                                                     Model.SubDealers.Select(x => new SelectListItem { Value = x.Id, Text = x.DisplayName, Selected = Model.SubmittingDealerId == x.Id }),
-                                                     new { @class = "form-control", id = "subdealers" })
+                                                                                                       Model.SubDealers.Select(x => new SelectListItem { Value = x.Id, Text = x.DisplayName, Selected = Model.SubmittingDealerId == x.Id }),
+                                                                                                       new { @class = "form-control", id = "subdealers" })
                                 </div>
                             </div>
                         </div>
@@ -252,6 +252,14 @@
     translations['Over18'] = "@Resources.TheApplicantNeedsToBeOver18";
     translations['EnterValidDate'] = "@Resources.EnterValidDate";
     translations['ApplicantsShouldBe18']="@Resources.ApplicantsShouldBe18";
+    translations['TheFieldMustBeMinimumAndMaximum'] = '@Resources.TheFieldMustBeMinimumAndMaximum';
+    translations['InstallationAddressIncorrectFormat'] ='@Resources.InstallationAddressIncorrectFormat';
+    translations['UnitNumberIncorrectFormat'] = '@Resources.UnitNumberIncorrectFormat';
+    translations['CityIncorrectFormat'] = '@Resources.CityIncorrectFormat';
+    translations['ProvinceIncorrectFormat'] = '@Resources.ProvinceIncorrectFormat';
+    translations['PostalCodeIncorrectFormat'] = '@Resources.PostalCodeIncorrectFormat';
+    translations['CompanyPhoneMustBeLong'] = '@Resources.CompanyPhoneMustBeLong';
+    translations['CompanyPhoneIncorrectFormat'] = '@Resources.CompanyPhoneIncorrectFormat';
 }
 
 @section scripts

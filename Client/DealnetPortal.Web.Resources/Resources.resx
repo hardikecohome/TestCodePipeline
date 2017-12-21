@@ -2562,4 +2562,10 @@ changing contract terms or signing contract on paper.</value>
   <data name="Year_s_" xml:space="preserve">
     <value>year(s)</value>
   </data>
+  <data name="CompanyNameIncorrectFormat" xml:space="preserve">
+    <value>Company Name is in incorrect format</value>
+  </data>
+  <data name="JobTitleIncorrectFormat" xml:space="preserve">
+    <value>Job Title is in incorrect format</value>
+  </data>
 </root>
