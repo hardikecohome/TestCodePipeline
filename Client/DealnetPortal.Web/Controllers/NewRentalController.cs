@@ -127,11 +127,12 @@ namespace DealnetPortal.Web.Controllers
             if (!ModelState.IsValid)
             {
                 basicInfo.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
+                basicInfo.VarificationIds = (await _dictionaryServiceAgent.GetAllVerificationIds()).Item1;
 
                 return View(basicInfo);
             }
 
-            Tuple<ContractDTO, IList<Alert>> result = basicInfo.ContractId == null ? 
+            Tuple<ContractDTO, IList<Alert>> result = !basicInfo.ContractId.HasValue ? 
                 await _contractServiceAgent.CreateContract() : 
                 await _contractServiceAgent.GetContract(basicInfo.ContractId.Value);
 

@@ -1,0 +1,223 @@
+﻿@using DealnetPortal.Api.Models.Contract
+@using DealnetPortal.Web.Models.Enumeration
+@model DealnetPortal.Web.Models.SummaryAndConfirmationViewModel
+
+@using(Html.BeginForm(null, null, FormMethod.Post, new { id = "new-equipment-info-form", @class = "clearfix" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
+    @Html.HiddenFor(m => m.EquipmentInfo.AgreementType, new { id = "agreement-type" })
+    @Html.HiddenFor(m => m.EquipmentInfo.SalesRep)
+    @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm, new { id = "requested-term" })
+    @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm, new { id = "loan-term" })
+    @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm, new { id = "amortization-term" })
+    @Html.HiddenFor(m => m.EquipmentInfo.LoanDeferralType)
+    @Html.HiddenFor(m => m.EquipmentInfo.RentalDeferralType)
+    @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate, new { id = "customer-rate" })
+    @Html.HiddenFor(m => m.EquipmentInfo.AdminFee, new { id = "admin-fee" })
+    @Html.HiddenFor(m => m.EquipmentInfo.DownPayment, new { id = "down-payment" })
+    @Html.HiddenFor(m => m.EquipmentInfo.CreditAmount)
+
+    <div class="row credit-check-info-hold">
+        <div class="col-md-6 grid-column">
+            <div class="dealnet-credit-check-section">
+
+                <h3 class="dealnet-section-title">
+                    @Resources.NewEquipment
+                    @Html.ActionLink(Resources.Edit, "EquipmentInformation", "NewRental", new { contractId = Model.BasicInfo.ContractId }, new { @class = "dealnet-section-edit-link pull-right" })
+                </h3>
+
+            </div>
+        </div>
+    </div>
+    <div id="new-equipment-info-section">
+        <div class="row credit-check-info-hold  equipment-info cols-no-titles no-top-margin">
+            @for(var i = 0; i < Model.EquipmentInfo.NewEquipment.Count; i++)
+            {
+                <div class="col-md-6 grid-column">
+                    <div class="dealnet-credit-check-section">
+                        @Html.HiddenFor(m => m.EquipmentInfo.NewEquipment[i].Id)
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    #@(i + 1)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Type, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                    @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].Type,
+                                                                        ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description, Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type }),
+                                                                        new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Description, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                    @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Description, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                </div>
+                            </div>
+                        </div>
+                        @if(Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
+                        {
+                            <div class="form-group">
+                                <div class="row">
+                                    @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                    <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                        @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new { @readonly = "readonly", @class = "dealnet-disabled-input has-cost-sign equipment-cost", id = "" })
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <div class="row">
+                                    @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                    <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                        @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new { @readonly = "readonly", @class = "dealnet-disabled-input monthly-cost", id = "" })
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row credit-check-info-hold equipment-info">
+            <div class="col-md-6 grid-column">
+                <div class="dealnet-credit-check-section">
+                    <div class="form-group">
+                        <div class="row">
+                            @Html.LabelFor(m => m.EquipmentInfo.EstimatedInstallationDate, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                @Html.TextBoxFor(m => m.EquipmentInfo.EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if(Model.EquipmentInfo.AgreementType != AgreementType.LoanApplication)
+        {
+            <p class="summary-tax-notification">@Resources.BeforeTaxesPaymentsAreSubject</p>
+        }
+    </div>
+    <div class="form-group summary-payment-info">
+        @if(Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
+        {
+            <div class="row credit-check-info-hold no-top-margin">
+                <div class="col-md-6 grid-column">
+                    <div class="dealnet-credit-check-section">
+                        <div class="row form-group">
+                            <div class="col-xs-8 col-sm-9">@Resources.DealerInvoiceAmount</div>
+                            <div class="col-xs-4 col-sm-3 text-right text-semibold">$ <span id="equipment-cash-price">-</span></div>
+                        </div>
+                        <div class="row form-group hidden">
+                            <div class="col-xs-8 col-sm-9"><span id="tax-label">@(Model.ProvinceTaxRate?.Description ?? @Resources.Tax)</span></div>
+                            <div class="col-xs-4 col-sm-3 text-right text-semibold">$ <span id="hst">-</span></div>
+                        </div>
+                        <div class="row form-group hidden">
+                            <div class="col-xs-8 col-sm-9">@Resources.TotalCashPrice</div>
+                            <div class="col-xs-4 col-sm-3 text-right text-semibold">$ <span id="total-cash-price">-</span></div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-xs-8 col-sm-9">@Resources.TotalAmountFinanced</div>
+                            <div class="col-xs-4 col-sm-3 text-right text-semibold">$ <span id="total-amount-financed">-</span></div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-xs-8 col-sm-9">
+                                @Resources.TotalMonthlyPayment
+                            </div>
+                            <div class="col-xs-4 col-sm-3 text-right text-semibold">
+                                $ <span id="loan-total-monthly-payment">-</span>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-xs-8 col-sm-9">
+                                @Resources.TotalAllMonthlyPayments
+                            </div>
+                            <div class="col-xs-4 col-sm-3 text-right text-semibold">
+                                $ <span id="loan-total-all-monthly-payments">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 grid-column">
+                    <div class="dealnet-credit-check-section">
+
+                        <div class="row form-group">
+                            <div class="col-xs-8 col-sm-9">
+                                @Resources.BalanceOwingEndOfPayments
+                            </div>
+                            <div class="col-xs-4 col-sm-3 text-right text-semibold">
+                                $ <span id="residual-balance">-</span>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-xs-8 col-sm-9">
+                                @Resources.TotalObligation
+                            </div>
+                            <div class="col-xs-4 col-sm-3 text-right text-semibold">
+                                $ <span id="total-obligation">-</span>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-xs-8 col-sm-9">
+                                @Resources.TotalCostOfBorrowing
+                            </div>
+                            <div class="col-xs-4 col-sm-3 text-right text-semibold">
+                                $ <span id="total-borrowing-cost">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
+                    <div class="row">
+                        <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+                            @Resources.MonthlyPayment
+                        </div>
+                        <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                            <div class="inline-children">
+                                <span>$</span>
+                                @Html.TextBoxFor(m => m.EquipmentInfo.TotalMonthlyPayment, @"{0:0.00}", new { @readonly = "readonly", @class = "dealnet-disabled-input total-monthly-payment" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
+                    <div class="row">
+                        <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+                            <span id="tax-label">@(Model.ProvinceTaxRate?.Description ?? @Resources.Tax)</span>
+                        </div>
+                        <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                            $<span id="salex-tax">@($"{((Model.EquipmentInfo.TotalMonthlyPayment ?? 0) * (Model.ProvinceTaxRate?.Rate ?? 0) / 100):0.00}")</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-7 col-xs-12 summary-payment-info-item">
+                    <div class="row">
+                        <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+                            @Resources.TotalMonthlyPaymentWithTaxes
+                        </div>
+                        <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                            $<span id="total-monthly-payment-wtaxes">@($"{((Model.EquipmentInfo.TotalMonthlyPayment ?? 0) + (Model.EquipmentInfo.TotalMonthlyPayment ?? 0) * (Model.ProvinceTaxRate?.Rate ?? 0) / 100):0.00}")</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

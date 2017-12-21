@@ -2,6 +2,9 @@
   "Framework": "jasmine",
   "References": [
     {
+      "Path": "../dealnetportal.web/scripts/utils/modules/index.js"
+    },
+    {
       "Path": "../dealnetportal.web/scripts",
       "Includes": [ "*.js" ]
     }

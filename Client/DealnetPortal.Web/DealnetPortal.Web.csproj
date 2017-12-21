@@ -19,12 +19,9 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44341</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -281,6 +278,7 @@
     <Compile Include="Infrastructure\RequreSecureConnectionFilter.cs" />
     <Compile Include="Infrastructure\ViewPageWithUserIdentity.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AddressInfomation.cs" />
     <Compile Include="Models\CertificateEquipmentInfoViewModel.cs" />
     <Compile Include="Models\CertificateInformationViewModel.cs" />
     <Compile Include="Models\ClientsInformationViewModel.cs" />
@@ -299,6 +297,7 @@
     <Compile Include="Models\Dealer\RequiredDocumentViewModel.cs" />
     <Compile Include="Models\Dealer\SaveAndResumeViewModel.cs" />
     <Compile Include="Models\Dealer\TradeReferenceViewModel.cs" />
+    <Compile Include="Models\EmploymentInformationViewModel.cs" />
     <Compile Include="Models\ESignatureViewModel.cs" />
     <Compile Include="Models\MyProfile\DealerAreaViewModel.cs" />
     <Compile Include="Models\MyProfile\ProfileViewModel.cs" />
@@ -813,7 +812,10 @@
     <Content Include="Content\less\components\dob-control.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
+    <Content Include="Scripts\components\addressInformation.js" />
+    <Content Include="Scripts\components\employmentInformation.js" />
     <Content Include="Scripts\index.js" />
+    <Content Include="Scripts\vendor\knockout.validation.js" />
     <Content Include="Scripts\pages\basicInfo\address-autocomplete.js" />
     <Content Include="Scripts\pages\calculator\calculator.validation.js" />
     <Content Include="Scripts\pages\newEquipment\newEquipment.management.js" />
@@ -822,6 +824,8 @@
     <Content Include="Scripts\pages\newEquipment\newEquipment.template.js" />
     <Content Include="Scripts\pages\newEquipment\newEquipment.validation.js" />
     <Content Include="Scripts\pages\newEquipment\newEquipment.value-setters.js" />
+    <Content Include="Scripts\pages\basicInfo\basicInfo.index.js" />
+    <Content Include="Scripts\pages\basicInfo\components\basicInfo.component.js" />
     <Content Include="Scripts\pages\reportContracts\index.js" />
     <Content Include="Scripts\utils\alertModal.js" />
     <Content Include="Scripts\utils\backToTop.js" />
@@ -1056,7 +1060,6 @@
     <Content Include="Scripts\vendor\modernizr-2.6.2.js" />
     <Content Include="Scripts\vendor\respond.js" />
     <Content Include="Scripts\vendor\svgxuse.min.js" />
-    <Content Include="Scripts\components\.gitkeep" />
     <None Include="Scripts\_references.js" />
     <Content Include="Views\Dealer\OnBoarding.cshtml" />
     <Content Include="Views\Dealer\OnBoardingLayout.cshtml" />
@@ -1154,6 +1157,10 @@
     <None Include="Scripts\vendor\jquery.validate-vsdoc.js" />
     <Content Include="Views\Shared\AboutUs\_EcoHome.cshtml" />
     <Content Include="Views\Shared\AboutUs\_Odi.cshtml" />
+    <Content Include="Views\Shared\BasicInfo\_HomeOwnerInfo.cshtml" />
+    <Content Include="Views\Shared\BasicInfo\_AdditionalApplicants.cshtml" />
+    <Content Include="Views\Shared\SummaryAndConfirmation\_AdditionalApplicants.cshtml" />
+    <Content Include="Views\Shared\SummaryAndConfirmation\_EquipmentInformation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

@@ -2478,10 +2478,88 @@ changing contract terms or signing contract on paper.</value>
   <data name="RatesApproved" xml:space="preserve">
     <value>Rates Approved</value>
   </data>
+  <data name="Annual" xml:space="preserve">
+    <value>Annual</value>
+  </data>
+  <data name="AnnualSalaryIncome" xml:space="preserve">
+    <value>Annual Salary/Income</value>
+  </data>
+  <data name="BorrowerEmploymentInformation" xml:space="preserve">
+    <value>Borrower Employment Information</value>
+  </data>
+  <data name="CompanyAddress" xml:space="preserve">
+    <value>Company Address</value>
+  </data>
+  <data name="CompanyName" xml:space="preserve">
+    <value>Company Name</value>
+  </data>
+  <data name="CompanyPhoneNumber" xml:space="preserve">
+    <value>Company Phone Number</value>
+  </data>
+  <data name="Employed" xml:space="preserve">
+    <value>Employed</value>
+  </data>
+  <data name="EmploymentStatus" xml:space="preserve">
+    <value>Employment Status</value>
+  </data>
+  <data name="FullTime" xml:space="preserve">
+    <value>Full Time</value>
+  </data>
+  <data name="HourlyRate" xml:space="preserve">
+    <value>Hourly Rate</value>
+  </data>
+  <data name="IncomeType" xml:space="preserve">
+    <value>Income Type</value>
+  </data>
+  <data name="JobTitle" xml:space="preserve">
+    <value>Job Title</value>
+  </data>
+  <data name="LengthOfEmployment" xml:space="preserve">
+    <value>Length of Employment</value>
+  </data>
+  <data name="LessThan" xml:space="preserve">
+    <value>less than </value>
+  </data>
+  <data name="PartTime" xml:space="preserve">
+    <value>Part Time</value>
+  </data>
+  <data name="Retired" xml:space="preserve">
+    <value>Retired</value>
+  </data>
+  <data name="SalaryIncome" xml:space="preserve">
+    <value>Salary/Income</value>
+  </data>
+  <data name="SelfEmployed" xml:space="preserve">
+    <value>Self Employed</value>
+  </data>
+  <data name="TypeOfEmployment" xml:space="preserve">
+    <value>Type of Employment</value>
+  </data>
+  <data name="Unemployed" xml:space="preserve">
+    <value>Unemployed</value>
+  </data>
+  <data name="Hourly" xml:space="preserve">
+    <value>Hourly</value>
+  </data>
+  <data name="CompanyPhoneIncorrectFormat" xml:space="preserve">
+    <value>Company Phone is in incorrect format</value>
+  </data>
+  <data name="CompanyPhoneMustBeLong" xml:space="preserve">
+    <value>Company Phone must be a string with a length of 10</value>
+  </data>
   <data name="AllOtherProvinces" xml:space="preserve">
     <value>All other provinces</value>
   </data>
   <data name="Quebec" xml:space="preserve">
     <value>Quebec</value>
+  </data>
+  <data name="EmploymentInformation" xml:space="preserve">
+    <value>Employment Information</value>
+  </data>
+  <data name="Month_s_" xml:space="preserve">
+    <value>month(s)</value>
+  </data>
+  <data name="Year_s_" xml:space="preserve">
+    <value>year(s)</value>
   </data>
 </root>

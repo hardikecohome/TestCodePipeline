@@ -14,7 +14,8 @@ namespace DealnetPortal.Web
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").NonOrdering()
                 .Include(
                 "~/Scripts/vendor/jquery.validate*",
-                "~/Scripts/vendor/jquery-validation-messages.js"));
+                "~/Scripts/vendor/jquery-validation-messages.js",
+                "~/Scripts/vendor/knockout.validation.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -40,6 +41,7 @@ namespace DealnetPortal.Web
                     "~/Scripts/vendor/jquery.loader.js",
                     "~/Scripts/vendor/jquery.jcarousel.min.js",
                     "~/Scripts/vendor/jquery.touchSwipe.min.js",
+                    "~/Scripts/vendor/knockout-3.4.2.debug.js",
                     "~/Scripts/vendor/js.cookie.js",
                     "~/Scripts/utils/modules/index.js",
                     "~/Scripts/utils/helpPopup.js",
@@ -83,6 +85,8 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/loader.js")
                 .Include("~/Scripts/utils/navigateToStep.js")
                 .Include("~/Scripts/utils/scrollPageTo.js")
+                .Include("~/Scripts/components/addressInformation.js")
+                .Include("~/Scripts/components/employmentInformation.js")
                 .IncludeDirectory("~/Scripts/pages/basicInfo", "*.js", true));
 
             bundles.Add(new ScriptBundle("~/bundles/credit-check")

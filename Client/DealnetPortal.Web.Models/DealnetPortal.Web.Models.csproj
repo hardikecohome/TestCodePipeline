@@ -47,7 +47,11 @@
     <Compile Include="Enumeration\BusinessType.cs" />
     <Compile Include="Enumeration\ContractProvince.cs" />
     <Compile Include="Enumeration\ContractState.cs" />
+    <Compile Include="Enumeration\EmploymentStatus.cs" />
+    <Compile Include="Enumeration\EmploymentType.cs" />
+    <Compile Include="Enumeration\IncomeType.cs" />
     <Compile Include="Enumeration\LoanDeferralType.cs" />
+    <Compile Include="Enumeration\MonthsOfEmployment.cs" />
     <Compile Include="Enumeration\NumberOfPeople.cs" />
     <Compile Include="Enumeration\PaymentType.cs" />
     <Compile Include="Enumeration\PortalType.cs" />
@@ -58,6 +62,7 @@
     <Compile Include="Enumeration\ResidenceType.cs" />
     <Compile Include="Enumeration\WithdrawalDateType.cs" />
     <Compile Include="Enumeration\YearsInBusiness.cs" />
+    <Compile Include="Enumeration\YearsOfEmployment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

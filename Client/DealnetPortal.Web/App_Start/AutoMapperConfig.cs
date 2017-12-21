@@ -37,7 +37,7 @@ namespace DealnetPortal.Web.App_Start
                 MapModelsToVMs(cfg);
                 MapVMsToModels(cfg);
             });
-        }        
+        }
 
         private static void MapVMsToModels(IMapperConfigurationExpression cfg)
         {
@@ -49,7 +49,7 @@ namespace DealnetPortal.Web.App_Start
                     .ForMember(x => x.DateOfBirth, d => d.MapFrom(src => src.BirthDate))
                     .ForMember(x => x.Sin, d => d.ResolveUsing(src =>
                     {
-                        if (src.Sin == null)
+                        if(src.Sin == null)
                         {
                             return src.Sin;
                         }
@@ -58,7 +58,7 @@ namespace DealnetPortal.Web.App_Start
                     }))
                     .ForMember(x => x.DriverLicenseNumber, d => d.ResolveUsing(src =>
                     {
-                        if (src.DriverLicenseNumber == null)
+                        if(src.DriverLicenseNumber == null)
                         {
                             return src.DriverLicenseNumber;
                         }
@@ -118,10 +118,10 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.Phones, d => d.ResolveUsing(src =>
                 {
                     List<PhoneDTO> phones = new List<PhoneDTO>();
-                    
-                    if (!string.IsNullOrEmpty(src.HomePhone))
+
+                    if(!string.IsNullOrEmpty(src.HomePhone))
                     {
-                        if (src.HomePhone.Trim().Any())
+                        if(src.HomePhone.Trim().Any())
                         {
                             phones.Add(new PhoneDTO()
                             {
@@ -131,9 +131,9 @@ namespace DealnetPortal.Web.App_Start
                             });
                         }
                     }
-                    if (!string.IsNullOrEmpty(src.BusinessPhone))
+                    if(!string.IsNullOrEmpty(src.BusinessPhone))
                     {
-                        if (src.BusinessPhone.Trim().Any())
+                        if(src.BusinessPhone.Trim().Any())
                         {
                             phones.Add(new PhoneDTO()
                             {
@@ -143,9 +143,9 @@ namespace DealnetPortal.Web.App_Start
                             });
                         }
                     }
-                    if (!string.IsNullOrEmpty(src.CellPhone))
+                    if(!string.IsNullOrEmpty(src.CellPhone))
                     {
-                        if (src.CellPhone.Trim().Any())
+                        if(src.CellPhone.Trim().Any())
                         {
                             phones.Add(new PhoneDTO()
                             {
@@ -170,7 +170,7 @@ namespace DealnetPortal.Web.App_Start
                 new CustomerInfoDTO()
                 {
                     Id = src.CustomerId,
-                    AllowCommunicate = src.AllowCommunicate                    
+                    AllowCommunicate = src.AllowCommunicate
                 }));
 
             cfg.CreateMap<RegisterViewModel, RegisterBindingModel>();
@@ -183,16 +183,16 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<ShareableLinkViewModel, CustomerLinkDTO>()
                 .ForMember(x => x.EnabledLanguages, d => d.ResolveUsing(src =>
                 {
-                    if (!src.EnglishLinkEnabled && !src.FrenchLinkEnabled)
+                    if(!src.EnglishLinkEnabled && !src.FrenchLinkEnabled)
                     {
                         return null;
                     }
                     var enabledLanguages = new List<LanguageCode>();
-                    if (src.EnglishLinkEnabled)
+                    if(src.EnglishLinkEnabled)
                     {
                         enabledLanguages.Add(LanguageCode.English);
                     }
-                    if (src.FrenchLinkEnabled)
+                    if(src.FrenchLinkEnabled)
                     {
                         enabledLanguages.Add(LanguageCode.French);
                     }
@@ -200,25 +200,25 @@ namespace DealnetPortal.Web.App_Start
                 }))
                 .ForMember(x => x.Services, d => d.ResolveUsing(src =>
                 {
-                    if (src.EnglishServices == null && src.FrenchServices == null)
+                    if(src.EnglishServices == null && src.FrenchServices == null)
                     {
                         return null;
                     }
                     var services = new Dictionary<LanguageCode, List<string>>();
-                    if (src.EnglishServices != null)
+                    if(src.EnglishServices != null)
                     {
                         services.Add(LanguageCode.English, src.EnglishServices);
                     }
-                    if (src.FrenchServices != null)
+                    if(src.FrenchServices != null)
                     {
                         services.Add(LanguageCode.French, src.FrenchServices);
                     }
                     return services;
                 }))
-                .ForMember(x=>x.HashLink, d=> d.MapFrom(s=>s.HashDealerName));
+                .ForMember(x => x.HashLink, d => d.MapFrom(s => s.HashDealerName));
             cfg.CreateMap<ProfileViewModel, DealerProfileDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(src => src.ProfileId))
-                .ForMember(x => x.EquipmentList, d => d.ResolveUsing(src => src.DealerEquipments!=null ? src.DealerEquipments.Select(s=> new DealerEquipmentDTO() {Equipment = s}).ToList() : null))
+                .ForMember(x => x.EquipmentList, d => d.ResolveUsing(src => src.DealerEquipments != null ? src.DealerEquipments.Select(s => new DealerEquipmentDTO() { Equipment = s }).ToList() : null))
                 .ForMember(d => d.PostalCodesList, d => d.MapFrom(src => src.PostalCodes))
                 .ForMember(x => x.DealerId, d => d.Ignore());
             cfg.CreateMap<DealerAreaViewModel, DealerAreaDTO>();
@@ -231,7 +231,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.HomeImprovementTypes, d => d.MapFrom(src => src.HomeImprovementTypes))
                 .ForMember(x => x.PrimaryCustomer, d => d.MapFrom(src => src.HomeOwnerContactInfo))
                 .ForMember(x => x.LeadSource, d => d.Ignore());
-            
+
             cfg.CreateMap<EquipmentInformationViewModelNew, EquipmentInfoDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(src => src.ContractId ?? 0))
                 .ForMember(x => x.ValueOfDeal, d => d.Ignore())
@@ -239,7 +239,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.InstallerFirstName, d => d.Ignore())
                 .ForMember(x => x.InstallerLastName, d => d.Ignore())
                 .ForMember(x => x.DownPayment, d => d.MapFrom(s => s.DownPayment ?? 0))
-                .ForMember(x => x.RateCardId, s=>s.MapFrom( d=>d.SelectedRateCardId))
+                .ForMember(x => x.RateCardId, s => s.MapFrom(d => d.SelectedRateCardId))
                 .ForMember(x => x.DeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.LoanDeferralType.ConvertTo<DeferralType>() : src.RentalDeferralType.ConvertTo<DeferralType>()));
 
             cfg.CreateMap<AddressInformation, AddressDTO>()
@@ -259,7 +259,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.DateOfBirth, d => d.MapFrom(src => src.BirthDate))
                 .ForMember(x => x.MobilePhone, d => d.MapFrom(src => src.CellPhone));
             cfg.CreateMap<AdditionalDocumentViewModel, AdditionalDocumentDTO>()
-                .ForMember(x => x.License, d => d.MapFrom(src => new LicenseTypeDTO {Id =src.LicenseTypeId}));
+                .ForMember(x => x.License, d => d.MapFrom(src => new LicenseTypeDTO { Id = src.LicenseTypeId }));
             cfg.CreateMap<RequiredDocumentViewModel, RequiredDocumentDTO>()
                 .ForMember(x => x.LeadSource, d => d.Ignore());
             cfg.CreateMap<DealerOnboardingViewModel, DealerInfoDTO>()
@@ -271,6 +271,25 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.LeadSource, d => d.Ignore());
             cfg.CreateMap<TierViewModel, TierDTO>();
             cfg.CreateMap<RateCardViewModel, RateCardDTO>();
+
+            cfg.CreateMap<EmploymentInformationViewModel, EmploymentInfoDTO>()
+                .ForMember(x => x.EmploymentStatus, d => d.MapFrom(src => src.EmploymentStatus.ConvertTo<Api.Common.Enumeration.Employment.EmploymentStatus>()))
+                .ForMember(x => x.IncomeType, d => d.MapFrom(src => src.IncomeType.ConvertTo<Api.Common.Enumeration.Employment.IncomeType>()))
+                .ForMember(x => x.EmploymentType, d => d.MapFrom(src => src.EmploymentType.ConvertTo<Api.Common.Enumeration.Employment.EmploymentType>()))
+                .ForMember(x => x.CompanyAddress, d => d.MapFrom(src => src.CompanyAddress))
+                .ForMember(x => x.LengthOfEmployment, d => d.ResolveUsing(src =>
+                {
+                    string temp = null;
+                    if(src.YearsOfEmployment.HasValue)
+                    {
+                        temp = src.YearsOfEmployment.Value.ToString();
+                    }
+                    if(src.MonthsOfEmployment.HasValue)
+                    {
+                        temp += "/" + src.MonthsOfEmployment.Value.ToString();
+                    }
+                    return temp;
+                }));
         }
 
         private static void MapModelsToVMs(IMapperConfigurationExpression cfg)
@@ -294,7 +313,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.Improvement, s => s.ResolveUsing(src =>
                 {
                     var equipment = src.Equipment?.NewEquipment;
-                    if (equipment != null)
+                    if(equipment != null)
                     {
                         return equipment.Select(eq => eq.TypeDescription).ConcatWithComma();
                     }
@@ -303,7 +322,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.Client, s => s.ResolveUsing(src =>
                 {
                     var customer = src.PrimaryCustomer;
-                    if (customer != null)
+                    if(customer != null)
                     {
                         return $"{customer.FirstName} {customer.LastName}";
                     }
@@ -359,7 +378,7 @@ namespace DealnetPortal.Web.App_Start
                 }))
                 .ForMember(d => d.Value, s => s.ResolveUsing(src =>
                 {
-                    if (src.Equipment != null)
+                    if(src.Equipment != null)
                     {
                         return FormattableString.Invariant($"$ {src.Equipment.ValueOfDeal:0.00}");
                     }
@@ -367,7 +386,7 @@ namespace DealnetPortal.Web.App_Start
                 }))
                 .ForMember(d => d.PreApprovalAmount, s => s.ResolveUsing(src =>
                 {
-                    if (src.Details?.CreditAmount != null)
+                    if(src.Details?.CreditAmount != null)
                     {
                         return FormattableString.Invariant($"$ {src.Details.CreditAmount:0.00}");
                     }
@@ -384,7 +403,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.CustomerName, s => s.ResolveUsing(src =>
                 {
                     var customer = src.PrimaryCustomer;
-                    if (customer != null)
+                    if(customer != null)
                     {
                         return $"{customer.FirstName} {customer.LastName}";
                     }
@@ -399,7 +418,7 @@ namespace DealnetPortal.Web.App_Start
                         (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription()))
                 .ForMember(d => d.AgreementType, s => s.ResolveUsing(src =>
                 {
-                    if (src.Equipment?.AgreementType != null && src.Equipment?.ValueOfDeal != null)
+                    if(src.Equipment?.AgreementType != null && src.Equipment?.ValueOfDeal != null)
                     {
                         return src.Equipment?.AgreementType.ConvertTo<AgreementType>()
                             .GetEnumDescription();
@@ -424,7 +443,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.Equipment, s => s.ResolveUsing(src =>
                 {
                     var equipment = src.Equipment?.NewEquipment;
-                    if (equipment != null)
+                    if(equipment != null)
                     {
                         return equipment.Select(eq => eq.TypeDescription).ConcatWithComma();
                     }
@@ -461,7 +480,7 @@ namespace DealnetPortal.Web.App_Start
                 }))
                 .ForMember(d => d.Value, s => s.ResolveUsing(src =>
                 {
-                    if (src.Equipment != null && src.Equipment.ValueOfDeal != null)
+                    if(src.Equipment != null && src.Equipment.ValueOfDeal != null)
                     {
                         return FormattableString.Invariant($"$ {src.Equipment.ValueOfDeal:0.00}");
                     }
@@ -471,7 +490,7 @@ namespace DealnetPortal.Web.App_Start
                 {
                     var location =
                         src.PrimaryCustomer?.Locations?.FirstOrDefault(x => x.AddressType == AddressType.MainAddress);
-                    if (location?.PostalCode != null)
+                    if(location?.PostalCode != null)
                     {
                         var substring = location.PostalCode.Substring(0, 3);
                         return $"{substring.ToUpperInvariant()}***";
@@ -480,7 +499,7 @@ namespace DealnetPortal.Web.App_Start
                 }))
                 .ForMember(d => d.PreApprovalAmount, s => s.ResolveUsing(src =>
                 {
-                    if (src.Details?.CreditAmount != null)
+                    if(src.Details?.CreditAmount != null)
                     {
                         return FormattableString.Invariant($"$ {src.Details.CreditAmount:0.00}");
                     }
@@ -488,7 +507,7 @@ namespace DealnetPortal.Web.App_Start
                 }))
                 .ForMember(d => d.CustomerComment, s => s.ResolveUsing(src =>
                 {
-                    if (src.Comments?.Any(x => x.IsCustomerComment == true) == true)
+                    if(src.Comments?.Any(x => x.IsCustomerComment == true) == true)
                     {
                         var comments = src.Comments
                             .Where(x => x.IsCustomerComment == true)
@@ -502,13 +521,14 @@ namespace DealnetPortal.Web.App_Start
                 }))
                 .ForMember(d => d.SignatureStatus, s => s.ResolveUsing(src =>
                 {
-                    if (src.Details.SignatureStatus == null) return string.Empty;
+                    if(src.Details.SignatureStatus == null)
+                        return string.Empty;
 
-                    if (src.Details.SignatureStatus == SignatureStatus.Sent)
+                    if(src.Details.SignatureStatus == SignatureStatus.Sent)
                     {
                         var borrower = src.Signers.FirstOrDefault(x => x.SignerType == SignatureRole.HomeOwner);
 
-                        if (borrower?.StatusLastUpdateTime != null && (DateTime.Now - borrower.StatusLastUpdateTime.Value).TotalDays < 3)
+                        if(borrower?.StatusLastUpdateTime != null && (DateTime.Now - borrower.StatusLastUpdateTime.Value).TotalDays < 3)
                         {
                             return src.Details.SignatureStatus.ToString().ToLower() + "less3";
                         }
@@ -538,7 +558,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.CreditAmount, d => d.Ignore())
                 .ForMember(x => x.LoanDeferralType, d => d.ResolveUsing(src => src.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication ? src.DeferralType : 0))
                 .ForMember(x => x.RentalDeferralType, d => d.ResolveUsing(src => src.AgreementType != Api.Common.Enumeration.AgreementType.LoanApplication ? src.DeferralType : 0))
-                .ForMember(x => x.EstimatedInstallationDate, d => d.ResolveUsing(src => src.EstimatedInstallationDate ?? ((src.NewEquipment?.Any() ?? false) ? src.NewEquipment.First().EstimatedInstallationDate : DateTime.Today) ))
+                .ForMember(x => x.EstimatedInstallationDate, d => d.ResolveUsing(src => src.EstimatedInstallationDate ?? ((src.NewEquipment?.Any() ?? false) ? src.NewEquipment.First().EstimatedInstallationDate : DateTime.Today)))
                 .ForMember(x => x.FullUpdate, d => d.Ignore())
                 .ForMember(x => x.IsAllInfoCompleted, d => d.Ignore())
                 .ForMember(x => x.IsApplicantsInfoEditAvailable, d => d.Ignore())
@@ -578,10 +598,10 @@ namespace DealnetPortal.Web.App_Start
                     src.Services?.TryGetValue(LanguageCode.French, out services);
                     return services;
                 }))
-                .ForMember(x=>x.HashDealerName, d=>d.MapFrom(s=>s.HashLink));
+                .ForMember(x => x.HashDealerName, d => d.MapFrom(s => s.HashLink));
             cfg.CreateMap<DealerProfileDTO, ProfileViewModel>()
                 .ForMember(x => x.ProfileId, d => d.MapFrom(src => src.Id))
-                .ForMember(x => x.DealerEquipments, d => d.ResolveUsing(src => src.EquipmentList?.Select(x=> x.Equipment)))
+                .ForMember(x => x.DealerEquipments, d => d.ResolveUsing(src => src.EquipmentList?.Select(x => x.Equipment)))
                 .ForMember(d => d.PostalCodes, d => d.MapFrom(src => src.PostalCodesList))
                 .ForMember(d => d.EquipmentTypes, s => s.Ignore());
             cfg.CreateMap<DealerAreaDTO, DealerAreaViewModel>();
@@ -622,14 +642,14 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.CellPhone, d => d.MapFrom(src => src.MobilePhone))
                 .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth));
             cfg.CreateMap<AdditionalDocumentDTO, AdditionalDocumentViewModel>()
-                .ForMember(x => x.LicenseTypeId, d => d.MapFrom(src =>  src.License.Id));
+                .ForMember(x => x.LicenseTypeId, d => d.MapFrom(src => src.License.Id));
 
             cfg.CreateMap<RequiredDocumentDTO, RequiredDocumentViewModel>()
                 .ForMember(x => x.Name, d => d.MapFrom(src => src.DocumentName))
                 .ForMember(x => x.FileName, d => d.Ignore());
 
             cfg.CreateMap<DealerInfoDTO, DealerOnboardingViewModel>()
-                .ForMember(x => x.OnBoardingLink, d =>d.MapFrom(src => src.SalesRepLink))
+                .ForMember(x => x.OnBoardingLink, d => d.MapFrom(src => src.SalesRepLink))
                 .ForMember(x => x.AllowCommunicate, d => d.MapFrom(src => src.MarketingConsent))
                 .ForMember(x => x.AllowCreditCheck, d => d.MapFrom(src => src.CreditCheckConsent))
                 .ForMember(x => x.RequiredDocuments, d => d.MapFrom(src => src.RequiredDocuments))
@@ -638,7 +658,28 @@ namespace DealnetPortal.Web.App_Start
 
             cfg.CreateMap<TierDTO, TierViewModel>();
             cfg.CreateMap<RateCardDTO, RateCardViewModel>();
-            
+
+            cfg.CreateMap<EmploymentInfoDTO, EmploymentInformationViewModel>()
+                .ForMember(x => x.EmploymentStatus, d => d.MapFrom(src => src.EmploymentStatus.ConvertTo<EmploymentStatus>()))
+                .ForMember(x => x.IncomeType, d => d.MapFrom(src => src.IncomeType.ConvertTo<IncomeType>()))
+                .ForMember(x => x.EmploymentType, d => d.MapFrom(src => src.EmploymentType.ConvertTo<EmploymentType>()))
+                .ForMember(x => x.CompanyAddress, d => d.MapFrom(src => src.CompanyAddress))
+                .ForMember(x => x.MonthsOfEmployment, d => d.ResolveUsing(src => {
+                    var months = MonthsOfEmployment.Zero;
+                    if(!string.IsNullOrWhiteSpace(src.LengthOfEmployment))
+                    {
+                        Enum.TryParse(src.LengthOfEmployment.Split('/')[1],out months);
+                    }
+                    return months;
+                }))
+                .ForMember(x => x.YearsOfEmployment, d => d.ResolveUsing(src => {
+                    var years = YearsOfEmployment.Zero;
+                    if(!string.IsNullOrWhiteSpace(src.LengthOfEmployment))
+                    {
+                        Enum.TryParse(src.LengthOfEmployment.Split('/')[0], out years);
+                    }
+                    return years;
+                }));
         }
     }
 }
