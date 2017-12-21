@@ -6,8 +6,9 @@
         <p>@Resources.EcoHomeAbout2</p>
         <p>@Resources.EcoHomeAbout3</p>
     </div>
-    <div class="page-section col-md-6">
+    <div class="page-section col-md-4">
         <h2 class="dealnet-large-header">@Resources.AllOtherProvinces </h2>
+        <h2 class="dealnet-middle-header">@Resources.ContactUs </h2>
         <ul class="contact-info-list">
             <li class="contact-tel">
                 <a href="tel:+@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]" class="tel" rel="nofollow"><svg aria-hidden="true" class="icon icon-phone"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-phone")"></use></svg>@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]</a>
@@ -18,6 +19,7 @@
     </div>
     <div class="page-section col-md-6">
         <h2 class="dealnet-large-header">@Resources.Quebec </h2>
+        <h2 class="dealnet-middle-header">@Resources.ContactUs </h2>
         <ul class="contact-info-list">
             <li class="contact-tel">
                 <a href="tel:+@System.Configuration.ConfigurationManager.AppSettings["QuebecDealerSupportPhone"]" class="tel" rel="nofollow"><svg aria-hidden="true" class="icon icon-phone"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-phone")"></use></svg>@System.Configuration.ConfigurationManager.AppSettings["QuebecDealerSupportPhone"]</a>
@@ -26,8 +28,8 @@
             <li class="contact-email"><a href="mailto:@System.Configuration.ConfigurationManager.AppSettings["QuebecInfoEmail"]" class="dealnet-info-link" style="width: 300px"><svg aria-hidden="true" class="icon icon-email2"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-email2")"></use></svg><span>@System.Configuration.ConfigurationManager.AppSettings["QuebecInfoEmail"]</span></a></li>
         </ul>
     </div>
-    <div class="page-section col-md-6">
-        <h2 class="dealnet-large-header">@Resources.FindUs</h2>
+    <div class="page-section col-md-4">
+        <h2 class="dealnet-middle-header">@Resources.FindUs</h2>
         <div class="vcard">
             <div class="hidden"><span class="fn org">EcoHome</span></div>
             <div class="adr">
@@ -38,7 +40,7 @@
         </div>
     </div>
     <div class="page-section col-md-6">
-        <h2 class="dealnet-large-header">@Resources.FindUs</h2>
+        <h2 class="dealnet-middle-header">@Resources.FindUs</h2>
         <div class="vcard">
             <div class="hidden"><span class="fn org">EcoHome</span></div>
             <div class="adr">
