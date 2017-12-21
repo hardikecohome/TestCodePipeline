@@ -8,11 +8,14 @@ using DealnetPortal.Web.ServiceAgent;
 using Microsoft.Practices.ObjectBuilder2;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using DealnetPortal.Web.Common.Helpers;
+using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 
 namespace DealnetPortal.Web.Controllers
@@ -25,14 +28,21 @@ namespace DealnetPortal.Web.Controllers
         private readonly CultureSetterManager _cultureManager;
         private readonly ISettingsManager _settingsManager;
         private readonly IDealerServiceAgent _dealerServiceAgent;
-        public HomeController(IContractServiceAgent contractServiceAgent, IDictionaryServiceAgent dictionaryServiceAgent, CultureSetterManager cultureManager, 
-            ISettingsManager settingsManager, IDealerServiceAgent dealerServiceAgent)
+        private readonly IContentManager _contentManager;
+        public HomeController(
+            IContractServiceAgent contractServiceAgent, 
+            IDictionaryServiceAgent dictionaryServiceAgent, 
+            CultureSetterManager cultureManager, 
+            ISettingsManager settingsManager, 
+            IDealerServiceAgent dealerServiceAgent, 
+            IContentManager contentManager)
         {
             _contractServiceAgent = contractServiceAgent;
             _dictionaryServiceAgent = dictionaryServiceAgent;
             _cultureManager = cultureManager;
             _settingsManager = settingsManager;
             _dealerServiceAgent = dealerServiceAgent;
+            _contentManager = contentManager;
         }
 
         public ActionResult Index()
@@ -45,6 +55,10 @@ namespace DealnetPortal.Web.Controllers
 
                 return RedirectToAction("MyClients", "MortgageBroker");
             }
+            var identity = (ClaimsIdentity)User.Identity;
+
+            ViewBag.Banner = _contentManager.GetBannerByCulture(CultureInfo.CurrentCulture.Name, identity.HasClaim("QuebecDealer", "True"), Request.IsMobileBrowser());
+
             return View();
         }
         

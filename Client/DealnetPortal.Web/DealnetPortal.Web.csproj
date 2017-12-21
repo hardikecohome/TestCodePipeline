@@ -19,9 +19,12 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44341</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -246,7 +249,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Managers\ContentManager.cs" />
     <Compile Include="Infrastructure\Managers\CustomerFormManager.cs" />
+    <Compile Include="Infrastructure\Managers\Interfaces\IContentManager.cs" />
     <Compile Include="Infrastructure\Managers\Interfaces\ICustomerFormManager.cs" />
     <Compile Include="Infrastructure\Managers\ApplicationSettingsManager.cs" />
     <Compile Include="Infrastructure\Attributes\TimezoneAttribute.cs" />
@@ -473,6 +478,8 @@
     <Content Include="Content\email\email.html" />
     <Content Include="Content\email\images\icon-success.png" />
     <Content Include="Content\files\Banner.html" />
+    <Content Include="Content\files\banners\en\home-banner-mobile.jpg" />
+    <Content Include="Content\files\banners\en\home-banner.jpg" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="Content\images\dataTables\details_close.png" />
     <Content Include="Content\images\dataTables\details_open.png" />
@@ -1164,6 +1171,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
+    <Folder Include="Content\files\banners\en\qc\" />
+    <Folder Include="Content\files\banners\fr\qc\" />
     <Folder Include="Content\themes\" />
   </ItemGroup>
   <ItemGroup>
