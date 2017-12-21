@@ -10,13 +10,24 @@
         }, this);
 
         this.homeOwner = {
-            employment: new EmploymentInformation(model.HomeOwner && model.HomeOwner.EmploymentInformation ? model.HomeOwner.EmploymentInformation : {})
+            employment: ko.validatedObservable(new EmploymentInformation(model.HomeOwner && model.HomeOwner.EmploymentInformation ? model.HomeOwner.EmploymentInformation : {}))
         };
 
         this.hasAdditional = ko.observable(model.AdditionalApplicants && model.AdditionalApplicants[0].FirstName ? true : false);
 
         this.additionalApplicant = {
-            employment: new EmploymentInformation(model.AdditionalApplicants && model.AdditionalApplicants[0].EmploymentInformation || {})
+            employment: ko.validatedObservable(new EmploymentInformation(model.AdditionalApplicants && model.AdditionalApplicants[0].EmploymentInformation || {}))
         };
+
+        this.valid = function () {
+            var valid = true;
+            if (this.showEmployment()) {
+                valid = this.homeOwner.employment.isValid();
+                if (this.hasAdditional()) {
+                    valid = valid && this.additionalApplicant.employment.isValid();
+                }
+            }
+            return valid;
+        }
     }
 });

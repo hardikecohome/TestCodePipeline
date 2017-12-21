@@ -1,7 +1,10 @@
 ﻿module.exports('basicInfo.index', function (require) {
     var BasicInfo = require('basicInfo.component');
 
-    var dob = require('dob-selecters');
+    var dob = require('dob-selecters'); var checkApplicantsAge = require('customer-validation').checkApplicantsAge;
+    var checkHomeOwner = require('customer-validation').checkHomeOwner;
+    var checkCreditAgree = require('customer-validation').checkCreditAgree;
+    var scrollPageTo = require('scrollPageTo');
 
     function init (model) {
         $('.dob-group').each(function (index, el) {
@@ -15,13 +18,44 @@
         var vm = new BasicInfo(model);
 
         $('#add-additional-applicant').on('click', function () {
-            vm.hasAdditionalApplicant(true);
+            vm.hasAdditional(true);
         });
         $('#additonal1-remove').on('click', function () {
-            vm.hasAdditionalApplicant(false);
+            vm.hasAdditional(false);
         })
 
         ko.applyBindings(vm, document.getElementById('main-form'));
+
+        $("#save-and-proceed-button").click(function (event) {
+            var isApprovalAge = checkApplicantsAge();
+            var isHomeOwner = checkHomeOwner();
+            var isAgreesToCreditCheck = checkCreditAgree();
+
+            if (!isApprovalAge) {
+                $('#age-warning-message').hide();
+                //$('#age-error-message').show();
+                //scrollPageTo($('#age-error-message'));
+            }
+            if (!isHomeOwner) {
+                $("#proceed-homeowner-errormessage").show();
+                scrollPageTo($("#borrower-is-homeowner"));
+            }
+
+            if (!isAgreesToCreditCheck) {
+                $('#proceed-error-message').show();
+                scrollPageTo($("#proceed-error-message"));
+            }
+
+            if (!isHomeOwner || !isApprovalAge || !isAgreesToCreditCheck) {
+                if ($('#main-form').valid() && vm.valid()) {
+                    event.preventDefault();
+                } else {
+                    $('.dob-input').each(function (index, el) {
+                        dob.validate(el);
+                    });
+                }
+            }
+        });
     }
 
     return {

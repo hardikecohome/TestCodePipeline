@@ -1451,6 +1451,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Company Name is in incorrect format.
+        /// </summary>
+        public static string CompanyNameIncorrectFormat {
+            get {
+                return ResourceManager.GetString("CompanyNameIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Company Phone is in incorrect format.
         /// </summary>
         public static string CompanyPhoneIncorrectFormat {
@@ -3437,6 +3446,15 @@ namespace DealnetPortal.Web.Resources {
         public static string JobTitle {
             get {
                 return ResourceManager.GetString("JobTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Job Title is in incorrect format.
+        /// </summary>
+        public static string JobTitleIncorrectFormat {
+            get {
+                return ResourceManager.GetString("JobTitleIncorrectFormat", resourceCulture);
             }
         }
         

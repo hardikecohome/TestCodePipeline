@@ -4,37 +4,38 @@ module.exports('employmentInformation', function (require) {
         var self = this;
 
         self.status = ko.observable(info.EmploymentStatus || '');
+
         self.incomeType = ko.observable(info.IncomeType || '')
             .extend({
                 required: {
                     message: translations['ThisFieldIsRequired'],
                     onlyIf: function () {
-                        return self.status() === '0';
+                        return self.status() == '0';
                     }
                 }
             });
 
         self.isEmployed = ko.computed(function () {
-            return this.status() === '0';
+            return this.status() == '0';
         }, self);
 
         self.showAnnualSalary = ko.computed(function () {
-            return this.status() !== '0' || this.incomeType() === '0';
+            return this.status() != '0' || this.incomeType() == '0';
         }, self);
 
         self.showHourlyRate = ko.computed(function () {
-            return this.status() === '0' && this.incomeType() === '1';
+            return this.status() == '0' && this.incomeType() == '1';
         }, self);
 
         self.isEmployedOrSelfEmployed = ko.computed(function () {
-            return this.isEmployed() || this.status() === '2';
+            return this.isEmployed() || this.status() == '2';
         }, self);
 
         self.annualSalary = ko.observable(info.AnnualSalary || '')
             .extend({
                 required: {
                     onlyIf: function () {
-                        return self.status() !== '0' || self.incomeType() === '0';
+                        return self.showAnnualSalary();
                     }
                 }
             });
@@ -43,7 +44,7 @@ module.exports('employmentInformation', function (require) {
                 required: {
                     message: translations.ThisFieldIsRequired,
                     onlyIf: function () {
-                        return self.status() === '0' && self.incomeType() === '1';
+                        return self.showHourlyRate();
                     }
                 }
             });
@@ -61,7 +62,7 @@ module.exports('employmentInformation', function (require) {
                 required: {
                     message: translations.ThisFieldIsRequired,
                     onlyIf: function () {
-                        return self.isEmployedOrSelfEmployed() && self.yearsOfEmploy() < '10';
+                        return self.isEmployedOrSelfEmployed() && self.yearsOfEmploy() < 10;
                     }
                 }
             });
@@ -81,6 +82,18 @@ module.exports('employmentInformation', function (require) {
                     onlyIf: function () {
                         return self.isEmployedOrSelfEmployed();
                     }
+                },
+                min: {
+                    message: translations.TheFieldMustBeMinimumAndMaximum,
+                    params: 2
+                },
+                max: {
+                    message: translations.TheFieldMustBeMinimumAndMaximum,
+                    params: 140
+                },
+                pattern: {
+                    message: translations.JobTitleIncorrectFormat,
+                    params: "^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$"
                 }
             });
         self.companyName = ko.observable(info.CompanyName || '')
@@ -89,6 +102,18 @@ module.exports('employmentInformation', function (require) {
                     message: translations.ThisFieldIsRequired,
                     onlyIf: function () {
                         return self.isEmployedOrSelfEmployed();
+                    },
+                    min: {
+                        message: translations.TheFieldMustBeMinimumAndMaximum,
+                        params: 2
+                    },
+                    max: {
+                        message: translations.TheFieldMustBeMinimumAndMaximum,
+                        params: 140
+                    },
+                    pattern: {
+                        message: translations.CompanyNameIncorrectFormat,
+                        params: "^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$"
                     }
                 }
             });
@@ -99,6 +124,18 @@ module.exports('employmentInformation', function (require) {
                     onlyIf: function () {
                         return self.isEmployedOrSelfEmployed();
                     }
+                },
+                min: {
+                    message: translations.CompanyPhoneMustBeLong,
+                    params: 10
+                },
+                max: {
+                    message: translations.CompanyPhoneMustBeLong,
+                    params: 10
+                },
+                pattern: {
+                    message: translations.CityIncorrectFormat,
+                    params: "^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$"
                 }
             });
         self.address = ko.validatedObservable(new addressInformation(info.CompanyAddress || {}))
