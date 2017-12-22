@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 namespace DealnetPortal.Aspire.Integration.Models
 {
     [Serializable]
+    [XmlInclude(typeof(DocumentUploadPayload))]
     public class Payload
     {
         public string TransactionId { get; set; }

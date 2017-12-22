@@ -454,7 +454,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                     try
                     {                    
-                        request.Payload = new DocumentUploadPayload()
+                        var payload = new DocumentUploadPayload()
                         {
                             TransactionId = contract.Details.TransactionId,                            
                             
@@ -469,7 +469,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             extn = Path.GetExtension(document.DocumentName)?.Substring(1);
                         }
-                        request.Payload.Documents = new List<Document>()
+                        payload.Documents = new List<Document>()
                         {
                             new Document()
                             {
@@ -478,6 +478,7 @@ namespace DealnetPortal.Api.Integration.Services
                                 Ext = extn
                             }
                         };
+                        request.Payload = payload;
 
                         var sendResult = await DoAspireRequestWithAnalyze(_aspireServiceAgent.DocumentUploadSubmission,
                             request, (r,c) => AnalyzeResponse(r,c), contract).ConfigureAwait(false);
@@ -559,7 +560,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                     try
                     {
-                        request.Payload = new DocumentUploadPayload()
+                        var payload = new DocumentUploadPayload()
                         {
                             TransactionId = aspireTransactionId,
                             Status = _configuration.GetSetting(WebConfigKeys.DOCUMENT_UPLOAD_STATUS_CONFIG_KEY)
@@ -568,7 +569,7 @@ namespace DealnetPortal.Api.Integration.Services
                         var uploadName = Regex.Replace(Path.GetFileNameWithoutExtension(document.DocumentName).Replace('[', '_').Replace(']', '_'),
                             $"[{DocumentNameReplacedSymbols}]", "_");
 
-                        request.Payload.Documents = new List<Document>()
+                        payload.Documents = new List<Document>()
                         {
                             new Document()
                             {
@@ -577,6 +578,8 @@ namespace DealnetPortal.Api.Integration.Services
                                 Ext = Path.GetExtension(document.DocumentName)?.Substring(1)
                             }
                         };
+
+                        request.Payload = payload;
 
                         var docUploadResponse = await _aspireServiceAgent.DocumentUploadSubmission(request).ConfigureAwait(false);
                         if (docUploadResponse?.Header == null || docUploadResponse.Header.Code != CodeSuccess || !string.IsNullOrEmpty(docUploadResponse.Header.ErrorMsg))
@@ -647,7 +650,7 @@ namespace DealnetPortal.Api.Integration.Services
                     request.Header = userResult.Item1;
                     try
                     {
-                        request.Payload = new DocumentUploadPayload()
+                        var payload = new DocumentUploadPayload()
                         {
                             TransactionId = string.IsNullOrEmpty(dealerInfo.TransactionId) ? null : dealerInfo.TransactionId,
                             Status = statusToSend ?? _configuration.GetSetting(WebConfigKeys.ONBOARDING_INIT_STATUS_KEY)
@@ -656,7 +659,7 @@ namespace DealnetPortal.Api.Integration.Services
                         var uploadName = Regex.Replace(Path.GetFileNameWithoutExtension(document.DocumentName).Replace('[', '_').Replace(']', '_'),
                             $"[{DocumentNameReplacedSymbols}]", "_");
 
-                        request.Payload.Documents = new List<Document>()
+                        payload.Documents = new List<Document>()
                         {
                             new Document()
                             {
@@ -665,6 +668,8 @@ namespace DealnetPortal.Api.Integration.Services
                                 Ext = Path.GetExtension(document.DocumentName)?.Substring(1)
                             }
                         };
+
+                        request.Payload = payload;
 
                         _loggingService.LogInfo($"Uploading document {document.DocumentName} for onboarding form");
                         var sendResults = await DoAspireRequestWithAnalyze(_aspireServiceAgent.DocumentUploadSubmission,
@@ -772,7 +777,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                 try
                 {
-                    request.Payload = new DocumentUploadPayload()
+                    var payload = new DocumentUploadPayload()
                     {
                         TransactionId = aspireTransactionId,
                         Status = newStatus
@@ -780,7 +785,7 @@ namespace DealnetPortal.Api.Integration.Services
                     
                     var submitStrBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(additionalDataToPass ?? newStatus));
 
-                    request.Payload.Documents = new List<Document>()
+                    payload.Documents = new List<Document>()
                     {
                         new Document()
                         {
@@ -789,6 +794,7 @@ namespace DealnetPortal.Api.Integration.Services
                             Ext = "txt"
                         }
                     };
+                    request.Payload = payload;
                     var docUploadResponse = await _aspireServiceAgent.DocumentUploadSubmission(request).ConfigureAwait(false);
                     if(docUploadResponse?.Header == null || docUploadResponse.Header.Code != CodeSuccess || !string.IsNullOrEmpty(docUploadResponse.Header.ErrorMsg))
                     {
@@ -995,7 +1001,6 @@ namespace DealnetPortal.Api.Integration.Services
                 Task timeoutTask = Task.Delay(_aspireRequestTimeout);
                 var aspireRequestTask = aspireRequest(request);
                 T2 response = null;
-
                 if (await Task.WhenAny(aspireRequestTask, timeoutTask).ConfigureAwait(false) == aspireRequestTask)
                 {
                     response = await aspireRequestTask.ConfigureAwait(false);
