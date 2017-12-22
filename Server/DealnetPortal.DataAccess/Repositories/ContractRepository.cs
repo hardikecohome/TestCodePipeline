@@ -1282,8 +1282,31 @@ namespace DealnetPortal.DataAccess.Repositories
 
         private void AddOrUpdateEmploymentInfo(Customer customer, EmploymentInfo employmentInfo)
         {
-            employmentInfo.Customer = customer;
-            _dbContext.EmploymentInfoes.AddOrUpdate(employmentInfo);                          
+            if (customer.EmploymentInfo == null)
+            {
+                employmentInfo.Customer = customer;
+                _dbContext.EmploymentInfoes.AddOrUpdate(employmentInfo);
+            }
+            else
+            {
+                customer.EmploymentInfo.AnnualSalary = employmentInfo.AnnualSalary;
+                customer.EmploymentInfo.CompanyName = employmentInfo.CompanyName;
+                customer.EmploymentInfo.CompanyPhone = employmentInfo.CompanyPhone;
+                customer.EmploymentInfo.EmploymentStatus = employmentInfo.EmploymentStatus;
+                customer.EmploymentInfo.EmploymentType = employmentInfo.EmploymentType;
+                customer.EmploymentInfo.HourlyRate = employmentInfo.HourlyRate;
+                customer.EmploymentInfo.IncomeType = employmentInfo.IncomeType;
+                customer.EmploymentInfo.JobTitle = employmentInfo.JobTitle;
+                customer.EmploymentInfo.LengthOfEmployment = employmentInfo.LengthOfEmployment;
+                if (employmentInfo.CompanyAddress != null)
+                {                    
+                    customer.EmploymentInfo.CompanyAddress.City = employmentInfo.CompanyAddress.City;
+                    customer.EmploymentInfo.CompanyAddress.PostalCode = employmentInfo.CompanyAddress.PostalCode;
+                    customer.EmploymentInfo.CompanyAddress.State = employmentInfo.CompanyAddress.State;
+                    customer.EmploymentInfo.CompanyAddress.Street = employmentInfo.CompanyAddress.Street;
+                    customer.EmploymentInfo.CompanyAddress.Unit = employmentInfo.CompanyAddress.Unit;
+                }
+            }
         }
 
         private Customer AddOrUpdateCustomer(Customer customer)
