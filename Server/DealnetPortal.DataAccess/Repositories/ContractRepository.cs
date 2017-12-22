@@ -1285,6 +1285,10 @@ namespace DealnetPortal.DataAccess.Repositories
             if (customer.EmploymentInfo == null)
             {
                 employmentInfo.Customer = customer;
+                if (employmentInfo.CompanyAddress == null)
+                {
+                    employmentInfo.CompanyAddress = new Address();
+                }
                 _dbContext.EmploymentInfoes.AddOrUpdate(employmentInfo);
             }
             else
@@ -1298,6 +1302,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 customer.EmploymentInfo.IncomeType = employmentInfo.IncomeType;
                 customer.EmploymentInfo.JobTitle = employmentInfo.JobTitle;
                 customer.EmploymentInfo.LengthOfEmployment = employmentInfo.LengthOfEmployment;
+                if (customer.EmploymentInfo.CompanyAddress == null)
+                {
+                    customer.EmploymentInfo.CompanyAddress = new Address();
+                }
                 if (employmentInfo.CompanyAddress != null)
                 {                    
                     customer.EmploymentInfo.CompanyAddress.City = employmentInfo.CompanyAddress.City;
