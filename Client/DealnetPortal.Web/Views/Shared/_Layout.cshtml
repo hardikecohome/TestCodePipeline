@@ -87,7 +87,8 @@
             themeClass = "theme-one-dealer";
             break;
     }
-
+    string phone = (bool) ((ClaimsPrincipal) User)?.HasClaim("QuebecDealer", "True") ? System.Configuration.ConfigurationManager.AppSettings["QuebecDealerSupportPhone"] : System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"];
+    string phoneToCall = phone.Replace("-", "");
     
 }
 
@@ -116,7 +117,7 @@
                             <div class="contact-container">
                                 <div class="contact-btn contact-phone-container">
                                     <div class="contact-header">@Resources.HowCanWeHelp</div>
-                                    <div class="contact-phone">@((bool) ((ClaimsPrincipal) User)?.HasClaim("QuebecDealer", "True") ? System.Configuration.ConfigurationManager.AppSettings["QuebecDealerSupportPhone"] : System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"])</div>
+                                    <div class="contact-phone">@phone</div>
                                 </div>
                                 <div class="contact-btn credit-funding-contact">
                                     <span>
@@ -283,8 +284,8 @@
                                     <li class="dealnet-sidebar-item">
                                         <div class="contact-phone-container">
                                             <span class="contact-header">@Resources.HowCanWeHelp</span>
-                                            <a class="contact-phone" href="tel:+@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"].Replace("-","")">
-                                                @System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]
+                                            <a class="contact-phone" href="tel:+@phoneToCall">
+                                                @phone
                                             </a>
                                         </div>
                                     </li>
