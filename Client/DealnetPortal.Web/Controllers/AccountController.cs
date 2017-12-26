@@ -88,13 +88,8 @@ namespace DealnetPortal.Web.Controllers
             try
             {
                 var culture = await _dictionaryServiceAgent.GetDealerCulture(model.UserName);
-                _loggingService.LogInfo($"Setting culture {culture} for user {model.UserName}");
+                _loggingService.LogInfo($"Setting culture {culture} with decodedUrl: {decodedUrl} for user {model.UserName}");
                 _cultureManager.SetCulture(culture);
-                if (!string.IsNullOrEmpty(decodedUrl) && !decodedUrl.Contains(culture))
-                {
-                    decodedUrl = decodedUrl.Substring(0, decodedUrl.IndexOf('/')+1) + culture +
-                                 decodedUrl.Substring(decodedUrl.IndexOf('/')+1, decodedUrl.Length-1);
-                }
             }
             catch (Exception ex)
             {

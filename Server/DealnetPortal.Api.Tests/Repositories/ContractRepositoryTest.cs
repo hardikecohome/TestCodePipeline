@@ -328,7 +328,11 @@ namespace DealnetPortal.Api.Tests.Repositories
                 DateOfBirth = DateTime.Today,
                 EmploymentInfo = new EmploymentInfo()
                 {
-                    AnnualSalary = "10"
+                    AnnualSalary = "10",
+                    CompanyAddress = new Address()
+                    {
+                        State = "QC"
+                    }
                 }
             };
 
