@@ -9,7 +9,7 @@
 
         var status = $('#emp-status');
         status.on('change', function (e) {
-            dispatch(createAction(customerActions.SET_EMPLOYMENT_STATUS, e.target.value));
+            changeStatus(e.target.value);
         });
 
         var incomeType = $('#income-type');
@@ -82,6 +82,81 @@
             dispatch(createAction(customerActions.SET_CPOSTAL_CODE, e.target.value));
         });
 
+        $('#cclear-address').on('click', function (e) {
+            e.preventDefault();
+            dispatch(createAction(customerActions.CLEAR_CADDRESS, e.target.value));
+        });
+
+        function changeStatus (value) {
+            switch (value) {
+                case '0':
+                    changeToEmployed();
+                    break;
+                case '1':
+                    changeToUnemployed();
+                    break;
+                case '2':
+                    changeToSelfEmployed();
+                    break;
+                case '3':
+                    changeToRetired();
+                    break;
+                default:
+                    clearStatus();
+                    break;
+            }
+            dispatch(createAction(customerActions.SET_EMPLOYMENT_STATUS, e.target.value));
+        }
+
+        function clearStatus () {
+            ///???
+        }
+
+        function changeToEmployed () {
+            incomeType.prop('disabled', false).parents('.form-group').removeClass('hidden');
+            annual.parents('.form-group').addClass('hidden');
+            hourly.parents('.form-group').addClass('hidden');
+            years.prop('disabled', false).parents('.form-group').removeClass('hidden');
+            months.prop('disabled', false);
+            empType.prop('disabled', false).parents('.form-group').removeClass('hidden');
+            $('#company-info-hold').removeClass('hidden');
+            jobTitle.prop('disabled', false);
+            name.prop('disabled', false);
+            phone.prop('disabled', false);
+            $('#company-address-hold').removeClass('hidden');
+            street.prop('disabled', false);
+            unit.prop('disabled', false);
+            city.prop('disabled', false);
+            province.prop('disabled', false);
+            postal.prop('disabled', false);
+        }
+
+        function changeToUnemployed () {
+            annual.prop('disabled', false).parents('.form-group').removeClass('hidden');
+
+            incomeType.prop('disabled', true).parents('.form-group').addClass('hidden');
+            hourly.prop('disabled', true).parents('.form-group').addClass('hidden');
+            empType.prop('disabled', true).parents('.form-group').addClass('hidden');
+            years.prop('disabled', true).parents('.form-group').addClass('hidden');
+            months.prop('disabled', true);
+            $('#company-info-hold').addClass('hidden');
+            jobTitle.prop('disabled', true);
+            name.prop('disabled', true);
+            phone.prop('disabled', true);
+            $('#company-address-hold').addClass('hidden');
+            street.prop('disabled', true);
+            unit.prop('disabled', true);
+            city.prop('disabled', true);
+            province.prop('disabled', true);
+            postal.prop('disabled', true);
+        }
+
+        function changeToSelfEmployed () {
+
+        }
+
+        function changeToRetired () { }
+
         var initialStateMap = {
             employStatus: status,
             incomeType: incomeType,
@@ -104,7 +179,8 @@
 
         var observeCustomerFormStore = observe(store);
 
-        observeCustomerFormStore(function (store) {
+        observeCustomerFormStore(function (state) {
+            debugger
             return {
                 street: state.cstreet,
                 unit: state.cunit,
@@ -113,11 +189,29 @@
                 postalCode: state.cpostalCode
             };
         })(function (props) {
-            street.val(props.state);
+            debugger
+            street.val(props.street);
             unit.val(props.unit);
             city.val(props.city);
             province.val(props.province);
             postal.val(props.postalCode);
         });
-    }
+
+        observeCustomerFormStore(function (state) {
+            debugger
+            return {
+                province: state.province
+            };
+        })(function (props) {
+            debugger
+            if (props.province.toLowerCase() === 'qc') {
+                $('#employmentInfoForm').removeClass('hidden');
+                status.val('').change().prop('disabled', false);
+            } else {
+                $('#employmentInfoForm').addClass('hidden').find('input, select').each(function () {
+                    $(this).prop('disabled', true);
+                });
+            }
+        });
+    };
 });

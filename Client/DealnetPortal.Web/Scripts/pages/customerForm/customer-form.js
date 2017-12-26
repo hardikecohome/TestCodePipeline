@@ -17,6 +17,7 @@
     var initContactInfo = require('contact-info-view');
     var initInstallationAddress = require('installation-address-view');
     var initAgreement = require('agreement-view');
+    var initEmployment = require('employment-info-view')
 
     var log = require('logMiddleware');
 
@@ -25,6 +26,7 @@
 
     var requiredFields = ['name', 'lastName', 'birthday', 'street', 'province', 'postalCode', 'email', 'creditAgreement', 'contactAgreement', 'ownership', 'captchaCode'];
     var requiredPFields = ['birthday', 'pstreet', 'pprovince', 'ppostalCode'];
+    var requiredEmployment = [];
 
     var getErrors = configGetErrors(requiredFields, requiredPFields);
 
@@ -33,8 +35,10 @@
             var flow1 = [customerActions.SET_NAME, customerActions.SET_LAST, customerActions.SET_BIRTH];
             var flow2 = [customerActions.SET_STREET, customerActions.SET_CITY, customerActions.SET_PROVINCE, customerActions.SET_POSTAL_CODE, customerActions.TOGGLE_OWNERSHIP];
             var addressFlow = [customerActions.SET_STREET, customerActions.SET_CITY, customerActions.SET_PROVINCE, customerActions.SET_POSTAL_CODE];
+            var employmentFlow = [];
             return function (action) {
                 var state = store.getState();
+                debugger
 
                 var nextAction = next(action);
                 if (state.activePanel === 'yourInfo') {
@@ -170,6 +174,7 @@
         $(document).ready(function () {
             var gAutoCompletes = setAutocomplete('street', 'city');
             var gPAutoCompletes = setAutocomplete('pstreet', 'pcity');
+            var gCAutoCompletes = setAutocomplete('company-street', 'company-city');
 
             gAutoCompletes.street.addListener('place_changed',
                 function () {
@@ -228,6 +233,35 @@
                             province: place['administrative_area_level_1'] || '',
                         }));
                 });
+
+            gCAutoCompletes.street.addListener('place_changed',
+                function () {
+                    var place = gCAutoCompletes.street.getPlace().address_components
+                        .map(getAddress(addressForm)).reduce(concatObj);
+
+                    dispatch(createAction(customerActions.SET_CADDRESS,
+                        {
+                            street: place['route'] || '',
+                            number: place['street_number'] || '',
+                            city: place['locality'] || '',
+                            province: place['administrative_area_level_1'] || '',
+                            postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : place['postal_code_prefix'] ? place['postal_code_prefix'].replace(' ', '') : '',
+                        }));
+
+                    $('#pprovince').change();
+                });
+
+            gCAutoCompletes.city.addListener('place_changed',
+                function () {
+                    var place = gCAutoCompletes.city.getPlace().address_components
+                        .map(getAddress(addressForm)).reduce(concatObj);
+
+                    dispatch(createAction(customerActions.SET_CADDRESS,
+                        {
+                            city: place['locality'] || '',
+                            province: place['administrative_area_level_1'] || '',
+                        }));
+                });
         });
     };
 
@@ -241,6 +275,7 @@
             initInstallationAddress(customerFormStore);
             initContactInfo(customerFormStore);
             initAgreement(customerFormStore);
+            initEmployment(customerFormStore);
 
             $('.j-personal-data-used-modal').on('click', function (e) {
                 var data = {
