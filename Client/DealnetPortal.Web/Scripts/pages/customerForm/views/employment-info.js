@@ -1,7 +1,8 @@
 ﻿module.exports('employment-info-view', function (require) {
-    var clientActions = require('new-client-actions');
+    var customerActions = require('customer-actions');
     var createAction = require('redux').createAction;
     var readInitialStateFromFields = require('objectUtils').readInitialStateFromFields;
+    var observe = require('redux').observe;
 
     return function (store) {
         var dispatch = store.dispatch;
@@ -22,18 +23,56 @@
 
         var jobTitle = $('#job-title');
 
-        var companyName = $('#company-name');
+        var name = $('#company-name');
 
-        var companyPhone = $('#company-phone');
+        var phone = $('#company-phone');
 
-        var comapanyStreet = $('#company-street');
+        var street = $('#company-street');
 
-        var companyUnit = $('#company-unit');
+        var unit = $('#company-unit');
 
-        var companyCity = $('#company-city');
+        var city = $('#company-city');
 
-        var companyProvince = $('#company-province');
+        var province = $('#company-province');
 
-        var companyPostal = $('#company-postal-code')
+        var postal = $('#company-postal-code');
+
+        var initialStateMap = {
+            employStatus: status,
+            incomeType: incomeType,
+            annualSalary: annual,
+            hourlyRate: hourly,
+            yearsOfEmploy: years,
+            monthsOfEmploy: months,
+            employType: empType,
+            jobTitle: jobTitle,
+            companyName: name,
+            companyPhone: phone,
+            cstreet: street,
+            cunit: unit,
+            ccity: city,
+            cprovince: province,
+            cpostalCode: postal
+        };
+
+        dispatch(createAction(customerActions.SET_INITIAL_STATE), readInitialStateFromFields(initialStateMap));
+
+        var observeCustomerFormStore = observe(store);
+
+        observeCustomerFormStore(function (store) {
+            return {
+                street: state.cstreet,
+                unit: state.cunit,
+                city: state.ccity,
+                province: state.cprovince,
+                postalCode: state.cpostalCode
+            };
+        })(function (props) {
+            street.val(props.state);
+            unit.val(props.unit);
+            city.val(props.city);
+            province.val(props.province);
+            postal.val(props.postalCode);
+        });
     }
 });
