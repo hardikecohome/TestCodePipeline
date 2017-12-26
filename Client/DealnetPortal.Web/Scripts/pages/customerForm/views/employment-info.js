@@ -93,13 +93,11 @@
                     changeToEmployed();
                     break;
                 case '1':
-                    changeToUnemployed();
+                case '3':
+                    changeToUnemployedOrRetired();
                     break;
                 case '2':
                     changeToSelfEmployed();
-                    break;
-                case '3':
-                    changeToRetired();
                     break;
                 default:
                     clearStatus();
@@ -109,7 +107,22 @@
         }
 
         function clearStatus () {
-            ///???
+            incomeType.prop('disabled', true).parents('.form-group').addClass('hidden');
+            annual.prop('disabled', true).parents('.form-group').addClass('hidden');
+            hourly.prop('disabled', true).parents('.form-group').addClass('hidden');
+            empType.prop('disabled', true).parents('.form-group').addClass('hidden');
+            years.prop('disabled', true).parents('.form-group').addClass('hidden');
+            months.prop('disabled', true);
+            $('#company-info-hold').addClass('hidden');
+            jobTitle.prop('disabled', true);
+            name.prop('disabled', true);
+            phone.prop('disabled', true);
+            $('#company-address-hold').addClass('hidden');
+            street.prop('disabled', true);
+            unit.prop('disabled', true);
+            city.prop('disabled', true);
+            province.prop('disabled', true);
+            postal.prop('disabled', true);
         }
 
         function changeToEmployed () {
@@ -131,7 +144,7 @@
             postal.prop('disabled', false);
         }
 
-        function changeToUnemployed () {
+        function changeToUnemployedOrRetired () {
             annual.prop('disabled', false).parents('.form-group').removeClass('hidden');
 
             incomeType.prop('disabled', true).parents('.form-group').addClass('hidden');
@@ -152,10 +165,23 @@
         }
 
         function changeToSelfEmployed () {
+            annual.prop('disabled', false).parents('.form-group').removeClass('hidden');
+            years.prop('disabled', false).parents('.form-group').removeClass('hidden');
+            months.prop('disabled', false);
+            $('#company-info-hold').removeClass('hidden');
+            jobTitle.prop('disabled', false);
+            name.prop('disabled', false);
+            phone.prop('disabled', false);
+            $('#company-address-hold').removeClass('hidden');
+            street.prop('disabled', false);
+            unit.prop('disabled', false);
+            city.prop('disabled', false);
+            province.prop('disabled', false);
+            postal.prop('disabled', false);
 
+            incomeType.prop('disabled', true).parents('.form-group').addClass('hidden');
+            hourly.prop('disabled', true).parents('.form-group').addClass('hidden');
         }
-
-        function changeToRetired () { }
 
         var initialStateMap = {
             employStatus: status,
