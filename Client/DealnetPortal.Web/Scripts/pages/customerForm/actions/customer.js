@@ -34,6 +34,23 @@
         SET_PADDRESS: 'set_paddress',
         SET_COMMENT: 'set_comment',
         SET_EMAIL: 'set_email',
-        SET_BUSINESS_PHONE: 'set_business_phone'
+        SET_BUSINESS_PHONE: 'set_business_phone',
+        SET_EMPLOYMENT_STATUS: 'set_employment_status',
+        SET_INCOME_TYPE: 'set_income_type',
+        SET_ANNUAL_SALARY: 'set_annual_salary',
+        SET_HOURLY_RATE: 'set_hourly_rate',
+        SET_YEARS_OF_EMPLOY: 'set_years_of_employ',
+        SET_MONTHS_OF_EMPLOY: 'set_months_of_employ',
+        SET_EMPLOY_TYPE: 'set_employ_type',
+        SET_JOB_TITLE: 'set_job_title',
+        SET_COMPANY_NAME: 'set_company_name',
+        SET_COMPANY_PHONE: 'set_company_phone',
+        SET_CSTREET: 'set_cstreet',
+        SET_CUNIT: 'set_cunit',
+        SET_CCITY: 'set_ccity',
+        SET_CPROVINCE: 'set_cprovince',
+        SET_CPOSTAL_CODE: 'set_cpostal_code',
+        CLEAR_CADDRESS: 'clear_caddress',
+        SET_CADDRESS: 'set_caddress'
     };
 });
