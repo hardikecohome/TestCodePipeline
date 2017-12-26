@@ -103,20 +103,29 @@
                     clearStatus();
                     break;
             }
-            dispatch(createAction(customerActions.SET_EMPLOYMENT_STATUS, e.target.value));
+            dispatch(createAction(customerActions.SET_EMPLOYMENT_STATUS, value));
         }
 
         function clearStatus () {
             incomeType.prop('disabled', true).parents('.form-group').addClass('hidden');
+            incomeType.rules('remove', 'required');
             annual.prop('disabled', true).parents('.form-group').addClass('hidden');
+            annual.rules('remove', 'required');
             hourly.prop('disabled', true).parents('.form-group').addClass('hidden');
+            hourly.rules('remove', 'required');
             empType.prop('disabled', true).parents('.form-group').addClass('hidden');
+            empType.rules('remove', 'required');
             years.prop('disabled', true).parents('.form-group').addClass('hidden');
+            years.rules('remove', 'required');
             months.prop('disabled', true);
+            months.rules('remove', 'required');
             $('#company-info-hold').addClass('hidden');
             jobTitle.prop('disabled', true);
+            jobTitle.rules('remove', 'required');
             name.prop('disabled', true);
+            name.rules('remove', 'required');
             phone.prop('disabled', true);
+            phone.rules('remove', 'required');
             $('#company-address-hold').addClass('hidden');
             street.prop('disabled', true);
             unit.prop('disabled', true);
@@ -127,15 +136,24 @@
 
         function changeToEmployed () {
             incomeType.prop('disabled', false).parents('.form-group').removeClass('hidden');
+            incomeType.rules('add', 'required');
             annual.parents('.form-group').addClass('hidden');
+            annual.rules('remove', 'required');
             hourly.parents('.form-group').addClass('hidden');
+            hourly.rules('remove', 'required');
             years.prop('disabled', false).parents('.form-group').removeClass('hidden');
+            years.rules('add', 'required');
             months.prop('disabled', false);
+            months.rules('add', 'required');
             empType.prop('disabled', false).parents('.form-group').removeClass('hidden');
+            empType.rules('add', 'required');
             $('#company-info-hold').removeClass('hidden');
             jobTitle.prop('disabled', false);
+            jobTitle.rules('add', 'required');
             name.prop('disabled', false);
+            name.rules('add', 'required');
             phone.prop('disabled', false);
+            phone.rules('add', 'required');
             $('#company-address-hold').removeClass('hidden');
             street.prop('disabled', false);
             unit.prop('disabled', false);
@@ -146,16 +164,25 @@
 
         function changeToUnemployedOrRetired () {
             annual.prop('disabled', false).parents('.form-group').removeClass('hidden');
+            annual.rules('add', 'required');
 
             incomeType.prop('disabled', true).parents('.form-group').addClass('hidden');
+            incomeType.rules('remove', 'required');
             hourly.prop('disabled', true).parents('.form-group').addClass('hidden');
+            hourly.rules('remove', 'required');
             empType.prop('disabled', true).parents('.form-group').addClass('hidden');
+            empType.rules('remove', 'required');
             years.prop('disabled', true).parents('.form-group').addClass('hidden');
+            years.rules('remove', 'required');
             months.prop('disabled', true);
+            months.rules('remove', 'required');
             $('#company-info-hold').addClass('hidden');
             jobTitle.prop('disabled', true);
+            jobTitle.rules('remove', 'required');
             name.prop('disabled', true);
+            name.rules('remove', 'required');
             phone.prop('disabled', true);
+            phone.rules('remove', 'required');
             $('#company-address-hold').addClass('hidden');
             street.prop('disabled', true);
             unit.prop('disabled', true);
@@ -166,12 +193,18 @@
 
         function changeToSelfEmployed () {
             annual.prop('disabled', false).parents('.form-group').removeClass('hidden');
+            annual.rules('add', 'required');
             years.prop('disabled', false).parents('.form-group').removeClass('hidden');
+            years.rules('add', 'required');
             months.prop('disabled', false);
+            months.rules('add', 'required');
             $('#company-info-hold').removeClass('hidden');
             jobTitle.prop('disabled', false);
+            jobTitle.rules('add', 'required');
             name.prop('disabled', false);
+            name.rules('add', 'required');
             phone.prop('disabled', false);
+            phone.rules('add', 'required');
             $('#company-address-hold').removeClass('hidden');
             street.prop('disabled', false);
             unit.prop('disabled', false);
@@ -179,8 +212,8 @@
             province.prop('disabled', false);
             postal.prop('disabled', false);
 
-            incomeType.prop('disabled', true).parents('.form-group').addClass('hidden');
-            hourly.prop('disabled', true).parents('.form-group').addClass('hidden');
+            incomeType.prop('disabled', true).rules('remove', 'required').parents('.form-group').addClass('hidden');
+            hourly.prop('disabled', true).rules('remove', 'required').parents('.form-group').addClass('hidden');
         }
 
         var initialStateMap = {
@@ -206,7 +239,6 @@
         var observeCustomerFormStore = observe(store);
 
         observeCustomerFormStore(function (state) {
-            debugger
             return {
                 street: state.cstreet,
                 unit: state.cunit,
@@ -215,7 +247,6 @@
                 postalCode: state.cpostalCode
             };
         })(function (props) {
-            debugger
             street.val(props.street);
             unit.val(props.unit);
             city.val(props.city);
@@ -224,12 +255,10 @@
         });
 
         observeCustomerFormStore(function (state) {
-            debugger
             return {
                 province: state.province
             };
         })(function (props) {
-            debugger
             if (props.province.toLowerCase() === 'qc') {
                 $('#employmentInfoForm').removeClass('hidden');
                 status.val('').change().prop('disabled', false);
