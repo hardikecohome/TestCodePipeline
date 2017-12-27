@@ -477,7 +477,7 @@
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\email\email.html" />
     <Content Include="Content\email\images\icon-success.png" />
-    <Content Include="Content\files\Banner.html" />
+    <None Include="Views\Shared\Maintenence\en\Banner.cshtml" />
     <Content Include="Content\files\banners\en\home-banner-mobile.jpg" />
     <Content Include="Content\files\banners\en\home-banner.jpg" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.svg" />
@@ -808,13 +808,13 @@
     <Content Include="Content\less\slick\slick.less" />
     <Content Include="Content\less\components\carousel.less" />
     <Content Include="Content\less\pages\onboard.less" />
-    <Content Include="Content\files\About-EcoHome-Financial.pdf" />
-    <Content Include="Content\files\Consumer-Loan-Agreement.pdf" />
-    <Content Include="Content\files\Loan-Agreement-Changes-From-August-To-September.pdf" />
-    <Content Include="Content\files\Myhome-Wallet-Detailed-Description.pdf" />
-    <Content Include="Content\files\Myhome-Wallet-Short-Description.pdf" />
-    <Content Include="Content\files\Portal-User-Guide.pdf" />
-    <Content Include="Content\files\Summer-Fall-2017-Promotion.pdf" />
+    <Content Include="Content\files\resources\en\About-EcoHome-Financial.pdf" />
+    <Content Include="Content\files\resources\en\Consumer-Loan-Agreement.pdf" />
+    <Content Include="Content\files\resources\en\Loan-Agreement-Changes-From-August-To-September.pdf" />
+    <Content Include="Content\files\resources\en\Myhome-Wallet-Detailed-Description.pdf" />
+    <Content Include="Content\files\resources\en\Myhome-Wallet-Short-Description.pdf" />
+    <Content Include="Content\files\resources\en\Portal-User-Guide.pdf" />
+    <Content Include="Content\files\resources\en\Summer-Fall-2017-Promotion.pdf" />
     <Content Include="Content\less\components\status-colors.less" />
     <Content Include="Content\less\components\dob-control.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
@@ -1174,7 +1174,11 @@
     <Folder Include="App_Data\Upload\" />
     <Folder Include="Content\files\banners\en\qc\" />
     <Folder Include="Content\files\banners\fr\qc\" />
+    <Folder Include="Content\files\resources\en\qc\" />
+    <Folder Include="Content\files\resources\fr\qc\" />
     <Folder Include="Content\themes\" />
+    <Folder Include="Views\Shared\Maintenence\en\qc\" />
+    <Folder Include="Views\Shared\Maintenence\fr\qc\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

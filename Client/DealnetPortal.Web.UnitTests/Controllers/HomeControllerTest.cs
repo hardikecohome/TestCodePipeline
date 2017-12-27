@@ -69,18 +69,5 @@ namespace DealnetPortal.Web.Tests.Controllers
             // Assert
             //Assert.AreEqual("Your application description page.", result.ViewBag.Message);
         }
-
-        [TestMethod]
-        public void Contact()
-        {
-            // Arrange
-            HomeController controller = new HomeController(_contractServiceAgentMock.Object, _dictionaryServiceAgentMock.Object, _cultureSetterManager, _settingsManagerMock.Object, _dealerServiceAgent.Object, _contentManagerMock.Object);
-
-            // Act
-            ViewResult result = controller.Contact() as ViewResult;
-
-            // Assert
-            Assert.IsNotNull(result);
-        }
     }
 }
