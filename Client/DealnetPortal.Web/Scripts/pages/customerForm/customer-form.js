@@ -10,14 +10,13 @@
 
     var reducer = require('customer-reducer');
     var customerActions = require('customer-actions');
-    var getRequiredPhones = require('customer-selectors').getRequiredPhones;
     var configGetErrors = require('customer-selectors').getErrors;
 
     var initYourInfo = require('your-info-view');
     var initContactInfo = require('contact-info-view');
     var initInstallationAddress = require('installation-address-view');
     var initAgreement = require('agreement-view');
-    var initEmployment = require('employment-info-view')
+    var initEmployment = require('employment-info-view');
 
     var log = require('logMiddleware');
 
@@ -28,17 +27,16 @@
     var requiredPFields = ['birthday', 'pstreet', 'pprovince', 'ppostalCode'];
     var requiredEmployment = [];
 
-    var getErrors = configGetErrors(requiredFields, requiredPFields);
+    var getErrors = configGetErrors(requiredFields, requiredPFields, requiredEmployment);
 
     var flowMiddleware = function (store) {
         return function (next) {
             var flow1 = [customerActions.SET_NAME, customerActions.SET_LAST, customerActions.SET_BIRTH];
             var flow2 = [customerActions.SET_STREET, customerActions.SET_CITY, customerActions.SET_PROVINCE, customerActions.SET_POSTAL_CODE, customerActions.TOGGLE_OWNERSHIP];
             var addressFlow = [customerActions.SET_STREET, customerActions.SET_CITY, customerActions.SET_PROVINCE, customerActions.SET_POSTAL_CODE];
-            var employmentFlow = [];
+
             return function (action) {
                 var state = store.getState();
-                debugger
 
                 var nextAction = next(action);
                 if (state.activePanel === 'yourInfo') {
@@ -69,9 +67,9 @@
                         next(createAction(customerActions.ACTIVATE_CONTACT_INFO, true));
                     }
                 }
-
+                
                 var stateAfter = store.getState();
-                var errors = getErrors(stateAfter)
+                var errors = getErrors(stateAfter);
                 var installationErrors = errors.filter(function (error) { return error.type === 'ownership'; });
                 if (stateAfter.displaySubmitErrors && installationErrors.length > 0) {
                     next(createAction(customerActions.DISPLAY_INSTALLATION, true));
@@ -334,14 +332,68 @@
                 }
 
                 if (props.displayContactInfo) {
-                    $('#contactInfoForm').slideDown();
+                    $('#additionalInfoForm').slideDown();
                 }
 
                 if (props.activePanel === 'contactInfo') {
-                    $('#contactInfoPanel').addClass('active-panel');
+                    $('#addtionalInfoPanel').addClass('active-panel');
                 } else {
-                    $('#contactInfoPanel').removeClass('active-panel');
+                    $('#addtionalInfoPanel').removeClass('active-panel');
                 }
+                });
+
+            observeCustomerFormStore(function(state) {
+                return {
+                    province: state.province,
+                    employStatus: state.employStatus,
+                    incomeType: state.incomeType
+                }
+            })(function (props) {
+                requiredEmployment.length = 0;
+                if (props.province.toLowerCase() === 'qc') {
+                    if (props.employStatus === '') {
+                        requiredEmployment.push('employStatus');
+                    }
+                    if (props.employStatus === '0') {
+                        requiredEmployment.concat(['employStatus',
+                            'incomeType',
+                            'yearsOfEmploy',
+                            'monthsOfEmploy',
+                            'employType',
+                            'jobTitle',
+                            'companyName',
+                            'companyPhone',
+                            'cstreet',
+                            'cunit',
+                            'ccity',
+                            'cprovince',
+                            'cpostalCode']);
+                        if (props.incomeType === '0') {
+                            requiredEmployment.push('annualSalary');
+                        }
+                        if (props.incomeType === '1') {
+                            requiredEmployment.push('hourlyRate');
+                        }
+                    }
+                    if (props.employStatus === '1' || props.employStatus === '3') {
+                        requiredEmployment.concat( ['employStatus', 'annualSalary']);
+                    }
+                    if (props.employStatus === '2') {
+                        requiredEmployment.concat(['employStatus',
+                            'annualSalary',
+                            'yearsOfEmploy',
+                            'monthsOfEmploy',
+                            'employType',
+                            'jobTitle',
+                            'companyName',
+                            'companyPhone',
+                            'cstreet',
+                            'cunit',
+                            'ccity' ,
+                            'cprovince',
+                            'cpostalCode']);
+                    }
+                } 
             });
 
             var createError = function (msg) {

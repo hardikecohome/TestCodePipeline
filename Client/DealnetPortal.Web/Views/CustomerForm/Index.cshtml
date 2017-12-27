@@ -306,13 +306,13 @@
                     <div id="installationErrors"></div>
                 </div>
             </div>
-            <div class="panel customer-loan-form-panel panel-collapsed" id="contactInfoPanel">
+            <div class="panel customer-loan-form-panel panel-collapsed" id="additionalInfoPanel">
                 <div class="panel-heading">
                     <span class="panel-step">3</span>
                     <h3 class="panel-title dealnet-middle-header">@Resources.AdditionalInformation</h3>
                     <span class="arrow"><i class="glyphicon"></i></span>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body" id="additionalInfoForm">
                     <div id="employmentInfoForm" @(Model.HomeOwner?.AddressInformation?.Province?.ToUpper() == "QC" ? "" : "class=hidden")>
                         <h2 class="dealnet-middle-header no-margin-top">@Resources.EmploymentInformation</h2>
                         <div class="row">
