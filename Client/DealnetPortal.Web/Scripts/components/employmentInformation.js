@@ -57,12 +57,17 @@ module.exports('employmentInformation', function (require) {
                     }
                 }
             });
+
+        self.enableMonths = ko.computed(function() {
+            return self.isEmployedOrSelfEmployed() && self.yearsOfEmploy() !== '10+';
+        });
+
         self.monthsOfEmploy = ko.observable(info.MonthsOfEmploy)
             .extend({
                 required: {
                     message: translations.ThisFieldIsRequired,
                     onlyIf: function () {
-                        return self.isEmployedOrSelfEmployed() && self.yearsOfEmploy() < 10;
+                        return self.enableMonths();
                     }
                 }
             });

@@ -444,7 +444,7 @@ else
                             @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.YearsOfEmployment, "", new { @class = "text-danger", data_bind = "validationMessage: yearsOfEmploy" })
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-6">
-                            <select name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.MonthsOfEmployment)" class="form-control dealnet-input" data-bind="value: monthsOfEmploy, enable:isEmployedOrSelfEmployed">
+                            <select name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.MonthsOfEmployment)" class="form-control dealnet-input" data-bind="value: monthsOfEmploy, enable: enableMonths">
                                 <option value="" @(string.IsNullOrEmpty(Model.HomeOwner?.EmploymentInformation?.MonthsOfEmployment) ? "selected" : "")></option>
                                 @for(int j = 0; j < 12; j++)
                                 {
