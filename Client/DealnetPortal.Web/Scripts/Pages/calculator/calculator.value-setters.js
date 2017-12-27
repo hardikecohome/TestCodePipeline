@@ -87,8 +87,8 @@
             state[optionKey].plan = planType;
           
             var dropdownParentDiv = $('#' + optionKey + '-deferralDropdownWrapper');
-            var e = document.getElementById(optionKey + '-amortDropdown');
-            e.selectedIndex = -1;
+            //var e = document.getElementById(optionKey + '-amortDropdown');
+            //e.selectedIndex = -1;
             if (planType === 'Deferral' || planType === 'Custom') {
                 if (dropdownParentDiv.is(':hidden')) {
                     $('#' + optionKey + '-deferral').addClass('hidden');

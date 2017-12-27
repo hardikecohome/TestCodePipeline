@@ -34,9 +34,7 @@
             '-totalPrice': 'totalPrice'
         },
         displaySectionFields: {
-            'displayCustomerRate': 'CustomerRate',
-            'displayTFinanced': 'totalAmountFinanced',
-            'displayMPayment': 'monthlyPayment'
+            '-cRate': 'CustomerRate'
         },
         numberFields: ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'DealerCost', 'AdminFee'],
         notCero: ['equipmentSum', 'LoanTerm', 'AmortizationTerm']
@@ -287,20 +285,25 @@
 
             var eSumData = rateCardsCalculator.calculateTotalPrice(state[option].equipments, downPayment, state.tax);
 
-            rateCardsRenderEngine.renderTotalPrice(option, eSumData);
+            rateCardsRenderEngine.renderTotalPrice(option, $.extend(eSumData));
 
             var rateCard = rateCardsCalculator.filterRateCard({ rateCardPlan: state[option].plan, standaloneOption: option });
 
             if (rateCard !== null && rateCard !== undefined) {
                 $.extend(true, state[option], rateCard);
+
                 rateCardsRenderEngine.renderAfterFiltration(state[option].plan, { deferralPeriod: state[option].DeferralPeriod, adminFee: state[option].AdminFee, dealerCost: state[option].DealerCost, customerRate: state[option].CustomerRate });
             }
 
             if (state[option].plan !== 'Custom') {
+                var e = document.getElementById(option + '-amortDropdown');
+                e.selectedIndex = -1;
                 rateCardsRenderEngine.renderDropdownValues({ rateCardPlan: state[option].plan, standaloneOption: option });
+                state[option].AmortizationTerm = +$('#' + option + '-amortDropdown option').val();
+
             }
 
-            var assignOption = $.extend({}, state[option]);
+            var assignOption = $.extend(true, {}, state[option]);
             delete assignOption.plan;
             delete assignOption.equipments;
 
