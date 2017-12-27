@@ -477,7 +477,6 @@
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\email\email.html" />
     <Content Include="Content\email\images\icon-success.png" />
-    <None Include="Views\Shared\Maintenence\en\Banner.cshtml" />
     <Content Include="Content\files\banners\en\home-banner-mobile.jpg" />
     <Content Include="Content\files\banners\en\home-banner.jpg" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.svg" />
@@ -1169,6 +1168,7 @@
     <Content Include="Views\Shared\BasicInfo\_AdditionalApplicants.cshtml" />
     <Content Include="Views\Shared\SummaryAndConfirmation\_AdditionalApplicants.cshtml" />
     <Content Include="Views\Shared\SummaryAndConfirmation\_EquipmentInformation.cshtml" />
+    <Content Include="Views\Shared\Maintenance\en\Banner.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
@@ -1177,8 +1177,8 @@
     <Folder Include="Content\files\resources\en\qc\" />
     <Folder Include="Content\files\resources\fr\qc\" />
     <Folder Include="Content\themes\" />
-    <Folder Include="Views\Shared\Maintenence\en\qc\" />
-    <Folder Include="Views\Shared\Maintenence\fr\qc\" />
+    <Folder Include="Views\Shared\Maintenance\en\qc\" />
+    <Folder Include="Views\Shared\Maintenance\fr\qc\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
