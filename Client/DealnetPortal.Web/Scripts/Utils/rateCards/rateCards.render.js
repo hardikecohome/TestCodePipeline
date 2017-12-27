@@ -23,6 +23,7 @@
                 Object.keys(settings.displaySectionFields).map(function (key) { $('#' + key).text(formatCurrency(data[settings.displaySectionFields[key]])); });
             }
 
+            Object.keys(settings.displaySectionFields).map(function (key) { $('#' + option  + key).text(formatNumber(data[settings.displaySectionFields[key]]) + '%'); });
             Object.keys(settings.rateCardFields).map(function (key) { $('#' + option + key).text(formatCurrency(data[settings.rateCardFields[key]])); });
         } else {
             if (option === selectedRateCard) {
