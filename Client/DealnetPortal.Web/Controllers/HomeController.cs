@@ -184,7 +184,7 @@ namespace DealnetPortal.Web.Controllers
             var identity = (ClaimsIdentity)User.Identity;
             var quebecPrefix = identity.HasClaim("QuebecDealer", "True") ? "qc" : string.Empty;
 
-            var pathToView = $@"Maintenence/{CultureInfo.CurrentCulture.Name}/{quebecPrefix}/Banner";
+            var pathToView = $@"Maintenance/{CultureInfo.CurrentCulture.Name}/{quebecPrefix}/Banner";
 
             var viewResult = ViewEngines.Engines.FindView(ControllerContext, pathToView, null);
 
