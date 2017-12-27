@@ -14,6 +14,7 @@
 
         var incomeType = $('#income-type');
         incomeType.on('change', function (e) {
+            changeIncome(e.target.value);
             dispatch(createAction(customerActions.SET_INCOME_TYPE, e.target.value));
         }).rules('add', 'required');
 
@@ -29,6 +30,7 @@
 
         var years = $('#emp-years');
         years.on('change', function (e) {
+            changeYears(e.target.value);
             dispatch(createAction(customerActions.SET_YEARS_OF_EMPLOY, e.target.value));
         }).rules('add', 'required');
 
@@ -87,7 +89,7 @@
             dispatch(createAction(customerActions.CLEAR_CADDRESS, e.target.value));
         });
 
-        function changeStatus (value) {
+        function changeStatus(value) {
             switch (value) {
                 case '0':
                     changeToEmployed();
@@ -106,7 +108,7 @@
             dispatch(createAction(customerActions.SET_EMPLOYMENT_STATUS, value));
         }
 
-        function clearStatus () {
+        function clearStatus() {
             incomeType.prop('disabled', true).parents('.form-group').addClass('hidden');
             annual.prop('disabled', true).parents('.form-group').addClass('hidden');
             hourly.prop('disabled', true).parents('.form-group').addClass('hidden');
@@ -125,7 +127,7 @@
             postal.prop('disabled', true);
         }
 
-        function changeToEmployed () {
+        function changeToEmployed() {
             incomeType.prop('disabled', false).parents('.form-group').removeClass('hidden');
             annual.parents('.form-group').addClass('hidden');
             hourly.parents('.form-group').addClass('hidden');
@@ -144,7 +146,7 @@
             postal.prop('disabled', false);
         }
 
-        function changeToUnemployedOrRetired () {
+        function changeToUnemployedOrRetired() {
             annual.prop('disabled', false).parents('.form-group').removeClass('hidden');
 
             incomeType.prop('disabled', true).parents('.form-group').addClass('hidden');
@@ -164,7 +166,7 @@
             postal.prop('disabled', true);
         }
 
-        function changeToSelfEmployed () {
+        function changeToSelfEmployed() {
             annual.prop('disabled', false).parents('.form-group').removeClass('hidden');
             years.prop('disabled', false).parents('.form-group').removeClass('hidden');
             months.prop('disabled', false);
@@ -183,13 +185,24 @@
             hourly.prop('disabled', true).rules('remove', 'required').parents('.form-group').addClass('hidden');
         }
 
-        function changeIncome (value) {
+        function changeIncome(value) {
+            if (value === '') {
+                annual.prop('disabled', true).parents('.form-group').addClass('hidden');
+                hourly.prop('disabled', true).parents('.form-group').addClass('hidden');
+            }
             if (value === '0') {
                 annual.prop('disabled', false).parents('.form-group').removeClass('hidden');
                 hourly.prop('disabled', true).parents('.form-group').addClass('hidden');
-            } else {
+            }
+            if (value === '1') {
                 hourly.prop('disabled', false).parents('.form-group').removeClass('hidden');
                 annual.prop('disabled', true).parents('.form-group').addClass('hidden');
+            }
+        }
+
+        function changeYears(value) {
+            if (value === '10+') {
+                months.prop('disabled', true).val('');
             }
         }
 

@@ -37,6 +37,12 @@ namespace DealnetPortal.Web.Infrastructure
                 previousAddress.AddressType = AddressType.PreviousAddress;
                 customerFormDto.PrimaryCustomer.Locations.Add(previousAddress);
             }
+
+            if (mainAddress.State.ToUpper() == "QC")
+            {
+                customerFormDto.PrimaryCustomer.EmploymentInfo =
+                        Mapper.Map<EmploymentInfoDTO>(customerForm.HomeOwner.EmploymentInformation);
+            }
             var customerContactInfo = Mapper.Map<CustomerDataDTO>(customerForm.HomeOwnerContactInfo);
             customerFormDto.PrimaryCustomer.Emails = customerContactInfo.Emails;
             customerFormDto.PrimaryCustomer.Phones = customerContactInfo.Phones;
