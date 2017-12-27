@@ -30,12 +30,19 @@
             var isApprovalAge = checkApplicantsAge();
             var isHomeOwner = checkHomeOwner();
             var isAgreesToCreditCheck = checkCreditAgree();
+            //var quebecDealerValid = isQuebecDealer && vm.showEmployment();
 
-            if (!isApprovalAge) {
-                $('#age-warning-message').hide();
-                //$('#age-error-message').show();
-                //scrollPageTo($('#age-error-message'));
+            //if(quebecDealerValid)
+            //if (!isApprovalAge) {
+            //    $('#age-warning-message').hide();
+            //    //$('#age-error-message').show();
+            //    //scrollPageTo($('#age-error-message'));
+            //}
+            if (!vm.allowQcDealerProceed()) {
+                $("#proceed-qc-dealer").show();
+                scrollPageTo($("#proceed-qc-dealer"));
             }
+
             if (!isHomeOwner) {
                 $("#proceed-homeowner-errormessage").show();
                 scrollPageTo($("#borrower-is-homeowner"));
@@ -46,7 +53,7 @@
                 scrollPageTo($("#proceed-error-message"));
             }
 
-            if (!isHomeOwner || !isApprovalAge || !isAgreesToCreditCheck || !vm.valid()) {
+            if (!isHomeOwner || !isApprovalAge || !isAgreesToCreditCheck || !vm.valid() || !vm.allowQcDealerProceed()) {
                 if ($('#main-form').valid()) {
                     event.preventDefault();
                 } else {

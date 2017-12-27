@@ -17,6 +17,7 @@ using Microsoft.Practices.ObjectBuilder2;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using DealnetPortal.Web.Common.Helpers;
@@ -101,6 +102,12 @@ namespace DealnetPortal.Web.Controllers
             var viewModel = await _contractManager.GetBasicInfoAsync(contractId.Value);
             viewModel.ProvinceTaxRates = ( await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
             viewModel.VarificationIds = (await _dictionaryServiceAgent.GetAllVerificationIds()).Item1;
+
+            var identity = (ClaimsIdentity)User.Identity;
+
+            //viewModel.QuebecDealer = identity.HasClaim("QuebecDealer", "True");
+            viewModel.QuebecDealer = true;
+
             if (viewModel?.ContractState >= ContractState.Closed)
             {
                 var alerts = new List<Alert>()

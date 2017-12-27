@@ -3297,6 +3297,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Installation address should be in Quebec.
+        /// </summary>
+        public static string InstallationAddressInQuebec {
+            get {
+                return ResourceManager.GetString("InstallationAddressInQuebec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Installation Date.
         /// </summary>
         public static string InstallationDate {

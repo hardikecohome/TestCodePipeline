@@ -38,6 +38,13 @@ configInitialized
             }
         });
 
+        $('#administrative_area_level_1').change(function(e) {
+            var isQuebec = e.target.value === "QC";
+            if (isQuebec) {
+                $('#proceed-qc-dealer').hide();
+            }
+        });
+
         $('#agreement-checkbox1').change(function () {
             var isValid = checkCreditAgree();
             if (isValid) {

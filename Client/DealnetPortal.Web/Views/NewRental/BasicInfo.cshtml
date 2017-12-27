@@ -227,6 +227,10 @@
                 <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
                 @Resources.AllAplicantsConsents
             </div>
+            <div class="well danger-well over-aged-well collapse" id="proceed-qc-dealer">
+                <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                @Resources.InstallationAddressInQuebec
+            </div>
             <!--End Warning Section if isn't chosen homeowner checkbox-->
 
             <div class="row save-proceed-btn-hold">
@@ -274,6 +278,7 @@
         $('<option @(Model.SubmittingDealerId == null ? "selected" : "") value="">- @Resources.NotSelected -</option>').prependTo($('#subdealers'));
 
         var isMobileRequest = @(ViewBag.IsMobileRequest ? "true" : "false");
+        var isQuebecDealer = @(Model.QuebecDealer ? "true" : "false");
 
 @if(Model.SubmittingDealerId == null)
         {
