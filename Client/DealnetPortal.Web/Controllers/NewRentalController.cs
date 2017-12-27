@@ -105,8 +105,7 @@ namespace DealnetPortal.Web.Controllers
 
             var identity = (ClaimsIdentity)User.Identity;
 
-            //viewModel.QuebecDealer = identity.HasClaim("QuebecDealer", "True");
-            viewModel.QuebecDealer = true;
+            viewModel.QuebecDealer = identity.HasClaim("QuebecDealer", "True");
 
             if (viewModel?.ContractState >= ContractState.Closed)
             {
