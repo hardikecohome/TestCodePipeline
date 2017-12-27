@@ -2568,4 +2568,7 @@ changing contract terms or signing contract on paper.</value>
   <data name="JobTitleIncorrectFormat" xml:space="preserve">
     <value>Job Title is in incorrect format</value>
   </data>
+  <data name="AdditionalInformation" xml:space="preserve">
+    <value>Additional Information</value>
+  </data>
 </root>

@@ -5,7 +5,23 @@
       "Path": "../dealnetportal.web/scripts/utils/modules/index.js"
     },
     {
-      "Path": "../dealnetportal.web/scripts",
+      "Path": "../dealnetportal.web/scripts/vendor",
+      "Includes": [ "*.js" ]
+    },
+    {
+      "Path": "../dealnetportal.web/scripts/utils",
+      "Includes": [ "*.js" ]
+    },
+    {
+      "Path": "../dealnetportal.web/scripts/common",
+      "Includes": [ "*.js" ]
+    },
+    {
+      "Path": "../dealnetportal.web/scripts/components",
+      "Includes": [ "*.js" ]
+    },
+    {
+      "Path": "../dealnetportal.web/scripts/pages",
       "Includes": [ "*.js" ]
     }
   ],

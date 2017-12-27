@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
+    <Content Include="JsTests\addressInformation.tests.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="chutzpah.json" />
