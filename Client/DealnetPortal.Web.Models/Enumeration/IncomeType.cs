@@ -5,8 +5,8 @@ namespace DealnetPortal.Web.Models.Enumeration
     public enum IncomeType
     {
         [Display(ResourceType = typeof(Resources.Resources), Name = "AnnualSalaryIncome")]
-        Annual,
+        AnnualSalaryIncome = 0,
         [Display(ResourceType = typeof(Resources.Resources), Name = "Hourly")]
-        Hourly
+        HourlyRate = 1
     }
 }
