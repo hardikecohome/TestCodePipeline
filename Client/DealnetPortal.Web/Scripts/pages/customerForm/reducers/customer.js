@@ -136,41 +136,6 @@
             ppostalCode: action.payload.postalCode || state.postalCode,
         };
     };
-    reducerObj[customerActions.SET_CSTREET] = setFormField('cstreet');
-    reducerObj[customerActions.SET_CUNIT] = setFormField('cunit');
-    reducerObj[customerActions.SET_CCITY] = setFormField('ccity');
-    reducerObj[customerActions.SET_CPROVINCE] = setFormField('cprovince');
-    reducerObj[customerActions.SET_CPOSTAL_CODE] = setFormField('cpostalCode');
-    reducerObj[customerActions.CLEAR_CADDRESS] = function (state, action) {
-        return {
-            cstreet: '',
-            cunit: '',
-            ccity: '',
-            cprovince: '',
-            cpostalCode: ''
-        };
-    };
-    reducerObj[customerActions.SET_CADDRESS] = function (state, action) {
-        var street = '';
-        if (action.payload.number) {
-            street += action.payload.number;
-        }
-
-        if (action.payload.street) {
-            street += action.payload.street;
-        }
-
-        if (!street) {
-            street = state.cstreet;
-        }
-
-        return {
-            cstreet: street,
-            ccity: action.payload.city || state.ccity,
-            cprovince: action.payload.province || state.cprovince,
-            cpostalCode: action.payload.postalCode || state.cpostalCode
-        };
-    }
     reducerObj[customerActions.SET_LESS_THAN_SIX] = setFormField('lessThanSix');
     reducerObj[customerActions.DISPLAY_SUBMIT_ERRORS] = setFormField('displaySubmitErrors');
     reducerObj[customerActions.DISPLAY_INSTALLATION] = setFormField('displayInstallation');
@@ -196,6 +161,51 @@
     reducerObj[customerActions.SET_BUSINESS_PHONE] = setFormField('businessPhone');
     reducerObj[customerActions.SET_COMMENT] = setFormField('comment');
     reducerObj[customerActions.SET_EMAIL] = setFormField('email');
+    reducerObj[customerActions.SET_EMPLOYMENT_STATUS] = setFormField('employStatus');
+    reducerObj[customerActions.SET_INCOME_TYPE] = setFormField('incomeStatus');
+    reducerObj[customerActions.SET_ANNUAL_SALARY] = setFormField('annualSalary');
+    reducerObj[customerActions.SET_HOURLY_RATE] = setFormField('hourlyRate');
+    reducerObj[customerActions.SET_YEARS_OF_EMPLOY] = setFormField('yearsOfEmploy');
+    reducerObj[customerActions.SET_MONTHS_OF_EMPLOY] = setFormField('monthsOfEmploy');
+    reducerObj[customerActions.SET_EMPLOY_TYPE] = setFormField('employType');
+    reducerObj[customerActions.SET_JOB_TITLE] = setFormField('jobTitle');
+    reducerObj[customerActions.SET_COMPANY_NAME] = setFormField('companyName');
+    reducerObj[customerActions.SET_COMPANY_PHONE] = setFormField('companyPhone');
+    reducerObj[customerActions.SET_CSTREET] = setFormField('cstreet');
+    reducerObj[customerActions.SET_CUNIT] = setFormField('cunit');
+    reducerObj[customerActions.SET_CCITY] = setFormField('ccity');
+    reducerObj[customerActions.SET_CPROVINCE] = setFormField('cprovince');
+    reducerObj[customerActions.SET_CPOSTAL_CODE] = setFormField('cpostalCode');
+    reducerObj[customerActions.CLEAR_CADDRESS] = function () {
+        return {
+            cstreet: '',
+            cunit: '',
+            ccity: '',
+            cprovince: '',
+            cpostalCode: ''
+        };
+    };
+    reducerObj[customerActions.SET_CADDRESS] = function(state, action) {
+        var street = '';
+        if (action.payload.number) {
+            street += action.payload.number;
+        }
+
+        if (action.payload.street) {
+            street += action.payload.street;
+        }
+
+        if (!street) {
+            street = state.cstreet;
+        }
+
+        return {
+            cstreet: street,
+            ccity: action.payload.city || state.ccity,
+            cprovince: action.payload.province || state.cprovince,
+            cpostalCode: action.payload.postalCode || state.cpostalCode
+        };
+    };
 
     var reducer = makeReducer(reducerObj, iniState);
 
