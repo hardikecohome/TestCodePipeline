@@ -7,9 +7,10 @@ $(document)
             yearRange: '1900:' + new Date().getFullYear(),
             minDate: new Date("1900-01-01"),
             maxDate: new Date()
-        }
+        };
+        var assignDatepicker = module.require('datepicker').assignDatepicker;
         $('.date-input').each(function (index, input) {
-            module.require('datepicker').assignDatepicker(input, options);
+            assignDatepicker(input, options);
         });
 
         $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('.select-filter'));
