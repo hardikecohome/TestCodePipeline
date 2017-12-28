@@ -183,7 +183,7 @@
 
             incomeType.prop('disabled', true).parents('.form-group').addClass('hidden');
             hourly.prop('disabled', true).parents('.form-group').addClass('hidden');
-            empType.prop('disabled',true).parents('.form-group').addClass('hidden')
+            empType.prop('disabled', true).parents('.form-group').addClass('hidden');
         }
 
         function changeIncome(value) {
@@ -204,6 +204,8 @@
         function changeYears(value) {
             if (value === '10+') {
                 months.prop('disabled', true).val('');
+            } else {
+                months.prop('disabled', false);
             }
         }
 
