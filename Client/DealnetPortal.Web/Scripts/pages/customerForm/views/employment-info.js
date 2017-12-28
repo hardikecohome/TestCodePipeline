@@ -10,6 +10,7 @@
         var status = $('#emp-status');
         status.on('change', function (e) {
             changeStatus(e.target.value);
+            dispatch(createAction(customerActions.SET_EMPLOYMENT_STATUS, e.target.value));
         });
 
         var incomeType = $('#income-type');
@@ -101,32 +102,9 @@
                 case '2':
                     changeToSelfEmployed();
                     break;
-                default:
-                    clearStatus();
-                    break;
             }
-            dispatch(createAction(customerActions.SET_EMPLOYMENT_STATUS, value));
         }
-
-        function clearStatus() {
-            incomeType.prop('disabled', true).parents('.form-group').addClass('hidden');
-            annual.prop('disabled', true).parents('.form-group').addClass('hidden');
-            hourly.prop('disabled', true).parents('.form-group').addClass('hidden');
-            empType.prop('disabled', true).parents('.form-group').addClass('hidden');
-            years.prop('disabled', true).parents('.form-group').addClass('hidden');
-            months.prop('disabled', true);
-            $('#company-info-hold').addClass('hidden');
-            jobTitle.prop('disabled', true);
-            name.prop('disabled', true);
-            phone.prop('disabled', true);
-            $('#company-address-hold').addClass('hidden');
-            street.prop('disabled', true);
-            unit.prop('disabled', true);
-            city.prop('disabled', true);
-            province.prop('disabled', true);
-            postal.prop('disabled', true);
-        }
-
+        
         function changeToEmployed() {
             incomeType.prop('disabled', false).parents('.form-group').removeClass('hidden');
             annual.parents('.form-group').addClass('hidden');
@@ -254,7 +232,7 @@
         })(function (props) {
             if (props.province.toLowerCase() === 'qc') {
                 $('#employmentInfoForm').removeClass('hidden');
-                status.val('').change().prop('disabled', false);
+                status.val('0').change().prop('disabled', false);
             } else {
                 $('#employmentInfoForm').addClass('hidden').find('input, select').each(function () {
                     $(this).prop('disabled', true);

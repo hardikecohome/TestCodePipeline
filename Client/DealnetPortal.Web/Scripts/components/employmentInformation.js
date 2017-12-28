@@ -1,11 +1,11 @@
 module.exports('employmentInformation', function (require) {
-    var addressInformation = require('addressInformation');
+    var AddressInformation = require('addressInformation');
     return function EmploymentInformationVM (info) {
         var self = this;
 
-        self.status = ko.observable(new String(info.EmploymentStatus));
+        self.status = ko.observable(info.EmploymentStatus || '0');
 
-        self.incomeType = ko.observable(info.IncomeType)
+        self.incomeType = ko.observable(info.IncomeType||'')
             .extend({
                 required: {
                     message: translations['ThisFieldIsRequired'],
@@ -31,7 +31,7 @@ module.exports('employmentInformation', function (require) {
             return this.status() == '0' || this.status() == '2';
         }, self);
 
-        self.annualSalary = ko.observable(info.AnnualSalary)
+        self.annualSalary = ko.observable(info.AnnualSalary||'')
             .extend({
                 required: {
                     onlyIf: function () {
@@ -39,7 +39,7 @@ module.exports('employmentInformation', function (require) {
                     }
                 }
             });
-        self.hourlyRate = ko.observable(info.HourlyRate)
+        self.hourlyRate = ko.observable(info.HourlyRate||'')
             .extend({
                 required: {
                     message: translations.ThisFieldIsRequired,
@@ -48,7 +48,7 @@ module.exports('employmentInformation', function (require) {
                     }
                 }
             });
-        self.yearsOfEmploy = ko.observable(info.YearsOfEmployment)
+        self.yearsOfEmploy = ko.observable(info.YearsOfEmployment||'')
             .extend({
                 required: {
                     message: translations.ThisFieldIsRequired,
@@ -62,7 +62,7 @@ module.exports('employmentInformation', function (require) {
             return self.isEmployedOrSelfEmployed() && self.yearsOfEmploy() !== '10+';
         });
 
-        self.monthsOfEmploy = ko.observable(info.MonthsOfEmploy)
+        self.monthsOfEmploy = ko.observable(info.MonthsOfEmploy||'')
             .extend({
                 required: {
                     message: translations.ThisFieldIsRequired,
@@ -71,7 +71,7 @@ module.exports('employmentInformation', function (require) {
                     }
                 }
             });
-        self.type = ko.observable(info.EmploymentType)
+        self.type = ko.observable(info.EmploymentType||'')
             .extend({
                 required: {
                     message: translations.ThisFieldIsRequired,
@@ -80,7 +80,7 @@ module.exports('employmentInformation', function (require) {
                     }
                 }
             });
-        self.jobTitle = ko.observable(info.JobTitle)
+        self.jobTitle = ko.observable(info.JobTitle||'')
             .extend({
                 required: {
                     message: translations.ThisFieldIsRequired,
@@ -143,7 +143,7 @@ module.exports('employmentInformation', function (require) {
                     params: "^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$"
                 }
             });
-        self.address = new addressInformation(info.CompanyAddress || {});
+        self.address = new AddressInformation(info.CompanyAddress || {});
 
         self.valid = function () {
             var addressValid = self.isEmployedOrSelfEmployed() ? self.address.isValid() : true;

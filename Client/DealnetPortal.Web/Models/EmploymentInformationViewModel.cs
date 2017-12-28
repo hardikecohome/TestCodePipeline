@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using DealnetPortal.Web.Infrastructure.Attributes;
 using DealnetPortal.Web.Models.Enumeration;
 
 namespace DealnetPortal.Web.Models
@@ -7,7 +6,7 @@ namespace DealnetPortal.Web.Models
     public class EmploymentInformationViewModel
     {
         [Display(ResourceType = typeof(Resources.Resources), Name = "EmploymentStatus")]
-        public EmploymentStatus? EmploymentStatus { get; set; }
+        public EmploymentStatus EmploymentStatus { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "IncomeType")]
         public IncomeType? IncomeType { get; set; }
