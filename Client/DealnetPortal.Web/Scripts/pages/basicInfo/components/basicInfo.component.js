@@ -19,6 +19,12 @@
             employment: new EmploymentInformation(model.AdditionalApplicants && model.AdditionalApplicants[0].EmploymentInformation || {})
         };
 
+        this.allowQcDealerProceed = function() {
+            if(!model.QuebecDealer) return true;
+
+            return this.showEmployment();
+        }
+
         this.valid = function () {
             var valid = true;
             if (this.showEmployment()) {
@@ -30,6 +36,7 @@
             if (!valid) {
                 this.homeOwner.employment.showAllMessages();
             }
+            
             return valid;
         }
     }

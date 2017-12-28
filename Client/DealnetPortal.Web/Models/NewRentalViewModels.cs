@@ -80,6 +80,7 @@ namespace DealnetPortal.Web.Models
         public int? ContractId { get; set; }
         public ContractState ContractState { get; set; }
         public bool ContractWasDeclined { get; set; }
+        public bool QuebecDealer { get; set; }
         public IList<ProvinceTaxRateDTO> ProvinceTaxRates { get; set; }
         public IList<VarificationIdsDTO> VarificationIds { get; set; }
     }

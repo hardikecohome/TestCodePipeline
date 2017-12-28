@@ -92,18 +92,14 @@ namespace DealnetPortal.Web.Controllers
         }
         public ActionResult Library()
         {
-            return View();
+            var identity = (ClaimsIdentity)User.Identity;
+
+            return View(_contentManager.GetResourceFilesByCulture(CultureInfo.CurrentCulture.Name, identity.HasClaim("QuebecDealer", "True")));
         }
+
         public ActionResult Help()
         {
             return File("~/Content/files/Help.pdf", "application/pdf");
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
 
         [HttpGet]
@@ -180,6 +176,24 @@ namespace DealnetPortal.Web.Controllers
         {
             var result = await _dealerServiceAgent.DealerSupportRequestEmail(dealerSupportRequest);
             return "ok";
+        }
+
+        [HttpGet]
+        public ActionResult GetMaintanenceBanner()
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            var quebecPrefix = identity.HasClaim("QuebecDealer", "True") ? "qc" : string.Empty;
+
+            var pathToView = $@"Maintenance/{CultureInfo.CurrentCulture.Name}/{quebecPrefix}/Banner";
+
+            var viewResult = ViewEngines.Engines.FindView(ControllerContext, pathToView, null);
+
+            if (viewResult.View != null)
+            {
+                return View(pathToView);
+            }
+
+            return Content(string.Empty);
         }
     }
 }
