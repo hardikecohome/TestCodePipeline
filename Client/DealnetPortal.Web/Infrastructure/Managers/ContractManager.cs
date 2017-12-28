@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
@@ -342,6 +343,12 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             var docTypes = await _dictionaryServiceAgent.GetStateDocumentTypes(summaryViewModel.ProvinceTaxRate.Province);
             if(docTypes?.Item1 != null)
             {
+                var otherDoc = docTypes.Item1.SingleOrDefault(x => x.Id == (int)DocumentTemplateType.Other);
+                if (otherDoc != null)
+                {
+                    docTypes.Item1.RemoveAt(docTypes.Item1.IndexOf(otherDoc));
+                    docTypes.Item1.Add(otherDoc);
+                }
                 contractEditViewModel.UploadDocumentsInfo.DocumentTypes = docTypes.Item1.Select(d => new SelectListItem()
                 {
                     Value = d.Id.ToString(),
