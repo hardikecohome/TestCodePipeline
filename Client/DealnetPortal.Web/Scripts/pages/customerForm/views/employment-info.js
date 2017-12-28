@@ -181,8 +181,9 @@
             province.prop('disabled', false);
             postal.prop('disabled', false);
 
-            incomeType.prop('disabled', true).rules('remove', 'required').parents('.form-group').addClass('hidden');
-            hourly.prop('disabled', true).rules('remove', 'required').parents('.form-group').addClass('hidden');
+            incomeType.prop('disabled', true).parents('.form-group').addClass('hidden');
+            hourly.prop('disabled', true).parents('.form-group').addClass('hidden');
+            empType.prop('disabled',true).parents('.form-group').addClass('hidden')
         }
 
         function changeIncome(value) {
