@@ -246,7 +246,7 @@
                             postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : place['postal_code_prefix'] ? place['postal_code_prefix'].replace(' ', '') : '',
                         }));
 
-                    $('#pprovince').change();
+                    $('#company-province').change();
                 });
 
             gCAutoCompletes.city.addListener('place_changed',
