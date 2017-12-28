@@ -919,4 +919,13 @@
   <data name="SalaryIncome" xml:space="preserve">
     <value>Salary/Income</value>
   </data>
+  <data name="ChequeBankPAP" xml:space="preserve">
+    <value>Void Cheque or Bank PAP Authorization Letter</value>
+  </data>
+  <data name="CreditApplication" xml:space="preserve">
+    <value>Credit Application</value>
+  </data>
+  <data name="IncomeVerification" xml:space="preserve">
+    <value>Income verification</value>
+  </data>
 </root>

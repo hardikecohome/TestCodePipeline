@@ -430,7 +430,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (contract != null && document?.DocumentBytes != null)
             {                
                 var docTypeId = document.DocumentTypeId;
-                var docTypes = _contractRepository.GetDocumentTypes();
+                var docTypes = _contractRepository.GetAllDocumentTypes();
 
                 var docType = docTypes?.FirstOrDefault(t => t.Id == docTypeId);
                 if (!string.IsNullOrEmpty(docType?.Prefix))
@@ -535,7 +535,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (!string.IsNullOrEmpty(aspireTransactionId) && document.DocumentBytes != null)
             {
                 var docTypeId = document.DocumentTypeId;
-                var docTypes = _contractRepository.GetDocumentTypes();
+                var docTypes = _contractRepository.GetAllDocumentTypes();
 
                 var docType = docTypes?.FirstOrDefault(t => t.Id == docTypeId);
                 if (!string.IsNullOrEmpty(docType?.Prefix))
@@ -625,7 +625,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (dealerInfo != null && document != null && document.Uploaded != true)
             {
                 var docTypeId = document.DocumentTypeId;
-                var docTypes = _contractRepository.GetDocumentTypes();
+                var docTypes = _contractRepository.GetAllDocumentTypes();
 
                 var docType = docTypes?.FirstOrDefault(t => t.Id == docTypeId);
                 if (!string.IsNullOrEmpty(docType?.Prefix))
