@@ -1,5 +1,4 @@
 ﻿@using DealnetPortal.Api.Core.Helpers
-@using DealnetPortal.Web.Infrastructure
 @using DealnetPortal.Web.Models.Enumeration
 @using System.Security.Claims;
 @using DealnetPortal.Web.Infrastructure.Managers
@@ -17,14 +16,13 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i,900" rel="stylesheet" type='text/css'>
     <link rel="stylesheet" href="~/Content/css/jquery-ui.css">
     @RenderSection("Styles", false)
-    @switch (ApplicationSettingsManager.PortalType)
+    @switch(ApplicationSettingsManager.PortalType)
     {
-        case PortalType.Ecohome:
-        default:
-            @Styles.Render("~/Content/less/main.less")
-            break;
         case PortalType.Odi:
             @Styles.Render("~/Content/less/main-dealer.less")
+            break;
+        default:
+            @Styles.Render("~/Content/less/main.less")
             break;
     }
     <link rel="shortcut icon" href="@Url.Action("Favicon", "Settings", new { version = DateTime.Now.Ticks.ToString(), hashDealerName = ViewBag.HashDealerName as string })" type="image/x-icon" />
@@ -41,8 +39,8 @@
         };
         var urlContent = "@Url.Content("~/")";
         var layotSettingsUrl = "@(User.Identity.IsAuthenticated ? Url.Action("LayoutSettings", "Home") : null)";
-		var customerDealsCountUrl = "@(User.Identity.IsAuthenticated ? Url.Action("CustomersDealsCount", "Home") : null)";
-		var SupportUrl = "@(User.Identity.IsAuthenticated ? Url.Action("DealerSupportRequestEmail", "Home") : null)";
+        var customerDealsCountUrl = "@(User.Identity.IsAuthenticated ? Url.Action("CustomersDealsCount", "Home") : null)";
+        var SupportUrl = "@(User.Identity.IsAuthenticated ? Url.Action("DealerSupportRequestEmail", "Home") : null)";
         var translations = {};
         translations['IfYouChangeInfo'] = "@Resources.IfYouChangeInfo";
         translations['NavigateToStep'] = "@Resources.NavigateToStep";
@@ -56,7 +54,7 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/dealnet")
-    @switch (CultureHelper.CurrentCultureType)
+    @switch(CultureHelper.CurrentCultureType)
     {
         case CultureType.French:
             <script type="text/javascript"
@@ -64,8 +62,8 @@
             </script>
             <script type="text/javascript">
                 $.datepicker.regional['fr'].dayNamesMin = ['di', 'lu', 'ma', 'me', 'je', 've', 'sa'];
-                $.datepicker.regional['fr'].monthNamesShort = [ "janvier", "février", "mars", "avril", "mai", "juin",
-		"juillet", "août", "septembre", "octobre", "novembre", "décembre" ];
+                $.datepicker.regional['fr'].monthNamesShort = ["janvier", "février", "mars", "avril", "mai", "juin",
+                    "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
                 $.datepicker.setDefaults($.datepicker.regional['fr']);
             </script>
             break;
@@ -79,17 +77,18 @@
     string themeClass;
     switch (ApplicationSettingsManager.PortalType)
     {
-        case PortalType.Ecohome:
-        default:
-            themeClass = "";
-            break;
         case PortalType.Odi:
             themeClass = "theme-one-dealer";
             break;
+        default:
+            themeClass = "";
+            break;
     }
-    string phone = (bool) ((ClaimsPrincipal) User)?.HasClaim("QuebecDealer", "True") ? System.Configuration.ConfigurationManager.AppSettings["QuebecDealerSupportPhone"] : System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"];
+    string phone = (bool) ((ClaimsPrincipal) User)?.HasClaim("QuebecDealer", "True") ? 
+                           System.Configuration.ConfigurationManager.AppSettings["QuebecDealerSupportPhone"] : 
+                           System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"];
     string phoneToCall = phone.Replace("-", "");
-    
+
 }
 
 <body class="@(User.Identity.IsAuthenticated ? "authorized" : "no-authorized") @themeClass">
@@ -420,115 +419,116 @@
 		</div>
 	</div>
 
-	<div id="emailModal" class="modal fade modal-wide">
-		<div class="modal-dialog modal-warning">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title">@Resources.HowCanWeHelp </h4>
-				</div>
-				<div class="modal-body Email-modal-body">
+<div id="emailModal" class="modal fade modal-wide">
+    <div class="modal-dialog modal-warning">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">@Resources.HowCanWeHelp </h4>
+            </div>
+            <div class="modal-body Email-modal-body">
 					
-					<div class="col-md-12 col-xs-12 pull-left allrows" style="margin-bottom:20px;">
-						<div class="row">
-							<h5 class="pull-left">@Resources.PleaseFillThisForm</h5>
-						</div>
-						<div class="row">
-							<div class="form-group">
-								<div class="col-md-2 col-xs-6 pull-left">
-									<label class="pull-left">@Resources.DealerName</label>
-								</div>
-								<div class="col-md-10 col-xs-6 pull-left">
-									<label class="pull-left" id="emailDealerName">@User.Identity.Name</label>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="form-group">
-								<div class="col-md-2 col-xs-6">
-									<label class="pull-left LabelMiddle">@Resources.YourName</label>
-								</div>
-								<div class="col-md-2 col-xs-6">
-									<label class="pull-left LabelMiddle" id="emailSubDealerName">@User.Identity.Name</label>
-								</div>
-								<div class="col-md-4 col-xs-6">
-									<label class="Move-right-for-desktop align-middle custom-checkbox LabelMiddle">
-										<input type="checkbox" class="dealnet-checkbox" id="yourNameCB" onclick="yourNameCBclick();" />
-										<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-										<span>@Resources.PreferredContactPerson</span>
-									</label>
-								</div>
-								<div class="col-md-4 col-xs-6">
-									<input class="pull-left form-control dealnet-input" type="text" id="yourNameTxt" disabled />
-									<span class="text-danger hidden" id="yourNameTxtValidation">@Resources.PreferredContactPerson</span>
-								</div>
-							</div>
-						</div>
+                <div class="col-md-12 col-xs-12 pull-left allrows" style="margin-bottom:20px;">
+                    <div class="row">
+                        <h5 class="pull-left">@Resources.PleaseFillThisForm</h5>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-2 col-xs-6 pull-left">
+                                <label class="pull-left">@Resources.DealerName</label>
+                            </div>
+                            <div class="col-md-10 col-xs-6 pull-left">
+                                <label class="pull-left" id="emailDealerName">@User.Identity.Name</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-2 col-xs-6">
+                                <label class="pull-left LabelMiddle">@Resources.YourName</label>
+                            </div>
+                            <div class="col-md-2 col-xs-6">
+                                <label class="pull-left LabelMiddle" id="emailSubDealerName">@User.Identity.Name</label>
+                            </div>
+                            <div class="col-md-4 col-xs-6">
+                                <label class="Move-right-for-desktop align-middle custom-checkbox LabelMiddle">
+                                    <input type="checkbox" class="dealnet-checkbox" id="yourNameCB" onclick="yourNameCBclick();" />
+                                    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                                    <span>@Resources.PreferredContactPerson</span>
+                                </label>
+                            </div>
+                            <div class="col-md-4 col-xs-6">
+                                <input class="pull-left form-control dealnet-input" type="text" id="yourNameTxt" disabled />
+                                <span class="text-danger hidden" id="yourNameTxtValidation">@Resources.PreferredContactPerson</span>
+                            </div>
+                        </div>
+                    </div>
 						
-						<div class="row">
-							<div class="form-group">
-								<div class="col-md-2 col-xs-6 pull-left">
-									<label class="pull-left LabelMiddle">@Resources.ContractNumber</label>
-								</div>
-								<div class="col-md-4 col-xs-6">
-									<input class="pull-left form-control dealnet-input" type="text" id="emailTransactionId" />
-									@*<label class="pull-left" id="emailTransactionId"></label>*@
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
-								<div class="form-group">
-									<label class="pull-left margin-bottom-zero">@Resources.WhatCanWeAssistYouWith</label>
-									<select class = "form-control dealnet-input" id="SupportType">
-										<option value="creditFunding">@Resources.CreditDecision</option>
-										<option value="customerService">@Resources.CreditDocs</option>
-										<option value="dealerSupport">@Resources.FundingDocs</option>
-										<option value="Other" selected>@Resources.Other</option>
-									</select>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-12 col-lg-12">
-								<div class="form-group">
-									<label class="pull-left margin-bottom-zero">@Resources.PleaseProvideShortDescription</label>
-									<textarea class="form-control pull-left full-width form-control" id="emailComment" rows="5"></textarea>
-									<span class="text-danger hidden" id="emailCommentValidation"><br />@Resources.PleaseProvideShortDescription</span>
-								</div>
-							</div>
-						</div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-2 col-xs-6 pull-left">
+                                <label class="pull-left LabelMiddle">@Resources.ContractNumber</label>
+                            </div>
+                            <div class="col-md-4 col-xs-6">
+                                <input class="pull-left form-control dealnet-input" type="text" id="emailTransactionId" />
+                                @*<label class="pull-left" id="emailTransactionId"></label>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label class="pull-left margin-bottom-zero">@Resources.WhatCanWeAssistYouWith</label>
+                                <select class = "form-control dealnet-input" id="SupportType">
+                                    <option value="creditFunding">@Resources.CreditDecision</option>
+                                    <option value="customerService">@Resources.CreditDocs</option>
+                                    <option value="dealerSupport">@Resources.FundingDocs</option>
+                                    <option value="Other" selected>@Resources.Other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <label class="pull-left margin-bottom-zero">@Resources.PleaseProvideShortDescription</label>
+                                <textarea class="form-control pull-left full-width form-control" id="emailComment" rows="5"></textarea>
+                                <span class="text-danger hidden" id="emailCommentValidation"><br />@Resources.PleaseProvideShortDescription</span>
+                            </div>
+                        </div>
+                    </div>
 
-						<div class="row">
-							<div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
-								<div class="form-group">
-									<label class="pull-left margin-bottom-zero">@Resources.BestWayToGetBackToYou</label>
-									<select class="form-control dealnet-input" id="CommunicationPreffered" onchange="CommunicationPreffered();">
-										<option value="Phone" selected>@Resources.Phone</option>
-										<option value="Email">@Resources.Email</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
-								<div class="form-group" id="DetailsDiv">
-									<label class="pull-left margin-bottom-zero" id="ContactDetails">@Resources.Phone</label>
-									<input class="pull-left form-control dealnet-input" type="text" id="emailAlternativeEmailAddress" />
-									<span class="text-danger hidden" id="emailAlternativeEmailAddressValidation"><br />@Resources.PleaseProvideDetails</span>
-								</div>
-							</div>
-						</div>						
-					</div>
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label class="pull-left margin-bottom-zero">@Resources.BestWayToGetBackToYou</label>
+                                <select class="form-control dealnet-input" id="CommunicationPreffered" onchange="CommunicationPreffered();">
+                                    <option value="Phone" selected>@Resources.Phone</option>
+                                    <option value="Email">@Resources.Email</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
+                            <div class="form-group" id="DetailsDiv">
+                                <label class="pull-left margin-bottom-zero" id="ContactDetails">@Resources.Phone</label>
+                                <input class="pull-left form-control dealnet-input" type="text" id="emailAlternativeEmailAddress" />
+                                <span class="text-danger hidden" id="emailAlternativeEmailAddressValidation"><br />@Resources.PleaseProvideDetails</span>
+                            </div>
+                        </div>
+                    </div>						
+                </div>
 					
-				</div>
-				<div class="modal-footer">
-					<div class="col-md-12 col-xs-12">
-						<button type="button" class="btn dealnet-button btn-small dealnet-link-button" data-dismiss="modal">@Resources.Cancel</button>
-						<button type="button" class="btn btn-small dealnet-button dealnet-success-button" id="emailSupport" onclick="sendEmailToSupport();">@Resources.Send</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-12 col-xs-12">
+                    <button type="button" class="btn dealnet-button btn-small dealnet-link-button" data-dismiss="modal">@Resources.Cancel</button>
+                    <button type="button" class="btn btn-small dealnet-button dealnet-success-button" id="emailSupport" onclick="sendEmailToSupport();">@Resources.Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
     @RenderSection("Scripts", false)
 </body>
 </html>
