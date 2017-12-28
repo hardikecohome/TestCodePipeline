@@ -7,15 +7,15 @@
 
     $('.dealnet-disabled-input, input.control-disabled, textarea.control-disabled, select.control-disabled').each(function () {
         $(this).attr('type', 'hidden');
-        var inpValue = $(this).is('select') ? $(this).find("option:selected").text() : $(this).is('textarea') ? $(this).text() : $(this).val();
+        var inpValue = $(this).is('select') ? $(this).find('option:selected').text() : $(this).is('textarea') ? $(this).text() : $(this).val();
         if ($(this).is('.control-disabled')) {
             $(this).after($('<div/>', {
-                class: "control-disabled",
+                class: 'control-disabled',
                 text: inpValue
             }));
         } else {
             $(this).after($('<div/>', {
-                class: "dealnet-disabled-input dealnet-disabled-input-value",
+                class: 'dealnet-disabled-input dealnet-disabled-input-value',
                 html: inpValue.replace(/\r?\n/g, '<br />')
             }));
         }
@@ -28,7 +28,7 @@
             has_scrollbar(textField, 'textarea-has-scroll');
         }, 100);
 
-        textField.on("mousedown", function (e) {
+        textField.on('mousedown', function (e) {
             resizeInt = setInterval(function () {
                 has_scrollbar(textField, 'textarea-has-scroll');
             }, 1000 / 15);
@@ -52,14 +52,14 @@
         }
     });
 
-    $(window).on("mouseup", function (e) {
+    $(window).on('mouseup', function (e) {
         if (resizeInt !== null) {
             clearInterval(resizeInt);
         }
     });
 
     //Apply function placeholder for ie browsers
-    $("input, textarea").placeholder();
+    $('input, textarea').placeholder();
 });
 
 function addIconsToFields (fields) {
@@ -77,7 +77,7 @@ function addIconsToFields (fields) {
     localFields.each(function () {
         var $this = $(this);
         var fieldParent = $this.parent('.control-group').not(fieldDateParent).not(fieldPassParent);
-        if (!$this.is(".dealnet-disabled-input") && !$this.is(".form-control-not-clear") && $this.attr("type") !== "hidden") {
+        if (!$this.is('.dealnet-disabled-input') && !$this.is('.form-control-not-clear') && $this.attr('type') !== 'hidden') {
             if (fieldParent.children('.clear-input').length === 0) {
                 fieldParent.append(iconClearField);
             }
@@ -119,7 +119,7 @@ function toggleClickInp (inp) {
 }
 
 function customDPSelect (elem) {
-    var selectClasses = "custom-select datepicker-select";
+    var selectClasses = 'custom-select datepicker-select';
     if ($('select.ui-datepicker-month').length && !$('.ui-datepicker-month').parents('.custom-select').length) {
         $('.ui-datepicker-month')
             .wrap($('<div>', {
@@ -144,8 +144,8 @@ function customizeSelect () {
             if ($('body').is('.ios-device') && $(this).find('optgroup').length === 0) {
                 $('<optgroup label=""></optgroup>').appendTo($(this));
             }
-            var selectClasses = $(this).hasClass("dealnet-disabled-input") || $(this).hasClass("control-disabled") ? "custom-select-disabled" : "custom-select";
-            if (!$(this).parents(".ui-datepicker").length && !$(this).parents(".custom-select").length && !$(this).parents(".custom-select-disabled").length) {
+            var selectClasses = $(this).hasClass('dealnet-disabled-input') || $(this).hasClass('control-disabled') ? 'custom-select-disabled' : 'custom-select';
+            if (!$(this).parents('.ui-datepicker').length && !$(this).parents('.custom-select').length && !$(this).parents('.custom-select-disabled').length) {
                 $(this).wrap('<div class=' + selectClasses + '>');
                 if (module.require('detectIE')() === false) {
                     $(this).after('<span class="caret">');
@@ -159,7 +159,7 @@ function customizeSelect () {
 
 function recoverPassword (e) {
     var pass = $(e.target).parents('.control-group').find('input');
-    if (pass.prop('type') == "password") {
+    if (pass.prop('type') == 'password') {
         pass.prop('type', 'text');
     } else {
         pass.prop('type', 'password');

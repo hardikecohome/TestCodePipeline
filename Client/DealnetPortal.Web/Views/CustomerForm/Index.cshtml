@@ -323,29 +323,29 @@
                                     @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                            <div class="col-md-2 col-sm-6 form-group">
+                            <div class="col-md-3 col-sm-6 form-group">
                                 @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.IncomeType, new { @class = "mandatory-field" })
                                 <div class="control-group">
                                     @Html.EnumDropDownListFor(m => m.HomeOwner.EmploymentInformation.IncomeType, new { @class = "form-control dealnet-input", id = "income-type" })
                                     @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.IncomeType, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                            <div class="col-md-2 col-sm-12 form-group">
+                            <div class="col-md-3 col-sm-12 form-group">
                                 @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary, new { @class = "mandatory-field" })
                                 <div class="control-group">
-                                    <select class="form-control dealnet-input long-select" name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary)" id="annual">
-                                        <option value="<20000" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == "<20000" ? "selected" : "")>@Resources.LessThan $20,0000</option>
+                                    <select class="form-control dealnet-input" name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary)" id="annual">
+                                        <option value="<20000" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == "<20000" ? "selected" : "")>@Resources.LessThan $20,000</option>
                                         @for(var i = 20000; i < 200000; i += 15000)
                                         {
                                             var val = $"{i}-{i + 15000}";
-                                            <option value="@val" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == val ? "selected" : "")>$@i - $@(i + 5000)</option>
+                                            <option value="@val" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == val ? "selected" : "")>$@i-$@(i + 15000)</option>
                                         }
                                         <option value="200000" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == "200000" ? "selected" : "")>$200000+</option>
                                     </select>
                                     @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                            <div class="col-md-2 col-sm-12 form-group">
+                            <div class="col-md-3 col-sm-12 form-group">
                                 @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.HourlyRate, new { @class = "mandatory-field" })
                                 <div class="control-group">
                                     <select class="form-control dealnet-input" name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.HourlyRate)" id="hourly">

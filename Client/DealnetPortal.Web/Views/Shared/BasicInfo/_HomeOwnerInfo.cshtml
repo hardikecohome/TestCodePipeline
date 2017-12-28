@@ -399,11 +399,11 @@ else
                     @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary)
                     <div class="control-group">
                         <select class="form-control dealnet-input" name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary)" data-bind="value: annualSalary, enable: showAnnualSalary">
-                            <option value="<20000" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == "<20000" ? "selected" : "")>@Resources.LessThan $20,0000</option>
+                            <option value="<20000" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == "<20000" ? "selected" : "")>@Resources.LessThan $20,000</option>
                             @for(var i = 20000; i < 200000; i += 15000)
                             {
                                 var val = $"{i}-{i + 15000}";
-                                <option value="@val" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == val ? "selected" : "")>$@i - $@(i + 5000)</option>
+                                <option value="@val" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == val ? "selected" : "")>$@i-$@(i + 15000)</option>
                             }
                             <option value="200000" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == "200000" ? "selected" : "")>$200000+</option>
                         </select>
