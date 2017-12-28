@@ -1,10 +1,12 @@
 ﻿module.exports('index', function (require) {
     var saveScrollPosition = require('scrollPosition').save;
-    var resetScrollPosition = require('scrollPositon').reset;
-    var detectIE = require('detectIE');
+    var resetScrollPosition = require('scrollPosition').reset;
+    var detectIe = require('detectIE');
 
     function init () {
         setDeviceClasses();
+
+        $.fn.modal.Constructor.prototype.enforceFocus = function() {};
 
         $(window).on('resize', function () {
             setDeviceClasses();
@@ -23,7 +25,7 @@
         //If opened switch language dropdown, hide it when click anywhere accept opened dropdown
         $('html').on('click touchstart', function (event) {
             if ($('.navbar-header .lang-switcher.open').length > 0 && $(event.target).parents('.lang-switcher').length == 0) {
-                $('.lang-switcher').removeClass('open')
+                $('.lang-switcher').removeClass('open');
             }
         });
         $('html').on('click', function (event) {
@@ -63,7 +65,7 @@
             }
         });
 
-        if (detectIE()) {
+        if (detectIe()) {
             $('body').addClass('ie');
         }
         $('.credit-check-info-hold.fit-to-next-grid').each(function () {
@@ -78,14 +80,15 @@
         setTimeout(function () {
             $('.credit-check-info-hold .dealnet-credit-check-section').each(function () {
                 var col = $(this).parents('.col-md-6');
+                var colOffset;
                 if (col.not('.col-md-push-6')) {
-                    var colOffset = col.position().left;
+                    colOffset = col.position().left;
                     if (colOffset == 0 && col.next('.col-md-6').length) {
                         col.addClass('has-right-border');
                     }
                 }
                 if (col.is('.col-md-push-6')) {
-                    var colOffset = col.next('.col-md-pull-6').position().left;
+                    colOffset = col.next('.col-md-pull-6').position().left;
                     if (colOffset == 0 && col.next('.col-md-pull-6').length) {
                         col.next('.col-md-pull-6').addClass('has-right-border');
                     }
@@ -97,24 +100,22 @@
     function setDeviceClasses () {
         if (isMobile.any()) {
             if (viewport().width < 768) {
-                $('body').addClass('mobile-device').removeClass('tablet-device')
+                $('body').addClass('mobile-device').removeClass('tablet-device');
             } else {
-                $('body').addClass('tablet-device').removeClass('mobile-device')
+                $('body').addClass('tablet-device').removeClass('mobile-device');
             }
         } else {
-            $('body').removeClass('mobile-device').removeClass('tablet-device')
+            $('body').removeClass('mobile-device').removeClass('tablet-device');
         }
         if (isMobile.iOS()) {
             $('body').addClass('ios-device');
             $('.modal').removeClass('fade').addClass('fade-on-ios');
         } else {
-            $('body').removeClass('ios-device')
+            $('body').removeClass('ios-device');
         }
     }
 
-    $(document).ready(function () {
-        init();
-    });
+    return init;
 });
 
 $.prototype.disableTab = function () {
@@ -124,7 +125,7 @@ $.prototype.disableTab = function () {
 };
 
 String.prototype.toDash = function () {
-    return this.replace(/([A-Z])/g, function ($1) { return "-" + $1.toLowerCase(); });
+    return this.replace(/([A-Z])/g, function ($1) { return '-' + $1.toLowerCase(); });
 };
 
 var isMobile = {
@@ -156,3 +157,7 @@ function viewport () {
     }
     return { width: e[a + 'Width'], height: e[a + 'Height'] };
 }
+
+$(document).ready(function() {
+    module.require('index')();
+})

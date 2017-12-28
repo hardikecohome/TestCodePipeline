@@ -19,7 +19,7 @@ configInitialized
             module.require('datepicker').assignDatepicker(input,
                 {
                     yearRange: '1900:2200',
-                    minDate: ($(input).hasClass('exlude-min-date')) ? new Date("1900-01-01") : new Date()
+                    minDate: new Date()
                 });
         });
 
