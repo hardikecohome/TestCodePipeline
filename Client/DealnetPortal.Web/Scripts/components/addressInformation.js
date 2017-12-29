@@ -1,6 +1,7 @@
 ﻿module.exports('addressInformation', function () {
     function AddressInformation (address) {
-        this.street = ko.observable(address.Street || '')
+        var self = this;
+        self.street = ko.observable(address.Street || '')
             .extend({
                 required: {
                     message: translations.ThisFieldIsRequired,
@@ -19,7 +20,7 @@
                     params: "[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$"
                 }
             });
-        this.unit = ko.observable(address.Unit || '')
+        self.unit = ko.observable(address.Unit || '')
             .extend({
                 minLength: {
                     message: translations.TheFieldMustBeMinimumAndMaximum,
@@ -34,7 +35,7 @@
                     params: '^[a-zA-Z0-9 ]+$'
                 }
             });
-        this.city = ko.observable(address.City || '')
+        self.city = ko.observable(address.City || '')
             .extend({
                 required: {
                     message: translations.ThisFieldIsRequired,
@@ -53,7 +54,7 @@
                     params: "^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$"
                 }
             });
-        this.province = ko.observable(address.Province || '')
+        self.province = ko.observable(address.Province || '')
             .extend({
                 required: {
                     message: translations.ThisFieldIsRequired,
@@ -64,7 +65,7 @@
                     params: "^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$"
                 }
             });
-        this.postalCode = ko.observable(address.PostalCode || '')
+        self.postalCode = ko.observable(address.PostalCode || '')
             .extend({
                 required: {
                     message: translations.ThisFieldIsRequired,
@@ -84,30 +85,30 @@
                 }
             });
 
-        this.postalCode.subscribe(function (newValue) {
-            this.postalCode(newValue.toUpperCase());
-        }, this);
+        self.postalCode.subscribe(function (newValue) {
+            self.postalCode(newValue.toUpperCase());
+        }, self);
 
-        this.isValid = function () {
-            return this.street.isValid() &&
-                this.unit.isValid() &&
-                this.city.isValid() &&
-                this.province.isValid() &&
-                this.postalCode.isValid();
+        self.isValid = function () {
+            return self.street.isValid() &&
+                self.unit.isValid() &&
+                self.city.isValid() &&
+                self.province.isValid() &&
+                self.postalCode.isValid();
         }
-    };
 
-    AddressInformation.prototype.clearAddress = function () {
-        this.installationAddress.street('');
-        this.installationAddress.street.isModified(false);
-        this.installationAddress.unit('');
-        this.installationAddress.unit.isModified(false);
-        this.installationAddress.city('');
-        this.installationAddress.city.isModified(false);
-        this.installationAddress.province('');
-        this.installationAddress.province.isModified(false);
-        this.installationAddress.postalCode('');
-        this.installationAddress.postalCode.isModified(false);
+        self.clearAddress = function () {
+            self.street('');
+            self.street.isModified(false);
+            self.unit('');
+            self.unit.isModified(false);
+            self.city('');
+            self.city.isModified(false);
+            self.province('');
+            self.province.isModified(false);
+            self.postalCode('');
+            self.postalCode.isModified(false);
+        };
     };
 
     return AddressInformation;
