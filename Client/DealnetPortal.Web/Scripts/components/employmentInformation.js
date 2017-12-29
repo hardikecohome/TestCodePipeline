@@ -57,11 +57,6 @@ module.exports('employmentInformation', function (require) {
                     }
                 }
             });
-        self.yearsOfEmploy.subscribe(function (newValue) {
-            if (newValue === '10+') {
-                this.hourlyRate('');
-            }
-        }, self);
 
         self.enableMonths = ko.computed(function() {
             return self.isEmployedOrSelfEmployed() && self.yearsOfEmploy() !== '10+';
@@ -76,20 +71,20 @@ module.exports('employmentInformation', function (require) {
                     }
                 }
             });
-        self.type = ko.observable(info.EmploymentType||'')
+        self.type = ko.observable(info.EmploymentType || '')
             .extend({
                 required: {
                     message: translations.ThisFieldIsRequired,
-                    onlyIf: function () {
+                    onlyIf: function() {
                         return self.isEmployed();
                     }
                 }
             });
-        self.jobTitle = ko.observable(info.JobTitle||'')
+        self.jobTitle = ko.observable(info.JobTitle || '')
             .extend({
                 required: {
                     message: translations.ThisFieldIsRequired,
-                    onlyIf: function () {
+                    onlyIf: function() {
                         return self.isEmployedOrSelfEmployed();
                     }
                 },
@@ -110,7 +105,7 @@ module.exports('employmentInformation', function (require) {
             .extend({
                 required: {
                     message: translations.ThisFieldIsRequired,
-                    onlyIf: function () {
+                    onlyIf: function() {
                         return self.isEmployedOrSelfEmployed();
                     }
                 },
@@ -131,7 +126,7 @@ module.exports('employmentInformation', function (require) {
             .extend({
                 required: {
                     message: translations.ThisFieldIsRequired,
-                    onlyIf: function () {
+                    onlyIf: function() {
                         return self.isEmployedOrSelfEmployed();
                     }
                 },
@@ -149,6 +144,12 @@ module.exports('employmentInformation', function (require) {
                 }
             });
         self.address = new AddressInformation(info.CompanyAddress || {});
+
+        self.yearsOfEmploy.subscribe(function (newValue) {
+            if (newValue === '10+') {
+                this.monthsOfEmploy('');
+            }
+        }, self);
 
         self.valid = function () {
             var addressValid = self.isEmployedOrSelfEmployed() ? self.address.isValid() : true;
