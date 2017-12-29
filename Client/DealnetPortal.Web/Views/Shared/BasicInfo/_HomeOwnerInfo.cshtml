@@ -417,8 +417,9 @@ else
                     @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.HourlyRate)
                     <div class="control-group">
                         <select class="form-control dealnet-input" name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.HourlyRate)" data-bind="value: hourlyRate, enable: showHourlyRate">
+                            <option vlaue=""></option>
                             <option value="<10" @(Model.HomeOwner?.EmploymentInformation?.HourlyRate == "<10" ? "selected" : "")>@Resources.LessThan $10</option>
-                            @for(var i = 10; i < 80; i += 5)
+                            @for (var i = 10; i < 80; i += 5)
                             {
                                 var val = $"{i}-{i + 5}";
                                 <option value="@val" @(Model.HomeOwner?.EmploymentInformation?.HourlyRate == val ? "selected" : "")>$@i - $@(i + 5)</option>

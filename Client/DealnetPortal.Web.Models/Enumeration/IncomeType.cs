@@ -6,7 +6,7 @@ namespace DealnetPortal.Web.Models.Enumeration
     {
         [Display(ResourceType = typeof(Resources.Resources), Name = "AnnualSalaryIncome")]
         AnnualSalaryIncome = 0,
-        [Display(ResourceType = typeof(Resources.Resources), Name = "Hourly")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "HourlyRate")]
         HourlyRate = 1
     }
 }
