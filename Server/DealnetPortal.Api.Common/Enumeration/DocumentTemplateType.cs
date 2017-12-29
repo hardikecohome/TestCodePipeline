@@ -21,5 +21,11 @@ namespace DealnetPortal.Api.Common.Enumeration
         Other = 7,
         [Description("Insurence")]
         Insurence = 8,
+        [Description("Void Cheque or Bank PAP Authorization Letter")]
+        ChequeBankPAP = 9,
+        [Description("Income verification")]
+        IncomeVerification = 10,
+        [Description("Credit Application")]
+        CreditApplication= 11,
     }
 }
