@@ -48,19 +48,20 @@ module.exports('employmentInformation', function (require) {
                     }
                 }
             });
-        self.yearsOfEmploy = ko.observable(info.YearsOfEmployment||'')
+        self.yearsOfEmploy = ko.observable(info.YearsOfEmployment || '')
             .extend({
                 required: {
                     message: translations.ThisFieldIsRequired,
-                    onlyIf: function () {
+                    onlyIf: function() {
                         return self.isEmployedOrSelfEmployed();
                     }
                 }
-            }).subscribe(function(newValue) {
-                if (newValue === '10+') {
-                    this.hourlyRate('');
-                }
-            },self);
+            });
+        self.subscribe(function (newValue) {
+            if (newValue === '10+') {
+                this.hourlyRate('');
+            }
+        }, self);
 
         self.enableMonths = ko.computed(function() {
             return self.isEmployedOrSelfEmployed() && self.yearsOfEmploy() !== '10+';
