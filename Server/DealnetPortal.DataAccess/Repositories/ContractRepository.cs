@@ -588,7 +588,15 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.EquipmentTypes.FirstOrDefault(et => et.Type == type);
         }
 
-        public IList<DocumentType> GetDocumentTypes()
+        public IList<DocumentType> GetStateDocumentTypes(string state)
+        {
+            var checkList = _dbContext.FundingCheckLists
+                .Include(s => s.FundingCheckDocuments)
+                .FirstOrDefault(l => l.Province == state);
+            return _dbContext.FundingCheckDocuments.Where(x=>x.ListId == checkList.ListId).Select(d=>d.DocumentType).ToList();
+        }
+
+        public IList<DocumentType> GetAllDocumentTypes()
         {
             return _dbContext.DocumentTypes.ToList();
         }

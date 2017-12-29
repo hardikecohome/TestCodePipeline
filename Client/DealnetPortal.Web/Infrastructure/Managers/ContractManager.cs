@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
@@ -339,10 +340,16 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             contractEditViewModel.UploadDocumentsInfo.ExistingDocuments = Mapper.Map<List<ExistingDocument>>(contractsResult.Item1.Documents);
             contractEditViewModel.UploadDocumentsInfo.DocumentsForUpload = new List<DocumentForUpload>();
             contractEditViewModel.UploadDocumentsInfo.MandatoryDocumentTypes = new List<int>() { (int)DocumentTemplateType.SignedContract, (int)DocumentTemplateType.SignedInstallationCertificate, 3, 4 };
-            var docTypes = await _dictionaryServiceAgent.GetDocumentTypes();
+            var docTypes = await _dictionaryServiceAgent.GetStateDocumentTypes(summaryViewModel.ProvinceTaxRate.Province);
             if(docTypes?.Item1 != null)
             {
-                contractEditViewModel.UploadDocumentsInfo.DocumentTypes = docTypes.Item1.Where(d => d.Id <= (int)DocumentTemplateType.Other).Select(d => new SelectListItem()
+                var otherDoc = docTypes.Item1.SingleOrDefault(x => x.Id == (int)DocumentTemplateType.Other);
+                if (otherDoc != null)
+                {
+                    docTypes.Item1.RemoveAt(docTypes.Item1.IndexOf(otherDoc));
+                    docTypes.Item1.Add(otherDoc);
+                }
+                contractEditViewModel.UploadDocumentsInfo.DocumentTypes = docTypes.Item1.Select(d => new SelectListItem()
                 {
                     Value = d.Id.ToString(),
                     Text = d.Description
@@ -847,8 +854,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             contractViewModel.UploadDocumentsInfo.ExistingDocuments = Mapper.Map<List<ExistingDocument>>(contract.Documents);
             contractViewModel.UploadDocumentsInfo.DocumentsForUpload = new List<DocumentForUpload>();
             contractViewModel.UploadDocumentsInfo.MandatoryDocumentTypes = new List<int>() { (int)DocumentTemplateType.SignedContract, (int)DocumentTemplateType.SignedInstallationCertificate, 3, 4 };
-            var docTypes = await _dictionaryServiceAgent.GetDocumentTypes();
-            if(docTypes?.Item1 != null)
+            var docTypes = await _dictionaryServiceAgent.GetStateDocumentTypes(summaryViewModel.ProvinceTaxRate.Province);
+            if (docTypes?.Item1 != null)
             {
                 contractViewModel.UploadDocumentsInfo.DocumentTypes = docTypes.Item1.Select(d => new SelectListItem()
                 {

@@ -149,7 +149,13 @@ namespace DealnetPortal.Domain.Repositories
         /// Get Document Types list
         /// </summary>
         /// <returns>List of Equipment Type</returns>
-        IList<DocumentType> GetDocumentTypes();
+        IList<DocumentType> GetAllDocumentTypes();
+
+        /// <summary>
+        /// Get Document Types list
+        /// </summary>
+        /// <returns>List of Equipment Type</returns>
+        IList<DocumentType> GetStateDocumentTypes(string state);
 
         /// <summary>
         /// Get Province Tax Rate
