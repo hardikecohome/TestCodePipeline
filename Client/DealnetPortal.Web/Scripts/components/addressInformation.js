@@ -98,11 +98,16 @@
     };
 
     AddressInformation.prototype.clearAddress = function () {
-        this.street('');
-        this.unit('');
-        this.city('');
-        this.province('');
-        this.postalCode('');
+        this.installationAddress.street('');
+        this.installationAddress.street.isModified(false);
+        this.installationAddress.unit('');
+        this.installationAddress.unit.isModified(false);
+        this.installationAddress.city('');
+        this.installationAddress.city.isModified(false);
+        this.installationAddress.province('');
+        this.installationAddress.province.isModified(false);
+        this.installationAddress.postalCode('');
+        this.installationAddress.postalCode.isModified(false);
     };
 
     return AddressInformation;
