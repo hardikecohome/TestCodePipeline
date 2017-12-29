@@ -139,7 +139,21 @@ namespace DealnetPortal.Web.ServiceAgent
             try
             {
                 return await Client.GetAsyncEx<Tuple<IList<DocumentTypeDTO>, IList<Alert>>>(
-                            $"{_fullUri}/DocumentTypes", AuthenticationHeader, CurrentCulture);
+                            $"{_fullUri}/AllDocumentTypes", AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get Province Tax Rate", ex);
+                throw;
+            }
+        }
+
+        public async Task<Tuple<IList<DocumentTypeDTO>, IList<Alert>>> GetStateDocumentTypes(string state)
+        {
+            try
+            {
+                return await Client.GetAsyncEx<Tuple<IList<DocumentTypeDTO>, IList<Alert>>>(
+                            $"{_fullUri}/StateDocumentTypes?state={state}", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {

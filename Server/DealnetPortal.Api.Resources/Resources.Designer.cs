@@ -19,7 +19,7 @@ namespace DealnetPortal.Api.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -970,6 +970,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Void Cheque or Bank PAP Authorization Letter.
+        /// </summary>
+        public static string ChequeBankPAP {
+            get {
+                return ResourceManager.GetString("ChequeBankPAP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Client.
         /// </summary>
         public static string Client {
@@ -1083,6 +1092,15 @@ namespace DealnetPortal.Api.Resources {
         public static string ContractWasSuccessfullySubmitted {
             get {
                 return ResourceManager.GetString("ContractWasSuccessfullySubmitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Credit Application.
+        /// </summary>
+        public static string CreditApplication {
+            get {
+                return ResourceManager.GetString("CreditApplication", resourceCulture);
             }
         }
         
@@ -1551,6 +1569,15 @@ namespace DealnetPortal.Api.Resources {
         public static string InCaseRemarksAboutSelectedHomeProfessionalsPleaseContact {
             get {
                 return ResourceManager.GetString("InCaseRemarksAboutSelectedHomeProfessionalsPleaseContact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Income verification.
+        /// </summary>
+        public static string IncomeVerification {
+            get {
+                return ResourceManager.GetString("IncomeVerification", resourceCulture);
             }
         }
         

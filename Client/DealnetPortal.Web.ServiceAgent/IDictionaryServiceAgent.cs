@@ -60,6 +60,8 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <returns>List of Equipment Type</returns>
         Task<Tuple<IList<DocumentTypeDTO>, IList<Alert>>> GetDocumentTypes();
 
+        Task<Tuple<IList<DocumentTypeDTO>, IList<Alert>>> GetStateDocumentTypes(string state);
+
         Task<ApplicationUserDTO> GetDealerInfo();
 
         Task<string> GetDealerCulture(string dealerName = null);
