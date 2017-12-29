@@ -375,7 +375,7 @@
                                     @for(var j = 10; j < 80; j += 5)
     {
         var val = $"{j}-{j + 5}";
-                                <option value="@val" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.HourlyRate == val ? "selected" : "")>$@i - $@(i + 5)</option>
+                                <option value="@val" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.HourlyRate == val ? "selected" : "")>$@j - $@(j + 5)</option>
 }
                                     <option value="80+" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.HourlyRate == "80+" ? "selected" : "")>$80+</option>
                                 </select>

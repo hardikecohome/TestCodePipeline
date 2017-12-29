@@ -16,8 +16,8 @@ configInitialized
         $('.j-personal-data-used-modal').on('click', function (e) {
             var data = {
                 message: $('#personal-data-used').html(),
-                class: "consents-modal",
-                cancelBtnText: "OK"
+                "class": 'consents-modal',
+                cancelBtnText: 'OK'
             };
             dynamicAlertModal(data);
             e.preventDefault();
@@ -39,7 +39,7 @@ configInitialized
         });
 
         $('#administrative_area_level_1').change(function(e) {
-            var isQuebec = e.target.value === "QC";
+            var isQuebec = e.target.value === 'QC';
             if (isQuebec) {
                 $('#proceed-qc-dealer').hide();
             }
@@ -72,13 +72,13 @@ configInitialized
                 }
             });
             if (atLeastOneValid) {
-                $("#proceed-homeowner-errormessage").hide();
+                $('#proceed-homeowner-errormessage').hide();
             }
         });
 
-        addAdditionalButton = $("#add-additional-applicant");
-        aditional1Section = $("#additional1-section");
-        if (aditional1Section.attr('data-initialized') === "true") {
+        addAdditionalButton = $('#add-additional-applicant');
+        aditional1Section = $('#additional1-section');
+        if (aditional1Section.attr('data-initialized') === 'true') {
             showAditional1Section();
         } else {
             hideAditional1Section();
