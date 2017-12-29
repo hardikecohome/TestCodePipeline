@@ -263,6 +263,13 @@
         });
     };
 
+    $(window).keydown(function (event) {
+        if (event.keyCode === 13 && event.target.nodeName !== 'TEXTAREA') {
+            event.preventDefault();
+            return false;
+        }
+    });
+
     $(document)
         .ready(function () {
             $('<option selected value="">- ' + translations['NotSelected'] + ' -</option>').prependTo($('#selectedService'));
