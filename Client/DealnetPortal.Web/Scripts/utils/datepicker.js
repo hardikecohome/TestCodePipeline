@@ -9,59 +9,9 @@ module.exports('datepicker', function () {
         });
     }
 
-    function onDateSelect (input) {
-        input.removeClass('focus');
-        $('body').removeClass('bodyHasDatepicker');
-    }
-
-    function initDatepicker () {
-        $('.date-group').each(function () {
-            if ($('body').is('.ios-device') && $(this).children('.dealnet-disabled-input').length === 0) {
-                $('<div/>', {
-                    "class": 'div-datepicker-value',
-                    text: $(this).find('.form-control').val()
-                }).appendTo(this);
-            }
-            if ($('body').is('.ios-device')) {
-                $('<div/>', {
-                    "class": 'div-datepicker'
-                }).appendTo(this);
-            }
-        });
-
-        $('.div-datepicker-value').on('click', function () {
-            $('.div-datepicker').removeClass('opened');
-            $(this).siblings('.div-datepicker').toggleClass('opened');
-            if (!$('.div-datepicker .ui-datepicker-close').length) {
-                addCloseButtonForInlineDatePicker();
-            }
-        });
-
-        $.datepicker.setDefaults({
-            dateFormat: 'mm/dd/yy',
-            changeYear: true,
-            changeMonth: (viewport().width < 768) ? true : false,
-            showButtonPanel: true,
-            closeText: translations['Cancel'],
-            onSelect: function (value) {
-                $(this).siblings('input.form-control').val(value).blur();
-                $('.div-datepicker').removeClass('opened');
-            },
-            onChangeMonthYear: function () {
-                $('.div-datepicker select').each(function () {
-                    $(this).blur();
-                });
-            },
-            onClose: function () {
-                onDateSelect($(this));
-            }
-        });
-    }
-
     function assignDatepicker (selector, options) {
         var isIos = $('body').is('.ios-device');
         var selected = $(selector);
-        var input = isIos ? selected.siblings('.div-datepicker') : selected;
 
         if (isIos) {
             var dateGroup = selected.parents('.date-group');
@@ -85,6 +35,7 @@ module.exports('datepicker', function () {
                 }
             });
         }
+        var input = isIos ? selected.siblings('.div-datepicker') : selected;
 
         inputDateFocus(input);
 
@@ -128,13 +79,29 @@ module.exports('datepicker', function () {
         }, 100);
     }
     return {
-        initDatepicker: initDatepicker,
         assignDatepicker: assignDatepicker,
         getDatepickerDate: getDatepickerDate,
         setDatepickerDate: setDatepickerDate
     };
 });
 
-$(document).ready(function() {
-    module.require('datepicker').initDatepicker();
+$.datepicker.setDefaults({
+    dateFormat: 'mm/dd/yy',
+    changeYear: true,
+    changeMonth: (viewport().width < 768) ? true : false,
+    showButtonPanel: true,
+    closeText: translations['Cancel'],
+    onSelect: function (value) {
+        $(this).siblings('input.form-control').val(value).blur();
+        $('.div-datepicker').removeClass('opened');
+    },
+    onChangeMonthYear: function () {
+        $('.div-datepicker select').each(function () {
+            $(this).blur();
+        });
+    },
+    onClose: function () {
+        $(this).removeClass('focus');
+        $('body').removeClass('bodyHasDatepicker');
+    }
 });

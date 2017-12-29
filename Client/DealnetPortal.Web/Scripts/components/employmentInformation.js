@@ -2,7 +2,7 @@ module.exports('employmentInformation', function (require) {
     var AddressInformation = require('addressInformation');
     return function EmploymentInformationVM (info) {
         var self = this;
-        debugger 
+        
         self.status = ko.observable(info.EmploymentStatus || '0');
 
         self.incomeType = ko.observable(info.IncomeType == undefined ? '' : info.IncomeType.toString())
