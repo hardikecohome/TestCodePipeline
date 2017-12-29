@@ -302,7 +302,7 @@
                 }
 
                 rateCardsRenderEngine.renderDropdownValues({ rateCardPlan: state[option].plan, standaloneOption: option });
-                state[option].AmortizationTerm = +$('#' + option + '-amortDropdown option').val();
+                state[option].AmortizationTerm = +$('#' + option + '-amortDropdown option:selected').val();
             }
 
             var assignOption = $.extend(true, {}, state[option]);
