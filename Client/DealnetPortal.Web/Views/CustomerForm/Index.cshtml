@@ -323,34 +323,36 @@
                                     @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                            <div class="col-md-2 col-sm-6 form-group">
+                            <div class="col-md-3 col-sm-6 form-group">
                                 @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.IncomeType, new { @class = "mandatory-field" })
                                 <div class="control-group">
                                     @Html.EnumDropDownListFor(m => m.HomeOwner.EmploymentInformation.IncomeType, new { @class = "form-control dealnet-input", id = "income-type" })
                                     @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.IncomeType, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                            <div class="col-md-2 col-sm-12 form-group">
+                            <div class="col-md-3 col-sm-12 form-group">
                                 @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary, new { @class = "mandatory-field" })
                                 <div class="control-group">
-                                    <select class="form-control dealnet-input long-select" name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary)" id="annual">
-                                        <option value="<20000" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == "<20000" ? "selected" : "")>@Resources.LessThan $20,0000</option>
-                                        @for(var i = 20000; i < 200000; i += 15000)
+                                    <select class="form-control dealnet-input" name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary)" id="annual">
+                                        <option value=""></option>
+                                        <option value="<20000" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == "<20000" ? "selected" : "")>@Resources.LessThan $20,000</option>
+                                        @for (var i = 20000; i < 200000; i += 15000)
                                         {
                                             var val = $"{i}-{i + 15000}";
-                                            <option value="@val" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == val ? "selected" : "")>$@i - $@(i + 5000)</option>
+                                            <option value="@val" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == val ? "selected" : "")>$@($"{i:n0}") - $@($"{i + 15000:n0}")</option>
                                         }
-                                        <option value="200000" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == "200000" ? "selected" : "")>$200000+</option>
+                                        <option value="200000" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == "200000" ? "selected" : "")>$200,000+</option>
                                     </select>
                                     @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                            <div class="col-md-2 col-sm-12 form-group">
+                            <div class="col-md-3 col-sm-12 form-group">
                                 @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.HourlyRate, new { @class = "mandatory-field" })
                                 <div class="control-group">
                                     <select class="form-control dealnet-input" name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.HourlyRate)" id="hourly">
+                                        <option value=""></option>
                                         <option value="<10" @(Model.HomeOwner?.EmploymentInformation?.HourlyRate == "<10" ? "selected" : "")>@Resources.LessThan $10</option>
-                                        @for(var i = 10; i < 80; i += 5)
+                                        @for (var i = 10; i < 80; i += 5)
                                         {
                                             var val = $"{i}-{i + 5}";
                                             <option value="@val" @(Model.HomeOwner?.EmploymentInformation?.HourlyRate == val ? "selected" : "")>$@i - $@(i + 5)</option>
@@ -362,10 +364,10 @@
                             </div>
                             <div class="col-md-2 col-sm-12 form-group">
                                 <label class="mandatory-field">@Resources.LengthOfEmployment</label>
-                                <div class="row control-group">
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                <div class="row control-group length-of-employ">
+                                    <div class="select-hold years">
                                         <select name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.YearsOfEmployment)" class="form-control dealnet-input" id="emp-years">
-                                            <option value="" @(string.IsNullOrEmpty(Model.HomeOwner?.EmploymentInformation?.YearsOfEmployment) ? "selected" : "")></option>
+                                            <option value="" @(string.IsNullOrEmpty(Model.HomeOwner?.EmploymentInformation?.YearsOfEmployment) ? "selected" : "")>years</option>
                                             @for(int j = 0; j < 10; j++)
                                             {
                                                 <option value="@j" @(Model.HomeOwner?.EmploymentInformation?.YearsOfEmployment == j.ToString() ? "selected" : "")>@j</option>
@@ -374,9 +376,9 @@
                                         </select>
                                         @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.YearsOfEmployment, "", new { @class = "text-danger" })
                                     </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <div class="months select-hold">
                                         <select name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.MonthsOfEmployment)" class="form-control dealnet-input" id="emp-months">
-                                            <option value="" @(string.IsNullOrEmpty(Model.HomeOwner?.EmploymentInformation?.MonthsOfEmployment) ? "selected" : "")></option>
+                                            <option value="" @(string.IsNullOrEmpty(Model.HomeOwner?.EmploymentInformation?.MonthsOfEmployment) ? "selected" : "")>months</option>
                                             @for(int j = 0; j < 12; j++)
                                             {
                                                 <option value="@j" @(Model.HomeOwner?.EmploymentInformation?.MonthsOfEmployment == j.ToString() ? "selected" : "")>@j</option>

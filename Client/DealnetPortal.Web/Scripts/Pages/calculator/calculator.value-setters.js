@@ -165,7 +165,7 @@
                 });
             }
 
-            callback([optionKey]);
+            callback([optionKey], true);
         }
     }
 

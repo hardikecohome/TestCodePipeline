@@ -269,7 +269,7 @@
         _optionSetup(newOption, callback);
     };
 
-    function _renderOption(options) {
+    function _renderOption(options, resetDropdown) {
         if (options === undefined || typeof options !== "object") {
             options = ['option1'];
             if (state['option2'] !== undefined) {
@@ -285,7 +285,7 @@
 
             var eSumData = rateCardsCalculator.calculateTotalPrice(state[option].equipments, downPayment, state.tax);
 
-            rateCardsRenderEngine.renderTotalPrice(option, $.extend(eSumData));
+            rateCardsRenderEngine.renderTotalPrice(option, eSumData);
 
             var rateCard = rateCardsCalculator.filterRateCard({ rateCardPlan: state[option].plan, standaloneOption: option });
 
@@ -296,11 +296,13 @@
             }
 
             if (state[option].plan !== 'Custom') {
-                var e = document.getElementById(option + '-amortDropdown');
-                e.selectedIndex = -1;
+                if (resetDropdown !== undefined && resetDropdown === true) {
+                    var e = document.getElementById(option + '-amortDropdown');
+                    e.selectedIndex = -1;
+                }
+
                 rateCardsRenderEngine.renderDropdownValues({ rateCardPlan: state[option].plan, standaloneOption: option });
                 state[option].AmortizationTerm = +$('#' + option + '-amortDropdown option').val();
-
             }
 
             var assignOption = $.extend(true, {}, state[option]);
