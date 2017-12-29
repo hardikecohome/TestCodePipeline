@@ -364,8 +364,8 @@
                             </div>
                             <div class="col-md-2 col-sm-12 form-group">
                                 <label class="mandatory-field">@Resources.LengthOfEmployment</label>
-                                <div class="row control-group">
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                <div class="row control-group length-of-employ">
+                                    <div class="select-hold years">
                                         <select name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.YearsOfEmployment)" class="form-control dealnet-input" id="emp-years">
                                             <option value="" @(string.IsNullOrEmpty(Model.HomeOwner?.EmploymentInformation?.YearsOfEmployment) ? "selected" : "")>years</option>
                                             @for(int j = 0; j < 10; j++)
@@ -376,7 +376,7 @@
                                         </select>
                                         @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.YearsOfEmployment, "", new { @class = "text-danger" })
                                     </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <div class="months select-hold">
                                         <select name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.MonthsOfEmployment)" class="form-control dealnet-input" id="emp-months">
                                             <option value="" @(string.IsNullOrEmpty(Model.HomeOwner?.EmploymentInformation?.MonthsOfEmployment) ? "selected" : "")>months</option>
                                             @for(int j = 0; j < 12; j++)
