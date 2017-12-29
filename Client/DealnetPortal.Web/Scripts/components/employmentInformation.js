@@ -2,13 +2,13 @@ module.exports('employmentInformation', function (require) {
     var AddressInformation = require('addressInformation');
     return function EmploymentInformationVM (info) {
         var self = this;
-
+        debugger 
         self.status = ko.observable(info.EmploymentStatus || '0');
 
-        self.incomeType = ko.observable(info.IncomeType||'')
+        self.incomeType = ko.observable(info.IncomeType == undefined ? '' : info.IncomeType.toString())
             .extend({
                 required: {
-                    message: translations['ThisFieldIsRequired'],
+                    message: translations.ThisFieldIsRequired,
                     onlyIf: function () {
                         return self.status() == '0';
                     }
@@ -62,7 +62,7 @@ module.exports('employmentInformation', function (require) {
             return self.isEmployedOrSelfEmployed() && self.yearsOfEmploy() !== '10+';
         });
 
-        self.monthsOfEmploy = ko.observable(info.MonthsOfEmploy||'')
+        self.monthsOfEmploy = ko.observable(info.MonthsOfEmployment||'')
             .extend({
                 required: {
                     message: translations.ThisFieldIsRequired,
@@ -71,7 +71,7 @@ module.exports('employmentInformation', function (require) {
                     }
                 }
             });
-        self.type = ko.observable(info.EmploymentType || '')
+        self.type = ko.observable(info.EmploymentType == undefined ? '' : info.EmploymentType.toString())
             .extend({
                 required: {
                     message: translations.ThisFieldIsRequired,
