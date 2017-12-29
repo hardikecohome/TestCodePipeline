@@ -31,14 +31,18 @@ module.exports('employmentInformation', function (require) {
             return this.status() == '0' || this.status() == '2';
         }, self);
 
-        self.annualSalary = ko.observable(info.AnnualSalary||'')
+        self.annualSalary = ko.observable(info.AnnualSalary || '')
             .extend({
                 required: {
-                    onlyIf: function () {
+                    onlyIf: function() {
                         return self.showAnnualSalary();
                     }
                 }
-            });
+            }).subscribe(function(newValue) {
+                if (newValue === '10+') {
+                    this.hourlyRate('');
+                }
+            },self);
         self.hourlyRate = ko.observable(info.HourlyRate||'')
             .extend({
                 required: {
