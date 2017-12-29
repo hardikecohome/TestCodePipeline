@@ -357,7 +357,7 @@
                                     @for (var j = 20000; j < 200000; j += 15000)
                                     {
                                         var val = $"{j}-{j + 15000}";
-                                        <option value="@val" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.AnnualSalary == val ? "selected" : "")>$@i - $@($"{i + 15000:n0}")</option>
+                                        <option value="@val" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.AnnualSalary == val ? "selected" : "")>$@($"{j:n0}") - $@($"{j + 15000:n0}")</option>
                                     }
                                     <option value="200000" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.AnnualSalary == "200000" ? "selected" : "")>$200,000+</option>
                                 </select>
