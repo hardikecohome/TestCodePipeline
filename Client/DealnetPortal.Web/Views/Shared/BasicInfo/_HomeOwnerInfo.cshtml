@@ -473,7 +473,7 @@ else
                 <div class="form-group">
                     @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.JobTitle)
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.JobTitle, new { @class = "form-control dealnet-input", data_bind = "value: jobTitle, enable: isEmployedOrSelfEmployed" })
+                        @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.JobTitle, new { @class = "form-control dealnet-input", data_bind = "value: jobTitle, enable: isEmployedOrSelfEmployed, attr:{required:isEmployedOrSelfEmployed}" })
                         @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.JobTitle, "", new { @class = "text-danger", data_bind = "validationMessage: jobTitle" })
                     </div>
                 </div>
@@ -482,7 +482,7 @@ else
                 <div class="form-group">
                     @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.CompanyName)
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyName, new { @class = "form-control dealnet-input", data_bind = "value: companyName, enable: isEmployedOrSelfEmployed" })
+                        @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyName, new { @class = "form-control dealnet-input", data_bind = "value: companyName, enable: isEmployedOrSelfEmployed, attr:{required:isEmployedOrSelfEmployed}" })
                         @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.CompanyName, "", new { @class = "text-danger", data_bind = "validationMessage: companyName" })
                     </div>
                 </div>
@@ -491,7 +491,7 @@ else
                 <div class="form-group">
                     @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.CompanyPhone)
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyPhone, new { @class = "form-control dealnet-input", data_bind = "value:companyPhone, enable: isEmployedOrSelfEmployed" })
+                        @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyPhone, new { @class = "form-control dealnet-input", data_bind = "value:companyPhone, enable: isEmployedOrSelfEmployed, attr:{required:isEmployedOrSelfEmployed}" })
                         @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.CompanyPhone, "", new { @class = "text-danger", data_bind = "validationMessage:companyPhone" })
                     </div>
                 </div>
