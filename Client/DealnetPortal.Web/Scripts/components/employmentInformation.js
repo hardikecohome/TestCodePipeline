@@ -57,7 +57,7 @@ module.exports('employmentInformation', function (require) {
                     }
                 }
             });
-        self.subscribe(function (newValue) {
+        self.yearsOfEmploy.subscribe(function (newValue) {
             if (newValue === '10+') {
                 this.hourlyRate('');
             }
