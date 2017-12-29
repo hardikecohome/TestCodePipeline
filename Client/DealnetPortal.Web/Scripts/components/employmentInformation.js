@@ -38,11 +38,7 @@ module.exports('employmentInformation', function (require) {
                         return self.showAnnualSalary();
                     }
                 }
-            }).subscribe(function(newValue) {
-                if (newValue === '10+') {
-                    this.hourlyRate('');
-                }
-            },self);
+            });
         self.hourlyRate = ko.observable(info.HourlyRate||'')
             .extend({
                 required: {
@@ -60,7 +56,11 @@ module.exports('employmentInformation', function (require) {
                         return self.isEmployedOrSelfEmployed();
                     }
                 }
-            });
+            }).subscribe(function(newValue) {
+                if (newValue === '10+') {
+                    this.hourlyRate('');
+                }
+            },self);
 
         self.enableMonths = ko.computed(function() {
             return self.isEmployedOrSelfEmployed() && self.yearsOfEmploy() !== '10+';
