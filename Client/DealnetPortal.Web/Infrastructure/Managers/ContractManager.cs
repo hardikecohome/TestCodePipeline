@@ -854,8 +854,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             contractViewModel.UploadDocumentsInfo.ExistingDocuments = Mapper.Map<List<ExistingDocument>>(contract.Documents);
             contractViewModel.UploadDocumentsInfo.DocumentsForUpload = new List<DocumentForUpload>();
             contractViewModel.UploadDocumentsInfo.MandatoryDocumentTypes = new List<int>() { (int)DocumentTemplateType.SignedContract, (int)DocumentTemplateType.SignedInstallationCertificate, 3, 4 };
-            var docTypes = await _dictionaryServiceAgent.GetDocumentTypes();
-            if(docTypes?.Item1 != null)
+            var docTypes = await _dictionaryServiceAgent.GetStateDocumentTypes(summaryViewModel.ProvinceTaxRate.Province);
+            if (docTypes?.Item1 != null)
             {
                 contractViewModel.UploadDocumentsInfo.DocumentTypes = docTypes.Item1.Select(d => new SelectListItem()
                 {
