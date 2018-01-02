@@ -340,10 +340,10 @@
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
                                                 <div class="dealnet-disabled-input">
-                                                    <span>@Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.YearsOfEmployment @Resources.Year_s_</span>
+                                                    <span>@Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.YearsOfEmployment @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ? Resources.Year : Resources.Years)</span>
                                                     @if(!string.IsNullOrEmpty(Model?.BasicInfo.AdditionalApplicants[i]?.EmploymentInformation?.MonthsOfEmployment))
                                                     {
-                                                        <span>@Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.MonthsOfEmployment @Resources.Month_s_</span>
+                                                    <span>@Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.MonthsOfEmployment @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ? Resources.Month : Resources.Months)</span>
                                                     }
                                                 </div>
                                             </div>

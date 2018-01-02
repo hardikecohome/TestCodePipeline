@@ -420,142 +420,144 @@
                 @if(Model.BasicInfo.HomeOwner.EmploymentInformation != null)
                 {
                     <div class="credit-check-info-hold">
-                        <div class="col-md-6 grid-column">
-                            <div class="dealnet-credit-check-section">
-                                <h3 class="dealnet-section-title">
-                                    @Resources.BorrowerEmploymentInformation
-                                    @if(Model.EquipmentInfo.IsEditAvailable && !Model.BasicInfo.ContractWasDeclined)
-                                    {
-                                        <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
-                                    }
-                                </h3>
+                    <div class="col-md-6 grid-column">
+                        <div class="dealnet-credit-check-section">
+                            <h3 class="dealnet-section-title">
+                                @Resources.BorrowerEmploymentInformation
+                                @if(Model.EquipmentInfo.IsEditAvailable && !Model.BasicInfo.ContractWasDeclined)
+                                {
+                                    <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
+                                }
+                            </h3>
+                            <div class="form-group">
+                                <div class="row">
+                                    @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus, new { @class = "dealnet-field-caption col-xs-6" })
+                                    <div class="dealnet-field-holder col-xs-6">
+                                        <div class="control-group">
+                                            <input readonly="readonly" class="dealnet-disabled-input" id="@Html.IdFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus)" name="@Html.NameFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus)" value="@Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus.GetEnumDescription()" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @if(Model.BasicInfo.HomeOwner.EmploymentInformation.IncomeType.HasValue)
+                            {
                                 <div class="form-group">
                                     <div class="row">
-                                        @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus, new { @class = "dealnet-field-caption col-xs-6" })
+                                        @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.IncomeType, new { @class = "dealnet-field-caption col-xs-6" })
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
-                                                <input readonly="readonly" class="dealnet-disabled-input" id="@Html.IdFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus)" name="@Html.NameFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus)" value="@Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus.GetEnumDescription()" />
+                                                <input readonly="readonly" class="dealnet-disabled-input" id="@Html.IdFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.IncomeType)" name="@Html.NameFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.IncomeType)" value="@Model.BasicInfo.HomeOwner.EmploymentInformation.IncomeType.GetEnumDescription()" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                @if(Model.BasicInfo.HomeOwner.EmploymentInformation.IncomeType.HasValue)
-                                {
-                                    <div class="form-group">
-                                        <div class="row">
-                                            @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.IncomeType, new { @class = "dealnet-field-caption col-xs-6" })
-                                            <div class="dealnet-field-holder col-xs-6">
-                                                <div class="control-group">
-                                                    <input readonly="readonly" class="dealnet-disabled-input" id="@Html.IdFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.IncomeType)" name="@Html.NameFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.IncomeType)" value="@Model.BasicInfo.HomeOwner.EmploymentInformation.IncomeType.GetEnumDescription()" />
-                                                </div>
+                            }
+                            @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary))
+                            {
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
                                             </div>
                                         </div>
                                     </div>
-                                }
-                                @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary))
-                                {
-                                    <div class="form-group">
-                                        <div class="row">
-                                            @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary, new { @class = "dealnet-field-caption col-xs-6" })
-                                            <div class="dealnet-field-holder col-xs-6">
-                                                <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
-                                                </div>
+                                </div>
+                            }
+                            @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate))
+                            {
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
                                             </div>
                                         </div>
                                     </div>
-                                }
-                                @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate))
-                                {
-                                    <div class="form-group">
-                                        <div class="row">
-                                            @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate, new { @class = "dealnet-field-caption col-xs-6" })
-                                            <div class="dealnet-field-holder col-xs-6">
-                                                <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
+                                </div>
+                            }
 
-                                @if(Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
-                                {
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <label class="dealnet-field-caption col-xs-6">@Resources.LengthOfEmployment</label>
-                                            <div class="dealnet-field-holder col-xs-6">
-                                                <div class="control-group">
-                                                    <div class="dealnet-disabled-input">
-                                                        <span>@Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment @Resources.Year_s_</span>
-                                                        @if(!string.IsNullOrEmpty(Model?.BasicInfo.HomeOwner?.EmploymentInformation?.MonthsOfEmployment))
-                                                        {
-                                                            <span>@Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment @Resources.Month_s_</span>
-                                                        }
-                                                    </div>
+                            @if(Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
+                            {
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="dealnet-field-caption col-xs-6">@Resources.LengthOfEmployment</label>
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                <div class="dealnet-disabled-input">
+                                                    <span>@Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ? Resources.Year :Resources.Years)</span>
+                                                    @if(!string.IsNullOrEmpty(Model?.BasicInfo.HomeOwner?.EmploymentInformation?.MonthsOfEmployment))
+                                                    {
+                                                        <span>@Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment=="1"?Resources.Month: Resources.Months)</span>
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                }
-                            </div>
+                                </div>
+                            }
                         </div>
+                    </div>
+                    @if (Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
+                    {
                         <div class="col-md-6 grid-column">
                             <div class="dealnet-credit-check-section">
                                 <h3 class="dealnet-section-title">
                                     &nbsp;
-                                    @if(Model.EquipmentInfo.IsEditAvailable && !Model.BasicInfo.ContractWasDeclined)
+                                    @if (Model.EquipmentInfo.IsEditAvailable && !Model.BasicInfo.ContractWasDeclined)
                                     {
                                         <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
                                     }
                                 </h3>
-                                @if(Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed)
+                                @if (Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed)
                                 {
                                     <div class="form-group">
                                         <div class="row">
-                                            @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentType, new { @class = "dealnet-field-caption col-xs-6" })
+                                            @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentType, new {@class = "dealnet-field-caption col-xs-6"})
                                             <div class="dealnet-field-holder col-xs-6">
                                                 <div class="control-group">
-                                                    <input readonly="readonly" class="dealnet-disabled-input" id="@Html.IdFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentType)" name="@Html.NameFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentType)" value="@Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentType.GetEnumDescription()" />
+                                                    <input readonly="readonly" class="dealnet-disabled-input" id="@Html.IdFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentType)" name="@Html.NameFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentType)" value="@Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentType.GetEnumDescription()" />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 }
-                                @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.JobTitle))
+                                @if (!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.JobTitle))
                                 {
                                     <div class="form-group">
                                         <div class="row">
-                                            @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.JobTitle, new { @class = "dealnet-field-caption col-xs-6" })
+                                            @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.JobTitle, new {@class = "dealnet-field-caption col-xs-6"})
                                             <div class="dealnet-field-holder col-xs-6">
                                                 <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.JobTitle, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+                                                    @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.JobTitle, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 }
-                                @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.CompanyName))
+                                @if (!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.CompanyName))
                                 {
                                     <div class="form-group">
                                         <div class="row">
-                                            @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.CompanyName, new { @class = "dealnet-field-caption col-xs-6" })
+                                            @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.CompanyName, new {@class = "dealnet-field-caption col-xs-6"})
                                             <div class="dealnet-field-holder col-xs-6">
                                                 <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.CompanyName, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+                                                    @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.CompanyName, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 }
-                                @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.CompanyPhone))
+                                @if (!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.CompanyPhone))
                                 {
                                     <div class="form-group">
                                         <div class="row">
-                                            @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.CompanyPhone, new { @class = "dealnet-field-caption col-xs-6" })
+                                            @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.CompanyPhone, new {@class = "dealnet-field-caption col-xs-6"})
                                             <div class="dealnet-field-holder col-xs-6">
                                                 <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.CompanyPhone, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+                                                    @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.CompanyPhone, new {@readonly = "readonly", @class = "dealnet-disabled-input"})
                                                 </div>
                                             </div>
                                         </div>
@@ -563,7 +565,8 @@
                                 }
                             </div>
                         </div>
-                        @if(Model.BasicInfo.HomeOwner?.EmploymentInformation?.CompanyAddress != null)
+                    }
+                        @if(Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
                         {
                             <div class="col-md-6 grid-column">
                                 <div class="dealnet-credit-check-section">
