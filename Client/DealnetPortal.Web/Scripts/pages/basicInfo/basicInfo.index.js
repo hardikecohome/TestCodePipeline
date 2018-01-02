@@ -53,11 +53,11 @@
                 scrollPageTo($("#proceed-error-message"));
             }
 
-            if (!isHomeOwner || !isApprovalAge || !isAgreesToCreditCheck || !vm.valid() || !vm.allowQcDealerProceed()) {
+            if (!vm.valid() || !vm.allowQcDealerProceed() ||!isHomeOwner || !isApprovalAge || !isAgreesToCreditCheck) {
                 if ($('#main-form').valid()) {
                     event.preventDefault();
                 } else {
-                    $('.dob-input').each(function (index, el) {
+                    $('.dob-input').each(function(index, el) {
                         dob.validate(el);
                     });
                 }

@@ -35,11 +35,14 @@
             if (this.showEmployment()) {
                 valid = this.homeOwner.employment.valid();
                 if (this.hasAdditional()) {
-                    valid = valid && this.additionalApplicant.employment.valid();
+                    valid = this.additionalApplicant.employment.valid() && valid;
                 }
             }
             if (!valid) {
                 this.homeOwner.employment.showAllMessages();
+                if (this.hasAdditional()) {
+                    this.additionalApplicant.employment.showAllMessages();
+                }
             }
             
             return valid;

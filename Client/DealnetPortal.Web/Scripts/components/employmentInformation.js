@@ -28,7 +28,8 @@ module.exports('employmentInformation', function (require) {
         }, self);
 
         self.isEmployedOrSelfEmployed = ko.computed(function () {
-            return this.status() == '0' || this.status() == '2';
+            var stat = this.status();
+            return stat == '0' || stat == '2';
         }, self);
 
         self.annualSalary = ko.observable(info.AnnualSalary || '')

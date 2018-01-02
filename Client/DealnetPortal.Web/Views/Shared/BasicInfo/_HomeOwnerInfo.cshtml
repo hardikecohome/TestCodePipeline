@@ -380,7 +380,7 @@ else
                 <div class="form-group">
                     @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus)
                     <div class="control-group">
-                        @Html.EnumDropDownListFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus, new { @class = "form-control dealnet-input", id = "ho-employment-status", data_bind = "value: status, enable: $parent.showEmployment, attr:{required:$parent.showEmployment}" })
+                        @Html.EnumDropDownListFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus, new { @class = "form-control dealnet-input", id = "ho-employment-status", data_bind = "value: status, enable: $root.showEmployment, attr:{required:$root.showEmployment}" })
                         @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -506,7 +506,7 @@ else
                         <div class="form-group">
                             @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.Street)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.Street, new { @class = "form-control dealnet-input", data_bind = "value: street, enable: $parent.isEmployedOrSelfEmployed && $root.showEmployment", placeholder = Resources.StreetPlaceholder, id = "ho-employment-street" })
+                                @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.Street, new { @class = "form-control dealnet-input", data_bind = "value: street, enable: $root.showEmployment && $parent.isEmployedOrSelfEmployed ", placeholder = Resources.StreetPlaceholder, id = "ho-employment-street" })
                                 @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.Street, "", new { @class = "text-danger", data_bind = "validationMessage: street" })
                             </div>
                         </div>
@@ -515,7 +515,7 @@ else
                         <div class="form-group">
                             @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.UnitNumber)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.UnitNumber, new { @class = "form-control dealnet-input", data_bind = "value:unit, enable: $parent.isEmployedOrSelfEmployed && $root.showEmployment", type = "text", placeholder = "12345", id = "ho-employment-unit" })
+                                @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.UnitNumber, new { @class = "form-control dealnet-input", data_bind = "value:unit, enable: $root.showEmployment && $parent.isEmployedOrSelfEmployed", type = "text", placeholder = "12345", id = "ho-employment-unit" })
                                 @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.UnitNumber, "", new { @class = "text-danger", data_bind = "validationMessage: unit" })
                             </div>
                         </div>
@@ -541,7 +541,7 @@ else
                                     Value = x.Province,
                                     Text = x.Province,
                                     Selected = Model.HomeOwner?.EmploymentInformation?.CompanyAddress?.Province == x.Province
-                                }), "", new { @class = "form-control dealnet-input", data_bind = "value:province, enable:$parent.isEmployedOrSelfEmployed && $root.showEmployment", id = "ho-employment-province" })
+                                }), "", new { @class = "form-control dealnet-input", data_bind = "value:province, enable:$root.showEmployment && $parent.isEmployedOrSelfEmployed", id = "ho-employment-province" })
                                 @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.Province, "", new { @class = "text-danger", data_bind = "validationMessage: province" })
                             </div>
                         </div>
@@ -550,7 +550,7 @@ else
                         <div class="form-group">
                             @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.PostalCode)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.PostalCode, new { @class = "form-control dealnet-input", data_bind = "textInput: postalCode, enable:$parent.isEmployedOrSelfEmployed && $root.showEmployment", placeholder = "12345", id = "ho-employment-postalCode" })
+                                @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.PostalCode, new { @class = "form-control dealnet-input", data_bind = "textInput: postalCode, enable: $root.showEmployment && $parent.isEmployedOrSelfEmployed", placeholder = "12345", id = "ho-employment-postalCode" })
                                 @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.PostalCode, "", new { @class = "text-danger", data_bind = "validationMessage: postalCode" })
                             </div>
                         </div>
