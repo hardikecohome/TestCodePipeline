@@ -34,6 +34,7 @@ namespace DealnetPortal.Web.Models
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "JobTitleIncorrectFormat")]
         public string CompanyName { get; set; }
 
+        [Display(ResourceType = typeof(Resources.Resources), Name="CompanyPhone")]
         [StringLength(10, MinimumLength = 10, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "CompanyPhoneMustBeLong")]
         [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "CompanyPhoneIncorrectFormat")]
         public string CompanyPhone { get; set; }
