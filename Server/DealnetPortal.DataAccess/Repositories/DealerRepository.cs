@@ -99,17 +99,10 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     dbProfile.Address.Unit = profile.Address.Unit;
                 }
-            }            
-
-            if (profile.Equipments != null)
-            {
-                UpdateProfileEquipments(profile, dbProfile.Equipments.ToList());
-            }
-            if (profile.Areas != null)
-            {
-                UpdateProfileArears(profile, dbProfile.Areas.ToList());
             }
 
+            UpdateProfileEquipments(profile, dbProfile.Equipments.ToList());
+            UpdateProfileArears(profile, dbProfile.Areas.ToList());
             return dbProfile;
         }
 
