@@ -17,19 +17,32 @@
             var isApprovalAge = checkApplicantsAge();
             var isHomeOwner = checkHomeOwner();
             var isAgreesToCreditCheck = checkCreditAgree();
-            var quebecDealerValid = $('#is-quebec-dealer').val().toLowerCase() === 'true'
-                ? $('#administrative_area_level_1').val().toLowerCase() !== 'qc'
-                : true;
-
+            var isQuebecDealer = $('#is-quebec-dealer').val().toLowerCase() === 'true';
+            var isAddressInQc = $('#administrative_area_level_1').val().toLowerCase() === 'qc';
+            var isValidProcvinceAddress = false;
             //if(quebecDealerValid)
             //if (!isApprovalAge) {
             //    $('#age-warning-message').hide();
             //    //$('#age-error-message').show();
             //    //scrollPageTo($('#age-error-message'));
             //}
-            if (!quebecDealerValid) {
-                $('#proceed-qc-dealer').show();
-                scrollPageTo($('#proceed-qc-dealer'));
+
+            if (isQuebecDealer) {
+                if (!isAddressInQc) {
+                    $('#proceed-qc-dealer').show();
+                    scrollPageTo($('#proceed-qc-dealer'));
+                    isValidProcvinceAddress = false;
+                } else {
+                    isValidProcvinceAddress = true;
+                }
+            } else {
+                if (isAddressInQc) {
+                    $('#proceed-not-qc-dealer').show();
+                    scrollPageTo($('#proceed-not-qc-dealer'));
+                    isValidProcvinceAddress = false;
+                } else {
+                    isValidProcvinceAddress = true;
+                }
             }
 
             if (!isHomeOwner) {
@@ -42,7 +55,7 @@
                 scrollPageTo($('#proceed-error-message'));
             }
 
-            if (!quebecDealerValid || !isHomeOwner || !isApprovalAge || !isAgreesToCreditCheck) {
+            if (!isValidProcvinceAddress|| !isHomeOwner || !isApprovalAge || !isAgreesToCreditCheck) {
                 if ($('#main-form').valid()) {
                     event.preventDefault();
                 } else {

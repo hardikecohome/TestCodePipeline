@@ -2577,4 +2577,7 @@ changing contract terms or signing contract on paper.</value>
   <data name="CompanyPhone" xml:space="preserve">
     <value>Company Phone</value>
   </data>
+  <data name="InstallationAddressCannotInQuebec" xml:space="preserve">
+    <value>Installation address cannot be in Quebec</value>
+  </data>
 </root>

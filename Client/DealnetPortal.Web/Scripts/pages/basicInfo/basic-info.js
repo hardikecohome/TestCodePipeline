@@ -40,6 +40,8 @@ configInitialized
             var isQuebec = e.target.value === 'QC';
             if (isQuebec) {
                 $('#proceed-qc-dealer').hide();
+            } else {
+                $('#proceed-not-qc-dealer').hide();
             }
         });
 
