@@ -37,11 +37,11 @@
             function (e) {
                 changeIncome(e.target.value);
             }).rules('add', requiredObj);
-        incomeType.prop('disabled', disabled || statusVal==='0');
+        incomeType.prop('disabled', disabled || statusVal === '0');
 
         annual = $('#ho-employment-annual');
         annual.rules('add', requiredObj);
-        annual.prop('disabled', disabled ||(statusVal==='0' && incomeType.val()==='0'));
+        annual.prop('disabled', disabled || (statusVal === '0' && incomeType.val() === '0'));
 
         hourly = $('#ho-employment-hourly');
         hourly.rules('add', requiredObj);
@@ -52,7 +52,7 @@
             function (e) {
                 changeYears(e.target.value);
             }).rules('add', requiredObj);
-        years.prop('disabled', disabled || statusVal==='0'||statusVal()==='2');
+        years.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
         months = $('#ho-employment-months');
         months.rules('add', requiredObj);

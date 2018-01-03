@@ -52,7 +52,7 @@
             function (e) {
                 changeYears(e.target.value);
             }).rules('add', requiredObj);
-        years.prop('disabled', disabled || statusVal === '0' || statusVal() === '2');
+        years.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
         months = $('#add1-employment-months');
         months.rules('add', requiredObj);
