@@ -19,12 +19,9 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44341</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -821,6 +818,8 @@
     <Content Include="Scripts\components\addressInformation.js" />
     <Content Include="Scripts\components\employmentInformation.js" />
     <Content Include="Scripts\index.js" />
+    <Content Include="Scripts\pages\basicInfo\additionalApplicants\employment.js" />
+    <Content Include="Scripts\pages\basicInfo\homeOwner\employment.js" />
     <Content Include="Scripts\pages\customerForm\views\employment-info.js" />
     <Content Include="Scripts\vendor\knockout.validation.js" />
     <Content Include="Scripts\pages\basicInfo\address-autocomplete.js" />

@@ -167,7 +167,7 @@
         {
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.ContractId)
-
+            @Html.HiddenFor(m => m.QuebecDealer, new { id = "is-quebec-dealer" })
             <!--If deal is submitted hide info for borrower and additional applicant that is already submitted-->
             <div @* @if (Model.ContractWasDeclined) { <text>class="hidden"</text> } *@>
                 @if(Model?.SubDealers?.Any() ?? false)
@@ -179,8 +179,8 @@
                                 <label for="">@Resources.ChooseSubDealer</label>
                                 <div class="control-group">
                                     @Html.DropDownListFor(m => m.SubmittingDealerId,
-                                                                                                                                Model.SubDealers.Select(x => new SelectListItem { Value = x.Id, Text = x.DisplayName, Selected = Model.SubmittingDealerId == x.Id }),
-                                                                                                                                new { @class = "form-control", id = "subdealers" })
+                                                                                                                                     Model.SubDealers.Select(x => new SelectListItem { Value = x.Id, Text = x.DisplayName, Selected = Model.SubmittingDealerId == x.Id }),
+                                                                                                                                     new { @class = "form-control", id = "subdealers" })
                                 </div>
                             </div>
                         </div>
@@ -289,7 +289,7 @@
     $(document).ready(function () {
         /**/
         /**/
-        module.require('basicInfo.index').init(@Html.Raw(Json.Encode(Model)));
+        module.require('basicInfo.index').init();
 
         ga('send', 'event', 'New Application Start', 'Basic Info page Displayed', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString()) ? "Dealer" : "Broker") : @User.Identity.Name');
     /**/

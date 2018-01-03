@@ -1,36 +1,25 @@
 ﻿module.exports('basicInfo.index', function (require) {
-    var BasicInfo = require('basicInfo.component');
+    var homeOwnerEmployment = require('basicInfo.homeOwner.employment');
+    var additionalEmployment = require('basicInfo.additionalApplicants.employment');
 
-    var dob = require('dob-selecters'); var checkApplicantsAge = require('customer-validation').checkApplicantsAge;
+    var dob = require('dob-selecters');
+    var checkApplicantsAge = require('customer-validation').checkApplicantsAge;
     var checkHomeOwner = require('customer-validation').checkHomeOwner;
     var checkCreditAgree = require('customer-validation').checkCreditAgree;
     var scrollPageTo = require('scrollPageTo');
 
-    function init (model) {
+    function init () {
         $('.dob-group').each(function (index, el) {
             dob.initDobGroup(el);
         });
 
-        $('.dob-input').on('change', function () {
-            $(this).valid();
-        });
-
-        var vm = new BasicInfo(model);
-
-        $('#add-additional-applicant').on('click', function () {
-            vm.hasAdditional(true);
-        });
-        $('#additonal1-remove').on('click', function () {
-            vm.hasAdditional(false);
-        })
-
-        ko.applyBindings(vm, document.getElementById('main-form'));
-
-        $("#save-and-proceed-button").click(function (event) {
+        $('#save-and-proceed-button').click(function (event) {
             var isApprovalAge = checkApplicantsAge();
             var isHomeOwner = checkHomeOwner();
             var isAgreesToCreditCheck = checkCreditAgree();
-            //var quebecDealerValid = isQuebecDealer && vm.showEmployment();
+            var quebecDealerValid = $('#is-quebec-dealer').val().toLowerCase() === 'true'
+                ? $('#administrative_area_level_1').val().toLowerCase() !== 'qc'
+                : true;
 
             //if(quebecDealerValid)
             //if (!isApprovalAge) {
@@ -38,22 +27,22 @@
             //    //$('#age-error-message').show();
             //    //scrollPageTo($('#age-error-message'));
             //}
-            if (!vm.allowQcDealerProceed()) {
-                $("#proceed-qc-dealer").show();
-                scrollPageTo($("#proceed-qc-dealer"));
+            if (!quebecDealerValid) {
+                $('#proceed-qc-dealer').show();
+                scrollPageTo($('#proceed-qc-dealer'));
             }
 
             if (!isHomeOwner) {
-                $("#proceed-homeowner-errormessage").show();
-                scrollPageTo($("#borrower-is-homeowner"));
+                $('#proceed-homeowner-errormessage').show();
+                scrollPageTo($('#borrower-is-homeowner'));
             }
 
             if (!isAgreesToCreditCheck) {
                 $('#proceed-error-message').show();
-                scrollPageTo($("#proceed-error-message"));
+                scrollPageTo($('#proceed-error-message'));
             }
 
-            if (!vm.valid() || !vm.allowQcDealerProceed() ||!isHomeOwner || !isApprovalAge || !isAgreesToCreditCheck) {
+            if (!quebecDealerValid || !isHomeOwner || !isApprovalAge || !isAgreesToCreditCheck) {
                 if ($('#main-form').valid()) {
                     event.preventDefault();
                 } else {
@@ -62,6 +51,36 @@
                     });
                 }
             }
+        });
+
+        homeOwnerEmployment.initEmployment();
+        additionalEmployment.initEmployment();
+
+        var addAdditionalButton = $('#add-additional-applicant');
+        var additionalSection = $('#additional1-section');
+
+        $('#administrative_area_level_1').on('change', function(e) {
+            if (e.target.value.toLowerCase() === 'qc') {
+                homeOwnerEmployment.enableEmployment();
+                if (!additionalSection.is(':hidden')) {
+                    additionalEmployment.enableEmployment();
+                }
+            } else {
+                homeOwnerEmployment.disableEmployment();
+                if (!additionalSection.is(':hidden')) {
+                    additionalEmployment.disableEmployment();
+                }
+            }
+        });
+
+        addAdditionalButton.on('click', function() {
+            if ($('#administrative_area_level_1').val().toLowerCase() == 'qc') {
+                additionalEmployment.enableEmployment();
+            }
+        });
+
+        $('#additional1-remove').click(function () {
+            additionalEmployment.disableEmployment();
         });
     }
 
