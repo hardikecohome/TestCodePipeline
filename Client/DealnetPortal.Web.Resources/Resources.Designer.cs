@@ -3288,6 +3288,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Installation address cannot be in Quebec.
+        /// </summary>
+        public static string InstallationAddressCannotInQuebec {
+            get {
+                return ResourceManager.GetString("InstallationAddressCannotInQuebec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Installation Address is in incorrect format.
         /// </summary>
         public static string InstallationAddressIncorrectFormat {
