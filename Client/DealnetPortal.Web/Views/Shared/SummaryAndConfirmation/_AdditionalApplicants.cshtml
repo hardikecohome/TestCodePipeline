@@ -7,7 +7,7 @@
                                         {
                                             if(str.Contains('<'))
                                             {
-                                                return str.Replace("<", Resources.LessThan + " ");
+                                                return str.Replace("<", Resources.LessThan + " $");
                                             }
                                             if(str.Contains('-'))
                                             {
@@ -247,7 +247,7 @@
                                     @Html.LabelFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].HomePhone, new { @class = "dealnet-field-caption col-xs-6" })
                                     <div class="dealnet-field-holder col-xs-6">
                                         @Html.TextBoxFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].HomePhone,
-                                                                   new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                                        new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                     </div>
                                 </div>
                             </div>
@@ -257,7 +257,7 @@
                                     @Html.LabelFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].CellPhone, new { @class = "dealnet-field-caption col-xs-6" })
                                     <div class="dealnet-field-holder col-xs-6">
                                         @Html.TextBoxFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].CellPhone,
-                                                                   new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                                        new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                     </div>
                                 </div>
                             </div>
@@ -267,7 +267,7 @@
                                     @Html.LabelFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].BusinessPhone, new { @class = "dealnet-field-caption col-xs-6" })
                                     <div class="dealnet-field-holder col-xs-6">
                                         @Html.TextBoxFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].BusinessPhone,
-                                                                   new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                                        new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                     </div>
                                 </div>
                             </div>
@@ -276,7 +276,7 @@
                                     @Html.LabelFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].EmailAddress, new { @class = "dealnet-field-caption col-xs-6" })
                                     <div class="dealnet-field-holder col-xs-6">
                                         @Html.TextBoxFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].EmailAddress,
-                                                                   new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                                        new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                     </div>
                                 </div>
                             </div>
@@ -291,11 +291,8 @@
                     <div class="col-md-6 grid-column">
                         <div class="dealnet-credit-check-section">
                             <h3 class="dealnet-section-title">
-                                @Resources.BorrowerEmploymentInformation
-                                @if(Model.EquipmentInfo.IsEditAvailable && !Model.BasicInfo.ContractWasDeclined)
-                                {
-                                    <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
-                                }
+                                @Resources.AdditionalApplicant @Resources.EmploymentInformation
+                                <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
                             </h3>
                             <div class="form-group">
                                 <div class="row">
@@ -380,10 +377,7 @@
                             <div class="dealnet-credit-check-section">
                                 <h3 class="dealnet-section-title">
                                     &nbsp;
-                                    @if(Model.EquipmentInfo.IsEditAvailable && !Model.BasicInfo.ContractWasDeclined)
-                                    {
-                                        <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
-                                    }
+                                    <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
                                 </h3>
                                 @if(Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed)
                                 {
@@ -447,10 +441,7 @@
                             <div class="dealnet-credit-check-section">
                                 <h3 class="dealnet-section-title">
                                     @Resources.CompanyAddress
-                                    @if(Model.EquipmentInfo.IsEditAvailable && !Model.BasicInfo.ContractWasDeclined)
-                                    {
-                                        <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
-                                    }
+                                    <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
                                 </h3>
                                 <div class="form-group">
                                     <div class="row">
