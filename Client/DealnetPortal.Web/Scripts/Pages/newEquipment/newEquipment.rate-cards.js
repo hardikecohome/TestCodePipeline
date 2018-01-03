@@ -22,7 +22,7 @@ module.exports('rate-cards', function (require) {
             'totalPrice': 'totalPrice'
         },
         displaySectionFields: {
-            'displayCustomerRate': 'CustomerRate',
+            //'displayCustomerRate': 'CustomerRate',
             'displayTFinanced': 'totalAmountFinanced',
             'displayMPayment': 'monthlyPayment'
         },

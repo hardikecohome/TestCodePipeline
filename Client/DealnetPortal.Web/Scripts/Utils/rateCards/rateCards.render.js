@@ -20,6 +20,7 @@
         if (notNan && validateNumber && validateNotEmpty) {
             if (option === selectedRateCard) {
                 $('#displayLoanAmortTerm').text(data.loanTerm + '/' + data.amortTerm);
+                $('#displayCustomerRate').text(data.CustomerRate.toFixed(2));
                 Object.keys(settings.displaySectionFields).map(function (key) { $('#' + key).text(formatCurrency(data[settings.displaySectionFields[key]])); });
             }
 
@@ -28,6 +29,7 @@
         } else {
             if (option === selectedRateCard) {
                 $('#displayLoanAmortTerm').text('-');
+                $('#displayCustomerRate').text('-');
                 Object.keys(settings.displaySectionFields).map(function (key) { $('#' + key).text('-'); });
             }
             Object.keys(settings.rateCardFields).map(function (key) { $('#' + option + key).text('-'); });
