@@ -8,6 +8,19 @@
     var yesNaming = Resources.Yes;
     var noNaming = Resources.No;
     var provinces = ViewBag.ProvinceTaxRates as IList<ProvinceTaxRateDTO>;
+
+    Func<string,string> formatIncome = str =>
+    {
+        if (str.Contains('<'))
+        {
+            return str.Replace("<", Resources.LessThan + " ");
+        }
+        if (str.Contains('-'))
+        {
+            return "$" + str.Replace("-", " - $");
+        }
+        return "$" + str;
+    };
 }
 <style>
     .pac-container {
@@ -459,7 +472,10 @@
                                         @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary, new { @class = "dealnet-field-caption col-xs-6" })
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
-                                                @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+                                                <input readonly="readonly" class="dealnet-disabled-input" 
+                                                       id="@Html.IdFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary)" 
+                                                       name="@Html.NameFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary)" 
+                                                       value="@formatIncome(Model.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary)"/>
                                             </div>
                                         </div>
                                     </div>
@@ -472,7 +488,10 @@
                                         @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate, new { @class = "dealnet-field-caption col-xs-6" })
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
-                                                @Html.TextBoxFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate, new { @readonly = "readonly", @class = "dealnet-disabled-input" })
+                                                <input readonly="readonly" class="dealnet-disabled-input"
+                                                       id="@Html.IdFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate)"
+                                                       name="@Html.NameFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate)"
+                                                       value="@formatIncome(Model.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate)" />
                                             </div>
                                         </div>
                                     </div>
