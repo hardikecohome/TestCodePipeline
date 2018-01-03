@@ -22,55 +22,72 @@
         }
     };
 
-    function init() {
+    function init(disabled) {
         status = $('#add1-employment-status');
         status.on('change',
             function (e) {
                 changeStatus(e.target.value);
             });
+        status.prop('disabled', disabled);
+
+        var statusVal = status.val();
 
         incomeType = $('#add1-employment-income-type');
         incomeType.on('change',
             function (e) {
                 changeIncome(e.target.value);
             }).rules('add', requiredObj);
+        incomeType.prop('disabled', disabled || statusVal === '0');
 
         annual = $('#add1-employment-annual');
         annual.rules('add', requiredObj);
+        annual.prop('disabled', disabled || (statusVal === '0' && incomeType.val() === '0'));
 
         hourly = $('#add1-employment-hourly');
         hourly.rules('add', requiredObj);
+        hourly.prop('disabled', disabled || (statusVal === '0' && incomeType.val() === '1'));
 
         years = $('#add1-employment-years');
         years.on('change',
             function (e) {
                 changeYears(e.target.value);
             }).rules('add', requiredObj);
+        years.prop('disabled', disabled || statusVal === '0' || statusVal() === '2');
 
         months = $('#add1-employment-months');
         months.rules('add', requiredObj);
+        months.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
         empType = $('#add1-employment-emp-type');
         empType.rules('add', requiredObj);
+        empType.prop('disabled', disabled || statusVal === '0');
 
         jobTitle = $('#add1-employment-job-title');
         jobTitle.rules('add', requiredObj);
+        jobTitle.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
         name = $('#add1-employment-company-name');
         name.rules('add', requiredObj);
+        name.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
         phone = $('#add1-employment-company-phone');
         phone.rules('add', requiredObj);
+        phone.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
         street = $('#add1-employment-street');
+        street.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
         unit = $('#add1-employment-unit');
+        unit.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
         city = $('#add1-employment-city');
+        city.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
         province = $('#add1-employment-province');
+        province.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
         postal = $('#add1-employment-postal-code');
+        postal.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
         if ($('#administrative_area_level_1').val().toLowerCase() === 'qc') {
             status.change();

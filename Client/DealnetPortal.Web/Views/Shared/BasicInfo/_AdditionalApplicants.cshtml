@@ -326,7 +326,7 @@
 
         <!--Borrower Employment Information-->
         <div id="add@(i+1)-employment-info"
-             @(Model.HomeOwner?.AddressInformation?.Province.ToUpper() != "QC" ? "class=hidden" : "")>
+             @(Model.HomeOwner?.AddressInformation?.Province.ToUpper() != "QC" ? "class=hidden" : "") class="personal-info-section">
 
             <h2 class="dealnet-middle-header address-info-label no-margin-top">@Resources.BorrowerEmploymentInformation</h2>
             <div class="row">

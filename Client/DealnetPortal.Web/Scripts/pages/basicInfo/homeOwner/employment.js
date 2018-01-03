@@ -22,55 +22,72 @@
         }
     };
 
-    function init() {
+    function init(disabled) {
         status = $('#ho-employment-status');
         status.on('change',
             function (e) {
                 changeStatus(e.target.value);
             });
+        status.prop('disabled', disabled);
+
+        var statusVal = status.val();
 
         incomeType = $('#ho-employment-income-type');
         incomeType.on('change',
             function (e) {
                 changeIncome(e.target.value);
             }).rules('add', requiredObj);
+        incomeType.prop('disabled', disabled || statusVal==='0');
 
         annual = $('#ho-employment-annual');
         annual.rules('add', requiredObj);
+        annual.prop('disabled', disabled ||(statusVal==='0' && incomeType.val()==='0'));
 
         hourly = $('#ho-employment-hourly');
         hourly.rules('add', requiredObj);
+        hourly.prop('disabled', disabled || (statusVal === '0' && incomeType.val() === '1'));
 
         years = $('#ho-employment-years');
         years.on('change',
             function (e) {
                 changeYears(e.target.value);
             }).rules('add', requiredObj);
+        years.prop('disabled', disabled || statusVal==='0'||statusVal()==='2');
 
         months = $('#ho-employment-months');
         months.rules('add', requiredObj);
+        months.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
         empType = $('#ho-employment-emp-type');
         empType.rules('add', requiredObj);
+        empType.prop('disabled', disabled || statusVal === '0');
 
         jobTitle = $('#ho-employment-job-title');
         jobTitle.rules('add', requiredObj);
+        jobTitle.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
         name = $('#ho-employment-company-name');
         name.rules('add', requiredObj);
+        name.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
         phone = $('#ho-employment-company-phone');
         phone.rules('add', requiredObj);
+        phone.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
         street = $('#ho-employment-street');
+        street.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
         unit = $('#ho-employment-unit');
+        unit.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
         city = $('#ho-employment-city');
+        city.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
         province = $('#ho-employment-province');
+        province.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
         postal = $('#ho-employment-postal-code');
+        postal.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
         if ($('#administrative_area_level_1').val().toLowerCase() === 'qc') {
             status.change();

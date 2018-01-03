@@ -53,13 +53,14 @@
             }
         });
 
-        homeOwnerEmployment.initEmployment();
-        additionalEmployment.initEmployment();
-
+        var province = $('#administrative_area_level_1');
         var addAdditionalButton = $('#add-additional-applicant');
         var additionalSection = $('#additional1-section');
 
-        $('#administrative_area_level_1').on('change', function(e) {
+        homeOwnerEmployment.initEmployment(province.val().toLowerCase()!=='qc');
+        additionalEmployment.initEmployment(province.val().toLowerCase()!=='qc' || additionalSection.is(':hidden'));
+
+        province.on('change', function(e) {
             if (e.target.value.toLowerCase() === 'qc') {
                 homeOwnerEmployment.enableEmployment();
                 if (!additionalSection.is(':hidden')) {
