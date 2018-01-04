@@ -709,7 +709,7 @@ function sendEmailModel (rowTransactionId, supportType) {
 	if (rowTransactionId == null) {
 		rowTransactionId = '';
 	}
-
+	$('#emailSupport').removeAttr("disabled", "disabled");
 	$('#emailTransactionId').val(rowTransactionId);
 	$('#emailDealerName').val(DealerName).removeAttr('type');
 	$('#emailSubDealerName').val(DealerName).removeAttr('type');
@@ -765,6 +765,7 @@ function sendEmailToSupport(url, form) {
 	if (!form.valid()) {
 		return false;
 	};
+	$('#emailSupport').attr("disabled", "disabled");
 	//$('.sent-email-msg').show();
 	//$("#send-email-button").text(translations['ResendEmails']);
 	form.ajaxSubmit({
@@ -772,8 +773,10 @@ function sendEmailToSupport(url, form) {
 		url: url,
 		success: function (json) {
 			$('#sent-success').removeClass('hidden');
+			$('#emailSupport').removeAttr("disabled", "disabled");
 		},
 		error: function (xhr, status, p3) {
+			$('#emailSupport').removeAttr("disabled", "disabled");
 		}
 	});
  

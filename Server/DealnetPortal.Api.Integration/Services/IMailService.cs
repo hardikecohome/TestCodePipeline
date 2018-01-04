@@ -44,7 +44,7 @@ namespace DealnetPortal.Api.Integration.Services
         Task SendDeclinedConfirmation(string emailid, string firstName, string lastName);
         Task SendProblemsWithSubmittingOnboarding(string errorMsg, int dealerInfoId, string accessKey);
         Task SendDraftLinkMail(string accessKey, string email);
-        Task SendSupportRequiredEmail(SupportRequestDTO SupportDetails);
+        Task SendSupportRequiredEmail(SupportRequestDTO SupportDetails, string dealerProvince);
         Task SendDeclineToSign(Contract contract);
     }
 }

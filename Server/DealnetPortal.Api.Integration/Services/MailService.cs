@@ -556,25 +556,25 @@ namespace DealnetPortal.Api.Integration.Services
 
         }
 
-        public async Task SendSupportRequiredEmail(SupportRequestDTO SupportDetails)
+        public async Task SendSupportRequiredEmail(SupportRequestDTO SupportDetails, string dealerProvince)
         {
             string mailTo = ""; /*ConfigurationManager.AppSettings["DealNetEmail"];*/
             switch (SupportDetails.SupportType)
             {
                 case "creditFunding":
-                    mailTo = ConfigurationManager.AppSettings["CreditDecisionDealNetEmail"];
+                    mailTo = dealerProvince=="QC" ?  ConfigurationManager.AppSettings["QuebecCreditDecisionDealNetEmail"] : ConfigurationManager.AppSettings["CreditDecisionDealNetEmail"];
                     SupportDetails.SupportType = "Credit Decision";
                     break;
                 case "customerService":
-                    mailTo = ConfigurationManager.AppSettings["CreditDocsDealNetEmail"];
+                    mailTo = dealerProvince == "QC" ? ConfigurationManager.AppSettings["QuebecCreditDocsDealNetEmail"] : ConfigurationManager.AppSettings["CreditDocsDealNetEmail"];
                     SupportDetails.SupportType = "Credit Docs";
                     break;
                 case "dealerSupport":
-                    mailTo = ConfigurationManager.AppSettings["FundingDocsDealNetEmail"];
+                    mailTo = dealerProvince == "QC" ? ConfigurationManager.AppSettings["QuebecFundingDocsDealNetEmail"] : ConfigurationManager.AppSettings["FundingDocsDealNetEmail"];
                     SupportDetails.SupportType = "Funding Docs";
                     break;
                 case "Other":
-                    mailTo = ConfigurationManager.AppSettings["OtherDealNetEmail"];
+                    mailTo = dealerProvince == "QC" ? ConfigurationManager.AppSettings["QuebecOtherDealNetEmail"] : ConfigurationManager.AppSettings["OtherDealNetEmail"];
                     break;
             }
             try
