@@ -60,7 +60,7 @@
                         <span class="mandatory-title"><i class="mandatory-icon">*</i> &mdash; @Resources.MandatoryDocuments</span>
                     </h3>
                     <ul class="nav nav-pills nav-stacked documents-pills">
-                        @for (var i = 0; i < Model.UploadDocumentsInfo.DocumentTypes.Count; i++)
+                        @for (var i = 0; i < Model.UploadDocumentsInfo.DocumentTypes?.Count; i++)
                         {
                             var document = Model.UploadDocumentsInfo.ExistingDocuments.FirstOrDefault(x => x.DocumentTypeId.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value);
                             var documentReady = document != null
@@ -86,7 +86,7 @@
                 </div>
                 <div class="col-md-7">
                     <div class="tab-content doc-tab-content documents-pills" role="tablist">
-                        @for (var i = 0; i < Model.UploadDocumentsInfo.DocumentTypes.Count; i++)
+                        @for (var i = 0; i < Model.UploadDocumentsInfo.DocumentTypes?.Count; i++)
                         {
                             if (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "7")
                             {

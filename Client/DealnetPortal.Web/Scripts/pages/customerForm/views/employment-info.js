@@ -106,12 +106,17 @@
         }
         
         function changeToEmployed() {
-            incomeType.prop('disabled', false).parents('.form-group').removeClass('hidden');
+            incomeType.change().prop('disabled', false).parents('.form-group').removeClass('hidden');
+            $('#income-label').removeClass('hidden');
             annual.parents('.form-group').addClass('hidden');
+            $('#annual-label').addClass('hidden');
             hourly.parents('.form-group').addClass('hidden');
+            $('#hourly-label').addClass('hidden');
             years.prop('disabled', false).parents('.form-group').removeClass('hidden');
+            $('#length-label').removeClass('hidden');
             months.prop('disabled', false);
             empType.prop('disabled', false).parents('.form-group').removeClass('hidden');
+            $('#type-label').removeClass('hidden');
             $('#company-info-hold').removeClass('hidden');
             jobTitle.prop('disabled', false);
             name.prop('disabled', false);
@@ -128,8 +133,12 @@
             annual.prop('disabled', false).parents('.form-group').removeClass('hidden');
 
             incomeType.prop('disabled', true).parents('.form-group').addClass('hidden');
+            $('#income-label').addClass('hidden');
             hourly.prop('disabled', true).parents('.form-group').addClass('hidden');
+            $('#hourly-label').addClass('hidden');
             empType.prop('disabled', true).parents('.form-group').addClass('hidden');
+            $('#type-label').addClass('hidden');
+            $('#length-label').addClass('hidden');
             years.prop('disabled', true).parents('.form-group').addClass('hidden');
             months.prop('disabled', true);
             $('#company-info-hold').addClass('hidden');
@@ -146,6 +155,8 @@
 
         function changeToSelfEmployed() {
             annual.prop('disabled', false).parents('.form-group').removeClass('hidden');
+            $('#annual-label').removeClass('hidden');
+            $('#length-label').removeClass('hidden');
             years.prop('disabled', false).parents('.form-group').removeClass('hidden');
             months.prop('disabled', false);
             $('#company-info-hold').removeClass('hidden');
@@ -160,22 +171,31 @@
             postal.prop('disabled', false);
 
             incomeType.prop('disabled', true).parents('.form-group').addClass('hidden');
+            $('#income-label').addClass('hidden');
             hourly.prop('disabled', true).parents('.form-group').addClass('hidden');
+            $('#hourly-label').addClass('hidden');
             empType.prop('disabled', true).parents('.form-group').addClass('hidden');
+            $('#type-label').addClass('hidden');
         }
 
         function changeIncome(value) {
             if (value === '') {
                 annual.prop('disabled', true).parents('.form-group').addClass('hidden');
+                $('#annual-label').addClass('hidden');
                 hourly.prop('disabled', true).parents('.form-group').addClass('hidden');
+                $('#hourly-label').addClass('hidden');
             }
             if (value === '0') {
                 annual.prop('disabled', false).parents('.form-group').removeClass('hidden');
+                $('#annual-label').removeClass('hidden');
                 hourly.prop('disabled', true).parents('.form-group').addClass('hidden');
+                $('#hourly-label').addClass('hidden');
             }
             if (value === '1') {
                 hourly.prop('disabled', false).parents('.form-group').removeClass('hidden');
+                $('#hourly-label').removeClass('hidden');
                 annual.prop('disabled', true).parents('.form-group').addClass('hidden');
+                $('#annual-label').addClass('hidden');
             }
         }
 

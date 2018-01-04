@@ -71,8 +71,8 @@
                             @Html.LabelFor(m => m.Service)
                             <div class="control-group">
                                 @Html.DropDownListFor(m => m.Service,
-                                                   serviceTypes.Select(x => new SelectListItem { Value = x, Text = x }),
-                                                   new { @class = "form-control", id = "selectedService" })
+                                                        serviceTypes.Select(x => new SelectListItem { Value = x, Text = x }),
+                                                        new { @class = "form-control", id = "selectedService" })
                             </div>
                         </div>
                     </div>
@@ -207,7 +207,7 @@
                                     @Html.LabelFor(m => m.HomeOwner.AddressInformation.Province, new { @for = "province", @class = "mandatory-field" })
                                     <div class="control-group">
                                         @Html.DropDownListFor(m => m.HomeOwner.AddressInformation.Province, (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
-                                                       new { @class = "form-control dealnet-input", placeholder = Resources.Nepean, id = "province" })
+                                                            new { @class = "form-control dealnet-input", placeholder = Resources.Nepean, id = "province" })
                                         @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.City, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -280,7 +280,7 @@
                                     @Html.LabelFor(m => m.HomeOwner.PreviousAddressInformation.Province, new { @for = "pprovince", @class = "mandatory-field" })
                                     <div class="control-group">
                                         @Html.DropDownListFor(m => m.HomeOwner.PreviousAddressInformation.Province, (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
-                                                      new { @class = "form-control dealnet-input", id = "pprovince" })
+                                                           new { @class = "form-control dealnet-input", id = "pprovince" })
                                         @Html.ValidationMessageFor(m => m.HomeOwner.PreviousAddressInformation.Province, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -315,28 +315,48 @@
                 <div class="panel-body" id="additionalInfoForm">
                     <div id="employmentInfoForm" @(Model.HomeOwner?.AddressInformation?.Province?.ToUpper() == "QC" ? "" : "class=hidden")>
                         <h2 class="dealnet-middle-header no-margin-top">@Resources.EmploymentInformation</h2>
+                        <div class="row label-row hidden-sm">
+                            <div class="col-md-2 col-sm-6">
+                                @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus, new { @class = "manditory-field" })
+                            </div>
+                            <div class="col-md-3 col-sm-6" id="income-label">
+                                @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.IncomeType, new { @class = "manditory-field" })
+                            </div>
+                            <div class="col-md-3 col-sm-12" id="annual-label">
+                                @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary, new { @class = "mandatory-field" })
+                            </div>
+                            <div class="col-md-3 col-sm-12" id="hourly-label">
+                                @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.HourlyRate, new { @class = "mandatory-field" })
+                            </div>
+                            <div class="col-md-2 col-sm-12" id="length-label">
+                                <label class="mandatory-field">@Resources.LengthOfEmployment</label>
+                            </div>
+                            <div class="col-md-2 col-sm-6" id="type-label">
+                                @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.EmploymentType, new { @class = "mandatory-field" })
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-2 col-sm-6 form-group">
-                                @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus, new { @class = "mandatory-field" })
+                                @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus, new { @class = "mandatory-field visible-sm" })
                                 <div class="control-group">
                                     @Html.EnumDropDownListFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus, new { @class = "form-control dealnet-input", id = "emp-status" })
                                     @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-3 col-sm-6 form-group">
-                                @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.IncomeType, new { @class = "mandatory-field" })
+                                @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.IncomeType, new { @class = "mandatory-field visible-sm" })
                                 <div class="control-group">
                                     @Html.EnumDropDownListFor(m => m.HomeOwner.EmploymentInformation.IncomeType, new { @class = "form-control dealnet-input", id = "income-type" })
                                     @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.IncomeType, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-3 col-sm-12 form-group">
-                                @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary, new { @class = "mandatory-field" })
+                                @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary, new { @class = "mandatory-field visible-sm" })
                                 <div class="control-group">
                                     <select class="form-control dealnet-input" name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary)" id="annual">
                                         <option value=""></option>
                                         <option value="<20000" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == "<20000" ? "selected" : "")>@Resources.LessThan $20,000</option>
-                                        @for (var i = 20000; i < 200000; i += 15000)
+                                        @for(var i = 20000; i < 200000; i += 15000)
                                         {
                                             var val = $"{i}-{i + 15000}";
                                             <option value="@val" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == val ? "selected" : "")>$@($"{i:n0}") - $@($"{i + 15000:n0}")</option>
@@ -347,12 +367,12 @@
                                 </div>
                             </div>
                             <div class="col-md-3 col-sm-12 form-group">
-                                @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.HourlyRate, new { @class = "mandatory-field" })
+                                @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.HourlyRate, new { @class = "mandatory-field visible-sm" })
                                 <div class="control-group">
                                     <select class="form-control dealnet-input" name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.HourlyRate)" id="hourly">
                                         <option value=""></option>
                                         <option value="<10" @(Model.HomeOwner?.EmploymentInformation?.HourlyRate == "<10" ? "selected" : "")>@Resources.LessThan $10</option>
-                                        @for (var i = 10; i < 80; i += 5)
+                                        @for(var i = 10; i < 80; i += 5)
                                         {
                                             var val = $"{i}-{i + 5}";
                                             <option value="@val" @(Model.HomeOwner?.EmploymentInformation?.HourlyRate == val ? "selected" : "")>$@i - $@(i + 5)</option>
@@ -363,7 +383,7 @@
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12 form-group">
-                                <label class="mandatory-field">@Resources.LengthOfEmployment</label>
+                                <label class="mandatory-field visible-sm">@Resources.LengthOfEmployment</label>
                                 <div class="row control-group length-of-employ">
                                     <div class="select-hold years">
                                         <select name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.YearsOfEmployment)" class="form-control dealnet-input" id="emp-years">
@@ -389,7 +409,7 @@
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-6 form-group">
-                                @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.EmploymentType, new { @class = "mandatory-field" })
+                                @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.EmploymentType, new { @class = "mandatory-field visible-sm" })
                                 <div class="control-group">
                                     @Html.EnumDropDownListFor(m => m.HomeOwner.EmploymentInformation.EmploymentType, new { @class = "form-control dealnet-input", id = "emp-type" })
                                     @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.EmploymentType, "", new { @class = "text-danger" })
