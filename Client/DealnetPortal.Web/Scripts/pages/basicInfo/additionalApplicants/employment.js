@@ -200,7 +200,7 @@
         var section = $('#add1-employment-info');
         section.addClass('hidden');
         section.find('input, select').each(function (index, elem) {
-            $(elem).prop('disable', true);
+            $(elem).prop('disabled', true);
         });
     }
 
