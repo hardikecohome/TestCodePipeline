@@ -166,12 +166,34 @@ namespace DealnetPortal.Web.Controllers
         public ActionResult OnBoardSuccess()
         {
             return View();
-	}
-
-        [HttpPost]
-        public async Task<string> DealerSupportRequestEmail(SupportRequestDTO dealerSupportRequest)
+	    }
+        [HttpGet]
+        public PartialViewResult DealerSupportRequestEmail(string contractId)
         {
-            var result = await _dealerServiceAgent.DealerSupportRequestEmail(dealerSupportRequest);
+            var viewModel = new HelpPopUpViewModal();
+            if (contractId != "")
+            {
+                viewModel.LoanNumber = contractId;
+            }
+            viewModel.DealerName = User.Identity.Name;
+            viewModel.YourName = User.Identity.Name;
+
+            return PartialView("_HelpPopUp", viewModel);
+        }
+        [HttpPost]
+        public async Task<string> DealerSupportRequestEmail(HelpPopUpViewModal dealerSupportRequest)
+        {
+            SupportRequestDTO dealerSupport = new SupportRequestDTO() {
+                Id = dealerSupportRequest.Id,
+                DealerName = dealerSupportRequest.DealerName,
+                YourName = dealerSupportRequest.IsPreferedContactPerson ? dealerSupportRequest.PreferedContactPerson : dealerSupportRequest.YourName,
+                LoanNumber = dealerSupportRequest.LoanNumber,
+                SupportType = dealerSupportRequest.SupportType.ToString(),
+                HelpRequested = dealerSupportRequest.HelpRequested,
+                BestWay = dealerSupportRequest.BestWay.ToString(),
+                ContactDetails = dealerSupportRequest.BestWay == BestWayEnum.Phone ? dealerSupportRequest.Phone : dealerSupportRequest.Email
+            };
+            var result = await _dealerServiceAgent.DealerSupportRequestEmail(dealerSupport);
             return "ok";
         }
     }

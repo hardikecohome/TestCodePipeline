@@ -1,0 +1,141 @@
+﻿@using DealnetPortal.Web.Models.Enumeration
+@model DealnetPortal.Web.Models.HelpPopUpViewModal
+
+<div id="emailModal" class="modal fade modal-wide">
+	<div class="modal-dialog modal-warning">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">@Resources.HowCanWeHelp </h4>
+			</div>
+			<div class="modal-body Email-modal-body">
+			@using (Html.BeginForm("DealerSupportRequestEmail", "Home", FormMethod.Post, new {@class = "clearfix", id ="Help-Pop-Up"}))
+			{
+				@Html.HiddenFor(m => m.Id)
+				@Html.AntiForgeryToken()
+				<div class="col-md-12 col-xs-12 pull-left allrows" style="margin-bottom: 20px;">
+					<div class="row">
+						<h5 class="pull-left">@Resources.PleaseFillThisForm</h5>
+					</div>
+					<div class="row">
+						<div class="form-group">
+							<div class="col-md-2 col-xs-6 pull-left">
+								@Html.LabelFor(m => m.DealerName, new { @class = "pull-left" })
+							</div>
+							<div class="col-md-10 col-xs-6 pull-left dealnet-field-holder">								
+								@Html.TextBoxFor(m => m.DealerName, new {@readonly = "readonly", @class = "dealnet-disabled-input forceLeft", id = "emailDealerName"})
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group">
+							<div class="col-md-2 col-xs-6">
+								@Html.LabelFor(m => m.YourName, new { @class = "pull-left LabelMiddle" })
+							</div>
+							<div class="col-md-2 col-xs-6">
+								@Html.TextBoxFor(m => m.YourName, new { @readonly = "readonly", @class = "dealnet-disabled-input forceLeft LabelMiddle", id = "emailSubDealerName" })
+							</div>
+							<div class="col-md-4 col-xs-6">
+								<label class="Move-right-for-desktop align-middle custom-checkbox LabelMiddle" id="IsPreferedContactPerson">
+									@Html.CheckBoxFor(m => m.IsPreferedContactPerson, new { @class = "dealnet-checkbox", id = "yourNameCB" })
+									<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+									<span>@Resources.PreferredContactPerson</span>
+								</label>
+							</div>
+							<div class="col-md-4 col-xs-6">
+								@Html.TextBoxFor(m => m.PreferedContactPerson, new {@class = "pull-left form-control dealnet-input controlDisabledGrey", id = "yourNameTxt", disabled = "disabled" })
+								@Html.ValidationMessageFor(m => m.PreferedContactPerson, "", new { @class = "text-danger" })
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group">
+							<div class="col-md-2 col-xs-6 pull-left">
+								<label class="pull-left LabelMiddle">@Resources.ContractNumber</label>
+							</div>
+							<div class="col-md-4 col-xs-6">
+								@Html.TextBoxFor(m => m.LoanNumber, new { @class = "pull-left form-control dealnet-input", id = "emailTransactionId" })
+								@Html.ValidationMessageFor(m => m.LoanNumber, "", new { @class = "text-danger" })
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
+							<div class="form-group">
+								<div>
+									<label class="pull-left margin-bottom-zero">@Resources.WhatCanWeAssistYouWith</label>
+								</div>
+								<div>
+									@Html.EnumDropDownListFor(m => m.SupportType, null, new { @class = "form-control dealnet-input", id = "SupportType" })
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div>
+							<div class="form-group">
+								<div class="col-md-12 col-lg-12">
+								<label class="pull-left margin-bottom-zero mandatory-field">@Resources.PleaseProvideShortDescription</label>
+									</div>
+								<div class="col-md-12 col-lg-12">
+									@Html.TextAreaFor(m => m.HelpRequested, new { @class = "form-control pull-left full-width", id = "emailComment" })
+									@Html.ValidationMessageFor(m => m.HelpRequested, "", new { @class = "text-danger" })
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
+							<div class="form-group">
+								<div>
+									<label class="pull-left margin-bottom-zero">@Resources.BestWayToGetBackToYou</label>
+								</div>
+								<div>
+									@Html.EnumDropDownListFor(m => m.BestWay, null, new { @class = "form-control dealnet-input", id = "CommunicationPreffered" })
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="form-group" id="BestWayPhoneDiv">
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
+									@Html.LabelFor(m => m.Phone,  new { @class = "pull-left margin-bottom-zero mandatory-field" })
+								</div>
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
+									@Html.TextBoxFor(m => m.Phone, new { @class = "pull-left form-control dealnet-input", id = "BestWayPhone" })
+									@Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group hidden" id="BestWayEmailDiv">
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
+									@Html.LabelFor(m => m.Email, new { @class = "pull-left margin-bottom-zero mandatory-field" })
+								</div>
+								<div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
+									@Html.TextBoxFor(m => m.Email, new { @class = "pull-left form-control dealnet-input", id = "BestWayPhone" })
+									@Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			 }
+			</div>
+			<div class="modal-footer">
+				<div class="form-group col-md-3 col-sm-3 hidden" id="sent-success">
+					<div class="email-sent-success flex-centered-text">
+						<svg aria-hidden="true" class="icon icon-success">
+							<use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success-gray-circle")"></use>
+						</svg>
+						<span>@Resources.MailSent</span>
+					</div>
+				</div>
+				<div class="col-md-9 col-xs-9 pull-right">
+					<button type="button" class="btn dealnet-button btn-small dealnet-link-button" data-dismiss="modal">@Resources.Cancel</button>
+					<button type="button" class="btn btn-small dealnet-button dealnet-success-button" id="emailSupport" onclick="sendEmailToSupport('@Url.Action("DealerSupportRequestEmail", "Home")', $('#Help-Pop-Up'));">@Resources.Send</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

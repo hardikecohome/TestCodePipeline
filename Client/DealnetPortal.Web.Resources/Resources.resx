@@ -2478,4 +2478,19 @@ changing contract terms or signing contract on paper.</value>
   <data name="RatesApproved" xml:space="preserve">
     <value>Rates Approved</value>
   </data>
+  <data name="ContractNumberIncorrectFormat" xml:space="preserve">
+    <value>Contract Number is in incorrect format</value>
+  </data>
+  <data name="NameIncorrectFormat" xml:space="preserve">
+    <value>Name is in incorrect format</value>
+  </data>
+  <data name="PhoneIncorrectFormat" xml:space="preserve">
+    <value>Phone is in incorrect format</value>
+  </data>
+  <data name="PhoneMustBeLong" xml:space="preserve">
+    <value>Phone must be a string with a length of 10</value>
+  </data>
+  <data name="TheFieldMustBe" xml:space="preserve">
+    <value>The field {0} must be a string with a length of {1}.</value>
+  </data>
 </root>

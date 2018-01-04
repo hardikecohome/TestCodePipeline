@@ -474,11 +474,20 @@ body{
 .LabelMiddle{
 	margin-top: 5px;
 	}
+@media(max-width: 1023px){
+	.LabelMiddle {
+		margin-top: 0px;
+		margin-bottom: 0px!important;
+	}
+	}
 .Email-modal-body label {
 	font-size: 11px;
 }
 .Email-modal-body h5 {
 	margin-left: 10px;
+}
+.Email-modal-body textarea {
+	font: 500 11px 'Lato', sans-serif;
 }
 .Email-modal-body .dealnet-input {
 	height: 30px;
@@ -493,6 +502,7 @@ body{
 @media (max-width: 1023px) {
 	.Move-right-for-desktop {
 		float: left !important;
+		text-align:left;
 	}
 }
 .margin-bottom-zero {
@@ -513,3 +523,9 @@ body{
 select.form-control.not-selected {
   color: #dcdcdc;
 }
+.forceLeft{
+	text-align:left!important;
+	}
+.controlDisabledGrey{
+	background-color:#eeeeee!important;
+	}
