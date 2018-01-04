@@ -328,7 +328,7 @@
         <div id="add@(i+1)-employment-info"
              @(Model.HomeOwner?.AddressInformation?.Province.ToUpper() != "QC" ? "class=hidden" : "") class="personal-info-section">
 
-            <h2 class="dealnet-middle-header address-info-label no-margin-top">@Resources.BorrowerEmploymentInformation</h2>
+            <h2 class="dealnet-middle-header address-info-label no-margin-top">@Resources.AdditionalApplicant @Resources.EmploymentInformation</h2>
             <div class="row">
                 <div class="col-md-2 col-sm-6 form-group">
                     @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus)
