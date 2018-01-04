@@ -249,6 +249,18 @@
         &.months {
             width: 51%;
             }
+        @media @tablet-down {
+            &.years, &.months {
+                width:50%;
+                margin-right:0;
+            }
+            &.years {
+                padding-right:10px;
+            }
+            &.months {
+                padding-left:10px;
+            }
+        }
         }
     .form-control {
         padding-left: 8px;
