@@ -298,6 +298,7 @@
     <Compile Include="Models\Dealer\SaveAndResumeViewModel.cs" />
     <Compile Include="Models\Dealer\TradeReferenceViewModel.cs" />
     <Compile Include="Models\ESignatureViewModel.cs" />
+    <Compile Include="Models\HelpPopUpViewModal.cs" />
     <Compile Include="Models\MyProfile\DealerAreaViewModel.cs" />
     <Compile Include="Models\MyProfile\ProfileViewModel.cs" />
     <Compile Include="Models\NewCustomerViewModel.cs" />
@@ -1153,6 +1154,7 @@
     <Content Include="Views\MyDeals\Esignature.cshtml" />
     <Content Include="Views\MyDeals\_EsignatureStatus.cshtml" />
     <Content Include="Views\MyDeals\_ContractSignatureStatus.cshtml" />
+    <Content Include="Views\Shared\_HelpPopUp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

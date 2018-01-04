@@ -42,6 +42,7 @@
         var layotSettingsUrl = "@(User.Identity.IsAuthenticated ? Url.Action("LayoutSettings", "Home") : null)";
 		var customerDealsCountUrl = "@(User.Identity.IsAuthenticated ? Url.Action("CustomersDealsCount", "Home") : null)";
 		var SupportUrl = "@(User.Identity.IsAuthenticated ? Url.Action("DealerSupportRequestEmail", "Home") : null)";
+		var DealerName = "@User.Identity.Name";
         var translations = {};
         translations['IfYouChangeInfo'] = "@Resources.IfYouChangeInfo";
         translations['NavigateToStep'] = "@Resources.NavigateToStep";
@@ -55,6 +56,7 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/dealnet")
+	@Scripts.Render("~/bundles/jqueryval")
     @switch (CultureHelper.CurrentCultureType)
     {
         case CultureType.French:
@@ -416,17 +418,17 @@
 			}
 		</div>
 	</div>
-
-	<div id="emailModal" class="modal fade modal-wide">
+	@Html.Partial("_HelpPopUp")
+	@*<div id="emailModal" class="modal fade modal-wide">
 		<div class="modal-dialog modal-warning">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					<h4 class="modal-title">@Resources.HowCanWeHelp </h4>
 				</div>
-				<div class="modal-body Email-modal-body">
-					
-					<div class="col-md-12 col-xs-12 pull-left allrows" style="margin-bottom:20px;">
+				<div class="modal-body Email-modal-body" id="HelpPopUpPartialView">
+					@Html.Partial("_HelpPopUp")
+					@*<div class="col-md-12 col-xs-12 pull-left allrows" style="margin-bottom:20px;">
 						<div class="row">
 							<h5 class="pull-left">@Resources.PleaseFillThisForm</h5>
 						</div>
@@ -469,7 +471,7 @@
 								</div>
 								<div class="col-md-4 col-xs-6">
 									<input class="pull-left form-control dealnet-input" type="text" id="emailTransactionId" />
-									@*<label class="pull-left" id="emailTransactionId"></label>*@
+									@*<label class="pull-left" id="emailTransactionId"></label>
 								</div>
 							</div>
 						</div>
@@ -520,12 +522,12 @@
 				<div class="modal-footer">
 					<div class="col-md-12 col-xs-12">
 						<button type="button" class="btn dealnet-button btn-small dealnet-link-button" data-dismiss="modal">@Resources.Cancel</button>
-						<button type="button" class="btn btn-small dealnet-button dealnet-success-button" id="emailSupport" onclick="sendEmailToSupport();">@Resources.Send</button>
+						<button type="button" class="btn btn-small dealnet-button dealnet-success-button" id="emailSupport" onclick="sendEmailToSupport('@Url.Action("DealerSupportRequestEmail", "Home")', $('#Help-Pop-Up'));">@Resources.Send</button>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</div>*@
     @RenderSection("Scripts", false)
 </body>
 </html>
