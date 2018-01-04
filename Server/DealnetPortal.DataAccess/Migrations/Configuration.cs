@@ -876,30 +876,31 @@ namespace DealnetPortal.DataAccess.Migrations
                     },
                     #endregion
                     #region Flooring
-                    new LicenseDocument
-                    {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO42") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO42"),
-                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="AB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="AB"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
-                    },
-                    new LicenseDocument
-                    {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO42") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO42"),
-                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
-                    },
-                    new LicenseDocument
-                    {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO42") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO42"),
-                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
-                    },
-                    new LicenseDocument
-                    {
-                        Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO42") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO42"),
-                        Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="SK")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="SK"),
-                        License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Gas and Electrical Licensing")
-                    },
+                    //commented according to https://conf.dataart.com/display/DEAL/%5BTS%5D+Approved+Equipment+List
+                    //new LicenseDocument
+                    //{
+                    //    Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO42") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO42"),
+                    //    Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="AB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="AB"),
+                    //    License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
+                    //},
+                    //new LicenseDocument
+                    //{
+                    //    Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO42") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO42"),
+                    //    Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="BC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="BC"),
+                    //    License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "British Columbia Industry Training Authority Certification")
+                    //},
+                    //new LicenseDocument
+                    //{
+                    //    Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO42") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO42"),
+                    //    Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="QC")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="QC"),
+                    //    License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Emploi-Quebec")
+                    //},
+                    //new LicenseDocument
+                    //{
+                    //    Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO42") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO42"),
+                    //    Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="SK")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="SK"),
+                    //    License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Gas and Electrical Licensing")
+                    //},
                     #endregion
                     #region Porch Enclosure
                     new LicenseDocument
@@ -2033,7 +2034,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     new EquipmentType {Description = "Windows", DescriptionResource = "Windows", Type = "ECO13"},
                     new EquipmentType {Description = "Sunrooms", DescriptionResource = "Sunrooms", Type = "ECO38"},
                     new EquipmentType {Description = "Air Handler", DescriptionResource = "AirHandler", Type = "ECO40"},
-                    new EquipmentType {Description = "Flooring", DescriptionResource = "Flooring", Type = "ECO42"},
+                    new EquipmentType {Description = "Pool", DescriptionResource = "Pool", Type = "ECO53"},
                     new EquipmentType
                     {
                         Description = "Porch Enclosure",
