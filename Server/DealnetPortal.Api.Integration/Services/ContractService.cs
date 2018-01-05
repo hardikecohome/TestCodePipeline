@@ -874,7 +874,7 @@ namespace DealnetPortal.Api.Integration.Services
                     try
                     {
                         var status = _configuration.GetSetting(WebConfigKeys.ALL_DOCUMENTS_UPLOAD_STATUS_CONFIG_KEY);
-                        var aspireAlerts = await _aspireService.ChangeDealStatus(contract.Details?.SignatureTransactionId ?? contract.Details?.TransactionId, status, contractOwnerId, "Request to Fund");
+                        var aspireAlerts = await _aspireService.ChangeDealStatus(contract.Details?.TransactionId, status, contractOwnerId, "Request to Fund");
                         //var aspireAlerts = await _aspireService.SubmitAllDocumentsUploaded(contractId, contractOwnerId);
                         if (aspireAlerts?.Any() ?? false)
                         {
@@ -1073,6 +1073,8 @@ namespace DealnetPortal.Api.Integration.Services
             //required documents
             isValid |= new[]
                     { (int) DocumentTemplateType.SignedInstallationCertificate, (int) DocumentTemplateType.VoidPersonalCheque, (int) DocumentTemplateType.Invoice }
+                .All(x => contract.Documents.Any(d => d.DocumentTypeId == x)) || new[]
+                    { (int) DocumentTemplateType.SignedInstallationCertificate, (int) DocumentTemplateType.ChequeBankPAP, (int) DocumentTemplateType.Invoice, (int) DocumentTemplateType.IncomeVerification }
                 .All(x => contract.Documents.Any(d => d.DocumentTypeId == x));
 
             //signed document

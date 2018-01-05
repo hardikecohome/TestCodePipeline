@@ -82,7 +82,7 @@ configInitialized
             var progressBar = form.find('.progress-bar');
             var progressBarValue = form.find('.progress-bar-value');
             var errorDesc = form.find('.error-descr');
-            var prevDocumentName = documentNaming.text();;
+            var prevDocumentName = documentNaming.text();
             var wasCancelled;
             var afterError = function (message) {
                 //form.find('.error-message').text(message || translations['ErrorWhileUploadingFile']);
