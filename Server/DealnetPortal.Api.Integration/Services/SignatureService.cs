@@ -774,7 +774,8 @@ namespace DealnetPortal.Api.Integration.Services
                             updated |= CleanContractSignatureInfo(contract);
                             break;
                         case SignatureStatus.Declined:
-                            await _mailService.SendDeclineToSign(contract);
+                            var dealerProvince = _aspireStorageReader.GetDealerInfo(contract.Dealer.AspireLogin).State;
+                            await _mailService.SendDeclineToSign(contract, dealerProvince);
                             break;
                     }
                     if (updated)

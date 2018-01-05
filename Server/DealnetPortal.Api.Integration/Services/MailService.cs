@@ -86,44 +86,11 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task SendDealerLoanFormContractCreationNotification(CustomerFormDTO customerFormData, CustomerContractInfoDTO contractData)
+        public async Task SendDealerLoanFormContractCreationNotification(CustomerFormDTO customerFormData, CustomerContractInfoDTO contractData, string dealerProvince)
         {
-            var address = string.Empty;
-            var addresItem = customerFormData.PrimaryCustomer.Locations.FirstOrDefault(ad => ad.AddressType == AddressType.MainAddress);
-
-            if (addresItem != null)
-            {
-                address = $"{addresItem.Street}, {addresItem.City}, {addresItem.State}, {addresItem.PostalCode}";
-            }
-            var body = new StringBuilder();
-            body.AppendLine($"<h3>{Resources.Resources.NewCustomerAppliedForFinancing}</h3>");
-            body.AppendLine("<div>");
-            body.AppendLine($"<p>{Resources.Resources.TransactionId}: {contractData.TransactionId}</p>");
-            body.AppendLine($"<p><b>{Resources.Resources.Name}: {$"{customerFormData.PrimaryCustomer.FirstName} {customerFormData.PrimaryCustomer.LastName}"}</b></p>");
-            if (contractData.CreditAmount > 0)
-            {
-                body.AppendLine($"<p><b>{Resources.Resources.PreApproved}: ${contractData.CreditAmount.ToString("N0", CultureInfo.InvariantCulture)}</b></p>");
-            }
-            body.AppendLine($"<p><b>{Resources.Resources.SelectedTypeOfService}: {customerFormData.SelectedService ?? string.Empty}</b></p>");
-            body.AppendLine($"<p>{Resources.Resources.Comment}: {customerFormData.CustomerComment}</p>");
-            body.AppendLine($"<p>{Resources.Resources.InstallationAddress}: {address}</p>");
-            body.AppendLine($"<p>{Resources.Resources.HomePhone}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum ?? string.Empty}</p>");
-            body.AppendLine($"<p>{Resources.Resources.CellPhone}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum ?? string.Empty}</p>");
-            body.AppendLine($"<p>{Resources.Resources.BusinessPhone}: {customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum ?? string.Empty}</p>");
-            body.AppendLine($"<p>{Resources.Resources.Email}: {customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty}</p>");
-            body.AppendLine($"<p>{Resources.Resources.YouCanViewThisDealHere}: <a href=\"{customerFormData.DealUri}/{contractData.ContractId}\">{Resources.Resources.DealInfo}</a></p>");
-
-            body.AppendLine($"<p>Copyright © 2017 EcoHome Financial</p>");
-            body.AppendLine($"<p>This email was sent by Ecohome Financial, 325 Milner Avenue Suite 300, Toronto, ON, Canada, M1B 5N1</br>");
-            body.AppendLine($"Telephone : 1-866-382-7468 </br>");
-            body.AppendLine($"<a href=\"http://ecohomefinancial.com/contact-us/privacy-policy/\"" + ">Privacy Policy </a></br>");
-            body.AppendLine($"You are receiving this email because you have subscribed to receive updates from us.<br/>");
-            body.AppendLine($"To cancel your subscription, please click here to <a href=\"% unsubscribe_url %\"" + " >unsubscribe</a></p>");
-            body.AppendLine("</div>");
-
             try
             {
-                await _emailService.SendAsync(new List<string> { contractData.DealerEmail ?? string.Empty }, string.Empty, Resources.Resources.ThankYouForApplyingForFinancing, body.ToString());
+                await _mandrillService.SendDealerCustomerLinkFormSubmittedNotification(customerFormData, contractData, dealerProvince);
             }
             catch (Exception ex)
             {
@@ -588,7 +555,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        public async Task SendDeclineToSign(Contract contract)
+        public async Task SendDeclineToSign(Contract contract, string dealerProvince)
         {
             var declinedSigner = contract.Signers.SingleOrDefault(s => s.SignatureStatus == SignatureStatus.Declined && s.SignerType != SignatureRole.Dealer);
             
@@ -612,7 +579,7 @@ namespace DealnetPortal.Api.Integration.Services
                             contract.Dealer.AspireLogin, contract.Details.TransactionId,
                             declinedCustomer.FirstName + " " + declinedCustomer.LastName,
                             email,
-                            phone, agreementType);
+                            phone, agreementType, dealerProvince);
                     }
                 }
             }

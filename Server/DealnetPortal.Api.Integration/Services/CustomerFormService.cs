@@ -530,8 +530,8 @@ namespace DealnetPortal.Api.Integration.Services
 
             try
             {
-                await
-                    _mailService.SendDealerLoanFormContractCreationNotification(customerFormData, contractData).ConfigureAwait(false); 
+                var dealerProvince = _aspireStorageReader.GetDealerInfo(customerFormData.DealerName).State;
+                await _mailService.SendDealerLoanFormContractCreationNotification(customerFormData, contractData, dealerProvince).ConfigureAwait(false); 
             }
             catch (Exception ex)
             {

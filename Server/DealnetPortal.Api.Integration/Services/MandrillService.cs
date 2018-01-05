@@ -12,6 +12,9 @@ using DealnetPortal.Domain;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Notify;
 using DealnetPortal.Api.Core.Helpers;
+using DealnetPortal.Api.Common.Enumeration;
+using System.Globalization;
+
 namespace DealnetPortal.Api.Integration.Services
 {
     public class MandrillService : IMandrillService
@@ -371,7 +374,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         }
 
-        public async Task SendDeclineToSignDealerNotification(string dealerEmail, string dealerName, string contractId, string customerName, string customerEmail, string customerPhone, string agreementType)
+        public async Task SendDeclineToSignDealerNotification(string dealerEmail, string dealerName, string contractId, string customerName, string customerEmail, string customerPhone, string agreementType, string dealerProvince)
         {
             MandrillRequest request = new MandrillRequest();
             List<Variable> myVariables = new List<Variable>();
@@ -381,7 +384,7 @@ namespace DealnetPortal.Api.Integration.Services
             myVariables.Add(new Variable() { name = "CustomerNumber", content = customerPhone });
             myVariables.Add(new Variable() { name = "AgreementType", content = agreementType });
             request.key = _apiKey;
-            request.template_name = ConfigurationManager.AppSettings["SignatureDeclineNotification"];
+            request.template_name = dealerProvince == "QC" ? ConfigurationManager.AppSettings["QuebecSignatureDeclineNotification"] : ConfigurationManager.AppSettings["SignatureDeclineNotification"];
             request.template_content = new List<templatecontent>() {
                     new templatecontent(){
                         name="Declined to sign",
@@ -392,7 +395,7 @@ namespace DealnetPortal.Api.Integration.Services
             request.message = new MandrillMessage()
             {
                 from_email = ConfigurationManager.AppSettings["FromEmail"],
-                from_name = "EcoHome Financial",
+                from_name = dealerProvince == "QC" ? "Financement EcoHome / EcoHome Financial" : "EcoHome Financial",
                 html = null,
                 merge_vars = new List<MergeVariable>() {
                         new MergeVariable(){
@@ -403,12 +406,81 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                     },
                 send_at = DateTime.Now,
-                subject = $"Action required: customer declined to sign a recently submitted {agreementType} agreement",
+                subject = dealerProvince == "QC" ? $"(French Translation for - Action required: customer declined to sign a recently submitted {agreementType} agreement) / Action required: customer declined to sign a recently submitted {agreementType} agreement" : $"Action required: customer declined to sign a recently submitted {agreementType} agreement",
                 text = $"Action required: customer declined to sign a recently submitted {agreementType} agreement",
                 to = new List<MandrillTo>() {
                         new MandrillTo(){
                             email = dealerEmail,
                             name = dealerName,
+                            type = "to"
+                        }
+                    }
+            };
+            try
+            {
+                var result = await SendEmail(request);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public async Task SendDealerCustomerLinkFormSubmittedNotification(CustomerFormDTO customerFormData, CustomerContractInfoDTO contractData, string dealerProvince)
+        {
+            var address = string.Empty;
+            var approvalStatus = string.Empty;
+            var addresItem = customerFormData.PrimaryCustomer.Locations.FirstOrDefault(ad => ad.AddressType == AddressType.MainAddress);
+            if (addresItem != null)
+            {
+                address = $"{addresItem.Street}, {addresItem.City}, {addresItem.State}, {addresItem.PostalCode}";
+            }
+            if (contractData.CreditAmount > 0)
+            {
+                approvalStatus = $"{Resources.Resources.PreApproved}: ${contractData.CreditAmount.ToString("N0", CultureInfo.InvariantCulture)}";
+            }
+            
+            MandrillRequest request = new MandrillRequest();
+            List<Variable> myVariables = new List<Variable>();
+            myVariables.Add(new Variable() { name = "TransactionID", content = contractData.TransactionId });
+            myVariables.Add(new Variable() { name = "CustomerName", content = $"{customerFormData.PrimaryCustomer.FirstName} {customerFormData.PrimaryCustomer.LastName}" });
+            myVariables.Add(new Variable() { name = "CreditCheckStatus", content = approvalStatus });
+            myVariables.Add(new Variable() { name = "SelectedTypeOfService", content = customerFormData.SelectedService ?? string.Empty });
+            myVariables.Add(new Variable() { name = "Comment", content = customerFormData.CustomerComment });
+            myVariables.Add(new Variable() { name = "InstallationAddress", content = address });
+            myVariables.Add(new Variable() { name = "HomePhone", content = customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum ?? string.Empty });
+            myVariables.Add(new Variable() { name = "CellPhone", content = customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum ?? string.Empty });
+            myVariables.Add(new Variable() { name = "BusinessPhone", content = customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum ?? string.Empty });
+            myVariables.Add(new Variable() { name = "CustomerEmail", content = customerFormData.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty });
+            myVariables.Add(new Variable() { name = "LinkToDeal", content = $"{customerFormData.DealUri}/{contractData.ContractId}" });
+            request.key = _apiKey;
+            request.template_name = dealerProvince == "QC" ? ConfigurationManager.AppSettings["QuebecCustomerLinkFormNotification"] : ConfigurationManager.AppSettings["CustomerLinkFormNotification"];
+            request.template_content = new List<templatecontent>() {
+                    new templatecontent(){
+                        name="Customer Link Form",
+                        content = "Customer Link Form"
+                    }
+                };
+
+            request.message = new MandrillMessage()
+            {
+                from_email = ConfigurationManager.AppSettings["FromEmail"],
+                from_name = dealerProvince == "QC" ? "Financement EcoHome / EcoHome Financial" : "EcoHome Financial",
+                html = null,
+                merge_vars = new List<MergeVariable>() {
+                        new MergeVariable(){
+                            rcpt = contractData.DealerEmail,
+                            vars = myVariables
+                        }
+                    },
+                send_at = DateTime.Now,
+                subject = dealerProvince == "QC" ? "Merci d’avoir effectué une demande de financement / Thank you for applying for financing" : "Thank you for applying for financing",
+                text = "Thank you for applying for financing",
+                to = new List<MandrillTo>() {
+                        new MandrillTo(){
+                            email = contractData.DealerEmail,
+                            name = " ",
                             type = "to"
                         }
                     }
