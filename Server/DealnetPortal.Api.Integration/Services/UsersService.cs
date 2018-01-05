@@ -332,7 +332,7 @@ namespace DealnetPortal.Api.Integration.Services
             var alerts = new List<Alert>();
             try
             {
-                var dealerProfile = _dealerRepository.GetDealerProfile(userId);
+                var dealerProfile = _dealerRepository.GetDealerProfile(userId) ?? new DealerProfile { DealerId = userId };
                 dealerProfile.EmailAddress = aspireUser.Emails?.FirstOrDefault(e => !string.IsNullOrEmpty(e.EmailAddress))?.EmailAddress;
                 dealerProfile.Phone = aspireUser.Phones?.FirstOrDefault(p => !string.IsNullOrEmpty(p.PhoneNum))?.PhoneNum;
                 if (aspireUser.Locations?.Any() == true)

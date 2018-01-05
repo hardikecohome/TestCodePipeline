@@ -15,5 +15,6 @@ namespace DealnetPortal.Domain
         public string Prefix { get; set; }
         public string Description { get; set; }
         public string DescriptionResource { get; set; }
+        public bool IsMandatory { get; set; }
     }
 }
