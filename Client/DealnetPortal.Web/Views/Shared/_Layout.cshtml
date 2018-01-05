@@ -57,7 +57,8 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/dealnet")
 	@Scripts.Render("~/bundles/jqueryval")
-    @switch (CultureHelper.CurrentCultureType)
+
+	@switch (CultureHelper.CurrentCultureType)
     {
         case CultureType.French:
             <script type="text/javascript"
@@ -384,7 +385,7 @@
 			}
 		</div>
 	</div>
-	@Html.Partial("_HelpPopUp")
+	@Html.Partial("_HelpPopUp", new DealnetPortal.Web.Models.HelpPopUpViewModal())
 	
     @RenderSection("Scripts", false)
 </body>

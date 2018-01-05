@@ -22,7 +22,7 @@ namespace DealnetPortal.Api.Integration.Services
         /// <param name="dealerEmail"></param>
         /// <param name="customerFormData"></param>
         /// <param name="preapprovedAmount"></param>
-        Task SendDealerLoanFormContractCreationNotification(CustomerFormDTO customerFormData, CustomerContractInfoDTO contractData);
+        Task SendDealerLoanFormContractCreationNotification(CustomerFormDTO customerFormData, CustomerContractInfoDTO contractData, string dealerProvince);
 
         /// <summary>
         /// Send e-mail notification to a customer for a contract created with a customer loan form
@@ -45,6 +45,6 @@ namespace DealnetPortal.Api.Integration.Services
         Task SendProblemsWithSubmittingOnboarding(string errorMsg, int dealerInfoId, string accessKey);
         Task SendDraftLinkMail(string accessKey, string email);
         Task SendSupportRequiredEmail(SupportRequestDTO SupportDetails, string dealerProvince);
-        Task SendDeclineToSign(Contract contract);
+        Task SendDeclineToSign(Contract contract, string dealerProvince);
     }
 }

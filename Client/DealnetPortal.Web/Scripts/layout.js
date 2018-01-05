@@ -761,16 +761,19 @@ function sendEmailModel (rowTransactionId, supportType) {
 	
 }
 
-function sendEmailToSupport(url, form) {
+function sendEmailToSupport(url, form, data) {
+	form.validate();
 	if (!form.valid()) {
 		return false;
 	};
 	$('#emailSupport').attr("disabled", "disabled");
 	//$('.sent-email-msg').show();
 	//$("#send-email-button").text(translations['ResendEmails']);
-	form.ajaxSubmit({
+	//form.ajaxSubmit({
+	$.ajax({
 		type: "POST",
 		url: url,
+		data: form.serialize(),
 		success: function (json) {
 			$('#sent-success').removeClass('hidden');
 			$('#emailSupport').removeAttr("disabled", "disabled");
