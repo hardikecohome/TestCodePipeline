@@ -21,6 +21,7 @@ using DealnetPortal.Domain;
 using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
+using DocuSign.eSign.Model;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Practices.ObjectBuilder2;
@@ -331,12 +332,9 @@ namespace DealnetPortal.Api.Integration.Services
             var alerts = new List<Alert>();
             try
             {
-                var dealerProfile = new DealerProfile()
-                {
-                    DealerId = userId,
-                    EmailAddress = aspireUser.Emails?.FirstOrDefault(e => !string.IsNullOrEmpty(e.EmailAddress))?.EmailAddress,
-                    Phone = aspireUser.Phones?.FirstOrDefault(p => !string.IsNullOrEmpty(p.PhoneNum))?.PhoneNum,                    
-                };
+                var dealerProfile = _dealerRepository.GetDealerProfile(userId);
+                dealerProfile.EmailAddress = aspireUser.Emails?.FirstOrDefault(e => !string.IsNullOrEmpty(e.EmailAddress))?.EmailAddress;
+                dealerProfile.Phone = aspireUser.Phones?.FirstOrDefault(p => !string.IsNullOrEmpty(p.PhoneNum))?.PhoneNum;
                 if (aspireUser.Locations?.Any() == true)
                 {
                     var address = aspireUser.Locations.FirstOrDefault();
