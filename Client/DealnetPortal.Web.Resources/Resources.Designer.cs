@@ -1046,11 +1046,65 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BYID card.
+        /// </summary>
+        public static string ByidCard {
+            get {
+                return ResourceManager.GetString("ByidCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Calculator.
         /// </summary>
         public static string Calculator {
             get {
                 return ResourceManager.GetString("Calculator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Canadian National Institute for the Blind identification card.
+        /// </summary>
+        public static string CanadianBlindIdentificationCard {
+            get {
+                return ResourceManager.GetString("CanadianBlindIdentificationCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Canadian citizenship card.
+        /// </summary>
+        public static string CanadianCitizenshipCard {
+            get {
+                return ResourceManager.GetString("CanadianCitizenshipCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Canadian Military Family Identification Card.
+        /// </summary>
+        public static string CanadianFamilyMilitaryCard {
+            get {
+                return ResourceManager.GetString("CanadianFamilyMilitaryCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Canadian Military Employment Card.
+        /// </summary>
+        public static string CanadianMilitaryCard {
+            get {
+                return ResourceManager.GetString("CanadianMilitaryCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Canadian or foreign passport.
+        /// </summary>
+        public static string CanadianPassport {
+            get {
+                return ResourceManager.GetString("CanadianPassport", resourceCulture);
             }
         }
         
@@ -1159,6 +1213,15 @@ namespace DealnetPortal.Web.Resources {
         public static string CellPhoneMustBeLong {
             get {
                 return ResourceManager.GetString("CellPhoneMustBeLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Certificate of Indian Status.
+        /// </summary>
+        public static string CertificateInidanStatus {
+            get {
+                return ResourceManager.GetString("CertificateInidanStatus", resourceCulture);
             }
         }
         
@@ -2037,6 +2100,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dealer cancelled eSignature process.
+        /// </summary>
+        public static string DealerCancelledEsign {
+            get {
+                return ResourceManager.GetString("DealerCancelledEsign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dealer&apos;s Initial.
         /// </summary>
         public static string DealerInitial {
@@ -2402,6 +2474,15 @@ namespace DealnetPortal.Web.Resources {
         public static string DownPaymentIncorrectFormat {
             get {
                 return ResourceManager.GetString("DownPaymentIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Driver’s license.
+        /// </summary>
+        public static string DriverLicense {
+            get {
+                return ResourceManager.GetString("DriverLicense", resourceCulture);
             }
         }
         
@@ -4494,6 +4575,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Possession and Acquisition License (PAL card).
+        /// </summary>
+        public static string PalCard {
+            get {
+                return ResourceManager.GetString("PalCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PAP.
         /// </summary>
         public static string PapCapital {
@@ -4634,6 +4724,15 @@ namespace DealnetPortal.Web.Resources {
         public static string PercentOwnershipRange {
             get {
                 return ResourceManager.GetString("PercentOwnershipRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Permanent Residency Card.
+        /// </summary>
+        public static string PermanentResidencyCard {
+            get {
+                return ResourceManager.GetString("PermanentResidencyCard", resourceCulture);
             }
         }
         
@@ -6051,6 +6150,15 @@ namespace DealnetPortal.Web.Resources {
         public static string SuchPostalCodeAlreadyExist {
             get {
                 return ResourceManager.GetString("SuchPostalCodeAlreadyExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Suite.
+        /// </summary>
+        public static string Suite {
+            get {
+                return ResourceManager.GetString("Suite", resourceCulture);
             }
         }
         

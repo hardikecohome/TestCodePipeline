@@ -2508,4 +2508,205 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
   <data name="Quebec" xml:space="preserve">
     <value>Québec</value>
   </data>
+  <data name="AdditionalInformation" xml:space="preserve">
+    <value>Renseignements supplémentaires</value>
+  </data>
+  <data name="AllOtherProvinces" xml:space="preserve">
+    <value>Toutes les autres provinces</value>
+  </data>
+  <data name="AlternativeEmail" xml:space="preserve">
+    <value>Autre adresse de courriel</value>
+  </data>
+  <data name="Annual" xml:space="preserve">
+    <value>Annuel</value>
+  </data>
+  <data name="AnnualSalaryIncome" xml:space="preserve">
+    <value>Salaire/revenu annuel</value>
+  </data>
+  <data name="ApplicantsShouldBe18" xml:space="preserve">
+    <value>Les demandeurs devraient être âgés d’au moins 18 ans.</value>
+  </data>
+  <data name="BestWayToGetBackToYou" xml:space="preserve">
+    <value>Meilleure façon de communiquer avec vous</value>
+  </data>
+  <data name="BorrowerEmploymentInformation" xml:space="preserve">
+    <value>Renseignements liés à l’emploi de l’emprunteur</value>
+  </data>
+  <data name="ByidCard" xml:space="preserve">
+    <value>Carte BYID</value>
+  </data>
+  <data name="CanadianBlindIdentificationCard" xml:space="preserve">
+    <value>Carte d’identité de l’Institut national canadien pour les aveugles</value>
+  </data>
+  <data name="CanadianCitizenshipCard" xml:space="preserve">
+    <value>Carte de citoyenneté canadienne</value>
+  </data>
+  <data name="CanadianFamilyMilitaryCard" xml:space="preserve">
+    <value>Carte d’identité pour les familles des militaires canadiens</value>
+  </data>
+  <data name="CanadianMilitaryCard" xml:space="preserve">
+    <value>Carte d’emploi pour les militaires canadiens</value>
+  </data>
+  <data name="CanadianPassport" xml:space="preserve">
+    <value>Passeport canadien ou étranger</value>
+  </data>
+  <data name="CertificateInidanStatus" xml:space="preserve">
+    <value>Certificat du statut d’Indien</value>
+  </data>
+  <data name="CompanyAddress" xml:space="preserve">
+    <value>Adresse de la société</value>
+  </data>
+  <data name="CompanyName" xml:space="preserve">
+    <value>Nom de la société</value>
+  </data>
+  <data name="CompanyNameIncorrectFormat" xml:space="preserve">
+    <value>Le format du nom de la société est incorrect</value>
+  </data>
+  <data name="CompanyPhone" xml:space="preserve">
+    <value>Téléphone de la société</value>
+  </data>
+  <data name="CompanyPhoneIncorrectFormat" xml:space="preserve">
+    <value>Le format du numéro de téléphone de la société est incorrect</value>
+  </data>
+  <data name="CompanyPhoneMustBeLong" xml:space="preserve">
+    <value>Le numéro de téléphone de la société doit compter 10 chiffres</value>
+  </data>
+  <data name="CompanyPhoneNumber" xml:space="preserve">
+    <value>Numéro de téléphone de la société</value>
+  </data>
+  <data name="ContractNumber" xml:space="preserve">
+    <value>Numéro de contrat</value>
+  </data>
+  <data name="ContractSignedSuccessfullyCopiesSent" xml:space="preserve">
+    <value>Le contrat a été signé avec succès grâce aux signatures numériques; une copie du contrat signé a été envoyée à tous les signataires</value>
+  </data>
+  <data name="CreditDecision" xml:space="preserve">
+    <value>Décision liée au crédit</value>
+  </data>
+  <data name="CreditDocs" xml:space="preserve">
+    <value>Documents liés au crédit</value>
+  </data>
+  <data name="DealerCancelledEsign" xml:space="preserve">
+    <value>Le courtier a annulé le processus lié à la signature électronique</value>
+  </data>
+  <data name="DeclinedToSignContract" xml:space="preserve">
+    <value>a refusé de signer le contrat</value>
+  </data>
+  <data name="DigitalInvitesWillBeSentToEmails" xml:space="preserve">
+    <value>Les invitations pour la signature numérique du contrat seront envoyées aux adresses de courriel suivantes</value>
+  </data>
+  <data name="DriverLicense" xml:space="preserve">
+    <value>Permis de conduire</value>
+  </data>
+  <data name="Employed" xml:space="preserve">
+    <value>Employé</value>
+  </data>
+  <data name="EmploymentInformation" xml:space="preserve">
+    <value>Renseignements sur l’emploi</value>
+  </data>
+  <data name="EmploymentStatus" xml:space="preserve">
+    <value>Situation d’emploi</value>
+  </data>
+  <data name="FullTime" xml:space="preserve">
+    <value>Temps plein</value>
+  </data>
+  <data name="FundingDocs" xml:space="preserve">
+    <value>Documents liés au financement</value>
+  </data>
+  <data name="Hourly" xml:space="preserve">
+    <value>Horaire</value>
+  </data>
+  <data name="HourlyRate" xml:space="preserve">
+    <value>Taux horaire</value>
+  </data>
+  <data name="IHaveAnotherName" xml:space="preserve">
+    <value>J’ai un autre nom</value>
+  </data>
+  <data name="IncomeType" xml:space="preserve">
+    <value>Type de revenus</value>
+  </data>
+  <data name="InstallationAddressCannotInQuebec" xml:space="preserve">
+    <value>L’adresse d’installation ne peut pas être au Québec</value>
+  </data>
+  <data name="InstallationAddressInQuebec" xml:space="preserve">
+    <value>L’adresse d’installation devrait être au Québec</value>
+  </data>
+  <data name="JobTitle" xml:space="preserve">
+    <value>Titre de poste</value>
+  </data>
+  <data name="JobTitleIncorrectFormat" xml:space="preserve">
+    <value>Le format du titre de poste est incorrect</value>
+  </data>
+  <data name="LengthOfEmployment" xml:space="preserve">
+    <value>Durée d’emploi</value>
+  </data>
+  <data name="LessThan" xml:space="preserve">
+    <value>moins de </value>
+  </data>
+  <data name="Month_s_" xml:space="preserve">
+    <value>mois</value>
+  </data>
+  <data name="PalCard" xml:space="preserve">
+    <value>Permis de possession et d’acquisition</value>
+  </data>
+  <data name="PartTime" xml:space="preserve">
+    <value>Temps partiel</value>
+  </data>
+  <data name="PermanentResidencyCard" xml:space="preserve">
+    <value>Carte de résident permanent</value>
+  </data>
+  <data name="PleaseFillThisForm" xml:space="preserve">
+    <value>Veuillez remplir ce formulaire et nous vous informerons de la meilleure solution.</value>
+  </data>
+  <data name="PleaseProvideAlternativeEmail" xml:space="preserve">
+    <value>Veuillez fournir une autre adresse de courriel</value>
+  </data>
+  <data name="PleaseProvideDetails" xml:space="preserve">
+    <value>Veuillez fournir des précisions</value>
+  </data>
+  <data name="PleaseProvideShortDescription" xml:space="preserve">
+    <value>Veuillez fournir une brève description </value>
+  </data>
+  <data name="PreferredContactPerson" xml:space="preserve">
+    <value>Personne-ressource privilégiée</value>
+  </data>
+  <data name="RatesApproved" xml:space="preserve">
+    <value>Taux approuvés</value>
+  </data>
+  <data name="Retired" xml:space="preserve">
+    <value>À la retraite</value>
+  </data>
+  <data name="SalaryIncome" xml:space="preserve">
+    <value>Salaire/Revenu</value>
+  </data>
+  <data name="SameEmail" xml:space="preserve">
+    <value>Même adresse de courriel</value>
+  </data>
+  <data name="SelfEmployed" xml:space="preserve">
+    <value>À son propre compte</value>
+  </data>
+  <data name="SuccessfullyUploadedToAspire" xml:space="preserve">
+    <value>Contrat téléversé avec succès à EcoHome</value>
+  </data>
+  <data name="Suite" xml:space="preserve">
+    <value>Bureau</value>
+  </data>
+  <data name="ToProceedMustBe18" xml:space="preserve">
+    <value>Afin de poursuivre, vous devrez être âgé d’au moins 18 ans. Veuillez communiquer directement avec le courtier.</value>
+  </data>
+  <data name="TypeOfEmployment" xml:space="preserve">
+    <value>Type d’emplois</value>
+  </data>
+  <data name="Unemployed" xml:space="preserve">
+    <value>Sans emploi</value>
+  </data>
+  <data name="WhatCanWeAssistYouWith" xml:space="preserve">
+    <value>En quoi pouvons-nous vous aider?</value>
+  </data>
+  <data name="Year_s_" xml:space="preserve">
+    <value>année(s)</value>
+  </data>
+  <data name="YourName" xml:space="preserve">
+    <value>Votre nom</value>
+  </data>
 </root>
