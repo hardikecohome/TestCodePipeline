@@ -92,6 +92,13 @@
         if ($('#administrative_area_level_1').val().toLowerCase() === 'qc') {
             status.change();
         }
+        if (isMobileRequest || typeof isMobileRequest === 'string' && isMobileRequest.toLowerCase() === 'true') {
+            if (window.screen.orientation.angle === 90) {
+                incomeType.parents('.form-group').addClass('col-md-3').removeClass('col-md-2');
+                annual.parents('.form-group').addClass('col-md-3').removeClass('col-md-2');
+                hourly.parents('.form-group').addClass('col-md-3').removeClass('col-md-2');
+            }
+        }
     }
 
     function changeStatus(value) {
