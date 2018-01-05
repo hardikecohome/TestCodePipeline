@@ -1069,13 +1069,11 @@ namespace DealnetPortal.Api.Integration.Services
         private bool IsSentToAuditValid(Contract contract)
         {
             bool isValid = false;
-
+            var state = contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.State;
+            state = state ?? contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress)?.State;
+            var reqDocs = _contractRepository.GetStateDocumentTypes(state).Where(x=>x.IsMandatory);
             //required documents
-            isValid |= new[]
-                    { (int) DocumentTemplateType.SignedInstallationCertificate, (int) DocumentTemplateType.VoidPersonalCheque, (int) DocumentTemplateType.Invoice }
-                .All(x => contract.Documents.Any(d => d.DocumentTypeId == x)) || new[]
-                    { (int) DocumentTemplateType.SignedInstallationCertificate, (int) DocumentTemplateType.ChequeBankPAP, (int) DocumentTemplateType.Invoice, (int) DocumentTemplateType.IncomeVerification }
-                .All(x => contract.Documents.Any(d => d.DocumentTypeId == x));
+            isValid |= reqDocs.All(x => contract.Documents.Any(d => d.DocumentTypeId == x.Id));
 
             //signed document
             isValid &= (contract.Details?.SignatureStatus == SignatureStatus.Completed ||
