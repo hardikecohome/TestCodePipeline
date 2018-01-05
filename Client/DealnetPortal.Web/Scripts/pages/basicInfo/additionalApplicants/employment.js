@@ -110,9 +110,9 @@
     }
 
     function changeToEmployed() {
-        incomeType.prop('disabled', false).parents('.form-group').removeClass('hidden');
         annual.parents('.form-group').addClass('hidden');
         hourly.parents('.form-group').addClass('hidden');
+        incomeType.change().prop('disabled', false).parents('.form-group').removeClass('hidden');
         months.prop('disabled', false);
         years.change().prop('disabled', false).parents('.form-group').removeClass('hidden');
         empType.prop('disabled', false).parents('.form-group').removeClass('hidden');
