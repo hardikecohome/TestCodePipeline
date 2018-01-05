@@ -56,7 +56,7 @@
 
         months = $('#add1-employment-months');
         months.rules('add', requiredObj);
-        months.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
+        months.prop('disabled', disabled || years.val() === '10+'|| statusVal === '0' || statusVal === '2' );
 
         empType = $('#add1-employment-emp-type');
         empType.rules('add', requiredObj);
@@ -113,8 +113,8 @@
         incomeType.prop('disabled', false).parents('.form-group').removeClass('hidden');
         annual.parents('.form-group').addClass('hidden');
         hourly.parents('.form-group').addClass('hidden');
-        years.prop('disabled', false).parents('.form-group').removeClass('hidden');
         months.prop('disabled', false);
+        years.change().prop('disabled', false).parents('.form-group').removeClass('hidden');
         empType.prop('disabled', false).parents('.form-group').removeClass('hidden');
         $('#add1-company-info-hold').removeClass('hidden');
         jobTitle.prop('disabled', false);
@@ -150,8 +150,8 @@
 
     function changeToSelfEmployed() {
         annual.prop('disabled', false).parents('.form-group').removeClass('hidden');
-        years.prop('disabled', false).parents('.form-group').removeClass('hidden');
         months.prop('disabled', false);
+        years.change().prop('disabled', false).parents('.form-group').removeClass('hidden');
         $('#add1-company-info-hold').removeClass('hidden');
         jobTitle.prop('disabled', false);
         name.prop('disabled', false);

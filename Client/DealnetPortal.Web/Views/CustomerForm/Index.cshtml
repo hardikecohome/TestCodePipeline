@@ -397,7 +397,7 @@
                                         @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.YearsOfEmployment, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="months select-hold">
-                                        <select name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.MonthsOfEmployment)" class="form-control dealnet-input" id="emp-months">
+                                        <select name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.MonthsOfEmployment)" class="form-control dealnet-input" id="emp-months" @(Model.HomeOwner?.EmploymentInformation?.YearsOfEmployment == "10+"?"disabled=disabled":"")>
                                             <option value="" @(string.IsNullOrEmpty(Model.HomeOwner?.EmploymentInformation?.MonthsOfEmployment) ? "selected" : "")>months</option>
                                             @for(int j = 0; j < 12; j++)
                                             {

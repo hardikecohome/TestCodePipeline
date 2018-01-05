@@ -847,7 +847,6 @@
     <Content Include="Scripts\utils\logger\logdebug.js" />
     <Content Include="Scripts\pages\additionalContractInfo\contract-information.js" />
     <Content Include="Scripts\pages\agrementSubmitSuccess\agreement-submit-success.js" />
-    <Content Include="Scripts\pages\basicInfo\basic-info.js" />
     <Content Include="Scripts\pages\calculator\calculator.conversion.js" />
     <Content Include="Scripts\pages\calculator\calculator.init.js" />
     <Content Include="Scripts\pages\calculator\calculator.jcarousel.js" />

@@ -10,12 +10,12 @@
         var inpValue = $(this).is('select') ? $(this).find('option:selected').text() : $(this).is('textarea') ? $(this).text() : $(this).val();
         if ($(this).is('.control-disabled')) {
             $(this).after($('<div/>', {
-                class: 'control-disabled',
+                "class": 'control-disabled',
                 text: inpValue
             }));
         } else {
             $(this).after($('<div/>', {
-                class: 'dealnet-disabled-input dealnet-disabled-input-value',
+                "class": 'dealnet-disabled-input dealnet-disabled-input-value',
                 html: inpValue.replace(/\r?\n/g, '<br />')
             }));
         }
@@ -123,13 +123,13 @@ function customDPSelect (elem) {
     if ($('select.ui-datepicker-month').length && !$('.ui-datepicker-month').parents('.custom-select').length) {
         $('.ui-datepicker-month')
             .wrap($('<div>', {
-                class: selectClasses
+                "class": selectClasses
             })).after('<span class="caret">');
     }
     if ($('select.ui-datepicker-year').length && !$('.ui-datepicker-year').parents('.custom-select').length) {
         $('.ui-datepicker-year')
             .wrap($('<div>', {
-                class: selectClasses
+                "class": selectClasses
             })).after('<span class="caret">');
     }
     if ($('select.ui-datepicker-month').length) {
