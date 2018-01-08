@@ -10,7 +10,9 @@ namespace DealnetPortal.Web.Models
     public class HelpPopUpViewModal
     {
         public int Id { get; set; }
+        [Display(ResourceType = typeof(Resources.Resources), Name = "DealerName")]
         public string DealerName { get; set; }
+        [Display(ResourceType = typeof(Resources.Resources), Name = "YourName")]
         public string YourName { get; set; }
         public bool IsPreferedContactPerson { get; set; }
         [CustomRequired]
