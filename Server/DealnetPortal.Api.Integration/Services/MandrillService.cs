@@ -447,7 +447,7 @@ namespace DealnetPortal.Api.Integration.Services
             myVariables.Add(new Variable() { name = "CustomerName", content = $"{customerFormData.PrimaryCustomer.FirstName} {customerFormData.PrimaryCustomer.LastName}" });
             myVariables.Add(new Variable() { name = "CreditCheckStatus", content = approvalStatus });
             myVariables.Add(new Variable() { name = "SelectedTypeOfService", content = customerFormData.SelectedService ?? string.Empty });
-            myVariables.Add(new Variable() { name = "Comment", content = customerFormData.CustomerComment });
+            myVariables.Add(new Variable() { name = "Comment", content = customerFormData.CustomerComment ?? string.Empty });
             myVariables.Add(new Variable() { name = "InstallationAddress", content = address });
             myVariables.Add(new Variable() { name = "HomePhone", content = customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum ?? string.Empty });
             myVariables.Add(new Variable() { name = "CellPhone", content = customerFormData.PrimaryCustomer.Phones.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum ?? string.Empty });
