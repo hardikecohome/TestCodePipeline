@@ -42,8 +42,8 @@ namespace DealnetPortal.Web.Models
         //[EmailAddress(ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
 
         [CustomRequired]
-        [StringLength(10, MinimumLength = 10, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "CellPhoneMustBeLong")]
-        [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "CellPhoneIncorrectFormat")]
+        [StringLength(10, MinimumLength = 10, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "PhoneMustBeLong")]
+        [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "PhoneIncorrectFormat")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "Phone")]
         public string Phone { get; set; }
         [CustomRequired]
