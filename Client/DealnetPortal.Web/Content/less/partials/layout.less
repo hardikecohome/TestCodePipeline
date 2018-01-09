@@ -474,15 +474,28 @@ body{
 .LabelMiddle{
 	margin-top: 5px;
 	}
+@media(max-width: 1023px){
+	.LabelMiddle {
+		margin-top: 0px;
+		margin-bottom: 0px!important;
+	}
+	}
 .Email-modal-body label {
 	font-size: 11px;
 }
 .Email-modal-body h5 {
 	margin-left: 10px;
 }
+.Email-modal-body textarea {
+	font: 500 11px 'Lato', sans-serif;
+}
 .Email-modal-body .dealnet-input {
 	height: 30px;
 	font: 500 11px 'Lato', sans-serif;
+}
+.Email-modal-body .dealnet-disabled-input {
+	//height: 30px;
+	font: 500 11px 'Lato', sans-serif!important;
 }
 @media (min-width: 1024px) {
 	.Move-right-for-desktop {
@@ -493,6 +506,7 @@ body{
 @media (max-width: 1023px) {
 	.Move-right-for-desktop {
 		float: left !important;
+		text-align:left;
 	}
 }
 .margin-bottom-zero {
@@ -513,3 +527,9 @@ body{
 select.form-control.not-selected {
   color: #dcdcdc;
 }
+.forceLeft{
+	text-align:left!important;
+	}
+.controlDisabledGrey{
+	background-color:#eeeeee!important;
+	}

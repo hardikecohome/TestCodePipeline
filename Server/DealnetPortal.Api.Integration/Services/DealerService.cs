@@ -67,10 +67,11 @@ namespace DealnetPortal.Api.Integration.Services
         public IList<Alert> DealerSupportRequestEmail(SupportRequestDTO dealerSupportRequest)
         {
             var alerts = new List<Alert>();
-
             try
             {
-                var result = _mailService.SendSupportRequiredEmail(dealerSupportRequest);
+                var dealerProvince = _aspireStorageReader.GetDealerInfo(dealerSupportRequest.DealerName).State;
+
+                var result = _mailService.SendSupportRequiredEmail(dealerSupportRequest, dealerProvince);
             }
             catch (Exception ex)
             {

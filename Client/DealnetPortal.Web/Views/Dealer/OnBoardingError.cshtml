@@ -18,13 +18,13 @@
             @Resources.QuestionsContactDealerSupport
             <br />
             @Resources.Phone:
-            <a href="tel:+@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]" class="tel">
-                @System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]
-            </a>
+	        <a href="tel:+@Resources.DealerSupportPhoneNumber" class="tel">
+		        @Resources.DealerSupportPhoneNumber
+	        </a>
             <br />
-            @Resources.Email: <a href="mailto:@System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]">
-                @System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]
-            </a>
+            @Resources.Email: <a href="mailto: @Resources.DealerSupportInfoEmail">
+	        @Resources.DealerSupportInfoEmail
+	        </a>
         </div>
     </div>
 </div>

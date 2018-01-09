@@ -1749,6 +1749,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contract Number is in incorrect format.
+        /// </summary>
+        public static string ContractNumberIncorrectFormat {
+            get {
+                return ResourceManager.GetString("ContractNumberIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contracts.
         /// </summary>
         public static string Contracts {
@@ -4125,6 +4134,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name is in incorrect format.
+        /// </summary>
+        public static string NameIncorrectFormat {
+            get {
+                return ResourceManager.GetString("NameIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name of a document.
         /// </summary>
         public static string NameOfDocument {
@@ -4742,6 +4760,24 @@ namespace DealnetPortal.Web.Resources {
         public static string Phone {
             get {
                 return ResourceManager.GetString("Phone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone is in incorrect format.
+        /// </summary>
+        public static string PhoneIncorrectFormat {
+            get {
+                return ResourceManager.GetString("PhoneIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone must be a string with a length of 10.
+        /// </summary>
+        public static string PhoneMustBeLong {
+            get {
+                return ResourceManager.GetString("PhoneMustBeLong", resourceCulture);
             }
         }
         
@@ -6249,6 +6285,15 @@ namespace DealnetPortal.Web.Resources {
         public static string TheFieldIsRequired {
             get {
                 return ResourceManager.GetString("TheFieldIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The field {0} must be a string with a length of {1}..
+        /// </summary>
+        public static string TheFieldMustBe {
+            get {
+                return ResourceManager.GetString("TheFieldMustBe", resourceCulture);
             }
         }
         

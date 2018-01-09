@@ -31,7 +31,19 @@ namespace DealnetPortal.Web.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public PartialViewResult DealerSupportRequestEmail(int? contractId)
+        {
+            var viewModel = new HelpPopUpViewModal();
+            if (contractId != null)
+            {
+                viewModel.Id = (int)contractId;
+            }
+            viewModel.DealerName = User.Identity.Name;
+            viewModel.YourName = User.Identity.Name;
 
+            return PartialView("_HelpPopUp",viewModel);
+        }
         [System.Web.Mvc.HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<string> DealerSupportRequestEmail(SupportRequestDTO dealerSupportRequest)
