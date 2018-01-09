@@ -119,8 +119,8 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return await Client.GetAsync<Tuple<IList<VarificationIdsDTO>, IList<Alert>>>(
-                            $"{_fullUri}/AllVerificationIds");
+                return await Client.GetAsyncEx<Tuple<IList<VarificationIdsDTO>, IList<Alert>>>(
+                            $"{_fullUri}/AllVerificationIds", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {

@@ -381,7 +381,7 @@
                     <div class="row control-group">
                         <div class="col-md-6 col-sm-6 col-xs-6">
                             <select name="@Html.NameFor(m => m.AdditionalApplicants[i].EmploymentInformation.YearsOfEmployment)" class="form-control dealnet-input" id="add@(i+1)-employment-years">
-                                <option value="" @(string.IsNullOrEmpty(Model.AdditionalApplicants[i]?.EmploymentInformation?.YearsOfEmployment) ? "selected" : "")>years</option>
+                                <option value="" @(string.IsNullOrEmpty(Model.AdditionalApplicants[i]?.EmploymentInformation?.YearsOfEmployment) ? "selected" : "")>@Resources.Year_s_</option>
                                 @for(int j = 0; j < 10; j++)
                                 {
                                     <option value="@j" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.YearsOfEmployment == j.ToString() ? "selected" : "")>@j</option>
@@ -392,7 +392,7 @@
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-6">
                             <select name="@Html.NameFor(m => m.AdditionalApplicants[i].EmploymentInformation.MonthsOfEmployment)" class="form-control dealnet-input" id="add@(i+1)-employment-months" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.YearsOfEmployment == "10+"?"disabled=disabled":"")>
-                                <option value="" @(string.IsNullOrEmpty(Model.AdditionalApplicants[i]?.EmploymentInformation?.MonthsOfEmployment) ? "selected" : "")>months</option>
+                                <option value="" @(string.IsNullOrEmpty(Model.AdditionalApplicants[i]?.EmploymentInformation?.MonthsOfEmployment) ? "selected" : "")>@Resources.Month_s_</option>
                                 @for(int j = 0; j < 12; j++)
                                 {
                                     <option value="@j" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.MonthsOfEmployment == j.ToString() ? "selected" : "")>@j</option>
