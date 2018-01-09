@@ -133,8 +133,7 @@ namespace DealnetPortal.Web.Controllers
                 {
                     var absentDocs =
                         docTypes.Item1.Where(
-                            dt => c.Documents.All(d => dt.Id != d.DocumentTypeId) && !string.IsNullOrEmpty(dt.Prefix)
-                                    && (dt.Id != 1 || c.Details?.SignatureStatus != SignatureStatus.Completed))
+                            dt => c.Documents.All(d => dt.Id != d.DocumentTypeId) && (dt.Id != 1 || c.Details?.SignatureStatus != SignatureStatus.Completed))
                             .ToList();
                     if (absentDocs.Any())
                     {
