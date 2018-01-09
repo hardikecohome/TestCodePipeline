@@ -2488,7 +2488,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Comment pouvons-nous vous aider?</value>
   </data>
   <data name="DealerSupport" xml:space="preserve">
-    <value>Soutien au courtier</value>
+    <value>Soutien au courtier / Financement</value>
   </data>
   <data name="CustomerService" xml:space="preserve">
     <value>Service à la clientèle</value>
@@ -2708,5 +2708,11 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
   </data>
   <data name="YourName" xml:space="preserve">
     <value>Votre nom</value>
+  </data>
+  <data name="PhoneIncorrectFormat" xml:space="preserve">
+    <value>Le format du numéro de téléphone est incorrect</value>
+  </data>
+  <data name="PhoneMustBeLong" xml:space="preserve">
+    <value>Le numéro de téléphone doit être une chaîne de 10 chiffres</value>
   </data>
 </root>
