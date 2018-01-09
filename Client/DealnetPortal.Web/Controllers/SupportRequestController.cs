@@ -13,7 +13,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
-using System.Web.Http;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -44,7 +43,7 @@ namespace DealnetPortal.Web.Controllers
 
             return PartialView("_HelpPopUp",viewModel);
         }
-        [System.Web.Mvc.HttpPost]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<string> DealerSupportRequestEmail(SupportRequestDTO dealerSupportRequest)
         {
