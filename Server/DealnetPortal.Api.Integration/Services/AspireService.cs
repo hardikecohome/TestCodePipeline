@@ -2177,7 +2177,8 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = AspireUdfFields.EmployerPhone,
                     Value = !string.IsNullOrEmpty(customer.EmploymentInfo.CompanyPhone) ? customer.EmploymentInfo.CompanyPhone : BlankValue
                 });
-                if (customer.EmploymentInfo.CompanyAddress != null)
+                if (customer.EmploymentInfo.CompanyAddress != null && 
+                    (customer.EmploymentInfo.EmploymentStatus == EmploymentStatus.Employed || customer.EmploymentInfo.EmploymentStatus == EmploymentStatus.SelfEmployed))
                 {
                     var cAddress = !string.IsNullOrEmpty(customer.EmploymentInfo.CompanyAddress.Unit)
                         ? $"{customer.EmploymentInfo.CompanyAddress.Street}, {Resources.Resources.Suite} {customer.EmploymentInfo.CompanyAddress.Unit}, {customer.EmploymentInfo.CompanyAddress.City}, {customer.EmploymentInfo.CompanyAddress.State}, {customer.EmploymentInfo.CompanyAddress.PostalCode}"
