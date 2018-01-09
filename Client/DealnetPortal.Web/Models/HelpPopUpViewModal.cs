@@ -21,7 +21,7 @@ namespace DealnetPortal.Web.Models
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "NameIncorrectFormat")]
         public string PreferedContactPerson { get; set; }
         [Display(ResourceType = typeof(Resources.Resources), Name = "ContractNumber")]
-        [StringLength(6, MinimumLength = 6, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBe")]
+        [StringLength(10, MinimumLength = 4, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
         [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "ContractNumberIncorrectFormat")]
         public string LoanNumber { get; set; }
 
