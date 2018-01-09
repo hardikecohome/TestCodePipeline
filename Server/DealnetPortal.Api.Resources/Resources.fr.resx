@@ -861,4 +861,68 @@
   <data name="_86_Cancelled_Duplicate[1]" xml:space="preserve">
     <value>Annulé</value>
   </data>
+  <data name="Unemployed" xml:space="preserve">
+    <value>Sans emploi</value>
+  </data>
+  <data name="ByidCard" xml:space="preserve">
+    <value>Carte BYID</value>
+  </data>
+  <data name="DealerCancelledEsign" xml:space="preserve">
+    <value>Le courtier a annulé le processus lié à la signature électronique</value>
+  </data>
+  <data name="CanadianFamilyMilitaryCard" xml:space="preserve">
+    <value>Carte d’identité pour les familles des militaires canadiens
+</value>
+  </data>
+  <data name="CanadianMilitaryCard" xml:space="preserve">
+    <value>Carte d’emploi pour les militaires canadiens</value>
+  </data>
+  <data name="CanadianPassport" xml:space="preserve">
+    <value>Passeport canadien ou étranger</value>
+  </data>
+  <data name="CertificateInidanStatus" xml:space="preserve">
+    <value>Certificat du statut d’Indien</value>
+  </data>
+  <data name="DriverLicense" xml:space="preserve">
+    <value>Permis de conduire</value>
+  </data>
+  <data name="PalCard" xml:space="preserve">
+    <value>Permis de possession et d’acquisition</value>
+  </data>
+  <data name="PermanentResidencyCard" xml:space="preserve">
+    <value>Carte de résident permanent</value>
+  </data>
+  <data name="Employed" xml:space="preserve">
+    <value>Employé</value>
+  </data>
+  <data name="Suite" xml:space="preserve">
+    <value>Bureau</value>
+  </data>
+  <data name="Retired" xml:space="preserve">
+    <value>À la retraite</value>
+  </data>
+  <data name="SelfEmployed" xml:space="preserve">
+    <value>À son propre compte</value>
+  </data>
+  <data name="CanadianBlindIdentificationCard" xml:space="preserve">
+    <value>Carte d’identité de l’Institut national canadien pour les aveugles</value>
+  </data>
+  <data name="CanadianCitizenshipCard" xml:space="preserve">
+    <value>Carte de citoyenneté canadienne</value>
+  </data>
+  <data name="Annual" xml:space="preserve">
+    <value>Annuel</value>
+  </data>
+  <data name="FullTime" xml:space="preserve">
+    <value>Temps plein</value>
+  </data>
+  <data name="HourlyRate" xml:space="preserve">
+    <value>Taux horaire</value>
+  </data>
+  <data name="PartTime" xml:space="preserve">
+    <value>Temps partiel</value>
+  </data>
+  <data name="SalaryIncome" xml:space="preserve">
+    <value>Salaire/Revenu</value>
+  </data>
 </root>
