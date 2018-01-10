@@ -392,9 +392,9 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 {
                     EnvelopesApi envelopesApi = new EnvelopesApi();
                     var envelope =
-                        await envelopesApi.GetEnvelopeAsync(AccountId, contract.Details.SignatureTransactionId);
+                        envelopesApi.GetEnvelope(AccountId, contract.Details.SignatureTransactionId);
                     var reciepents =
-                        await envelopesApi.ListRecipientsAsync(AccountId, contract.Details.SignatureTransactionId);
+                        envelopesApi.ListRecipients(AccountId, contract.Details.SignatureTransactionId);
 
                     if (envelope != null)
                     {
@@ -446,7 +446,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 });
             }
 
-            return new Tuple<bool, IList<Alert>>(updated, alerts);
+            return await Task.FromResult(new Tuple<bool, IList<Alert>>(updated, alerts));
         }
 
         public async Task<IList<Alert>> SubmitDocument(IList<SignatureUser> signatureUsers)
