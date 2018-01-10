@@ -417,11 +417,18 @@
                 }
             })(function (props) {
                 $('#yourInfoErrors').empty();
+                $('#quebecErrors').empty();
                 if (props.errors.length > 0) {
                     props.errors
-                        .filter(function (error) { return error.type === 'birthday' })
-                        .forEach(function (error) {
+                        .filter(function(error) { return error.type === 'birthday' })
+                        .forEach(function(error) {
                             $('#yourInfoErrors').append(createError(window.translations[error.messageKey]));
+                        });
+
+                    props.errors
+                        .filter(function (error) { return error.type === 'quebec'; })
+                        .forEach(function(error) {
+                            $('#quebecErrors').append(createError(window.translations[error.messageKey]));
                         });
                 }
 
@@ -429,7 +436,7 @@
                     return error.type === 'empty';
                 });
 
-                if (emptyError.length) {
+                if (emptyError.length || props.errors.length > 0) {
                     $('#submit').addClass('disabled');
                     $('#submit').parent().popover();
                 } else {

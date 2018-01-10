@@ -62,6 +62,7 @@
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.DealerName)
         @Html.HiddenFor(m => m.HashDealerName)
+        @Html.CheckBoxFor(m => m.IsQuebecDealer, new { id = "isQuebecDealer", @class="hidden" })
         if(serviceTypes != null && serviceTypes.Count > 1)
         {
             <div class="equipment-customer-section">
@@ -71,8 +72,8 @@
                             @Html.LabelFor(m => m.Service)
                             <div class="control-group">
                                 @Html.DropDownListFor(m => m.Service,
-                                                        serviceTypes.Select(x => new SelectListItem { Value = x, Text = x }),
-                                                        new { @class = "form-control", id = "selectedService" })
+                                                                  serviceTypes.Select(x => new SelectListItem { Value = x, Text = x }),
+                                                                  new { @class = "form-control", id = "selectedService" })
                             </div>
                         </div>
                     </div>
@@ -207,7 +208,7 @@
                                     @Html.LabelFor(m => m.HomeOwner.AddressInformation.Province, new { @for = "province", @class = "mandatory-field" })
                                     <div class="control-group">
                                         @Html.DropDownListFor(m => m.HomeOwner.AddressInformation.Province, (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
-                                                            new { @class = "form-control dealnet-input", placeholder = Resources.Nepean, id = "province" })
+                                                                      new { @class = "form-control dealnet-input", placeholder = Resources.Nepean, id = "province" })
                                         @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.City, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -280,7 +281,7 @@
                                     @Html.LabelFor(m => m.HomeOwner.PreviousAddressInformation.Province, new { @for = "pprovince", @class = "mandatory-field" })
                                     <div class="control-group">
                                         @Html.DropDownListFor(m => m.HomeOwner.PreviousAddressInformation.Province, (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
-                                                           new { @class = "form-control dealnet-input", id = "pprovince" })
+                                                                     new { @class = "form-control dealnet-input", id = "pprovince" })
                                         @Html.ValidationMessageFor(m => m.HomeOwner.PreviousAddressInformation.Province, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -397,7 +398,7 @@
                                         @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.YearsOfEmployment, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="months select-hold">
-                                        <select name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.MonthsOfEmployment)" class="form-control dealnet-input" id="emp-months" @(Model.HomeOwner?.EmploymentInformation?.YearsOfEmployment == "10+"?"disabled=disabled":"")>
+                                        <select name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.MonthsOfEmployment)" class="form-control dealnet-input" id="emp-months" @(Model.HomeOwner?.EmploymentInformation?.YearsOfEmployment == "10+" ? "disabled=disabled" : "")>
                                             <option value="" @(string.IsNullOrEmpty(Model.HomeOwner?.EmploymentInformation?.MonthsOfEmployment) ? "selected" : "")>months</option>
                                             @for(int j = 0; j < 12; j++)
                                             {
@@ -582,7 +583,10 @@
                     <div id="contactInfoErrors"></div>
                 </div>
             </div>
-            <div class="clearfix">
+            
+        <div id="quebecErrors"></div>
+
+        <div class="clearfix">
                 <span class="btn-proceed-inline-hold btn-form-common" data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Resources.YouShouldFillAllMandatoryFields">
                     <button type="submit" class="btn dealnet-success-button btn-proceed  btn-form-common" id="submit">@Resources.SubmitApplication</button>
                 </span>
@@ -605,6 +609,8 @@
     // translations['EmptyContactAgreement'] = ""; TODO: add resources in next Release
     translations['NotSelected'] = "@Resources.NotSelected";
     translations['Over18'] = "@Resources.ToProceedMustBe18";
+    translations['InstallationAddressInQuebec'] = '@Resources.InstallationAddressInQuebec';
+    translations['InstallationAddressCannotInQuebec'] = '@Resources.InstallationAddressCannotInQuebec';
 }
 
 @section scripts

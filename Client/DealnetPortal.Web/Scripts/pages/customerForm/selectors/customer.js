@@ -8,10 +8,12 @@
             cellPhone: state.phone === ''
         };
     };
-
+    
     var getErrors = function (requiredFields, requiredPFields,requiredEmploy) {
         return function (state) {
             var errors = [];
+
+            var isQuebecAddress = state.province.toLowerCase() !== 'qc';
 
             //if (state.birthday !== '') {
             //    var ageDifMs = Date.now() - Date.parseExact(state.birthday, 'M/d/yyyy');
@@ -26,13 +28,30 @@
             //    }
             //}
 
+            if (state.isQuebecDealer) {
+                if (state.province !== '' && isQuebecAddress) {
+                    errors.push({
+                        type: 'quebec',
+                        messageKey: 'InstallationAddressInQuebec'
+                    });
+                }
+            }
+            if (!state.isQuebecDealer) {
+                if (state.province !== '' && isQuebecAddress) {
+                    errors.push({
+                        type: 'quebec',
+                        messageKey: 'InstallationAddressCannotInQuebec'
+                    });
+                }
+            }
+
             var requiredPhones = filterObj(function (key, obj) {
                 return obj[key];
             })(getRequiredPhones(state));
 
             var requiredP = state.lessThanSix ? requiredPFields : [];
 
-            var requiredE = state.province.toLowerCase() === 'qc' ? requiredEmploy : [];
+            var requiredE = isQuebecAddress ? requiredEmploy : [];
             
             var emptyErrors = requiredFields.concat(requiredPhones).concat(requiredP).concat(requiredE).map(mapObj(state))
                 .some(function (val) {

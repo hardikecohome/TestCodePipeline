@@ -1,12 +1,12 @@
-﻿using DealnetPortal.Api.Core.Enums;
-using DealnetPortal.Web.Common.Helpers;
-using DealnetPortal.Web.Models;
-using DealnetPortal.Web.ServiceAgent;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using DealnetPortal.Api.Core.Enums;
+using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Models;
+using DealnetPortal.Web.ServiceAgent;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -36,13 +36,18 @@ namespace DealnetPortal.Web.Controllers
             ViewBag.ServiceTypes = languageOptions.LanguageServices;
             ViewBag.EnabledLanguages = languageOptions.EnabledLanguages;
             var provinces = await _dictionaryServiceAgent.GetAllProvinceTaxRates();
-            if (provinces == null || provinces.Item1 == null || !provinces.Item1.Any())
+            if (provinces?.Item1 == null || !provinces.Item1.Any())
             {
                 return RedirectToAction("AnonymousError", "Info");
             }
             ViewBag.ProvinceTaxRates = provinces.Item1;
             ViewBag.HashDealerName = hashDealerName;
-            return View(new CustomerFormViewModel { DealerName = languageOptions.DealerName, HashDealerName = hashDealerName });
+            return View(new CustomerFormViewModel
+                        {
+                                DealerName = languageOptions.DealerName,
+                                HashDealerName = hashDealerName,
+                                IsQuebecDealer = languageOptions.QuebecDealer
+                        });
         }
 
         [HttpPost]

@@ -45,7 +45,8 @@
         cunit: '',
         ccity: '',
         cprovince: '',
-        cpostalCode: ''
+        cpostalCode: '',
+        isQuebecDealer: false
     };
 
     var setFormField = function (field) {
