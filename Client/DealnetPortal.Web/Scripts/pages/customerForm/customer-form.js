@@ -54,7 +54,7 @@
                     if (index2 >= 0) {
                         flow2.splice(index2, 1);
                     }
-                    if (action.type === customerActions.SET_ADDRESS && action.payload.streeet !== '') {
+                    if (action.type === customerActions.SET_ADDRESS && action.payload.street !== '') {
                         addressFlow.forEach(function (action) {
                             var index3 = flow2.indexOf(action);
                             if (index3 >= 0) {
@@ -123,7 +123,7 @@
                 },
                 'expired-callback': function () {
                     dispatch(createAction(customerActions.SET_CAPTCHA_CODE, ''));
-                },
+                }
             });
         };
     }
@@ -146,6 +146,7 @@
                 addressObj[addressType] = addressComponent[addressForm[addressType]];
                 return addressObj;
             }
+            return null;
         };
     };
 
@@ -285,7 +286,7 @@
             $('.j-personal-data-used-modal').on('click', function (e) {
                 var data = {
                     message: $('#personal-data-used').html(),
-                    class: "consents-modal",
+                    "class": "consents-modal",
                     cancelBtnText: "OK"
                 };
                 dynamicAlertModal(data);
@@ -293,7 +294,7 @@
             });
 
             $('.customer-loan-form-panel .panel-heading').on('click', function () {
-                panelCollapsed($(this))
+                panelCollapsed($(this));
             });
 
             var form = $('#mainForm');
@@ -365,7 +366,6 @@
                         requiredEmployment.concat(['employStatus',
                             'incomeType',
                             'yearsOfEmploy',
-                            'monthsOfEmploy',
                             'employType',
                             'jobTitle',
                             'companyName',
@@ -381,15 +381,17 @@
                         if (props.incomeType === '1') {
                             requiredEmployment.push('hourlyRate');
                         }
+                        if (props.yearsOfEmploy !== '10+') {
+                            requiredEmployment.push('monthsOfEmploy');
+                        }
                     }
                     if (props.employStatus === '1' || props.employStatus === '3') {
-                        requiredEmployment.concat( ['employStatus', 'annualSalary']);
+                        requiredEmployment.concat(['employStatus', 'annualSalary']);
                     }
                     if (props.employStatus === '2') {
                         requiredEmployment.concat(['employStatus',
                             'annualSalary',
                             'yearsOfEmploy',
-                            'monthsOfEmploy',
                             'employType',
                             'jobTitle',
                             'companyName',
@@ -399,6 +401,9 @@
                             'ccity' ,
                             'cprovince',
                             'cpostalCode']);
+                        if (props.yearsOfEmploy !== '10+') {
+                            requiredEmployment.push('monthsOfEmploy');
+                        }
                     }
                 } 
             });

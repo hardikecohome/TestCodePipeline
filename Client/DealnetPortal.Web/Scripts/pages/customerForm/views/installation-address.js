@@ -90,7 +90,7 @@
             pprovince: pprovince,
             ppostalCode: ppostalCode,
             homeOwner: homeOwner,
-            lessThanSix: lessThanSix,
+            lessThanSix: lessThanSix
         };
 
         dispatch(createAction(customerActions.SET_INITIAL_STATE, readInitialStateFromFields(initialStateMap)));

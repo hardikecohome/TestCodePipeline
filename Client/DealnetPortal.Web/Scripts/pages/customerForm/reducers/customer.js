@@ -78,7 +78,7 @@
             unit: '',
             city: '',
             province: '',
-            postalCode: '',
+            postalCode: ''
         };
     };
     reducerObj[customerActions.SET_ADDRESS] = function (state, action) {
@@ -99,7 +99,7 @@
             street: street,
             city: action.payload.city || state.city,
             province: action.payload.province || state.province,
-            postalCode: action.payload.postalCode || state.postalCode,
+            postalCode: action.payload.postalCode || state.postalCode
         };
     };
     reducerObj[customerActions.SET_PSTREET] = setFormField('pstreet');
@@ -113,7 +113,7 @@
             punit: '',
             pcity: '',
             pprovince: '',
-            ppostalCode: '',
+            ppostalCode: ''
         };
     };
     reducerObj[customerActions.SET_PADDRESS] = function (state, action) {
@@ -134,7 +134,7 @@
             pstreet: street,
             pcity: action.payload.city || state.city,
             pprovince: action.payload.province || state.province,
-            ppostalCode: action.payload.postalCode || state.postalCode,
+            ppostalCode: action.payload.postalCode || state.postalCode
         };
     };
     reducerObj[customerActions.SET_LESS_THAN_SIX] = setFormField('lessThanSix');
@@ -144,13 +144,13 @@
     reducerObj[customerActions.ACTIVATE_INSTALLATION] = function () {
         return {
             displayInstallation: true,
-            activePanel: 'installation',
+            activePanel: 'installation'
         };
     };
     reducerObj[customerActions.ACTIVATE_CONTACT_INFO] = function () {
         return {
             displayContactInfo: true,
-            activePanel: 'contactInfo',
+            activePanel: 'contactInfo'
         };
     };
     reducerObj[customerActions.TOGGLE_OWNERSHIP] = setFormField('ownership');

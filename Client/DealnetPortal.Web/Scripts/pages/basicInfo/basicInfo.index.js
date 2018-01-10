@@ -8,7 +8,7 @@
     var checkCreditAgree = require('customer-validation').checkCreditAgree;
     var scrollPageTo = require('scrollPageTo');
     var dynamicAlertModal = require('alertModal').dynamicAlertModal;
-    var addAdditionalButton, aditional1Section, aditional2Section, aditional3Section, mailingAddress, mailingAddressCheckbox;
+    var addAdditionalButton, aditional1Section;
 
     function setDataAttrInModal(index) {
         var modal = document.getElementById('camera-modal');
@@ -97,19 +97,13 @@
             }
         });
 
-        $('#administrative_area_level_1').change(function (e) {
+        var province = $('#administrative_area_level_1');
+        province.change(function (e) {
             var isQuebec = e.target.value === 'QC';
             if (isQuebec) {
                 $('#proceed-qc-dealer').hide();
             } else {
                 $('#proceed-not-qc-dealer').hide();
-            }
-        });
-
-        $('#agreement-checkbox1').change(function () {
-            var isValid = checkCreditAgree();
-            if (isValid) {
-                $('#proceed-error-message').hide();
             }
         });
 
@@ -224,9 +218,9 @@
             var isHomeOwner = checkHomeOwner();
             var isAgreesToCreditCheck = checkCreditAgree();
             var isQuebecDealer = $('#is-quebec-dealer').val().toLowerCase() === 'true';
-            var isAddressInQc = $('#administrative_area_level_1').val().toLowerCase() === 'qc';
+            var isAddressInQc = province.val().toLowerCase() === 'qc';
             var isValidProcvinceAddress = false;
-            //if(quebecDealerValid)
+
             //if (!isApprovalAge) {
             //    $('#age-warning-message').hide();
             //    //$('#age-error-message').show();
@@ -272,8 +266,6 @@
             }
         });
 
-        var province = $('#administrative_area_level_1');
-
         homeOwnerEmployment.initEmployment(province.val().toLowerCase()!=='qc');
         additionalEmployment.initEmployment(province.val().toLowerCase() !== 'qc' || aditional1Section.is(':hidden'));
 
@@ -292,7 +284,7 @@
         });
 
         addAdditionalButton.on('click', function() {
-            if ($('#administrative_area_level_1').val().toLowerCase() == 'qc') {
+            if (province.val().toLowerCase() == 'qc') {
                 additionalEmployment.enableEmployment();
             }
         });
