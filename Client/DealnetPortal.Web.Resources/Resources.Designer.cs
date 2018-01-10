@@ -2127,6 +2127,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dealer&apos;s initial is in incorrect format.
+        /// </summary>
+        public static string DealerInitialIncorrectFormat {
+            get {
+                return ResourceManager.GetString("DealerInitialIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dealer Invoice Amount.
         /// </summary>
         public static string DealerInvoiceAmount {
