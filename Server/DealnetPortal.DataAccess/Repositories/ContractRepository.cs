@@ -160,6 +160,7 @@ namespace DealnetPortal.DataAccess.Repositories
             var contracts = _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
+                .Include(c => c.PrimaryCustomer.EmploymentInfo)
                 .Include(c => c.SecondaryCustomers)
                 .Include(c => c.HomeOwners)
                 .Include(c => c.InitialCustomers)
