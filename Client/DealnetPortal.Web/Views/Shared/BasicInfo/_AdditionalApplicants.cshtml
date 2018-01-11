@@ -355,7 +355,7 @@
                                 var val = $"{j}-{j + 15000}";
                                 <option value="@val" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.AnnualSalary == val ? "selected" : "")>$@($"{j:n0}") - $@($"{j + 15000:n0}")</option>
                             }
-                            <option value="200000+" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.AnnualSalary == "200000" ? "selected" : "")>$200,000+</option>
+                            <option value="200000+" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.AnnualSalary == "200000+" ? "selected" : "")>$200,000+</option>
                         </select>
                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.AnnualSalary, "", new { @class = "text-danger" })
                     </div>

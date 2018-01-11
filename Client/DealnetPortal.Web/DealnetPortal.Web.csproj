@@ -1176,6 +1176,7 @@
     <Content Include="Views\Shared\SummaryAndConfirmation\_EquipmentInformation.cshtml" />
     <Content Include="Views\Shared\Maintenance\en\Banner.cshtml" />
     <Content Include="Views\Shared\_HelpPopUp.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_ClarityProgram.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

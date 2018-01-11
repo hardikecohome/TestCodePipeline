@@ -1352,6 +1352,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clarity Program.
+        /// </summary>
+        public static string ClarityProgram {
+            get {
+                return ResourceManager.GetString("ClarityProgram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clear Address.
         /// </summary>
         public static string ClearAddress {
@@ -4026,6 +4035,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Monthly Cost of Ownership.
+        /// </summary>
+        public static string MonthlyCostOfOwnership {
+            get {
+                return ResourceManager.GetString("MonthlyCostOfOwnership", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Monthly deals to be deferred should be between 0 and 100.
         /// </summary>
         public static string MonthlyDefferedPercentRange {
@@ -6226,6 +6244,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to TAX excl.
+        /// </summary>
+        public static string TaxExcl {
+            get {
+                return ResourceManager.GetString("TaxExcl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TAX incl.
+        /// </summary>
+        public static string TaxIncl {
+            get {
+                return ResourceManager.GetString("TaxIncl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 10 or more.
         /// </summary>
         public static string TenOrMore {
@@ -6447,6 +6483,15 @@ namespace DealnetPortal.Web.Resources {
         public static string TotalForSelected {
             get {
                 return ResourceManager.GetString("TotalForSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Monthly Cost of Ownership.
+        /// </summary>
+        public static string TotalMonthlyCostOfOwnership {
+            get {
+                return ResourceManager.GetString("TotalMonthlyCostOfOwnership", resourceCulture);
             }
         }
         
