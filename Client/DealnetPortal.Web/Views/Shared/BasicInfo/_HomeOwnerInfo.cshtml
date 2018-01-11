@@ -402,7 +402,7 @@ else
                                 var val = $"{i}-{i + 15000}";
                                 <option value="@val" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == val ? "selected" : "")>$@($"{i:n0}") - $@($"{i + 15000:n0}")</option>
                             }
-                            <option value="200000" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == "200000" ? "selected" : "")>$200,000+</option>
+                            <option value="200000+" @(Model.HomeOwner?.EmploymentInformation?.AnnualSalary == "200000+" ? "selected" : "")>$200,000+</option>
                         </select>
                         @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary, "", new { @class = "text-danger" })
                     </div>
