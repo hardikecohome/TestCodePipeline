@@ -2715,4 +2715,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
   <data name="PhoneMustBeLong" xml:space="preserve">
     <value>Le numéro de téléphone doit être une chaîne de 10 chiffres</value>
   </data>
+  <data name="DealerInitialIncorrectFormat" xml:space="preserve">
+    <value>Le format de montant initial du courtier est incorrect</value>
+  </data>
 </root>

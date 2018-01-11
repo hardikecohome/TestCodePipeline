@@ -1007,7 +1007,7 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 // if dealer has templates, select one
                 agreementTemplate = dealerTemplates.FirstOrDefault(at =>
-                    (agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication)
+                    ((agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
                     && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
                     && (string.IsNullOrEmpty(equipmentType) || (at.EquipmentType?.Contains(equipmentType) ?? false)));
 
@@ -1023,14 +1023,15 @@ namespace DealnetPortal.Api.Integration.Services
                 if (agreementTemplate == null)
                 {
                     agreementTemplate = dealerTemplates.FirstOrDefault(at =>
-                        (agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication)
+                        ((agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
                         && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false)));
                 }
 
                 if (agreementTemplate == null)
                 {
                     agreementTemplate =
-                        dealerTemplates.FirstOrDefault(at => (agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication));
+                        dealerTemplates.FirstOrDefault(at => ((agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
+                                                            && string.IsNullOrEmpty(at.State) && string.IsNullOrEmpty(at.EquipmentType));
                 }                
             }            
 

@@ -2631,4 +2631,7 @@ changing contract terms or signing contract on paper.</value>
   <data name="TheFieldMustBe" xml:space="preserve">
     <value>The field {0} must be a string with a length of {1}.</value>
   </data>
+  <data name="DealerInitialIncorrectFormat" xml:space="preserve">
+    <value>Dealer's initial is in incorrect format</value>
+  </data>
 </root>

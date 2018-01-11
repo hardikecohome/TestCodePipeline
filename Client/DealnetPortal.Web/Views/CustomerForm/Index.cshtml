@@ -208,7 +208,7 @@
                                     <div class="control-group">
                                         @Html.DropDownListFor(m => m.HomeOwner.AddressInformation.Province, (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
                                                             new { @class = "form-control dealnet-input", placeholder = Resources.Nepean, id = "province" })
-                                        @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.City, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Province, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
