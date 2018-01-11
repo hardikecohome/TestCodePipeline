@@ -26,12 +26,10 @@ namespace DealnetPortal.Web.Models
 
         [Display(ResourceType =typeof(Resources.Resources), Name ="JobTitle")]
         [StringLength(140, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
-        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "JobTitleIncorrectFormat")]
         public string JobTitle { get; set; }
 
         [Display(ResourceType =typeof(Resources.Resources),Name ="CompanyName")]
         [StringLength(140, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
-        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z0-9 \.‘'`-]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "CompanyNameIncorrectFormat")]
         public string CompanyName { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name="CompanyPhone")]
