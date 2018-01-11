@@ -1483,7 +1483,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (contract.Equipment != null)
             {                
                 application.AmtRequested = contract.Equipment.AmortizationTerm?.ToString();
-                application.TermRequested = contract.Equipment.RequestedTerm.ToString();
+                application.TermRequested = contract.Equipment.RequestedTerm?.ToString();
 
                 application.ContractType = contract.Equipment?.AgreementType == AgreementType.LoanApplication
                     ? "LOAN"
@@ -1691,16 +1691,22 @@ namespace DealnetPortal.Api.Integration.Services
             var udfList = new List<UDF>();
             if (contract?.Equipment != null)
             {
-                udfList.Add(new UDF()
+                if (contract.Equipment.DeferralType != null)
                 {
-                    Name = AspireUdfFields.DeferralType,
-                    Value = contract.Equipment.DeferralType.GetPersistentEnumDescription()
-                });
-                udfList.Add(new UDF()
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.DeferralType,
+                        Value = contract.Equipment.DeferralType.GetPersistentEnumDescription()
+                    });
+                }
+                if (contract.Equipment.RequestedTerm != null)
                 {
-                    Name = AspireUdfFields.RequestedTerm,
-                    Value = contract.Equipment.RequestedTerm.ToString()
-                });
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.RequestedTerm,
+                        Value = contract.Equipment.RequestedTerm.ToString()
+                    });
+                }
 
                 if (!string.IsNullOrEmpty(contract.Equipment.SalesRep))
                 {
