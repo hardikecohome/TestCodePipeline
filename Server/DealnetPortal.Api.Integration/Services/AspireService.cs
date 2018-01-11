@@ -2146,22 +2146,16 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = eStatus
                     });
                 }
-                if (customer.EmploymentInfo.EmploymentType.HasValue)
+                udfList.Add(new UDF()
                 {
-                    udfList.Add(new UDF()
-                    {
-                        Name = AspireUdfFields.EmploymentType,
-                        Value = customer.EmploymentInfo.EmploymentType == EmploymentType.FullTime ? "F" : "P"
-                    });
-                }
-                if (customer.EmploymentInfo.IncomeType.HasValue)
+                    Name = AspireUdfFields.EmploymentType,
+                    Value = customer.EmploymentInfo.EmploymentType.HasValue ? (customer.EmploymentInfo.EmploymentType == EmploymentType.FullTime ? "F" : "P") : BlankValue
+                });
+                udfList.Add(new UDF()
                 {
-                    udfList.Add(new UDF()
-                    {
-                        Name = AspireUdfFields.IncomeType,
-                        Value = customer.EmploymentInfo.IncomeType == IncomeType.HourlyRate ? "H" : "A"
-                    });
-                }
+                    Name = AspireUdfFields.IncomeType,
+                    Value = customer.EmploymentInfo.IncomeType.HasValue ? (customer.EmploymentInfo.IncomeType == IncomeType.HourlyRate ? "H" : "A") : BlankValue
+                });
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.JobTitle,
