@@ -829,6 +829,7 @@
     <Content Include="Scripts\pages\basicInfo\additionalApplicants\employment.js" />
     <Content Include="Scripts\pages\basicInfo\homeOwner\employment.js" />
     <Content Include="Scripts\pages\customerForm\views\employment-info.js" />
+    <Content Include="Scripts\pages\newEquipment\newEquipment.clarity.js" />
     <Content Include="Scripts\vendor\knockout.validation.js" />
     <Content Include="Scripts\pages\basicInfo\address-autocomplete.js" />
     <Content Include="Scripts\pages\calculator\calculator.validation.js" />

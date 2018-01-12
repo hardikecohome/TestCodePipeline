@@ -64,13 +64,13 @@
             <div class="form-group">
               @Html.LabelFor(m => m.ExistingEquipment[0].IsRental)
               <div class="control-group">
-                @Html.DropDownListFor(m => m.ExistingEquipment[0].IsRental, new SelectList(
-                  new[]
-                  {
-                    new {Value = "true", Text = Resources.Yes, Selected = Model?.ExistingEquipment != null && Model.ExistingEquipment[0].IsRental},
-                    new {Value = "false", Text = Resources.No, Selected = Model?.ExistingEquipment != null && !Model.ExistingEquipment[0].IsRental},
-                  },
-                  "Value", "Text", Model?.ExistingEquipment != null ? Model.ExistingEquipment[0].IsRental : true), new { @class = "form-control", @Value = true })
+                  @Html.DropDownListFor(m => m.ExistingEquipment[0].IsRental, new SelectList(
+                          new[]
+                          {
+                                  new {Value = "true", Text = Resources.Yes, Selected = Model?.ExistingEquipment != null && Model.ExistingEquipment[0].IsRental},
+                                  new {Value = "false", Text = Resources.No, Selected = Model?.ExistingEquipment != null && !Model.ExistingEquipment[0].IsRental},
+                          },
+                          "Value", "Text", Model?.ExistingEquipment?[0].IsRental ?? true), new { @class = "form-control", @Value = true })
               </div>
             </div>
           </div>

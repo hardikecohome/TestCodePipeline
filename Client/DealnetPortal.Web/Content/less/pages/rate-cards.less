@@ -337,11 +337,17 @@ div[class*="equal-height-row"]{
 
 .loan-details {
     background: #eeeeee;
-    padding: 20px;
+    padding: 15px 10px;
     margin: 20px 0;
     .bordered {
-        border-right:solid #000000 1px;
-    }
+        @media @tablet-up {
+            border-right:solid #000000 1px;
+            }
+        @media @mobile {
+            border-bottom:solid #000000 1px;
+            margin-bottom: 15px;
+            }
+        }
 }
 
 .loan-brief {
