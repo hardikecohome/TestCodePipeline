@@ -64,7 +64,7 @@
 
         if (!items)
             return;
-;
+
         var selectorName = isStandalone ? dataObject.standaloneOption : dataObject.rateCardPlan;
 
         var dropdown = $('#' + selectorName  + '-amortDropdown')[0];

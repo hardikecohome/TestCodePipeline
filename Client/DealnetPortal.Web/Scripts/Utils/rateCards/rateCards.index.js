@@ -138,6 +138,12 @@
                 return i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
             }
         })[0];
+
+        if ((card !== undefined && card !== null) && (card.ValidFrom !== null || card.ValidTo !== null)) {
+            card.ValidFrom = null;
+            card.ValidTo = null;
+        }
+
         return card;
     }
 
