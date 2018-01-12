@@ -821,11 +821,20 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Balance Owing at the End of Monthly Payments (Residual).
+        ///   Looks up a localized string similar to Balance Owing at the End of Monthly Payments.
         /// </summary>
         public static string BalanceOwingEndOfPayments {
             get {
                 return ResourceManager.GetString("BalanceOwingEndOfPayments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Balance Owing at the End of Monthly Payments (Residual).
+        /// </summary>
+        public static string BalanceOwingEndOfPaymentsRes {
+            get {
+                return ResourceManager.GetString("BalanceOwingEndOfPaymentsRes", resourceCulture);
             }
         }
         
