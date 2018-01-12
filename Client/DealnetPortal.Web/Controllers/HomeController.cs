@@ -17,6 +17,8 @@ using System.Web.Mvc;
 using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
+using DealnetPortal.Web.Models.Enumeration;
+using ContractState = DealnetPortal.Api.Common.Enumeration.ContractState;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -125,7 +127,9 @@ namespace DealnetPortal.Web.Controllers
                     .ToList();
 
             var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);
-            var docTypes = await _dictionaryServiceAgent.GetDocumentTypes();
+            var identity = (ClaimsIdentity) User.Identity;
+            var province = identity.HasClaim("QuebecDealer", "True") ? ContractProvince.QC : ContractProvince.ON;
+            var docTypes = await _dictionaryServiceAgent.GetStateDocumentTypes(province.ToString());
 
             if (docTypes?.Item1 != null)
             {
@@ -133,7 +137,7 @@ namespace DealnetPortal.Web.Controllers
                 {
                     var absentDocs =
                         docTypes.Item1.Where(
-                            dt => c.Documents.All(d => dt.Id != d.DocumentTypeId) && (dt.Id != 1 || c.Details?.SignatureStatus != SignatureStatus.Completed))
+                            dt => dt.IsMandatory && c.Documents.All(d => dt.Id != d.DocumentTypeId) && (dt.Id != 1 || c.Details?.SignatureStatus != SignatureStatus.Completed))
                             .ToList();
                     if (absentDocs.Any())
                     {

@@ -58,7 +58,7 @@ namespace DealnetPortal.Web.Models
         public string VerificationIdName { get; set; }
         [Display(ResourceType = typeof(Resources.Resources), Name = "DealerInitial")]
         [StringLength(2, MinimumLength = 1, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
-        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "LastNameIncorrectFormat")]
+        [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "DealerInitialIncorrectFormat")]
         public string DealerInitial { get; set; }
 
         public EmploymentInformationViewModel EmploymentInformation { get; set; }

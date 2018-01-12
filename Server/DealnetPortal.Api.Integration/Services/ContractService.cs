@@ -1073,7 +1073,7 @@ namespace DealnetPortal.Api.Integration.Services
             state = state ?? contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress)?.State;
             var reqDocs = _contractRepository.GetStateDocumentTypes(state).Where(x=>x.IsMandatory);
             //required documents
-            isValid |= reqDocs.All(x => contract.Documents.Any(d => d.DocumentTypeId == x.Id));
+            isValid |= reqDocs.All(x => contract.Documents.Any(d => d.DocumentTypeId == x.Id) || x.Id == (int)DocumentTemplateType.SignedContract);
 
             //signed document
             isValid &= (contract.Details?.SignatureStatus == SignatureStatus.Completed ||
