@@ -14,6 +14,8 @@
         var rateCardBlock = require('rate-cards-ui');
         var state = require('state').state;
         var constants = require('state').constants;
+        var clarity = require('clarity');
+
         var navigateToStep = require('navigateToStep');
         var datepicker = require('datepicker');
 
@@ -66,6 +68,7 @@
             _initHandlers();
             _initDatepickers();
 
+            $('.clarity').length && clarity.init();
             equipment.init();
             rateCardsInit.init(id, cards, onlyCustomRateCard);
             customRateCardInit();

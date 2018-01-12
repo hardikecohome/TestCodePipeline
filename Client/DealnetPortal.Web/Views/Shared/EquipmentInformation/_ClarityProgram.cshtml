@@ -1,0 +1,387 @@
+﻿@using DealnetPortal.Api.Models.Contract
+@using DealnetPortal.Web.Models.Enumeration
+@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+
+<div class="clarity">
+    <div class="row form-group">
+        <div class="col-md-3">
+            @Html.LabelFor(m => m.AgreementType)
+            <select class="form-control loan-only-dropdown-disabled" disabled="disabled" name="@Html.NameFor(m=>m.AgreementType)" id="typeOfAgreementSelect">
+                <option value="@AgreementType.LoanApplication" selected="selected">@Resources.ClarityProgram</option>
+            </select>
+        </div>
+    </div>
+    <div id="new-equipments">
+        <h3 class="dealnet-middle-header">@Resources.NewEquipmentInformation</h3>
+        @if(Model?.NewEquipment != null)
+        {
+            for(var i = 0; i < Model.NewEquipment.Count; i++)
+            {
+                <div id="new-equipment-@(i)" class="new-equipment new-equipment-wrap">
+                    @Html.HiddenFor(m => m.NewEquipment[i].Id)
+                    <div class="dealnet-middle-header equipment-number-header">
+                        <span class="equipment-number">№@(i + 1)</span>
+                        @if(i > 0)
+                        {
+                            <div class="additional-remove" id="addEquipment-remove-@(i)">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </div>
+                        }
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.NewEquipment[i].Type)
+                                @Html.DropDownListFor(m => m.NewEquipment[i].Type,
+                                                  ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description, Selected = Model?.NewEquipment != null && Model.NewEquipment[i]?.Type == x.Type }),
+                                                  new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-4">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.NewEquipment[i].Description)
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => m.NewEquipment[i].Description, new { @class = "form-control dealnet-input", placeholder = Resources.DescriptionWithMakeModel })
+                                    @Html.ValidationMessageFor(m => m.NewEquipment[i].Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-xs-12 monthly-cost-col">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.NewEquipment[i].MonthlyCost)
+                                <div class="control-group has-addon-left">
+                                    <div class="control-group-addon">$</div>
+                                    @Html.TextBoxFor(m => m.NewEquipment[i].MonthlyCost, new { @class = "form-control dealnet-input monthly-cost", type = "text", placeholder = Resources.MonthlyCost })
+                                    @Html.ValidationMessageFor(m => m.NewEquipment[i].MonthlyCost, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <div class="control-group">
+                                    <div class="dealnet-info-link add-equip-link">
+                                        <svg aria-hidden="true" class="icon icon-add-app">
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
+                                        </svg>
+                                        <span>@Resources.AddAdditionalEquipment</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row form-group">
+                <div class="col-sm-6">
+                    @Resources.TotalMonthlyCostOfOwnership (@Resources.TaxExcl)
+                </div>
+                <div class="col-sm-6 text-right text-stronger">
+                    <span id="totalMonthlyCostNoTax">-</span>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-6">
+                    GST+QST
+                </div>
+                <div class="col-sm-6 text-right text-stronger">
+                    <span id="taxGst">-</span>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-6">
+                    @Resources.TotalMonthlyCostOfOwnership (@Resources.TaxIncl)
+                </div>
+                <div class="col-sm-6 text-right text-stronger">
+                    <span id="totalMonthlyCostTax">-</span>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-6">
+                    @Resources.TotalPriceOfEquipment (@Resources.TaxIncl)
+                </div>
+                <div class="col-sm-6 text-right text-stronger">
+                    <span id="totalPriceEquipment">-</span>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(m => m.DownPayment)
+                    <div class="control-group has-addon-left">
+                        <div class="control-group-addon">$</div>
+                        @Html.TextBoxFor(m => m.DownPayment, new { @class = "form-control", placeholder = Resources.DownPayment, type = "text", id = "downPayment" })
+                        @Html.ValidationMessageFor(m => m.DownPayment, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="financing-options">
+        <div class="row">
+            <div class="col-md-3">
+                <h3 class="dealnet-middle-header">
+                    @Resources.FinancingOptions
+                    <span class="financing-arrow" id="loanRateCardToggle">
+                        <i class="glyphicon glyphicon-chevron-up"></i>
+                    </span>
+                </h3>
+            </div>
+        </div>
+
+        <div class="row loan-details ">
+            <div class="col-md-6 bordered">
+                <div class="row form-group">
+                    <div class="col-xs-6 text-stronger">@Resources.CostOfBorrowing</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="displayCostOfBorrow">-</span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6 text-stronger">@Resources.YourCost</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="displayYourCost">-</span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6 text-stronger">@Resources.TotalAmountFinanced</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="displayTotalAmount">-</span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6 text-stronger">@Resources.TotalAllMonthlyPayments</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="displayAllMonthly">-</span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6 text-stronger">@Resources.BalanceOwingEndOfPayments</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="displayBalanceOwning">-</span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6 text-stronger">@Resources.TotalObligation</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="displayTotalObl">-</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row form-group">
+                    <div class="col-xs-6 text-stronger">@Resources.LoanTerm</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="displayLoanTerm">-</span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6 text-stronger">@Resources.AmortizationTerm</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="displayAmortTem">-</span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6 text-stronger">@Resources.CustomerRate</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="displayCustRate">-</span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6 text-stronger">@Resources.YourCost</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="displayYourCost">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row loan-brief hidden">
+            <div class="col-md-6">
+                <div class="row form-group">
+                    <div class="col-xs-6">@Resources.LoanAmortTerm</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="loanAmortTerm">-</span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6">@Resources.CustomerRate</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="customerRate">-</span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6">@Resources.TotalAmountFinanced</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="total-amount-financed">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*@Html.Partial("EquipmentInformation/Agreements/_FinancialRental", Model)
+            @Html.Partial("EquipmentInformation/Agreements/_FinancialLoan", Model)*@
+    </div>
+</div>
+
+<div class="hidden">
+    <div id="new-equipment-base" class="new-equipment">
+        <div class="dealnet-middle-header equipment-number-header">
+            <span class="equipment-number">№1</span>
+            <div class="additional-remove">
+                <i class="glyphicon glyphicon-remove"></i>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.NewEquipment[0].Type)
+                    @Html.DropDownListFor(m => m.NewEquipment[0].Type,
+                                     ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
+                                     new { @class = "form-control", @Value = 0 })
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.NewEquipment[0].Description)
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.NewEquipment[0].Description, new { @class = "form-control dealnet-input", placeholder = Resources.Description, @Value = "" })
+                        @Html.ValidationMessageFor(m => m.NewEquipment[0].Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-xs-12 monthly-cost-col">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.NewEquipment[0].MonthlyCost)
+                    <div class="control-group has-addon-left">
+                        <div class="control-group-addon">$</div>
+                        @Html.TextBoxFor(m => m.NewEquipment[0].MonthlyCost, new { @class = "form-control dealnet-input monthly-cost", type = "text", placeholder = Resources.MonthlyCost, @Value = "" })
+                        @Html.ValidationMessageFor(m => m.NewEquipment[0].MonthlyCost, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <div class="control-group">
+                        <div class="dealnet-info-link add-equip-link" id="addEquipment">
+                            <svg aria-hidden="true" class="icon icon-add-app">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
+                            </svg>
+                            <span>@Resources.AddAdditionalEquipment</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="existing-equipment-base">
+        <div class="dealnet-middle-header equipment-number-header">
+            <span class="equipment-number">№1</span>
+            <div class="additional-remove">
+                <i class="glyphicon glyphicon-remove"></i>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.ExistingEquipment[0].IsRental)
+                            <div class="control-group">
+                                @Html.DropDownListFor(m => m.ExistingEquipment[0].IsRental, new SelectList(
+                                        new[]
+                                        {
+                                                new {Value = "true", Text = Resources.Yes, Selected = Model?.ExistingEquipment != null && Model.ExistingEquipment[0].IsRental},
+                                                new {Value = "false", Text = Resources.No, Selected = Model?.ExistingEquipment != null && !Model.ExistingEquipment[0].IsRental},
+                                        },
+                                        "Value", "Text", Model?.ExistingEquipment?[0].IsRental ?? true), new { @class = "form-control", @Value = true })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.ExistingEquipment[0].RentalCompany)
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.ExistingEquipment[0].RentalCompany, new { @class = "form-control dealnet-input", placeholder = Resources.RentalCompany, Value = "" })
+                                @Html.ValidationMessageFor(m => m.ExistingEquipment[0].RentalCompany, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.ExistingEquipment[0].EstimatedAge)
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.ExistingEquipment[0].EstimatedAge, new { @class = "form-control dealnet-input", type = "text", placeholder = Resources.Years, Value = "" })
+                                @Html.ValidationMessageFor(m => m.ExistingEquipment[0].EstimatedAge, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.ExistingEquipment[0].Make)
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.ExistingEquipment[0].Make, new { @class = "form-control dealnet-input", placeholder = Resources.Make, Value = "" })
+                                @Html.ValidationMessageFor(m => m.ExistingEquipment[0].Make, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ExistingEquipment[0].Model)
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.ExistingEquipment[0].Model, new { @class = "form-control dealnet-input", placeholder = Resources.Model, Value = "" })
+                        @Html.ValidationMessageFor(m => m.ExistingEquipment[0].Model, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ExistingEquipment[0].SerialNumber)
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.ExistingEquipment[0].SerialNumber, new { @class = "form-control dealnet-input", placeholder = Resources.SerialNumber, Value = "" })
+                        @Html.ValidationMessageFor(m => m.ExistingEquipment[0].SerialNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ExistingEquipment[0].GeneralCondition)
+                    <div class="control-group">
+                        @Html.TextBoxFor(m => m.ExistingEquipment[0].GeneralCondition, new { @class = "form-control dealnet-input", placeholder = Resources.GeneralCondition, Value = "" })
+                        @Html.ValidationMessageFor(m => m.ExistingEquipment[0].GeneralCondition, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ExistingEquipment[0].Notes)
+                    <div class="control-group">
+                        @Html.TextAreaFor(m => m.ExistingEquipment[0].Notes, new { @class = "form-control textarea-input-height", placeholder = Resources.Notes })
+                        @Html.ValidationMessageFor(m => m.ExistingEquipment[0].Notes, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

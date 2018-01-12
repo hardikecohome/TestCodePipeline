@@ -702,7 +702,7 @@
   <data name="AgreesToSendPersonalDataToCreditCheck" xml:space="preserve">
     <value>Agrees to send his/her personal data to credit check</value>
   </data>
-  <data name="BalanceOwingEndOfPayments" xml:space="preserve">
+  <data name="BalanceOwingEndOfPaymentsRes" xml:space="preserve">
     <value>Balance Owing at the End of Monthly Payments (Residual)</value>
   </data>
   <data name="BasicInfo" xml:space="preserve">
@@ -2633,5 +2633,23 @@ changing contract terms or signing contract on paper.</value>
   </data>
   <data name="DealerInitialIncorrectFormat" xml:space="preserve">
     <value>Dealer's initial is in incorrect format</value>
+  </data>
+  <data name="ClarityProgram" xml:space="preserve">
+    <value>Clarity Program</value>
+  </data>
+  <data name="MonthlyCostOfOwnership" xml:space="preserve">
+    <value>Monthly Cost of Ownership</value>
+  </data>
+  <data name="TaxExcl" xml:space="preserve">
+    <value>TAX excl</value>
+  </data>
+  <data name="TaxIncl" xml:space="preserve">
+    <value>TAX incl</value>
+  </data>
+  <data name="TotalMonthlyCostOfOwnership" xml:space="preserve">
+    <value>Total Monthly Cost of Ownership</value>
+  </data>
+  <data name="BalanceOwingEndOfPayments" xml:space="preserve">
+    <value>Balance Owing at the End of Monthly Payments</value>
   </data>
 </root>

@@ -702,7 +702,7 @@
   <data name="AgreesToSendPersonalDataToCreditCheck" xml:space="preserve">
     <value>Accepte d’envoyer ses renseignements personnels pour la vérification du crédit</value>
   </data>
-  <data name="BalanceOwingEndOfPayments" xml:space="preserve">
+  <data name="BalanceOwingEndOfPaymentsRes" xml:space="preserve">
     <value>Solde à la fin des paiements mensuels (solde résiduel)</value>
   </data>
   <data name="BasicInfo" xml:space="preserve">
