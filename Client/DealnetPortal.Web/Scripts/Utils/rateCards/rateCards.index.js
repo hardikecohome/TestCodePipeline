@@ -26,6 +26,9 @@
             .filter(notNaN)
             .reduce(function (sum, cost) { return sum + cost; }, 0);
     };
+    var getTotalAmountFinanced = function() {
+        return totalAmountFinanced($.extend({}, { equipmentSum: state.eSum, downPayment: state.downPayment }));
+    }
 
     var init = function(ratecards) {
         constants.rateCards.forEach(function (option) { state.rateCards[option.name] = $.grep(ratecards, function (card) { return card.CardType === option.id; }); });
@@ -135,6 +138,12 @@
                 return i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
             }
         })[0];
+
+        if ((card !== undefined && card !== null) && (card.ValidFrom !== null || card.ValidTo !== null)) {
+            card.ValidFrom = null;
+            card.ValidTo = null;
+        }
+
         return card;
     }
 
@@ -143,6 +152,7 @@
         filterRateCard: filterRateCard,
         calculateTotalPrice: calculateTotalPrice,
         getRateCardOnSubmit: getRateCardOnSubmit,
+        getTotalAmountFinanced: getTotalAmountFinanced,
         calculateValuesForRender: calculateValuesForRender
     };
 });

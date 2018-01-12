@@ -47,10 +47,15 @@
 
     var renderDropdownValues = function (dataObject) {
         var totalCash = constants.minimumLoanValue;
-        
-        if (state[dataObject.rateCardPlan].totalAmountFinanced > 1000) {
-            totalCash = state[dataObject.rateCardPlan].totalAmountFinanced.toFixed(2);
+
+        var isStandalone = dataObject.hasOwnProperty('standaloneOption');
+
+        var totalAmountFinanced = isStandalone ? dataObject.totalAmountFinanced : state[dataObject.rateCardPlan].totalAmountFinanced.toFixed(2);
+
+        if (totalAmountFinanced > 1000) {
+            totalCash = totalAmountFinanced;
         }
+
         if (totalCash >= constants.maxRateCardLoanValue) {
             totalCash = constants.maxRateCardLoanValue;
         }
@@ -60,7 +65,6 @@
         if (!items)
             return;
 
-        var isStandalone = dataObject.hasOwnProperty('standaloneOption');
         var selectorName = isStandalone ? dataObject.standaloneOption : dataObject.rateCardPlan;
 
         var dropdown = $('#' + selectorName  + '-amortDropdown')[0];
