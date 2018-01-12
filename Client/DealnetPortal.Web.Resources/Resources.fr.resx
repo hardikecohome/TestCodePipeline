@@ -2718,4 +2718,13 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
   <data name="DealerInitialIncorrectFormat" xml:space="preserve">
     <value>Le format de montant initial du courtier est incorrect</value>
   </data>
+  <data name="ContractNumberIncorrectFormat" xml:space="preserve">
+    <value>Le format du numéro de contrat est incorrect</value>
+  </data>
+  <data name="NameIncorrectFormat" xml:space="preserve">
+    <value>Le format du nom est incorrect</value>
+  </data>
+  <data name="TheFieldMustBe" xml:space="preserve">
+    <value>Le champ {0} doit être une chaîne d’une longueur de {1} caractère(s).</value>
+  </data>
 </root>
