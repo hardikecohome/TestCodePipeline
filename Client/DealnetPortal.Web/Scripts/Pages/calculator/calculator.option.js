@@ -287,6 +287,16 @@
 
             rateCardsRenderEngine.renderTotalPrice(option, eSumData);
 
+            if (state[option].plan !== 'Custom') {
+                if (resetDropdown !== undefined && resetDropdown === true) {
+                    var e = document.getElementById(option + '-amortDropdown');
+                    e.selectedIndex = -1;
+                }
+                
+                rateCardsRenderEngine.renderDropdownValues({ rateCardPlan: state[option].plan, standaloneOption: option, totalAmountFinanced: rateCardsCalculator.getTotalAmountFinanced() });
+                state[option].AmortizationTerm = +$('#' + option + '-amortDropdown option:selected').val();
+            }
+
             var rateCard = rateCardsCalculator.filterRateCard({ rateCardPlan: state[option].plan, standaloneOption: option });
 
             if (rateCard !== null && rateCard !== undefined) {
@@ -295,15 +305,15 @@
                 rateCardsRenderEngine.renderAfterFiltration(state[option].plan, { deferralPeriod: state[option].DeferralPeriod, adminFee: state[option].AdminFee, dealerCost: state[option].DealerCost, customerRate: state[option].CustomerRate });
             }
 
-            if (state[option].plan !== 'Custom') {
-                if (resetDropdown !== undefined && resetDropdown === true) {
-                    var e = document.getElementById(option + '-amortDropdown');
-                    e.selectedIndex = -1;
-                }
+            //if (state[option].plan !== 'Custom') {
+            //    if (resetDropdown !== undefined && resetDropdown === true) {
+            //        var e = document.getElementById(option + '-amortDropdown');
+            //        e.selectedIndex = -1;
+            //    }
 
-                rateCardsRenderEngine.renderDropdownValues({ rateCardPlan: state[option].plan, standaloneOption: option });
-                state[option].AmortizationTerm = +$('#' + option + '-amortDropdown option:selected').val();
-            }
+            //    rateCardsRenderEngine.renderDropdownValues({ rateCardPlan: state[option].plan, standaloneOption: option });
+            //    state[option].AmortizationTerm = +$('#' + option + '-amortDropdown option:selected').val();
+            //}
 
             var assignOption = $.extend(true, {}, state[option]);
             delete assignOption.plan;

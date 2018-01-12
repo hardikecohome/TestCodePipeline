@@ -26,6 +26,9 @@
             .filter(notNaN)
             .reduce(function (sum, cost) { return sum + cost; }, 0);
     };
+    var getTotalAmountFinanced = function() {
+        return totalAmountFinanced($.extend({}, { equipmentSum: state.eSum, downPayment: state.downPayment }));
+    }
 
     var init = function(ratecards) {
         constants.rateCards.forEach(function (option) { state.rateCards[option.name] = $.grep(ratecards, function (card) { return card.CardType === option.id; }); });
@@ -143,6 +146,7 @@
         filterRateCard: filterRateCard,
         calculateTotalPrice: calculateTotalPrice,
         getRateCardOnSubmit: getRateCardOnSubmit,
+        getTotalAmountFinanced: getTotalAmountFinanced,
         calculateValuesForRender: calculateValuesForRender
     };
 });
