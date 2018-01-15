@@ -101,8 +101,8 @@ namespace DealnetPortal.DataAccess.Repositories
                 }
             }
 
-            UpdateProfileEquipments(profile, dbProfile.Equipments.ToList());
-            UpdateProfileArears(profile, dbProfile.Areas.ToList());
+            UpdateProfileEquipments(profile, dbProfile.Equipments?.ToList());
+            UpdateProfileArears(profile, dbProfile.Areas?.ToList());
             return dbProfile;
         }
 
