@@ -86,6 +86,7 @@
     <Compile Include="EquipmentInfo.cs" />
     <Compile Include="FundingCheckDocument.cs" />
     <Compile Include="FundingCheckList.cs" />
+    <Compile Include="InstallationPackage.cs" />
     <Compile Include="LicenseDocument.cs" />
     <Compile Include="LicenseType.cs" />
     <Compile Include="EquipmentType.cs" />
