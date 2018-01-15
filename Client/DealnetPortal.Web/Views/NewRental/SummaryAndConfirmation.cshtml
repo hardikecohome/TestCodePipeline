@@ -1,5 +1,6 @@
 ﻿@using System.Globalization
 @using DealnetPortal.Api.Common.Helpers
+@using DealnetPortal.Api.Core.Helpers
 @using DealnetPortal.Api.Models.Contract
 @using DealnetPortal.Web.Models.Enumeration
 @model DealnetPortal.Web.Models.SummaryAndConfirmationViewModel
@@ -85,7 +86,7 @@
                                     <div class="dealnet-section-title">@Resources.SubDealer</div>
                                     <div class="form-group">
                                         <div class="row">
-                                            <label for="" class="dealnet-field-caption col-xs-6">@Resources.DealerName</label>
+                                            <label class="dealnet-field-caption col-xs-6">@Resources.DealerName</label>
                                             <div class="dealnet-field-holder col-xs-6">
                                                 <div class="control-group">
                                                     @(Model.BasicInfo.SubDealers.FirstOrDefault(x => x.Id == Model.BasicInfo.SubmittingDealerId)?.DisplayName)
@@ -904,7 +905,7 @@
                                         <div class="editable-label">
                                             @Html.LabelFor(m => m.EquipmentInfo.Notes, new { @class = "text-semibold text-md-sm col-xs-9" })
                                             <div class="col-xs-3">
-                                                <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#edit-add-contract-section'), $('#edit-add-contract-section-modal'), false);$('#edit-add-contract-modal').modal()">@Resources.Edit</a>
+                                                <a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#edit-add-contract-section'), $('#edit-add-contract-section-modal'), false); $('#edit-add-contract-modal').modal();">@Resources.Edit</a>
                                             </div>
                                         </div>
                                         <div class="dealnet-field-holder col-xs-12">
@@ -1873,7 +1874,7 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/localization")
     @Scripts.Render("~/bundles/summary-and-confirmation")
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=assignAutocompletes" async defer></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&language=@(CultureHelper.CurrentCultureType == CultureType.English ? "en" : "fr-CA")&region=CA&libraries=places&callback=assignAutocompletes" async defer></script>
 
     <script type="text/javascript">
         $(document).ready(function() {

@@ -623,7 +623,7 @@
     <script>
         module.require('customer-form');
     </script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=initAutocomplete" async defer></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&language=@(CultureHelper.CurrentCultureType == CultureType.English ? "en" : "fr-CA")&region=ca&libraries=places&callback=initAutocomplete" async defer></script>
     @if(reCaptchaEnabled)
     {
         <script src="https://www.google.com/recaptcha/api.js?onload=onLoadCaptcha&render=explicit&hl=@(CultureHelper.CurrentCultureType == CultureType.English ? "en" : "fr-CA")" async defer></script>
