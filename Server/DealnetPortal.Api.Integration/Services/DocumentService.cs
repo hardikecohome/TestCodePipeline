@@ -1055,7 +1055,9 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var alerts = new List<Alert>();
             AgreementTemplate agreementTemplate = null;
-
+            var province =
+                contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)
+                    ?.State?.ToProvinceCode();
             var dealerCertificates = _fileRepository.FindAgreementTemplates(at =>
                 (at.DealerId == contractOwnerId) && (at.DocumentTypeId ==
                                                      (int) DocumentTemplateType.SignedInstallationCertificate));
@@ -1072,12 +1074,24 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     var appCertificates = _fileRepository.FindAgreementTemplates(at =>
                         (at.ApplicationId == daeler.ApplicationId) &&
-                        (at.DocumentTypeId == (int) DocumentTemplateType.SignedInstallationCertificate));
+                        (at.DocumentTypeId == (int) DocumentTemplateType.SignedInstallationCertificate) && (string.IsNullOrEmpty(province) || (at.State.Contains(province))));
                     if (appCertificates?.Any() ?? false)
                     {
                         agreementTemplate = appCertificates.FirstOrDefault(
                                                 cert => (contract.Equipment.AgreementType == cert.AgreementType) || (cert.AgreementType.HasValue && cert.AgreementType.Value.HasFlag(contract.Equipment.AgreementType) && contract.Equipment.AgreementType != AgreementType.LoanApplication))
                                             ?? appCertificates.FirstOrDefault();
+                    }
+                    else
+                    {
+                        appCertificates = _fileRepository.FindAgreementTemplates(at =>
+                        (at.ApplicationId == daeler.ApplicationId) &&
+                        (at.DocumentTypeId == (int)DocumentTemplateType.SignedInstallationCertificate));
+                        if (appCertificates?.Any() ?? false)
+                        {
+                            agreementTemplate = appCertificates.FirstOrDefault(
+                                                    cert => (contract.Equipment.AgreementType == cert.AgreementType) || (cert.AgreementType.HasValue && cert.AgreementType.Value.HasFlag(contract.Equipment.AgreementType) && contract.Equipment.AgreementType != AgreementType.LoanApplication))
+                                                ?? appCertificates.FirstOrDefault();
+                        }
                     }
                 }
             }
