@@ -1,4 +1,5 @@
-﻿@using DealnetPortal.Api.Models.Contract
+﻿@using System.Globalization
+@using DealnetPortal.Api.Models.Contract
 @using DealnetPortal.Web.Models.Enumeration
 @model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
 
@@ -7,21 +8,21 @@
         <div class="col-md-3">
             @Html.LabelFor(m => m.AgreementType)
             <select class="form-control loan-only-dropdown-disabled" disabled="disabled" name="@Html.NameFor(m=>m.AgreementType)" id="typeOfAgreementSelect">
-                <option value="@AgreementType.LoanApplication" selected="selected">@Resources.ClarityProgram</option>
+                <option value="3" selected="selected">@Resources.ClarityProgram</option>
             </select>
         </div>
     </div>
     <div id="new-equipments">
         <h3 class="dealnet-middle-header">@Resources.NewEquipmentInformation</h3>
-        @if(Model?.NewEquipment != null)
+        @if (Model?.NewEquipment != null)
         {
-            for(var i = 0; i < Model.NewEquipment.Count; i++)
+            for (var i = 0; i < Model.NewEquipment.Count; i++)
             {
                 <div id="new-equipment-@(i)" class="new-equipment new-equipment-wrap">
                     @Html.HiddenFor(m => m.NewEquipment[i].Id)
                     <div class="dealnet-middle-header equipment-number-header">
                         <span class="equipment-number">№@(i + 1)</span>
-                        @if(i > 0)
+                        @if (i > 0)
                         {
                             <div class="additional-remove" id="addEquipment-remove-@(i)">
                                 <i class="glyphicon glyphicon-remove"></i>
@@ -33,8 +34,8 @@
                             <div class="form-group">
                                 @Html.LabelFor(m => m.NewEquipment[i].Type)
                                 @Html.DropDownListFor(m => m.NewEquipment[i].Type,
-                                                  ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description, Selected = Model?.NewEquipment != null && Model.NewEquipment[i]?.Type == x.Type }),
-                                                  new { @class = "form-control" })
+                                                            ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description, Selected = Model?.NewEquipment != null && Model.NewEquipment[i]?.Type == x.Type }),
+                                                            new { @class = "form-control" })
                             </div>
                         </div>
                         <div class="col-xs-12 col-md-4">
@@ -195,12 +196,12 @@
                         <span id="displayCustRate">-</span>
                     </div>
                 </div>
-                <div class="row form-group">
-                    <div class="col-xs-6 text-stronger">@Resources.YourCost</div>
-                    <div class="col-xs-6 text-right text-stronger">
-                        <span id="displayYourCost">-</span>
-                    </div>
-                </div>
+                @*<div class="row form-group">
+                        <div class="col-xs-6 text-stronger">@Resources.YourCost</div>
+                        <div class="col-xs-6 text-right text-stronger">
+                            <span id="displayYourCost">-</span>
+                        </div>
+                    </div>*@
             </div>
         </div>
 
@@ -245,8 +246,8 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.NewEquipment[0].Type)
                     @Html.DropDownListFor(m => m.NewEquipment[0].Type,
-                                     ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
-                                     new { @class = "form-control", @Value = 0 })
+                                               ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
+                                               new { @class = "form-control", @Value = 0 })
                 </div>
             </div>
             <div class="col-xs-12 col-md-4">
@@ -299,12 +300,12 @@
                             @Html.LabelFor(m => m.ExistingEquipment[0].IsRental)
                             <div class="control-group">
                                 @Html.DropDownListFor(m => m.ExistingEquipment[0].IsRental, new SelectList(
-                                        new[]
-                                        {
-                                                new {Value = "true", Text = Resources.Yes, Selected = Model?.ExistingEquipment != null && Model.ExistingEquipment[0].IsRental},
-                                                new {Value = "false", Text = Resources.No, Selected = Model?.ExistingEquipment != null && !Model.ExistingEquipment[0].IsRental},
-                                        },
-                                        "Value", "Text", Model?.ExistingEquipment?[0].IsRental ?? true), new { @class = "form-control", @Value = true })
+                                                  new[]
+                                                  {
+                                                                                        new {Value = "true", Text = Resources.Yes, Selected = Model?.ExistingEquipment != null && Model.ExistingEquipment[0].IsRental},
+                                                                                        new {Value = "false", Text = Resources.No, Selected = Model?.ExistingEquipment != null && !Model.ExistingEquipment[0].IsRental},
+                                                  },
+                                                  "Value", "Text", Model?.ExistingEquipment?[0].IsRental ?? true), new { @class = "form-control", @Value = true })
                             </div>
                         </div>
                     </div>
@@ -384,4 +385,3 @@
         </div>
     </div>
 </div>
-

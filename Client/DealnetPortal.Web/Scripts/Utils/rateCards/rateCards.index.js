@@ -64,6 +64,10 @@
         return _filterRateCardByValues(dataObject, totalCash);
     }
 
+    var calculateMonthlyTotalPrice = function(equipments, downPayment, regionTax) {
+
+    }
+
     var calculateTotalPrice = function(equipments, downPayment, regionTax) {
         state.downPayment = downPayment;
         state.tax = regionTax;

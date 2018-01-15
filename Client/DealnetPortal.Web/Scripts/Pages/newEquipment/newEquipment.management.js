@@ -2,10 +2,14 @@
 
     var state = require('state').state;
     var templateFactory = require('equipment-template');
-    var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
-    var recalculateAndRenderRentalValues = require('newEquipment.rental').recalculateAndRenderRentalValues;
 
-    var resetPlaceholder = require('resetPlaceholder')
+    var settings = {
+        recalculateValuesAndRender: {},
+        recalculateAndRenderRentalValues: {},
+        recalculateClarityValuesAndRender: {}
+}
+
+    var resetPlaceholder = require('resetPlaceholder');
 
     /**
      * Add new equipment ot list of new equipments
@@ -164,9 +168,9 @@
 
         if (options.name === 'equipments') {
             if (state.agreementType === 1 || state.agreementType === 2) {
-                recalculateAndRenderRentalValues();
+                settings.recalculateAndRenderRentalValues();
             } else {
-                recalculateValuesAndRender();
+                settings.recalculateValuesAndRender();
 			}
 			$('.add-equip-link').removeClass("hidden");
 		}		
@@ -244,9 +248,9 @@
         var id = mvcId.split('__Cost')[0].substr(mvcId.split('__Cost')[0].lastIndexOf('_') + 1);
         state.equipments[id].cost = Globalize.parseNumber($(this).val());
         if (state.agreementType === 1 || state.agreementType === 2) {
-            recalculateAndRenderRentalValues();
+            settings.recalculateAndRenderRentalValues();
         } else {
-            recalculateValuesAndRender();
+            settings.recalculateValuesAndRender();
         }
     }
 
@@ -260,10 +264,14 @@
         var mvcId = $(this).attr("id");
         var id = mvcId.split('__MonthlyCost')[0].substr(mvcId.split('__MonthlyCost')[0].lastIndexOf('_') + 1);
         state.equipments[id].monthlyCost = Globalize.parseNumber($(this).val());
-        if (state.agreementType === 0) {
-            recalculateValuesAndRender();
+        if (state.agreementType === 3) {
+            settings.recalculateClarityValuesAndRender();
         } else {
-            recalculateAndRenderRentalValues();
+            if (state.agreementType === 0) {
+                settings.recalculateValuesAndRender();
+            } else {
+                settings.recalculateAndRenderRentalValues();
+            }
         }
     }
 
@@ -352,7 +360,15 @@
         }
     }
 
-    function init () {
+    function init (params) {
+
+        if (!params.isClarity) {
+            settings.recalculateAndRenderRentalValues = params.recalculateAndRenderRentalValues;
+            settings.recalculateValuesAndRender = params.recalculateValuesAndRender;
+        } else {
+            settings.recalculateClarityValuesAndRender = params.recalculateClarityValuesAndRender;
+        }
+
         _initExistingEquipment();
         _initNewEquipment();
     }

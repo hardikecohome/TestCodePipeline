@@ -1,0 +1,91 @@
+﻿@using System.Globalization
+@using DealnetPortal.Api.Common.Enumeration
+@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    if (Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
+    {
+        Model.ExistingEquipment = null;
+    }
+}
+
+<div id="label-steps">
+    <div class="dealnet-action-link">@Resources.NewApplication</div> >
+</div>
+<div class="dealnet-large-header">@Resources.NewEquipment</div>
+@Html.Partial("EquipmentInformation/_StepsNavigation", Model)
+<div class="form-container">
+    <div class="form-section">
+
+        @if (TempData["MaxCreditAmount"] != null)
+        {
+            <p class="align-middle equipment-proceed-success">
+                <svg aria-hidden="true" class="icon icon-success">
+                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
+                </svg>
+                <span>@Resources.CreditCheckProcessedSuccessfully</span>
+            </p>
+
+            <p class="text-semibold preapproved-text">@Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")</p>
+        }
+    </div>
+</div>
+
+@RenderBody()
+
+@section Translations
+{
+    translations['TotalMonthlyPaymentMustBeGreaterZero'] = "@Html.Raw(Resources.TotalMonthlyPaymentMustBeGreaterZero)";
+    translations['loanTermMax'] = "@Resources.LoanTermMustBe3Max";
+    translations['loanTermFormat'] = "@Resources.LoanTermIncorrectFormat";
+    translations['amortTermMax'] = "@Resources.AmortizationTermMustBe3Max";
+    translations['amortTermFormat'] = "@Resources.AmortizationTermIncorrectFormat";
+    translations['adminFeeFormat'] = "@Resources.AdminFeeIncorrectFormat";
+    translations['customerRateFormat'] = "@Resources.CustomerRateIncorrectFormat";
+    translations['yourCostFormat'] = "@Resources.YourRateIncorrectFormat";
+    translations['customerOrYourCost'] = "@Resources.CustomerOrYourCostRequired";
+    translations['enterZero'] = "@Resources.PleaseEnterAtLeastZero";
+    translations['EnterValidDate'] = "@Resources.EnterValidDate";
+}
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/localization")
+@Scripts.Render("~/bundles/equipment-info-layout")
+@section scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $.fn.clearErrors = function () {
+                var spans = $(this).find("span.field-validation-error.text-danger");
+
+                $.grep(spans, function (span) {
+                    $(span).empty();
+                });
+
+                var inputs = $(this).find('input');
+
+                $.grep(inputs, function (input) {
+                    $(input).trigger('reset.unobtrusiveValidation');
+                });
+            }
+        });
+    </script>
+
+    <script type="text/javascript">
+	  var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
+	  var isCalculationValid = false;
+	  var customerFee = @ViewBag.AdminFee;
+	  var TotalAmtFinancedFor180amortTerm = @ViewBag.totalAmountFinancedFor180amortTerm;
+    </script>
+
+    <script type="text/javascript">
+        configInitialized.then(function () {
+            module.require('newEquipment.index').init();
+        });
+    </script>
+}
+@RenderSection("pageScripts", false)

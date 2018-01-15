@@ -6,6 +6,9 @@
         tax: taxRate,
         downPayment: 0,
         rentalMPayment: 0,
+        clarity: {
+
+        },
         Custom: {
             LoanTerm: '',
             AmortizationTerm: '',

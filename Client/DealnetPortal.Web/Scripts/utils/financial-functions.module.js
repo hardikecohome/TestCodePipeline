@@ -80,6 +80,29 @@
             return borrowingCost;
         };
 
+        var totalRentalAmountFinanced = function(data) {
+            var tPrice = totalRentalPrice(data);
+            var adminFee = data.AdminFee;
+            var downPayment = data.downPayment;
+
+            return tPrice/* + adminFee*/ - downPayment;
+        }
+
+        var rentalMonthlyPayment = function(data) {
+            var tAmountFinanced = totalRentalAmountFinanced(data);
+            var amortizationTerm = data.AmortizationTerm;
+            var customerRate = data.CustomerRate;
+
+            return (Math.round((tAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0))*100)/100);
+        };
+
+        var totalPriceOfEquipment = function(data) {
+            var monthly = data.CustomerRate / 12;
+            var totalRental = rentalMonthlyPayment(data);
+
+            return totalRental * ((1 - Math.pow(1 + monthly, -144)) / monthly);
+        }
+
         return {
             tax: tax,
 			totalPrice: totalPrice,
@@ -88,7 +111,9 @@
             residualBalance: residualBalance,
             totalMonthlyPayments: totalMonthlyPayments,
             monthlyPayment: monthlyPayment,
+            totalPriceOfEquipment: totalPriceOfEquipment,
             totalAmountFinanced: totalAmountFinanced,
+            totalRentalAmountFinanced: totalRentalAmountFinanced,
             totalBorrowingCost: totalBorrowingCost,
             yourCost: yourCost
         };
