@@ -62,6 +62,7 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 var dealerProvinceCode = aspireUserInfo.Locations?.FirstOrDefault(x => x.AddressType == AddressType.MainAddress)?.State?.ToProvinceCode();
                 claims.Add(new Claim(ClaimNames.QuebecDealer, (dealerProvinceCode != null && dealerProvinceCode == "QC").ToString()));
+                claims.Add(new Claim(ClaimNames.ClarityDealer, (!string.IsNullOrEmpty(aspireUserInfo.Ratecard) && aspireUserInfo.Ratecard == _сonfiguration.GetSetting(WebConfigKeys.CLARITY_TIER_NAME)).ToString()));
             }
 
             if (settings?.SettingValues != null)

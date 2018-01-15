@@ -88,5 +88,7 @@
 
         //Listener URL
         public static readonly string LISTENER_END_POINT_CONFIG_KEY = "ListenerEndPoint";
+
+        public static readonly string CLARITY_TIER_NAME = "ClarityTierName";
     }
 }
