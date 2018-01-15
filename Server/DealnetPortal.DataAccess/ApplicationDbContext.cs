@@ -38,6 +38,7 @@ namespace DealnetPortal.DataAccess
         public virtual DbSet<EquipmentInfo> EquipmentInfo { get; set; }
         public virtual DbSet<NewEquipment> NewEquipment { get; set; }
         public virtual DbSet<ExistingEquipment> ExistingEquipment { get; set; }
+        public virtual DbSet<InstallationPackage> InstallationPackages { get; set; }
 
         public virtual DbSet<PaymentInfo> PaymentInfos { get; set; }
 
