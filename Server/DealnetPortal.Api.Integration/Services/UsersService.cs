@@ -334,7 +334,7 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 var dealerProfile = _dealerRepository.GetDealerProfile(userId) ?? new DealerProfile { DealerId = userId };
-                dealerProfile.EmailAddress = aspireUser.Emails?.FirstOrDefault(e => !string.IsNullOrEmpty(e.EmailAddress))?.EmailAddress;
+                dealerProfile.EmailAddress = aspireUser.Emails?.FirstOrDefault(e => !string.IsNullOrEmpty(e.EmailAddress))?.EmailAddress.Split(';').FirstOrDefault();// Hot fix, should be removed later
                 dealerProfile.Phone = aspireUser.Phones?.FirstOrDefault(p => !string.IsNullOrEmpty(p.PhoneNum))?.PhoneNum;
                 if (aspireUser.Locations?.Any() == true)
                 {
