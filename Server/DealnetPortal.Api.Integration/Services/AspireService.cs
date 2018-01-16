@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -283,16 +284,8 @@ namespace DealnetPortal.Api.Integration.Services
                         var eqToUpdate = (contract.Equipment?.NewEquipment?.Any() ?? false)
                             ? new List<NewEquipment> {contract.Equipment?.NewEquipment.ElementAt(i)}
                             : null;
-                        Application application;
-                        // Code change to calculate down payment and admin fee on first equipment amount
-                        if (i == 0 && contract.Equipment.AgreementType == AgreementType.LoanApplication)
-                        {
-                            application = GetContractApplication(contract, eqToUpdate, 0, leadSource);
-                        }
-                        else
-                        {
-                            application = GetContractApplication(contract, eqToUpdate, 1, leadSource);
-                        }
+                        Application application = GetContractApplication(contract, eqToUpdate, i == 0, leadSource);
+
                         request.Header = new RequestHeader()
                         {
                             From = new From()
@@ -1425,7 +1418,7 @@ namespace DealnetPortal.Api.Integration.Services
             return accounts ?? new List<Account>();
         }
 
-        private Application GetContractApplication(Domain.Contract contract, ICollection<NewEquipment> newEquipments = null, int equipmentcount = 1, string leadSource = null)
+        private Application GetContractApplication(Domain.Contract contract, ICollection<NewEquipment> newEquipments = null, bool isFirstEquipment = false, string leadSource = null)
         {
             var application = new Application()
             {
@@ -1446,9 +1439,7 @@ namespace DealnetPortal.Api.Integration.Services
                         Status = "new",
                         AssetNo = string.IsNullOrEmpty(eq.AssetNumber) ? null : eq.AssetNumber,
                         Quantity = "1",
-                        Cost = contract.Equipment.AgreementType == AgreementType.LoanApplication && eq.Cost.HasValue ? equipmentcount == 0 ? (eq.Cost /*+ Math.Round(((decimal)(eq.Cost / 100 * (decimal)(pTaxRate.Rate))), 2)*/ - ((contract.Equipment.DownPayment != null) ? (decimal)contract.Equipment.DownPayment : 0))?.ToString(CultureInfo.InvariantCulture) :
-                                                                                                        (eq.Cost /*+ Math.Round(((decimal)(eq.Cost / 100 * (decimal)(pTaxRate.Rate))), 2)*/)?.ToString(CultureInfo.InvariantCulture)
-                                                                                                    : eq.MonthlyCost?.ToString(CultureInfo.InvariantCulture),
+                        Cost = GetEquipmentCost(contract, eq, isFirstEquipment)?.ToString(CultureInfo.InvariantCulture),                        
                         Description = eq.Description,
                         AssetClass = new AssetClass() { AssetCode = eq.Type }
                     });
@@ -1466,6 +1457,32 @@ namespace DealnetPortal.Api.Integration.Services
             application.UDFs = GetApplicationUdfs(contract, leadSource).ToList();
 
             return application;
+        }
+
+        private decimal? GetEquipmentCost(Contract contract, NewEquipment equipment, bool isFirstEquipment)
+        {
+            decimal? eqCost;
+            if (IsClarityProgram(contract))
+            {
+                decimal? installPackagesCost =
+                    contract.Equipment?.InstallationPackages?.Aggregate(0.0m,
+                        (sum, ip) => sum + ip.MonthlyCost ?? 0.0m);
+                eqCost = installPackagesCost.HasValue ? equipment.MonthlyCost + (installPackagesCost.Value / contract.Equipment.NewEquipment?.Count) : equipment.MonthlyCost;
+            }
+            else
+            {
+                eqCost = contract.Equipment.AgreementType == AgreementType.LoanApplication && equipment.Cost.HasValue
+                    ? (isFirstEquipment
+                                ? (equipment.Cost - ((contract.Equipment.DownPayment != null) ? (decimal) contract.Equipment.DownPayment : 0))                        
+                                : equipment.Cost)
+                    : equipment.MonthlyCost;
+            }
+            return eqCost;
+        }
+
+        private bool IsClarityProgram(Contract contract)
+        {
+            return contract?.Dealer?.Tier?.Name == _configuration.GetSetting(WebConfigKeys.CLARITY_TIER_NAME);
         }
 
         /// <summary>
@@ -1742,6 +1759,11 @@ namespace DealnetPortal.Api.Integration.Services
                 }
             }
 
+            if (contract?.Equipment?.InstallationPackages?.Any() == true && IsClarityProgram(contract))
+            {
+                
+            }
+
             if (contract?.PaymentInfo != null)
             {
                 udfList.Add(new UDF()
@@ -1759,7 +1781,7 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = contract.PaymentInfo.EnbridgeGasDistributionAccount ?? contract.PaymentInfo.MeterNumber
                     });
                 }
-            }
+            }            
 
             if (!string.IsNullOrEmpty(contract?.ExternalSubDealerId))
             {
