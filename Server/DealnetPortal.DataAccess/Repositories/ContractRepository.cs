@@ -234,6 +234,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
+                .Include(c => c.Equipment.InstallationPackages)
                 .Include(c => c.Documents)
                 .Include(c => c.Signers)                
                 .FirstOrDefault(
@@ -272,6 +273,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
+                .Include(c => c.Equipment.InstallationPackages)
                 .Include(c => c.Signers)
                 .AsNoTracking().
                 FirstOrDefault(
@@ -949,156 +951,35 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             var newEquipments = equipmentInfo.NewEquipment;
             var existingEquipments = equipmentInfo.ExistingEquipment;
-            var dbEquipment = _dbContext.EquipmentInfo.Find(equipmentInfo.Id); //(contract.Id);
+            var installationPackages = equipmentInfo.InstallationPackages;
+            var dbEquipment = _dbContext.EquipmentInfo.Find(equipmentInfo.Id);
 
             if (dbEquipment == null || dbEquipment.Id == 0)
             {
                 equipmentInfo.ExistingEquipment = new List<ExistingEquipment>();
                 equipmentInfo.NewEquipment = new List<NewEquipment>();
+                equipmentInfo.InstallationPackages = new List<InstallationPackage>();
                 equipmentInfo.Contract = contract;
                 dbEquipment = _dbContext.EquipmentInfo.Add(equipmentInfo);
             }
             else
             {
-                equipmentInfo.Contract = contract;
-                equipmentInfo.ExistingEquipment = dbEquipment.ExistingEquipment;
-                equipmentInfo.NewEquipment = dbEquipment.NewEquipment;
-
-                if (string.IsNullOrEmpty(equipmentInfo.SalesRep))
-                {
-                    equipmentInfo.SalesRep = dbEquipment.SalesRep;
-                }
-                if (equipmentInfo.DownPayment == null)
-                {
-                    equipmentInfo.DownPayment = dbEquipment.DownPayment;
-                }
-                if (equipmentInfo.CustomerRate == null)
-                {
-                    equipmentInfo.CustomerRate = dbEquipment.CustomerRate;
-                }
-                if (equipmentInfo.TotalMonthlyPayment == null)
-                {
-                    equipmentInfo.TotalMonthlyPayment = dbEquipment.TotalMonthlyPayment;
-                }
-                if (equipmentInfo.RequestedTerm == null)
-                {
-                    equipmentInfo.RequestedTerm = dbEquipment.RequestedTerm;
-                }
-                if (equipmentInfo.LoanTerm == null)
-                {
-                    equipmentInfo.LoanTerm = dbEquipment.LoanTerm;
-                }
-                if (equipmentInfo.AmortizationTerm == null)
-                {
-                    equipmentInfo.AmortizationTerm = dbEquipment.AmortizationTerm;
-                }
-                if (equipmentInfo.DeferralType == null)
-                {
-                    equipmentInfo.DeferralType = dbEquipment.DeferralType;
-                }
-                if (equipmentInfo.AdminFee == null)
-                {
-                    equipmentInfo.AdminFee = dbEquipment.AdminFee;
-                }
-                if (equipmentInfo.ValueOfDeal == null)
-                {
-                    equipmentInfo.ValueOfDeal = dbEquipment.ValueOfDeal;
-                }
-                if (string.IsNullOrEmpty(equipmentInfo.InstallerFirstName))
-                {
-                    equipmentInfo.InstallerFirstName = dbEquipment.InstallerFirstName;
-                }
-                if (string.IsNullOrEmpty(equipmentInfo.InstallerLastName))
-                {
-                    equipmentInfo.InstallerLastName = dbEquipment.InstallerLastName;
-                }
-                if (!equipmentInfo.InstallationDate.HasValue)
-                {
-                    equipmentInfo.InstallationDate = dbEquipment.InstallationDate;
-                }
-                if (!equipmentInfo.EstimatedInstallationDate.HasValue)
-                {
-                    equipmentInfo.EstimatedInstallationDate = dbEquipment.EstimatedInstallationDate;
-                }
-                if (!equipmentInfo.RateCardId.HasValue)
-                {
-                    equipmentInfo.RateCardId = dbEquipment.RateCardId;
-                }
-                if (!equipmentInfo.DealerCost.HasValue)
-                {
-                    equipmentInfo.DealerCost = dbEquipment.DealerCost;
-                }
-                if (!equipmentInfo.PreferredStartDate.HasValue)
-                {
-                    equipmentInfo.PreferredStartDate = dbEquipment.PreferredStartDate;
-                }
-
-                _dbContext.EquipmentInfo.AddOrUpdate(equipmentInfo);
-                dbEquipment = _dbContext.EquipmentInfo.Find(equipmentInfo.Id);
+                UpdateEquipmentBaseInfo(dbEquipment, equipmentInfo);               
             }
 
             if (newEquipments != null)
             {
-                var existingEntities =
-                    dbEquipment.NewEquipment.Where(
-                        a => newEquipments.Any(ne => ne.Id == a.Id)).ToList();
-                var entriesForDelete = dbEquipment.NewEquipment.Except(existingEntities).ToList();
-                entriesForDelete.ForEach(e => _dbContext.NewEquipment.Remove(e));
-
-                newEquipments.ForEach(ne =>
-                {
-                    var curEquipment =
-                        dbEquipment.NewEquipment.FirstOrDefault(eq => eq.Id == ne.Id);
-                    if (curEquipment == null || ne.Id == 0)
-                    {
-                        dbEquipment.NewEquipment.Add(ne);
-                    }
-                    else
-                    {
-                        ne.EquipmentInfoId = curEquipment.EquipmentInfoId;
-                        if (ne.AssetNumber == null)
-                        {
-                            ne.AssetNumber = curEquipment.AssetNumber;
-                        }
-                        if (string.IsNullOrEmpty(ne.InstalledModel))
-                        {
-                            ne.InstalledModel = curEquipment.InstalledModel;
-                        }
-                        if (string.IsNullOrEmpty(ne.InstalledSerialNumber))
-                        {
-                            ne.InstalledSerialNumber = curEquipment.InstalledSerialNumber;
-                        }
-                        if (!ne.EstimatedInstallationDate.HasValue)
-                        {
-                            ne.EstimatedInstallationDate = curEquipment.EstimatedInstallationDate;
-                        }
-                        _dbContext.NewEquipment.AddOrUpdate(ne);
-                    }
-                });
+                AddOrUpdateNewEquipments(dbEquipment, newEquipments);
             }
 
             if (existingEquipments != null)
             {
-                var existingEntities =
-                    dbEquipment.ExistingEquipment.Where(
-                        a => existingEquipments.Any(ee => ee.Id == a.Id)).ToList();
-                var entriesForDelete = dbEquipment.ExistingEquipment.Except(existingEntities).ToList();
-                entriesForDelete.ForEach(e => _dbContext.ExistingEquipment.Remove(e));
+                AddOrUpdateExistingEquipments(dbEquipment, existingEquipments);
+            }
 
-                existingEquipments.ForEach(ee =>
-                {
-                    var curEquipment =
-                        dbEquipment.ExistingEquipment.FirstOrDefault(ex => ex.Id == ee.Id);
-                    if (curEquipment == null || ee.Id == 0)
-                    {
-                        dbEquipment.ExistingEquipment.Add(ee);
-                    }
-                    else
-                    {
-                        ee.EquipmentInfoId = curEquipment.EquipmentInfoId;
-                        _dbContext.ExistingEquipment.AddOrUpdate(ee);
-                    }
-                });
+            if (installationPackages != null)
+            {
+                AddOrUpdateInstallationPackages(dbEquipment, installationPackages);
             }
 
             var provinceCode = contract.PrimaryCustomer?.Locations?.FirstOrDefault(
@@ -1129,6 +1010,174 @@ namespace DealnetPortal.DataAccess.Repositories
                          (contract.Equipment.TotalMonthlyPayment ?? 0) * (decimal)(taxRate.Rate / 100));
             }
 
+            return dbEquipment;
+        }
+
+        private EquipmentInfo UpdateEquipmentBaseInfo(EquipmentInfo dbEquipment, EquipmentInfo equipmentInfo)
+        {            
+            if (!string.IsNullOrEmpty(equipmentInfo.SalesRep))
+            {
+                dbEquipment.SalesRep = equipmentInfo.SalesRep;
+            }
+            if (equipmentInfo.DownPayment != null)
+            {
+                dbEquipment.DownPayment = equipmentInfo.DownPayment;
+            }
+            if (equipmentInfo.CustomerRate != null)
+            {
+                dbEquipment.CustomerRate = equipmentInfo.CustomerRate;
+            }
+            if (equipmentInfo.TotalMonthlyPayment != null)
+            {
+                dbEquipment.TotalMonthlyPayment = equipmentInfo.TotalMonthlyPayment;
+            }
+            if (equipmentInfo.RequestedTerm != null)
+            {
+                dbEquipment.RequestedTerm = equipmentInfo.RequestedTerm;
+            }
+            if (equipmentInfo.LoanTerm != null)
+            {
+                dbEquipment.LoanTerm = equipmentInfo.LoanTerm;
+            }
+            if (equipmentInfo.AmortizationTerm != null)
+            {
+                dbEquipment.AmortizationTerm = equipmentInfo.AmortizationTerm;
+            }
+            if (equipmentInfo.DeferralType != null)
+            {
+                dbEquipment.DeferralType = equipmentInfo.DeferralType;
+            }
+            if (equipmentInfo.AdminFee != null)
+            {
+                dbEquipment.AdminFee = equipmentInfo.AdminFee;
+            }
+            if (equipmentInfo.ValueOfDeal != null)
+            {
+                dbEquipment.ValueOfDeal = equipmentInfo.ValueOfDeal;
+            }
+            if (!string.IsNullOrEmpty(equipmentInfo.InstallerFirstName))
+            {
+                dbEquipment.InstallerFirstName = equipmentInfo.InstallerFirstName;
+            }
+            if (!string.IsNullOrEmpty(equipmentInfo.InstallerLastName))
+            {
+                dbEquipment.InstallerLastName = equipmentInfo.InstallerLastName;
+            }
+            if (equipmentInfo.InstallationDate.HasValue)
+            {
+                dbEquipment.InstallationDate = equipmentInfo.InstallationDate;
+            }
+            if (equipmentInfo.EstimatedInstallationDate.HasValue)
+            {
+                dbEquipment.EstimatedInstallationDate = equipmentInfo.EstimatedInstallationDate;
+            }
+            if (equipmentInfo.RateCardId.HasValue)
+            {
+                dbEquipment.RateCardId = equipmentInfo.RateCardId;
+            }
+            if (equipmentInfo.DealerCost.HasValue)
+            {
+                dbEquipment.DealerCost = equipmentInfo.DealerCost;
+            }
+            if (equipmentInfo.PreferredStartDate.HasValue)
+            {
+                dbEquipment.PreferredStartDate = equipmentInfo.PreferredStartDate;
+            }
+
+
+            return dbEquipment;
+        }
+
+        private EquipmentInfo AddOrUpdateNewEquipments(EquipmentInfo dbEquipment, IEnumerable<NewEquipment> newEquipments)
+        {
+            var existingEntities =
+                dbEquipment.NewEquipment.Where(
+                    a => newEquipments.Any(ne => ne.Id == a.Id)).ToList();
+            var entriesForDelete = dbEquipment.NewEquipment.Except(existingEntities).ToList();
+            entriesForDelete.ForEach(e => _dbContext.NewEquipment.Remove(e));
+
+            newEquipments.ForEach(ne =>
+            {
+                var curEquipment =
+                    dbEquipment.NewEquipment.FirstOrDefault(eq => eq.Id == ne.Id);
+                if (curEquipment == null || ne.Id == 0)
+                {
+                    dbEquipment.NewEquipment.Add(ne);
+                }
+                else
+                {
+                    ne.EquipmentInfoId = curEquipment.EquipmentInfoId;
+                    if (ne.AssetNumber == null)
+                    {
+                        ne.AssetNumber = curEquipment.AssetNumber;
+                    }
+                    if (string.IsNullOrEmpty(ne.InstalledModel))
+                    {
+                        ne.InstalledModel = curEquipment.InstalledModel;
+                    }
+                    if (string.IsNullOrEmpty(ne.InstalledSerialNumber))
+                    {
+                        ne.InstalledSerialNumber = curEquipment.InstalledSerialNumber;
+                    }
+                    if (!ne.EstimatedInstallationDate.HasValue)
+                    {
+                        ne.EstimatedInstallationDate = curEquipment.EstimatedInstallationDate;
+                    }
+                    _dbContext.NewEquipment.AddOrUpdate(ne);
+                }
+            });
+            return dbEquipment;
+        }
+
+        private EquipmentInfo AddOrUpdateExistingEquipments(EquipmentInfo dbEquipment, IEnumerable<ExistingEquipment> existingEquipments)
+        {
+            var existingEntities =
+                dbEquipment.ExistingEquipment.Where(
+                    a => existingEquipments.Any(ee => ee.Id == a.Id)).ToList();
+            var entriesForDelete = dbEquipment.ExistingEquipment.Except(existingEntities).ToList();
+            entriesForDelete.ForEach(e => _dbContext.ExistingEquipment.Remove(e));
+
+            existingEquipments.ForEach(ee =>
+            {
+                var curEquipment =
+                    dbEquipment.ExistingEquipment.FirstOrDefault(ex => ex.Id == ee.Id);
+                if (curEquipment == null || ee.Id == 0)
+                {
+                    dbEquipment.ExistingEquipment.Add(ee);
+                }
+                else
+                {
+                    ee.EquipmentInfoId = curEquipment.EquipmentInfoId;
+                    _dbContext.ExistingEquipment.AddOrUpdate(ee);
+                }
+            });
+            return dbEquipment;
+        }
+
+        private EquipmentInfo AddOrUpdateInstallationPackages(EquipmentInfo dbEquipment, IEnumerable<InstallationPackage> installationPackages)
+        {
+            var existingEntities =
+                dbEquipment.InstallationPackages.Where(
+                    a => installationPackages.Any(ee => ee.Id == a.Id)).ToList();
+            var entriesForDelete = dbEquipment.InstallationPackages.Except(existingEntities).ToList();
+            entriesForDelete.ForEach(e => _dbContext.InstallationPackages.Remove(e));
+
+            installationPackages.ForEach(ip =>
+            {
+                var curPackage =
+                    dbEquipment.InstallationPackages.FirstOrDefault(dbp => dbp.Id == ip.Id);
+                if (curPackage == null || ip.Id == 0)
+                {
+                    ip.EquipmentInfo = dbEquipment;
+                    dbEquipment.InstallationPackages.Add(ip);
+                }
+                else
+                {
+                    ip.EquipmentInfo = dbEquipment;
+                    ip.Id = curPackage.Id;
+                    _dbContext.InstallationPackages.AddOrUpdate(ip);
+                }
+            });
             return dbEquipment;
         }
 
