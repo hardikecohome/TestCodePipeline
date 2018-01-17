@@ -28,9 +28,9 @@ namespace DealnetPortal.Api.Providers
 {
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
-        private readonly IAspireService _aspireService;
-        private readonly IUsersService _usersService;
-        private readonly ILoggingService _loggingService;
+        private IAspireService _aspireService;
+        private IUsersService _usersService;
+        private ILoggingService _loggingService;
         private readonly string _publicClientId;
         private AuthType _authType;
 
@@ -56,6 +56,11 @@ namespace DealnetPortal.Api.Providers
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
+
+            _aspireService = (IAspireService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAspireService));
+            _usersService = (IUsersService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IUsersService));
+            _loggingService = (ILoggingService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILoggingService));
+
             ApplicationUser user = null;
             try
             {            
