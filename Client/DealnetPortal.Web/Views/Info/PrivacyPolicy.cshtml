@@ -1,9 +1,9 @@
-﻿
+﻿@using System.Security.Claims;
 @{
     ViewBag.Title = Resources.PrivacyPolicy;
 }
 
 <div id="privacy-policy" class="privacy-policy-page" style="width: 990px; max-width: 100%; ">
-    @Html.Raw(@Resources.PrivacyPolicyText)
+    @Html.Raw((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True") ? @Resources.PrivacyPolicyTextQC : @Resources.PrivacyPolicyText)
 </div>
 
