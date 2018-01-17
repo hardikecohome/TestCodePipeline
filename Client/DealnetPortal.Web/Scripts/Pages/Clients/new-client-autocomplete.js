@@ -160,7 +160,7 @@
 
                     $('#improvment_locality').change();
                     $('#improvment_street').keyup();
-                    $('#improvment_administrative_area_level_1').keyup();
+                    $('#improvment_administrative_area_level_1').change();
                     $('#improvment_postal_code').keyup();
                 });
 
@@ -177,7 +177,7 @@
 
                     $('#improvment_locality').change();
                     $('#improvment_street').keyup();
-                    $('#improvment_administrative_area_level_1').keyup();
+                    $('#improvment_administrative_area_level_1').change();
                     $('#improvment_postal_code').keyup();
                 });
         });
