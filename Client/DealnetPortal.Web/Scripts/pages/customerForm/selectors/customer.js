@@ -13,7 +13,7 @@
         return function (state) {
             var errors = [];
 
-            var isQuebecAddress = state.province.toLowerCase() !== 'qc';
+            var isQuebecAddress = state.province.toLowerCase() === 'qc';
 
             //if (state.birthday !== '') {
             //    var ageDifMs = Date.now() - Date.parseExact(state.birthday, 'M/d/yyyy');
@@ -29,7 +29,7 @@
             //}
 
             if (state.isQuebecDealer) {
-                if (state.province !== '' && isQuebecAddress) {
+                if (state.province !== '' && !isQuebecAddress) {
                     errors.push({
                         type: 'quebec',
                         messageKey: 'InstallationAddressInQuebec'
