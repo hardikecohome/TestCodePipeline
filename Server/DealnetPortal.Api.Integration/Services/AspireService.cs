@@ -1439,7 +1439,7 @@ namespace DealnetPortal.Api.Integration.Services
                         Status = "new",
                         AssetNo = string.IsNullOrEmpty(eq.AssetNumber) ? null : eq.AssetNumber,
                         Quantity = "1",
-                        Cost = GetEquipmentCost(contract, eq, isFirstEquipment)?.ToString(CultureInfo.InvariantCulture),                        
+                        Cost = GetEquipmentCost(contract, eq, isFirstEquipment)?.ToString(CultureInfo.InvariantCulture),
                         Description = eq.Description,
                         AssetClass = new AssetClass() { AssetCode = eq.Type }
                     });
@@ -1759,9 +1759,30 @@ namespace DealnetPortal.Api.Integration.Services
                 }
             }
 
-            if (contract?.Equipment?.InstallationPackages?.Any() == true && IsClarityProgram(contract))
+            if (IsClarityProgram(contract))
             {
-                
+                const int maxPackages = 3;
+                int packageNum = 1;
+                var packages = contract.Equipment?.InstallationPackages?.Take(3).ToList() ?? new List<InstallationPackage>();
+                for (int i = packages.Count(); i < maxPackages; i++)
+                {
+                    packages.Add(null);
+                }
+
+                packages.ForEach(ip =>
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = $"{AspireUdfFields.InstallPackageDescr}{packageNum}",
+                        Value = ip?.Description ?? BlankValue
+                    });
+                    udfList.Add(new UDF()
+                    {
+                        Name = $"{AspireUdfFields.InstallMonthlyPay}{packageNum}",
+                        Value = ip?.MonthlyCost?.ToString(CultureInfo.InvariantCulture) ?? BlankValue
+                    });
+                    packageNum++;
+                });
             }
 
             if (contract?.PaymentInfo != null)
