@@ -826,7 +826,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             if (!string.IsNullOrEmpty(_notificationsEndpoint))
             {
                 string url = _notificationsEndpoint;
-                _loggingService.LogInfo($"DocuSign notofocations will send to {url}");
+                _loggingService.LogInfo($"DocuSign notifications will send to {url}");
 
                 List<EnvelopeEvent> envelope_events = new List<EnvelopeEvent>();
 
@@ -1022,7 +1022,10 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 case "created":
                     signatureStatus = SignatureStatus.Created;
                     break;
-                case "sent":
+                case "autoresponded":
+                // [DEAL-3767] Esignature email sending is not working properly for previously submitted deals
+                // It seems [autoresponded] status returned for not-existings mails. we should deal with this situation in the future
+                case "sent":                
                     signatureStatus = SignatureStatus.Sent;
                     break;
                 case "delivered":
