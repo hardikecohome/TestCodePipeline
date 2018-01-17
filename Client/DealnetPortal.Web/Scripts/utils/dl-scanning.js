@@ -68,7 +68,7 @@ function submitUpload (sender, uploadUrl, fn, ln, bd, dl, st, ct, pr, pc) {
                         document.getElementById(st || modal.getAttribute('data-stToFill')).value = json.Street;
                         document.getElementById(ct || modal.getAttribute('data-ctToFill')).value = json.City;
                         document.getElementById(pr || modal.getAttribute('data-prToFill')).value = json.State;
-                        $('#' + (pr || modal.getAttribute('data-prToFill'))).removeClass('not-selected');
+                        $('#' + (pr || modal.getAttribute('data-prToFill'))).removeClass('not-selected').change();
                         document.getElementById(pc || modal.getAttribute('data-pcToFill')).value = json.PostalCode;
                         $('#camera-modal').modal('hide');
                         $('#' + fn).trigger('uploadSuccess');
