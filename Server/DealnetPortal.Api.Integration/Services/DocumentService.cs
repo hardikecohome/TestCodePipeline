@@ -2276,7 +2276,7 @@ namespace DealnetPortal.Api.Integration.Services
                         var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
                         paymentSummary.Hst = (decimal)loanCalculatorOutput.Hst;
                         paymentSummary.TotalPayment = (decimal)loanCalculatorOutput.TotalAllMonthlyPayments;
-                        paymentSummary.MonthlyPayment = (decimal)loanCalculatorOutput.TotalMonthlyPayment;
+                        paymentSummary.MonthlyPayment = (decimal)Math.Round(loanCalculatorOutput.TotalMonthlyPayment , 2);
                         paymentSummary.TotalAllMonthlyPayment = (decimal)loanCalculatorOutput.TotalAllMonthlyPayments;
 
                         paymentSummary.LoanDetails = loanCalculatorOutput;

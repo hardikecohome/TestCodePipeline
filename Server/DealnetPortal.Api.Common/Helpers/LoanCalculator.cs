@@ -40,7 +40,8 @@ namespace DealnetPortal.Api.Common.Helpers
             output.Hst = input.TaxRate/100*input.EquipmentCashPrice;
             output.TotalCashPrice = output.Hst + input.EquipmentCashPrice;
             output.TotalAmountFinanced = output.TotalCashPrice /*+ input.AdminFee*/ - input.DownPayment;
-            output.TotalMonthlyPayment = Math.Round(output.TotalAmountFinanced*Financial.Pmt(input.CustomerRate/100/12, input.AmortizationTerm, -1),2);
+            output.TotalMonthlyPayment = input.CustomerRate > 0 ? Math.Round(output.TotalAmountFinanced*Financial.Pmt(input.CustomerRate/100/12, input.AmortizationTerm, -1),2)
+                : output.TotalAmountFinanced * Financial.Pmt(input.CustomerRate / 100 / 12, input.AmortizationTerm, -1);
             output.TotalAllMonthlyPayments = Math.Round(output.TotalMonthlyPayment*input.LoanTerm,2);
             if (input.LoanTerm != input.AmortizationTerm)
             {
