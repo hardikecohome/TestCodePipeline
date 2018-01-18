@@ -923,12 +923,12 @@
     <value>Salaire/Revenu</value>
   </data>
   <data name="ChequeBankPAP" xml:space="preserve">
-    <value>Chèque annulé ou lettre d’autorisation de PPA par la banque</value>
+    <value>Chèque annulé ou lettre d’autorisation de paiement pré-autorisé par la banque</value>
   </data>
   <data name="CreditApplication" xml:space="preserve">
     <value>Demande de crédit</value>
   </data>
   <data name="IncomeVerification" xml:space="preserve">
-    <value>Vérification du revenu</value>
+    <value>Preuve de revenu</value>
   </data>
 </root>

@@ -1654,7 +1654,7 @@
     <value>Êtes-vous certain de vouloir supprimer cette demande?</value>
   </data>
   <data name="AreYouWithProvider" xml:space="preserve">
-    <value>Avez-vous actuellement un fournisseur de financement?</value>
+    <value>Avez-vous un fournisseur de financement actuellement?</value>
   </data>
   <data name="AtCurrentAddress" xml:space="preserve">
     <value>À l’adresse actuelle</value>
@@ -1663,10 +1663,10 @@
     <value>À la nouvelle adresse du domicile</value>
   </data>
   <data name="AverageTransactionSize" xml:space="preserve">
-    <value>Taille de transaction moyenne</value>
+    <value>Prix de transaction moyen</value>
   </data>
   <data name="AverageTransactionSizeIncorrectFormat" xml:space="preserve">
-    <value>Le format de la taille de transaction moyenne est incorrect</value>
+    <value>Le format de la prix de transaction moyen est incorrect</value>
   </data>
   <data name="BorrowerIsOwnerOfProperty" xml:space="preserve">
     <value>L’emprunteur est propriétaire de la propriété</value>
@@ -1699,7 +1699,7 @@
     <value>Circuit</value>
   </data>
   <data name="CheckAllThatApply" xml:space="preserve">
-    <value>(cochez toutes les réponses pertinentes)</value>
+    <value>(cochez toutes les réponses applicables)</value>
   </data>
   <data name="CheckApplicableItemsFromList" xml:space="preserve">
     <value>Cochez tous les éléments pertinents dans notre liste</value>
@@ -1765,7 +1765,7 @@
     <value>Le format du nom de la personne-ressource est incorrect</value>
   </data>
   <data name="Contacts" xml:space="preserve">
-    <value>Personnes-ressources</value>
+    <value>CONTACT</value>
   </data>
   <data name="CopyLinkResumeLater" xml:space="preserve">
     <value>Veuillez copier le lien ci-dessous et enregistrer votre demande pour y revenir plus tard.</value>
@@ -1855,13 +1855,13 @@
     <value>Prenez note que les champs invalides n’ont pas été enregistrés</value>
   </data>
   <data name="JoinOurNetwork" xml:space="preserve">
-    <value>Joignez-vous à notre réseau de courtiers Financement Ecohome!</value>
+    <value>Inscrivez-vous au réseau d’entrepreneurs de Financement EcoHome !</value>
   </data>
   <data name="Leads" xml:space="preserve">
     <value>Pistes</value>
   </data>
   <data name="LeadsGenMethod" xml:space="preserve">
-    <value>Méthodes de génération des pistes</value>
+    <value>Méthode de génération de ventes</value>
   </data>
   <data name="LeadsNoMatchingRecordsFound" xml:space="preserve">
     <value>Veuillez configurer votre profil afin d’afficher les pistes</value>
@@ -1936,7 +1936,7 @@
     <value>Le nombre d’installateurs ne doit pas dépasser 3 chiffres</value>
   </data>
   <data name="NumSales" xml:space="preserve">
-    <value>Nombre de membres du personnel des ventes</value>
+    <value>Nombre de vendeurs</value>
   </data>
   <data name="NumSalesIncorrectFormat" xml:space="preserve">
     <value>Le format du chiffre de ventes est incorrect</value>
@@ -1951,7 +1951,7 @@
     <value>Service offert</value>
   </data>
   <data name="OfferMonthlyDeferrals" xml:space="preserve">
-    <value>Désirez-vous offrir des reports?</value>
+    <value>Désirez-vous d’offrir des paiements différé</value>
   </data>
   <data name="Onboarding" xml:space="preserve">
     <value>Intégration</value>
@@ -2047,7 +2047,7 @@
     <value>Marque principale du fabricant vendue</value>
   </data>
   <data name="PrincipalOwnerInformation" xml:space="preserve">
-    <value>Renseignements sur la partie principale ou le propriétaire</value>
+    <value>Renseignements sur les Directeur /Propriétaire</value>
   </data>
   <data name="PrivacyPolicy" xml:space="preserve">
     <value>Politique de confidentialité</value>
@@ -2166,7 +2166,7 @@
     <value>Type de projet</value>
   </data>
   <data name="ProofOfInsurance" xml:space="preserve">
-    <value>Preuve d'assurance et états financiers de l'entreprise - État des profits et pertes pour l'exercice financier précédent.</value>
+    <value>Preuve d'assurance et états financiers de l'entreprise - État des profits et pertes pour l’année fiscale précédent.</value>
   </data>
   <data name="Provinces" xml:space="preserve">
     <value>Provinces</value>
@@ -2175,7 +2175,7 @@
     <value>Il doit y avoir au moins {0} province</value>
   </data>
   <data name="ProvincialSafetyStandardLicensing" xml:space="preserve">
-    <value>Octroi de permis relatif aux normes de sécurité provinciales</value>
+    <value>Permis relatif aux normes de sécurité provinciales</value>
   </data>
   <data name="Questions" xml:space="preserve">
     <value>Questions?</value>
@@ -2220,7 +2220,7 @@
     <value>Enregistrer et continuer plus tard</value>
   </data>
   <data name="SaveEntireAppAndResumeLater" xml:space="preserve">
-    <value>Enregistrer la demande entière et continuer plus tard</value>
+    <value>Sauvegarder l’application et reprendre plus tard</value>
   </data>
   <data name="SecondaryBrand" xml:space="preserve">
     <value>Marque secondaire</value>
@@ -2286,7 +2286,7 @@
     <value>ID de vérification du client</value>
   </data>
   <data name="VoidCheque" xml:space="preserve">
-    <value>Chèque d’entreprise annulé – compte pour recevoir le financement d’Ecohome</value>
+    <value>Chèque d’entreprise annulé – compte pour recevoir les versement d’Ecohome</value>
   </data>
   <data name="WantToSendLink" xml:space="preserve">
     <value>Vous souhaitez que le lien vous soit envoyé? Saisissez votre adresse de courriel ci-dessous et cliquez sur « Envoyez-moi le lien ».</value>
@@ -2301,7 +2301,7 @@
     <value>Nous communiquerons avec vous prochainement.</value>
   </data>
   <data name="WhatProvincesDoBusiness" xml:space="preserve">
-    <value>Dans quelles provinces pouvez-vous exercer vos activités?</value>
+    <value>Quelles provinces pouvez-vous faire affaires?</value>
   </data>
   <data name="WhereHomeImprovementProjectTakePlace" xml:space="preserve">
     <value>À quel endroit ce projet de rénovation résidentielle aura-t-il lieu?</value>
