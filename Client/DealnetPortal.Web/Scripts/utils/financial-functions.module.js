@@ -38,7 +38,8 @@
             var amortizationTerm = data.AmortizationTerm;
             var customerRate = data.CustomerRate;
 
-			return (Math.round((tAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0))*100)/100);
+			return customerRate > 0 ? (Math.round((tAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0)) * 100) / 100) 
+				: (tAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0));
         };
 
         var totalMonthlyPayments = function(data) {
