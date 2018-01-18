@@ -29,8 +29,8 @@
                 </div>
                 <ul class="lang-list">
                     @{
-                        var isResuming = string.IsNullOrEmpty(Model.AccessKey);
-                        var action = isResuming ? "Onboarding" : "ResumeOnboarding";
+                        var isResuming = !string.IsNullOrEmpty(Model.AccessKey);
+                        var action = isResuming ? "ResumeOnboarding" : "Onboarding";
                         var key = isResuming ? Model.AccessKey : Model.OnBoardingLink;
                     }
                     @if(CultureHelper.CurrentCultureType != CultureType.English)
