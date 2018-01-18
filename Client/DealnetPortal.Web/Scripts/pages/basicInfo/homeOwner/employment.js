@@ -89,8 +89,8 @@
         postal = $('#ho-employment-postal-code');
         postal.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
-        if ($('#administrative_area_level_1').val().toLowerCase() === 'qc') {
-            status.change();
+        if (!disabled) {
+            enable();
         }
 
         if (isMobileRequest || typeof isMobileRequest === 'string' && isMobileRequest.toLowerCase() === 'true') {
