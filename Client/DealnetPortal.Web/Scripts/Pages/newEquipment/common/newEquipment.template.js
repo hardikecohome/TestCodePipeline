@@ -20,6 +20,11 @@
             $(parentNode).find("div.additional-remove").remove();
         }
 
+        $(parentNode)
+            .find('.add-equip-link')
+            .find('svg')
+            .html('<use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-add-app"></use>');
+
         return parentNode;
     };
 

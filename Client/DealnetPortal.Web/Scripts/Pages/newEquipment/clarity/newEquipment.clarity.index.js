@@ -7,7 +7,10 @@
     var settings = {
         isNewContractId: '#IsNewContract',
         agreementTypeId: '#typeOfAgreementSelect',
-        submitButtonId: '#submit'
+        submitButtonId: '#submit',
+        downPaymentId: '#downPayment',
+        addEquipmentId: '#addEquipment',
+        addExistingEquipmentId: '#addExistingEqipment'
     }
 
     var init = function(id, cards) {

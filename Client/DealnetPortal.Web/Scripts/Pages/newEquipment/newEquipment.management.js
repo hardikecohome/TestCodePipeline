@@ -167,11 +167,15 @@
         }
 
         if (options.name === 'equipments') {
-            if (state.agreementType === 1 || state.agreementType === 2) {
-                settings.recalculateAndRenderRentalValues();
+            if (state.agreementType !== 3) {
+                if (state.agreementType === 1 || state.agreementType === 2) {
+                    settings.recalculateAndRenderRentalValues();
+                } else {
+                    settings.recalculateValuesAndRender();
+                }
             } else {
-                settings.recalculateValuesAndRender();
-			}
+                settings.recalculateClarityValuesAndRender();
+            }
 			$('.add-equip-link').removeClass("hidden");
 		}		
     }

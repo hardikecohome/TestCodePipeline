@@ -14,7 +14,8 @@
             'displayYourCost': 'yourCost',
             'displayLoanTerm': 'loanTerm',
             'displayAmortTem': 'amortTerm',
-            'displayCustRate': 'customerRate'
+            'displayCustRate': 'customerRate',
+            'displayBalanceOwning': 'residualBalance'
         },
 
         totalPriceFields: {
@@ -71,10 +72,10 @@
 
         var notNan = !Object.keys(totalMonthlyData).map(idToValue(totalMonthlyData)).some(function (val) { return isNaN(val); });
         if (notNan && totalMonthlyData.equipmentSum !== 0) {
-            $("#totalMonthlyCostNoTax").text(formatNumber(eSum));
-            $("#taxGst").text(formatNumber(tax(totalMonthlyData)));
-            $("#totalMonthlyCostTax").text(formatNumber(totalRentalPrice(totalMonthlyData)));
-            $("#totalPriceEquipment").text(formatNumber(totalPriceOfEquipment(totalMonthlyData)));
+            $("#totalMonthlyCostNoTax").text(formatCurrency(eSum));
+            $("#taxGst").text(formatCurrency(tax(totalMonthlyData)));
+            $("#totalMonthlyCostTax").text(formatCurrency(totalRentalPrice(totalMonthlyData)));
+            $("#totalPriceEquipment").text(formatCurrency(totalRentalPrice(totalMonthlyData)));
         } else {
             $(settings.totalMonthlyPaymentId).val('');
             $(settings.rentalTaxId).text('-');
@@ -83,29 +84,22 @@
 
         //_renderTotalPriceInfo(eSumData);
 
-        var data = rateCardsCalculator.calculateValuesForRender($.extend({}, idToValue(state)('clarity')));
+        var data = rateCardsCalculator.calculateClarityValuesForRender($.extend({ equipmentSum: eSum, downPayment: state.downPayment, tax: state.tax }, idToValue(state)('clarity')));
       
         _renderCalculatedInfo(data);
     }
 
 
     function _renderCalculatedInfo(data) {
-        if (_isEmpty(settings))
-            throw new Error('settings are empty. Use init method first.');
-
-        var notNan = !Object.keys(data).map(_idToValue(data)).some(function (val) { return isNaN(val); });
+        var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
         var validateNumber = settings.numberFields.every(function (field) { return typeof data[field] === 'number'; });
         var validateNotEmpty = settings.notCero.every(function (field) { return data[field] !== 0; });
 
         if (notNan && validateNumber && validateNotEmpty) {
-            if (option === selectedRateCard) {
-                $('#displayLoanAmortTerm').text(data.loanTerm + '/' + data.amortTerm);
-                $('#displayCustomerRate').text(data.CustomerRate.toFixed(2));
-                Object.keys(settings.displaySectionFields).map(function (key) { $('#' + key).text(formatCurrency(data[settings.displaySectionFields[key]])); });
-            }
-
-            Object.keys(settings.displaySectionFields).map(function (key) { $('#' + option  + key).text(formatNumber(data[settings.displaySectionFields[key]]) + '%'); });
-            Object.keys(settings.rateCardFields).map(function (key) { $('#' + option + key).text(formatCurrency(data[settings.rateCardFields[key]])); });
+            $('#loanAmortTerm').text(data.loanTerm + '/' + data.amortTerm);
+            $('#customerRate').text(data.CustomerRate.toFixed(2) + '%');
+            $('#total-amount-financed').text(formatCurrency(data.totalAmountFinanced));
+            Object.keys(settings.rateCardFields).map(function (key) { $('#' + key).text(formatCurrency(data[settings.rateCardFields[key]])); });
         } else {
             if (option === selectedRateCard) {
                 $('#displayLoanAmortTerm').text('-');
