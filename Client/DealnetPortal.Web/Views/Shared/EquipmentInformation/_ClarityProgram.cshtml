@@ -3,6 +3,13 @@
 @using DealnetPortal.Web.Models.Enumeration
 @model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
 
+@{
+    if (Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
+    {
+        Model.ExistingEquipment = null;
+    }
+}
+
 <div class="clarity">
     <div class="row form-group">
         <div class="col-md-3">
@@ -34,8 +41,8 @@
                             <div class="form-group">
                                 @Html.LabelFor(m => m.NewEquipment[i].Type)
                                 @Html.DropDownListFor(m => m.NewEquipment[i].Type,
-                                    ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description, Selected = Model?.NewEquipment != null && Model.NewEquipment[i]?.Type == x.Type }),
-                                    new { @class = "form-control" })
+                                         ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description, Selected = Model?.NewEquipment != null && Model.NewEquipment[i]?.Type == x.Type }),
+                                         new { @class = "form-control" })
                             </div>
                         </div>
                         <div class="col-xs-12 col-md-6">
@@ -62,65 +69,65 @@
             }
         }
     </div>
-<div class="row">
-    <div class="col-md-12">
-        <div class="align-middle dealnet-info-link add-equip-link" id="addEquipment">
-            <svg aria-hidden="true" class="icon icon-add-app">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
-            </svg>
-            <span>@Resources.AddAdditionalEquipment</span>
-        </div>
-    </div>
-</div>
-<div id="installation-packages">
-    <h3 class="dealnet-middle-header">@Resources.InstallationPackage</h3>
-    @if (Model?.InstallationPackages != null)
-    {
-        for (var i = 0; i < Model.InstallationPackages.Count; i++)
-        {
-            <div id="package-@(i)" class="new-equipment-wrap">
-                @Html.HiddenFor(m => m.InstallationPackages[i].Id)
-                <div class="dealnet-middle-header equipment-number-header">
-                    <span class="equipment-number">№@(i + 1)</span>
-                    <div class="additional-remove" id="remove-package-@(i)">
-                        <i class="glyphicon glyphicon-remove"></i>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-md-9">
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.InstallationPackages[i].Description)
-                            <div class="control-group">
-                                @Html.TextBoxFor(m => m.InstallationPackages[i].Description, new { @class = "form-control dealnet-input", placeholder = Resources.DescriptionWithMakeModel })
-                                @Html.ValidationMessageFor(m => m.InstallationPackages[i].Description, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-xs-12 monthly-cost-col">
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.InstallationPackages[i].MonthlyCost)
-                            <div class="control-group has-addon-left">
-                                <div class="control-group-addon">$</div>
-                                @Html.TextBoxFor(m => m.InstallationPackages[i].MonthlyCost, new { @class = "form-control dealnet-input monthly-cost", type = "text", placeholder = Resources.MonthlyCost })
-                                @Html.ValidationMessageFor(m => m.InstallationPackages[i].MonthlyCost, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="align-middle dealnet-info-link add-equip-link" id="addEquipment">
+                <svg aria-hidden="true" class="icon icon-add-app">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
+                </svg>
+                <span>@Resources.AddAdditionalEquipment</span>
             </div>
-        }
-    }
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <div class="align-middle dealnet-info-link add-package-link" id="addInstallationPackage">
-            <svg aria-hidden="true" class="icon icon-add-app">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
-            </svg>
-            <span>@Resources.AddInstallationPackage</span>
         </div>
     </div>
-</div>
+    <div id="installation-packages">
+        <h3 class="dealnet-middle-header">@Resources.InstallationPackage</h3>
+        @if (Model?.InstallationPackages != null)
+        {
+            for (var i = 0; i < Model.InstallationPackages.Count; i++)
+            {
+                <div id="package-@(i)" class="new-equipment-wrap">
+                    @Html.HiddenFor(m => m.InstallationPackages[i].Id)
+                    <div class="dealnet-middle-header equipment-number-header">
+                        <span class="equipment-number">№@(i + 1)</span>
+                        <div class="additional-remove" id="remove-package-@(i)">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-9">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.InstallationPackages[i].Description)
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => m.InstallationPackages[i].Description, new { @class = "form-control dealnet-input", placeholder = Resources.DescriptionWithMakeModel })
+                                    @Html.ValidationMessageFor(m => m.InstallationPackages[i].Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-xs-12 monthly-cost-col">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.InstallationPackages[i].MonthlyCost)
+                                <div class="control-group has-addon-left">
+                                    <div class="control-group-addon">$</div>
+                                    @Html.TextBoxFor(m => m.InstallationPackages[i].MonthlyCost, new { @class = "form-control dealnet-input monthly-cost", type = "text", placeholder = Resources.MonthlyCost })
+                                    @Html.ValidationMessageFor(m => m.InstallationPackages[i].MonthlyCost, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="align-middle dealnet-info-link add-package-link" id="addInstallationPackage">
+                <svg aria-hidden="true" class="icon icon-add-app">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
+                </svg>
+                <span>@Resources.AddInstallationPackage</span>
+            </div>
+        </div>
+    </div>
     <hr />
     <div class="row">
         <div class="col-md-6">
@@ -243,11 +250,11 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                        <div class="col-xs-6 text-stronger">@Resources.YourCost</div>
-                        <div class="col-xs-6 text-right text-stronger">
-                            <span id="displayDealerCost">-</span>
-                        </div>
+                    <div class="col-xs-6 text-stronger">@Resources.YourCost</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="displayDealerCost">-</span>
                     </div>
+                </div>
             </div>
         </div>
 
@@ -289,8 +296,8 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.NewEquipment[0].Type)
                     @Html.DropDownListFor(m => m.NewEquipment[0].Type,
-                                                    ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
-                                                    new { @class = "form-control", @Value = 0 })
+                                                         ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
+                                                         new { @class = "form-control", @Value = 0 })
                 </div>
             </div>
             <div class="col-xs-12 col-md-6">
@@ -330,12 +337,12 @@
                             @Html.LabelFor(m => m.ExistingEquipment[0].IsRental)
                             <div class="control-group">
                                 @Html.DropDownListFor(m => m.ExistingEquipment[0].IsRental, new SelectList(
-                                         new[]
-                                         {
-                                                            new {Value = "true", Text = Resources.Yes, Selected = Model?.ExistingEquipment != null && Model.ExistingEquipment[0].IsRental},
-                                                            new {Value = "false", Text = Resources.No, Selected = Model?.ExistingEquipment != null && !Model.ExistingEquipment[0].IsRental},
-                                         },
-                                         "Value", "Text", Model?.ExistingEquipment?[0].IsRental ?? true), new { @class = "form-control", @Value = true })
+                                              new[]
+                                              {
+                                                                                new {Value = "true", Text = Resources.Yes, Selected = Model?.ExistingEquipment != null && Model.ExistingEquipment[0].IsRental},
+                                                                                new {Value = "false", Text = Resources.No, Selected = Model?.ExistingEquipment != null && !Model.ExistingEquipment[0].IsRental},
+                                              },
+                                              "Value", "Text", Model?.ExistingEquipment?[0].IsRental ?? true), new { @class = "form-control", @Value = true })
                             </div>
                         </div>
                     </div>
@@ -416,7 +423,7 @@
     </div>
     <div id="package-template-base">
         <div class="new-equipment-wrap">
-            @Html.HiddenFor(m => m.InstallationPackages[0].Id, new {Value = 0})
+            @Html.HiddenFor(m => m.InstallationPackages[0].Id, new { Value = 0 })
             <div class="dealnet-middle-header equipment-number-header">
                 <span class="equipment-number">№1</span>
                 <div class="additional-remove">
@@ -428,7 +435,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.InstallationPackages[0].Description)
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.InstallationPackages[0].Description, new { @class = "form-control dealnet-input", placeholder = Resources.DescriptionWithMakeModel, Value=""})
+                            @Html.TextBoxFor(m => m.InstallationPackages[0].Description, new { @class = "form-control dealnet-input", placeholder = Resources.DescriptionWithMakeModel, Value = "" })
                             @Html.ValidationMessageFor(m => m.InstallationPackages[0].Description, "", new { @class = "text-danger" })
                         </div>
                     </div>
