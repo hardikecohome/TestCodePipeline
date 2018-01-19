@@ -393,7 +393,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.ValueOfDeal, x => x.Ignore());
             mapperConfig.CreateMap<NewEquipmentDTO, NewEquipment>()
                 .ForMember(x => x.EquipmentInfo, d => d.Ignore())
-                .ForMember(x => x.EquipmentInfoId, d => d.Ignore());
+                .ForMember(x => x.EquipmentInfoId, d => d.Ignore())
+                .ForMember(x => x.IsDeleted, d => d.Ignore());
             mapperConfig.CreateMap<ExistingEquipmentDTO, ExistingEquipment>()
                 .ForMember(x => x.EquipmentInfo, d => d.Ignore())
                 .ForMember(x => x.EquipmentInfoId, d => d.Ignore());

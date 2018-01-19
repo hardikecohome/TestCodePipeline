@@ -233,7 +233,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.InitialCustomers)
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
-                .Include(c => c.Equipment.NewEquipment)
+                .Include(c => c.Equipment.NewEquipment.Where(ne => ne.IsDeleted != true))
                 .Include(c => c.Equipment.InstallationPackages)
                 .Include(c => c.Documents)
                 .Include(c => c.Signers)                
@@ -1094,7 +1094,8 @@ namespace DealnetPortal.DataAccess.Repositories
                 dbEquipment.NewEquipment.Where(
                     a => newEquipments.Any(ne => ne.Id == a.Id)).ToList();
             var entriesForDelete = dbEquipment.NewEquipment.Except(existingEntities).ToList();
-            entriesForDelete.ForEach(e => _dbContext.NewEquipment.Remove(e));
+            //entriesForDelete.ForEach(e => _dbContext.NewEquipment.Remove(e));
+            entriesForDelete.ForEach(e => e.IsDeleted = true);
 
             newEquipments.ForEach(ne =>
             {
