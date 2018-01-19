@@ -3,21 +3,23 @@
     var state = require('state').state;
     var tax = require('financial-functions').tax;
     var totalRentalPrice = require('financial-functions').totalRentalPrice;
-    var totalPriceOfEquipment = require('financial-functions').totalPriceOfEquipment;
 
     var settings = {
-        rateCardFields: {
+        rateCardCurrencyFields: {
             'displayCostOfBorrow': 'costOfBorrowing',
             'displayTotalAmount': 'totalAmountFinanced',
             'displayAllMonthly': 'totalMonthlyPayments',
             'displayTotalObl': 'totalObligation',
             'displayYourCost': 'yourCost',
-            'displayLoanTerm': 'loanTerm',
-            'displayAmortTem': 'amortTerm',
-            'displayCustRate': 'customerRate',
             'displayBalanceOwning': 'residualBalance'
         },
-
+        rateCardPercentageFields: {
+            'displayCustRate': 'customerRate'
+        },
+        rateCardMonthsFields: {
+            'displayLoanTerm': 'loanTerm',
+            'displayAmortTem': 'amortTerm'
+        },
         totalPriceFields: {
             'totalEquipmentPrice': 'equipmentSum',
             'tax': 'tax',
@@ -61,34 +63,14 @@
 
         var eSum = monthlySum(state.equipments);
         
-        var totalMonthlyData = {
-            tax: state.tax,
-            equipmentSum: eSum,
-            CustomerRate: 6.95,
-            AmortizationTerm: 144,
-            AdminFee: 0,
-            downPayment: state.downPayment
-        };
+        var totalMonthlyData = $.extend({ equipmentSum: eSum, downPayment: state.downPayment, tax: state.tax }, idToValue(state)('clarity'));
 
-        var notNan = !Object.keys(totalMonthlyData).map(idToValue(totalMonthlyData)).some(function (val) { return isNaN(val); });
-        if (notNan && totalMonthlyData.equipmentSum !== 0) {
-            $("#totalMonthlyCostNoTax").text(formatCurrency(eSum));
-            $("#taxGst").text(formatCurrency(tax(totalMonthlyData)));
-            $("#totalMonthlyCostTax").text(formatCurrency(totalRentalPrice(totalMonthlyData)));
-            $("#totalPriceEquipment").text(formatCurrency(totalRentalPrice(totalMonthlyData)));
-        } else {
-            $(settings.totalMonthlyPaymentId).val('');
-            $(settings.rentalTaxId).text('-');
-            $(settings.rentalTotalMonthlyPaymentId).text('-');
-        }
+        _renderTotalPriceInfo(totalMonthlyData);
 
-        //_renderTotalPriceInfo(eSumData);
-
-        var data = rateCardsCalculator.calculateClarityValuesForRender($.extend({ equipmentSum: eSum, downPayment: state.downPayment, tax: state.tax }, idToValue(state)('clarity')));
+        var data = rateCardsCalculator.calculateClarityValuesForRender(totalMonthlyData);
       
         _renderCalculatedInfo(data);
     }
-
 
     function _renderCalculatedInfo(data) {
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
@@ -99,24 +81,26 @@
             $('#loanAmortTerm').text(data.loanTerm + '/' + data.amortTerm);
             $('#customerRate').text(data.CustomerRate.toFixed(2) + '%');
             $('#total-amount-financed').text(formatCurrency(data.totalAmountFinanced));
-            Object.keys(settings.rateCardFields).map(function (key) { $('#' + key).text(formatCurrency(data[settings.rateCardFields[key]])); });
+            Object.keys(settings.rateCardCurrencyFields).map(function (key) { $('#' + key).text(formatCurrency(data[settings.rateCardCurrencyFields[key]])); });
+            Object.keys(settings.rateCardPercentageFields).map(function (key) { $('#' + key).text(formatNumber(data[settings.rateCardPercentageFields[key]]) + '%'); });
+            Object.keys(settings.rateCardMonthsFields).map(function (key) { $('#' + key).text(data[settings.rateCardMonthsFields[key]] + ' ' + translations.months.toLowerCase()); });
         } else {
-            if (option === selectedRateCard) {
-                $('#displayLoanAmortTerm').text('-');
-                $('#displayCustomerRate').text('-');
-                Object.keys(settings.displaySectionFields).map(function (key) { $('#' + key).text('-'); });
-            }
-            Object.keys(settings.rateCardFields).map(function (key) { $('#' + option + key).text('-'); });
+            $('#loanAmortTerm').text('-');
+            $('#customerRate').text('-');
+            $('#total-amount-financed').text('-');
+            Object.keys(settings.rateCardCurrencyFields).map(function (key) { $('#' + key).text('-'); });
+            Object.keys(settings.rateCardPercentageFields).map(function (key) { $('#' + key).text('-'); });
+            Object.keys(settings.rateCardMonthsFields).map(function (key) { $('#' + key).text('-'); });
         }
     }
 
     function _renderTotalPriceInfo(data) {
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
         if (notNan && data.equipmentSum !== 0) {
-            $(settings.totalMonthlyPaymentId).val(formatNumber(eSum));
-            $(settings.rentalTaxId).text(formatNumber(tax(data)));
-            $(settings.rentalTotalMonthlyPaymentId).text(formatNumber(totalRentalPrice(data)));
-            $(settings.rentalTotalMonthlyPaymentId).text(formatNumber(totalRentalPrice(data)));
+            $("#totalMonthlyCostNoTax").text(formatCurrency(data.equipmentSum));
+            $("#tax").text(formatCurrency(tax(data)));
+            $("#totalMonthlyCostTax").text(formatCurrency(totalRentalPrice(data)));
+            $("#totalPriceEquipment").text(formatCurrency(totalRentalPrice(data)));
         } else {
             $(settings.totalMonthlyPaymentId).val('');
             $(settings.rentalTaxId).text('-');

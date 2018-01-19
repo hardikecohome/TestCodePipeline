@@ -4,13 +4,18 @@
     var equipment = require('equipment');
     var calculate = require('newEquipment.clairty.calculation').recalculateClarityValuesAndRender;
     var setters = require('value-setters');
+
     var settings = {
         isNewContractId: '#IsNewContract',
         agreementTypeId: '#typeOfAgreementSelect',
         submitButtonId: '#submit',
         downPaymentId: '#downPayment',
         addEquipmentId: '#addEquipment',
-        addExistingEquipmentId: '#addExistingEqipment'
+        addExistingEquipmentId: '#addExistingEqipment',
+        totalAmountFinancedId: '#total-amount-financed',
+        equipmentValidationMessageId: '#new-equipment-validation-message',
+        loanRateCardToggleId: '#loanRateCardToggle',
+        formId: '#equipment-form'
     }
 
     var init = function(id, cards) {
@@ -27,6 +32,11 @@
 
         _initHandlers();
         calrityUi.init();
+
+        if (state.isNewContract) {
+            $(settings.loanRateCardToggleId).click();
+            calculate();
+        }
     }
 
     function _initHandlers () {
@@ -39,10 +49,7 @@
 
     function _submitForm (event) {
         $(settings.formId).valid();
-        var agreementType = $(settings.agreementTypeId).find(":selected").val();
-        var monthPayment = agreementType === settings.applicationType.loanApplication ?
-            Globalize.parseNumber($('#' + option + 'TMPayments').text().replace('$', '').trim()) :
-            Globalize.parseNumber($(settings.rentalMonthlyPaymentId).text());
+        var monthPayment = Globalize.parseNumber($(settings.totalAmountFinancedId).text().replace('$', '').trim());
 
         if (isNaN(monthPayment) || monthPayment <= 0) {
             event.preventDefault();

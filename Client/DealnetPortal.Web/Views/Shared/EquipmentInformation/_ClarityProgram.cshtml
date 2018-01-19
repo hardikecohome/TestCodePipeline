@@ -34,8 +34,8 @@
                             <div class="form-group">
                                 @Html.LabelFor(m => m.NewEquipment[i].Type)
                                 @Html.DropDownListFor(m => m.NewEquipment[i].Type,
-                                                            ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description, Selected = Model?.NewEquipment != null && Model.NewEquipment[i]?.Type == x.Type }),
-                                                            new { @class = "form-control" })
+                                    ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description, Selected = Model?.NewEquipment != null && Model.NewEquipment[i]?.Type == x.Type }),
+                                    new { @class = "form-control" })
                             </div>
                         </div>
                         <div class="col-xs-12 col-md-6">
@@ -57,24 +57,21 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>&nbsp;</label>
-                                <div class="control-group">
-                                    <div class="dealnet-info-link add-equip-link">
-                                        <svg aria-hidden="true" class="icon icon-add-app">
-                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
-                                        </svg>
-                                        <span>@Resources.AddAdditionalEquipment</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             }
         }
     </div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="align-middle dealnet-info-link add-equip-link" id="addEquipment">
+            <svg aria-hidden="true" class="icon icon-add-app">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
+            </svg>
+            <span>@Resources.AddAdditionalEquipment</span>
+        </div>
+    </div>
+</div>
     <hr />
     <div class="row">
         <div class="col-md-6">
@@ -88,10 +85,10 @@
             </div>
             <div class="row form-group">
                 <div class="col-sm-6">
-                    GST+QST
+                    @Html.DisplayFor(x => x.ProvinceTaxRate.Description)
                 </div>
                 <div class="col-sm-6 text-right text-stronger">
-                    <span id="taxGst">-</span>
+                    <span id="tax">-</span>
                 </div>
             </div>
             <div class="row form-group">
@@ -196,12 +193,6 @@
                         <span id="displayCustRate">-</span>
                     </div>
                 </div>
-                @*<div class="row form-group">
-                        <div class="col-xs-6 text-stronger">@Resources.YourCost</div>
-                        <div class="col-xs-6 text-right text-stronger">
-                            <span id="displayYourCost">-</span>
-                        </div>
-                    </div>*@
             </div>
         </div>
 
@@ -227,9 +218,6 @@
                 </div>
             </div>
         </div>
-
-        @*@Html.Partial("EquipmentInformation/Agreements/_FinancialRental", Model)
-            @Html.Partial("EquipmentInformation/Agreements/_FinancialLoan", Model)*@
     </div>
 </div>
 
@@ -266,19 +254,6 @@
                         <div class="control-group-addon">$</div>
                         @Html.TextBoxFor(m => m.NewEquipment[0].MonthlyCost, new { @class = "form-control dealnet-input monthly-cost", type = "text", placeholder = Resources.MonthlyCost, @Value = "" })
                         @Html.ValidationMessageFor(m => m.NewEquipment[0].MonthlyCost, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label>&nbsp;</label>
-                    <div class="control-group">
-                        <div class="dealnet-info-link add-equip-link" id="addEquipment">
-                            <svg aria-hidden="true" class="icon icon-add-app">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
-                            </svg>
-                            <span>@Resources.AddAdditionalEquipment</span>
-                        </div>
                     </div>
                 </div>
             </div>

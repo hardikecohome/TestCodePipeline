@@ -187,7 +187,7 @@
      * @returns {void} 
      */
     function initEquipment (i) {
-        var cost = Globalize.parseNumber($('#NewEquipment_' + i + '__Cost').val());
+        var cost = $('#NewEquipment_' + i + '__Cost').length ? Globalize.parseNumber($('#NewEquipment_' + i + '__Cost').val()) : 0;
         if (state.equipments[i] === undefined) {
             state.equipments[i] = { id: i.toString(), cost: cost };
         } else {

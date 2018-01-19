@@ -126,8 +126,10 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             var mainAddressProvinceCode = result.Item1.PrimaryCustomer.Locations.First(l => l.AddressType == AddressType.MainAddress).State.ToProvinceCode();
             var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(mainAddressProvinceCode)).Item1;
 
-            if(rate != null)
-            { equipmentInfo.ProvinceTaxRate = rate; }
+            if (rate != null)
+            {
+                equipmentInfo.ProvinceTaxRate = rate; 
+            }
             equipmentInfo.IsOnlyLoanAvailable = mainAddressProvinceCode == ContractProvince.QC.ToString();
 
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;

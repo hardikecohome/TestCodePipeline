@@ -5,6 +5,13 @@
     Layout = "EquipmentInformationLayout.cshtml";
 }
 
+@{
+    if (Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
+    {
+        Model.ExistingEquipment = null;
+    }
+}
+
 @using (Html.BeginForm("EquipmentInformation", "NewRental", null, FormMethod.Post, new { id = "equipment-form", onkeydown = "return event.keyCode!=13" }))
 {
     @Html.AntiForgeryToken()
@@ -75,13 +82,15 @@
         </script>
 
         <script type="text/javascript">
-            module.require('newEquipment.clarity.index').init(@Model.ContractId, @Html.Raw(Json.Encode(Model.DealerTier.RateCards)));
+            configInitialized.then(function () {
+                module.require('newEquipment.clarity.index').init(@Model.ContractId, @Html.Raw(Json.Encode(Model.DealerTier.RateCards)));
+            });
         </script>
     }
 }
 else
 {
     @section pageScripts {
-        
+
     }
 }
