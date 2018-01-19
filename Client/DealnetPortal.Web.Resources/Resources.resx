@@ -2652,4 +2652,10 @@ changing contract terms or signing contract on paper.</value>
   <data name="BalanceOwingEndOfPayments" xml:space="preserve">
     <value>Balance Owing at the End of Monthly Payments</value>
   </data>
+  <data name="AddInstallationPackage" xml:space="preserve">
+    <value>Add installation package</value>
+  </data>
+  <data name="InstallationPackage" xml:space="preserve">
+    <value>Installation Package</value>
+  </data>
 </root>

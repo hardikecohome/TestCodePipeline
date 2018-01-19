@@ -106,6 +106,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             if(result.Item1.Equipment != null)
             {
                 equipmentInfo = Mapper.Map<EquipmentInformationViewModelNew>(result.Item1.Equipment);
+                equipmentInfo.InstallationPackages = Mapper.Map<List<InstallationPackageInformation>>(result.Item1.Equipment.InstallationPackages);
 
                 if(!equipmentInfo.NewEquipment.Any())
                 {

@@ -2,6 +2,7 @@
     var state = {
         agreementType: 0,
         equipments: {},
+        packages: {},
         existingEquipments: {},
         tax: taxRate,
         downPayment: 0,

@@ -308,6 +308,7 @@
     <Compile Include="Models\EmploymentInformationViewModel.cs" />
     <Compile Include="Models\ESignatureViewModel.cs" />
     <Compile Include="Models\HelpPopUpViewModal.cs" />
+    <Compile Include="Models\InstallationPackageInformation.cs" />
     <Compile Include="Models\MyProfile\DealerAreaViewModel.cs" />
     <Compile Include="Models\MyProfile\ProfileViewModel.cs" />
     <Compile Include="Models\NewCustomerViewModel.cs" />
@@ -837,6 +838,8 @@
     <Content Include="Scripts\pages\customerForm\views\employment-info.js" />
     <Content Include="Scripts\pages\newEquipment\clarity\newEquipment.clarity.calculation.js" />
     <Content Include="Scripts\pages\newEquipment\clarity\newEquipment.clarity.index.js" />
+    <Content Include="Scripts\pages\newEquipment\clarity\newEquipment.clarity.packages.js" />
+    <Content Include="Scripts\pages\newEquipment\common\newEquipment.conversion.js" />
     <Content Include="Scripts\pages\newEquipment\common\newEquipment.index.js" />
     <Content Include="Scripts\pages\newEquipment\clarity\newEquipment.clarity.ui.js" />
     <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.index.js" />

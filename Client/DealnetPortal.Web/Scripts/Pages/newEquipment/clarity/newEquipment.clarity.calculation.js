@@ -14,7 +14,8 @@
             'displayBalanceOwning': 'residualBalance'
         },
         rateCardPercentageFields: {
-            'displayCustRate': 'customerRate'
+            'displayCustRate': 'customerRate',
+            'displayDealerCost': 'DealerCost'
         },
         rateCardMonthsFields: {
             'displayLoanTerm': 'loanTerm',

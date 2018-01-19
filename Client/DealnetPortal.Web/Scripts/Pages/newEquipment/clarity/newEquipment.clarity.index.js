@@ -2,6 +2,7 @@
     var state = require('state').state;
     var calrityUi = require('newEquipment.clarity.ui');
     var equipment = require('equipment');
+    var packages = require('newEquipment.clarity.packages');
     var calculate = require('newEquipment.clairty.calculation').recalculateClarityValuesAndRender;
     var setters = require('value-setters');
 
@@ -15,6 +16,7 @@
         totalAmountFinancedId: '#total-amount-financed',
         equipmentValidationMessageId: '#new-equipment-validation-message',
         loanRateCardToggleId: '#loanRateCardToggle',
+        addInstallationPackageId: '#addInstallationPackage',
         formId: '#equipment-form'
     }
 
@@ -29,6 +31,7 @@
 
         setters.init({ isClarity: true, recalculateClarityValuesAndRender: calculate });
         equipment.init({isClarity: true, recalculateClarityValuesAndRender : calculate});
+        packages.init();
 
         _initHandlers();
         calrityUi.init();
@@ -45,6 +48,7 @@
         $(settings.totalMonthlyPaymentId).on('change', setters.setRentalMPayment);
         $(settings.addEquipmentId).on('click', equipment.addEquipment);
         $(settings.addExistingEquipmentId).on('click', equipment.addExistingEquipment);
+        $(settings.addInstallationPackageId).on('click', packages.addPackage);
     }
 
     function _submitForm (event) {
@@ -59,7 +63,6 @@
 
         $(settings.formId).submit();
     }
-
 
     return { init: init }
 })

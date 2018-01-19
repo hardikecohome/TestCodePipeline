@@ -95,7 +95,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.InstalledSerialNumber, d => d.Ignore())
                 .ForMember(x => x.InstalledModel, d => d.Ignore());
             cfg.CreateMap<ExistingEquipmentInformation, ExistingEquipmentDTO>();
-
+            cfg.CreateMap<InstallationPackageInformation, InstallationPackageDTO>();
             cfg.CreateMap<PaymentInfoViewModel, PaymentInfoDTO>().ForMember(x => x.Id, d => d.Ignore());
 
             cfg.CreateMap<CommentViewModel, CommentDTO>()
@@ -551,7 +551,7 @@ namespace DealnetPortal.Web.App_Start
 
             cfg.CreateMap<NewEquipmentDTO, NewEquipmentInformation>();
             cfg.CreateMap<ExistingEquipmentDTO, ExistingEquipmentInformation>();
-
+            cfg.CreateMap<InstallationPackageDTO, InstallationPackageInformation>();
             cfg.CreateMap<EquipmentInfoDTO, EquipmentInformationViewModel>()
                 .ForMember(x => x.ContractId, d => d.MapFrom(src => src.Id))
                 .ForMember(x => x.ProvinceTaxRate, d => d.Ignore())
