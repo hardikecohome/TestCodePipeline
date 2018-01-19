@@ -14,10 +14,12 @@
     </div>
     <hr>
     <div class="equal-height-row-2">
-      <div class="form-group">
-        <label for="">@Resources.LoanAmortTerm</label>
-        @Html.DropDownList(Model + "Amortization", amortizationSelectList, new { @class = "form-control", id = Model + "-amortDropdown" })
-      </div>
+        <div class="form-group">
+            <div class="equal-height-label-2">
+                <label for="">@Resources.LoanAmortTerm</label>
+            </div>
+            @Html.DropDownList(Model + "Amortization", amortizationSelectList, new {@class = "form-control", id = Model + "-amortDropdown"})
+        </div>
     </div>
     <div class="equal-height-row-3">
       <div class="clearfix form-group"></div>

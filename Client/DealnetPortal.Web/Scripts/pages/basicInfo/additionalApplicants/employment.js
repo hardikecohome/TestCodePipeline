@@ -13,7 +13,7 @@
     var unit;
     var city;
     var province;
-    var postal
+    var postal;
 
     var requiredObj = {
         required: true,
@@ -89,8 +89,8 @@
         postal = $('#add1-employment-postal-code');
         postal.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
-        if (!disabled && $('#administrative_area_level_1').val().toLowerCase() === 'qc') {
-            status.change();
+        if (!disabled) {
+            enable();
         }
         if (isMobileRequest || typeof isMobileRequest === 'string' && isMobileRequest.toLowerCase() === 'true') {
             incomeType.parents('.form-group').addClass('col-md-3').removeClass('col-md-2');

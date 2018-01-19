@@ -64,7 +64,7 @@
                 </div>
             }
 
-            @if(true)
+            @if(!true)
             {
                 @Html.Partial("EquipmentInformation/_ClarityProgram", Model)
             }
@@ -149,7 +149,7 @@
     </div>
 
 }
-@if(!true)
+@if(true)
 {
     @Html.Partial("EquipmentInformation/_EquipmentTemplates", Model)
 }

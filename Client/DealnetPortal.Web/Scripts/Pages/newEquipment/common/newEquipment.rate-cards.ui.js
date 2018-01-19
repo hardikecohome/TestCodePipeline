@@ -68,14 +68,14 @@
     }
 
     var setHeight = function () {
+        setEqualHeightRows($(".equal-height-label-1"));
+        setEqualHeightRows($(".equal-height-label-2"));
+
         setEqualHeightRows($(".equal-height-row-1"));
         setEqualHeightRows($(".equal-height-row-2"));
         setEqualHeightRows($(".equal-height-row-3"));
         setEqualHeightRows($(".equal-height-row-4"));
         setEqualHeightRows($(".equal-height-row-5"));
-
-
-        setEqualHeightRows($(".equal-height-label-1"));
     }
 
     var onAgreemntSelect = function () {

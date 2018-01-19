@@ -60,6 +60,7 @@
     <Compile Include="Contract\DocumentTypeDTO.cs" />
     <Compile Include="Contract\EmailDTO.cs" />
     <Compile Include="Contract\EmploymentInfoDTO.cs" />
+    <Compile Include="Contract\EquipmentInformation\InstallationPackageDTO.cs" />
     <Compile Include="Contract\EquipmentTypeDTO.cs" />
     <Compile Include="Contract\InstallationCertificateDataDTO.cs" />
     <Compile Include="Contract\InstalledEquipmentDTO.cs" />

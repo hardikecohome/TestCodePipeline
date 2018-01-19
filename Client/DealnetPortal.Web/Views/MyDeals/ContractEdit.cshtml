@@ -2,6 +2,7 @@
 @using System.Linq
 @using DealnetPortal.Api.Common.Enumeration
 @using DealnetPortal.Api.Common.Helpers
+@using DealnetPortal.Api.Core.Helpers
 @using DealnetPortal.Api.Models.Contract
 @using DealnetPortal.Web.Models
 @using DealnetPortal.Web.Models.Enumeration
@@ -2323,5 +2324,5 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/localization")
     @Scripts.Render("~/bundles/contract-edit")
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&language=@(CultureHelper.CurrentCultureType == CultureType.English ? "en" : "fr-CA")&region=CA&libraries=places&callback=assignAutocompletes" async defer></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&language=@(CultureHelper.CurrentCultureType == CultureType.English ? "en" : "fr")&region=CA&libraries=places&callback=assignAutocompletes" async defer></script>
 }

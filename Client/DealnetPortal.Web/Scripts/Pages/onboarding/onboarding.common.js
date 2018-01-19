@@ -1,12 +1,14 @@
-﻿module.exports('onboarding.common', function () {
+﻿module.exports('onboarding.common', function (require) {
+    var resetDobValidtion = require('dob-selecters').resetValidation;
+
     function resetFormValidation (selector) {
         var $form = $(selector);
         $form.removeData("validator");
         $form.removeData("unobtrusiveValidation");
         $.validator.unobtrusive.parse(selector);
-        if ($form.find('.dob-input').length) {
-            $form.find('.dob-input').rules('add', {
-                over18: true
+        if ($form.find('.dob-group').length) {
+            $form.find('.dob-group').each(function(index, el) {
+                resetDobValidtion(el);
             });
         }
     }

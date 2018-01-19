@@ -58,6 +58,7 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<ExistingEquipment, ExistingEquipmentDTO>();
             mapperConfig.CreateMap<NewEquipment, NewEquipmentDTO>()
                 .ForMember(x => x.TypeDescription, d => d.Ignore());
+            mapperConfig.CreateMap<InstallationPackage, InstallationPackageDTO>();
             mapperConfig.CreateMap<Comment, CommentDTO>()
                 .ForMember(x => x.IsOwn, s => s.ResolveUsing(src => src.IsCustomerComment != true && (src.DealerId == src.Contract?.DealerId)))
                 .ForMember(x => x.Replies, s => s.MapFrom(src => src.Replies))
@@ -396,6 +397,9 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<ExistingEquipmentDTO, ExistingEquipment>()
                 .ForMember(x => x.EquipmentInfo, d => d.Ignore())
                 .ForMember(x => x.EquipmentInfoId, d => d.Ignore());
+            mapperConfig.CreateMap<InstallationPackageDTO, InstallationPackage>()
+                .ForMember(x => x.EquipmentInfo, d => d.Ignore())
+                .ForMember(x => x.EquipmentInfoId, d => d.Ignore()); ;
             mapperConfig.CreateMap<CommentDTO, Comment>()
                .ForMember(x => x.ParentComment, d => d.Ignore())
                .ForMember(x => x.Contract, d => d.Ignore())

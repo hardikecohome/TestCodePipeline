@@ -131,6 +131,7 @@
 
         function changeToUnemployedOrRetired() {
             annual.prop('disabled', false).parents('.form-group').removeClass('hidden');
+            $('#annual-label').removeClass('hidden');
 
             incomeType.prop('disabled', true).parents('.form-group').addClass('hidden');
             $('#income-label').addClass('hidden');

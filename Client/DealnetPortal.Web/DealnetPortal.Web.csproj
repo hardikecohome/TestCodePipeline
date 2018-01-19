@@ -1081,7 +1081,7 @@
     <Content Include="Scripts\vendor\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\vendor\knockout-3.4.2.debug.js" />
     <Content Include="Scripts\vendor\knockout-3.4.2.js" />
-    <Content Include="Scripts\vendor\modernizr-2.6.2.js" />
+    <Content Include="Scripts\vendor\modernizr-2.8.3.js" />
     <Content Include="Scripts\vendor\respond.js" />
     <Content Include="Scripts\vendor\svgxuse.min.js" />
     <None Include="Scripts\_references.js" />

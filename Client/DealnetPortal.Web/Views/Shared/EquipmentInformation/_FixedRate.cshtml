@@ -15,10 +15,12 @@
     </div>
     <hr>
     <div class="equal-height-row-2">
-      <div class="form-group">
-        <label>@Resources.LoanAmortTerm</label>
-        @Html.DropDownList(Model + "Amortization", amortizationSelectList, new { @class = "form-control", id = Model + "-amortDropdown" })
-        @*@if (ViewBag.totalAmountFinancedFor180amortTerm == 3999)
+        <div class="form-group">
+            <div class="equal-height-label-2">
+                <label>@Resources.LoanAmortTerm</label>
+            </div>
+            @Html.DropDownList(Model + "Amortization", amortizationSelectList, new {@class = "form-control", id = Model + "-amortDropdown"})
+            @*@if (ViewBag.totalAmountFinancedFor180amortTerm == 3999)
 		{
 			<a class="link-over-notify" id="DeferralNotify"
 			   data-content="@Resources.Month180AmortOnlyOver4000">
@@ -33,7 +35,7 @@
 			</a>
 
 		}*@
-      </div>
+        </div>
     </div>
     <div class="equal-height-row-3">
     </div>

@@ -278,7 +278,7 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/localization")
     @Scripts.Render("~/bundles/basic-info")
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&language=@(CultureHelper.CurrentCultureType == CultureType.English ? "en" : "fr-CA")&region=CA&libraries=places&callback=assignAutocompletes" async defer></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&language=@(CultureHelper.CurrentCultureType == CultureType.English ? "en" : "fr")&region=CA&libraries=places&callback=assignAutocompletes" async defer></script>
     <script type="text/javascript">
         $('<option @(Model.SubmittingDealerId == null ? "selected" : "") value="">- @Resources.NotSelected -</option>').prependTo($('#subdealers'));
 
