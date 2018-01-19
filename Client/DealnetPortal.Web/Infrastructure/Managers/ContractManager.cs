@@ -140,6 +140,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
             var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
             equipmentInfo.DealerTier = Mapper.Map<TierViewModel>(dealerTier) ?? new TierViewModel() { RateCards = new List<RateCardViewModel>() };
+
             if(result.Item1.Equipment == null)
             {
                 equipmentInfo.RateCardValid = true;
@@ -550,6 +551,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
             var existingEquipment = Mapper.Map<List<ExistingEquipmentDTO>>(equipmnetInfo.ExistingEquipment);
             contractData.Equipment.ExistingEquipment = existingEquipment ?? new List<ExistingEquipmentDTO>();
+            var installationPackeges = Mapper.Map<List<InstallationPackageDTO>>(equipmnetInfo.ExistingEquipment);
+            contractData.Equipment.InstallationPackages = installationPackeges ?? new List<InstallationPackageDTO>();
             contractData.Equipment.SalesRep = equipmnetInfo.SalesRep;
             contractData.Equipment.EstimatedInstallationDate = equipmnetInfo.EstimatedInstallationDate;
 
