@@ -437,7 +437,7 @@ namespace DealnetPortal.Web.App_Start
                     src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Cell)?.PhoneNum
                     ?? src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Home)?.PhoneNum))
                 .ForMember(d => d.Date, s => s.ResolveUsing(src =>
-                    (src.LastUpdateTime?.Date ?? src.CreationTime.Date).TryConvertToLocalUserDate().ToString("MM/dd/yyyy",
+                    (src.LastUpdateTime ?? src.CreationTime).TryConvertToLocalUserDate().ToString("MM/dd/yyyy",
                         CultureInfo.InvariantCulture)))
                 .ForMember(d => d.SalesRep, s => s.ResolveUsing(src => src.Equipment?.SalesRep ?? string.Empty))
                 .ForMember(d => d.Equipment, s => s.ResolveUsing(src =>
