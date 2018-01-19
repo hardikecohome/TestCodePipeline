@@ -59,6 +59,9 @@
         public static string Residence = "Residence";
         public static string ExistingCustomer = "Existing Customer";
 
+        public static string InstallMonthlyPay = "Install Monthly Pay";
+        public static string InstallPackageDescr = "Install Package Descr";
+
         #region Dealer onboarding UDFs        
         public static string OperatingName = "Operating Name";
         public static string NumberOfInstallers = "Number of Installers";
