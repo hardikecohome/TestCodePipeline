@@ -259,7 +259,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
                 var date = ConvertFromDbVal<string>(dr["Last_Update_Date"]);
                 var time = ConvertFromDbVal<string>(dr["Last_Update_Time"]);
                 DateTime updateTime;
-                DateTime.TryParse($"{date} {time}", out updateTime);
+                DateTime.TryParse($"{date} {time}",CultureInfo.InvariantCulture,DateTimeStyles.None, out updateTime);
 
                 item.LastUpdateTime = time;
                 item.LastUpdateDate = date;
