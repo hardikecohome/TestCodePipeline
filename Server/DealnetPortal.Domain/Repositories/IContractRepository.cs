@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Common.Types;
 
 namespace DealnetPortal.Domain.Repositories
 {
@@ -184,9 +185,8 @@ namespace DealnetPortal.Domain.Repositories
         IList<VerifiactionId> GetAllVerificationIds();
 
         AspireStatus GetAspireStatus(string status);
-
-        //TODO: add db table field?
-        decimal GetContractTotalMonthlyPayment(int contractId);
+        
+        PaymentSummary GetContractPaymentsSummary(int contractId);
 
         Comment TryAddComment(Comment comment, string contractOwnerId);
 

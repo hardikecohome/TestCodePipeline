@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
+using DealnetPortal.Api.Common.Types;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Configuration;
@@ -233,7 +234,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.InitialCustomers)
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
-                .Include(c => c.Equipment.NewEquipment.Where(ne => ne.IsDeleted != true))
+                .Include(c => c.Equipment.NewEquipment)
                 .Include(c => c.Equipment.InstallationPackages)
                 .Include(c => c.Documents)
                 .Include(c => c.Signers)                
@@ -628,11 +629,11 @@ namespace DealnetPortal.DataAccess.Repositories
         public AspireStatus GetAspireStatus(string status)
         {
             return _dbContext.AspireStatuses.FirstOrDefault(x => x.Status.Contains(status.Trim()));
-        }
+        }  
 
-        public decimal GetContractTotalMonthlyPayment(int contractId)
+        public PaymentSummary GetContractPaymentsSummary(int contractId)
         {
-            decimal totalMp = 0.0M;
+            PaymentSummary paymentSummary = null;
 
             var contract = _dbContext.Contracts.Find(contractId);
             if (contract != null)
@@ -640,35 +641,45 @@ namespace DealnetPortal.DataAccess.Repositories
                 var rate =
                     GetProvinceTaxRate(
                         (contract.PrimaryCustomer?.Locations.FirstOrDefault(
-                            l => l.AddressType == AddressType.MainAddress) ??
+                             l => l.AddressType == AddressType.MainAddress) ??
                          contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
-                if (rate != null && contract.Equipment != null)
+                paymentSummary = new PaymentSummary();
+
+                if (contract.Equipment.AgreementType == AgreementType.LoanApplication)
                 {
-                    if (contract.Equipment.AgreementType == AgreementType.LoanApplication)
+                    var loanCalculatorInput = new LoanCalculator.Input
                     {
-                        var loanCalculatorInput = new LoanCalculator.Input
-                        {
-                            TaxRate = 0,/* rate.Rate,*/
-                            LoanTerm = contract.Equipment.LoanTerm ?? 0,
-                            AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
-                            EquipmentCashPrice = (double?) contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
-                            AdminFee = contract.Equipment.AdminFee ?? 0,
-                            DownPayment = contract.Equipment.DownPayment ?? 0,
-                            CustomerRate = contract.Equipment.CustomerRate ?? 0
-                        };
-                        var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
-                        totalMp = (decimal) loanCalculatorOutput.TotalMonthlyPayment;
-                    }
-                    else
-                    {
-                        totalMp = (contract.Equipment.TotalMonthlyPayment ?? 0) +
-                                  (contract.Equipment.TotalMonthlyPayment ?? 0)*(decimal) (rate.Rate/100);
-                    }
+                        TaxRate = 0,
+                        LoanTerm = contract.Equipment?.LoanTerm ?? 0,
+                        AmortizationTerm = contract.Equipment?.AmortizationTerm ?? 0,
+                        EquipmentCashPrice = (double?)contract.Equipment?.NewEquipment?.Where(ne => ne.IsDeleted != true).Sum(x => x.Cost) ?? 0,
+                        AdminFee = contract.Equipment?.AdminFee ?? 0,
+                        DownPayment = contract.Equipment?.DownPayment ?? 0,
+                        CustomerRate = contract.Equipment?.CustomerRate ?? 0
+                    };
+                    var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
+                    paymentSummary.Hst = (decimal)loanCalculatorOutput.Hst;
+                    paymentSummary.TotalPayment = (decimal)loanCalculatorOutput.TotalAllMonthlyPayments;
+                    paymentSummary.MonthlyPayment = (decimal)loanCalculatorOutput.TotalMonthlyPayment;
+                    paymentSummary.TotalAllMonthlyPayment = (decimal)loanCalculatorOutput.TotalAllMonthlyPayments;
+
+                    paymentSummary.LoanDetails = loanCalculatorOutput;
+                }
+                else
+                {
+                    paymentSummary.MonthlyPayment = contract.Equipment?.TotalMonthlyPayment;
+                    paymentSummary.Hst =
+                        (contract.Equipment?.TotalMonthlyPayment ?? 0) * (((decimal?)rate?.Rate ?? 0.0m) / 100);
+                    paymentSummary.TotalPayment = (contract.Equipment.TotalMonthlyPayment ?? 0) +
+                                                  (contract.Equipment.TotalMonthlyPayment ?? 0) *
+                                                  (((decimal?)rate?.Rate ?? 0.0m) / 100);
+                    paymentSummary.TotalAllMonthlyPayment = paymentSummary.TotalPayment *
+                                                            (contract.Equipment.RequestedTerm ?? 0);
                 }
             }
 
-            return totalMp;
-        }        
+            return paymentSummary;
+        }
 
         public ContractDocument AddDocumentToContract(int contractId, ContractDocument document, string contractOwnerId)
         {
@@ -994,7 +1005,7 @@ namespace DealnetPortal.DataAccess.Repositories
                         TaxRate = 0,
                         LoanTerm = contract.Equipment.LoanTerm ?? 0,
                         AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
-                        EquipmentCashPrice = (double?) contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
+                        EquipmentCashPrice = (double?) contract.Equipment?.NewEquipment?.Where(ne => ne.IsDeleted != true).Sum(x => x.Cost) ?? 0,
                         AdminFee = contract.Equipment.AdminFee ?? 0,
                         DownPayment = contract.Equipment.DownPayment ?? 0,
                         CustomerRate = contract.Equipment.CustomerRate ?? 0

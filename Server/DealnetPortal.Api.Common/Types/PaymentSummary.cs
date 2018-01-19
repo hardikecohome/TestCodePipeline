@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DealnetPortal.Api.Common.Helpers;
+﻿using DealnetPortal.Api.Common.Helpers;
 
-namespace DealnetPortal.Api.Models.Contract
+namespace DealnetPortal.Api.Common.Types
 {
     public class PaymentSummary
     {

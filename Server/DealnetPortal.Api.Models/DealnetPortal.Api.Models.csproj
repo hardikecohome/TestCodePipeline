@@ -74,7 +74,6 @@
     <Compile Include="Contract\FlowingSummaryItemDTO.cs" />
     <Compile Include="Contract\NewCustomerDTO.cs" />
     <Compile Include="Contract\PaymentInfoDTO.cs" />
-    <Compile Include="Contract\PaymentSummary.cs" />
     <Compile Include="Contract\PhoneDTO.cs" />
     <Compile Include="Contract\ProvinceTaxRateDTO.cs" />
     <Compile Include="Contract\CustomerDataDTO.cs" />
