@@ -551,7 +551,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
             var existingEquipment = Mapper.Map<List<ExistingEquipmentDTO>>(equipmnetInfo.ExistingEquipment);
             contractData.Equipment.ExistingEquipment = existingEquipment ?? new List<ExistingEquipmentDTO>();
-            var installationPackeges = Mapper.Map<List<InstallationPackageDTO>>(equipmnetInfo.ExistingEquipment);
+            var installationPackeges = Mapper.Map<List<InstallationPackageDTO>>(equipmnetInfo.InstallationPackages);
             contractData.Equipment.InstallationPackages = installationPackeges ?? new List<InstallationPackageDTO>();
             contractData.Equipment.SalesRep = equipmnetInfo.SalesRep;
             contractData.Equipment.EstimatedInstallationDate = equipmnetInfo.EstimatedInstallationDate;
