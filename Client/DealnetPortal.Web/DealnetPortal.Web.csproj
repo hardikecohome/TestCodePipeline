@@ -846,8 +846,8 @@
     <Content Include="Scripts\vendor\knockout.validation.js" />
     <Content Include="Scripts\pages\basicInfo\address-autocomplete.js" />
     <Content Include="Scripts\pages\calculator\calculator.validation.js" />
-    <Content Include="Scripts\pages\newEquipment\newEquipment.management.js" />
-    <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rental.js" />
+    <Content Include="Scripts\pages\newEquipment\common\newEquipment.management.js" />
+    <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.rental.js" />
     <Content Include="Scripts\pages\newEquipment\common\newEquipment.state.js" />
     <Content Include="Scripts\pages\newEquipment\common\newEquipment.template.js" />
     <Content Include="Scripts\pages\newEquipment\common\newEquipment.validation.js" />
@@ -912,11 +912,11 @@
     <Content Include="Scripts\pages\MyProfile\my-profile-state.js" />
     <Content Include="Scripts\pages\MyProfile\postalCode-handlers.js" />
     <Content Include="Scripts\pages\MyProfile\postalCode-template.js" />
-    <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.custom-rate-card.js" />
+    <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.custom-rate-card.js" />
     <Content Include="Scripts\pages\newEquipment\newEquipment.index.js" />
-    <Content Include="Scripts\pages\newEquipment\newEquipment.rate-cards.init.js" />
+    <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.rate-cards.init.js" />
     <Content Include="Scripts\pages\newEquipment\common\newEquipment.rate-cards.ui.js" />
-    <Content Include="Scripts\pages\newEquipment\newEquipment.rate-cards.js" />
+    <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.rate-cards.js" />
     <Content Include="Scripts\pages\onboarding\acknowledgment\onboarding.ackonwledgment.index.js" />
     <Content Include="Scripts\pages\onboarding\acknowledgment\onboarding.ackonwledgment.owners.js" />
     <Content Include="Scripts\pages\onboarding\acknowledgment\onboarding.ackonwledgment.setters.js" />

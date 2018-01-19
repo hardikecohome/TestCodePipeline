@@ -244,8 +244,11 @@ namespace DealnetPortal.Web
             );
 
             bundles.Add(new ScriptBundle("~/bundles/equipment-info-clarity")
-                .Include("~/Scripts/pages/newEquipment/newEquipment.management.js")
                 .IncludeDirectory("~/Scripts/pages/newEquipment/clarity", "*.js", true)
+            );
+
+            bundles.Add(new ScriptBundle("~/bundles/equipment-info-rentalLoan")
+                .IncludeDirectory("~/Scripts/pages/newEquipment/rentalLoan", "*.js", true)
             );
 
             bundles.Add(new ScriptBundle("~/bundles/new-equipment-information")
