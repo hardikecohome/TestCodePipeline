@@ -99,7 +99,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             var contractsVms = Mapper.Map<IList<ClientsInformationViewModel>>(contracts);
 
             return contractsVms
-                .OrderByDescending(x => x.TransactionId)
+                .OrderByDescending(x => Convert.ToInt32(x.TransactionId))
                 .ThenByDescending(x => x.Date)
                 .ThenByDescending(x => x.Id)
                 .ToList();

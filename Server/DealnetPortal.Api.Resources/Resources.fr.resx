@@ -858,9 +858,6 @@
   <data name="_28_ApprovedBlueChip" xml:space="preserve">
     <value>Autorisé Blue Chip</value>
   </data>
-  <data name="_86_Cancelled_Duplicate[1]" xml:space="preserve">
-    <value>Annulé</value>
-  </data>
   <data name="Unemployed" xml:space="preserve">
     <value>Sans emploi</value>
   </data>
@@ -924,5 +921,14 @@
   </data>
   <data name="SalaryIncome" xml:space="preserve">
     <value>Salaire/Revenu</value>
+  </data>
+  <data name="ChequeBankPAP" xml:space="preserve">
+    <value>Chèque annulé ou lettre d’autorisation de paiement pré-autorisé par la banque</value>
+  </data>
+  <data name="CreditApplication" xml:space="preserve">
+    <value>Demande de crédit</value>
+  </data>
+  <data name="IncomeVerification" xml:space="preserve">
+    <value>Preuve de revenu</value>
   </data>
 </root>
