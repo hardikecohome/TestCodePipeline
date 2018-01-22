@@ -638,44 +638,7 @@ namespace DealnetPortal.DataAccess.Repositories
             var contract = _dbContext.Contracts.Find(contractId);
             if (contract != null)
             {
-                var rate =
-                    GetProvinceTaxRate(
-                        (contract.PrimaryCustomer?.Locations.FirstOrDefault(
-                             l => l.AddressType == AddressType.MainAddress) ??
-                         contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
-                paymentSummary = new PaymentSummary();
-
-                if (contract.Equipment.AgreementType == AgreementType.LoanApplication)
-                {
-                    var loanCalculatorInput = new LoanCalculator.Input
-                    {
-                        TaxRate = 0,
-                        LoanTerm = contract.Equipment?.LoanTerm ?? 0,
-                        AmortizationTerm = contract.Equipment?.AmortizationTerm ?? 0,
-                        EquipmentCashPrice = (double?)contract.Equipment?.NewEquipment?.Where(ne => ne.IsDeleted != true).Sum(x => x.Cost) ?? 0,
-                        AdminFee = contract.Equipment?.AdminFee ?? 0,
-                        DownPayment = contract.Equipment?.DownPayment ?? 0,
-                        CustomerRate = contract.Equipment?.CustomerRate ?? 0
-                    };
-                    var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
-                    paymentSummary.Hst = (decimal)loanCalculatorOutput.Hst;
-                    paymentSummary.TotalPayment = (decimal)loanCalculatorOutput.TotalAllMonthlyPayments;
-                    paymentSummary.MonthlyPayment = (decimal)loanCalculatorOutput.TotalMonthlyPayment;
-                    paymentSummary.TotalAllMonthlyPayment = (decimal)loanCalculatorOutput.TotalAllMonthlyPayments;
-
-                    paymentSummary.LoanDetails = loanCalculatorOutput;
-                }
-                else
-                {
-                    paymentSummary.MonthlyPayment = contract.Equipment?.TotalMonthlyPayment;
-                    paymentSummary.Hst =
-                        (contract.Equipment?.TotalMonthlyPayment ?? 0) * (((decimal?)rate?.Rate ?? 0.0m) / 100);
-                    paymentSummary.TotalPayment = (contract.Equipment.TotalMonthlyPayment ?? 0) +
-                                                  (contract.Equipment.TotalMonthlyPayment ?? 0) *
-                                                  (((decimal?)rate?.Rate ?? 0.0m) / 100);
-                    paymentSummary.TotalAllMonthlyPayment = paymentSummary.TotalPayment *
-                                                            (contract.Equipment.RequestedTerm ?? 0);
-                }
+                paymentSummary = GetContractPaymentsSummary(contract);                
             }
 
             return paymentSummary;
@@ -993,35 +956,66 @@ namespace DealnetPortal.DataAccess.Repositories
                 AddOrUpdateInstallationPackages(dbEquipment, installationPackages);
             }
 
-            var provinceCode = contract.PrimaryCustomer?.Locations?.FirstOrDefault(
-                l => l.AddressType == AddressType.MainAddress)?.State.ToProvinceCode();
-            var taxRate = GetProvinceTaxRate(provinceCode);
+            var paymentSummary = GetContractPaymentsSummary(contract);            
             if (dbEquipment.AgreementType == AgreementType.LoanApplication)
             {
-                if (dbEquipment.AmortizationTerm.HasValue && dbEquipment.AmortizationTerm > 0)
+                dbEquipment.ValueOfDeal = paymentSummary?.LoanDetails?.TotalAmountFinanced;                
+            }
+            else
+            {
+                dbEquipment.ValueOfDeal = (double?)paymentSummary?.TotalPayment;                    
+            }
+
+            return dbEquipment;
+        }
+
+        private PaymentSummary GetContractPaymentsSummary(Contract contract)
+        {
+            PaymentSummary paymentSummary = null;
+
+            if (contract != null)
+            {
+                var rate =
+                    GetProvinceTaxRate(
+                        (contract.PrimaryCustomer?.Locations.FirstOrDefault(
+                             l => l.AddressType == AddressType.MainAddress) ??
+                         contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
+                paymentSummary = new PaymentSummary();
+
+                if (contract.Equipment.AgreementType == AgreementType.LoanApplication)
                 {
                     var loanCalculatorInput = new LoanCalculator.Input
                     {
                         TaxRate = 0,
-                        LoanTerm = contract.Equipment.LoanTerm ?? 0,
-                        AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
-                        EquipmentCashPrice = (double?) contract.Equipment?.NewEquipment?.Where(ne => ne.IsDeleted != true).Sum(x => x.Cost) ?? 0,
-                        AdminFee = contract.Equipment.AdminFee ?? 0,
-                        DownPayment = contract.Equipment.DownPayment ?? 0,
-                        CustomerRate = contract.Equipment.CustomerRate ?? 0
+                        LoanTerm = contract.Equipment?.LoanTerm ?? 0,
+                        AmortizationTerm = contract.Equipment?.AmortizationTerm ?? 0,
+                        EquipmentCashPrice = (double?)contract.Equipment?.NewEquipment?.Where(ne => ne.IsDeleted != true).Sum(x => x.Cost) ?? 0,
+                        AdminFee = contract.Equipment?.AdminFee ?? 0,
+                        DownPayment = contract.Equipment?.DownPayment ?? 0,
+                        CustomerRate = contract.Equipment?.CustomerRate ?? 0
                     };
-                    dbEquipment.ValueOfDeal = LoanCalculator.Calculate(loanCalculatorInput).TotalAmountFinanced;
-                }                
-            }
-            else
-            {
-                dbEquipment.ValueOfDeal =
-                    (double?)
-                        ((dbEquipment.TotalMonthlyPayment ?? 0) +
-                         (contract.Equipment.TotalMonthlyPayment ?? 0) * (decimal)(taxRate.Rate / 100));
+                    var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
+                    paymentSummary.Hst = (decimal)loanCalculatorOutput.Hst;
+                    paymentSummary.TotalPayment = (decimal)loanCalculatorOutput.TotalAllMonthlyPayments;
+                    paymentSummary.MonthlyPayment = (decimal)loanCalculatorOutput.TotalMonthlyPayment;
+                    paymentSummary.TotalAllMonthlyPayment = (decimal)loanCalculatorOutput.TotalAllMonthlyPayments;
+
+                    paymentSummary.LoanDetails = loanCalculatorOutput;
+                }
+                else
+                {
+                    paymentSummary.MonthlyPayment = contract.Equipment?.TotalMonthlyPayment;
+                    paymentSummary.Hst =
+                        (contract.Equipment?.TotalMonthlyPayment ?? 0) * (((decimal?)rate?.Rate ?? 0.0m) / 100);
+                    paymentSummary.TotalPayment = (contract.Equipment.TotalMonthlyPayment ?? 0) +
+                                                  (contract.Equipment.TotalMonthlyPayment ?? 0) *
+                                                  (((decimal?)rate?.Rate ?? 0.0m) / 100);
+                    paymentSummary.TotalAllMonthlyPayment = paymentSummary.TotalPayment *
+                                                            (contract.Equipment.RequestedTerm ?? 0);
+                }
             }
 
-            return dbEquipment;
+            return paymentSummary;
         }
 
         private EquipmentInfo UpdateEquipmentBaseInfo(EquipmentInfo dbEquipment, EquipmentInfo equipmentInfo)
@@ -1106,7 +1100,12 @@ namespace DealnetPortal.DataAccess.Repositories
                     a => newEquipments.Any(ne => ne.Id == a.Id)).ToList();
             var entriesForDelete = dbEquipment.NewEquipment.Except(existingEntities).ToList();
             //entriesForDelete.ForEach(e => _dbContext.NewEquipment.Remove(e));
-            entriesForDelete.ForEach(e => e.IsDeleted = true);
+            entriesForDelete.ForEach(e =>
+            {
+                e.IsDeleted = true;
+                e.Cost = 0.0m;
+                e.MonthlyCost = 0.0m;
+            });
 
             newEquipments.ForEach(ne =>
             {

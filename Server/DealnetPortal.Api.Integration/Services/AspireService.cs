@@ -1441,17 +1441,27 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         application.Equipments = new List<Equipment>();
                     }
-                    application.Equipments.Add(new Equipment()
+                    if (eq.IsDeleted != true || !string.IsNullOrEmpty(eq.AssetNumber))
                     {
-                        Status = "new",
-                        AssetNo = string.IsNullOrEmpty(eq.AssetNumber) ? null : eq.AssetNumber,
-                        Quantity = "1",
-                        Cost = contract.Equipment.AgreementType == AgreementType.LoanApplication && eq.Cost.HasValue ? equipmentcount == 0 ? (eq.Cost /*+ Math.Round(((decimal)(eq.Cost / 100 * (decimal)(pTaxRate.Rate))), 2)*/ - ((contract.Equipment.DownPayment != null) ? (decimal)contract.Equipment.DownPayment : 0))?.ToString(CultureInfo.InvariantCulture) :
-                                                                                                        (eq.Cost /*+ Math.Round(((decimal)(eq.Cost / 100 * (decimal)(pTaxRate.Rate))), 2)*/)?.ToString(CultureInfo.InvariantCulture)
-                                                                                                    : eq.MonthlyCost?.ToString(CultureInfo.InvariantCulture),
-                        Description = eq.Description,
-                        AssetClass = new AssetClass() { AssetCode = eq.Type }
-                    });
+                        var cost = eq.IsDeleted == true
+                            ? (0.0m).ToString(CultureInfo.InvariantCulture)
+                            : (contract.Equipment.AgreementType == AgreementType.LoanApplication && eq.Cost.HasValue
+                                ? equipmentcount == 0
+                                    ? (eq.Cost - ((contract.Equipment.DownPayment != null)
+                                           ? (decimal) contract.Equipment.DownPayment
+                                           : 0))?.ToString(CultureInfo.InvariantCulture)
+                                    : (eq.Cost)?.ToString(CultureInfo.InvariantCulture)
+                                : eq.MonthlyCost?.ToString(CultureInfo.InvariantCulture));
+                        application.Equipments.Add(new Equipment()
+                        {
+                            Status = "new",
+                            AssetNo = string.IsNullOrEmpty(eq.AssetNumber) ? null : eq.AssetNumber,
+                            Quantity = "1",
+                            Description = eq.Description,
+                            Cost = cost,
+                            AssetClass = new AssetClass() {AssetCode = eq.Type}
+                        });
+                    }
                 });
                 application.AmtRequested = contract.Equipment?.ValueOfDeal?.ToString();
                 application.TermRequested = contract.Equipment.AmortizationTerm?.ToString();
@@ -1732,12 +1742,12 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = contract.Equipment.PreferredStartDate.Value.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
                     });
                 }
-                if (contract.Equipment.NewEquipment?.Any() == true)
+                if (contract.Equipment.NewEquipment?.Where(ne => ne.IsDeleted != true).Any() == true)
                 {
                     udfList.Add(new UDF()
                     {
                         Name = AspireUdfFields.HomeImprovementType,
-                        Value = contract.Equipment.NewEquipment.First().Type
+                        Value = contract.Equipment.NewEquipment.First(ne => ne.IsDeleted != true).Type
                     });
                 }
             }
