@@ -1436,34 +1436,16 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                     if (eq.IsDeleted != true || !string.IsNullOrEmpty(eq.AssetNumber))
                     {
-                        var cost = eq.IsDeleted == true
-                            ? (0.0m).ToString(CultureInfo.InvariantCulture)
-                            : (contract.Equipment.AgreementType == AgreementType.LoanApplication && eq.Cost.HasValue
-                                ? equipmentcount == 0
-                                    ? (eq.Cost - ((contract.Equipment.DownPayment != null)
-                                           ? (decimal) contract.Equipment.DownPayment
-                                           : 0))?.ToString(CultureInfo.InvariantCulture)
-                                    : (eq.Cost)?.ToString(CultureInfo.InvariantCulture)
-                                : eq.MonthlyCost?.ToString(CultureInfo.InvariantCulture));
                         application.Equipments.Add(new Equipment()
                         {
                             Status = "new",
                             AssetNo = string.IsNullOrEmpty(eq.AssetNumber) ? null : eq.AssetNumber,
                             Quantity = "1",
+                            Cost = GetEquipmentCost(contract, eq, isFirstEquipment)?.ToString(CultureInfo.InvariantCulture),
                             Description = eq.Description,
-                            Cost = cost,
-                            AssetClass = new AssetClass() {AssetCode = eq.Type}
+                            AssetClass = new AssetClass() { AssetCode = eq.Type }
                         });
-                    }
-                    application.Equipments.Add(new Equipment()
-                    {
-                        Status = "new",
-                        AssetNo = string.IsNullOrEmpty(eq.AssetNumber) ? null : eq.AssetNumber,
-                        Quantity = "1",
-                        Cost = GetEquipmentCost(contract, eq, isFirstEquipment)?.ToString(CultureInfo.InvariantCulture),
-                        Description = eq.Description,
-                        AssetClass = new AssetClass() { AssetCode = eq.Type }
-                    });
+                    }                    
                 });
                 application.AmtRequested = contract.Equipment?.ValueOfDeal?.ToString();
                 application.TermRequested = contract.Equipment.AmortizationTerm?.ToString();
@@ -1483,21 +1465,28 @@ namespace DealnetPortal.Api.Integration.Services
         private decimal? GetEquipmentCost(Contract contract, NewEquipment equipment, bool isFirstEquipment)
         {
             decimal? eqCost;
-            if (IsClarityProgram(contract))
+            if (equipment.IsDeleted == true)
             {
-                decimal? installPackagesCost =
-                    contract.Equipment?.InstallationPackages?.Aggregate(0.0m,
-                        (sum, ip) => sum + ip.MonthlyCost ?? 0.0m);
-                eqCost = installPackagesCost.HasValue ? equipment.MonthlyCost + (installPackagesCost.Value / contract.Equipment.NewEquipment?.Count) : equipment.MonthlyCost;
+                eqCost = 0.0m;
             }
             else
             {
-                eqCost = contract.Equipment.AgreementType == AgreementType.LoanApplication && equipment.Cost.HasValue
-                    ? (isFirstEquipment
-                                ? (equipment.Cost - ((contract.Equipment.DownPayment != null) ? (decimal) contract.Equipment.DownPayment : 0))                        
-                                : equipment.Cost)
-                    : equipment.MonthlyCost;
-            }
+                if (IsClarityProgram(contract))
+                {
+                    decimal? installPackagesCost =
+                        contract.Equipment?.InstallationPackages?.Aggregate(0.0m,
+                            (sum, ip) => sum + ip.MonthlyCost ?? 0.0m);
+                    eqCost = installPackagesCost.HasValue ? equipment.MonthlyCost + (installPackagesCost.Value / contract.Equipment.NewEquipment?.Count) : equipment.MonthlyCost;
+                }
+                else
+                {
+                    eqCost = contract.Equipment.AgreementType == AgreementType.LoanApplication && equipment.Cost.HasValue
+                        ? (isFirstEquipment
+                            ? (equipment.Cost - ((contract.Equipment.DownPayment != null) ? (decimal)contract.Equipment.DownPayment : 0))
+                            : equipment.Cost)
+                        : equipment.MonthlyCost;
+                }
+            }            
             return eqCost;
         }
 
