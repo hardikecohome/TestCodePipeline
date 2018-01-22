@@ -241,6 +241,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add installation package.
+        /// </summary>
+        public static string AddInstallationPackage {
+            get {
+                return ResourceManager.GetString("AddInstallationPackage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Additional Applicant.
         /// </summary>
         public static string AdditionalApplicant {
@@ -3446,6 +3455,15 @@ namespace DealnetPortal.Web.Resources {
         public static string InstallationDate {
             get {
                 return ResourceManager.GetString("InstallationDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Installation Package.
+        /// </summary>
+        public static string InstallationPackage {
+            get {
+                return ResourceManager.GetString("InstallationPackage", resourceCulture);
             }
         }
         

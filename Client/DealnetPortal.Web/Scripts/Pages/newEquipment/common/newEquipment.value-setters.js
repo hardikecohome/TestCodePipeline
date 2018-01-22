@@ -2,21 +2,30 @@
 
     var state = require('state').state;
 
-    var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
-    var recalculateAndRenderRentalValues = require('newEquipment.rental').recalculateAndRenderRentalValues;
-    var recalculateRentalTaxAndPrice = require('newEquipment.rental').recalculateRentalTaxAndPrice;
-
     var settings = {
         customRateCardName: 'Custom',
-        loanTermErrorId: '#amortLoanTermError'
+        loanTermErrorId: '#amortLoanTermError',
+        recalculateClarityValuesAndRender: {},
+        recalculateAndRenderRentalValues: {},
+        recalculateRentalTaxAndPrice: {},
+        recalculateValuesAndRender: {}
     };
 
+    var init = function(params) {
+        if (!params.isClarity) {
+            settings.recalculateValuesAndRender = params.recalculateValuesAndRender;
+            settings.recalculateAndRenderRentalValues = params.recalculateAndRenderRentalValues;
+            settings.recalculateRentalTaxAndPrice = params.recalculateRentalTaxAndPrice;
+        } else {
+            settings.recalculateClarityValuesAndRender = params.recalculateClarityValuesAndRender;
+        }
+    }
     var setAgreement = function (e) {
         state.agreementType = Number(e.target.value);
         if (state.agreementType === 1 || state.agreementType === 2) {
-            recalculateAndRenderRentalValues();
+            settings.recalculateAndRenderRentalValues();
         } else {
-            recalculateValuesAndRender();
+            settings.recalculateValuesAndRender();
         }
     };
 
@@ -26,7 +35,7 @@
             var amortTerm = e.target.value.split('/')[1];
             state[optionKey].LoanTerm = Globalize.parseNumber(loanTerm);
             state[optionKey].AmortizationTerm = Globalize.parseNumber(amortTerm);
-            recalculateValuesAndRender([{ name: optionKey }]);
+            settings.recalculateValuesAndRender([{ name: optionKey }]);
         };
     };
 
@@ -37,7 +46,7 @@
             if (optionKey === settings.customRateCardName) {
                 validateLoanAmortTerm();
             }
-            recalculateValuesAndRender([{ name: optionKey }]);
+            settings.recalculateValuesAndRender([{ name: optionKey }]);
         };
     };
 
@@ -49,53 +58,57 @@
                 validateLoanAmortTerm();
             }
 
-            recalculateValuesAndRender([{ name: optionKey }]);
+            settings.recalculateValuesAndRender([{ name: optionKey }]);
         };
     };
 
     var setDeferralPeriod = function (optionKey) {
         return function (e) {
             state[optionKey].DeferralPeriod = Globalize.parseNumber(e.target.value);
-            recalculateValuesAndRender([{ name: optionKey }]);
+            settings.recalculateValuesAndRender([{ name: optionKey }]);
         };
     };
 
     var setCustomerRate = function (optionKey) {
         return function (e) {
             state[optionKey].CustomerRate = Globalize.parseNumber(e.target.value);
-            recalculateValuesAndRender([{ name: optionKey }]);
+            settings.recalculateValuesAndRender([{ name: optionKey }]);
         };
     };
 
     var setYourCost = function (optionKey) {
         return function (e) {
             state[optionKey].yourCost = Globalize.parseNumber(e.target.value);
-            recalculateValuesAndRender([{ name: optionKey }]);
+            settings.recalculateValuesAndRender([{ name: optionKey }]);
         };
     };
 
     var setCustomYourCost = function (optionKey) {
         return function (e) {
             state[optionKey].DealerCost = Globalize.parseNumber(e.target.value);
-            recalculateValuesAndRender([{ name: optionKey }]);
+            settings.recalculateValuesAndRender([{ name: optionKey }]);
         };
     };
 
     var setAdminFee = function (optionKey) {
         return function (e) {
             state[optionKey].AdminFee = Number(e.target.value);
-            recalculateValuesAndRender([{ name: optionKey }]);
+            settings.recalculateValuesAndRender([{ name: optionKey }]);
         };
     };
 
     var setDownPayment = function (e) {
         state.downPayment = Globalize.parseNumber(e.target.value);
-        recalculateValuesAndRender();
+        if (state.agreementType === 3) {
+            settings.recalculateClarityValuesAndRender();
+        } else {
+            settings.recalculateValuesAndRender();
+        }
     };
 
     var setRentalMPayment = function (e) {
         state.rentalMPayment = Globalize.parseNumber(e.target.value);
-        recalculateRentalTaxAndPrice();
+        settings.recalculateRentalTaxAndPrice();
     };
 
     function validateLoanAmortTerm() {
@@ -123,6 +136,7 @@
     }
 
     return {
+        init: init,
         setAgreement: setAgreement,
         setLoanAmortTerm: setLoanAmortTerm,
         setLoanTerm: setLoanTerm,

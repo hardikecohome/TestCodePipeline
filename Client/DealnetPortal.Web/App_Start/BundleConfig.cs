@@ -229,6 +229,28 @@ namespace DealnetPortal.Web
                 .IncludeDirectory("~/Scripts/pages/myProfile", "*.js", true)
             );
 
+            bundles.Add(new ScriptBundle("~/bundles/equipment-info-layout")
+                .Include("~/Scripts/vendor/datejs.js")
+                .Include("~/Scripts/utils/financial-functions.js")
+                .Include("~/Scripts/utils/loan-calculator.js")
+                .Include("~/Scripts/utils/logger/log.js")
+                .Include("~/Scripts/utils/financial-functions.module.js")
+                .Include("~/Scripts/utils/datepicker.js")
+                .Include("~/Scripts/utils/navigateToStep.js")
+                .Include("~/Scripts/utils/setEqualHeightRows.js")
+                .Include("~/Scripts/utils/resetPlaceholder.js")
+                .IncludeDirectory("~/Scripts/pages/newEquipment/common", "*.js", true)
+                .IncludeDirectory("~/Scripts/utils/rateCards", "*.js", true)
+            );
+
+            bundles.Add(new ScriptBundle("~/bundles/equipment-info-clarity")
+                .IncludeDirectory("~/Scripts/pages/newEquipment/clarity", "*.js", true)
+            );
+
+            bundles.Add(new ScriptBundle("~/bundles/equipment-info-rentalLoan")
+                .IncludeDirectory("~/Scripts/pages/newEquipment/rentalLoan", "*.js", true)
+            );
+
             bundles.Add(new ScriptBundle("~/bundles/new-equipment-information")
                 .Include("~/Scripts/vendor/datejs.js")
                 .Include("~/Scripts/utils/financial-functions.js")

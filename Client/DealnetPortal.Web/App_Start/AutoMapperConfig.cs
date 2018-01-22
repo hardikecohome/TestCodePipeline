@@ -95,7 +95,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.InstalledSerialNumber, d => d.Ignore())
                 .ForMember(x => x.InstalledModel, d => d.Ignore());
             cfg.CreateMap<ExistingEquipmentInformation, ExistingEquipmentDTO>();
-
+            cfg.CreateMap<InstallationPackageInformation, InstallationPackageDTO>();
             cfg.CreateMap<PaymentInfoViewModel, PaymentInfoDTO>().ForMember(x => x.Id, d => d.Ignore());
 
             cfg.CreateMap<CommentViewModel, CommentDTO>()
@@ -436,8 +436,9 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.Phone, s => s.ResolveUsing(src =>
                     src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Cell)?.PhoneNum
                     ?? src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Home)?.PhoneNum))
-                .ForMember(d => d.Date, s => s.ResolveUsing(src =>
-                    (src.LastUpdateTime?.Date ?? src.CreationTime.Date).TryConvertToLocalUserDate().ToString("MM/dd/yyyy",
+                .ForMember(d => d.Date, s => s.ResolveUsing(src => src.Id != 0 ?
+                    (src.LastUpdateTime ?? src.CreationTime).TryConvertToLocalUserDate().ToString("MM/dd/yyyy",
+                        CultureInfo.InvariantCulture) : (src.LastUpdateTime ?? src.CreationTime).ToString("MM/dd/yyyy",
                         CultureInfo.InvariantCulture)))
                 .ForMember(d => d.SalesRep, s => s.ResolveUsing(src => src.Equipment?.SalesRep ?? string.Empty))
                 .ForMember(d => d.Equipment, s => s.ResolveUsing(src =>
@@ -551,7 +552,7 @@ namespace DealnetPortal.Web.App_Start
 
             cfg.CreateMap<NewEquipmentDTO, NewEquipmentInformation>();
             cfg.CreateMap<ExistingEquipmentDTO, ExistingEquipmentInformation>();
-
+            cfg.CreateMap<InstallationPackageDTO, InstallationPackageInformation>();
             cfg.CreateMap<EquipmentInfoDTO, EquipmentInformationViewModel>()
                 .ForMember(x => x.ContractId, d => d.MapFrom(src => src.Id))
                 .ForMember(x => x.ProvinceTaxRate, d => d.Ignore())

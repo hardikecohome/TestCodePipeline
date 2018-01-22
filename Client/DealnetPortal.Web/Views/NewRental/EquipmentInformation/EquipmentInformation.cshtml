@@ -1,0 +1,110 @@
+﻿@using System.Globalization
+@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+@using DealnetPortal.Api.Common.Enumeration
+
+@{
+    Layout = "EquipmentInformationLayout.cshtml";
+}
+
+@{
+    if (Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
+    {
+        Model.ExistingEquipment = null;
+    }
+}
+
+@using (Html.BeginForm("EquipmentInformation", "NewRental", null, FormMethod.Post, new {id = "equipment-form", onkeydown = "return event.keyCode!=13"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ContractId)
+    @Html.HiddenFor(model => model.FullUpdate, new {Value = true})
+    @Html.HiddenFor(x => x.CreditAmount)
+    @Html.HiddenFor(x => x.IsOnlyLoanAvailable)
+    @Html.HiddenFor(x => x.AmortizationTerm)
+    @Html.HiddenFor(x => x.AdminFee)
+    @Html.HiddenFor(x => x.CustomerRate)
+    @Html.HiddenFor(x => x.ValueOfDeal)
+    @Html.HiddenFor(x => x.LoanTerm)
+    @Html.HiddenFor(x => x.LoanDeferralType)
+    @Html.HiddenFor(x => x.SelectedRateCardId)
+    @Html.HiddenFor(x => x.IsNewContract)
+    @Html.HiddenFor(x => x.DealerCost)
+    @Html.HiddenFor(x => x.RateCardValid)
+    <div class="form-container">
+        <div class="form-section">
+            @if (Model.CustomerComments != null && Model.CustomerComments.Any())
+            {
+                <div class="customer-comments form-group">
+                    <h3 class="dealnet-middle-header">@Resources.CustomersComment:</h3>
+                    <div class="customer-comments-descr">
+                        @foreach (var comment in Model.CustomerComments)
+                        {
+                            @comment
+                            <br/>
+                        }
+                    </div>
+                </div>
+            }
+
+
+            @(Model.DealerTier.Name == "ClarityTier" ? Html.Partial("EquipmentInformation/_ClarityProgram", Model) : Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
+
+            @Html.Partial("EquipmentInformation/_AdditionalContractInformation", Model)
+            @Html.ValidationMessageFor(m => m.NewEquipment, "", new {@class = "text-danger", id = "new-equipment-validation-message"})
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="rate-card-button-proceed">
+                        <span class="btn-proceed-inline-hold btn-form-common" data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Resources.YouShouldFillAllMandatoryFields">
+                            <input type="submit" value="@Resources.SaveAndProceed" class="btn dealnet-button dealnet-success-button" id="submit"/>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (Model.DealerTier.Name == "ClarityTier")
+{
+@section pageScripts {
+    @Scripts.Render("~/bundles/equipment-info-clarity")
+
+    <script type="text/javascript">
+        var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
+        var isCalculationValid = false;
+        var customerFee = @ViewBag.AdminFee;
+        var TotalAmtFinancedFor180amortTerm = @ViewBag.totalAmountFinancedFor180amortTerm;
+    </script>
+
+    <script type="text/javascript">
+        configInitialized.then(function() {
+            module.require('newEquipment.clarity.index').init(@Model.ContractId,
+                @Html.Raw(Json.Encode(Model.DealerTier.RateCards)));
+        });
+    </script>
+}
+}
+else
+{
+@section pageScripts {
+    @Scripts.Render("~/bundles/equipment-info-rentalLoan")
+
+    <script type="text/javascript">
+        var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
+        var isCalculationValid = false;
+        var customerFee = @ViewBag.AdminFee;
+        var TotalAmtFinancedFor180amortTerm = @ViewBag.totalAmountFinancedFor180amortTerm;
+    </script>
+
+    <script type="text/javascript">
+        configInitialized.then(function() {
+            module.require('newEquipment.rentalLoan.index').init(@Model.ContractId,
+                @Html.Raw(Json.Encode(Model.DealerTier.RateCards)),
+                '@(!((List<RateCardType>) ViewBag.CardTypes != null && ((List<RateCardType>) ViewBag.CardTypes).Any()))' ===
+                'True'
+                ? true
+                : false);
+        });
+    </script>
+}
+}

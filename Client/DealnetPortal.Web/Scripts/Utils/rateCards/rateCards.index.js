@@ -1,12 +1,19 @@
 ﻿module.exports('rateCards.index', function(require) {
     var totalObligation = require('financial-functions').totalObligation;
+    var totalRentalObligation = require('financial-functions').totalRentalObligation;
     var totalPrice = require('financial-functions').totalPrice;
     var totalAmountFinanced = require('financial-functions').totalAmountFinanced;
+    var totalRentalAmountFinanced = require('financial-functions').totalRentalAmountFinanced;
     var monthlyPayment = require('financial-functions').monthlyPayment;
+    var rentalMonthlyPayment = require('financial-functions').rentalMonthlyPayment;
     var totalMonthlyPayments = require('financial-functions').totalMonthlyPayments;
+    var totalRentalMonthlyPayments = require('financial-functions').totalRentalMonthlyPayments;
     var residualBalance = require('financial-functions').residualBalance;
+    var rentalResidualBalance = require('financial-functions').rentalResidualBalance;
     var totalBorrowingCost = require('financial-functions').totalBorrowingCost;
+    var totalRentalBorrowingCost = require('financial-functions').totalRentalBorrowingCost;
     var yourCost = require('financial-functions').yourCost;
+    var rentalYourCost = require('financial-functions').rentalYourCost;
     var tax = require('financial-functions').tax;
     var notNaN = function (num) { return !isNaN(num); };
 
@@ -76,6 +83,22 @@
             tax: eSum !== 0 ? tax({ equipmentSum: eSum, tax: state.tax }) : '-',
             totalPrice: eSum !== 0 ? totalPrice({ equipmentSum: eSum, tax: state.tax }) : '-'
         }
+    }
+
+    var calculateClarityValuesForRender = function(data) {
+        return $.extend({}, data,
+            {
+                monthlyPayment: rentalMonthlyPayment(data),
+                costOfBorrowing: totalRentalBorrowingCost(data),
+                totalAmountFinanced: totalRentalAmountFinanced(data),
+                totalMonthlyPayments: totalRentalMonthlyPayments(data),
+                residualBalance: rentalResidualBalance(data),
+                totalObligation: totalRentalObligation(data),
+                yourCost: rentalYourCost(data),
+                loanTerm: data.LoanTerm,
+                amortTerm: data.AmortizationTerm,
+                customerRate: data.CustomerRate
+            });
     }
 
     var calculateValuesForRender = function(data) {
@@ -153,6 +176,7 @@
         calculateTotalPrice: calculateTotalPrice,
         getRateCardOnSubmit: getRateCardOnSubmit,
         getTotalAmountFinanced: getTotalAmountFinanced,
-        calculateValuesForRender: calculateValuesForRender
+        calculateValuesForRender: calculateValuesForRender,
+        calculateClarityValuesForRender: calculateClarityValuesForRender
     };
 });

@@ -353,7 +353,7 @@ namespace DealnetPortal.Web.Controllers
 
             ViewBag.AdminFee = 0;
 
-            return View(model);
+            return View("EquipmentInformation/EquipmentInformation", model);
         }
 
         [HttpPost]
@@ -362,6 +362,7 @@ namespace DealnetPortal.Web.Controllers
         {
             ViewBag.IsAllInfoCompleted = false;
             var ratecardValid = await _contractManager.CheckRateCard(equipmentInfo.ContractId.Value, equipmentInfo.SelectedRateCardId);
+
             if (ratecardValid)
             {
                 var updateResult = await _contractManager.UpdateContractAsyncNew(equipmentInfo);
@@ -375,6 +376,7 @@ namespace DealnetPortal.Web.Controllers
 
                 return RedirectToAction("ContactAndPaymentInfo", new { contractId = equipmentInfo.ContractId });
             }
+
             return RedirectToAction("EquipmentInformation", new { equipmentInfo.ContractId.Value });
         }
 

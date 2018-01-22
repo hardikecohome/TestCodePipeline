@@ -2,10 +2,14 @@
     var state = {
         agreementType: 0,
         equipments: {},
+        packages: {},
         existingEquipments: {},
         tax: taxRate,
         downPayment: 0,
         rentalMPayment: 0,
+        clarity: {
+
+        },
         Custom: {
             LoanTerm: '',
             AmortizationTerm: '',

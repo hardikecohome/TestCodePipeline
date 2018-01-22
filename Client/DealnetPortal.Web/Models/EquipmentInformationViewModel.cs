@@ -52,7 +52,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public List<NewEquipmentInformation> NewEquipment { get; set; }
 
         public List<ExistingEquipmentInformation> ExistingEquipment { get; set; }
-
+        public List<InstallationPackageInformation> InstallationPackages { get; set; }
         [Display(ResourceType = typeof(Resources.Resources), Name = "HouseSizeSquareFeet")]
         public double? HouseSize { get; set; }
 
