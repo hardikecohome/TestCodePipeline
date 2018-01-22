@@ -8,7 +8,7 @@
     var showRateCardBlock = function () {
         $('#rateCardsBlock').addClass('opened')
             .removeClass('closed');
-        setTimeout(setHeight(), 500);
+        setTimeout(setHeight, 500);
 
         $('#loanRateCardToggle').find('i.glyphicon')
             .removeClass('glyphicon-chevron-down')

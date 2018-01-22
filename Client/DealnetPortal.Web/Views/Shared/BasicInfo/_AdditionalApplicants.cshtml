@@ -447,7 +447,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.Street)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.Street, new { @class = "form-control dealnet-input", placeholder = Resources.StreetPlaceholder, id = $"add{i + 1}-employment-street" })
+                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.Street, new { @class = "form-control dealnet-input", placeholder = Resources.StreetPlaceholder, id = $"add{i + 1}-employment-street", autocomplete=$"add{i+1}-employment street-address" })
                                 @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.Street, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -465,7 +465,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.City)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.City, new { @class = "form-control dealnet-input", placeholder = Resources.Ottawa, id = $"add{i + 1}-employment-city" })
+                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.City, new { @class = "form-control dealnet-input", placeholder = Resources.Ottawa, id = $"add{i + 1}-employment-city", autocomplete = $"add{i + 1}-employment address-level2" })
                                 @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.City, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -478,11 +478,11 @@
                             @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.Province)
                             <div class="control-group">
                                 @Html.DropDownListFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.Province, (Model.ProvinceTaxRates).Select(x => new SelectListItem
-                                {
-                                    Value = x.Province,
-                                    Text = x.Province,
-                                    Selected = Model.AdditionalApplicants[i]?.EmploymentInformation?.CompanyAddress?.Province == x.Province
-                                }), "", new { @class = "form-control dealnet-input", id = $"add{i + 1}-employment-province" })
+                           {
+                               Value = x.Province,
+                               Text = x.Province,
+                               Selected = Model.AdditionalApplicants[i]?.EmploymentInformation?.CompanyAddress?.Province == x.Province
+                           }), "", new { @class = "form-control dealnet-input", id = $"add{i + 1}-employment-province", autocomplete = $"add{i + 1}-employment address-level1" })
                                 @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.Province, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -491,7 +491,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.PostalCode)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.PostalCode, new { @class = "form-control dealnet-input postal-code", placeholder = "12345", id = $"add{i + 1}-employment-postal-code" })
+                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.PostalCode, new { @class = "form-control dealnet-input postal-code", placeholder = "12345", id = $"add{i + 1}-employment-postal-code", autocomplete = $"add{i + 1}-employment postal-code" })
                                 @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.PostalCode, "", new { @class = "text-danger" })
                             </div>
                         </div>

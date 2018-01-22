@@ -489,7 +489,7 @@ else
                         <div class="form-group">
                             @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.Street)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.Street, new { @class = "form-control dealnet-input", placeholder = Resources.StreetPlaceholder, id = "ho-employment-street" })
+                                @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.Street, new { @class = "form-control dealnet-input", placeholder = Resources.StreetPlaceholder, id = "ho-employment-street", autocomplete="ho-employment street-address" })
                                 @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.Street, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -507,7 +507,7 @@ else
                         <div class="form-group">
                             @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.City)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.City, new { @class = "form-control dealnet-input", placeholder = Resources.Ottawa, id = "ho-employment-city" })
+                                @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.City, new { @class = "form-control dealnet-input", placeholder = Resources.Ottawa, id = "ho-employment-city" , autocomplete="ho-employment address-level2"})
                                 @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.City, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -524,7 +524,7 @@ else
                                     Value = x.Province,
                                     Text = x.Province,
                                     Selected = Model.HomeOwner?.EmploymentInformation?.CompanyAddress?.Province == x.Province
-                                }), "", new { @class = "form-control dealnet-input", id = "ho-employment-province" })
+                                }), "", new { @class = "form-control dealnet-input", id = "ho-employment-province", autocomplete="ho-employment address-level1" })
                                 @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.Province, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -533,7 +533,7 @@ else
                         <div class="form-group">
                             @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.PostalCode)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.PostalCode, new { @class = "form-control dealnet-input postal-code", placeholder = "12345", id = "ho-employment-postal-code" })
+                                @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.PostalCode, new { @class = "form-control dealnet-input postal-code", placeholder = "12345", id = "ho-employment-postal-code", autocomplete = "ho-employment postal-code" })
                                 @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.PostalCode, "", new { @class = "text-danger" })
                             </div>
                         </div>
