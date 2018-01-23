@@ -11,6 +11,10 @@
     {
         Model.ExistingEquipment = null;
     }
+    if (Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
+    {
+        Model.InstallationPackages = null;
+    }
 }
 
 @using (Html.BeginForm("EquipmentInformation", "NewRental", null, FormMethod.Post, new { id = "equipment-form", onkeydown = "return event.keyCode!=13" }))

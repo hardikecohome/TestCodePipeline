@@ -15,7 +15,8 @@ namespace DealnetPortal.Api.Common.Helpers
             public int LoanTerm { get; set; }
             public int AmortizationTerm { get; set; }
             public double CustomerRate { get; set; }
-            public double EquipmentCashPrice { get; set; }
+            //Price of equipment(s) excl tax 
+            public double PriceOfEquipment { get; set; }
             public double AdminFee { get; set; }
             public double DownPayment { get; set; }
         }
@@ -23,7 +24,8 @@ namespace DealnetPortal.Api.Common.Helpers
         public class Output
         {
             public double Hst { get; set; }
-            public double TotalCashPrice { get; set; }
+            //Price of equipment (incl tax)
+            public double PriceOfEquipmentWithHst { get; set; }
             public double TotalAmountFinanced { get; set; }
             //TODO: why double, not decimal?
             //TODO: because methods from Financial class outputs value in double
@@ -37,9 +39,9 @@ namespace DealnetPortal.Api.Common.Helpers
         public static Output Calculate(Input input)
         {
             var output = new Output();
-            output.Hst = input.TaxRate/100*input.EquipmentCashPrice;
-            output.TotalCashPrice = output.Hst + input.EquipmentCashPrice;
-            output.TotalAmountFinanced = output.TotalCashPrice /*+ input.AdminFee*/ - input.DownPayment;
+            output.Hst = input.TaxRate/100*input.PriceOfEquipment;
+            output.PriceOfEquipmentWithHst = output.Hst + input.PriceOfEquipment;
+            output.TotalAmountFinanced = output.PriceOfEquipmentWithHst /*+ input.AdminFee*/ - input.DownPayment;
             output.TotalMonthlyPayment = Math.Round(output.TotalAmountFinanced*Financial.Pmt(input.CustomerRate/100/12, input.AmortizationTerm, -1),2);
             output.TotalAllMonthlyPayments = Math.Round(output.TotalMonthlyPayment*input.LoanTerm,2);
             if (input.LoanTerm != input.AmortizationTerm)
