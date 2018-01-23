@@ -36,7 +36,7 @@
         _initHandlers();
         calrityUi.init();
 
-        if (state.isNewContract) {
+        if (!state.isNewContract) {
             $(settings.loanRateCardToggleId).click();
             calculate();
         }
@@ -49,6 +49,17 @@
         $(settings.addEquipmentId).on('click', equipment.addEquipment);
         $(settings.addExistingEquipmentId).on('click', equipment.addExistingEquipment);
         $(settings.addInstallationPackageId).on('click', packages.addPackage);
+        $('#new-equipments .monthly-cost').each(function() {
+            $(this).rules('add',
+                {
+                    required: true,
+                    messages: {
+                        required: function(ele) {
+                            return translations.ThisFieldIsRequired;
+                        }
+                    }
+                });
+        });
     }
 
     function _submitForm (event) {
@@ -60,6 +71,12 @@
             $(settings.equipmentValidationMessageId).text(translations['TotalMonthlyPaymentMustBeGreaterZero']);
             return;
         }
+
+        $('#AmortizationTerm').val(state['clarity'].AmortizationTerm);
+        $('#LoanTerm').val(state['clarity'].LoanTerm);
+        $('#total-monthly-payment').val($('#totalMonthlyCostTax').text().substring(1));
+        $('#CustomerRate').val(state['clarity'].CustomerRate);
+        $('#AdminFee').val(state['clarity'].AdminFee);
 
         $(settings.formId).submit();
     }

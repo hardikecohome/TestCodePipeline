@@ -60,7 +60,7 @@
     };
 
     var init = function() {
-        var packages = $('div#packages').find('[id^=package-]').length;
+        var packages = $('div#installation-packages').find('[id^=package-]').length;
         for (var j = 0;j < packages;j++) {
             _initPackage(j);
         }
@@ -68,15 +68,14 @@
 
     function _initPackage(i) {
         state.packages[i] = { id: i.toString() };
-        $('#package-remove-' + i).on('click', function() {
-            conversion.removeItem(
-                {
-                    itemId: i,
-                    name: 'packages',
-                    equipmentIdPattern: 'package-',
-                    equipmentName: 'InstallationPackages',
-                    equipmentRemovePattern: 'package-remove-'
-                });
+        $('#remove-package-' + i).on('click', function() {
+            var options = {
+                name: 'packages',
+                equipmentIdPattern: 'package-',
+                equipmentName: 'InstallationPackages',
+                equipmentRemovePattern: 'remove-package-'
+            };
+            conversion.removeItem.call(this, options);
 
             $('.add-package-link').removeClass("hidden");
         });

@@ -225,6 +225,9 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                                                    contractResult.Equipment.RateCardId.Value == 0 ||
                                                    dealerTier.RateCards.Any(
                                                            x => x.Id == contractResult.Equipment.RateCardId.Value);
+
+            summaryAndConfirmation.IsClarityDealer = dealerTier.Name == "ClarityTier";
+
             return summaryAndConfirmation;
         }
 

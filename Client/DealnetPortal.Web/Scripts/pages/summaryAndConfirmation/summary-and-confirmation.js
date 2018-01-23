@@ -6,7 +6,7 @@
         };
 
         var rateCardValid = $('#RateCardValid').val().toLowerCase() !== 'false' ? true : false;;
-
+        
         if (!rateCardValid) {
             $('#expired-rate-card-warning').removeClass('hidden');
             $('#submitBtn').addClass('disabled');
@@ -71,12 +71,22 @@ function recalculateTotalMonthlyPayment () {
 
 function recalculateTotalCashPrice () {
     var sum = 0;
-    $(".equipment-cost").each(function () {
-        var numberValue = parseFloat(this.value);
-        if (!isNaN(numberValue)) {
-            sum += numberValue;
-        }
-    });
+    var isClarity = $('#clarity-dealer').val().toLowerCase() === 'true';
+    if (isClarity) {
+        $(".monthly-cost").each(function() {
+            var numberValue = parseFloat(this.value);
+            if (!isNaN(numberValue)) {
+                sum += numberValue;
+            }
+        });
+    } else {
+        $(".equipment-cost").each(function () {
+            var numberValue = parseFloat(this.value);
+            if (!isNaN(numberValue)) {
+                sum += numberValue;
+            }
+        });
+    }
 
     $("#equipment-cash-price").text(formatNumber(sum));
     calculateLoanValues();
@@ -84,12 +94,24 @@ function recalculateTotalCashPrice () {
 
 function checkTotalEquipmentCost () {
     var sum = 0;
-    $(".equipment-cost").each(function () {
-        var numberValue = parseFloat(this.value);
-        if (!isNaN(numberValue)) {
-            sum += numberValue;
-        }
-    });
+    var isClarity = $('#clarity-dealer').val().toLowerCase() === 'true';
+
+    if (isClarity) {
+        $(".monthly-cost").each(function() {
+            var numberValue = parseFloat(this.value);
+            if (!isNaN(numberValue)) {
+                sum += numberValue;
+            }
+        });
+    } else {
+        $(".equipment-cost").each(function () {
+            var numberValue = parseFloat(this.value);
+            if (!isNaN(numberValue)) {
+                sum += numberValue;
+            }
+        });
+    }
+
     if (sum > creditAmount) {
         $('#new-equipment-validation-message').html('<span>' + translations['TotalCostGreaterThanAmount'] + '</span>');
         return false;

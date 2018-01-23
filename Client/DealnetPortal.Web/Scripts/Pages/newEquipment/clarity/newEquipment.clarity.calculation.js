@@ -103,9 +103,10 @@
             $("#totalMonthlyCostTax").text(formatCurrency(totalRentalPrice(data)));
             $("#totalPriceEquipment").text(formatCurrency(totalRentalPrice(data)));
         } else {
-            $(settings.totalMonthlyPaymentId).val('');
-            $(settings.rentalTaxId).text('-');
-            $(settings.rentalTotalMonthlyPaymentId).text('-');
+            $("#tax").text('-');
+            $("#totalMonthlyCostNoTax").text('-');
+            $("#totalMonthlyCostTax").text('-');
+            $("#totalPriceEquipment").text('-');
         }
     }
 

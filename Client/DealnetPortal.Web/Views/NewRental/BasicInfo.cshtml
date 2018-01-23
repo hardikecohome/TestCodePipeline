@@ -164,7 +164,7 @@
 
 <div class="form-container basic-info-form">
     <div class="form-section">
-        @using(Html.BeginForm("BasicInfo", "NewRental", FormMethod.Post, new { id = "main-form" }))
+        @using(Html.BeginForm("BasicInfo", "NewRental", FormMethod.Post, new { id = "main-form", autocomplete = "off" }))
         {
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.ContractId)
