@@ -479,6 +479,19 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;h2&gt;Collection, Use and Disclosure of Personal Information&lt;/h2&gt;
+        ///    &lt;p&gt;Financement Ecohome may collect, use and disclose personal information provided by you on this application, obtained as part of the application process (including from credit reporting agencies and other sources) and/or, if your application is approved, obtained from time to time in the administration or operation of your account, for some or all of the following purposes:&lt;/p&gt;
+        ///    &lt;ul&gt;
+        ///        &lt;li&gt;
+        ///            to verify your identity [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string AgreementPersonalDataQC {
+            get {
+                return ResourceManager.GetString("AgreementPersonalDataQC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Agreement submitted successfully!.
         /// </summary>
         public static string AgreementSubmittedSuccessfully {
@@ -2546,6 +2559,15 @@ namespace DealnetPortal.Web.Resources {
         public static string EcoHomeAbout1 {
             get {
                 return ResourceManager.GetString("EcoHomeAbout1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Financement Ecohome is a Canadian owned finance company providing custom consumer financing and loan products to the HVAC and home improvement markets. We manage all of our business in-house..
+        /// </summary>
+        public static string EcoHomeAbout1QC {
+            get {
+                return ResourceManager.GetString("EcoHomeAbout1QC", resourceCulture);
             }
         }
         
@@ -5213,6 +5235,18 @@ namespace DealnetPortal.Web.Resources {
         public static string PrivacyPolicyText {
             get {
                 return ResourceManager.GetString("PrivacyPolicyText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;h2 class=&quot;dealnet-large-header&quot;&gt;Privacy Policy _ Ecohome_External&lt;/h2&gt;
+        ///    &lt;p&gt;&lt;strong&gt;Effective: June 15, 2017&lt;/strong&gt;&lt;/p&gt;
+        ///    &lt;h3 class=&quot;dealnet-section-title&quot;&gt;Our Commitment&lt;/h3&gt;
+        ///    &lt;p&gt;At Financement Ecohome Inc. (“Financement Ecohome”, “we”, “us”, “the Company”, etc.) we are committed to providing excellent service and to ensuring that our relationship with individuals with whom we interact, such as our customers or potential customers (“you”), is conducted with integrity and in a responsible, fair [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string PrivacyPolicyTextQC {
+            get {
+                return ResourceManager.GetString("PrivacyPolicyTextQC", resourceCulture);
             }
         }
         

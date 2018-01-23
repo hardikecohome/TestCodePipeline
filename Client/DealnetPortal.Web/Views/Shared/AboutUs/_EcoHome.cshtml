@@ -1,8 +1,9 @@
-﻿<div class="about-page">
+﻿@using System.Security.Claims;
+<div class="about-page">
     <div class="page-section promo-section">
         <h2 class="dealnet-large-header">@ViewBag.Title</h2>
         <!--<h3>@ViewBag.Message</h3>-->
-        <p>@Resources.EcoHomeAbout1</p>
+        <p>@if ((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True")) { @Resources.EcoHomeAbout1QC} else { @Resources.EcoHomeAbout1 }</p>
         <p>@Resources.EcoHomeAbout2</p>
         <p>@Resources.EcoHomeAbout3</p>
     </div>

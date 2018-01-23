@@ -2429,7 +2429,7 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.ProgramServicesRequired,
-                    Value = dealerInfo.ProductInfo.ProgramService == ProgramServices.Both ? "Financing + Leasing" : (dealerInfo.ProductInfo.ProgramService == ProgramServices.Loan ? "Leasing" : "Financing")
+                    Value = dealerInfo.ProductInfo.ProgramService == ProgramServices.Both ? "Financing + Leasing" : (dealerInfo.ProductInfo.ProgramService == ProgramServices.Loan ? "Financing" :"Leasing" )
                 });
             }
             if (dealerInfo.ProductInfo?.Relationship != null)
