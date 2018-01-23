@@ -1815,7 +1815,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     FieldType = FieldType.Text,
                     Name = PdfFormFields.TotalPayment,
-                    Value = paySummary.TotalPayment?.ToString("F", CultureInfo.InvariantCulture)
+                    Value = paySummary.TotalAllMonthlyPayment?.ToString("F", CultureInfo.InvariantCulture)
                 });
                 formFields.Add(new FormField()
                 {
@@ -1882,7 +1882,7 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         FieldType = FieldType.Text,
                         Name = PdfFormFields.LoanTotalCashPrice,
-                        Value = paySummary.LoanDetails.TotalCashPrice.ToString("F", CultureInfo.InvariantCulture)
+                        Value = paySummary.LoanDetails.PriceOfEquipmentWithHst.ToString("F", CultureInfo.InvariantCulture)
                     });
                     formFields.Add(new FormField()
                     {
