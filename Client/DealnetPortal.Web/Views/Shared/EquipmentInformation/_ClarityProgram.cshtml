@@ -49,17 +49,17 @@
                             <div class="form-group">
                                 @Html.LabelFor(m => m.NewEquipment[i].Description)
                                 <div class="control-group">
-                                    @Html.TextBoxFor(m => m.NewEquipment[i].Description, new { @class = "form-control dealnet-input", placeholder = Resources.DescriptionWithMakeModel })
+                                    @Html.TextBoxFor(m => m.NewEquipment[i].Description, new { @class = "form-control dealnet-input", placeholder = Resources.Description })
                                     @Html.ValidationMessageFor(m => m.NewEquipment[i].Description, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3 col-xs-12 monthly-cost-col">
                             <div class="form-group">
-                                @Html.LabelFor(m => m.NewEquipment[i].MonthlyCost)
+                                @Html.Label(Resources.MonthlyCostOfOwnership)
                                 <div class="control-group has-addon-left">
                                     <div class="control-group-addon">$</div>
-                                    @Html.TextBoxFor(m => m.NewEquipment[i].MonthlyCost, new { @class = "form-control dealnet-input monthly-cost", type = "text", placeholder = Resources.MonthlyCost })
+                                    @Html.TextBoxFor(m => m.NewEquipment[i].MonthlyCost, new { @class = "form-control dealnet-input monthly-cost", type = "text", placeholder = Resources.MonthlyCostOfOwnership })
                                     @Html.ValidationMessageFor(m => m.NewEquipment[i].MonthlyCost, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -108,7 +108,7 @@
                                 @Html.LabelFor(m => m.InstallationPackages[i].MonthlyCost)
                                 <div class="control-group has-addon-left">
                                     <div class="control-group-addon">$</div>
-                                    @Html.TextBoxFor(m => m.InstallationPackages[i].MonthlyCost, new { @class = "form-control dealnet-input monthly-cost", type = "text", placeholder = Resources.MonthlyCost })
+                                    @Html.TextBoxFor(m => m.InstallationPackages[i].MonthlyCost, new { @class = "form-control dealnet-input monthly-cost", type = "text", placeholder = Resources.MonthlyCostOfOwnership })
                                     @Html.ValidationMessageFor(m => m.InstallationPackages[i].MonthlyCost, "", new { @class = "text-danger" })
                                 </div>
                             </div>
