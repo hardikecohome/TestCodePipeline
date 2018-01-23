@@ -7,8 +7,9 @@
         var totalRentalPrice = function (data) {
 			var t = tax(data);
 			var equipmentSum = data.equipmentSum;
+            var packagesSum = data.packagesSum;
 
-			return equipmentSum + t;
+			return packagesSum + equipmentSum + t;
 		};
 
 

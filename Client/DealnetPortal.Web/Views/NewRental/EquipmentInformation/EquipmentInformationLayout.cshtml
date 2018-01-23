@@ -11,6 +11,10 @@
     {
         Model.ExistingEquipment = null;
     }
+    if (Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
+    {
+        Model.InstallationPackages = null;
+    }
 }
 
 <div id="label-steps">

@@ -63,8 +63,8 @@
         state.downPayment = downPayment ? +downPayment : 0;
 
         var eSum = monthlySum(state.equipments);
-        
-        var totalMonthlyData = $.extend({ equipmentSum: eSum, downPayment: state.downPayment, tax: state.tax }, idToValue(state)('clarity'));
+        var packagesSum = !$.isEmptyObject(state.packages) ? monthlySum(state.packages) : 0;
+        var totalMonthlyData = $.extend({ equipmentSum: eSum, downPayment: state.downPayment, tax: state.tax, packagesSum: packagesSum }, idToValue(state)('clarity'));
 
         _renderTotalPriceInfo(totalMonthlyData);
 
@@ -98,7 +98,7 @@
     function _renderTotalPriceInfo(data) {
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
         if (notNan && data.equipmentSum !== 0) {
-            $("#totalMonthlyCostNoTax").text(formatCurrency(data.equipmentSum));
+            $("#totalMonthlyCostNoTax").text(formatCurrency(data.equipmentSum + data.packagesSum));
             $("#tax").text(formatCurrency(tax(data)));
             $("#totalMonthlyCostTax").text(formatCurrency(totalRentalPrice(data)));
             $("#totalPriceEquipment").text(formatCurrency(totalRentalPrice(data)));

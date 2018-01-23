@@ -106,7 +106,6 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             if(result.Item1.Equipment != null)
             {
                 equipmentInfo = Mapper.Map<EquipmentInformationViewModelNew>(result.Item1.Equipment);
-                equipmentInfo.InstallationPackages = Mapper.Map<List<InstallationPackageInformation>>(result.Item1.Equipment.InstallationPackages);
 
                 if(!equipmentInfo.NewEquipment.Any())
                 {
@@ -846,7 +845,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                     TaxRate = 0,/* summary.ProvinceTaxRate.Rate,*/
                     LoanTerm = contract.Equipment.LoanTerm ?? 0,
                     AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
-                    EquipmentCashPrice = (double?)contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
+                    PriceOfEquipment = (double?)contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
                     AdminFee = contract.Equipment.AdminFee ?? 0,
                     DownPayment = contract.Equipment.DownPayment ?? 0,
                     CustomerRate = contract.Equipment.CustomerRate ?? 0
