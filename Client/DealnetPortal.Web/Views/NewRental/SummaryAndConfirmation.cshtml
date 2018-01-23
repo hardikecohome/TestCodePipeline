@@ -12,11 +12,11 @@
 
     Func<string, string> formatIncome = str =>
      {
-         if(str.Contains('<'))
+         if (str.Contains('<'))
          {
              return str.Replace("<", Resources.LessThan + " $");
          }
-         if(str.Contains('-'))
+         if (str.Contains('-'))
          {
              return "$" + str.Replace("-", " - $");
          }
@@ -42,7 +42,7 @@
 
     </div>
     <div class="col-xs-4">
-        @if(Model.EquipmentInfo.IsApplicantsInfoEditAvailable)
+        @if (Model.EquipmentInfo.IsApplicantsInfoEditAvailable)
         {
             <a href="@Url.Action("EquipmentInformation", new {contractId = Model.BasicInfo.ContractId})" id="step2" class="step-item">2</a>
         }
@@ -71,14 +71,15 @@
         <div class="clearfix">
             <div class="row">
 
-                @using(Html.BeginForm(null, null, FormMethod.Post, new { id = "basic-info-form", @class = "grid-parent" }))
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "basic-info-form", @class = "grid-parent" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(m => m.BasicInfo.ContractId)
                     @Html.HiddenFor(m => m.BasicInfo.HomeOwner.CustomerId)
                     @Html.HiddenFor(m => m.ContactAndPaymentInfo.IsAllPaymentTypesAvailable, new { id = "payment-info-available" })
                     @Html.HiddenFor(m => m.RateCardValid)
-                    if(Model.BasicInfo.SubDealers?.Any() ?? false)
+                    @Html.HiddenFor(m => m.IsClarityDealer, new { id = "clarity-dealer" })
+                    if (Model.BasicInfo.SubDealers?.Any() ?? false)
                     {
                         <div class="credit-check-info-hold">
                             <div class="col-md-6 grid-column">
@@ -166,7 +167,7 @@
                             <div class="dealnet-credit-check-section" id="address-section">
                                 <h3 class="dealnet-section-title">
                                     @Resources.InstallationAddressInformation
-                                    @if(Model.EquipmentInfo.IsEditAvailable && !Model.BasicInfo.ContractWasDeclined)
+                                    @if (Model.EquipmentInfo.IsEditAvailable && !Model.BasicInfo.ContractWasDeclined)
                                     {
                                         <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
 
@@ -226,13 +227,13 @@
                                 </div>
                             </div>
                         </div>
-                        @if(Model.BasicInfo.HomeOwner.PreviousAddressInformation != null)
+                        @if (Model.BasicInfo.HomeOwner.PreviousAddressInformation != null)
                         {
                             <div class="col-md-6 grid-column">
                                 <div class="dealnet-credit-check-section" id="prev-address-section">
                                     <h3 class="dealnet-section-title">
                                         @Resources.PreviousAddressInformation
-                                        @if(Model.EquipmentInfo.IsEditAvailable && !Model.BasicInfo.ContractWasDeclined)
+                                        @if (Model.EquipmentInfo.IsEditAvailable && !Model.BasicInfo.ContractWasDeclined)
                                         {
                                             <a href="#" onclick="copyFormData($('#prev-address-section'), $('#prev-address-section-modal'), false); $('#prev-address-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
                                         }
@@ -293,13 +294,13 @@
                                 </div>
                             </div>
                         }
-                        @if(Model.BasicInfo.HomeOwner.MailingAddressInformation != null)
+                        @if (Model.BasicInfo.HomeOwner.MailingAddressInformation != null)
                         {
                             <div class="col-md-6 grid-column">
                                 <div class="dealnet-credit-check-section" id="mailing-address-section">
                                     <h3 class="dealnet-section-title">
                                         @Resources.MailingAddress
-                                        @if(Model.EquipmentInfo.IsEditAvailable && !Model.BasicInfo.ContractWasDeclined)
+                                        @if (Model.EquipmentInfo.IsEditAvailable && !Model.BasicInfo.ContractWasDeclined)
                                         {
                                             <a href="#" onclick="copyFormData($('#mailing-address-section'), $('#mailing-address-section-modal'), false); $('#mailing-address-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
                                         }
@@ -364,7 +365,7 @@
                 }
                 <div class="credit-check-info-hold fit-to-next-grid">
                     <div class="col-md-6 grid-column">
-                        @using(Html.BeginForm(null, null, FormMethod.Post, new { id = "contact-info-form", @class = "" }))
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "contact-info-form", @class = "" }))
                         {
 
                             @Html.AntiForgeryToken()
@@ -431,7 +432,7 @@
                     </div>
 
                 </div>
-                @if(Model.BasicInfo.HomeOwner.EmploymentInformation != null)
+                @if (Model.BasicInfo.HomeOwner.EmploymentInformation != null)
                 {
                     <div class="credit-check-info-hold fit-to-next-grid">
                         <div class="col-md-6 grid-column">
@@ -450,7 +451,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if(Model.BasicInfo.HomeOwner.EmploymentInformation.IncomeType.HasValue)
+                                @if (Model.BasicInfo.HomeOwner.EmploymentInformation.IncomeType.HasValue)
                                 {
                                     <div class="form-group">
                                         <div class="row">
@@ -463,7 +464,7 @@
                                         </div>
                                     </div>
                                 }
-                                @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary))
+                                @if (!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary))
                                 {
                                     <div class="form-group">
                                         <div class="row">
@@ -479,7 +480,7 @@
                                         </div>
                                     </div>
                                 }
-                                @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate))
+                                @if (!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate))
                                 {
                                     <div class="form-group">
                                         <div class="row">
@@ -496,7 +497,7 @@
                                     </div>
                                 }
 
-                                @if(Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
+                                @if (Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
                                 {
                                     <div class="form-group">
                                         <div class="row">
@@ -505,7 +506,7 @@
                                                 <div class="control-group">
                                                     <div class="dealnet-disabled-input">
                                                         <span>@Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ? Resources.Year : Resources.Years)</span>
-                                                        @if(!string.IsNullOrEmpty(Model?.BasicInfo.HomeOwner?.EmploymentInformation?.MonthsOfEmployment))
+                                                        @if (!string.IsNullOrEmpty(Model?.BasicInfo.HomeOwner?.EmploymentInformation?.MonthsOfEmployment))
                                                         {
                                                             <span>@Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ? Resources.Month : Resources.Months)</span>
                                                         }
@@ -517,15 +518,15 @@
                                 }
                             </div>
                         </div>
-                        @if(Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
+                        @if (Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
                         {
                             <div class="col-md-6 grid-column">
                                 <div class="dealnet-credit-check-section">
                                     <h3 class="dealnet-section-title">
                                         &nbsp;
-                                            <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
+                                        <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
                                     </h3>
-                                    @if(Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed)
+                                    @if (Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed)
                                     {
                                         <div class="form-group">
                                             <div class="row">
@@ -538,7 +539,7 @@
                                             </div>
                                         </div>
                                     }
-                                    @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.JobTitle))
+                                    @if (!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.JobTitle))
                                     {
                                         <div class="form-group">
                                             <div class="row">
@@ -551,7 +552,7 @@
                                             </div>
                                         </div>
                                     }
-                                    @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.CompanyName))
+                                    @if (!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.CompanyName))
                                     {
                                         <div class="form-group">
                                             <div class="row">
@@ -564,7 +565,7 @@
                                             </div>
                                         </div>
                                     }
-                                    @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.CompanyPhone))
+                                    @if (!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.CompanyPhone))
                                     {
                                         <div class="form-group">
                                             <div class="row">
@@ -580,13 +581,13 @@
                                 </div>
                             </div>
                         }
-                        @if(Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
+                        @if (Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
                         {
                             <div class="col-md-6 grid-column">
                                 <div class="dealnet-credit-check-section">
                                     <h3 class="dealnet-section-title">
                                         @Resources.CompanyAddress
-                                            <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
+                                        <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
                                     </h3>
                                     <div class="form-group">
                                         <div class="row">
@@ -646,7 +647,7 @@
             </div>
         </div>
 
-        @if(Model.ContactAndPaymentInfo.CoBorrowersContactInfo != null && Model.ContactAndPaymentInfo.CoBorrowersContactInfo.Any())
+        @if (Model.ContactAndPaymentInfo.CoBorrowersContactInfo != null && Model.ContactAndPaymentInfo.CoBorrowersContactInfo.Any())
         {
             @Html.Partial("SummaryAndConfirmation/_AdditionalApplicants", Model)
         }
@@ -657,7 +658,7 @@
         @Html.Partial("SummaryAndConfirmation/_EquipmentInformation", Model)
 
         <hr>
-        @using(Html.BeginForm(null, null, FormMethod.Post, new { @class = "clearfix", id = "payment-info-form" }))
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "clearfix", id = "payment-info-form" }))
         {
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.ContactAndPaymentInfo.ContractId)
@@ -734,9 +735,9 @@
                 </div>
             </div>
         }
-        @if(Model.EquipmentInfo.ExistingEquipment != null && Model.EquipmentInfo.ExistingEquipment.Any())
+        @if (Model.EquipmentInfo.ExistingEquipment != null && Model.EquipmentInfo.ExistingEquipment.Any())
         {
-            using(Html.BeginForm(null, null, FormMethod.Post, new { id = "existing-equipment-form", @class = "clearfix" }))
+            using (Html.BeginForm(null, null, FormMethod.Post, new { id = "existing-equipment-form", @class = "clearfix" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
@@ -758,7 +759,7 @@
                                 <h3 class="dealnet-section-title">
                                     @Resources.ExistingEquipmentInformation <a href="#" onclick="copyFormData($('#existing-equipment-section'), $('#existing-equipment-section-modal'), false); $('#existing-equipment-modal').modal();" class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
                                 </h3>
-                                @for(var i = 0; i < Model.EquipmentInfo.ExistingEquipment.Count; i++)
+                                @for (var i = 0; i < Model.EquipmentInfo.ExistingEquipment.Count; i++)
                                 {
                                     <div class="summury-return-equip-item">
                                         @Html.HiddenFor(m => m.EquipmentInfo.ExistingEquipment[i].Id)
@@ -769,12 +770,12 @@
                                                 </div>
                                                 <div class="dealnet-field-holder col-xs-6">
                                                     @Html.DropDownListFor(m => m.EquipmentInfo.ExistingEquipment[i].IsRental, new SelectList(
-                                                                      new[]
-                                                                      {
-                                                                                                                            new {Value = "true", Text = yesNaming, Selected = Model.EquipmentInfo.ExistingEquipment[i].IsRental},
-                                                                                                                            new {Value = "false", Text = noNaming, Selected = !Model.EquipmentInfo.ExistingEquipment[i].IsRental},
-                                                                      },
-                                                                      "Value", "Text", Model.EquipmentInfo.ExistingEquipment[i].IsRental), new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                                           new[]
+                                                                           {
+                                                                                                                                                        new {Value = "true", Text = yesNaming, Selected = Model.EquipmentInfo.ExistingEquipment[i].IsRental},
+                                                                                                                                                        new {Value = "false", Text = noNaming, Selected = !Model.EquipmentInfo.ExistingEquipment[i].IsRental},
+                                                                           },
+                                                                           "Value", "Text", Model.EquipmentInfo.ExistingEquipment[i].IsRental), new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                                 </div>
                                             </div>
                                         </div>
@@ -861,7 +862,7 @@
             <div class="row">
                 <div class="credit-check-info-hold">
                     <div class="col-md-6 grid-column" id="edit-add-contract-section">
-                        @using(Html.BeginForm(null, null, FormMethod.Post, new { id = "contract-notes-form", @class = "credit-check-info-hold" }))
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "contract-notes-form", @class = "credit-check-info-hold" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
@@ -881,7 +882,7 @@
                                 <h3 class="dealnet-section-title">
                                     @Resources.AdditionalContractInformation
                                 </h3>
-                                @if(Model.AdditionalInfo.CustomerComments != null && Model.AdditionalInfo.CustomerComments.Any())
+                                @if (Model.AdditionalInfo.CustomerComments != null && Model.AdditionalInfo.CustomerComments.Any())
                                 {
                                     <div class="form-group">
                                         <div class="row">
@@ -889,7 +890,7 @@
                                             <div class="dealnet-field-holder col-xs-12">
                                                 <div class="control-group">
                                                     <div class="text-left">
-                                                        @foreach(var comment in Model.AdditionalInfo.CustomerComments)
+                                                        @foreach (var comment in Model.AdditionalInfo.CustomerComments)
                                                         {
                                                             @comment
                                                             <br />
@@ -955,7 +956,7 @@
             </div>
             <div class="modal-body">
                 <div class="dealnet-credit-check-section dealnet-modal-section">
-                    @using(Html.BeginForm(null, null, FormMethod.Post, new { id = "address-section-modal" }))
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "address-section-modal" }))
                     {
                         <div class="row">
                             <div class="col-md-9">
@@ -999,8 +1000,8 @@
                                     <div class="dealnet-field-holder">
                                         <div class="control-group">
                                             @Html.DropDownListFor(m => m.BasicInfo.HomeOwner.AddressInformation.Province,
-                                                              (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
-                                                              new { @class = "form-control dealnet-input", id = "administrative_area_level_1" })
+                                                                   (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
+                                                                   new { @class = "form-control dealnet-input", id = "administrative_area_level_1" })
                                             @Html.ValidationMessageFor(m => m.BasicInfo.HomeOwner.AddressInformation.Province, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -1033,7 +1034,7 @@
 
 </div>
 
-@if(Model.BasicInfo.HomeOwner.MailingAddressInformation != null)
+@if (Model.BasicInfo.HomeOwner.MailingAddressInformation != null)
 {
     <div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="mailing-address-modal">
         <div class="modal-dialog" role="document">
@@ -1044,7 +1045,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="dealnet-credit-check-section dealnet-modal-section">
-                        @using(Html.BeginForm(null, null, FormMethod.Post, new { id = "mailing-address-section-modal" }))
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "mailing-address-section-modal" }))
                         {
                             <div class="row">
                                 <div class="col-md-9">
@@ -1088,8 +1089,8 @@
                                         <div class="dealnet-field-holder">
                                             <div class="control-group">
                                                 @Html.DropDownListFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.Province,
-                                                                  (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
-                                                                  new { @class = "form-control dealnet-input", id = "mailing_administrative_area_level_1" })
+                                                                       (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
+                                                                       new { @class = "form-control dealnet-input", id = "mailing_administrative_area_level_1" })
                                                 @Html.ValidationMessageFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.Province, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -1130,7 +1131,7 @@
             </div>
             <div class="modal-body">
                 <div class="dealnet-credit-check-section dealnet-modal-section">
-                    @using(Html.BeginForm(null, null, FormMethod.Post, new { id = "contact-info-section-modal" }))
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "contact-info-section-modal" }))
                     {
                         <div class="mandatory-phones">
                             <div class="row">
@@ -1217,7 +1218,7 @@
             </div>
             <div class="modal-body">
                 <div class="dealnet-credit-check-section dealnet-modal-section">
-                    @using(Html.BeginForm(null, null, FormMethod.Post, new { id = "payment-info-section-modal" }))
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "payment-info-section-modal" }))
                     {
                         <div class="row">
                             <div class="col-sm-12 col-md-6">
@@ -1322,7 +1323,7 @@
     </div>
 </div>
 
-@if(Model.EquipmentInfo.ExistingEquipment != null && Model.EquipmentInfo.ExistingEquipment.Any())
+@if (Model.EquipmentInfo.ExistingEquipment != null && Model.EquipmentInfo.ExistingEquipment.Any())
 {
     <div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="existing-equipment-modal">
         <div class="modal-dialog" role="document">
@@ -1333,9 +1334,9 @@
                 </div>
                 <div class="modal-body">
                     <div class="dealnet-credit-check-section dealnet-modal-section">
-                        @using(Html.BeginForm(null, null, FormMethod.Post, new { id = "existing-equipment-section-modal" }))
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "existing-equipment-section-modal" }))
                         {
-                            for(var i = 0; i < Model.EquipmentInfo.ExistingEquipment.Count; i++)
+                            for (var i = 0; i < Model.EquipmentInfo.ExistingEquipment.Count; i++)
                             {
                                 <div class="row">
                                     <div class="col-md-6">
@@ -1344,13 +1345,13 @@
                                             <div class="dealnet-field-holder">
                                                 <div class="control-group">
                                                     @Html.DropDownListFor(m => m.EquipmentInfo.ExistingEquipment[i].IsRental, new SelectList(
-                                                                      new[]
-                                                                      {
-                                                                                                                                    new {Value = "true", Text = yesNaming, Selected = Model.EquipmentInfo.ExistingEquipment[i].IsRental},
-                                                                                                                                    new {Value = "false", Text = noNaming, Selected = !Model.EquipmentInfo.ExistingEquipment[i].IsRental},
-                                                                      },
-                                                                      "Value", "Text", Model.EquipmentInfo.ExistingEquipment[i].IsRental),
-                                                                      new { @class = "form-control" })
+                                                                           new[]
+                                                                           {
+                                                                                                                                                                new {Value = "true", Text = yesNaming, Selected = Model.EquipmentInfo.ExistingEquipment[i].IsRental},
+                                                                                                                                                                new {Value = "false", Text = noNaming, Selected = !Model.EquipmentInfo.ExistingEquipment[i].IsRental},
+                                                                           },
+                                                                           "Value", "Text", Model.EquipmentInfo.ExistingEquipment[i].IsRental),
+                                                                           new { @class = "form-control" })
                                                 </div>
                                             </div>
                                         </div>
@@ -1441,7 +1442,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                if(i < Model.EquipmentInfo.ExistingEquipment.Count - 1)
+                                if (i < Model.EquipmentInfo.ExistingEquipment.Count - 1)
                                 {
                                     <hr>
                                 }
@@ -1461,9 +1462,9 @@
     </div>
 }
 
-@if(Model.ContactAndPaymentInfo.CoBorrowersContactInfo != null && Model.ContactAndPaymentInfo.CoBorrowersContactInfo.Any())
+@if (Model.ContactAndPaymentInfo.CoBorrowersContactInfo != null && Model.ContactAndPaymentInfo.CoBorrowersContactInfo.Any())
 {
-    for(var i = 0; i < Model.ContactAndPaymentInfo.CoBorrowersContactInfo.Count; i++)
+    for (var i = 0; i < Model.ContactAndPaymentInfo.CoBorrowersContactInfo.Count; i++)
     {
         <div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="contact-info-coborrower@(i + 1)-modal">
             <div class="modal-dialog" role="document">
@@ -1474,7 +1475,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="dealnet-credit-check-section dealnet-modal-section">
-                            @using(Html.BeginForm(null, null, FormMethod.Post, new { id = "contact-info-section" + (i + 1) + "-coborrower-modal" }))
+                            @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "contact-info-section" + (i + 1) + "-coborrower-modal" }))
                             {
 
                                 <div class="mandatory-phones">
@@ -1546,7 +1547,7 @@
                 </div>
             </div>
         </div>
-        if(Model.BasicInfo.AdditionalApplicants[i].AddressInformation != null)
+        if (Model.BasicInfo.AdditionalApplicants[i].AddressInformation != null)
         {
             <div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="additional-mailing-address-modal-@(i + 1)">
                 <div class="modal-dialog" role="document">
@@ -1557,7 +1558,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="dealnet-credit-check-section dealnet-modal-section">
-                                @using(Html.BeginForm(null, null, FormMethod.Post, new { id = "additional-mailing-address-section-modal-" + (i + 1) }))
+                                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "additional-mailing-address-section-modal-" + (i + 1) }))
                                 {
                                     <div class="row">
                                         <div class="col-md-9">
@@ -1601,8 +1602,8 @@
                                                 <div class="dealnet-field-holder">
                                                     <div class="control-group">
                                                         @Html.DropDownListFor(m => m.BasicInfo.AdditionalApplicants[i].AddressInformation.Province,
-                                                                          (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.BasicInfo.AdditionalApplicants[i]?.AddressInformation?.Province == x.Province }), "",
-                                                                          new { @class = "form-control dealnet-input", id = "additional-administrative_area_level_1-" + (i + 1) })
+                                                                               (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.BasicInfo.AdditionalApplicants[i]?.AddressInformation?.Province == x.Province }), "",
+                                                                               new { @class = "form-control dealnet-input", id = "additional-administrative_area_level_1-" + (i + 1) })
                                                         @Html.ValidationMessageFor(m => m.BasicInfo.AdditionalApplicants[i].AddressInformation.Province, "", new { @class = "text-danger" })
                                                     </div>
                                                 </div>
@@ -1633,7 +1634,7 @@
                 </div>
             </div>
         }
-        if(Model.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation != null)
+        if (Model.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation != null)
         {
             <div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="additional-prev-address-modal-@(i + 1)">
                 <div class="modal-dialog" role="document">
@@ -1644,7 +1645,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="dealnet-credit-check-section dealnet-modal-section">
-                                @using(Html.BeginForm(null, null, FormMethod.Post, new { id = "additional-prev-address-section-modal-" + (i + 1) }))
+                                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "additional-prev-address-section-modal-" + (i + 1) }))
                                 {
                                     <div class="row">
                                         <div class="col-md-9">
@@ -1688,8 +1689,8 @@
                                                 <div class="dealnet-field-holder">
                                                     <div class="control-group">
                                                         @Html.DropDownListFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.Province,
-                                                                          (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
-                                                                          new { @class = "form-control dealnet-input", id = "additional-previous-administrative_area_level_1-" + (i + 1) })
+                                                                               (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
+                                                                               new { @class = "form-control dealnet-input", id = "additional-previous-administrative_area_level_1-" + (i + 1) })
                                                         @Html.ValidationMessageFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.Province, "", new { @class = "text-danger" })
                                                     </div>
                                                 </div>
@@ -1732,7 +1733,7 @@
             </div>
             <div class="modal-body">
                 <div class="dealnet-credit-check-section dealnet-modal-section">
-                    @using(Html.BeginForm(null, null, FormMethod.Post, new { id = "edit-add-contract-section-modal" }))
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "edit-add-contract-section-modal" }))
                     {
                         <div class="form-group">
                             <div class="row">
@@ -1755,7 +1756,7 @@
         </div>
     </div>
 </div>
-@if(Model.BasicInfo.HomeOwner.PreviousAddressInformation != null)
+@if (Model.BasicInfo.HomeOwner.PreviousAddressInformation != null)
 {
     <div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="prev-address-modal">
         <div class="modal-dialog" role="document">
@@ -1766,7 +1767,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="dealnet-credit-check-section dealnet-modal-section">
-                        @using(Html.BeginForm(null, null, FormMethod.Post, new { id = "prev-address-section-modal" }))
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "prev-address-section-modal" }))
                         {
                             <div class="row">
                                 <div class="col-md-9">
@@ -1810,8 +1811,8 @@
                                         <div class="dealnet-field-holder">
                                             <div class="control-group">
                                                 @Html.DropDownListFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.Province,
-                                                                  (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
-                                                                  new { @class = "form-control dealnet-input", id = "previous_administrative_area_level_1" })
+                                                                       (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
+                                                                       new { @class = "form-control dealnet-input", id = "previous_administrative_area_level_1" })
                                                 @Html.ValidationMessageFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.Province, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -1897,7 +1898,7 @@
         });
     </script>
 
-    @if(Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
+    @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
     {
         <script>
             var recalculateTotalCash = true;

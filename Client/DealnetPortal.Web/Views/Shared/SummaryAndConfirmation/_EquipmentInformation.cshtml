@@ -64,7 +64,7 @@
                                 </div>
                             </div>
                         </div>
-                        @if(Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
+                        @if(Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication && !Model.IsClarityDealer)
                         {
                             <div class="form-group">
                                 <div class="row">

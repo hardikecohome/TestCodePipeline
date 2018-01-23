@@ -192,6 +192,7 @@ namespace DealnetPortal.Web.Models
         [Display(ResourceType = typeof(Resources.Resources), Name = "ContractNotes")]
         public string Notes { get; set; }
         public bool RateCardValid { get; set; }
+        public bool IsClarityDealer { get; set; }
     }
 
     public sealed class EligibleAgeAttribute : ValidationAttribute

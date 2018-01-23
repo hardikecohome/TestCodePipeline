@@ -13,11 +13,11 @@
     }
 }
 
-@using (Html.BeginForm("EquipmentInformation", "NewRental", null, FormMethod.Post, new {id = "equipment-form", onkeydown = "return event.keyCode!=13"}))
+@using (Html.BeginForm("EquipmentInformation", "NewRental", null, FormMethod.Post, new { id = "equipment-form", onkeydown = "return event.keyCode!=13" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.ContractId)
-    @Html.HiddenFor(model => model.FullUpdate, new {Value = true})
+    @Html.HiddenFor(model => model.FullUpdate, new { Value = true })
     @Html.HiddenFor(x => x.CreditAmount)
     @Html.HiddenFor(x => x.IsOnlyLoanAvailable)
     @Html.HiddenFor(x => x.AmortizationTerm)
@@ -40,7 +40,7 @@
                         @foreach (var comment in Model.CustomerComments)
                         {
                             @comment
-                            <br/>
+                            <br />
                         }
                     </div>
                 </div>
@@ -50,12 +50,12 @@
             @(Model.DealerTier.Name == "ClarityTier" ? Html.Partial("EquipmentInformation/_ClarityProgram", Model) : Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
 
             @Html.Partial("EquipmentInformation/_AdditionalContractInformation", Model)
-            @Html.ValidationMessageFor(m => m.NewEquipment, "", new {@class = "text-danger", id = "new-equipment-validation-message"})
+            @Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })
             <div class="row">
                 <div class="col-md-12">
                     <div class="rate-card-button-proceed">
                         <span class="btn-proceed-inline-hold btn-form-common" data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Resources.YouShouldFillAllMandatoryFields">
-                            <input type="submit" value="@Resources.SaveAndProceed" class="btn dealnet-button dealnet-success-button" id="submit"/>
+                            <input type="submit" value="@Resources.SaveAndProceed" class="btn dealnet-button dealnet-success-button" id="submit" />
                         </span>
                     </div>
                 </div>
@@ -64,39 +64,41 @@
     </div>
 }
 
+@Html.Partial("EquipmentInformation/_EquipmentTemplates", Model)
+
 @if (Model.DealerTier.Name == "ClarityTier")
 {
-@section pageScripts {
-    @Scripts.Render("~/bundles/equipment-info-clarity")
+    @section pageScripts {
+        @Scripts.Render("~/bundles/equipment-info-clarity")
 
-    <script type="text/javascript">
+        <script type="text/javascript">
         var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
         var isCalculationValid = false;
         var customerFee = @ViewBag.AdminFee;
         var TotalAmtFinancedFor180amortTerm = @ViewBag.totalAmountFinancedFor180amortTerm;
-    </script>
+        </script>
 
-    <script type="text/javascript">
+        <script type="text/javascript">
         configInitialized.then(function() {
             module.require('newEquipment.clarity.index').init(@Model.ContractId,
                 @Html.Raw(Json.Encode(Model.DealerTier.RateCards)));
         });
-    </script>
-}
+        </script>
+    }
 }
 else
 {
-@section pageScripts {
-    @Scripts.Render("~/bundles/equipment-info-rentalLoan")
+    @section pageScripts {
+        @Scripts.Render("~/bundles/equipment-info-rentalLoan")
 
-    <script type="text/javascript">
+        <script type="text/javascript">
         var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
         var isCalculationValid = false;
         var customerFee = @ViewBag.AdminFee;
         var TotalAmtFinancedFor180amortTerm = @ViewBag.totalAmountFinancedFor180amortTerm;
-    </script>
+        </script>
 
-    <script type="text/javascript">
+        <script type="text/javascript">
         configInitialized.then(function() {
             module.require('newEquipment.rentalLoan.index').init(@Model.ContractId,
                 @Html.Raw(Json.Encode(Model.DealerTier.RateCards)),
@@ -105,6 +107,6 @@ else
                 ? true
                 : false);
         });
-    </script>
-}
+        </script>
+    }
 }
