@@ -66,6 +66,7 @@
         $('#total-monthly-payment').val($('#totalMonthlyCostTax').text().substring(1));
         $('#CustomerRate').val(state['clarity'].CustomerRate);
         $('#AdminFee').val(state['clarity'].AdminFee);
+        $('#SelectedRateCardId').val(state['clarity'].Id);
 
         $(settings.formId).submit();
     }

@@ -173,7 +173,7 @@ else
         <div class="form-group">
             @Html.LabelFor(m => m.HomeOwner.AddressInformation.Street)
             <div class="control-group">
-                @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.Street, new { @class = "form-control dealnet-input", id = "street", placeholder = Resources.StreetPlaceholder })
+                @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.Street, new { @class = "form-control dealnet-input", autocomplete = "new-password", id = "street", placeholder = Resources.StreetPlaceholder })
                 @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Street, "", new { @class = "text-danger" })
             </div>
         </div>

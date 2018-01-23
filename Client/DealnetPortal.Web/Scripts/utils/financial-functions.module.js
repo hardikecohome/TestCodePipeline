@@ -4,12 +4,23 @@
             return data.equipmentSum * data.tax / 100;
         };
 
+        var clarityTax = function(data) {
+            return (data.packagesSum + data.equipmentSum) * data.tax / 100;
+        };
+
+        var totalClarityPrice = function (data) {
+            var t = clarityTax(data);
+            var equipmentSum = data.equipmentSum;
+            var packagesSum = data.packagesSum;
+
+            return packagesSum + equipmentSum + t;
+        };
+
         var totalRentalPrice = function (data) {
 			var t = tax(data);
 			var equipmentSum = data.equipmentSum;
-            var packagesSum = data.packagesSum;
 
-			return packagesSum + equipmentSum + t;
+			return equipmentSum + t;
 		};
 
 
@@ -82,34 +93,34 @@
             return borrowingCost;
         };
 
-        var totalRentalAmountFinanced = function(data) {
-            var tPrice = totalRentalPrice(data);
+        var totalClarityAmountFinanced = function(data) {
+            var tPrice = totalClarityPrice(data);
             var adminFee = data.AdminFee;
             var downPayment = data.downPayment;
 
             return tPrice/* + adminFee*/ - downPayment;
         }
 
-        var rentalMonthlyPayment = function(data) {
-            var tAmountFinanced = totalRentalAmountFinanced(data);
+        var clarityMonthlyPayment = function(data) {
+            var tAmountFinanced = totalClarityAmountFinanced(data);
             var amortizationTerm = data.AmortizationTerm;
             var customerRate = data.CustomerRate;
 
             return (Math.round((tAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0))*100)/100);
         };
 
-        var totalRentalMonthlyPayments = function(data) {
-            var mPayment = rentalMonthlyPayment(data);
+        var totalClarityMonthlyPayments = function(data) {
+            var mPayment = totalClarityAmountFinanced(data);
             var loanTerm = data.LoanTerm;
 
             return mPayment * loanTerm;
         };
 
-        var rentalResidualBalance = function(data) {
+        var clarityResidualBalance = function(data) {
             var amortizationTerm = data.AmortizationTerm;
             var loanTerm = data.LoanTerm;
             var customerRate = data.CustomerRate;
-            var mPayment = rentalMonthlyPayment(data);
+            var mPayment = totalClarityAmountFinanced(data);
 
             var rbalance = 0;
             if (loanTerm !== amortizationTerm) {
@@ -120,16 +131,16 @@
             return rbalance;
         };
 
-        var totalRentalObligation = function(data) {
-            var tMonthlyPayments = totalRentalMonthlyPayments(data);
-            var rBalance = rentalResidualBalance(data);
+        var totalClarityObligation = function(data) {
+            var tMonthlyPayments = totalClarityMonthlyPayments(data);
+            var rBalance = clarityResidualBalance(data);
             var adminFee = data.AdminFee;
             return tMonthlyPayments + rBalance + adminFee;
         };
 
-        var totalRentalBorrowingCost = function(data) {
-            var tObligation = totalRentalObligation(data);
-            var tAmountFinanced = totalRentalAmountFinanced(data);
+        var totalClarityBorrowingCost = function(data) {
+            var tObligation = totalClarityObligation(data);
+            var tAmountFinanced = totalClarityAmountFinanced(data);
             var adminFee = data.AdminFee;
             var borrowingCost = tObligation - tAmountFinanced - adminFee;
             if (borrowingCost < 0)
@@ -137,29 +148,33 @@
             return borrowingCost;
         };
 
-        var rentalYourCost = function (data) {
+        var clarityYourCost = function (data) {
             var yCost = data.DealerCost;
 
-            return yCost * totalRentalAmountFinanced(data) / 100;
+            return yCost * totalClarityAmountFinanced(data) / 100;
         }
+
+        var rentalTax = function(data) {
+            return data.equipmentSum * data.tax / 100;
+        };
 
         return {
             tax: tax,
 			totalPrice: totalPrice,
 			totalRentalPrice: totalRentalPrice,
-            totalRentalObligation: totalRentalObligation,
-            totalRentalBorrowingCost: totalRentalBorrowingCost,
+            totalRentalObligation: totalClarityObligation,
+            totalRentalBorrowingCost: totalClarityBorrowingCost,
             totalObligation: totalObligation,
             residualBalance: residualBalance,
-            rentalResidualBalance: rentalResidualBalance,
+            rentalResidualBalance: clarityResidualBalance,
             totalMonthlyPayments: totalMonthlyPayments,
             monthlyPayment: monthlyPayment,
-            totalRentalMonthlyPayments: totalRentalMonthlyPayments,
-            rentalMonthlyPayment: rentalMonthlyPayment,
+            totalRentalMonthlyPayments: totalClarityMonthlyPayments,
+            rentalMonthlyPayment: clarityMonthlyPayment,
             totalAmountFinanced: totalAmountFinanced,
-            totalRentalAmountFinanced: totalRentalAmountFinanced,
+            totalRentalAmountFinanced: totalClarityAmountFinanced,
             totalBorrowingCost: totalBorrowingCost,
             yourCost: yourCost,
-            rentalYourCost: rentalYourCost
+            rentalYourCost: clarityYourCost
         };
     });
