@@ -931,4 +931,43 @@
   <data name="IncomeVerification" xml:space="preserve">
     <value>Preuve de revenu</value>
   </data>
+  <data name="Address" xml:space="preserve">
+    <value>Adresse</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>Ville</value>
+  </data>
+  <data name="CostOfBorrowing" xml:space="preserve">
+    <value>Frais d’emprunt</value>
+  </data>
+  <data name="CustomerFirstName" xml:space="preserve">
+    <value>Client Prénom</value>
+  </data>
+  <data name="CustomerLastName" xml:space="preserve">
+    <value>Client Nom de famille</value>
+  </data>
+  <data name="DealerInvoiceAmount" xml:space="preserve">
+    <value>Montant de la facture du courtier</value>
+  </data>
+  <data name="DownPayment" xml:space="preserve">
+    <value>Acompte</value>
+  </data>
+  <data name="MonthlyPayment" xml:space="preserve">
+    <value>Paiement mensuel</value>
+  </data>
+  <data name="PaymentType" xml:space="preserve">
+    <value>Type de paiement</value>
+  </data>
+  <data name="PostalCode" xml:space="preserve">
+    <value>Code postal</value>
+  </data>
+  <data name="Province" xml:space="preserve">
+    <value>Province</value>
+  </data>
+  <data name="TotalAmountFinanced" xml:space="preserve">
+    <value>Total du montant financé</value>
+  </data>
+  <data name="TotalObligation" xml:space="preserve">
+    <value>Total de l’obligation</value>
+  </data>
 </root>
