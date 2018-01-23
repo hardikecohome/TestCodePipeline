@@ -202,7 +202,7 @@
     <value>Le nom d’un document ne peut être vide</value>
   </data>
   <data name="EcoHomeAbout1" xml:space="preserve">
-    <value>EcoHome Financial est une entreprise financière canadienne qui offre des produits de financement et des prêts à la mesure des besoins des consommateurs des marchés CVC et de rénovation résidentielle. Nous gérons l’ensemble de nos affaires à l’interne.</value>
+    <value>EcoHome Financement est une entreprise financière canadienne qui offre des produits de financement et des prêts à la mesure des besoins des consommateurs des marchés CVC et de rénovation résidentielle. Nous gérons l’ensemble de nos affaires à l’interne.</value>
   </data>
   <data name="EcoHomeAbout2" xml:space="preserve">
     <value>Nous collaborons avec les principaux distributeurs et fabricants afin d’offrir ce qu’il faut pour réussir dans l’environnement concurrentiel, grâce à des programmes de financement sans problèmes pour les courtiers et leurs clients.</value>
@@ -1807,7 +1807,7 @@
     <value>Ventes de porte-à-porte</value>
   </data>
   <data name="EcohomeMustBeListed" xml:space="preserve">
-    <value>Ecohome Financial Inc. doit être désignée comme assuré supplémentaire</value>
+    <value>Ecohome Financement Inc. doit être désignée comme assuré supplémentaire</value>
   </data>
   <data name="EmailExists" xml:space="preserve">
     <value>L’adresse de courriel que vous avez saisie est déjà enregistrée</value>
@@ -2717,5 +2717,8 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
   </data>
   <data name="DealerInitialIncorrectFormat" xml:space="preserve">
     <value>Le format de montant initial du courtier est incorrect</value>
+  </data>
+  <data name="Pre" xml:space="preserve">
+    <value>Pré</value>
   </data>
 </root>

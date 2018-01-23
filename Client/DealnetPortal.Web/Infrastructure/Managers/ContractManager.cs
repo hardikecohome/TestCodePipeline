@@ -324,7 +324,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 EquipmentInfo = summaryViewModel.EquipmentInfo,
                 ProvinceTaxRate = summaryViewModel.ProvinceTaxRate,
                 LoanCalculatorOutput = summaryViewModel.LoanCalculatorOutput,
-                Notes = summaryViewModel.Notes
+                Notes = summaryViewModel.Notes,
+                IsClarityDealer = summaryViewModel.IsClarityDealer
             };
 
             if(contractsResult.Item1.Comments != null)

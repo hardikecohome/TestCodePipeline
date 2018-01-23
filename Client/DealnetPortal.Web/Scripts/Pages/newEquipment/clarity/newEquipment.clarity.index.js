@@ -49,17 +49,6 @@
         $(settings.addEquipmentId).on('click', equipment.addEquipment);
         $(settings.addExistingEquipmentId).on('click', equipment.addExistingEquipment);
         $(settings.addInstallationPackageId).on('click', packages.addPackage);
-        $('#new-equipments .monthly-cost').each(function() {
-            $(this).rules('add',
-                {
-                    required: true,
-                    messages: {
-                        required: function(ele) {
-                            return translations.ThisFieldIsRequired;
-                        }
-                    }
-                });
-        });
     }
 
     function _submitForm (event) {

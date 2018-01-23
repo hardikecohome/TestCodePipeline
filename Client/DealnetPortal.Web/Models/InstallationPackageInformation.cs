@@ -13,7 +13,7 @@ namespace DealnetPortal.Web.Models
         public string Description { get; set; }
 
         [CustomRequired]
-        [RegularExpression(@"^[1-9]\d{0,6}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "MonthlyCostIncorrectFormat")]
+        [RegularExpression(@"^[1-9]\d{0,5}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "MonthlyCostIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "MonthlyCostOfOwnership")]
         public decimal? MonthlyCost { get; set; }
     }
