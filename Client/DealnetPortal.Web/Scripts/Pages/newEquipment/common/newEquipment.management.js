@@ -7,7 +7,7 @@
         recalculateValuesAndRender: {},
         recalculateAndRenderRentalValues: {},
         recalculateClarityValuesAndRender: {}
-}
+    }
 
     var resetPlaceholder = require('resetPlaceholder');
 
@@ -79,7 +79,7 @@
         $('#new-equipments').append(newTemplate);
         resetFormValidator("#equipment-form");
 
-        $('#new-equipment-' + id).find('.monthly-cost').each(function() {
+        $('#new-equipments').find('.monthly-cost').each(function() {
             $(this).rules('add',
                 {
                     required: true,

@@ -3,6 +3,10 @@
     var conversion = require('newEquipment.conversion');
     var resetPlaceholder = require('resetPlaceholder');
 
+    var settings = {
+        recalculateClarityValuesAndRender: {}
+    }
+
     /**
      * Add new equipment ot list of new equipments
      * Takes template of equipment replace razor generated ids, names with new id index
@@ -48,7 +52,7 @@
             $('.add-package-link').removeClass("hidden");
         });
 
-        //ewTemplate.find('.package-monthly-cost').on('change', updateMonthlyCost);
+        newTemplate.find('.package-monthly-cost').on('change', updateMonthlyCost);
 
         customizeSelect();
         toggleClearInputIcon($(newTemplate).find('textarea, input'));
@@ -59,15 +63,32 @@
         resetFormValidator("#equipment-form");
     };
 
-    var init = function() {
+    var init = function(params) {
+        if (params.isClarity) {
+            settings.recalculateClarityValuesAndRender = params.recalculateClarityValuesAndRender;
+        }
+
         var packages = $('div#installation-packages').find('[id^=package-]').length;
         for (var j = 0;j < packages;j++) {
             _initPackage(j);
         }
     }
+    /**
+     * update monthly cost of equipment in our global state object
+     * on cost changed we recalulate global cost
+     * method uses only for Rental/RentalHwt agreement type
+     * @returns {void} 
+     */
+    function updateMonthlyCost () {
+        var mvcId = $(this).attr("id");
+        var id = mvcId.split('__MonthlyCost')[0].substr(mvcId.split('__MonthlyCost')[0].lastIndexOf('_') + 1);
+        state.packages[id].monthlyCost = Globalize.parseNumber($(this).val());
+        settings.recalculateClarityValuesAndRender();
+    }
 
     function _initPackage(i) {
-        state.packages[i] = { id: i.toString() };
+        var monthlyCost = Globalize.parseNumber($('#InstallationPackages_' + i + '__MonthlyCost').val());
+        state.packages[i] = { id: i.toString(), monthlyCost: monthlyCost };
         $('#remove-package-' + i).on('click', function() {
             var options = {
                 name: 'packages',

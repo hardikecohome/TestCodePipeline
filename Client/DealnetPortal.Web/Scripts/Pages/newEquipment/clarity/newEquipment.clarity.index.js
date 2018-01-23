@@ -31,7 +31,7 @@
 
         setters.init({ isClarity: true, recalculateClarityValuesAndRender: calculate });
         equipment.init({isClarity: true, recalculateClarityValuesAndRender : calculate});
-        packages.init();
+        packages.init({isClarity: true, recalculateClarityValuesAndRender : calculate});
 
         _initHandlers();
         calrityUi.init();
