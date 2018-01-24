@@ -970,4 +970,10 @@
   <data name="TotalObligation" xml:space="preserve">
     <value>Total de l’obligation</value>
   </data>
+  <data name="_CVCConfirmed" xml:space="preserve">
+    <value>CVC Confirmé</value>
+  </data>
+  <data name="_CVCWaitingtoFund" xml:space="preserve">
+    <value>CVC Attendant à fonds</value>
+  </data>
 </root>
