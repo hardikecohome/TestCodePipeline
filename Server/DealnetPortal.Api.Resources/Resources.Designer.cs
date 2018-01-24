@@ -646,6 +646,24 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CVC Confirmed.
+        /// </summary>
+        public static string _CVCConfirmed {
+            get {
+                return ResourceManager.GetString("_CVCConfirmed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CVC Waiting to Fund.
+        /// </summary>
+        public static string _CVCWaitingtoFund {
+            get {
+                return ResourceManager.GetString("_CVCWaitingtoFund", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Declined Blue Chip.
         /// </summary>
         public static string _DeclinedBlueChip {
