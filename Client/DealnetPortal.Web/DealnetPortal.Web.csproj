@@ -843,6 +843,7 @@
     <Content Include="Scripts\pages\newEquipment\common\newEquipment.index.js" />
     <Content Include="Scripts\pages\newEquipment\clarity\newEquipment.clarity.ui.js" />
     <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.index.js" />
+    <Content Include="Scripts\utils\financial-functions.clarity.module.js" />
     <Content Include="Scripts\vendor\knockout.validation.js" />
     <Content Include="Scripts\pages\basicInfo\address-autocomplete.js" />
     <Content Include="Scripts\pages\calculator\calculator.validation.js" />
