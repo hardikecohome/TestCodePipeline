@@ -635,7 +635,7 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             PaymentSummary paymentSummary = null;
 
-            var contract = _dbContext.Contracts.Find(contractId);
+            var contract = GetContract(contractId);
             if (contract != null)
             {
                 paymentSummary = GetContractPaymentsSummary(contract);                
