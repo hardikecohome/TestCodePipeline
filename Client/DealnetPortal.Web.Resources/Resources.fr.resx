@@ -2521,7 +2521,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Annuel</value>
   </data>
   <data name="AnnualSalaryIncome" xml:space="preserve">
-    <value>Salaire/revenu annuel</value>
+    <value>Salaire annuel</value>
   </data>
   <data name="ApplicantsShouldBe18" xml:space="preserve">
     <value>Les demandeurs devraient être âgés d’au moins 18 ans.</value>
@@ -2530,7 +2530,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Meilleure façon de communiquer avec vous</value>
   </data>
   <data name="BorrowerEmploymentInformation" xml:space="preserve">
-    <value>Renseignements liés à l’emploi de l’emprunteur</value>
+    <value>L'information sur l'emploi de l'emprunteur</value>
   </data>
   <data name="ByidCard" xml:space="preserve">
     <value>Carte BYID</value>
@@ -2554,31 +2554,31 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Certificat du statut d’Indien</value>
   </data>
   <data name="CompanyAddress" xml:space="preserve">
-    <value>Adresse de la société</value>
+    <value>Adresse de la companie</value>
   </data>
   <data name="CompanyName" xml:space="preserve">
-    <value>Nom de la société</value>
+    <value>Nom de la companie</value>
   </data>
   <data name="CompanyNameIncorrectFormat" xml:space="preserve">
-    <value>Le format du nom de la société est incorrect</value>
+    <value>Le format du nom de la companie est incorrect</value>
   </data>
   <data name="CompanyPhone" xml:space="preserve">
     <value>Téléphone de la société</value>
   </data>
   <data name="CompanyPhoneIncorrectFormat" xml:space="preserve">
-    <value>Le format du numéro de téléphone de la société est incorrect</value>
+    <value>Le format du numéro de téléphone de la companie est incorrect</value>
   </data>
   <data name="CompanyPhoneMustBeLong" xml:space="preserve">
-    <value>Le numéro de téléphone de la société doit compter 10 chiffres</value>
+    <value>Le numéro de téléphone de la companie doit compter 10 chiffres</value>
   </data>
   <data name="CompanyPhoneNumber" xml:space="preserve">
-    <value>Numéro de téléphone de la société</value>
+    <value>Numéro de téléphone de la companie</value>
   </data>
   <data name="ContractNumber" xml:space="preserve">
     <value>Numéro de contrat</value>
   </data>
   <data name="ContractSignedSuccessfullyCopiesSent" xml:space="preserve">
-    <value>Le contrat a été signé avec succès grâce aux signatures numériques; une copie du contrat signé a été envoyée à tous les signataires</value>
+    <value>Le contrat a été signé avec succès grâce aux signatures électronique; une copie du contrat signé a été envoyée à tous les signataires</value>
   </data>
   <data name="CreditDecision" xml:space="preserve">
     <value>Décision liée au crédit</value>
@@ -2587,13 +2587,13 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Documents liés au crédit</value>
   </data>
   <data name="DealerCancelledEsign" xml:space="preserve">
-    <value>Le courtier a annulé le processus lié à la signature électronique</value>
+    <value>L'entrepreneur a annulé le processus lié à la signature électronique</value>
   </data>
   <data name="DeclinedToSignContract" xml:space="preserve">
     <value>a refusé de signer le contrat</value>
   </data>
   <data name="DigitalInvitesWillBeSentToEmails" xml:space="preserve">
-    <value>Les invitations pour la signature numérique du contrat seront envoyées aux adresses de courriel suivantes</value>
+    <value>Les invitations pour la signature électronique du contrat seront envoyées aux adresses de courriel suivantes</value>
   </data>
   <data name="DriverLicense" xml:space="preserve">
     <value>Permis de conduire</value>
@@ -2605,7 +2605,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Renseignements sur l’emploi</value>
   </data>
   <data name="EmploymentStatus" xml:space="preserve">
-    <value>Situation d’emploi</value>
+    <value>Statut d'emploi</value>
   </data>
   <data name="FullTime" xml:space="preserve">
     <value>Temps plein</value>
@@ -2662,13 +2662,13 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Veuillez fournir une autre adresse de courriel</value>
   </data>
   <data name="PleaseProvideDetails" xml:space="preserve">
-    <value>Veuillez fournir des précisions</value>
+    <value>Veuillez fournir les détails</value>
   </data>
   <data name="PleaseProvideShortDescription" xml:space="preserve">
     <value>Veuillez fournir une brève description </value>
   </data>
   <data name="PreferredContactPerson" xml:space="preserve">
-    <value>Personne-ressource privilégiée</value>
+    <value>Contact principal</value>
   </data>
   <data name="RatesApproved" xml:space="preserve">
     <value>Taux approuvés</value>
@@ -2677,13 +2677,13 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>À la retraite</value>
   </data>
   <data name="SalaryIncome" xml:space="preserve">
-    <value>Salaire/Revenu</value>
+    <value>Salaire</value>
   </data>
   <data name="SameEmail" xml:space="preserve">
     <value>Même adresse de courriel</value>
   </data>
   <data name="SelfEmployed" xml:space="preserve">
-    <value>À son propre compte</value>
+    <value>travailleur autonome</value>
   </data>
   <data name="SuccessfullyUploadedToAspire" xml:space="preserve">
     <value>Contrat téléversé avec succès à EcoHome</value>
@@ -2692,7 +2692,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Bureau</value>
   </data>
   <data name="ToProceedMustBe18" xml:space="preserve">
-    <value>Afin de poursuivre, vous devrez être âgé d’au moins 18 ans. Veuillez communiquer directement avec le courtier.</value>
+    <value>Afin de poursuivre, vous devrez être âgé d’au moins 18 ans. Veuillez communiquer directement avec l'entrepreneur.</value>
   </data>
   <data name="TypeOfEmployment" xml:space="preserve">
     <value>Type d’emplois</value>
