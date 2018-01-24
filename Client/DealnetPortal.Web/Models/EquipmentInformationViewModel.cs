@@ -140,6 +140,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public bool? RateCardValid { get; set; }
         public bool IsOnlyLoanAvailable { get; set; }
+        public bool IsOldClarityDeal { get; set; } = false;
     }
 
     public class EquipmentInformationViewModel

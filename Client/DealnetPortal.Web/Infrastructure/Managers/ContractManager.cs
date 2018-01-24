@@ -132,7 +132,6 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 equipmentInfo.ProvinceTaxRate = rate; 
             }
             equipmentInfo.IsOnlyLoanAvailable = mainAddressProvinceCode == ContractProvince.QC.ToString();
-
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
             equipmentInfo.IsAllInfoCompleted = result.Item1.PaymentInfo != null && result.Item1.PrimaryCustomer?.Phones != null && result.Item1.PrimaryCustomer.Phones.Any();
             equipmentInfo.IsApplicantsInfoEditAvailable = result.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;
@@ -140,6 +139,9 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
             var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
             equipmentInfo.DealerTier = Mapper.Map<TierViewModel>(dealerTier) ?? new TierViewModel() { RateCards = new List<RateCardViewModel>() };
+            equipmentInfo.IsOldClarityDeal = result.Item1.Equipment?.ValueOfDeal != null &&
+                                             equipmentInfo.DealerTier.RateCards.All(x => x.Id != result.Item1.Equipment?.RateCardId) &&
+                                             equipmentInfo.DealerTier.Name == "ClarityTier";
 
             if(result.Item1.Equipment == null)
             {
@@ -225,8 +227,12 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                                                    contractResult.Equipment.RateCardId.Value == 0 ||
                                                    dealerTier.RateCards.Any(
                                                            x => x.Id == contractResult.Equipment.RateCardId.Value);
-
-            summaryAndConfirmation.IsClarityDealer = dealerTier.Name == "ClarityTier";
+            
+            var isOldClarityDeal = contractResult.Equipment?.ValueOfDeal != null &&
+                        dealerTier.RateCards.All(x => x.Id != contractResult.Equipment?.RateCardId) &&
+                        dealerTier.Name == "ClarityTier";
+                                            
+            summaryAndConfirmation.IsClarityDealer = !(dealerTier.Name == "ClarityTier" && isOldClarityDeal);
 
             return summaryAndConfirmation;
         }
