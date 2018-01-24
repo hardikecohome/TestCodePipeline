@@ -1723,16 +1723,18 @@
                                 </div>
                                 <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
                                     <div class="inline-children">
-                                        @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
+                                        <text>$</text>
+                                        @(Math.Round(Model.PaymentSummary.MonthlyPayment ?? 0, 2))
+                                        @*@if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
                                         {
                                             <text>$</text>
-                                            @(Math.Round(Model.LoanCalculatorOutput.TotalMonthlyPayment, 2))
+                                            @(Math.Round(Model.PaymentSummary.MonthlyPayment ?? 0, 2))
                                         }
                                         else
                                         {
                                             <text>$</text>
                                             @Html.TextBoxFor(m => m.EquipmentInfo.TotalMonthlyPayment, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                                        }
+                                        }*@
                                     </div>
                                 </div>
                             </div>
@@ -1745,7 +1747,7 @@
                                         @(Model.ProvinceTaxRate?.Description ?? @Resources.Tax)
                                     </div>
                                     <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                                        $@(Math.Round((Model.EquipmentInfo.TotalMonthlyPayment ?? 0) * (Model.ProvinceTaxRate?.Rate ?? 0) / 100, 2))
+                                        $@(Math.Round(Model.PaymentSummary.Hst ?? 0, 2))
                                     </div>
                                 </div>
                             </div>
@@ -1755,7 +1757,7 @@
                                         @Resources.TotalMonthlyPaymentWithTaxes
                                     </div>
                                     <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                                        $@(Math.Round((Model.EquipmentInfo.TotalMonthlyPayment ?? 0) + (Model.EquipmentInfo.TotalMonthlyPayment ?? 0) * (Model.ProvinceTaxRate?.Rate ?? 0) / 100, 2))
+                                        $@(Math.Round(Model.PaymentSummary.TotalMonthlyPayment ?? 0, 2))
                                     </div>
                                 </div>
                             </div>
