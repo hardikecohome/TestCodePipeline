@@ -72,7 +72,7 @@
             var totalAmountFinanced = totalClarityAmountFinanced(data);
             var downPayment = data.downPayment;
 
-            return totalAmountFinanced/* + adminFee*/ - downPayment;
+            return totalAmountFinanced/* - adminFee*/ + downPayment;
         }
 
         return {

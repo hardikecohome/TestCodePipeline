@@ -148,6 +148,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public AgreementType AgreementType { get; set; }
 
         public List<NewEquipmentInformation> NewEquipment { get; set; }
+        public List<InstallationPackageInformation> InstallationPackages { get; set; }
 
         [RegularExpression(@"^[1-9]\d{0,11}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "TotalMonthlyPaymentIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "TotalMonthlyPayment")]

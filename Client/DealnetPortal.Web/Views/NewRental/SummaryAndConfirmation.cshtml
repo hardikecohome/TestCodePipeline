@@ -1902,6 +1902,7 @@
     {
         <script>
             var recalculateTotalCash = true;
+            var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
         </script>
     }
     else

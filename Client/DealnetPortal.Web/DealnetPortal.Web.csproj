@@ -1194,6 +1194,7 @@
     <Content Include="Views\NewRental\EquipmentInformation\EquipmentInformationLayout.cshtml" />
     <Content Include="Views\NewRental\EquipmentInformation\EquipmentInformation.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_LoanRentalPrograms.cshtml" />
+    <Content Include="Views\Shared\SummaryAndConfirmation\_ClarityDetailedPaymentInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

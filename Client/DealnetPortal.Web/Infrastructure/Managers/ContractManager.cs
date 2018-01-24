@@ -876,6 +876,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             summary.BasicInfo = new BasicInfoViewModel {ContractId = contractId};
             await MapBasicInfo(summary.BasicInfo, contract);
             summary.EquipmentInfo = Mapper.Map<EquipmentInformationViewModel>(contract.Equipment);
+
             if(summary.EquipmentInfo != null)
             {
                 summary.EquipmentInfo.CreditAmount = contract.Details?.CreditAmount;
