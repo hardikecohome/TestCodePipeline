@@ -484,7 +484,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     return contract;
                 }
             }
-            return null;/
+            return null;
         }
 
         public Customer UpdateCustomer(Customer customer)
