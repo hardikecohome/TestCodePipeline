@@ -89,7 +89,7 @@
                         }
                     }
                 });
-        }); 
+        });
 
     };
 
@@ -155,7 +155,7 @@
      * @param {number} i - new id for new equipment 
      * @returns {void} 
      */
-    function initEquipment (i, isClarity) {
+    function initEquipment (i) {
         var cost = $('#NewEquipment_' + i + '__Cost').length ? Globalize.parseNumber($('#NewEquipment_' + i + '__Cost').val()) : 0;
         if (state.equipments[i] === undefined) {
             state.equipments[i] = { id: i.toString(), cost: cost };
@@ -171,20 +171,6 @@
 
         $('#new-equipment-' + i).find('.equipment-cost').on('change', updateCost);
         $('#new-equipment-' + i).find('.monthly-cost').on('change', updateMonthlyCost);
-
-        if (isClarity) {
-            $('#new-equipment-' + i).find('.monthly-cost').each(function() {
-                $(this).rules('add',
-                    {
-                        required: true,
-                        messages: {
-                            required: function(ele) {
-                                return translations.ThisFieldIsRequired;
-                            }
-                        }
-                    });
-            });
-        }
 
         customizeSelect();
         //if not first equipment add handler (first equipment should always be visible)
@@ -287,11 +273,10 @@
         }
     }
 
-    function _initNewEquipment (isClarity) {
+    function _initNewEquipment() {
         var equipments = $('div#new-equipments').find('[id^=new-equipment-]').length;
         for (var i = 0;i < equipments;i++) {
             initEquipment(i);
-
         }
 
         if (equipments < 1) {
@@ -309,7 +294,7 @@
         }
 
         _initExistingEquipment();
-        _initNewEquipment(params.isClarity);
+        _initNewEquipment();
     }
 
     return {

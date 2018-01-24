@@ -48,7 +48,7 @@
                 equipmentRemovePattern: 'remove-package-'
             };
             conversion.removeItem.call(this, options);
-
+            settings.recalculateClarityValuesAndRender();
             $('.add-package-link').removeClass("hidden");
         });
 
@@ -97,7 +97,7 @@
                 equipmentRemovePattern: 'remove-package-'
             };
             conversion.removeItem.call(this, options);
-
+            settings.recalculateClarityValuesAndRender();
             $('.add-package-link').removeClass("hidden");
         });
 

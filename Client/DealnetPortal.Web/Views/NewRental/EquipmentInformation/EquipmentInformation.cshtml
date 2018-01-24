@@ -59,7 +59,7 @@
             }
 
 
-            @(Model.DealerTier.Name == "ClarityTier" ? Html.Partial("EquipmentInformation/_ClarityProgram", Model) : Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
+            @((Model.DealerTier.Name == "ClarityTier" && !Model.IsOldClarityDeal) ? Html.Partial("EquipmentInformation/_ClarityProgram", Model) : Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
 
             @Html.Partial("EquipmentInformation/_AdditionalContractInformation", Model)
             @Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })
@@ -78,7 +78,7 @@
 
 @Html.Partial("EquipmentInformation/_EquipmentTemplates", Model)
 
-@if (Model.DealerTier.Name == "ClarityTier")
+@if (Model.DealerTier.Name == "ClarityTier" && !Model.IsOldClarityDeal)
 {
     @section pageScripts {
         @Scripts.Render("~/bundles/equipment-info-clarity")
