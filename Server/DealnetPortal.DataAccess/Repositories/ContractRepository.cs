@@ -957,7 +957,7 @@ namespace DealnetPortal.DataAccess.Repositories
             }
 
             var paymentSummary = GetContractPaymentsSummary(contract);
-            dbEquipment.ValueOfDeal = (double?) paymentSummary.TotalAllMonthlyPayment;            
+            dbEquipment.ValueOfDeal = (double?) paymentSummary.TotalAmountFinanced;            
 
             return dbEquipment;
         }
@@ -976,54 +976,46 @@ namespace DealnetPortal.DataAccess.Repositories
 
                 if (contract.Equipment.AgreementType == AgreementType.LoanApplication)
                 {
+                    //for loan
                     var priceOfEquipment = 0.0;
                     if (contract.Dealer?.Tier?.Name == _config.GetSetting(WebConfigKeys.CLARITY_TIER_NAME))
                     {
+                        //for Clarity program we have different logic
                         priceOfEquipment = (double) (contract.Equipment?.NewEquipment?.Where(ne => ne.IsDeleted != true)
-                                          .Sum(x => x.MonthlyCost) ?? 0.0m);
-                        var packages = (double)(contract.Equipment?.InstallationPackages?.Sum(x => x.MonthlyCost) ?? 0.0m);
-                        priceOfEquipment += packages;
-
-                        paymentSummary.MonthlyPayment = (decimal)priceOfEquipment;
-                        paymentSummary.TotalMonthlyPayment = (decimal) (priceOfEquipment +
-                                                                        priceOfEquipment * ((rate?.Rate ?? 0.0) / 100));
-
-                        if (contract.Equipment?.CustomerRate.HasValue == true)
-                        {
-                            var customerRate = (contract.Equipment?.CustomerRate ?? 0) / 100 / 12;
-                            paymentSummary.TotalAllMonthlyPayment =
-                                (decimal) ((1.0 - Math.Pow(1 + customerRate,
-                                                - (contract.Equipment?.AmortizationTerm ?? 0))) /
-                                           customerRate);
-                        }
-                        paymentSummary.TotalAllMonthlyPayment *= paymentSummary.TotalMonthlyPayment;
+                                                         .Sum(x => x.MonthlyCost) ?? 0.0m);
+                        var packages =
+                            (double) (contract.Equipment?.InstallationPackages?.Sum(x => x.MonthlyCost) ?? 0.0m);
+                        priceOfEquipment += packages;                        
                     }
                     else
                     {
                         priceOfEquipment = (double?)contract.Equipment?.NewEquipment?.Where(ne => ne.IsDeleted != true)
                                                .Sum(x => x.Cost) ?? 0;
-                        var loanCalculatorInput = new LoanCalculator.Input
-                        {
-                            TaxRate = 0,
-                            LoanTerm = contract.Equipment?.LoanTerm ?? 0,
-                            AmortizationTerm = contract.Equipment?.AmortizationTerm ?? 0,
-                            PriceOfEquipment = priceOfEquipment,
-                            AdminFee = contract.Equipment?.AdminFee ?? 0,
-                            DownPayment = contract.Equipment?.DownPayment ?? 0,
-                            CustomerRate = contract.Equipment?.CustomerRate ?? 0
-                        };
-                        var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
-                        paymentSummary.Hst = (decimal)loanCalculatorOutput.Hst;
-                        paymentSummary.TotalMonthlyPayment = (decimal)loanCalculatorOutput.TotalMonthlyPayment;
-                        paymentSummary.MonthlyPayment = (decimal)loanCalculatorOutput.TotalMonthlyPayment;
-                        paymentSummary.TotalAllMonthlyPayment = (decimal)loanCalculatorOutput.TotalAllMonthlyPayments;
-
-                        paymentSummary.LoanDetails = loanCalculatorOutput;
                     }
-                   
+
+                    var loanCalculatorInput = new LoanCalculator.Input
+                    {
+                        TaxRate = rate?.Rate ?? 0,
+                        LoanTerm = contract.Equipment?.LoanTerm ?? 0,
+                        AmortizationTerm = contract.Equipment?.AmortizationTerm ?? 0,
+                        PriceOfEquipment = priceOfEquipment,
+                        AdminFee = contract.Equipment?.AdminFee ?? 0,
+                        DownPayment = contract.Equipment?.DownPayment ?? 0,
+                        CustomerRate = contract.Equipment?.CustomerRate ?? 0,
+                        IsClarity = contract.Dealer?.Tier?.Name == _config.GetSetting(WebConfigKeys.CLARITY_TIER_NAME)
+                    };
+                    var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
+                    paymentSummary.LoanDetails = loanCalculatorOutput;
+
+                    paymentSummary.Hst = (decimal)loanCalculatorOutput.Hst;
+                    paymentSummary.TotalMonthlyPayment = (decimal)loanCalculatorOutput.TotalMonthlyPayment;
+                    paymentSummary.MonthlyPayment = (decimal)loanCalculatorOutput.TotalMonthlyPayment;
+                    paymentSummary.TotalAllMonthlyPayment = (decimal)loanCalculatorOutput.TotalAllMonthlyPayments;
+                    paymentSummary.TotalAmountFinanced = (decimal)loanCalculatorOutput.TotalAmountFinanced;                    
                 }
                 else
                 {
+                    //for rental!
                     paymentSummary.MonthlyPayment = contract.Equipment?.TotalMonthlyPayment;
                     paymentSummary.Hst =
                         (contract.Equipment?.TotalMonthlyPayment ?? 0) * (((decimal?)rate?.Rate ?? 0.0m) / 100);
@@ -1032,6 +1024,7 @@ namespace DealnetPortal.DataAccess.Repositories
                                                   (((decimal?)rate?.Rate ?? 0.0m) / 100);
                     paymentSummary.TotalAllMonthlyPayment = paymentSummary.TotalMonthlyPayment *
                                                             (contract.Equipment.RequestedTerm ?? 0);
+                    paymentSummary.TotalAmountFinanced = paymentSummary.TotalAllMonthlyPayment;
                 }
             }
 

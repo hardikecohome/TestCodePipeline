@@ -19,6 +19,8 @@ namespace DealnetPortal.Api.Common.Helpers
             public double PriceOfEquipment { get; set; }
             public double AdminFee { get; set; }
             public double DownPayment { get; set; }
+            //can be as input data (for clarity program)
+            public bool? IsClarity { get; set; }
         }
 
         public class Output
@@ -41,14 +43,27 @@ namespace DealnetPortal.Api.Common.Helpers
             var output = new Output();
             output.Hst = input.TaxRate/100*input.PriceOfEquipment;
             output.PriceOfEquipmentWithHst = output.Hst + input.PriceOfEquipment;
-            output.TotalAmountFinanced = output.PriceOfEquipmentWithHst /*+ input.AdminFee*/ - input.DownPayment;
-            output.TotalMonthlyPayment = input.CustomerRate == 0 && input.AmortizationTerm == 0 ? 0 :
-                input.CustomerRate > 0 ? Math.Round(output.TotalAmountFinanced * Financial.Pmt(input.CustomerRate / 100 / 12, input.AmortizationTerm, -1), 2)
-                : output.TotalAmountFinanced * Financial.Pmt(input.CustomerRate / 100 / 12, input.AmortizationTerm, -1);
+            var customerRate = input.CustomerRate / 100 / 12;
+            if (input.IsClarity == true)
+            {
+                output.TotalMonthlyPayment = output.PriceOfEquipmentWithHst;
+                output.TotalAmountFinanced = customerRate == 0.0 ? 0.0 :
+                    (1.0 - Math.Pow(1 + customerRate,
+                                   -input.AmortizationTerm)) / customerRate;
+                output.TotalAmountFinanced *= output.TotalMonthlyPayment;
+                output.PriceOfEquipmentWithHst = output.TotalAmountFinanced - input.AdminFee + input.DownPayment;
+            }
+            else
+            {
+                output.TotalAmountFinanced = output.PriceOfEquipmentWithHst /*+ input.AdminFee*/ - input.DownPayment;
+                output.TotalMonthlyPayment = customerRate == 0 && input.AmortizationTerm == 0 ? 0 :
+                    customerRate > 0 ? Math.Round(output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1), 2)
+                        : output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1);
+            }            
             output.TotalAllMonthlyPayments = Math.Round(output.TotalMonthlyPayment*input.LoanTerm,2);
             if (input.LoanTerm != input.AmortizationTerm)
             {
-                output.ResidualBalance = Math.Round(-Financial.PV(input.CustomerRate / 100 / 12, input.AmortizationTerm - input.LoanTerm, output.TotalMonthlyPayment) * (1 + input.CustomerRate/100/12),2);
+                output.ResidualBalance = Math.Round(-Financial.PV(customerRate, input.AmortizationTerm - input.LoanTerm, output.TotalMonthlyPayment) * (1 + customerRate),2);
             }
             output.TotalObligation = output.ResidualBalance + output.TotalAllMonthlyPayments + input.AdminFee;
             output.TotalBorowingCost = Math.Round(output.TotalObligation - output.TotalAmountFinanced - input.AdminFee,2);

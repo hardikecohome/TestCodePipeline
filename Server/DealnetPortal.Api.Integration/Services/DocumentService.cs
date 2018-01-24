@@ -1815,7 +1815,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     FieldType = FieldType.Text,
                     Name = PdfFormFields.TotalPayment,
-                    Value = paySummary.TotalAllMonthlyPayment?.ToString("F", CultureInfo.InvariantCulture)
+                    Value = paySummary.TotalMonthlyPayment?.ToString("F", CultureInfo.InvariantCulture)
                 });
                 formFields.Add(new FormField()
                 {

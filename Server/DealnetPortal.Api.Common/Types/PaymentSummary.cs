@@ -8,6 +8,7 @@ namespace DealnetPortal.Api.Common.Types
         public decimal? Hst { get; set; }
         public decimal? TotalMonthlyPayment { get; set; }
         public decimal? TotalAllMonthlyPayment { get; set; }
+        public decimal? TotalAmountFinanced { get; set; }
         public LoanCalculator.Output LoanDetails { get; set; }
     }
 }
