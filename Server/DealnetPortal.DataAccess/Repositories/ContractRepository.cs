@@ -964,7 +964,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         private PaymentSummary GetContractPaymentsSummary(Contract contract)
         {
-            PaymentSummary paymentSummary = null;
+            PaymentSummary paymentSummary = new PaymentSummary();
 
             if (contract != null)
             {
@@ -973,7 +973,6 @@ namespace DealnetPortal.DataAccess.Repositories
                         (contract.PrimaryCustomer?.Locations.FirstOrDefault(
                              l => l.AddressType == AddressType.MainAddress) ??
                          contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
-                paymentSummary = new PaymentSummary();
 
                 if (contract.Equipment.AgreementType == AgreementType.LoanApplication)
                 {
