@@ -20,11 +20,12 @@ namespace DealnetPortal.Web.Infrastructure
     public class DynamicLessHandler : HttpTaskAsyncHandler
     {
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent = DependencyResolver.Current.GetService<IDictionaryServiceAgent>();
-        private ILoggingService _loggingService = DependencyResolver.Current.GetService<ILoggingService>();
+        private readonly ILoggingService _loggingService = DependencyResolver.Current.GetService<ILoggingService>();
 
         public override async Task ProcessRequestAsync(HttpContext context)
         {
             // Load less stylesheet body
+            _loggingService.LogInfo("Starting DynamicLessHandler.ProcessRequestAsync");
             var localPath = context.Request.Url.LocalPath;//.Replace(".dynamic", "");
             var fileName = context.Server.MapPath(localPath);
             var fileContent = File.ReadAllText(fileName);
