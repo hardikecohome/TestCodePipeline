@@ -38,9 +38,10 @@ namespace DealnetPortal.Api.Controllers
 
         private readonly IDealerRepository _dealerRepository;
         private readonly ILicenseDocumentRepository _licenseDocumentRepository;
+        private readonly ILoggingService _loggingService;
 
         public DictionaryController(IUnitOfWork unitOfWork, IContractRepository contractRepository, ISettingsRepository settingsRepository, ILoggingService loggingService, 
-            IAspireStorageReader aspireStorageReader, ICustomerFormService customerFormService, IContractService contractService, IDealerRepository dealerRepository, ILicenseDocumentRepository licenseDocumentRepository)
+            IAspireStorageReader aspireStorageReader, ICustomerFormService customerFormService, IContractService contractService, IDealerRepository dealerRepository, ILicenseDocumentRepository licenseDocumentRepository, ILoggingService loggingService1)
             : base(loggingService)
         {
             _unitOfWork = unitOfWork;
@@ -51,6 +52,7 @@ namespace DealnetPortal.Api.Controllers
             _contractService = contractService;
             _dealerRepository = dealerRepository;
             _licenseDocumentRepository = licenseDocumentRepository;
+            _loggingService = loggingService1;
         }             
 
         [Route("AllDocumentTypes")]
@@ -392,9 +394,11 @@ namespace DealnetPortal.Api.Controllers
         public IHttpActionResult GetDealerSettings()
         {
             IList<StringSettingDTO> list = null;
+            _loggingService.LogInfo($"Get dealer skins settings for dealer: {LoggedInUser.UserName}");
             var settings = SettingsRepository.GetUserStringSettings(LoggedInUser?.UserId);
             if (settings?.Any() ?? false)
             {
+                _loggingService.LogInfo($"There are {settings.Count} variables for dealer: {LoggedInUser.UserName}");
                 list = Mapper.Map<IList<StringSettingDTO>>(settings);
             }
             return Ok(list);
@@ -405,11 +409,12 @@ namespace DealnetPortal.Api.Controllers
         [Route("GetDealerSettings")]
         public IHttpActionResult GetDealerSettings(string hashDealerName)
         {
-            IList<StringSettingDTO> list = null;            
-
+            IList<StringSettingDTO> list = null;
+            _loggingService.LogInfo($"Get dealer skins settings for dealer: {hashDealerName}");
             var settings = SettingsRepository.GetUserStringSettingsByHashDealerName(hashDealerName);
             if (settings?.Any() ?? false)
             {
+                _loggingService.LogInfo($"There are {settings.Count} variables for dealer: {hashDealerName}");
                 list = Mapper.Map<IList<StringSettingDTO>>(settings);
             }
             return Ok(list);

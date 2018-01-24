@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using dotless.Core;
 using dotless.Core.configuration;
+using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Infrastructure.Managers;
@@ -19,7 +20,7 @@ namespace DealnetPortal.Web.Infrastructure
     public class DynamicLessHandler : HttpTaskAsyncHandler
     {
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent = DependencyResolver.Current.GetService<IDictionaryServiceAgent>();
-        private readonly ISecurityManager _securityManager = DependencyResolver.Current.GetService<ISecurityManager>();
+        private ILoggingService _loggingService = DependencyResolver.Current.GetService<ILoggingService>();
 
         public override async Task ProcessRequestAsync(HttpContext context)
         {
@@ -34,9 +35,11 @@ namespace DealnetPortal.Web.Infrastructure
             var hashDealerName = HttpRequestHelper.GetUrlReferrerRouteDataValues()?["hashDealerName"] as string;
             if (context.User.Identity.IsAuthenticated || hashDealerName != null)
             {
+                _loggingService.LogInfo($"Get dealer skinhs settings for {hashDealerName}");
                 var variables = await _dictionaryServiceAgent.GetDealerSettings(hashDealerName);
                 if (variables != null)
                 {
+                    _loggingService.LogInfo($"There are  {variables.Count} variables");
                     foreach (var variable in variables)
                     {
                         sb.AppendLine();
