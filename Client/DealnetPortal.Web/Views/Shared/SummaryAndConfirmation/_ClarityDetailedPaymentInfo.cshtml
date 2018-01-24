@@ -1,0 +1,84 @@
+﻿<div class="row credit-check-info-hold no-top-margin">
+    <div class="col-md-6 grid-column">
+        <div class="dealnet-credit-check-section">
+            <span id="equipment-cash-price" class="hidden">-</span>
+            <span id="package-cash-price" class="hidden">-</span>
+            <div class="row form-group">
+                <div class="col-xs-8 col-sm-9">@Resources.CostOfBorrowing</div>
+                <div class="col-xs-4 col-sm-3 text-right text-semibold">$ <span id="displayCostOfBorrow">-</span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-8 col-sm-9"><span id="tax-label">@Resources.YourCost</span></div>
+                <div class="col-xs-4 col-sm-3 text-right text-semibold">$ <span id="displayYourCost">-</span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-8 col-sm-9"><span id="tax-label">@(Model.ProvinceTaxRate?.Description ?? @Resources.Tax)</span></div>
+                <div class="col-xs-4 col-sm-3 text-right text-semibold">$ <span id="hst">-</span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-8 col-sm-9">@Resources.TotalAmountFinanced</div>
+                <div class="col-xs-4 col-sm-3 text-right text-semibold">$ <span id="displayTotalAmount">-</span></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-8 col-sm-9">
+                    @Resources.TotalAllMonthlyPayments
+                </div>
+                <div class="col-xs-4 col-sm-3 text-right text-semibold">
+                    $ <span id="displayAllMonthly">-</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 grid-column">
+        <div class="dealnet-credit-check-section">
+            <div class="row form-group">
+                <div class="col-xs-8 col-sm-9">
+                    @Resources.BalanceOwingEndOfPaymentsRes
+                </div>
+                <div class="col-xs-4 col-sm-3 text-right text-semibold">
+                    $ <span id="displayBalanceOwning">-</span>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-8 col-sm-9">
+                    @Resources.TotalObligation
+                </div>
+                <div class="col-xs-4 col-sm-3 text-right text-semibold">
+                    $ <span id="displayTotalObl">-</span>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-8 col-sm-9">
+                    @Resources.LoanTerm
+                </div>
+                <div class="col-xs-4 col-sm-3 text-right text-semibold">
+                    <span id="displayLoanTerm">-</span>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-8 col-sm-9">
+                    @Resources.AmortizationTerm
+                </div>
+                <div class="col-xs-4 col-sm-3 text-right text-semibold">
+                    <span id="displayAmortTem">-</span>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-8 col-sm-9">
+                    @Resources.CustomerRate
+                </div>
+                <div class="col-xs-4 col-sm-3 text-right text-semibold">
+                    <span id="displayCustRate">-</span>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-8 col-sm-9">
+                    @Resources.YourCost
+                </div>
+                <div class="col-xs-4 col-sm-3 text-right text-semibold">
+                    <span id="displayDealerCost">-</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

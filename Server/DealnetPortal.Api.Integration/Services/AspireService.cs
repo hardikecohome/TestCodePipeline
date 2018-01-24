@@ -1789,7 +1789,7 @@ namespace DealnetPortal.Api.Integration.Services
                     udfList.Add(new UDF()
                     {
                         Name = $"{AspireUdfFields.InstallMonthlyPay}{packageNum}",
-                        Value = ip?.MonthlyCost?.ToString(CultureInfo.InvariantCulture) ?? BlankValue
+                        Value = (ip?.MonthlyCost ?? 0).ToString(CultureInfo.InvariantCulture)
                     });
                     packageNum++;
                 });

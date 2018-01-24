@@ -71,6 +71,7 @@ function recalculateTotalMonthlyPayment () {
 
 function recalculateTotalCashPrice () {
     var sum = 0;
+    var packageSum = 0;
     var isClarity = $('#clarity-dealer').val().toLowerCase() === 'true';
     if (isClarity) {
         $(".monthly-cost").each(function() {
@@ -79,6 +80,14 @@ function recalculateTotalCashPrice () {
                 sum += numberValue;
             }
         });
+        $('.package-cost').each(function() {
+            var numberValue = parseFloat(this.value);
+            if (!isNaN(numberValue)) {
+                packageSum += numberValue;
+            }
+        });
+        $("#package-cash-price").text(formatNumber(packageSum));
+
     } else {
         $(".equipment-cost").each(function () {
             var numberValue = parseFloat(this.value);
@@ -89,7 +98,12 @@ function recalculateTotalCashPrice () {
     }
 
     $("#equipment-cash-price").text(formatNumber(sum));
-    calculateLoanValues();
+
+    if (isClarity) {
+        calculateClarityTotalCashPrice();
+    } else {
+        calculateLoanValues();
+    }
 }
 
 function checkTotalEquipmentCost () {

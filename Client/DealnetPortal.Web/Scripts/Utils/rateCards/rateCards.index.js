@@ -17,6 +17,7 @@
     var tax = require('financial-functions').tax;
     var notNaN = function (num) { return !isNaN(num); };
 
+    var clarityCalculations = require('financial-functions.clarity');
     var state = require('rateCards.state').state;
     var constants = require('rateCards.state').constants;
 
@@ -85,16 +86,24 @@
         }
     }
 
+    var caclulateClarityBriefValues = function(data) {
+        return $.extend({}, data,
+            {
+               tax: clarityCalculations.tax(data),
+               totalMonthlyCostOfOwnership: clarityCalculations.totalMonthlyCostOfOwnership(data),
+               totalPriceOfEquipment: clarityCalculations.totalPriceOfEquipment(data)
+            });
+    }
+
     var calculateClarityValuesForRender = function(data) {
         return $.extend({}, data,
             {
-                monthlyPayment: rentalMonthlyPayment(data),
-                costOfBorrowing: totalRentalBorrowingCost(data),
-                totalAmountFinanced: totalRentalAmountFinanced(data),
-                totalMonthlyPayments: totalRentalMonthlyPayments(data),
-                residualBalance: rentalResidualBalance(data),
-                totalObligation: totalRentalObligation(data),
-                yourCost: rentalYourCost(data),
+                costOfBorrowing: clarityCalculations.totalBorrowingCost(data),
+                totalAmountFinanced: clarityCalculations.totalAmountFinanced(data),
+                totalMonthlyPayments: clarityCalculations.totalMonthlyPayments(data),
+                residualBalance: clarityCalculations.residualBalance(data),
+                totalObligation: clarityCalculations.totalObligation(data),
+                yourCost: clarityCalculations.yourCost(data),
                 loanTerm: data.LoanTerm,
                 amortTerm: data.AmortizationTerm,
                 customerRate: data.CustomerRate
@@ -173,6 +182,7 @@
     return {
         init: init,
         filterRateCard: filterRateCard,
+        caclulateClarityBriefValues: caclulateClarityBriefValues,
         calculateTotalPrice: calculateTotalPrice,
         getRateCardOnSubmit: getRateCardOnSubmit,
         getTotalAmountFinanced: getTotalAmountFinanced,

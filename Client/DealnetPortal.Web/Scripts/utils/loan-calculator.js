@@ -75,3 +75,66 @@ function checkCalculationValidity(inputCashPrice, inputTaxRate) {
 	var totalMonthlyPayment = Math.round(totalAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0) * 100) /100;
     return totalMonthlyPayment > 0;
 }
+
+function calculateClarityTotalCashPrice() {
+    var clarityCalcualtions = module.require('financial-functions.clarity');
+    var hstLabel = $("#hst");
+    var totalAmountFinancedLabel = $("#displayTotalAmount");
+    var totalMonthlyPaymentsLabel = $("#displayAllMonthly");
+    var displayDealerCost = $("#displayDealerCost");
+    var balanceOwning = $("#displayBalanceOwning");
+    var totalObligationLabel = $("#displayTotalObl");
+    var borrowerCost = $("#displayCostOfBorrow");
+    var yourCost = $("#displayYourCost");
+    var loantTermDisplay = $("#displayLoanTerm");
+    var amortTermDisplay = $("#displayAmortTem");
+    var displayCustRate = $('#displayCustRate');
+
+    hstLabel.text('-');
+    totalAmountFinancedLabel.text('-');
+    totalMonthlyPaymentsLabel.text('-');
+    totalObligationLabel.text('-');
+    borrowerCost.text('-');
+    yourCost.text('-');
+    balanceOwning.text('-');
+
+    var equipmentCashPrice = parseFloat($("#equipment-cash-price").text());
+    var packageCashPrice = parseFloat($("#package-cash-price").text());
+    var hst = taxRate;
+    var loanTerm = parseInt($("#loan-term").val());
+    var amortizationTerm = parseInt($("#amortization-term").val());
+    var customerRate = parseFloat($("#customer-rate").val());
+    var adminFee = parseFloat($("#admin-fee").val());
+    if (isNaN(adminFee) || adminFee < 0) {
+        adminFee = 0;
+    }
+    var downPayment = parseFloat($("#down-payment").val());
+    if (isNaN(downPayment) || downPayment < 0) {
+        downPayment = 0;
+    }
+
+    var data = {
+        tax: hst,
+        equipmentSum: equipmentCashPrice,
+        packagesSum: packageCashPrice,
+        LoanTerm: loanTerm,
+        AmortizationTerm: amortizationTerm,
+        CustomerRate: customerRate,
+        AdminFee: adminFee,
+        downPayment: downPayment,
+        DealerCost: 0
+    }
+
+    hstLabel.text(formatNumber(clarityCalcualtions.tax(data)));
+    totalAmountFinancedLabel.text(formatNumber(clarityCalcualtions.totalAmountFinanced(data)));
+    totalMonthlyPaymentsLabel.text(formatNumber(clarityCalcualtions.totalMonthlyPayments(data)));
+	totalObligationLabel.text(formatNumber(clarityCalcualtions.totalObligation(data)));
+    borrowerCost.text(formatNumber(clarityCalcualtions.totalBorrowingCost(data)));
+    balanceOwning.text(formatNumber(clarityCalcualtions.residualBalance(data)));
+    yourCost.text(formatNumber(clarityCalcualtions.yourCost(data)));
+    displayCustRate.text(customerRate + ' %');
+    loantTermDisplay.text(loanTerm + ' months');
+    amortTermDisplay.text(amortizationTerm + ' months');
+    amortTermDisplay.text(amortizationTerm + ' months');
+    displayDealerCost.text(0 + ' %');
+}
