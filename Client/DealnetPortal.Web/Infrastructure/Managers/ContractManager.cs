@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
+using DealnetPortal.Api.Common.Types;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
@@ -230,6 +231,72 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             return summaryAndConfirmation;
         }
 
+        public PaymentSummary GetPaymentSummary(ContractDTO contract, decimal? taxRate, bool? isClarity)
+        {
+            PaymentSummary paymentSummary = new PaymentSummary();
+
+            if (contract != null)
+            {                
+                if (contract.Equipment.AgreementType == AgreementType.LoanApplication)
+                {
+                    var priceOfEquipment = 0.0m;
+                    if (isClarity == true)
+                    {
+                        priceOfEquipment = contract.Equipment?.NewEquipment?.Sum(x => x.MonthlyCost) ?? 0.0m;
+                        var packages = contract.Equipment?.InstallationPackages?.Sum(x => x.MonthlyCost) ?? 0.0m;
+                        priceOfEquipment += packages;
+
+                        paymentSummary.MonthlyPayment = (decimal)priceOfEquipment;
+                        paymentSummary.TotalMonthlyPayment = (decimal)(priceOfEquipment +
+                                                                        priceOfEquipment * ((taxRate ?? 0.0m) / 100));
+
+                        if (contract.Equipment?.CustomerRate.HasValue == true)
+                        {
+                            var customerRate = (contract.Equipment?.CustomerRate ?? 0) / 100 / 12;
+                            paymentSummary.TotalAllMonthlyPayment =
+                                (decimal)((1.0 - Math.Pow(1 + customerRate,
+                                                -(contract.Equipment?.AmortizationTerm ?? 0))) /
+                                           customerRate);
+                        }
+                        paymentSummary.TotalAllMonthlyPayment *= paymentSummary.TotalMonthlyPayment;
+                    }
+                    else
+                    {
+                        priceOfEquipment = contract.Equipment?.NewEquipment?.Sum(x => x.Cost) ?? 0;
+                        var loanCalculatorInput = new LoanCalculator.Input
+                        {
+                            TaxRate = 0,
+                            LoanTerm = contract.Equipment?.LoanTerm ?? 0,
+                            AmortizationTerm = contract.Equipment?.AmortizationTerm ?? 0,
+                            PriceOfEquipment = (double)priceOfEquipment,
+                            AdminFee = contract.Equipment?.AdminFee ?? 0,
+                            DownPayment = contract.Equipment?.DownPayment ?? 0,
+                            CustomerRate = contract.Equipment?.CustomerRate ?? 0
+                        };
+                        var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
+                        paymentSummary.Hst = (decimal)loanCalculatorOutput.Hst;
+                        paymentSummary.TotalMonthlyPayment = (decimal)loanCalculatorOutput.TotalMonthlyPayment;
+                        paymentSummary.MonthlyPayment = (decimal)loanCalculatorOutput.TotalMonthlyPayment;
+                        paymentSummary.TotalAllMonthlyPayment = (decimal)loanCalculatorOutput.TotalAllMonthlyPayments;
+
+                        paymentSummary.LoanDetails = loanCalculatorOutput;
+                    }
+                }
+                else
+                {
+                    paymentSummary.MonthlyPayment = contract.Equipment?.TotalMonthlyPayment;
+                    paymentSummary.Hst =
+                        (contract.Equipment?.TotalMonthlyPayment ?? 0) * ((taxRate ?? 0.0m) / 100);
+                    paymentSummary.TotalMonthlyPayment = (contract.Equipment.TotalMonthlyPayment ?? 0) +
+                                                  (contract.Equipment.TotalMonthlyPayment ?? 0) *
+                                                  ((taxRate ?? 0.0m) / 100);
+                    paymentSummary.TotalAllMonthlyPayment = paymentSummary.TotalMonthlyPayment *
+                                                            (contract.Equipment.RequestedTerm ?? 0);
+                }
+            }
+            return paymentSummary;
+        }
+
         public async Task<IList<ContractViewModel>> GetContractsAsync(IEnumerable<int> ids)
         {
             var contractsResult = await _contractServiceAgent.GetContracts(ids);
@@ -315,6 +382,10 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             { return null; }
             var summaryViewModel = await GetSummaryAndConfirmationAsync(contractId, contractsResult.Item1);
 
+
+            var paymentSummary = GetPaymentSummary(contractsResult.Item1,
+                (decimal?) summaryViewModel.ProvinceTaxRate?.Rate, summaryViewModel.IsClarityDealer);
+
             var contractEditViewModel = new ContractEditViewModel()
             {
                 AdditionalInfo = summaryViewModel.AdditionalInfo,
@@ -323,8 +394,10 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 EquipmentInfo = summaryViewModel.EquipmentInfo,
                 ProvinceTaxRate = summaryViewModel.ProvinceTaxRate,
                 LoanCalculatorOutput = summaryViewModel.LoanCalculatorOutput,
+                PaymentSummary = paymentSummary,
                 Notes = summaryViewModel.Notes,
-                IsClarityDealer = summaryViewModel.IsClarityDealer
+                IsClarityDealer = summaryViewModel.IsClarityDealer,
+                IsClarityContract = summaryViewModel.IsClarityDealer
             };
 
             if(contractsResult.Item1.Comments != null)
