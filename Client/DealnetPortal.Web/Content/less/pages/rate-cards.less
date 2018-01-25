@@ -339,16 +339,25 @@ div[class*="equal-height-row"]{
     background: #eeeeee;
     padding: 15px 10px;
     margin: 20px 0;
+
     .bordered {
         @media @tablet-up {
-            border-right:solid #000000 1px;
-            }
-        @media @mobile {
-            border-bottom:solid #000000 1px;
+            border-bottom: solid #000000 1px;
             margin-bottom: 15px;
-            }
         }
+
+        @media @mobile {
+            border-bottom: solid #000000 1px;
+            margin-bottom: 15px;
+        }
+    }
 }
 
 .loan-brief {
+}
+
+.xs-info-10 {
+    @media @mobile {
+        width: 80.333333% !important;
+        }
 }
