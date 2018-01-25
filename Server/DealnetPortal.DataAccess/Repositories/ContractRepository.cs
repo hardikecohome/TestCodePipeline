@@ -238,7 +238,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.NewEquipment)
                 .Include(c => c.Equipment.InstallationPackages)
                 .Include(c => c.Documents)
-                .Include(c => c.Signers)                
+                .Include(c => c.Signers)
                 .FirstOrDefault(
                     c =>
                         c.Id == contractId &&
@@ -259,7 +259,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.NewEquipment)
                 .Include(c => c.Equipment.InstallationPackages)
                 .Include(c => c.Documents)
-                .Include(c => c.Signers)
+                .Include(c => c.Signers)                
                 .FirstOrDefault(
                     c =>
                         c.Id == contractId);
@@ -820,6 +820,21 @@ namespace DealnetPortal.DataAccess.Repositories
                                                             contractPostalCode.Substring(0, a.PostalCode.Length) == a.PostalCode));
         }
 
+        public bool IsClarityProgram(int contractId)
+        {
+            bool isClarity = false;
+            var contract = _dbContext.Contracts
+                .Include(c => c.Equipment)
+                .Include(c => c.Equipment.RateCard)
+                .Include(c => c.Equipment.RateCard.Tier)
+                .FirstOrDefault(c => c.Id == contractId);
+            if (contract != null)
+            {
+                isClarity = contract.Equipment?.RateCard?.Tier?.Name == _config.GetSetting(WebConfigKeys.CLARITY_TIER_NAME) && contract.Equipment?.IsClarityProgram == true;
+            }
+            return isClarity;
+        }
+
         public IList<Contract> GetExpiredContracts(DateTime expiredDate)
         {
             var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
@@ -980,7 +995,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     //for loan
                     var priceOfEquipment = 0.0;
-                    if (contract.Dealer?.Tier?.Name == _config.GetSetting(WebConfigKeys.CLARITY_TIER_NAME))
+                    if (IsClarityProgram(contract.Id))
                     {
                         //for Clarity program we have different logic
                         priceOfEquipment = (double) (contract.Equipment?.NewEquipment?.Where(ne => ne.IsDeleted != true)

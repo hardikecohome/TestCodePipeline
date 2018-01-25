@@ -226,6 +226,8 @@ namespace DealnetPortal.Domain.Repositories
 
         bool IsContractUnassignable(int contractId);
 
+        bool IsClarityProgram(int contractId);
+
         IList<Contract> GetExpiredContracts(DateTime expiredDate);
 
         Contract UpdateContractAspireSubmittedDate(int contractId, string contractOwnerId);
