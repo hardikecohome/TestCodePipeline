@@ -78,7 +78,7 @@
 
 @Html.Partial("EquipmentInformation/_EquipmentTemplates", Model)
 
-@if (Model.DealerTier.Name == "ClarityTier" && !Model.IsOldClarityDeal)
+@if (Model.IsClarityDealer && !Model.IsOldClarityDeal)
 {
     @section pageScripts {
         @Scripts.Render("~/bundles/equipment-info-clarity")
