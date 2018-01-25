@@ -73,7 +73,8 @@ function recalculateTotalCashPrice () {
     var sum = 0;
     var packageSum = 0;
     var isClarity = $('#clarity-dealer').val().toLowerCase() === 'true';
-    if (isClarity) {
+    var isOldClarityDeal = $('#old-clarity-deal').val().toLowerCase() === 'true';
+    if (isClarity && !isOldClarityDeal) {
         $(".monthly-cost").each(function() {
             var numberValue = parseFloat(this.value);
             if (!isNaN(numberValue)) {
@@ -99,7 +100,7 @@ function recalculateTotalCashPrice () {
 
     $("#equipment-cash-price").text(formatNumber(sum));
 
-    if (isClarity) {
+    if (isClarity && !isOldClarityDeal) {
         calculateClarityTotalCashPrice();
     } else {
         calculateLoanValues();
@@ -109,8 +110,9 @@ function recalculateTotalCashPrice () {
 function checkTotalEquipmentCost () {
     var sum = 0;
     var isClarity = $('#clarity-dealer').val().toLowerCase() === 'true';
+    var isOldClarityDeal = $('#old-clarity-deal').val().toLowerCase() === 'true';
 
-    if (isClarity) {
+    if (isClarity && !isOldClarityDeal) {
         $(".monthly-cost").each(function() {
             var numberValue = parseFloat(this.value);
             if (!isNaN(numberValue)) {

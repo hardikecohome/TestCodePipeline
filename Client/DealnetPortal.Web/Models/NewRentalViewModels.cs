@@ -193,6 +193,7 @@ namespace DealnetPortal.Web.Models
         public string Notes { get; set; }
         public bool RateCardValid { get; set; }
         public bool IsClarityDealer { get; set; }
+        public bool IsOldClarityDeal { get; set; }
     }
 
     public sealed class EligibleAgeAttribute : ValidationAttribute

@@ -79,6 +79,7 @@
                     @Html.HiddenFor(m => m.ContactAndPaymentInfo.IsAllPaymentTypesAvailable, new { id = "payment-info-available" })
                     @Html.HiddenFor(m => m.RateCardValid)
                     @Html.HiddenFor(m => m.IsClarityDealer, new { id = "clarity-dealer" })
+                    @Html.HiddenFor(m => m.IsOldClarityDeal, new { id = "old-clarity-deal" })
                     if (Model.BasicInfo.SubDealers?.Any() ?? false)
                     {
                         <div class="credit-check-info-hold">

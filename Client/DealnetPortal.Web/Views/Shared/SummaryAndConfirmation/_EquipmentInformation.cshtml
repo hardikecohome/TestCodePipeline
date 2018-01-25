@@ -167,7 +167,7 @@
     <div class="form-group summary-payment-info">
         @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
     {
-        if (Model.IsClarityDealer)
+        if (Model.IsClarityDealer && !Model.IsOldClarityDeal)
         {
                 @Html.Partial("SummaryAndConfirmation/_ClarityDetailedPaymentInfo")
         }

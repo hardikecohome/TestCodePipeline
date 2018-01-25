@@ -228,11 +228,11 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                                                    dealerTier.RateCards.Any(
                                                            x => x.Id == contractResult.Equipment.RateCardId.Value);
             
-            var isOldClarityDeal = contractResult.Equipment?.ValueOfDeal != null &&
+            summaryAndConfirmation.IsOldClarityDeal = contractResult.Equipment?.ValueOfDeal != null &&
                         dealerTier.RateCards.All(x => x.Id != contractResult.Equipment?.RateCardId) &&
                         dealerTier.Name == "ClarityTier";
-                                            
-            summaryAndConfirmation.IsClarityDealer = !(dealerTier.Name == "ClarityTier" && isOldClarityDeal);
+
+            summaryAndConfirmation.IsClarityDealer = dealerTier.Name == "ClarityTier";
 
             return summaryAndConfirmation;
         }
@@ -392,7 +392,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 PaymentSummary = paymentSummary,
                 Notes = summaryViewModel.Notes,
                 IsClarityDealer = summaryViewModel.IsClarityDealer,
-                IsClarityContract = summaryViewModel.IsClarityDealer
+                IsOldClarityDeal = summaryViewModel.IsOldClarityDeal
             };
 
             if(contractsResult.Item1.Comments != null)
