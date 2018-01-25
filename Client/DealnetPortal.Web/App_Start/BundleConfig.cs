@@ -277,6 +277,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/vendor/datejs.js")
                 .Include("~/Scripts/utils/financial-functions.js")
                 .Include("~/Scripts/utils/financial-functions.module.js")
+                .Include("~/Scripts/utils/financial-functions.clarity.module.js")
                 .Include("~/Scripts/utils/loan-calculator.js")
                 .Include("~/Scripts/utils/logger/log.js")
                 .IncludeDirectory("~/Scripts/pages/calculator", "*.js", true)
