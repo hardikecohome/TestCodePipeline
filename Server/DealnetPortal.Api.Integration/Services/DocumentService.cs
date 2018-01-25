@@ -1884,7 +1884,7 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         FieldType = FieldType.Text,
                         Name = PdfFormFields.LoanTotalCashPrice,
-                        Value = paySummary.LoanDetails.PriceOfEquipmentWithHst.ToString("F", CultureInfo.InvariantCulture)
+                        Value = paySummary.LoanDetails.LoanTotalCashPrice.ToString("F", CultureInfo.InvariantCulture)
                     });
                     formFields.Add(new FormField()
                     {

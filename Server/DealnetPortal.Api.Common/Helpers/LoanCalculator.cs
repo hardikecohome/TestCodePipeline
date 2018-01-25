@@ -36,6 +36,8 @@ namespace DealnetPortal.Api.Common.Helpers
             public double ResidualBalance { get; set; }
             public double TotalObligation { get; set; }
             public double TotalBorowingCost { get; set; }
+
+            public double LoanTotalCashPrice { get; set; }
         }
 
         public static Output Calculate(Input input)
@@ -59,7 +61,8 @@ namespace DealnetPortal.Api.Common.Helpers
                 output.TotalMonthlyPayment = customerRate == 0 && input.AmortizationTerm == 0 ? 0 :
                     customerRate > 0 ? Math.Round(output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1), 2)
                         : output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1);
-            }            
+            }
+            output.LoanTotalCashPrice = output.TotalAmountFinanced - input.AdminFee + input.DownPayment;
             output.TotalAllMonthlyPayments = Math.Round(output.TotalMonthlyPayment*input.LoanTerm,2);
             if (input.LoanTerm != input.AmortizationTerm)
             {
