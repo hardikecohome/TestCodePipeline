@@ -648,9 +648,12 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 Notes = equipmnetInfo.Notes
             };
 
+            contractData.Details.AgreementType = (AgreementType?) equipmnetInfo.AgreementType;
+
             if(equipmnetInfo.HouseSize.HasValue)
             {
                 contractData.Details.HouseSize = equipmnetInfo.HouseSize;
+                
             }
 
             return await _contractServiceAgent.UpdateContractData(contractData);
