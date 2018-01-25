@@ -374,6 +374,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             if(contractsResult.Item1 == null)
             { return null; }
             var contractViewModel = new ContractViewModel();
+
             await MapContract(contractViewModel, contractsResult.Item1, contractsResult.Item1.Id);
             return contractViewModel;
         }
@@ -937,12 +938,18 @@ namespace DealnetPortal.Web.Infrastructure.Managers
         {
             var summaryViewModel = await GetSummaryAndConfirmationAsync(contractId, contract);
 
+            var paymentSummary = GetPaymentSummary(contract,
+                (decimal?) summaryViewModel.ProvinceTaxRate?.Rate, summaryViewModel.IsClarityDealer);
+
             contractViewModel.AdditionalInfo = summaryViewModel.AdditionalInfo;
             contractViewModel.ContactAndPaymentInfo = summaryViewModel.ContactAndPaymentInfo;
             contractViewModel.BasicInfo = summaryViewModel.BasicInfo;
             contractViewModel.EquipmentInfo = summaryViewModel.EquipmentInfo;
             contractViewModel.ProvinceTaxRate = summaryViewModel.ProvinceTaxRate;
             contractViewModel.LoanCalculatorOutput = summaryViewModel.LoanCalculatorOutput;
+            contractViewModel.PaymentSummary = paymentSummary;
+            contractViewModel.IsClarityDealer = summaryViewModel.IsClarityDealer;
+            contractViewModel.IsOldClarityDeal = summaryViewModel.IsOldClarityDeal;
 
             contractViewModel.UploadDocumentsInfo =
                     new UploadDocumentsViewModel
