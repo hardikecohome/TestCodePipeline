@@ -1341,7 +1341,7 @@ Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus =
                     </div>
                     <div class="form-group">
                         <div class="row">
-                            @Html.LabelFor(m => m.EquipmentInfo.InstallationPackages[i].MonthlyCost, new {@class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
+                            @Html.Label(Resources.MonthlyCostOfOwnership, new {@class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
                             <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                 @Html.DisplayFor(m => m.EquipmentInfo.InstallationPackages[i].MonthlyCost, new {@readonly = "readonly", @class = "has-cost-sign package-cost", id = ""})
                             </div>
