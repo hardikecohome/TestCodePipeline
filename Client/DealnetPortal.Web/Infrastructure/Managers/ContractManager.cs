@@ -648,7 +648,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 Notes = equipmnetInfo.Notes
             };
 
-            contractData.Details.AgreementType = equipmnetInfo.AgreementType;
+            contractData.Details.AgreementType = (AgreementType?) equipmnetInfo.AgreementType;
 
             if(equipmnetInfo.HouseSize.HasValue)
             {
