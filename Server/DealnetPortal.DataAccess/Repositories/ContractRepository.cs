@@ -1102,7 +1102,10 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 dbEquipment.PreferredStartDate = equipmentInfo.PreferredStartDate;
             }
-
+            if (equipmentInfo.IsClarityProgram.HasValue)
+            {
+                dbEquipment.IsClarityProgram = equipmentInfo.IsClarityProgram;
+            }
 
             return dbEquipment;
         }

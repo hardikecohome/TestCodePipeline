@@ -57,6 +57,8 @@ namespace DealnetPortal.Domain
 
         public int? RateCardId { get; set; }
 
+        public bool? IsClarityProgram { get; set; }
+
         public Contract Contract { get; set; }
 
         public double? DealerCost { get; set; }
