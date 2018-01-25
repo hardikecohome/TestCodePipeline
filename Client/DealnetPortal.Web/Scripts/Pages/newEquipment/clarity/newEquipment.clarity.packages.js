@@ -101,6 +101,8 @@
             $('.add-package-link').removeClass("hidden");
         });
 
+        $('#InstallationPackages_' + i + '__MonthlyCost').on('change', updateMonthlyCost);
+
         if (i === 2) {
             $('.add-package-link').addClass("hidden");
         }
