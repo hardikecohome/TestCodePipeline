@@ -1809,13 +1809,15 @@ namespace DealnetPortal.Api.Integration.Services
             }
             if (contract.Equipment != null)
             {
-                var paySummary = _contractRepository.GetContractPaymentsSummary(contract.Id);
+                var paySummary = _contractRepository.GetContractPaymentsSummary(contract.Id);                
 
                 formFields.Add(new FormField()
                 {
                     FieldType = FieldType.Text,
                     Name = PdfFormFields.TotalPayment,
-                    Value = paySummary.TotalMonthlyPayment?.ToString("F", CultureInfo.InvariantCulture)
+                    Value = (contract.Equipment.AgreementType == AgreementType.LoanApplication) ?
+                        paySummary.TotalAllMonthlyPayment?.ToString("F", CultureInfo.InvariantCulture) :
+                        paySummary.TotalMonthlyPayment?.ToString("F", CultureInfo.InvariantCulture)
                 });
                 formFields.Add(new FormField()
                 {

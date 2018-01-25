@@ -256,6 +256,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
+                .Include(c => c.Equipment.InstallationPackages)
                 .Include(c => c.Documents)
                 .Include(c => c.Signers)
                 .FirstOrDefault(
