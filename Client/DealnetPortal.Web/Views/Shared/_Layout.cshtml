@@ -19,10 +19,10 @@
     @switch(ApplicationSettingsManager.PortalType)
     {
         case PortalType.Odi:
-            @Styles.Render("~/bundles/less/main-dealer")
+            @Styles.Render("~/Content/less/main-dealer.less")
             break;
         default:
-            @Styles.Render("~/bundles/less/main")
+            @Styles.Render("~/Content/less/main.less")
             break;
     }
     <link rel="shortcut icon" href="@Url.Action("Favicon", "Settings", new { version = DateTime.Now.Ticks.ToString(), hashDealerName = ViewBag.HashDealerName as string })" type="image/x-icon" />
