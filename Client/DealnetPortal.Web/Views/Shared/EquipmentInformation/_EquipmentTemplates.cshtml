@@ -2,7 +2,7 @@
 @model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
 
 <div class="hidden">
-    @if (Model.DealerTier.Name == "ClarityTier" && !Model.IsOldClarityDeal)
+    @if (Model.IsClarityDealer && !Model.IsOldClarityDeal)
     {
         <div id="new-equipment-base" class="new-equipment">
             <div class="dealnet-middle-header equipment-number-header">

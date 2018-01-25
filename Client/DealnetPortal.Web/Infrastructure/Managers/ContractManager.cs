@@ -29,12 +29,14 @@ namespace DealnetPortal.Web.Infrastructure.Managers
         private readonly IContractServiceAgent _contractServiceAgent;
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
         private readonly string _leadSource;
+        private readonly string _clarityProgramTier;
 
         public ContractManager(IContractServiceAgent contractServiceAgent, IDictionaryServiceAgent dictionaryServiceAgent)
         {
             _contractServiceAgent = contractServiceAgent;
             _dictionaryServiceAgent = dictionaryServiceAgent;
             _leadSource = System.Configuration.ConfigurationManager.AppSettings[PortalConstants.DefaultLeadSourceKey];
+            _clarityProgramTier = System.Configuration.ConfigurationManager.AppSettings[PortalConstants.ClarityTierNameKey];
         }
 
         public async Task<BasicInfoViewModel> GetBasicInfoAsync(int contractId)
@@ -139,9 +141,11 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
             var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
             equipmentInfo.DealerTier = Mapper.Map<TierViewModel>(dealerTier) ?? new TierViewModel() { RateCards = new List<RateCardViewModel>() };
+
+            equipmentInfo.IsClarityDealer = equipmentInfo.DealerTier?.Name == _clarityProgramTier;
             equipmentInfo.IsOldClarityDeal = result.Item1.Equipment?.ValueOfDeal != null &&
                                              equipmentInfo.DealerTier.RateCards.All(x => x.Id != result.Item1.Equipment?.RateCardId) &&
-                                             equipmentInfo.DealerTier.Name == "ClarityTier";
+                                             equipmentInfo.DealerTier.Name == _clarityProgramTier;
 
             if(result.Item1.Equipment == null)
             {
@@ -230,9 +234,12 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             
             summaryAndConfirmation.IsOldClarityDeal = contractResult.Equipment?.ValueOfDeal != null &&
                         dealerTier.RateCards.All(x => x.Id != contractResult.Equipment?.RateCardId) &&
-                        dealerTier.Name == "ClarityTier";
-
-            summaryAndConfirmation.IsClarityDealer = dealerTier.Name == "ClarityTier";
+                        dealerTier.Name == _clarityProgramTier;
+            
+            summaryAndConfirmation.IsClarityDealer = dealerTier.Name == _clarityProgramTier;
+            //correction for value of a deal
+            summaryAndConfirmation.EquipmentInfo.ValueOfDeal = (double?)GetPaymentSummary(contractResult, (decimal?)summaryAndConfirmation.ProvinceTaxRate?.Rate, summaryAndConfirmation.IsClarityDealer)?.TotalAmountFinanced
+                ?? summaryAndConfirmation.EquipmentInfo.ValueOfDeal;
 
             return summaryAndConfirmation;
         }

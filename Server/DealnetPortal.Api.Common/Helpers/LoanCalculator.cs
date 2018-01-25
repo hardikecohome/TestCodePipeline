@@ -55,7 +55,7 @@ namespace DealnetPortal.Api.Common.Helpers
             }
             else
             {
-                output.TotalAmountFinanced = output.PriceOfEquipmentWithHst /*+ input.AdminFee*/ - input.DownPayment;
+                output.TotalAmountFinanced = input.PriceOfEquipment /*+ input.AdminFee*/ - input.DownPayment;//output.PriceOfEquipmentWithHst /*+ input.AdminFee*/ - input.DownPayment;
                 output.TotalMonthlyPayment = customerRate == 0 && input.AmortizationTerm == 0 ? 0 :
                     customerRate > 0 ? Math.Round(output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1), 2)
                         : output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1);
