@@ -288,7 +288,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                         AdminFee = contract.Equipment?.AdminFee ?? 0,
                         DownPayment = contract.Equipment?.DownPayment ?? 0,
                         CustomerRate = contract.Equipment?.CustomerRate ?? 0,
-                        IsClarity = isClarity
+                        IsClarity = isClarity,
+                        IsOldClarityDeal =  isOldClarityDeal
                     };
                     var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
                     paymentSummary.Hst = (decimal)loanCalculatorOutput.Hst;

@@ -21,6 +21,7 @@ namespace DealnetPortal.Api.Common.Helpers
             public double DownPayment { get; set; }
             //can be as input data (for clarity program)
             public bool? IsClarity { get; set; }
+            public bool IsOldClarityDeal { get; set; }
         }
 
         public class Output
@@ -48,12 +49,23 @@ namespace DealnetPortal.Api.Common.Helpers
             var customerRate = input.CustomerRate / 100 / 12;
             if (input.IsClarity == true)
             {
-                output.TotalMonthlyPayment = output.PriceOfEquipmentWithHst;
-                output.TotalAmountFinanced = customerRate == 0.0 ? 0.0 :
-                    (1.0 - Math.Pow(1 + customerRate,
-                                   -input.AmortizationTerm)) / customerRate;
-                output.TotalAmountFinanced *= output.TotalMonthlyPayment;
-                output.PriceOfEquipmentWithHst = output.TotalAmountFinanced - input.AdminFee + input.DownPayment;
+                if (input.IsOldClarityDeal)
+                {
+                    output.TotalAmountFinanced = input.PriceOfEquipment /*+ input.AdminFee*/ - input.DownPayment;//output.PriceOfEquipmentWithHst /*+ input.AdminFee*/ - input.DownPayment;
+                    output.TotalMonthlyPayment = customerRate == 0 && input.AmortizationTerm == 0 ? 0 :
+                        customerRate > 0 ? Math.Round(output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1), 2)
+                            : output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1);
+                }
+                else
+                {
+                    output.TotalMonthlyPayment = output.PriceOfEquipmentWithHst;
+                    output.TotalAmountFinanced = customerRate == 0.0 ? 0.0 :
+                        (1.0 - Math.Pow(1 + customerRate,
+                                       -input.AmortizationTerm)) / customerRate;
+                    output.TotalAmountFinanced *= output.TotalMonthlyPayment;
+                    output.PriceOfEquipmentWithHst = output.TotalAmountFinanced - input.AdminFee + input.DownPayment;
+                }
+                
             }
             else
             {

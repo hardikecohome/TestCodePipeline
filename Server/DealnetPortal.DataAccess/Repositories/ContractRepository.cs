@@ -1019,8 +1019,9 @@ namespace DealnetPortal.DataAccess.Repositories
                         AdminFee = contract.Equipment?.AdminFee ?? 0,
                         DownPayment = contract.Equipment?.DownPayment ?? 0,
                         CustomerRate = contract.Equipment?.CustomerRate ?? 0,
-                        IsClarity = contract.Dealer?.Tier?.Name == _config.GetSetting(WebConfigKeys.CLARITY_TIER_NAME)
-                    };
+                        IsClarity = contract.Dealer?.Tier?.Name == _config.GetSetting(WebConfigKeys.CLARITY_TIER_NAME),
+                        IsOldClarityDeal = contract.Equipment?.IsClarityProgram == null && contract.Dealer?.Tier?.Name == _config.GetSetting(WebConfigKeys.CLARITY_TIER_NAME)
+                };
                     var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
                     paymentSummary.LoanDetails = loanCalculatorOutput;
 
