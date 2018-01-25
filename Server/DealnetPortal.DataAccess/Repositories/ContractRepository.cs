@@ -1309,6 +1309,10 @@ namespace DealnetPortal.DataAccess.Repositories
             if (contractDetails.AgreementType.HasValue)
             {
                 contract.Details.AgreementType = contractDetails.AgreementType;
+                if (contract.Equipment != null)
+                {
+                    contract.Equipment.AgreementType = contractDetails.AgreementType.Value;
+                }
             }
             if (contractDetails.SignatureDocumentId != null)
             {
