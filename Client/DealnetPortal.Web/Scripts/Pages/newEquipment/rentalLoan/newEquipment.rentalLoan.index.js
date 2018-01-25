@@ -67,9 +67,6 @@
             _initHandlers();
             _initDatepickers();
 
-            $('.clarity').length && clarity.init();
-
-
             setters.init({ isClarity: false, recalculateValuesAndRender: recalculateValuesAndRender, recalculateAndRenderRentalValues: recalculateAndRenderRentalValues });
             equipment.init({ isClarity: false, recalculateValuesAndRender: recalculateValuesAndRender, recalculateAndRenderRentalValues: recalculateAndRenderRentalValues });
 

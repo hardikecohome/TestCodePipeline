@@ -120,12 +120,15 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                     equipmentInfo.IsNewContract = true;
                     equipmentInfo.RequestedTerm = 120;
                 }
+
+                equipmentInfo.IsOldClarityDeal = result.Item1.Equipment.IsClarityProgram == null && equipmentInfo.IsClarityDealer;
             }
             else
             {
                 equipmentInfo.IsNewContract = true;
                 equipmentInfo.RequestedTerm = 120;
             }
+
             var mainAddressProvinceCode = result.Item1.PrimaryCustomer.Locations.First(l => l.AddressType == AddressType.MainAddress).State.ToProvinceCode();
             var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(mainAddressProvinceCode)).Item1;
 
@@ -133,26 +136,27 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             {
                 equipmentInfo.ProvinceTaxRate = rate; 
             }
+
             equipmentInfo.IsOnlyLoanAvailable = mainAddressProvinceCode == ContractProvince.QC.ToString();
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
             equipmentInfo.IsAllInfoCompleted = result.Item1.PaymentInfo != null && result.Item1.PrimaryCustomer?.Phones != null && result.Item1.PrimaryCustomer.Phones.Any();
             equipmentInfo.IsApplicantsInfoEditAvailable = result.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;
             equipmentInfo.IsFirstStepAvailable = result.Item1.ContractState != Api.Common.Enumeration.ContractState.Completed;
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
+
             var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
             equipmentInfo.DealerTier = Mapper.Map<TierViewModel>(dealerTier) ?? new TierViewModel() { RateCards = new List<RateCardViewModel>() };
-
             equipmentInfo.IsClarityDealer = equipmentInfo.DealerTier?.Name == _clarityProgramTier;
-            equipmentInfo.IsOldClarityDeal = result.Item1.Equipment?.ValueOfDeal != null &&
-                                             equipmentInfo.DealerTier.RateCards.All(x => x.Id != result.Item1.Equipment?.RateCardId) &&
-                                             equipmentInfo.DealerTier.Name == _clarityProgramTier;
+
 
             if(result.Item1.Equipment == null)
             {
                 equipmentInfo.RateCardValid = true;
+                equipmentInfo.IsOldClarityDeal = false;
             }
             else
             {
+                equipmentInfo.IsOldClarityDeal = result.Item1.Equipment.IsClarityProgram == null && equipmentInfo.IsClarityDealer;
                 equipmentInfo.RateCardValid = result.Item1.Equipment != null &&
                 (!result.Item1.Equipment.RateCardId.HasValue || result.Item1.Equipment.RateCardId.Value == 0 || dealerTier.RateCards.Any(x => x.Id == result.Item1.Equipment.RateCardId.Value));
             }
@@ -232,9 +236,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                                                    dealerTier.RateCards.Any(
                                                            x => x.Id == contractResult.Equipment.RateCardId.Value);
             
-            summaryAndConfirmation.IsOldClarityDeal = contractResult.Equipment?.ValueOfDeal != null &&
-                        dealerTier.RateCards.All(x => x.Id != contractResult.Equipment?.RateCardId) &&
-                        dealerTier.Name == _clarityProgramTier;
+            summaryAndConfirmation.IsOldClarityDeal = contractResult.Equipment?.IsClarityProgram == null && dealerTier.Name == _clarityProgramTier;
             
             summaryAndConfirmation.IsClarityDealer = dealerTier.Name == _clarityProgramTier;
             //correction for value of a deal
@@ -633,6 +635,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             contractData.Equipment.InstallationPackages = installationPackeges ?? new List<InstallationPackageDTO>();
             contractData.Equipment.SalesRep = equipmnetInfo.SalesRep;
             contractData.Equipment.EstimatedInstallationDate = equipmnetInfo.EstimatedInstallationDate;
+            contractData.Equipment.IsClarityProgram = equipmnetInfo.IsClarityProgram;
 
             contractData.Details = new ContractDetailsDTO
             {

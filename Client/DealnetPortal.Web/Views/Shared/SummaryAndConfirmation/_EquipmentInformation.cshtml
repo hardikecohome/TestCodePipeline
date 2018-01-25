@@ -64,32 +64,38 @@
                                 </div>
                             </div>
                         </div>
-                        @if(Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication && !Model.IsClarityDealer)
+                        @if(Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
                         {
-                            <div class="form-group">
-                                <div class="row">
-                                    @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
-                                    <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                        @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new { @readonly = "readonly", @class = "dealnet-disabled-input has-cost-sign equipment-cost", id = "" })
+                            if (Model.IsClarityDealer && !Model.IsOldClarityDeal)
+                            {
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.Label(Resources.MonthlyCostOfOwnership, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                        <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                            @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new { @readonly = "readonly", @class = "dealnet-disabled-input has-cost-sign monthly-cost", id = "" })
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
+                            else
+                            {
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                        <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                            @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new { @readonly = "readonly", @class = "dealnet-disabled-input has-cost-sign equipment-cost", id = "" })
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         }
                         else
                         {
                             <div class="form-group">
                                 <div class="row">
-                                    @if (Model.IsClarityDealer)
-                                    {
-                                        @Html.Label(Resources.MonthlyCostOfOwnership, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
-                                    }
-                                    else
-                                    {
-                                        @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new {@class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
-                                    }
-                                    
+                                    @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new {@class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"})
                                     <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                        @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new {@readonly = "readonly", @class = "dealnet-disabled-input monthly-cost", id = ""})
+                                        @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new {@readonly = "readonly", @class = "dealnet-disabled-input has-cost-sign monthly-cost", id = ""})
                                     </div>
                                 </div>
                             </div>
@@ -112,7 +118,7 @@
                 </div>
             </div>
         }
-        <div class="credit-check-info-hold equipment-info">
+        <div class="row credit-check-info-hold  equipment-info cols-no-titles no-top-margin equipment-info">
             @for (var i = 0; i < Model.EquipmentInfo.InstallationPackages.Count; i++)
             {
                 <div class="col-md-6 grid-column">

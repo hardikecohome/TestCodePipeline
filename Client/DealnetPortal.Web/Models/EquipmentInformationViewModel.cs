@@ -142,6 +142,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public bool IsOnlyLoanAvailable { get; set; }
         public bool IsClarityDealer { get; set; } = false;
         public bool IsOldClarityDeal { get; set; } = false;
+        public bool? IsClarityProgram { get; set; }
     }
 
     public class EquipmentInformationViewModel
