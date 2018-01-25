@@ -240,8 +240,13 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             
             summaryAndConfirmation.IsClarityDealer = dealerTier.Name == _clarityProgramTier;
             //correction for value of a deal
-            summaryAndConfirmation.EquipmentInfo.ValueOfDeal = (double?)GetPaymentSummary(contractResult, (decimal?)summaryAndConfirmation.ProvinceTaxRate?.Rate, summaryAndConfirmation.IsClarityDealer)?.TotalAmountFinanced
-                ?? summaryAndConfirmation.EquipmentInfo.ValueOfDeal;
+            if (summaryAndConfirmation.EquipmentInfo != null)
+            {
+                summaryAndConfirmation.EquipmentInfo.ValueOfDeal =
+                    (double?) GetPaymentSummary(contractResult, (decimal?) summaryAndConfirmation.ProvinceTaxRate?.Rate,
+                        summaryAndConfirmation.IsClarityDealer)?.TotalAmountFinanced
+                    ?? summaryAndConfirmation.EquipmentInfo?.ValueOfDeal;
+            }
 
             return summaryAndConfirmation;
         }
@@ -250,7 +255,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
         {
             PaymentSummary paymentSummary = new PaymentSummary();
 
-            if (contract != null)
+            if (contract?.Equipment != null)
             {                
                 if (contract.Equipment.AgreementType == AgreementType.LoanApplication)
                 {
