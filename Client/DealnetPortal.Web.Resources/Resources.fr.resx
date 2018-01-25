@@ -2873,4 +2873,28 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
   <data name="Pre" xml:space="preserve">
     <value>Pré</value>
   </data>
+  <data name="MonthlyCostOfOwnership" xml:space="preserve">
+    <value>Le coût de Propriété  mensuel</value>
+  </data>
+  <data name="AddInstallationPackage" xml:space="preserve">
+    <value>Ajouter l'ensemble d'installation</value>
+  </data>
+  <data name="BalanceOwingEndOfPayments" xml:space="preserve">
+    <value>Solde dû à la fin de paiements mensuels</value>
+  </data>
+  <data name="InstallationPackage" xml:space="preserve">
+    <value>Ensemble d'installation</value>
+  </data>
+  <data name="TaxExcl" xml:space="preserve">
+    <value>Taxes Exclus</value>
+  </data>
+  <data name="TaxIncl" xml:space="preserve">
+    <value>Taxes Inclus</value>
+  </data>
+  <data name="TotalMonthlyCostOfOwnership" xml:space="preserve">
+    <value>Le coût de Propriété  mensuel total</value>
+  </data>
+  <data name="ClarityProgram" xml:space="preserve">
+    <value>Clarity Program</value>
+  </data>
 </root>
