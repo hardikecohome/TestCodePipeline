@@ -1361,55 +1361,56 @@ else
                 </div>
             </div>
 }
-                @if (contract.EquipmentInfo.InstallationPackages.Any())
-    {
-            <div class="row credit-check-info-hold">
+            @if (contract.EquipmentInfo != null)
+            {
+                if (contract.EquipmentInfo.InstallationPackages?.Any() == true)
+                 {
+                   <div class="row credit-check-info-hold">
+                     <div class="col-md-6 grid-column">
+                       <div class="dealnet-credit-check-section">
+
+                         <h3 class="dealnet-section-title">
+                           @Resources.InstallationPackage
+                         </h3>
+
+                       </div>
+                     </div>
+                   </div>
+                 }
+            <div class="row credit-check-info-hold  equipment-info cols-no-titles no-top-margin equipment-info">
+                    @for (var i = 0; i < contract.EquipmentInfo.InstallationPackages.Count; i++)
+            {
                 <div class="col-md-6 grid-column">
                     <div class="dealnet-credit-check-section">
-
-                        <h3 class="dealnet-section-title">
-                            @Resources.InstallationPackage
-                        </h3>
-
-                    </div>
-                </div>
-            </div>
-}
-                <div class="row credit-check-info-hold  equipment-info cols-no-titles no-top-margin equipment-info">
-                    @for (var i = 0; i < contract.EquipmentInfo.InstallationPackages.Count; i++)
-        {
-            <div class="col-md-6 grid-column">
-                <div class="dealnet-credit-check-section">
-                    @Html.HiddenFor(m => contract.EquipmentInfo.InstallationPackages[i].Id)
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-xs-12">
-                                #@(i + 1)
+                        @Html.HiddenFor(m => contract.EquipmentInfo.InstallationPackages[i].Id)
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    #@(i + 1)
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            @Html.LabelFor(m => contract.EquipmentInfo.InstallationPackages[i].Description, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
-                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                @Html.DisplayFor(m => contract.EquipmentInfo.InstallationPackages[i].Description, new { @readonly = "readonly", id = "" })
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.LabelFor(m => contract.EquipmentInfo.InstallationPackages[i].Description, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                    @Html.DisplayFor(m => contract.EquipmentInfo.InstallationPackages[i].Description, new { @readonly = "readonly", id = "" })
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            @Html.Label(Resources.MonthlyCostOfOwnership, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
-                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                @Html.DisplayFor(m => contract.EquipmentInfo.InstallationPackages[i].MonthlyCost, new { @readonly = "readonly", @class = "has-cost-sign package-cost", id = "" })
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.Label(Resources.MonthlyCostOfOwnership, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                    @Html.DisplayFor(m => contract.EquipmentInfo.InstallationPackages[i].MonthlyCost, new { @readonly = "readonly", @class = "has-cost-sign package-cost", id = "" })
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-}
-                </div>
-                @if (contract.EquipmentInfo != null)
-    {
+              }
+              </div>
+               
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group summary-payment-info well">

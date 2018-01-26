@@ -1492,7 +1492,8 @@ namespace DealnetPortal.Api.Integration.Services
 
         private bool IsClarityProgram(Contract contract)
         {
-            return contract?.Dealer?.Tier?.Name == _configuration.GetSetting(WebConfigKeys.CLARITY_TIER_NAME);
+            return _contractRepository.IsClarityProgram(contract.Id);
+            //return contract?.Dealer?.Tier?.Name == _configuration.GetSetting(WebConfigKeys.CLARITY_TIER_NAME);
         }
 
         /// <summary>

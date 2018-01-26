@@ -236,22 +236,23 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                                                    dealerTier.RateCards.Any(
                                                            x => x.Id == contractResult.Equipment.RateCardId.Value);
             
-            summaryAndConfirmation.IsOldClarityDeal = contractResult.Equipment?.IsClarityProgram == null && dealerTier.Name == _clarityProgramTier;
-            
+            var isOldClarityDeal = contractResult.Equipment?.IsClarityProgram == null && dealerTier.Name == _clarityProgramTier;
+            summaryAndConfirmation.IsOldClarityDeal = isOldClarityDeal;
+
             summaryAndConfirmation.IsClarityDealer = dealerTier.Name == _clarityProgramTier;
             //correction for value of a deal
             if (summaryAndConfirmation.EquipmentInfo != null)
             {
                 summaryAndConfirmation.EquipmentInfo.ValueOfDeal =
                     (double?) GetPaymentSummary(contractResult, (decimal?) summaryAndConfirmation.ProvinceTaxRate?.Rate,
-                        summaryAndConfirmation.IsClarityDealer)?.TotalAmountFinanced
+                        summaryAndConfirmation.IsClarityDealer, isOldClarityDeal)?.TotalAmountFinanced
                     ?? summaryAndConfirmation.EquipmentInfo?.ValueOfDeal;
             }
 
             return summaryAndConfirmation;
         }
 
-        public PaymentSummary GetPaymentSummary(ContractDTO contract, decimal? taxRate, bool? isClarity)
+        public PaymentSummary GetPaymentSummary(ContractDTO contract, decimal? taxRate, bool? isClarity, bool isOldClarityDeal)
         {
             PaymentSummary paymentSummary = new PaymentSummary();
 
@@ -262,9 +263,17 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                     var priceOfEquipment = 0.0m;
                     if (isClarity == true)
                     {
-                        priceOfEquipment = contract.Equipment?.NewEquipment?.Sum(x => x.MonthlyCost) ?? 0.0m;
-                        var packages = contract.Equipment?.InstallationPackages?.Sum(x => x.MonthlyCost) ?? 0.0m;
-                        priceOfEquipment += packages;
+                        if (isOldClarityDeal)
+                        {
+                            priceOfEquipment = contract.Equipment?.NewEquipment?.Sum(x => x.Cost) ?? 0;
+                        }
+                        else
+                        {
+                            priceOfEquipment = contract.Equipment?.NewEquipment?.Sum(x => x.MonthlyCost) ?? 0.0m;
+                            var packages = contract.Equipment?.InstallationPackages?.Sum(x => x.MonthlyCost) ?? 0.0m;
+                            priceOfEquipment += packages;
+                        }
+                        
                     }
                     else
                     {
@@ -279,7 +288,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                         AdminFee = contract.Equipment?.AdminFee ?? 0,
                         DownPayment = contract.Equipment?.DownPayment ?? 0,
                         CustomerRate = contract.Equipment?.CustomerRate ?? 0,
-                        IsClarity = isClarity
+                        IsClarity = isClarity,
+                        IsOldClarityDeal =  isOldClarityDeal
                     };
                     var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
                     paymentSummary.Hst = (decimal)loanCalculatorOutput.Hst;
@@ -394,7 +404,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
 
             var paymentSummary = GetPaymentSummary(contractsResult.Item1,
-                (decimal?) summaryViewModel.ProvinceTaxRate?.Rate, summaryViewModel.IsClarityDealer);
+                (decimal?) summaryViewModel.ProvinceTaxRate?.Rate, summaryViewModel.IsClarityDealer, summaryViewModel.IsOldClarityDeal);
 
             var contractEditViewModel = new ContractEditViewModel()
             {
@@ -947,7 +957,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             var summaryViewModel = await GetSummaryAndConfirmationAsync(contractId, contract);
 
             var paymentSummary = GetPaymentSummary(contract,
-                (decimal?) summaryViewModel.ProvinceTaxRate?.Rate, summaryViewModel.IsClarityDealer);
+                (decimal?) summaryViewModel.ProvinceTaxRate?.Rate, summaryViewModel.IsClarityDealer, summaryViewModel.IsOldClarityDeal);
 
             contractViewModel.AdditionalInfo = summaryViewModel.AdditionalInfo;
             contractViewModel.ContactAndPaymentInfo = summaryViewModel.ContactAndPaymentInfo;
