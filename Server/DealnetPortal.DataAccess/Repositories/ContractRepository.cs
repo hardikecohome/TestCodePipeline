@@ -825,12 +825,15 @@ namespace DealnetPortal.DataAccess.Repositories
             bool isClarity = false;
             var contract = _dbContext.Contracts
                 .Include(c => c.Equipment)
-                .Include(c => c.Equipment.RateCard)
-                .Include(c => c.Equipment.RateCard.Tier)
+                //.Include(c => c.Equipment.RateCard)
+                //.Include(c => c.Equipment.RateCard.Tier)
                 .FirstOrDefault(c => c.Id == contractId);
             if (contract != null)
             {
-                isClarity = contract.Equipment?.RateCard?.Tier?.Name == _config.GetSetting(WebConfigKeys.CLARITY_TIER_NAME) && contract.Equipment?.IsClarityProgram == true;
+                var rateCard = contract.Equipment?.RateCardId != null ? _dbContext.RateCards
+                    .Include(r => r.Tier)
+                    .FirstOrDefault(r => r.Id == contract.Equipment.RateCardId) : null;
+                isClarity = rateCard?.Tier?.Name == _config.GetSetting(WebConfigKeys.CLARITY_TIER_NAME) && contract.Equipment?.IsClarityProgram == true;
             }
             return isClarity;
         }
