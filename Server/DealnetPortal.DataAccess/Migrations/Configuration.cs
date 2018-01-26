@@ -3503,7 +3503,9 @@ namespace DealnetPortal.DataAccess.Migrations
 
         private void SetUserLogos(ApplicationDbContext context)
         {
-            context.Users.Include(u => u.Settings).ForEach(u =>
+            var users = context.Users.Include(u => u.Settings).ToList();
+
+            users?.ForEach(u =>
             {
                 try
                 {
