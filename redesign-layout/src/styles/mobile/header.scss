@@ -1,0 +1,176 @@
+@media screen and (max-width: 768px) {
+
+  .header__logo {
+    text-align: center;
+  }
+
+  .header__logo-img {
+    float: none;
+    margin-top: 0;
+    max-width: 90px;
+    display: inline-block;
+  }
+
+  .header__background {
+    min-height: 80px;
+    padding: 8px 0 0;
+  }
+
+  .mobile-navigation {
+    z-index: 10;
+    position: relative;
+    z-index: 10;
+    position: absolute;
+    right: 0;
+    bottom: -5px;
+
+    .mobile-navigation__active-item {
+      float: right;
+      background-color: $main-green;
+      cursor: pointer;
+      height: 40px;
+      text-transform: uppercase;
+      font-size: 11px;
+      width: 150px;
+      line-height: 40px;
+      background-image: url('../img/forms/selectArrow.svg');
+      background-repeat: no-repeat;
+      background-position: 92% center;
+    }
+
+    .mobile-navigation__dropdown {
+      position: absolute;
+      right: 0;
+      background-color: white;
+      display: none;
+      width: 150px;
+      z-index: 10;
+      top: 40px;
+
+      .mobile-navigation__nav-icon {
+        &:before {
+          color: $middle-grey;
+        }
+      }
+
+      ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+
+        li {
+          border-bottom: 1px solid #f2f2f2;
+          position: relative;
+
+          a {
+            color: $middle-grey;
+            text-decoration: none;
+            height: 40px;
+            line-height: 40px;
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+
+            .notification {
+              padding: 0 6px;
+              top: 11px;
+              position: absolute;
+              right: 4px;
+              font-size: 10px;
+              height: 17px;
+              line-height: 17px;
+              border-radius: 15px;
+              background-image: linear-gradient(111deg, #ff613c, #ff3258);
+              color: white;
+            }
+          }
+        }
+      }
+    }
+
+    .mobile-navigation__nav-icon {
+      font-size: 19px;
+      padding: 9px 10px 0 10px;
+      display: block;
+      float: left;
+      &:before {
+        color: white;
+      }
+    }
+  }
+
+  .body-dark-overlay {
+    height: 100%;
+    min-height: 100px;
+    background-color: black;
+    opacity: 0;
+    z-index: 1;
+    width: 100%;
+    position: fixed;
+    display: none;
+  }
+
+  .mobile-navigation__user {
+    margin-top: 30px;
+    color: $middle-grey;
+    font-size: 11px;
+    padding: 0 12px 12px;
+  }
+
+  .mobile-navigation__logout {
+    float: right;
+    color: $main-green;
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover {
+      color: $main-green;
+    }
+  }
+
+  .mobile-navigation__action-block {
+    padding: 12px;
+    border-bottom: 1px solid #f2f2f2;
+  }
+
+  .header__select {
+    color: $middle-grey;
+    font-size: 11px;
+    float: none;
+    background-image: url('../img/forms/selectArrowBlack.svg');
+  }
+
+  .mobile-help {
+    margin-top: 15px;
+
+    [class^="icon-"], [class*=" icon-"] {
+      vertical-align: text-bottom;
+
+      &:before {
+        font-size: 23px;
+      }
+    }
+  }
+
+  .mobile-help__select {
+    font-size: 12px;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background-color: transparent;
+    border: 0;
+    outline: none;
+    background-image: url('../img/forms/selectArrow.svg');
+    background-repeat: no-repeat;
+    background-position: right;
+    padding-right: 15px;
+    max-width: 100px;
+  }
+
+  .mobile-navigation,
+  .mobile-help {
+    display: block;
+  }
+
+
+}

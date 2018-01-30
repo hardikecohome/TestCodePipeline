@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DealNet home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Description" content="Description of the page">
+    <meta name="Keywords" content="Keywords of the page">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Mukta:300,400,500,700,800" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="librarys/bootstrap/css/bootstrap.min.css" />
+    <script src="librarys/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="css/styles-tablet.css" />
+    <link rel="stylesheet" type="text/css" href="css/styles-mobile.css" />
+  </head>
+  <body>
+    <div class="body-dark-overlay"></div>
+    <header>
+      <div class="header__background">
+        <div class="container">
+          <div class="header__logo">
+            <a href="home/">
+              <img class="header__logo-img" src="img/logos/logo-eco-home@2x.png" />
+            </a>
+          </div>
+          <div class="header__right-panel hidden-xs">
+            <div class="visible-lg-block">
+              <div class="header__language">
+                <select name="" id="language" class="header__select">
+                  <option value="En">En</option>
+                  <option value="Fr">Fr</option>
+                </select>
+              </div>
+              <div class="header__user">
+                <select name="" id="user_menu" class="header__select">
+                  <option value="11" selected>John Domes</option>
+                  <option value="12">user</option>
+                </select>
+              </div>
+            </div>
+            <div class="header__help">
+              How can we help?
+              <div class="clearfix"></div>
+              <span class="header__phone">1-866-382-7468</span>
+            </div>
+            <div class="clearfix visible-lg-block"></div>
+            <div class="header__support">
+              <ul class="header__support-links-list">
+                <li>
+                  <span class="icon-support"></span>
+                  <a href="#">
+                Credit
+              </a>
+                </li>
+                <li>
+                  <span class="icon-dealer-support"></span>
+                  <a href="#">
+                Dealer Support
+              </a>
+                </li>
+                <li>
+                  <span class="icon-customer-service-support"></span>
+                  <a href="#">
+                Customer Service/Funding
+              </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="header__actions-tablet visible-md-block visible-sm-block">
+            <select name="" id="language" class="header__select">
+              <option value="En" selected>En</option>
+              <option value="Fr">Fr</option>
+            </select>
+            <select name="" id="user_menu" class="header__select">
+              <option value="11" selected>John Domes</option>
+              <option value="12">user</option>
+            </select>
+          </div>
+          <div class="clearfix visible-md-block visible-sm-block"></div>
+          <nav class="header__navigation hidden-xs">
+            <ul>
+              <li>
+                <a class="active">
+                  <span class="header__nav-icon icon-home"></span>
+                  <span>Home</span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <span class="header__nav-icon icon-new_document"></span>
+                  <span>New Loan</span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <span class="header__nav-icon icon-new_document"></span>
+                  <span>New Rental</span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <span class="header__nav-icon icon-calculator"></span>
+                  <span>Calculator</span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <span class="header__nav-icon icon-link"></span>
+                  <span>Customer Link</span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <span class="header__nav-icon icon-deals"></span>
+                  <span>My Deals</span>
+                  <div class="notification">
+                    <div>5 new</div>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <span class="header__nav-icon icon-cart"></span>
+                  <span>Leads</span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <span class="header__nav-icon icon-library"></span>
+                  <span>Library</span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <span class="header__nav-icon icon-profile"></span>
+                  <span>My Profile</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <div class="mobile-help hidden-sm-up">
+            <span class="icon-how-can-we-help"></span>
+            <select name="select-help" id="" class="mobile-help__select">
+              <option value="How can we help?" checked>How can we help?</option>
+              <option value="Credit">Credit</option>
+              <option value="Credit">Dealer Support</option>
+              <option value="Credit">Customer Service/Funding</option>
+            </select>
+          </div>
+          <nav class="mobile-navigation hidden-sm-up" id="mobile-navigation">
+            <div class="mobile-navigation__active-item">
+              <span class="mobile-navigation__nav-icon icon-home"></span>
+              <span>Home</span>
+            </div>
+            <div class="mobile-navigation__dropdown">
+              <ul>
+                <li>
+                  <a href="#">
+                    <span class="mobile-navigation__nav-icon icon-home"></span>
+                    <span>Home</span>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <span class="mobile-navigation__nav-icon icon-new_document"></span>
+                    <span>New Loan</span>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <span class="mobile-navigation__nav-icon icon-new_document"></span>
+                    <span>New Rental</span>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <span class="mobile-navigation__nav-icon icon-calculator"></span>
+                    <span>Calculator</span>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <span class="mobile-navigation__nav-icon icon-link"></span>
+                    <span>Customer Link</span>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <span class="mobile-navigation__nav-icon icon-deals"></span>
+                    <span>My Deals</span>
+                    <div class="notification">5 new</div>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <span class="mobile-navigation__nav-icon icon-cart"></span>
+                    <span>Leads</span>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <span class="mobile-navigation__nav-icon icon-library"></span>
+                    <span>Library</span>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <span class="mobile-navigation__nav-icon icon-profile"></span>
+                    <span>My Profile</span>
+                  </a>
+                </li>
+              </ul>
+              <div class="mobile-navigation__action-block">
+                <select name="" id="language" class="header__select">
+                  <option value="En" selected>En</option>
+                  <option value="Fr">Fr</option>
+                </select>
+              </div>
+              <div class="mobile-navigation__user">
+                John Domes
+                <a class="mobile-navigation__logout">Log Out</a>
+              </div>
+            </div>
+          </nav>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </header>
+    <div class="clearfix"></div>
+    <div class="custom-container">
+      <a class="main-banner" href="#" style="background-image: url('../img/banner.png');"></a>
+    </div>
+    <div class="container-fluid custom-container">
+      content
+    </div>
+    <footer>
+    </footer>
+    <!-- include: "type": "js", "files": "js/*.js" -->
+    <script src="js/main.js"></script>
+    <!-- /include -->
+    <script src="http://localhost:35729/livereload.js"></script>
+  </body>
+</html>
