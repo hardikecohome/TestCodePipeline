@@ -92,7 +92,6 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.SecondaryCustomers, o => o.MapFrom(src => src.SecondaryCustomers))
                 .ForMember(x => x.PaymentInfo, o => o.MapFrom(src => src.PaymentInfo))
                 .ForMember(x => x.Comments, o => o.MapFrom(src => src.Comments))
-                .ForMember(x => x.DealerName, o => o.MapFrom(src => src.Dealer.DisplayName))
                 .ForMember(x => x.OnCreditReview, o => o.Ignore())
                 .AfterMap((c, d) =>
                 {
@@ -277,9 +276,8 @@ namespace DealnetPortal.Api.App_Start
                         FirstName = src.CustomerFirstName,
                     };
                     return primaryCustomer;
-                }))                
+                }))
                 .ForMember(d => d.DealerId, s => s.Ignore())
-                .ForMember(d=> d.DealerName, s => s.Ignore())
                 .ForMember(d => d.ContractState, s => s.Ignore())
                 .ForMember(d => d.ExternalSubDealerName, s => s.Ignore())
                 .ForMember(d => d.ExternalSubDealerId, s => s.Ignore())

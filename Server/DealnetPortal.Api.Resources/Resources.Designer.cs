@@ -646,24 +646,6 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CVC Confirmed.
-        /// </summary>
-        public static string _CVCConfirmed {
-            get {
-                return ResourceManager.GetString("_CVCConfirmed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to CVC Waiting to Fund.
-        /// </summary>
-        public static string _CVCWaitingtoFund {
-            get {
-                return ResourceManager.GetString("_CVCWaitingtoFund", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Declined Blue Chip.
         /// </summary>
         public static string _DeclinedBlueChip {
@@ -813,15 +795,6 @@ namespace DealnetPortal.Api.Resources {
         public static string _S_Submitted {
             get {
                 return ResourceManager.GetString("_S_Submitted", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Address.
-        /// </summary>
-        public static string Address {
-            get {
-                return ResourceManager.GetString("Address", resourceCulture);
             }
         }
         
@@ -1006,15 +979,6 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to City.
-        /// </summary>
-        public static string City {
-            get {
-                return ResourceManager.GetString("City", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Client.
         /// </summary>
         public static string Client {
@@ -1132,15 +1096,6 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cost of Borrowing.
-        /// </summary>
-        public static string CostOfBorrowing {
-            get {
-                return ResourceManager.GetString("CostOfBorrowing", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Credit Application.
         /// </summary>
         public static string CreditApplication {
@@ -1186,24 +1141,6 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Customer First Name.
-        /// </summary>
-        public static string CustomerFirstName {
-            get {
-                return ResourceManager.GetString("CustomerFirstName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Customer Last Name.
-        /// </summary>
-        public static string CustomerLastName {
-            get {
-                return ResourceManager.GetString("CustomerLastName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Customer lead has not been accepted by any dealer for {0}h (type: {1}, postal code: {2}).
         /// </summary>
         public static string CustomerLeadHasNotBeenAcceptedByAnyDealerFor {
@@ -1236,15 +1173,6 @@ namespace DealnetPortal.Api.Resources {
         public static string DealerCancelledEsign {
             get {
                 return ResourceManager.GetString("DealerCancelledEsign", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Dealer Invoice Amount.
-        /// </summary>
-        public static string DealerInvoiceAmount {
-            get {
-                return ResourceManager.GetString("DealerInvoiceAmount", resourceCulture);
             }
         }
         
@@ -1290,15 +1218,6 @@ namespace DealnetPortal.Api.Resources {
         public static string DoorToDoor {
             get {
                 return ResourceManager.GetString("DoorToDoor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Down Payment.
-        /// </summary>
-        public static string DownPayment {
-            get {
-                return ResourceManager.GetString("DownPayment", resourceCulture);
             }
         }
         
@@ -1789,15 +1708,6 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Monthly Payment.
-        /// </summary>
-        public static string MonthlyPayment {
-            get {
-                return ResourceManager.GetString("MonthlyPayment", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to more than 2 years.
         /// </summary>
         public static string MoreThanTwoYears {
@@ -1924,15 +1834,6 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Payment Type.
-        /// </summary>
-        public static string PaymentType {
-            get {
-                return ResourceManager.GetString("PaymentType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Permanent Residency Card.
         /// </summary>
         public static string PermanentResidencyCard {
@@ -2005,15 +1906,6 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Postal Code.
-        /// </summary>
-        public static string PostalCode {
-            get {
-                return ResourceManager.GetString("PostalCode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Pre-approved.
         /// </summary>
         public static string PreApproved {
@@ -2037,15 +1929,6 @@ namespace DealnetPortal.Api.Resources {
         public static string ProofOfInsurance {
             get {
                 return ResourceManager.GetString("ProofOfInsurance", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Province.
-        /// </summary>
-        public static string Province {
-            get {
-                return ResourceManager.GetString("Province", resourceCulture);
             }
         }
         
@@ -2316,24 +2199,6 @@ namespace DealnetPortal.Api.Resources {
         public static string ThisIsYourPass {
             get {
                 return ResourceManager.GetString("ThisIsYourPass", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Total Amount Financed.
-        /// </summary>
-        public static string TotalAmountFinanced {
-            get {
-                return ResourceManager.GetString("TotalAmountFinanced", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Total Obligation.
-        /// </summary>
-        public static string TotalObligation {
-            get {
-                return ResourceManager.GetString("TotalObligation", resourceCulture);
             }
         }
         
