@@ -11,6 +11,12 @@ namespace DealnetPortal.Web
             bundles.Add(new ScriptBundle("~/bundles/jquery")
                 .Include("~/Scripts/vendor/jquery-{version}.js"));
 
+            bundles.Add(new StyleBundle("~/bundles/styles")
+                .Include("~/Content/css/jquery-ui.css")
+                .Include("~/Content/css/styles.css")
+                .Include("~/Content/css/styles-tablet.css")
+                .Include("~/Content/css/styles-mobile.css"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").NonOrdering()
                 .Include(
                 "~/Scripts/vendor/jquery.validate*",

@@ -1,0 +1,328 @@
+﻿@using DealnetPortal.Api.Core.Helpers
+@using DealnetPortal.Web.Models.Enumeration
+@using System.Security.Claims;
+@using DealnetPortal.Web.Infrastructure.Managers
+
+<!DOCTYPE html>
+
+<html lang="@(CultureHelper.CurrentCultureType == CultureType.English ? "en-CA" : "fr-CA")">
+<!--[if IE 9 ]><html lang="@(CultureHelper.CurrentCultureType == CultureType.English ? "en-CA" : "fr-CA")" class="ie9"><![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="format-detection" content="telephone=no">
+    <title>@ViewBag.Title - DealNet</title>
+    <link href="https://fonts.googleapis.com/css?family=Mukta:300,400,500,700,800" rel="stylesheet">
+    @RenderSection("Styles", false)
+    @Styles.Render("~/bundles/styles")
+    <link rel="shortcut icon" href="@Url.Action("Favicon", "Settings", new { version = DateTime.Now.Ticks.ToString(), hashDealerName = ViewBag.HashDealerName as string })" type="image/x-icon" />
+    <script type="text/javascript">
+        var urlContent = "@Url.Content("~/")";
+        var layotSettingsUrl = "@(User.Identity.IsAuthenticated ? Url.Action("LayoutSettings", "Home") : null)";
+		var customerDealsCountUrl = "@(User.Identity.IsAuthenticated ? Url.Action("CustomersDealsCount", "Home") : null)";
+		var SupportUrl = "@(User.Identity.IsAuthenticated ? Url.Action("DealerSupportRequestEmail", "Home") : null)";
+		var DealerName = "@User.Identity.Name";
+        var translations = {};
+        translations['IfYouChangeInfo'] = "@Resources.IfYouChangeInfo";
+        translations['NavigateToStep'] = "@Resources.NavigateToStep";
+        translations['GoToStep'] = "@Resources.GoToStep";
+        translations['ThisFieldIsRequired'] = "@Resources.ThisFieldIsRequired";
+        translations['EnterValidDate'] = "@Resources.EnterValidDate";
+        translations['Cancel'] = "@Resources.Cancel";
+        @RenderSection("Translations", false)
+    </script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/dealnet")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    @switch(CultureHelper.CurrentCultureType)
+    {
+        case CultureType.French:
+            <script type="text/javascript"
+                    src="https://cdn.rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-fr.js">
+            </script>
+            <script type="text/javascript">
+                $.datepicker.regional['fr'].dayNamesMin = ['di', 'lu', 'ma', 'me', 'je', 've', 'sa'];
+                $.datepicker.regional['fr'].monthNamesShort = ["janvier", "février", "mars", "avril", "mai", "juin",
+                    "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+                $.datepicker.setDefaults($.datepicker.regional['fr']);
+            </script>
+            break;
+    }
+    @RenderSection("OutrunningScripts", false)
+    @Html.Raw(System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])
+
+</head>
+@{
+    string phone = (bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True") ?
+                           System.Configuration.ConfigurationManager.AppSettings["QuebecDealerSupportPhone"] :
+                           System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"];
+    string phoneToCall = phone.Replace("-", "");
+}
+<body class="@(User.Identity.IsAuthenticated ? "authorized" : "no-authorized")">
+    <div class="body-dark-overlay"></div>
+    <header>
+        <div class="header__background">
+            <div class="container">
+                <div class="header__logo">
+                    <a href="home/">
+                        <img class="header__logo-img" src="@Url.Content("~/Content/images/logos/logo-eco-home@2x.png")" />
+                    </a>
+                </div>
+                <div class="header__right-panel hidden-xs">
+                    <div class="visible-lg-block">
+                        <div class="header__language">
+                            <select name="" id="language" class="header__select">
+                                <option value="En">En</option>
+                                <option value="Fr">Fr</option>
+                            </select>
+                        </div>
+                        <div class="header__user">
+                            <select name="" id="user_menu" class="header__select">
+                                <option value="11" selected>John Domes</option>
+                                <option value="12">user</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="header__help">
+                        How can we help?
+                        <div class="clearfix"></div>
+                        <span class="header__phone">1-866-382-7468</span>
+                    </div>
+                    <div class="clearfix visible-lg-block"></div>
+                    <div class="header__support">
+                        <ul class="header__support-links-list">
+                            <li>
+                                <span class="icon-support"></span>
+                                <a href="#">
+                                    Credit
+                                </a>
+                            </li>
+                            <li>
+                                <span class="icon-dealer-support"></span>
+                                <a href="#">
+                                    Dealer Support
+                                </a>
+                            </li>
+                            <li>
+                                <span class="icon-customer-service-support"></span>
+                                <a href="#">
+                                    Customer Service/Funding
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="header__actions-tablet visible-md-block visible-sm-block">
+                    <select name="" id="language" class="header__select">
+                        <option value="En" selected>En</option>
+                        <option value="Fr">Fr</option>
+                    </select>
+                    <select name="" id="user_menu" class="header__select">
+                        <option value="11" selected>John Domes</option>
+                        <option value="12">user</option>
+                    </select>
+                </div>
+                <div class="clearfix visible-md-block visible-sm-block"></div>
+                <nav class="header__navigation hidden-xs">
+                    <ul>
+                        <li>
+                            <a class="active">
+                                <span class="header__nav-icon icon-home"></span>
+                                <span>Home</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <span class="header__nav-icon icon-new_document"></span>
+                                <span>New Loan</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <span class="header__nav-icon icon-new_document"></span>
+                                <span>New Rental</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <span class="header__nav-icon icon-calculator"></span>
+                                <span>Calculator</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <span class="header__nav-icon icon-link"></span>
+                                <span>Customer Link</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <span class="header__nav-icon icon-deals"></span>
+                                <span>My Deals</span>
+                                <div class="notification">
+                                    <div>5 new</div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <span class="header__nav-icon icon-cart"></span>
+                                <span>Leads</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <span class="header__nav-icon icon-library"></span>
+                                <span>Library</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <span class="header__nav-icon icon-profile"></span>
+                                <span>My Profile</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="mobile-help hidden-sm-up">
+                    <span class="icon-how-can-we-help"></span>
+                    <select name="select-help" id="" class="mobile-help__select">
+                        <option value="How can we help?" checked>How can we help?</option>
+                        <option value="Credit">Credit</option>
+                        <option value="Credit">Dealer Support</option>
+                        <option value="Credit">Customer Service/Funding</option>
+                    </select>
+                </div>
+                <nav class="mobile-navigation hidden-sm-up" id="mobile-navigation">
+                    <div class="mobile-navigation__active-item">
+                        <span class="mobile-navigation__nav-icon icon-home"></span>
+                        <span>Home</span>
+                    </div>
+                    <div class="mobile-navigation__dropdown">
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    <span class="mobile-navigation__nav-icon icon-home"></span>
+                                    <span>Home</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a>
+                                    <span class="mobile-navigation__nav-icon icon-new_document"></span>
+                                    <span>New Loan</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a>
+                                    <span class="mobile-navigation__nav-icon icon-new_document"></span>
+                                    <span>New Rental</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a>
+                                    <span class="mobile-navigation__nav-icon icon-calculator"></span>
+                                    <span>Calculator</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a>
+                                    <span class="mobile-navigation__nav-icon icon-link"></span>
+                                    <span>Customer Link</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a>
+                                    <span class="mobile-navigation__nav-icon icon-deals"></span>
+                                    <span>My Deals</span>
+                                    <div class="notification">5 new</div>
+                                </a>
+                            </li>
+                            <li>
+                                <a>
+                                    <span class="mobile-navigation__nav-icon icon-cart"></span>
+                                    <span>Leads</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a>
+                                    <span class="mobile-navigation__nav-icon icon-library"></span>
+                                    <span>Library</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a>
+                                    <span class="mobile-navigation__nav-icon icon-profile"></span>
+                                    <span>My Profile</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="mobile-navigation__action-block">
+                            <select name="" id="language" class="header__select">
+                                <option value="En" selected>En</option>
+                                <option value="Fr">Fr</option>
+                            </select>
+                        </div>
+                        <div class="mobile-navigation__user">
+                            John Domes
+                            <a class="mobile-navigation__logout">Log Out</a>
+                        </div>
+                    </div>
+                </nav>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </header><div class="clearfix"></div>
+    <div class="custom-container">
+        <a class="main-banner" href="#" style="background-image: url('../img/banner.png');"></a>
+    </div>
+    <div class="container-fluid custom-container">
+        @RenderBody()
+    </div>
+    <footer></footer>
+    <div id="alertModal" class="modal fade modal-wide">
+        <div class="modal-dialog modal-warning">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <p>One fine body&hellip;</p>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-container">
+                        <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" id="confirmAlert">@Resources.Yes</button>
+                        <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="floatingHelpBtn">
+        <div id="email_buttons">
+
+            @if(User.Identity.IsAuthenticated && ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") != true))
+            {
+                <div class="pull-right">
+
+                    <i onclick="sendEmailModel();">
+                        <button class="btn btn-lg btn-success helpbutton">
+                            <svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg>
+                            @Resources.Help
+                        </button>
+                    </i>
+                </div>
+            }
+        </div>
+    </div>
+    @Html.Partial("_HelpPopUp", new DealnetPortal.Web.Models.HelpPopUpViewModal())
+    <!-- include: "type": "js", "files": "js/*.js" -->
+    @RenderSection("Scripts", false)
+    <!-- /include -->
+</body>
+</html>

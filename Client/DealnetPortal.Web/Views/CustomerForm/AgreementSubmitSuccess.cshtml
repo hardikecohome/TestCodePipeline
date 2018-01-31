@@ -6,6 +6,7 @@
                         string.IsNullOrEmpty(Model.Province) ||
                         string.IsNullOrEmpty(Model.PostalCode));
     var isContactSection = !(string.IsNullOrEmpty(Model.Phone) && string.IsNullOrEmpty(Model.Email));
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="customer-loan-success-page align-middle-section">

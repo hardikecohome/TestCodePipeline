@@ -19,12 +19,9 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44341</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -335,6 +332,9 @@
   <ItemGroup>
     <Content Include="Content\css\jquery-ui.css" />
     <Content Include="Content\css\jquery-ui.theme.css" />
+    <Content Include="Content\css\styles-mobile.css" />
+    <Content Include="Content\css\styles-tablet.css" />
+    <Content Include="Content\css\styles.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.min.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap4.css" />
@@ -828,11 +828,15 @@
     <Content Include="Content\files\EcoHome Rate Card %28Oct 11th, 2017%29.pdf" />
     <Content Include="Content\files\EcoHome-rate-card-%28Oct 3th, 2017%29.pdf" />
     <Content Include="Content\files\How to Use Rates Approved Pre Approved Pre Oct 3, 2017.pdf" />
+    <Content Include="Content\css\styles-mobile.css.map" />
+    <Content Include="Content\css\styles-tablet.css.map" />
+    <Content Include="Content\css\styles.css.map" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\components\addressInformation.js" />
     <Content Include="Scripts\components\employmentInformation.js" />
     <Content Include="Scripts\index.js" />
+    <Content Include="Scripts\main.js" />
     <Content Include="Scripts\pages\basicInfo\additionalApplicants\employment.js" />
     <Content Include="Scripts\pages\basicInfo\homeOwner\employment.js" />
     <Content Include="Scripts\pages\customerForm\views\employment-info.js" />
@@ -1195,6 +1199,7 @@
     <Content Include="Views\NewRental\EquipmentInformation\EquipmentInformation.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_LoanRentalPrograms.cshtml" />
     <Content Include="Views\Shared\SummaryAndConfirmation\_ClarityDetailedPaymentInfo.cshtml" />
+    <Content Include="Views\Shared\_NewLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
