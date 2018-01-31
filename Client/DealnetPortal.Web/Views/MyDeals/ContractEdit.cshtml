@@ -1777,7 +1777,9 @@
                         <div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
                             <div class="row">
                                 <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
-                                    @Resources.TotalMonthlyCostOfOwnership (@Resources.TaxExcl)
+                                    <div>
+                                        @Resources.TotalMonthlyCostOfOwnership (@Resources.TaxExcl)
+                                    </div>
                                 </div>
                                 <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
                                     <div class="inline-children">
@@ -1790,7 +1792,9 @@
                         <div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
                             <div class="row">
                                 <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
-                                    @Model.ProvinceTaxRate.Description
+                                    <div>
+                                        @Model.ProvinceTaxRate.Description
+                                    </div>
                                 </div>
                                 <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
                                     <div class="inline-children">
@@ -1798,7 +1802,7 @@
                                         @{ 
                                             double taxPreRound = (double)Model.PaymentSummary.MonthlyPayment.Value * (Model.ProvinceTaxRate.Rate/100.0);
                                         }
-                                        @(Math.Round(taxPreRound, 2))
+                                        @(Math.Round(Model.PaymentSummary.Hst??0, 2))
                                     </div>
                                 </div>
                             </div>
@@ -1806,12 +1810,14 @@
                         <div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
                             <div class="row">
                                 <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
-                                    @Resources.TotalMonthlyCostOfOwnership (@Resources.TaxIncl)
+                                    <div>
+                                        @Resources.TotalMonthlyCostOfOwnership (@Resources.TaxIncl)
+                                    </div>
                                 </div>
                                 <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
                                     <div class="inline-children">
                                         <text>$</text>
-                                        @(Math.Round(Model.PaymentSummary.MonthlyPayment+(decimal)taxPreRound ?? 0, 2))
+                                        @(Math.Round(Model.PaymentSummary.MonthlyPayment-Model.PaymentSummary.Hst ?? 0, 2))
                                     </div>
                                 </div>
                             </div>
@@ -1824,12 +1830,13 @@
                             <div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
                                 <div class="row">
                                     <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
-                                        @Resources.MonthlyPayment
+                                        <div>
+                                                <text>@Resources.MonthlyPayment</text>
+                                        </div>
                                     </div>
                                     <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
                                         <div class="inline-children">
-                                            <text>$</text>
-                                            @(Math.Round(Model.PaymentSummary.MonthlyPayment ?? 0, 2))
+                                            $@(Math.Round(Model.PaymentSummary.MonthlyPayment ?? 0, 2))
                                         </div>
                                     </div>
                                 </div>
@@ -1839,7 +1846,9 @@
                                 <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
                                     <div class="row">
                                         <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
-                                            @(Model.ProvinceTaxRate?.Description ?? @Resources.Tax)
+                                            <div>
+                                                @(Model.ProvinceTaxRate?.Description ?? @Resources.Tax)
+                                            </div>
                                         </div>
                                         <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
                                             $@(Math.Round(Model.PaymentSummary.Hst ?? 0, 2))
@@ -1852,7 +1861,7 @@
                                             @Resources.TotalMonthlyPaymentWithTaxes
                                         </div>
                                         <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                                            $@(Math.Round(Model.PaymentSummary.TotalMonthlyPayment ?? 0, 2))
+                                            $@(Math.Round(Model.PaymentSummary.MonthlyPayment ?? 0, 2))
                                         </div>
                                     </div>
                                 </div>
@@ -2412,7 +2421,8 @@
 
 @section scripts
 {
-    <script type="text/javascript">
+<script type="text/javascript">
+        var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
         var isMobileBrowser = @(ViewBag.IsMobileRequest ? "true" : "false");
         var isSentToAudit = @(Model.AdditionalInfo.ContractState == ContractState.Closed ? "true" : "false");
 
@@ -2427,7 +2437,7 @@
         $(document).ready(function () {
             module.require('contract-edit').init(@(ViewBag.IsEsignatureEnabled?1:0));
         });
-    </script>
+</script>
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/localization")
     @Scripts.Render("~/bundles/contract-edit")
