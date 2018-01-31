@@ -82,3 +82,50 @@
         </div>
     </div>
 </div>
+
+    <div class="summary-payment-info well">
+        <div class="row">
+            <div class="col-md-4 col-xs-12 summary-payment-info-item">
+                <div class="row">
+                    <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+                        <div>
+                            @Resources.TotalMonthlyCostOfOwnership (@Resources.TaxExcl)
+                        </div>
+                    </div>
+                    <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                        <div class="inline-children">
+                            $<span id="totalMonthlyCostNoTax">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12 summary-payment-info-item">
+                <div class="row">
+                    <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+                        <div>
+                            @Model.ProvinceTaxRate.Description
+                        </div>
+                    </div>
+                    <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                        <div class="inline-children">
+                            $<span id="total-hst">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12 summary-payment-info-item">
+                <div class="row">
+                    <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+                        <div>
+                            @Resources.TotalMonthlyCostOfOwnership (@Resources.TaxIncl)
+                        </div>
+                    </div>
+                    <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                        <div class="inline-children">
+                            $<span id="totalMonthlyCostTax">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
