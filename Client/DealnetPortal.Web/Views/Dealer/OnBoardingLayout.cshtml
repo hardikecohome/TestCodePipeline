@@ -1,4 +1,5 @@
-﻿@model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
+﻿@using DealnetPortal.Api.Core.Helpers
+@model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
 
 @{
     ViewBag.Title = "On Boarding";
@@ -54,7 +55,7 @@
 <script id="manufacturerBrandTemplate" type="text/x-jquery-tmpl">
   <div class="col-md-4 col-sm-6 new-brand-group ${brandNumber===1?'col-clear-sm-6':''}">
     <div class="form-group">
-      <label for="">@Resources.SecondaryManufacturerBrandSold</label>
+      <label>@Resources.SecondaryManufacturerBrandSold</label>
       <div class="control-group removable-form-group">
                 <input id="brands_${brandNumber}" name="ProductInfo.Brands[${brandNumber}]" type="text" data-val="true" data-val-length-min="2" data-val-length="@Resources.SecondBrandLengthIncorrect" data-val-length-max="50" class="form-control dealnet-input secondary-brand" value="">
                 <span class="field-validation-valid text-danger" data-valmsg-for="ProductInfo.Brands[${brandNumber}]" data-valmsg-replace="true"></span>
@@ -104,7 +105,7 @@
             </div>
             <div class="col-xs-12 col-sm-6 col-md-4">
                 <div class="form-group">
-                    <label for="">@Resources.RegistrationNumber</label>
+                    <label>@Resources.RegistrationNumber</label>
                     <div class="control-group">
                         <input type="text" value="" id="${id}-license-number" data-val="true" data-val-length="@Resources.TheFieldMustBeMaximum.Replace("{0}", "Number").Replace("{1}", "20")" data-val-length-max="20" name="AdditionalDocuments[0].Number" class="form-control">
                         <span class="text-danger field-validation-error" data-valmsg-for="AdditionalDocuments[0].Number" data-valmsg-replace="true"></span>
@@ -113,7 +114,7 @@
             </div>
             <div class="col-xs-12 col-sm-3 col-md-2">
                 <div class="form-group">
-                    <label for="">@Resources.ExpiryDate</label>
+                    <label>@Resources.ExpiryDate</label>
                     <div class="control-group date-group">
                         <input type="text" class="form-control dealnet-input" data-val-date name="AdditionalDocuments[0].ExpiredDate" id="${id}-license-date">
                         <span class="field-validation-valid text-danger" data-valmsg-for="AdditionalDocuments[0].ExpiredDate" data-valmsg-replace="true"></span>
@@ -147,7 +148,7 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/localization")
     @Scripts.Render("~/bundles/onboarding")
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=initAutocomplete" async defer></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&language=@(CultureHelper.CurrentCultureType == CultureType.English ? "en" : "fr")&region=CA&libraries=places&callback=initAutocomplete" async defer></script>
     <script type="text/javascript">
         module.require('onboarding.index');
         $(document).ready(function () {

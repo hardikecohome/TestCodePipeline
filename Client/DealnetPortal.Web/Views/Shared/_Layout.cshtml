@@ -27,16 +27,6 @@
     }
     <link rel="shortcut icon" href="@Url.Action("Favicon", "Settings", new { version = DateTime.Now.Ticks.ToString(), hashDealerName = ViewBag.HashDealerName as string })" type="image/x-icon" />
     <script type="text/javascript">
-        //Next two lines for IE
-        if (!window.console) window.console = {};
-        if (!window.console.log) window.console.log = function () { };
-        // global formatNumber function Todo: remove global variables
-        window.formatNumber = function(num) {
-            if (typeof num === 'number') {
-                return num.toFixed(2);
-            }
-            return num;
-        };
         var urlContent = "@Url.Content("~/")";
         var layotSettingsUrl = "@(User.Identity.IsAuthenticated ? Url.Action("LayoutSettings", "Home") : null)";
 		var customerDealsCountUrl = "@(User.Identity.IsAuthenticated ? Url.Action("CustomersDealsCount", "Home") : null)";
@@ -55,9 +45,9 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/dealnet")
-	@Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryval")
 
-	@switch (CultureHelper.CurrentCultureType)
+    @switch(CultureHelper.CurrentCultureType)
     {
         case CultureType.French:
             <script type="text/javascript"
@@ -72,7 +62,7 @@
             break;
     }
     @RenderSection("OutrunningScripts", false)
-    <!--<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>-->
+    @*<!--<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>-->*@
     @Html.Raw(System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])
 
 </head>

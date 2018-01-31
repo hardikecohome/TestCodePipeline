@@ -1262,300 +1262,355 @@ if (contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation != null)
 
             <div class="form-section">
                 @if (contract.EquipmentInfo?.NewEquipment != null)
-                {
-                    var i = 0;
-                    <hr style="clear: both">
+    {
+        var i = 0;
+            <hr style="clear: both">
 
-                    <h3 class="dealnet-section-title">@Resources.EquipmentInformation</h3>
+            <h3 class="dealnet-section-title">@Resources.EquipmentInformation</h3>
 
-                    <div class="row credit-check-info-hold equipment-info no-top-margin">
-                        @foreach (var equipment in contract.EquipmentInfo.NewEquipment)
-                        {
-                            <div class="col-md-6 grid-column">
-                                <div class="dealnet-credit-check-section">
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="dealnet-field-caption col-xs-12">#@(++i)</div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="row">
-                                            @Html.LabelFor(m => equipment.TypeDescription, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
-                                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                                <div class="control-group">
-                                                    @equipment.TypeDescription
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="row">
-                                            @Html.LabelFor(m => equipment.Description, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
-                                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                                <div class="control-group">
-                                                    @equipment.Description
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @if (contract.EquipmentInfo?.AgreementType == AgreementType.LoanApplication)
-                                    {
-                                        <div class="form-group">
-                                            <div class="row">
-                                                @Html.LabelFor(m => equipment.Cost, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
-                                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                                    <div class="control-group">
-                                                        @equipment.Cost
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        <div class="form-group">
-                                            <div class="row">
-                                                @Html.LabelFor(m => equipment.MonthlyCost, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
-                                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                                    <div class="control-group">
-                                                        @equipment.MonthlyCost
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                        }
+            <div class="row credit-check-info-hold equipment-info no-top-margin">
+                @foreach (var equipment in contract.EquipmentInfo.NewEquipment)
+    {
+            <div class="col-md-6 grid-column">
+                <div class="dealnet-credit-check-section">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="dealnet-field-caption col-xs-12">#@(++i)</div>
+                        </div>
                     </div>
-                    <div class="row credit-check-info-hold equipment-info">
-                        <div class="col-md-6 grid-column">
-                            <div class="dealnet-credit-check-section">
-                                <div class="form-group">
-                                    <div class="row">
-                                        @Html.LabelFor(m => contract.EquipmentInfo.EstimatedInstallationDate, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
-                                        <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                            <div class="control-group">
-                                                @(contract.EquipmentInfo.EstimatedInstallationDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
-                                            </div>
-                                        </div>
-                                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            @Html.LabelFor(m => equipment.TypeDescription, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                <div class="control-group">
+                                    @equipment.TypeDescription
                                 </div>
                             </div>
                         </div>
                     </div>
-                }
-                @if (contract.EquipmentInfo != null)
-                {
+                    <div class="form-group">
+                        <div class="row">
+                            @Html.LabelFor(m => equipment.Description, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                <div class="control-group">
+                                    @equipment.Description
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if (contract.EquipmentInfo?.AgreementType == AgreementType.LoanApplication)
+    {
+        if (contract.IsClarityDealer && !contract.IsOldClarityDeal)
+        {
+                    <div class="form-group">
+                        <div class="row">
+                            @Html.Label(Resources.MonthlyCostOfOwnership, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                <div class="control-group">
+                                    @equipment.MonthlyCost
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+}
+else
+{
+                <div class="form-group">
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group summary-payment-info well">
-                                <div class="row">
-                                    <div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
-                                        <div class="row">
-                                            <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
-                                                @Resources.MonthlyPayment
-                                            </div>
-                                            <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
-                                                @if (contract.EquipmentInfo?.AgreementType == AgreementType.LoanApplication)
-                                                {
-                                                    <text>$</text>
-                                                    @(Math.Round(contract.LoanCalculatorOutput.TotalMonthlyPayment, 2))
-
-                                                }
-                                                else
-                                                {
-                                                    <text>$</text>
-                                                    @(contract.EquipmentInfo?.TotalMonthlyPayment)
-                                                }
-                                            </div>
-                                        </div>
+                        @Html.LabelFor(x => equipment.Cost, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                        <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                            <div class="control-group">
+                                @equipment.Cost
+                            </div>
+                        </div>
+                    </div>
+                </div>
+}
+}
+else
+{
+                <div class="form-group">
+                    <div class="row">
+                        @Html.LabelFor(x => equipment.MonthlyCost, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                        <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                            <div class="control-group">
+                                @equipment.MonthlyCost
+                            </div>
+                        </div>
+                    </div>
+                </div>
+}
+                </div>
+            </div>
+}
+            </div>
+            <div class="row credit-check-info-hold equipment-info">
+                <div class="col-md-6 grid-column">
+                    <div class="dealnet-credit-check-section">
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.LabelFor(m => contract.EquipmentInfo.EstimatedInstallationDate, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                    <div class="control-group">
+                                        @(contract.EquipmentInfo.EstimatedInstallationDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
                                     </div>
-                                    @if (contract.EquipmentInfo != null && contract.EquipmentInfo?.AgreementType != AgreementType.LoanApplication)
-                                    {
-                                        <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
-                                            <div class="row">
-                                                <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
-                                                    @(contract.ProvinceTaxRate?.Description ?? @Resources.Tax)
-                                                </div>
-                                                <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
-                                                    $@(Math.Round((contract.EquipmentInfo?.TotalMonthlyPayment ?? 0) * (contract.ProvinceTaxRate?.Rate ?? 0) / 100, 2))
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-7 col-xs-12 summary-payment-info-item">
-                                            <div class="row">
-                                                <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
-                                                    @Resources.TotalMonthlyPaymentWithTaxes
-                                                </div>
-                                                <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
-                                                    $@(Math.Round((contract.EquipmentInfo?.TotalMonthlyPayment ?? 0) + (contract.EquipmentInfo?.TotalMonthlyPayment ?? 0) * (contract.ProvinceTaxRate?.Rate ?? 0) / 100, 2))
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
-                }
+                </div>
+            </div>
+}
+            @if (contract.EquipmentInfo != null)
+            {
+                if (contract.EquipmentInfo.InstallationPackages?.Any() == true)
+                 {
+                   <div class="row credit-check-info-hold">
+                     <div class="col-md-6 grid-column">
+                       <div class="dealnet-credit-check-section">
+
+                         <h3 class="dealnet-section-title">
+                           @Resources.InstallationPackage
+                         </h3>
+
+                       </div>
+                     </div>
+                   </div>
+                 }
+            <div class="row credit-check-info-hold  equipment-info cols-no-titles no-top-margin equipment-info">
+                    @for (var i = 0; i < contract.EquipmentInfo.InstallationPackages.Count; i++)
+            {
+                <div class="col-md-6 grid-column">
+                    <div class="dealnet-credit-check-section">
+                        @Html.HiddenFor(m => contract.EquipmentInfo.InstallationPackages[i].Id)
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    #@(i + 1)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.LabelFor(m => contract.EquipmentInfo.InstallationPackages[i].Description, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                    @Html.DisplayFor(m => contract.EquipmentInfo.InstallationPackages[i].Description, new { @readonly = "readonly", id = "" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.Label(Resources.MonthlyCostOfOwnership, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                    @Html.DisplayFor(m => contract.EquipmentInfo.InstallationPackages[i].MonthlyCost, new { @readonly = "readonly", @class = "has-cost-sign package-cost", id = "" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              }
+              </div>
+               
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group summary-payment-info well">
+                        <div class="row">
+                            <div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
+                                <div class="row">
+                                    <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
+                                        @Resources.MonthlyPayment
+                                    </div>
+                                    <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
+                                        <text>$</text>
+                                        @(Math.Round(contract.PaymentSummary.MonthlyPayment ?? 0, 2))
+                                    </div>
+                                </div>
+                            </div>
+                            @if (contract.EquipmentInfo != null && contract.EquipmentInfo?.AgreementType != AgreementType.LoanApplication)
+                {
+                    <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
+                        <div class="row">
+                            <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
+                                @(contract.ProvinceTaxRate?.Description ?? @Resources.Tax)
+                            </div>
+                            <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
+                                $@(Math.Round((contract.EquipmentInfo?.TotalMonthlyPayment ?? 0) * (contract.ProvinceTaxRate?.Rate ?? 0) / 100, 2))
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-7 col-xs-12 summary-payment-info-item">
+                        <div class="row">
+                            <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
+                                @Resources.TotalMonthlyPaymentWithTaxes
+                            </div>
+                            <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
+                                $@(Math.Round((contract.EquipmentInfo?.TotalMonthlyPayment ?? 0) + (contract.EquipmentInfo?.TotalMonthlyPayment ?? 0) * (contract.ProvinceTaxRate?.Rate ?? 0) / 100, 2))
+                            </div>
+                        </div>
+                    </div>
+    }
+                        </div>
+                    </div>
+                </div>
+            </div>
+}
 
                 @if (contract.ContactAndPaymentInfo?.PaymentInfo != null)
-                {
-                    <div class="row credit-check-info-hold">
-                        <div class="col-md-6 grid-column">
-                            <div class="dealnet-credit-check-section">
-                                <h3 class="dealnet-section-title">@Resources.PaymentInformation</h3>
-                                <div class="form-group">
-                                    <div class="row">
-                                        @Html.LabelFor(m => contract.ContactAndPaymentInfo.PaymentInfo.PaymentType, new { @class = "dealnet-field-caption col-xs-6" })
-                                        <div class="dealnet-field-holder col-xs-6">
-                                            <div class="control-group">
-                                                @(contract.ContactAndPaymentInfo.PaymentInfo.PaymentType.GetEnumDescription())
-                                            </div>
-                                        </div>
+    {
+            <div class="row credit-check-info-hold">
+                <div class="col-md-6 grid-column">
+                    <div class="dealnet-credit-check-section">
+                        <h3 class="dealnet-section-title">@Resources.PaymentInformation</h3>
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.LabelFor(m => contract.ContactAndPaymentInfo.PaymentInfo.PaymentType, new { @class = "dealnet-field-caption col-xs-6" })
+                                <div class="dealnet-field-holder col-xs-6">
+                                    <div class="control-group">
+                                        @(contract.ContactAndPaymentInfo.PaymentInfo.PaymentType.GetEnumDescription())
                                     </div>
                                 </div>
-                                @switch (contract.ContactAndPaymentInfo.PaymentInfo.PaymentType)
-                                {
-                                    case PaymentType.Enbridge:
-                                        <div class="form-group">
-                                            <div class="row">
-                                                @Html.LabelFor(m => contract.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new { @class = "dealnet-field-caption col-xs-6" })
-                                                <div class="dealnet-field-holder col-xs-6">
-                                                    <div class="control-group">
-                                                        @(contract.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount)
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                @Html.LabelFor(m => contract.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new { @class = "dealnet-field-caption col-xs-6" })
-                                                <div class="dealnet-field-holder col-xs-6">
-                                                    <div class="control-group">
-                                                        @(contract.ContactAndPaymentInfo.PaymentInfo.MeterNumber)
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        break;
-                                    case PaymentType.Pap:
-                                        <div class="form-group">
-                                            <div class="row">
-                                                @Html.LabelFor(m => contract.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new { @class = "dealnet-field-caption col-xs-6" })
-                                                <div class="dealnet-field-holder col-xs-6">
-                                                    <div class="control-group">
-                                                        @(contract.ContactAndPaymentInfo.PaymentInfo.AccountNumber)
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                @Html.LabelFor(m => contract.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new { @class = "dealnet-field-caption col-xs-6" })
-                                                <div class="dealnet-field-holder col-xs-6">
-                                                    <div class="control-group">
-                                                        @(contract.ContactAndPaymentInfo.PaymentInfo.BlankNumber)
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                @Html.LabelFor(m => contract.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new { @class = "dealnet-field-caption col-xs-6" })
-                                                <div class="dealnet-field-holder col-xs-6">
-                                                    <div class="control-group">
-                                                        @(contract.ContactAndPaymentInfo.PaymentInfo.TransitNumber)
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        break;
-                                }
+                            </div>
+                        </div>
+                        @switch (contract.ContactAndPaymentInfo.PaymentInfo.PaymentType)
+            {
+                case PaymentType.Enbridge:
+                    <div class="form-group">
+                        <div class="row">
+                            @Html.LabelFor(m => contract.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new { @class = "dealnet-field-caption col-xs-6" })
+                            <div class="dealnet-field-holder col-xs-6">
+                                <div class="control-group">
+                                    @(contract.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount)
+                                </div>
                             </div>
                         </div>
                     </div>
-                }
+                    <div class="form-group">
+                        <div class="row">
+                            @Html.LabelFor(m => contract.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new { @class = "dealnet-field-caption col-xs-6" })
+                            <div class="dealnet-field-holder col-xs-6">
+                                <div class="control-group">
+                                    @(contract.ContactAndPaymentInfo.PaymentInfo.MeterNumber)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        break;
+    case PaymentType.Pap:
+            <div class="form-group">
+                <div class="row">
+                    @Html.LabelFor(m => contract.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new { @class = "dealnet-field-caption col-xs-6" })
+                    <div class="dealnet-field-holder col-xs-6">
+                        <div class="control-group">
+                            @(contract.ContactAndPaymentInfo.PaymentInfo.AccountNumber)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    @Html.LabelFor(m => contract.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new { @class = "dealnet-field-caption col-xs-6" })
+                    <div class="dealnet-field-holder col-xs-6">
+                        <div class="control-group">
+                            @(contract.ContactAndPaymentInfo.PaymentInfo.BlankNumber)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    @Html.LabelFor(m => contract.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new { @class = "dealnet-field-caption col-xs-6" })
+                    <div class="dealnet-field-holder col-xs-6">
+                        <div class="control-group">
+                            @(contract.ContactAndPaymentInfo.PaymentInfo.TransitNumber)
+                        </div>
+                    </div>
+                </div>
+            </div>
+break;
+}
+                    </div>
+                </div>
+            </div>
+}
                 @if (contract.EquipmentInfo?.ExistingEquipment != null && contract.EquipmentInfo.ExistingEquipment.Any())
-                {
-                    <div class="row credit-check-info-hold">
-                        <div class="col-md-6 grid-column">
-                            <div class="dealnet-credit-check-section">
-                                <h3 class="dealnet-section-title">@Resources.ExistingEquipmentInformation</h3>
-                                @foreach (var equipment in contract.EquipmentInfo.ExistingEquipment)
-                                {
-                                    <div class="summury-return-equip-item">
-                                        <div class="form-group">
-                                            <div class="row">
-                                                @Html.LabelFor(m => equipment.IsRental, new { @class = "dealnet-field-caption col-xs-6" })
-                                                <div class="dealnet-field-holder col-xs-6">
-                                                    @(equipment.IsRental ? Resources.Yes : Resources.No)
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                @Html.LabelFor(m => equipment.RentalCompany, new { @class = "dealnet-field-caption col-xs-6" })
-                                                <div class="dealnet-field-holder col-xs-6">
-                                                    @equipment.RentalCompany
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                @Html.LabelFor(m => equipment.GeneralCondition, new { @class = "dealnet-field-caption col-xs-6" })
-                                                <div class="dealnet-field-holder col-xs-6">
-                                                    @equipment.GeneralCondition
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                @Html.LabelFor(m => equipment.EstimatedAge, new { @class = "dealnet-field-caption col-xs-6" })
-                                                <div class="dealnet-field-holder col-xs-6">
-                                                    @equipment.EstimatedAge
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                @Html.LabelFor(m => equipment.Make, new { @class = "dealnet-field-caption col-xs-6" })
-                                                <div class="dealnet-field-holder col-xs-6">
-                                                    @equipment.Make
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                @Html.LabelFor(m => equipment.Model, new { @class = "dealnet-field-caption col-xs-6" })
-                                                <div class="dealnet-field-holder col-xs-6">
-                                                    @equipment.Model
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                @Html.LabelFor(m => equipment.SerialNumber, new { @class = "dealnet-field-caption col-xs-6" })
-                                                <div class="dealnet-field-holder col-xs-6">
-                                                    @equipment.SerialNumber
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                @Html.LabelFor(m => equipment.Notes, new { @class = "dealnet-field-caption col-xs-6" })
-                                                <div class="dealnet-field-holder col-xs-6">
-                                                    <span style="white-space: pre-wrap">@equipment.Notes</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
+    {
+            <div class="row credit-check-info-hold">
+                <div class="col-md-6 grid-column">
+                    <div class="dealnet-credit-check-section">
+                        <h3 class="dealnet-section-title">@Resources.ExistingEquipmentInformation</h3>
+                        @foreach (var equipment in contract.EquipmentInfo.ExistingEquipment)
+            {
+                <div class="summury-return-equip-item">
+                    <div class="form-group">
+                        <div class="row">
+                            @Html.LabelFor(m => equipment.IsRental, new { @class = "dealnet-field-caption col-xs-6" })
+                            <div class="dealnet-field-holder col-xs-6">
+                                @(equipment.IsRental ? Resources.Yes : Resources.No)
                             </div>
                         </div>
                     </div>
-                }
+                    <div class="form-group">
+                        <div class="row">
+                            @Html.LabelFor(m => equipment.RentalCompany, new { @class = "dealnet-field-caption col-xs-6" })
+                            <div class="dealnet-field-holder col-xs-6">
+                                @equipment.RentalCompany
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            @Html.LabelFor(m => equipment.GeneralCondition, new { @class = "dealnet-field-caption col-xs-6" })
+                            <div class="dealnet-field-holder col-xs-6">
+                                @equipment.GeneralCondition
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            @Html.LabelFor(m => equipment.EstimatedAge, new { @class = "dealnet-field-caption col-xs-6" })
+                            <div class="dealnet-field-holder col-xs-6">
+                                @equipment.EstimatedAge
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            @Html.LabelFor(m => equipment.Make, new { @class = "dealnet-field-caption col-xs-6" })
+                            <div class="dealnet-field-holder col-xs-6">
+                                @equipment.Make
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            @Html.LabelFor(m => equipment.Model, new { @class = "dealnet-field-caption col-xs-6" })
+                            <div class="dealnet-field-holder col-xs-6">
+                                @equipment.Model
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            @Html.LabelFor(m => equipment.SerialNumber, new { @class = "dealnet-field-caption col-xs-6" })
+                            <div class="dealnet-field-holder col-xs-6">
+                                @equipment.SerialNumber
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            @Html.LabelFor(m => equipment.Notes, new { @class = "dealnet-field-caption col-xs-6" })
+                            <div class="dealnet-field-holder col-xs-6">
+                                <span style="white-space: pre-wrap">@equipment.Notes</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+}
+                    </div>
+                </div>
+            </div>
+}
 
 
                 <hr>

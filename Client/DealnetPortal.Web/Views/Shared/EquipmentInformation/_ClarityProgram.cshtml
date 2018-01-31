@@ -1,0 +1,286 @@
+﻿@using System.Globalization
+@using DealnetPortal.Api.Models.Contract
+@using DealnetPortal.Web.Models.Enumeration
+@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+
+@{
+    if (Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
+    {
+        Model.ExistingEquipment = null;
+    }
+}
+
+@Html.HiddenFor(x => x.IsClarityProgram, new { @id="new-clarity-contract"})
+<div class="clarity">
+    <div class="row form-group">
+        <div class="col-md-3">
+            @Html.LabelFor(m => m.AgreementType)
+            <select class="form-control loan-only-dropdown-disabled" disabled="disabled" name="@Html.NameFor(m=>m.AgreementType)" id="typeOfAgreementSelect">
+                <option value="3" selected="selected">@Resources.ClarityProgram</option>
+            </select>
+        </div>
+    </div>
+    <div id="new-equipments">
+        <h3 class="dealnet-middle-header">@Resources.NewEquipmentInformation</h3>
+        @if (Model?.NewEquipment != null)
+        {
+            for (var i = 0; i < Model.NewEquipment.Count; i++)
+            {
+                <div id="new-equipment-@(i)" class="new-equipment new-equipment-wrap">
+                    @Html.HiddenFor(m => m.NewEquipment[i].Id)
+                    <div class="dealnet-middle-header equipment-number-header">
+                        <span class="equipment-number">№@(i + 1)</span>
+                        @if (i > 0)
+                        {
+                            <div class="additional-remove" id="addequipment-remove-@(i)">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </div>
+                        }
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.NewEquipment[i].Type)
+                                @Html.DropDownListFor(m => m.NewEquipment[i].Type,
+                                         ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description, Selected = Model?.NewEquipment != null && Model.NewEquipment[i]?.Type == x.Type }),
+                                         new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.NewEquipment[i].Description)
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => m.NewEquipment[i].Description, new { @class = "form-control dealnet-input", placeholder = Resources.Description })
+                                    @Html.ValidationMessageFor(m => m.NewEquipment[i].Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-xs-12 monthly-cost-col">
+                            <div class="form-group">
+                                @Html.Label(Resources.MonthlyCostOfOwnership)
+                                <div class="control-group has-addon-left">
+                                    <div class="control-group-addon">$</div>
+                                    @Html.TextBoxFor(m => m.NewEquipment[i].MonthlyCost, new { @class = "form-control dealnet-input monthly-cost", type = "text", placeholder = Resources.MonthlyCostOfOwnership })
+                                    @Html.ValidationMessageFor(m => m.NewEquipment[i].MonthlyCost, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="align-middle dealnet-info-link add-equip-link" id="addEquipment">
+                <svg aria-hidden="true" class="icon icon-add-app">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
+                </svg>
+                <span>@Resources.AddAdditionalEquipment</span>
+            </div>
+        </div>
+    </div>
+    <div id="installation-packages">
+        <h3 class="dealnet-middle-header">@Resources.InstallationPackage</h3>
+        @if (Model?.InstallationPackages != null)
+        {
+            for (var i = 0; i < Model.InstallationPackages.Count; i++)
+            {
+                <div id="package-@(i)" class="new-equipment-wrap">
+                    @Html.HiddenFor(m => m.InstallationPackages[i].Id)
+                    <div class="dealnet-middle-header equipment-number-header">
+                        <span class="equipment-number">№@(i + 1)</span>
+                        <div class="additional-remove" id="remove-package-@(i)">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-9">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.InstallationPackages[i].Description)
+                                <div class="control-group">
+                                    @Html.TextBoxFor(m => m.InstallationPackages[i].Description, new { @class = "form-control dealnet-input", placeholder = Resources.Description })
+                                    @Html.ValidationMessageFor(m => m.InstallationPackages[i].Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-xs-12 monthly-cost-col">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.InstallationPackages[i].MonthlyCost)
+                                <div class="control-group has-addon-left">
+                                    <div class="control-group-addon">$</div>
+                                    @Html.TextBoxFor(m => m.InstallationPackages[i].MonthlyCost, new { @class = "form-control dealnet-input monthly-cost", type = "text", placeholder = Resources.MonthlyCostOfOwnership })
+                                    @Html.ValidationMessageFor(m => m.InstallationPackages[i].MonthlyCost, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="align-middle dealnet-info-link add-package-link" id="addInstallationPackage">
+                <svg aria-hidden="true" class="icon icon-add-app">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
+                </svg>
+                <span>@Resources.AddInstallationPackage</span>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row form-group">
+                <div class="col-sm-7 col-xs-10 xs-info-10">
+                    @Resources.TotalMonthlyCostOfOwnership (@Resources.TaxExcl)
+                </div>
+                <div class="col-sm-5 text-right text-stronger">
+                    <span id="totalMonthlyCostNoTax">-</span>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-7 col-xs-10 xs-info-10">
+                    @Html.DisplayFor(x => x.ProvinceTaxRate.Description)
+                </div>
+                <div class="col-sm-5 text-right text-stronger">
+                    <span id="tax">-</span>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-7 col-xs-10 xs-info-10">
+                    @Resources.TotalMonthlyCostOfOwnership (@Resources.TaxIncl)
+                </div>
+                <div class="col-sm-5 text-right text-stronger">
+                    <span id="totalMonthlyCostTax">-</span>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-7 col-xs-8">
+                    @Resources.TotalPriceOfEquipment (@Resources.TaxIncl)
+                </div>
+                <div class="col-sm-5 text-right text-stronger">
+                    <span id="totalPriceEquipment">-</span>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(m => m.DownPayment)
+                    <div class="control-group has-addon-left">
+                        <div class="control-group-addon">$</div>
+                        @Html.TextBoxFor(m => m.DownPayment, new { @class = "form-control", placeholder = Resources.DownPayment, type = "text", id = "downPayment" })
+                        @Html.ValidationMessageFor(m => m.DownPayment, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="financing-options">
+        <div class="row">
+            <div class="col-md-3">
+                <h3 class="dealnet-middle-header">
+                    @Resources.FinancingOptions
+                    <span class="financing-arrow" id="loanRateCardToggle">
+                        <i class="glyphicon glyphicon-chevron-up"></i>
+                    </span>
+                </h3>
+            </div>
+        </div>
+
+        <div class="row loan-details ">
+            <div class="col-md-6 bordered">
+                <div class="row form-group">
+                    <div class="col-xs-6">@Resources.CostOfBorrowing</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="displayCostOfBorrow">-</span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6">@Resources.YourCost</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="displayYourCost">-</span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6">@Resources.TotalAmountFinanced</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="displayTotalAmount">-</span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6">@Resources.TotalAllMonthlyPayments</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="displayAllMonthly">-</span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6">@Resources.BalanceOwingEndOfPayments</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="displayBalanceOwning">-</span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6">@Resources.TotalObligation</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="displayTotalObl">-</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row form-group">
+                    <div class="col-xs-6">@Resources.LoanTerm</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="displayLoanTerm">-</span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6">@Resources.AmortizationTerm</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="displayAmortTem">-</span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6">@Resources.CustomerRate</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="displayCustRate">-</span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6">@Resources.YourCost</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="displayDealerCost">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row loan-brief hidden">
+            <div class="col-md-6">
+                <div class="row form-group">
+                    <div class="col-xs-6">@Resources.LoanAmortTerm</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="loanAmortTerm">-</span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6">@Resources.CustomerRate</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="customerRate">-</span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-xs-6">@Resources.TotalAmountFinanced</div>
+                    <div class="col-xs-6 text-right text-stronger">
+                        <span id="total-amount-financed">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

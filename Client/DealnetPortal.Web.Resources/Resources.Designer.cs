@@ -259,6 +259,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add installation package.
+        /// </summary>
+        public static string AddInstallationPackage {
+            get {
+                return ResourceManager.GetString("AddInstallationPackage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Additional Applicant.
         /// </summary>
         public static string AdditionalApplicant {
@@ -852,11 +861,20 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Balance Owing at the End of Monthly Payments (Residual).
+        ///   Looks up a localized string similar to Balance Owing at the End of Monthly Payments.
         /// </summary>
         public static string BalanceOwingEndOfPayments {
             get {
                 return ResourceManager.GetString("BalanceOwingEndOfPayments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Balance Owing at the End of Monthly Payments (Residual).
+        /// </summary>
+        public static string BalanceOwingEndOfPaymentsRes {
+            get {
+                return ResourceManager.GetString("BalanceOwingEndOfPaymentsRes", resourceCulture);
             }
         }
         
@@ -1379,6 +1397,15 @@ namespace DealnetPortal.Web.Resources {
         public static string CityIncorrectFormat {
             get {
                 return ResourceManager.GetString("CityIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clarity Program.
+        /// </summary>
+        public static string ClarityProgram {
+            get {
+                return ResourceManager.GetString("ClarityProgram", resourceCulture);
             }
         }
         
@@ -3490,6 +3517,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Installation Package.
+        /// </summary>
+        public static string InstallationPackage {
+            get {
+                return ResourceManager.GetString("InstallationPackage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Installed Equipment Model.
         /// </summary>
         public static string InstalledEquipmentModel {
@@ -4089,6 +4125,15 @@ namespace DealnetPortal.Web.Resources {
         public static string MonthlyCostIncorrectFormat {
             get {
                 return ResourceManager.GetString("MonthlyCostIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly Cost of Ownership.
+        /// </summary>
+        public static string MonthlyCostOfOwnership {
+            get {
+                return ResourceManager.GetString("MonthlyCostOfOwnership", resourceCulture);
             }
         }
         
@@ -5061,6 +5106,15 @@ namespace DealnetPortal.Web.Resources {
         public static string PostalCodeIncorrectFormat {
             get {
                 return ResourceManager.GetString("PostalCodeIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pre.
+        /// </summary>
+        public static string Pre {
+            get {
+                return ResourceManager.GetString("Pre", resourceCulture);
             }
         }
         
@@ -6305,6 +6359,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to TAX excl.
+        /// </summary>
+        public static string TaxExcl {
+            get {
+                return ResourceManager.GetString("TaxExcl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TAX incl.
+        /// </summary>
+        public static string TaxIncl {
+            get {
+                return ResourceManager.GetString("TaxIncl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 10 or more.
         /// </summary>
         public static string TenOrMore {
@@ -6526,6 +6598,15 @@ namespace DealnetPortal.Web.Resources {
         public static string TotalForSelected {
             get {
                 return ResourceManager.GetString("TotalForSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Monthly Cost of Ownership.
+        /// </summary>
+        public static string TotalMonthlyCostOfOwnership {
+            get {
+                return ResourceManager.GetString("TotalMonthlyCostOfOwnership", resourceCulture);
             }
         }
         

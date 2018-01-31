@@ -1,33 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Configuration;
-using System.IO;
 using System.Linq;
-using System.Net.Mail;
-using System.Net.Mime;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web.Hosting;
-using System.Web.UI.WebControls;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Interfaces;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Contract.EquipmentInformation;
 using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
-using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Repositories;
-using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
-using Microsoft.AspNet.Identity;
 using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Api.Integration.Services
@@ -108,6 +97,13 @@ namespace DealnetPortal.Api.Integration.Services
                 langSettings.EnabledLanguages =
                     linkSettings.EnabledLanguages.Select(l => (LanguageCode) l.LanguageId).ToList();
                 langSettings.DealerName = _dealerRepository.GetDealerNameByCustomerLinkId(linkSettings.Id);
+                var dealerId = _dealerRepository.GetUserIdByName(langSettings.DealerName);
+                if (!string.IsNullOrEmpty(dealerId))
+                {
+                    var dealer = _dealerRepository.GetDealerProfile(dealerId);
+                    var province=dealer.Address.State?.ToProvinceCode();
+                    langSettings.QuebecDealer = province != null && province == "QC";
+                }
                 return langSettings;
             }
             return null;
@@ -215,7 +211,7 @@ namespace DealnetPortal.Api.Integration.Services
                 catch (Exception ex)
                 {
                     var errorMsg =
-                        $"Cannot create contract from customer wallet request";
+                        "Cannot create contract from customer wallet request";
                     alerts.Add(new Alert()
                     {
                         Type = AlertType.Warning, //?

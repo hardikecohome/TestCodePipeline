@@ -16,9 +16,10 @@
     <hr>
     <div class="equal-height-row-2">
         <div class="form-group">
-          <label for="">@Resources.LoanAmortTerm</label>
-          @Html.DropDownList(Model + "Amortization", amortizationSelectList, new { @class = "form-control", id = Model + "-amortDropdown" })
-			@*@if (ViewBag.totalAmountFinancedFor180amortTerm == 3999)
+            <div class="equal-height-label-2">
+            <label for="">@Resources.LoanAmortTerm</label></div>
+            @Html.DropDownList(Model + "Amortization", amortizationSelectList, new {@class = "form-control", id = Model + "-amortDropdown"})
+            @*@if (ViewBag.totalAmountFinancedFor180amortTerm == 3999)
 			{
 			<a class="link-over-notify" id="DeferralNotify"
 			   data-content="@Resources.Month180AmortOnlyOver4000">
@@ -85,7 +86,7 @@
         <div class="col-xs-6 text-right text-stronger" id="DeferralTMPayments">-</div>
       </div>
       <div class="row form-group">
-        <div class="col-xs-6">@Resources.BalanceOwingEndOfPayments</div>
+        <div class="col-xs-6">@Resources.BalanceOwingEndOfPaymentsRes</div>
         <div class="col-xs-6 text-right text-stronger" id="DeferralRBalance">-</div>
       </div>
       <div class="row form-group">

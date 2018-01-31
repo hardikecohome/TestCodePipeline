@@ -66,10 +66,13 @@ function submitUpload (sender, uploadUrl, fn, ln, bd, dl, st, ct, pr, pc) {
                         $("#" + (bd || modal.getAttribute('data-bdToFill'))).val((date.getUTCMonth() + 1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()).change();
                         document.getElementById(dl || modal.getAttribute('data-dlToFill')).value = json.Id;
                         document.getElementById(st || modal.getAttribute('data-stToFill')).value = json.Street;
+                        $('#' + (st || modal.getAttribute('data-prToFill'))).change();
                         document.getElementById(ct || modal.getAttribute('data-ctToFill')).value = json.City;
+                        $('#' + (ct || modal.getAttribute('data-prToFill'))).change();
 						document.getElementById(pr || modal.getAttribute('data-prToFill')).value = json.State;
 						$('#' + (pr || modal.getAttribute('data-prToFill'))).removeClass('not-selected').change();
                         document.getElementById(pc || modal.getAttribute('data-pcToFill')).value = json.PostalCode;
+                        $('#' + (pc || modal.getAttribute('data-prToFill'))).change();
                         $('#camera-modal').modal('hide');
                         $('#' + fn).trigger('uploadSuccess');
                     }

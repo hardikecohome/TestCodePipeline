@@ -158,6 +158,17 @@ function viewport () {
     return { width: e[a + 'Width'], height: e[a + 'Height'] };
 }
 
+//Next two lines for IE
+if (!window.console) window.console = {};
+if (!window.console.log) window.console.log = function () { };
+// global formatNumber function Todo: remove global variables
+window.formatNumber = function (num) {
+    if (typeof num === 'number') {
+        return num.toFixed(2);
+    }
+    return num;
+};
+
 $(document).ready(function() {
     module.require('index')();
 })

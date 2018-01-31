@@ -19,9 +19,12 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44341</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -145,6 +148,9 @@
     <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Optimization.Less, Version=1.3.0.0, Culture=neutral, PublicKeyToken=9b7581e0240fe480, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Web.Optimization.Less.1.3.4\lib\net40\System.Web.Optimization.Less.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Windows.Forms" />
@@ -302,6 +308,7 @@
     <Compile Include="Models\EmploymentInformationViewModel.cs" />
     <Compile Include="Models\ESignatureViewModel.cs" />
     <Compile Include="Models\HelpPopUpViewModal.cs" />
+    <Compile Include="Models\InstallationPackageInformation.cs" />
     <Compile Include="Models\MyProfile\DealerAreaViewModel.cs" />
     <Compile Include="Models\MyProfile\ProfileViewModel.cs" />
     <Compile Include="Models\NewCustomerViewModel.cs" />
@@ -831,15 +838,23 @@
     <Content Include="Scripts\pages\basicInfo\additionalApplicants\employment.js" />
     <Content Include="Scripts\pages\basicInfo\homeOwner\employment.js" />
     <Content Include="Scripts\pages\customerForm\views\employment-info.js" />
+    <Content Include="Scripts\pages\newEquipment\clarity\newEquipment.clarity.calculation.js" />
+    <Content Include="Scripts\pages\newEquipment\clarity\newEquipment.clarity.index.js" />
+    <Content Include="Scripts\pages\newEquipment\clarity\newEquipment.clarity.packages.js" />
+    <Content Include="Scripts\pages\newEquipment\common\newEquipment.conversion.js" />
+    <Content Include="Scripts\pages\newEquipment\common\newEquipment.index.js" />
+    <Content Include="Scripts\pages\newEquipment\clarity\newEquipment.clarity.ui.js" />
+    <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.index.js" />
+    <Content Include="Scripts\utils\financial-functions.clarity.module.js" />
     <Content Include="Scripts\vendor\knockout.validation.js" />
     <Content Include="Scripts\pages\basicInfo\address-autocomplete.js" />
     <Content Include="Scripts\pages\calculator\calculator.validation.js" />
-    <Content Include="Scripts\pages\newEquipment\newEquipment.management.js" />
-    <Content Include="Scripts\pages\newEquipment\newEquipment.rental.js" />
-    <Content Include="Scripts\pages\newEquipment\newEquipment.state.js" />
-    <Content Include="Scripts\pages\newEquipment\newEquipment.template.js" />
-    <Content Include="Scripts\pages\newEquipment\newEquipment.validation.js" />
-    <Content Include="Scripts\pages\newEquipment\newEquipment.value-setters.js" />
+    <Content Include="Scripts\pages\newEquipment\common\newEquipment.management.js" />
+    <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.rental.js" />
+    <Content Include="Scripts\pages\newEquipment\common\newEquipment.state.js" />
+    <Content Include="Scripts\pages\newEquipment\common\newEquipment.template.js" />
+    <Content Include="Scripts\pages\newEquipment\common\newEquipment.validation.js" />
+    <Content Include="Scripts\pages\newEquipment\common\newEquipment.value-setters.js" />
     <Content Include="Scripts\pages\basicInfo\basicInfo.index.js" />
     <Content Include="Scripts\pages\basicInfo\components\basicInfo.component.js" />
     <Content Include="Scripts\pages\reportContracts\index.js" />
@@ -900,11 +915,11 @@
     <Content Include="Scripts\pages\MyProfile\my-profile-state.js" />
     <Content Include="Scripts\pages\MyProfile\postalCode-handlers.js" />
     <Content Include="Scripts\pages\MyProfile\postalCode-template.js" />
-    <Content Include="Scripts\pages\newEquipment\newEquipment.custom-rate-card.js" />
+    <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.custom-rate-card.js" />
     <Content Include="Scripts\pages\newEquipment\newEquipment.index.js" />
-    <Content Include="Scripts\pages\newEquipment\newEquipment.rate-cards.init.js" />
-    <Content Include="Scripts\pages\newEquipment\newEquipment.rate-cards.ui.js" />
-    <Content Include="Scripts\pages\newEquipment\newEquipment.rate-cards.js" />
+    <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.rate-cards.init.js" />
+    <Content Include="Scripts\pages\newEquipment\common\newEquipment.rate-cards.ui.js" />
+    <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.rate-cards.js" />
     <Content Include="Scripts\pages\onboarding\acknowledgment\onboarding.ackonwledgment.index.js" />
     <Content Include="Scripts\pages\onboarding\acknowledgment\onboarding.ackonwledgment.owners.js" />
     <Content Include="Scripts\pages\onboarding\acknowledgment\onboarding.ackonwledgment.setters.js" />
@@ -1072,7 +1087,7 @@
     <Content Include="Scripts\vendor\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\vendor\knockout-3.4.2.debug.js" />
     <Content Include="Scripts\vendor\knockout-3.4.2.js" />
-    <Content Include="Scripts\vendor\modernizr-2.6.2.js" />
+    <Content Include="Scripts\vendor\modernizr-2.8.3.js" />
     <Content Include="Scripts\vendor\respond.js" />
     <Content Include="Scripts\vendor\svgxuse.min.js" />
     <None Include="Scripts\_references.js" />
@@ -1132,7 +1147,6 @@
     <Content Include="Views\Shared\Profile\_DealerEquipment.cshtml" />
     <Content Include="Views\MortgageBroker\CustomerCreationDecline.cshtml" />
     <Content Include="Views\NewRental\RateCard.cshtml" />
-    <Content Include="Views\NewRental\EquipmentInformation.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_EquipmentTemplates.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_FixedRate.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_NoInterest.cshtml" />
@@ -1178,6 +1192,11 @@
     <Content Include="Views\Shared\SummaryAndConfirmation\_EquipmentInformation.cshtml" />
     <Content Include="Views\Shared\Maintenance\en\Banner.cshtml" />
     <Content Include="Views\Shared\_HelpPopUp.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_ClarityProgram.cshtml" />
+    <Content Include="Views\NewRental\EquipmentInformation\EquipmentInformationLayout.cshtml" />
+    <Content Include="Views\NewRental\EquipmentInformation\EquipmentInformation.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_LoanRentalPrograms.cshtml" />
+    <Content Include="Views\Shared\SummaryAndConfirmation\_ClarityDetailedPaymentInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

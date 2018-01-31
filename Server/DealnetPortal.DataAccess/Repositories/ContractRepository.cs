@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
+using DealnetPortal.Api.Common.Types;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Configuration;
@@ -168,6 +169,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
+                .Include(c => c.Equipment.InstallationPackages)
                 .Include(c => c.Documents)
                 .Include(c => c.Signers)
                 .Where(
@@ -234,8 +236,9 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
+                .Include(c => c.Equipment.InstallationPackages)
                 .Include(c => c.Documents)
-                .Include(c => c.Signers)                
+                .Include(c => c.Signers)
                 .FirstOrDefault(
                     c =>
                         c.Id == contractId &&
@@ -254,8 +257,9 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
+                .Include(c => c.Equipment.InstallationPackages)
                 .Include(c => c.Documents)
-                .Include(c => c.Signers)
+                .Include(c => c.Signers)                
                 .FirstOrDefault(
                     c =>
                         c.Id == contractId);
@@ -272,6 +276,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
+                .Include(c => c.Equipment.InstallationPackages)
                 .Include(c => c.Signers)
                 .AsNoTracking().
                 FirstOrDefault(
@@ -626,47 +631,20 @@ namespace DealnetPortal.DataAccess.Repositories
         public AspireStatus GetAspireStatus(string status)
         {
             return _dbContext.AspireStatuses.FirstOrDefault(x => x.Status.Contains(status.Trim()));
-        }
+        }  
 
-        public decimal GetContractTotalMonthlyPayment(int contractId)
+        public PaymentSummary GetContractPaymentsSummary(int contractId)
         {
-            decimal totalMp = 0.0M;
+            PaymentSummary paymentSummary = null;
 
-            var contract = _dbContext.Contracts.Find(contractId);
+            var contract = GetContract(contractId);
             if (contract != null)
             {
-                var rate =
-                    GetProvinceTaxRate(
-                        (contract.PrimaryCustomer?.Locations.FirstOrDefault(
-                            l => l.AddressType == AddressType.MainAddress) ??
-                         contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
-                if (rate != null && contract.Equipment != null)
-                {
-                    if (contract.Equipment.AgreementType == AgreementType.LoanApplication)
-                    {
-                        var loanCalculatorInput = new LoanCalculator.Input
-                        {
-                            TaxRate = 0,/* rate.Rate,*/
-                            LoanTerm = contract.Equipment.LoanTerm ?? 0,
-                            AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
-                            EquipmentCashPrice = (double?) contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
-                            AdminFee = contract.Equipment.AdminFee ?? 0,
-                            DownPayment = contract.Equipment.DownPayment ?? 0,
-                            CustomerRate = contract.Equipment.CustomerRate ?? 0
-                        };
-                        var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
-                        totalMp = (decimal) loanCalculatorOutput.TotalMonthlyPayment;
-                    }
-                    else
-                    {
-                        totalMp = (contract.Equipment.TotalMonthlyPayment ?? 0) +
-                                  (contract.Equipment.TotalMonthlyPayment ?? 0)*(decimal) (rate.Rate/100);
-                    }
-                }
+                paymentSummary = GetContractPaymentsSummary(contract);                
             }
 
-            return totalMp;
-        }        
+            return paymentSummary;
+        }
 
         public ContractDocument AddDocumentToContract(int contractId, ContractDocument document, string contractOwnerId)
         {
@@ -842,6 +820,24 @@ namespace DealnetPortal.DataAccess.Repositories
                                                             contractPostalCode.Substring(0, a.PostalCode.Length) == a.PostalCode));
         }
 
+        public bool IsClarityProgram(int contractId)
+        {
+            bool isClarity = false;
+            var contract = _dbContext.Contracts
+                .Include(c => c.Equipment)
+                //.Include(c => c.Equipment.RateCard)
+                //.Include(c => c.Equipment.RateCard.Tier)
+                .FirstOrDefault(c => c.Id == contractId);
+            if (contract != null)
+            {
+                var rateCard = contract.Equipment?.RateCardId != null ? _dbContext.RateCards
+                    .Include(r => r.Tier)
+                    .FirstOrDefault(r => r.Id == contract.Equipment.RateCardId) : null;
+                isClarity = rateCard?.Tier?.Name == _config.GetSetting(WebConfigKeys.CLARITY_TIER_NAME) && contract.Equipment?.IsClarityProgram == true;
+            }
+            return isClarity;
+        }
+
         public IList<Contract> GetExpiredContracts(DateTime expiredDate)
         {
             var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
@@ -949,186 +945,287 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             var newEquipments = equipmentInfo.NewEquipment;
             var existingEquipments = equipmentInfo.ExistingEquipment;
-            var dbEquipment = _dbContext.EquipmentInfo.Find(equipmentInfo.Id); //(contract.Id);
+            var installationPackages = equipmentInfo.InstallationPackages;
+            var dbEquipment = _dbContext.EquipmentInfo.Find(equipmentInfo.Id);
 
             if (dbEquipment == null || dbEquipment.Id == 0)
             {
                 equipmentInfo.ExistingEquipment = new List<ExistingEquipment>();
                 equipmentInfo.NewEquipment = new List<NewEquipment>();
+                equipmentInfo.InstallationPackages = new List<InstallationPackage>();
                 equipmentInfo.Contract = contract;
                 dbEquipment = _dbContext.EquipmentInfo.Add(equipmentInfo);
             }
             else
             {
-                equipmentInfo.Contract = contract;
-                equipmentInfo.ExistingEquipment = dbEquipment.ExistingEquipment;
-                equipmentInfo.NewEquipment = dbEquipment.NewEquipment;
-
-                if (string.IsNullOrEmpty(equipmentInfo.SalesRep))
-                {
-                    equipmentInfo.SalesRep = dbEquipment.SalesRep;
-                }
-                if (equipmentInfo.DownPayment == null)
-                {
-                    equipmentInfo.DownPayment = dbEquipment.DownPayment;
-                }
-                if (equipmentInfo.CustomerRate == null)
-                {
-                    equipmentInfo.CustomerRate = dbEquipment.CustomerRate;
-                }
-                if (equipmentInfo.TotalMonthlyPayment == null)
-                {
-                    equipmentInfo.TotalMonthlyPayment = dbEquipment.TotalMonthlyPayment;
-                }
-                if (equipmentInfo.RequestedTerm == null)
-                {
-                    equipmentInfo.RequestedTerm = dbEquipment.RequestedTerm;
-                }
-                if (equipmentInfo.LoanTerm == null)
-                {
-                    equipmentInfo.LoanTerm = dbEquipment.LoanTerm;
-                }
-                if (equipmentInfo.AmortizationTerm == null)
-                {
-                    equipmentInfo.AmortizationTerm = dbEquipment.AmortizationTerm;
-                }
-                if (equipmentInfo.DeferralType == null)
-                {
-                    equipmentInfo.DeferralType = dbEquipment.DeferralType;
-                }
-                if (equipmentInfo.AdminFee == null)
-                {
-                    equipmentInfo.AdminFee = dbEquipment.AdminFee;
-                }
-                if (equipmentInfo.ValueOfDeal == null)
-                {
-                    equipmentInfo.ValueOfDeal = dbEquipment.ValueOfDeal;
-                }
-                if (string.IsNullOrEmpty(equipmentInfo.InstallerFirstName))
-                {
-                    equipmentInfo.InstallerFirstName = dbEquipment.InstallerFirstName;
-                }
-                if (string.IsNullOrEmpty(equipmentInfo.InstallerLastName))
-                {
-                    equipmentInfo.InstallerLastName = dbEquipment.InstallerLastName;
-                }
-                if (!equipmentInfo.InstallationDate.HasValue)
-                {
-                    equipmentInfo.InstallationDate = dbEquipment.InstallationDate;
-                }
-                if (!equipmentInfo.EstimatedInstallationDate.HasValue)
-                {
-                    equipmentInfo.EstimatedInstallationDate = dbEquipment.EstimatedInstallationDate;
-                }
-                if (!equipmentInfo.RateCardId.HasValue)
-                {
-                    equipmentInfo.RateCardId = dbEquipment.RateCardId;
-                }
-                if (!equipmentInfo.DealerCost.HasValue)
-                {
-                    equipmentInfo.DealerCost = dbEquipment.DealerCost;
-                }
-                if (!equipmentInfo.PreferredStartDate.HasValue)
-                {
-                    equipmentInfo.PreferredStartDate = dbEquipment.PreferredStartDate;
-                }
-
-                _dbContext.EquipmentInfo.AddOrUpdate(equipmentInfo);
-                dbEquipment = _dbContext.EquipmentInfo.Find(equipmentInfo.Id);
+                UpdateEquipmentBaseInfo(dbEquipment, equipmentInfo);               
             }
 
             if (newEquipments != null)
             {
-                var existingEntities =
-                    dbEquipment.NewEquipment.Where(
-                        a => newEquipments.Any(ne => ne.Id == a.Id)).ToList();
-                var entriesForDelete = dbEquipment.NewEquipment.Except(existingEntities).ToList();
-                entriesForDelete.ForEach(e => _dbContext.NewEquipment.Remove(e));
-
-                newEquipments.ForEach(ne =>
-                {
-                    var curEquipment =
-                        dbEquipment.NewEquipment.FirstOrDefault(eq => eq.Id == ne.Id);
-                    if (curEquipment == null || ne.Id == 0)
-                    {
-                        dbEquipment.NewEquipment.Add(ne);
-                    }
-                    else
-                    {
-                        ne.EquipmentInfoId = curEquipment.EquipmentInfoId;
-                        if (ne.AssetNumber == null)
-                        {
-                            ne.AssetNumber = curEquipment.AssetNumber;
-                        }
-                        if (string.IsNullOrEmpty(ne.InstalledModel))
-                        {
-                            ne.InstalledModel = curEquipment.InstalledModel;
-                        }
-                        if (string.IsNullOrEmpty(ne.InstalledSerialNumber))
-                        {
-                            ne.InstalledSerialNumber = curEquipment.InstalledSerialNumber;
-                        }
-                        if (!ne.EstimatedInstallationDate.HasValue)
-                        {
-                            ne.EstimatedInstallationDate = curEquipment.EstimatedInstallationDate;
-                        }
-                        _dbContext.NewEquipment.AddOrUpdate(ne);
-                    }
-                });
+                AddOrUpdateNewEquipments(dbEquipment, newEquipments);
             }
 
             if (existingEquipments != null)
             {
-                var existingEntities =
-                    dbEquipment.ExistingEquipment.Where(
-                        a => existingEquipments.Any(ee => ee.Id == a.Id)).ToList();
-                var entriesForDelete = dbEquipment.ExistingEquipment.Except(existingEntities).ToList();
-                entriesForDelete.ForEach(e => _dbContext.ExistingEquipment.Remove(e));
+                AddOrUpdateExistingEquipments(dbEquipment, existingEquipments);
+            }
 
-                existingEquipments.ForEach(ee =>
+            if (installationPackages != null)
+            {
+                AddOrUpdateInstallationPackages(dbEquipment, installationPackages);
+            }
+
+            var paymentSummary = GetContractPaymentsSummary(contract);
+            dbEquipment.ValueOfDeal = (double?) paymentSummary.TotalAmountFinanced;            
+
+            return dbEquipment;
+        }
+
+        private PaymentSummary GetContractPaymentsSummary(Contract contract)
+        {
+            PaymentSummary paymentSummary = new PaymentSummary();
+
+            if (contract != null)
+            {
+                var rate =
+                    GetProvinceTaxRate(
+                        (contract.PrimaryCustomer?.Locations.FirstOrDefault(
+                             l => l.AddressType == AddressType.MainAddress) ??
+                         contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
+
+                if (contract.Equipment.AgreementType == AgreementType.LoanApplication)
                 {
-                    var curEquipment =
-                        dbEquipment.ExistingEquipment.FirstOrDefault(ex => ex.Id == ee.Id);
-                    if (curEquipment == null || ee.Id == 0)
+                    //for loan
+                    var priceOfEquipment = 0.0;
+                    if (IsClarityProgram(contract.Id))
                     {
-                        dbEquipment.ExistingEquipment.Add(ee);
+                        //for Clarity program we have different logic
+                        priceOfEquipment = (double) (contract.Equipment?.NewEquipment?.Where(ne => ne.IsDeleted != true)
+                                                         .Sum(x => x.MonthlyCost) ?? 0.0m);
+                        var packages =
+                            (double) (contract.Equipment?.InstallationPackages?.Sum(x => x.MonthlyCost) ?? 0.0m);
+                        priceOfEquipment += packages;                        
                     }
                     else
                     {
-                        ee.EquipmentInfoId = curEquipment.EquipmentInfoId;
-                        _dbContext.ExistingEquipment.AddOrUpdate(ee);
+                        priceOfEquipment = (double?)contract.Equipment?.NewEquipment?.Where(ne => ne.IsDeleted != true)
+                                               .Sum(x => x.Cost) ?? 0;
                     }
-                });
-            }
 
-            var provinceCode = contract.PrimaryCustomer?.Locations?.FirstOrDefault(
-                l => l.AddressType == AddressType.MainAddress)?.State.ToProvinceCode();
-            var taxRate = GetProvinceTaxRate(provinceCode);
-            if (dbEquipment.AgreementType == AgreementType.LoanApplication)
-            {
-                if (dbEquipment.AmortizationTerm.HasValue && dbEquipment.AmortizationTerm > 0)
-                {
                     var loanCalculatorInput = new LoanCalculator.Input
                     {
-                        TaxRate = 0,
-                        LoanTerm = contract.Equipment.LoanTerm ?? 0,
-                        AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
-                        EquipmentCashPrice = (double?) contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
-                        AdminFee = contract.Equipment.AdminFee ?? 0,
-                        DownPayment = contract.Equipment.DownPayment ?? 0,
-                        CustomerRate = contract.Equipment.CustomerRate ?? 0
-                    };
-                    dbEquipment.ValueOfDeal = LoanCalculator.Calculate(loanCalculatorInput).TotalAmountFinanced;
-                }                
-            }
-            else
-            {
-                dbEquipment.ValueOfDeal =
-                    (double?)
-                        ((dbEquipment.TotalMonthlyPayment ?? 0) +
-                         (contract.Equipment.TotalMonthlyPayment ?? 0) * (decimal)(taxRate.Rate / 100));
+                        TaxRate = rate?.Rate ?? 0,
+                        LoanTerm = contract.Equipment?.LoanTerm ?? 0,
+                        AmortizationTerm = contract.Equipment?.AmortizationTerm ?? 0,
+                        PriceOfEquipment = priceOfEquipment,
+                        AdminFee = contract.Equipment?.AdminFee ?? 0,
+                        DownPayment = contract.Equipment?.DownPayment ?? 0,
+                        CustomerRate = contract.Equipment?.CustomerRate ?? 0,
+                        IsClarity = contract.Dealer?.Tier?.Name == _config.GetSetting(WebConfigKeys.CLARITY_TIER_NAME),
+                        IsOldClarityDeal = contract.Equipment?.IsClarityProgram == null && contract.Dealer?.Tier?.Name == _config.GetSetting(WebConfigKeys.CLARITY_TIER_NAME)
+                };
+                    var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
+                    paymentSummary.LoanDetails = loanCalculatorOutput;
+
+                    paymentSummary.Hst = (decimal)loanCalculatorOutput.Hst;
+                    paymentSummary.TotalMonthlyPayment = (decimal)loanCalculatorOutput.TotalMonthlyPayment;
+                    paymentSummary.MonthlyPayment = (decimal)loanCalculatorOutput.TotalMonthlyPayment;
+                    paymentSummary.TotalAllMonthlyPayment = (decimal)loanCalculatorOutput.TotalAllMonthlyPayments;
+                    paymentSummary.TotalAmountFinanced = (decimal)loanCalculatorOutput.TotalAmountFinanced;                    
+                }
+                else
+                {
+                    //for rental!
+                    paymentSummary.MonthlyPayment = contract.Equipment?.TotalMonthlyPayment;
+                    paymentSummary.Hst =
+                        (contract.Equipment?.TotalMonthlyPayment ?? 0) * (((decimal?)rate?.Rate ?? 0.0m) / 100);
+                    paymentSummary.TotalMonthlyPayment = (contract.Equipment.TotalMonthlyPayment ?? 0) +
+                                                  (contract.Equipment.TotalMonthlyPayment ?? 0) *
+                                                  (((decimal?)rate?.Rate ?? 0.0m) / 100);
+                    paymentSummary.TotalAllMonthlyPayment = paymentSummary.TotalMonthlyPayment *
+                                                            (contract.Equipment.RequestedTerm ?? 0);
+                    paymentSummary.TotalAmountFinanced = paymentSummary.TotalAllMonthlyPayment;
+                }
             }
 
+            return paymentSummary;
+        }
+
+        private EquipmentInfo UpdateEquipmentBaseInfo(EquipmentInfo dbEquipment, EquipmentInfo equipmentInfo)
+        {            
+            if (!string.IsNullOrEmpty(equipmentInfo.SalesRep))
+            {
+                dbEquipment.SalesRep = equipmentInfo.SalesRep;
+            }
+            if (equipmentInfo.DownPayment != null)
+            {
+                dbEquipment.DownPayment = equipmentInfo.DownPayment;
+            }
+            if (equipmentInfo.CustomerRate != null)
+            {
+                dbEquipment.CustomerRate = equipmentInfo.CustomerRate;
+            }
+            if (equipmentInfo.TotalMonthlyPayment != null)
+            {
+                dbEquipment.TotalMonthlyPayment = equipmentInfo.TotalMonthlyPayment;
+            }
+            if (equipmentInfo.RequestedTerm != null)
+            {
+                dbEquipment.RequestedTerm = equipmentInfo.RequestedTerm;
+            }
+            if (equipmentInfo.LoanTerm != null)
+            {
+                dbEquipment.LoanTerm = equipmentInfo.LoanTerm;
+            }
+            if (equipmentInfo.AmortizationTerm != null)
+            {
+                dbEquipment.AmortizationTerm = equipmentInfo.AmortizationTerm;
+            }
+            if (equipmentInfo.DeferralType != null)
+            {
+                dbEquipment.DeferralType = equipmentInfo.DeferralType;
+            }
+            if (equipmentInfo.AdminFee != null)
+            {
+                dbEquipment.AdminFee = equipmentInfo.AdminFee;
+            }
+            if (equipmentInfo.ValueOfDeal != null)
+            {
+                dbEquipment.ValueOfDeal = equipmentInfo.ValueOfDeal;
+            }
+            if (!string.IsNullOrEmpty(equipmentInfo.InstallerFirstName))
+            {
+                dbEquipment.InstallerFirstName = equipmentInfo.InstallerFirstName;
+            }
+            if (!string.IsNullOrEmpty(equipmentInfo.InstallerLastName))
+            {
+                dbEquipment.InstallerLastName = equipmentInfo.InstallerLastName;
+            }
+            if (equipmentInfo.InstallationDate.HasValue)
+            {
+                dbEquipment.InstallationDate = equipmentInfo.InstallationDate;
+            }
+            if (equipmentInfo.EstimatedInstallationDate.HasValue)
+            {
+                dbEquipment.EstimatedInstallationDate = equipmentInfo.EstimatedInstallationDate;
+            }
+            if (equipmentInfo.RateCardId.HasValue)
+            {
+                dbEquipment.RateCardId = equipmentInfo.RateCardId;
+            }
+            if (equipmentInfo.DealerCost.HasValue)
+            {
+                dbEquipment.DealerCost = equipmentInfo.DealerCost;
+            }
+            if (equipmentInfo.PreferredStartDate.HasValue)
+            {
+                dbEquipment.PreferredStartDate = equipmentInfo.PreferredStartDate;
+            }
+            if (equipmentInfo.IsClarityProgram.HasValue)
+            {
+                dbEquipment.IsClarityProgram = equipmentInfo.IsClarityProgram;
+            }
+
+            return dbEquipment;
+        }
+
+        private EquipmentInfo AddOrUpdateNewEquipments(EquipmentInfo dbEquipment, IEnumerable<NewEquipment> newEquipments)
+        {
+            var existingEntities =
+                dbEquipment.NewEquipment.Where(
+                    a => newEquipments.Any(ne => ne.Id == a.Id)).ToList();
+            var entriesForDelete = dbEquipment.NewEquipment.Except(existingEntities).ToList();
+            //entriesForDelete.ForEach(e => _dbContext.NewEquipment.Remove(e));
+            entriesForDelete.ForEach(e =>
+            {
+                e.IsDeleted = true;
+                e.Cost = 0.0m;
+                e.MonthlyCost = 0.0m;
+            });
+
+            newEquipments.ForEach(ne =>
+            {
+                var curEquipment =
+                    dbEquipment.NewEquipment.FirstOrDefault(eq => eq.Id == ne.Id);
+                if (curEquipment == null || ne.Id == 0)
+                {
+                    dbEquipment.NewEquipment.Add(ne);
+                }
+                else
+                {
+                    ne.EquipmentInfoId = curEquipment.EquipmentInfoId;
+                    if (ne.AssetNumber == null)
+                    {
+                        ne.AssetNumber = curEquipment.AssetNumber;
+                    }
+                    if (string.IsNullOrEmpty(ne.InstalledModel))
+                    {
+                        ne.InstalledModel = curEquipment.InstalledModel;
+                    }
+                    if (string.IsNullOrEmpty(ne.InstalledSerialNumber))
+                    {
+                        ne.InstalledSerialNumber = curEquipment.InstalledSerialNumber;
+                    }
+                    if (!ne.EstimatedInstallationDate.HasValue)
+                    {
+                        ne.EstimatedInstallationDate = curEquipment.EstimatedInstallationDate;
+                    }
+                    _dbContext.NewEquipment.AddOrUpdate(ne);
+                }
+            });
+            return dbEquipment;
+        }
+
+        private EquipmentInfo AddOrUpdateExistingEquipments(EquipmentInfo dbEquipment, IEnumerable<ExistingEquipment> existingEquipments)
+        {
+            var existingEntities =
+                dbEquipment.ExistingEquipment.Where(
+                    a => existingEquipments.Any(ee => ee.Id == a.Id)).ToList();
+            var entriesForDelete = dbEquipment.ExistingEquipment.Except(existingEntities).ToList();
+            entriesForDelete.ForEach(e => _dbContext.ExistingEquipment.Remove(e));
+
+            existingEquipments.ForEach(ee =>
+            {
+                var curEquipment =
+                    dbEquipment.ExistingEquipment.FirstOrDefault(ex => ex.Id == ee.Id);
+                if (curEquipment == null || ee.Id == 0)
+                {
+                    dbEquipment.ExistingEquipment.Add(ee);
+                }
+                else
+                {
+                    ee.EquipmentInfoId = curEquipment.EquipmentInfoId;
+                    _dbContext.ExistingEquipment.AddOrUpdate(ee);
+                }
+            });
+            return dbEquipment;
+        }
+
+        private EquipmentInfo AddOrUpdateInstallationPackages(EquipmentInfo dbEquipment, IEnumerable<InstallationPackage> installationPackages)
+        {
+            var existingEntities =
+                dbEquipment.InstallationPackages.Where(
+                    a => installationPackages.Any(ee => ee.Id == a.Id)).ToList();
+            var entriesForDelete = dbEquipment.InstallationPackages.Except(existingEntities).ToList();
+            entriesForDelete.ForEach(e => _dbContext.InstallationPackages.Remove(e));
+
+            installationPackages.ForEach(ip =>
+            {
+                var curPackage =
+                    dbEquipment.InstallationPackages.FirstOrDefault(dbp => dbp.Id == ip.Id);
+                if (curPackage == null || ip.Id == 0)
+                {
+                    ip.EquipmentInfo = dbEquipment;
+                    dbEquipment.InstallationPackages.Add(ip);
+                }
+                else
+                {
+                    ip.EquipmentInfoId = dbEquipment.Id;
+                    ip.Id = curPackage.Id;
+                    _dbContext.InstallationPackages.AddOrUpdate(ip);
+                }
+            });
             return dbEquipment;
         }
 
@@ -1231,6 +1328,10 @@ namespace DealnetPortal.DataAccess.Repositories
             if (contractDetails.AgreementType.HasValue)
             {
                 contract.Details.AgreementType = contractDetails.AgreementType;
+                if (contract.Equipment != null)
+                {
+                    contract.Equipment.AgreementType = contractDetails.AgreementType.Value;
+                }
             }
             if (contractDetails.SignatureDocumentId != null)
             {

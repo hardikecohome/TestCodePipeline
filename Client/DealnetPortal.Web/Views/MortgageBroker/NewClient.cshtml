@@ -1,4 +1,5 @@
-﻿@model DealnetPortal.Web.Models.NewCustomerViewModel
+﻿@using DealnetPortal.Api.Core.Helpers
+@model DealnetPortal.Web.Models.NewCustomerViewModel
 
 @if (!ViewBag.IsMobileRequest)
 {
@@ -439,7 +440,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-6 col-md-4 col-lg-3">
-                                <label for="" class="hidden visible-lg">&nbsp;</label>
+                                <label class="hidden visible-lg">&nbsp;</label>
                                 <div class="control-group">
                                     <a href="#" class="dealnet-disabled-text clear-address" id="clearImprovmentAddress">
                                         <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
@@ -453,7 +454,7 @@
                 <div class="row">
                     <div class="col-md-4 col-sm-6 col-lg-3">
                         <div class="form-group">
-                            <label for="">@Resources.HomeImprovementType</label>
+                            <label>@Resources.HomeImprovementType</label>
                             <div class="control-group">
                                 @Html.DropDownList("ImpromventTypes", (Model.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }), Resources.PleaseSelect,
                 new { @class = "form-control dealnet-input", id = "improvment-equipment" })
@@ -462,7 +463,7 @@
                     </div>
                     <div class="col-md-8 col-sm-6 col-lg-6">
                         <div class="form-group">
-                            <label for="" class="hidden-xs">&nbsp;</label>
+                            <label class="hidden-xs">&nbsp;</label>
 
                             <ul class="customer-needs-list tags-list" id="improvement-types">
                                 @if (Model.HomeImprovementTypes != null)
@@ -479,7 +480,7 @@
                 <div class="row">
                     <div class="col-md-8 col-sm-8 col-lg-6">
                         <div class="form-group">
-                            <label for="">@Resources.ClientsComment</label>
+                            <label>@Resources.ClientsComment</label>
                             <div class="control-group">
                                 @Html.TextAreaFor(m => m.CustomerComment, new { @class = "form-control dealnet-input", placeholder = Resources.DescribeYourHomeImprovementProject, id = "comment", style = "height: 120px;" })
                                 @Html.ValidationMessageFor(m => m.CustomerComment, "", new { @class = "text-danger" })
@@ -504,7 +505,7 @@
                         </label>
                         <div class="consents-links">
                             <a href="" class="dealnet-info-link j-personal-data-used-modal">@Resources.HowIsMyPersonalDataUsed</a>
-                            @Html.ActionLink(@Resources.PrivacyPolicy, "PrivacyPolicy", "Info", null, new { @class = "dealnet-info-link", target = "_blank" })
+                            @Html.ActionLink(Resources.PrivacyPolicy, "PrivacyPolicy", "Info", null, new { @class = "dealnet-info-link", target = "_blank" })
                         </div>
                     </div>
                     <div class="form-group">
@@ -525,7 +526,7 @@
         </div>
     </div>
 
-    @Html.Partial("_AgreementPersonalData");
+    @Html.Partial("_AgreementPersonalData")
                                             }
 
 
@@ -563,7 +564,7 @@
         });
         module.require('new-client-index');
     </script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&libraries=places&callback=initAutocomplete" async defer></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&language=@(CultureHelper.CurrentCultureType == CultureType.English ? "en" : "fr")&region=CA&libraries=places&callback=initAutocomplete" async defer></script>
     <script type="text/javascript">
         $(document).ready(function () {
             ga('send', 'event', 'New Application Start', 'Form Open', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');

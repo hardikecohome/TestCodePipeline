@@ -202,7 +202,7 @@
     <value>Le nom d’un document ne peut être vide</value>
   </data>
   <data name="EcoHomeAbout1" xml:space="preserve">
-    <value>EcoHome Financial est une entreprise financière canadienne qui offre des produits de financement et des prêts à la mesure des besoins des consommateurs des marchés CVC et de rénovation résidentielle. Nous gérons l’ensemble de nos affaires à l’interne.</value>
+    <value>EcoHome Financement est une entreprise financière canadienne qui offre des produits de financement et des prêts à la mesure des besoins des consommateurs des marchés CVC et de rénovation résidentielle. Nous gérons l’ensemble de nos affaires à l’interne.</value>
   </data>
   <data name="EcoHomeAbout2" xml:space="preserve">
     <value>Nous collaborons avec les principaux distributeurs et fabricants afin d’offrir ce qu’il faut pour réussir dans l’environnement concurrentiel, grâce à des programmes de financement sans problèmes pour les courtiers et leurs clients.</value>
@@ -702,7 +702,7 @@
   <data name="AgreesToSendPersonalDataToCreditCheck" xml:space="preserve">
     <value>Accepte d’envoyer ses renseignements personnels pour la vérification du crédit</value>
   </data>
-  <data name="BalanceOwingEndOfPayments" xml:space="preserve">
+  <data name="BalanceOwingEndOfPaymentsRes" xml:space="preserve">
     <value>Solde à la fin des paiements mensuels (solde résiduel)</value>
   </data>
   <data name="BasicInfo" xml:space="preserve">
@@ -2881,5 +2881,32 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
   </data>
   <data name="ConsentToReceiveCommercialElectronicMessagesDPQC" xml:space="preserve">
     <value>En cochant cette case, vous consentez à recevoir des messages électroniques commerciales de la compagnie  Services financiers Ecohome à l'adresse du courriel et aux numéros de téléphone que vous avez fournis dans la demande ou de temps à autre relativement à votre compte, y compris des communications électroniques portant sur la commercialisation ou la promotion de nos programmes, nos produits, nos services, nos offres, nos événements et nos sondages qui pourraient vous intéresser. Vous pouvez retirer ce consentement en tout temps. Vous pouvez communiquer avec la compagnie de Services financiers Ecohome inc. au 425, boul de Maisonneuve O, Montréal, QC H3A 3G5</value>
+  </data>
+  <data name="Pre" xml:space="preserve">
+    <value>Pré</value>
+  </data>
+  <data name="MonthlyCostOfOwnership" xml:space="preserve">
+    <value>Le coût de Propriété  mensuel</value>
+  </data>
+  <data name="AddInstallationPackage" xml:space="preserve">
+    <value>Ajouter l'ensemble d'installation</value>
+  </data>
+  <data name="BalanceOwingEndOfPayments" xml:space="preserve">
+    <value>Solde dû à la fin de paiements mensuels</value>
+  </data>
+  <data name="InstallationPackage" xml:space="preserve">
+    <value>Ensemble d'installation</value>
+  </data>
+  <data name="TaxExcl" xml:space="preserve">
+    <value>Taxes Exclus</value>
+  </data>
+  <data name="TaxIncl" xml:space="preserve">
+    <value>Taxes Inclus</value>
+  </data>
+  <data name="TotalMonthlyCostOfOwnership" xml:space="preserve">
+    <value>Le coût de Propriété  mensuel total</value>
+  </data>
+  <data name="ClarityProgram" xml:space="preserve">
+    <value>Clarity Program</value>
   </data>
 </root>

@@ -62,6 +62,7 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 var dealerProvinceCode = aspireUserInfo.Locations?.FirstOrDefault(x => x.AddressType == AddressType.MainAddress)?.State?.ToProvinceCode();
                 claims.Add(new Claim(ClaimNames.QuebecDealer, (dealerProvinceCode != null && dealerProvinceCode == "QC").ToString()));
+                claims.Add(new Claim(ClaimNames.ClarityDealer, (!string.IsNullOrEmpty(aspireUserInfo.Ratecard) && aspireUserInfo.Ratecard == _сonfiguration.GetSetting(WebConfigKeys.CLARITY_TIER_NAME)).ToString()));
             }
 
             if (settings?.SettingValues != null)
@@ -333,7 +334,7 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 var dealerProfile = _dealerRepository.GetDealerProfile(userId) ?? new DealerProfile { DealerId = userId };
-                dealerProfile.EmailAddress = aspireUser.Emails?.FirstOrDefault(e => !string.IsNullOrEmpty(e.EmailAddress))?.EmailAddress;
+                dealerProfile.EmailAddress = aspireUser.Emails?.FirstOrDefault(e => !string.IsNullOrEmpty(e.EmailAddress))?.EmailAddress.Split(';').FirstOrDefault();// Hot fix, should be removed later
                 dealerProfile.Phone = aspireUser.Phones?.FirstOrDefault(p => !string.IsNullOrEmpty(p.PhoneNum))?.PhoneNum;
                 if (aspireUser.Locations?.Any() == true)
                 {

@@ -1522,28 +1522,28 @@ namespace DealnetPortal.Api.Integration.Services
 
         private void FillEquipmentFields(List<FormField> formFields, Contract contract, string ownerUserId)
         {
-            if (contract.Equipment?.NewEquipment?.Any() ?? false)
+            if (contract.Equipment?.NewEquipment?.Where(ne => ne.IsDeleted != true).Any() ?? false)
             {
-                var newEquipments = contract.Equipment.NewEquipment;
+                var newEquipments = contract.Equipment.NewEquipment.Where(ne => ne.IsDeleted != true).ToList();
                 var fstEq = newEquipments.First();
 
                 formFields.Add(new FormField()
                 {
                     FieldType = FieldType.Text,
                     Name = PdfFormFields.EquipmentQuantity,
-                    Value = contract.Equipment.NewEquipment.Count(ne => ne.Type == fstEq.Type).ToString()
+                    Value = newEquipments.Count(ne => ne.Type == fstEq.Type).ToString()
                 });
                 formFields.Add(new FormField()
                 {
                     FieldType = FieldType.Text,
                     Name = PdfFormFields.EquipmentCost,
-                    Value = contract.Equipment.NewEquipment.Select(ne => ne.Cost).Sum().ToString()
+                    Value = newEquipments.Select(ne => ne.Cost).Sum().ToString()
                 });
                 formFields.Add(new FormField()
                 {
                     FieldType = FieldType.Text,
                     Name = $"{PdfFormFields.EquipmentCost}_2",
-                    Value = contract.Equipment.NewEquipment.Select(ne => ne.Cost).Sum().ToString()
+                    Value = newEquipments.Select(ne => ne.Cost).Sum().ToString()
                 });
 
                 if (fstEq != null)
@@ -1794,7 +1794,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                     // support old contracts with EstimatedInstallationDate in Equipment
                 if (contract.Equipment.EstimatedInstallationDate.HasValue ||
-                    ((contract.Equipment.NewEquipment?.First()?.EstimatedInstallationDate.HasValue) ?? false))
+                    ((newEquipments.First()?.EstimatedInstallationDate.HasValue) ?? false))
                 {
                     formFields.Add(new FormField()
                     {
@@ -1802,20 +1802,22 @@ namespace DealnetPortal.Api.Integration.Services
                         Name = PdfFormFields.InstallDate,
                         Value =
                             contract.Equipment.EstimatedInstallationDate?.ToString("MM/dd/yyyy",
-                                CultureInfo.InvariantCulture) ?? contract.Equipment.NewEquipment.First()
+                                CultureInfo.InvariantCulture) ?? newEquipments.First()
                                 .EstimatedInstallationDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
                     });
                 }
             }
             if (contract.Equipment != null)
             {
-                var paySummary = GetContractPaymentsSummary(contract);
+                var paySummary = _contractRepository.GetContractPaymentsSummary(contract.Id);                
 
                 formFields.Add(new FormField()
                 {
                     FieldType = FieldType.Text,
                     Name = PdfFormFields.TotalPayment,
-                    Value = paySummary.TotalPayment?.ToString("F", CultureInfo.InvariantCulture)
+                    Value = (contract.Equipment.AgreementType == AgreementType.LoanApplication) ?
+                        paySummary.TotalAllMonthlyPayment?.ToString("F", CultureInfo.InvariantCulture) :
+                        paySummary.TotalMonthlyPayment?.ToString("F", CultureInfo.InvariantCulture)
                 });
                 formFields.Add(new FormField()
                 {
@@ -1882,7 +1884,7 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         FieldType = FieldType.Text,
                         Name = PdfFormFields.LoanTotalCashPrice,
-                        Value = paySummary.LoanDetails.TotalCashPrice.ToString("F", CultureInfo.InvariantCulture)
+                        Value = paySummary.LoanDetails.LoanTotalCashPrice.ToString("F", CultureInfo.InvariantCulture)
                     });
                     formFields.Add(new FormField()
                     {
@@ -2246,55 +2248,6 @@ namespace DealnetPortal.Api.Integration.Services
                     Value = exEq.EstimatedAge.ToString("F", CultureInfo.InvariantCulture)
                 });
             }
-        }
-
-        private PaymentSummary GetContractPaymentsSummary(Contract contract)
-        {
-            PaymentSummary paymentSummary = new PaymentSummary();
-
-            if (contract != null)
-            {
-                var rate =
-                    _contractRepository.GetProvinceTaxRate(
-                        (contract.PrimaryCustomer?.Locations.FirstOrDefault(
-                            l => l.AddressType == AddressType.MainAddress) ??
-                         contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
-                if (rate != null)
-                {
-                    if (contract.Equipment.AgreementType == AgreementType.LoanApplication)
-                    {
-                        var loanCalculatorInput = new LoanCalculator.Input
-                        {
-                            TaxRate = 0, //rate.Rate,
-                            LoanTerm = contract.Equipment.LoanTerm ?? 0,
-                            AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
-                            EquipmentCashPrice = (double?)contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
-                            AdminFee = contract.Equipment.AdminFee ?? 0,
-                            DownPayment = contract.Equipment.DownPayment ?? 0,
-                            CustomerRate = contract.Equipment.CustomerRate ?? 0
-                        };
-                        var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
-                        paymentSummary.Hst = (decimal)loanCalculatorOutput.Hst;
-                        paymentSummary.TotalPayment = (decimal)loanCalculatorOutput.TotalAllMonthlyPayments;
-                        paymentSummary.MonthlyPayment = (decimal)Math.Round(loanCalculatorOutput.TotalMonthlyPayment , 2);
-                        paymentSummary.TotalAllMonthlyPayment = (decimal)loanCalculatorOutput.TotalAllMonthlyPayments;
-
-                        paymentSummary.LoanDetails = loanCalculatorOutput;
-                    }
-                    else
-                    {
-                        paymentSummary.MonthlyPayment = contract.Equipment.TotalMonthlyPayment;
-                        paymentSummary.Hst = (contract.Equipment.TotalMonthlyPayment ?? 0) * (decimal)(rate.Rate / 100);
-                        paymentSummary.TotalPayment = (contract.Equipment.TotalMonthlyPayment ?? 0) +
-                                                      (contract.Equipment.TotalMonthlyPayment ?? 0) *
-                                                      (decimal)(rate.Rate / 100);
-                        paymentSummary.TotalAllMonthlyPayment = paymentSummary.TotalPayment *
-                                                                (contract.Equipment.RequestedTerm ?? 0);
-                    }
-                }
-            }
-
-            return paymentSummary;
         }
 
         private void ReformatTempalteNameWithId(AgreementDocument document, string transactionId)

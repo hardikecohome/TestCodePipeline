@@ -9,5 +9,6 @@
         public const string ShowAbout = "ShowAbout";
         public const string HasSkin = "HasSkin";
         public const string QuebecDealer = "QuebecDealer";
+        public const string ClarityDealer = "ClarityDealer";
     }
 }

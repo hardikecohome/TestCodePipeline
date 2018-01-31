@@ -11,7 +11,6 @@
 			return equipmentSum + t;
 		};
 
-
         var totalPrice = function(data) {
             //var t = tax(data);
             var equipmentSum = data.equipmentSum;

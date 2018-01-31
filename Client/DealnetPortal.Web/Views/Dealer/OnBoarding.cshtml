@@ -14,30 +14,35 @@
                 <div class="chosen-language">
                     <div class="lang-item">
                         <a href="#" class="chosen-language-link">
-                            @switch (CultureHelper.CurrentCultureType)
+                            @switch(CultureHelper.CurrentCultureType)
                             {
                                 case CultureType.English:
                                     @:English
-                                                    break;
+                                    break;
                                 case CultureType.French:
                                     @:Français
-                                                    break;
+                                    break;
                             }
                             <span class="caret"></span>
                         </a>
                     </div>
                 </div>
                 <ul class="lang-list">
-                    @if (CultureHelper.CurrentCultureType != CultureType.English)
+                    @{
+                        var isResuming = !string.IsNullOrEmpty(Model.AccessKey);
+                        var action = isResuming ? "ResumeOnboarding" : "Onboarding";
+                        var key = isResuming ? Model.AccessKey : Model.OnBoardingLink;
+                    }
+                    @if(CultureHelper.CurrentCultureType != CultureType.English)
                     {
                         <li class="lang-item active">
-                            @Html.ActionLink(Resources.English, null, null, new { culture = "en" }, new { @class = "lang-link" })
+                            @Html.ActionLink(Resources.English, action, "Dealer", new { culture = "en", key }, new { @class = "lang-link" })
                         </li>
                     }
-                    @if (CultureHelper.CurrentCultureType != CultureType.French)
+                    @if(CultureHelper.CurrentCultureType != CultureType.French)
                     {
                         <li class="lang-item">
-                            @Html.ActionLink(Resources.French, null, null, new { culture = "fr" }, new { @class = "lang-link" })
+                            @Html.ActionLink(Resources.French, action, "Dealer", new { culture = "fr", key }, new { @class = "lang-link" })
                         </li>
                     }
                 </ul>
@@ -56,14 +61,14 @@
             </span>
 
             @Resources.Questions <br class="hidden-xs" />
-            @Html.Raw(string.Format(Resources.ConnectWithDealerSupport,"<br/>")) <br />
-			<a href="tel:+@Resources.DealerSupportPhoneNumber" class="tel" rel="nofollow">@Resources.DealerSupportPhoneNumber</a><br />
+            @Html.Raw(string.Format(Resources.ConnectWithDealerSupport, "<br/>")) <br />
+            <a href="tel:+@Resources.DealerSupportPhoneNumber" class="tel" rel="nofollow">@Resources.DealerSupportPhoneNumber</a><br />
             <a href="mailto: @Resources.DealerSupportInfoEmail">@Resources.DealerSupportInfoEmail</a>
-			
+
         </div>
     </div>
 
-    @using (Html.BeginForm("OnBoarding", "Dealer", null, FormMethod.Post, new { id = "onboard-form", onkeydown = "return event.keyCode!=13" }))
+    @using(Html.BeginForm("OnBoarding", "Dealer", null, FormMethod.Post, new { id = "onboard-form", onkeydown = "return event.keyCode!=13" }))
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.Id)

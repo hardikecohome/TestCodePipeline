@@ -1,15 +1,23 @@
 ﻿module.exports('rateCards.index', function(require) {
     var totalObligation = require('financial-functions').totalObligation;
+    var totalRentalObligation = require('financial-functions').totalRentalObligation;
     var totalPrice = require('financial-functions').totalPrice;
     var totalAmountFinanced = require('financial-functions').totalAmountFinanced;
+    var totalRentalAmountFinanced = require('financial-functions').totalRentalAmountFinanced;
     var monthlyPayment = require('financial-functions').monthlyPayment;
+    var rentalMonthlyPayment = require('financial-functions').rentalMonthlyPayment;
     var totalMonthlyPayments = require('financial-functions').totalMonthlyPayments;
+    var totalRentalMonthlyPayments = require('financial-functions').totalRentalMonthlyPayments;
     var residualBalance = require('financial-functions').residualBalance;
+    var rentalResidualBalance = require('financial-functions').rentalResidualBalance;
     var totalBorrowingCost = require('financial-functions').totalBorrowingCost;
+    var totalRentalBorrowingCost = require('financial-functions').totalRentalBorrowingCost;
     var yourCost = require('financial-functions').yourCost;
+    var rentalYourCost = require('financial-functions').rentalYourCost;
     var tax = require('financial-functions').tax;
     var notNaN = function (num) { return !isNaN(num); };
 
+    var clarityCalculations = require('financial-functions.clarity');
     var state = require('rateCards.state').state;
     var constants = require('rateCards.state').constants;
 
@@ -76,6 +84,30 @@
             tax: eSum !== 0 ? tax({ equipmentSum: eSum, tax: state.tax }) : '-',
             totalPrice: eSum !== 0 ? totalPrice({ equipmentSum: eSum, tax: state.tax }) : '-'
         }
+    }
+
+    var caclulateClarityBriefValues = function(data) {
+        return $.extend({}, data,
+            {
+               tax: clarityCalculations.tax(data),
+               totalMonthlyCostOfOwnership: clarityCalculations.totalMonthlyCostOfOwnership(data),
+               totalPriceOfEquipment: clarityCalculations.totalPriceOfEquipment(data)
+            });
+    }
+
+    var calculateClarityValuesForRender = function(data) {
+        return $.extend({}, data,
+            {
+                costOfBorrowing: clarityCalculations.totalBorrowingCost(data),
+                totalAmountFinanced: clarityCalculations.totalAmountFinanced(data),
+                totalMonthlyPayments: clarityCalculations.totalMonthlyPayments(data),
+                residualBalance: clarityCalculations.residualBalance(data),
+                totalObligation: clarityCalculations.totalObligation(data),
+                yourCost: clarityCalculations.yourCost(data),
+                loanTerm: data.LoanTerm,
+                amortTerm: data.AmortizationTerm,
+                customerRate: data.CustomerRate
+            });
     }
 
     var calculateValuesForRender = function(data) {
@@ -150,9 +182,11 @@
     return {
         init: init,
         filterRateCard: filterRateCard,
+        caclulateClarityBriefValues: caclulateClarityBriefValues,
         calculateTotalPrice: calculateTotalPrice,
         getRateCardOnSubmit: getRateCardOnSubmit,
         getTotalAmountFinanced: getTotalAmountFinanced,
-        calculateValuesForRender: calculateValuesForRender
+        calculateValuesForRender: calculateValuesForRender,
+        calculateClarityValuesForRender: calculateClarityValuesForRender
     };
 });

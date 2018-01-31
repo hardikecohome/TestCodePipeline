@@ -9,12 +9,20 @@ namespace DealnetPortal.Domain
 
     public class EquipmentInfo
     {
+        public EquipmentInfo()
+        {
+            NewEquipment = new HashSet<NewEquipment>();
+            ExistingEquipment = new HashSet<ExistingEquipment>();
+            InstallationPackages = new HashSet<InstallationPackage>();
+        }
+
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [ForeignKey("Contract")]
         public int Id { get; set; }
         public AgreementType AgreementType { get; set; }
         public ICollection<NewEquipment> NewEquipment { get; set; }
         public ICollection<ExistingEquipment> ExistingEquipment { get; set; }
+        public ICollection<InstallationPackage> InstallationPackages { get; set; }
         public decimal? TotalMonthlyPayment { get; set; }
 
         public int? RequestedTerm { get; set; }
@@ -47,7 +55,11 @@ namespace DealnetPortal.Domain
 
         public string InstallerLastName { get; set; }
 
-        public int? RateCardId { get; set; }
+        //[ForeignKey(nameof(RateCard))]
+        public int? RateCardId { get; set; }        
+        //public RateCard RateCard { get; set; }
+
+        public bool? IsClarityProgram { get; set; }
 
         public Contract Contract { get; set; }
 

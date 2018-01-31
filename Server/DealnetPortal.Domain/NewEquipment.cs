@@ -17,6 +17,8 @@
         public string InstalledSerialNumber { get; set; }
         public string InstalledModel { get; set; }
 
+        public bool? IsDeleted { get; set; }
+
         public int EquipmentInfoId { get; set; }
         [ForeignKey("EquipmentInfoId")]
         public EquipmentInfo EquipmentInfo { get; set; }

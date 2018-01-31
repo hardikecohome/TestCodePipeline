@@ -9,8 +9,7 @@ using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
 
-
-namespace DealnetPortal.Web.Infrastructure
+namespace DealnetPortal.Web.Infrastructure.Managers
 {
     public class CustomerFormManager : ICustomerFormManager
     {
@@ -25,8 +24,8 @@ namespace DealnetPortal.Web.Infrastructure
 
         public async Task<Tuple<CustomerContractInfoDTO, IList<Alert>>> SubmitCustomerForm(CustomerFormViewModel customerForm, UriBuilder urlBuilder)
         {
-            var customerFormDto = new CustomerFormDTO();
-            customerFormDto.PrimaryCustomer = AutoMapper.Mapper.Map<CustomerDTO>(customerForm.HomeOwner);
+            var customerFormDto =
+                    new CustomerFormDTO {PrimaryCustomer = Mapper.Map<CustomerDTO>(customerForm.HomeOwner)};
             customerFormDto.PrimaryCustomer.Locations = new List<LocationDTO>();
             var mainAddress = Mapper.Map<LocationDTO>(customerForm.HomeOwner.AddressInformation);
             mainAddress.AddressType = AddressType.MainAddress;
@@ -43,6 +42,7 @@ namespace DealnetPortal.Web.Infrastructure
                 customerFormDto.PrimaryCustomer.EmploymentInfo =
                         Mapper.Map<EmploymentInfoDTO>(customerForm.HomeOwner.EmploymentInformation);
             }
+
             var customerContactInfo = Mapper.Map<CustomerDataDTO>(customerForm.HomeOwnerContactInfo);
             customerFormDto.PrimaryCustomer.Emails = customerContactInfo.Emails;
             customerFormDto.PrimaryCustomer.Phones = customerContactInfo.Phones;

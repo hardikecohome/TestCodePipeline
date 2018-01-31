@@ -12,6 +12,7 @@ namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
         public AgreementType AgreementType { get; set; }
         public List<NewEquipmentDTO> NewEquipment { get; set; }
         public List<ExistingEquipmentDTO> ExistingEquipment { get; set; }
+        public List<InstallationPackageDTO> InstallationPackages { get; set; }
         public decimal? TotalMonthlyPayment { get; set; }
 
         public int? RequestedTerm { get; set; }
@@ -47,6 +48,8 @@ namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
         public int ContractId { get; set; }
 
         public int? RateCardId { get; set; }
+
+        public bool? IsClarityProgram { get; set; }
 
         public double? DealerCost { get; set; }
     }

@@ -52,7 +52,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public List<NewEquipmentInformation> NewEquipment { get; set; }
 
         public List<ExistingEquipmentInformation> ExistingEquipment { get; set; }
-
+        public List<InstallationPackageInformation> InstallationPackages { get; set; }
         [Display(ResourceType = typeof(Resources.Resources), Name = "HouseSizeSquareFeet")]
         public double? HouseSize { get; set; }
 
@@ -140,6 +140,9 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public bool? RateCardValid { get; set; }
         public bool IsOnlyLoanAvailable { get; set; }
+        public bool IsClarityDealer { get; set; } = false;
+        public bool IsOldClarityDeal { get; set; } = false;
+        public bool? IsClarityProgram { get; set; }
     }
 
     public class EquipmentInformationViewModel
@@ -148,6 +151,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public AgreementType AgreementType { get; set; }
 
         public List<NewEquipmentInformation> NewEquipment { get; set; }
+        public List<InstallationPackageInformation> InstallationPackages { get; set; }
 
         [RegularExpression(@"^[1-9]\d{0,11}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "TotalMonthlyPaymentIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "TotalMonthlyPayment")]

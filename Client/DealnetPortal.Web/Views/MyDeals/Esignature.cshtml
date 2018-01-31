@@ -1,4 +1,5 @@
-﻿@using ApiEnum = DealnetPortal.Api.Common.Enumeration
+﻿@using System.Globalization
+@using ApiEnum = DealnetPortal.Api.Common.Enumeration
 @using DealnetPortal.Web.Models.Enumeration
 @model DealnetPortal.Web.Models.ContractEditViewModel
 
@@ -140,7 +141,7 @@
                                                         <text>@Resources.WaitingSignature</text>
                                                     }
                                                 </div>
-                                                <div class="signature-date @(Model.ESignature.Signers[i].StatusLastUpdateTime.HasValue?"":"hidden")">(<span class="signature-date-hold">@(Model.ESignature.Signers[i].StatusLastUpdateTime.HasValue ? Model.ESignature.Signers[i].StatusLastUpdateTime.Value.ToString("MM/dd/yyyy hh:mm tt") : "")</span>)</div>
+                                                <div class="signature-date @(Model.ESignature.Signers[i].StatusLastUpdateTime.HasValue?"":"hidden")">(<span class="signature-date-hold">@(Model.ESignature.Signers[i].StatusLastUpdateTime.HasValue ? Model.ESignature.Signers[i].StatusLastUpdateTime.Value.ToString(CultureInfo.CurrentCulture) : "")</span>)</div>
                                                 <div class="signer-btn-hold">
                                                     <svg aria-hidden="true" class="icon icon-success hidden">
                                                         <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>

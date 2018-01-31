@@ -6,7 +6,7 @@
         };
 
         var rateCardValid = $('#RateCardValid').val().toLowerCase() !== 'false' ? true : false;;
-
+        
         if (!rateCardValid) {
             $('#expired-rate-card-warning').removeClass('hidden');
             $('#submitBtn').addClass('disabled');
@@ -71,25 +71,63 @@ function recalculateTotalMonthlyPayment () {
 
 function recalculateTotalCashPrice () {
     var sum = 0;
-    $(".equipment-cost").each(function () {
-        var numberValue = parseFloat(this.value);
-        if (!isNaN(numberValue)) {
-            sum += numberValue;
-        }
-    });
+    var packageSum = 0;
+    var isClarity = $('#clarity-dealer').val().toLowerCase() === 'true';
+    var isOldClarityDeal = $('#old-clarity-deal').val().toLowerCase() === 'true';
+    if (isClarity && !isOldClarityDeal) {
+        $(".monthly-cost").each(function() {
+            var numberValue = parseFloat(this.value);
+            if (!isNaN(numberValue)) {
+                sum += numberValue;
+            }
+        });
+        $('.package-cost').each(function() {
+            var numberValue = parseFloat(this.value);
+            if (!isNaN(numberValue)) {
+                packageSum += numberValue;
+            }
+        });
+        $("#package-cash-price").text(formatNumber(packageSum));
+
+    } else {
+        $(".equipment-cost").each(function () {
+            var numberValue = parseFloat(this.value);
+            if (!isNaN(numberValue)) {
+                sum += numberValue;
+            }
+        });
+    }
 
     $("#equipment-cash-price").text(formatNumber(sum));
-    calculateLoanValues();
+
+    if (isClarity && !isOldClarityDeal) {
+        calculateClarityTotalCashPrice();
+    } else {
+        calculateLoanValues();
+    }
 }
 
 function checkTotalEquipmentCost () {
     var sum = 0;
-    $(".equipment-cost").each(function () {
-        var numberValue = parseFloat(this.value);
-        if (!isNaN(numberValue)) {
-            sum += numberValue;
-        }
-    });
+    var isClarity = $('#clarity-dealer').val().toLowerCase() === 'true';
+    var isOldClarityDeal = $('#old-clarity-deal').val().toLowerCase() === 'true';
+
+    if (isClarity && !isOldClarityDeal) {
+        $(".monthly-cost").each(function() {
+            var numberValue = parseFloat(this.value);
+            if (!isNaN(numberValue)) {
+                sum += numberValue;
+            }
+        });
+    } else {
+        $(".equipment-cost").each(function () {
+            var numberValue = parseFloat(this.value);
+            if (!isNaN(numberValue)) {
+                sum += numberValue;
+            }
+        });
+    }
+
     if (sum > creditAmount) {
         $('#new-equipment-validation-message').html('<span>' + translations['TotalCostGreaterThanAmount'] + '</span>');
         return false;

@@ -131,6 +131,7 @@
 
         function changeToUnemployedOrRetired() {
             annual.prop('disabled', false).parents('.form-group').removeClass('hidden');
+            $('#annual-label').removeClass('hidden');
 
             incomeType.prop('disabled', true).parents('.form-group').addClass('hidden');
             $('#income-label').addClass('hidden');
@@ -222,10 +223,11 @@
             cunit: unit,
             ccity: city,
             cprovince: province,
-            cpostalCode: postal
+            cpostalCode: postal,
+            isQuebecDealer: $('#isQuebecDealer')
         };
 
-        dispatch(createAction(customerActions.SET_INITIAL_STATE), readInitialStateFromFields(initialStateMap));
+        dispatch(createAction(customerActions.SET_INITIAL_STATE, readInitialStateFromFields(initialStateMap)));
 
         var observeCustomerFormStore = observe(store);
 

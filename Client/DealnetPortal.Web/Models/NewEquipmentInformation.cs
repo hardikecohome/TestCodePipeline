@@ -28,7 +28,8 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [RegularExpression(@"^[1-9]\d{0,11}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "CostIncorrectFormat")]
         public double? Cost { get; set; }
 
-        [RegularExpression(@"^[1-9]\d{0,11}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "MonthlyCostIncorrectFormat")]
+        [CustomRequired]
+        [RegularExpression(@"^[1-9]\d{0,5}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "MonthlyCostIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "MonthlyCost")]
         public double? MonthlyCost { get; set; }
 

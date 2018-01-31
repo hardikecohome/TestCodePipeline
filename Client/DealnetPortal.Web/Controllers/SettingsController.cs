@@ -11,16 +11,21 @@ using DealnetPortal.Api.Core.Helpers;
 using DealnetPortal.Web.Common.Culture;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using System.Security.Claims;
+using DealnetPortal.Utilities.Logging;
+using log4net;
 
 namespace DealnetPortal.Web.Controllers
 {
     public class SettingsController : Controller
     {
         private readonly ISettingsManager _settingsManager;
-        private readonly ISecurityManager _securityManager = DependencyResolver.Current.GetService<ISecurityManager>();
-        public SettingsController(ISettingsManager settingsManager)
+
+        private readonly ILoggingService _loggingService;
+
+        public SettingsController(ISettingsManager settingsManager, ILoggingService loggingService)
         {
             _settingsManager = settingsManager;
+            _loggingService = loggingService;
         }
 
         [OutputCache(NoStore = true, Duration = 0, Location = OutputCacheLocation.None, VaryByParam = "*")]
@@ -29,10 +34,12 @@ namespace DealnetPortal.Web.Controllers
             BinarySettingDTO image = null;
             if (HttpContext.User.Identity.IsAuthenticated || hashDealerName != null)
             {
+                _loggingService.LogInfo($"Get dealer Logo for dealer: {(!string.IsNullOrEmpty(User?.Identity?.Name) ? User.Identity.Name : hashDealerName)}");
                 image = await _settingsManager.GetUserLogoAsync(!string.IsNullOrEmpty(User?.Identity?.Name) ? User.Identity.Name : hashDealerName);
             }
             if (image?.ValueBytes != null)
             {
+                _loggingService.LogInfo($"Got dealer Logo {image?.ValueBytes.Length}bytes settings for dealer: {(!string.IsNullOrEmpty(User?.Identity?.Name) ? User.Identity.Name : hashDealerName)}");
                 return File(image.ValueBytes, "application/octet-stream");
             }
             //fallback:
