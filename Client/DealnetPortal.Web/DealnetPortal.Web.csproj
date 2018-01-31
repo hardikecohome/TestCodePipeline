@@ -821,13 +821,15 @@
     <Content Include="Content\files\resources\en\Myhome-Wallet-Detailed-Description.pdf" />
     <Content Include="Content\files\resources\en\Myhome-Wallet-Short-Description.pdf" />
     <Content Include="Content\files\resources\en\Portal-User-Guide.pdf" />
-    <Content Include="Content\files\resources\en\Summer-Fall-2017-Promotion.pdf" />
     <Content Include="Content\less\components\status-colors.less" />
     <Content Include="Content\less\components\dob-control.less" />
     <Content Include="Content\files\Dealer Portal Update Oct 2017.pdf" />
     <Content Include="Content\files\EcoHome Rate Card %28Oct 11th, 2017%29.pdf" />
     <Content Include="Content\files\EcoHome-rate-card-%28Oct 3th, 2017%29.pdf" />
     <Content Include="Content\files\How to Use Rates Approved Pre Approved Pre Oct 3, 2017.pdf" />
+    <Content Include="Content\files\resources\en\EcoHome Rate Card - V2.0-10-11-2017.pdf" />
+    <Content Include="Content\files\resources\en\Rates Approved Pre Oct 3rd, 2017 - Full Reference Guide.pdf" />
+    <Content Include="Content\files\resources\en\Rates Approved Pre Oct 3rd, 2017 - Quick Reference Guide.pdf" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\components\addressInformation.js" />

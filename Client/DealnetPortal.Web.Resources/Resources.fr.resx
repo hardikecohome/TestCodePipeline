@@ -1539,9 +1539,6 @@
   <data name="AcknowledgeAndAgree" xml:space="preserve">
     <value>Je reconnais et j’accepte</value>
   </data>
-  <data name="AcknowledgeAndAgreementObtainCreditReport" xml:space="preserve">
-    <value>En soumettant cette demande, vous reconnaissez et acceptez que la compagnie de Financement EcoHome inc. est autorisée à obtenir votre dossier de crédit d’une ou plusieurs agences d’évaluation du crédit des consommateurs (par exemple, Equifax ou trans Union), afin de vérifier les renseignements de votre dossier de crédit auprès de tiers au besoin, et de mettre à jour, de manière périodique, les renseignements de votre dossier de crédit auprès des agences d’évaluation du crédit. Vous êtes avisé par les présentes qu’un rapport de consommation renfermant de l’information sur le crédit ou des renseignements personnels, peut-être consulté relativement à cette demande. Vous consentez à, de recevoir et d’utiliser en format électronique toutes les ententes et tous les avis, divulgations et autres documents ou renseignements liés à la présente demande que la compagnie de financement ecohome inc. peut vous envoyez.</value>
-  </data>
   <data name="Acknowledgment" xml:space="preserve">
     <value>Reconnaissance</value>
   </data>
@@ -1756,7 +1753,7 @@
     <value>Consentements</value>
   </data>
   <data name="ConsentToReceiveCommercialElectronicMessages" xml:space="preserve">
-    <value>En cochant cette case, vous consentez à recevoir des messages électroniques commerciales de la compagnie  financement EcoHome à l'adresse du courriel et aux numéros de téléphone que vous avez fournis dans la demande ou de temps à autre relativement à votre compte, y compris des communications électroniques portant sur la commercialisation ou la promotion de nos programmes, nos produits, nos services, nos offres, nos événements et nos sondages qui pourraient vous intéresser. Vous pouvez retirer ce consentement en tout temps. Vous pouvez communiquer avec la compagnie de Financement EcoHome inc. au 425, boul de Maisonneuve O, Montréal, QC H3A 3G5</value>
+    <value>En cochant cette case, vous consentez à recevoir des messages électroniques commerciales de la compagnie  Services financiers Ecohome à l'adresse du courriel et aux numéros de téléphone que vous avez fournis dans la demande ou de temps à autre relativement à votre compte, y compris des communications électroniques portant sur la commercialisation ou la promotion de nos programmes, nos produits, nos services, nos offres, nos événements et nos sondages qui pourraient vous intéresser. Vous pouvez retirer ce consentement en tout temps. Vous pouvez communiquer avec la compagnie de Services financiers Ecohome inc. au 425, boul de Maisonneuve O, Montréal, QC H3A 3G5</value>
   </data>
   <data name="ConsumerDirect" xml:space="preserve">
     <value>Directement au consommateur</value>
@@ -1807,7 +1804,7 @@
     <value>Ventes de porte-à-porte</value>
   </data>
   <data name="EcohomeMustBeListed" xml:space="preserve">
-    <value>Financement Ecohome Inc. doit être désignée comme assuré supplémentaire</value>
+    <value>Services financiers Ecohome Inc. doit être désignée comme assuré supplémentaire</value>
   </data>
   <data name="EmailExists" xml:space="preserve">
     <value>L’adresse de courriel que vous avez saisie est déjà enregistrée</value>
@@ -1855,7 +1852,7 @@
     <value>Prenez note que les champs invalides n’ont pas été enregistrés</value>
   </data>
   <data name="JoinOurNetwork" xml:space="preserve">
-    <value>Inscrivez-vous au réseau d’entrepreneurs de Financement EcoHome !</value>
+    <value>Inscrivez-vous au réseau d’entrepreneurs de Services financiers Ecohome!</value>
   </data>
   <data name="Leads" xml:space="preserve">
     <value>Pistes</value>
@@ -2521,7 +2518,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Annuel</value>
   </data>
   <data name="AnnualSalaryIncome" xml:space="preserve">
-    <value>Salaire/revenu annuel</value>
+    <value>Salaire annuel</value>
   </data>
   <data name="ApplicantsShouldBe18" xml:space="preserve">
     <value>Les demandeurs devraient être âgés d’au moins 18 ans.</value>
@@ -2530,7 +2527,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Meilleure façon de communiquer avec vous</value>
   </data>
   <data name="BorrowerEmploymentInformation" xml:space="preserve">
-    <value>Renseignements liés à l’emploi de l’emprunteur</value>
+    <value>L'information sur l'emploi de l'emprunteur</value>
   </data>
   <data name="ByidCard" xml:space="preserve">
     <value>Carte BYID</value>
@@ -2554,31 +2551,31 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Certificat du statut d’Indien</value>
   </data>
   <data name="CompanyAddress" xml:space="preserve">
-    <value>Adresse de la société</value>
+    <value>Adresse de la companie</value>
   </data>
   <data name="CompanyName" xml:space="preserve">
-    <value>Nom de la société</value>
+    <value>Nom de la companie</value>
   </data>
   <data name="CompanyNameIncorrectFormat" xml:space="preserve">
-    <value>Le format du nom de la société est incorrect</value>
+    <value>Le format du nom de la companie est incorrect</value>
   </data>
   <data name="CompanyPhone" xml:space="preserve">
     <value>Téléphone de la société</value>
   </data>
   <data name="CompanyPhoneIncorrectFormat" xml:space="preserve">
-    <value>Le format du numéro de téléphone de la société est incorrect</value>
+    <value>Le format du numéro de téléphone de la companie est incorrect</value>
   </data>
   <data name="CompanyPhoneMustBeLong" xml:space="preserve">
-    <value>Le numéro de téléphone de la société doit compter 10 chiffres</value>
+    <value>Le numéro de téléphone de la companie doit compter 10 chiffres</value>
   </data>
   <data name="CompanyPhoneNumber" xml:space="preserve">
-    <value>Numéro de téléphone de la société</value>
+    <value>Numéro de téléphone de la companie</value>
   </data>
   <data name="ContractNumber" xml:space="preserve">
     <value>Numéro de contrat</value>
   </data>
   <data name="ContractSignedSuccessfullyCopiesSent" xml:space="preserve">
-    <value>Le contrat a été signé avec succès grâce aux signatures numériques; une copie du contrat signé a été envoyée à tous les signataires</value>
+    <value>Le contrat a été signé avec succès grâce aux signatures électronique; une copie du contrat signé a été envoyée à tous les signataires</value>
   </data>
   <data name="CreditDecision" xml:space="preserve">
     <value>Décision liée au crédit</value>
@@ -2587,13 +2584,13 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Documents liés au crédit</value>
   </data>
   <data name="DealerCancelledEsign" xml:space="preserve">
-    <value>Le courtier a annulé le processus lié à la signature électronique</value>
+    <value>L'entrepreneur a annulé le processus lié à la signature électronique</value>
   </data>
   <data name="DeclinedToSignContract" xml:space="preserve">
     <value>a refusé de signer le contrat</value>
   </data>
   <data name="DigitalInvitesWillBeSentToEmails" xml:space="preserve">
-    <value>Les invitations pour la signature numérique du contrat seront envoyées aux adresses de courriel suivantes</value>
+    <value>Les invitations pour la signature électronique du contrat seront envoyées aux adresses de courriel suivantes</value>
   </data>
   <data name="DriverLicense" xml:space="preserve">
     <value>Permis de conduire</value>
@@ -2605,7 +2602,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Renseignements sur l’emploi</value>
   </data>
   <data name="EmploymentStatus" xml:space="preserve">
-    <value>Situation d’emploi</value>
+    <value>Statut d'emploi</value>
   </data>
   <data name="FullTime" xml:space="preserve">
     <value>Temps plein</value>
@@ -2662,13 +2659,13 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Veuillez fournir une autre adresse de courriel</value>
   </data>
   <data name="PleaseProvideDetails" xml:space="preserve">
-    <value>Veuillez fournir des précisions</value>
+    <value>Veuillez fournir les détails</value>
   </data>
   <data name="PleaseProvideShortDescription" xml:space="preserve">
     <value>Veuillez fournir une brève description </value>
   </data>
   <data name="PreferredContactPerson" xml:space="preserve">
-    <value>Personne-ressource privilégiée</value>
+    <value>Contact principal</value>
   </data>
   <data name="RatesApproved" xml:space="preserve">
     <value>Taux approuvés</value>
@@ -2677,13 +2674,13 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>À la retraite</value>
   </data>
   <data name="SalaryIncome" xml:space="preserve">
-    <value>Salaire/Revenu</value>
+    <value>Salaire</value>
   </data>
   <data name="SameEmail" xml:space="preserve">
     <value>Même adresse de courriel</value>
   </data>
   <data name="SelfEmployed" xml:space="preserve">
-    <value>À son propre compte</value>
+    <value>travailleur autonome</value>
   </data>
   <data name="SuccessfullyUploadedToAspire" xml:space="preserve">
     <value>Contrat téléversé avec succès à EcoHome</value>
@@ -2692,7 +2689,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Bureau</value>
   </data>
   <data name="ToProceedMustBe18" xml:space="preserve">
-    <value>Afin de poursuivre, vous devrez être âgé d’au moins 18 ans. Veuillez communiquer directement avec le courtier.</value>
+    <value>Afin de poursuivre, vous devrez être âgé d’au moins 18 ans. Veuillez communiquer directement avec l'entrepreneur.</value>
   </data>
   <data name="TypeOfEmployment" xml:space="preserve">
     <value>Type d’emplois</value>
@@ -2729,7 +2726,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
   </data>
   <data name="AgreementPersonalDataQC" xml:space="preserve">
     <value>&lt;h2&gt;Collecte, utilisation et divulgation des renseignements personnels&lt;/h2&gt;
-&lt;p&gt;Financement Ecohome peut recueillir, utiliser et divulguer les renseignements personnels que vous avez fournis dans la présente demande, obtenus dans le cadre du processus de demande (y compris, d’agences d’évaluation du crédit et d’autres sources) ou si votre demande est approuvée, obtenus de temps à autre par l’intermédiaire de l’administration ou de l’utilisation de votre compte, pour ce qui suit, en tout ou en partie :&lt;/p&gt;
+&lt;p&gt;Services financiers Ecohome peut recueillir, utiliser et divulguer les renseignements personnels que vous avez fournis dans la présente demande, obtenus dans le cadre du processus de demande (y compris, d’agences d’évaluation du crédit et d’autres sources) ou si votre demande est approuvée, obtenus de temps à autre par l’intermédiaire de l’administration ou de l’utilisation de votre compte, pour ce qui suit, en tout ou en partie :&lt;/p&gt;
 &lt;ul&gt;
     &lt;li&gt;
         vérifier votre identité et l’information que vous avez fournie, comme vos historiques de crédit ou d’emploi;
@@ -2767,13 +2764,13 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
 &lt;p&gt;Lorsque vous soumettez cette demande, vous consentez et autorisez la présente collecte, utilisation et divulgation de renseignements.&lt;/p&gt;</value>
   </data>
   <data name="EcoHomeAbout1QC" xml:space="preserve">
-    <value>Financement Ecohome est une entreprise financière canadienne qui offre des produits de financement et des prêts à la mesure des besoins des consommateurs des marchés CVC et de rénovation résidentielle. Nous gérons l’ensemble de nos affaires à l’interne.</value>
+    <value>Services financiers Ecohome est une entreprise financière canadienne qui offre des produits de financement et des prêts à la mesure des besoins des consommateurs des marchés CVC et de rénovation résidentielle. Nous gérons l’ensemble de nos affaires à l’interne.</value>
   </data>
   <data name="PrivacyPolicyTextQC" xml:space="preserve">
     <value>&lt;h2 class="dealnet-large-header"&gt;Politique de confidentialité_Ecohome_Externe&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;Date d’entrée en vigueur : 15 juin 2017&lt;/strong&gt;&lt;/p&gt;
 &lt;h3 class="dealnet-section-title"&gt;Notre engagement&lt;/h3&gt;
-&lt;p&gt;À Financement Ecohome Inc. (« Financement Ecohome », « nous », « notre », « nos », la « société », etc.) nous tenons à offrir un excellent service et à faire en sorte que nos rapports avec les personnes avec qui nous interagissons, par exemple nos clients existants ou potentiels (« vous »), soient empreints d’intégrité et s’établissent d’une manière responsable, juste, honnête et éthique. En conformité avec ces objectifs, nous appliquons des normes élevées de protection des renseignements personnels en notre possession ou sous notre contrôle.&lt;/p&gt;
+&lt;p&gt;À Services financiers Ecohome Inc. (« Services financiers Ecohome », « nous », « notre », « nos », la « société », etc.) nous tenons à offrir un excellent service et à faire en sorte que nos rapports avec les personnes avec qui nous interagissons, par exemple nos clients existants ou potentiels (« vous »), soient empreints d’intégrité et s’établissent d’une manière responsable, juste, honnête et éthique. En conformité avec ces objectifs, nous appliquons des normes élevées de protection des renseignements personnels en notre possession ou sous notre contrôle.&lt;/p&gt;
 &lt;p&gt;La présente Politique de confidentialité est fondée sur la Loi sur la protection des renseignements personnels et les documents électroniques [LPRPDE] (Canada), y compris les principes de confidentialité figurant dans le tableau 1 aux présentes. Elle explique comment nous recueillons, utilisons et divulguons les renseignements personnels vous concernant.&lt;/p&gt;
 &lt;p&gt;Si vous avez des questions au sujet de la présente Politique de confidentialité ou si vous désirez solliciter l’accès à des renseignements personnels vous concernant qui sont en notre possession ou sous notre contrôle, veuillez communiquer avec l’agent de conformité au moyen des coordonnées indiquées ci-après.&lt;/p&gt;
 &lt;h3 class="dealnet-section-title"&gt;Les renseignements personnels que nous recueillons, comment et pourquoi nous les recueillons&lt;/h3&gt;
@@ -2868,7 +2865,22 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
 &lt;p&gt;Nous utilisons les témoins identificateurs de session sur notre site &lt;a class="dealnet-info-link" href="http://ecohomefinancial.com/" target="_blank"&gt;www.ecohomefinancial.com&lt;/a&gt;. Les témoins volatils identifient la session d’un utilisateur particulier. Ils permettent au site Web de vous reconnaître durant votre session de navigation et, du coup, d’améliorer votre expérience. Les témoins identificateurs de session sont des témoins temporaires qui expirent à la fin de la session lorsque vous quittez le site.&lt;/p&gt;
 &lt;p&gt;Nous utilisons également Google Analytics pour aider à analyser comment les visiteurs se comportent avec notre site Web. Google Analytics utilise des témoins pour recueillir les renseignements relatifs à la connexion à Internet (p. ex., adresse IP) et au comportement du visiteur (p. ex., l’adresse de la page Web que vous visitez), dans un formulaire anonyme.  Les renseignements générés par les témoins de Google Analytics sur votre utilisation du site Web sont transmis à Google, puis traités pour produire, à partir des données regroupées, des rapports statistiques sur l’activité du site Web. Ces rapports nous permettent d’évaluer l’utilisation du visiteur et ainsi de gérer et d’améliorer le site et son contenu afin de mieux répondre aux besoins de nos visiteurs. Vous pouvez choisir de ne pas faire l’objet d’un suivi par Google Analytics – pour obtenir des renseignements plus détaillés sur le retrait du suivi par Google Analytics dans tous les sites Web que vous consultez, allez à la page &lt;a href="https://tools.google.com/dlpage/gaoptout" class="dealnet-info-link" target="_blank"&gt;https://tools.google.com/dlpage/gaoptout&lt;/a&gt;. Pour en savoir davantage sur Google Analytics, veuillez vous reporter à &lt;a href="https://www.google.com/policies/privacy/partners/" class="dealnet-info-link" target="_blank"&gt;https://www.google.com/policies/privacy/partners/&lt;/a&gt;.&lt;/p&gt;
 &lt;h3 class="dealnet-section-title"&gt;Autres sites Web&lt;/h3&gt;
-&lt;p&gt;Notre site Web, &lt;a class="dealnet-info-link" href="http://ecohomefinancial.com/" target="_blank"&gt;www.ecohomefinancial.com&lt;/a&gt;, peut contenir des liens vers d’autres sites Web. Financement Ecohome n’est pas responsable des pratiques en matière de confidentialité en vigueur sur les autres sites Web. Nous encourageons les utilisateurs de notre site Web à lire les énoncés de confidentialité des autres sites Web qui recueillent vos renseignements personnels.&lt;/p&gt;</value>
+&lt;p&gt;Notre site Web, &lt;a class="dealnet-info-link" href="http://ecohomefinancial.com/" target="_blank"&gt;www.ecohomefinancial.com&lt;/a&gt;, peut contenir des liens vers d’autres sites Web. Services financiers Ecohome n’est pas responsable des pratiques en matière de confidentialité en vigueur sur les autres sites Web. Nous encourageons les utilisateurs de notre site Web à lire les énoncés de confidentialité des autres sites Web qui recueillent vos renseignements personnels.&lt;/p&gt;</value>
+  </data>
+  <data name="AcknowledgeAndAgreementObtainCreditReport" xml:space="preserve">
+    <value>En soumettant cette demande, vous reconnaissez et acceptez que la compagnie de Services financiers Ecohome inc. est autorisée à obtenir votre dossier de crédit d’une ou plusieurs agences d’évaluation du crédit des consommateurs (par exemple, Equifax ou trans Union), afin de vérifier les renseignements de votre dossier de crédit auprès de tiers au besoin, et de mettre à jour, de manière périodique, les renseignements de votre dossier de crédit auprès des agences d’évaluation du crédit. Vous êtes avisé par les présentes qu’un rapport de consommation renfermant de l’information sur le crédit ou des renseignements personnels, peut-être consulté relativement à cette demande. Vous consentez à, de recevoir et d’utiliser en format électronique toutes les ententes et tous les avis, divulgations et autres documents ou renseignements liés à la présente demande que la compagnie de Services financiers Ecohome inc. peut vous envoyez.</value>
+  </data>
+  <data name="AcknowledgeAndAgreementObtainCreditReportDP" xml:space="preserve">
+    <value>En soumettant cette demande, vous reconnaissez et acceptez que la compagnie de Ecohome Financial inc. est autorisée à obtenir votre dossier de crédit d’une ou plusieurs agences d’évaluation du crédit des consommateurs (par exemple, Equifax ou trans Union), afin de vérifier les renseignements de votre dossier de crédit auprès de tiers au besoin, et de mettre à jour, de manière périodique, les renseignements de votre dossier de crédit auprès des agences d’évaluation du crédit. Vous êtes avisé par les présentes qu’un rapport de consommation renfermant de l’information sur le crédit ou des renseignements personnels, peut-être consulté relativement à cette demande. Vous consentez à, de recevoir et d’utiliser en format électronique toutes les ententes et tous les avis, divulgations et autres documents ou renseignements liés à la présente demande que la compagnie de Ecohome Financial inc. peut vous envoyez.</value>
+  </data>
+  <data name="AcknowledgeAndAgreementObtainCreditReportDPQC" xml:space="preserve">
+    <value>En soumettant cette demande, vous reconnaissez et acceptez que la compagnie de Services financiers Ecohome inc. est autorisée à obtenir votre dossier de crédit d’une ou plusieurs agences d’évaluation du crédit des consommateurs (par exemple, Equifax ou trans Union), afin de vérifier les renseignements de votre dossier de crédit auprès de tiers au besoin, et de mettre à jour, de manière périodique, les renseignements de votre dossier de crédit auprès des agences d’évaluation du crédit. Vous êtes avisé par les présentes qu’un rapport de consommation renfermant de l’information sur le crédit ou des renseignements personnels, peut-être consulté relativement à cette demande. Vous consentez à, de recevoir et d’utiliser en format électronique toutes les ententes et tous les avis, divulgations et autres documents ou renseignements liés à la présente demande que la compagnie de Services financiers Ecohome inc. peut vous envoyez.</value>
+  </data>
+  <data name="ConsentToReceiveCommercialElectronicMessagesDP" xml:space="preserve">
+    <value>En cochant cette case, vous consentez à recevoir des messages électroniques commerciales de la compagnie EcoHome Financial à l'adresse du courriel et aux numéros de téléphone que vous avez fournis dans la demande ou de temps à autre relativement à votre compte, y compris des communications électroniques portant sur la commercialisation ou la promotion de nos programmes, nos produits, nos services, nos offres, nos événements et nos sondages qui pourraient vous intéresser. Vous pouvez retirer ce consentement en tout temps. Vous pouvez communiquer avec la compagnie de EcoHome Financial inc. au 325 Milner Avenue, Suite 300, Toronto, Ontario M1B 5N1</value>
+  </data>
+  <data name="ConsentToReceiveCommercialElectronicMessagesDPQC" xml:space="preserve">
+    <value>En cochant cette case, vous consentez à recevoir des messages électroniques commerciales de la compagnie  Services financiers Ecohome à l'adresse du courriel et aux numéros de téléphone que vous avez fournis dans la demande ou de temps à autre relativement à votre compte, y compris des communications électroniques portant sur la commercialisation ou la promotion de nos programmes, nos produits, nos services, nos offres, nos événements et nos sondages qui pourraient vous intéresser. Vous pouvez retirer ce consentement en tout temps. Vous pouvez communiquer avec la compagnie de Services financiers Ecohome inc. au 425, boul de Maisonneuve O, Montréal, QC H3A 3G5</value>
   </data>
   <data name="Pre" xml:space="preserve">
     <value>Pré</value>

@@ -124,6 +124,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to By submitting this application, you acknowledge and agree that EcoHome Financial is authorized to obtain your credit report from one or more consumer credit reporting agencies (e.g. Equifax or TransUnion), to verify the information in your credit report with third parties as necessary, and to periodically update your credit information with credit reporting agencies. You are hereby notified that a consumer report containing credit and/or personal information may be referred to in connection with this applic [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string AcknowledgeAndAgreementObtainCreditReportDP {
+            get {
+                return ResourceManager.GetString("AcknowledgeAndAgreementObtainCreditReportDP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By submitting this application, you acknowledge and agree that Services financiers Ecohome is authorized to obtain your credit report from one or more consumer credit reporting agencies (e.g. Equifax or TransUnion), to verify the information in your credit report with third parties as necessary, and to periodically update your credit information with credit reporting agencies. You are hereby notified that a consumer report containing credit and/or personal information may be referred to in connection with t [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string AcknowledgeAndAgreementObtainCreditReportDPQC {
+            get {
+                return ResourceManager.GetString("AcknowledgeAndAgreementObtainCreditReportDPQC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Acknowledgment.
         /// </summary>
         public static string Acknowledgment {
@@ -480,10 +498,10 @@ namespace DealnetPortal.Web.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;h2&gt;Collection, Use and Disclosure of Personal Information&lt;/h2&gt;
-        ///    &lt;p&gt;Financement Ecohome may collect, use and disclose personal information provided by you on this application, obtained as part of the application process (including from credit reporting agencies and other sources) and/or, if your application is approved, obtained from time to time in the administration or operation of your account, for some or all of the following purposes:&lt;/p&gt;
+        ///    &lt;p&gt;Services financiers Ecohome may collect, use and disclose personal information provided by you on this application, obtained as part of the application process (including from credit reporting agencies and other sources) and/or, if your application is approved, obtained from time to time in the administration or operation of your account, for some or all of the following purposes:&lt;/p&gt;
         ///    &lt;ul&gt;
         ///        &lt;li&gt;
-        ///            to verify your identity [rest of string was truncated]&quot;;.
+        ///            to verify your  [rest of string was truncated]&quot;;.
         /// </summary>
         public static string AgreementPersonalDataQC {
             get {
@@ -1689,6 +1707,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to By checking this box, you consent to receive commercial electronic messages from EcoHome Financial at your email address and telephone number(s) provided by you in this application or from time to time in connection with your account, including electronic communications that market or promote our programs, products, services, offers, events and surveys that may be of interest to you. You may withdraw this consent at any time. You may contact EcoHome Financial Inc. at 325 Milner Avenue, Suite 300, Toronto, O [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string ConsentToReceiveCommercialElectronicMessagesDP {
+            get {
+                return ResourceManager.GetString("ConsentToReceiveCommercialElectronicMessagesDP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By checking this box, you consent to receive commercial electronic messages from Services financiers Ecohome at your email address and telephone number(s) provided by you in this application or from time to time in connection with your account, including electronic communications that market or promote our programs, products, services, offers, events and surveys that may be of interest to you. You may withdraw this consent at any time. You may contact Services financiers Ecohome Inc. at 425, boul de Maisonn [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string ConsentToReceiveCommercialElectronicMessagesDPQC {
+            get {
+                return ResourceManager.GetString("ConsentToReceiveCommercialElectronicMessagesDPQC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Consumer direct.
         /// </summary>
         public static string ConsumerDirect {
@@ -2563,7 +2599,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Financement Ecohome is a Canadian owned finance company providing custom consumer financing and loan products to the HVAC and home improvement markets. We manage all of our business in-house..
+        ///   Looks up a localized string similar to Services financiers Ecohome is a Canadian owned finance company providing custom consumer financing and loan products to the HVAC and home improvement markets. We manage all of our business in-house..
         /// </summary>
         public static string EcoHomeAbout1QC {
             get {
@@ -5242,7 +5278,7 @@ namespace DealnetPortal.Web.Resources {
         ///   Looks up a localized string similar to &lt;h2 class=&quot;dealnet-large-header&quot;&gt;Privacy Policy _ Ecohome_External&lt;/h2&gt;
         ///    &lt;p&gt;&lt;strong&gt;Effective: June 15, 2017&lt;/strong&gt;&lt;/p&gt;
         ///    &lt;h3 class=&quot;dealnet-section-title&quot;&gt;Our Commitment&lt;/h3&gt;
-        ///    &lt;p&gt;At Financement Ecohome Inc. (“Financement Ecohome”, “we”, “us”, “the Company”, etc.) we are committed to providing excellent service and to ensuring that our relationship with individuals with whom we interact, such as our customers or potential customers (“you”), is conducted with integrity and in a responsible, fair [rest of string was truncated]&quot;;.
+        ///    &lt;p&gt;At Services financiers Ecohome Inc. (“Services financiers Ecohome”, “we”, “us”, “the Company”, etc.) we are committed to providing excellent service and to ensuring that our relationship with individuals with whom we interact, such as our customers or potential customers (“you”), is conducted with integrity and in a r [rest of string was truncated]&quot;;.
         /// </summary>
         public static string PrivacyPolicyTextQC {
             get {
