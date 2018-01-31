@@ -20,8 +20,9 @@
         email.on('change', function (e) {
             dispatch(createAction(clientActions.SET_EMAIL, e.target.value));
             if ($(this).valid()) {
+                var email = encodeURIComponent(e.target.value);
                 $.get({
-                    url: checkCustomerUrl + '?email=' + e.target.value,
+                    url: checkCustomerUrl + '?email=' + email,
                     success: function(isExist) {
                         dispatch(createAction(clientActions.SET_EMAIL_EXISTS, isExist));
                     }

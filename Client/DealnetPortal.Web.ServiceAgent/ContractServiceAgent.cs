@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Text;
@@ -488,7 +489,7 @@ namespace DealnetPortal.Web.ServiceAgent
             {
                 return
                     await
-                        Client.GetAsyncEx<IList<Alert>>($"{_fullUri}/CheckCustomerExisting?email={email}", AuthenticationHeader, CurrentCulture).ConfigureAwait(false);
+                        Client.GetAsyncEx<IList<Alert>>($"{_fullUri}/CheckCustomerExisting?email={WebUtility.UrlEncode(email)}", AuthenticationHeader, CurrentCulture).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
