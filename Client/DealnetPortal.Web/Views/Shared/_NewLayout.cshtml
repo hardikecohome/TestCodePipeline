@@ -69,7 +69,7 @@
         <div class="header__background">
             <div class="container">
                 <div class="header__logo">
-                    <a href="home/">
+                    <a href="@Url.Action("Index","Home")">
                         <img class="header__logo-img" src="@Url.Content("~/Content/images/logos/logo-eco-home@2x.png")" />
                     </a>
                 </div>
@@ -131,37 +131,37 @@
                 <nav class="header__navigation hidden-xs">
                     <ul>
                         <li>
-                            <a class="active">
+                            <a class="active" href="@Url.Action("Index","Home")">
                                 <span class="header__nav-icon icon-home"></span>
                                 <span>Home</span>
                             </a>
                         </li>
                         <li>
-                            <a>
+                            <a href="@Url.Action("BasicInfo","NewRental")">
                                 <span class="header__nav-icon icon-new_document"></span>
                                 <span>New Loan</span>
                             </a>
                         </li>
-                        <li>
+                        @*<li>
                             <a>
                                 <span class="header__nav-icon icon-new_document"></span>
                                 <span>New Rental</span>
                             </a>
-                        </li>
+                        </li>*@
                         <li>
-                            <a>
+                            <a href="@Url.Action("Index","Calculator")">
                                 <span class="header__nav-icon icon-calculator"></span>
                                 <span>Calculator</span>
                             </a>
                         </li>
                         <li>
-                            <a>
+                            <a href="@Url.Action("Index","ShareableLink")">
                                 <span class="header__nav-icon icon-link"></span>
                                 <span>Customer Link</span>
                             </a>
                         </li>
                         <li>
-                            <a>
+                            <a href="@Url.Action("Index","MyDeals")">
                                 <span class="header__nav-icon icon-deals"></span>
                                 <span>My Deals</span>
                                 <div class="notification">
@@ -170,19 +170,19 @@
                             </a>
                         </li>
                         <li>
-                            <a>
+                            <a href="@Url.Action("Index","Leads")">
                                 <span class="header__nav-icon icon-cart"></span>
                                 <span>Leads</span>
                             </a>
                         </li>
                         <li>
-                            <a>
+                            <a href="@Url.Action("Library","Home")">
                                 <span class="header__nav-icon icon-library"></span>
                                 <span>Library</span>
                             </a>
                         </li>
                         <li>
-                            <a>
+                            <a href="@Url.Action("Index","Profile")">
                                 <span class="header__nav-icon icon-profile"></span>
                                 <span>My Profile</span>
                             </a>
@@ -206,56 +206,56 @@
                     <div class="mobile-navigation__dropdown">
                         <ul>
                             <li>
-                                <a href="#">
+                                <a href="@Url.Action("Index","Home")">
                                     <span class="mobile-navigation__nav-icon icon-home"></span>
                                     <span>Home</span>
                                 </a>
                             </li>
                             <li>
-                                <a>
+                                <a href="@Url.Action("BasicInfo","NewRental")">
                                     <span class="mobile-navigation__nav-icon icon-new_document"></span>
                                     <span>New Loan</span>
                                 </a>
                             </li>
-                            <li>
+                            @*<li>
                                 <a>
                                     <span class="mobile-navigation__nav-icon icon-new_document"></span>
                                     <span>New Rental</span>
                                 </a>
-                            </li>
+                            </li>*@
                             <li>
-                                <a>
+                                <a href="@Url.Action("Index","Calculator")">
                                     <span class="mobile-navigation__nav-icon icon-calculator"></span>
                                     <span>Calculator</span>
                                 </a>
                             </li>
                             <li>
-                                <a>
+                                <a href="@Url.Action("Index","ShareableLink")">
                                     <span class="mobile-navigation__nav-icon icon-link"></span>
                                     <span>Customer Link</span>
                                 </a>
                             </li>
                             <li>
-                                <a>
+                                <a href="@Url.Action("Index","MyDeals")">
                                     <span class="mobile-navigation__nav-icon icon-deals"></span>
                                     <span>My Deals</span>
                                     <div class="notification">5 new</div>
                                 </a>
                             </li>
                             <li>
-                                <a>
+                                <a href="@Url.Action("Index", "Leads")">
                                     <span class="mobile-navigation__nav-icon icon-cart"></span>
                                     <span>Leads</span>
                                 </a>
                             </li>
                             <li>
-                                <a>
+                                <a href="@Url.Action("Library","Home")">
                                     <span class="mobile-navigation__nav-icon icon-library"></span>
                                     <span>Library</span>
                                 </a>
                             </li>
                             <li>
-                                <a>
+                                <a href="@Url.Action("Index","Profile")">
                                     <span class="mobile-navigation__nav-icon icon-profile"></span>
                                     <span>My Profile</span>
                                 </a>
@@ -276,54 +276,66 @@
                 <div class="clearfix"></div>
             </div>
         </div>
-    </header><div class="clearfix"></div>
-    <div class="custom-container">
-        <a class="main-banner" href="#" style="background-image: url('../img/banner.png');"></a>
-    </div>
+    </header>
+    <div class="clearfix"></div>
+    @if(((RazorView)ViewContext.View).ViewPath.Contains("Home/Index"))
+    {
+        var bannerLink = System.Configuration.ConfigurationManager.AppSettings["HomeBannerLink"];
+        var bannerExists = !string.IsNullOrEmpty((string)ViewBag.Banner);
+
+    if(bannerExists)
+    {
+        <div class="custom-container">
+            <a class="main-banner" @(!string.IsNullOrEmpty(bannerLink) ? "href=" + bannerLink + " target=\"_blank\"" : "")>
+                <img src="@Url.Content(ViewBag.Banner)" />
+            </a>
+        </div>
+    }
+    }
     <div class="container-fluid custom-container">
         @RenderBody()
     </div>
     <footer></footer>
-    @*<div id="alertModal" class="modal fade modal-wide">
-            <div class="modal-dialog modal-warning">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Modal title</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>One fine body&hellip;</p>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="btn-container">
-                            <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" id="confirmAlert">@Resources.Yes</button>
-                            <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
-                        </div>
+    <div id="alertModal" class="modal fade modal-wide">
+        <div class="modal-dialog modal-warning">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <p>One fine body&hellip;</p>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-container">
+                        <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" id="confirmAlert">@Resources.Yes</button>
+                        <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="floatingHelpBtn">
-            <div id="email_buttons">
+    </div>
+    <div class="floatingHelpBtn">
+        <div id="email_buttons">
 
-                @if(User.Identity.IsAuthenticated && ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") != true))
-                {
-                    <div class="pull-right">
+            @if(User.Identity.IsAuthenticated && ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") != true))
+            {
+                <div class="pull-right">
 
-                        <i onclick="sendEmailModel();">
-                            <button class="btn btn-lg btn-success helpbutton">
-                                <svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg>
-                                @Resources.Help
-                            </button>
-                        </i>
-                    </div>
-                }
-            </div>
+                    <i onclick="sendEmailModel();">
+                        <button class="btn btn-lg btn-success helpbutton">
+                            <svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg>
+                            @Resources.Help
+                        </button>
+                    </i>
+                </div>
+            }
         </div>
-        @Html.Partial("_HelpPopUp", new DealnetPortal.Web.Models.HelpPopUpViewModal())*@
+    </div>
+    @Html.Partial("_HelpPopUp", new DealnetPortal.Web.Models.HelpPopUpViewModal())
     <!-- include: "type": "js", "files": "js/*.js" -->
     @Scripts.Render("~/Scripts/main.js")
-    @*@RenderSection("Scripts", false)*@
+    @RenderSection("Scripts", false)
     <!-- /include -->
 </body>
 </html>

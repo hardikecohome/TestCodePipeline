@@ -65,7 +65,7 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap")
                 .Include(
-                    "~/Scripts/vendor/bootstrap.js",
+                    "~/Scripts/vendor/bootstrap.min.js",
                     "~/Scripts/vendor/respond.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/data-tables-scripts")
