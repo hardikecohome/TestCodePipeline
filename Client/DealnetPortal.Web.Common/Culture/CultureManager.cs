@@ -1,31 +1,35 @@
 ﻿using System;
+using System.Configuration;
 using System.Globalization;
-using System.Net.Http.Headers;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Web;
-using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Core.Helpers;
+using DealnetPortal.Web.Common.Constants;
 
 namespace DealnetPortal.Web.Common.Culture
 {
     public class CultureManager : ICultureManager
     {
-        private const string CookieName = "DEALNET_CULTURE_COOKIE";
+        private readonly string _cookieName = ConfigurationManager.AppSettings[PortalConstants.CultureCookieNameKey];
 
         public void EnsureCorrectCulture(string cultureFromRoute = null)
         {
-            SetCulture(CultureHelper.FilterCulture(cultureFromRoute ?? HttpContext.Current.Request.Cookies[CookieName]?.Value));
-            //SetCultureToThread(CultureHelper.FilterCulture(cultureFromRoute ?? HttpContext.Current.Request.Cookies[CookieName]?.Value));
+            SetCulture(CultureHelper.FilterCulture(cultureFromRoute ?? HttpContext.Current.Request.Cookies[_cookieName]?.Value));
         }
 
         public void SetCulture(string culture, bool createCookie = true)
         {
             var filteredCulture = CultureHelper.FilterCulture(culture);
             SetCultureToThread(filteredCulture);
+
             if (createCookie)
             {
-                CreateCookie(filteredCulture);
+                var value = HttpContext.Current.Request.Cookies[_cookieName]?.Value;
+
+                if (string.IsNullOrEmpty(value) || value != culture)
+                {
+                    CreateCookie(filteredCulture);
+                }
             }            
         }        
 
@@ -37,10 +41,11 @@ namespace DealnetPortal.Web.Common.Culture
 
         private void CreateCookie(string culture)
         {
-            var cultureCookie = new HttpCookie(CookieName)
+
+            var cultureCookie = new HttpCookie(_cookieName)
             {
                 Value = culture,
-                HttpOnly = true,
+                HttpOnly = false,
                 //Secure = true, Uncomment after enabling https
                 Expires = DateTime.Now.AddYears(1)
             };

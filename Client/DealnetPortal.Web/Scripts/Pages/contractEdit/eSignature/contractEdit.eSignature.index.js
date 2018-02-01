@@ -146,18 +146,21 @@
                         })[0];
                         $el.find('#signer-id-' + rowId).val(signer.Id);
                         $el.find('#signer-status-' + rowId).val(signer.SignatureStatus);
-                        var updateTime = new Date(parseInt(signer.StatusLastUpdateTime.substr(6)));
+                        var isoTime = new Date(parseInt(signer.StatusLastUpdateTime.substr(6))).toISOString();
+                        var updateTime = new Date(isoTime.substr(0, isoTime.length - 1));
                         var options = {
                             year: 'numeric',
                             month: 'numeric',
                             day: 'numeric',
                             hour: '2-digit',
-                            minute: '2-digit'
+                            minute: '2-digit',
+                            second: '2-digit'
                         };
 
                         $el.find('.signer-status-hold').removeClass().addClass('col-md-5 signer-status-hold ' + statusMap[signer.SignatureStatus]);
+                        var culture = Cookies.get($('#cookieName').text()) === 'fr' ? 'fr-FR' : 'en-US'; 
                         //var formated = updateTime.getUTCMonth() + 1 + '/' + updateTime.getUTCDate() + '/' + updateTime.getUTCFullYear() + ' ' + (updateTime.getUTCHours() > 12 ? updateTime.getUTCHours() - 12 : updateTime.getUTCHours()) + ':' + (updateTime.getUTCMinutes() < 10 ? '0' + updateTime.getUTCMinutes() : updateTime.getUTCMinutes()) + ' ' + (updateTime.getUTCHours() > 11 ? 'PM' : 'AM');
-                        var formated = updateTime.toLocaleDateString(Intl.DateTimeFormat().resolvedOptions().locale, options);
+                        var formated = updateTime.toLocaleDateString(culture, options);
                         $el.find('#signer-update-' + rowId).val(formated);
                         $el.find('.signature-date-hold').text(formated);
                         if (signer.SignatureStatus === 4 || signer.SignatureStatus === 5) {
