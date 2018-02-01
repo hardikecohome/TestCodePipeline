@@ -53,7 +53,7 @@
             </script>
             break;
     }
-    @RenderSection("OutrunningScripts", false)
+
     @Html.Raw(System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])
 
 </head>
@@ -284,45 +284,46 @@
         @RenderBody()
     </div>
     <footer></footer>
-    <div id="alertModal" class="modal fade modal-wide">
-        <div class="modal-dialog modal-warning">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Modal title</h4>
-                </div>
-                <div class="modal-body">
-                    <p>One fine body&hellip;</p>
-                </div>
-                <div class="modal-footer">
-                    <div class="btn-container">
-                        <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" id="confirmAlert">@Resources.Yes</button>
-                        <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
+    @*<div id="alertModal" class="modal fade modal-wide">
+            <div class="modal-dialog modal-warning">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>One fine body&hellip;</p>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-container">
+                            <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" id="confirmAlert">@Resources.Yes</button>
+                            <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="floatingHelpBtn">
-        <div id="email_buttons">
+        <div class="floatingHelpBtn">
+            <div id="email_buttons">
 
-            @if(User.Identity.IsAuthenticated && ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") != true))
-            {
-                <div class="pull-right">
+                @if(User.Identity.IsAuthenticated && ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") != true))
+                {
+                    <div class="pull-right">
 
-                    <i onclick="sendEmailModel();">
-                        <button class="btn btn-lg btn-success helpbutton">
-                            <svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg>
-                            @Resources.Help
-                        </button>
-                    </i>
-                </div>
-            }
+                        <i onclick="sendEmailModel();">
+                            <button class="btn btn-lg btn-success helpbutton">
+                                <svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg>
+                                @Resources.Help
+                            </button>
+                        </i>
+                    </div>
+                }
+            </div>
         </div>
-    </div>
-    @Html.Partial("_HelpPopUp", new DealnetPortal.Web.Models.HelpPopUpViewModal())
+        @Html.Partial("_HelpPopUp", new DealnetPortal.Web.Models.HelpPopUpViewModal())*@
     <!-- include: "type": "js", "files": "js/*.js" -->
-    @RenderSection("Scripts", false)
+    @Scripts.Render("~/Scripts/main.js")
+    @*@RenderSection("Scripts", false)*@
     <!-- /include -->
 </body>
 </html>

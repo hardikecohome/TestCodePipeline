@@ -72,7 +72,7 @@
 
         newTemplate.find('.monthly-cost').on('change', updateMonthlyCost);
 
-        customizeSelect();
+        //customizeSelect();
         toggleClearInputIcon($(newTemplate).find('textarea, input'));
         resetPlaceholder($(newTemplate).find('textarea, input'));
 
@@ -141,7 +141,7 @@
             }
         });
 
-        customizeSelect();
+        //customizeSelect();
         toggleClearInputIcon($(newTemplate).find('textarea, input'));
         resetPlaceholder($(newTemplate).find('textarea, input'));
 
@@ -172,7 +172,7 @@
         $('#new-equipment-' + i).find('.equipment-cost').on('change', updateCost);
         $('#new-equipment-' + i).find('.monthly-cost').on('change', updateMonthlyCost);
 
-        customizeSelect();
+        //customizeSelect();
         //if not first equipment add handler (first equipment should always be visible)
         if (i > 0) {
             $('#addequipment-remove-' + i).on('click', function() {

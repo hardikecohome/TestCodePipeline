@@ -13,6 +13,7 @@ namespace DealnetPortal.Web
 
             bundles.Add(new StyleBundle("~/bundles/styles")
                 .Include("~/Content/css/jquery-ui.css")
+                .Include("~/Content/css/bootstrap.min.css")
                 .Include("~/Content/css/styles.css")
                 .Include("~/Content/css/styles-tablet.css")
                 .Include("~/Content/css/styles-mobile.css"));

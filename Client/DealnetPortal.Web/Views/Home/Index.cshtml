@@ -2,20 +2,20 @@
 @{
     ViewBag.Title = Resources.HomePage;
     var bannerLink = System.Configuration.ConfigurationManager.AppSettings["HomeBannerLink"];
-    var bannerExists = !string.IsNullOrEmpty((string) ViewBag.Banner);
+    var bannerExists = !string.IsNullOrEmpty((string)ViewBag.Banner);
 }
-@if (bannerExists)
+@if(bannerExists)
 {
     <div class="banner-container">
-        <a @(!string.IsNullOrEmpty(bannerLink) ? "href="+ bannerLink + " target=\"_blank\"" : "")>
+        <a @(!string.IsNullOrEmpty(bannerLink) ? "href=" + bannerLink + " target=\"_blank\"" : "")>
             <img src="@Url.Content(ViewBag.Banner)" />
         </a>
     </div>
 }
 
-@if (ConfigurationManager.AppSettings["SwitchPopUpOnOff"] == "true")
+@if(ConfigurationManager.AppSettings["SwitchPopUpOnOff"] == "true")
 {
-	@Html.Action("GetMaintanenceBanner")
+    @Html.Action("GetMaintanenceBanner")
 }
 
 <div class="dealnet-home-page">
@@ -89,7 +89,7 @@
     </div>
 </div>
 
-@using (Html.BeginForm("ContractRemove", "NewRental", FormMethod.Post, new { id = "remove-contract-form" }))
+@using(Html.BeginForm("ContractRemove", "NewRental", FormMethod.Post, new { id = "remove-contract-form" }))
 {
     <input type="hidden" name="contractId" id="remove-contract" />
 }
@@ -114,25 +114,25 @@
     var contractSignatureStatusUrl = '@Url.Action("GetEsignatureStatus", "MyDeals")';
 </script>
 
-@section Translations
-{
-    translations['Time'] = "@Resources.Time";
-    translations['Search'] = "@Resources.Search";
-    translations['Edit'] = "@Resources.Edit";
-    translations['MyWorkItems'] = "@Resources.MyWorkItems";
-    translations['Show'] = "@Resources.Show";
-    translations['Entries'] = "@Resources.Entries";
-    translations['NoMatchingRecordsFound'] = "@Resources.NoMatchingRecordsFound";
-    translations['New'] = "@Resources.New";
-    translations['Remove'] = "@Resources.Remove";
-    translations['Error'] = "@Resources.Error";
-    translations['AreYouSureYouWantToRemoveThisApplication'] = "@Resources.AreYouSureYouWantToRemoveThisApplication";
-}
+@*@section Translations
+    {
+        translations['Time'] = "@Resources.Time";
+        translations['Search'] = "@Resources.Search";
+        translations['Edit'] = "@Resources.Edit";
+        translations['MyWorkItems'] = "@Resources.MyWorkItems";
+        translations['Show'] = "@Resources.Show";
+        translations['Entries'] = "@Resources.Entries";
+        translations['NoMatchingRecordsFound'] = "@Resources.NoMatchingRecordsFound";
+        translations['New'] = "@Resources.New";
+        translations['Remove'] = "@Resources.Remove";
+        translations['Error'] = "@Resources.Error";
+        translations['AreYouSureYouWantToRemoveThisApplication'] = "@Resources.AreYouSureYouWantToRemoveThisApplication";
+    }
 
-@section Styles
-{
-    @Styles.Render("~/bundles/data-tables-content")
-}
+    @section Styles
+    {
+        @Styles.Render("~/bundles/data-tables-content")
+    }*@
 
 @Scripts.Render("~/bundles/data-tables-scripts")
 @Scripts.Render("~/bundles/home-page")

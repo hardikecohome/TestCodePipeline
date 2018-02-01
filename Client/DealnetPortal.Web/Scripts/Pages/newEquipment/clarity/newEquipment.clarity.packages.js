@@ -54,7 +54,7 @@
 
         newTemplate.find('.package-monthly-cost').on('change', updateMonthlyCost);
 
-        customizeSelect();
+        //customizeSelect();
         toggleClearInputIcon($(newTemplate).find('textarea, input'));
         resetPlaceholder($(newTemplate).find('textarea, input'));
 

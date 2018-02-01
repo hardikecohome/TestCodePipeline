@@ -48,7 +48,7 @@ function addExistingEquipment () {
     newDiv.id = "existing-equipment-" + sessionStorage.existingEquipmets;
     document.getElementById('existing-equipments').appendChild(newDiv);
     resetFormValidator("#equipment-form");
-    customizeSelect();
+    //customizeSelect();
     toggleClearInputIcon($(newDiv).find('textarea, input'));
     sessionStorage.existingEquipmets = nextNumber;
     module.require('resetPlaceholder')($(newDiv).find('textarea, input'));
