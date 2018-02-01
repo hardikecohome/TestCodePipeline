@@ -69,62 +69,76 @@
         <div class="header__background">
             <div class="container">
                 <div class="header__logo">
-                    <a href="@Url.Action("Index","Home")">
+                    <a href="@Url.Action("Index", "Home")">
                         <img class="header__logo-img" src="@Url.Content("~/Content/images/logos/logo-eco-home@2x.png")" />
                     </a>
                 </div>
                 <div class="header__right-panel hidden-xs">
                     <div class="visible-lg-block">
-                        <div class="header__language">
-                            <select name="" id="language" class="header__select">
-                                <option value="En">En</option>
-                                <option value="Fr">Fr</option>
-                            </select>
-                        </div>
+                        @if(User.Identity.IsAuthenticated && ((bool?)TempData["LangSwitcherAvailable"] ?? false))
+                        {
+                            <div class="header__language">
+                                <select name="" id="language" class="header__select">
+                                    <option value="En" @(CultureHelper.CurrentCultureType == CultureType.English ? "selected" : "")>
+                                        En
+                                    </option>
+                                    <option value="Fr" @(CultureHelper.CurrentCultureType == CultureType.French ? "selected" : "")>
+                                        Fr
+                                    </option>
+                                </select>
+                            </div>}
                         <div class="header__user">
                             <select name="" id="user_menu" class="header__select">
-                                <option value="11" selected>John Domes</option>
-                                <option value="12">user</option>
+                                <option value="11" selected>@User.Identity.Name</option>
+                                <option value="12">@Resources.Logout</option>
                             </select>
                         </div>
                     </div>
                     <div class="header__help">
-                        How can we help?
+                        @Resources.HowCanWeHelp
                         <div class="clearfix"></div>
-                        <span class="header__phone">1-866-382-7468</span>
+                        <span class="header__phone">@phone</span>
                     </div>
                     <div class="clearfix visible-lg-block"></div>
                     <div class="header__support">
                         <ul class="header__support-links-list">
-                            <li>
+                            <li class="credit-funding-contact">
                                 <span class="icon-support"></span>
                                 <a href="#">
-                                    Credit
+                                    @Resources.Credit
                                 </a>
                             </li>
-                            <li>
+                            <li class="dealer-support-contact">
                                 <span class="icon-dealer-support"></span>
                                 <a href="#">
-                                    Dealer Support
+                                    @Resources.DealerSupport
                                 </a>
                             </li>
-                            <li>
+                            <li class="customer-service-contact">
                                 <span class="icon-customer-service-support"></span>
                                 <a href="#">
-                                    Customer Service/Funding
+                                    @Resources.CustomerService
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div class="header__actions-tablet visible-md-block visible-sm-block">
-                    <select name="" id="language" class="header__select">
-                        <option value="En" selected>En</option>
-                        <option value="Fr">Fr</option>
-                    </select>
+
+                    @if(User.Identity.IsAuthenticated && ((bool?)TempData["LangSwitcherAvailable"] ?? false))
+                    {
+                        <select name="" id="language" class="header__select">
+                            <option value="En" @(CultureHelper.CurrentCultureType == CultureType.English ? "selected" : "")>
+                                En
+                            </option>
+                            <option value="Fr" @(CultureHelper.CurrentCultureType == CultureType.French ? "selected" : "")>
+                                Fr
+                            </option>
+                        </select>
+                    }
                     <select name="" id="user_menu" class="header__select">
-                        <option value="11" selected>John Domes</option>
-                        <option value="12">user</option>
+                        <option value="11" selected>@User.Identity.Name</option>
+                        <option value="12">@Resources.Logout</option>
                     </select>
                 </div>
                 <div class="clearfix visible-md-block visible-sm-block"></div>
@@ -133,58 +147,58 @@
                         <li>
                             <a class="active" href="@Url.Action("Index","Home")">
                                 <span class="header__nav-icon icon-home"></span>
-                                <span>Home</span>
+                                <span>@Resources.HomePage</span>
                             </a>
                         </li>
                         <li>
                             <a href="@Url.Action("BasicInfo","NewRental")">
                                 <span class="header__nav-icon icon-new_document"></span>
-                                <span>New Loan</span>
+                                <span>@Resources.NewApplication</span>
                             </a>
                         </li>
                         @*<li>
-                            <a>
-                                <span class="header__nav-icon icon-new_document"></span>
-                                <span>New Rental</span>
-                            </a>
-                        </li>*@
+                                <a>
+                                    <span class="header__nav-icon icon-new_document"></span>
+                                    <span>New Rental</span>
+                                </a>
+                            </li>*@
                         <li>
                             <a href="@Url.Action("Index","Calculator")">
                                 <span class="header__nav-icon icon-calculator"></span>
-                                <span>Calculator</span>
+                                <span>@Resources.Calculator</span>
                             </a>
                         </li>
                         <li>
                             <a href="@Url.Action("Index","ShareableLink")">
                                 <span class="header__nav-icon icon-link"></span>
-                                <span>Customer Link</span>
+                                <span>@Resources.ShareableLink</span>
                             </a>
                         </li>
                         <li>
                             <a href="@Url.Action("Index","MyDeals")">
                                 <span class="header__nav-icon icon-deals"></span>
-                                <span>My Deals</span>
+                                <span>@Resources.MyDeals</span>
                                 <div class="notification">
-                                    <div>5 new</div>
+                                    <div id="new-deals-number"></div>
                                 </div>
                             </a>
                         </li>
                         <li>
                             <a href="@Url.Action("Index","Leads")">
                                 <span class="header__nav-icon icon-cart"></span>
-                                <span>Leads</span>
+                                <span>@Resources.Leads</span>
                             </a>
                         </li>
                         <li>
                             <a href="@Url.Action("Library","Home")">
                                 <span class="header__nav-icon icon-library"></span>
-                                <span>Library</span>
+                                <span>@Resources.Library</span>
                             </a>
                         </li>
                         <li>
                             <a href="@Url.Action("Index","Profile")">
                                 <span class="header__nav-icon icon-profile"></span>
-                                <span>My Profile</span>
+                                <span>@Resources.MyProfile</span>
                             </a>
                         </li>
                     </ul>
@@ -192,84 +206,87 @@
                 <div class="mobile-help hidden-sm-up">
                     <span class="icon-how-can-we-help"></span>
                     <select name="select-help" id="" class="mobile-help__select">
-                        <option value="How can we help?" checked>How can we help?</option>
-                        <option value="Credit">Credit</option>
-                        <option value="Credit">Dealer Support</option>
-                        <option value="Credit">Customer Service/Funding</option>
+                        <option value="How can we help?" checked>@Resources.HowCanWeHelp</option>
+                        <option value="Credit">@Resources.Credit</option>
+                        <option value="Credit">@Resources.DealerSupport</option>
+                        <option value="Credit">@Resources.CustomerService</option>
                     </select>
                 </div>
                 <nav class="mobile-navigation hidden-sm-up" id="mobile-navigation">
                     <div class="mobile-navigation__active-item">
                         <span class="mobile-navigation__nav-icon icon-home"></span>
-                        <span>Home</span>
+                        <span id="mobile-current-page">Home</span>
                     </div>
                     <div class="mobile-navigation__dropdown">
                         <ul>
                             <li>
                                 <a href="@Url.Action("Index","Home")">
                                     <span class="mobile-navigation__nav-icon icon-home"></span>
-                                    <span>Home</span>
+                                    <span>@Resources.HomePage</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="@Url.Action("BasicInfo","NewRental")">
                                     <span class="mobile-navigation__nav-icon icon-new_document"></span>
-                                    <span>New Loan</span>
+                                    <span>@Resources.NewApplication</span>
                                 </a>
                             </li>
                             @*<li>
-                                <a>
-                                    <span class="mobile-navigation__nav-icon icon-new_document"></span>
-                                    <span>New Rental</span>
-                                </a>
-                            </li>*@
+                                    <a>
+                                        <span class="mobile-navigation__nav-icon icon-new_document"></span>
+                                        <span>New Rental</span>
+                                    </a>
+                                </li>*@
                             <li>
                                 <a href="@Url.Action("Index","Calculator")">
                                     <span class="mobile-navigation__nav-icon icon-calculator"></span>
-                                    <span>Calculator</span>
+                                    <span>@Resources.Calculator</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="@Url.Action("Index","ShareableLink")">
                                     <span class="mobile-navigation__nav-icon icon-link"></span>
-                                    <span>Customer Link</span>
+                                    <span>@Resources.ShareableLink</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="@Url.Action("Index","MyDeals")">
                                     <span class="mobile-navigation__nav-icon icon-deals"></span>
-                                    <span>My Deals</span>
-                                    <div class="notification">5 new</div>
+                                    <span>@Resources.MyDeals</span>
+                                    <div class="notification" id="new-deals-number"></div>
                                 </a>
                             </li>
                             <li>
                                 <a href="@Url.Action("Index", "Leads")">
                                     <span class="mobile-navigation__nav-icon icon-cart"></span>
-                                    <span>Leads</span>
+                                    <span>@Resources.Leads</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="@Url.Action("Library","Home")">
                                     <span class="mobile-navigation__nav-icon icon-library"></span>
-                                    <span>Library</span>
+                                    <span>@Resources.Library</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="@Url.Action("Index","Profile")">
                                     <span class="mobile-navigation__nav-icon icon-profile"></span>
-                                    <span>My Profile</span>
+                                    <span>@Resources.MyProfile</span>
                                 </a>
                             </li>
                         </ul>
-                        <div class="mobile-navigation__action-block">
-                            <select name="" id="language" class="header__select">
-                                <option value="En" selected>En</option>
-                                <option value="Fr">Fr</option>
-                            </select>
-                        </div>
+                        @if(User.Identity.IsAuthenticated && ((bool?)TempData["LangSwitcherAvailable"] ?? false))
+                        {
+                            <div class="mobile-navigation__action-block">
+                                <select name="" id="language" class="header__select">
+                                    <option value="En" @(CultureHelper.CurrentCultureType==CultureType.English?"selected":"")>En</option>
+                                    <option value="Fr" @(CultureHelper.CurrentCultureType==CultureType.French?"selected":"")>Fr</option>
+                                </select>
+                            </div>
+                        }
                         <div class="mobile-navigation__user">
-                            John Domes
-                            <a class="mobile-navigation__logout">Log Out</a>
+                            @User.Identity.Name
+                            @Html.ActionLink(Resources.Logout,"LogOff","Account", new {@class= "mobile-navigation__logout" })
                         </div>
                     </div>
                 </nav>
@@ -283,14 +300,15 @@
         var bannerLink = System.Configuration.ConfigurationManager.AppSettings["HomeBannerLink"];
         var bannerExists = !string.IsNullOrEmpty((string)ViewBag.Banner);
 
-    if(bannerExists)
-    {
-        <div class="custom-container">
-            <a class="main-banner" @(!string.IsNullOrEmpty(bannerLink) ? "href=" + bannerLink + " target=\"_blank\"" : "")>
-                <img src="@Url.Content(ViewBag.Banner)" />
-            </a>
-        </div>
-    }
+        if(bannerExists)
+        {
+            <div class="custom-container">
+                <a class="main-banner" @(!string.IsNullOrEmpty(bannerLink) ? "href=" + bannerLink + " target=\"_blank\"" : "")>
+                    <img src="@Url.Content(ViewBag.Banner)" />
+                </a>
+            </div>
+            <div class="clearfix"></div>
+        }
     }
     <div class="container-fluid custom-container">
         @RenderBody()
