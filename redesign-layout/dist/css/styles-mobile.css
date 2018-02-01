@@ -64,10 +64,10 @@
   content: "\e907";
   color: #5d5d5d; }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
   .main-banner {
     height: 180px; } }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
   .header__logo {
     text-align: center; }
 
@@ -202,8 +202,9 @@
   .mobile-navigation,
   .mobile-help {
     display: block; } }
-.custom-container {
-  max-width: 1030px;
-  margin: 0 auto; }
+@media screen and (max-width: 767px) {
+  .custom-container {
+    max-width: 1030px;
+    margin: 0 auto; } }
 
 /*# sourceMappingURL=styles-mobile.css.map */

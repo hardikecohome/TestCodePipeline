@@ -4,5 +4,104 @@
   <a class="main-banner" href="#" style="background-image: url('../img/banner.png');"></a>
 </div>
 <div class="container-fluid custom-container">
-  content
+  <div class="new-buttons">
+    <button type="button" class="btn btn-empty-grey min-w-100">Clear</button>
+
+    <button type="button" class="btn btn-empty-green min-w-100">Save</button>
+
+    <button type="button" class="btn btn-empty-red min-w-100">Filter</button>
+
+    <button type="button" class="btn btn-red">Apply</button>
+
+    <button type="button" class="btn btn-green min-w-60">Next</button>
+  </div>
+  <div class="new-buttons">
+    <button type="button" class="btn btn-empty-grey min-w-100 disabled">Clear</button>
+
+    <button type="button" class="btn btn-empty-green min-w-100 disabled">Save</button>
+
+    <button type="button" class="btn btn-empty-red min-w-100 disabled">Filter</button>
+
+    <button type="button" class="btn btn-red disabled">Apply</button>
+
+    <button type="button" class="btn btn-green min-w-60 disabled">Next</button>
+  </div>
+  <div class="inputs">
+    <div class="row">
+      <div class="col-xs-2">
+        <form action="#">
+          <div class="custom-text-input-group">
+            <input type="text" required>
+            <label>Name</label>
+          </div>
+        </form>
+      </div>
+      <div class="col-xs-3">
+        <div class="custom-text-input-group">
+          <input type="text" required>
+          <label>Email</label>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="custom-text-input-group">
+          <input type="text" required>
+          <label>Email</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="inputs">
+    <div class="row">
+      <div class="col-xs-2">
+        <form action="#">
+          <div class="custom-text-input-group error">
+            <input type="text" required>
+            <label>Name</label>
+            <div class="error-message">
+              <span>Cost is in incorrect format</span>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-xs-3">
+        <div class="custom-text-input-group error">
+          <input type="text" required>
+          <label>Description</label>
+          <div class="error-message">
+            <span>This field can’t be empty</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="custom-text-input-group error">
+          <input type="text" required>
+          <label>Dealer's Initial</label>
+          <div class="error-message">
+            <span>The field Dealer's Initial must be a string with a minimum length of 1 and a maximum length of 2.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pagination">
+    <nav aria-label="Page navigation">
+      <ul class="pagination">
+        <li>
+          <a href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li>
+          <a href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
 </div>
