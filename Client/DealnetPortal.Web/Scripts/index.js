@@ -41,35 +41,19 @@
             }
         });
 
-        $('.dealnet-sidebar-item a[href="' + window.location.pathname + '"]')
-            .parents('.dealnet-sidebar-item')
-            .addClass('dealnet-sidebar-item-selected');
+        $('.header__navigation a[href="' + window.location.pathname + '"]')
+            .addClass('active');
 
         // NewApplication has multiple steps with different window.location.pathname,
         // but New Application navigation should be active on each step.
-        if (window.location.pathname.indexOf('NewApplication') !== -1) {
+        if (window.location.pathname.toLowerCase().indexOf('newapplication') !== -1) {
             $('#sidebar-item-newrental').addClass('dealnet-sidebar-item-selected');
         }
-
-        $('.navbar-toggle').click(function () {
-            if ($('.navbar-collapse').attr('aria-expanded') === 'false') {
-                saveScrollPosition();
-                $('body').addClass('open-menu');
-                $('body').addClass('menu-animated');
-                $('.overlay').show();
-            } else {
-                $('body').removeClass('open-menu');
-                resetScrollPosition();
-                $('.overlay').hide();
-                setTimeout(function () {
-                    $('body').removeClass('menu-animated');
-                }, 400);
-            }
-        });
 
         if (detectIe()) {
             $('body').addClass('ie');
         }
+
         $('.credit-check-info-hold.fit-to-next-grid').each(function () {
 
             if ($(this).find('.grid-column').length % 2 !== 0) {

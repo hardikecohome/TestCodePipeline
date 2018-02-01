@@ -16,6 +16,15 @@
     <title>@ViewBag.Title - DealNet</title>
     <link href="https://fonts.googleapis.com/css?family=Mukta:300,400,500,700,800" rel="stylesheet">
     @RenderSection("Styles", false)
+    @switch(ApplicationSettingsManager.PortalType)
+    {
+        case PortalType.Odi:
+            @Styles.Render("~/Content/less/main-dealer.less")
+            break;
+        default:
+            @Styles.Render("~/Content/less/main.less")
+            break;
+    }
     @Styles.Render("~/bundles/styles")
     <link rel="shortcut icon" href="@Url.Action("Favicon", "Settings", new { version = DateTime.Now.Ticks.ToString(), hashDealerName = ViewBag.HashDealerName as string })" type="image/x-icon" />
     <script type="text/javascript">
@@ -23,7 +32,7 @@
         var layotSettingsUrl = "@(User.Identity.IsAuthenticated ? Url.Action("LayoutSettings", "Home") : null)";
 		var customerDealsCountUrl = "@(User.Identity.IsAuthenticated ? Url.Action("CustomersDealsCount", "Home") : null)";
         var SupportUrl = "@(User.Identity.IsAuthenticated ? Url.Action("DealerSupportRequestEmail", "Home") : null)";
-        @{ 
+        @{
             var path = Request.Path.Contains("/en") || Request.Path.Contains("/fr") ? Request.Path.Substring(3) : Request.Path;
         }
         var changeToEnglishLink = '@Url.Action("ChangeCulture","Home",new { culture="en", redirectUrl = path })';
@@ -150,13 +159,13 @@
                 <nav class="header__navigation hidden-xs">
                     <ul>
                         <li>
-                            <a class="active" href="@Url.Action("Index","Home")">
+                            <a href="@Url.Action("Index","Home")">
                                 <span class="header__nav-icon icon-home"></span>
                                 <span>@Resources.HomePage</span>
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("BasicInfo","NewRental")">
+                            <a id="sidebar-item-newrental" href="@Url.Action("BasicInfo","NewRental")">
                                 <span class="header__nav-icon icon-new_document"></span>
                                 <span>@Resources.NewApplication</span>
                             </a>
