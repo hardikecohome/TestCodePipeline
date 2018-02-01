@@ -23,5 +23,7 @@ namespace DealnetPortal.Web.Common.Constants
         public const string OnboardingLeadSourceFrenchKey = "OnboardingLeadSourceFrench";
 
         public const string ClarityTierNameKey = "ClarityTierName";
+        public const string CultureCookieNameKey = "CultureCookieName";
+
     }
 }
