@@ -1,7 +1,6 @@
 ﻿$(document).ready(function () {
     addIconsToFields();
     toggleClearInputIcon();
-    //customizeSelect();
 
     $('body').on('click', '.recover-pass-link', recoverPassword);
 
@@ -136,26 +135,6 @@ function customDPSelect (elem) {
         $('.ui-datepicker-prev, .ui-datepicker-next').hide();
     }
 }
-
-//function customizeSelect () {
-//    setTimeout(function () {
-//        $('select').each(function () {
-//            //Added opt group to each select to fix long value inside option for IOS.
-//            if ($('body').is('.ios-device') && $(this).find('optgroup').length === 0) {
-//                $('<optgroup label=""></optgroup>').appendTo($(this));
-//            }
-//            var selectClasses = $(this).hasClass('dealnet-disabled-input') || $(this).hasClass('control-disabled') ? 'custom-select-disabled' : 'custom-select';
-//            if (!$(this).parents('.ui-datepicker').length && !$(this).parents('.custom-select').length && !$(this).parents('.custom-select-disabled').length) {
-//                $(this).wrap('<div class=' + selectClasses + '>');
-//                if (module.require('detectIE')() === false) {
-//                    $(this).after('<span class="caret">');
-//                }
-//            }
-//        });
-
-//        $('select.dealnet-disabled-input').disableTab();
-//    }, 300);
-//}
 
 function recoverPassword (e) {
     var pass = $(e.target).parents('.control-group').find('input');

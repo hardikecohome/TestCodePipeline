@@ -5,7 +5,6 @@
             "fnInitComplete": function () {
                 $('#work-items-table, .total-info').show();
                 $('#work-items-table_filter input[type="search"], .dataTables_length select').removeClass('input-sm');
-                //customizeSelect();
             }
         });
     }
