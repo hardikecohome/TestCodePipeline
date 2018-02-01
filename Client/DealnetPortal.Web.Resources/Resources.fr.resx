@@ -1755,6 +1755,7 @@
   <data name="ConsentToReceiveCommercialElectronicMessages" xml:space="preserve">
     <value>Lorsque vous cochez cette case, vous consentez à recevoir des messages électroniques commerciaux de Services financiers EcoHome à l’adresse électronique et aux numéros de téléphone que vous avez indiqués dans cette demande ou à l’occasion relativement à votre compte, y compris des communications électroniques qui ont pour but de commercialiser ou promouvoir nos programmes, produits, services, offres, événements ou sondages qui peuvent vous intéresser. Vous pouvez retirer votre consentement à tout moment. Vous pouvez communiquer avec Services financiers EcoHome au 425, boul de Maisonneuve O, Montréal, QC H3A 3G5</value>
   </data>
+  <data name="ConsentToReceiveCommercialElectronicMessages1" xml:space="preserve">
     <value> Vous vous engagez à accepter, à recevoir et à utiliser sous forme électronique les ententes, avis et autres documents ou communications liés à la présente demande que Services financiers EcoHome peut vous transmettre. </value>
   </data>
 
