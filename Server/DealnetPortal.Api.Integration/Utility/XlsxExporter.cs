@@ -82,14 +82,16 @@ namespace DealnetPortal.Api.Integration.Utility
                                 TaxRate = 0,
                                 LoanTerm = contract.Equipment.LoanTerm ?? 0,
                                 AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
-                                EquipmentCashPrice = (double?)contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
+                                PriceOfEquipment = (double?)contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
+                                //  EquipmentCashPrice = (double?)contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
                                 AdminFee = contract.Equipment.AdminFee ?? 0,
                                 DownPayment = contract.Equipment.DownPayment ?? 0,
                                 CustomerRate = contract.Equipment.CustomerRate ?? 0
                             };
                             var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
                             //totalMp = (decimal)loanCalculatorOutput.TotalMonthlyPayment;
-                            worksheet.Cells[counter, 13].Value = loanCalculatorOutput.TotalCashPrice;
+                            //worksheet.Cells[counter, 13].Value = loanCalculatorOutput.TotalCashPrice;
+                            worksheet.Cells[counter, 13].Value = loanCalculatorOutput.PriceOfEquipmentWithHst;
                             //worksheet.Cells[counter, 13].Style.Numberformat.Format = "##0.00";
                             worksheet.Cells[counter, 14].Value = contract.Equipment?.DownPayment ?? null;
                             worksheet.Cells[counter, 15].Value = loanCalculatorOutput.TotalAmountFinanced;
