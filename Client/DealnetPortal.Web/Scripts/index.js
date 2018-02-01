@@ -2,11 +2,13 @@
     var saveScrollPosition = require('scrollPosition').save;
     var resetScrollPosition = require('scrollPosition').reset;
     var detectIe = require('detectIE');
+    var mobileNavDropdown;
+    var darkOverlay;
 
-    function init () {
+    function init() {
         setDeviceClasses();
 
-        $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+        $.fn.modal.Constructor.prototype.enforceFocus = function () { };
 
         $(window).on('resize', function () {
             setDeviceClasses();
@@ -95,9 +97,36 @@
                 }
             });
         }, 500);
+
+        var mobileNav = $("#mobile-navigation");
+        darkOverlay = $(".body-dark-overlay")
+        mobileNav.find(".mobile-navigation__active-item").click(handleMobileNavigation);
+        mobileNavDropdown = mobileNav.find(".mobile-navigation__dropdown");
+        darkOverlay.click(handleMobileNavigation);
+
+        $('#language').on('change', function (e) {
+            window.location = e.target.value === 'en' ?
+                changeToEnglishLink : changeToFrenchLink;
+        });
     }
 
-    function setDeviceClasses () {
+    function handleMobileNavigation() {
+        if (mobileNavDropdown.hasClass("active")) {
+            mobileNavDropdown.slideUp(300, function () {
+                mobileNavDropdown.removeClass("active");
+            });
+            darkOverlay.fadeOut(300);
+
+        } else {
+            mobileNavDropdown.slideDown(300, function () {
+                mobileNavDropdown.addClass("active");
+
+            });
+            darkOverlay.show().fadeTo(300, 0.3);
+        }
+    }
+
+    function setDeviceClasses() {
         if (isMobile.any()) {
             if (viewport().width < 768) {
                 $('body').addClass('mobile-device').removeClass('tablet-device');
@@ -149,7 +178,7 @@ var isMobile = {
     }
 };
 
-function viewport () {
+function viewport() {
     var e = window, a = 'inner';
     if (!('innerWidth' in window)) {
         a = 'client';
@@ -169,6 +198,6 @@ window.formatNumber = function (num) {
     return num;
 };
 
-$(document).ready(function() {
+$(document).ready(function () {
     module.require('index')();
 })
