@@ -1589,6 +1589,9 @@
   <data name="ConsentToReceiveCommercialElectronicMessages" xml:space="preserve">
     <value>By checking this box, you consent to receive commercial electronic messages from EcoHome Financial at your email address and telephone number(s) provided by you in this application or from time to time in connection with your account, including electronic communications that market or promote our programs, products, services, offers, events and surveys that may be of interest to you. You may withdraw this consent at any time. You may contact EcoHome Financial Inc. at 325 Milner Avenue, Suite 300, Toronto, Ontario M1B 5N1</value>
   </data>
+  <data name="ConsentToReceiveCommercialElectronicMessages_1" xml:space="preserve">
+    <value>You consent to accept, receive and use in electronic form any and all agreements, notices, disclosures and other documents or information in relation to this application that EcoHome Financial may deliver to you. </value>
+  </data>
   <data name="HowIsMyPersonalDataUsed" xml:space="preserve">
     <value>How is my personal data used?</value>
   </data>

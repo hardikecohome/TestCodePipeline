@@ -19,7 +19,7 @@ namespace DealnetPortal.Web.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -1703,6 +1703,15 @@ namespace DealnetPortal.Web.Resources {
         public static string ConsentToReceiveCommercialElectronicMessages {
             get {
                 return ResourceManager.GetString("ConsentToReceiveCommercialElectronicMessages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You consent to accept, receive and use in electronic form any and all agreements, notices, disclosures and other documents or information in relation to this application that EcoHome Financial may deliver to you. .
+        /// </summary>
+        public static string ConsentToReceiveCommercialElectronicMessages_1 {
+            get {
+                return ResourceManager.GetString("ConsentToReceiveCommercialElectronicMessages_1", resourceCulture);
             }
         }
         
