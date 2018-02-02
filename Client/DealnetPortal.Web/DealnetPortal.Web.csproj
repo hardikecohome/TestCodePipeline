@@ -486,7 +486,8 @@
     <Content Include="Content\email\images\icon-success.png" />
     <Content Include="Content\files\banners\en\home-banner-mobile.jpg" />
     <Content Include="Content\files\banners\en\home-banner.jpg" />
-    <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\icomoon.svg" />
     <Content Include="Content\images\dataTables\details_close.png" />
     <Content Include="Content\images\dataTables\details_open.png" />
     <Content Include="Content\images\dataTables\sort_asc.png" />
@@ -722,10 +723,10 @@
     <Content Include="Content\less\bootstrap\mixins\text-overflow.less" />
     <Content Include="Content\less\bootstrap\mixins\vendor-prefixes.less" />
     <Content Include="Content\less\pages\basic-info.less" />
-    <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.woff" />
-    <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\less\components\loader.less" />
     <Content Include="Content\less\components\lang-swither.less" />
     <Content Include="Content\less\main.less" />
@@ -833,6 +834,9 @@
     <Content Include="Content\css\styles-mobile.css.map" />
     <Content Include="Content\css\styles-tablet.css.map" />
     <Content Include="Content\css\styles.css.map" />
+    <Content Include="Content\fonts\icomoon.eot" />
+    <Content Include="Content\fonts\icomoon.ttf" />
+    <Content Include="Content\fonts\icomoon.woff" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\components\addressInformation.js" />
