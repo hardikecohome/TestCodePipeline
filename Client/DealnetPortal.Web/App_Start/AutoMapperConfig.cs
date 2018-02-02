@@ -569,7 +569,7 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<ContractDocumentDTO, ExistingDocument>()
             .ForMember(x => x.DocumentId, d => d.MapFrom(src => src.Id))
             .ForMember(x => x.DocumentName, d => d.ResolveUsing(src => src.DocumentName.Substring(src.DocumentName.IndexOf("_") + 1)))
-            .ForMember(x => x.LastUpdateTime, d => d.MapFrom(src => src.CreationDate));
+            .ForMember(x => x.LastUpdateTime, d => d.MapFrom(src => src.CreationDate.TryConvertToLocalUserDate()));
 
             cfg.CreateMap<PaymentInfoDTO, PaymentInfoViewModel>();
             cfg.CreateMap<CustomerDTO, ContactInfoViewModel>()

@@ -1,9 +1,10 @@
 ﻿@using System.Security.Claims;
+@using DealnetPortal.Web.Common.Constants
 @{
     ViewBag.Title = Resources.PrivacyPolicy;
 }
 
 <div id="privacy-policy" class="privacy-policy-page" style="width: 990px; max-width: 100%; ">
-    @Html.Raw((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True") ? @Resources.PrivacyPolicyTextQC : @Resources.PrivacyPolicyText)
+    @Html.Raw((bool)((ClaimsPrincipal)User)?.HasClaim(ClaimContstants.QuebecDealer, "True") ? @Resources.PrivacyPolicyTextQC : @Resources.PrivacyPolicyText)
 </div>
 

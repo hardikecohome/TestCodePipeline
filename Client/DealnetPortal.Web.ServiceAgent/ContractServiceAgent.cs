@@ -382,11 +382,11 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }       
 
-        public async Task<AgreementDocument> GetXlsxReport(IEnumerable<int> ids)
+        public async Task<AgreementDocument> GetXlsxReport(IEnumerable<int> ids, int? timeZoneOffset = null)
         {
             try
             {
-                var report = await Client.PostAsyncEx<IEnumerable<int>, AgreementDocument> ($"{_fullUri}/CreateXlsxReport", ids, AuthenticationHeader, CurrentCulture);
+                var report = await Client.PostAsyncEx<Tuple<IEnumerable<int>, int?>, AgreementDocument> ($"{_fullUri}/CreateXlsxReport", Tuple.Create(ids, timeZoneOffset), AuthenticationHeader, CurrentCulture);
                 return report;
             }
             catch (Exception ex)

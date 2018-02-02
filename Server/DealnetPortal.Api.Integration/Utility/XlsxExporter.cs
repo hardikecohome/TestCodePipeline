@@ -16,7 +16,7 @@ namespace DealnetPortal.Api.Integration.Utility
 {
     public static class XlsxExporter
     {
-        public static void Export(IEnumerable<ContractDTO> contracts, Stream stream)
+        public static void Export(IEnumerable<ContractDTO> contracts, Stream stream, int? timeZoneOffset = null)
         {
             using (var package = new ExcelPackage(stream))
             {
@@ -42,7 +42,7 @@ namespace DealnetPortal.Api.Integration.Utility
                     worksheet.Cells[counter, 5].Value =
                         contract.PrimaryCustomer?.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress;
                     worksheet.Cells[counter, 6].Value = contract.PrimaryCustomer?.Phones?.FirstOrDefault(ph => ph.PhoneType == PhoneType.Cell)?.PhoneNum ?? contract.PrimaryCustomer?.Phones?.FirstOrDefault(ph => ph.PhoneType == PhoneType.Home)?.PhoneNum;
-                    worksheet.Cells[counter, 7].Value = contract.LastUpdateTime?.ToString(CultureInfo.CurrentCulture);
+                    worksheet.Cells[counter, 7].Value = timeZoneOffset != null ?  contract.LastUpdateTime?.AddMinutes(-1 * timeZoneOffset.Value).ToString(CultureInfo.CurrentCulture) : contract.LastUpdateTime?.ToString(CultureInfo.CurrentCulture);
                     worksheet.Cells[counter, 8].Value = contract.Equipment?.NewEquipment?.Select(eq => eq.TypeDescription).ConcatWithComma();
                     worksheet.Cells[counter, 9].Value = contract.Equipment?.SalesRep;
                     if (contract.Equipment?.ValueOfDeal != null)

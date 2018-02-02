@@ -12,6 +12,7 @@ using DealnetPortal.Web.Common.Culture;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using System.Security.Claims;
 using DealnetPortal.Utilities.Logging;
+using DealnetPortal.Web.Common.Constants;
 using log4net;
 
 namespace DealnetPortal.Web.Controllers
@@ -44,7 +45,7 @@ namespace DealnetPortal.Web.Controllers
             }
             //fallback:
             Stream stream;
-            if ((CultureHelper.CurrentCultureType != CultureType.French && string.IsNullOrEmpty(User?.Identity?.Name)) || (!string.IsNullOrEmpty(User?.Identity?.Name) && !((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True"))))
+            if ((CultureHelper.CurrentCultureType != CultureType.French && string.IsNullOrEmpty(User?.Identity?.Name)) || (!string.IsNullOrEmpty(User?.Identity?.Name) && !((bool)((ClaimsPrincipal)User)?.HasClaim(ClaimContstants.QuebecDealer, "True"))))
             {
                 switch (ApplicationSettingsManager.PortalType)
                 {
