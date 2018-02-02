@@ -17,6 +17,34 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
+.icon-calendar:before {
+  content: "\e911";
+  color: #c2c8d0; }
+
+.icon-add-app:before {
+  content: "\e90f";
+  color: #50b6f4; }
+
+.icon-delete-name:before {
+  content: "\e910";
+  color: #dcdcdc; }
+
+.icon-filter:before {
+  content: "\e90b";
+  color: #ff5b40; }
+
+.icon-help-button:before {
+  content: "\e90c";
+  color: #ff5b40; }
+
+.icon-pagination-left:before {
+  content: "\e90d";
+  color: #7fc801; }
+
+.icon-pagination-right:before {
+  content: "\e90e";
+  color: #7fc801; }
+
 .icon-how-can-we-help:before {
   content: "\e90a";
   color: #fff; }
@@ -82,74 +110,76 @@
     padding: 8px 0 0; }
 
   .mobile-navigation {
-    z-index: 10;
     position: relative;
-    z-index: 10;
+    z-index: 2000;
     position: absolute;
     right: 0;
     bottom: -5px; }
-    .mobile-navigation .mobile-navigation__active-item {
-      float: right;
-      background-color: #97c501;
-      cursor: pointer;
-      height: 40px;
-      text-transform: uppercase;
-      font-size: 11px;
-      width: 150px;
-      line-height: 40px;
-      background-image: url("../img/forms/selectArrow.svg");
-      background-repeat: no-repeat;
-      background-position: 92% center; }
-    .mobile-navigation .mobile-navigation__dropdown {
-      position: absolute;
-      right: 0;
-      background-color: white;
-      display: none;
-      width: 150px;
-      z-index: 10;
-      top: 40px; }
-      .mobile-navigation .mobile-navigation__dropdown .mobile-navigation__nav-icon:before {
-        color: #5d5d5d; }
-      .mobile-navigation .mobile-navigation__dropdown ul {
-        padding: 0;
-        margin: 0;
-        list-style: none; }
-        .mobile-navigation .mobile-navigation__dropdown ul li {
-          border-bottom: 1px solid #f2f2f2;
-          position: relative; }
-          .mobile-navigation .mobile-navigation__dropdown ul li a {
-            color: #5d5d5d;
-            text-decoration: none;
-            height: 40px;
-            line-height: 40px;
-            display: block;
-            font-size: 11px;
-            text-transform: uppercase; }
-            .mobile-navigation .mobile-navigation__dropdown ul li a .notification {
-              padding: 0 6px;
-              top: 11px;
-              position: absolute;
-              right: 4px;
-              font-size: 10px;
-              height: 17px;
-              line-height: 17px;
-              border-radius: 15px;
-              background-image: linear-gradient(111deg, #ff613c, #ff3258);
-              color: white; }
-    .mobile-navigation .mobile-navigation__nav-icon {
-      font-size: 19px;
-      padding: 9px 10px 0 10px;
-      display: block;
-      float: left; }
-      .mobile-navigation .mobile-navigation__nav-icon:before {
-        color: white; }
+
+  .mobile-navigation__active-item {
+    float: right;
+    background-color: #97c501;
+    cursor: pointer;
+    height: 40px;
+    text-transform: uppercase;
+    font-size: 11px;
+    width: 150px;
+    line-height: 40px;
+    background-image: url("../img/forms/selectArrow.svg");
+    background-repeat: no-repeat;
+    background-position: 92% center; }
+
+  .mobile-navigation__dropdown {
+    position: absolute;
+    right: 0;
+    background-color: white;
+    display: none;
+    width: 150px;
+    z-index: 2000;
+    top: 40px; }
+    .mobile-navigation__dropdown .mobile-navigation__nav-icon:before {
+      color: #5d5d5d; }
+    .mobile-navigation__dropdown ul {
+      padding: 0;
+      margin: 0;
+      list-style: none; }
+      .mobile-navigation__dropdown ul > li {
+        border-bottom: 1px solid #f2f2f2;
+        position: relative; }
+        .mobile-navigation__dropdown ul > li a {
+          color: #5d5d5d;
+          text-decoration: none;
+          height: 40px;
+          line-height: 40px;
+          display: block;
+          font-size: 11px;
+          text-transform: uppercase; }
+          .mobile-navigation__dropdown ul > li a .notification {
+            padding: 0 6px;
+            top: 11px;
+            position: absolute;
+            right: 4px;
+            font-size: 10px;
+            height: 17px;
+            line-height: 17px;
+            border-radius: 15px;
+            background-image: linear-gradient(111deg, #ff613c, #ff3258);
+            color: white; }
+
+  .mobile-navigation__nav-icon {
+    font-size: 19px;
+    padding: 9px 10px 0 10px;
+    display: block;
+    float: left; }
+    .mobile-navigation__nav-icon:before {
+      color: white; }
 
   .body-dark-overlay {
     height: 100%;
     min-height: 100px;
     background-color: black;
     opacity: 0;
-    z-index: 1;
+    z-index: 1001;
     width: 100%;
     position: fixed;
     display: none; }
@@ -171,6 +201,14 @@
   .mobile-navigation__action-block {
     padding: 12px;
     border-bottom: 1px solid #f2f2f2; }
+    .mobile-navigation__action-block .dropdown-custom {
+      float: left; }
+      .mobile-navigation__action-block .dropdown-custom .dropdown-toggle {
+        font-size: 11px;
+        text-transform: uppercase;
+        font-weight: 400;
+        color: #5d5d5d;
+        background-image: url("../img/forms/selectArrowBlack.svg"); }
 
   .header__select {
     color: #5d5d5d;
@@ -179,17 +217,38 @@
     background-image: url("../img/forms/selectArrowBlack.svg"); }
 
   .mobile-help {
-    margin-top: 15px; }
+    margin-top: 15px;
+    min-width: 145px;
+    left: 0;
+    position: absolute;
+    z-index: 1003; }
+    .mobile-help .mobile-navigation__dropdown {
+      left: 0;
+      top: 30px;
+      min-width: 170px; }
+      .mobile-help .mobile-navigation__dropdown [class^="icon-"], .mobile-help .mobile-navigation__dropdown [class*=" icon-"] {
+        margin-top: 6px; }
+      .mobile-help .mobile-navigation__dropdown ul > li a {
+        text-transform: capitalize;
+        text-decoration: underline;
+        color: #97c501; }
     .mobile-help [class^="icon-"], .mobile-help [class*=" icon-"] {
-      vertical-align: text-bottom; }
+      vertical-align: text-bottom;
+      float: left;
+      margin: 0 5px 0 6px; }
       .mobile-help [class^="icon-"]:before, .mobile-help [class*=" icon-"]:before {
         font-size: 23px; }
 
-  .mobile-help__select {
+  .mobile-help__phone {
+    color: #5d5d5d;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 40px; }
+
+  .mobile-help__toggle {
+    max-width: 155px;
     font-size: 12px;
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
     background-color: transparent;
     border: 0;
     outline: none;
@@ -197,7 +256,8 @@
     background-repeat: no-repeat;
     background-position: right;
     padding-right: 15px;
-    max-width: 100px; }
+    line-height: 25px;
+    cursor: pointer; }
 
   .mobile-navigation,
   .mobile-help {

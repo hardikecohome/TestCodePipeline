@@ -24,6 +24,34 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-calendar:before {
+  content: "\e911";
+  color: #c2c8d0;
+}
+.icon-add-app:before {
+  content: "\e90f";
+  color: #50b6f4;
+}
+.icon-delete-name:before {
+  content: "\e910";
+  color: #dcdcdc;
+}
+.icon-filter:before {
+  content: "\e90b";
+  color: #ff5b40;
+}
+.icon-help-button:before {
+  content: "\e90c";
+  color: #ff5b40;
+}
+.icon-pagination-left:before {
+  content: "\e90d";
+  color: #7fc801;
+}
+.icon-pagination-right:before {
+  content: "\e90e";
+  color: #7fc801;
+}
 .icon-how-can-we-help:before {
   content: "\e90a";
   color: #fff;

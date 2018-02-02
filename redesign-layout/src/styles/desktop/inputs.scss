@@ -1,7 +1,26 @@
 /* form starting stylings ------------------------------- */
 .custom-text-input-group {
-  position:relative;
   padding-top: 7px;
+  position:relative;
+
+  &.icon {
+
+    input {
+      padding-right: 30px;
+    }
+  }
+
+  [class^="icon-"], [class*=" icon-"] {
+    position: absolute;
+    display: block;
+    right: 5px;
+    top: 15px;
+
+    &:before {
+      font-size: 20px;
+      color: #c2c8d0;
+    }
+  }
 
   input {
     font-size: 13px;
