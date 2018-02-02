@@ -1,4 +1,7 @@
-﻿using DealnetPortal.Api.Core.Enums;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models.MyProfile;
 
@@ -42,6 +45,11 @@ namespace DealnetPortal.Web.Controllers
                                  .Select(e => e.ErrorMessage)
                                  .ToList();
                 return Json(new { Errors = errorList }, JsonRequestBehavior.AllowGet);
+            }
+            var quebecPostalCodes = ConfigurationManager.AppSettings[PortalConstants.QuebecPostalCodesNameKey].Split(',');
+            if (model.QuebecDealer && model.PostalCodes.Any(x => quebecPostalCodes.All(p=> p != x.PostalCode[0].ToString())) )
+            {
+                return Json(new { Errors = new List<string> {Resources.Resources.ServiceAreaInQc } }, JsonRequestBehavior.AllowGet);
             }
 
             var alerts = await _profileManager.UpdateDealerProfile(model);
