@@ -45,6 +45,7 @@
         translations['ThisFieldIsRequired'] = "@Resources.ThisFieldIsRequired";
         translations['EnterValidDate'] = "@Resources.EnterValidDate";
         translations['Cancel'] = "@Resources.Cancel";
+        translations['new'] = '@Resources.New';
         @RenderSection("Translations", false)
     </script>
     @Scripts.Render("~/bundles/jquery")
@@ -192,9 +193,7 @@
                             <a href="@Url.Action("Index","MyDeals")">
                                 <span class="header__nav-icon icon-deals"></span>
                                 <span>@Resources.MyDeals</span>
-                                <div class="notification">
-                                    <div id="new-deals-number"></div>
-                                </div>
+                                <div class="notification" id="new-deals-number"></div>
                             </a>
                         </li>
                         <li>
