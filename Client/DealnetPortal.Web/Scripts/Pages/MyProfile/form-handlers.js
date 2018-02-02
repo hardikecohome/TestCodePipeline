@@ -5,11 +5,15 @@
 
     return function (e) {
         var isUniquePostalCodes = postalCodeHandlers.checkCopies();
+        var validPostalCode = postalCodeHandlers.validateQuebecProvinces();
 
-        if (!isUniquePostalCodes) {
+        if (!isUniquePostalCodes || !validPostalCode.isValid) {
             e.preventDefault();
             $('#infoErrors').empty();
-            $('#infoErrors').append(createError([translations['SuchPostalCodeAlreadyExist']]));
+            if(!isUniquePostalCodes)
+                $('#infoErrors').append(createError([translations['SuchPostalCodeAlreadyExist']]));
+            if(!validPostalCode.isValid)
+                $('#infoErrors').append(createError([translations[validPostalCode.quebecDealer ? 'ServiceAreaInQc' : 'ServiceAreaNotInQc']]));
         } else {
             $('#infoErrors').empty();
             if (!$('#main-form').valid()) {

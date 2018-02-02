@@ -24,14 +24,13 @@ namespace DealnetPortal.Web.Common.Constants
 
         public const string ClarityTierNameKey = "ClarityTierName";
         public const string CultureCookieNameKey = "CultureCookieName";
-
+        public const string QuebecPostalCodesNameKey = "QuebecPostalCodes";
     }
 
     public static class ClaimContstants
     {
         public const string QuebecDealer = "QuebecDealer";
     }
-
     public static class RoleContstants
     {
         public const string MortgageBroker = "MortgageBroker";

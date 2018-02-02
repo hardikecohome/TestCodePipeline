@@ -1,6 +1,7 @@
 ﻿@using DealnetPortal.Api.Core.Helpers
 @using DealnetPortal.Web.Models.Enumeration
 @using System.Security.Claims;
+@using DealnetPortal.Api.Common.Enumeration
 @using DealnetPortal.Web.Common.Constants
 @using DealnetPortal.Web.Infrastructure.Managers
 
@@ -364,7 +365,7 @@
     <div class="floatingHelpBtn">
         <div id="email_buttons">
            
-            @if (User.Identity.IsAuthenticated && ((User as ClaimsPrincipal)?.IsInRole(RoleContstants.MortgageBroker) != true))
+            @if (User.Identity.IsAuthenticated && ((User as ClaimsPrincipal)?.IsInRole(UserRole.MortgageBroker.ToString()) != true))
             {
 			<div class="pull-right">
 

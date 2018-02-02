@@ -3,8 +3,10 @@ using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models.MyProfile;
 
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 
 namespace DealnetPortal.Web.Controllers
@@ -22,6 +24,10 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> Index()
         {
             var model = await _profileManager.GetDealerProfile();
+
+            var identity = (ClaimsIdentity)User.Identity;
+
+            model.QuebecDealer = identity.HasClaim(ClaimContstants.QuebecDealer, "True");
 
             return View(model);
         }
