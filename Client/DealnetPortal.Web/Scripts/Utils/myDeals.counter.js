@@ -1,13 +1,16 @@
-﻿$(function() {
+﻿$(function () {
     if (customerDealsCountUrl) {
         $.ajax({
             cache: false,
             type: "GET",
             url: customerDealsCountUrl,
-            success: function(json) {
-                if (json.dealsCount && json.dealsCount !== 0) {
-                    $('#new-deals-number').text(json.dealsCount);
-                    $('#new-deals-number').show();
+            success: function (json) {
+                var number = $('#new-deals-number');
+                if (json && json.dealsCount && json.dealsCount !== 0) {
+                    number.text(json.dealsCount + ' ' + translations['new']);
+                    number.show();
+                } else {
+                    number.hide();
                 }
             }
         });

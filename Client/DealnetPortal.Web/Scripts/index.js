@@ -47,7 +47,7 @@
         // NewApplication has multiple steps with different window.location.pathname,
         // but New Application navigation should be active on each step.
         if (window.location.pathname.toLowerCase().indexOf('newapplication') !== -1) {
-            $('#sidebar-item-newrental').addClass('dealnet-sidebar-item-selected');
+            $('#sidebar-item-newrental').addClass('active');
         }
 
         if (detectIe()) {
