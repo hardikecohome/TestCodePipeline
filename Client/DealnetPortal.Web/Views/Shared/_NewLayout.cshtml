@@ -229,8 +229,42 @@
                 <nav class="mobile-navigation hidden-sm-up" id="mobile-navigation">
                     <div class="mobile-navigation__active-item">
                         <span class="mobile-navigation__nav-icon icon-home"></span>
-                        <span id="mobile-current-page">@Resources.HomePage</span>
+                        <span id="mobile-current-page">
+                            @switch(Request.RequestContext.RouteData.Values["controller"].ToString())
+                            {
+                                case "NewRental":
+                                    <text>@Resources.NewApplication</text>
+                                    break;
+                                case "Home":
+                                    if(Request.RequestContext.RouteData.Values["action"].ToString() == "Library")
+                                    {
+                                        <text>@Resources.Library</text>
+                                    }
+                                    else
+                                    {
+                                        <text>@Resources.HomePage</text>
+                                    }
+                                    break;
+                                case "Calculator":
+                                    <text>@Resources.Calculator</text>
+                                    break;
+                                case "ShareableLink":
+                                    <text>@Resources.ShareableLink</text>
+                                    break;
+                                case "MyDeals":
+                                    <text>@Resources.MyDeals</text>
+                                    break;
+                                case "Leads":
+                                    <text>@Resources.Leads</text>
+                                    break;
+                                case "Profile":
+                                    <text>@Resources.MyProfile</text>
+                                    break;
+                            }
+                        </span>
+
                     </div>
+
                     <div class="mobile-navigation__dropdown">
                         <ul>
                             <li>
@@ -293,14 +327,14 @@
                         {
                             <div class="mobile-navigation__action-block">
                                 <select name="" id="language" class="header__select">
-                                    <option value="en" @(CultureHelper.CurrentCultureType==CultureType.English?"selected":"")>En</option>
-                                    <option value="fr" @(CultureHelper.CurrentCultureType==CultureType.French?"selected":"")>Fr</option>
+                                    <option value="en" @(CultureHelper.CurrentCultureType == CultureType.English ? "selected" : "")>En</option>
+                                    <option value="fr" @(CultureHelper.CurrentCultureType == CultureType.French ? "selected" : "")>Fr</option>
                                 </select>
                             </div>
                         }
                         <div class="mobile-navigation__user">
                             @User.Identity.Name
-                            @Html.ActionLink(Resources.Logout,"LogOff","Account", new {@class= "mobile-navigation__logout" })
+                            @Html.ActionLink(Resources.Logout, "LogOff", "Account", null, new { @class = "mobile-navigation__logout" })
                         </div>
                     </div>
                 </nav>
