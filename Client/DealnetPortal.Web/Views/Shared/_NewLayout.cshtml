@@ -85,12 +85,14 @@
             <div class="container">
                 <div class="header__logo">
                     <a href="@Url.Action("Index", "Home")">
-                        <img class="header__logo-img" src="@Url.Content("~/Content/images/logos/logo-eco-home@2x.png")" />
+                        <img class="header__logo-img" src="@Url.Action("LogoImage","Settings")" />
                     </a>
                 </div>
+                @if(User.Identity.IsAuthenticated)
+                {
                 <div class="header__right-panel hidden-xs">
                     <div class="visible-lg-block">
-                        @if(User.Identity.IsAuthenticated && ((bool?)TempData["LangSwitcherAvailable"] ?? false))
+                        @if((bool?)TempData["LangSwitcherAvailable"] ?? false)
                         {
                             <div class="header__language">
                                 <select name="" id="language" class="header__select">
@@ -140,7 +142,7 @@
                 </div>
                 <div class="header__actions-tablet visible-md-block visible-sm-block">
 
-                    @if(User.Identity.IsAuthenticated && ((bool?)TempData["LangSwitcherAvailable"] ?? false))
+                    @if((bool?)TempData["LangSwitcherAvailable"] ?? false)
                     {
                         <select name="" id="language" class="header__select">
                             <option value="en" @(CultureHelper.CurrentCultureType == CultureType.English ? "selected" : "")>
@@ -160,13 +162,13 @@
                 <nav class="header__navigation hidden-xs">
                     <ul>
                         <li>
-                            <a href="@Url.Action("Index","Home")">
+                            <a href="@Url.Action("Index", "Home")">
                                 <span class="header__nav-icon icon-home"></span>
                                 <span>@Resources.HomePage</span>
                             </a>
                         </li>
                         <li>
-                            <a id="sidebar-item-newrental" href="@Url.Action("BasicInfo","NewRental")">
+                            <a id="sidebar-item-newrental" href="@Url.Action("BasicInfo", "NewRental")">
                                 <span class="header__nav-icon icon-new_document"></span>
                                 <span>@Resources.NewApplication</span>
                             </a>
@@ -178,19 +180,19 @@
                                 </a>
                             </li>*@
                         <li>
-                            <a href="@Url.Action("Index","Calculator")">
+                            <a href="@Url.Action("Index", "Calculator")">
                                 <span class="header__nav-icon icon-calculator"></span>
                                 <span>@Resources.Calculator</span>
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("Index","ShareableLink")">
+                            <a href="@Url.Action("Index", "ShareableLink")">
                                 <span class="header__nav-icon icon-link"></span>
                                 <span>@Resources.ShareableLink</span>
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("Index","MyDeals")">
+                            <a href="@Url.Action("Index", "MyDeals")">
                                 <span class="header__nav-icon icon-deals"></span>
                                 <span>@Resources.MyDeals</span>
                                 <div class="notification">
@@ -199,19 +201,19 @@
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("Index","Leads")">
+                            <a href="@Url.Action("Index", "Leads")">
                                 <span class="header__nav-icon icon-cart"></span>
                                 <span>@Resources.Leads</span>
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("Library","Home")">
+                            <a href="@Url.Action("Library", "Home")">
                                 <span class="header__nav-icon icon-library"></span>
                                 <span>@Resources.Library</span>
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("Index","Profile")">
+                            <a href="@Url.Action("Index", "Profile")">
                                 <span class="header__nav-icon icon-profile"></span>
                                 <span>@Resources.MyProfile</span>
                             </a>
@@ -269,13 +271,13 @@
                     <div class="mobile-navigation__dropdown">
                         <ul>
                             <li>
-                                <a href="@Url.Action("Index","Home")">
+                                <a href="@Url.Action("Index", "Home")">
                                     <span class="mobile-navigation__nav-icon icon-home"></span>
                                     <span>@Resources.HomePage</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("BasicInfo","NewRental")">
+                                <a href="@Url.Action("BasicInfo", "NewRental")">
                                     <span class="mobile-navigation__nav-icon icon-new_document"></span>
                                     <span>@Resources.NewApplication</span>
                                 </a>
@@ -287,19 +289,19 @@
                                     </a>
                                 </li>*@
                             <li>
-                                <a href="@Url.Action("Index","Calculator")">
+                                <a href="@Url.Action("Index", "Calculator")">
                                     <span class="mobile-navigation__nav-icon icon-calculator"></span>
                                     <span>@Resources.Calculator</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("Index","ShareableLink")">
+                                <a href="@Url.Action("Index", "ShareableLink")">
                                     <span class="mobile-navigation__nav-icon icon-link"></span>
                                     <span>@Resources.ShareableLink</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("Index","MyDeals")">
+                                <a href="@Url.Action("Index", "MyDeals")">
                                     <span class="mobile-navigation__nav-icon icon-deals"></span>
                                     <span>@Resources.MyDeals</span>
                                     <div class="notification">
@@ -314,13 +316,13 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("Library","Home")">
+                                <a href="@Url.Action("Library", "Home")">
                                     <span class="mobile-navigation__nav-icon icon-library"></span>
                                     <span>@Resources.Library</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("Index","Profile")">
+                                <a href="@Url.Action("Index", "Profile")">
                                     <span class="mobile-navigation__nav-icon icon-profile"></span>
                                     <span>@Resources.MyProfile</span>
                                 </a>
@@ -341,6 +343,7 @@
                         </div>
                     </div>
                 </nav>
+                }
                 <div class="clearfix"></div>
             </div>
         </div>
