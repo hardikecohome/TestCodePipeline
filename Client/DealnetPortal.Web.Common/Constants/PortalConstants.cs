@@ -26,4 +26,14 @@ namespace DealnetPortal.Web.Common.Constants
         public const string CultureCookieNameKey = "CultureCookieName";
 
     }
+
+    public static class ClaimContstants
+    {
+        public const string QuebecDealer = "QuebecDealer";
+    }
+
+    public static class RoleContstants
+    {
+        public const string MortgageBroker = "MortgageBroker";
+    }
 }
