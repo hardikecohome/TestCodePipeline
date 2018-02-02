@@ -184,6 +184,16 @@ namespace DealnetPortal.Api.Integration.Services
                         var aspireAlerts = 
                             _aspireService.SendDealUDFs(updatedContract, contractOwnerId, contract.LeadSource, contractor).GetAwaiter().GetResult();
                     }
+                    else if (updatedContract.ContractState == ContractState.Completed)
+                    {
+                        //if Contract has been submitted already, we will resubmit it to Aspire after each contract changes 
+                        //(DEAL-3628: [DP] Submit deal after each step when editing previously submitted deal)
+                        var submitRes = SubmitContract(contract.Id, contractOwnerId);
+                        if (submitRes?.Item2?.Any() == true)
+                        {
+                            alerts.AddRange(submitRes.Item2);
+                        }
+                    }
 
                     //check contract signature status and clean if needed
                     if (updatedContract.Details.SignatureStatus != null || !string.IsNullOrEmpty(updatedContract.Details?.SignatureTransactionId) &&

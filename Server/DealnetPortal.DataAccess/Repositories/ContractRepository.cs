@@ -434,7 +434,10 @@ namespace DealnetPortal.DataAccess.Repositories
                         if (homeOwner != null)
                         {
                             contract.PrimaryCustomer = homeOwner;
-                            contract.ContractState = ContractState.CustomerInfoInputted;
+                            if (contract.ContractState != ContractState.Completed && contract.ContractState != ContractState.Closed)
+                            { 
+                                contract.ContractState = ContractState.CustomerInfoInputted;
+                            }
                             updated = true;
                         }
                     }
@@ -442,14 +445,20 @@ namespace DealnetPortal.DataAccess.Repositories
                     if (contractData.SecondaryCustomers != null)
                     {
                         AddOrUpdateAdditionalApplicants(contract, contractData.SecondaryCustomers);
-                        contract.ContractState = ContractState.CustomerInfoInputted;
+                        if (contract.ContractState != ContractState.Completed && contract.ContractState != ContractState.Closed)
+                        {
+                            contract.ContractState = ContractState.CustomerInfoInputted;
+                        }
                         updated = true;
                     }
 
                     if (contractData.HomeOwners != null)
                     {
                         AddOrUpdateHomeOwners(contract, contractData.HomeOwners);
-                        contract.ContractState = ContractState.CustomerInfoInputted;
+                        if (contract.ContractState != ContractState.Completed && contract.ContractState != ContractState.Closed)
+                        {
+                            contract.ContractState = ContractState.CustomerInfoInputted;
+                        }
                         updated = true;
                     }
 
