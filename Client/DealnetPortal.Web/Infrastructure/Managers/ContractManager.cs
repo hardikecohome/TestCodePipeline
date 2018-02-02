@@ -149,8 +149,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             equipmentInfo.IsClarityDealer = equipmentInfo.DealerTier?.Name == _clarityProgramTier;
 
             if(result.Item1.Equipment == null || 
-                (result.Item1.Equipment?.RateCardId == null && result.Item1.Equipment?.ValueOfDeal == null 
-                && (result.Item1.Equipment?.NewEquipment?.All(ne => ne?.Cost == null && ne?.MonthlyCost == null) ?? true)))
+                (result.Item1.Equipment?.RateCardId == null
+                    && (result.Item1.Equipment?.NewEquipment?.All(ne => ne?.Cost == null && ne?.MonthlyCost == null) ?? true)))
             {
                 equipmentInfo.RateCardValid = true;
                 equipmentInfo.IsOldClarityDeal = false;
