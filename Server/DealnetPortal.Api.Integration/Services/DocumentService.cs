@@ -1450,61 +1450,168 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                 }
 
-                formFields.Add(new FormField()
+
+
+                if (addApplicant.Locations?.Any() ?? false)
                 {
-                    FieldType = FieldType.Text,
-                    Name = PdfFormFields.EmailAddress2,
-                    Value = addApplicant.Emails.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
+                    var mainAddress2 =
+                        addApplicant?.Locations?.FirstOrDefault(
+                            l => l.AddressType == AddressType.MainAddress);
+                    if (mainAddress2 != null)
+                    {
+                        if (!string.IsNullOrEmpty(mainAddress2.Unit))//&&  templateFields?.All(tf => tf.Name != PdfFormFields.SuiteNo2) == true)
+                        {
+                            formFields.Add(new FormField()
+                            {
+                                FieldType = FieldType.Text,
+                                Value = $"{mainAddress2.Street}, {Resources.Resources.Suite} {mainAddress2.Unit}"
+                            });
+                        }
+                        else
+                        {
+                            formFields.Add(new FormField()
+                            {
+                                FieldType = FieldType.Text,
+                                Name = PdfFormFields.InstallationAddress2,
+                                Value = mainAddress2.Street
+                            });
+                        }
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.City2,
+                            Value = mainAddress2.City
+                        });
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.Province2,
+                            Value = mainAddress2.State
+                        });
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.PostalCode2,
+                            Value = mainAddress2.PostalCode
+                        });
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.SuiteNo2,
+                            Value = mainAddress2.Unit
+                        });
+                    }
+                    var mailAddress2 =
+                        addApplicant?.Locations?.FirstOrDefault(
+                            l => l.AddressType == AddressType.MailAddress);
+                    if (mailAddress2 != null)
+                    {
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.CheckBox,
+                            Name = PdfFormFields.IsMailingDifferent2,
+                            Value = "true"
+                        });
+                        var sMailAddress = !string.IsNullOrEmpty(mailAddress2.Unit) ?
+                                        $"{mailAddress2.Street}, {Resources.Resources.Suite} {mailAddress2.Unit}, {mailAddress2.City}, {mailAddress2.State}, {mailAddress2.PostalCode}"
+                                        : $"{mailAddress2.Street}, {mailAddress2.City}, {mailAddress2.State}, {mailAddress2.PostalCode}";
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.MailingAddress2,
+                            Value = sMailAddress
+                        });
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.MailingOrPreviousAddress2,
+                            Value = sMailAddress
+                        });
+                    }
+                    var previousAddress =
+                        addApplicant?.Locations?.FirstOrDefault(
+                            l => l.AddressType == AddressType.PreviousAddress);
+                    if (previousAddress != null)
+                    {
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.CheckBox,
+                            Name = PdfFormFields.IsPreviousAddress2,
+                            Value = "true"
+                        });
+                        var sPrevAddress = !string.IsNullOrEmpty(previousAddress.Unit) ?
+                            $"{previousAddress.Street}, {Resources.Resources.Suite} {previousAddress.Unit}, {previousAddress.City}, {previousAddress.State}, {previousAddress.PostalCode}"
+                            : $"{previousAddress.Street}, {previousAddress.City}, {previousAddress.State}, {previousAddress.PostalCode}";
+
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.PreviousAddress2,
+                            Value = sPrevAddress
+                        });
+                        if (mailAddress2 == null)
+                        {
+                            formFields.Add(new FormField()
+                            {
+                                FieldType = FieldType.Text,
+                                Name = PdfFormFields.MailingOrPreviousAddress2,
+                                Value = sPrevAddress
+                            });
+                        }
+                    }
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.EmailAddress2,
+                        Value = addApplicant.Emails.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
                             addApplicant.Emails.First()?.EmailAddress
-                });
-                if (!string.IsNullOrEmpty(addApplicant?.Sin))
-                {
-                    formFields.Add(new FormField()
-                    {
-                        FieldType = FieldType.Text,
-                        Name = PdfFormFields.Sin2,
-                        Value = addApplicant.Sin
                     });
-                }
-                var homePhone = addApplicant.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Home);
-                var cellPhone = addApplicant.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Cell);
-                if (homePhone != null)
-                {
-                    formFields.Add(new FormField()
+                    if (!string.IsNullOrEmpty(addApplicant?.Sin))
                     {
-                        FieldType = FieldType.Text,
-                        Name = PdfFormFields.HomePhone2,
-                        Value = homePhone.PhoneNum
-                    });
-                }
-                if (cellPhone != null)
-                {
-                    formFields.Add(new FormField()
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.Sin2,
+                            Value = addApplicant.Sin
+                        });
+                    }
+                    var homePhone = addApplicant.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Home);
+                    var cellPhone = addApplicant.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Cell);
+                    if (homePhone != null)
                     {
-                        FieldType = FieldType.Text,
-                        Name = PdfFormFields.CellPhone2,
-                        Value = cellPhone.PhoneNum
-                    });
-                }
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.HomePhone2,
+                            Value = homePhone.PhoneNum
+                        });
+                    }
+                    if (cellPhone != null)
+                    {
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.CellPhone2,
+                            Value = cellPhone.PhoneNum
+                        });
+                    }
 
-                formFields.Add(new FormField()
-                {
-                    FieldType = FieldType.Text,
-                    Name = PdfFormFields.CustomerName2,
-                    Value =
-                        $"{contract.SecondaryCustomers.First().LastName} {contract.SecondaryCustomers.First().FirstName}"
-                });
-                formFields.Add(new FormField()
-                {
-                    FieldType = FieldType.Text,
-                    Name = $"{PdfFormFields.CustomerName2}2",
-                    Value =
-                        $"{contract.SecondaryCustomers.First().LastName} {contract.SecondaryCustomers.First().FirstName}"
-                });
-
-                if (contract.HomeOwners?.Any(ho => ho.Id == addApplicant.Id) ?? false)
-                {
                     formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.CustomerName2,
+                        Value =
+                            $"{contract.SecondaryCustomers.First().LastName} {contract.SecondaryCustomers.First().FirstName}"
+                    });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = $"{PdfFormFields.CustomerName2}2",
+                        Value =
+                            $"{contract.SecondaryCustomers.First().LastName} {contract.SecondaryCustomers.First().FirstName}"
+                    });
+
+
                     {
                         FieldType = FieldType.CheckBox,
                         Name = PdfFormFields.IsHomeOwner2,
@@ -1512,10 +1619,19 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                     formFields.Add(new FormField()
                     {
-                        FieldType = FieldType.CheckBox,
-                        Name = $"{PdfFormFields.IsHomeOwner2}_2",
-                        Value = "true"
-                    });
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.CheckBox,
+                            Name = PdfFormFields.IsHomeOwner2,
+                            Value = "true"
+                        });
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.CheckBox,
+                            Name = $"{PdfFormFields.IsHomeOwner2}_2",
+                            Value = "true"
+                        });
+                    }
                 }
             }
         }
@@ -2116,7 +2232,7 @@ namespace DealnetPortal.Api.Integration.Services
                                     Value = dealerInfo.Phones.First().PhoneNum
                                 });
                             }
-                        }
+                       }
                     }
                     else
                     {

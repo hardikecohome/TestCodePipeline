@@ -23,6 +23,13 @@ namespace DealnetPortal.Api.Integration.Services
         public static string MailingAddress = "MailingAddress";
         public static string PreviousAddress = "PreviousAddress";
         public static string MailingOrPreviousAddress = "MailingOrPreviousAddress";
+        //Co-borrower fields  : some forms don't have separate Suite field
+        public static string InstallationAddress2 = "InstallationAddress_2";
+        public static string InstallationAddressWithSuite2 = "InstallationAddressWithSuite_2";
+        public static string MailingAddress2 = "MailingAddress_2";
+        public static string PreviousAddress2 = "PreviousAddress_2";
+        public static string MailingOrPreviousAddress2 = "MailingOrPreviousAddress_2";
+
         public static string Sin = "SIN";
         public static string DriverLicense = "DriverLicense";
         public static string Dl = "DL";
@@ -30,6 +37,9 @@ namespace DealnetPortal.Api.Integration.Services
         public static string City = "City";
         public static string Province = "Province";
         public static string PostalCode = "PostalCode";
+        public static string City2 = "City_2";
+        public static string Province2 = "Province_2";
+        public static string PostalCode2 = "PostalCode_2";
         public static string HomePhone = "HomePhone";
         public static string HomePhone2 = "HomePhone_2";
         public static string CellPhone = "CellPhone";
@@ -40,7 +50,12 @@ namespace DealnetPortal.Api.Integration.Services
         public static string EmailAddress2 = "EmailAddress_2";
         public static string IsMailingDifferent = "IsMailingDifferent";
         public static string IsPreviousAddress = "IsPreviousAddress";
+
+        public static string IsMailingDifferent2 = "IsMailingDifferent_2";
+        public static string IsPreviousAddress2 = "IsPreviousAddress_2";
+
         public static string SuiteNo = "SuiteNo";
+        public static string SuiteNo2 = "SuiteNo_2";
         public static string CustomerName = "CustomerName";
         public static string CustomerName2 = "CustomerName_2";
         public static string IsHomeOwner = "IsHomeOwner";
@@ -118,6 +133,8 @@ namespace DealnetPortal.Api.Integration.Services
         public static string DealerName = "DealerName";
         public static string DealerAddress = "DealerAddress";
         public static string DealerPhone = "DealerPhone";
+        public static string DealerFax = "DealerFax";
+        public static string DealerEmail = "DealerEmail";
 
         //For Signed Installation Certificate
         public static string InstallerName = "InstallerName";
