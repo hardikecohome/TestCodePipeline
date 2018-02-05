@@ -1464,6 +1464,7 @@ namespace DealnetPortal.Api.Integration.Services
                             formFields.Add(new FormField()
                             {
                                 FieldType = FieldType.Text,
+                                Name = PdfFormFields.InstallationAddress2,
                                 Value = $"{mainAddress2.Street}, {Resources.Resources.Suite} {mainAddress2.Unit}"
                             });
                         }
@@ -1611,13 +1612,7 @@ namespace DealnetPortal.Api.Integration.Services
                             $"{contract.SecondaryCustomers.First().LastName} {contract.SecondaryCustomers.First().FirstName}"
                     });
 
-
-                    {
-                        FieldType = FieldType.CheckBox,
-                        Name = PdfFormFields.IsHomeOwner2,
-                        Value = "true"
-                    });
-                    formFields.Add(new FormField()
+                    if (contract.HomeOwners?.Any(ho => ho.Id == addApplicant.Id) ?? false)
                     {
                         formFields.Add(new FormField()
                         {
