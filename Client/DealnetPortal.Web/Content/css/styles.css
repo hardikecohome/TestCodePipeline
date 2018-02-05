@@ -342,7 +342,7 @@
   .dropdown-custom .dropdown-toggle {
     background-color: transparent;
     padding-right: 12px;
-    background-image: url("../img/forms/selectArrow.svg");
+    background-image: url("../images/forms/selectArrow.svg");
     background-size: 8px;
     background-repeat: no-repeat;
     background-position: right;
@@ -490,7 +490,7 @@
   -moz-appearance: none;
   -webkit-appearance: none;
   padding-right: 10px;
-  background-image: url("../img/forms/selectArrow.svg");
+  background-image: url("../images/forms/selectArrow.svg");
   background-repeat: no-repeat;
   background-position: right;
   outline: none;

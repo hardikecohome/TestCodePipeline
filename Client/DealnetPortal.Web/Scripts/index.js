@@ -2,8 +2,6 @@
     var saveScrollPosition = require('scrollPosition').save;
     var resetScrollPosition = require('scrollPosition').reset;
     var detectIe = require('detectIE');
-    var mobileNavDropdown;
-    var darkOverlay;
 
     function init() {
         setDeviceClasses();
@@ -82,32 +80,40 @@
             });
         }, 500);
 
-        var mobileNav = $("#mobile-navigation");
-        darkOverlay = $(".body-dark-overlay")
-        mobileNav.find(".mobile-navigation__active-item").click(handleMobileNavigation);
-        mobileNavDropdown = mobileNav.find(".mobile-navigation__dropdown");
-        darkOverlay.click(handleMobileNavigation);
-
-        $('#language').on('change', function (e) {
-            window.location = e.target.value === 'en' ?
-                changeToEnglishLink : changeToFrenchLink;
+        $('select.custom-select').selectric({
+            responsive: true,
         });
+
+        makeMobileNav("#mobile-navigation", ".mobile-navigation__active-item")();
+        makeMobileNav("#mobile-navigation-help", ".mobile-help__toggle")();
     }
 
-    function handleMobileNavigation() {
-        if (mobileNavDropdown.hasClass("active")) {
-            mobileNavDropdown.slideUp(300, function () {
-                mobileNavDropdown.removeClass("active");
-            });
-            darkOverlay.fadeOut(300);
+    function makeMobileNav(id, button) {
+        var idBlock = $(id);
+        var buttonBlock = button;
 
-        } else {
-            mobileNavDropdown.slideDown(300, function () {
-                mobileNavDropdown.addClass("active");
+        return function () {
+            idBlock.find(buttonBlock).click(handleClick);
+            $(".body-dark-overlay").click(hideMenu);
 
-            });
-            darkOverlay.show().fadeTo(300, 0.3);
-        }
+            function handleClick() {
+                if (idBlock.find(".mobile-navigation__dropdown").hasClass("active")) {
+                    hideMenu();
+                } else {
+                    idBlock.find(".mobile-navigation__dropdown").slideDown(300, function () {
+                        idBlock.find(".mobile-navigation__dropdown").addClass("active");
+                    });
+                    $(".body-dark-overlay").show().fadeTo(300, 0.3);
+                }
+            }
+
+            function hideMenu() {
+                idBlock.find(".mobile-navigation__dropdown").slideUp(300, function () {
+                    idBlock.find(".mobile-navigation__dropdown").removeClass("active");
+                });
+                $(".body-dark-overlay").fadeOut(300);
+            }
+        };
     }
 
     function setDeviceClasses() {
