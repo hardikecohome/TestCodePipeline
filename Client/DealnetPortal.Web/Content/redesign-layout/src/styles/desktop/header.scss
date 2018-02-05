@@ -54,6 +54,7 @@
           margin: auto;
           left: 50%;
           display: block;
+          z-index: 5;
 
           div {
             position: relative;
@@ -86,9 +87,10 @@
           color: white;
         }
 
-        :after {
+        &:after {
           display: block;
           position: absolute;
+          z-index: 1;
           bottom: -10px;
           content: " ";
           width: 0;
