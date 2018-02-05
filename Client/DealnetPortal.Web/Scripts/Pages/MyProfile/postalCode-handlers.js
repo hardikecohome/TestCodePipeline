@@ -17,6 +17,9 @@
 
         setHandlers({ id: state.postalCodeSecondId, value: '' });
         resetFormValidator('#main-form');
+        if ($('#success-message').is(':visible')) {
+            $('#success-message').hide();
+        }
     };
 
     var change = function (id) {
