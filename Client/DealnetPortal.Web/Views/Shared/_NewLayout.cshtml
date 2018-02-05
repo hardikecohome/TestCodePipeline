@@ -16,7 +16,15 @@
     <title>@ViewBag.Title - DealNet</title>
     <link href="https://fonts.googleapis.com/css?family=Mukta:300,400,500,700,800" rel="stylesheet">
     @RenderSection("Styles", false)
-
+    @switch(ApplicationSettingsManager.PortalType)
+    {
+        case PortalType.Odi:
+            @Styles.Render("~/Content/less/main-dealer.less")
+            break;
+        default:
+            @Styles.Render("~/Content/less/main.less")
+            break;
+    }
     @Styles.Render("~/bundles/styles")
     <link rel="shortcut icon" href="@Url.Action("Favicon", "Settings", new { version = DateTime.Now.Ticks.ToString(), hashDealerName = ViewBag.HashDealerName as string })" type="image/x-icon" />
     <script type="text/javascript">
@@ -27,8 +35,6 @@
         @{
             var path = Request.Path.Contains("/en") || Request.Path.Contains("/fr") ? Request.Path.Substring(3) : Request.Path;
         }
-        var changeToEnglishLink = '@Url.Action("ChangeCulture","Home",new { culture="en", redirectUrl = path })';
-        var changeToFrenchLink = '@Url.Action("ChangeCulture","Home",new { culture="fr", redirectUrl = path })';
 		var DealerName = "@User.Identity.Name";
         var translations = {};
         translations['IfYouChangeInfo'] = "@Resources.IfYouChangeInfo";
