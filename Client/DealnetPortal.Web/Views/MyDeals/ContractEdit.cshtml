@@ -25,9 +25,6 @@
         return "$" + str;
     };
 }
-<div id="label-steps">
-    @Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new { @class = "dealnet-action-link" }) > <div class="dealnet-action-link">@Resources.Contract #@(Model.AdditionalInfo.TransactionId ?? Model.BasicInfo.ContractId.ToString())</div>  >
-</div>
 
 <span class="hidden" id="cookieName">@System.Configuration.ConfigurationManager.AppSettings[DealnetPortal.Web.Common.Constants.PortalConstants.CultureCookieNameKey]</span>
 <div class="form-container contract-edit">
