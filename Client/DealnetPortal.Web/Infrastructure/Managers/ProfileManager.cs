@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Profile;
+using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.Models.MyProfile;
 using DealnetPortal.Web.ServiceAgent;
@@ -26,7 +28,9 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             var  dealerProfile = await _dealerServiceAgent.GetDealerProfile();
             var model = AutoMapper.Mapper.Map<ProfileViewModel>(dealerProfile) ?? new ProfileViewModel();
             var equipment = await _dictionaryServiceAgent.GetAllEquipmentTypes();
+
             model.EquipmentTypes = equipment.Item1?.OrderBy(x => x.Description).ToList() ?? new List<EquipmentTypeDTO>();
+            model.QuebecPostalCodes = ConfigurationManager.AppSettings[PortalConstants.QuebecPostalCodesNameKey];
 
             return model;
         }

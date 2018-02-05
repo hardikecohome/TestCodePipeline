@@ -51,7 +51,7 @@ namespace DealnetPortal.Web.Controllers
         public ActionResult Index()
         {
             TempData["LangSwitcherAvailable"] = true;
-            if (User.IsInRole("MortgageBroker"))
+            if (User.IsInRole(RoleContstants.MortgageBroker))
             {
                 //just change only for MB release 1.0.6
                 TempData["LangSwitcherAvailable"] = false;

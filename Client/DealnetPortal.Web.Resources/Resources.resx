@@ -2807,4 +2807,10 @@ changing contract terms or signing contract on paper.</value>
   <data name="Credit" xml:space="preserve">
     <value>Credit</value>
   </data>
+  <data name="ServiceAreaInQc" xml:space="preserve">
+    <value>Your service area should be in Quebec</value>
+  </data>
+  <data name="ServiceAreaNotInQc" xml:space="preserve">
+    <value>Your service area cannot be in Quebec</value>
+  </data>
 </root>

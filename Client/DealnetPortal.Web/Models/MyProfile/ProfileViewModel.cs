@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.Api.Models.Profile;
-using DealnetPortal.Web.Infrastructure;
 
 namespace DealnetPortal.Web.Models.MyProfile
 {
@@ -15,6 +9,8 @@ namespace DealnetPortal.Web.Models.MyProfile
         public IList<EquipmentTypeDTO> EquipmentTypes { get; set; }
         public IList<EquipmentTypeDTO> DealerEquipments { get; set; }
         public IList<DealerAreaViewModel> PostalCodes { get; set; }
+        public bool QuebecDealer { get; set; }
+        public string QuebecPostalCodes { get; set; }
 
     }
 }

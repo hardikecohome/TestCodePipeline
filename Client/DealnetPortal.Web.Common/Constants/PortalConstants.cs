@@ -21,13 +21,13 @@
 
         public const string NewDesignLogin = "NewDesignLogin";
 
+        public const string QuebecPostalCodesNameKey = "QuebecPostalCodes";
     }
 
     public static class ClaimContstants
     {
         public const string QuebecDealer = "QuebecDealer";
     }
-
     public static class RoleContstants
     {
         public const string MortgageBroker = "MortgageBroker";

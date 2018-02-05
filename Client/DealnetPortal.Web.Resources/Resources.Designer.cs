@@ -6053,6 +6053,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your service area should be in Quebec.
+        /// </summary>
+        public static string ServiceAreaInQc {
+            get {
+                return ResourceManager.GetString("ServiceAreaInQc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your service area cannot be in Quebec.
+        /// </summary>
+        public static string ServiceAreaNotInQc {
+            get {
+                return ResourceManager.GetString("ServiceAreaNotInQc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to # (7 digits).
         /// </summary>
         public static string SevenDigitsNumber {
