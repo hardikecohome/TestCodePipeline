@@ -90,15 +90,15 @@
 					<span>
 						@if ((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True"))
 						{@Resources.ConsentToReceiveCommercialElectronicMessagesDPQC}
-					else
-					{ @Resources.ConsentToReceiveCommercialElectronicMessagesDP} | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.
+						else
+						{ @Resources.ConsentToReceiveCommercialElectronicMessagesDP} | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.
 				</span>
 			</label>
 		</div>
-		if (Model.CoBorrowersContactInfo?.Any() ?? false)
-		{
-			for (int i = 0; i < Model.CoBorrowersContactInfo.Count; i++)
+			if (Model.CoBorrowersContactInfo?.Any() ?? false)
 			{
+				for (int i = 0; i < Model.CoBorrowersContactInfo.Count; i++)
+				{
 				<hr>
 				<h4 class="dealnet-small-header2">@Resources.AdditionalApplicant (@Model.CoBorrowersContactInfo[i].FirstName @Model.CoBorrowersContactInfo[i].LastName) @Resources.Information</h4>
 				@Html.HiddenFor(m => m.CoBorrowersContactInfo[i].CustomerId)
@@ -149,13 +149,13 @@
 						@Html.CheckBoxFor(m => m.CoBorrowersContactInfo[i].AllowCommunicate, new { @class = "dealnet-checkbox address-checkbox" })
 						<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
 						<span>@if ((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True"))
-{@Resources.ConsentToReceiveCommercialElectronicMessagesDPQC}
-else
-{ @Resources.ConsentToReceiveCommercialElectronicMessagesDP} | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
+						{@Resources.ConsentToReceiveCommercialElectronicMessagesDPQC}
+						else
+						{ @Resources.ConsentToReceiveCommercialElectronicMessagesDP} | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
 					</label>
 				</div>
+				}
 			}
-		}
 
 		<h3 class="dealnet-middle-header">@Resources.PaymentInformation</h3>
 
@@ -169,15 +169,18 @@ else
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-md-4 pap-payment">
-				<div class="form-group">
-					@Html.LabelFor(m => m.PaymentInfo.PrefferedWithdrawalDate)
-					<div class="control-group">
-						@Html.EnumDropDownListFor(m => m.PaymentInfo.PrefferedWithdrawalDate, null, new { @class = "form-control", id = "preferred-withdrawal-date" })
-						@Html.ValidationMessageFor(m => m.PaymentInfo.PrefferedWithdrawalDate, "", new { @class = "text-danger" })
-					</div>
+			@if (Model.IsAllPaymentTypesAvailable)
+	{
+		<div class="col-xs-12 col-md-4 pap-payment">
+			<div class="form-group">
+				@Html.LabelFor(m => m.PaymentInfo.PrefferedWithdrawalDate)
+				<div class="control-group">
+					@Html.EnumDropDownListFor(m => m.PaymentInfo.PrefferedWithdrawalDate, null, new { @class = "form-control", id = "preferred-withdrawal-date" })
+					@Html.ValidationMessageFor(m => m.PaymentInfo.PrefferedWithdrawalDate, "", new { @class = "text-danger" })
 				</div>
 			</div>
+		</div>
+}
 			<div class="pap-payment">
 				<div class="col-xs-12 col-md-4">
 					<div class="form-group">
@@ -189,7 +192,25 @@ else
 					</div>
 				</div>
 			</div>
+			<div class="col-xs-12 col-md-4  pap-payment">
+				<div class="form-group">
+					@Html.LabelFor(m => m.PaymentInfo.TransitNumber)
+					<div class="control-group">
+						@Html.TextBoxFor(m => m.PaymentInfo.TransitNumber, new { @class = "form-control dealnet-input", type = "text", id = "transit-number", placeholder = Resources.TransitNumber })
+						@Html.ValidationMessageFor(m => m.PaymentInfo.TransitNumber, "", new { @class = "text-danger" })
+					</div>
+				</div>
+			</div>
 
+			<div class="col-xs-12 col-md-4  pap-payment">
+				<div class="form-group">
+					@Html.LabelFor(m => m.PaymentInfo.AccountNumber)
+					<div class="control-group">
+						@Html.TextBoxFor(m => m.PaymentInfo.AccountNumber, new { @class = "form-control dealnet-input", type = "text", id = "account-number", placeholder = Resources.AccountNumber })
+						@Html.ValidationMessageFor(m => m.PaymentInfo.AccountNumber, "", new { @class = "text-danger" })
+					</div>
+				</div>
+			</div>
 			<div class="enbridge-payment">
 				<div class="col-xs-12 col-md-4">
 					<div class="form-group">
@@ -211,7 +232,7 @@ else
 				</div>
 			</div>
 		</div>
-		<div class="row pap-payment">
+		@*<div class="row pap-payment">
 			<div class="col-xs-12 col-md-4">
 				<div class="form-group">
 					@Html.LabelFor(m => m.PaymentInfo.TransitNumber)
@@ -231,7 +252,7 @@ else
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>*@
 		<div id="saveproceed-button">
 			<button class="btn dealnet-button dealnet-success-button">
 				@Resources.SaveAndProceed
