@@ -27,9 +27,9 @@ module.exports = function (grunt) {
                     compass: false
                 },
                 files: {
-                    '../css/styles.css': 'src/styles/application.{scss,sass}',
-                    '../css/styles-tablet.css': 'src/styles/application-tablet.{scss,sass}',
-                    '../css/styles-mobile.css': 'src/styles/application-mobile.{scss,sass}'
+                    'dist/css/styles.css': 'src/styles/application.{scss,sass}',
+                    'dist/css/styles-tablet.css': 'src/styles/application-tablet.{scss,sass}',
+                    'dist/css/styles-mobile.css': 'src/styles/application-mobile.{scss,sass}'
                 }
             }
         },
@@ -41,28 +41,22 @@ module.exports = function (grunt) {
                         expand: true,
                         cwd: 'src/img',
                         src: '**',
-                        dest: '../images',
+                        dest: 'dist/img',
                         filter: 'isFile'
                     },
                     {
                         expand: true,
                         cwd: 'src/fonts',
                         src: '**',
-                        dest: '../fonts',
+                        dest: 'dist/fonts',
                         filter: 'isFile'
                     },
-                    // {
-                    //     expand: true,
-                    //     cwd: 'src/librarys/**/*.js',
-                    //     src: ['**'],
-                    //     dest: '../../Scripts/vendor/'
-                    // },
-                    // {
-                    //     expand: true,
-                    //     cwd: 'src/librarys/**/*.css',
-                    //     src: ['**'],
-                    //     dest: '../css'
-                    // }
+                    {
+                        expand: true,
+                        cwd: 'src/librarys',
+                        src: ['**'],
+                        dest: 'dist/librarys/'
+                    },
                 ],
             },
         },
