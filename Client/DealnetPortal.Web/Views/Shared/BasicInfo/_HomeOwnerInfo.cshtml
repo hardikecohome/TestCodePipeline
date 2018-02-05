@@ -204,6 +204,7 @@ else
             @Html.DropDownListFor(m => m.HomeOwner.AddressInformation.Province, (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.HomeOwner?.AddressInformation?.Province == x.Province }), "",
                                                                                               new { @class = "form-control dealnet-input", id = "administrative_area_level_1" })
             @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Province, "", new { @class = "text-danger" })
+            <span id="qcError" class="text-danger field-validation-error"></span>
         </div>
     </div>
     <div class="col-md-4 col-lg-4">

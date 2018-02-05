@@ -422,7 +422,9 @@
                 }
             })(function (props) {
                 $('#yourInfoErrors').empty();
-                $('#quebecErrors').empty();
+                $('#qcError').text('');
+                $('#province').removeClass('input-custom-err');
+
                 if (props.errors.length > 0) {
                     props.errors
                         .filter(function(error) { return error.type === 'birthday' })
@@ -433,7 +435,8 @@
                     props.errors
                         .filter(function (error) { return error.type === 'quebec'; })
                         .forEach(function(error) {
-                            $('#quebecErrors').append(createError(window.translations[error.messageKey]));
+                            $('#qcError').text(window.translations[error.messageKey]);
+                            $('#province').addClass('input-custom-err');
                         });
                 }
 

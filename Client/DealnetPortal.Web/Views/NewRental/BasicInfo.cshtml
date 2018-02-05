@@ -4,7 +4,7 @@
 @model DealnetPortal.Web.Models.BasicInfoViewModel
 
 @{
-    if(Model?.AdditionalApplicants != null && !Model.AdditionalApplicants.Any())
+    if (Model?.AdditionalApplicants != null && !Model.AdditionalApplicants.Any())
     {
         Model.AdditionalApplicants.Add(new ApplicantPersonalInfo());
     }
@@ -34,7 +34,7 @@
 @{
     var creditCheckError = TempData["CreditCheckErrorMessage"];
 
-    if(creditCheckError != null)
+    if (creditCheckError != null)
     {
         <div class="well danger-well error-descr">
             <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
@@ -114,7 +114,7 @@
         </div>
     }*@
 
-@if(!ViewBag.IsMobileRequest)
+@if (!ViewBag.IsMobileRequest)
 {
     <div class="modal fade" id="camera-modal" role="dialog" data-fnToFill="first-name" data-lnToFill="last-name" data-bdToFill="birth-date" data-dlToFill="dl-number" data-stToFill="street" data-ctToFill="locality" data-prToFill="administrative_area_level_1" data-pcToFill="postal_code">
         <div class="modal-dialog">
@@ -164,14 +164,14 @@
 
 <div class="form-container basic-info-form">
     <div class="form-section">
-        @using(Html.BeginForm("BasicInfo", "NewRental", FormMethod.Post, new { id = "main-form" }))
+        @using (Html.BeginForm("BasicInfo", "NewRental", FormMethod.Post, new { id = "main-form" }))
         {
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.ContractId)
             @Html.HiddenFor(m => m.QuebecDealer, new { id = "is-quebec-dealer" })
             <!--If deal is submitted hide info for borrower and additional applicant that is already submitted-->
             <div @* @if (Model.ContractWasDeclined) { <text>class="hidden"</text> } *@>
-                @if(Model?.SubDealers?.Any() ?? false)
+                @if (Model?.SubDealers?.Any() ?? false)
                 {
                     <div class="dealnet-middle-header">@Resources.SubDealer</div>
                     <div class="row">
@@ -180,8 +180,8 @@
                                 <label for="">@Resources.ChooseSubDealer</label>
                                 <div class="control-group">
                                     @Html.DropDownListFor(m => m.SubmittingDealerId,
-                                                                                                                                     Model.SubDealers.Select(x => new SelectListItem { Value = x.Id, Text = x.DisplayName, Selected = Model.SubmittingDealerId == x.Id }),
-                                                                                                                                     new { @class = "form-control", id = "subdealers" })
+                                                                                                                                               Model.SubDealers.Select(x => new SelectListItem { Value = x.Id, Text = x.DisplayName, Selected = Model.SubmittingDealerId == x.Id }),
+                                                                                                                                               new { @class = "form-control", id = "subdealers" })
                                 </div>
                             </div>
                         </div>
@@ -271,6 +271,8 @@
     translations['CompanyPhoneIncorrectFormat'] = '@Resources.CompanyPhoneIncorrectFormat';
     translations['JobTitleIncorrectFormat'] = '@Resources.JobTitleIncorrectFormat';
     translations['CompanyNameIncorrectFormat'] = '@Resources.CompanyNameIncorrectFormat';
+    translations['InstallationAddressInQuebec'] = '@Resources.InstallationAddressInQuebec';
+    translations['InstallationAddressCannotInQuebec'] = '@Resources.InstallationAddressCannotInQuebec';
 }
 
 @section scripts
