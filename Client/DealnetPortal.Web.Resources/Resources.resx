@@ -2804,4 +2804,10 @@ changing contract terms or signing contract on paper.</value>
   <data name="TotalMonthlyCostOfOwnership" xml:space="preserve">
     <value>Total Monthly Cost of Ownership</value>
   </data>
+  <data name="ServiceAreaInQc" xml:space="preserve">
+    <value>Your service area should be in Quebec</value>
+  </data>
+  <data name="ServiceAreaNotInQc" xml:space="preserve">
+    <value>Your service area cannot be in Quebec</value>
+  </data>
 </root>

@@ -1,4 +1,6 @@
-﻿@using DealnetPortal.Api.Common.Enumeration
+﻿@using System.Globalization
+@using DealnetPortal.Api.Common.Enumeration
+@using DealnetPortal.Web.Common.Helpers
 @model DealnetPortal.Web.Models.ESignatureViewModel
 
 <span class="signed-contract">
@@ -77,7 +79,7 @@
                                 @if (Model.Signers[i].StatusLastUpdateTime.HasValue)
                                 {
                                 <div class="signature-date">
-                                    (<span class="signature-date-hold">@(Model.Signers[i].StatusLastUpdateTime.HasValue ? Model.Signers[i].StatusLastUpdateTime.Value.ToString("MM/dd/yyyy hh:mm tt") : "")</span>)
+                                    (<span class="signature-date-hold">@Model.Signers[i].StatusLastUpdateTime.Value.ToString(CultureInfo.CurrentCulture)</span>)
                                 </div>
                                 }
                             </div>

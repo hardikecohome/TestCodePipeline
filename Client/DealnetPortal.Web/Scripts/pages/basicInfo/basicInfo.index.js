@@ -103,10 +103,20 @@
         var province = $('#administrative_area_level_1');
         province.change(function (e) {
             var isQuebec = e.target.value === 'QC';
+            var isQuebecDealer = $('#is-quebec-dealer').val().toLowerCase() === 'true';
+            var proceedQcDealer = $('#proceed-qc-dealer');
+            var proceedNotQcDealer = $('#proceed-not-qc-dealer');
+
             if (isQuebec) {
-                $('#proceed-qc-dealer').hide();
+                if (!isQuebecDealer) {
+                    proceedNotQcDealer.show();
+                }
+                proceedQcDealer.hide();
             } else {
-                $('#proceed-not-qc-dealer').hide();
+                if (isQuebecDealer) {
+                    $(proceedQcDealer).show();
+                }
+                $(proceedNotQcDealer).hide();
             }
         });
 

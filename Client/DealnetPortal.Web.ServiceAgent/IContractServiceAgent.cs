@@ -134,8 +134,9 @@ namespace DealnetPortal.Web.ServiceAgent
         /// Get xlsx report
         /// </summary>
         /// <param name="ids">List od Ids</param>
+        /// <param name="timeZoneOffset">client timezone for converting utc time to local</param>
         /// <returns>xlsx report in byte array</returns>
-        Task<AgreementDocument> GetXlsxReport(IEnumerable<int> ids);
+        Task<AgreementDocument> GetXlsxReport(IEnumerable<int> ids, int? timeZoneOffset = null);
 
         Task<Tuple<int?, IList<Alert>>> AddComment(CommentDTO comment);
 

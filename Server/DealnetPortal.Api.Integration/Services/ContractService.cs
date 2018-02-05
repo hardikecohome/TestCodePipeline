@@ -255,12 +255,11 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public AgreementDocument GetContractsFileReport(IEnumerable<int> ids,
-            string contractOwnerId)
+        public AgreementDocument GetContractsFileReport(IEnumerable<int> ids, string contractOwnerId, int? timeZoneOffset = null)
         {
             var stream = new MemoryStream();
             var contracts = GetContracts(ids, contractOwnerId);
-            XlsxExporter.Export(contracts, stream);
+            XlsxExporter.Export(contracts, stream, timeZoneOffset);
             var report = new AgreementDocument()
             {
                 DocumentRaw = stream.ToArray(),

@@ -60,7 +60,7 @@
             }
 
 
-            @((Model.DealerTier.Name == System.Configuration.ConfigurationManager.AppSettings[PortalConstants.ClarityTierNameKey] && !Model.IsOldClarityDeal) ? Html.Partial("EquipmentInformation/_ClarityProgram", Model) : Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
+            @((Model.IsClarityDealer && !Model.IsOldClarityDeal) ? Html.Partial("EquipmentInformation/_ClarityProgram", Model) : Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
 
             @Html.Partial("EquipmentInformation/_AdditionalContractInformation", Model)
             @Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })

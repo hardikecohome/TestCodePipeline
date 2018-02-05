@@ -357,13 +357,13 @@
                     incomeType: state.incomeType
                 }
             })(function (props) {
-                requiredEmployment.length = 0;
+                requiredEmployment = [];
                 if (props.province.toLowerCase() === 'qc') {
                     if (props.employStatus === '') {
                         requiredEmployment.push('employStatus');
                     }
                     if (props.employStatus === '0') {
-                        requiredEmployment.concat(['employStatus',
+                        requiredEmployment = requiredEmployment.concat(['employStatus',
                             'incomeType',
                             'yearsOfEmploy',
                             'employType',
@@ -386,10 +386,10 @@
                         }
                     }
                     if (props.employStatus === '1' || props.employStatus === '3') {
-                        requiredEmployment.concat(['employStatus', 'annualSalary']);
+                        requiredEmployment = requiredEmployment.concat(['employStatus', 'annualSalary']);
                     }
                     if (props.employStatus === '2') {
-                        requiredEmployment.concat(['employStatus',
+                        requiredEmployment = requiredEmployment.concat(['employStatus',
                             'annualSalary',
                             'yearsOfEmploy',
                             'employType',

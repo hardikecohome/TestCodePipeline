@@ -1,9 +1,10 @@
 ﻿@using System.Security.Claims;
+@using DealnetPortal.Web.Common.Constants
 <div class="about-page">
     <div class="page-section promo-section">
         <h2 class="dealnet-large-header">@ViewBag.Title</h2>
         <!--<h3>@ViewBag.Message</h3>-->
-        <p>@if ((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True")) { @Resources.EcoHomeAbout1QC} else { @Resources.EcoHomeAbout1 }</p>
+        <p>@if ((bool)((ClaimsPrincipal)User)?.HasClaim(ClaimContstants.QuebecDealer, "True")) { @Resources.EcoHomeAbout1QC} else { @Resources.EcoHomeAbout1 }</p>
         <p>@Resources.EcoHomeAbout2</p>
         <p>@Resources.EcoHomeAbout3</p>
     </div>

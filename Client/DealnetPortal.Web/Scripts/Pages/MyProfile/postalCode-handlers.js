@@ -56,6 +56,15 @@
         return state.postalCodes.length === Object.keys(uniqOb).length;
     }
 
+    var validateQuebecProvinces = function() {
+        var quebecDealer = $('#quebecDealer').val().toLowerCase() === 'true';
+        var arrOfValues = state.postalCodes.map(function(obj) { return obj.value[0] });
+        var arrOfQuebecPostalCodes = $('#quebecPostalCodes').val().split(',');
+        var res = arrOfValues.every(function(idx) { return quebecDealer ? arrOfQuebecPostalCodes.indexOf(idx) !== -1  : arrOfQuebecPostalCodes.indexOf(idx) === -1});
+
+        return { isValid: res, quebecDealer: quebecDealer };
+    }
+
     function rebuildPostalCodeIndex(id) {
         while (true) {
             id++;
@@ -106,6 +115,7 @@
         initPostalCodeState: init,
         addPostalCode: add,
         removePostalCode: remove,
-        checkCopies: checkPostalCodeCopies
+        checkCopies: checkPostalCodeCopies,
+        validateQuebecProvinces: validateQuebecProvinces
     }
 })

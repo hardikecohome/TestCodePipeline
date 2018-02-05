@@ -14,6 +14,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
@@ -50,7 +51,7 @@ namespace DealnetPortal.Web.Controllers
         public ActionResult Index()
         {
             TempData["LangSwitcherAvailable"] = true;
-            if (User.IsInRole("MortgageBroker"))
+            if (User.IsInRole(RoleContstants.MortgageBroker))
             {
                 //just change only for MB release 1.0.6
                 TempData["LangSwitcherAvailable"] = false;
@@ -59,7 +60,7 @@ namespace DealnetPortal.Web.Controllers
             }
             var identity = (ClaimsIdentity)User.Identity;
 
-            ViewBag.Banner = _contentManager.GetBannerByCulture(CultureInfo.CurrentCulture.Name, identity.HasClaim("QuebecDealer", "True"), Request.IsMobileBrowser());
+            ViewBag.Banner = _contentManager.GetBannerByCulture(CultureInfo.CurrentCulture.Name, identity.HasClaim(ClaimContstants.QuebecDealer, "True"), Request.IsMobileBrowser());
 
             return View();
         }
@@ -96,7 +97,7 @@ namespace DealnetPortal.Web.Controllers
         {
             var identity = (ClaimsIdentity)User.Identity;
 
-            return View(_contentManager.GetResourceFilesByCulture(CultureInfo.CurrentCulture.Name, identity.HasClaim("QuebecDealer", "True")));
+            return View(_contentManager.GetResourceFilesByCulture(CultureInfo.CurrentCulture.Name, identity.HasClaim(ClaimContstants.QuebecDealer, "True")));
         }
 
         public ActionResult Help()
@@ -128,7 +129,7 @@ namespace DealnetPortal.Web.Controllers
 
             var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);
             var identity = (ClaimsIdentity) User.Identity;
-            var province = identity.HasClaim("QuebecDealer", "True") ? ContractProvince.QC : ContractProvince.ON;
+            var province = identity.HasClaim(ClaimContstants.QuebecDealer, "True") ? ContractProvince.QC : ContractProvince.ON;
             var docTypes = await _dictionaryServiceAgent.GetStateDocumentTypes(province.ToString());
 
             if (docTypes?.Item1 != null)
@@ -183,7 +184,7 @@ namespace DealnetPortal.Web.Controllers
         public ActionResult GetMaintanenceBanner()
         {
             var identity = (ClaimsIdentity) User.Identity;
-            var quebecPrefix = identity.HasClaim("QuebecDealer", "True") ? "qc" : string.Empty;
+            var quebecPrefix = identity.HasClaim(ClaimContstants.QuebecDealer, "True") ? "qc" : string.Empty;
 
             var pathToView = $@"Maintenance/{CultureInfo.CurrentCulture.Name}/{quebecPrefix}/Banner";
 

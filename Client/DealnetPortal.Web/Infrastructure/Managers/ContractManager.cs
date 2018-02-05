@@ -148,8 +148,9 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             equipmentInfo.DealerTier = Mapper.Map<TierViewModel>(dealerTier) ?? new TierViewModel() { RateCards = new List<RateCardViewModel>() };
             equipmentInfo.IsClarityDealer = equipmentInfo.DealerTier?.Name == _clarityProgramTier;
 
-
-            if(result.Item1.Equipment == null)
+            if(result.Item1.Equipment == null || 
+                (result.Item1.Equipment?.RateCardId == null
+                    && (result.Item1.Equipment?.NewEquipment?.All(ne => ne?.Cost == null && ne?.MonthlyCost == null) ?? true)))
             {
                 equipmentInfo.RateCardValid = true;
                 equipmentInfo.IsOldClarityDeal = false;
