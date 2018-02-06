@@ -29,8 +29,8 @@ using DealnetPortal.Domain.Dealer;
 using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
-using Microsoft.Practices.ObjectBuilder2;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using Unity.Interception.Utilities;
 using Address = DealnetPortal.Aspire.Integration.Models.Address;
 using Application = DealnetPortal.Aspire.Integration.Models.Application;
 
