@@ -389,7 +389,7 @@
                                 <div class="row control-group length-of-employ">
                                     <div class="select-hold years">
                                         <select name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.YearsOfEmployment)" class="form-control dealnet-input" id="emp-years">
-                                            <option value="" @(string.IsNullOrEmpty(Model.HomeOwner?.EmploymentInformation?.YearsOfEmployment) ? "selected" : "")>@Resources.Year_s_<</option>
+                                            <option value="" @(string.IsNullOrEmpty(Model.HomeOwner?.EmploymentInformation?.YearsOfEmployment) ? "selected" : "")>@Resources.Year_s_</option>
                                             @for(int j = 0; j < 10; j++)
                                             {
                                                 <option value="@j" @(Model.HomeOwner?.EmploymentInformation?.YearsOfEmployment == j.ToString() ? "selected" : "")>@j</option>
