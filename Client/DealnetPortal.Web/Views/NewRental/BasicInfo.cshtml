@@ -4,7 +4,7 @@
 @model DealnetPortal.Web.Models.BasicInfoViewModel
 
 @{
-    if (Model?.AdditionalApplicants != null && !Model.AdditionalApplicants.Any())
+    if(Model?.AdditionalApplicants != null && !Model.AdditionalApplicants.Any())
     {
         Model.AdditionalApplicants.Add(new ApplicantPersonalInfo());
     }
@@ -30,7 +30,7 @@
 @{
     var creditCheckError = TempData["CreditCheckErrorMessage"];
 
-    if (creditCheckError != null)
+    if(creditCheckError != null)
     {
         <div class="well danger-well error-descr">
             <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
@@ -39,7 +39,7 @@
     }
 }
 
-@if (!ViewBag.IsMobileRequest)
+@if(!ViewBag.IsMobileRequest)
 {
     <div class="modal fade" id="camera-modal" role="dialog" data-fnToFill="first-name" data-lnToFill="last-name" data-bdToFill="birth-date" data-dlToFill="dl-number" data-stToFill="street" data-ctToFill="locality" data-prToFill="administrative_area_level_1" data-pcToFill="postal_code">
         <div class="modal-dialog">
@@ -89,14 +89,14 @@
 
 <div class="form-container basic-info-form">
     <div class="form-section">
-        @using (Html.BeginForm("BasicInfo", "NewRental", FormMethod.Post, new { id = "main-form" }))
+        @using(Html.BeginForm("BasicInfo", "NewRental", FormMethod.Post, new { id = "main-form" }))
         {
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.ContractId)
             @Html.HiddenFor(m => m.QuebecDealer, new { id = "is-quebec-dealer" })
             <!--If deal is submitted hide info for borrower and additional applicant that is already submitted-->
             <div @* @if (Model.ContractWasDeclined) { <text>class="hidden"</text> } *@>
-                @if (Model?.SubDealers?.Any() ?? false)
+                @if(Model?.SubDealers?.Any() ?? false)
                 {
                     <div class="dealnet-middle-header">@Resources.SubDealer</div>
                     <div class="row">
@@ -105,8 +105,8 @@
                                 <label for="">@Resources.ChooseSubDealer</label>
                                 <div class="control-group">
                                     @Html.DropDownListFor(m => m.SubmittingDealerId,
-                                                                                                                                               Model.SubDealers.Select(x => new SelectListItem { Value = x.Id, Text = x.DisplayName, Selected = Model.SubmittingDealerId == x.Id }),
-                                                                                                                                               new { @class = "form-control", id = "subdealers" })
+                                                                                                                                                         Model.SubDealers.Select(x => new SelectListItem { Value = x.Id, Text = x.DisplayName, Selected = Model.SubmittingDealerId == x.Id }),
+                                                                                                                                                         new { @class = "form-control", id = "subdealers" })
                                 </div>
                             </div>
                         </div>
@@ -130,9 +130,11 @@
             <!--END Add Additional Applicant-->
 
 
-            <div id="add-additional-applicant">
+            <div id="add-additional-applicant" class="action-link blue">
                 <div class="align-middle">
-                    <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
+                    <svg aria-hidden="true" class="icon icon-add-app">
+                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
+                    </svg>
                     <span>@Resources.AddAdditionalApplicant</span>
                 </div>
             </div>
@@ -164,11 +166,9 @@
             <!--End Warning Section if isn't chosen homeowner checkbox-->
 
             <div class="row save-proceed-btn-hold">
-                <div class="col-xs-12 col-md-3 col-lg-3">
-                    <button class="btn btn-green" id="save-and-proceed-button">
-                        @Resources.SaveAndProceed
-                    </button>
-                </div>
+                <button class="btn btn-green col-xs-12 col-md-3 col-lg-3" id="save-and-proceed-button">
+                    @Resources.SaveAndProceed
+                </button>
             </div>
         }
     </div>
