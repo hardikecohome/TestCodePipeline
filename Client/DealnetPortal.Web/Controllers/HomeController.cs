@@ -95,8 +95,8 @@ namespace DealnetPortal.Web.Controllers
         public ActionResult Library()
         {
             var identity = (ClaimsIdentity)User.Identity;
-
-            return View(_contentManager.GetResourceFilesByCulture(CultureInfo.CurrentCulture.Name, identity.HasClaim("QuebecDealer", "True")));
+            return View(_contentManager.GetResourceFilesByCulture(CultureInfo.CurrentCulture.Name, identity));
+            //return View(_contentManager.GetResourceFilesByCulture(CultureInfo.CurrentCulture.Name, identity.HasClaim("QuebecDealer", "True")));
         }
 
         public ActionResult Help()

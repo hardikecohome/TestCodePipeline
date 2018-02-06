@@ -19,12 +19,9 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44341</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -484,6 +481,7 @@
     <Content Include="Content\email\images\icon-success.png" />
     <Content Include="Content\files\banners\en\home-banner-mobile.jpg" />
     <Content Include="Content\files\banners\en\home-banner.jpg" />
+    <Content Include="Content\files\resources\en\MortgageBroker\Video Link.txt" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="Content\images\dataTables\details_close.png" />
     <Content Include="Content\images\dataTables\details_open.png" />
@@ -830,6 +828,8 @@
     <Content Include="Content\files\resources\en\EcoHome Rate Card - V2.0-10-11-2017.pdf" />
     <Content Include="Content\files\resources\en\Rates Approved Pre Oct 3rd, 2017 - Full Reference Guide.pdf" />
     <Content Include="Content\files\resources\en\Rates Approved Pre Oct 3rd, 2017 - Quick Reference Guide.pdf" />
+    <Content Include="Content\files\resources\en\MortgageBroker\myhome-wallet-customer-info-sheet.pdf" />
+    <Content Include="Content\files\resources\en\MortgageBroker\myhome-wallet-mortgage-info-deck.pdf" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\components\addressInformation.js" />
