@@ -492,6 +492,7 @@
     <Content Include="Content\files\banners\en\home-banner-mobile.jpg" />
     <Content Include="Content\files\banners\en\home-banner.jpg" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fonts\icomoon.svg" />
     <Content Include="Content\images\banner.png" />
     <Content Include="Content\images\bubble-help-red.svg" />
@@ -849,6 +850,10 @@
     <Content Include="Content\fonts\icomoon.woff" />
     <Content Include="Content\less\partials\new-design-resets.less" />
     <Content Include="Content\less\main-new.less" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\components\addressInformation.js" />

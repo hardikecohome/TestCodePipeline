@@ -16,7 +16,6 @@
     <title>@ViewBag.Title - DealNet</title>
     <link href="https://fonts.googleapis.com/css?family=Mukta:300,400,500,700,800" rel="stylesheet">
     @RenderSection("Styles", false)
-    @Styles.Render("~/bundles/vendor-styles")
     @switch(ApplicationSettingsManager.PortalType)
     {
         case PortalType.Odi:
@@ -26,6 +25,7 @@
             @Styles.Render("~/Content/less/main-new.less")
             break;
     }
+    @Styles.Render("~/bundles/vendor-styles")
     @Styles.Render("~/bundles/styles")
     @Styles.Render("~/Content/less/partials/new-design-resets.less")
     <link rel="shortcut icon" href="@Url.Action("Favicon", "Settings", new { version = DateTime.Now.Ticks.ToString(), hashDealerName = ViewBag.HashDealerName as string })" type="image/x-icon" />

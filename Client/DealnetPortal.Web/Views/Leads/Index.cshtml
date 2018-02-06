@@ -35,14 +35,17 @@
 	        </div>
 		    <div class="col-md-2 col-sm-6">
 			    <div class="form-group">
-				    <a class="clear-data-link not-positioned-link" id="clear-filters">
-					    <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearFilters</span>
-				    </a>
+                    <label>&nbsp;</label>
+                    <div class="control-group">
+                        <a class="action-link grey not-positioned-link" id="clear-filters">
+                            <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearFilters</span>
+                        </a>
+                    </div>
 			    </div>
 		    </div>
 	        <div class="col-md-2 col-sm-6 text-right col-md-offset-10 col-sm-offset-6">
 	            <div class="form-group">
-	                <button class="btn dealnet-button dealnet-success-button block-button filter-button">@Resources.Filter</button>
+	                <button class="btn btn-green min-w-150 block-button filter-button">@Resources.Filter</button>
 	            </div>
 	        </div>
 	    </div>
