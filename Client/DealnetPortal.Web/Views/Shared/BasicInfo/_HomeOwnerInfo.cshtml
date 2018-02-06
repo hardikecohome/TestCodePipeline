@@ -374,7 +374,7 @@ else
 <!--Home Owner Information-->
 <!--Borrower Employment Information-->
 <div id="ho-employment-info"
-     @(Model.HomeOwner?.AddressInformation?.Province.ToUpper()!="QC"?"class=hidden":"")>
+     @(Model.HomeOwner?.AddressInformation?.Province.ToUpper()!="QC" || !Model.QuebecDealer ?"class=hidden":"")>
     <div >
         <h2 class="dealnet-middle-header address-info-label no-margin-top">@Resources.BorrowerEmploymentInformation</h2>
         <div class="row">
