@@ -5284,10 +5284,10 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;h2 class=&quot;dealnet-large-header&quot;&gt;Privacy Policy _ Ecohome_External&lt;/h2&gt;
-        ///    &lt;p&gt;&lt;strong&gt;Effective: June 15, 2017&lt;/strong&gt;&lt;/p&gt;
-        ///    &lt;h3 class=&quot;dealnet-section-title&quot;&gt;Our Commitment&lt;/h3&gt;
-        ///    &lt;p&gt;At Services financiers Ecohome Inc. (“Services financiers Ecohome”, “we”, “us”, “the Company”, etc.) we are committed to providing excellent service and to ensuring that our relationship with individuals with whom we interact, such as our customers or potential customers (“you”), is conducted with integrity and in a r [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;h2 class=&quot;dealnet-large-header&quot;&gt;Énoncé de confidentialité&lt;/h2&gt;
+        ///    &lt;p&gt;&lt;strong&gt;Date d’entrée en vigueur : 15 juin 2017&lt;/strong&gt;&lt;/p&gt;
+        ///    &lt;h3 class=&quot;dealnet-section-title&quot;&gt;Notre engagement&lt;/h3&gt;
+        ///    &lt;p&gt;À Services financiers EcoHome (« EcoHome », « nous », « notre », « nos », la « Société », etc.), nous tenons à offrir un excellent service et à faire en sorte que nos rapports avec les personnes avec qui nous interagissons, p. ex., nos clients existants ou éventuels (« vous »), soient empreints d’intégrité et [rest of string was truncated]&quot;;.
         /// </summary>
         public static string PrivacyPolicyTextQC {
             get {
