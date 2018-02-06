@@ -11,7 +11,7 @@ using DealnetPortal.Api.Models.Notification;
 
 namespace DealnetPortal.Api.Integration.Services
 {
-    public class MailChimpService : IMailСhimpService
+    public class MailChimpService : IMailChimpService
     {
         private readonly MailChimpManager _manager = new MailChimpManager(ConfigurationManager.AppSettings["MailChimpApiKey"]); 
 
