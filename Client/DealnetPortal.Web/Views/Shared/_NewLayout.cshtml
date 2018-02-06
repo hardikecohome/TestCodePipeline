@@ -16,13 +16,14 @@
     <title>@ViewBag.Title - DealNet</title>
     <link href="https://fonts.googleapis.com/css?family=Mukta:300,400,500,700,800" rel="stylesheet">
     @RenderSection("Styles", false)
+    @Styles.Render("~/bundles/vendor-styles")
     @switch(ApplicationSettingsManager.PortalType)
     {
         case PortalType.Odi:
             @Styles.Render("~/Content/less/main-dealer.less")
             break;
         default:
-            @Styles.Render("~/Content/less/main.less")
+            @Styles.Render("~/Content/less/main-new.less")
             break;
     }
     @Styles.Render("~/bundles/styles")
