@@ -1,6 +1,6 @@
 ﻿<div class="expand-filter-template">
     <div class="expand-filter-navigation">
-        <a class="clear-data-link" id="clear-filters">
+        <a class="action-link grey clear-data-link" id="clear-filters">
             <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span class="hidden-xs">@Resources.ClearFilters</span>
         </a>
         <!-- Nav tabs -->
@@ -72,7 +72,7 @@
                     </div>
                     <div class="col-md-2 col-sm-6 text-right">
                         <div class="form-group">
-                            <button class="btn dealnet-button dealnet-success-button block-button filter-button">@Resources.Filter</button>
+                            <button class="btn btn-green min-w-150 block-button filter-button">@Resources.Filter</button>
                         </div>
                     </div>
                 </div>
@@ -94,7 +94,6 @@
                             <label for="">@Resources.TypeOfPayment</label>
                             <div class="control-group">
                                 <select id="payment-type" class="form-control filter-input select-filter"></select>
-                                @*@Html.EnumDropDownListFor(s => paymentType, null, new {@class = "form-control filter-input select-filter", id = "payment-type"})*@
                             </div>
                         </div>
                     </div>
@@ -118,7 +117,7 @@
                         <div class="form-group table-length-filter"></div>
                     </div>
                     <div class="col-sm-6 col-md-2">
-                        <button class="btn dealnet-button dealnet-success-button block-button filter-button">@Resources.Filter</button>
+                        <button class="btn btn-green min-w-150 block-button filter-button">@Resources.Filter</button>
                     </div>
                 </div>
             </div>

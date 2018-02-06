@@ -27,7 +27,6 @@
     }
     @Styles.Render("~/bundles/vendor-styles")
     @Styles.Render("~/bundles/styles")
-    @Styles.Render("~/Content/less/partials/new-design-resets.less")
     <link rel="shortcut icon" href="@Url.Action("Favicon", "Settings", new { version = DateTime.Now.Ticks.ToString(), hashDealerName = ViewBag.HashDealerName as string })" type="image/x-icon" />
     <script type="text/javascript">
         var urlContent = "@Url.Content("~/")";
