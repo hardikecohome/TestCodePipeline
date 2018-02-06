@@ -104,19 +104,23 @@
         province.change(function (e) {
             var isQuebec = e.target.value === 'QC';
             var isQuebecDealer = $('#is-quebec-dealer').val().toLowerCase() === 'true';
-            var proceedQcDealer = $('#proceed-qc-dealer');
-            var proceedNotQcDealer = $('#proceed-not-qc-dealer');
 
             if (isQuebec) {
                 if (!isQuebecDealer) {
-                    proceedNotQcDealer.show();
+                    $(this).addClass('input-custom-err');
+                  $('#qcError').text(translations.InstallationAddressCannotInQuebec);
+                } else {
+                    $(this).removeClass('input-custom-err');
+                    $('#qcError').text('');
                 }
-                proceedQcDealer.hide();
             } else {
                 if (isQuebecDealer) {
-                    $(proceedQcDealer).show();
+                    $('#qcError').text(translations.InstallationAddressInQuebec);
+                    $(this).addClass('input-custom-err');
+                } else {
+                    $(this).removeClass('input-custom-err');
+                    $('#qcError').text('');
                 }
-                $(proceedNotQcDealer).hide();
             }
         });
 
@@ -242,16 +246,12 @@
 
             if (isQuebecDealer) {
                 if (!isAddressInQc) {
-                    $('#proceed-qc-dealer').show();
-                    scrollPageTo($('#proceed-qc-dealer'));
                     isValidProcvinceAddress = false;
                 } else {
                     isValidProcvinceAddress = true;
                 }
             } else {
                 if (isAddressInQc) {
-                    $('#proceed-not-qc-dealer').show();
-                    scrollPageTo($('#proceed-not-qc-dealer'));
                     isValidProcvinceAddress = false;
                 } else {
                     isValidProcvinceAddress = true;
@@ -283,7 +283,8 @@
         additionalEmployment.initEmployment(province.val().toLowerCase() !== 'qc' || aditional1Section.is(':hidden'));
 
         province.on('change', function(e) {
-            if (e.target.value.toLowerCase() === 'qc') {
+            var isQuebecDealer = $('#is-quebec-dealer').val().toLowerCase() === 'true';
+            if (e.target.value.toLowerCase() === 'qc' && isQuebecDealer) {
                 homeOwnerEmployment.enableEmployment();
                 if (!aditional1Section.is(':hidden')) {
                     additionalEmployment.enableEmployment();

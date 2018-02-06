@@ -208,9 +208,10 @@
                                     @Html.LabelFor(m => m.HomeOwner.AddressInformation.Province, new { @for = "province", @class = "mandatory-field" })
                                     <div class="control-group">
                                         @Html.DropDownListFor(m => m.HomeOwner.AddressInformation.Province, (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
-                                                            new { @class = "form-control dealnet-input", placeholder = Resources.Nepean, id = "province" })
+                                            new { @class = "form-control dealnet-input", placeholder = Resources.Nepean, id = "province" })
                                         @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Province, "", new { @class = "text-danger" })
                                     </div>
+                                    <span id="qcError" class="text-danger field-validation-error"></span>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-md-4 col-lg-4">

@@ -66,15 +66,20 @@ namespace DealnetPortal.DataAccess.Repositories
         public IList<Contract> GetDealerLeads(string userId)
         {
             var creditReviewStates = _config.GetSetting(WebConfigKeys.CREDIT_REVIEW_STATUS_CONFIG_KEY).Split(',').Select(s => s.Trim()).ToArray();
+            var qcpclist = _config.GetSetting(WebConfigKeys.QUEBEC_POSTAL_CODES).Split(',').ToList();
             
             var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
             var dealerProfile = _dbContext.DealerProfiles.FirstOrDefault(p => p.DealerId == userId);
+            var isQuebecDealer = dealerProfile?.Address.State == "QC";
             var eqList = dealerProfile?.Equipments.Select(e => e.Equipment.Type);
             var pcList = dealerProfile?.Areas.Select(e => e.PostalCode);
             if (eqList?.FirstOrDefault() == null || pcList?.FirstOrDefault() == null)
             {
                 return new List<Contract>();
             }
+            pcList = isQuebecDealer
+                ? pcList?.Where(p => qcpclist.Any(qp => qp == p[0].ToString()))
+                : pcList?.Where(p => qcpclist.All(qp => qp != p[0].ToString()));
             var contracts = _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
