@@ -9,14 +9,14 @@
     <div class="row scanlicence-button">
         <div class="col-md-12">
             <div class="scanlicence-hold">
-                <button type="button" class="btn dealnet-button dealnet-success-button" id="owner-scan-button" data-toggle="modal" data-target="#camera-modal">
+                <button type="button" class="btn btn-green col-md-3" id="owner-scan-button" data-toggle="modal" data-target="#camera-modal">
                     <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
                     <span>@Resources.ScanLicense</span>
                 </button>
                 <a href="#" class="scanlicence-info-link">
                     <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
                 </a>
-                <div class="scanlicence-info-text well well-info">
+                <div class="scanlicence-info-text well well-info clear-border">
                     @Resources.TurnLicenseOver
                 </div>
             </div>
@@ -29,7 +29,7 @@ else
     <div class="row scanlicence-button">
         <div class="col-md-12">
             <div class="scanlicence-hold">
-                <div class="file-upload btn dealnet-button dealnet-success-button" id="owner-scan-button">
+                <div class="file-upload btn btn-green col-md-3" id="owner-scan-button">
                     <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
                     <span>@Resources.ScanLicense</span>
                     <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'first-name', 'last-name', 'birth-date', 'dl-number', 'street', 'locality', 'administrative_area_level_1', 'postal_code')" />
@@ -162,7 +162,7 @@ else
 <h2 class="dealnet-middle-header">@Resources.InstallationAddressInformation</h2>
 <div class="row">
     <div class="col-md-12 get-location-section">
-        <div class="btn dealnet-button dealnet-success-button" onclick="autodetectAddress()">
+        <div class="btn btn-green col-md-3" onclick="autodetectAddress()">
             <svg aria-hidden="true" class="icon icon-get-location"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-get-location")"></use></svg>
             <span>@Resources.GetMyLocation</span>
         </div>
@@ -217,9 +217,14 @@ else
         </div>
     </div>
     <div class="col-md-4 col-lg-4">
-        <a href="#" class="dealnet-disabled-text clear-address" >
-            <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
-        </a>
+        <div class="form-group">
+            <label>&nbsp;</label>
+            <div class="control-group">
+                <a href="#" class="action-link grey">
+                    <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 <!--END Instalation Address-->
@@ -284,9 +289,14 @@ else
             </div>
         </div>
         <div class="col-md-4 col-lg-4">
-            <a href="#" class="dealnet-disabled-text clear-address">
-                <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
-            </a>
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <div class="control-group">
+                    <a href="#" class="action-link grey">
+                        <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -354,9 +364,14 @@ else
             </div>
         </div>
         <div class="col-md-4 col-lg-4">
-            <a href="#" class="dealnet-disabled-text clear-address">
-                <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
-            </a>
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <div class="control-group">
+                    <a href="#" class="action-link grey">
+                        <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -540,12 +555,17 @@ else
                         </div>
                     </div>
                     <div class="col-md-4 col-lg-4">
-                        <a href="#" class="dealnet-disabled-text clear-address" >
-                            <svg aria-hidden="true" class="icon icon-remove">
-                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
-                            </svg>
-                            <span>@Resources.ClearAddress</span>
-                        </a>
+                        <div class="form-group">
+                            <label>&nbsp;</label>
+                            <div class="control-group">
+                                <a href="#" class="dealnet-disabled-text clear-address">
+                                    <svg aria-hidden="true" class="icon icon-remove">
+                                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
+                                    </svg>
+                                    <span>@Resources.ClearAddress</span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

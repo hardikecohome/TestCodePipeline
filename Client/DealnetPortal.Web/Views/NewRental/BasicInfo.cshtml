@@ -39,77 +39,6 @@
     }
 }
 
-@*@if (Model.ContractWasDeclined)
-    {
-        @Html.CheckBox("home-owner-agrees", new { id = "home-owner-agrees", @checked = "checked", @class="hidden" })
-    <!--Show/hide warning depend on status-deal-submitted-->
-        <div class="well well-info position-well">
-            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-            @Resources.YouCantEditBecauseSubmittedYouCanAddAdditional
-        </div>
-
-    <!--Show/hide "Installation address information" depend on status-deal-submitted-->
-        <div class="row credit-check-info-hold">
-            <div class="col-md-6 grid-column">
-                <div class="dealnet-credit-check-section" id="address-section">
-                    <h3 class="dealnet-section-title">@Resources.InstallationAddressInformation</h3>
-                    <div class="form-group">
-                        <div class="row">
-                            @Html.LabelFor(m => Model.HomeOwner.AddressInformation.Street, new { @class = "dealnet-field-caption col-xs-6" })
-                            <div class="dealnet-field-holder col-xs-6">
-                                <div class="control-group">
-                                    @(Model.HomeOwner.AddressInformation.Street)
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="row">
-                            @Html.LabelFor(m => Model.HomeOwner.AddressInformation.UnitNumber, new { @class = "dealnet-field-caption col-xs-6" })
-                            <div class="dealnet-field-holder col-xs-6">
-                                <div class="control-group">
-                                    @(Model.HomeOwner.AddressInformation.UnitNumber)
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="row">
-                            @Html.LabelFor(m => Model.HomeOwner.AddressInformation.City, new { @class = "dealnet-field-caption col-xs-6" })
-                            <div class="dealnet-field-holder col-xs-6">
-                                <div class="control-group">
-                                    @(Model.HomeOwner.AddressInformation.City)
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            @Html.LabelFor(m => Model.HomeOwner.AddressInformation.Province, new { @class = "dealnet-field-caption col-xs-6" })
-                            <div class="dealnet-field-holder col-xs-6">
-                                <div class="control-group">
-                                    @(Model.HomeOwner.AddressInformation.Province)
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            @Html.LabelFor(m => Model.HomeOwner.AddressInformation.PostalCode, new { @class = "dealnet-field-caption col-xs-6" })
-                            <div class="dealnet-field-holder col-xs-6">
-                                <div class="control-group">
-                                    <span class="postal-code">@(Model.HomeOwner.AddressInformation.PostalCode)</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }*@
-
 @if (!ViewBag.IsMobileRequest)
 {
     <div class="modal fade" id="camera-modal" role="dialog" data-fnToFill="first-name" data-lnToFill="last-name" data-bdToFill="birth-date" data-dlToFill="dl-number" data-stToFill="street" data-ctToFill="locality" data-prToFill="administrative_area_level_1" data-pcToFill="postal_code">
@@ -132,9 +61,9 @@
                                 <canvas id="capture-canvas" class="capture-frame"></canvas>
                                 <canvas id="big-capture-canvas"></canvas>
                                 <div id="capture-buttons">
-                                    <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="capture-buttons-1" value="@Resources.Capture" onclick="takePhoto()" />
+                                    <input type="button" class="btn btn-green dealnet-success-button big-button" id="capture-buttons-1" value="@Resources.Capture" onclick="takePhoto()" />
                                     <div id="capture-buttons-2">
-                                        <input type="button" class="btn dealnet-button dealnet-success-button big-button" id="upload-capture" value="@Resources.Save" onclick="uploadCaptured('@Url.Action("RecognizeDriverLicense", "NewRental")')" />
+                                        <input type="button" class="btn btn-green big-button" id="upload-capture" value="@Resources.Save" onclick="uploadCaptured('@Url.Action("RecognizeDriverLicense", "NewRental")')" />
                                         <div id="retake" onclick="retakePhoto()">@Resources.Retake</div>
                                     </div>
                                 </div>
@@ -143,7 +72,7 @@
                         <div role="tabpanel" class="tab-pane fade" id="profile">
                             <div id="upload-area">
                                 <div id="upload-buttons">
-                                    <div class="file-upload btn dealnet-button dealnet-success-button" id="upload-file-button">
+                                    <div class="file-upload btn btn-green dealnet-success-button" id="upload-file-button">
                                         <svg aria-hidden="true" class="icon icon-cloud-upload"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-cloud-upload")"></use></svg>
                                         <span>@Resources.Upload Photo</span>
                                         <input type="file" class="upload" id="upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")')" />
@@ -189,7 +118,7 @@
                     @*@Html.Hidden("SubmittingDealerId", "")*@
                 }
 
-                <div class="well well-info position-well">
+                <div class="well well-info position-well clear-border">
                     <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
                     @Resources.AtLeastOneHomeOwner
                 </div>
@@ -236,7 +165,7 @@
 
             <div class="row save-proceed-btn-hold">
                 <div class="col-xs-12 col-md-3 col-lg-3">
-                    <button class="btn dealnet-button dealnet-success-button" id="save-and-proceed-button">
+                    <button class="btn btn-green" id="save-and-proceed-button">
                         @Resources.SaveAndProceed
                     </button>
                 </div>
