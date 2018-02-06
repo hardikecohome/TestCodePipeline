@@ -315,7 +315,7 @@
                     <span class="arrow"><i class="glyphicon"></i></span>
                 </div>
                 <div class="panel-body" id="additionalInfoForm">
-                    <div id="employmentInfoForm" @(Model.HomeOwner?.AddressInformation?.Province?.ToUpper() == "QC" ? "" : "class=hidden")>
+                    <div id="employmentInfoForm" @(Model.HomeOwner?.AddressInformation?.Province?.ToUpper() == "QC" && Model.IsQuebecDealer ? "" : "class=hidden")>
                         <h2 class="dealnet-middle-header no-margin-top">@Resources.EmploymentInformation</h2>
                         <div class="row label-row hidden-sm hidden-xs">
                             <div class="col-md-2 col-sm-6">

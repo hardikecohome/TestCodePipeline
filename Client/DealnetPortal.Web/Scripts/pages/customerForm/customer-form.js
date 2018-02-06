@@ -320,7 +320,8 @@
                 return {
                     displayInstallation: state.displayInstallation,
                     displayContactInfo: state.displayContactInfo,
-                    activePanel: state.activePanel
+                    activePanel: state.activePanel,
+                    isQuebecDealer: state.isQuebecDealer
                 };
             })(function (props) {
                 if (props.activePanel === 'yourInfo') {
@@ -354,11 +355,12 @@
                 return {
                     province: state.province,
                     employStatus: state.employStatus,
-                    incomeType: state.incomeType
+                    incomeType: state.incomeType,
+                    isQuebecDealer: state.isQuebecDealer
                 }
             })(function (props) {
                 requiredEmployment = [];
-                if (props.province.toLowerCase() === 'qc') {
+                if (props.province.toLowerCase() === 'qc' && props.isQuebecDealer) {
                     if (props.employStatus === '') {
                         requiredEmployment.push('employStatus');
                     }
