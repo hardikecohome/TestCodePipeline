@@ -1,5 +1,13 @@
 @usual-font-family: 'Mukta', sans-serif;
 
+.dealnet-page-button {
+    box-shadow: none;
+    display: block;
+    font: bold 14px/89px Mukta;
+    padding: 0;
+    text-align: center;
+}
+
 .dealnet-success-button {
     box-shadow:none;
     &:hover{
@@ -86,5 +94,11 @@ body:not(.mobile-device), body:not(.tablet-device) {
     @media @desktop-up{
         margin: 0;
         width: auto;
+    }
+}
+.modal {
+    .action-link {
+        text-align: center;
+        width: 100%;
     }
 }

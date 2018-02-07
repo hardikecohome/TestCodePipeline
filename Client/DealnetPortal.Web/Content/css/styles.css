@@ -157,6 +157,24 @@
   color: #cacaca;
 }
 
+.action-link.green {
+  color: #94d802;
+}
+
+.action-link.green [class^="icon-"]:before,
+.action-link.green [class*=" icon-"]:before {
+  color: #94d802;
+}
+
+.action-link.green:hover {
+  color: #7cc501;
+}
+
+.action-link.green:hover [class^="icon-"]:before,
+.action-link.green:hover [class*=" icon-"]:before {
+  color: #7cc501;
+}
+
 .action-link [class^="icon-"]:before,
 .action-link [class*=" icon-"]:before {
   font-size: 20px;
@@ -193,7 +211,7 @@
 .btn-empty-red.min-w-150,
 .btn-red.min-w-150,
 .btn-green.min-w-150 {
-    min-width: 150px;
+  min-width: 150px;
 }
 
 .btn-empty-grey.min-w-100,

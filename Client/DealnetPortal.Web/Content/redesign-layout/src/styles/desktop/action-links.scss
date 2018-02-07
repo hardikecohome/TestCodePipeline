@@ -1,56 +1,70 @@
 .action-link {
-  display: inline-block;
-  line-height: 18px;
-  cursor: pointer;
-  &.blue {
-    color: #38aaee;
-
-    [class^="icon-"], [class*=" icon-"] {
-      &:before {
+    display: inline-block;
+    line-height: 18px;
+    cursor: pointer;
+    &.blue {
         color: #38aaee;
-      }
-    }
-
-    &:hover {
-      color: #2a99dc;
-
-      [class^="icon-"], [class*=" icon-"] {
-        &:before {
-          color: #2a99dc;
+        [class^="icon-"],
+        [class*=" icon-"] {
+            &:before {
+                color: #38aaee;
+            }
         }
-      }
+        &:hover {
+            color: #2a99dc;
+            [class^="icon-"],
+            [class*=" icon-"] {
+                &:before {
+                    color: #2a99dc;
+                }
+            }
+        }
     }
-  }
-
-  &.grey {
-    color: #dcdcdc;
-
-    [class^="icon-"], [class*=" icon-"] {
-      &:before {
+    &.grey {
         color: #dcdcdc;
-      }
-    }
-
-    &:hover {
-      color: #cacaca;
-
-      [class^="icon-"], [class*=" icon-"] {
-        &:before {
-          color: #cacaca;
+        [class^="icon-"],
+        [class*=" icon-"] {
+            &:before {
+                color: #dcdcdc;
+            }
         }
-      }
+        &:hover {
+            color: #cacaca;
+            [class^="icon-"],
+            [class*=" icon-"] {
+                &:before {
+                    color: #cacaca;
+                }
+            }
+        }
     }
-  }
-
-  [class^="icon-"], [class*=" icon-"] {
-    &:before {
-      font-size: 20px;
-      vertical-align: bottom;
+    &.green {
+        color: #94d802;
+        [class^="icon-"],
+        [class*=" icon-"] {
+            &:before {
+                color: #94d802;
+            }
+        }
+        &:hover {
+            color: #7cc501;
+            [class^="icon-"],
+            [class*=" icon-"] {
+                &:before {
+                    color: #7cc501;
+                }
+            }
+        }
     }
-  }
-
-  &.disabled {
-    opacity: 0.5;
-    cursor: default;
-  }
+    [class^="icon-"],
+    [class*=" icon-"] {
+        &:before {
+            font-size: 20px;
+            vertical-align: bottom;
+        }
+    }
+    &.disabled {
+        opacity: 0.5;
+        cursor: default;
+    }
 }
