@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
@@ -13,7 +12,7 @@ using DealnetPortal.Api.Common.Types;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Configuration;
-using Microsoft.Practices.ObjectBuilder2;
+using Unity.Interception.Utilities;
 
 namespace DealnetPortal.DataAccess.Repositories
 {
@@ -439,7 +438,10 @@ namespace DealnetPortal.DataAccess.Repositories
                         if (homeOwner != null)
                         {
                             contract.PrimaryCustomer = homeOwner;
-                            contract.ContractState = ContractState.CustomerInfoInputted;
+                            if (contract.ContractState != ContractState.Completed && contract.ContractState != ContractState.Closed)
+                            { 
+                                contract.ContractState = ContractState.CustomerInfoInputted;
+                            }
                             updated = true;
                         }
                     }
@@ -447,14 +449,20 @@ namespace DealnetPortal.DataAccess.Repositories
                     if (contractData.SecondaryCustomers != null)
                     {
                         AddOrUpdateAdditionalApplicants(contract, contractData.SecondaryCustomers);
-                        contract.ContractState = ContractState.CustomerInfoInputted;
+                        if (contract.ContractState != ContractState.Completed && contract.ContractState != ContractState.Closed)
+                        {
+                            contract.ContractState = ContractState.CustomerInfoInputted;
+                        }
                         updated = true;
                     }
 
                     if (contractData.HomeOwners != null)
                     {
                         AddOrUpdateHomeOwners(contract, contractData.HomeOwners);
-                        contract.ContractState = ContractState.CustomerInfoInputted;
+                        if (contract.ContractState != ContractState.Completed && contract.ContractState != ContractState.Closed)
+                        {
+                            contract.ContractState = ContractState.CustomerInfoInputted;
+                        }
                         updated = true;
                     }
 

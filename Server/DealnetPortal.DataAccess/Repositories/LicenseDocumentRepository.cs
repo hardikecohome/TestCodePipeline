@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Dealer;
 using DealnetPortal.Domain.Repositories;
-using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.DataAccess.Repositories
 {

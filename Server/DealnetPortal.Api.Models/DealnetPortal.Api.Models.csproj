@@ -127,7 +127,6 @@
       <Name>DealnetPortal.Aspire.Integration</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy $(TargetPath)  ..\..\..\..\lib\  /y/q/r/c</PostBuildEvent>

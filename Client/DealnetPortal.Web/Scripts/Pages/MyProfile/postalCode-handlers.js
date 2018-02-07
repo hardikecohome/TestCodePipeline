@@ -29,6 +29,9 @@
             e.target.value = e.target.value.toUpperCase();
             item.value = e.target.value;
             resetFormValidator('#main-form');
+            if ($('#success-message').is(':visible')) {
+                $('#success-message').hide();
+            }
         }
     }
 

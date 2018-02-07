@@ -269,6 +269,10 @@
             }
 
             if (!isValidProcvinceAddress|| !isHomeOwner || !isApprovalAge || !isAgreesToCreditCheck) {
+                if (!isValidProcvinceAddress) {
+                    $(this).addClass('input-custom-err');
+                    $('#qcError').text(isQuebecDealer ? translations.InstallationAddressInQuebec :translations.InstallationAddressCannotInQuebec);
+                }
                 if ($('#main-form').valid()) {
                     event.preventDefault();
                 } else {
@@ -279,7 +283,7 @@
             }
         });
 
-        homeOwnerEmployment.initEmployment(province.val().toLowerCase()!=='qc');
+        homeOwnerEmployment.initEmployment(province.val().toLowerCase()!=='qc' || !isQuebecDealer);
         additionalEmployment.initEmployment(province.val().toLowerCase() !== 'qc' || aditional1Section.is(':hidden'));
 
         province.on('change', function(e) {

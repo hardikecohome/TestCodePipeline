@@ -8,7 +8,7 @@ using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.CustomerWallet;
-using Microsoft.Practices.ObjectBuilder2;
+using Unity.Interception.Utilities;
 
 namespace DealnetPortal.Api.Integration.ServiceAgents
 {

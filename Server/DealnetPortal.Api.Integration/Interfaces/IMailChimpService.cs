@@ -4,7 +4,7 @@ using MailChimp.Net.Models;
 
 namespace DealnetPortal.Api.Integration.Interfaces
 {
-    public interface IMailСhimpService
+    public interface IMailChimpService
     {
         Task AddNewSubscriberAsync(string listid, MailChimpMember member);
         Task<Queue> SendUpdateNotification(string email);

@@ -19,7 +19,7 @@ using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
-using Microsoft.Practices.ObjectBuilder2;
+using Unity.Interception.Utilities;
 
 namespace DealnetPortal.Api.Integration.Services.Signature
 {
