@@ -105,8 +105,8 @@
                                 <label for="">@Resources.ChooseSubDealer</label>
                                 <div class="control-group">
                                     @Html.DropDownListFor(m => m.SubmittingDealerId,
-                                                                                                                                                         Model.SubDealers.Select(x => new SelectListItem { Value = x.Id, Text = x.DisplayName, Selected = Model.SubmittingDealerId == x.Id }),
-                                                                                                                                                         new { @class = "form-control", id = "subdealers" })
+                                                                                                                                                              Model.SubDealers.Select(x => new SelectListItem { Value = x.Id, Text = x.DisplayName, Selected = Model.SubmittingDealerId == x.Id }),
+                                                                                                                                                              new { @class = "form-control", id = "subdealers" })
                                 </div>
                             </div>
                         </div>
@@ -165,7 +165,7 @@
             </div>
             <!--End Warning Section if isn't chosen homeowner checkbox-->
 
-            <div class="row save-proceed-btn-hold">
+            <div class="row save-proceed-btn-hold form-group">
                 <button class="btn btn-green col-xs-12 col-md-3 col-lg-3" id="save-and-proceed-button">
                     @Resources.SaveAndProceed
                 </button>

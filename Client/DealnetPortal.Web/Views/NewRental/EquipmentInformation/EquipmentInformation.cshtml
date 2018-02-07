@@ -8,25 +8,25 @@
 }
 
 @{
-    if (Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
+    if(Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
     {
         Model.ExistingEquipment = null;
     }
-    if (Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
+    if(Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
     {
         Model.InstallationPackages = null;
     }
 }
 
 @{
-    if (Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
+    if(Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
     {
         Model.InstallationPackages = null;
     }
 }
 
 
-@using (Html.BeginForm("EquipmentInformation", "NewRental", null, FormMethod.Post, new { id = "equipment-form", onkeydown = "return event.keyCode!=13" }))
+@using(Html.BeginForm("EquipmentInformation", "NewRental", null, FormMethod.Post, new { id = "equipment-form", onkeydown = "return event.keyCode!=13" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.ContractId)
@@ -45,12 +45,12 @@
     @Html.HiddenFor(x => x.RateCardValid)
     <div class="form-container">
         <div class="form-section">
-            @if (Model.CustomerComments != null && Model.CustomerComments.Any())
+            @if(Model.CustomerComments != null && Model.CustomerComments.Any())
             {
                 <div class="customer-comments form-group">
                     <h3 class="dealnet-middle-header">@Resources.CustomersComment:</h3>
                     <div class="customer-comments-descr">
-                        @foreach (var comment in Model.CustomerComments)
+                        @foreach(var comment in Model.CustomerComments)
                         {
                             @comment
                             <br />
@@ -60,15 +60,17 @@
             }
 
 
-            @((Model.IsClarityDealer && !Model.IsOldClarityDeal) ? Html.Partial("EquipmentInformation/_ClarityProgram", Model) : Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
+            @((Model.IsClarityDealer && !Model.IsOldClarityDeal) ?
+                Html.Partial("EquipmentInformation/_ClarityProgram", Model) :
+                Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
 
             @Html.Partial("EquipmentInformation/_AdditionalContractInformation", Model)
             @Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })
             <div class="row">
                 <div class="col-md-12">
                     <div class="rate-card-button-proceed">
-                        <span class="btn-proceed-inline-hold btn-form-common" data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Resources.YouShouldFillAllMandatoryFields">
-                            <input type="submit" value="@Resources.SaveAndProceed" class="btn dealnet-button dealnet-success-button" id="submit" />
+                        <span class="btn-proceed-inline-hold btn-form-common col-md-3 form-group" data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Resources.YouShouldFillAllMandatoryFields">
+                            <input type="submit" value="@Resources.SaveAndProceed" class="btn btn-green col-md-12" id="submit" />
                         </span>
                     </div>
                 </div>
@@ -79,7 +81,7 @@
 
 @Html.Partial("EquipmentInformation/_EquipmentTemplates", Model)
 
-@if (Model.IsClarityDealer && !Model.IsOldClarityDeal)
+@if(Model.IsClarityDealer && !Model.IsOldClarityDeal)
 {
     @section pageScripts {
         @Scripts.Render("~/bundles/equipment-info-clarity")
