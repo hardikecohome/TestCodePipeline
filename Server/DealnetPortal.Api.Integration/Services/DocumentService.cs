@@ -2165,6 +2165,33 @@ namespace DealnetPortal.Api.Integration.Services
                             });
                         }
                     }
+                    if (contract.PrimaryCustomer.Locations.FirstOrDefault(m => m.AddressType == AddressType.MainAddress).State == "QC")
+                    {
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.DateOfAgreement,
+                            Value = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)
+                        });
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.FirstPaymentDate,
+                            Value = DateTime.Now.AddMonths(1).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)
+                        });
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.MonthlyPaymentDate,
+                            Value = DateTime.Now.Day.ToString()
+                        });
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.FinalPaymentDate,
+                            Value = DateTime.Now.AddMonths(contract.Equipment.LoanTerm + 1 ?? 1).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)
+                        });
+                    }
                 }
             }
         }

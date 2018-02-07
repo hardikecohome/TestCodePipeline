@@ -154,5 +154,12 @@ namespace DealnetPortal.Api.Integration.Services
         //Custom envelop fields
         public static string ApplicationID = "ApplicationID";
         public static string DealerID = "DealerID";
+
+        //QC Agreement Date fields
+        public static string DateOfAgreement = "DateOfAgreement";
+        public static string FirstPaymentDate = "FirstPaymentDate";
+        public static string MonthlyPaymentDate = "MonthlyPaymentDate";
+        public static string FinalPaymentDate = "FinalPaymentDate";
+
     }
 }
