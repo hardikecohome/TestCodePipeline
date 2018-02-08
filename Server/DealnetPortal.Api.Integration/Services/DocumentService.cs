@@ -9,6 +9,7 @@ using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
+using DealnetPortal.Api.Core.Helpers;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Integration.Services.Signature;
@@ -956,6 +957,7 @@ namespace DealnetPortal.Api.Integration.Services
             var alerts = new List<Alert>();
             var agreementType = contract.Equipment.AgreementType;
             var equipmentType = contract.Equipment.NewEquipment?.First()?.Type;
+            var culture = CultureHelper.GetCurrentNeutralCulture();
 
             var province =
                 contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)
@@ -1006,33 +1008,38 @@ namespace DealnetPortal.Api.Integration.Services
             if (dealerTemplates?.Any() ?? false)
             {
                 // if dealer has templates, select one
-                agreementTemplate = dealerTemplates.FirstOrDefault(at =>
+                var agreementTemplates = dealerTemplates.Where(at =>
                     ((agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
                     && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
-                    && (string.IsNullOrEmpty(equipmentType) || (at.EquipmentType?.Contains(equipmentType) ?? false)));
+                    && (string.IsNullOrEmpty(equipmentType) || (at.EquipmentType?.Contains(equipmentType) ?? false))).ToList();
 
-                if (agreementTemplate == null)
+                if (!agreementTemplates.Any())
                 {
-                    agreementTemplate = dealerTemplates.FirstOrDefault(at =>
+                    agreementTemplates = dealerTemplates.Where(at =>
                         (!at.AgreementType.HasValue || (agreementType == at.AgreementType) || (at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
                         && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
                         && (string.IsNullOrEmpty(equipmentType) ||
-                            (at.EquipmentType?.Contains(equipmentType) ?? false)));
+                            (at.EquipmentType?.Contains(equipmentType) ?? false))).ToList();
                 }
 
-                if (agreementTemplate == null)
+                if (!agreementTemplates.Any())
                 {
-                    agreementTemplate = dealerTemplates.FirstOrDefault(at =>
+                    agreementTemplates = dealerTemplates.Where(at =>
                         ((agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
-                        && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false)));
+                        && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))).ToList();
                 }
 
-                if (agreementTemplate == null)
+                if (!agreementTemplates.Any())
                 {
-                    agreementTemplate =
-                        dealerTemplates.FirstOrDefault(at => ((agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
-                                                            && string.IsNullOrEmpty(at.State) && string.IsNullOrEmpty(at.EquipmentType));
-                }                
+                    agreementTemplates =
+                        dealerTemplates.Where(at => ((agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
+                                                            && string.IsNullOrEmpty(at.State) && string.IsNullOrEmpty(at.EquipmentType)).ToList();
+                }
+
+                if (agreementTemplates.Any())
+                {
+                    agreementTemplate = agreementTemplates.FirstOrDefault(at => at.Culture == culture) ?? agreementTemplates.FirstOrDefault();
+                }
             }            
 
             if (agreementTemplate == null)
