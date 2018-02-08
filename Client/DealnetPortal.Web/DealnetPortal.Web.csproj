@@ -481,6 +481,14 @@
     <Content Include="Content\email\images\icon-success.png" />
     <Content Include="Content\files\banners\en\home-banner-mobile.jpg" />
     <Content Include="Content\files\banners\en\home-banner.jpg" />
+    <Content Include="Content\files\HTML\en\AgreementPersonalData.html" />
+    <Content Include="Content\files\HTML\en\PrivacyPolicyText.html" />
+    <Content Include="Content\files\HTML\en\qc\AgreementPersonalDataQC.html" />
+    <Content Include="Content\files\HTML\en\qc\PrivacyPolicyTextQC.html" />
+    <Content Include="Content\files\HTML\fr\AgreementPersonalDataFR.html" />
+    <Content Include="Content\files\HTML\fr\PrivacyPolicyTextFR.html" />
+    <Content Include="Content\files\HTML\fr\qc\AgreementPersonalDataQCFR.html" />
+    <Content Include="Content\files\HTML\fr\qc\PrivacyPolicyTextQCFR.html" />
     <Content Include="Content\files\resources\en\MortgageBroker\Video Link.txt" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="Content\images\dataTables\details_close.png" />
