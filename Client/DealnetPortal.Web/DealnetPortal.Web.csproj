@@ -489,7 +489,7 @@
     <Content Include="Content\files\HTML\fr\PrivacyPolicyTextFR.html" />
     <Content Include="Content\files\HTML\fr\qc\AgreementPersonalDataQCFR.html" />
     <Content Include="Content\files\HTML\fr\qc\PrivacyPolicyTextQCFR.html" />
-    <Content Include="Content\files\resources\en\MortgageBroker\Video Link.txt" />
+    <Content Include="Content\files\resources\en\MortgageBroker\Video Link.htm" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="Content\images\dataTables\details_close.png" />
     <Content Include="Content\images\dataTables\details_open.png" />
@@ -838,6 +838,8 @@
     <Content Include="Content\files\resources\en\Rates Approved Pre Oct 3rd, 2017 - Quick Reference Guide.pdf" />
     <Content Include="Content\files\resources\en\MortgageBroker\myhome-wallet-customer-info-sheet.pdf" />
     <Content Include="Content\files\resources\en\MortgageBroker\myhome-wallet-mortgage-info-deck.pdf" />
+    <Content Include="Content\files\resources\en\MortgageBroker\Mortgage Broker FAQs.pdf" />
+    <Content Include="Content\files\resources\en\MortgageBroker\Mortgage Broker Portal User Guide February 2018.pdf" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\components\addressInformation.js" />
