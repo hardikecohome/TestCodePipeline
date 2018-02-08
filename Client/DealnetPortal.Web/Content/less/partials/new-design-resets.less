@@ -136,3 +136,14 @@ body:not(.mobile-device), body:not(.tablet-device) {
         display: none !important;
     }
 }
+
+.button-container {
+    .btn + .btn {
+        margin-top: 15px; 
+    }
+}
+html:not(.ie9) {
+    .loader:after,  #jquery-loader:after {
+        border-right: 7px solid #7cc501;  
+    }
+}
