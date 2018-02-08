@@ -418,7 +418,7 @@ namespace DealnetPortal.Web.App_Start
                         (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription()))
                 .ForMember(d => d.AgreementType, s => s.ResolveUsing(src =>
                 {
-                    if(src.Equipment?.AgreementType != null && src.Equipment?.ValueOfDeal != null)
+                    if(src.Equipment?.AgreementType != null && src.Equipment?.ValueOfDeal != null && (src.Equipment.LoanTerm != null || src.Equipment.AmortizationTerm != null || src.Equipment.RequestedTerm != null))
                     {
                         return src.Equipment?.AgreementType.ConvertTo<AgreementType>()
                             .GetEnumDescription();
@@ -481,7 +481,7 @@ namespace DealnetPortal.Web.App_Start
                 }))
                 .ForMember(d => d.Value, s => s.ResolveUsing(src =>
                 {
-                    if(src.Equipment != null && src.Equipment.ValueOfDeal != null)
+                    if(src.Equipment != null && src.Equipment.ValueOfDeal != null && (src.Equipment.LoanTerm != null || src.Equipment.AmortizationTerm != null || src.Equipment.RequestedTerm != null))
                     {
                         return FormattableString.Invariant($"$ {src.Equipment.ValueOfDeal:0.00}");
                     }
