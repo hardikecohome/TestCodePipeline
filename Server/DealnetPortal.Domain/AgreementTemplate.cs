@@ -24,6 +24,8 @@ namespace DealnetPortal.Domain
 
         public string EquipmentType { get; set; }
 
+        public string Culture { get; set; }
+
         public string DealerId { get; set; }
         [ForeignKey("DealerId")]
         public virtual ApplicationUser Dealer { get; set; }
