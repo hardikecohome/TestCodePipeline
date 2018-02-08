@@ -27,7 +27,7 @@
             var mPayment = totalMonthlyCostOfOwnership(data);
             var loanTerm = data.LoanTerm;
 
-            return mPayment * loanTerm;
+            return mPayment.toFixed(2) * loanTerm;
         };
 
         var clarityResidualBalance = function(data) {
