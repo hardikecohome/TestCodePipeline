@@ -1452,11 +1452,10 @@ namespace DealnetPortal.Api.Integration.Services
 
 
 
-                if (addApplicant.Locations?.Any() ?? false)
-                {
+                
                     var mainAddress2 =
                         addApplicant?.Locations?.FirstOrDefault(
-                            l => l.AddressType == AddressType.MainAddress);
+                            l => l.AddressType == AddressType.MainAddress) ?? contract.PrimaryCustomer.Locations?.FirstOrDefault(m => m.AddressType == AddressType.MainAddress);
                     if (mainAddress2 != null)
                     {
                         if (!string.IsNullOrEmpty(mainAddress2.Unit))//&&  templateFields?.All(tf => tf.Name != PdfFormFields.SuiteNo2) == true)
@@ -1627,7 +1626,7 @@ namespace DealnetPortal.Api.Integration.Services
                             Value = "true"
                         });
                     }
-                }
+                
             }
         }
 
