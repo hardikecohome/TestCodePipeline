@@ -19,7 +19,7 @@ namespace DealnetPortal.Web.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -480,32 +480,6 @@ namespace DealnetPortal.Web.Resources {
         public static string Agreement {
             get {
                 return ResourceManager.GetString("Agreement", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;h2&gt;Collection, Use and Disclosure of Personal Information&lt;/h2&gt;
-        ///    &lt;p&gt;EcoHome Financial may collect, use and disclose personal information provided by you on this application, obtained as part of the application process (including from credit reporting agencies and other sources) and/or, if your application is approved, obtained from time to time in the administration or operation of your account, for some or all of the following purposes:&lt;/p&gt;
-        ///    &lt;ul&gt;
-        ///        &lt;li&gt;
-        ///            to verify your identity a [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string AgreementPersonalData {
-            get {
-                return ResourceManager.GetString("AgreementPersonalData", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;h2&gt;Collection, Use and Disclosure of Personal Information&lt;/h2&gt;
-        ///    &lt;p&gt;Services financiers Ecohome may collect, use and disclose personal information provided by you on this application, obtained as part of the application process (including from credit reporting agencies and other sources) and/or, if your application is approved, obtained from time to time in the administration or operation of your account, for some or all of the following purposes:&lt;/p&gt;
-        ///    &lt;ul&gt;
-        ///        &lt;li&gt;
-        ///            to verify your  [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string AgreementPersonalDataQC {
-            get {
-                return ResourceManager.GetString("AgreementPersonalDataQC", resourceCulture);
             }
         }
         
@@ -5268,30 +5242,6 @@ namespace DealnetPortal.Web.Resources {
         public static string PrivacyPolicy {
             get {
                 return ResourceManager.GetString("PrivacyPolicy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;h2 class=&quot;dealnet-large-header&quot;&gt;Privacy Policy _ Ecohome_External&lt;/h2&gt;
-        ///    &lt;p&gt;&lt;strong&gt;Effective: June 15, 2017&lt;/strong&gt;&lt;/p&gt;
-        ///    &lt;h3 class=&quot;dealnet-section-title&quot;&gt;Our Commitment&lt;/h3&gt;
-        ///    &lt;p&gt;At EcoHome Financial Inc. (“EcoHome Financial”, “we”, “us”, “the Company”, etc.) we are committed to providing excellent service and to ensuring that our relationship with individuals with whom we interact, such as our customers or potential customers (“you”), is conducted with integrity and in a responsible, fair, ho [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string PrivacyPolicyText {
-            get {
-                return ResourceManager.GetString("PrivacyPolicyText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;h2 class=&quot;dealnet-large-header&quot;&gt;Privacy Policy _ Ecohome_External&lt;/h2&gt;
-        ///    &lt;p&gt;&lt;strong&gt;Effective: June 15, 2017&lt;/strong&gt;&lt;/p&gt;
-        ///    &lt;h3 class=&quot;dealnet-section-title&quot;&gt;Our Commitment&lt;/h3&gt;
-        ///    &lt;p&gt;At Services financiers Ecohome Inc. (“Services financiers Ecohome”, “we”, “us”, “the Company”, etc.) we are committed to providing excellent service and to ensuring that our relationship with individuals with whom we interact, such as our customers or potential customers (“you”), is conducted with integrity and in a r [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string PrivacyPolicyTextQC {
-            get {
-                return ResourceManager.GetString("PrivacyPolicyTextQC", resourceCulture);
             }
         }
         

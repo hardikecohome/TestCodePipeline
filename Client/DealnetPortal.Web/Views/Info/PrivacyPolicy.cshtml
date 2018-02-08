@@ -1,9 +1,12 @@
-﻿@using System.Security.Claims;
+﻿@using DealnetPortal.Api.Core.Helpers;
+@using System.Security.Claims;
 @{
-    ViewBag.Title = Resources.PrivacyPolicy;
+	ViewBag.Title = Resources.PrivacyPolicy;
 }
 
 <div id="privacy-policy" class="privacy-policy-page" style="width: 990px; max-width: 100%; ">
-    @Html.Raw((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True") ? @Resources.PrivacyPolicyTextQC : @Resources.PrivacyPolicyText)
+	@Html.Raw((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True") ? (CultureHelper.CurrentCultureType != CultureType.French) ? File.ReadAllText(Server.MapPath("~/Content/files/HTML/en/qc/PrivacyPolicyTextQC.html")) : File.ReadAllText(Server.MapPath("~/Content/files/HTML/fr/qc/PrivacyPolicyTextQCFR.html"))
+				: (CultureHelper.CurrentCultureType != CultureType.French) ? File.ReadAllText(Server.MapPath("~/Content/files/HTML/en/PrivacyPolicyText.html")) : File.ReadAllText(Server.MapPath("~/Content/files/HTML/fr/PrivacyPolicyTextFR.html")))
+	
 </div>
 
