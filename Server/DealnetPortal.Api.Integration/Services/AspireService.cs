@@ -1476,7 +1476,8 @@ namespace DealnetPortal.Api.Integration.Services
                     decimal? installPackagesCost =
                         contract.Equipment?.InstallationPackages?.Aggregate(0.0m,
                             (sum, ip) => sum + ip.MonthlyCost ?? 0.0m);
-                    eqCost = installPackagesCost.HasValue ? equipment.MonthlyCost + (installPackagesCost.Value / contract.Equipment.NewEquipment?.Count) : equipment.MonthlyCost;
+                    int eqCount = contract.Equipment?.NewEquipment?.Count(ne => ne.IsDeleted != true) ?? 0;
+                    eqCost = installPackagesCost.HasValue && eqCount > 0 ? equipment.MonthlyCost + (installPackagesCost.Value / eqCount) : equipment.MonthlyCost;
                 }
                 else
                 {
