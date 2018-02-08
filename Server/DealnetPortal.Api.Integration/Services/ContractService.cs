@@ -179,12 +179,12 @@ namespace DealnetPortal.Api.Integration.Services
                             _aspireService.UpdateContractCustomer(updatedContract, contractOwnerId, contract.LeadSource).GetAwaiter().GetResult();
                     }
                     if (updatedContract.ContractState != ContractState.Completed &&
-                        updatedContract.ContractState != ContractState.Closed)
+                        updatedContract.ContractState != ContractState.Closed && !updatedContract.DateOfSubmit.HasValue)
                     {
                         var aspireAlerts = 
                             _aspireService.SendDealUDFs(updatedContract, contractOwnerId, contract.LeadSource, contractor).GetAwaiter().GetResult();
                     }
-                    else if (updatedContract.ContractState == ContractState.Completed)
+                    else if (updatedContract.ContractState == ContractState.Completed || updatedContract.DateOfSubmit.HasValue)
                     {
                         //if Contract has been submitted already, we will resubmit it to Aspire after each contract changes 
                         //(DEAL-3628: [DP] Submit deal after each step when editing previously submitted deal)
