@@ -67,7 +67,9 @@
                     <ul class="nav nav-pills nav-stacked documents-pills">
                         @for(var i = 0; i < Model.UploadDocumentsInfo.DocumentTypes?.Count; i++)
                         {
-                            var document = Model.UploadDocumentsInfo.ExistingDocuments.FirstOrDefault(x => x.DocumentTypeId.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value);
+                            var document = Model.UploadDocumentsInfo
+                                .ExistingDocuments
+                                .FirstOrDefault(x => x.DocumentTypeId.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value);
                             var documentReady = document != null
                                                 || (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "1" && Model.ESignature?.Status == SignatureStatus.Completed);
                             <li class="@(i == 0 ? "active" : "") @( documentReady  ? "uploaded" : "") @(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value) ? "mandatory" : "" ) documents-pills-item tab-container-@(i+1)">
@@ -166,7 +168,7 @@
                                             @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[i].Value, new { Name = "DocumentTypeId" })
                                             <div class="form-group clearfix">
                                                 <div @(contractClosed || contractDeclined ? "disabled=disabled" : "")
-                                                     class="file-upload btn btn-green disablable @(contractClosed || contractDeclined ? "disabled" : "")">
+                                                     class="file-upload btn btn-green col-md-6 disablable @(contractClosed || contractDeclined ? "disabled" : "")">
                                                     <span>@Resources.Upload</span>
                                                     <input type="file" name="File" class="upload main-document-upload" />
                                                 </div>
@@ -205,7 +207,7 @@
                                         {
                                             <div>
                                                 <a href="" onclick="$('#download-certificate-modal').modal(); return false;"
-                                                   class="dealnet-info-link download-certificate-link @(contractDeclined ? "disabled" : "")">
+                                                   class="action-link blue download-certificate-link @(contractDeclined ? "disabled" : "")">
                                                     <svg aria-hidden="true" class="icon icon-download">
                                                         <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-upload")"></use>
                                                     </svg>
@@ -249,7 +251,7 @@
                                         @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[i].Value, new { Name = "DocumentTypeId" })
                                         <div class="form-group clearfix">
                                             <div @(contractClosed||contractDeclined ? "disabled=disabled" : "")
-                                                 class="file-upload btn btn-green disablable @(contractClosed||contractDeclined ? "disabled" : "")">
+                                                 class="file-upload btn btn-green col-md-6 disablable @(contractClosed||contractDeclined ? "disabled" : "")">
                                                 <span>@Resources.Upload</span>
                                                 <input type="file" name="File" class="upload main-document-upload" />
                                             </div>
@@ -324,7 +326,7 @@
                                 <div class="collapse" id="empty-document-name-message">
                                     <span class="text-danger">@Resources.DocumentNameEmpty</span>
                                 </div>
-                                <div class="file-upload btn btn-green disablable @(contractClosed||contractDeclined ? "disabled" : "")"
+                                <div class="file-upload btn btn-green col-md-6 disablable @(contractClosed||contractDeclined ? "disabled" : "")"
                                      id="other-documents-upload-button" @(contractClosed||contractDeclined ? "disabled=disabled" : "")>
                                     <span>@Resources.Upload</span>
                                     <input type="file" name="File" class="upload" id="other-documents-upload" />
@@ -403,7 +405,7 @@
             </div>
         </div>
         <div class="btn-hold">
-            <button class="btn btn-green disablable disabled" id="send-all-documents-report" @(contractClosed||contractDeclined ? "disabled=disabled" : "")>
+            <button class="btn btn-green col-md-12 disablable disabled" id="send-all-documents-report" @(contractClosed||contractDeclined ? "disabled=disabled" : "")>
                 @Resources.ReadyForAudit
             </button>
         </div>

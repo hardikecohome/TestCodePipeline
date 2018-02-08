@@ -278,7 +278,7 @@
                 @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[0].Value, new { Name = "DocumentTypeId" })
                 <div class="form-group clearfix">
                     <div @(contractClosedOrDeclined ? "disabled=disabled" : "")
-                         class="file-upload btn dealnet-button dealnet-success-button disablable @(contractClosedOrDeclined?"disabled":"")">
+                         class="file-upload btn btn-green col-md-6 disablable @(contractClosedOrDeclined?"disabled":"")">
                         <span>@Resources.Upload</span>
                         <input type="file" name="File" class="upload main-document-upload" />
                     </div>
