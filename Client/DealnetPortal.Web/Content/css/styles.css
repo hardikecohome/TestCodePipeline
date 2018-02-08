@@ -383,7 +383,7 @@
   .dropdown-custom .dropdown-toggle {
     background-color: transparent;
     padding-right: 12px;
-    background-image: url("../img/forms/selectArrow.svg");
+    background-image: url("../images/forms/selectArrow.svg");
     background-size: 8px;
     background-repeat: no-repeat;
     background-position: right;
@@ -514,9 +514,11 @@
   .header__support-links-list li {
     float: left;
     line-height: 10px; }
-    .header__support-links-list li [class^="icon-"], .header__support-links-list li [class*=" icon-"] {
+    .header__support-links-list li [class^="icon-"],
+    .header__support-links-list li [class*=" icon-"] {
       vertical-align: text-bottom; }
-      .header__support-links-list li [class^="icon-"]:before, .header__support-links-list li [class*=" icon-"]:before {
+      .header__support-links-list li [class^="icon-"]:before,
+      .header__support-links-list li [class*=" icon-"]:before {
         font-size: 20px; }
     .header__support-links-list li a {
       color: #97c501;
@@ -531,7 +533,7 @@
   -moz-appearance: none;
   -webkit-appearance: none;
   padding-right: 10px;
-  background-image: url("../img/forms/selectArrow.svg");
+  background-image: url("../images/forms/selectArrow.svg");
   background-repeat: no-repeat;
   background-position: right;
   outline: none;
