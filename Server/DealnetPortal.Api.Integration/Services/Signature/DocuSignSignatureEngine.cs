@@ -29,6 +29,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         private readonly string _dsPassword;
         private readonly string _dsIntegratorKey;
         private readonly string _dsDefaultBrandId;
+        private readonly string _dsQuebecDefaultBrandId;
         private readonly string _notificationsEndpoint;
         private Document _document { get; set; }
         private Contract _contract;
@@ -72,7 +73,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             _dsIntegratorKey = configuration.GetSetting(WebConfigKeys.DOCUSIGN_INTEGRATORKEY_CONFIG_KEY);
             _dsDefaultBrandId = configuration.GetSetting(WebConfigKeys.DOCUSIGN_BRAND_ID);
             _notificationsEndpoint = configuration.GetSetting(WebConfigKeys.DOCUSIGN_NOTIFICATIONS_URL);
-
+            _dsQuebecDefaultBrandId = configuration.GetSetting(WebConfigKeys.QUEBEC_DOCUDIGN_BRAND_ID);
             _signers = new List<Signer>();
             _copyViewers = new List<CarbonCopy>();
 
@@ -786,7 +787,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             EnvelopeDefinition envelopeDefinition = new EnvelopeDefinition
             {
                 EmailSubject = Resources.Resources.PleaseSignAgreement,
-                BrandId = _dsDefaultBrandId
+                BrandId = _contract.PrimaryCustomer.Locations?.FirstOrDefault(m=>m.AddressType == AddressType.MainAddress).State == "QC" ? _dsQuebecDefaultBrandId : _dsDefaultBrandId
             };
 
             if (_templateUsed)

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Text.RegularExpressions;
 using System.Web.Hosting;
 
@@ -18,6 +19,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
         private static string MobilePostfix = "-mobile";
         private static string _rootPath = HostingEnvironment.MapPath(@"~\");
         private static string _contentFolderFullPath = Path.Combine(_rootPath, ContentPath);
+        private static string MortgageBrokerPrefic = "MortgageBroker";
 
         public string GetMaitanenceBannerByCulture(string culture, bool quebecDealer = false)
         {
@@ -31,11 +33,13 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             return !Directory.Exists(bannerPath) ? string.Empty : GetRelativeBannerPath(culture, quebecDealer, isMobile);
         }
 
-        public Dictionary<string, string> GetResourceFilesByCulture(string culture, bool quebecDealer = false)
+        public Dictionary<string, string> GetResourceFilesByCulture(string culture, ClaimsIdentity userIdentity)
         {
-            var resourcesFullPathWithCulture = Path.Combine(_contentFolderFullPath, ResourcesFolderName, culture, quebecDealer ? QuebecPrefic : string.Empty);
-
-            if(!Directory.Exists(resourcesFullPathWithCulture) || !Directory.GetFiles(resourcesFullPathWithCulture).Any()) return new Dictionary<string, string>();
+            //identity.HasClaim("QuebecDealer", "True")
+            //var resourcesFullPathWithCulture = Path.Combine(_contentFolderFullPath, ResourcesFolderName, culture, quebecDealer ? QuebecPrefic : string.Empty);
+            var resourcesFullPathWithCulture = Path.Combine(_contentFolderFullPath, ResourcesFolderName, culture, userIdentity.HasClaim("QuebecDealer", "True") ? QuebecPrefic :
+                                                                                                                   userIdentity.HasClaim("MortgageBroker", "True") ? MortgageBrokerPrefic : string.Empty);
+            if (!Directory.Exists(resourcesFullPathWithCulture) || !Directory.GetFiles(resourcesFullPathWithCulture).Any()) return new Dictionary<string, string>();
 
             return GetResourcecFilesDictionary(resourcesFullPathWithCulture);
         }
