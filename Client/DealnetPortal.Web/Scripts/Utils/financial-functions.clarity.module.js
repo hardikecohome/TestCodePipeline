@@ -44,7 +44,7 @@
                     (1 + customerRate / 100 / 12);
             }
 
-            return rbalance.toFixed(2);
+            return +rbalance.toFixed(2);
         };
 
         var totalClarityObligation = function(data) {
@@ -61,7 +61,7 @@
             var borrowingCost = tObligation - tAmountFinanced - adminFee;
             if (borrowingCost < 0)
                 borrowingCost = 0;
-            return borrowingCost.toFixed(2);
+            return +borrowingCost.toFixed(2);
         };
 
         var clarityYourCost = function (data) {
