@@ -64,10 +64,9 @@ namespace DealnetPortal.Api.Common.Helpers
                     //    (1.0 - Math.Pow(1 + customerRate,
                     //                   -input.AmortizationTerm)) / customerRate;
                     //output.TotalAmountFinanced *= output.TotalMonthlyPayment;
-                    output.TotalMonthlyPayment = output.TotalMonthlyPayment / clarityPaymentFactor;
+                    output.TotalAmountFinanced = output.TotalMonthlyPayment / clarityPaymentFactor;
                     output.PriceOfEquipmentWithHst = output.TotalAmountFinanced - input.AdminFee + input.DownPayment;
                 }
-                
             }
             else
             {
@@ -76,9 +75,8 @@ namespace DealnetPortal.Api.Common.Helpers
                     customerRate > 0 ? Math.Round(output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1), 2)
                         : output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1);
             }
-            output.TotalMonthlyPayment = Math.Round(output.TotalMonthlyPayment, 2);
             output.LoanTotalCashPrice = output.TotalAmountFinanced - input.AdminFee + input.DownPayment;
-            output.TotalAllMonthlyPayments = Math.Round(output.TotalMonthlyPayment*input.LoanTerm,2);
+            output.TotalAllMonthlyPayments = Math.Round(output.TotalMonthlyPayment,2)*input.LoanTerm;
             if (input.LoanTerm != input.AmortizationTerm)
             {
                 output.ResidualBalance = Math.Round(-Financial.PV(customerRate, input.AmortizationTerm - input.LoanTerm, output.TotalMonthlyPayment) * (1 + customerRate),2);
