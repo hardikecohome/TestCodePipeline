@@ -42,7 +42,7 @@ namespace DealnetPortal.Api.Common.Helpers
         }
 
         public static Output Calculate(Input input)
-        {
+        {            
             var output = new Output();
             output.Hst = input.TaxRate/100*input.PriceOfEquipment;
             output.PriceOfEquipmentWithHst = output.Hst + input.PriceOfEquipment;
@@ -58,14 +58,15 @@ namespace DealnetPortal.Api.Common.Helpers
                 }
                 else
                 {
+                    const double clarityPaymentFactor = 0.010257;
                     output.TotalMonthlyPayment = output.PriceOfEquipmentWithHst;
-                    output.TotalAmountFinanced = customerRate == 0.0 ? 0.0 :
-                        (1.0 - Math.Pow(1 + customerRate,
-                                       -input.AmortizationTerm)) / customerRate;
-                    output.TotalAmountFinanced *= output.TotalMonthlyPayment;
+                    //output.TotalAmountFinanced = customerRate == 0.0 ? 0.0 :
+                    //    (1.0 - Math.Pow(1 + customerRate,
+                    //                   -input.AmortizationTerm)) / customerRate;
+                    //output.TotalAmountFinanced *= output.TotalMonthlyPayment;
+                    output.TotalAmountFinanced = output.TotalMonthlyPayment / clarityPaymentFactor;
                     output.PriceOfEquipmentWithHst = output.TotalAmountFinanced - input.AdminFee + input.DownPayment;
                 }
-                
             }
             else
             {
