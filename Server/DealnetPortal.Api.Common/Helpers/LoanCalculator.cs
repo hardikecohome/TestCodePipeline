@@ -67,7 +67,6 @@ namespace DealnetPortal.Api.Common.Helpers
                     output.TotalAmountFinanced = output.TotalMonthlyPayment / clarityPaymentFactor;
                     output.PriceOfEquipmentWithHst = output.TotalAmountFinanced - input.AdminFee + input.DownPayment;
                 }
-                
             }
             else
             {
