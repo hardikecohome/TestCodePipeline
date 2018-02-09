@@ -438,8 +438,8 @@
         if(bannerExists)
         {
             <div class="custom-container">
-                <a class="main-banner" @(!string.IsNullOrEmpty(bannerLink) ? "href=" + bannerLink + " target=\"_blank\"" : "")>
-                    <img src="@Url.Content(ViewBag.Banner)" />
+                <a class="main-banner" @(!string.IsNullOrEmpty(bannerLink) ? "href=" + bannerLink + " target=\"_blank\"" : "") 
+                   style="background-image:url(@Url.Content(ViewBag.Banner));">
                 </a>
             </div>
             <div class="clearfix"></div>
