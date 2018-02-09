@@ -102,7 +102,7 @@ function recalculateTotalCashPrice () {
 
     if (isClarity && !isOldClarityDeal) {
         calculateClarityTotalCashPrice();
-        calculateClarityTotalsAndRender(sum);
+        calculateClarityTotalsAndRender(sum + packageSum);
     } else {
         calculateLoanValues();
     }
