@@ -18,7 +18,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44341</IISExpressSSLPort>
+    <IISExpressSSLPort>44322</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -1207,6 +1207,7 @@
     <Content Include="Views\NewRental\EquipmentInformation\EquipmentInformation.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_LoanRentalPrograms.cshtml" />
     <Content Include="Views\Shared\SummaryAndConfirmation\_ClarityDetailedPaymentInfo.cshtml" />
+    <Content Include="webdeployClient.ps1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

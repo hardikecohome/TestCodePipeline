@@ -99,7 +99,7 @@
         return $.extend({}, data,
             {
                 costOfBorrowing: clarityCalculations.totalBorrowingCost(data),
-                totalAmountFinanced: clarityCalculations.totalAmountFinanced(data),
+                totalAmountFinanced: clarityCalculations.totalPriceOfEquipment(data),
                 totalMonthlyPayments: clarityCalculations.totalMonthlyPayments(data),
                 residualBalance: clarityCalculations.residualBalance(data),
                 totalObligation: clarityCalculations.totalObligation(data),
