@@ -42,7 +42,7 @@ function pv(rate, nper, pmt, fv) {
 
     }
 
-    pv_value = conv_number(pv_value, 2);
+    //pv_value = conv_number(pv_value, 2);
 
     return (pv_value);
 
