@@ -75,7 +75,7 @@ namespace DealnetPortal.Api.Common.Helpers
                         : output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1);
             }
             output.LoanTotalCashPrice = output.TotalAmountFinanced - input.AdminFee + input.DownPayment;
-            output.TotalAllMonthlyPayments = Math.Round(output.TotalMonthlyPayment*input.LoanTerm,2);
+            output.TotalAllMonthlyPayments = Math.Round(output.TotalMonthlyPayment, 2)*input.LoanTerm;
             if (input.LoanTerm != input.AmortizationTerm)
             {
                 output.ResidualBalance = Math.Round(-Financial.PV(customerRate, input.AmortizationTerm - input.LoanTerm, output.TotalMonthlyPayment) * (1 + customerRate),2);
