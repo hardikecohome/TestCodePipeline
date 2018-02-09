@@ -42,7 +42,7 @@ namespace DealnetPortal.Api.Common.Helpers
         }
 
         public static Output Calculate(Input input)
-        {
+        {            
             var output = new Output();
             output.Hst = input.TaxRate/100*input.PriceOfEquipment;
             output.PriceOfEquipmentWithHst = output.Hst + input.PriceOfEquipment;
@@ -58,11 +58,13 @@ namespace DealnetPortal.Api.Common.Helpers
                 }
                 else
                 {
+                    const double clarityPaymentFactor = 0.010257;
                     output.TotalMonthlyPayment = output.PriceOfEquipmentWithHst;
-                    output.TotalAmountFinanced = customerRate == 0.0 ? 0.0 :
-                        (1.0 - Math.Pow(1 + customerRate,
-                                       -input.AmortizationTerm)) / customerRate;
-                    output.TotalAmountFinanced *= output.TotalMonthlyPayment;
+                    //output.TotalAmountFinanced = customerRate == 0.0 ? 0.0 :
+                    //    (1.0 - Math.Pow(1 + customerRate,
+                    //                   -input.AmortizationTerm)) / customerRate;
+                    //output.TotalAmountFinanced *= output.TotalMonthlyPayment;
+                    output.TotalMonthlyPayment = output.TotalMonthlyPayment / clarityPaymentFactor;
                     output.PriceOfEquipmentWithHst = output.TotalAmountFinanced - input.AdminFee + input.DownPayment;
                 }
                 
@@ -74,6 +76,7 @@ namespace DealnetPortal.Api.Common.Helpers
                     customerRate > 0 ? Math.Round(output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1), 2)
                         : output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1);
             }
+            output.TotalMonthlyPayment = Math.Round(output.TotalMonthlyPayment, 2);
             output.LoanTotalCashPrice = output.TotalAmountFinanced - input.AdminFee + input.DownPayment;
             output.TotalAllMonthlyPayments = Math.Round(output.TotalMonthlyPayment, 2)*input.LoanTerm;
             if (input.LoanTerm != input.AmortizationTerm)
