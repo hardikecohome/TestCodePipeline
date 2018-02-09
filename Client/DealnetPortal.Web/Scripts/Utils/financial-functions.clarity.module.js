@@ -68,11 +68,13 @@
             return yCost * totalClarityAmountFinanced(data) / 100;
         }
 
-        var totalPriceOfEquipment = function(data) {
-            var totalAmountFinanced = totalClarityAmountFinanced(data);
+        var totalPriceOfEquipment = function (data) {
+            var tPrice = totalMonthlyCostOfOwnership(data);
+            //var totalAmountFinanced = totalClarityAmountFinanced(data);
             var downPayment = data.downPayment;
 
-            return totalAmountFinanced/* - adminFee*/ + downPayment;
+            //return totalAmountFinanced/* - adminFee*/ + downPayment;
+            return tPrice / 0.010257;//clarityPaymentFactor
         }
 
         return {
