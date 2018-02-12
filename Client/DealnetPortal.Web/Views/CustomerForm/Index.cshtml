@@ -1,11 +1,11 @@
 ﻿@using DealnetPortal.Api.Common.Enumeration
-@using DealnetPortal.Api.Common.Helpers
 @using DealnetPortal.Api.Core.Helpers
 @using DealnetPortal.Api.Models.Contract
 @model DealnetPortal.Web.Models.CustomerFormViewModel
 @{
     bool reCaptchaEnabled;
     bool.TryParse(System.Configuration.ConfigurationManager.AppSettings["ReCaptchaEnabled"], out reCaptchaEnabled);
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="customer-loan-page">
     <div class="navbar navbar-inverse navbar-fixed-side">

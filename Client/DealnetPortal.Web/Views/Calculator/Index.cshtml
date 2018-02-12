@@ -2,9 +2,7 @@
 @model DealnetPortal.Web.Models.StandaloneCalculatorViewModel
 
 <div class="calculator-redesigned standalone-calculator">
-  <div id="label-steps">
-    <div class="dealnet-action-link">@Resources.Calculator</div>
-  </div>
+
   <div class="dealnet-large-header">@Resources.Calculator</div>
 
   @*<form id="province-form" class="row">
@@ -60,7 +58,7 @@
                   </div>
                 </div>
               </div>
-              <div class="align-middle dealnet-info-link add-equip-link" id="option1-addEquipment">
+              <div class="action-link blue add-equip-link" id="option1-addEquipment">
                 <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
                 <span>@Resources.AddAdditionalEquipment</span>
               </div>
@@ -78,10 +76,10 @@
     </div>
     <div class="row">
       <div class="control-add-calc col-sm-6 col-xs-12" id="first-add-button">
-        <button class="btn dealnet-button dealnet-success-button btn-add-calc-option" type="button">@Resources.AddAnotherOption</button>
+        <button class="btn btn-green btn-add-calc-option" type="button">@Resources.AddAnotherOption</button>
       </div>
       <div class="control-add-calc col-sm-6 col-xs-12" id="second-add-button">
-        <button class="btn dealnet-button dealnet-success-button btn-add-calc-option hidden" type="button">@Resources.AddAnotherOption</button>
+        <button class="btn btn-green btn-add-calc-option hidden" type="button">@Resources.AddAnotherOption</button>
       </div>
     </div>
   </div>
@@ -121,7 +119,7 @@
 @section scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/localization");
-    @Scripts.Render("~/bundles/standalone-calculator");
+    @Scripts.Render("~/bundles/standalone-calculator")
 
     <script type="text/javascript">
         configInitialized.then(function() {

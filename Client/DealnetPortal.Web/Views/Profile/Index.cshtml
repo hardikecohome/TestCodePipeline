@@ -1,12 +1,9 @@
 ﻿@model DealnetPortal.Web.Models.MyProfile.ProfileViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = Resources.MyProfile;
 }
 
-<div id="label-steps">
-    <div class="dealnet-action-link">@Resources.MyProfile</div>
-</div>
 <div class="profile-header">
     <div class="main-heading profile-heading">@Resources.MyProfile</div>
 </div>
@@ -50,7 +47,7 @@
             }
         </div>
         <div>
-            <a id="add-postalCode" class="align-middle dealnet-info-link">
+            <a id="add-postalCode" class="align-middle action-link blue">
                 <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
                 <span>@Resources.AddPostalCode</span>
             </a>
@@ -58,10 +55,8 @@
     }
     <div class="clearfix">
         <br>
-        <br>
-        <button class="btn dealnet-button dealnet-success-button btn-form-common" id="saveProfileBtn">@Resources.Save</button>
+        <button class="btn btn-green dealnet-success-button btn-form-common" id="saveProfileBtn">@Resources.Save</button>
         <div id="infoErrors"></div>
-        <br>
         <br>
         <div class="well success-well success-message collapse" id="success-message">
             <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>

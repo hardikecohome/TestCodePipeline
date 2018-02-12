@@ -18,7 +18,7 @@ function pv(rate, nper, pmt, fv) {
 
     fv = parseFloat(fv);
 
-    rate = parseFloat(rate);;
+    rate = parseFloat(rate);
 
     if ((nper == 0)) {
 

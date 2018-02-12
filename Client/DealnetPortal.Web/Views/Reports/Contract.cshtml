@@ -9,20 +9,17 @@
 
     Func<string, string> formatIncome = str =>
     {
-        if (str.Contains('<'))
+        if(str.Contains('<'))
         {
             return str.Replace("<", Resources.LessThan + " $");
         }
-        if (str.Contains('-'))
+        if(str.Contains('-'))
         {
             return "$" + str.Replace("-", " - $");
         }
         return "$" + str;
     };
 }
-<div id="label-steps">
-    @Html.ActionLink(Resources.Reports, "Index", "Reports", null, new { @class = "dealnet-action-link" }) &gt; <div class="dealnet-action-link">@Resources.Contract #@(Model.AdditionalInfo.TransactionId ?? Model.BasicInfo.ContractId.ToString())</div>  &gt;
-</div>
 
 <div class="form-container">
     <div class="form-section">

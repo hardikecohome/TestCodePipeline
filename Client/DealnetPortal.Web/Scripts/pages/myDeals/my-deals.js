@@ -229,7 +229,7 @@ function showTable () {
                         { "data": "LocalizedStatus", visible: false }
                     ],
                     dom:
-                        "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
+                        "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'>>" +
                         "<'row'<'col-md-12''<'#expand-table-filter'>'l>>" +
                         "<'row'<'col-md-12'tr>>" +
                         "<'table-footer'>" +

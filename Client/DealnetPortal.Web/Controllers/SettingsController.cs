@@ -1,19 +1,16 @@
-﻿using DealnetPortal.Api.Models.UserSettings;
-using DealnetPortal.Web.Infrastructure;
-using DealnetPortal.Web.Infrastructure.Managers;
-using DealnetPortal.Web.Models.Enumeration;
-
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.UI;
 using DealnetPortal.Api.Core.Helpers;
-using DealnetPortal.Web.Common.Culture;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using System.Security.Claims;
+
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Web.Common.Constants;
-using log4net;
+using DealnetPortal.Api.Models.UserSettings;
+using DealnetPortal.Web.Infrastructure.Managers;
+using DealnetPortal.Web.Models.Enumeration;
 
 namespace DealnetPortal.Web.Controllers
 {

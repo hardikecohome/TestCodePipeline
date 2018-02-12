@@ -72,14 +72,14 @@ function showTable () {
                         { "data": "CustomerComment", className: 'customer-cell' },
                         {// this is Actions Column
                             "render": function (sdata, type, row) {
-                                return '<div class="contract-controls text-center"><a class="link-accepted" data-container="body" data-toggle="popover" data-trigger="hover" data-content="' + translations['PreApprovedLoanValueFeeWillBeApplied'] + '" id = "lead' + row.Id + '"  onclick="addLead(' + row.Id + ', ' + row.TransactionId + ')"><svg aria-hidden="true" class="icon icon-accept-lead"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-accept-lead"></use></svg></a></div>';
+                                return '<div class="contract-controls text-center"><a class="link-accepted" data-container="body" data-toggle="popover" data-trigger="hover" data-content="' + translations['PreApprovedLoanValueFeeWillBeApplied'] + '" id = "lead' + row.Id + '"  onclick="addLead(' + row.Id + ', ' + row.TransactionId + ')"><svg aria-hidden="true" class="icon icon-accept-lead"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-accept-lead-new"></use></svg></a></div>';
                             },
                             className: 'controls-cell accept-cell',
                             orderable: false
                         },
                     ],
                     dom:
-                        "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
+                        "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'>>" +
                         "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
                         "<'row'<'col-md-12 col-sm-6'l>>" +
                         "<'row'<'col-md-12''<'#section-before-table'>'>>" +
@@ -131,21 +131,26 @@ function showTable () {
 };
 
 $.fn.dataTable.ext.search.push(
-    function (settings, data, dataIndex) {
-        var postalCode = $("#postal-code").val();
-        var preApprovedFor = $("#pre-approved-for").val();
-        var dateFrom = Date.parseExact($("#date-from").val(), "M/d/yyyy");
-        var dateTo = Date.parseExact($("#date-to").val(), "M/d/yyyy");
-        var date = Date.parseExact(data[0], "M/d/yyyy");
-        if ((!postalCode || postalCode === data[1]) &&
-            (!preApprovedFor || preApprovedFor === data[2]) &&
-            (!dateTo || date <= dateTo) &&
-            (!dateFrom || date >= dateFrom)) {
-            return true;
+    function () {
+        var pCE = $("#postal-code");
+        var pre = $("#pre-approved-for")
+        var from = $("#date-from");
+        var to = $("#date-to")
+        return function (settings, data, dataIndex) {
+            var postalCode = pCE.val();
+            var preApprovedFor = pre.val();
+            var dateFrom = Date.parseExact(from.val(), "M/d/yyyy");
+            var dateTo = Date.parseExact(to.val(), "M/d/yyyy");
+            var date = Date.parseExact(data[0], "M/d/yyyy");
+            if ((!postalCode || postalCode === data[1]) &&
+                (!preApprovedFor || preApprovedFor === data[2]) &&
+                (!dateTo || date <= dateTo) &&
+                (!dateFrom || date >= dateFrom)) {
+                return true;
+            }
+            return false;
         }
-        return false;
-    }
-);
+    }());
 
 function removeLead (id) {
     var table = $('#work-items-table').DataTable();

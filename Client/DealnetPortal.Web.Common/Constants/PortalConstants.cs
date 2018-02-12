@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DealnetPortal.Web.Common.Constants
+﻿namespace DealnetPortal.Web.Common.Constants
 {
     public static class PortalConstants
     {
@@ -24,6 +18,9 @@ namespace DealnetPortal.Web.Common.Constants
 
         public const string ClarityTierNameKey = "ClarityTierName";
         public const string CultureCookieNameKey = "CultureCookieName";
+
+        public const string NewDesignLogin = "NewDesignLogin";
+
         public const string QuebecPostalCodesNameKey = "QuebecPostalCodes";
     }
 
