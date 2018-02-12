@@ -15,10 +15,12 @@
 
         var totalClarityAmountFinanced = function(data) {
             var tPrice = totalMonthlyCostOfOwnership(data);
-            var amortizationTerm = data.AmortizationTerm;
-            var customerRate = data.CustomerRate;
+            //var amortizationTerm = data.AmortizationTerm;
+            //var customerRate = data.CustomerRate;
 
-            var res = -pv(customerRate / 100 / 12, amortizationTerm, tPrice, 0);
+            var res = tPrice / 0.010257;//clarityPaymentFactor
+             
+            //var res = -pv(customerRate / 100 / 12, amortizationTerm, tPrice, 0);
 
             return res;
         }
@@ -27,7 +29,7 @@
             var mPayment = totalMonthlyCostOfOwnership(data);
             var loanTerm = data.LoanTerm;
 
-            return mPayment * loanTerm;
+            return mPayment.toFixed(2) * loanTerm;
         };
 
         var clarityResidualBalance = function(data) {
@@ -42,7 +44,7 @@
                     (1 + customerRate / 100 / 12);
             }
 
-            return rbalance;
+            return +rbalance.toFixed(2);
         };
 
         var totalClarityObligation = function(data) {
@@ -59,7 +61,7 @@
             var borrowingCost = tObligation - tAmountFinanced - adminFee;
             if (borrowingCost < 0)
                 borrowingCost = 0;
-            return borrowingCost;
+            return +borrowingCost.toFixed(2);
         };
 
         var clarityYourCost = function (data) {
@@ -68,7 +70,8 @@
             return yCost * totalClarityAmountFinanced(data) / 100;
         }
 
-        var totalPriceOfEquipment = function(data) {
+        var totalPriceOfEquipment = function (data) {
+            var tPrice = totalMonthlyCostOfOwnership(data);
             var totalAmountFinanced = totalClarityAmountFinanced(data);
             var downPayment = data.downPayment;
 
