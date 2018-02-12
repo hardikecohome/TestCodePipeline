@@ -169,6 +169,7 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/report-contracts")
                 .Include("~/Scripts/common/init-responsive-tabs.js")
+                .Include("~/Scripts/utils/backToTop.js")
                 .Include("~/Scripts/pages/reportContracts/index.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/contract-edit")
