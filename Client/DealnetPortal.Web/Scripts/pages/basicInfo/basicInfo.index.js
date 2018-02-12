@@ -302,7 +302,7 @@
         });
 
         addAdditionalButton.on('click', function() {
-            if (province.val().toLowerCase() == 'qc') {
+            if (province.val().toLowerCase() == 'qc' && isQuebecDealer) {
                 additionalEmployment.enableEmployment();
             }
         });
