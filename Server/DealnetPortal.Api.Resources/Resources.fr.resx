@@ -326,7 +326,7 @@
     <value>Date</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value>Adresse électronique</value>
+    <value>Adresse Courriel</value>
   </data>
   <data name="Equipment" xml:space="preserve">
     <value>Équipement</value>
@@ -947,7 +947,7 @@
     <value>Client Nom de famille</value>
   </data>
   <data name="DealerInvoiceAmount" xml:space="preserve">
-    <value>Montant de la facture du courtier</value>
+    <value>Montant de la facture</value>
   </data>
   <data name="DownPayment" xml:space="preserve">
     <value>Acompte</value>

@@ -217,7 +217,7 @@
     <value>Modification</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value>Adresse électronique</value>
+    <value>Adresse Courriel</value>
   </data>
   <data name="Entries" xml:space="preserve">
     <value>entrées</value>
@@ -316,7 +316,7 @@
     <value>Mes transactions</value>
   </data>
   <data name="MyWorkItems" xml:space="preserve">
-    <value>Mes tâches</value>
+    <value>Listes des travaux</value>
   </data>
   <data name="NavigateToStep" xml:space="preserve">
     <value>Aller à l’étape</value>
@@ -1135,7 +1135,7 @@
     <value>Nom de l'installateur</value>
   </data>
   <data name="MailingAddressNotSameAsInstallation" xml:space="preserve">
-    <value>Adresse mail, si différente de l'adresse d'installation</value>
+    <value>Adresse, si différente de l'adresse d'installation</value>
   </data>
   <data name="PreviousAddressInformation" xml:space="preserve">
     <value>Adresse précédente</value>
@@ -1591,7 +1591,7 @@
     <value>Estimation du volume de ventes annuel</value>
   </data>
   <data name="ApplicationCreatedBy" xml:space="preserve">
-    <value>Demande créée par</value>
+    <value>Demande crée par</value>
   </data>
   <data name="ApplicationNumber" xml:space="preserve">
     <value>Numéro de la demande</value>
@@ -1744,10 +1744,10 @@
     <value>Commentaire du client</value>
   </data>
   <data name="DealerInitial" xml:space="preserve">
-    <value>Montant initial du courtier</value>
+    <value>Initial du  Représentant</value>
   </data>
   <data name="DealerInvoiceAmount" xml:space="preserve">
-    <value>Montant de la facture du courtier</value>
+    <value>Montant de la facture</value>
   </data>
   <data name="Defferal" xml:space="preserve">
     <value>Report</value>
@@ -1819,7 +1819,7 @@
     <value>Inscrivez-vous au réseau d’entrepreneurs de Services financiers Ecohome!</value>
   </data>
   <data name="Leads" xml:space="preserve">
-    <value>Pistes</value>
+    <value>Génération des prospects</value>
   </data>
   <data name="LeadsGenMethod" xml:space="preserve">
     <value>Méthode de génération de ventes</value>
@@ -2348,7 +2348,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Comment pouvons-nous vous aider?</value>
   </data>
   <data name="DealerSupport" xml:space="preserve">
-    <value>Soutien au courtier / Financement</value>
+    <value>Soutien aux marchands / Financement</value>
   </data>
   <data name="CustomerService" xml:space="preserve">
     <value>Service à la clientèle</value>
@@ -2423,7 +2423,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Le format du nom de la companie est incorrect</value>
   </data>
   <data name="CompanyPhone" xml:space="preserve">
-    <value>Téléphone de la société</value>
+    <value>Téléphone de la companie</value>
   </data>
   <data name="CompanyPhoneIncorrectFormat" xml:space="preserve">
     <value>Le format du numéro de téléphone de la companie est incorrect</value>
@@ -2576,7 +2576,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Le numéro de téléphone doit être une chaîne de 10 chiffres</value>
   </data>
   <data name="DealerInitialIncorrectFormat" xml:space="preserve">
-    <value>Le format de montant initial du courtier est incorrect</value>
+    <value>Le format de Initial du  Représentant est incorrect</value>
   </data>
   <data name="ContractNumberIncorrectFormat" xml:space="preserve">
     <value>Le format du numéro de contrat est incorrect</value>
