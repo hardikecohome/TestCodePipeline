@@ -244,15 +244,15 @@ namespace DealnetPortal.Api.Integration.Services
                 if (alerts.All(a => a.Type != AlertType.Error))
                 {
                     // if case user changed province on 4 step. Recalculate value of deal.
-                    if (contract.Equipment.AgreementType == AgreementType.RentalApplication || contract.Equipment.AgreementType == AgreementType.RentalApplicationHwt)
-                    {
-                        var pTaxRate = _contractRepository.GetProvinceTaxRate(contract.PrimaryCustomer.Locations.FirstOrDefault().State);
+                    //if (contract.Equipment.AgreementType == AgreementType.RentalApplication || contract.Equipment.AgreementType == AgreementType.RentalApplicationHwt)
+                    //{
+                    //    var pTaxRate = _contractRepository.GetProvinceTaxRate(contract.PrimaryCustomer.Locations.FirstOrDefault().State);
 
-                        contract.Equipment.ValueOfDeal = contract.Equipment.ValueOfDeal =
-                            (double?)
-                            ((contract.Equipment.TotalMonthlyPayment ?? 0) +
-                             (contract.Equipment.TotalMonthlyPayment ?? 0) * (decimal)(pTaxRate.Rate / 100)); ;
-                    }
+                    //    contract.Equipment.ValueOfDeal = contract.Equipment.ValueOfDeal =
+                    //        (double?)
+                    //        ((contract.Equipment.TotalMonthlyPayment ?? 0) +
+                    //         (contract.Equipment.TotalMonthlyPayment ?? 0) * (decimal)(pTaxRate.Rate / 100)); ;
+                    //}
 
                     Func<DealUploadResponse, object, bool> equipmentAnalyze =
                         (cResponse, cEquipments) =>
@@ -1477,6 +1477,8 @@ namespace DealnetPortal.Api.Integration.Services
                         contract.Equipment?.InstallationPackages?.Aggregate(0.0m,
                             (sum, ip) => sum + ip.MonthlyCost ?? 0.0m);
                     eqCost = installPackagesCost.HasValue ? equipment.MonthlyCost + (installPackagesCost.Value / contract.Equipment.NewEquipment?.Count) : equipment.MonthlyCost;
+                    var totalAmount = _contractRepository.GetContractPaymentsSummary(contract.Id, eqCost)?.TotalAmountFinanced;
+                    eqCost = totalAmount;
                 }
                 else
                 {
