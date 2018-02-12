@@ -23,6 +23,7 @@ namespace DealnetPortal.Web.Models
         [Display(ResourceType = typeof(Resources.Resources), Name = "HomeImprovementType")]
         public List<string> HomeImprovementTypes { get; set; }
 
+        [StringLength(500, ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "CustomersComment")]
         public string CustomerComment { get; set; }
 
