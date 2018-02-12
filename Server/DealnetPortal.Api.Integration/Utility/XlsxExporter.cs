@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models.Contract;
@@ -77,16 +78,85 @@ namespace DealnetPortal.Api.Integration.Utility
                     {
                         if (contract.Equipment.AgreementType == AgreementType.LoanApplication)
                         {
+                            
+                                var priceOfEquipment = 0.0m;
+                            var TaxRate = 0.0;
+                                if (contract.Equipment?.IsClarityProgram == true)
+                                {
+                                    //for Clarity program we have different logic
+                                    priceOfEquipment =
+                                        (contract.Equipment?.NewEquipment?
+                                                      .Sum(x => x.MonthlyCost) ?? 0.0m);
+
+                                //this is quick fix for clarity deployment and need to refactor in next version.
+                                
+                                switch (contract.PrimaryCustomer?.Locations?.FirstOrDefault(m => m.AddressType == AddressType.MainAddress).State)
+                                {
+                                    case "AB":
+                                        TaxRate = 5.0;
+                                        break;
+                                    case "BC":
+                                        TaxRate = 12.0;
+                                        break;
+                                    case "MB":
+                                        TaxRate = 13.0;
+                                        break;
+                                    case "NB":
+                                        TaxRate = 15.0;
+                                        break;
+                                    case "NL":
+                                        TaxRate = 15.0;
+                                        break;
+                                    case "NT":
+                                        TaxRate = 5.0;
+                                        break;
+                                    case "NS":
+                                        TaxRate = 15.0;
+                                        break;
+                                    case "NU":
+                                        TaxRate = 5.0;
+                                        break;
+                                    case "ON":
+                                        TaxRate = 13.0;
+                                        break;
+                                    case "PE":
+                                        TaxRate = 15.0;
+                                        break;
+                                    case "QC":
+                                        TaxRate = 14.975;
+                                        break;
+                                    case "SK":
+                                        TaxRate = 11.0;
+                                        break;
+                                    case "YT":
+                                        TaxRate = 5.0;
+                                        break;
+                                    default:
+                                        TaxRate = 0.0;
+                                        break;
+                                }
+                                    var packages =
+                                        (contract.Equipment?.InstallationPackages?.Sum(x => x.MonthlyCost) ?? 0.0m);
+                                    priceOfEquipment += packages;
+                                }
+                                else
+                                {
+                                    priceOfEquipment = contract.Equipment?.NewEquipment
+                                                           ?.Sum(x => x.Cost) ?? 0;
+                                }
+                            
                             var loanCalculatorInput = new LoanCalculator.Input
                             {
-                                TaxRate = 0,
+                                TaxRate = TaxRate,
                                 LoanTerm = contract.Equipment.LoanTerm ?? 0,
                                 AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
-                                PriceOfEquipment = (double?)contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
+                                PriceOfEquipment = (double)priceOfEquipment,
                                 //  EquipmentCashPrice = (double?)contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
                                 AdminFee = contract.Equipment.AdminFee ?? 0,
                                 DownPayment = contract.Equipment.DownPayment ?? 0,
-                                CustomerRate = contract.Equipment.CustomerRate ?? 0
+                                CustomerRate = contract.Equipment.CustomerRate ?? 0,
+                                IsClarity = contract.Equipment.IsClarityProgram,
+                               // IsOldClarityDeal = contract.Equipment?.IsClarityProgram == null && contract.Dealer?.Tier?.Name == _config.GetSetting(WebConfigKeys.CLARITY_TIER_NAME)
                             };
                             var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
                             //totalMp = (decimal)loanCalculatorOutput.TotalMonthlyPayment;
