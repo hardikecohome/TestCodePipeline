@@ -1539,9 +1539,6 @@
   <data name="AcknowledgeAndAgree" xml:space="preserve">
     <value>Je reconnais et j’accepte</value>
   </data>
-  <data name="AcknowledgeAndAgreementObtainCreditReport" xml:space="preserve">
-    <value>En soumettant cette demande, vous reconnaissez et acceptez que la compagnie de Financement EcoHome inc. est autorisée à obtenir votre dossier de crédit d’une ou plusieurs agences d’évaluation du crédit des consommateurs (par exemple, Equifax ou trans Union), afin de vérifier les renseignements de votre dossier de crédit auprès de tiers au besoin, et de mettre à jour, de manière périodique, les renseignements de votre dossier de crédit auprès des agences d’évaluation du crédit. Vous êtes avisé par les présentes qu’un rapport de consommation renfermant de l’information sur le crédit ou des renseignements personnels, peut-être consulté relativement à cette demande. Vous consentez à, de recevoir et d’utiliser en format électronique toutes les ententes et tous les avis, divulgations et autres documents ou renseignements liés à la présente demande que la compagnie de financement ecohome inc. peut vous envoyez.</value>
-  </data>
   <data name="Acknowledgment" xml:space="preserve">
     <value>Reconnaissance</value>
   </data>
@@ -1583,45 +1580,6 @@
   </data>
   <data name="AddressUnknownClientShoppingOtherProperty" xml:space="preserve">
     <value>Adresse inconnue. Le client cherche à acheter d’autres biens.</value>
-  </data>
-  <data name="AgreementPersonalData" xml:space="preserve">
-    <value>&lt;h2&gt;Collecte, utilisation et divulgation des renseignements personnels&lt;/h2&gt;
-&lt;p&gt;EcoHome Financial peut recueillir, utiliser et divulguer les renseignements personnels que vous avez fournis dans la présente demande, obtenus dans le cadre du processus de demande (y compris, d’agences d’évaluation du crédit et d’autres sources) ou si votre demande est approuvée, obtenus de temps à autre par l’intermédiaire de l’administration ou de l’utilisation de votre compte, pour ce qui suit, en tout ou en partie :&lt;/p&gt;
-&lt;ul&gt;
-    &lt;li&gt;
-        vérifier votre identité et l’information que vous avez fournie, comme vos historiques de crédit ou d’emploi;
-    &lt;/li&gt;
-    &lt;li&gt;
-        évaluer votre solvabilité;
-    &lt;/li&gt;
-    &lt;li&gt;
-        traiter votre demande, déterminer votre admissibilité à tout produit ou service que vous pouvez demander et, si votre demande est approuvée, pour ouvrir, administrer et gérer votre compte;
-    &lt;/li&gt;
-    &lt;li&gt;
-        répondre à vos demandes de produits, services ou d’autre information;
-    &lt;/li&gt;
-    &lt;li&gt;
-        nous permettre et, selon le cas, pour permettre à nos fournisseurs de services, de vous fournir des produits et des services de façon permanente;
-    &lt;/li&gt;
-    &lt;li&gt;
-        vérifier vos instructions;
-    &lt;/li&gt;
-    &lt;li&gt;
-        nous protéger des erreurs et de la fraude;
-    &lt;/li&gt;
-    &lt;li&gt;
-        enquêter sur les plaintes;
-    &lt;/li&gt;
-    &lt;li&gt;
-        satisfaire les exigences de déclaration réglementaires ou juridiques;
-    &lt;/li&gt;
-    &lt;li&gt;
-        ou autrement si la loi l’autorise ou l’exige.
-    &lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;En outre, les renseignements personnels peuvent être échangés avec des agences d’évaluation du crédit, bureaux de crédit, assureurs-crédit et autres établissements financiers afin de maintenir l’intégrité du processus d’octroi de crédit et déterminer l’admissibilité à des produits financiers et services financiers.&lt;/p&gt;
-&lt;br&gt;
-&lt;p&gt;Lorsque vous soumettez cette demande, vous consentez et autorisez la présente collecte, utilisation et divulgation de renseignements.&lt;/p&gt;</value>
   </data>
   <data name="AllAplicantsConsents" xml:space="preserve">
     <value>Vous ne pouvez pas continuer avant que tous les demandeurs n’aient donné leur consentement.</value>
@@ -1756,7 +1714,10 @@
     <value>Consentements</value>
   </data>
   <data name="ConsentToReceiveCommercialElectronicMessages" xml:space="preserve">
-    <value>En cochant cette case, vous consentez à recevoir des messages électroniques commerciales de la compagnie  financement EcoHome à l'adresse du courriel et aux numéros de téléphone que vous avez fournis dans la demande ou de temps à autre relativement à votre compte, y compris des communications électroniques portant sur la commercialisation ou la promotion de nos programmes, nos produits, nos services, nos offres, nos événements et nos sondages qui pourraient vous intéresser. Vous pouvez retirer ce consentement en tout temps. Vous pouvez communiquer avec la compagnie de Financement EcoHome inc. au 425, boul de Maisonneuve O, Montréal, QC H3A 3G5</value>
+    <value>Lorsque vous cochez cette case, vous consentez à recevoir des messages électroniques commerciaux de Services financiers EcoHome à l’adresse électronique et aux numéros de téléphone que vous avez indiqués dans cette demande ou à l’occasion relativement à votre compte, y compris des communications électroniques qui ont pour but de commercialiser ou promouvoir nos programmes, produits, services, offres, événements ou sondages qui peuvent vous intéresser. Vous pouvez retirer votre consentement à tout moment. Vous pouvez communiquer avec Services financiers EcoHome au 425, boul de Maisonneuve O, Montréal, QC H3A 3G5</value>
+  </data>
+  <data name="ConsentToReceiveCommercialElectronicMessages1" xml:space="preserve">
+    <value> Vous vous engagez à accepter, à recevoir et à utiliser sous forme électronique les ententes, avis et autres documents ou communications liés à la présente demande que Services financiers EcoHome peut vous transmettre. </value>
   </data>
   <data name="ConsumerDirect" xml:space="preserve">
     <value>Directement au consommateur</value>
@@ -1807,7 +1768,7 @@
     <value>Ventes de porte-à-porte</value>
   </data>
   <data name="EcohomeMustBeListed" xml:space="preserve">
-    <value>Financement Ecohome Inc. doit être désignée comme assuré supplémentaire</value>
+    <value>Services financiers Ecohome Inc. doit être désignée comme assuré supplémentaire</value>
   </data>
   <data name="EmailExists" xml:space="preserve">
     <value>L’adresse de courriel que vous avez saisie est déjà enregistrée</value>
@@ -1855,7 +1816,7 @@
     <value>Prenez note que les champs invalides n’ont pas été enregistrés</value>
   </data>
   <data name="JoinOurNetwork" xml:space="preserve">
-    <value>Inscrivez-vous au réseau d’entrepreneurs de Financement EcoHome !</value>
+    <value>Inscrivez-vous au réseau d’entrepreneurs de Services financiers Ecohome!</value>
   </data>
   <data name="Leads" xml:space="preserve">
     <value>Pistes</value>
@@ -2051,107 +2012,6 @@
   </data>
   <data name="PrivacyPolicy" xml:space="preserve">
     <value>Politique de confidentialité</value>
-  </data>
-  <data name="PrivacyPolicyText" xml:space="preserve">
-    <value>&lt;h2 class="dealnet-large-header"&gt;Politique de confidentialité_Ecohome_Externe&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;Date d’entrée en vigueur : 15 juin 2017&lt;/strong&gt;&lt;/p&gt;
-&lt;h3 class="dealnet-section-title"&gt;Notre engagement&lt;/h3&gt;
-&lt;p&gt;À EcoHome Financial Inc. (« EcoHome Financial », « nous », « notre », « nos », la « société », etc.) nous tenons à offrir un excellent service et à faire en sorte que nos rapports avec les personnes avec qui nous interagissons, par exemple nos clients existants ou potentiels (« vous »), soient empreints d’intégrité et s’établissent d’une manière responsable, juste, honnête et éthique. En conformité avec ces objectifs, nous appliquons des normes élevées de protection des renseignements personnels en notre possession ou sous notre contrôle.&lt;/p&gt;
-&lt;p&gt;La présente Politique de confidentialité est fondée sur la Loi sur la protection des renseignements personnels et les documents électroniques [LPRPDE] (Canada), y compris les principes de confidentialité figurant dans le tableau 1 aux présentes. Elle explique comment nous recueillons, utilisons et divulguons les renseignements personnels vous concernant.&lt;/p&gt;
-&lt;p&gt;Si vous avez des questions au sujet de la présente Politique de confidentialité ou si vous désirez solliciter l’accès à des renseignements personnels vous concernant qui sont en notre possession ou sous notre contrôle, veuillez communiquer avec l’agent de conformité au moyen des coordonnées indiquées ci-après.&lt;/p&gt;
-&lt;h3 class="dealnet-section-title"&gt;Les renseignements personnels que nous recueillons, comment et pourquoi nous les recueillons&lt;/h3&gt;
-&lt;p&gt;Dans le cadre de la présente Politique de confidentialité, les renseignements personnels désignent tout renseignement, enregistré ou non, concernant une personne identifiable au sens des lois en vigueur en matière de confidentialité.&lt;/p&gt;
-&lt;p&gt;Le type de renseignements personnels que nous recueillons dépendra de divers facteurs, tels que la nature et l’objectif de notre interaction, le type de produits ou services que vous pouvez solliciter ou utiliser et toute obligation juridique ou réglementaire. Voici les types de renseignements recueillis :&lt;/p&gt;
-&lt;ul&gt;
-    &lt;li&gt;Vos coordonnées qui nous permettent de communiquer avec vous (par exemple, adresse, numéro de téléphone, adresse de courriel ou autre adresse électronique et numéro de télécopieur).&lt;/li&gt;
-    &lt;li&gt;Les renseignements sur l’identité qui nous permettent de confirmer votre identité ou de répondre à des obligations juridiques ou réglementaires (par exemple, votre nom, votre date de naissance, profession et des pièces d’identité délivrées par le gouvernement).&lt;/li&gt;
-    &lt;li&gt;Les renseignements financiers qui nous permettent de déterminer votre solvabilité, de vérifier votre admissibilité à des produits ou à des services, ou de déterminer si un produit ou service vous convient (p. ex., antécédents professionnels et financiers, revenu, actifs, passifs, valeur nette et rapports de solvabilité).&lt;/li&gt;
-    &lt;li&gt;Les renseignements sur les opérations qui concernent la façon dont vous utilisez différents produits ou services ou dont vous faites affaire avec nous (p. ex., si le crédit a été prolongé ou non, le montant du crédit prolongé, l’historique des achats et des paiements).&lt;/li&gt;
-    &lt;li&gt;Les renseignements sur la relation qui nous aident à améliorer les services et à mieux vous connaître (p. ex., vos préférences en matière de langue et de communication, les types de produits, de services ou d’offres qui vous intéressent).&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;La majorité des renseignements personnels est collectée directement auprès de vous, que ce soit en personne, par téléphone, par correspondance avec vous par courriel, télécopieur, message texte (SMS) ou Internet, ou encore par d’autres moyens. Par exemple, nous pouvons recueillir des renseignements personnels auprès de vous dans les cas suivants : lorsque vous présentez volontairement une demande pour devenir, ou si vous devenez, un client de la Société; lorsque vous créez un compte par l’intermédiaire de l’une de nos applications mobiles; lorsque vous nous demandez des renseignements ou lorsque vous communiquez avec nous autrement ou encore dans le cadre de l’utilisation des produits et services que nous offrons. Certains renseignements peuvent être recueillis auprès d’autres sources : agences d’évaluation du crédit, institutions financières, forces de l’ordre, médias, médias sociaux, organismes et registres gouvernementaux, et archives publiques;&lt;/p&gt;
-&lt;p&gt;Nous pouvons écouter ou enregistrer les communications entre vous et nos représentants (p. ex., appels téléphoniques) dans le but d’améliorer et de maintenir la qualité de notre service à la clientèle, de vous protéger et de protéger la Société, de confirmer nos discussions avec vous ou à des fins de formation.&lt;/p&gt;
-&lt;h3 class="dealnet-section-title"&gt;Notre engagement envers les principes de confidentialité&lt;/h3&gt;
-&lt;p&gt;
-    &lt;strong&gt;&lt;em&gt;Premier principe:&lt;/em&gt; Responsabilité&lt;/strong&gt; – La Société est responsable des renseignements personnels dont elle a la gestion et a désigné un agent de conformité qui veille à ce que la Société respecte la présente Politique de confidentialité et les lois sur la confidentialité pertinentes.
-&lt;/p&gt;
-&lt;p&gt;Notre responsabilité à l’égard des renseignements personnels s’applique aux renseignements personnels en notre possession ou sous notre garde ainsi qu’aux renseignements personnels que nous pourrions transférer à un tiers aux fins de traitement ou pour fournir des services en notre nom. Nous ferons appel à des mesures contractuelles ou à d’autres mesures qui exigent des tierces parties traitant les renseignements en notre nom qu’elles maintiennent un niveau de protection de la confidentialité comparable à celui que nous mettons en pratique.&lt;/p&gt;
-&lt;p&gt;Vos renseignements personnels peuvent être traités ou conservés dans un pays où nous, nos fournisseurs de services et d’autres parties avec lesquelles nous partageons des renseignements en vertu de la présente Politique de confidentialité, exerçons nos activités (il peut s’agir d’emplacement en dehors du Canada). Dans ce cas, vos renseignements personnels peuvent être assujettis aux lois du pays où elles se trouvent; ils peuvent aussi être mis à la disposition des tribunaux, des forces de l’ordre et des organismes gouvernementaux ou réglementaires dans le pays en question conformément aux lois qui y sont en vigueur.&lt;/p&gt;
-&lt;p&gt;
-    &lt;strong&gt;&lt;em&gt;Deuxième principe:&lt;/em&gt; Détermination des fins de la collecte des renseignements&lt;/strong&gt; – Nous déterminerons les fins auxquelles des renseignements personnels sont recueillis, et ce, avant la collecte ou au moment de celle-ci.
-&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Pourquoi nous recueillons vos renseignements personnels&lt;/strong&gt;  - À moins que vous en ayez été informé autrement avant ou lors de la collecte de renseignements, nous recueillerons, utiliserons et divulguerons les renseignements personnels vous concernant durant notre relation à l’une ou l’autre des fins suivantes :&lt;/p&gt;
-&lt;ul&gt;
-    &lt;li&gt;établir votre identité;&lt;/li&gt;
-    &lt;li&gt;vérifier votre identité et l’information que vous avez fournie, comme vos historiques de crédit ou d’emploi;&lt;/li&gt;
-    &lt;li&gt;évaluer votre solvabilité;&lt;/li&gt;
-    &lt;li&gt;traiter votre demande, déterminer votre admissibilité aux produits ou services et pour ouvrir, administrer et gérer votre compte et aussi pour gérer les produits et services en question;&lt;/li&gt;
-    &lt;li&gt;nous permettre et, selon le cas, pour permettre à nos fournisseurs de services tiers de vous fournir des produits et des services de façon permanente;&lt;/li&gt;
-    &lt;li&gt;comprendre vos besoins et déterminer les produits ou services susceptibles de vous intéresser;&lt;/li&gt;
-    &lt;li&gt;répondre à vos demandes de renseignements sur des produits, des services ou des comptes;&lt;/li&gt;
-    &lt;li&gt;communiquer avec vous par différents moyens : courriel, message texte (SMS), téléphone, etc;&lt;/li&gt;
-    &lt;li&gt;vérifier vos instructions et décisions;&lt;/li&gt;
-    &lt;li&gt;gérer et améliorer votre relation avec nous;&lt;/li&gt;
-    &lt;li&gt;vous protéger et nous protéger contre les erreurs et les activités criminelles, notamment au moyen de la prévention, de la détection et des enquêtes relatives à la fraude, au blanchiment d’argent, aux cybermenaces et aux autres risques et menaces de ce type;&lt;/li&gt;
-    &lt;li&gt;enquêter sur les plaintes;&lt;/li&gt;
-    &lt;li&gt;se conformer aux lois et réglementations, notamment les exigences de déclaration fiscales, réglementaires et légales;&lt;/li&gt;
-    &lt;li&gt;ou autrement si la loi l’autorise ou l’exige.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;En outre, lorsque vous demandez ou acceptez l’un de nos produits ou services financiers, et tant que vous avez un prêt ou un produit ou service de crédit avec nous, nous pouvons échanger les renseignements personnels avec des agences d’évaluation du crédit, des organismes d’assurance-crédit, des institutions financières et d’autres entités avec lesquelles vous entretenez des liens financiers pour évaluer et mettre à jour votre solvabilité, gérer le risque de crédit, déterminer l’admissibilité aux produits et services financiers, prévenir la fraude, signaler des manquements et préserver l’intégrité du processus d’octroi de crédit.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Comptes joints&lt;/strong&gt; - Lorsqu’un client détient un produit ou un service conjointement avec une autre personne (par exemple, des comptes joints, des demandes cosignées), nous pouvons partager les renseignements de ce client avec l’autre personne concernée relativement au produit ou au service.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Transactions commerciales&lt;/strong&gt; - Si nous concluons une opération commerciale nécessitant des renseignements personnels (par exemple une vente ou une aliénation de la totalité ou d’une partie de nos affaires ou actifs), nous pourrons, le cas échéant, partager les renseignements avec les autres parties pour honorer les obligations de l’opération (par exemple, dans le cadre d’une diligence raisonnable ou la conclusion de l’opération). Nous exigerons des autres parties participant à l’opération de protéger les renseignements en question en adoptant des mesures de sécurité adéquates en fonction du degré de sensibilité des renseignements et de limiter leur utilisation aux fins de l’opération et, si l’opération est conclue, aux fins énoncées dans la présente Politique de confidentialité. Si l’opération n’est pas réalisée, nous exigerons que les autres parties s’engagent à ne pas utiliser ou communiquer vos renseignements personnels, de quelque manière que ce soit et à les supprimer dans leur intégralité.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Nouvelle fin d’utilisation &lt;/strong&gt; - Si une nouvelle utilisation est envisagée pour vos renseignements personnels, nous vous en aviserons et demanderons votre consentement avant toute pareille utilisation.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;Troisième principe:&lt;/em&gt; Consentement&lt;/strong&gt; – Toute personne doit être informée de la collecte, l’utilisation ou la communication de renseignements personnels qui la concernent et y consentir, sauf si la loi l’autorise ou l’exige.&lt;/p&gt;
-&lt;p&gt;La Société ne peut recueillir, utiliser et communiquer vos renseignements personnels à votre insu et sans votre consentement, sauf dans la mesure prescrite ou permise par la loi. En règle générale, nous solliciterons votre consentement pour utiliser et communiquer vos renseignements personnels aux fins définies au moment de leur collecte. Toutefois, dans certains cas, lorsque de nouvelles fins ont été déterminées après la collecte, nous pouvons demander votre consentement pour utiliser et communiquer vos renseignements personnels à cette nouvelle fin après leur collecte.&lt;/p&gt;
-&lt;p&gt;Le consentement pourra être explicite ou, dans certaines circonstances, implicite, et pourra être donné par écrit (par exemple, comme sur une demande), en utilisant ou non une case à cocher, par voie électronique (par Internet), oralement (en personne ou par téléphone) ou par votre conduite (par exemple, en utilisant volontairement un produit ou un service). Lorsque nous déterminons quel type de consentements doit être obtenu, nous prenons en considération tous les facteurs pertinents, notamment le caractère sensible des renseignements et vos attentes raisonnables.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Retrait du consentement&lt;/strong&gt; - Sous réserve de restrictions prévues par une loi ou un contrat et d’un préavis raisonnable, vous pouvez retirer votre consentement en tout temps concernant la collecte, l’utilisation et la communication de vos renseignements. Nous vous informerons des conséquences d’un tel retrait. Par exemple, le retrait de votre consentement peut nous empêcher d’être en mesure de vous fournir ou de continuer de vous fournir certains produits ou services.&lt;/p&gt;
-&lt;p&gt;Dans certains cas, vous ne pouvez pas retirer votre consentement. Par exemple, vous ne pouvez pas retirer votre consentement à la collecte, à l’utilisation ou à la communication de renseignements lorsque nos activités à ces fins sont exigées par la loi. De même, tant que vous avez un prêt ou un produit de crédit ou service avec nous, vous ne pouvez pas retirer votre consentement à la collecte, à l’utilisation et à la communication continues de vos renseignements personnels relativement au produit ou au service en question. Par ailleurs, pour préserver l’intégrité du système d’évaluation du crédit, nous pouvons mettre à jour périodiquement vos renseignements auprès d’agences d’évaluation du crédit, tant que vous détenez un produit de crédit ou bénéficiez d’un service connexe avec nous. Vous ne pouvez pas retirer votre consentement à la communication de renseignements au cours de cette période.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Communications commerciales électroniques; Loi canadienne anti-pourriel (LCAP)&lt;/strong&gt; - sous réserve de la loi applicable, nous pouvons de temps à autre vous envoyer des communications électroniques vous informant de nos produits, nouveaux ou existants, notamment des offres spéciales ou des promotions susceptibles de vous intéresser. Vous pouvez à tout moment vous désabonner afin de ne plus recevoir nos messages commerciaux électroniques. Pour ce faire, il vous suffit de cliquer sur le lien « Se désabonner » ou « Option de retrait » ou de suivre toute autre instruction de désabonnement incluse dans le message en question.  Veuillez prévoir jusqu’à 10 jours ouvrables pour que le changement ait lieu. Prenez note que cela ne limitera pas notre droit à vous envoyer certaines communications relatives à votre compte ou à vos produits, services ou transactions actuels avec nous, ou selon ce qui est autrement permis ou exigé par la loi en vigueur; de plus, les messages relatifs à vos comptes transactionnels ne seront pas affectés si vous décidez de ne plus recevoir nos messages commerciaux électroniques.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;Quatrième principe:&lt;/em&gt; Limitation de la collecte&lt;/strong&gt; – La Société ne peut recueillir que les renseignements personnels nécessaires aux fins déterminées et doit procéder de façon honnête et licite.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;Cinquième principe:&lt;/em&gt; Limitation de l’utilisation, de la communication et de la conservation&lt;/strong&gt; – La Société n’utilisera pas et ne communiquera pas les renseignements personnels à des fins autres que celles auxquelles ils ont été recueillis à moins que la personne concernée n’y consente ou que la loi ne l’exige. Nous ne devons conserver les renseignements personnels qu’aussi longtemps que nécessaire pour la réalisation des fins déterminées ou lorsque la loi l’exige. Lorsque vos renseignements ne nous seront plus nécessaires, nous les détruirons, les effacerons ou les rendrons anonymes.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;Sixième principe:&lt;/em&gt; Tenue à jour des renseignements personnels&lt;/strong&gt; – La Société conserve des renseignements personnels aussi exacts, complets et à jour que l’exigent les fins auxquelles ils sont destinés.&lt;/p&gt;
-&lt;p&gt;Nous ne ménagerons aucun effort afin de garder les renseignements personnels aussi exacts, complets et à jour que l’exigent les fins auxquelles ils sont destinés; néanmoins, nous comptons sur vous pour nous aviser en cas de changement de ces renseignements. Si vous désirez vérifier l’exactitude et l’exhaustivité des renseignements personnels figurant dans nos dossiers, vous pouvez communiquer avec notre agent de conformité (voir coordonnées ci-dessous).&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;Septième principe:&lt;/em&gt; Sécurité des renseignements personnels&lt;/strong&gt;– La Société protégera les renseignements personnels en recourant à des mesures de sécurité adéquates en fonction du caractère délicat des renseignements.&lt;/p&gt;
-&lt;p&gt;Nous protégerons les renseignements personnels en notre possession ou sous notre contrôle contre la perte ou le vol ainsi que contre a consultation, la communication, la copie, l’utilisation ou la modification sans autorisation. Les mesures de sécurité adoptées pour protéger vos renseignements personnels varient selon le degré de sensibilité, le volume, la distribution, le format et la méthode de stockage des renseignements en question. Il s’agit notamment des mesures de sécurité suivantes :&lt;/p&gt;
-&lt;ul&gt;
-    &lt;li&gt;la sécurité physique, par exemple l’utilisation de classeurs verrouillés et l’accès restreint aux bureaux;&lt;/li&gt;
-    &lt;li&gt;la sécurité de l’organisation, par exemple, les habilitations de sécurité, le contrôle des entrées dans les centres de données et la limitation de l’accès aux renseignements pertinents selon le principe du besoin de connaître; et&lt;/li&gt;
-    &lt;li&gt;la sécurité de la technologie, par exemple, limiter l’accès aux applications à des postes précis, à l’utilisation de mots de passe, aux numéros d’identification personnels et au chiffrement.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;La Société prendra les précautions nécessaires lorsqu’il s’agit d’aliéner ou de détruire des renseignements personnels afin de prévenir l’accès non autorisé aux renseignements. &lt;/p&gt;
-&lt;p&gt;Lorsque la Société a recours à des fournisseurs de services qui peuvent avoir accès aux renseignements personnels sous notre contrôle, nous signons des contrats et prenons d’autres mesures exigeant de ces fournisseurs la mise en place de politiques et de pratiques comparables aux nôtres dans le but de protéger la confidentialité et la sécurité de vos renseignements personnels et d’évite ainsi que ceux-ci soient utilisés ou divulgués à des fins non autorisées.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;Huitième principe:&lt;/em&gt; Transparence concernant nos pratiques en matière de confidentialité&lt;/strong&gt; – La Société fera en sorte que les renseignements particuliers concernant nos politiques et pratiques relatives à la gestion des renseignements personnels soient accessibles aux personnes avec lesquelles nous établissons des relations.&lt;/p&gt;
-&lt;p&gt;Si vous avez des questions ou des préoccupations concernant la présente Politique de confidentialité ou nos pratiques et procédures en la matière, veuillez communiquer avec notre agent de conformité (voir les coordonnées ci-après).&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;Neuvième principe:&lt;/em&gt; Accès aux renseignements&lt;/strong&gt; – La Société informera toute personne qui en fait la demande de l’existence de renseignements personnels qui la concernent, de l’usage qui en est fait et du fait qu’ils ont été communiqués à des tiers, et lui permettre de les consulter. Il sera aussi possible à la personne concernée de contester l’exactitude et l’intégralité des renseignements et d’y faire apporter les corrections appropriées.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Accès à vos renseignements personnels&lt;/strong&gt; – Si vous le demandez, nous vous dirons quels renseignements personnels sont en notre possession, comment nous les utilisons et à qui ils sont communiqués. Nous vous fournirons également sur demande, une copie des dossiers liés à vos renseignements personnels, sauf dans certaines situations (par exemple, s’ils contiennent des détails sur d’autres personnes, ils ne peuvent pas être communiqués pour des raisons d’ordre juridique, des raisons de sécurité ou des raisons d’ordre commercial exclusives, et le fait que les renseignements sont protégés par le privilège du secret professionnel de l’avocat ou le privilège relatif au litige, ou encore dans d’autres circonstances prévues par la loi). Afin de vous assurer que les renseignements sont communiqués à la bonne personne, il vous sera demandé de fournir des preuves d’identification appropriées ou de vous identifier d’une autre manière. Si nous ne pouvons pas fournir une liste des organismes auxquels nous avons communiqué vos renseignements personnels, nous fournirons une liste des organismes auxquels nous avons pu communiquer les renseignements en question. Si nous refusons votre demande d’accès, nous vous donnerons les motifs de cette décision. S’il y a des frais d’accès à vos renseignements, nous vous informerons du coût approximatif avant de vous donner l’accès. Les demandes d’accès doivent être transmises par écrit à notre agent de conformité (voir les coordonnées ci-après).&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Exactitude de vos renseignements personnels&lt;/strong&gt; – Vous pouvez contester l’exactitude et l’exhaustivité de vos renseignements personnels en notre possession. Si vous nous prouvez que vos renseignements personnels sont erronés, incomplets ou dépassés, nous les modifierons ou les supprimerons le cas échéant. Au besoin, nous enverrons les renseignements personnels modifiés aux tiers à qui nous avons communiqué des renseignements inexacts, incomplets ou dépassés afin de leur permettre de rectifier leurs dossiers. Si nous refusons de procéder à la révision ou à la suppression des renseignements personnels, comme vous l’avez exigé, vous pourrez contester cette décision. Nous consignerons ce grief et le communiquerons, au besoin, à tout tiers qui aura reçu lesdits renseignements personnels de notre Société. Si vous désirez vérifier l’exactitude et l’exhaustivité des renseignements personnels figurant dans nos dossiers, veuillez communiquer avec notre agent de conformité (voir coordonnées ci-dessous).&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;Dixième principe:&lt;/em&gt; Possibilité de porter plainte à l’égard du non-respect des principes&lt;/strong&gt; – Toute personne doit être en mesure de se plaindre auprès de notre agent de conformité si la Société ne respecte pas la présente Politique de conformité ou les lois en vigueur en matière de confidentialité.&lt;/p&gt;
-&lt;p&gt;La Société a mis en place des politiques et des procédures régissant la réception, l’investigation et la réponse aux questions et plaintes formulées par des personnes relativement au traitement de leurs renseignements personnels.&lt;/p&gt;
-&lt;h3 class="dealnet-section-title"&gt;Communiquez avec nous&lt;/h3&gt;
-&lt;p&gt;Si vous souhaitez avoir accès à vos renseignements personnels, modifier votre consentement par rapport à leur utilisation ou la communication de vos renseignements personnels ou déposer une plainte concernant notre Politique de confidentialité ou l’utilisation que nous faisons de vos renseignements, ou si vous avez des questions au sujet de notre Politique de confidentialité, veuillez communiquer avec notre agent de conformité :&lt;/p&gt;
-&lt;p class="address-info"&gt;
-    Agent de conformité  &lt;br&gt;
-    4, King Street West  &lt;br&gt;
-    Toronto (Ontario)  &lt;br&gt;
-    M5H 1A1 &lt;br&gt;
-    Courriel : &lt;a href="mailto:privacy@ecohomefinancial.com" class="dealnet-info-link"&gt;privacy@ecohomefinancial.com&lt;/a&gt;&lt;br&gt;
-&lt;/p&gt;
-&lt;p&gt;La Société examinera toutes les plaintes. Si nous constatons qu’une plainte est justifiée, nous prendrons les mesures appropriées, notamment, la modification de nos politiques et pratiques au besoin. Si vous n’êtes pas satisfait de la façon dont la Société a répondu à votre plainte, vous pourrez vous adresser au Commissariat à la protection de la vie privée du Canada :&lt;/p&gt;
-&lt;p class="address-info"&gt;
-    Commissariat à la protection de la vie privée du Canada  &lt;br&gt;
-    30, rue Victoria  &lt;br&gt;
-    Gatineau (Québec)  K1A 1H3  &lt;br&gt;
-    1-800-282- 1376 &lt;br&gt;
-    &lt;a href="https://www.priv.gc.ca/" target="_blank" class="dealnet-info-link"&gt;www.priv.gc.ca&lt;/a&gt;&lt;br&gt;
-&lt;/p&gt;
-&lt;h3 class="dealnet-section-title"&gt;Mise à jour de la Politique de confidentialité&lt;/h3&gt;
-&lt;p&gt;Pour que notre Politique de confidentialité demeure à jour, nous nous réservons le droit de la modifier au besoin. Si nous apportons des changements à la cette Politique de confidentialité, nous en modifierons la date d’entrée en vigueur tel que mentionné ci-dessus. Les avis de mise à jour de la présente Politique de confidentialité seront affichés sur le site Web de la Société (www.ecohomefinancial.com) et peuvent aussi être distribués au moyen d’énoncés, de bulletins d’information ou d’autres moyens de communication. Veuillez consulter régulièrement notre site Web pour découvrir les mises à jour éventuelles de la présente Politique de confidentialité.&lt;/p&gt;
-&lt;h3 class="dealnet-section-title"&gt;Visite du site Web d’EcoHome Financial&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;Témoins&lt;/strong&gt;  - Le « témoin » est un élément de données créé par un serveur Web lorsque vous vous rendez sur un site Web.  Ces données sont des renseignements sur la façon dont vous utilisez un site et le moment où vous le faites. Il se trouve sur votre ordinateur sous la forme d’un petit fichier texte. Les renseignements ne peuvent pas être utilisés pour vous identifier personnellement. Les témoins ne recueillent pas de renseignements personnels à votre sujet, comme votre nom, adresse, numéro de téléphone ou adresse de courriel.&lt;/p&gt;
-&lt;p&gt;Nous utilisons les témoins identificateurs de session sur notre site &lt;a class="dealnet-info-link" href="http://ecohomefinancial.com/" target="_blank"&gt;www.ecohomefinancial.com&lt;/a&gt;. Les témoins volatils identifient la session d’un utilisateur particulier. Ils permettent au site Web de vous reconnaître durant votre session de navigation et, du coup, d’améliorer votre expérience. Les témoins identificateurs de session sont des témoins temporaires qui expirent à la fin de la session lorsque vous quittez le site.&lt;/p&gt;
-&lt;p&gt;Nous utilisons également Google Analytics pour aider à analyser comment les visiteurs se comportent avec notre site Web. Google Analytics utilise des témoins pour recueillir les renseignements relatifs à la connexion à Internet (p. ex., adresse IP) et au comportement du visiteur (p. ex., l’adresse de la page Web que vous visitez), dans un formulaire anonyme.  Les renseignements générés par les témoins de Google Analytics sur votre utilisation du site Web sont transmis à Google, puis traités pour produire, à partir des données regroupées, des rapports statistiques sur l’activité du site Web. Ces rapports nous permettent d’évaluer l’utilisation du visiteur et ainsi de gérer et d’améliorer le site et son contenu afin de mieux répondre aux besoins de nos visiteurs. Vous pouvez choisir de ne pas faire l’objet d’un suivi par Google Analytics – pour obtenir des renseignements plus détaillés sur le retrait du suivi par Google Analytics dans tous les sites Web que vous consultez, allez à la page &lt;a href="https://tools.google.com/dlpage/gaoptout" class="dealnet-info-link" target="_blank"&gt;https://tools.google.com/dlpage/gaoptout&lt;/a&gt;. Pour en savoir davantage sur Google Analytics, veuillez vous reporter à &lt;a href="https://www.google.com/policies/privacy/partners/" class="dealnet-info-link" target="_blank"&gt;https://www.google.com/policies/privacy/partners/&lt;/a&gt;.&lt;/p&gt;
-&lt;h3 class="dealnet-section-title"&gt;Autres sites Web&lt;/h3&gt;
-&lt;p&gt;Notre site Web, &lt;a class="dealnet-info-link" href="http://ecohomefinancial.com/" target="_blank"&gt;www.ecohomefinancial.com&lt;/a&gt;, peut contenir des liens vers d’autres sites Web. EcoHome Financial n’est pas responsable des pratiques en matière de confidentialité en vigueur sur les autres sites Web. Nous encourageons les utilisateurs de notre site Web à lire les énoncés de confidentialité des autres sites Web qui recueillent vos renseignements personnels.&lt;/p&gt;</value>
   </data>
   <data name="ProductAndSalesInformation" xml:space="preserve">
     <value>Renseignements sur les produits et les ventes</value>
@@ -2386,7 +2246,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Commentaire</value>
   </data>
   <data name="DealerSupportInfoEmail" xml:space="preserve">
-    <value>marchants@ecohomefinancial.com</value>
+    <value>marchands@ecohomefinancial.com</value>
   </data>
   <data name="DealerSupportPhoneNumber" xml:space="preserve">
     <value>1-888-859-0059</value>
@@ -2521,7 +2381,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Annuel</value>
   </data>
   <data name="AnnualSalaryIncome" xml:space="preserve">
-    <value>Salaire/revenu annuel</value>
+    <value>Salaire annuel</value>
   </data>
   <data name="ApplicantsShouldBe18" xml:space="preserve">
     <value>Les demandeurs devraient être âgés d’au moins 18 ans.</value>
@@ -2530,7 +2390,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Meilleure façon de communiquer avec vous</value>
   </data>
   <data name="BorrowerEmploymentInformation" xml:space="preserve">
-    <value>Renseignements liés à l’emploi de l’emprunteur</value>
+    <value>L'information sur l'emploi de l'emprunteur</value>
   </data>
   <data name="ByidCard" xml:space="preserve">
     <value>Carte BYID</value>
@@ -2554,31 +2414,31 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Certificat du statut d’Indien</value>
   </data>
   <data name="CompanyAddress" xml:space="preserve">
-    <value>Adresse de la société</value>
+    <value>Adresse de la companie</value>
   </data>
   <data name="CompanyName" xml:space="preserve">
-    <value>Nom de la société</value>
+    <value>Nom de la companie</value>
   </data>
   <data name="CompanyNameIncorrectFormat" xml:space="preserve">
-    <value>Le format du nom de la société est incorrect</value>
+    <value>Le format du nom de la companie est incorrect</value>
   </data>
   <data name="CompanyPhone" xml:space="preserve">
     <value>Téléphone de la société</value>
   </data>
   <data name="CompanyPhoneIncorrectFormat" xml:space="preserve">
-    <value>Le format du numéro de téléphone de la société est incorrect</value>
+    <value>Le format du numéro de téléphone de la companie est incorrect</value>
   </data>
   <data name="CompanyPhoneMustBeLong" xml:space="preserve">
-    <value>Le numéro de téléphone de la société doit compter 10 chiffres</value>
+    <value>Le numéro de téléphone de la companie doit compter 10 chiffres</value>
   </data>
   <data name="CompanyPhoneNumber" xml:space="preserve">
-    <value>Numéro de téléphone de la société</value>
+    <value>Numéro de téléphone de la companie</value>
   </data>
   <data name="ContractNumber" xml:space="preserve">
     <value>Numéro de contrat</value>
   </data>
   <data name="ContractSignedSuccessfullyCopiesSent" xml:space="preserve">
-    <value>Le contrat a été signé avec succès grâce aux signatures numériques; une copie du contrat signé a été envoyée à tous les signataires</value>
+    <value>Le contrat a été signé avec succès grâce aux signatures électronique; une copie du contrat signé a été envoyée à tous les signataires</value>
   </data>
   <data name="CreditDecision" xml:space="preserve">
     <value>Décision liée au crédit</value>
@@ -2587,13 +2447,13 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Documents liés au crédit</value>
   </data>
   <data name="DealerCancelledEsign" xml:space="preserve">
-    <value>Le courtier a annulé le processus lié à la signature électronique</value>
+    <value>L'entrepreneur a annulé le processus lié à la signature électronique</value>
   </data>
   <data name="DeclinedToSignContract" xml:space="preserve">
     <value>a refusé de signer le contrat</value>
   </data>
   <data name="DigitalInvitesWillBeSentToEmails" xml:space="preserve">
-    <value>Les invitations pour la signature numérique du contrat seront envoyées aux adresses de courriel suivantes</value>
+    <value>Les invitations pour la signature électronique du contrat seront envoyées aux adresses de courriel suivantes</value>
   </data>
   <data name="DriverLicense" xml:space="preserve">
     <value>Permis de conduire</value>
@@ -2605,7 +2465,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Renseignements sur l’emploi</value>
   </data>
   <data name="EmploymentStatus" xml:space="preserve">
-    <value>Situation d’emploi</value>
+    <value>Statut d'emploi</value>
   </data>
   <data name="FullTime" xml:space="preserve">
     <value>Temps plein</value>
@@ -2662,13 +2522,13 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Veuillez fournir une autre adresse de courriel</value>
   </data>
   <data name="PleaseProvideDetails" xml:space="preserve">
-    <value>Veuillez fournir des précisions</value>
+    <value>Veuillez fournir les détails</value>
   </data>
   <data name="PleaseProvideShortDescription" xml:space="preserve">
     <value>Veuillez fournir une brève description </value>
   </data>
   <data name="PreferredContactPerson" xml:space="preserve">
-    <value>Personne-ressource privilégiée</value>
+    <value>Contact principal</value>
   </data>
   <data name="RatesApproved" xml:space="preserve">
     <value>Taux approuvés</value>
@@ -2677,13 +2537,13 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>À la retraite</value>
   </data>
   <data name="SalaryIncome" xml:space="preserve">
-    <value>Salaire/Revenu</value>
+    <value>Salaire</value>
   </data>
   <data name="SameEmail" xml:space="preserve">
     <value>Même adresse de courriel</value>
   </data>
   <data name="SelfEmployed" xml:space="preserve">
-    <value>À son propre compte</value>
+    <value>travailleur autonome</value>
   </data>
   <data name="SuccessfullyUploadedToAspire" xml:space="preserve">
     <value>Contrat téléversé avec succès à EcoHome</value>
@@ -2692,7 +2552,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Bureau</value>
   </data>
   <data name="ToProceedMustBe18" xml:space="preserve">
-    <value>Afin de poursuivre, vous devrez être âgé d’au moins 18 ans. Veuillez communiquer directement avec le courtier.</value>
+    <value>Afin de poursuivre, vous devrez être âgé d’au moins 18 ans. Veuillez communiquer directement avec l'entrepreneur.</value>
   </data>
   <data name="TypeOfEmployment" xml:space="preserve">
     <value>Type d’emplois</value>
@@ -2727,148 +2587,23 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
   <data name="TheFieldMustBe" xml:space="preserve">
     <value>Le champ {0} doit être une chaîne d’une longueur de {1} caractère(s).</value>
   </data>
-  <data name="AgreementPersonalDataQC" xml:space="preserve">
-    <value>&lt;h2&gt;Collecte, utilisation et divulgation des renseignements personnels&lt;/h2&gt;
-&lt;p&gt;Financement Ecohome peut recueillir, utiliser et divulguer les renseignements personnels que vous avez fournis dans la présente demande, obtenus dans le cadre du processus de demande (y compris, d’agences d’évaluation du crédit et d’autres sources) ou si votre demande est approuvée, obtenus de temps à autre par l’intermédiaire de l’administration ou de l’utilisation de votre compte, pour ce qui suit, en tout ou en partie :&lt;/p&gt;
-&lt;ul&gt;
-    &lt;li&gt;
-        vérifier votre identité et l’information que vous avez fournie, comme vos historiques de crédit ou d’emploi;
-    &lt;/li&gt;
-    &lt;li&gt;
-        évaluer votre solvabilité;
-    &lt;/li&gt;
-    &lt;li&gt;
-        traiter votre demande, déterminer votre admissibilité à tout produit ou service que vous pouvez demander et, si votre demande est approuvée, pour ouvrir, administrer et gérer votre compte;
-    &lt;/li&gt;
-    &lt;li&gt;
-        répondre à vos demandes de produits, services ou d’autre information;
-    &lt;/li&gt;
-    &lt;li&gt;
-        nous permettre et, selon le cas, pour permettre à nos fournisseurs de services, de vous fournir des produits et des services de façon permanente;
-    &lt;/li&gt;
-    &lt;li&gt;
-        vérifier vos instructions;
-    &lt;/li&gt;
-    &lt;li&gt;
-        nous protéger des erreurs et de la fraude;
-    &lt;/li&gt;
-    &lt;li&gt;
-        enquêter sur les plaintes;
-    &lt;/li&gt;
-    &lt;li&gt;
-        satisfaire les exigences de déclaration réglementaires ou juridiques;
-    &lt;/li&gt;
-    &lt;li&gt;
-        ou autrement si la loi l’autorise ou l’exige.
-    &lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;En outre, les renseignements personnels peuvent être échangés avec des agences d’évaluation du crédit, bureaux de crédit, assureurs-crédit et autres établissements financiers afin de maintenir l’intégrité du processus d’octroi de crédit et déterminer l’admissibilité à des produits financiers et services financiers.&lt;/p&gt;
-&lt;br&gt;
-&lt;p&gt;Lorsque vous soumettez cette demande, vous consentez et autorisez la présente collecte, utilisation et divulgation de renseignements.&lt;/p&gt;</value>
-  </data>
   <data name="EcoHomeAbout1QC" xml:space="preserve">
-    <value>Financement Ecohome est une entreprise financière canadienne qui offre des produits de financement et des prêts à la mesure des besoins des consommateurs des marchés CVC et de rénovation résidentielle. Nous gérons l’ensemble de nos affaires à l’interne.</value>
+    <value>Services financiers Ecohome est une entreprise financière canadienne qui offre des produits de financement et des prêts à la mesure des besoins des consommateurs des marchés CVC et de rénovation résidentielle. Nous gérons l’ensemble de nos affaires à l’interne.</value>
   </data>
-  <data name="PrivacyPolicyTextQC" xml:space="preserve">
-    <value>&lt;h2 class="dealnet-large-header"&gt;Politique de confidentialité_Ecohome_Externe&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;Date d’entrée en vigueur : 15 juin 2017&lt;/strong&gt;&lt;/p&gt;
-&lt;h3 class="dealnet-section-title"&gt;Notre engagement&lt;/h3&gt;
-&lt;p&gt;À Financement Ecohome Inc. (« Financement Ecohome », « nous », « notre », « nos », la « société », etc.) nous tenons à offrir un excellent service et à faire en sorte que nos rapports avec les personnes avec qui nous interagissons, par exemple nos clients existants ou potentiels (« vous »), soient empreints d’intégrité et s’établissent d’une manière responsable, juste, honnête et éthique. En conformité avec ces objectifs, nous appliquons des normes élevées de protection des renseignements personnels en notre possession ou sous notre contrôle.&lt;/p&gt;
-&lt;p&gt;La présente Politique de confidentialité est fondée sur la Loi sur la protection des renseignements personnels et les documents électroniques [LPRPDE] (Canada), y compris les principes de confidentialité figurant dans le tableau 1 aux présentes. Elle explique comment nous recueillons, utilisons et divulguons les renseignements personnels vous concernant.&lt;/p&gt;
-&lt;p&gt;Si vous avez des questions au sujet de la présente Politique de confidentialité ou si vous désirez solliciter l’accès à des renseignements personnels vous concernant qui sont en notre possession ou sous notre contrôle, veuillez communiquer avec l’agent de conformité au moyen des coordonnées indiquées ci-après.&lt;/p&gt;
-&lt;h3 class="dealnet-section-title"&gt;Les renseignements personnels que nous recueillons, comment et pourquoi nous les recueillons&lt;/h3&gt;
-&lt;p&gt;Dans le cadre de la présente Politique de confidentialité, les renseignements personnels désignent tout renseignement, enregistré ou non, concernant une personne identifiable au sens des lois en vigueur en matière de confidentialité.&lt;/p&gt;
-&lt;p&gt;Le type de renseignements personnels que nous recueillons dépendra de divers facteurs, tels que la nature et l’objectif de notre interaction, le type de produits ou services que vous pouvez solliciter ou utiliser et toute obligation juridique ou réglementaire. Voici les types de renseignements recueillis :&lt;/p&gt;
-&lt;ul&gt;
-    &lt;li&gt;Vos coordonnées qui nous permettent de communiquer avec vous (par exemple, adresse, numéro de téléphone, adresse de courriel ou autre adresse électronique et numéro de télécopieur).&lt;/li&gt;
-    &lt;li&gt;Les renseignements sur l’identité qui nous permettent de confirmer votre identité ou de répondre à des obligations juridiques ou réglementaires (par exemple, votre nom, votre date de naissance, profession et des pièces d’identité délivrées par le gouvernement).&lt;/li&gt;
-    &lt;li&gt;Les renseignements financiers qui nous permettent de déterminer votre solvabilité, de vérifier votre admissibilité à des produits ou à des services, ou de déterminer si un produit ou service vous convient (p. ex., antécédents professionnels et financiers, revenu, actifs, passifs, valeur nette et rapports de solvabilité).&lt;/li&gt;
-    &lt;li&gt;Les renseignements sur les opérations qui concernent la façon dont vous utilisez différents produits ou services ou dont vous faites affaire avec nous (p. ex., si le crédit a été prolongé ou non, le montant du crédit prolongé, l’historique des achats et des paiements).&lt;/li&gt;
-    &lt;li&gt;Les renseignements sur la relation qui nous aident à améliorer les services et à mieux vous connaître (p. ex., vos préférences en matière de langue et de communication, les types de produits, de services ou d’offres qui vous intéressent).&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;La majorité des renseignements personnels est collectée directement auprès de vous, que ce soit en personne, par téléphone, par correspondance avec vous par courriel, télécopieur, message texte (SMS) ou Internet, ou encore par d’autres moyens. Par exemple, nous pouvons recueillir des renseignements personnels auprès de vous dans les cas suivants : lorsque vous présentez volontairement une demande pour devenir, ou si vous devenez, un client de la Société; lorsque vous créez un compte par l’intermédiaire de l’une de nos applications mobiles; lorsque vous nous demandez des renseignements ou lorsque vous communiquez avec nous autrement ou encore dans le cadre de l’utilisation des produits et services que nous offrons. Certains renseignements peuvent être recueillis auprès d’autres sources : agences d’évaluation du crédit, institutions financières, forces de l’ordre, médias, médias sociaux, organismes et registres gouvernementaux, et archives publiques;&lt;/p&gt;
-&lt;p&gt;Nous pouvons écouter ou enregistrer les communications entre vous et nos représentants (p. ex., appels téléphoniques) dans le but d’améliorer et de maintenir la qualité de notre service à la clientèle, de vous protéger et de protéger la Société, de confirmer nos discussions avec vous ou à des fins de formation.&lt;/p&gt;
-&lt;h3 class="dealnet-section-title"&gt;Notre engagement envers les principes de confidentialité&lt;/h3&gt;
-&lt;p&gt;
-    &lt;strong&gt;&lt;em&gt;Premier principe:&lt;/em&gt; Responsabilité&lt;/strong&gt; – La Société est responsable des renseignements personnels dont elle a la gestion et a désigné un agent de conformité qui veille à ce que la Société respecte la présente Politique de confidentialité et les lois sur la confidentialité pertinentes.
-&lt;/p&gt;
-&lt;p&gt;Notre responsabilité à l’égard des renseignements personnels s’applique aux renseignements personnels en notre possession ou sous notre garde ainsi qu’aux renseignements personnels que nous pourrions transférer à un tiers aux fins de traitement ou pour fournir des services en notre nom. Nous ferons appel à des mesures contractuelles ou à d’autres mesures qui exigent des tierces parties traitant les renseignements en notre nom qu’elles maintiennent un niveau de protection de la confidentialité comparable à celui que nous mettons en pratique.&lt;/p&gt;
-&lt;p&gt;Vos renseignements personnels peuvent être traités ou conservés dans un pays où nous, nos fournisseurs de services et d’autres parties avec lesquelles nous partageons des renseignements en vertu de la présente Politique de confidentialité, exerçons nos activités (il peut s’agir d’emplacement en dehors du Canada). Dans ce cas, vos renseignements personnels peuvent être assujettis aux lois du pays où elles se trouvent; ils peuvent aussi être mis à la disposition des tribunaux, des forces de l’ordre et des organismes gouvernementaux ou réglementaires dans le pays en question conformément aux lois qui y sont en vigueur.&lt;/p&gt;
-&lt;p&gt;
-    &lt;strong&gt;&lt;em&gt;Deuxième principe:&lt;/em&gt; Détermination des fins de la collecte des renseignements&lt;/strong&gt; – Nous déterminerons les fins auxquelles des renseignements personnels sont recueillis, et ce, avant la collecte ou au moment de celle-ci.
-&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Pourquoi nous recueillons vos renseignements personnels&lt;/strong&gt;  - À moins que vous en ayez été informé autrement avant ou lors de la collecte de renseignements, nous recueillerons, utiliserons et divulguerons les renseignements personnels vous concernant durant notre relation à l’une ou l’autre des fins suivantes :&lt;/p&gt;
-&lt;ul&gt;
-    &lt;li&gt;établir votre identité;&lt;/li&gt;
-    &lt;li&gt;vérifier votre identité et l’information que vous avez fournie, comme vos historiques de crédit ou d’emploi;&lt;/li&gt;
-    &lt;li&gt;évaluer votre solvabilité;&lt;/li&gt;
-    &lt;li&gt;traiter votre demande, déterminer votre admissibilité aux produits ou services et pour ouvrir, administrer et gérer votre compte et aussi pour gérer les produits et services en question;&lt;/li&gt;
-    &lt;li&gt;nous permettre et, selon le cas, pour permettre à nos fournisseurs de services tiers de vous fournir des produits et des services de façon permanente;&lt;/li&gt;
-    &lt;li&gt;comprendre vos besoins et déterminer les produits ou services susceptibles de vous intéresser;&lt;/li&gt;
-    &lt;li&gt;répondre à vos demandes de renseignements sur des produits, des services ou des comptes;&lt;/li&gt;
-    &lt;li&gt;communiquer avec vous par différents moyens : courriel, message texte (SMS), téléphone, etc;&lt;/li&gt;
-    &lt;li&gt;vérifier vos instructions et décisions;&lt;/li&gt;
-    &lt;li&gt;gérer et améliorer votre relation avec nous;&lt;/li&gt;
-    &lt;li&gt;vous protéger et nous protéger contre les erreurs et les activités criminelles, notamment au moyen de la prévention, de la détection et des enquêtes relatives à la fraude, au blanchiment d’argent, aux cybermenaces et aux autres risques et menaces de ce type;&lt;/li&gt;
-    &lt;li&gt;enquêter sur les plaintes;&lt;/li&gt;
-    &lt;li&gt;se conformer aux lois et réglementations, notamment les exigences de déclaration fiscales, réglementaires et légales;&lt;/li&gt;
-    &lt;li&gt;ou autrement si la loi l’autorise ou l’exige.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;En outre, lorsque vous demandez ou acceptez l’un de nos produits ou services financiers, et tant que vous avez un prêt ou un produit ou service de crédit avec nous, nous pouvons échanger les renseignements personnels avec des agences d’évaluation du crédit, des organismes d’assurance-crédit, des institutions financières et d’autres entités avec lesquelles vous entretenez des liens financiers pour évaluer et mettre à jour votre solvabilité, gérer le risque de crédit, déterminer l’admissibilité aux produits et services financiers, prévenir la fraude, signaler des manquements et préserver l’intégrité du processus d’octroi de crédit.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Comptes joints&lt;/strong&gt; - Lorsqu’un client détient un produit ou un service conjointement avec une autre personne (par exemple, des comptes joints, des demandes cosignées), nous pouvons partager les renseignements de ce client avec l’autre personne concernée relativement au produit ou au service.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Transactions commerciales&lt;/strong&gt; - Si nous concluons une opération commerciale nécessitant des renseignements personnels (par exemple une vente ou une aliénation de la totalité ou d’une partie de nos affaires ou actifs), nous pourrons, le cas échéant, partager les renseignements avec les autres parties pour honorer les obligations de l’opération (par exemple, dans le cadre d’une diligence raisonnable ou la conclusion de l’opération). Nous exigerons des autres parties participant à l’opération de protéger les renseignements en question en adoptant des mesures de sécurité adéquates en fonction du degré de sensibilité des renseignements et de limiter leur utilisation aux fins de l’opération et, si l’opération est conclue, aux fins énoncées dans la présente Politique de confidentialité. Si l’opération n’est pas réalisée, nous exigerons que les autres parties s’engagent à ne pas utiliser ou communiquer vos renseignements personnels, de quelque manière que ce soit et à les supprimer dans leur intégralité.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Nouvelle fin d’utilisation &lt;/strong&gt; - Si une nouvelle utilisation est envisagée pour vos renseignements personnels, nous vous en aviserons et demanderons votre consentement avant toute pareille utilisation.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;Troisième principe:&lt;/em&gt; Consentement&lt;/strong&gt; – Toute personne doit être informée de la collecte, l’utilisation ou la communication de renseignements personnels qui la concernent et y consentir, sauf si la loi l’autorise ou l’exige.&lt;/p&gt;
-&lt;p&gt;La Société ne peut recueillir, utiliser et communiquer vos renseignements personnels à votre insu et sans votre consentement, sauf dans la mesure prescrite ou permise par la loi. En règle générale, nous solliciterons votre consentement pour utiliser et communiquer vos renseignements personnels aux fins définies au moment de leur collecte. Toutefois, dans certains cas, lorsque de nouvelles fins ont été déterminées après la collecte, nous pouvons demander votre consentement pour utiliser et communiquer vos renseignements personnels à cette nouvelle fin après leur collecte.&lt;/p&gt;
-&lt;p&gt;Le consentement pourra être explicite ou, dans certaines circonstances, implicite, et pourra être donné par écrit (par exemple, comme sur une demande), en utilisant ou non une case à cocher, par voie électronique (par Internet), oralement (en personne ou par téléphone) ou par votre conduite (par exemple, en utilisant volontairement un produit ou un service). Lorsque nous déterminons quel type de consentements doit être obtenu, nous prenons en considération tous les facteurs pertinents, notamment le caractère sensible des renseignements et vos attentes raisonnables.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Retrait du consentement&lt;/strong&gt; - Sous réserve de restrictions prévues par une loi ou un contrat et d’un préavis raisonnable, vous pouvez retirer votre consentement en tout temps concernant la collecte, l’utilisation et la communication de vos renseignements. Nous vous informerons des conséquences d’un tel retrait. Par exemple, le retrait de votre consentement peut nous empêcher d’être en mesure de vous fournir ou de continuer de vous fournir certains produits ou services.&lt;/p&gt;
-&lt;p&gt;Dans certains cas, vous ne pouvez pas retirer votre consentement. Par exemple, vous ne pouvez pas retirer votre consentement à la collecte, à l’utilisation ou à la communication de renseignements lorsque nos activités à ces fins sont exigées par la loi. De même, tant que vous avez un prêt ou un produit de crédit ou service avec nous, vous ne pouvez pas retirer votre consentement à la collecte, à l’utilisation et à la communication continues de vos renseignements personnels relativement au produit ou au service en question. Par ailleurs, pour préserver l’intégrité du système d’évaluation du crédit, nous pouvons mettre à jour périodiquement vos renseignements auprès d’agences d’évaluation du crédit, tant que vous détenez un produit de crédit ou bénéficiez d’un service connexe avec nous. Vous ne pouvez pas retirer votre consentement à la communication de renseignements au cours de cette période.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Communications commerciales électroniques; Loi canadienne anti-pourriel (LCAP)&lt;/strong&gt; - sous réserve de la loi applicable, nous pouvons de temps à autre vous envoyer des communications électroniques vous informant de nos produits, nouveaux ou existants, notamment des offres spéciales ou des promotions susceptibles de vous intéresser. Vous pouvez à tout moment vous désabonner afin de ne plus recevoir nos messages commerciaux électroniques. Pour ce faire, il vous suffit de cliquer sur le lien « Se désabonner » ou « Option de retrait » ou de suivre toute autre instruction de désabonnement incluse dans le message en question.  Veuillez prévoir jusqu’à 10 jours ouvrables pour que le changement ait lieu. Prenez note que cela ne limitera pas notre droit à vous envoyer certaines communications relatives à votre compte ou à vos produits, services ou transactions actuels avec nous, ou selon ce qui est autrement permis ou exigé par la loi en vigueur; de plus, les messages relatifs à vos comptes transactionnels ne seront pas affectés si vous décidez de ne plus recevoir nos messages commerciaux électroniques.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;Quatrième principe:&lt;/em&gt; Limitation de la collecte&lt;/strong&gt; – La Société ne peut recueillir que les renseignements personnels nécessaires aux fins déterminées et doit procéder de façon honnête et licite.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;Cinquième principe:&lt;/em&gt; Limitation de l’utilisation, de la communication et de la conservation&lt;/strong&gt; – La Société n’utilisera pas et ne communiquera pas les renseignements personnels à des fins autres que celles auxquelles ils ont été recueillis à moins que la personne concernée n’y consente ou que la loi ne l’exige. Nous ne devons conserver les renseignements personnels qu’aussi longtemps que nécessaire pour la réalisation des fins déterminées ou lorsque la loi l’exige. Lorsque vos renseignements ne nous seront plus nécessaires, nous les détruirons, les effacerons ou les rendrons anonymes.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;Sixième principe:&lt;/em&gt; Tenue à jour des renseignements personnels&lt;/strong&gt; – La Société conserve des renseignements personnels aussi exacts, complets et à jour que l’exigent les fins auxquelles ils sont destinés.&lt;/p&gt;
-&lt;p&gt;Nous ne ménagerons aucun effort afin de garder les renseignements personnels aussi exacts, complets et à jour que l’exigent les fins auxquelles ils sont destinés; néanmoins, nous comptons sur vous pour nous aviser en cas de changement de ces renseignements. Si vous désirez vérifier l’exactitude et l’exhaustivité des renseignements personnels figurant dans nos dossiers, vous pouvez communiquer avec notre agent de conformité (voir coordonnées ci-dessous).&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;Septième principe:&lt;/em&gt; Sécurité des renseignements personnels&lt;/strong&gt;– La Société protégera les renseignements personnels en recourant à des mesures de sécurité adéquates en fonction du caractère délicat des renseignements.&lt;/p&gt;
-&lt;p&gt;Nous protégerons les renseignements personnels en notre possession ou sous notre contrôle contre la perte ou le vol ainsi que contre a consultation, la communication, la copie, l’utilisation ou la modification sans autorisation. Les mesures de sécurité adoptées pour protéger vos renseignements personnels varient selon le degré de sensibilité, le volume, la distribution, le format et la méthode de stockage des renseignements en question. Il s’agit notamment des mesures de sécurité suivantes :&lt;/p&gt;
-&lt;ul&gt;
-    &lt;li&gt;la sécurité physique, par exemple l’utilisation de classeurs verrouillés et l’accès restreint aux bureaux;&lt;/li&gt;
-    &lt;li&gt;la sécurité de l’organisation, par exemple, les habilitations de sécurité, le contrôle des entrées dans les centres de données et la limitation de l’accès aux renseignements pertinents selon le principe du besoin de connaître; et&lt;/li&gt;
-    &lt;li&gt;la sécurité de la technologie, par exemple, limiter l’accès aux applications à des postes précis, à l’utilisation de mots de passe, aux numéros d’identification personnels et au chiffrement.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;La Société prendra les précautions nécessaires lorsqu’il s’agit d’aliéner ou de détruire des renseignements personnels afin de prévenir l’accès non autorisé aux renseignements. &lt;/p&gt;
-&lt;p&gt;Lorsque la Société a recours à des fournisseurs de services qui peuvent avoir accès aux renseignements personnels sous notre contrôle, nous signons des contrats et prenons d’autres mesures exigeant de ces fournisseurs la mise en place de politiques et de pratiques comparables aux nôtres dans le but de protéger la confidentialité et la sécurité de vos renseignements personnels et d’évite ainsi que ceux-ci soient utilisés ou divulgués à des fins non autorisées.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;Huitième principe:&lt;/em&gt; Transparence concernant nos pratiques en matière de confidentialité&lt;/strong&gt; – La Société fera en sorte que les renseignements particuliers concernant nos politiques et pratiques relatives à la gestion des renseignements personnels soient accessibles aux personnes avec lesquelles nous établissons des relations.&lt;/p&gt;
-&lt;p&gt;Si vous avez des questions ou des préoccupations concernant la présente Politique de confidentialité ou nos pratiques et procédures en la matière, veuillez communiquer avec notre agent de conformité (voir les coordonnées ci-après).&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;Neuvième principe:&lt;/em&gt; Accès aux renseignements&lt;/strong&gt; – La Société informera toute personne qui en fait la demande de l’existence de renseignements personnels qui la concernent, de l’usage qui en est fait et du fait qu’ils ont été communiqués à des tiers, et lui permettre de les consulter. Il sera aussi possible à la personne concernée de contester l’exactitude et l’intégralité des renseignements et d’y faire apporter les corrections appropriées.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Accès à vos renseignements personnels&lt;/strong&gt; – Si vous le demandez, nous vous dirons quels renseignements personnels sont en notre possession, comment nous les utilisons et à qui ils sont communiqués. Nous vous fournirons également sur demande, une copie des dossiers liés à vos renseignements personnels, sauf dans certaines situations (par exemple, s’ils contiennent des détails sur d’autres personnes, ils ne peuvent pas être communiqués pour des raisons d’ordre juridique, des raisons de sécurité ou des raisons d’ordre commercial exclusives, et le fait que les renseignements sont protégés par le privilège du secret professionnel de l’avocat ou le privilège relatif au litige, ou encore dans d’autres circonstances prévues par la loi). Afin de vous assurer que les renseignements sont communiqués à la bonne personne, il vous sera demandé de fournir des preuves d’identification appropriées ou de vous identifier d’une autre manière. Si nous ne pouvons pas fournir une liste des organismes auxquels nous avons communiqué vos renseignements personnels, nous fournirons une liste des organismes auxquels nous avons pu communiquer les renseignements en question. Si nous refusons votre demande d’accès, nous vous donnerons les motifs de cette décision. S’il y a des frais d’accès à vos renseignements, nous vous informerons du coût approximatif avant de vous donner l’accès. Les demandes d’accès doivent être transmises par écrit à notre agent de conformité (voir les coordonnées ci-après).&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Exactitude de vos renseignements personnels&lt;/strong&gt; – Vous pouvez contester l’exactitude et l’exhaustivité de vos renseignements personnels en notre possession. Si vous nous prouvez que vos renseignements personnels sont erronés, incomplets ou dépassés, nous les modifierons ou les supprimerons le cas échéant. Au besoin, nous enverrons les renseignements personnels modifiés aux tiers à qui nous avons communiqué des renseignements inexacts, incomplets ou dépassés afin de leur permettre de rectifier leurs dossiers. Si nous refusons de procéder à la révision ou à la suppression des renseignements personnels, comme vous l’avez exigé, vous pourrez contester cette décision. Nous consignerons ce grief et le communiquerons, au besoin, à tout tiers qui aura reçu lesdits renseignements personnels de notre Société. Si vous désirez vérifier l’exactitude et l’exhaustivité des renseignements personnels figurant dans nos dossiers, veuillez communiquer avec notre agent de conformité (voir coordonnées ci-dessous).&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;Dixième principe:&lt;/em&gt; Possibilité de porter plainte à l’égard du non-respect des principes&lt;/strong&gt; – Toute personne doit être en mesure de se plaindre auprès de notre agent de conformité si la Société ne respecte pas la présente Politique de conformité ou les lois en vigueur en matière de confidentialité.&lt;/p&gt;
-&lt;p&gt;La Société a mis en place des politiques et des procédures régissant la réception, l’investigation et la réponse aux questions et plaintes formulées par des personnes relativement au traitement de leurs renseignements personnels.&lt;/p&gt;
-&lt;h3 class="dealnet-section-title"&gt;Communiquez avec nous&lt;/h3&gt;
-&lt;p&gt;Si vous souhaitez avoir accès à vos renseignements personnels, modifier votre consentement par rapport à leur utilisation ou la communication de vos renseignements personnels ou déposer une plainte concernant notre Politique de confidentialité ou l’utilisation que nous faisons de vos renseignements, ou si vous avez des questions au sujet de notre Politique de confidentialité, veuillez communiquer avec notre agent de conformité :&lt;/p&gt;
-&lt;p class="address-info"&gt;
-    Agent de conformité  &lt;br&gt;
-    4, King Street West  &lt;br&gt;
-    Toronto (Ontario)  &lt;br&gt;
-    M5H 1A1 &lt;br&gt;
-    Courriel : &lt;a href="mailto:privacy@ecohomefinancial.com" class="dealnet-info-link"&gt;privacy@ecohomefinancial.com&lt;/a&gt;&lt;br&gt;
-&lt;/p&gt;
-&lt;p&gt;La Société examinera toutes les plaintes. Si nous constatons qu’une plainte est justifiée, nous prendrons les mesures appropriées, notamment, la modification de nos politiques et pratiques au besoin. Si vous n’êtes pas satisfait de la façon dont la Société a répondu à votre plainte, vous pourrez vous adresser au Commissariat à la protection de la vie privée du Canada :&lt;/p&gt;
-&lt;p class="address-info"&gt;
-    Commissariat à la protection de la vie privée du Canada  &lt;br&gt;
-    30, rue Victoria  &lt;br&gt;
-    Gatineau (Québec)  K1A 1H3  &lt;br&gt;
-    1-800-282- 1376 &lt;br&gt;
-    &lt;a href="https://www.priv.gc.ca/" target="_blank" class="dealnet-info-link"&gt;www.priv.gc.ca&lt;/a&gt;&lt;br&gt;
-&lt;/p&gt;
-&lt;h3 class="dealnet-section-title"&gt;Mise à jour de la Politique de confidentialité&lt;/h3&gt;
-&lt;p&gt;Pour que notre Politique de confidentialité demeure à jour, nous nous réservons le droit de la modifier au besoin. Si nous apportons des changements à la cette Politique de confidentialité, nous en modifierons la date d’entrée en vigueur tel que mentionné ci-dessus. Les avis de mise à jour de la présente Politique de confidentialité seront affichés sur le site Web de la Société (www.ecohomefinancial.com) et peuvent aussi être distribués au moyen d’énoncés, de bulletins d’information ou d’autres moyens de communication. Veuillez consulter régulièrement notre site Web pour découvrir les mises à jour éventuelles de la présente Politique de confidentialité.&lt;/p&gt;
-&lt;h3 class="dealnet-section-title"&gt;Visite du site Web d’EcoHome Financial&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;Témoins&lt;/strong&gt;  - Le « témoin » est un élément de données créé par un serveur Web lorsque vous vous rendez sur un site Web.  Ces données sont des renseignements sur la façon dont vous utilisez un site et le moment où vous le faites. Il se trouve sur votre ordinateur sous la forme d’un petit fichier texte. Les renseignements ne peuvent pas être utilisés pour vous identifier personnellement. Les témoins ne recueillent pas de renseignements personnels à votre sujet, comme votre nom, adresse, numéro de téléphone ou adresse de courriel.&lt;/p&gt;
-&lt;p&gt;Nous utilisons les témoins identificateurs de session sur notre site &lt;a class="dealnet-info-link" href="http://ecohomefinancial.com/" target="_blank"&gt;www.ecohomefinancial.com&lt;/a&gt;. Les témoins volatils identifient la session d’un utilisateur particulier. Ils permettent au site Web de vous reconnaître durant votre session de navigation et, du coup, d’améliorer votre expérience. Les témoins identificateurs de session sont des témoins temporaires qui expirent à la fin de la session lorsque vous quittez le site.&lt;/p&gt;
-&lt;p&gt;Nous utilisons également Google Analytics pour aider à analyser comment les visiteurs se comportent avec notre site Web. Google Analytics utilise des témoins pour recueillir les renseignements relatifs à la connexion à Internet (p. ex., adresse IP) et au comportement du visiteur (p. ex., l’adresse de la page Web que vous visitez), dans un formulaire anonyme.  Les renseignements générés par les témoins de Google Analytics sur votre utilisation du site Web sont transmis à Google, puis traités pour produire, à partir des données regroupées, des rapports statistiques sur l’activité du site Web. Ces rapports nous permettent d’évaluer l’utilisation du visiteur et ainsi de gérer et d’améliorer le site et son contenu afin de mieux répondre aux besoins de nos visiteurs. Vous pouvez choisir de ne pas faire l’objet d’un suivi par Google Analytics – pour obtenir des renseignements plus détaillés sur le retrait du suivi par Google Analytics dans tous les sites Web que vous consultez, allez à la page &lt;a href="https://tools.google.com/dlpage/gaoptout" class="dealnet-info-link" target="_blank"&gt;https://tools.google.com/dlpage/gaoptout&lt;/a&gt;. Pour en savoir davantage sur Google Analytics, veuillez vous reporter à &lt;a href="https://www.google.com/policies/privacy/partners/" class="dealnet-info-link" target="_blank"&gt;https://www.google.com/policies/privacy/partners/&lt;/a&gt;.&lt;/p&gt;
-&lt;h3 class="dealnet-section-title"&gt;Autres sites Web&lt;/h3&gt;
-&lt;p&gt;Notre site Web, &lt;a class="dealnet-info-link" href="http://ecohomefinancial.com/" target="_blank"&gt;www.ecohomefinancial.com&lt;/a&gt;, peut contenir des liens vers d’autres sites Web. Financement Ecohome n’est pas responsable des pratiques en matière de confidentialité en vigueur sur les autres sites Web. Nous encourageons les utilisateurs de notre site Web à lire les énoncés de confidentialité des autres sites Web qui recueillent vos renseignements personnels.&lt;/p&gt;</value>
+  <data name="AcknowledgeAndAgreementObtainCreditReport" xml:space="preserve">
+    <value>Lorsque vous cochez cette case et soumettez cette demande, vous reconnaissez que Services financiers EcoHome est autorisée à recueillir les renseignements personnels que vous fournissez aux présentes et à les utiliser pour obtenir votre rapport de solvabilité auprès d’une ou de plusieurs agences d'évaluation du crédit des consommateurs ( p. ex. Equifax ou TransUnion), à valider les renseignements paraissant dans votre rapport de solvabilité auprès de tiers, au besoin, et à mettre à jour périodiquement vos renseignements de solvabilité auprès de ces agences. Vous êtes par les présentes avisé que nous pouvons consulter un rapport sur le consommateur contenant des renseignements de solvabilité ou des renseignements personnels dans le cadre de cette demande. Le dossier qui contient vos renseignements personnels sera conservé à nos bureaux ou sur nos serveurs et ceux de nos fournisseurs de services et il sera mis à la disposition des employés qui doivent le consulter pour s’acquitter de leurs fonctions. Dans la mesure prévue par la loi, vous pouvez demander d’avoir accès au dossier qui contient vos renseignements personnels et les corriger ou obtenir des renseignements sur la façon d’accéder aux rapports de solvabilité en communiquant avec nous à l’adresse indiquée ci-dessous.</value>
+  </data>
+  <data name="AcknowledgeAndAgreementObtainCreditReportDP" xml:space="preserve">
+    <value>En soumettant cette demande, vous reconnaissez et acceptez que la compagnie de Ecohome Financial inc. est autorisée à obtenir votre dossier de crédit d’une ou plusieurs agences d’évaluation du crédit des consommateurs (par exemple, Equifax ou trans Union), afin de vérifier les renseignements de votre dossier de crédit auprès de tiers au besoin, et de mettre à jour, de manière périodique, les renseignements de votre dossier de crédit auprès des agences d’évaluation du crédit. Vous êtes avisé par les présentes qu’un rapport de consommation renfermant de l’information sur le crédit ou des renseignements personnels, peut-être consulté relativement à cette demande. Vous consentez à, de recevoir et d’utiliser en format électronique toutes les ententes et tous les avis, divulgations et autres documents ou renseignements liés à la présente demande que la compagnie de Ecohome Financial inc. peut vous envoyez.</value>
+  </data>
+  <data name="AcknowledgeAndAgreementObtainCreditReportDPQC" xml:space="preserve">
+    <value>En soumettant cette demande, vous reconnaissez et acceptez que la compagnie de Services financiers Ecohome inc. est autorisée à obtenir votre dossier de crédit d’une ou plusieurs agences d’évaluation du crédit des consommateurs (par exemple, Equifax ou trans Union), afin de vérifier les renseignements de votre dossier de crédit auprès de tiers au besoin, et de mettre à jour, de manière périodique, les renseignements de votre dossier de crédit auprès des agences d’évaluation du crédit. Vous êtes avisé par les présentes qu’un rapport de consommation renfermant de l’information sur le crédit ou des renseignements personnels, peut-être consulté relativement à cette demande. Vous consentez à, de recevoir et d’utiliser en format électronique toutes les ententes et tous les avis, divulgations et autres documents ou renseignements liés à la présente demande que la compagnie de Services financiers Ecohome inc. peut vous envoyez.</value>
+  </data>
+  <data name="ConsentToReceiveCommercialElectronicMessagesDP" xml:space="preserve">
+    <value>En cochant cette case, vous consentez à recevoir des messages électroniques commerciales de la compagnie EcoHome Financial à l'adresse du courriel et aux numéros de téléphone que vous avez fournis dans la demande ou de temps à autre relativement à votre compte, y compris des communications électroniques portant sur la commercialisation ou la promotion de nos programmes, nos produits, nos services, nos offres, nos événements et nos sondages qui pourraient vous intéresser. Vous pouvez retirer ce consentement en tout temps. Vous pouvez communiquer avec la compagnie de EcoHome Financial inc. au 325 Milner Avenue, Suite 300, Toronto, Ontario M1B 5N1</value>
+  </data>
+  <data name="ConsentToReceiveCommercialElectronicMessagesDPQC" xml:space="preserve">
+    <value>En cochant cette case, vous consentez à recevoir des messages électroniques commerciales de la compagnie  Services financiers Ecohome à l'adresse du courriel et aux numéros de téléphone que vous avez fournis dans la demande ou de temps à autre relativement à votre compte, y compris des communications électroniques portant sur la commercialisation ou la promotion de nos programmes, nos produits, nos services, nos offres, nos événements et nos sondages qui pourraient vous intéresser. Vous pouvez retirer ce consentement en tout temps. Vous pouvez communiquer avec la compagnie de Services financiers Ecohome inc. au 425, boul de Maisonneuve O, Montréal, QC H3A 3G5</value>
   </data>
   <data name="Pre" xml:space="preserve">
     <value>Pré</value>

@@ -42,6 +42,7 @@
         public static readonly string DOCUSIGN_PASSWORD_CONFIG_KEY = "DocuSignPassword";
         public static readonly string DOCUSIGN_INTEGRATORKEY_CONFIG_KEY = "DocuSignIntegratorKey";
         public static readonly string DOCUSIGN_BRAND_ID = "DocuSignBrandId";
+        public static readonly string QUEBEC_DOCUDIGN_BRAND_ID = "QuebecDocuSignBrandId";
         public static readonly string DOCUSIGN_NOTIFICATIONS_URL = "DocuSignNotificationsUrl";
         public static readonly string DEALER_PORTAL_DRAFTURL_KEY = "DealerPortalDraftUrl";
 

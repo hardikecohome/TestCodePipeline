@@ -276,7 +276,7 @@ namespace DealnetPortal.Api.Integration.Services
             request.message = new MandrillMessage()
             {
                 from_email = ConfigurationManager.AppSettings["FromEmail"],
-                from_name = CultureHelper.CurrentCultureType == CultureType.French ? "Financement EcoHome" : "EcoHome Financial",
+                from_name = CultureHelper.CurrentCultureType == CultureType.French ? "Services financiers Ecohome" : "EcoHome Financial",
                 html = null,
                 merge_vars = new List<MergeVariable>() {
                         new MergeVariable(){
@@ -287,7 +287,7 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                     },
                 send_at = DateTime.Now,
-                subject = CultureHelper.CurrentCultureType == CultureType.French ? "Votre lien d'application de concessionnaire Financement EcoHome" : "Your EcoHome Financial dealer application link",
+                subject = CultureHelper.CurrentCultureType == CultureType.French ? "Votre lien d'application de concessionnaire Services financiers Ecohome" : "Your EcoHome Financial dealer application link",
                 text = "Your EcoHome Financial dealer application link",
                 to = new List<MandrillTo>() {
                         new MandrillTo(){
@@ -394,7 +394,7 @@ namespace DealnetPortal.Api.Integration.Services
             request.message = new MandrillMessage()
             {
                 from_email = ConfigurationManager.AppSettings["FromEmail"],
-                from_name = dealerProvince == "QC" ? "Financement EcoHome / EcoHome Financial" : "EcoHome Financial",
+                from_name = dealerProvince == "QC" ? "Services financiers Ecohome" : "EcoHome Financial",
                 html = null,
                 merge_vars = new List<MergeVariable>() {
                         new MergeVariable(){
@@ -405,7 +405,7 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                     },
                 send_at = DateTime.Now,
-                subject = dealerProvince == "QC" ? $"(French Translation for - Action required: customer declined to sign a recently submitted {agreementType} agreement) / Action required: customer declined to sign a recently submitted {agreementType} agreement" : $"Action required: customer declined to sign a recently submitted {agreementType} agreement",
+                subject = dealerProvince == "QC" ? $"Vous avez récemment soumis une {agreementType} a Services financiers Ecohome qui n'a pas été signé par le client / Action required: customer declined to sign a recently submitted {agreementType} agreement" : $"Action required: customer declined to sign a recently submitted {agreementType} agreement",
                 text = $"Action required: customer declined to sign a recently submitted {agreementType} agreement",
                 to = new List<MandrillTo>() {
                         new MandrillTo(){
@@ -465,7 +465,7 @@ namespace DealnetPortal.Api.Integration.Services
             request.message = new MandrillMessage()
             {
                 from_email = ConfigurationManager.AppSettings["FromEmail"],
-                from_name = dealerProvince == "QC" ? "Financement EcoHome / EcoHome Financial" : "EcoHome Financial",
+                from_name = dealerProvince == "QC" ? "Services financiers Ecohome" : "EcoHome Financial",
                 html = null,
                 merge_vars = new List<MergeVariable>() {
                         new MergeVariable(){

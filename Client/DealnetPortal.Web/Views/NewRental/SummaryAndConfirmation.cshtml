@@ -677,7 +677,8 @@
                                 </div>
                             </div>
                         </div>
-
+						@if (Model.ContactAndPaymentInfo.IsAllPaymentTypesAvailable)
+						{
                         <div class="form-group pap-payment-form">
                             <div class="row">
                                 @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, new { @class = "dealnet-field-caption col-xs-6" })
@@ -686,7 +687,7 @@
                                 </div>
                             </div>
                         </div>
-
+						}
                         <div class="pap-payment-form">
                             <div class="form-group">
                                 <div class="row">
