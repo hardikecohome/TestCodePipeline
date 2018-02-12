@@ -385,7 +385,7 @@
     <value>Si vous avez des questions, veuillez communiquer avec</value>
   </data>
   <data name="DealerSalesAgent" xml:space="preserve">
-    <value>Courtier ou agent de vente</value>
+    <value>Marchand ou agent de vente</value>
   </data>
   <data name="NewCustomerAppliedForFinancing" xml:space="preserve">
     <value>Nouveau client ayant fait une demande de financement</value>
@@ -415,7 +415,7 @@
     <value>Vous pouvez consulter cette transaction ici</value>
   </data>
   <data name="Dealer" xml:space="preserve">
-    <value>Courtier</value>
+    <value>Marchand</value>
   </data>
   <data name="Spa" xml:space="preserve">
     <value>Spa</value>
@@ -433,10 +433,10 @@
     <value>Combo ventilateur vertical et ventilateur-récupérateur de chaleur</value>
   </data>
   <data name="Pool" xml:space="preserve">
-    <value>Pool</value>
+    <value>Piscines</value>
   </data>
   <data name="Broker" xml:space="preserve">
-    <value>Courtier</value>
+    <value>Marchand</value>
   </data>
   <data name="Client" xml:space="preserve">
     <value>Client</value>

@@ -12,13 +12,13 @@
 <div id="steps-line"></div>
 <div class="row" id="steps">
 	<div class="col-xs-4">
-		<a href="@Url.Action("BasicInfo", new {contractId = Model.ContractId})" data-warning="true" id="step1" class="step-item">1</a>
+		<a href="@Url.Action("BasicInfo", new { contractId = Model.ContractId })" data-warning="true" id="step1" class="step-item">1</a>
 
 	</div>
 	<div class="col-xs-4">
 		@if (Model.IsApplicantsInfoEditAvailable)
 		{
-			<a href="@Url.Action("EquipmentInformation", new {contractId = Model.ContractId})" id="step2" class="step-item">2</a>
+			<a href="@Url.Action("EquipmentInformation", new { contractId = Model.ContractId })" id="step2" class="step-item">2</a>
 		}
 		else
 		{
@@ -91,8 +91,12 @@
 						@if ((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True"))
 						{@Resources.ConsentToReceiveCommercialElectronicMessagesDPQC}
 						else
-						{ @Resources.ConsentToReceiveCommercialElectronicMessagesDP} | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.
-				</span>
+						{ @Resources.ConsentToReceiveCommercialElectronicMessagesDP } | 
+						@if ((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True"))
+						{<a target="_blank" href="http://www.financementecohome.com/" class="link-color-inherit">www.financementecohome.com</a>}
+						else
+						{ <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a> }					
+				.</span>
 			</label>
 		</div>
 			if (Model.CoBorrowersContactInfo?.Any() ?? false)
@@ -148,10 +152,16 @@
 					<label class="align-middle custom-checkbox set-margin">
 						@Html.CheckBoxFor(m => m.CoBorrowersContactInfo[i].AllowCommunicate, new { @class = "dealnet-checkbox address-checkbox" })
 						<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-						<span>@if ((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True"))
-						{@Resources.ConsentToReceiveCommercialElectronicMessagesDPQC}
-						else
-						{ @Resources.ConsentToReceiveCommercialElectronicMessagesDP} | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
+						<span>
+							@if ((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True"))
+							{@Resources.ConsentToReceiveCommercialElectronicMessagesDPQC}
+							else
+							{ @Resources.ConsentToReceiveCommercialElectronicMessagesDP}  |
+							@if ((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True"))
+							{<a target="_blank" href="http://www.financementecohome.com/" class="link-color-inherit">www.financementecohome.com</a>}
+							else
+							{ <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>}
+						.</span>
 					</label>
 				</div>
 				}

@@ -566,7 +566,16 @@
                                 <label for="agreement2" class="align-middle custom-checkbox">
                                     @Html.CheckBoxFor(m => m.HomeOwnerContactInfo.AllowCommunicate, new { @class = "dealnet-checkbox", id = "agreement2" })
                                     <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-									<span class="mandatory-field">@((Model.IsQuebecDealer) ? @Resources.ConsentToReceiveCommercialElectronicMessagesDPQC : Resources.ConsentToReceiveCommercialElectronicMessagesDPQC) | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
+									<span class="mandatory-field">@((Model.IsQuebecDealer) ? @Resources.ConsentToReceiveCommercialElectronicMessagesDPQC : Resources.ConsentToReceiveCommercialElectronicMessagesDPQC) | 
+									@if (!Model.IsQuebecDealer)
+									{ 
+										<a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>
+									}
+									else
+									{
+										<a target = "_blank" href = "http://www.financementecohome.com/" class="link-color-inherit">www.financementecohome.com</a>
+									}
+									.</span>
                                 </label>
                             </div>
                         </div>

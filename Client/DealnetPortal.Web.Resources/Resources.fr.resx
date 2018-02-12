@@ -400,7 +400,7 @@
     <value>État</value>
   </data>
   <data name="SubDealer" xml:space="preserve">
-    <value>Sous-courtier</value>
+    <value>Sous-marchand</value>
   </data>
   <data name="Time" xml:space="preserve">
     <value>Heure</value>
@@ -721,7 +721,7 @@
     <value>Vérifier le crédit</value>
   </data>
   <data name="ChooseSubDealer" xml:space="preserve">
-    <value>Choisir un sous-courtier</value>
+    <value>Choisir un sous-marchand</value>
   </data>
   <data name="ClearAddress" xml:space="preserve">
     <value>Effacer l’adresse</value>
@@ -1235,7 +1235,7 @@
     <value>J’accepte de transmettre les renseignements pour la vérification de crédit</value>
   </data>
   <data name="IAgreeDealerOrRepresentativesMayContact" xml:space="preserve">
-    <value>J’accepte que le courtier ou ses représentants communiquent avec moi par courriel ou par téléphone</value>
+    <value>J’accepte que le marchand ou ses représentants communiquent avec moi par courriel ou par téléphone</value>
   </data>
   <data name="SubmitApplication" xml:space="preserve">
     <value>Soumettre la demande</value>
@@ -1286,7 +1286,7 @@
     <value>Créé par</value>
   </data>
   <data name="Dealer" xml:space="preserve">
-    <value>Courtier</value>
+    <value>Marchand</value>
   </data>
   <data name="CreatedByCustomer" xml:space="preserve">
     <value>Créé par le client</value>
@@ -1298,7 +1298,7 @@
     <value>Vous devez remplir tous les champs obligatoires</value>
   </data>
   <data name="ToProceedYouNeedToBe75LessPleaseContact" xml:space="preserve">
-    <value>Afin de pouvoir poursuivre, vous devez être âgé de 75 ans ou moins. Veuillez communiquer directement avec le courtier.</value>
+    <value>Afin de pouvoir poursuivre, vous devez être âgé de 75 ans ou moins. Veuillez communiquer directement avec le marchand.</value>
   </data>
   <data name="CongratulationsYouBeenPreApprovedFor" xml:space="preserve">
     <value>Félicitations, vous avez été pré-approuvé pour un montant de {0} $.</value>
@@ -1314,7 +1314,7 @@
     <value>Nous vérifions l’information. Habituellement, cela prend environ deux minutes.</value>
   </data>
   <data name="DealerSalesAgent" xml:space="preserve">
-    <value>Courtier ou agent de vente</value>
+    <value>Marchand ou agent de vente</value>
   </data>
   <data name="ShowLessInfo" xml:space="preserve">
     <value>Afficher moins de renseignements</value>
@@ -1395,7 +1395,7 @@
     <value>Programme de report</value>
   </data>
   <data name="DealerCost" xml:space="preserve">
-    <value>Coût du courtier</value>
+    <value>Coût du marchand</value>
   </data>
   <data name="Period" xml:space="preserve">
     <value>Période</value>
@@ -1642,7 +1642,7 @@
     <value>Marques</value>
   </data>
   <data name="Broker" xml:space="preserve">
-    <value>Courtier</value>
+    <value>Marchand</value>
   </data>
   <data name="BusinessNameIncorrectFormat" xml:space="preserve">
     <value>Le format du nom de l’entreprise est incorrect</value>
@@ -1651,7 +1651,7 @@
     <value>Saisir</value>
   </data>
   <data name="CertifyDealerInfo" xml:space="preserve">
-    <value>En signant ci-dessous, la partie principale en sa capacité personnelle (« je », « moi ») et la société (« nous ») attestent que tous les renseignements contenus dans la présente demande de courtier sont véridiques et complets.</value>
+    <value>En signant ci-dessous, la partie principale en sa capacité personnelle (« je », « moi ») et la société (« nous ») attestent que tous les renseignements contenus dans la présente demande de marchand sont véridiques et complets.</value>
   </data>
   <data name="Channel" xml:space="preserve">
     <value>Circuit</value>
