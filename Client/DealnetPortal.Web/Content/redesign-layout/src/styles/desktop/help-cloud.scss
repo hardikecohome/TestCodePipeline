@@ -1,36 +1,33 @@
 .help-cloud {
-  position: fixed;
-  z-index: 3;
-  right: 25px;
-  bottom: 10px;
-  width: 86px;
-  height: 111px;
-  padding: 15px 10px 10px;
-  background-image: url('../img/bubble-help-red.svg');
-  background-repeat: no-repeat;
-  color: white;
-  cursor: pointer;
-  font-size: 14px;
-  text-align: center;
-  font-weight: 200;
-
-  .icon-help-button {
-    width: 100%;
-    display: block;
-    &:before {
-      color: white;
-      font-size: 26px;
-    }
-  }
-
-  &:hover {
-    background-image: url('../img/bubble-help-w.svg');
-    color: #ff5b40;
-
+    position: fixed;
+    z-index: 3;
+    right: 25px;
+    bottom: 10px;
+    width: 86px;
+    height: 111px;
+    padding: 15px 10px 10px;
+    background-image: url('/../images/bubble-help-red.svg');
+    background-repeat: no-repeat;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+    font-weight: 200;
     .icon-help-button {
-      &:before {
-        color: #ff5b40;
-      }
+        width: 100%;
+        display: block;
+        &:before {
+            color: white;
+            font-size: 26px;
+        }
     }
-  }
+    &:hover {
+        background-image: url('/../images/bubble-help-w.svg');
+        color: #ff5b40;
+        .icon-help-button {
+            &:before {
+                color: #ff5b40;
+            }
+        }
+    }
 }
