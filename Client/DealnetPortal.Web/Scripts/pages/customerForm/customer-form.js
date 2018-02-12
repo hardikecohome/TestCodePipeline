@@ -391,7 +391,7 @@
                         requiredEmployment = requiredEmployment.concat(['employStatus', 'annualSalary']);
                     }
                     if (props.employStatus === '2') {
-                        requiredEmployment = requiredEmployment.concat(['employStatus',
+                        requiredEmployment.concat(['employStatus',
                             'annualSalary',
                             'yearsOfEmploy',
                             'employType',
