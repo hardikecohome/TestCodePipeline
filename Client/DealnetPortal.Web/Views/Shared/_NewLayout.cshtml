@@ -15,7 +15,6 @@
     <meta name="format-detection" content="telephone=no">
     <title>@ViewBag.Title - DealNet</title>
     <link href="https://fonts.googleapis.com/css?family=Mukta:300,400,500,700,800" rel="stylesheet">
-    @RenderSection("Styles", false)
     @switch(ApplicationSettingsManager.PortalType)
     {
         case PortalType.Odi:
@@ -25,8 +24,9 @@
             @Styles.Render("~/Content/less/main-new.less")
             break;
     }
-    @Styles.Render("~/bundles/vendor-styles")
-    @Styles.Render("~/bundles/styles")
+    @*@Styles.Render("~/bundles/vendor-styles")
+    @Styles.Render("~/bundles/styles")*@
+    @RenderSection("Styles", false)
     <link rel="shortcut icon" href="@Url.Action("Favicon", "Settings", new { version = DateTime.Now.Ticks.ToString(), hashDealerName = ViewBag.HashDealerName as string })" type="image/x-icon" />
     <script type="text/javascript">
         var urlContent = "@Url.Content("~/")";
@@ -476,7 +476,7 @@
                 <div class="pull-right">
 
                     <i onclick="sendEmailModel();">
-                        <button class="btn btn-lg btn-green helpbutton">
+                        <button class="btn btn-green helpbutton">
                             <svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg>
                             @Resources.Help
                         </button>
