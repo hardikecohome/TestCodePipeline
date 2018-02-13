@@ -57,7 +57,7 @@
 
 div.dataTables_wrapper div.dataTables_filter label .icon-search, 
 .control-group .icon-calendar{
-    top: 8px
+    top: 8px;
 }
 
 body:not(.mobile-device), body:not(.tablet-device) {
@@ -158,6 +158,17 @@ html:not(.ie9) {
 div.dataTables_wrapper div.dataTables_paginate {
     text-align: center !important;
 }
-table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after{
-    right: 6px !important; 
+table.dataTable thead {
+    .sorting:after, 
+    .sorting_asc:after,
+    .sorting_desc:after, 
+    .sorting_asc_disabled:after, 
+    .sorting_desc_disabled:after{
+        right: 6px !important; 
+    }
+}
+.control-group {
+    .clear-input, .recover-pass-link{
+        top: 8px;        
+    }
 }
