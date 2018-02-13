@@ -206,14 +206,13 @@
   .mobile-navigation__action-block {
     padding: 12px;
     border-bottom: 1px solid #f2f2f2; }
-    .mobile-navigation__action-block .dropdown-custom {
-      float: left; }
-      .mobile-navigation__action-block .dropdown-custom .dropdown-toggle {
-        font-size: 11px;
-        text-transform: uppercase;
-        font-weight: 400;
-        color: #5d5d5d;
-        background-image: url("../images/forms/selectArrowBlack.svg"); }
+    .mobile-navigation__action-block .dropdown-custom .dropdown-toggle {
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 400;
+      color: #5d5d5d;
+      background-image: url("../images/forms/selectArrowBlack.svg");
+      width: 30%; }
 
   .header__select {
     color: #5d5d5d;
@@ -256,7 +255,7 @@
 
   .mobile-help__toggle {
     max-width: 155px;
-    font-size: 11px;
+    font-size: 12px;
     background-color: transparent;
     border: 0;
     outline: none;
@@ -264,12 +263,17 @@
     background-repeat: no-repeat;
     background-position: right;
     padding-right: 15px;
-    line-height: 13px;
+    line-height: 25px;
     cursor: pointer; }
 
   .mobile-navigation,
   .mobile-help {
-    display: block; } }
+    display: block; }
+
+  :lang(fr) .mobile-help__toggle,
+  :lang(fr-CA) .mobile-help__toggle {
+    font-size: 11px;
+    line-height: 13px; } }
 @media screen and (max-width: 767px) {
   .custom-container {
     max-width: 1030px;
