@@ -13,6 +13,7 @@
         padding: 8px 0 0;
     }
     .mobile-navigation {
+        position: relative;
         z-index: 2000;
         position: absolute;
         right: 0;
@@ -27,7 +28,7 @@
         font-size: 11px;
         width: 150px;
         line-height: 40px;
-        background-image: url('/../images/forms/selectArrow.svg');
+        background-image: url('../images/forms/selectArrow.svg');
         background-repeat: no-repeat;
         background-position: 92% center;
     }
@@ -119,7 +120,7 @@
                 text-transform: uppercase;
                 font-weight: 400;
                 color: #5d5d5d;
-                background-image: url('/../images/forms/selectArrowBlack.svg');
+                background-image: url('../images/forms/selectArrowBlack.svg');
             }
         }
     }
@@ -127,7 +128,7 @@
         color: $middle-grey;
         font-size: 11px;
         float: none;
-        background-image: url('/../images/forms/selectArrowBlack.svg');
+        background-image: url('../images/forms/selectArrowBlack.svg');
     }
     .mobile-help {
         margin-top: 15px;
@@ -172,7 +173,7 @@
         background-color: transparent;
         border: 0;
         outline: none;
-        background-image: url('/../images/forms/selectArrow.svg');
+        background-image: url('../images/forms/selectArrow.svg');
         background-repeat: no-repeat;
         background-position: right;
         padding-right: 15px;

@@ -1,11 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src: url("/../fonts/icomoon.eot?dmi30k");
-  src: url("/../fonts/icomoon.eot?dmi30k#iefix") format("embedded-opentype"), url("/../fonts/icomoon.ttf?dmi30k") format("truetype"), url("/../fonts/icomoon.woff?dmi30k") format("woff"), url("/../fonts/icomoon.svg?dmi30k#icomoon") format("svg");
+  src: url("../fonts/icomoon.eot?dmi30k");
+  src: url("../fonts/icomoon.eot?dmi30k#iefix") format("embedded-opentype"), url("../fonts/icomoon.ttf?dmi30k") format("truetype"), url("../fonts/icomoon.woff?dmi30k") format("woff"), url("../fonts/icomoon.svg?dmi30k#icomoon") format("svg");
   font-weight: normal;
   font-style: normal; }
-[class^="icon-"],
-[class*=" icon-"] {
+[class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: none;
@@ -284,6 +283,7 @@
     border-image-source: -webkit-linear-gradient(31deg, #f75d38, #ef2c50);
     border-image-source: -o-linear-gradient(31deg, #f75d38, #ef2c50);
     border-image-source: linear-gradient(121deg, #f75d38, #ef2c50);
+    border-image-slice: 1;
     border-image-slice: 1; }
 
 .btn-green {
@@ -383,7 +383,7 @@
   .dropdown-custom .dropdown-toggle {
     background-color: transparent;
     padding-right: 12px;
-    background-image: url("/../images/forms/selectArrow.svg");
+    background-image: url("../images/forms/selectArrow.svg");
     background-size: 8px;
     background-repeat: no-repeat;
     background-position: right;
@@ -533,7 +533,7 @@
   -moz-appearance: none;
   -webkit-appearance: none;
   padding-right: 10px;
-  background-image: url("/../images/forms/selectArrow.svg");
+  background-image: url("../images/forms/selectArrow.svg");
   background-repeat: no-repeat;
   background-position: right;
   outline: none;
@@ -554,7 +554,7 @@
   width: 86px;
   height: 111px;
   padding: 15px 10px 10px;
-  background-image: url("/../images/bubble-help-red.svg");
+  background-image: url("../img/bubble-help-red.svg");
   background-repeat: no-repeat;
   color: white;
   cursor: pointer;
@@ -568,7 +568,7 @@
       color: white;
       font-size: 26px; }
   .help-cloud:hover {
-    background-image: url("/../images/bubble-help-w.svg");
+    background-image: url("../img/bubble-help-w.svg");
     color: #ff5b40; }
     .help-cloud:hover .icon-help-button:before {
       color: #ff5b40; }
@@ -581,14 +581,12 @@
   /* active state */ }
   .custom-text-input-group.icon input {
     padding-right: 30px; }
-  .custom-text-input-group [class^="icon-"],
-  .custom-text-input-group [class*=" icon-"] {
+  .custom-text-input-group [class^="icon-"], .custom-text-input-group [class*=" icon-"] {
     position: absolute;
     display: block;
     right: 5px;
     top: 15px; }
-    .custom-text-input-group [class^="icon-"]:before,
-    .custom-text-input-group [class*=" icon-"]:before {
+    .custom-text-input-group [class^="icon-"]:before, .custom-text-input-group [class*=" icon-"]:before {
       font-size: 20px;
       color: #c2c8d0; }
   .custom-text-input-group input {
@@ -596,6 +594,7 @@
     color: #5d5d5d;
     padding: 9px;
     display: block;
+    border: none;
     border: 1px solid #ccdbec;
     width: 100%; }
     .custom-text-input-group input:hover {
@@ -622,8 +621,7 @@
     transition: 0.2s ease all;
     -moz-transition: 0.2s ease all;
     -webkit-transition: 0.2s ease all; }
-  .custom-text-input-group input:focus ~ label,
-  .custom-text-input-group input:valid ~ label {
+  .custom-text-input-group input:focus ~ label, .custom-text-input-group input:valid ~ label {
     top: 1px;
     font-size: 12px;
     line-height: 12px;
