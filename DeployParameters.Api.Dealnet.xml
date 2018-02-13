@@ -3,8 +3,7 @@
   <setParameter name="IIS Web Application Name" value="Dealnet/Server" />
   <setParameter name="DefaultConnection-Web.config Connection String" value="Data Source=FS-S2012-DEV01;Initial Catalog=dev-DealerPortal;User ID=dev-portal;Password=devportal123" />
   <setParameter name="AspireConnection-Web.config Connection String" value="Server=10.12.17.114; Database=ltiv4Test; Integrated Security=false;Connection Timeout=30;User ID=ecohomecr1;Password=yNl!CJaa" />
-  
-  
+   
   <setParameter name="ErrorLogTo" value="hsharma@ecohomefinancial.com" />
   <setParameter name="ErrorLogFrom" value="dev@notification.ecohomefinancial.com" />
   <!--ENTER HERE Aspire settings-->  
