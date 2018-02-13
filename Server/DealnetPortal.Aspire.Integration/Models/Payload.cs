@@ -28,7 +28,8 @@ namespace DealnetPortal.Aspire.Integration.Models
 
         public string DocumentName { get; set; }
 
-        public Asset Asset { get; set; }
+        [XmlElement("Asset")]
+        public List<Asset> Asset { get; set; }
         [XmlElement("Account")]
         public List<AccountResponse> Accounts { get; set; }
         //public string EntityId { get; set; }    
