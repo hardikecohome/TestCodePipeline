@@ -235,7 +235,7 @@
                                 <div class="row">
                                     <label class="dealnet-field-caption col-xs-6">@Resources.SubDealer</label>
                                     <div class="dealnet-field-holder col-xs-6">
-                                        @(contract.BasicInfo.SubDealers.FirstOrDefault(x => x.Id == contract.BasicInfo.SubmittingDealerId)?.DisplayName)
+                                        @(contract.BasicInfo.SubDealers.FirstOrDefault(x => x.Id == contract.BasicInfo.SubmittingDealerId)?.DisplayName ?? @Resources.OnMyBehalf)
                                     </div>
                                 </div>
                             </div>
