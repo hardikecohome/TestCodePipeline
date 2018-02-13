@@ -5,7 +5,7 @@
 }
 
 <div id="privacy-policy" class="privacy-policy-page" style="width: 990px; max-width: 100%; ">
-	@Html.Raw((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True") ? (CultureHelper.CurrentCultureType != CultureType.French) ? File.ReadAllText(Server.MapPath("~/Content/files/HTML/en/qc/PrivacyPolicyTextQC.html")) : File.ReadAllText(Server.MapPath("~/Content/files/HTML/fr/qc/PrivacyPolicyTextQCFR.html"))
+	@Html.Raw(((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True") || ViewBag.IsQuebecDealer) ? (CultureHelper.CurrentCultureType != CultureType.French) ? File.ReadAllText(Server.MapPath("~/Content/files/HTML/en/qc/PrivacyPolicyTextQC.html")) : File.ReadAllText(Server.MapPath("~/Content/files/HTML/fr/qc/PrivacyPolicyTextQCFR.html"))
 				: (CultureHelper.CurrentCultureType != CultureType.French) ? File.ReadAllText(Server.MapPath("~/Content/files/HTML/en/PrivacyPolicyText.html")) : File.ReadAllText(Server.MapPath("~/Content/files/HTML/fr/PrivacyPolicyTextFR.html")))
 	
 </div>

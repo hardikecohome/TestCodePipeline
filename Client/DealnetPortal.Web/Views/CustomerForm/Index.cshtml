@@ -559,7 +559,7 @@
                                 </label>
                                 <div class="consents-links">
                                     <a href="" class="dealnet-info-link j-personal-data-used-modal">@Resources.HowIsMyPersonalDataUsed</a>
-                                    @Html.ActionLink(@Resources.PrivacyPolicy, "PrivacyPolicy", "Info", null, new { @class = "dealnet-info-link", target = "_blank" })
+                                    @Html.ActionLink(@Resources.PrivacyPolicy, "PrivacyPolicy", "Info", new { IsQuebecDealer = Model.IsQuebecDealer }, new { @class = "dealnet-info-link", target = "_blank" })
                                 </div>
                             </div>
                             <div class="form-group checkbox-hold">
@@ -601,7 +601,7 @@
                 </span>
             </div>
         </div>
-        @Html.Partial("_AgreementPersonalData");
+        @Html.Partial("_AgreementPersonalData", Model.IsQuebecDealer);
     }
 </div>
 

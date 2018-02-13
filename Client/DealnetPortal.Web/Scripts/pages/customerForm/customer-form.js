@@ -281,8 +281,8 @@
             initInstallationAddress(customerFormStore);
             initContactInfo(customerFormStore);
             initAgreement(customerFormStore);
-            initEmployment(customerFormStore);
-
+			initEmployment(customerFormStore);
+			
             $('.j-personal-data-used-modal').on('click', function (e) {
                 var data = {
                     message: $('#personal-data-used').html(),
