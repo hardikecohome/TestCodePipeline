@@ -13,7 +13,7 @@ namespace DealnetPortal.Web
 
             bundles.Add(new StyleBundle("~/bundles/vendor-styles")
                 .Include("~/Content/css/jquery-ui.css")
-                .Include("~/Content/css/bootstrap.min.css")
+                .Include("~/Content/css/bootstrap.css")
                 .Include("~/Content/css/selectric.css"));
 
             bundles.Add(new StyleBundle("~/bundles/styles")
@@ -68,7 +68,7 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap")
                 .Include(
-                    "~/Scripts/vendor/bootstrap.min.js",
+                    "~/Scripts/vendor/bootstrap.js",
                     "~/Scripts/vendor/jquery.selectric.min.js",
                     "~/Scripts/vendor/respond.js"));
 
