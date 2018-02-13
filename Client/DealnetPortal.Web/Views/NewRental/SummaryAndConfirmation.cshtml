@@ -87,7 +87,7 @@
                                             <label class="dealnet-field-caption col-xs-6">@Resources.DealerName</label>
                                             <div class="dealnet-field-holder col-xs-6">
                                                 <div class="control-group">
-                                                    @(Model.BasicInfo.SubDealers.FirstOrDefault(x => x.Id == Model.BasicInfo.SubmittingDealerId)?.DisplayName)
+                                                    @(Model.BasicInfo.SubDealers.FirstOrDefault(x => x.Id == Model.BasicInfo.SubmittingDealerId)?.DisplayName ?? @Resources.OnMyBehalf)
                                                 </div>
                                             </div>
                                         </div>
