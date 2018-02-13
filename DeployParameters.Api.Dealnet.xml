@@ -25,12 +25,6 @@
     <parameterEntry type="XMLFile" scope="web.config$" match="//configuration/appSettings/add[@key='DealerPortalDraftUrl']/@value"/>
   </parameter>
   
-  <parameter name="changeApiUrl" value="http://localhost:9090/Dev-DealerPortal/api">
-    <parameterEntry type="XMLFile" scope="web.config$" match="//configuration/appSettings/add[@key='ApiUrl']/@value"/>
-  </parameter>
-  <parameter name="changeApiUrl" value="http://localhost:9090/Dev-DealerPortal/api">
-    <parameterEntry type="XMLFile" scope="web.config$" match="//configuration/appSettings/add[@key='ApiUrl']/@value"/>
-  </parameter>
   <!--Customer Wallet integration-->
   <parameter name="changeCustomerWalletApiUrl" value="http://fs-s2012-dev01.corp.dealnetcapital.com:9090/dev-customerwallet/api">
     <parameterEntry type="XMLFile" scope="web.config$" match="//configuration/appSettings/add[@key='CustomerWalletApiUrl']/@value"/>
