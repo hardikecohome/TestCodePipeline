@@ -12,6 +12,13 @@
     max-width: 105px;
 }
 
+:lang(fr),
+:lang(fr-CA) {
+    .header__navigation ul li a {
+        font-size: 9px;
+    }
+}
+
 .header__navigation {
     float: left;
     margin-left: 66px;
@@ -36,7 +43,7 @@
                 text-decoration: none;
                 text-transform: uppercase;
                 color: $middle-grey;
-                font-size: 11px;
+                font-size: 10px;
                 line-height: 1.0;
                 position: relative;
                 .notification {

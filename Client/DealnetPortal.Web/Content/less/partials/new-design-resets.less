@@ -23,10 +23,10 @@
 
 @media only screen and (min-width: 1024px) {
     .btn-add-calc-option {
-        white-space: normal;
+        white-space: normal !important;
     }
     .control-add-calc {
-        position: absolute;
+        position: absolute !important;
     }
 }
 
@@ -58,12 +58,6 @@
 div.dataTables_wrapper div.dataTables_filter label .icon-search, 
 .control-group .icon-calendar{
     top: 8px
-}
-
-.home-page-table, .table-reports {
-    .icon-link:before{
-        content: '';
-    }
 }
 
 body:not(.mobile-device), body:not(.tablet-device) {
@@ -149,4 +143,21 @@ html:not(.ie9) {
 }
 .info-text-success .icon-info-well {
     color: #94d802;
+}
+.dealnet-input
+, .form-control{
+    height:40px !important;
+}
+
+@media (min-width: 1310px) {
+    .container {
+        width: 1310px;
+    }
+}
+
+div.dataTables_wrapper div.dataTables_paginate {
+    text-align: center !important;
+}
+table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after{
+    right: 6px !important; 
 }

@@ -646,14 +646,14 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.AspireStatuses.FirstOrDefault(x => x.Status.Contains(status.Trim()));
         }  
 
-        public PaymentSummary GetContractPaymentsSummary(int contractId)
+        public PaymentSummary GetContractPaymentsSummary(int contractId, decimal? priceOfEquipment)
         {
             PaymentSummary paymentSummary = null;
 
             var contract = GetContract(contractId);
             if (contract != null)
             {
-                paymentSummary = GetContractPaymentsSummary(contract);                
+                paymentSummary = GetContractPaymentsSummary(contract, priceOfEquipment);                
             }
 
             return paymentSummary;
@@ -995,7 +995,7 @@ namespace DealnetPortal.DataAccess.Repositories
             return dbEquipment;
         }
 
-        private PaymentSummary GetContractPaymentsSummary(Contract contract)
+        private PaymentSummary GetContractPaymentsSummary(Contract contract, decimal? priceOfEquipment = null)
         {
             PaymentSummary paymentSummary = new PaymentSummary();
 
@@ -1010,20 +1010,25 @@ namespace DealnetPortal.DataAccess.Repositories
                 if (contract.Equipment.AgreementType == AgreementType.LoanApplication)
                 {
                     //for loan
-                    var priceOfEquipment = 0.0;
-                    if (IsClarityProgram(contract.Id))
+                    if (!priceOfEquipment.HasValue)
                     {
-                        //for Clarity program we have different logic
-                        priceOfEquipment = (double) (contract.Equipment?.NewEquipment?.Where(ne => ne.IsDeleted != true)
-                                                         .Sum(x => x.MonthlyCost) ?? 0.0m);
-                        var packages =
-                            (double) (contract.Equipment?.InstallationPackages?.Sum(x => x.MonthlyCost) ?? 0.0m);
-                        priceOfEquipment += packages;                        
-                    }
-                    else
-                    {
-                        priceOfEquipment = (double?)contract.Equipment?.NewEquipment?.Where(ne => ne.IsDeleted != true)
-                                               .Sum(x => x.Cost) ?? 0;
+                        priceOfEquipment = 0.0m;
+                        if (IsClarityProgram(contract.Id))
+                        {
+                            //for Clarity program we have different logic
+                            priceOfEquipment =
+                                (contract.Equipment?.NewEquipment?.Where(ne => ne.IsDeleted != true)
+                                              .Sum(x => x.MonthlyCost) ?? 0.0m);
+                            var packages =
+                                (contract.Equipment?.InstallationPackages?.Sum(x => x.MonthlyCost) ?? 0.0m);
+                            priceOfEquipment += packages;
+                        }
+                        else
+                        {
+                            priceOfEquipment = contract.Equipment?.NewEquipment
+                                                   ?.Where(ne => ne.IsDeleted != true)
+                                                   .Sum(x => x.Cost) ?? 0;
+                        }
                     }
 
                     if (contract.Equipment?.AmortizationTerm != null && contract.Equipment?.LoanTerm != null)
@@ -1033,7 +1038,7 @@ namespace DealnetPortal.DataAccess.Repositories
                             TaxRate = rate?.Rate ?? 0,
                             LoanTerm = contract.Equipment?.LoanTerm ?? 0,
                             AmortizationTerm = contract.Equipment?.AmortizationTerm ?? 0,
-                            PriceOfEquipment = priceOfEquipment,
+                            PriceOfEquipment = (double?)priceOfEquipment ?? 0.0,
                             AdminFee = contract.Equipment?.AdminFee ?? 0,
                             DownPayment = contract.Equipment?.DownPayment ?? 0,
                             CustomerRate = contract.Equipment?.CustomerRate ?? 0,

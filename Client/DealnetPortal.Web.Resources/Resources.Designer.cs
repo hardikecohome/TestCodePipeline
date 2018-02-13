@@ -2212,7 +2212,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dealer Support/Funding.
+        ///   Looks up a localized string similar to Dealer Support.
         /// </summary>
         public static string DealerSupport {
             get {
@@ -3076,6 +3076,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Funding.
+        /// </summary>
+        public static string Funding {
+            get {
+                return ResourceManager.GetString("Funding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Funding Checklist.
         /// </summary>
         public static string FundingChecklist {
@@ -3171,6 +3180,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Help {
             get {
                 return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Home.
+        /// </summary>
+        public static string Home {
+            get {
+                return ResourceManager.GetString("Home", resourceCulture);
             }
         }
         

@@ -186,7 +186,7 @@ namespace DealnetPortal.Domain.Repositories
 
         AspireStatus GetAspireStatus(string status);
         
-        PaymentSummary GetContractPaymentsSummary(int contractId);
+        PaymentSummary GetContractPaymentsSummary(int contractId, decimal? priceOfEquipment = null);
 
         Comment TryAddComment(Comment comment, string contractOwnerId);
 
