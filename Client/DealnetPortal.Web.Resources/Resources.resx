@@ -2259,7 +2259,7 @@ You can do it anytime by using the following link:</value>
     <value>Customer Service</value>
   </data>
   <data name="DealerSupport" xml:space="preserve">
-    <value>Dealer Support/Funding</value>
+    <value>Dealer Support</value>
   </data>
   <data name="HowCanWeHelp" xml:space="preserve">
     <value>How can we help?</value>
@@ -2812,5 +2812,8 @@ changing contract terms or signing contract on paper.</value>
   </data>
   <data name="ServiceAreaNotInQc" xml:space="preserve">
     <value>Your service area cannot be in Quebec</value>
+  </data>
+  <data name="Funding" xml:space="preserve">
+    <value>Funding</value>
   </data>
 </root>
