@@ -104,7 +104,7 @@
 
 .header__right-panel {
     float: right;
-    width: 30%;
+    min-width: 30%;
     position: relative;
     &:before {
         display: block;

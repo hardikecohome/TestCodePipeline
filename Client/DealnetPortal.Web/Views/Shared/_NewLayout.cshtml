@@ -241,15 +241,15 @@
                                     <span>@Resources.MyProfile</span>
                                 </a>
                             </li>
-                            @if((User as ClaimsPrincipal)?.HasClaim("ShowAbout", "True") ?? false)
-                            {
+                            @*@if((User as ClaimsPrincipal)?.HasClaim("ShowAbout", "True") ?? false)
+                            {*@
                                 <li>
                                     <a href="@Url.Action("About", "Home")">
                                         <span class="header__nav-icon icon-about"></span>
                                         <span>@Resources.AboutUs</span>
                                     </a>
                                 </li>
-                            }
+                            @*}*@
                             <li>
                                 <a href="@Url.Action("Library", "Home")">
                                     <span class="header__nav-icon icon-library"></span>
