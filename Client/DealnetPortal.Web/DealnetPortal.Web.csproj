@@ -18,7 +18,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44322</IISExpressSSLPort>
+    <IISExpressSSLPort>44341</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -840,6 +840,7 @@
     <Content Include="Content\files\resources\en\MortgageBroker\myhome-wallet-mortgage-info-deck.pdf" />
     <Content Include="Content\files\resources\en\MortgageBroker\Mortgage Broker FAQs.pdf" />
     <Content Include="Content\files\resources\en\MortgageBroker\Mortgage Broker Portal User Guide February 2018.pdf" />
+    <Content Include="Content\files\resources\en\MortgageBroker\Consumer FAQs for Mortgage-Real Estate Channel.pdf" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\components\addressInformation.js" />
