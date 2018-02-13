@@ -40,7 +40,7 @@
     <parameterEntry type="XMLFile" scope="web.config$" match="//configuration/appSettings/add[@key='DealNetEmail']/@value"/>
   </parameter>
   <parameter name="changeDealNetErrorLogsEmail" value="hirenecohome+error@gmail.com">
-    <parameterEntry type="XMLFile" scope="web.config$" match="//configuration/appSettings/add[@key='ApiUrl']/@value"/>
+    <parameterEntry type="XMLFile" scope="web.config$" match="//configuration/appSettings/add[@key='DealNetErrorLogsEmail']/@value"/>
   </parameter>
   <parameter name="changeCreditDecisionDealNetEmail" value="hirenecohome+1@gmail.com">
     <parameterEntry type="XMLFile" scope="web.config$" match="//configuration/appSettings/add[@key='CreditDecisionDealNetEmail']/@value"/>
