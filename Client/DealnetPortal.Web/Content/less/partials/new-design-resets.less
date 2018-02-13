@@ -2,11 +2,16 @@
 
 .dealnet-home-page
 .dealnet-page-button {
-    box-shadow: none;
-    display: block;
-    font: bold 14px/89px Mukta;
-    padding: 0;
-    text-align: center;
+    @media @desktop-up {
+        box-shadow: none;
+        display: block;
+        font: bold 14px/89px Mukta;
+        padding: 0;
+        text-align: center;
+    }
+    @media @mobile {
+        line-height: 30px;
+    }
 }
 
 .dealnet-success-button {
