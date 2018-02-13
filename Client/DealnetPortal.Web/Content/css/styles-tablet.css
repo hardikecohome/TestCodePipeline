@@ -93,6 +93,10 @@
   content: "\e907";
   color: #5d5d5d; }
 
+.icon-about:before {
+  content: "\e908";
+  color: #5d5d5d; }
+
 @media screen and (max-width: 1309px) and (min-width: 768px) {
   .main-banner {
     height: 220px; } }

@@ -24,8 +24,6 @@
             @Styles.Render("~/Content/less/main-new.less")
             break;
     }
-    @*@Styles.Render("~/bundles/vendor-styles")
-    @Styles.Render("~/bundles/styles")*@
     @RenderSection("Styles", false)
     <link rel="shortcut icon" href="@Url.Action("Favicon", "Settings", new { version = DateTime.Now.Ticks.ToString(), hashDealerName = ViewBag.HashDealerName as string })" type="image/x-icon" />
     <script type="text/javascript">
@@ -101,7 +99,7 @@
                                                     break;
                                                 case CultureType.French:
                                                     @:Fr
-                        break;
+                                                    break;
                                             }
                                         </div>
                                         <ul class="dropdown-menu custom-dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
@@ -162,7 +160,7 @@
                                                 break;
                                             case CultureType.French:
                                                 @:Fr
-                    break;
+                                                break;
                                         }
                                     </div>
                                     <ul class="dropdown-menu custom-dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
@@ -211,6 +209,15 @@
                                     </a>
                                 </li>*@
                             <li>
+                                <a href="@Url.Action("Index", "MyDeals")">
+                                    <span class="header__nav-icon icon-deals"></span>
+                                    <span>@Resources.MyDeals</span>
+                                    <div class="notification">
+                                        <div class="new-deals-number"></div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
                                 <a href="@Url.Action("Index", "Calculator")">
                                     <span class="header__nav-icon icon-calculator"></span>
                                     <span>@Resources.Calculator</span>
@@ -223,30 +230,30 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("Index", "MyDeals")">
-                                    <span class="header__nav-icon icon-deals"></span>
-                                    <span>@Resources.MyDeals</span>
-                                    <div class="notification">
-                                        <div class="new-deals-number"></div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
                                 <a href="@Url.Action("Index", "Leads")">
                                     <span class="header__nav-icon icon-cart"></span>
                                     <span>@Resources.Leads</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="@Url.Action("Library", "Home")">
-                                    <span class="header__nav-icon icon-library"></span>
-                                    <span>@Resources.Library</span>
-                                </a>
-                            </li>
-                            <li>
                                 <a href="@Url.Action("Index", "Profile")">
                                     <span class="header__nav-icon icon-profile"></span>
                                     <span>@Resources.MyProfile</span>
+                                </a>
+                            </li>
+                            @if((User as ClaimsPrincipal)?.HasClaim("ShowAbout", "True") ?? false)
+                            {
+                                <li>
+                                    <a href="@Url.Action("About", "Home")">
+                                        <span class="header__nav-icon icon-about"></span>
+                                        <span>@Resources.AboutUs</span>
+                                    </a>
+                                </li>
+                            }
+                            <li>
+                                <a href="@Url.Action("Library", "Home")">
+                                    <span class="header__nav-icon icon-library"></span>
+                                    <span>@Resources.Library</span>
                                 </a>
                             </li>
                         </ul>
@@ -292,13 +299,17 @@
                                         <text>@Resources.NewApplication</text>
                                         break;
                                     case "Home":
-                                        if(Request.RequestContext.RouteData.Values["action"].ToString() == "Library")
+                                        switch(Request.RequestContext.RouteData.Values["action"].ToString())
                                         {
-                                            <text>@Resources.Library</text>
-                                        }
-                                        else
-                                        {
-                                            <text>@Resources.Home</text>
+                                            case "Library":
+                                                <text>@Resources.Library</text>
+                                                break;
+                                            case "About":
+                                                <text>@Resources.AboutUs</text>
+                                                break;
+                                            default:
+                                                <text>@Resources.Home</text>
+                                                break;
                                         }
                                         break;
                                     case "Calculator":
@@ -342,6 +353,15 @@
                                         </a>
                                     </li>*@
                                 <li>
+                                    <a href="@Url.Action("Index", "MyDeals")">
+                                        <span class="mobile-navigation__nav-icon icon-deals"></span>
+                                        <span>@Resources.MyDeals</span>
+                                        <div class="notification">
+                                            <div class="new-deals-number"></div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="@Url.Action("Index", "Calculator")">
                                         <span class="mobile-navigation__nav-icon icon-calculator"></span>
                                         <span>@Resources.Calculator</span>
@@ -354,30 +374,30 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index", "MyDeals")">
-                                        <span class="mobile-navigation__nav-icon icon-deals"></span>
-                                        <span>@Resources.MyDeals</span>
-                                        <div class="notification">
-                                            <div class="new-deals-number"></div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
                                     <a href="@Url.Action("Index", "Leads")">
                                         <span class="mobile-navigation__nav-icon icon-cart"></span>
                                         <span>@Resources.Leads</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Library", "Home")">
-                                        <span class="mobile-navigation__nav-icon icon-library"></span>
-                                        <span>@Resources.Library</span>
-                                    </a>
-                                </li>
-                                <li>
                                     <a href="@Url.Action("Index", "Profile")">
                                         <span class="mobile-navigation__nav-icon icon-profile"></span>
                                         <span>@Resources.MyProfile</span>
+                                    </a>
+                                </li>
+                                @if((User as ClaimsPrincipal)?.HasClaim("ShowAbout", "True") ?? false)
+                                {
+                                    <li>
+                                        <a href="@Url.Action("About", "Home")">
+                                            <span class="mobile-navigation__nav-icon icon-about"></span>
+                                            <span>@Resources.AboutUs</span>
+                                        </a>
+                                    </li>
+                                }
+                                <li>
+                                    <a href="@Url.Action("Library", "Home")">
+                                        <span class="mobile-navigation__nav-icon icon-library"></span>
+                                        <span>@Resources.Library</span>
                                     </a>
                                 </li>
                             </ul>
@@ -428,7 +448,7 @@
         if(bannerExists)
         {
             <div class="custom-container">
-                <a class="main-banner" @(!string.IsNullOrEmpty(bannerLink) ? "href=" + bannerLink + " target=\"_blank\"" : "") 
+                <a class="main-banner" @(!string.IsNullOrEmpty(bannerLink) ? "href=" + bannerLink + " target=\"_blank\"" : "")
                    style="background-image:url(@Url.Content(ViewBag.Banner));">
                 </a>
             </div>
@@ -452,7 +472,7 @@
                 <div class="modal-footer">
                     <div class="btn-container">
                         <button type="button" class="btn btn-green col-md-12" id="confirmAlert">@Resources.Yes</button>
-                        <a  class="action-link green" data-dismiss="modal">@Resources.Cancel</a>
+                        <a class="action-link green" data-dismiss="modal">@Resources.Cancel</a>
                     </div>
                 </div>
             </div>
