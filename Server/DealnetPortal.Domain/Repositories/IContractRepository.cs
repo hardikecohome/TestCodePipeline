@@ -233,5 +233,7 @@ namespace DealnetPortal.Domain.Repositories
         Contract UpdateContractAspireSubmittedDate(int contractId, string contractOwnerId);
 
         Contract UpdateContractSigners(int contractId, IList<ContractSigner> signers, string contractOwnerId, bool syncOnly = false);
+
+        bool IsMortgageBrokerCustomerExist(string email);
     }
 }
