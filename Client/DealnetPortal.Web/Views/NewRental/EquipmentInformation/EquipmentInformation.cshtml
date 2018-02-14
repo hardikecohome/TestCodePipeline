@@ -61,18 +61,16 @@
 
 
             @((Model.IsClarityDealer && !Model.IsOldClarityDeal) ?
-                        Html.Partial("EquipmentInformation/_ClarityProgram", Model) :
-                        Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
+                                Html.Partial("EquipmentInformation/_ClarityProgram", Model) :
+                                Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
 
             @Html.Partial("EquipmentInformation/_AdditionalContractInformation", Model)
             @Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })
-            <div class="row">
-                <div class="rate-card-button-proceed ">
-                    <span class="btn-proceed-inline-hold form-group btn-form" data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Resources.YouShouldFillAllMandatoryFields">
-                        <input type="submit" value="@Resources.SaveAndProceed" class="btn btn-green col-xs-12 col-sm-12 col-md-12" id="submit" />
-                    </span>
-                </div>
-            </div>
+                    <div class="form-group">
+                        <span class="btn btn-green btn-form" data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Resources.YouShouldFillAllMandatoryFields"id="submit" >
+                            @Resources.SaveAndProceed
+                        </span>
+                    </div>
         </div>
     </div>
 }
