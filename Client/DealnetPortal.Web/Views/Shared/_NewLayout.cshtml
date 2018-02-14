@@ -84,6 +84,48 @@
                 </div>
                 @if(User.Identity.IsAuthenticated)
                 {
+                    <div class="header__actions-tablet visible-md-block visible-sm-block">
+
+                        @if((bool?)TempData["LangSwitcherAvailable"] ?? false)
+                        {
+                            <div class="header__language pull-right">
+                                <div class="dropdown dropdown-custom">
+                                    <div class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+                                         aria-expanded="true">
+                                        @switch(CultureHelper.CurrentCultureType)
+                                        {
+                                            case CultureType.English:
+                                                @:En
+                                                break;
+                                            case CultureType.French:
+                                                @:Fr
+                                                break;
+                                        }
+                                    </div>
+                                    <ul class="dropdown-menu custom-dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                                        <li>
+                                            @Html.ActionLink("En", "ChangeCulture", "Home", new { culture = "en" }, new { @class = "lang-link" })
+                                        </li>
+                                        <li>
+                                            @Html.ActionLink("Fr", "ChangeCulture", "Home", new { culture = "fr" }, new { @class = "lang-link" })
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        }
+                        <div class="header__language pull-right">
+                            <div class="dropdown dropdown-custom">
+                                <div class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    @User.Identity.Name
+                                </div>
+                                <ul class="dropdown-menu custom-dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                                    <li>
+                                        @Html.ActionLink(Resources.Logout, "LogOff", "Account")
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     <div class="header__right-panel hidden-xs">
                         <div class="visible-lg-block">
                             @if((bool?)TempData["LangSwitcherAvailable"] ?? false)
@@ -143,48 +185,6 @@
                                     <a href="#">@Resources.CustomerService/@Resources.Funding</a>
                                 </li>
                             </ul>
-                        </div>
-                    </div>
-                    <div class="header__actions-tablet visible-md-block visible-sm-block">
-
-                        @if((bool?)TempData["LangSwitcherAvailable"] ?? false)
-                        {
-                            <div class="header__language pull-right">
-                                <div class="dropdown dropdown-custom">
-                                    <div class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
-                                         aria-expanded="true">
-                                        @switch(CultureHelper.CurrentCultureType)
-                                        {
-                                            case CultureType.English:
-                                                @:En
-                                                break;
-                                            case CultureType.French:
-                                                @:Fr
-                                                break;
-                                        }
-                                    </div>
-                                    <ul class="dropdown-menu custom-dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                                        <li>
-                                            @Html.ActionLink("En", "ChangeCulture", "Home", new { culture = "en" }, new { @class = "lang-link" })
-                                        </li>
-                                        <li>
-                                            @Html.ActionLink("Fr", "ChangeCulture", "Home", new { culture = "fr" }, new { @class = "lang-link" })
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        }
-                        <div class="header__language pull-right">
-                            <div class="dropdown dropdown-custom">
-                                <div class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    @User.Identity.Name
-                                </div>
-                                <ul class="dropdown-menu custom-dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                                    <li>
-                                        @Html.ActionLink(Resources.Logout, "LogOff", "Account")
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
                     </div>
                     <div class="clearfix visible-md-block visible-sm-block"></div>
@@ -471,7 +471,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="btn-container">
-                        <button type="button" class="btn btn-green col-md-12" id="confirmAlert">@Resources.Yes</button>
+                        <button type="button" class="btn btn-green" id="confirmAlert">@Resources.Yes</button>
                         <a class="action-link green" data-dismiss="modal">@Resources.Cancel</a>
                     </div>
                 </div>
