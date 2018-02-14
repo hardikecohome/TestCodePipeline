@@ -648,9 +648,9 @@ namespace DealnetPortal.Api.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Conditional Approval.
         /// </summary>
-        public static string _Conditional_Approval {
+        public static string _ConditionalApproval {
             get {
-                return ResourceManager.GetString("_Conditional_Approval", resourceCulture);
+                return ResourceManager.GetString("_ConditionalApproval", resourceCulture);
             }
         }
         

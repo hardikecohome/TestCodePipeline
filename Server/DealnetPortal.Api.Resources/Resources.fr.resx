@@ -976,7 +976,7 @@
   <data name="_CVCWaitingtoFund" xml:space="preserve">
     <value>CVC Attendant à fonds</value>
   </data>
-  <data name="_Conditional_Approval" xml:space="preserve">
+  <data name="_ConditionalApproval" xml:space="preserve">
     <value>Approbation conditionnelle</value>
   </data>
 </root>
