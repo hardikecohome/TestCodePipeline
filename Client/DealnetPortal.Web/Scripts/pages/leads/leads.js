@@ -79,7 +79,7 @@ function showTable () {
                         },
                     ],
                     dom:
-                        "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'>>" +
+                        "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
                         "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
                         "<'row'<'col-md-12 col-sm-6'l>>" +
                         "<'row'<'col-md-12''<'#section-before-table'>'>>" +

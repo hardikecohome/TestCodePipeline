@@ -17,7 +17,7 @@
                 <div class="row scanlicence-button">
                     <div class="col-md-12">
                         <div class="scanlicence-hold">
-                            <button type="button" class="btn btn-green col-md-3" id="additional@(i + 1)-scan-button" data-toggle="modal" data-target="#camera-modal">
+                            <button type="button" class="btn btn-green btn-form" id="additional@(i + 1)-scan-button" data-toggle="modal" data-target="#camera-modal">
                                 <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
                                 <span>@Resources.ScanLicense</span>
                             </button>
@@ -39,19 +39,19 @@
                 <div class="row scanlicence-button">
                     <div class="col-md-12">
                         <div class="scanlicence-hold">
-                            <div class="file-upload btn btn-green col-md-3">
+                            <div class="file-upload btn btn-green btn-form">
                                 <svg aria-hidden="true" class="icon icon-scan-licence">
                                     <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use>
                                 </svg>
                                 <span>@Resources.ScanLicense</span>
                                 <input type="file" accept="image/*" class="upload" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'additional-first-name-@(i + 1)', 'additional-last-name-@(i + 1)', 'additional-birth-date-@(i + 1)', 'additional-dl-number-@(i + 1)', 'additional-street-@(i + 1)', 'additional-locality-@(i + 1)', 'additional-administrative_area_level_1-@(i + 1)', 'additional-postal_code-@(i + 1)')" />
                             </div>
-                            <a href="#" class="scanlicence-info-link">
+                            @*<a href="#" class="scanlicence-info-link">
                                 <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
                             </a>
                             <div class="scanlicence-info-text well well-info clear-border">
                                 @Resources.TurnLicenseOver
-                            </div>
+                            </div>*@
                         </div>
                         <span class="scanlicence-notify">@Resources.ScanAndFillAutomatically</span>
                     </div>

@@ -2,11 +2,16 @@
 
 .dealnet-home-page
 .dealnet-page-button {
-    box-shadow: none;
-    display: block;
-    font: bold 14px/89px Mukta;
-    padding: 0;
-    text-align: center;
+    @media @tablet-up {
+        box-shadow: none;
+        display: block;
+        font: bold 14px/89px Mukta;
+        padding: 0;
+        text-align: center;
+    }
+    @media @mobile {
+        line-height: 30px;
+    }
 }
 
 .dealnet-success-button {
@@ -14,11 +19,6 @@
     &:hover{
         box-shadow: none;
     }
-}
-
-.control-group.has-addon-left .control-group-addon,
-.control-group.has-addon-right .control-group-addon {
-    line-height: 35px;
 }
 
 @media only screen and (min-width: 1024px) {
@@ -56,8 +56,8 @@
 }
 
 div.dataTables_wrapper div.dataTables_filter label .icon-search, 
-.control-group .icon-calendar{
-    top: 8px;
+.control-group .icon-calendar {
+    top: 10px;
 }
 
 body:not(.mobile-device), body:not(.tablet-device) {
@@ -122,9 +122,6 @@ body:not(.mobile-device), body:not(.tablet-device) {
         color: #7cc501;
     }
 }
-#emailSupport {
-    width: inherit;
-}
 @media @desktop-up{
     .doc-tab-content .documents-pills-item {
         display: none !important;
@@ -144,15 +141,8 @@ html:not(.ie9) {
 .info-text-success .icon-info-well {
     color: #94d802;
 }
-.dealnet-input
-, .form-control{
+.dealnet-input, .form-control {
     height:40px !important;
-}
-
-@media (min-width: 1310px) {
-    .container {
-        width: 1310px;
-    }
 }
 
 div.dataTables_wrapper div.dataTables_paginate {
@@ -171,4 +161,11 @@ table.dataTable thead {
     .clear-input, .recover-pass-link{
         top: 8px;        
     }
+}
+
+.leads-filter .filter-button {
+    max-width: initial;
+}
+div.dataTables_wrapper #work-items-table_filter.dataTables_filter input {
+    margin-left: 0;
 }

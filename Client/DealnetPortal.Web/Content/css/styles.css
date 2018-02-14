@@ -316,7 +316,7 @@
 
 .header__right-panel {
   float: right;
-  width: 30%;
+  min-width: 30%;
   position: relative; }
   .header__right-panel:before {
     display: block;
@@ -469,6 +469,9 @@
 
 body {
   font-family: 'Mukta', sans-serif; }
+
+.body-container {
+  padding-top: 10px; }
 
 .custom-container {
   max-width: 1030px;

@@ -9,7 +9,7 @@
     <div class="row scanlicence-button">
         <div class="col-md-12">
             <div class="scanlicence-hold">
-                <button type="button" class="btn btn-green col-md-3" id="owner-scan-button" data-toggle="modal" data-target="#camera-modal">
+                <button type="button" class="btn btn-green btn-form" id="owner-scan-button" data-toggle="modal" data-target="#camera-modal">
                     <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
                     <span>@Resources.ScanLicense</span>
                 </button>
@@ -31,17 +31,19 @@ else
     <div class="row scanlicence-button">
         <div class="col-md-12">
             <div class="scanlicence-hold">
-                <div class="file-upload btn btn-green col-md-3" id="owner-scan-button">
-                    <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
+                <div class="file-upload btn btn-green btn-form" id="owner-scan-button">
+                    <svg aria-hidden="true" class="icon icon-scan-licence">
+                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use>
+                    </svg>
                     <span>@Resources.ScanLicense</span>
                     <input type="file" accept="image/*" class="upload" id="owner-upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'first-name', 'last-name', 'birth-date', 'dl-number', 'street', 'locality', 'administrative_area_level_1', 'postal_code')" />
                 </div>
-                <a href="#" class="scanlicence-info-link">
+                @*<a href="#" class="scanlicence-info-link">
                     <svg aria-hidden="true" class="icon icon-info-grey"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-grey")"></use></svg>
                 </a>
-                <div class="scanlicence-info-text well well-info">
+                <div class="scanlicence-info-text well well-info clear-border">
                     @Resources.TurnLicenseOver
-                </div>
+                </div>*@
             </div>
             <span class="scanlicence-notify">@Resources.ScanAndFillAutomatically</span>
         </div>
@@ -162,10 +164,12 @@ else
 <!--END Borrower Information-->
 <!--Instalation Address-->
 <h2 class="dealnet-middle-header">@Resources.InstallationAddressInformation</h2>
-<div class="row">
-    <div class="col-md-12 get-location-section">
-        <div class="btn btn-green col-md-3" onclick="autodetectAddress()">
-            <svg aria-hidden="true" class="icon icon-get-location"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-get-location")"></use></svg>
+<div class="row get-location-section">
+    <div class="col-md-12">
+        <div class="btn btn-green btn-form" onclick="autodetectAddress()">
+            <svg aria-hidden="true" class="icon icon-get-location">
+            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-get-location")"></use>
+            </svg>
             <span>@Resources.GetMyLocation</span>
         </div>
     </div>

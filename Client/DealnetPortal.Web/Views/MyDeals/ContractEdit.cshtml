@@ -400,12 +400,14 @@
                 @Resources.DealSubmittedForAudit
             </div>
             <div class="well success-well collapse before-all-documents-submitted">
-                <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
+                <svg aria-hidden="true" class="icon icon-success">
+                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
+                </svg>
                 @Resources.AllDocumentsChecked
             </div>
         </div>
         <div class="btn-hold">
-            <button class="btn btn-green col-md-12 disablable disabled" id="send-all-documents-report" @(contractClosed || contractDeclined ? "disabled=disabled" : "")>
+            <button class="btn btn-green col-md-12 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-12 disablable disabled" id="send-all-documents-report" @(contractClosed || contractDeclined ? "disabled=disabled" : "")>
                 @Resources.ReadyForAudit
             </button>
         </div>
@@ -2309,10 +2311,11 @@
                     <label for="">@Resources.AddComment</label>
                     <textarea name="Text" cols="30" rows="2" class="form-control base-comment-text" placeholder="@Resources.WriteReply"></textarea>
                 </div>
-                <div class="row">
-                    <div class="col-sm-5 col-md-3 form-group">
-                        <button type="button" class="btn btn-green block-button reply-button col-md-12">@Resources.Reply</button>
-                    </div>
+                <div class="form-group">
+                        <button type="button" class="btn btn-green btn-form reply-button">
+                    @Resources.Reply
+                        </button>
+
                 </div>
             }
             <div id="comments-start"></div>
@@ -2374,7 +2377,7 @@
             <textarea name="Text" cols="30" rows="2" class="form-control base-comment-text" placeholder="@Resources.WriteReply"></textarea>
             <div class="row">
                 <div class="col-sm-5 col-md-3">
-                    <button type="button" class="btn btn-green block-button reply-button">@Resources.Reply</button>
+                    <button type="button" class="btn btn-green col-xs-12 col-sm-12 col-md-12">@Resources.Reply</button>
                 </div>
             </div>}
     </div>
@@ -2421,7 +2424,12 @@
 }
 <div class="text-center back-to-top-hold">
     <br />
-    <a href="#" class="dealnet-info-link" id="back-to-top"><svg aria-hidden="true" class="icon icon-back-to-top"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-back-to-top")"></use></svg>@Resources.BackToTop</a>
+    <a href="#" class="dealnet-info-link" id="back-to-top">
+    <svg aria-hidden="true" class="icon icon-back-to-top">
+        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-back-to-top")"></use>
+        </svg>
+        @Resources.BackToTop
+    </a>
 </div>
 
 <div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="download-certificate-modal">
@@ -2544,7 +2552,7 @@
                     }
                 </div>
                 <div class="btn-container">
-                    <button type="button" class="btn btn-green block-button big-button"
+                    <button type="button" class="btn btn-green col-xs-12 col-sm-12 col-md-12"
                             onclick="printCertificate('@Url.Action("CheckInstallationCertificate", "MyDeals", new {@contractId = Model.BasicInfo.ContractId})', $('#install-certificate-info-section-modal')); $('#download-certificate-modal').modal('hide');">
                         @Resources.Download
                     </button>
