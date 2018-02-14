@@ -145,8 +145,15 @@ html:not(.ie9) {
     height:40px !important;
 }
 
-div.dataTables_wrapper div.dataTables_paginate {
-    text-align: center !important;
+div.dataTables_wrapper {
+    div.dataTables_paginate {
+        text-align: center !important;
+    }
+    div.dataTables_length {
+        @media @tablet-down {
+            text-align: left !important;
+        }
+    }
 }
 table.dataTable thead {
     .sorting:after, 
@@ -168,4 +175,11 @@ table.dataTable thead {
 }
 div.dataTables_wrapper #work-items-table_filter.dataTables_filter input {
     margin-left: 0;
+}
+
+.btn-container .btn {
+    width:100%;
+}
+.ie .scrollable-container .scrollable-content {
+    overflow-y: hidden;
 }
