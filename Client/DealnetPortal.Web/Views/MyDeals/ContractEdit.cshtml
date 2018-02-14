@@ -467,7 +467,7 @@
                                 <label class="dealnet-field-caption col-xs-6">@Resources.TotalValue</label>
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
-                                        <div class="dealnet-disabled-input dealnet-disabled-input-value">$ @($"{Model.EquipmentInfo.ValueOfDeal:0.00}")</div>
+                                        <div class="dealnet-disabled-input dealnet-disabled-input-value">$ @($"{(Model.EquipmentInfo.AgreementType ==AgreementType.LoanApplication? Model.EquipmentInfo.ValueOfDeal:(double)Model.PaymentSummary.TotalMonthlyPayment):0.00}")</div>
                                     </div>
                                 </div>
                             </div>
