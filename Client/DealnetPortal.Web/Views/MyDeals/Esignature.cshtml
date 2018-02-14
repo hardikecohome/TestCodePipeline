@@ -204,20 +204,22 @@
                             </div>
                             <div class="row form-group @(Model.ESignature.Status == ApiEnum.SignatureStatus.Completed || Model.ESignature.Status==ApiEnum.SignatureStatus.Signed?"hidden":"")">
                                 <div class="col-md-2 hidden-xs">&nbsp;</div>
-                                    <button class="btn btn-green btn-submit" type="submit" id="submit-digital">
+                                <div class="col-md-5 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-12">
+                                    <button class="btn btn-green col-md-12 col-sm-12 col-xs-12" type="submit" id="submit-digital">
                                         @if(!Model.ESignature.Status.HasValue || Model.ESignature.Status < ApiEnum.SignatureStatus.Sent)
-                                        {
-                                            <text>@Resources.SendInvites</text>
-                                        }
-                                        else if(Model.ESignature.Status < ApiEnum.SignatureStatus.Completed)
-                                        {
-                                            <text>@Resources.CancelDigitalSignature</text>
-                                        }
-                                        else
-                                        {
-                                            <text>@Resources.ResendInvites</text>
-                                        }
+        {
+                                <text>@Resources.SendInvites</text>
+}
+else if(Model.ESignature.Status < ApiEnum.SignatureStatus.Completed)
+{
+                                <text>@Resources.CancelDigitalSignature</text>
+}
+else
+{
+                                <text>@Resources.ResendInvites</text>
+}
                                     </button>
+                                </div>
                                 <div id="type-reminder" class="col-md-5 @(Model.ESignature.Status == ApiEnum.SignatureStatus.Sent || Model.ESignature.Status == ApiEnum.SignatureStatus.Delivered?"hidden":"")">
                                     <div class="info-text-success flex-centered-text">
                                         <span class="icon-hold">
