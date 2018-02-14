@@ -2046,6 +2046,12 @@ namespace DealnetPortal.Api.Integration.Services
                         Name = PdfFormFields.LoanTotalBorowingCost,
                         Value = paySummary.LoanDetails.TotalBorowingCost.ToString("F", CultureInfo.InvariantCulture)
                     });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.DSLoanTotalBorowingCost,
+                        Value = paySummary.LoanDetails.TotalBorowingCost.ToString("F", CultureInfo.InvariantCulture)
+                    });
                 }
 
                 if (contract.Equipment.DeferralType != DeferralType.NoDeferral)
