@@ -1015,7 +1015,7 @@
                 </div>
                 <div class="btn-container">
                     <button type="button"
-                            class="btn btn-green col-xs-12 col-sm-12 col-md-12"
+                            class="btn btn-green"
                             onclick="if (saveChanges($('#address-section-modal'), $('#address-section'), '@Url.Action("UpdateApplicants", "NewRental")', $('#basic-info-form'), applyProvinceChange @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication) { <text>, checkProvince</text> })) { $('#address-modal').modal('hide'); }">
                         @Resources.SaveChanges
                     </button>
@@ -1106,7 +1106,7 @@
                         }
                     </div>
                     <div class="btn-container">
-                        <button type="button" class="btn btn-green col-xs-12 col-sm-12 col-md-12" onclick="if (saveChanges($('#mailing-address-section-modal'), $('#mailing-address-section'), '@Url.Action("UpdateApplicants", "NewRental")', $('#basic-info-form'))) { $('#mailing-address-modal').modal('hide'); }">@Resources.SaveChanges</button>
+                        <button type="button" class="btn btn-green" onclick="if (saveChanges($('#mailing-address-section-modal'), $('#mailing-address-section'), '@Url.Action("UpdateApplicants", "NewRental")', $('#basic-info-form'))) { $('#mailing-address-modal').modal('hide'); }">@Resources.SaveChanges</button>
                         <a class="action-link green" data-dismiss="modal">@Resources.Cancel</a>
                     </div>
                 </div>
@@ -1194,7 +1194,7 @@
                 </div>
 
                 <div class="btn-container">
-                    <button type="button" class="btn btn-green col-xs-12 col-sm-12 col-md-12" onclick="if (saveChanges($('#contact-info-section-modal'), $('#contact-info-section'), '@Url.Action("UpdateContactAndPaymentInfo", "NewRental")', $('#contact-info-form'))) { $('#contact-info-modal').modal('hide'); }">@Resources.SaveChanges</button>
+                    <button type="button" class="btn btn-green" onclick="if (saveChanges($('#contact-info-section-modal'), $('#contact-info-section'), '@Url.Action("UpdateContactAndPaymentInfo", "NewRental")', $('#contact-info-form'))) { $('#contact-info-modal').modal('hide'); }">@Resources.SaveChanges</button>
                     <a class="action-link green" data-dismiss="modal">@Resources.Cancel</a>
                 </div>
             </div>
@@ -1308,7 +1308,7 @@
                 </div>
 
                 <div class="btn-container">
-                    <button type="button" class="btn btn-green col-xs-12 col-sm-12 col-md-12" onclick="if (saveChanges($('#payment-info-section-modal'), $('#payment-info-section'), '@Url.Action("UpdateContactAndPaymentInfo", "NewRental")', $('#payment-info-form'))) { $('#payment-info-modal').modal('hide'); $('#payment-type-form').change(); }">@Resources.SaveChanges</button>
+                    <button type="button" class="btn btn-green" onclick="if (saveChanges($('#payment-info-section-modal'), $('#payment-info-section'), '@Url.Action("UpdateContactAndPaymentInfo", "NewRental")', $('#payment-info-form'))) { $('#payment-info-modal').modal('hide'); $('#payment-type-form').change(); }">@Resources.SaveChanges</button>
                     <a class="action-link green" data-dismiss="modal">@Resources.Cancel</a>
                 </div>
             </div>
@@ -1445,7 +1445,7 @@
                     </div>
 
                     <div class="btn-container">
-                        <button type="button" class="btn btn-green col-xs-12 col-sm-12 col-md-12" onclick="if (saveChanges($('#existing-equipment-section-modal'), $('#existing-equipment-section'), '@Url.Action("UpdateEquipmentInfo", "NewRental")', $('#existing-equipment-form'))) { $('#existing-equipment-modal').modal('hide'); }">@Resources.SaveChanges</button>
+                        <button type="button" class="btn btn-green" onclick="if (saveChanges($('#existing-equipment-section-modal'), $('#existing-equipment-section'), '@Url.Action("UpdateEquipmentInfo", "NewRental")', $('#existing-equipment-form'))) { $('#existing-equipment-modal').modal('hide'); }">@Resources.SaveChanges</button>
                         <a class="action-link green" data-dismiss="modal">@Resources.Cancel</a>
                     </div>
                 </div>
@@ -1533,7 +1533,7 @@
                             }
                         </div>
                         <div class="btn-container">
-                            <button type="button" class="btn btn-green col-xs-12 col-sm-12 col-md-12" onclick="if (saveChanges($('#contact-info-section@(i + 1)-coborrower-modal'), $('#contact-info-section@(i + 1)-coborrower'), '@Url.Action("UpdateContactAndPaymentInfo", "NewRental")', $('#contact-info-coborrowers-form-@(i + 1)'))) { $('#contact-info-coborrower@(i + 1)-modal').modal('hide'); }">@Resources.SaveChanges</button>
+                            <button type="button" class="btn btn-green" onclick="if (saveChanges($('#contact-info-section@(i + 1)-coborrower-modal'), $('#contact-info-section@(i + 1)-coborrower'), '@Url.Action("UpdateContactAndPaymentInfo", "NewRental")', $('#contact-info-coborrowers-form-@(i + 1)'))) { $('#contact-info-coborrower@(i + 1)-modal').modal('hide'); }">@Resources.SaveChanges</button>
                             <a class="action-link green" data-dismiss="modal">@Resources.Cancel</a>
                         </div>
                     </div>
@@ -1619,7 +1619,7 @@
                                 }
                             </div>
                             <div class="btn-container">
-                                <button type="button" class="btn btn-green col-xs-12 col-sm-12 col-md-12"
+                                <button type="button" class="btn btn-green"
                                         onclick="if (saveChanges($('#additional-mailing-address-section-modal-@(i + 1)'), $('#additional-mailing-address-section-@(i + 1)'), '@Url.Action("UpdateApplicants", "NewRental")', $('#additional-basic-info-form-@(i + 1)'))) { $('#additional-mailing-address-modal-@(i + 1)').modal('hide'); }">
                                     @Resources.SaveChanges
                                 </button>
@@ -1709,7 +1709,7 @@
                                 }
                             </div>
                             <div class="btn-container">
-                                <button type="button" class="btn btn-green col-xs-12 col-sm-12 col-md-12"
+                                <button type="button" class="btn btn-green"
                                         onclick="if (saveChanges($('#additional-prev-address-section-modal-@(i + 1)'), $('#additional-prev-address-section-@(i + 1)'), '@Url.Action("UpdateApplicants", "NewRental")', $('#additional-basic-info-form-@(i + 1)'))) { $('#additional-prev-address-modal-@(i + 1)').modal('hide'); }">
                                     @Resources.SaveChanges
                                 </button>
@@ -1748,7 +1748,7 @@
                     }
                 </div>
                 <div class="btn-container">
-                    <button type="button" class="btn btn-green col-xs-12 col-sm-12 col-md-12" onclick="if (saveChanges($('#edit-add-contract-section-modal'), $('#edit-add-contract-section'), '@Url.Action("UpdateEquipmentInfo", "NewRental")', $('#contract-notes-form'))) { $('#edit-add-contract-modal').modal('hide'); }">@Resources.SaveChanges</button>
+                    <button type="button" class="btn btn-green" onclick="if (saveChanges($('#edit-add-contract-section-modal'), $('#edit-add-contract-section'), '@Url.Action("UpdateEquipmentInfo", "NewRental")', $('#contract-notes-form'))) { $('#edit-add-contract-modal').modal('hide'); }">@Resources.SaveChanges</button>
                     <a class="action-link green" data-dismiss="modal">@Resources.Cancel</a>
                 </div>
             </div>
@@ -1834,7 +1834,7 @@
                         }
                     </div>
                     <div class="btn-container">
-                        <button type="button" class="btn btn-green col-xs-12 col-sm-12 col-md-12" onclick="if (saveChanges($('#prev-address-section-modal'), $('#prev-address-section'), '@Url.Action("UpdateApplicants", "NewRental")', $('#basic-info-form'))) { $('#prev-address-modal').modal('hide'); }">@Resources.SaveChanges</button>
+                        <button type="button" class="btn btn-green" onclick="if (saveChanges($('#prev-address-section-modal'), $('#prev-address-section'), '@Url.Action("UpdateApplicants", "NewRental")', $('#basic-info-form'))) { $('#prev-address-modal').modal('hide'); }">@Resources.SaveChanges</button>
                         <a class="action-link green" data-dismiss="modal">@Resources.Cancel</a>
                     </div>
                 </div>
