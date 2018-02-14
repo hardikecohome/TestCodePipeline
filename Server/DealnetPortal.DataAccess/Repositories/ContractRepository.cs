@@ -183,6 +183,14 @@ namespace DealnetPortal.DataAccess.Repositories
             return contracts;
         }
 
+        public bool IsMortgageBrokerCustomerExist(string email)
+        {
+            return _dbContext.Contracts
+                .Include(c => c.PrimaryCustomer)
+                .Any(c => c.PrimaryCustomer.Emails.Any(e=>e.EmailAddress == email) &&
+                    c.IsCreatedByBroker.HasValue && c.IsCreatedByBroker.Value);
+        }
+
         public Contract FindContractBySignatureId(string signatureTransactionId)
         {
             return _dbContext.Contracts
