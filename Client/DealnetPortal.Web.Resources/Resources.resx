@@ -2539,4 +2539,7 @@ changing contract terms or signing contract on paper.</value>
   <data name="TotalMonthlyCostOfOwnership" xml:space="preserve">
     <value>Total Monthly Cost of Ownership</value>
   </data>
+  <data name="ConditionalApprovalFor" xml:space="preserve">
+    <value>Conditional Approval for</value>
+  </data>
 </root>

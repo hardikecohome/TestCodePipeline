@@ -973,4 +973,7 @@
   <data name="_CVCWaitingtoFund" xml:space="preserve">
     <value>CVC Waiting to Fund</value>
   </data>
+  <data name="_Conditional_Approval" xml:space="preserve">
+    <value>Conditional Approval</value>
+  </data>
 </root>

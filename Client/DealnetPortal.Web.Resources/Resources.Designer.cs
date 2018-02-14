@@ -1618,6 +1618,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Conditional Approval for.
+        /// </summary>
+        public static string ConditionalApprovalFor {
+            get {
+                return ResourceManager.GetString("ConditionalApprovalFor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm new password.
         /// </summary>
         public static string ConfirmNewPassword {
