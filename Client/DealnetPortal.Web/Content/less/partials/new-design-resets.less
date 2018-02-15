@@ -61,20 +61,26 @@ div.dataTables_wrapper div.dataTables_filter label .icon-search,
 }
 
 body:not(.mobile-device), body:not(.tablet-device) {
-    .dataTable, .dataTable.table-reports{
+    .dataTable, .dataTable.table-reports {
         td, th {
             &.phone-cell, &.date-cell {
                 min-width: 60px !important;
                 width: 60px !important;
             }
+
             &.customer-cell, &.contract-cell {
                 width: 70px !important;
                 word-break: break-word;
             }
+
             &.email-cell {
-                word-break: break-word;
+                max-width: 139px !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
         }
+
         th {
             font-size: 12px;
         }
