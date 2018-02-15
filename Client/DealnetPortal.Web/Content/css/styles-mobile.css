@@ -274,9 +274,14 @@
     display: block; }
 
   :lang(fr) .mobile-help__toggle,
-  :lang(fr-CA) .mobile-help__toggle {
+  :lang(fr) .dealer-support-contact a,
+  :lang(fr-CA) .mobile-help__toggle,
+  :lang(fr-CA) .dealer-support-contact a {
     font-size: 11px;
-    line-height: 13px; } }
+    line-height: 13px; }
+  :lang(fr) .dealer-support-contact a,
+  :lang(fr-CA) .dealer-support-contact a {
+    padding-top: 6px; } }
 @media screen and (max-width: 767px) {
   .custom-container {
     max-width: 1030px;

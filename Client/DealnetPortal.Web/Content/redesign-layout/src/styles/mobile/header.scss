@@ -190,9 +190,13 @@
     }
     :lang(fr),
     :lang(fr-CA) {
-        .mobile-help__toggle {
+        .mobile-help__toggle,
+        .dealer-support-contact a {
             font-size: 11px;
             line-height: 13px;
+        }
+        .dealer-support-contact a {
+            padding-top: 6px;
         }
     }
 }
