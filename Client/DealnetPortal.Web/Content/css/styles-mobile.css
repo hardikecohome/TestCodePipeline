@@ -280,6 +280,9 @@
 @media screen and (max-width: 767px) {
   .custom-container {
     max-width: 1030px;
-    margin: 0 auto; } }
+    margin: 0 auto; }
+
+  .body-container {
+    margin-bottom: 60px; } }
 
 /*# sourceMappingURL=styles-mobile.css.map */

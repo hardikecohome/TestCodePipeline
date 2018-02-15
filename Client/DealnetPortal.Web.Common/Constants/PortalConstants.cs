@@ -30,6 +30,7 @@
     }
     public static class RoleContstants
     {
+        public const string Dealer = "Dealer";
         public const string MortgageBroker = "MortgageBroker";
     }
 }

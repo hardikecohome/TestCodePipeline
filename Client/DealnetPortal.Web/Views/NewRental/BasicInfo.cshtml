@@ -32,7 +32,7 @@
 
     if(creditCheckError != null)
     {
-        <div class="well danger-well error-descr clear-border">
+        <div class="well danger-well clear-border error-descr clear-border">
             <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
             @creditCheckError
         </div>
@@ -90,87 +90,87 @@
 <div class="form-container basic-info-form">
     <div class="form-section">
         @using(Html.BeginForm("BasicInfo", "NewRental", FormMethod.Post, new { id = "main-form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.ContractId)
+        @Html.HiddenFor(m => m.QuebecDealer, new { id = "is-quebec-dealer" })
+        <!--If deal is submitted hide info for borrower and additional applicant that is already submitted-->
+        <div @* @if (Model.ContractWasDeclined) { <text>class="hidden"</text> } *@>
+            @if(Model?.SubDealers?.Any() ?? false)
         {
-            @Html.AntiForgeryToken()
-            @Html.HiddenFor(m => m.ContractId)
-            @Html.HiddenFor(m => m.QuebecDealer, new { id = "is-quebec-dealer" })
-            <!--If deal is submitted hide info for borrower and additional applicant that is already submitted-->
-            <div @* @if (Model.ContractWasDeclined) { <text>class="hidden"</text> } *@>
-                @if(Model?.SubDealers?.Any() ?? false)
-                {
-                    <div class="dealnet-middle-header">@Resources.SubDealer</div>
-                    <div class="row">
-                        <div class="col-md-4 col-lg-4">
-                            <div class="form-group">
-                                <label for="">@Resources.ChooseSubDealer</label>
-                                <div class="control-group">
-                                    @Html.DropDownListFor(m => m.SubmittingDealerId,
-                                                                                                                                                              Model.SubDealers.Select(x => new SelectListItem { Value = x.Id, Text = x.DisplayName, Selected = Model.SubmittingDealerId == x.Id }),
-                                                                                                                                                              new { @class = "form-control", id = "subdealers" })
-                                </div>
-                            </div>
+            <div class="dealnet-middle-header">@Resources.SubDealer</div>
+            <div class="row">
+                <div class="col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <label for="">@Resources.ChooseSubDealer</label>
+                        <div class="control-group">
+                            @Html.DropDownListFor(m => m.SubmittingDealerId,
+                                                                                                                                                       Model.SubDealers.Select(x => new SelectListItem { Value = x.Id, Text = x.DisplayName, Selected = Model.SubmittingDealerId == x.Id }),
+                                                                                                                                                       new { @class = "form-control", id = "subdealers" })
                         </div>
                     </div>
-                }
-                else
-                {
-                    @*@Html.Hidden("SubmittingDealerId", Model.SubDealers.First().Id)*@
-                    @*@Html.Hidden("SubmittingDealerId", "")*@
-                }
-
-                <div class="well well-info position-well clear-border">
-                    <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-                    @Resources.AtLeastOneHomeOwner
-                </div>
-                @Html.Partial("BasicInfo/_HomeOwnerInfo", Model)
-            </div>
-
-            <!--Add Additional Applicant-->
-            @Html.Partial("BasicInfo/_AdditionalApplicants")
-            <!--END Add Additional Applicant-->
-
-
-            <div id="add-additional-applicant" class="action-link blue">
-                <div class="align-middle">
-                    <svg aria-hidden="true" class="icon icon-add-app">
-                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
-                    </svg>
-                    <span>@Resources.AddAdditionalApplicant</span>
                 </div>
             </div>
-            @*<div class="well well-info position-well collapse" id="age-warning-message">
-                <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-                @Resources.AtLeastOne75OrLess
-                </div>
-                <div class="well danger-well over-aged-well collapse" id="age-error-message">
-                <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-                @Resources.AtLeastOne75OrLess
-                </div>*@
-            <!--Warning Section if isn't chosen homeowner checkbox-->
-            <div class="well danger-well over-aged-well collapse clear-border" id="proceed-homeowner-errormessage">
+    }
+    else
+    {
+        @*@Html.Hidden("SubmittingDealerId", Model.SubDealers.First().Id)*@
+        @*@Html.Hidden("SubmittingDealerId", "")*@
+}
+
+            <div class="well well-info position-well clear-border">
                 <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
                 @Resources.AtLeastOneHomeOwner
             </div>
-            <div class="well danger-well over-aged-well collapse clear-border" id="proceed-error-message">
-                <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-                @Resources.AllAplicantsConsents
-            </div>
-            <div class="well danger-well over-aged-well collapse clear-border" id="proceed-qc-dealer">
-                <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-                @Resources.InstallationAddressInQuebec
-            </div>
-            <div class="well danger-well over-aged-well collapse clear-border" id="proceed-not-qc-dealer">
-                <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-                @Resources.InstallationAddressCannotInQuebec
-            </div>
-            <!--End Warning Section if isn't chosen homeowner checkbox-->
+            @Html.Partial("BasicInfo/_HomeOwnerInfo", Model)
+        </div>
 
-            <div class="save-proceed-btn-hold form-group">
-                <button class="btn btn-green btn-form" id="save-and-proceed-button">
-                    @Resources.SaveAndProceed
-                </button>
+        <!--Add Additional Applicant-->
+        @Html.Partial("BasicInfo/_AdditionalApplicants")
+        <!--END Add Additional Applicant-->
+
+
+        <div id="add-additional-applicant" class="action-link blue">
+            <div class="align-middle">
+                <svg aria-hidden="true" class="icon icon-add-app">
+                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
+                </svg>
+                <span>@Resources.AddAdditionalApplicant</span>
             </div>
-        }
+        </div>
+        @*<div class="well well-info position-well collapse" id="age-warning-message">
+        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+        @Resources.AtLeastOne75OrLess
+        </div>
+        <div class="well danger-well clear-border over-aged-well collapse" id="age-error-message">
+        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+        @Resources.AtLeastOne75OrLess
+        </div>*@
+        <!--Warning Section if isn't chosen homeowner checkbox-->
+        <div class="well danger-well clear-border over-aged-well collapse clear-border" id="proceed-homeowner-errormessage">
+            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+            @Resources.AtLeastOneHomeOwner
+        </div>
+        <div class="well danger-well clear-border over-aged-well collapse clear-border" id="proceed-error-message">
+            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+            @Resources.AllAplicantsConsents
+        </div>
+        <div class="well danger-well clear-border over-aged-well collapse clear-border" id="proceed-qc-dealer">
+            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+            @Resources.InstallationAddressInQuebec
+        </div>
+        <div class="well danger-well clear-border over-aged-well collapse clear-border" id="proceed-not-qc-dealer">
+            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+            @Resources.InstallationAddressCannotInQuebec
+        </div>
+        <!--End Warning Section if isn't chosen homeowner checkbox-->
+
+        <div class="save-proceed-btn-hold form-group">
+            <button class="btn btn-green btn-form" id="save-and-proceed-button">
+                @Resources.SaveAndProceed
+            </button>
+        </div>
+}
     </div>
 </div>
 
