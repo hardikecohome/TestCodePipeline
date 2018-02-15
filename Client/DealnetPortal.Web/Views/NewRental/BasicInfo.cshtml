@@ -61,7 +61,7 @@
                                 <canvas id="capture-canvas" class="capture-frame"></canvas>
                                 <canvas id="big-capture-canvas"></canvas>
                                 <div id="capture-buttons">
-                                    <input type="button" class="btn btn-green dealnet-success-button big-button" id="capture-buttons-1" value="@Resources.Capture" onclick="takePhoto()" />
+                                    <input type="button" class="btn btn-green" id="capture-buttons-1" value="@Resources.Capture" onclick="takePhoto()" />
                                     <div id="capture-buttons-2">
                                         <input type="button" class="btn btn-green big-button" id="upload-capture" value="@Resources.Save" onclick="uploadCaptured('@Url.Action("RecognizeDriverLicense", "NewRental")')" />
                                         <div id="retake" onclick="retakePhoto()">@Resources.Retake</div>
@@ -72,9 +72,9 @@
                         <div role="tabpanel" class="tab-pane fade" id="profile">
                             <div id="upload-area">
                                 <div id="upload-buttons">
-                                    <div class="file-upload btn btn-green dealnet-success-button" id="upload-file-button">
+                                    <div class="file-upload btn btn-green" id="upload-file-button">
                                         <svg aria-hidden="true" class="icon icon-cloud-upload"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-cloud-upload")"></use></svg>
-                                        <span>@Resources.Upload Photo</span>
+                                        <span>@Resources.UploadPhoto</span>
                                         <input type="file" class="upload" id="upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")')" />
                                     </div>
                                 </div>
@@ -147,19 +147,19 @@
                 @Resources.AtLeastOne75OrLess
                 </div>*@
             <!--Warning Section if isn't chosen homeowner checkbox-->
-            <div class="well danger-well over-aged-well collapse" id="proceed-homeowner-errormessage">
+            <div class="well danger-well over-aged-well collapse clear-border" id="proceed-homeowner-errormessage">
                 <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
                 @Resources.AtLeastOneHomeOwner
             </div>
-            <div class="well danger-well over-aged-well collapse" id="proceed-error-message">
+            <div class="well danger-well over-aged-well collapse clear-border" id="proceed-error-message">
                 <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
                 @Resources.AllAplicantsConsents
             </div>
-            <div class="well danger-well over-aged-well collapse" id="proceed-qc-dealer">
+            <div class="well danger-well over-aged-well collapse clear-border" id="proceed-qc-dealer">
                 <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
                 @Resources.InstallationAddressInQuebec
             </div>
-            <div class="well danger-well over-aged-well collapse" id="proceed-not-qc-dealer">
+            <div class="well danger-well over-aged-well collapse clear-border" id="proceed-not-qc-dealer">
                 <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
                 @Resources.InstallationAddressCannotInQuebec
             </div>
