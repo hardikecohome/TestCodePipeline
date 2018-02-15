@@ -156,7 +156,7 @@ table.dataTable > tbody > tr.child ul{
     }
   }
   .total-info{
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     color: #cacaca;
     .additional-info{
@@ -196,7 +196,7 @@ table.dataTable > tbody > tr.child ul{
   }
   .total-info{
     position: relative;
-    &:before{
+    /*&:before{
       content: '';
       position: absolute;
       left: -30px;
@@ -205,7 +205,7 @@ table.dataTable > tbody > tr.child ul{
       width: 1px;
       background: @default-grey-color;
       display: none;
-    }
+    }*/
   }
   .btn{
     @media @tablet-down{
@@ -215,167 +215,201 @@ table.dataTable > tbody > tr.child ul{
 }
 #work-items-table{
   table-layout: auto;
+  @media @mobile {
+      table-layout: fixed
+  }
 }
 
 .dataTable {
-  font: 900 14px @usual-font-family;
-  color: @default-dark-grey-color;
-  table-layout: fixed;
-  &.no-footer {
-    border-bottom: 0 !important;
-  }
-  .custom-checkbox{
-    text-align: center;
-    .checkbox-icon{
-      position: relative;
-      top: 0;
-      left: 0;
-    }
-  }
-  tr {
-    background-color: transparent !important;
-    &:hover {
-      background: @table-tr-hover-bg !important;
-    }
-    .label-new-deal{
-      display: none;
-      position: absolute;
-      top: 0;
-      left: 0;
-      content: 'New';
-      color: #3493dd;
-      font-weight: 600;
-      font-size: 12px;
-
-      @media @mobile{
-          left: 10px;
-       }
-    }
-    &.unread-deals{
-      .icon-link.icon-remove{
-        display: inline-block;
-      }
-      &:hover{
-        background: transparent !important;
-        td{
-          background: rgba(169, 216, 239, 0.25) !important;
-        }
-      }
-      td{
-        background: rgba(169, 216, 239, 0.17) !important;
-        &.contract-cell{
-          position: relative;
-          .label-new-deal{
-            display: block;
-          }
-        }
-        &:not(.contract-cell){
-          color: #38607a;
-          .icon{
-            color: inherit;
-          }
-        }
-      }
-    }
-  }
-
-  th {
-    background-color: #f8f8f8;
-    height: 29px;
+    font: 900 14px @usual-font-family;
     color: @default-dark-grey-color;
-    border-bottom: 0 !important;
-    font-weight: 900 !important;
+    table-layout: fixed;
 
-  }
-
-  td {
-    background-color: transparent !important;
-    border: 1px solid #ededed;
-    border-top: 0 !important;
-    font: 14px @usual-font-family;
-    color: @default-dark-grey-color;
-    word-break: break-word;
-    word-wrap: break-word;
-    white-space: normal;
-    height: 23px;
-    &.child {
-      background-color: #f8f8f8 !important;
-      padding-left: 8px !important;
-      li {
-        border: none !important;
-      }
-
-    }
-  }
-
-  td, th{
-    &.controls-cell.accept-cell{
-      min-width: 40px !important;
-      width: 90px !important;
-      text-align: center;
-    }
-    &.edit-cell{
-      text-align: center;
-      width: 40px !important;
-      max-width: 40px !important;
-      padding: 0 2px;
-      .edit-control{
-        width: 30px;
-        margin: 0 auto;
-      }
-    }
-    &.remove-cell{
-      text-align: center;
-      width: 40px !important;
-      max-width: 40px !important;
-      padding: 0 2px;
-      .remove-control{
-        width: 30px;
-        margin: 0 auto;
-      }
-    }
-    &.contract-cell{
-      min-width: 60px;
-      width: 60px;
-      @media @tablet-down {
-        min-width: 100px;
-        width: 100px;
-      }
-      @media @mobile {
-        min-width: 60px;
-        width: 60px;
-      }
-      @media (max-width: 374px) {
-        min-width: 60px;
-        width: 90px;
-      }
-    }
-    &.type-cell{
-      width: 50px;
-      min-width: 50px;
-    }
-    &.status-cell{
-      min-width: 50px;
+    &.no-footer {
+        border-bottom: 0 !important;
     }
 
-    &.controls-cell{
-      padding: 0 !important;
-      text-align: left;
-      white-space: nowrap;
-      width: 80px;
-      @media @mobile {
-        width: 60px;
-      }
-      .controls-hold{
-        width: 80px;
-        margin: 0 auto;
-        @media @mobile {
-          width: 70px;
-          margin: 0;
+    .custom-checkbox {
+        text-align: center;
+
+        .checkbox-icon {
+            position: relative;
+            top: 0;
+            left: 0;
         }
-      }
     }
-  }
+
+    tr {
+        background-color: transparent !important;
+
+        &:hover {
+            background: @table-tr-hover-bg !important;
+        }
+
+        .label-new-deal {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            content: 'New';
+            color: #3493dd;
+            font-weight: 600;
+            font-size: 12px;
+
+            @media @mobile {
+                left: 10px;
+            }
+        }
+
+        &.unread-deals {
+            .icon-link.icon-remove {
+                display: inline-block;
+            }
+
+            &:hover {
+                background: transparent !important;
+
+                td {
+                    background: rgba(169, 216, 239, 0.25) !important;
+                }
+            }
+
+            td {
+                background: rgba(169, 216, 239, 0.17) !important;
+
+                &.contract-cell {
+                    position: relative;
+
+                    .label-new-deal {
+                        display: block;
+
+                        @media @mobile {
+                            margin-top: -3px;
+                        }
+                    }
+                }
+
+                &:not(.contract-cell) {
+                    color: #38607a;
+
+                    .icon {
+                        color: inherit;
+                    }
+                }
+            }
+        }
+    }
+
+    th {
+        background-color: #f8f8f8;
+        height: 29px;
+        color: @default-dark-grey-color;
+        border-bottom: 0 !important;
+        font-weight: 900 !important;
+    }
+
+    td {
+        background-color: transparent !important;
+        border: 1px solid #ededed;
+        border-top: 0 !important;
+        font: 14px @usual-font-family;
+        color: @default-dark-grey-color;
+        word-break: break-word;
+        word-wrap: break-word;
+        white-space: normal;
+        height: 23px;
+
+        &.child {
+            background-color: #f8f8f8 !important;
+            padding-left: 8px !important;
+
+            li {
+                border: none !important;
+            }
+        }
+    }
+
+    td, th {
+        &.controls-cell.accept-cell {
+            min-width: 40px !important;
+            width: 90px !important;
+            text-align: center;
+        }
+
+        &.edit-cell {
+            text-align: center;
+            width: 40px !important;
+            max-width: 40px !important;
+            padding: 0 2px;
+
+            .edit-control {
+                width: 30px;
+                margin: 0 auto;
+            }
+        }
+
+        &.remove-cell {
+            text-align: center;
+            width: 40px !important;
+            max-width: 40px !important;
+            padding: 0 2px;
+
+            .remove-control {
+                width: 30px;
+                margin: 0 auto;
+            }
+        }
+
+        &.contract-cell {
+            min-width: 60px;
+            width: 60px;
+
+            @media @tablet-down {
+                min-width: 100px;
+                width: 100px;
+            }
+
+            @media @mobile {
+                min-width: 60px;
+                width: 60px;
+            }
+
+            @media (max-width: 374px) {
+                min-width: 60px;
+                width: 90px;
+            }
+        }
+
+        &.type-cell {
+            width: 50px;
+            min-width: 50px;
+        }
+
+        &.status-cell {
+            min-width: 50px;
+        }
+
+        &.controls-cell {
+            padding: 0 !important;
+            text-align: left;
+            white-space: nowrap;
+            width: 80px;
+
+            @media @mobile {
+                width: 60px;
+            }
+
+            .controls-hold {
+                width: 80px;
+                margin: 0 auto;
+
+                @media @mobile {
+                    width: 70px;
+                    margin: 0;
+                }
+            }
+        }
+    }
 }
 
 
