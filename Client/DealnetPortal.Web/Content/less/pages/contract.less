@@ -2,6 +2,10 @@
   .message-header {
     font-size: 20px;
     margin: 15px 0;
+    .action-link {
+      font-size: 20px;
+      margin:0;
+    }
   }
 }
 .contract-edit {
@@ -302,13 +306,13 @@
           bottom: 6px;
           margin-bottom: 10px;
         }
-        .dealnet-link-button {
+        .action-link {
           display: none;
         }
       }
       &.declined { 
         display: block;
-        .dealnet-link-button {
+        .action-link {
           display: none;
         }
         padding-top: 20px; 
@@ -354,13 +358,15 @@
           height: 13px;
           width: 13px;
         }
-        .icon:not(.hidden) + .dealnet-link-button{
-          padding-left: 0;
-        }
-        .dealnet-link-button {
+        .action-link {
           font-size: 13px;
+          margin: 0;
           padding-bottom: 0;
+          padding-left: 12px;
           padding-top: 0;
+        }
+        .icon:not(.hidden) + .action-link {
+          padding-left: 0;
         }
       }
     }
