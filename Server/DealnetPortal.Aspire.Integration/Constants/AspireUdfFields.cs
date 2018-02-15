@@ -48,6 +48,8 @@
 
         public static string DeferralType = "Deferral Type";
         public static string RequestedTerm = "Requested Term";
+        public static string AmortizationTerm = "Amortization Term";
+        public static string TermType = "Term Type";
 
         public static string DealerSalesRep = "Dealer Sales Rep";
         public static string LeadSource = "LeadSource";
@@ -61,6 +63,10 @@
 
         public static string InstallMonthlyPay = "Install Monthly Pay";
         public static string InstallPackageDescr = "Install Package Descr";
+
+        public static string AdminFee = "Admin Fee";
+
+        public static string RentalMonthlyPaymen = "EH Rental Payment Amount";
 
         #region Dealer onboarding UDFs        
         public static string OperatingName = "Operating Name";

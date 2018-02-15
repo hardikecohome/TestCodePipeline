@@ -1530,6 +1530,11 @@ namespace DealnetPortal.Api.Integration.Services
             application.FinanceProgram = contract.Dealer?.Application?.FinanceProgram;//"EcoHome Finance Program";
             application.UDFs = GetApplicationUdfs(contract, leadSource, contractor).ToList();
 
+            if (contractor != null)
+            {
+                application.UDFs.AddRange(GetContractorUdfs(contractor));
+            }
+
             return application;
         }
 
@@ -1743,6 +1748,40 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                 }
 
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.AmortizationTerm,
+                    Value = contract.Equipment.AmortizationTerm?.ToString() ?? "0"
+                });
+
+                if (contract.Equipment.LoanTerm.HasValue && (new decimal[] { 24m, 36m, 48m, 60m, 84m, 120m }).Contains(contract.Equipment.LoanTerm.Value))
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.TermType,
+                        Value = $"{contract.Equipment.LoanTerm.Value} Months"
+                    });
+                }
+                else
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.TermType,
+                        Value = BlankValue
+                    });
+                }
+
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.AdminFee,
+                    Value = contract.Equipment?.AdminFee?.ToString() ?? "0.0"
+                });
+
+                if (contract.Equipment?.AgreementType != AgreementType.LoanApplication)
+                {
+                    
+                }
+
                 if (!string.IsNullOrEmpty(contract.Equipment.SalesRep))
                 {
                     udfList.Add(new UDF()
@@ -1861,7 +1900,14 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = AspireUdfFields.LeadSource,
                     Value = setLeadSource
                 });
-            }
+            }            
+
+            return udfList;
+        }
+
+        private IList<UDF> GetContractorUdfs(ContractorDTO contractor)
+        {
+            var udfList = new List<UDF>();
             if (contractor != null)
             {
                 if (!string.IsNullOrEmpty(contractor.CompanyName))
