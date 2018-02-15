@@ -63,7 +63,7 @@
   color: #97c501; }
 
 .icon-calculator:before {
-  content: "\73";
+  content: "\e913";
   color: #5d5d5d; }
 
 .icon-cart:before {
@@ -94,7 +94,7 @@
   color: #5d5d5d; }
 
 .icon-about:before {
-  content: "\e908";
+  content: "\e912";
   color: #5d5d5d; }
 
 @media screen and (max-width: 767px) {
@@ -115,7 +115,7 @@
     padding: 8px 0 0; }
 
   .mobile-navigation {
-    z-index: 200;
+    z-index: 201;
     position: absolute;
     right: 0;
     bottom: -5px; }
@@ -162,13 +162,17 @@
             padding: 0 6px;
             top: 11px;
             position: absolute;
-            right: 4px;
+            right: 143px;
             font-size: 10px;
             height: 17px;
             line-height: 17px;
             border-radius: 15px;
             background-image: linear-gradient(111deg, #ff613c, #ff3258);
-            color: white; }
+            color: white;
+            width: 42px; }
+            .mobile-navigation__dropdown ul > li a .notification:lang(fr) {
+              right: 143px;
+              width: 64px; }
 
   .mobile-navigation__nav-icon {
     font-size: 19px;
@@ -183,7 +187,7 @@
     min-height: 100px;
     background-color: black;
     opacity: 0;
-    z-index: 1001;
+    z-index: 200;
     width: 100%;
     position: fixed;
     display: none; }
@@ -276,6 +280,9 @@
 @media screen and (max-width: 767px) {
   .custom-container {
     max-width: 1030px;
-    margin: 0 auto; } }
+    margin: 0 auto; }
+
+  .body-container {
+    margin-bottom: 60px; } }
 
 /*# sourceMappingURL=styles-mobile.css.map */

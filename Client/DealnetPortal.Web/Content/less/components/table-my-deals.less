@@ -78,6 +78,12 @@ body:not(.tablet-device):not(.mobile-device){
     @media @tablet-down {
       text-align: center;
     }
+    .action-link {
+        margin:0;
+        @media @desktop-up {
+            text-align: left !important;
+        }
+    }
 }
 
 .icon-esignature:hover {

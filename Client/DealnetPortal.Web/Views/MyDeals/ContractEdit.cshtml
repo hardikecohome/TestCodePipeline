@@ -43,15 +43,15 @@
                 </div>
             }*@
 
-        @if(ViewBag.IsNewlySubmitted)
-        {
+        @*@if(ViewBag.IsNewlySubmitted)
+        {*@
             <div class="message-header">
                 @(Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication ? Resources.Loan : Resources.Rental)
                 @Resources.AgreementSubmittedSuccessfully
                 @Html.Raw(string.Format(Resources.PleaseSignContractOr, "<br/>"))
-                @Html.ActionLink(Resources.CreateAnotherApplicationForHomeOwner, "CreateNewApplication", "NewRental", new { contractId = Model.SendEmails.ContractId }, null)
+                @Html.ActionLink(Resources.CreateAnotherApplicationForHomeOwner, "CreateNewApplication", "NewRental", new { contractId = Model.SendEmails.ContractId }, new { @class="action-link blue" })
             </div>
-        }
+        @*}*@
 
         <br />
         <div class="documents-container">
@@ -133,7 +133,7 @@
                                     {
                                         using(Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new { enctype = "multipart/form-data", data_container = "tab-container-" + (i + 1) }))
                                         {
-                                            <div class="well danger-well error-descr collapse">
+                                            <div class="well danger-well clear-border error-descr collapse">
                                                 <svg aria-hidden="true" class="icon icon-error">
                                                     <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
                                                 </svg>
@@ -182,7 +182,7 @@
                                             @Resources.PrintTheContract
                                         </a>
 
-                                        <div class="well danger-well error-descr collapse" id="print-error-message">
+                                        <div class="well danger-well clear-border error-descr collapse" id="print-error-message">
                                             <svg aria-hidden="true" class="icon icon-error">
                                                 <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
                                             </svg>
@@ -197,7 +197,7 @@
                                         <h3 class="document-pane-header">
                                             @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
                                         </h3>
-                                        <div class="well danger-well error-descr collapse">
+                                        <div class="well danger-well clear-border error-descr collapse">
                                             <svg aria-hidden="true" class="icon icon-error">
                                                 <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
                                             </svg>
@@ -214,7 +214,7 @@
                                                     @Resources.DownloadCertificateTemplate
                                                 </a>
                                             </div>
-                                            <div class="well danger-well collapse" id="certificate-error-message">
+                                            <div class="well danger-well clear-border collapse" id="certificate-error-message">
                                                 <svg aria-hidden="true" class="icon icon-error">
                                                     <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
                                                 </svg>
@@ -281,7 +281,7 @@
                                         @Html.HiddenFor(m => m.BasicInfo.ContractId, new { Name = "ContractId" })
                                         @Html.Hidden("DocumentTypeId", 7)
                                         <input type="hidden" name="Id" value="@document.DocumentId" />
-                                        <div class="well danger-well error-descr collapse">
+                                        <div class="well danger-well clear-border error-descr collapse">
                                             <svg aria-hidden="true" class="icon icon-error">
                                                 <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
                                             </svg>
@@ -345,7 +345,7 @@
                     @Html.HiddenFor(m => m.BasicInfo.ContractId, new { Name = "ContractId" })
                     @Html.Hidden("DocumentTypeId", 7)
                     <input type="hidden" name="Id" />
-                    <div class="well danger-well error-descr collapse">
+                    <div class="well danger-well clear-border error-descr collapse">
                         <svg aria-hidden="true" class="icon icon-error">
                             <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
                         </svg>
@@ -391,7 +391,7 @@
             <div class="before-all-documents-submitted text-right">
                 @Resources.PleaseUploadAllMandatoryDocuments
             </div>
-            <div class="well danger-well error-descr collapse before-all-documents-submitted">
+            <div class="well danger-well error-descr clear-border collapse before-all-documents-submitted">
                 <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
                 @Resources.YouNeedToUploadMoreDocuments
             </div>
@@ -467,7 +467,7 @@
                                 <label class="dealnet-field-caption col-xs-6">@Resources.TotalValue</label>
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
-                                        <div class="dealnet-disabled-input dealnet-disabled-input-value">$ @($"{Model.EquipmentInfo.ValueOfDeal:0.00}")</div>
+                                        <div class="dealnet-disabled-input dealnet-disabled-input-value">$ @($"{(Model.EquipmentInfo.AgreementType ==AgreementType.LoanApplication? Model.EquipmentInfo.ValueOfDeal:(double)Model.PaymentSummary.TotalMonthlyPayment):0.00}")</div>
                                     </div>
                                 </div>
                             </div>
@@ -2552,7 +2552,7 @@
                     }
                 </div>
                 <div class="btn-container">
-                    <button type="button" class="btn btn-green col-xs-12 col-sm-12 col-md-12"
+                    <button type="button" class="btn btn-green"
                             onclick="printCertificate('@Url.Action("CheckInstallationCertificate", "MyDeals", new {@contractId = Model.BasicInfo.ContractId})', $('#install-certificate-info-section-modal')); $('#download-certificate-modal').modal('hide');">
                         @Resources.Download
                     </button>
