@@ -56,14 +56,20 @@ body:not(.tablet-device):not(.mobile-device){
       }
   }
 }
+.dataTable 
+    td.checkbox-cell {
+        border-right: 0px;
+    }
+
 .icon-esig-hold {
     display: flex;
     align-items: center;
     margin-left: 5px;
     margin-left: auto;
+
     @media @tablet-down {
-      position: relative;
-      right: 0px;
+        position: relative;
+        right: 0px;
     }
 }
 
@@ -84,6 +90,10 @@ body:not(.tablet-device):not(.mobile-device){
             text-align: left !important;
         }
     }
+}
+
+#export-all-excel {
+    margin-bottom: 0px !important;
 }
 
 .icon-esignature:hover {
