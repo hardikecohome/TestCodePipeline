@@ -347,18 +347,18 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             model.DealerTier = dealerTier ?? new TierDTO { RateCards = new List<RateCardDTO>() };
 
             //TODO: FOR DEMO PUROPSE ONLY REFACTOR AS SOON AS POSSIBLE!!!
-            var planDict = new Dictionary<string, string>
+            var planDict = new Dictionary<RateCardType, string>
             {
-                {"FixedRate", Resources.Resources.FixedRate},
-                {"NoInterest", Resources.Resources.EqualPayments},
-                {"Deferral", Resources.Resources.Deferral},
+                {RateCardType.FixedRate, Resources.Resources.StandardRate},
+                {RateCardType.NoInterest, Resources.Resources.EqualPayments},
+                {RateCardType.Deferral, Resources.Resources.Deferral},
             };
 
             model.Plans = model.DealerTier.RateCards
-                .Select(x => x.CardType.ToString())
+                .Select(x => x.CardType)
                 .Distinct()
                 .Where(c => planDict.ContainsKey(c))
-                .Select(card => new KeyValuePair<string, string>(card, planDict[card]))
+                .Select(card => new KeyValuePair<string, string>(card.ToString(), planDict[card]))
                 .ToDictionary(card => card.Key, card => card.Value);
 
             model.Plans.Add("Custom", Resources.Resources.Custom);
