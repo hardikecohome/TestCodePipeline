@@ -440,14 +440,19 @@
         </div>
     </header>
     <div class="clearfix"></div>
-    @if(((RazorView)ViewContext.View).ViewPath.Contains("Home/Index"))
+    @{
+        @*widen pages with table so that they are less cramped*@
+        var viewPath = ((RazorView)ViewContext.View).ViewPath;
+        var isTablePage = viewPath.Contains("Home/Index") || viewPath.Contains("MyDeals/Index") || viewPath.Contains("Leads/Index");
+    }
+    @if(viewPath.Contains("Home/Index"))
     {
         var bannerLink = System.Configuration.ConfigurationManager.AppSettings["HomeBannerLink"];
         var bannerExists = !string.IsNullOrEmpty((string)ViewBag.Banner);
 
         if(bannerExists)
         {
-            <div class="custom-container">
+            <div class="custom-container table-page">
                 <a class="main-banner" @(!string.IsNullOrEmpty(bannerLink) ? "href=" + bannerLink + " target=\"_blank\"" : "")
                    style="background-image:url(@Url.Content(ViewBag.Banner));">
                 </a>
@@ -455,7 +460,7 @@
             <div class="clearfix"></div>
         }
     }
-    <div class="container-fluid custom-container body-container">
+    <div class="container-fluid custom-container body-container @(isTablePage?"table-page":"")">
         @RenderBody()
     </div>
     <footer></footer>
