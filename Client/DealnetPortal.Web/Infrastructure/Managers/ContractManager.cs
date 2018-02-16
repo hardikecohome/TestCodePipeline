@@ -665,7 +665,6 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             if(equipmnetInfo.HouseSize.HasValue)
             {
                 contractData.Details.HouseSize = equipmnetInfo.HouseSize;
-
             }
 
             return await _contractServiceAgent.UpdateContractData(contractData);
