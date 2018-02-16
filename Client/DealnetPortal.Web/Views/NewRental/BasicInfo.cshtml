@@ -32,7 +32,7 @@
 
     if(creditCheckError != null)
     {
-        <div class="well danger-well clear-border error-descr clear-border">
+        <div class="well danger-well position-well clear-border error-descr clear-border">
             <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
             @creditCheckError
         </div>
@@ -105,8 +105,8 @@
                         <label for="">@Resources.ChooseSubDealer</label>
                         <div class="control-group">
                             @Html.DropDownListFor(m => m.SubmittingDealerId,
-                                                                                                                                                       Model.SubDealers.Select(x => new SelectListItem { Value = x.Id, Text = x.DisplayName, Selected = Model.SubmittingDealerId == x.Id }),
-                                                                                                                                                       new { @class = "form-control", id = "subdealers" })
+                                                                                                                                                        Model.SubDealers.Select(x => new SelectListItem { Value = x.Id, Text = x.DisplayName, Selected = Model.SubmittingDealerId == x.Id }),
+                                                                                                                                                        new { @class = "form-control", id = "subdealers" })
                         </div>
                     </div>
                 </div>
@@ -142,24 +142,24 @@
         <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
         @Resources.AtLeastOne75OrLess
         </div>
-        <div class="well danger-well clear-border over-aged-well collapse" id="age-error-message">
+        <div class="well danger-well position-well  clear-border over-aged-well collapse" id="age-error-message">
         <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
         @Resources.AtLeastOne75OrLess
         </div>*@
         <!--Warning Section if isn't chosen homeowner checkbox-->
-        <div class="well danger-well clear-border over-aged-well collapse clear-border" id="proceed-homeowner-errormessage">
+        <div class="well danger-well position-well clear-border over-aged-well collapse clear-border" id="proceed-homeowner-errormessage">
             <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
             @Resources.AtLeastOneHomeOwner
         </div>
-        <div class="well danger-well clear-border over-aged-well collapse clear-border" id="proceed-error-message">
+        <div class="well danger-well position-well clear-border over-aged-well collapse clear-border" id="proceed-error-message">
             <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
             @Resources.AllAplicantsConsents
         </div>
-        <div class="well danger-well clear-border over-aged-well collapse clear-border" id="proceed-qc-dealer">
+        <div class="well danger-well position-well clear-border over-aged-well collapse clear-border" id="proceed-qc-dealer">
             <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
             @Resources.InstallationAddressInQuebec
         </div>
-        <div class="well danger-well clear-border over-aged-well collapse clear-border" id="proceed-not-qc-dealer">
+        <div class="well danger-well position-well clear-border over-aged-well collapse clear-border" id="proceed-not-qc-dealer">
             <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
             @Resources.InstallationAddressCannotInQuebec
         </div>
