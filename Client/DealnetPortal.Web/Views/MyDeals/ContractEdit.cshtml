@@ -43,15 +43,15 @@
                 </div>
             }*@
 
-        @*@if(ViewBag.IsNewlySubmitted)
-        {*@
+        @if(ViewBag.IsNewlySubmitted)
+        {
             <div class="message-header">
                 @(Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication ? Resources.Loan : Resources.Rental)
                 @Resources.AgreementSubmittedSuccessfully
                 @Html.Raw(string.Format(Resources.PleaseSignContractOr, "<br/>"))
                 @Html.ActionLink(Resources.CreateAnotherApplicationForHomeOwner, "CreateNewApplication", "NewRental", new { contractId = Model.SendEmails.ContractId }, new { @class="action-link blue" })
             </div>
-        @*}*@
+        }
 
         <br />
         <div class="documents-container">
