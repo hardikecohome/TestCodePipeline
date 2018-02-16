@@ -63,21 +63,6 @@
             </table>
         </div>
     </div>
-    <div class="dealnet-caption">@Resources.DealFlowOverview</div>
-    <div class="dealnet-chart-switch-button-hold">
-        <div class="dealnet-chart-switch-button dealnet-chart-switch-button-selected" data-type="Week">@Resources.Week</div>
-        <div class="dealnet-chart-switch-button" data-type="Month">@Resources.Month</div>
-        <div class="dealnet-chart-switch-button" data-type="Year">@Resources.Year</div>
-    </div>
-    <div class="data-flow-container">
-        <span class="graph-label graph-label-x">$</span>
-        <span class="graph-label graph-label-y">@Resources.Time</span>
-        <div class="scrollable-container">
-            <div class="scrollable-content">
-                <canvas id="data-flow-overview"></canvas>
-            </div>
-        </div>
-    </div>
 </div>
 
 @using(Html.BeginForm("ContractRemove", "NewRental", FormMethod.Post, new { id = "remove-contract-form" }))
