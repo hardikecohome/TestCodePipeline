@@ -3,6 +3,7 @@
 @using DealnetPortal.Api.Core.Helpers
 @using DealnetPortal.Api.Models.Contract
 @using DealnetPortal.Web.Models.Enumeration
+@using System.Security.Claims
 @model DealnetPortal.Web.Models.SummaryAndConfirmationViewModel
 
 @{
@@ -677,7 +678,7 @@
                                 </div>
                             </div>
                         </div>
-						@if (Model.ContactAndPaymentInfo.IsAllPaymentTypesAvailable)
+						@if (!((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True")))
 						{
                         <div class="form-group pap-payment-form">
                             <div class="row">
@@ -1233,12 +1234,54 @@
                                     </div>
                                 </div>
                             </div>
+							@if (!((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True")))
+							{
                             <div class="col-sm-12 col-md-6 pap-payment">
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, new { @class = "dealnet-field-caption" })
                                     <div class="dealnet-field-holder">
                                         <div class="control-group">
                                             @Html.EnumDropDownListFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, null, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+							}
+							<div class="col-sm-12 col-md-6 pap-payment">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new { @class = "dealnet-field-caption" })
+                                    <div class="dealnet-field-holder">
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new
+                                            {
+                                                @class = "form-control dealnet-input",
+                                                type = "text",
+                                                id = "account-number",
+                                                placeholder = Resources.AccountNumber
+                                            })
+                                            @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+							<div class="col-sm-12 col-md-6 pap-payment">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new { @class = "dealnet-field-caption" })
+                                    <div class="dealnet-field-holder">
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new { @class = "form-control dealnet-input", type = "text", id = "transit-number", placeholder = Resources.TransitNumber })
+                                            @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+							<div class="col-sm-12 col-md-6 pap-payment">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new { @class = "dealnet-field-caption" })
+                                    <div class="dealnet-field-holder">
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new { @class = "form-control dealnet-input", id = "bank-number", type = "text", placeholder = Resources.BlankNumber })
+                                            @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
@@ -1270,49 +1313,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row pap-payment">
-                            <div class="col-sm-12 col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new { @class = "dealnet-field-caption" })
-                                    <div class="dealnet-field-holder">
-                                        <div class="control-group">
-                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new
-                                            {
-                                                @class = "form-control dealnet-input",
-                                                type = "text",
-                                                id = "account-number",
-                                                placeholder = Resources.AccountNumber
-                                            })
-                                            @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new { @class = "dealnet-field-caption" })
-                                    <div class="dealnet-field-holder">
-                                        <div class="control-group">
-                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new { @class = "form-control dealnet-input", type = "text", id = "transit-number", placeholder = Resources.TransitNumber })
-                                            @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row pap-payment">
-                            <div class="col-sm-12 col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new { @class = "dealnet-field-caption" })
-                                    <div class="dealnet-field-holder">
-                                        <div class="control-group">
-                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new { @class = "form-control dealnet-input", id = "bank-number", type = "text", placeholder = Resources.BlankNumber })
-                                            @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                     }
                 </div>
 
