@@ -7,6 +7,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 using System.Web.Hosting;
+using DealnetPortal.Web.Common.Constants;
 
 namespace DealnetPortal.Web.Infrastructure.Managers
 {
@@ -37,7 +38,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
         {
             //identity.HasClaim("QuebecDealer", "True")
             //var resourcesFullPathWithCulture = Path.Combine(_contentFolderFullPath, ResourcesFolderName, culture, quebecDealer ? QuebecPrefic : string.Empty);
-            var resourcesFullPathWithCulture = Path.Combine(_contentFolderFullPath, ResourcesFolderName, culture, userIdentity.HasClaim("QuebecDealer", "True") ? QuebecPrefic :
+            var resourcesFullPathWithCulture = Path.Combine(_contentFolderFullPath, ResourcesFolderName, culture, userIdentity.HasClaim(ClaimContstants.QuebecDealer, "True") ? QuebecPrefic :
                                                                                                                    userIdentity.HasClaim("MortgageBroker", "True") ? MortgageBrokerPrefic : string.Empty);
             if (!Directory.Exists(resourcesFullPathWithCulture) || !Directory.GetFiles(resourcesFullPathWithCulture).Any()) return new Dictionary<string, string>();
 
