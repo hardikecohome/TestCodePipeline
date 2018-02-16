@@ -6,6 +6,7 @@
 @using DealnetPortal.Api.Models.Contract
 @using DealnetPortal.Web.Models
 @using DealnetPortal.Web.Models.Enumeration
+@using System.Security.Claims
 @using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType
 @using ContractState = DealnetPortal.Web.Models.Enumeration.ContractState
 @model ContractEditViewModel
@@ -1853,7 +1854,7 @@
                                 </div>
                             </div>
                         </div>
-						@if (Model.ContactAndPaymentInfo.IsAllPaymentTypesAvailable)
+						@if (!((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True")))
 						{
                         <div class="form-group pap-payment-form">
                             <div class="row">
