@@ -141,9 +141,10 @@
 
 .main-banner {
   background-repeat: no-repeat;
+  background-size: auto auto;
   display: block;
   height: 270px;
-  background-size: auto 100%; }
+  margin: 0 15px; }
 
 /* Customize the label (the container) */
 .checkbox-container {
@@ -218,7 +219,7 @@
     position: relative;
     cursor: pointer; }
     .dropdown-custom .dropdown-toggle span {
-      padding: 3px; }
+      padding: 5px; }
   .dropdown-custom .dropdown-menu {
     min-width: 80px;
     border-radius: 0;
