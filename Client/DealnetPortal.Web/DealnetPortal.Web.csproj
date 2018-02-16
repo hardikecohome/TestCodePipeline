@@ -492,7 +492,6 @@
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fonts\icomoon.svg" />
-    <Content Include="Content\images\banner.png" />
     <Content Include="Content\images\bubble-help-red.svg" />
     <Content Include="Content\images\bubble-help-w.svg" />
     <Content Include="Content\images\dataTables\details_close.png" />
