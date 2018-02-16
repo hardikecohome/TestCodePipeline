@@ -191,7 +191,7 @@
                                 </div>
 
                             }
-                            <div class="well well-info @(Model.ESignature.Status != ApiEnum.SignatureStatus.Declined?"hidden":"")" id="contact-before-resend">
+                            <div class="well well-info clear-border @(Model.ESignature.Status != ApiEnum.SignatureStatus.Declined?"hidden":"")" id="contact-before-resend">
                                 <span class="icon-hold">
                                     <svg aria-hidden="true" class="icon icon-info-well">
                                         <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
@@ -199,7 +199,7 @@
                                 </span>
                                 <span>@Resources.ContactPersonWhoDeclinedSignature</span>
                             </div>
-                            <div class="well clear-border danger-well hidden" id="fill-all-emails">
+                            <div class="well position-well clear-border danger-well hidden" id="fill-all-emails">
                                 @Resources.PleaseEnterAllEmails
                             </div>
                             <div class="row form-group @(Model.ESignature.Status == ApiEnum.SignatureStatus.Completed || Model.ESignature.Status==ApiEnum.SignatureStatus.Signed?"hidden":"")">
@@ -251,7 +251,7 @@ else
         <div role="tabpanel" class="tab-pane fade" id="paper-contract">
             @using(Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new { enctype = "multipart/form-data", data_container = "tab-container-1" }))
             {
-                <div class="well clear-border danger-well error-descr collapse">
+                <div class="well position-well clear-border danger-well error-descr collapse">
                     <svg aria-hidden="true" class="icon icon-error">
                         <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
                     </svg>
@@ -299,7 +299,7 @@ else
                 @Resources.PrintTheContract
             </a>
 
-            <div class="well danger-well clear-border error-descr collapse" id="print-error-message">
+            <div class="well danger-well position-well clear-border error-descr collapse" id="print-error-message">
                 <svg aria-hidden="true" class="icon icon-error">
                     <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
                 </svg>
