@@ -1,4 +1,5 @@
-﻿@using System.Security.Claims;
+﻿@using DealnetPortal.Api.Core.Helpers;
+@using System.Security.Claims;
 @using DealnetPortal.Web.Common.Constants
 <div id="personal-data-used" style="display: none;">
     @Html.Raw((bool)((ClaimsPrincipal)User)?.HasClaim(ClaimContstants.QuebecDealer, "True") ? @Resources.AgreementPersonalDataQC : @Resources.AgreementPersonalData)

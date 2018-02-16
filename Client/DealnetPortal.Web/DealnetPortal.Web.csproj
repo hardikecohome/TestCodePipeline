@@ -489,6 +489,15 @@
     <Content Include="Content\email\images\icon-success.png" />
     <Content Include="Content\files\banners\en\home-banner-mobile.jpg" />
     <Content Include="Content\files\banners\en\home-banner.jpg" />
+    <Content Include="Content\files\HTML\en\AgreementPersonalData.html" />
+    <Content Include="Content\files\HTML\en\PrivacyPolicyText.html" />
+    <Content Include="Content\files\HTML\en\qc\AgreementPersonalDataQC.html" />
+    <Content Include="Content\files\HTML\en\qc\PrivacyPolicyTextQC.html" />
+    <Content Include="Content\files\HTML\fr\AgreementPersonalDataFR.html" />
+    <Content Include="Content\files\HTML\fr\PrivacyPolicyTextFR.html" />
+    <Content Include="Content\files\HTML\fr\qc\AgreementPersonalDataQCFR.html" />
+    <Content Include="Content\files\HTML\fr\qc\PrivacyPolicyTextQCFR.html" />
+    <Content Include="Content\files\resources\en\MortgageBroker\Video Link.htm" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fonts\icomoon.svg" />
@@ -834,7 +843,6 @@
     <Content Include="Content\files\resources\en\Myhome-Wallet-Detailed-Description.pdf" />
     <Content Include="Content\files\resources\en\Myhome-Wallet-Short-Description.pdf" />
     <Content Include="Content\files\resources\en\Portal-User-Guide.pdf" />
-    <Content Include="Content\files\resources\en\Summer-Fall-2017-Promotion.pdf" />
     <Content Include="Content\less\components\status-colors.less" />
     <Content Include="Content\less\components\dob-control.less" />
     <Content Include="Content\files\Dealer Portal Update Oct 2017.pdf" />
@@ -854,6 +862,13 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\less\bootstrap\bootstrap.new.less" />
+    <Content Include="Content\files\resources\en\EcoHome Rate Card - V2.0-10-11-2017.pdf" />
+    <Content Include="Content\files\resources\en\Rates Approved Pre Oct 3rd, 2017 - Full Reference Guide.pdf" />
+    <Content Include="Content\files\resources\en\Rates Approved Pre Oct 3rd, 2017 - Quick Reference Guide.pdf" />
+    <Content Include="Content\files\resources\en\MortgageBroker\myhome-wallet-customer-info-sheet.pdf" />
+    <Content Include="Content\files\resources\en\MortgageBroker\myhome-wallet-mortgage-info-deck.pdf" />
+    <Content Include="Content\files\resources\en\MortgageBroker\Mortgage Broker FAQs.pdf" />
+    <Content Include="Content\files\resources\en\MortgageBroker\Mortgage Broker Portal User Guide February 2018.pdf" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\components\addressInformation.js" />
@@ -1223,6 +1238,7 @@
     <Content Include="Views\Shared\EquipmentInformation\_LoanRentalPrograms.cshtml" />
     <Content Include="Views\Shared\SummaryAndConfirmation\_ClarityDetailedPaymentInfo.cshtml" />
     <Content Include="Views\Shared\_NewLayout.cshtml" />
+    <Content Include="webdeployClient.ps1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

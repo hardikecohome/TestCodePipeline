@@ -1,212 +1,252 @@
 ﻿@using DealnetPortal.Api.Common.Enumeration
+@using System.Security.Claims;
 @model DealnetPortal.Web.Models.ContactAndPaymentInfoViewModel
 
 <div class="dealnet-large-header">@Resources.ContactAndPaymentInfo</div>
 
 <div id="steps-line"></div>
 <div class="row" id="steps">
-    <div class="col-xs-4">
-      <a href="@Url.Action("BasicInfo", new {contractId = Model.ContractId})" data-warning="true" id="step1" class="step-item">1</a>
-      
-    </div>
-    <div class="col-xs-4">
-        @if (Model.IsApplicantsInfoEditAvailable)
-        {
-            <a href="@Url.Action("EquipmentInformation", new {contractId = Model.ContractId})" id="step2" class="step-item">2</a>
-        }
-        else
-        {
-            <div id="step2" class="step-item">2</div>
-        }
-      <div id="step3" class="step-item step-active">3</div>
-    </div>
-    <div class="col-xs-4">
-        <div id="step4" class="step-item">4</div>
-    </div>
+	<div class="col-xs-4">
+		<a href="@Url.Action("BasicInfo", new { contractId = Model.ContractId })" data-warning="true" id="step1" class="step-item">1</a>
+
+	</div>
+	<div class="col-xs-4">
+		@if (Model.IsApplicantsInfoEditAvailable)
+		{
+			<a href="@Url.Action("EquipmentInformation", new { contractId = Model.ContractId })" id="step2" class="step-item">2</a>
+		}
+		else
+		{
+			<div id="step2" class="step-item">2</div>
+		}
+		<div id="step3" class="step-item step-active">3</div>
+	</div>
+	<div class="col-xs-4">
+		<div id="step4" class="step-item">4</div>
+	</div>
 </div>
 <div class="form-container">
-<div class="form-section">
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(m => m.ContractId)
-        @Html.HiddenFor(m => m.IsAllPaymentTypesAvailable, new {id="payment-info-available"})
-        <h3 class="dealnet-middle-header">@Resources.ContactInformation</h3>
+	<div class="form-section">
+		@using (Html.BeginForm())
+		{
+			@Html.AntiForgeryToken()
+			@Html.HiddenFor(m => m.ContractId)
+			@Html.HiddenFor(m => m.IsAllPaymentTypesAvailable, new { id = "payment-info-available" })
+			<h3 class="dealnet-middle-header">@Resources.ContactInformation</h3>
 
-        <h4 class="dealnet-small-header2">@Resources.BorrowerInformation</h4>
-        @Html.HiddenFor(m => m.HomeOwnerContactInfo.CustomerId)
-        <div class="row mandatory-phones">
-            <div class="col-md-4 col-lg-4">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.HomeOwnerContactInfo.HomePhone)
-                    <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwnerContactInfo.HomePhone, new {@class = "form-control dealnet-input home-phone", type="text", placeholder = Resources.HomePhone })
-                        @Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.HomePhone, "", new {@class = "text-danger"})
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-lg-4">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.HomeOwnerContactInfo.CellPhone)
-                    <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwnerContactInfo.CellPhone, new {@class = "form-control dealnet-input cell-phone", type="text", placeholder = Resources.CellPhone })
-                        @Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.CellPhone, "", new {@class = "text-danger"})
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-lg-4">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.HomeOwnerContactInfo.BusinessPhone)
-                    <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwnerContactInfo.BusinessPhone, new {@class = "form-control dealnet-input", id = "business-phone", type="text", placeholder = Resources.BusinessPhone })
-                        @Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.BusinessPhone, "", new {@class = "text-danger"})
-                    </div>
-                </div>
-            </div>
-        </div>
+			<h4 class="dealnet-small-header2">@Resources.BorrowerInformation</h4>
+			@Html.HiddenFor(m => m.HomeOwnerContactInfo.CustomerId)
+			<div class="row mandatory-phones">
+				<div class="col-md-4 col-lg-4">
+					<div class="form-group">
+						@Html.LabelFor(m => m.HomeOwnerContactInfo.HomePhone)
+						<div class="control-group">
+							@Html.TextBoxFor(m => m.HomeOwnerContactInfo.HomePhone, new { @class = "form-control dealnet-input home-phone", type = "text", placeholder = Resources.HomePhone })
+							@Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.HomePhone, "", new { @class = "text-danger" })
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 col-lg-4">
+					<div class="form-group">
+						@Html.LabelFor(m => m.HomeOwnerContactInfo.CellPhone)
+						<div class="control-group">
+							@Html.TextBoxFor(m => m.HomeOwnerContactInfo.CellPhone, new { @class = "form-control dealnet-input cell-phone", type = "text", placeholder = Resources.CellPhone })
+							@Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.CellPhone, "", new { @class = "text-danger" })
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 col-lg-4">
+					<div class="form-group">
+						@Html.LabelFor(m => m.HomeOwnerContactInfo.BusinessPhone)
+						<div class="control-group">
+							@Html.TextBoxFor(m => m.HomeOwnerContactInfo.BusinessPhone, new { @class = "form-control dealnet-input", id = "business-phone", type = "text", placeholder = Resources.BusinessPhone })
+							@Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.BusinessPhone, "", new { @class = "text-danger" })
+						</div>
+					</div>
+				</div>
+			</div>
 
-        <div class="row">
-            <div class="col-md-4 col-lg-4">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.HomeOwnerContactInfo.EmailAddress)
-                    <div class="control-group">
-                        @Html.TextBoxFor(m => m.HomeOwnerContactInfo.EmailAddress, new {@class = "form-control dealnet-input", id = "email-address", placeholder = Resources.EmailAddress, type = "email"})
-                        @Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.EmailAddress, "", new {@class = "text-danger"})
-                    </div>
-                </div>
-            </div>
-        </div>
-      
-      <div class="consents-checkbox-hold">
-        <label class="align-middle custom-checkbox set-margin">
-          @Html.CheckBoxFor(m => m.HomeOwnerContactInfo.AllowCommunicate, new { @class = "dealnet-checkbox address-checkbox" })
-          <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-          <span>@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>         
-        </label>
-      </div>
-      if (Model.CoBorrowersContactInfo?.Any() ?? false)
-      {
-        for (int i = 0; i < Model.CoBorrowersContactInfo.Count; i++)
-        {
-          <hr>
-          <h4 class="dealnet-small-header2">@Resources.AdditionalApplicant (@Model.CoBorrowersContactInfo[i].FirstName @Model.CoBorrowersContactInfo[i].LastName) @Resources.Information</h4>
-          @Html.HiddenFor(m => m.CoBorrowersContactInfo[i].CustomerId)
-          <div class="row mandatory-phones">
-            <div class="col-md-4 col-lg-4">
-              <div class="form-group">
-                @Html.LabelFor(m => m.CoBorrowersContactInfo[i].HomePhone)
-                <div class="control-group">
-                  @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].HomePhone, new {@class = "form-control dealnet-input home-phone", type = "text", placeholder = Resources.HomePhone})
-                  @Html.ValidationMessageFor(m => m.CoBorrowersContactInfo[i].HomePhone, "", new {@class = "text-danger"})
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 col-lg-4">
-              <div class="form-group">
-                @Html.LabelFor(m => m.CoBorrowersContactInfo[i].CellPhone)
-                <div class="control-group">
-                  @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].CellPhone, new {@class = "form-control dealnet-input cell-phone", type = "text", placeholder = Resources.CellPhone})
-                  @Html.ValidationMessageFor(m => m.CoBorrowersContactInfo[i].CellPhone, "", new {@class = "text-danger"})
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 col-lg-4">
-              <div class="form-group">
-                @Html.LabelFor(m => m.CoBorrowersContactInfo[i].BusinessPhone)
-                <div class="control-group">
-                  @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].BusinessPhone, new {@class = "form-control dealnet-input", type = "text", id = "business-phone", placeholder = Resources.BusinessPhone})
-                  @Html.ValidationMessageFor(m => m.CoBorrowersContactInfo[i].BusinessPhone, "", new {@class = "text-danger"})
-                </div>
-              </div>
-            </div>
-          </div>
+			<div class="row">
+				<div class="col-md-4 col-lg-4">
+					<div class="form-group">
+						@Html.LabelFor(m => m.HomeOwnerContactInfo.EmailAddress)
+						<div class="control-group">
+							@Html.TextBoxFor(m => m.HomeOwnerContactInfo.EmailAddress, new { @class = "form-control dealnet-input", id = "email-address", placeholder = Resources.EmailAddress, type = "email" })
+							@Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.EmailAddress, "", new { @class = "text-danger" })
+						</div>
+					</div>
+				</div>
+			</div>
 
-          <div class="row">
-            <div class="col-md-4 col-lg-4">
-              <div class="form-group">
-                @Html.LabelFor(m => m.CoBorrowersContactInfo[i].EmailAddress)
-                <div class="control-group">
-                  @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].EmailAddress, new {@class = "form-control dealnet-input", id = "email-address", placeholder = Resources.EmailAddress, type = "email"})
-                  @Html.ValidationMessageFor(m => m.CoBorrowersContactInfo[i].EmailAddress, "", new {@class = "text-danger"})
-                </div>
-              </div>
-            </div>
-          </div>
+			<div class="consents-checkbox-hold">
+				<label class="align-middle custom-checkbox set-margin">
+					@Html.CheckBoxFor(m => m.HomeOwnerContactInfo.AllowCommunicate, new { @class = "dealnet-checkbox address-checkbox" })
+					<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+					<span>
+						@if ((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True"))
+						{@Resources.ConsentToReceiveCommercialElectronicMessagesDPQC}
+						else
+						{ @Resources.ConsentToReceiveCommercialElectronicMessagesDP } | 
+						@if ((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True"))
+						{<a target="_blank" href="http://www.financementecohome.com/" class="link-color-inherit">www.financementecohome.com</a>}
+						else
+						{ <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a> }					
+				.</span>
+			</label>
+		</div>
+			if (Model.CoBorrowersContactInfo?.Any() ?? false)
+			{
+				for (int i = 0; i < Model.CoBorrowersContactInfo.Count; i++)
+				{
+				<hr>
+				<h4 class="dealnet-small-header2">@Resources.AdditionalApplicant (@Model.CoBorrowersContactInfo[i].FirstName @Model.CoBorrowersContactInfo[i].LastName) @Resources.Information</h4>
+				@Html.HiddenFor(m => m.CoBorrowersContactInfo[i].CustomerId)
+				<div class="row mandatory-phones">
+					<div class="col-md-4 col-lg-4">
+						<div class="form-group">
+							@Html.LabelFor(m => m.CoBorrowersContactInfo[i].HomePhone)
+							<div class="control-group">
+								@Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].HomePhone, new { @class = "form-control dealnet-input home-phone", type = "text", placeholder = Resources.HomePhone })
+								@Html.ValidationMessageFor(m => m.CoBorrowersContactInfo[i].HomePhone, "", new { @class = "text-danger" })
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 col-lg-4">
+						<div class="form-group">
+							@Html.LabelFor(m => m.CoBorrowersContactInfo[i].CellPhone)
+							<div class="control-group">
+								@Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].CellPhone, new { @class = "form-control dealnet-input cell-phone", type = "text", placeholder = Resources.CellPhone })
+								@Html.ValidationMessageFor(m => m.CoBorrowersContactInfo[i].CellPhone, "", new { @class = "text-danger" })
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 col-lg-4">
+						<div class="form-group">
+							@Html.LabelFor(m => m.CoBorrowersContactInfo[i].BusinessPhone)
+							<div class="control-group">
+								@Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].BusinessPhone, new { @class = "form-control dealnet-input", type = "text", id = "business-phone", placeholder = Resources.BusinessPhone })
+								@Html.ValidationMessageFor(m => m.CoBorrowersContactInfo[i].BusinessPhone, "", new { @class = "text-danger" })
+							</div>
+						</div>
+					</div>
+				</div>
 
-          <div class="consents-checkbox-hold">
-            <label class="align-middle custom-checkbox set-margin">
-              @Html.CheckBoxFor(m => m.CoBorrowersContactInfo[i].AllowCommunicate, new {@class = "dealnet-checkbox address-checkbox" })
-              <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-              <span>@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
-            </label>
-          </div>
-        }
-      }
+				<div class="row">
+					<div class="col-md-4 col-lg-4">
+						<div class="form-group">
+							@Html.LabelFor(m => m.CoBorrowersContactInfo[i].EmailAddress)
+							<div class="control-group">
+								@Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].EmailAddress, new { @class = "form-control dealnet-input", id = "email-address", placeholder = Resources.EmailAddress, type = "email" })
+								@Html.ValidationMessageFor(m => m.CoBorrowersContactInfo[i].EmailAddress, "", new { @class = "text-danger" })
+							</div>
+						</div>
+					</div>
+				</div>
 
-      <h3 class="dealnet-middle-header">@Resources.PaymentInformation</h3>
+				<div class="consents-checkbox-hold">
+					<label class="align-middle custom-checkbox set-margin">
+						@Html.CheckBoxFor(m => m.CoBorrowersContactInfo[i].AllowCommunicate, new { @class = "dealnet-checkbox address-checkbox" })
+						<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+						<span>
+							@if ((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True"))
+							{@Resources.ConsentToReceiveCommercialElectronicMessagesDPQC}
+							else
+							{ @Resources.ConsentToReceiveCommercialElectronicMessagesDP}  |
+							@if ((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True"))
+							{<a target="_blank" href="http://www.financementecohome.com/" class="link-color-inherit">www.financementecohome.com</a>}
+							else
+							{ <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>}
+						.</span>
+					</label>
+				</div>
+				}
+			}
 
-                <div class="row">
-                  <div class="col-xs-12 col-md-4">
-                    <div class="form-group">
-                      @Html.LabelFor(m => m.PaymentInfo.PaymentType)
-                      <div class="control-group">
-                        @Html.EnumDropDownListFor(m => m.PaymentInfo.PaymentType, null, new { @class = "form-control", id = "payment-type" })
-                        @Html.ValidationMessageFor(m => m.PaymentInfo.PaymentType, "", new { @class = "text-danger" })
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xs-12 col-md-4 pap-payment">
-                    <div class="form-group">
-                      @Html.LabelFor(m => m.PaymentInfo.PrefferedWithdrawalDate)
-                      <div class="control-group">
-                        @Html.EnumDropDownListFor(m => m.PaymentInfo.PrefferedWithdrawalDate, null, new { @class = "form-control", id = "preferred-withdrawal-date" })
-                        @Html.ValidationMessageFor(m => m.PaymentInfo.PrefferedWithdrawalDate, "", new { @class = "text-danger" })
-                      </div>
-                    </div>
-                  </div>
-                  <div class="pap-payment">
-                    <div class="col-xs-12 col-md-4">
-                      <div class="form-group">
-                        @Html.LabelFor(m => m.PaymentInfo.BlankNumber)
-                        <div class="control-group">
-                          @Html.TextBoxFor(m => m.PaymentInfo.BlankNumber, new { @class = "form-control dealnet-input", type = "text", id = "bank-number", placeholder = Resources.BlankNumber })
-                          @Html.ValidationMessageFor(m => m.PaymentInfo.BlankNumber, "", new { @class = "text-danger" })
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+		<h3 class="dealnet-middle-header">@Resources.PaymentInformation</h3>
 
-                  <div class="enbridge-payment">
-                    <div class="col-xs-12 col-md-4">
-                      <div class="form-group">
-                        @Html.LabelFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount)
-                        <div class="control-group">
-                          @Html.TextBoxFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount, new { @class = "form-control dealnet-input", type = "text", id = "enbridge-gas-distribution-account", placeholder = Resources.TwelveDigitsNumber })
-                          @Html.ValidationMessageFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount, "", new { @class = "text-danger" })
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                      <div class="form-group">
-                        @Html.LabelFor(m => m.PaymentInfo.MeterNumber)
-                        <div class="control-group">
-                          @Html.TextBoxFor(m => m.PaymentInfo.MeterNumber, new { @class = "form-control dealnet-input", type = "text", id = "meter-number", placeholder = Resources.SevenDigitsNumber })
-                          @Html.ValidationMessageFor(m => m.PaymentInfo.MeterNumber, "", new { @class = "text-danger" })
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row pap-payment">
-                  <div class="col-xs-12 col-md-4">
-                    <div class="form-group">
-                      @Html.LabelFor(m => m.PaymentInfo.TransitNumber)
-                      <div class="control-group">
-                        @Html.TextBoxFor(m => m.PaymentInfo.TransitNumber, new { @class = "form-control dealnet-input", type = "text", id = "transit-number", placeholder = Resources.TransitNumber })
-                        @Html.ValidationMessageFor(m => m.PaymentInfo.TransitNumber, "", new { @class = "text-danger" })
-                      </div>
-                    </div>
-                  </div>
+		<div class="row">
+			<div class="col-xs-12 col-md-4">
+				<div class="form-group">
+					@Html.LabelFor(m => m.PaymentInfo.PaymentType)
+					<div class="control-group">
+						@Html.EnumDropDownListFor(m => m.PaymentInfo.PaymentType, null, new { @class = "form-control", id = "payment-type" })
+						@Html.ValidationMessageFor(m => m.PaymentInfo.PaymentType, "", new { @class = "text-danger" })
+					</div>
+				</div>
+			</div>
+			@if (Model.IsAllPaymentTypesAvailable)
+	{
+		<div class="col-xs-12 col-md-4 pap-payment">
+			<div class="form-group">
+				@Html.LabelFor(m => m.PaymentInfo.PrefferedWithdrawalDate)
+				<div class="control-group">
+					@Html.EnumDropDownListFor(m => m.PaymentInfo.PrefferedWithdrawalDate, null, new { @class = "form-control", id = "preferred-withdrawal-date" })
+					@Html.ValidationMessageFor(m => m.PaymentInfo.PrefferedWithdrawalDate, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+}
+			<div class="pap-payment">
+				<div class="col-xs-12 col-md-4">
+					<div class="form-group">
+						@Html.LabelFor(m => m.PaymentInfo.BlankNumber)
+						<div class="control-group">
+							@Html.TextBoxFor(m => m.PaymentInfo.BlankNumber, new { @class = "form-control dealnet-input", type = "text", id = "bank-number", placeholder = Resources.BlankNumber })
+							@Html.ValidationMessageFor(m => m.PaymentInfo.BlankNumber, "", new { @class = "text-danger" })
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-md-4  pap-payment">
+				<div class="form-group">
+					@Html.LabelFor(m => m.PaymentInfo.TransitNumber)
+					<div class="control-group">
+						@Html.TextBoxFor(m => m.PaymentInfo.TransitNumber, new { @class = "form-control dealnet-input", type = "text", id = "transit-number", placeholder = Resources.TransitNumber })
+						@Html.ValidationMessageFor(m => m.PaymentInfo.TransitNumber, "", new { @class = "text-danger" })
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xs-12 col-md-4  pap-payment">
+				<div class="form-group">
+					@Html.LabelFor(m => m.PaymentInfo.AccountNumber)
+					<div class="control-group">
+						@Html.TextBoxFor(m => m.PaymentInfo.AccountNumber, new { @class = "form-control dealnet-input", type = "text", id = "account-number", placeholder = Resources.AccountNumber })
+						@Html.ValidationMessageFor(m => m.PaymentInfo.AccountNumber, "", new { @class = "text-danger" })
+					</div>
+				</div>
+			</div>
+			<div class="enbridge-payment">
+				<div class="col-xs-12 col-md-4">
+					<div class="form-group">
+						@Html.LabelFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount)
+						<div class="control-group">
+							@Html.TextBoxFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount, new { @class = "form-control dealnet-input", type = "text", id = "enbridge-gas-distribution-account", placeholder = Resources.TwelveDigitsNumber })
+							@Html.ValidationMessageFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount, "", new { @class = "text-danger" })
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-md-4">
+					<div class="form-group">
+						@Html.LabelFor(m => m.PaymentInfo.MeterNumber)
+						<div class="control-group">
+							@Html.TextBoxFor(m => m.PaymentInfo.MeterNumber, new { @class = "form-control dealnet-input", type = "text", id = "meter-number", placeholder = Resources.SevenDigitsNumber })
+							@Html.ValidationMessageFor(m => m.PaymentInfo.MeterNumber, "", new { @class = "text-danger" })
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		@*<div class="row pap-payment">
+			<div class="col-xs-12 col-md-4">
+				<div class="form-group">
+					@Html.LabelFor(m => m.PaymentInfo.TransitNumber)
+					<div class="control-group">
+						@Html.TextBoxFor(m => m.PaymentInfo.TransitNumber, new { @class = "form-control dealnet-input", type = "text", id = "transit-number", placeholder = Resources.TransitNumber })
+						@Html.ValidationMessageFor(m => m.PaymentInfo.TransitNumber, "", new { @class = "text-danger" })
+					</div>
+				</div>
+			</div>
 
                   <div class="col-xs-12 col-md-4">
                     <div class="form-group">
@@ -229,24 +269,24 @@
 
 @section Translations
 {
-    translations['ProcessingImage'] = "@Resources.ProcessingImage";
-    translations['BrowserNotSupportFileUpload'] = "@Html.Raw(Resources.BrowserNotSupportFileUpload)";
-    translations['CannotRecognizeVoidCheque'] = "@Html.Raw(Resources.CannotRecognizeVoidCheque)";
+	translations['ProcessingImage'] = "@Resources.ProcessingImage";
+	translations['BrowserNotSupportFileUpload'] = "@Html.Raw(Resources.BrowserNotSupportFileUpload)";
+	translations['CannotRecognizeVoidCheque'] = "@Html.Raw(Resources.CannotRecognizeVoidCheque)";
 }
 
 @section scripts
 {
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/localization")
-    @Scripts.Render("~/bundles/contact-and-payment")
+	@Scripts.Render("~/bundles/jqueryval")
+	@Scripts.Render("~/bundles/localization")
+	@Scripts.Render("~/bundles/contact-and-payment")
 
-<script type="text/javascript">
+	<script type="text/javascript">
 	$(document)
 		.submit(function () {
 
 				ga('send', 'event', 'Contact and Payment', 'Form submit', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
 			});
-</script>
+	</script>
 
 }
 
