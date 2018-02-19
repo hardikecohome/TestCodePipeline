@@ -1,160 +1,12 @@
-﻿var chart = null;
-var table;
+﻿var table;
 
 $(document)
     .ready(function () {
-        setTimeout(function () {
-            showChart();
-        }, 500);
         showTable();
-        $('.dealnet-chart-switch-button')
-            .click(function () {
-                $('.dealnet-chart-switch-button').removeClass('dealnet-chart-switch-button-selected');
-                $(this).addClass('dealnet-chart-switch-button-selected');
-                setTimeout(function () {
-                    showChart();
-                }, 500);
-            });
         commonDataTablesSettings();
     });
 
-function FormatLongNumber (value) {
-    if (value == 0) {
-        return 0;
-    }
-    else {
-        // for testing
-        //value = Math.floor(Math.random()*1001);
-
-        // hundreds
-        if (value <= 999) {
-            return value;
-        }
-        // thousands
-        else if (value >= 1000 && value <= 999999) {
-            return (value / 1000) + 'K';
-        }
-        // millions
-        else if (value >= 1000000 && value <= 999999999) {
-            return (value / 1000000) + 'M';
-        }
-        // billions
-        else if (value >= 1000000000 && value <= 999999999999) {
-            return (value / 1000000000) + 'B';
-        }
-        else
-            return value;
-    }
-}
-
-$.fn.dataTable.Api.register('order.neutral()', function () {
-    return this.iterator('table', function (s) {
-        s.aaSorting.length = 0;
-        s.aiDisplay.sort(function (a, b) {
-            return a - b;
-        });
-        s.aiDisplayMaster.sort(function (a, b) {
-            return a - b;
-        });
-    });
-});
-
-function showChart () {
-    var graphsBgColor = $('body').is('.theme-one-dealer') ? 'rgba(235, 151, 0, 0.23)' : 'rgba(221, 243, 213, 1)';
-    var maxValueXAxix = $('body').is('.mobile-device') ? '14' : ''
-    var fontSize = $('body').is('.mobile-device') ? '10' : '12'
-    var maxRotation = $('body').is('.mobile-device') ? '0' : '30'
-    $.when($.ajax(chartUrl,
-        {
-            mode: 'GET',
-            cache: false,
-            data: {
-                type: $('.dealnet-chart-switch-button-selected').attr('data-type')
-            }
-        })
-    )
-        .done(function (data) {
-
-            if (chart) {
-                chart.destroy();
-            }
-            var canvas = document.getElementById('data-flow-overview');
-            $('.data-flow-container').addClass('data-loaded')
-            if ($('#data-flow-overview').length > 0) {
-                $('body').addClass('body-scrolled');
-            } else {
-                $('body').removeClass('body-scrolled');
-            }
-            chart = new Chart(canvas,
-                {
-                    type: 'bar',
-                    data: data,
-                    options: {
-                        tooltips: {
-                            backgroundColor: '#f2f1f1',
-                            titleColor: '#1f1f1f',
-                            bodyColor: '#1f1f1f',
-                            footerColor: '#1f1f1f',
-                            callbacks: {
-                                label: function (tooltipItems) {
-                                    return '$ ' + tooltipItems.yLabel;
-                                },
-                                title: function (tooltipItems) {
-                                    return tooltipItems[0].xLabel + ':';
-                                }
-                            },
-                        },
-                        legend: {
-                            display: false,
-                        },
-                        elements: {
-                            rectangle: {
-                                backgroundColor: graphsBgColor
-                            }
-                        },
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true,
-                                    userCallback: function (value, index, values) {
-                                        return FormatLongNumber(value);
-                                    },
-                                    min: 0,
-                                    suggestedMax: 10000,
-                                },
-                                gridLines:
-                                    {
-                                        lineWidth: 1
-                                    }
-                            }],
-                            xAxes: [{
-                                ticks: {
-                                    fontSize: fontSize,
-                                    maxRotation: maxRotation,
-                                    /*userCallback: function(value, index, values) {
-                                      if(values.length <= 13 && $('body').is('.mobile-device')){
-                                        value = value.slice(0, 4);
-                                      }
-                                      return value;
-                                    }*/
-                                },
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: " ",
-                                    fontSize: 5,
-                                },
-                                gridLines:
-                                    {
-                                        lineWidth: 1
-                                    }
-                            }]
-                        }
-                    }
-                });
-        });
-};
-
-function removeContract () {
+function removeContract() {
     var tr = $(this).parents('tr');
     var id = $(tr)[0].id;
     var data = {
@@ -188,7 +40,7 @@ function removeContract () {
 
 };
 
-function getSignatureDetails () {
+function getSignatureDetails() {
     var tr = $(this).parents('tr');
     var id;
     if ($(tr).hasClass('child')) {
@@ -206,8 +58,11 @@ function getSignatureDetails () {
     });
 }
 
-function showTable () {
-    $.when($.ajax(itemsUrl, { cache: false, mode: 'GET' }))
+function showTable() {
+    $.when($.ajax(itemsUrl, {
+            cache: false,
+            mode: 'GET'
+        }))
         .done(function (data) {
             table = $('#work-items-table')
                 .DataTable({
@@ -215,14 +70,34 @@ function showTable () {
                         details: {
                             display: $.fn.dataTable.Responsive.display.childRow
                         },
-                        breakpoints: [
-                            { name: 'desktop-lg', width: Infinity },
-                            { name: 'desktop', width: 1169 },
-                            { name: 'tablet-l', width: $('body').is('.tablet-device') ? 1025 : 1023 },
-                            { name: 'tablet', width: 1023 },
-                            { name: 'mobile', width: 767 },
-                            { name: 'mobile-l', width: 767 },
-                            { name: 'mobile-p', width: 480 },
+                        breakpoints: [{
+                                name: 'desktop-lg',
+                                width: Infinity
+                            },
+                            {
+                                name: 'desktop',
+                                width: 1169
+                            },
+                            {
+                                name: 'tablet-l',
+                                width: $('body').is('.tablet-device') ? 1025 : 1023
+                            },
+                            {
+                                name: 'tablet',
+                                width: 1023
+                            },
+                            {
+                                name: 'mobile',
+                                width: 767
+                            },
+                            {
+                                name: 'mobile-l',
+                                width: 767
+                            },
+                            {
+                                name: 'mobile-p',
+                                width: 480
+                            },
                         ]
                     },
                     data: data,
@@ -247,8 +122,7 @@ function showTable () {
                             $(row).addClass('unread-deals').find('.contract-cell').prepend('<span class="label-new-deal">' + translations['New'] + '</span>');
                         }
                     },
-                    columns: [
-                        {
+                    columns: [{
                             //"data": 'TransactionId',
                             render: function (sdate, type, row) {
                                 var content = row.Id === 0 ? row.TransactionId :
@@ -261,7 +135,10 @@ function showTable () {
                             },
                             className: 'contract-cell'
                         },
-                        { "data": 'CustomerName', className: 'customer-cell' },
+                        {
+                            "data": 'CustomerName',
+                            className: 'customer-cell'
+                        },
                         {
                             //"data": 'Status',
                             "render": function (sdata, type, row) {
@@ -277,15 +154,27 @@ function showTable () {
                             },
                             className: 'status-cell'
                         },
-                        { "data": 'Action', className: 'action-cell' },
-                        { "data": 'Email', className: 'email-cell' },
-                        { "data": 'Phone', className: 'phone-cell' },
-                        { "data": 'Date', className: 'date-cell' },
+                        {
+                            "data": 'Action',
+                            className: 'action-cell'
+                        },
+                        {
+                            "data": 'Email',
+                            className: 'email-cell'
+                        },
+                        {
+                            "data": 'Phone',
+                            className: 'phone-cell'
+                        },
+                        {
+                            "data": 'Date',
+                            className: 'date-cell'
+                        },
                         {
                             "data": 'RemainingDescription',
                             "visible": false
                         },
-                        {// this is Edit Actions Column
+                        { // this is Edit Actions Column
                             "render": function (sdata, type, row) {
                                 if (row.Id != 0) {
                                     if (row.IsInternal) {
@@ -322,8 +211,7 @@ function showTable () {
                         }
 
                     ],
-                    dom:
-                        "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
+                    dom: "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
                         "<'row'<'col-md-12 col-sm-6'l>>" +
                         "<'row'<'col-md-12'tr>>" +
                         "<'row'<'col-md-12'p>>" +
@@ -380,5 +268,3 @@ function showTable () {
         });
 
 };
-
-

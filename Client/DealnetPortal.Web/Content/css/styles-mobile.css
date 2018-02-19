@@ -99,7 +99,9 @@
 
 @media screen and (max-width: 767px) {
   .main-banner {
-    height: 180px; } }
+    background-size: 100% 100%;
+    height: 180px;
+    margin: 0; } }
 @media screen and (max-width: 767px) {
   .header__logo {
     text-align: center; }
@@ -207,15 +209,19 @@
       color: #97c501; }
 
   .mobile-navigation__action-block {
-    padding: 12px;
+    padding: 0 12px;
     border-bottom: 1px solid #f2f2f2; }
-    .mobile-navigation__action-block .dropdown-custom .dropdown-toggle {
-      font-size: 11px;
-      text-transform: uppercase;
-      font-weight: 400;
-      color: #5d5d5d;
-      background-image: url("../images/forms/selectArrowBlack.svg");
-      width: 30%; }
+    .mobile-navigation__action-block .dropdown-custom {
+      width: 100%; }
+      .mobile-navigation__action-block .dropdown-custom .dropdown-toggle {
+        font-size: 11px;
+        text-transform: uppercase;
+        font-weight: 400;
+        color: #5d5d5d;
+        background-image: url("../images/forms/selectArrowBlack.svg");
+        background-position-x: 25%;
+        padding: 12px 0;
+        width: 100%; }
 
   .header__select {
     color: #5d5d5d;
@@ -274,9 +280,14 @@
     display: block; }
 
   :lang(fr) .mobile-help__toggle,
-  :lang(fr-CA) .mobile-help__toggle {
+  :lang(fr) .dealer-support-contact a,
+  :lang(fr-CA) .mobile-help__toggle,
+  :lang(fr-CA) .dealer-support-contact a {
     font-size: 11px;
-    line-height: 13px; } }
+    line-height: 13px; }
+  :lang(fr) .dealer-support-contact a,
+  :lang(fr-CA) .dealer-support-contact a {
+    padding-top: 6px; } }
 @media screen and (max-width: 767px) {
   .custom-container {
     max-width: 1030px;

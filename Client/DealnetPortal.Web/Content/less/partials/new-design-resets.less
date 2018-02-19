@@ -61,20 +61,26 @@ div.dataTables_wrapper div.dataTables_filter label .icon-search,
 }
 
 body:not(.mobile-device), body:not(.tablet-device) {
-    .dataTable, .dataTable.table-reports{
+    .dataTable, .dataTable.table-reports {
         td, th {
             &.phone-cell, &.date-cell {
                 min-width: 60px !important;
                 width: 60px !important;
             }
+
             &.customer-cell, &.contract-cell {
                 width: 70px !important;
                 word-break: break-word;
             }
+
             &.email-cell {
-                word-break: break-word;
+                max-width: 139px !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
         }
+
         th {
             font-size: 12px;
         }
@@ -176,6 +182,7 @@ table.dataTable thead {
 }
 div.dataTables_wrapper #work-items-table_filter.dataTables_filter input {
     margin-left: 0;
+    margin-top: 6px;
 }
 
 .btn-container .btn {
@@ -183,4 +190,20 @@ div.dataTables_wrapper #work-items-table_filter.dataTables_filter input {
 }
 .ie .scrollable-container .scrollable-content {
     overflow-y: hidden;
+}
+.position-well, .position-well.error-descr {
+    padding-left: 40px !important;
+    .icon, .icon.icon-error {
+        left: 0 !important;
+    }
+}
+.table-page {
+    .position-well, .position-well.error-descr{
+        padding-left: 0 !important;
+    }
+}
+.progress-container .progress-bar{
+    background-image: -webkit-linear-gradient(206deg, #94d802, #7cc501);
+    background-image: -o-linear-gradient(206deg, #94d802, #7cc501);
+    background-image: linear-gradient(296deg, #94d802, #7cc501);
 }

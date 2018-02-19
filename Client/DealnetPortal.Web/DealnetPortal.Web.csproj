@@ -492,7 +492,6 @@
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fonts\icomoon.svg" />
-    <Content Include="Content\images\banner.png" />
     <Content Include="Content\images\bubble-help-red.svg" />
     <Content Include="Content\images\bubble-help-w.svg" />
     <Content Include="Content\images\dataTables\details_close.png" />
@@ -1207,7 +1206,6 @@
     <Content Include="Views\Home\Library.cshtml" />
     <Content Include="Views\Dealer\SuccessWithoutDocuments.cshtml" />
     <Content Include="Views\MyDeals\Esignature.cshtml" />
-    <Content Include="Views\MyDeals\_EsignatureStatus.cshtml" />
     <Content Include="Views\MyDeals\_ContractSignatureStatus.cshtml" />
     <None Include="Scripts\vendor\jquery-3.1.0.intellisense.js" />
     <None Include="Scripts\vendor\jquery.validate-vsdoc.js" />

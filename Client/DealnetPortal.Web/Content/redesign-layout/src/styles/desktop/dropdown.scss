@@ -14,6 +14,9 @@
         background-position: right;
         position: relative;
         cursor: pointer;
+        span {
+            padding: 5px;
+        }
     }
     .dropdown-menu {
         min-width: 80px;

@@ -998,7 +998,7 @@ namespace DealnetPortal.DataAccess.Repositories
             }
 
             var paymentSummary = GetContractPaymentsSummary(contract);
-            dbEquipment.ValueOfDeal = contract.Details.AgreementType == AgreementType.LoanApplication ? (double?) paymentSummary.TotalAmountFinanced : (double?) paymentSummary.TotalMonthlyPayment;            
+            dbEquipment.ValueOfDeal = contract.Equipment.AgreementType == AgreementType.LoanApplication ? (double?) paymentSummary.TotalAmountFinanced : (double?) paymentSummary.TotalMonthlyPayment;            
 
             return dbEquipment;
         }

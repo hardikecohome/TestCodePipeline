@@ -25,7 +25,10 @@
             .on('resize', function () {
                 toggleBackToTopVisibility();
                 setEqualHeightRows($('.summary-payment-info .dealnet-field-caption'));
-            setEqualHeightRows($('.summary-payment-info .dealnet-field-holder'));
+                setEqualHeightRows($('.summary-payment-info .dealnet-field-holder'));
+                setEqualHeightRows($('.equal-label-row-0'));
+                setEqualHeightRows($('.equal-label-row-1'));
+                setEqualHeightRows($('.equal-label-row-2'));
             });
 
         $('#back-to-top').on('click', function () {
@@ -35,6 +38,9 @@
         setTimeout(function () {
             setEqualHeightRows($('.summary-payment-info .dealnet-field-caption'));
             setEqualHeightRows($('.summary-payment-info .dealnet-field-holder'));
+            setEqualHeightRows($('.equal-label-row-0'));
+            setEqualHeightRows($('.equal-label-row-1'));
+            setEqualHeightRows($('.equal-label-row-2'));
         }, 0);
 
         $('#send-all-documents-report').on('click', auditConfirmModal);
