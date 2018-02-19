@@ -105,6 +105,20 @@ namespace DealnetPortal.Api.Integration.Services
 
                 foreach (var contractResult in contractsResultList.Where(x => x.Item1 != null).ToList())
                 {
+                    try
+                    {
+                        //try to submit deal in Aspire
+                        //send only if HIT or Preffered start date are known
+                        if (contractResult.Item1.Equipment?.PreferredStartDate != null || contractResult.Item1.Equipment?.NewEquipment?.Any() == true)
+                        {
+                            await _aspireService.SendDealUDFs(contractResult.Item1.Id, contractOwnerId);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _loggingService.LogError($"Cannot submit deal {contractResult.Item1.Id} in Aspire", ex);
+                    }
+
                     var initAlerts = _creditCheckService.InitiateCreditCheck(contractResult.Item1.Id, contractOwnerId);
 
                     if (initAlerts?.Any() ?? false)
@@ -121,21 +135,7 @@ namespace DealnetPortal.Api.Integration.Services
                     if (creditCheckAlerts.Any(x => x.Type == AlertType.Error))
                     {
                         aspireFailedResults.Add(Tuple.Create(contractResult.Item1.Id, false));
-                    }
-
-                    try
-                    {
-                        //try to submit deal in Aspire
-                        //send only if HIT or Preffered start date are known
-                        if (contractResult.Item1.Equipment?.PreferredStartDate != null || contractResult.Item1.Equipment?.NewEquipment?.Any() == true)
-                        {
-                            await _aspireService.SendDealUDFs(contractResult.Item1.Id, contractOwnerId);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        _loggingService.LogError($"Cannot submit deal {contractResult.Item1.Id} in Aspire", ex);
-                    }
+                    }                    
                 }
 
                 //if all aspire opertaion is failed
