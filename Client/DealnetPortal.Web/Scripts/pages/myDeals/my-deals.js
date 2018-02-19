@@ -225,6 +225,7 @@ function showTable () {
                             "<'row'<'col-md-12 col-sm-6'l>>" +
                             "<'row'<'col-md-12''<'#section-before-table'>'>>" +
                             "<'row'<'col-md-12'tr>>" +
+                            "<'table-footer'>" +
                             "<'row'<'col-md-12'p>>" +
                             "<'row'<'col-md-12'i>>",
                     renderer: 'bootstrap',
