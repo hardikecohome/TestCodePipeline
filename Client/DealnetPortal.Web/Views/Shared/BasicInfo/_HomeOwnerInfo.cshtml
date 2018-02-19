@@ -1,10 +1,11 @@
-﻿@model DealnetPortal.Web.Models.BasicInfoViewModel
+﻿@using System.Security.Claims;
+@model DealnetPortal.Web.Models.BasicInfoViewModel
 
 
 <!--Borrower Information-->
 <h2 class="dealnet-middle-header address-info-label">@Resources.BorrowerInformation</h2>
 <!--scanlicence-button-->
-@if(!ViewBag.IsMobileRequest)
+@if (!ViewBag.IsMobileRequest)
 {
     <div class="row scanlicence-button">
         <div class="col-md-12">
@@ -53,115 +54,115 @@ else
 }
 <!--END scanlicence-button-->
 <div class="owner-info">
-    <div class="row">
-        @Html.HiddenFor(m => m.HomeOwner.CustomerId)
-        <div class="col-md-4 col-lg-4">
-            <div class="form-group">
-                @Html.LabelFor(m => m.HomeOwner.FirstName, new { @for = "first-name" })
-                <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.FirstName, new { @class = "form-control dealnet-input", id = "first-name", placeholder = Resources.FirstName })
-                    @Html.ValidationMessageFor(m => m.HomeOwner.FirstName, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-lg-4">
-            <div class="form-group">
-                @Html.LabelFor(m => m.HomeOwner.LastName, new { @for = "last-name" })
-                <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.LastName, new { @class = "form-control dealnet-input", id = "last-name", placeholder = Resources.LastName })
-                    @Html.ValidationMessageFor(m => m.HomeOwner.LastName, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-lg-4">
-            <div class="form-group">
-                @Html.LabelFor(m => m.HomeOwner.BirthDate, new { @for = "birth-date" })
-                <div class="control-group dob-group">
-                    <div class="dob-input-hold">
-                        @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "check-age dob-input", id = "birth-date", placeholder = Resources.DateFormat, data_val_over18 = "" })
-                    </div>
-                    @{
-                        int month = 0;
-                        int day = 0;
-                        int year = 0;
-                        if(Model.HomeOwner != null && Model.HomeOwner.BirthDate.HasValue)
-                        {
-                            day = Model.HomeOwner.BirthDate.Value.Day;
-                            month = Model.HomeOwner.BirthDate.Value.Month;
-                            year = Model.HomeOwner.BirthDate.Value.Year;
-                        }
-                    }
-                    <div class="dealnet-input no-border">
-                        <div class="custom-select">
-                            <select class="form-control dealnet-input dob-month" required="required">
-                                <option value="">mm</option>
-                                @for(var i = 1; i < 13; i++)
-                                {
-                                    <option value="@i" @(month == i ? "selected=selected" : "" )>@i</option>
-                                }
-                            </select>
-                            <span class="caret"></span>
-                        </div>
-                        <div class="custom-select">
-                            <select class="form-control dealnet-input dob-day" required="required">
-                                <option value="">dd</option>
-                                @for(var i = 1; i < 32; i++)
-                                {
-                                    <option value="@i" @(day == i ? "selected=selected" : "" )>@i</option>
-                                }
-                            </select>
-                            <span class="caret"></span>
-                        </div>
-                        <div class="custom-select last">
-                            <select class="form-control dealnet-input dob-year" required="required">
-                                <option value="">yyyy</option>
-                                @{ var yearLess18 = DateTime.Now.Year - 18;}
-                                @for(var i = yearLess18; i >= 1900; i--)
-                                {
-                                    <option value="@i" @(year == i ? "selected=selected" : "" )>@i</option>
-                                }
-                            </select>
-                            <span class="caret"></span>
-                        </div>
-                    </div>
-                    @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 col-lg-4 hidden">
-            <div class="form-group">
-                @Html.LabelFor(m => m.HomeOwner.DriverLicenseNumber, new { @for = "dl-number" })
-                <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.DriverLicenseNumber, new { @class = "form-control dealnet-input", id = "dl-number", placeholder = Resources.DriverLicenseNumber })
-                    @Html.ValidationMessageFor(m => m.HomeOwner.DriverLicenseNumber, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <!--New Code to map new contract-->
-        <div class="col-md-4 col-lg-4">
-            <div class="form-group">
-                @Html.LabelFor(m => m.HomeOwner.VerificationIdName, new { @for = "verification-id" })
-                <div class="control-group">
-                    @Html.DropDownListFor(m => m.HomeOwner.VerificationIdName, (Model.VarificationIds).Select(x => new SelectListItem { Value = x.VerificationIdName, Text = x.VerificationIdName }), "", new { @class = "form-control dealnet-input", id = "verification-id", Required = "required" })
-                    @Html.ValidationMessageFor(m => m.HomeOwner.VerificationIdName, "", new { @class = "text-danger" })
-                </div>
+	<div class="row">
+		@Html.HiddenFor(m => m.HomeOwner.CustomerId)
+		<div class="col-md-4 col-lg-4">
+			<div class="form-group">
+				@Html.LabelFor(m => m.HomeOwner.FirstName, new { @for = "first-name" })
+				<div class="control-group">
+					@Html.TextBoxFor(m => m.HomeOwner.FirstName, new { @class = "form-control dealnet-input", id = "first-name", placeholder = Resources.FirstName })
+					@Html.ValidationMessageFor(m => m.HomeOwner.FirstName, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4 col-lg-4">
+			<div class="form-group">
+				@Html.LabelFor(m => m.HomeOwner.LastName, new { @for = "last-name" })
+				<div class="control-group">
+					@Html.TextBoxFor(m => m.HomeOwner.LastName, new { @class = "form-control dealnet-input", id = "last-name", placeholder = Resources.LastName })
+					@Html.ValidationMessageFor(m => m.HomeOwner.LastName, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4 col-lg-4">
+			<div class="form-group">
+				@Html.LabelFor(m => m.HomeOwner.BirthDate, new { @for = "birth-date" })
+				<div class="control-group dob-group">
+					<div class="dob-input-hold">
+						@Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "check-age dob-input", id = "birth-date", placeholder = Resources.DateFormat, data_val_over18 = "" })
+					</div>
+					@{
+						int month = 0;
+						int day = 0;
+						int year = 0;
+						if (Model.HomeOwner != null && Model.HomeOwner.BirthDate.HasValue)
+						{
+							day = Model.HomeOwner.BirthDate.Value.Day;
+							month = Model.HomeOwner.BirthDate.Value.Month;
+							year = Model.HomeOwner.BirthDate.Value.Year;
+						}
+					}
+					<div class="dealnet-input no-border">
+						<div class="custom-select">
+							<select class="form-control dealnet-input dob-month" required="required">
+								<option value="">mm</option>
+								@for (var i = 1; i < 13; i++)
+								{
+									<option value="@i" @(month == i ? "selected=selected" : "" )>@i</option>
+								}
+							</select>
+							<span class="caret"></span>
+						</div>
+						<div class="custom-select">
+							<select class="form-control dealnet-input dob-day" required="required">
+								<option value="">dd</option>
+								@for (var i = 1; i < 32; i++)
+								{
+									<option value="@i" @(day == i ? "selected=selected" : "" )>@i</option>
+								}
+							</select>
+							<span class="caret"></span>
+						</div>
+						<div class="custom-select last">
+							<select class="form-control dealnet-input dob-year" required="required">
+								<option value="">yyyy</option>
+								@{ var yearLess18 = DateTime.Now.Year - 18;}
+								@for (var i = yearLess18; i >= 1900; i--)
+								{
+									<option value="@i" @(year == i ? "selected=selected" : "" )>@i</option>
+								}
+							</select>
+							<span class="caret"></span>
+						</div>
+					</div>
+					@Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4 col-lg-4 hidden">
+			<div class="form-group">
+				@Html.LabelFor(m => m.HomeOwner.DriverLicenseNumber, new { @for = "dl-number" })
+				<div class="control-group">
+					@Html.TextBoxFor(m => m.HomeOwner.DriverLicenseNumber, new { @class = "form-control dealnet-input", id = "dl-number", placeholder = Resources.DriverLicenseNumber })
+					@Html.ValidationMessageFor(m => m.HomeOwner.DriverLicenseNumber, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+		<!--New Code to map new contract-->
+		<div class="col-md-4 col-lg-4">
+			<div class="form-group">
+				@Html.LabelFor(m => m.HomeOwner.VerificationIdName, new { @for = "verification-id" })
+				<div class="control-group">
+					@Html.DropDownListFor(m => m.HomeOwner.VerificationIdName, (Model.VarificationIds).Select(x => new SelectListItem { Value = x.VerificationIdName, Text = x.VerificationIdName }), "", new { @class = "form-control dealnet-input", id = "verification-id", Required = "required" })
+					@Html.ValidationMessageFor(m => m.HomeOwner.VerificationIdName, "", new { @class = "text-danger" })
+				</div>
 
-            </div>
+			</div>
 
-        </div>
+		</div>
 
-        <div class="col-md-4 col-lg-4">
-            <div class="form-group">
-                @Html.LabelFor(m => m.HomeOwner.DealerInitial, new { @for = "dealer-initial" })
-                <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.DealerInitial, new { @class = "form-control dealnet-input", id = "dealer-initial", placeholder = Resources.DealerInitial, Required = "required" })
-                    @Html.ValidationMessageFor(m => m.HomeOwner.DealerInitial, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-    </div>
+		<div class="col-md-4 col-lg-4">
+			<div class="form-group">
+				@Html.LabelFor(m => m.HomeOwner.DealerInitial, new { @for = "dealer-initial" })
+				<div class="control-group">
+					@Html.TextBoxFor(m => m.HomeOwner.DealerInitial, new { @class = "form-control dealnet-input", id = "dealer-initial", placeholder = Resources.DealerInitial, Required = "required" })
+					@Html.ValidationMessageFor(m => m.HomeOwner.DealerInitial, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <!--END Borrower Information-->
 <!--Instalation Address-->
@@ -204,6 +205,7 @@ else
             </div>
         </div>
     </div>
+
 </div>
 <div class="row address-info2">
     <div class="col-md-4 col-lg-4">
@@ -226,9 +228,9 @@ else
     </div>
     <div class="col-md-4 col-lg-4">
         <div class="form-group">
-            <label>&nbsp;</label>
+            <label class="visible-md visible-lg">&nbsp;</label>
             <div class="control-group">
-                <a href="#" class="action-link grey">
+                <a href="#" class="action-link grey clear-address">
                     <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
                 </a>
             </div>
@@ -238,11 +240,11 @@ else
 <!--END Instalation Address-->
 <!--Living time-->
 <div id="living-time" class="form-group">
-    <label for="living-time-checkbox" class="align-middle custom-checkbox">
-        <input type="checkbox" class="dealnet-checkbox address-checkbox" id="living-time-checkbox" @if(Model?.HomeOwner?.PreviousAddressInformation != null) { <text> checked</text> } data-section="previous-address" />
-        <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-        <span>@Resources.LivedAtCurrentLessThan</span>
-    </label>
+	<label for="living-time-checkbox" class="align-middle custom-checkbox">
+		<input type="checkbox" class="dealnet-checkbox address-checkbox" id="living-time-checkbox" @if (Model?.HomeOwner?.PreviousAddressInformation != null) { <text> checked</text> } data-section="previous-address" />
+		<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+		<span>@Resources.LivedAtCurrentLessThan</span>
+	</label>
 </div>
 <div id="previous-address">
 
@@ -298,9 +300,9 @@ else
         </div>
         <div class="col-md-4 col-lg-4">
             <div class="form-group">
-                <label>&nbsp;</label>
+                <label class="visible-md visible-lg">&nbsp;</label>
                 <div class="control-group">
-                    <a href="#" class="action-link grey">
+                    <a href="#" class="action-link grey clear-address">
                         <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
                     </a>
                 </div>
@@ -311,44 +313,44 @@ else
 <!--End Living time-->
 <!--Mailing Address-->
 <div id="mailing-address-different" class="form-group">
-    <label for="mailing-address-checkbox" class="align-middle custom-checkbox">
-        <input type="checkbox" class="dealnet-checkbox address-checkbox" id="mailing-address-checkbox" @if(Model?.HomeOwner?.MailingAddressInformation != null) { <text> checked</text> } data-section="mailing-address" />
-        <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-        <span>@Resources.MailingAddressNotSameAsInstallation</span>
-    </label>
+	<label for="mailing-address-checkbox" class="align-middle custom-checkbox">
+		<input type="checkbox" class="dealnet-checkbox address-checkbox" id="mailing-address-checkbox" @if (Model?.HomeOwner?.MailingAddressInformation != null) { <text> checked</text> } data-section="mailing-address" />
+		<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+		<span>@Resources.MailingAddressNotSameAsInstallation</span>
+	</label>
 </div>
 <div id="mailing-address">
 
-    <h2 class="dealnet-middle-header address-info-label no-margin-top">@Resources.MailingAddress</h2>
-    <div class="row address-info1">
-        <div class="col-md-6 col-lg-6">
-            <div class="form-group">
-                @Html.LabelFor(m => m.HomeOwner.MailingAddressInformation.Street, new { @for = "mailing_street" })
-                <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.Street, new { @class = "form-control dealnet-input", id = "mailing_street", placeholder = Resources.StreetPlaceholder, disabled = "disabled" })
-                    @Html.ValidationMessageFor(m => m.HomeOwner.MailingAddressInformation.Street, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div class="col-md-2 col-lg-2">
-            <div class="form-group">
-                @Html.LabelFor(m => m.HomeOwner.MailingAddressInformation.UnitNumber, new { @for = "mailing_unit_number" })
-                <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.UnitNumber, new { @class = "form-control dealnet-input", type = "text", id = "mailing_unit_number", placeholder = "12345", disabled = "disabled" })
-                    @Html.ValidationMessageFor(m => m.HomeOwner.MailingAddressInformation.UnitNumber, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-lg-4">
-            <div class="form-group">
-                @Html.LabelFor(m => m.HomeOwner.MailingAddressInformation.City, new { @for = "mailing_locality" })
-                <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.City, new { @class = "form-control dealnet-input", id = "mailing_locality", placeholder = Resources.Ottawa, disabled = "disabled" })
-                    @Html.ValidationMessageFor(m => m.HomeOwner.MailingAddressInformation.City, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-    </div>
+	<h2 class="dealnet-middle-header address-info-label no-margin-top">@Resources.MailingAddress</h2>
+	<div class="row address-info1">
+		<div class="col-md-6 col-lg-6">
+			<div class="form-group">
+				@Html.LabelFor(m => m.HomeOwner.MailingAddressInformation.Street, new { @for = "mailing_street" })
+				<div class="control-group">
+					@Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.Street, new { @class = "form-control dealnet-input", id = "mailing_street", placeholder = Resources.StreetPlaceholder, disabled = "disabled" })
+					@Html.ValidationMessageFor(m => m.HomeOwner.MailingAddressInformation.Street, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+		<div class="col-md-2 col-lg-2">
+			<div class="form-group">
+				@Html.LabelFor(m => m.HomeOwner.MailingAddressInformation.UnitNumber, new { @for = "mailing_unit_number" })
+				<div class="control-group">
+					@Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.UnitNumber, new { @class = "form-control dealnet-input", type = "text", id = "mailing_unit_number", placeholder = "12345", disabled = "disabled" })
+					@Html.ValidationMessageFor(m => m.HomeOwner.MailingAddressInformation.UnitNumber, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4 col-lg-4">
+			<div class="form-group">
+				@Html.LabelFor(m => m.HomeOwner.MailingAddressInformation.City, new { @for = "mailing_locality" })
+				<div class="control-group">
+					@Html.TextBoxFor(m => m.HomeOwner.MailingAddressInformation.City, new { @class = "form-control dealnet-input", id = "mailing_locality", placeholder = Resources.Ottawa, disabled = "disabled" })
+					@Html.ValidationMessageFor(m => m.HomeOwner.MailingAddressInformation.City, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+	</div>
 
     <div class="row address-info2">
         <div class="col-md-4 col-lg-4">
@@ -373,9 +375,9 @@ else
         </div>
         <div class="col-md-4 col-lg-4">
             <div class="form-group">
-                <label>&nbsp;</label>
+                <label class="visible-md visible-lg">&nbsp;</label>
                 <div class="control-group">
-                    <a href="#" class="action-link grey">
+                    <a href="#" class="action-link grey clear-address">
                         <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
                     </a>
                 </div>
@@ -386,13 +388,13 @@ else
 <!--End Mailing Address-->
 <!--Home Owner Information-->
 <div id="borrower-is-homeowner" class="form-group">
-    <label for="homeowner-checkbox" class="align-middle custom-checkbox">
-        @Html.CheckBoxFor(m => m.HomeOwner.IsHomeOwner, new { @class = "dealnet-checkbox check-homeowner", id = "homeowner-checkbox" })
-        @*<input type="checkbox" class="dealnet-checkbox" id="homeowner-checkbox" checked="checked"/>*@
-        <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-        <span>@Resources.BorrowerIsHomeOwner</span>
-        @Html.ValidationMessageFor(m => m.HomeOwner, "", new { @class = "text-danger" })
-    </label>
+	<label for="homeowner-checkbox" class="align-middle custom-checkbox">
+		@Html.CheckBoxFor(m => m.HomeOwner.IsHomeOwner, new { @class = "dealnet-checkbox check-homeowner", id = "homeowner-checkbox" })
+		@*<input type="checkbox" class="dealnet-checkbox" id="homeowner-checkbox" checked="checked"/>*@
+		<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+		<span>@Resources.BorrowerIsHomeOwner</span>
+		@Html.ValidationMessageFor(m => m.HomeOwner, "", new { @class = "text-danger" })
+	</label>
 </div>
 <!--Home Owner Information-->
 <!--Borrower Employment Information-->
@@ -408,14 +410,14 @@ else
                     @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="col-md-2 col-sm-6 form-group">
+            <div class="col-md-3 col-sm-6 form-group">
                 @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.IncomeType)
                 <div class="control-group">
                     @Html.EnumDropDownListFor(m => m.HomeOwner.EmploymentInformation.IncomeType, new { @class = "form-control dealnet-input", id = "ho-employment-income-type" })
                     @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.IncomeType, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="col-md-2 col-sm-12 form-group">
+            <div class="col-md-3 col-sm-12 form-group">
                 @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary)
                 <div class="control-group">
                     <select class="form-control dealnet-input" name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary)" id="ho-employment-annual">
@@ -431,7 +433,7 @@ else
                     @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="col-md-2 col-sm-12 form-group">
+            <div class="col-md-3 col-sm-12 form-group">
                 @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.HourlyRate)
                 <div class="control-group">
                     <select class="form-control dealnet-input" name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.HourlyRate)" id="ho-employment-hourly">
@@ -449,8 +451,8 @@ else
             </div>
             <div class="col-md-2 col-sm-12 form-group">
                 <label>@Resources.LengthOfEmployment</label>
-                <div class="row control-group">
-                    <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="row control-group length-of-employ">
+                    <div class="select-hold years">
                         <select name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.YearsOfEmployment)" class="form-control dealnet-input" id="ho-employment-years">
                             <option value="" @(string.IsNullOrEmpty(Model.HomeOwner?.EmploymentInformation?.YearsOfEmployment) ? "selected" : "")>@Resources.Year_s_</option>
                             @for(int j = 0; j < 10; j++)
@@ -461,7 +463,7 @@ else
                         </select>
                         @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.YearsOfEmployment, "", new { @class = "text-danger" })
                     </div>
-                    <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="select-hold months">
                         <select name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.MonthsOfEmployment)" class="form-control dealnet-input" id="ho-employment-months"
                                 @(Model.HomeOwner?.EmploymentInformation?.YearsOfEmployment == "10+" ? "disabled=disabled" : "")>
                             <option value="" @(string.IsNullOrEmpty(Model.HomeOwner?.EmploymentInformation?.MonthsOfEmployment) ? "selected" : "")>@Resources.Month_s_</option>
@@ -564,9 +566,9 @@ else
                     </div>
                     <div class="col-md-4 col-lg-4">
                         <div class="form-group">
-                            <label>&nbsp;</label>
+                            <label class="visible-md visible-lg">&nbsp;</label>
                             <div class="control-group">
-                                <a href="#" class="dealnet-disabled-text clear-address">
+                                <a href="#" class="action-link grey clear-address">
                                     <svg aria-hidden="true" class="icon icon-remove">
                                         <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
                                     </svg>
@@ -600,10 +602,10 @@ else
     </div>
 </div>
 @*<div id="agreement" class="form-group">
-    <label for="agreement-checkbox" class="align-middle custom-checkbox">
-    <input type="checkbox" class="dealnet-checkbox" id="agreement-checkbox"/>
-    <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-    <span>Agrees to send his/her personal data to credit check</span>
-    </label>
-    </div>*@
+	<label for="agreement-checkbox" class="align-middle custom-checkbox">
+	<input type="checkbox" class="dealnet-checkbox" id="agreement-checkbox"/>
+	<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+	<span>Agrees to send his/her personal data to credit check</span>
+	</label>
+	</div>*@
 <!--Agreement section-->

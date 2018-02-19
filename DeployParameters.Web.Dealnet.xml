@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <setParameter name="IIS Web Application Name" value="Dealnet/Client" />
+  <setParameter name="ApiUrl" value="http://localhost:9090/Dev-DealerPortal/api" />
+  
+  <setParameter name="LinkListTobeForwarded" value="bthibault, jcancilla, kheckert, rhorst, rlewandoski, srussell, wlynch, Rheem, Ruud, Noble, ACI, SinclairSupply, EMCO, Excalibur" />
+  <setParameter name="LinkForwardTo" value="john" />
+  <setParameter name="ClarityTierName" value="Clarity ClimateCare Program" />
+</parameters>
