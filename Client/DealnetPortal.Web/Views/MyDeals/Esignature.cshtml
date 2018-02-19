@@ -21,9 +21,9 @@
             </a>
         </li>
     </ul>
-    <div class="tab-content">
+    <div class="tab-content esign">
         <div role="tabpanel" class="tab-pane fade in active" id="digital-contract">
-            <div class="signature-notification">
+            <div class="signature-notification">    
                 @if(!Model.ESignature.Status.HasValue || Model.ESignature.Status < ApiEnum.SignatureStatus.Sent)
                 {
                     @Resources.DigitalInvitesWillBeSentToEmails
@@ -75,7 +75,6 @@
 
                                         </div>
                                         <div class="col-md-2 applicant-col">
-                                            <div class=" equal-label-row-@(i)">
                                                 <div class="dealnet-label">
                                                     @if(Model.ESignature.Signers[i].Role == ApiEnum.SignatureRole.HomeOwner)
                                                     {
@@ -90,15 +89,12 @@
                                                         @Resources.Coborrower
                                                     }
                                                 </div>
-                                            </div>
                                             <div class="control-group text-middle-group text-semibold">
                                                 <div class="text-hold" id="signer-name-@(i)">@Model.ESignature.Signers[i].FirstName @Model.ESignature.Signers[i].LastName</div>
                                             </div>
                                         </div>
                                         <div class="col-md-5">
-                                            <div class="equal-label-row-@(i)">
                                                 <label>@Resources.Email</label>
-                                            </div>
                                             @Html.TextBoxFor(m => m.ESignature.Signers[i].Email,
                                                      new Dictionary<string, object>
                                                      {
@@ -109,10 +105,6 @@
                                             @Html.ValidationMessageFor(m => m.ESignature.Signers[i].Email, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-5 signer-status-hold @Model.ESignature.Signers[i].SignatureStatus.ToString().ToLower() @(Model.ESignature.Status == ApiEnum.SignatureStatus.Declined && Model.ESignature.Signers[i].SignatureStatus < ApiEnum.SignatureStatus.Signed ? "hidden" : "")">
-                                            @if(Model.ESignature.Signers[i].Role == ApiEnum.SignatureRole.AdditionalApplicant)
-                                            {
-                                                <label class="hidden-xs hidden-sm">&nbsp;</label>
-                                            }
                                             <div class="signature-status">
                                                 @if(Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Signed || Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Completed)
                                                 {
