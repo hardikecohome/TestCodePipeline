@@ -58,11 +58,13 @@ namespace DealnetPortal.Api.Integration.Services
             claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
 
             var aspireUserInfo = AutoMapper.Mapper.Map<DealerDTO>(_aspireStorageReader.GetDealerRoleInfo(user.UserName));
+            var mbConfigRoles = _сonfiguration.GetSetting(WebConfigKeys.MB_ROLE_CONFIG_KEY).Split(',').Select(s => s.Trim()).ToArray();
             if (aspireUserInfo != null)
             {
                 var dealerProvinceCode = aspireUserInfo.Locations?.FirstOrDefault(x => x.AddressType == AddressType.MainAddress)?.State?.ToProvinceCode();
                 claims.Add(new Claim(ClaimNames.QuebecDealer, (dealerProvinceCode != null && dealerProvinceCode == "QC").ToString()));
                 claims.Add(new Claim(ClaimNames.ClarityDealer, (!string.IsNullOrEmpty(aspireUserInfo.Ratecard) && aspireUserInfo.Ratecard == _сonfiguration.GetSetting(WebConfigKeys.CLARITY_TIER_NAME)).ToString()));
+                claims.Add(new Claim(ClaimNames.MortgageBroker, (aspireUserInfo.Role != null && mbConfigRoles.Contains(aspireUserInfo.Role)).ToString()));
             }
 
             if (settings?.SettingValues != null)
