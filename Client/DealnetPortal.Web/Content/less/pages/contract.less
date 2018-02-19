@@ -266,7 +266,6 @@
         }
       }
       .text-middle-group .text-hold {
-        margin-top: 15px;
         @media @mobile {
           font-size: 13px;
         }
@@ -289,7 +288,9 @@
       &.delivered  {
         display: block;
         .signature-hold {
-          padding-top: 18px; 
+          @media @desktop-up {
+            padding-top: 18px; 
+          }
         }
       }
       &.waitingsignature {
@@ -323,6 +324,10 @@
           padding-top: 15px;
         }
       }
+      @media @tablet-down {
+        padding-left:25px;
+        padding-top:15px;
+      }           
     }
     .signature-status {
       .comment-btn {
@@ -333,7 +338,7 @@
           height: 24px;
           width: 24px;
           position: relative;
-          bottom:10px;
+          bottom:20px;
           right: 10px;
         }
         &.icon-error {
@@ -347,6 +352,10 @@
       .signature-hold {
         display: inline-block;
         max-width: 140px;
+        @media @desktop-up {
+        max-width: 120px;
+          
+        }
       }
       .signature-header {
         font-size: 12px;
@@ -407,6 +416,15 @@
   }
   .form-control[disabled] {
     background: #eeeeee;
+  }
+}
+.rental-summary-inner {
+  .info-text-success.flex-centered-text {
+    .icon-hold{
+      @media @mobile{
+      padding-top:0 !important;
+    }
+    }
   }
 }
 .esig-modal {

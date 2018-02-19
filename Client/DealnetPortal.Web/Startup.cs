@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
+using Microsoft.AspNet.Identity;
 
 [assembly: OwinStartup(typeof(DealnetPortal.Web.Startup))]
 
@@ -49,12 +50,12 @@ namespace DealnetPortal.Web
                 context.RedirectUri = url.Action("Login", "Account", routeValues);
                 originalHandler.Invoke(context);
             };
-
+            
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString(url.Action("Login", "Account")),
-                Provider = provider
+                Provider = provider,
             });
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
 

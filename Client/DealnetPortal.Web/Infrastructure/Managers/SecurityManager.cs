@@ -36,7 +36,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 //"DEALNET_AUTH_COOKIE_" + portalType.ToString().ToUpper();
         }
 
-        public virtual async Task<IList<Alert>> Login(string userName, string password, string portalId)
+        public virtual async Task<IList<Alert>> Login(string userName, string password, string portalId, bool rememberMe)
         {
             var alerts = new List<Alert>();
 
@@ -57,7 +57,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             {
                 try
                 {
-                    SetUser(result.Item1);
+                    SetUser(result.Item1, rememberMe);
                 }
                 catch (Exception ex)
                 {
@@ -94,9 +94,9 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             return null;
         }
 
-        public virtual void SetUser(IPrincipal user)
+        public virtual void SetUser(IPrincipal user, bool rememberMe)
         {
-            CreateCookie(user);
+            CreateCookie(user, rememberMe);
             if (HttpContext.Current != null)
             {            
                 HttpContext.Current.User = user; // ?
