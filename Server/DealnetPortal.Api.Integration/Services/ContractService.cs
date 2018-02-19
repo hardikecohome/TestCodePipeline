@@ -882,6 +882,18 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     try
                     {
+                        // if e-signature is initiated, cancel e-signature
+                        if (!string.IsNullOrEmpty(contract.Details.SignatureTransactionId) &&
+                            (contract.Details.SignatureStatus == SignatureStatus.Created || contract.Details.SignatureStatus == SignatureStatus.Sent
+                                || contract.Details.SignatureStatus == SignatureStatus.Delivered))
+                        {
+                            var cancelResults = await _documentService.CancelSignatureProcess(contractId, contractOwnerId);
+                            if (cancelResults?.Item2?.Any() == true)
+                            {
+                                alerts.AddRange(cancelResults.Item2);
+                            }
+                        }
+
                         var status = _configuration.GetSetting(WebConfigKeys.ALL_DOCUMENTS_UPLOAD_STATUS_CONFIG_KEY);
                         var aspireAlerts = await _aspireService.ChangeDealStatus(contract.Details?.TransactionId, status, contractOwnerId, "Request to Fund");
                         //var aspireAlerts = await _aspireService.SubmitAllDocumentsUploaded(contractId, contractOwnerId);
