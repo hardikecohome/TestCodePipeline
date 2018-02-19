@@ -50,26 +50,7 @@ namespace DealnetPortal.Web
                 context.RedirectUri = url.Action("Login", "Account", routeValues);
                 originalHandler.Invoke(context);
             };
-            provider.OnValidateIdentity = ctx =>
-            {
-                //MyClaimsIdentityObject si = MyApp.Identity.Current();
-                //if (si == null || si.UserId == 0 || si.CustomerId == 0)
-                {
-                    //ctx.RejectIdentity();
-                    // what needs to happen here for a return value?
-                }
-                return Task.FromResult<int>(0);
-            };
-            //provider.OnValidateIdentity = MySecurityStampValidator.OnValidateIdentity(
-            //    validateInterval: TimeSpan.FromMinutes(0),
-            //    regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager));
-
-            //provider.OnResponseSignIn = (context) =>
-            //{
-            //    context.Properties.IsPersistent = false;
-            //    context.Properties.ExpiresUtc = DateTimeOffset.Now.AddSeconds(10);
-            //};
-
+            
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
