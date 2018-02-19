@@ -9,6 +9,12 @@
         justify-content: center;
         width: 100%;
     }
+    .ie,
+    .ios-device {
+        .header__navigation {
+            width: 35%;
+        }
+    }
     .header__support {
         float: left;
     }
