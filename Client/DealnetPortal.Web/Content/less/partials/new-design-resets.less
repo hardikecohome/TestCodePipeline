@@ -105,6 +105,17 @@ body:not(.mobile-device), body:not(.tablet-device) {
 .scanlicence-hold .well{
     padding-bottom: 11px;
     padding-top: 11px;
+    @media @desktop-down {
+        line-height: 2.5;
+    }
+    @media @tablet-down {
+        line-height: 1.4; 
+    }
+    @media @mobile{
+        .icon {
+            top:30px !important;
+        }     
+    }
 }
 .scanlicence-info-text {
     @media @desktop-up{

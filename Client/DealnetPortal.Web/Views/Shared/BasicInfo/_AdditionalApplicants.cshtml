@@ -250,7 +250,7 @@
                 </div>
                 <div class="col-md-4 col-lg-4">
                     <div class="form-group">
-                        <label>&nbsp;</label>
+                        <label class="visible-md visible-lg">&nbsp;</label>
                         <div class="control-group">
                             <a href="#" class="action-link grey clear-address">
                                 <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
@@ -323,7 +323,7 @@
                 </div>
                 <div class="col-md-4 col-lg-4">
                     <div class="form-group">
-                        <label>&nbsp;</label>
+                        <label class="visible-md visible-lg">&nbsp;</label>
                         <div class="control-group">
                             <a href="#" class="action-link grey clear-address">
                                 <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
@@ -356,14 +356,14 @@
                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                <div class="col-md-2 col-sm-6 form-group">
+                <div class="col-md-3 col-sm-6 form-group">
                     @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.IncomeType)
                     <div class="control-group">
                         @Html.EnumDropDownListFor(m => m.AdditionalApplicants[i].EmploymentInformation.IncomeType, new { @class = "form-control dealnet-input", id = $"add{i + 1}-employment-income-type" })
                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.IncomeType, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                <div class="col-md-2 col-sm-12 form-group">
+                <div class="col-md-3 col-sm-12 form-group">
                     @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.AnnualSalary)
                     <div class="control-group">
                         <select class="form-control dealnet-input" name="@Html.NameFor(m => m.AdditionalApplicants[i].EmploymentInformation.AnnualSalary)" id="add@(i+1)-employment-annual">
@@ -379,7 +379,7 @@
                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.AnnualSalary, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                <div class="col-md-2 col-sm-12 form-group">
+                <div class="col-md-3 col-sm-12 form-group">
                     @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.HourlyRate)
                     <div class="control-group">
                         <select class="form-control dealnet-input" name="@Html.NameFor(m => m.AdditionalApplicants[i].EmploymentInformation.HourlyRate)" id="add@(i+1)-employment-hourly">
@@ -397,8 +397,8 @@
                 </div>
                 <div class="col-md-2 col-sm-12 form-group">
                     <label>@Resources.LengthOfEmployment</label>
-                    <div class="row control-group">
-                        <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="row control-group length-of-employ">
+                        <div class="select-hold years">
                             <select name="@Html.NameFor(m => m.AdditionalApplicants[i].EmploymentInformation.YearsOfEmployment)" class="form-control dealnet-input" id="add@(i+1)-employment-years">
                                 <option value="" @(string.IsNullOrEmpty(Model.AdditionalApplicants[i]?.EmploymentInformation?.YearsOfEmployment) ? "selected" : "")>@Resources.Year_s_</option>
                                 @for(int j = 0; j < 10; j++)
@@ -409,7 +409,7 @@
                             </select>
                             @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.YearsOfEmployment, "", new { @class = "text-danger" })
                         </div>
-                        <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="select-hold months">
                             <select name="@Html.NameFor(m => m.AdditionalApplicants[i].EmploymentInformation.MonthsOfEmployment)" class="form-control dealnet-input" id="add@(i+1)-employment-months" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.YearsOfEmployment == "10+" ? "disabled=disabled" : "")>
                                 <option value="" @(string.IsNullOrEmpty(Model.AdditionalApplicants[i]?.EmploymentInformation?.MonthsOfEmployment) ? "selected" : "")>@Resources.Month_s_</option>
                                 @for(int j = 0; j < 12; j++)
@@ -517,7 +517,7 @@
                     </div>
                     <div class="col-md-4 col-lg-4">
                         <div class="form-group">
-                            <label>&nbsp;</label>
+                            <label class="visible-md visible-lg">&nbsp;</label>
                             <div class="control-group">
                                 <a href="#" class="action-link grey clear-address">
                                     <svg aria-hidden="true" class="icon icon-remove">
