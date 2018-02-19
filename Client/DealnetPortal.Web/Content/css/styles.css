@@ -138,6 +138,8 @@
   .action-link.disabled {
     opacity: 0.5;
     cursor: default; }
+  .action-link .icon {
+    margin-right: 5px; }
 
 .main-banner {
   background-repeat: no-repeat;
@@ -474,7 +476,7 @@ body {
   font-family: 'Mukta', sans-serif; }
 
 .body-container {
-  padding-top: 30px; }
+  padding-top: 10px; }
 
 .custom-container {
   max-width: 1030px;

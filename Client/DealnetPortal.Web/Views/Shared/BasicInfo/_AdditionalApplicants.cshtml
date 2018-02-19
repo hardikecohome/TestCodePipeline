@@ -21,7 +21,7 @@
                                 <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
                                 <span>@Resources.ScanLicense</span>
                             </button>
-                            <div class="col-md-9 well well-info clear-border">
+                            <div class="info-notification info col-md-9">
                                 <a href="#" class="scanlicence-info-link">
                                     <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
                                 </a>
@@ -46,11 +46,13 @@
                                 <span>@Resources.ScanLicense</span>
                                 <input type="file" accept="image/*" class="upload" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'additional-first-name-@(i + 1)', 'additional-last-name-@(i + 1)', 'additional-birth-date-@(i + 1)', 'additional-dl-number-@(i + 1)', 'additional-street-@(i + 1)', 'additional-locality-@(i + 1)', 'additional-administrative_area_level_1-@(i + 1)', 'additional-postal_code-@(i + 1)')" />
                             </div>
-                            <div class="well well-info position-well license-well clear-border">
+                            <div class="info-notification info left-align">
                                 <svg aria-hidden="true" class="icon icon-info-well">
                                     <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
                                 </svg>
-                                @Resources.TurnLicenseOver
+                                <span>
+                                    @Resources.TurnLicenseOver
+                                </span>
                             </div>
                         </div>
                         <span class="scanlicence-notify">@Resources.ScanAndFillAutomatically</span>
@@ -227,13 +229,13 @@
                         @Html.LabelFor(m => m.AdditionalApplicants[i].AddressInformation.Province, new { @for = "additional-administrative_area_level_1-" + (i + 1) })
                         <div class="control-group">
                             @Html.DropDownListFor(m => m.AdditionalApplicants[i].AddressInformation.Province,
-                                                                                           (Model.ProvinceTaxRates).Select(x => new SelectListItem
-                                                                                           {
-                                                                                               Value = x.Province,
-                                                                                               Text = x.Province,
-                                                                                               Selected = Model.AdditionalApplicants?[i]?.AddressInformation?.Province == x.Province
-                                                                                           }), "",
-                                                                                           new { @class = "form-control dealnet-input", id = "additional-administrative_area_level_1-" + (i + 1) })
+                                                                                                (Model.ProvinceTaxRates).Select(x => new SelectListItem
+                                                                                                {
+                                                                                                    Value = x.Province,
+                                                                                                    Text = x.Province,
+                                                                                                    Selected = Model.AdditionalApplicants?[i]?.AddressInformation?.Province == x.Province
+                                                                                                }), "",
+                                                                                                new { @class = "form-control dealnet-input", id = "additional-administrative_area_level_1-" + (i + 1) })
                             @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].AddressInformation.Province, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -251,8 +253,11 @@
                     <div class="form-group">
                         <label>&nbsp;</label>
                         <div class="control-group">
-                            <a href="#" class="action-link grey clear-address">
-                                <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
+                            <a href="#" class="action-link grey clear-address-link">
+                                <svg aria-hidden="true" class="icon icon-remove">
+                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
+                                </svg>
+                                <span>@Resources.ClearAddress</span>
                             </a>
                         </div>
                     </div>
@@ -305,8 +310,8 @@
                         @Html.LabelFor(m => m.AdditionalApplicants[i].PreviousAddressInformation.Province, new { @for = "additional-previous-administrative_area_level_1-" + (i + 1) })
                         <div class="control-group">
                             @Html.DropDownListFor(m => m.AdditionalApplicants[i].PreviousAddressInformation.Province,
-                                                                                           (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.AdditionalApplicants?[i]?.PreviousAddressInformation?.Province == x.Province }), "",
-                                                                                           new { @class = "form-control dealnet-input", id = "additional-previous-administrative_area_level_1-" + (i + 1) })
+                                                                                                (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.AdditionalApplicants?[i]?.PreviousAddressInformation?.Province == x.Province }), "",
+                                                                                                new { @class = "form-control dealnet-input", id = "additional-previous-administrative_area_level_1-" + (i + 1) })
                             @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].PreviousAddressInformation.Province, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -325,7 +330,10 @@
                         <label>&nbsp;</label>
                         <div class="control-group">
                             <a href="#" class="action-link grey clear-address">
-                                <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
+                                <svg aria-hidden="true" class="icon icon-remove">
+                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
+                                </svg>
+                                <span>@Resources.ClearAddress</span>
                             </a>
                         </div>
                     </div>
