@@ -28,7 +28,6 @@ function showTable () {
             var paymentOptions = [];
             var agrTypeOptions = [];
             var salesRepOptions = [];
-            //var createdByCustomerCount = 0;//todo: Remove  in hole method if you saw this
             $.each(data, function (i, e) {
                 if ($.inArray(e["LocalizedStatus"], statusOptions) == -1)
                     if (e["LocalizedStatus"]) {
@@ -46,15 +45,7 @@ function showTable () {
                     if (e["SalesRep"]) {
                         salesRepOptions.push(e["SalesRep"]);
                     }
-
-                //if (e["IsCreatedByCustomer"] == true) {
-                //    createdByCustomerCount++;
-                //}
             });
-            //if (createdByCustomerCount) {
-            //    $('#new-deals-number').text(createdByCustomerCount);
-            //    $('#new-deals-number').show();
-            //}
             $.each(statusOptions.sort(function (a, b) {
                 if (a === b) return 0;
                 if (a > b) return 1;
@@ -86,6 +77,7 @@ function showTable () {
 
             table = $('#work-items-table')
                 .DataTable({
+                    autoWidth:false,
                     data: data,
                     rowId: 'Id',
                     responsive: {
@@ -229,12 +221,14 @@ function showTable () {
                         { "data": "LocalizedStatus", visible: false }
                     ],
                     dom:
-                        "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'>>" +
-                        "<'row'<'col-md-12''<'#expand-table-filter'>'l>>" +
-                        "<'row'<'col-md-12'tr>>" +
-                        "<'table-footer'>" +
-                        "<'row'<'col-md-12'p>>" +
-                        "<'row'<'col-md-12'i>>",
+                        "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
+                            "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
+                            "<'row'<'col-md-12 col-sm-6'l>>" +
+                            "<'row'<'col-md-12''<'#section-before-table'>'>>" +
+                            "<'row'<'col-md-12'tr>>" +
+                            "<'table-footer'>" +
+                            "<'row'<'col-md-12'p>>" +
+                            "<'row'<'col-md-12'i>>",
                     renderer: 'bootstrap',
                     footerCallback: createTableFooter,
                     order: [],
@@ -380,18 +374,6 @@ function previewItem () {
     submitSinglePreviewRequest(id);
 };
 
-$.fn.dataTable.Api.register('order.neutral()', function () {
-    return this.iterator('table', function (s) {
-        s.aaSorting.length = 0;
-        s.aiDisplay.sort(function (a, b) {
-            return a - b;
-        });
-        s.aiDisplayMaster.sort(function (a, b) {
-            return a - b;
-        });
-    });
-});
-
 $.fn.dataTable.ext.search.push(
     function () {
         var statusEl = $("#deal-status");
@@ -481,6 +463,7 @@ function createFilter () {
         $(this).toggleClass('active');
         $('#expand-table-filter').slideToggle();
     });
+
     $('#expand-table-filter').html($('.expand-filter-template').detach());
     $('.table-length-filter').html($('#work-items-table_length').detach());
 }

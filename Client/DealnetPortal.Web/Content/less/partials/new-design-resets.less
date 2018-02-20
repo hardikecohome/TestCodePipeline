@@ -69,7 +69,6 @@ body:not(.mobile-device), body:not(.tablet-device) {
             }
 
             &.customer-cell, &.contract-cell {
-                width: 70px !important;
                 word-break: break-word;
             }
 
@@ -105,6 +104,17 @@ body:not(.mobile-device), body:not(.tablet-device) {
 .scanlicence-hold .well{
     padding-bottom: 11px;
     padding-top: 11px;
+    @media @desktop-down {
+        line-height: 2.5;
+    }
+    @media @tablet-down {
+        line-height: 1.4; 
+    }
+    @media @mobile{
+        .icon {
+            top:30px !important;
+        }     
+    }
 }
 .scanlicence-info-text {
     @media @desktop-up{
@@ -206,4 +216,26 @@ div.dataTables_wrapper #work-items-table_filter.dataTables_filter input {
     background-image: -webkit-linear-gradient(206deg, #94d802, #7cc501);
     background-image: -o-linear-gradient(206deg, #94d802, #7cc501);
     background-image: linear-gradient(296deg, #94d802, #7cc501);
+}
+// :lang(en), :lang(en-CA){
+//     table.dataTable.collapsed {
+//         td{
+//             &.contract-cell:after {
+//                 margin-left: 0; 
+//             }
+//         }
+//     }
+// }
+
+table.dataTable.collapsed {
+    td{
+        &.contract-cell:after {
+            @media only screen and (max-width: 649px)  {
+                margin-top:-1px;
+            }
+            @media only screen and (min-width: 650px) {
+                margin-top: -14px;
+            }
+        }
+    }
 }

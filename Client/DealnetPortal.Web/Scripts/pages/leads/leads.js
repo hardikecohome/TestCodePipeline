@@ -43,6 +43,7 @@ function showTable () {
             table = $('#work-items-table')
                 .DataTable({
                     data: data,
+                    autoWidth: false,
                     responsive: {
                         breakpoints: [
                             { name: 'desktop-lg', width: Infinity },
@@ -149,19 +150,6 @@ function showTable () {
     }
 
 };
-
-
-$.fn.dataTable.Api.register('order.neutral()', function () {
-    return this.iterator('table', function (s) {
-        s.aaSorting.length = 0;
-        s.aiDisplay.sort(function (a, b) {
-            return a - b;
-        });
-        s.aiDisplayMaster.sort(function (a, b) {
-            return a - b;
-        });
-    });
-});
 
 $.fn.dataTable.ext.search.push(
     function () {
