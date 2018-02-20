@@ -30,6 +30,17 @@
         background-image: url('../images/forms/selectArrow.svg');
         background-repeat: no-repeat;
         background-position: 92% center;
+        &.leads:lang(fr),
+        &.leads:lang(fr-CA) {
+            line-height: 13px;
+            padding-top: 9px;
+            .mobile-navigation__nav-icon {
+                padding: 0 10px
+            }
+            span:not(.mobile-navigation__nav-icon) {
+                padding-top: 5px;
+            }
+        }
     }
     .mobile-navigation__dropdown {
         position: absolute;
@@ -59,6 +70,17 @@
                     display: block;
                     font-size: 11px;
                     text-transform: uppercase;
+                    &.leads:lang(fr),
+                    &.leads:lang(fr-CA) {
+                        line-height: 13px;
+                        padding-top: 9px;
+                        .mobile-navigation__nav-icon {
+                            padding: 0 10px
+                        }
+                        span:not(.mobile-navigation__nav-icon) {
+                            padding-top: 5px;
+                        }
+                    }
                     .notification {
                         padding: 0 6px;
                         top: 11px;

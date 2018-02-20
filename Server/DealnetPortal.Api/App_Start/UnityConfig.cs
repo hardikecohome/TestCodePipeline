@@ -76,7 +76,7 @@ namespace DealnetPortal.Api
             #endregion
 
             container.RegisterType<IHttpApiClient, HttpApiClient>("AspireClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(configReader.GetSetting(WebConfigKeys.ASPIRE_APIURL_CONFIG_KEY)));
-            container.RegisterType<IHttpApiClient, HttpApiClient>("EcoreClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(configReader.GetSetting("EcoreApiUrl")));
+            //container.RegisterType<IHttpApiClient, HttpApiClient>("EcoreClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(configReader.GetSetting("EcoreApiUrl")));
             container.RegisterType<IHttpApiClient, HttpApiClient>("CustomerWalletClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(configReader.GetSetting(WebConfigKeys.CW_APIURL_CONFIG_KEY)));
 
             container.RegisterType<IAspireServiceAgent, AspireServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("AspireClient")));

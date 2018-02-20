@@ -228,10 +228,13 @@ else
     </div>
     <div class="col-md-4 col-lg-4">
         <div class="form-group">
-            <label>&nbsp;</label>
+            <label class="visible-md visible-lg">&nbsp;</label>
             <div class="control-group">
                 <a href="#" class="action-link grey">
-                    <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
+                    <svg aria-hidden="true" class="icon icon-remove">
+                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
+                        </svg>
+                    <span>@Resources.ClearAddress</span>
                 </a>
             </div>
         </div>
@@ -240,11 +243,15 @@ else
 <!--END Instalation Address-->
 <!--Living time-->
 <div id="living-time" class="form-group">
-	<label for="living-time-checkbox" class="align-middle custom-checkbox">
-		<input type="checkbox" class="dealnet-checkbox address-checkbox" id="living-time-checkbox" @if (Model?.HomeOwner?.PreviousAddressInformation != null) { <text> checked</text> } data-section="previous-address" />
-		<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-		<span>@Resources.LivedAtCurrentLessThan</span>
-	</label>
+    <label for="living-time-checkbox" class="align-middle custom-checkbox">
+        <input type="checkbox" class="dealnet-checkbox address-checkbox" id="living-time-checkbox" @if(Model?.HomeOwner?.PreviousAddressInformation != null) { <text> checked</text> } data-section="previous-address" />
+        <span class="checkbox-icon">
+        <svg aria-hidden="true" class="icon icon-checked">
+            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
+            </svg>
+        </span>
+        <span>@Resources.LivedAtCurrentLessThan</span>
+    </label>
 </div>
 <div id="previous-address">
 
@@ -300,10 +307,13 @@ else
         </div>
         <div class="col-md-4 col-lg-4">
             <div class="form-group">
-                <label>&nbsp;</label>
+                <label class="visible-md visible-lg">&nbsp;</label>
                 <div class="control-group">
                     <a href="#" class="action-link grey">
-                        <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
+                        <svg aria-hidden="true" class="icon icon-remove">
+                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
+                            </svg>
+                        <span>@Resources.ClearAddress</span>
                     </a>
                 </div>
             </div>
@@ -313,11 +323,15 @@ else
 <!--End Living time-->
 <!--Mailing Address-->
 <div id="mailing-address-different" class="form-group">
-	<label for="mailing-address-checkbox" class="align-middle custom-checkbox">
-		<input type="checkbox" class="dealnet-checkbox address-checkbox" id="mailing-address-checkbox" @if (Model?.HomeOwner?.MailingAddressInformation != null) { <text> checked</text> } data-section="mailing-address" />
-		<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-		<span>@Resources.MailingAddressNotSameAsInstallation</span>
-	</label>
+    <label for="mailing-address-checkbox" class="align-middle custom-checkbox">
+        <input type="checkbox" class="dealnet-checkbox address-checkbox" id="mailing-address-checkbox" @if(Model?.HomeOwner?.MailingAddressInformation != null) { <text> checked</text> } data-section="mailing-address" />
+        <span class="checkbox-icon">
+        <svg aria-hidden="true" class="icon icon-checked">
+            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
+            </svg>
+        </span>
+        <span>@Resources.MailingAddressNotSameAsInstallation</span>
+    </label>
 </div>
 <div id="mailing-address">
 
@@ -375,10 +389,13 @@ else
         </div>
         <div class="col-md-4 col-lg-4">
             <div class="form-group">
-                <label>&nbsp;</label>
+                <label class="visible-md visible-lg">&nbsp;</label>
                 <div class="control-group">
                     <a href="#" class="action-link grey">
-                        <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearAddress</span>
+                        <svg aria-hidden="true" class="icon icon-remove">
+                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
+                            </svg>
+                        <span>@Resources.ClearAddress</span>
                     </a>
                 </div>
             </div>
@@ -388,13 +405,17 @@ else
 <!--End Mailing Address-->
 <!--Home Owner Information-->
 <div id="borrower-is-homeowner" class="form-group">
-	<label for="homeowner-checkbox" class="align-middle custom-checkbox">
-		@Html.CheckBoxFor(m => m.HomeOwner.IsHomeOwner, new { @class = "dealnet-checkbox check-homeowner", id = "homeowner-checkbox" })
-		@*<input type="checkbox" class="dealnet-checkbox" id="homeowner-checkbox" checked="checked"/>*@
-		<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-		<span>@Resources.BorrowerIsHomeOwner</span>
-		@Html.ValidationMessageFor(m => m.HomeOwner, "", new { @class = "text-danger" })
-	</label>
+    <label for="homeowner-checkbox" class="align-middle custom-checkbox">
+        @Html.CheckBoxFor(m => m.HomeOwner.IsHomeOwner, new { @class = "dealnet-checkbox check-homeowner", id = "homeowner-checkbox" })
+        @*<input type="checkbox" class="dealnet-checkbox" id="homeowner-checkbox" checked="checked"/>*@
+        <span class="checkbox-icon">
+        <svg aria-hidden="true" class="icon icon-checked">
+            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
+            </svg>
+        </span>
+        <span>@Resources.BorrowerIsHomeOwner</span>
+        @Html.ValidationMessageFor(m => m.HomeOwner, "", new { @class = "text-danger" })
+    </label>
 </div>
 <!--Home Owner Information-->
 <!--Borrower Employment Information-->
@@ -410,14 +431,14 @@ else
                     @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="col-md-2 col-sm-6 form-group">
+            <div class="col-md-3 col-sm-6 form-group">
                 @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.IncomeType)
                 <div class="control-group">
                     @Html.EnumDropDownListFor(m => m.HomeOwner.EmploymentInformation.IncomeType, new { @class = "form-control dealnet-input", id = "ho-employment-income-type" })
                     @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.IncomeType, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="col-md-2 col-sm-12 form-group">
+            <div class="col-md-3 col-sm-12 form-group">
                 @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary)
                 <div class="control-group">
                     <select class="form-control dealnet-input" name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary)" id="ho-employment-annual">
@@ -433,7 +454,7 @@ else
                     @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.AnnualSalary, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="col-md-2 col-sm-12 form-group">
+            <div class="col-md-3 col-sm-12 form-group">
                 @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.HourlyRate)
                 <div class="control-group">
                     <select class="form-control dealnet-input" name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.HourlyRate)" id="ho-employment-hourly">
@@ -451,8 +472,8 @@ else
             </div>
             <div class="col-md-2 col-sm-12 form-group">
                 <label>@Resources.LengthOfEmployment</label>
-                <div class="row control-group">
-                    <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="row control-group length-of-employ">
+                    <div class="select-hold years">
                         <select name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.YearsOfEmployment)" class="form-control dealnet-input" id="ho-employment-years">
                             <option value="" @(string.IsNullOrEmpty(Model.HomeOwner?.EmploymentInformation?.YearsOfEmployment) ? "selected" : "")>@Resources.Year_s_</option>
                             @for(int j = 0; j < 10; j++)
@@ -463,7 +484,7 @@ else
                         </select>
                         @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.YearsOfEmployment, "", new { @class = "text-danger" })
                     </div>
-                    <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="select-hold months">
                         <select name="@Html.NameFor(m => m.HomeOwner.EmploymentInformation.MonthsOfEmployment)" class="form-control dealnet-input" id="ho-employment-months"
                                 @(Model.HomeOwner?.EmploymentInformation?.YearsOfEmployment == "10+" ? "disabled=disabled" : "")>
                             <option value="" @(string.IsNullOrEmpty(Model.HomeOwner?.EmploymentInformation?.MonthsOfEmployment) ? "selected" : "")>@Resources.Month_s_</option>
@@ -566,9 +587,9 @@ else
                     </div>
                     <div class="col-md-4 col-lg-4">
                         <div class="form-group">
-                            <label>&nbsp;</label>
+                            <label class="visible-md visible-lg">&nbsp;</label>
                             <div class="control-group">
-                                <a href="#" class="dealnet-disabled-text clear-address">
+                                <a href="#" class="action-link grey clear-address">
                                     <svg aria-hidden="true" class="icon icon-remove">
                                         <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
                                     </svg>

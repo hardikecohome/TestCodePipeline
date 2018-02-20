@@ -69,11 +69,19 @@ body:not(.tablet-device):not(.mobile-device){
 
 td.contract-cell:after {
     @media @tablet-only {
-        margin-top: -8px;
+        margin-top: -15px;
     }
 
-    @media all and (min-width: 479px) {
-        margin-top: -8px;
+    @media @tablet-up {
+        margin-top: -15px;
+    }
+
+    @media all and (max-width: 667px) {
+        margin-top: -15px;
+    }
+
+    @media all and (max-width: 375px) {
+        margin-top: -1px;
     }
 }
 

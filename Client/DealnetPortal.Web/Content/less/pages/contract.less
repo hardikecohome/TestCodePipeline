@@ -266,6 +266,7 @@
         }
       }
       .text-middle-group .text-hold {
+        margin-top: 15px;
         @media @mobile {
           font-size: 13px;
         }
@@ -288,9 +289,7 @@
       &.delivered  {
         display: block;
         .signature-hold {
-          @media @desktop-up {
-            padding-top: 18px; 
-          }
+          padding-top: 18px; 
         }
       }
       &.waitingsignature {
@@ -323,11 +322,7 @@
         @media @tablet-down {
           padding-top: 15px;
         }
-      }
-      @media @tablet-down {
-        padding-left:25px;
-        padding-top:15px;
-      }           
+      }         
     }
     .signature-status {
       .comment-btn {
@@ -338,7 +333,7 @@
           height: 24px;
           width: 24px;
           position: relative;
-          bottom:20px;
+          bottom:10px;
           right: 10px;
         }
         &.icon-error {
@@ -351,10 +346,9 @@
       }
       .signature-hold {
         display: inline-block;
-        max-width: 140px;
-        @media @desktop-up {
-        max-width: 120px;
-          
+        max-width: 160px;
+        @media @large-tablet-only{
+          max-width:140px;
         }
       }
       .signature-header {
@@ -376,6 +370,7 @@
           padding-bottom: 0;
           padding-left: 12px;
           padding-top: 0;
+          font-weight: 500;
         }
         .icon:not(.hidden) + .action-link {
           padding-left: 0;
@@ -418,15 +413,7 @@
     background: #eeeeee;
   }
 }
-.rental-summary-inner {
-  .info-text-success.flex-centered-text {
-    .icon-hold{
-      @media @mobile{
-      padding-top:0 !important;
-    }
-    }
-  }
-}
+
 .esig-modal {
   .signed-contract .sent-contract-secton {
     .signature-status .signature-hold {

@@ -138,7 +138,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 equipmentInfo.ProvinceTaxRate = rate;
             }
 
-            equipmentInfo.IsOnlyLoanAvailable = mainAddressProvinceCode == ContractProvince.QC.ToString();
+            equipmentInfo.IsQuebecProvince = mainAddressProvinceCode == ContractProvince.QC.ToString();
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
             equipmentInfo.IsAllInfoCompleted = result.Item1.PaymentInfo != null && result.Item1.PrimaryCustomer?.Phones != null && result.Item1.PrimaryCustomer.Phones.Any();
             equipmentInfo.IsApplicantsInfoEditAvailable = result.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;

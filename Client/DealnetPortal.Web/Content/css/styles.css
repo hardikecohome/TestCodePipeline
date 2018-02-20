@@ -138,6 +138,8 @@
   .action-link.disabled {
     opacity: 0.5;
     cursor: default; }
+  .action-link .icon {
+    margin-right: 5px; }
 
 .main-banner {
   background-repeat: no-repeat;
@@ -248,6 +250,8 @@
 .header__navigation {
   float: left;
   margin-left: 66px; }
+  .header__navigation.has-about:lang(fr), .header__navigation.has-about:lang(fr-CA) {
+    margin-left: 20px; }
   .header__navigation ul {
     padding: 0;
     margin: 0;
@@ -364,9 +368,9 @@
   border: 0;
   margin: 0 10px 0 0;
   background-color: transparent;
-  appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;
+  appearance: none;
   padding-right: 10px;
   background-image: url("../images/forms/selectArrow.svg");
   background-repeat: no-repeat;
@@ -474,13 +478,12 @@ body {
   font-family: 'Mukta', sans-serif; }
 
 .body-container {
-  padding-top: 28px; }
+  padding-top: 10px;
+  padding-bottom: 15px; }
 
 .custom-container {
-  max-width: 1030px;
+  max-width: 1280px;
   margin: 0 auto; }
-  .custom-container.table-page {
-    max-width: 1280px; }
 
 .margin-block {
   margin: 10px auto; }
