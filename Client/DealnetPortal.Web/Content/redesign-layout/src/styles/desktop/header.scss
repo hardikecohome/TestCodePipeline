@@ -22,6 +22,12 @@
 .header__navigation {
     float: left;
     margin-left: 66px;
+    &.has-about {
+        &:lang(fr),
+        &:lang(fr-CA) {
+            margin-left: 20px;
+        }
+    }
     ul {
         padding: 0;
         margin: 0;
@@ -157,9 +163,9 @@
     border: 0;
     margin: 0 10px 0 0;
     background-color: transparent;
-    appearance: none;
     -moz-appearance: none;
     -webkit-appearance: none;
+    appearance: none;
     padding-right: 10px;
     background-image: url('../images/forms/selectArrow.svg');
     background-repeat: no-repeat;

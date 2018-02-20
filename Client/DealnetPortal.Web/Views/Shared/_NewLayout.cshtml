@@ -194,7 +194,8 @@ break;
                 </div>
             </div>
             <div class="clearfix visible-md-block visible-sm-block"></div>
-            <nav class="header__navigation hidden-xs">
+                    var hasAbout = (User as ClaimsPrincipal)?.HasClaim("ShowAbout", "True") ?? false;
+            <nav class="header__navigation hidden-xs @(hasAbout?"has-about":"")">
                 <ul>
                     <li>
                         <a href="@Url.Action("Index", "Home")">
@@ -247,7 +248,7 @@ break;
                             <span>@Resources.MyProfile</span>
                         </a>
                     </li>
-                    @if((User as ClaimsPrincipal)?.HasClaim("ShowAbout", "True") ?? false)
+                    @if(hasAbout)
         {
             <li>
                 <a href="@Url.Action("About", "Home")">
@@ -403,7 +404,7 @@ break;
                                 <span>@Resources.MyProfile</span>
                             </a>
                         </li>
-                        @if((User as ClaimsPrincipal)?.HasClaim("ShowAbout", "True") ?? false)
+                        @if(hasAbout)
             {
                 <li>
                     <a href="@Url.Action("About", "Home")">
