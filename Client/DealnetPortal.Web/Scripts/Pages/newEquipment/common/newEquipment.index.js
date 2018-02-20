@@ -9,7 +9,7 @@
         equipmentValidationMessageId: '#new-equipment-validation-message',
         addEquipmentId: '#addEquipment',
         addExistingEquipmentId: '#addExistingEqipment',
-        isOnlyLoanAvailableId: '#IsOnlyLoanAvailable',
+        isQuebecProvinceId: '#IsQuebecProvince',
         applicationType: {
             'loanApplication': '0',
             'rentalApplicationHwt': '1',
@@ -25,7 +25,7 @@
         * @returns {void} 
     */
     var init = function() {
-        var isOnlyLoan = $(settings.isOnlyLoanAvailableId).val().toLowerCase() === 'true';
+        var isOnlyLoan = $(settings.isQuebecProvinceId).val().toLowerCase() === 'true';
 
         if (isOnlyLoan) {
             if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.loanApplication) {
