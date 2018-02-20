@@ -67,8 +67,8 @@
             @Html.Partial("EquipmentInformation/_AdditionalContractInformation", Model)
             @Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })
                     <div class="form-group">
-                        <span class="btn btn-green btn-form" data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Resources.YouShouldFillAllMandatoryFields"id="submit" >
-                            @Resources.SaveAndProceed
+                        <span data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Resources.YouShouldFillAllMandatoryFields">
+                            <input type="submit" value="@Resources.SaveAndProceed" class="btn btn-green btn-form" id="submit" />
                         </span>
                     </div>
         </div>
