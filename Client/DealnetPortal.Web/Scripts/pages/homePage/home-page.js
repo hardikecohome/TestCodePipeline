@@ -100,6 +100,7 @@ function showTable() {
                             },
                         ]
                     },
+                    autoWidth:false,
                     data: data,
                     rowId: 'Id',
                     oLanguage: {

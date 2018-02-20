@@ -43,6 +43,7 @@ function showTable () {
             table = $('#work-items-table')
                 .DataTable({
                     data: data,
+                    autoWidth: false,
                     responsive: {
                         breakpoints: [
                             { name: 'desktop-lg', width: Infinity },
