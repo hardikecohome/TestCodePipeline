@@ -350,7 +350,7 @@ namespace DealnetPortal.Web.Controllers
                 ViewBag.totalAmountFinancedFor180amortTerm = 4999;
                 ViewBag.LoanOnly = false;
             }
-            if (model.IsOnlyLoanAvailable) {
+            if (model.IsQuebecProvince) {
                 ViewBag.LoanOnly = true;
             }
             ViewBag.AdminFee = 0;
