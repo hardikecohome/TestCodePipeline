@@ -77,6 +77,7 @@ function showTable () {
 
             table = $('#work-items-table')
                 .DataTable({
+                    autoWidth:false,
                     data: data,
                     rowId: 'Id',
                     responsive: {
