@@ -218,15 +218,6 @@ div.dataTables_wrapper #work-items-table_filter.dataTables_filter input {
     background-image: -o-linear-gradient(206deg, #94d802, #7cc501);
     background-image: linear-gradient(296deg, #94d802, #7cc501);
 }
-// :lang(en), :lang(en-CA){
-//     table.dataTable.collapsed {
-//         td{
-//             &.contract-cell:after {
-//                 margin-left: 0; 
-//             }
-//         }
-//     }
-// }
 
 table.dataTable.collapsed {
     td{
@@ -236,6 +227,29 @@ table.dataTable.collapsed {
             }
             @media only screen and (min-width: 650px) {
                 margin-top: -14px;
+            }
+        }
+    }
+}
+#section-before-table{
+    .well{
+        padding-left:0 !important;
+    }
+}
+.profile-form-container {
+    .well {
+        &.position-well{
+            .icon {
+                margin-right: 20px;
+            }
+            @media @desktop-up {
+                padding-left: 0 !important;
+            }
+        }
+        &.over-aged-well {
+            padding-left: 40px;
+            .icon-info-well {
+                left:0;
             }
         }
     }

@@ -121,9 +121,8 @@
       .action-link.grey:hover [class^="icon-"]:before,
       .action-link.grey:hover [class*=" icon-"]:before {
         color: #cacaca; }
-    .action-link.green {
-        color: #7ec702;
-    }
+  .action-link.green {
+    color: #94d802; }
     .action-link.green [class^="icon-"]:before,
     .action-link.green [class*=" icon-"]:before {
       color: #94d802; }
