@@ -22,7 +22,7 @@
                                 <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
                                 <span>@Resources.ScanLicense</span>
                             </button>
-                            <div class="info-notification info col-md-9">
+                            <div class="col-md-9 well well-info clear-border">
                                 <a href="#" class="scanlicence-info-link">
                                     <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
                                 </a>
@@ -47,7 +47,7 @@
                                 <span>@Resources.ScanLicense</span>
                                 <input type="file" accept="image/*" class="upload" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")', 'additional-first-name-@(i + 1)', 'additional-last-name-@(i + 1)', 'additional-birth-date-@(i + 1)', 'additional-dl-number-@(i + 1)', 'additional-street-@(i + 1)', 'additional-locality-@(i + 1)', 'additional-administrative_area_level_1-@(i + 1)', 'additional-postal_code-@(i + 1)')" />
                             </div>
-                            <div class="info-notification info left-align">
+                            <div class="well well-info position-well license-well clear-border">
                                 <svg aria-hidden="true" class="icon icon-info-well">
                                     <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
                                 </svg>
@@ -254,7 +254,7 @@
                     <div class="form-group">
                         <label class="visible-md visible-lg">&nbsp;</label>
                         <div class="control-group">
-                            <a href="#" class="action-link grey clear-address-link">
+                            <a href="#" class="action-link grey clear-address">
                                 <svg aria-hidden="true" class="icon icon-remove">
                                     <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
                                 </svg>

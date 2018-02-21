@@ -1239,6 +1239,7 @@
     <Content Include="Views\Shared\SummaryAndConfirmation\_ClarityDetailedPaymentInfo.cshtml" />
     <Content Include="Views\Shared\_NewLayout.cshtml" />
     <Content Include="webdeployClient.ps1" />
+    <Content Include="Views\Shared\_AlertModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />

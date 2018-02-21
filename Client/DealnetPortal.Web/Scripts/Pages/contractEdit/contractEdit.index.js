@@ -69,6 +69,7 @@
                     $('.dealnet-section-edit-link').hide();
                     $('.add-applicant-link').hide();
                     $('#esignature-link').addClass('disabled');
+                    $('a[id^="signer-btn-"]').addClass('disabled');
                     eSign.disable();
                     isSentToAudit = true;
                 } else if (result.isError) {
@@ -80,6 +81,7 @@
             complete: function (xhr) {
                 hideLoader();
                 hideDynamicAlertModal();
+
             }
         });
     }
