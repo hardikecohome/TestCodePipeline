@@ -14,7 +14,7 @@ using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Messaging;
-using Microsoft.Practices.ObjectBuilder2;
+using Unity.Interception.Utilities;
 
 namespace DealnetPortal.Api.Integration.Services
 {

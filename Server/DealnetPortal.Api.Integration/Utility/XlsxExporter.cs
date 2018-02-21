@@ -18,7 +18,7 @@ namespace DealnetPortal.Api.Integration.Utility
 {
     public static class XlsxExporter
     {
-        public static void Export(IEnumerable<ContractDTO> contracts, Stream stream)
+        public static void Export(IEnumerable<ContractDTO> contracts, Stream stream, int? timeZoneOffset = null)
         {
             using (var package = new ExcelPackage(stream))
             {

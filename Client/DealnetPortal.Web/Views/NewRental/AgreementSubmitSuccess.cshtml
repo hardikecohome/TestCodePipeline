@@ -9,11 +9,11 @@
                 <a href="@Url.Action("ContractEdit", "MyDeals", new {@id = Model.ContractId})" class="dealnet-info-link">
                     @Resources.SeeContractDetails
                 </a>
-                <a href="#" id="print-button" class="dealnet-info-link disabled">
+                <a href="#" id="print-button" class="action-link blue disabled">
                     <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg>@Resources.PrintTheContract
                 </a>
 
-                <div class="well danger-well error-descr collapse" id="print-error-message">
+                <div class="well danger-well position-well clear-border error-descr collapse" id="print-error-message">
                     <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
                     @Resources.CannotGetAgreementForPrint
                 </div>

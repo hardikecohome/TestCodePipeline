@@ -1,29 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-using DealnetPortal.Api.Common.Constants;
-using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Core.Enums;
-using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Interfaces;
-using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes;
-using DealnetPortal.Api.Integration.Services;
-using DealnetPortal.Api.Integration.Utility;
-using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.Profile;
-using DealnetPortal.Api.Models.Scanning;
-using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Api.Models.Notify;
+
 namespace DealnetPortal.Api.Controllers
 {
     [Authorize]

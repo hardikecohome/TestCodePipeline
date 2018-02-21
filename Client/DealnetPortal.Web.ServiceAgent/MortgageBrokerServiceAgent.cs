@@ -29,7 +29,7 @@ namespace DealnetPortal.Web.ServiceAgent
             {
                 return
                     await
-                        Client.PostAsyncEx<NewCustomerDTO, Tuple<ContractDTO, IList<Alert>>>($"{_fullUri}/CreateContractForCustomer", customerForm, AuthenticationHeader, CurrentCulture);
+                        Client.PostAsyncEx<NewCustomerDTO, Tuple<ContractDTO, IList<Alert>>>($"{_fullUri}", customerForm, AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {
@@ -42,7 +42,7 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return await Client.GetAsyncEx<IList<ContractDTO>>($"{_fullUri}/GetCreatedContracts", AuthenticationHeader, CurrentCulture);
+                return await Client.GetAsyncEx<IList<ContractDTO>>($"{_fullUri}", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {

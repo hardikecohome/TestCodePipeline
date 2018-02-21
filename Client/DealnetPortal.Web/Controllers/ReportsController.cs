@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 
 namespace DealnetPortal.Web.Controllers
@@ -41,8 +42,8 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<ActionResult> GetXlsxReport(IEnumerable<int> ids)
         {
-            var report = await _contractServiceAgent.GetXlsxReport(ids);
-            return File(report?.DocumentRaw, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{DateTime.Now.ToString(CultureInfo.CurrentCulture).Replace(":", ".")}-report.xlsx");
+            var report = await _contractServiceAgent.GetXlsxReport(ids, TimeZoneHelper.GetOffset());
+            return File(report?.DocumentRaw, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{DateTime.UtcNow.TryConvertToLocalUserDate().ToString(CultureInfo.CurrentCulture).Replace(":", ".")}-report.xlsx");
         }        
     }
 }

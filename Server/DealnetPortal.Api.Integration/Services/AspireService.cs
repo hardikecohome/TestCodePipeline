@@ -29,8 +29,8 @@ using DealnetPortal.Domain.Dealer;
 using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
-using Microsoft.Practices.ObjectBuilder2;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using Unity.Interception.Utilities;
 using Address = DealnetPortal.Aspire.Integration.Models.Address;
 using Application = DealnetPortal.Aspire.Integration.Models.Application;
 
@@ -258,57 +258,54 @@ namespace DealnetPortal.Api.Integration.Services
                         (cResponse, cEquipments) =>
                         {
                             bool succeded = false;
-                            var ceqList = (cEquipments as IList<NewEquipment>) ?? contract?.Equipment?.NewEquipment;
+                            var ceqList = (cEquipments as IList<NewEquipment>) ?? contract.Equipment?.NewEquipment;
                             if (ceqList != null)
                             {
-                                if (cResponse?.Payload?.Asset != null)
+                                cResponse?.Payload?.Asset?.ForEach(asset =>
                                 {
-                                    var eqCollection = ceqList;
-                                    var aEq = eqCollection?.FirstOrDefault(
-                                        eq => eq.Description == cResponse.Payload.Asset.Name);
-                                    if (aEq != null)
+                                    if (asset != null)
                                     {
-                                        aEq.AssetNumber = cResponse.Payload.Asset.Number;
-                                        succeded = true;
-                                        _loggingService.LogInfo($"Aspire asset number {cResponse.Payload?.Asset?.Number} assigned for equipment for contract {contract.Id}");
+                                        var eqCollection = ceqList;
+                                        var aEq = eqCollection?.FirstOrDefault(
+                                            eq => eq.Description == asset.Name);
+                                        if (aEq != null)
+                                        {
+                                            aEq.AssetNumber = asset.Number;
+                                            succeded = true;
+                                            _loggingService.LogInfo(
+                                                $"Aspire asset number {asset.Number} assigned for equipment for contract {contract.Id}");
+                                        }
                                     }
-                                }
+                                });                                
                             }
                             return succeded;
                         };
 
-                    _loggingService.LogInfo($"Submitting deal [{contract.Id}] to Aspire, TransactionId: {contract.Details?.TransactionId}");
-                    // send each equipment separately using same call for avoid Aspire issue
-                    for (int i = 0; i < (contract.Equipment?.NewEquipment?.Count ?? 1); i++)
+                    _loggingService.LogInfo($"Submitting deal [{contract.Id}] to Aspire, TransactionId: {contract.Details?.TransactionId}");                    
+                    Application application = GetContractApplication(contract, null, null, leadSource);
+
+                    request.Header = new RequestHeader()
                     {
-                        var eqToUpdate = (contract.Equipment?.NewEquipment?.Any() ?? false)
-                            ? new List<NewEquipment> {contract.Equipment?.NewEquipment.ElementAt(i)}
-                            : null;
-                        Application application = GetContractApplication(contract, eqToUpdate, i == 0, leadSource);
+                        From = new From()
+                        {
+                            AccountNumber = userResult.Item1.UserId,
+                            Password = userResult.Item1.Password
+                        }
+                    };
+                    request.Payload = new Payload()
+                    {
+                        Lease = new Lease()
+                        {
+                            Application = application
+                        }
+                    };
 
-                        request.Header = new RequestHeader()
-                        {
-                            From = new From()
-                            {
-                                AccountNumber = userResult.Item1.UserId,
-                                Password = userResult.Item1.Password
-                            }
-                        };
-                        request.Payload = new Payload()
-                        {
-                            Lease = new Lease()
-                            {
-                                Application = application
-                            }
-                        };
-
-                        var sendResult = await DoAspireRequestWithAnalyze(_aspireServiceAgent.DealUploadSubmission,
-                            request, (r,c) => AnalyzeResponse(r,c), contract,
-                            equipmentAnalyze, eqToUpdate).ConfigureAwait(false);
-                        if (sendResult?.Any() == true)
-                        {
-                            alerts.AddRange(sendResult);
-                        }                        
+                    var sendResult = await DoAspireRequestWithAnalyze(_aspireServiceAgent.DealUploadSubmission,
+                        request, (r, c) => AnalyzeResponse(r, c), contract,
+                        equipmentAnalyze).ConfigureAwait(false);
+                    if (sendResult?.Any() == true)
+                    {
+                        alerts.AddRange(sendResult);
                     }
                 }
             }
@@ -1418,12 +1415,14 @@ namespace DealnetPortal.Api.Integration.Services
             return accounts ?? new List<Account>();
         }
 
-        private Application GetContractApplication(Domain.Contract contract, ICollection<NewEquipment> newEquipments = null, bool isFirstEquipment = false, string leadSource = null)
+        private Application GetContractApplication(Domain.Contract contract, ICollection<NewEquipment> newEquipments = null, bool? isFirstEquipment = null, string leadSource = null)
         {
             var application = new Application()
             {
                 TransactionId = contract.Details?.TransactionId
             };
+
+            bool bFirstEquipment = isFirstEquipment ?? true;
 
             if (contract.Equipment != null)
             {
@@ -1441,11 +1440,15 @@ namespace DealnetPortal.Api.Integration.Services
                             Status = "new",
                             AssetNo = string.IsNullOrEmpty(eq.AssetNumber) ? null : eq.AssetNumber,
                             Quantity = "1",
-                            Cost = GetEquipmentCost(contract, eq, isFirstEquipment)?.ToString(CultureInfo.InvariantCulture),
+                            Cost = GetEquipmentCost(contract, eq, bFirstEquipment)?.ToString(CultureInfo.InvariantCulture),
                             Description = eq.Description,
                             AssetClass = new AssetClass() { AssetCode = eq.Type }
                         });
-                    }                    
+                    }
+                    if (!isFirstEquipment.HasValue && bFirstEquipment)
+                    {
+                        bFirstEquipment = false;
+                    }
                 });
                 application.AmtRequested = contract.Equipment?.ValueOfDeal?.ToString();
                 application.TermRequested = contract.Equipment.AmortizationTerm?.ToString();
@@ -1484,11 +1487,17 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
+
+                    var rate = _contractRepository.GetProvinceTaxRate(
+                            (contract.PrimaryCustomer?.Locations.FirstOrDefault(
+                                 l => l.AddressType == AddressType.MainAddress) ??
+                             contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
+
                     eqCost = contract.Equipment.AgreementType == AgreementType.LoanApplication && equipment.Cost.HasValue
                         ? (isFirstEquipment
                             ? (equipment.Cost - ((contract.Equipment.DownPayment != null) ? (decimal)contract.Equipment.DownPayment : 0))
                             : equipment.Cost)
-                        : equipment.MonthlyCost;
+                        : (equipment.MonthlyCost * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100));
                 }
             }            
             return eqCost;

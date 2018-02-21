@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
@@ -13,7 +12,7 @@ using DealnetPortal.Api.Common.Types;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Configuration;
-using Microsoft.Practices.ObjectBuilder2;
+using Unity.Interception.Utilities;
 
 namespace DealnetPortal.DataAccess.Repositories
 {
@@ -66,15 +65,20 @@ namespace DealnetPortal.DataAccess.Repositories
         public IList<Contract> GetDealerLeads(string userId)
         {
             var creditReviewStates = _config.GetSetting(WebConfigKeys.CREDIT_REVIEW_STATUS_CONFIG_KEY).Split(',').Select(s => s.Trim()).ToArray();
+            var qcpclist = _config.GetSetting(WebConfigKeys.QUEBEC_POSTAL_CODES).Split(',').ToList();
             
             var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
             var dealerProfile = _dbContext.DealerProfiles.FirstOrDefault(p => p.DealerId == userId);
+            var isQuebecDealer = dealerProfile?.Address.State == "QC";
             var eqList = dealerProfile?.Equipments.Select(e => e.Equipment.Type);
             var pcList = dealerProfile?.Areas.Select(e => e.PostalCode);
             if (eqList?.FirstOrDefault() == null || pcList?.FirstOrDefault() == null)
             {
                 return new List<Contract>();
             }
+            pcList = isQuebecDealer
+                ? pcList?.Where(p => qcpclist.Any(qp => qp == p[0].ToString()))
+                : pcList?.Where(p => qcpclist.All(qp => qp != p[0].ToString()));
             var contracts = _dbContext.Contracts
                 .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
@@ -177,6 +181,14 @@ namespace DealnetPortal.DataAccess.Repositories
                         ids.Any(id => id == c.Id) &&
                         (c.Dealer.Id == ownerUserId || c.Dealer.ParentDealerId == ownerUserId)).ToList();
             return contracts;
+        }
+
+        public bool IsMortgageBrokerCustomerExist(string email)
+        {
+            return _dbContext.Contracts
+                .Include(c => c.PrimaryCustomer)
+                .Any(c => c.PrimaryCustomer.Emails.Any(e=>e.EmailAddress == email) &&
+                    c.IsCreatedByBroker.HasValue && c.IsCreatedByBroker.Value);
         }
 
         public Contract FindContractBySignatureId(string signatureTransactionId)
@@ -434,7 +446,10 @@ namespace DealnetPortal.DataAccess.Repositories
                         if (homeOwner != null)
                         {
                             contract.PrimaryCustomer = homeOwner;
-                            contract.ContractState = ContractState.CustomerInfoInputted;
+                            if (contract.ContractState != ContractState.Completed && contract.ContractState != ContractState.Closed)
+                            { 
+                                contract.ContractState = ContractState.CustomerInfoInputted;
+                            }
                             updated = true;
                         }
                     }
@@ -442,14 +457,20 @@ namespace DealnetPortal.DataAccess.Repositories
                     if (contractData.SecondaryCustomers != null)
                     {
                         AddOrUpdateAdditionalApplicants(contract, contractData.SecondaryCustomers);
-                        contract.ContractState = ContractState.CustomerInfoInputted;
+                        if (contract.ContractState != ContractState.Completed && contract.ContractState != ContractState.Closed)
+                        {
+                            contract.ContractState = ContractState.CustomerInfoInputted;
+                        }
                         updated = true;
                     }
 
                     if (contractData.HomeOwners != null)
                     {
                         AddOrUpdateHomeOwners(contract, contractData.HomeOwners);
-                        contract.ContractState = ContractState.CustomerInfoInputted;
+                        if (contract.ContractState != ContractState.Completed && contract.ContractState != ContractState.Closed)
+                        {
+                            contract.ContractState = ContractState.CustomerInfoInputted;
+                        }
                         updated = true;
                     }
 
@@ -977,7 +998,7 @@ namespace DealnetPortal.DataAccess.Repositories
             }
 
             var paymentSummary = GetContractPaymentsSummary(contract);
-            dbEquipment.ValueOfDeal = (double?) paymentSummary.TotalAmountFinanced;            
+            dbEquipment.ValueOfDeal = contract.Equipment.AgreementType == AgreementType.LoanApplication ? (double?) paymentSummary.TotalAmountFinanced : (double?) paymentSummary.TotalMonthlyPayment;
 
             return dbEquipment;
         }
@@ -1018,39 +1039,48 @@ namespace DealnetPortal.DataAccess.Repositories
                         }
                     }
 
-                    var loanCalculatorInput = new LoanCalculator.Input
+                    if (contract.Equipment?.AmortizationTerm != null && contract.Equipment?.LoanTerm != null)
                     {
-                        TaxRate = rate?.Rate ?? 0,
-                        LoanTerm = contract.Equipment?.LoanTerm ?? 0,
-                        AmortizationTerm = contract.Equipment?.AmortizationTerm ?? 0,
-                        PriceOfEquipment = (double?)priceOfEquipment ?? 0.0,
-                        AdminFee = contract.Equipment?.AdminFee ?? 0,
-                        DownPayment = contract.Equipment?.DownPayment ?? 0,
-                        CustomerRate = contract.Equipment?.CustomerRate ?? 0,
-                        IsClarity = contract.Dealer?.Tier?.Name == _config.GetSetting(WebConfigKeys.CLARITY_TIER_NAME),
-                        IsOldClarityDeal = contract.Equipment?.IsClarityProgram == null && contract.Dealer?.Tier?.Name == _config.GetSetting(WebConfigKeys.CLARITY_TIER_NAME)
-                };
-                    var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
-                    paymentSummary.LoanDetails = loanCalculatorOutput;
+                        var loanCalculatorInput = new LoanCalculator.Input
+                        {
+                            TaxRate = rate?.Rate ?? 0,
+                            LoanTerm = contract.Equipment?.LoanTerm ?? 0,
+                            AmortizationTerm = contract.Equipment?.AmortizationTerm ?? 0,
+                            PriceOfEquipment = (double?)priceOfEquipment ?? 0.0,
+                            AdminFee = contract.Equipment?.AdminFee ?? 0,
+                            DownPayment = contract.Equipment?.DownPayment ?? 0,
+                            CustomerRate = contract.Equipment?.CustomerRate ?? 0,
+                            IsClarity = contract.Dealer?.Tier?.Name ==
+                                        _config.GetSetting(WebConfigKeys.CLARITY_TIER_NAME),
+                            IsOldClarityDeal = contract.Equipment?.IsClarityProgram == null &&
+                                               contract.Dealer?.Tier?.Name ==
+                                               _config.GetSetting(WebConfigKeys.CLARITY_TIER_NAME)
+                        };
+                        var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
+                        paymentSummary.LoanDetails = loanCalculatorOutput;
 
-                    paymentSummary.Hst = (decimal)loanCalculatorOutput.Hst;
-                    paymentSummary.TotalMonthlyPayment = (decimal)loanCalculatorOutput.TotalMonthlyPayment;
-                    paymentSummary.MonthlyPayment = (decimal)loanCalculatorOutput.TotalMonthlyPayment;
-                    paymentSummary.TotalAllMonthlyPayment = (decimal)loanCalculatorOutput.TotalAllMonthlyPayments;
-                    paymentSummary.TotalAmountFinanced = (decimal)loanCalculatorOutput.TotalAmountFinanced;                    
+                        paymentSummary.Hst = (decimal) loanCalculatorOutput.Hst;
+                        paymentSummary.TotalMonthlyPayment = (decimal) loanCalculatorOutput.TotalMonthlyPayment;
+                        paymentSummary.MonthlyPayment = (decimal) loanCalculatorOutput.TotalMonthlyPayment;
+                        paymentSummary.TotalAllMonthlyPayment = (decimal) loanCalculatorOutput.TotalAllMonthlyPayments;
+                        paymentSummary.TotalAmountFinanced = (decimal) loanCalculatorOutput.TotalAmountFinanced;
+                    }
                 }
                 else
                 {
                     //for rental!
                     paymentSummary.MonthlyPayment = contract.Equipment?.TotalMonthlyPayment;
-                    paymentSummary.Hst =
-                        (contract.Equipment?.TotalMonthlyPayment ?? 0) * (((decimal?)rate?.Rate ?? 0.0m) / 100);
-                    paymentSummary.TotalMonthlyPayment = (contract.Equipment.TotalMonthlyPayment ?? 0) +
-                                                  (contract.Equipment.TotalMonthlyPayment ?? 0) *
-                                                  (((decimal?)rate?.Rate ?? 0.0m) / 100);
-                    paymentSummary.TotalAllMonthlyPayment = paymentSummary.TotalMonthlyPayment *
-                                                            (contract.Equipment.RequestedTerm ?? 0);
-                    paymentSummary.TotalAmountFinanced = paymentSummary.TotalAllMonthlyPayment;
+                    if (contract.Equipment?.TotalMonthlyPayment != null && contract.Equipment?.RequestedTerm != null)
+                    {
+                        paymentSummary.Hst =
+                            (contract.Equipment?.TotalMonthlyPayment ?? 0) * (((decimal?) rate?.Rate ?? 0.0m) / 100);
+                        paymentSummary.TotalMonthlyPayment = (contract.Equipment.TotalMonthlyPayment ?? 0) +
+                                                             (contract.Equipment.TotalMonthlyPayment ?? 0) *
+                                                             (((decimal?) rate?.Rate ?? 0.0m) / 100);
+                        paymentSummary.TotalAllMonthlyPayment = paymentSummary.TotalMonthlyPayment *
+                                                                (contract.Equipment.RequestedTerm ?? 0);
+                        paymentSummary.TotalAmountFinanced = paymentSummary.TotalAllMonthlyPayment;
+                    }
                 }
             }
 
@@ -1336,6 +1366,9 @@ namespace DealnetPortal.DataAccess.Repositories
                 if (contract.Equipment != null)
                 {
                     contract.Equipment.AgreementType = contractDetails.AgreementType.Value;
+
+                    var paymentSummary = GetContractPaymentsSummary(contract);
+                    contract.Equipment.ValueOfDeal = contract.Equipment.AgreementType == AgreementType.LoanApplication ? (double?)paymentSummary.TotalAmountFinanced : (double?)paymentSummary.TotalMonthlyPayment;
                 }
             }
             if (contractDetails.SignatureDocumentId != null)

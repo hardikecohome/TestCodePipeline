@@ -1,27 +1,18 @@
 ﻿@using System.Configuration;
-@{
+
+@{ 
     ViewBag.Title = Resources.HomePage;
-    var bannerLink = System.Configuration.ConfigurationManager.AppSettings["HomeBannerLink"];
-    var bannerExists = !string.IsNullOrEmpty((string) ViewBag.Banner);
-}
-@if (bannerExists)
-{
-    <div class="banner-container">
-        <a @(!string.IsNullOrEmpty(bannerLink) ? "href="+ bannerLink + " target=\"_blank\"" : "")>
-            <img src="@Url.Content(ViewBag.Banner)" />
-        </a>
-    </div>
 }
 
-@if (ConfigurationManager.AppSettings["SwitchPopUpOnOff"] == "true")
+@if(ConfigurationManager.AppSettings["SwitchPopUpOnOff"] == "true")
 {
-	@Html.Action("GetMaintanenceBanner")
+    @Html.Action("GetMaintanenceBanner")
 }
 
 <div class="dealnet-home-page">
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-            <a class="dealnet-page-button new-rental" href="@Url.Action("BasicInfo", "NewRental")">
+            <a class="btn btn-green dealnet-page-button new-rental" href="@Url.Action("BasicInfo", "NewRental")">
                 <span class="button-inner">
                     <svg aria-hidden="true" class="icon icon-new-rental">
                         <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-application")"></use>
@@ -31,7 +22,7 @@
             </a>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
-            <a class="dealnet-page-button" href="@Url.Action("Index", "MyDeals")">
+            <a class="btn btn-green dealnet-page-button" href="@Url.Action("Index", "MyDeals")">
                 <span class="button-inner">
                     <svg class="icon icon-my-deals">
                         <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-deals")"></use>
@@ -41,7 +32,7 @@
             </a>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
-            <a class="dealnet-page-button" href="@Url.Action("Index", "Calculator")">
+            <a class="btn btn-green dealnet-page-button" href="@Url.Action("Index", "Calculator")">
                 <span class="button-inner">
                     <svg aria-hidden="true" class="icon icon-reports-big">
                         <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-calculator-btn")"></use>
@@ -64,32 +55,17 @@
                         <th class="min-desktop email-cell">@Resources.Email</th>
                         <th class="min-desktop phone-cell">@Resources.Phone</th>
                         <th class="min-desktop date-cell">@Resources.Date</th>
-                        <th class="hidden">RemainingDescription</th>
-                        <th class="all controls-cell"></th>
-                        <th class="id-cell hidden">@Resources.Id</th>
+                        <th class="hidden never">RemainingDescription</th>
+                        <th class="all control controls-cell"></th>
+                        <th class="id-cell hidden never">@Resources.Id</th>
                     </tr>
                 </thead>
             </table>
         </div>
     </div>
-    <div class="dealnet-caption">@Resources.DealFlowOverview</div>
-    <div class="dealnet-chart-switch-button-hold">
-        <div class="dealnet-chart-switch-button dealnet-chart-switch-button-selected" data-type="Week">@Resources.Week</div>
-        <div class="dealnet-chart-switch-button" data-type="Month">@Resources.Month</div>
-        <div class="dealnet-chart-switch-button" data-type="Year">@Resources.Year</div>
-    </div>
-    <div class="data-flow-container">
-        <span class="graph-label graph-label-x">$</span>
-        <span class="graph-label graph-label-y">@Resources.Time</span>
-        <div class="scrollable-container">
-            <div class="scrollable-content">
-                <canvas id="data-flow-overview"></canvas>
-            </div>
-        </div>
-    </div>
 </div>
 
-@using (Html.BeginForm("ContractRemove", "NewRental", FormMethod.Post, new { id = "remove-contract-form" }))
+@using(Html.BeginForm("ContractRemove", "NewRental", FormMethod.Post, new { id = "remove-contract-form" }))
 {
     <input type="hidden" name="contractId" id="remove-contract" />
 }
@@ -107,12 +83,18 @@
     </div>
 </div>
 
-<script type="text/javascript">
+@section Scripts
+{
+    <script type="text/javascript">
     var chartUrl = '@Url.Action("GetDealFlowOverview", "Home")';
     var itemsUrl = '@Url.Action("GetWorkItems", "Home")';
     var editContractUrl = '@Url.Action("ContractEdit", "NewRental")';
     var contractSignatureStatusUrl = '@Url.Action("GetEsignatureStatus", "MyDeals")';
-</script>
+    </script>
+
+    @Scripts.Render("~/bundles/data-tables-scripts")
+    @Scripts.Render("~/bundles/home-page")
+}
 
 @section Translations
 {
@@ -133,8 +115,3 @@
 {
     @Styles.Render("~/bundles/data-tables-content")
 }
-
-@Scripts.Render("~/bundles/data-tables-scripts")
-@Scripts.Render("~/bundles/home-page")
-
-

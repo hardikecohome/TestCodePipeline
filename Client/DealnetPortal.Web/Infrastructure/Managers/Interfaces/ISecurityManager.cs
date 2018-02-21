@@ -18,13 +18,13 @@ namespace DealnetPortal.Web.Infrastructure.Managers.Interfaces
         /// <param name="password">password</param>
         /// <param name="portalId">portal identificator</param>
         /// <returns></returns>
-        Task<IList<Alert>> Login(string userName, string password, string portalId);
+        Task<IList<Alert>> Login(string userName, string password, string portalId, bool rememberMe);
         IPrincipal GetUser();
         /// <summary>
         /// Set user's Principal
         /// </summary>
         /// <param name="user"></param>
-        void SetUser(IPrincipal user);
+        void SetUser(IPrincipal user, bool rememberMe);
         void Logout();        
     }
 }

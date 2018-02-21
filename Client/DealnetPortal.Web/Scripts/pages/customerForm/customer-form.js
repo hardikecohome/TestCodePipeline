@@ -320,7 +320,8 @@
                 return {
                     displayInstallation: state.displayInstallation,
                     displayContactInfo: state.displayContactInfo,
-                    activePanel: state.activePanel
+                    activePanel: state.activePanel,
+                    isQuebecDealer: state.isQuebecDealer
                 };
             })(function (props) {
                 if (props.activePanel === 'yourInfo') {
@@ -354,16 +355,17 @@
                 return {
                     province: state.province,
                     employStatus: state.employStatus,
-                    incomeType: state.incomeType
+                    incomeType: state.incomeType,
+                    isQuebecDealer: state.isQuebecDealer
                 }
             })(function (props) {
-                requiredEmployment.length = 0;
-                if (props.province.toLowerCase() === 'qc') {
+                requiredEmployment = [];
+                if (props.province.toLowerCase() === 'qc' && props.isQuebecDealer) {
                     if (props.employStatus === '') {
                         requiredEmployment.push('employStatus');
                     }
                     if (props.employStatus === '0') {
-                        requiredEmployment.concat(['employStatus',
+                        requiredEmployment = requiredEmployment.concat(['employStatus',
                             'incomeType',
                             'yearsOfEmploy',
                             'employType',
@@ -386,7 +388,7 @@
                         }
                     }
                     if (props.employStatus === '1' || props.employStatus === '3') {
-                        requiredEmployment.concat(['employStatus', 'annualSalary']);
+                        requiredEmployment = requiredEmployment.concat(['employStatus', 'annualSalary']);
                     }
                     if (props.employStatus === '2') {
                         requiredEmployment.concat(['employStatus',
@@ -422,7 +424,9 @@
                 }
             })(function (props) {
                 $('#yourInfoErrors').empty();
-                $('#quebecErrors').empty();
+                $('#qcError').text('');
+                $('#province').removeClass('input-custom-err');
+
                 if (props.errors.length > 0) {
                     props.errors
                         .filter(function(error) { return error.type === 'birthday' })
@@ -433,7 +437,8 @@
                     props.errors
                         .filter(function (error) { return error.type === 'quebec'; })
                         .forEach(function(error) {
-                            $('#quebecErrors').append(createError(window.translations[error.messageKey]));
+                            $('#qcError').text(window.translations[error.messageKey]);
+                            $('#province').addClass('input-custom-err');
                         });
                 }
 

@@ -1,0 +1,276 @@
+@usual-font-family: 'Mukta', sans-serif;
+
+.dealnet-home-page
+.dealnet-page-button {
+    @media @tablet-up {
+        box-shadow: none;
+        display: block;
+        font: bold 14px/89px Mukta;
+        padding: 0;
+        text-align: center;
+    }
+    @media @mobile {
+        line-height: 30px;
+    }
+}
+
+.dealnet-success-button {
+    box-shadow:none;
+    &:hover{
+        box-shadow: none;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .btn-add-calc-option {
+        white-space: normal !important;
+    }
+    .control-add-calc {
+        position: absolute !important;
+    }
+}
+
+.checkbox-toggle {
+    input:checked + .slider {
+        background-image: linear-gradient(296deg, #94d802, #7cc501);
+    }
+}
+
+.nav-tabs {
+    > li {
+        &.active {
+            > a, >a:hover, >a:focus {                
+                border: none !important;
+            }
+        }
+        > a {
+            &::after{
+                background-image:linear-gradient(296deg, #94d802, #7cc501);
+            }
+        }
+    }
+}
+
+.documents-pills > li.active:before, .documents-pills .documents-pills-item.active:before {
+    background-image:linear-gradient(296deg, #94d802, #7cc501);
+}
+
+div.dataTables_wrapper div.dataTables_filter label .icon-search, 
+.control-group .icon-calendar {
+    top: 10px;
+}
+
+body:not(.mobile-device), body:not(.tablet-device) {
+    .dataTable, .dataTable.table-reports {
+        td, th {
+            &.phone-cell, &.date-cell {
+                min-width: 60px !important;
+                width: 60px !important;
+            }
+
+            &.customer-cell, &.contract-cell {
+                word-break: break-word;
+            }
+
+            &.email-cell {
+                max-width: 139px !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+
+        th {
+            font-size: 12px;
+        }
+    }
+}
+.step-item.step-active {
+    background-image: linear-gradient(316deg, #94d802, #7cc501);
+    box-shadow: 0 0 0 1px #85cc01;
+}
+
+.clear-border {
+    background-color: #ffffff !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.consents-links .action-link{
+    display: inline-block;
+    margin: 0 25px 0px;
+    white-space: initial;
+}
+.scanlicence-hold .well{
+    padding-bottom: 11px;
+    padding-top: 11px;
+    @media @desktop-down {
+        line-height: 2.5;
+    }
+    @media @tablet-down {
+        line-height: 1.4; 
+    }
+    @media @mobile{
+        .icon {
+            top:30px !important;
+        }     
+    }
+}
+.scanlicence-info-text {
+    @media @desktop-up {
+        margin: 0;
+        margin-top: 3px;
+        /*width: auto;*/
+    }
+}
+.modal {
+    .action-link {
+        text-align: center;
+        width: 100%; 
+    }
+}
+.icon-success,
+.financing-arrow,
+.dealnet-link-button, 
+.ui-datepicker .ui-datepicker-buttonpane .ui-datepicker-close, 
+.div-datepicker .ui-datepicker-close,
+.dealnet-section-edit-link {
+    color:#94d802;
+    &:hover {
+        color: #7cc501;
+    }
+}
+@media @desktop-up{
+    .doc-tab-content .documents-pills-item {
+        display: none !important;
+    }
+}
+
+.button-container {
+    .btn + .btn {
+        margin-top: 15px; 
+    }
+}
+html:not(.ie9) {
+    .loader:after,  #jquery-loader:after {
+        border-right: 7px solid #7cc501;  
+    }
+}
+.info-text-success .icon-info-well {
+    color: #94d802;
+}
+.dealnet-input, .form-control {
+    height: 40px;
+}
+
+div.dataTables_wrapper {
+    div.dataTables_paginate {
+        text-align: center !important;
+    }
+    div.dataTables_length {
+        @media @tablet-down {
+            text-align: left !important;
+        }
+    }
+}
+table.dataTable thead {
+    .sorting:after, 
+    .sorting_asc:after,
+    .sorting_desc:after, 
+    .sorting_asc_disabled:after, 
+    .sorting_desc_disabled:after{
+        right: 6px !important; 
+    }
+}
+.ie table.dataTable thead {
+    .sorting:before,
+    .sorting_asc:before,
+    .sorting_desc:before, 
+    .sorting:after,
+    .sorting_asc:after,
+    .sorting_desc:after {
+        top:55%;
+    }
+    .sorting:after, 
+    .sorting_asc:after,
+    .sorting_desc:after, 
+    .sorting_asc_disabled:after, 
+    .sorting_desc_disabled:after{
+        top:55%;
+    }
+}
+.control-group {
+    .clear-input, .recover-pass-link{
+        top: 10px;        
+    }
+}
+
+.leads-filter .filter-button {
+    max-width: initial;
+}
+div.dataTables_wrapper #work-items-table_filter.dataTables_filter input {
+    margin-left: 0;
+    margin-top: 6px;
+}
+
+.btn-container .btn {
+    width:100%;
+}
+.ie .scrollable-container .scrollable-content {
+    overflow-y: hidden;
+}
+.position-well, .position-well.error-descr {
+    padding-left: 40px !important;
+    .icon, .icon.icon-error {
+        left: 0 !important;
+    }
+}
+.table-page {
+    .position-well, .position-well.error-descr{
+        padding-left: 0 !important;
+    }
+}
+.progress-container .progress-bar{
+    background-image: -webkit-linear-gradient(206deg, #94d802, #7cc501);
+    background-image: -o-linear-gradient(206deg, #94d802, #7cc501);
+    background-image: linear-gradient(296deg, #94d802, #7cc501);
+}
+
+table.dataTable.collapsed {
+    td{
+        &.contract-cell:after {
+            @media only screen and (max-width: 649px)  {
+                margin-top:-1px;
+            }
+            @media only screen and (min-width: 650px) {
+                margin-top: -14px;
+            }
+        }
+    }
+}
+#section-before-table{
+    .well{
+        padding-left:0 !important;
+    }
+}
+.profile-form-container {
+    .well {
+        @media @tablet-down {
+            text-align: center;
+        }
+        &.position-well{
+            .icon {
+                margin-right: 20px;
+            }
+            @media @desktop-up {
+                padding-left: 0 !important;
+            }
+        }
+        &.over-aged-well {
+            padding-left: 40px;
+            .icon-info-well {
+                left:0;
+            }
+        }
+    }
+}

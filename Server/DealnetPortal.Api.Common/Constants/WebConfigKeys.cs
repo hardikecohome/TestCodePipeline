@@ -28,13 +28,16 @@
         public const string MB_ROLE_CONFIG_KEY = "AspireMortgageBrokerRole";
 
         //ENTER HERE eCore digital signature settings
-        public static readonly string ECORE_APIURL_CONFIG_KEY = "eCoreApiUrl";
-        public static readonly string ECORE_USER_CONFIG_KEY = "eCoreUser";
-        public static readonly string ECORE_PASSWORD_CONFIG_KEY = "eCorePassword";
-        public static readonly string ECORE_ORGANIZATION_CONFIG_KEY = "eCoreOrganization";
-        public static readonly string ECORE_SIGNATUREROLE_CONFIG_KEY = "eCoreSignatureRole";
-        public static readonly string ECORE_AGREEMENTTEMPLATE_CONFIG_KEY = "eCoreAgreementTemplate";
-        public static readonly string ECORE_CUSTOMERSECURITYCODE_CONFIG_KEY = "eCoreCustomerSecurityCode";
+        /// <summary>
+        /// not longer used
+        /// </summary>
+        //public static readonly string ECORE_APIURL_CONFIG_KEY = "eCoreApiUrl";
+        //public static readonly string ECORE_USER_CONFIG_KEY = "eCoreUser";
+        //public static readonly string ECORE_PASSWORD_CONFIG_KEY = "eCorePassword";
+        //public static readonly string ECORE_ORGANIZATION_CONFIG_KEY = "eCoreOrganization";
+        //public static readonly string ECORE_SIGNATUREROLE_CONFIG_KEY = "eCoreSignatureRole";
+        //public static readonly string ECORE_AGREEMENTTEMPLATE_CONFIG_KEY = "eCoreAgreementTemplate";
+        //public static readonly string ECORE_CUSTOMERSECURITYCODE_CONFIG_KEY = "eCoreCustomerSecurityCode";
 
         //ENTER HERE DocuSign digital signature settings
         public static readonly string DOCUSIGN_APIURL_CONFIG_KEY = "DocuSignApiUrl";
@@ -91,5 +94,7 @@
         public static readonly string LISTENER_END_POINT_CONFIG_KEY = "ListenerEndPoint";
 
         public static readonly string CLARITY_TIER_NAME = "ClarityTierName";
+
+        public static readonly string QUEBEC_POSTAL_CODES = "QuebecPostalCodes";
     }
 }

@@ -1,6 +1,8 @@
 ﻿@using DealnetPortal.Api.Core.Helpers
 @using DealnetPortal.Web.Models.Enumeration
 @using System.Security.Claims;
+@using DealnetPortal.Api.Common.Enumeration
+@using DealnetPortal.Web.Common.Constants
 @using DealnetPortal.Web.Infrastructure.Managers
 
 <!DOCTYPE html>
@@ -77,7 +79,7 @@
             themeClass = "";
             break;
     }
-    string phone = (bool) ((ClaimsPrincipal) User)?.HasClaim("QuebecDealer", "True") ? 
+    string phone = (bool) ((ClaimsPrincipal) User)?.HasClaim(ClaimContstants.QuebecDealer, "True") ? 
                            System.Configuration.ConfigurationManager.AppSettings["QuebecDealerSupportPhone"] : 
                            System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"];
     string phoneToCall = phone.Replace("-", "");
@@ -104,7 +106,7 @@
                         <div class="logo-container">
                             <div class="dealnet-image-ecologo main-logo"></div>
                         </div>
-                        @if (User.Identity.IsAuthenticated && (User as ClaimsPrincipal)?.IsInRole("MortgageBroker") != true)
+                        @if (User.Identity.IsAuthenticated && (User as ClaimsPrincipal)?.IsInRole(RoleContstants.MortgageBroker) != true)
                         {
                             <div class="contact-container">
                                 <div class="contact-btn contact-phone-container">
@@ -209,7 +211,7 @@
                                 }
                             }
                             <ul class="nav nav-sidebar">
-                                @if ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") != true)
+                                @if ((User as ClaimsPrincipal)?.IsInRole(RoleContstants.MortgageBroker) != true)
                                 {
                                     <li class="dealnet-sidebar-item" id="sidebar-item-homepage">
                                         <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-home"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-home")"></use></svg></span>
@@ -253,7 +255,7 @@
                                     </li>
 
                                 }
-                                @if ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") == true)
+                                @if ((User as ClaimsPrincipal)?.IsInRole(RoleContstants.MortgageBroker) == true)
                                 {
                                     <li class="dealnet-sidebar-item">
                                         <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-new-client"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-new-client")"></use></svg></span>
@@ -273,7 +275,7 @@
 
 
                         </div>
-                        @if ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") != true)
+                        @if ((User as ClaimsPrincipal)?.IsInRole(RoleContstants.MortgageBroker) != true)
                         {
                             <div class="sidebar-row sidebar-row-expanded contact-container">
                                 <ul class="nav nav-sidebar">
@@ -357,7 +359,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="btn-container">
-                        <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" id="confirmAlert">@Resources.Yes</button>
+                        <button type="button" class="btn btn-green btn-form" id="confirmAlert">@Resources.Yes</button>
                         <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
                     </div>
                 </div>
@@ -367,7 +369,7 @@
     <div class="floatingHelpBtn">
         <div id="email_buttons">
            
-            @if (User.Identity.IsAuthenticated && ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") != true))
+            @if (User.Identity.IsAuthenticated && ((User as ClaimsPrincipal)?.IsInRole(UserRole.MortgageBroker.ToString()) != true))
             {
 			<div class="pull-right">
 

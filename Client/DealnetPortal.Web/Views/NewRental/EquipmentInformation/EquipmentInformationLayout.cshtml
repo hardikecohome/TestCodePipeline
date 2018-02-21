@@ -1,9 +1,8 @@
 ﻿@using System.Globalization
-@using DealnetPortal.Api.Common.Enumeration
 @model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
 
 @{
@@ -17,9 +16,6 @@
     }
 }
 
-<div id="label-steps">
-    <div class="dealnet-action-link">@Resources.NewApplication</div> >
-</div>
 <div class="dealnet-large-header">@Resources.NewEquipment</div>
 @Html.Partial("EquipmentInformation/_StepsNavigation", Model)
 <div class="form-container">

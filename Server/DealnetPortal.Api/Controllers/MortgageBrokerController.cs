@@ -24,7 +24,8 @@ namespace DealnetPortal.Api.Controllers
             _mortgageBrokerService = mortgageBrokerService;
         }
 
-        [Route("GetCreatedContracts")]
+        //[Route("GetCreatedContracts")]
+        // GET: api/MortgageBroker
         [HttpGet]
         public IHttpActionResult GetCreatedContracts()
         {
@@ -40,7 +41,8 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("CreateContractForCustomer")]
+        //[Route("CreateContractForCustomer")]
+        // POST: api/MortgageBroker
         [HttpPost]
         public async Task<IHttpActionResult> CreateContractForCustomer(NewCustomerDTO customerFormData)
         {

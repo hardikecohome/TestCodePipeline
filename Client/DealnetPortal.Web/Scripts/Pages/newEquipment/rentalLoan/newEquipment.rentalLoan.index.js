@@ -37,7 +37,7 @@
             customRateCardId: '#custom-rate-card',
             rateCardBlockId: '#rateCardsBlock',
             rentalMonthlyPaymentId: '#rentalTMPayment',
-            isOnlyLoanAvailableId: '#IsOnlyLoanAvailable',
+            isQuebecProvinceId: '#IsQuebecProvince',
             applicationType: {
                 'loanApplication': '0',
                 'rentalApplicationHwt': '1',
@@ -53,7 +53,7 @@
           * @returns {void} 
           */
         var init = function(id, cards, onlyCustomRateCard) {
-            var isOnlyLoan = $(settings.isOnlyLoanAvailableId).val().toLowerCase() === 'true';
+            var isOnlyLoan = $(settings.isQuebecProvinceId).val().toLowerCase() === 'true';
 
             if (isOnlyLoan) {
                 if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.loanApplication) {

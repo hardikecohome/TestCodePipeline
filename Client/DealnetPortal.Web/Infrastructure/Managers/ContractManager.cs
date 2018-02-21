@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
+
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Common.Types;
@@ -115,7 +116,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                     equipmentInfo.NewEquipment = null;
                 }
 
-                if(result.Item1.Equipment.ValueOfDeal == null)
+                if(result.Item1.Equipment.ValueOfDeal == null || result.Item1.Equipment.ValueOfDeal == 0)
                 {
                     equipmentInfo.IsNewContract = true;
                     equipmentInfo.RequestedTerm = 120;
@@ -132,12 +133,12 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             var mainAddressProvinceCode = result.Item1.PrimaryCustomer.Locations.First(l => l.AddressType == AddressType.MainAddress).State.ToProvinceCode();
             var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(mainAddressProvinceCode)).Item1;
 
-            if (rate != null)
+            if(rate != null)
             {
-                equipmentInfo.ProvinceTaxRate = rate; 
+                equipmentInfo.ProvinceTaxRate = rate;
             }
 
-            equipmentInfo.IsOnlyLoanAvailable = mainAddressProvinceCode == ContractProvince.QC.ToString();
+            equipmentInfo.IsQuebecProvince = mainAddressProvinceCode == ContractProvince.QC.ToString();
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
             equipmentInfo.IsAllInfoCompleted = result.Item1.PaymentInfo != null && result.Item1.PrimaryCustomer?.Phones != null && result.Item1.PrimaryCustomer.Phones.Any();
             equipmentInfo.IsApplicantsInfoEditAvailable = result.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;
@@ -148,8 +149,9 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             equipmentInfo.DealerTier = Mapper.Map<TierViewModel>(dealerTier) ?? new TierViewModel() { RateCards = new List<RateCardViewModel>() };
             equipmentInfo.IsClarityDealer = equipmentInfo.DealerTier?.Name == _clarityProgramTier;
 
-
-            if(result.Item1.Equipment == null)
+            if(result.Item1.Equipment == null ||
+                (result.Item1.Equipment?.RateCardId == null
+                    && (result.Item1.Equipment?.NewEquipment?.All(ne => ne?.Cost == null && ne?.MonthlyCost == null) ?? true)))
             {
                 equipmentInfo.RateCardValid = true;
                 equipmentInfo.IsOldClarityDeal = false;
@@ -235,16 +237,16 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                                                    contractResult.Equipment.RateCardId.Value == 0 ||
                                                    dealerTier.RateCards.Any(
                                                            x => x.Id == contractResult.Equipment.RateCardId.Value);
-            
+
             var isOldClarityDeal = contractResult.Equipment?.IsClarityProgram == null && dealerTier.Name == _clarityProgramTier;
             summaryAndConfirmation.IsOldClarityDeal = isOldClarityDeal;
 
             summaryAndConfirmation.IsClarityDealer = dealerTier.Name == _clarityProgramTier;
             //correction for value of a deal
-            if (summaryAndConfirmation.EquipmentInfo != null)
+            if(summaryAndConfirmation.EquipmentInfo != null)
             {
                 summaryAndConfirmation.EquipmentInfo.ValueOfDeal =
-                    (double?) GetPaymentSummary(contractResult, (decimal?) summaryAndConfirmation.ProvinceTaxRate?.Rate,
+                    (double?)GetPaymentSummary(contractResult, (decimal?)summaryAndConfirmation.ProvinceTaxRate?.Rate,
                         summaryAndConfirmation.IsClarityDealer, isOldClarityDeal)?.TotalAmountFinanced
                     ?? summaryAndConfirmation.EquipmentInfo?.ValueOfDeal;
             }
@@ -256,14 +258,14 @@ namespace DealnetPortal.Web.Infrastructure.Managers
         {
             PaymentSummary paymentSummary = new PaymentSummary();
 
-            if (contract?.Equipment != null)
-            {                
-                if (contract.Equipment.AgreementType == AgreementType.LoanApplication)
+            if(contract?.Equipment != null)
+            {
+                if(contract.Equipment.AgreementType == AgreementType.LoanApplication)
                 {
                     var priceOfEquipment = 0.0m;
-                    if (isClarity == true)
+                    if(isClarity == true)
                     {
-                        if (isOldClarityDeal)
+                        if(isOldClarityDeal)
                         {
                             priceOfEquipment = contract.Equipment?.NewEquipment?.Sum(x => x.Cost) ?? 0;
                         }
@@ -273,7 +275,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                             var packages = contract.Equipment?.InstallationPackages?.Sum(x => x.MonthlyCost) ?? 0.0m;
                             priceOfEquipment += packages;
                         }
-                        
+
                     }
                     else
                     {
@@ -289,7 +291,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                         DownPayment = contract.Equipment?.DownPayment ?? 0,
                         CustomerRate = contract.Equipment?.CustomerRate ?? 0,
                         IsClarity = isClarity,
-                        IsOldClarityDeal =  isOldClarityDeal
+                        IsOldClarityDeal = isOldClarityDeal
                     };
                     var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
                     paymentSummary.Hst = (decimal)loanCalculatorOutput.Hst;
@@ -298,7 +300,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                     paymentSummary.TotalAllMonthlyPayment = (decimal)loanCalculatorOutput.TotalAllMonthlyPayments;
                     paymentSummary.TotalAmountFinanced = (decimal)loanCalculatorOutput.TotalAmountFinanced;
                     paymentSummary.LoanDetails = loanCalculatorOutput;
-                    
+
                 }
                 else
                 {
@@ -344,19 +346,18 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             var dealerTier = await _contractServiceAgent.GetDealerTier();
             model.DealerTier = dealerTier ?? new TierDTO { RateCards = new List<RateCardDTO>() };
 
-            //TODO: FOR DEMO PUROPSE ONLY REFACTOR AS SOON AS POSSIBLE!!!
-            var planDict = new Dictionary<string, string>
+            var planDict = new Dictionary<RateCardType, string>
             {
-                {"FixedRate", Resources.Resources.FixedRate},
-                {"NoInterest", Resources.Resources.EqualPayments},
-                {"Deferral", Resources.Resources.Deferral},
+                {RateCardType.FixedRate, Resources.Resources.StandardRate},
+                {RateCardType.NoInterest, Resources.Resources.EqualPayments},
+                {RateCardType.Deferral, Resources.Resources.Deferral},
             };
 
             model.Plans = model.DealerTier.RateCards
-                .Select(x => x.CardType.ToString())
+                .Select(x => x.CardType)
                 .Distinct()
                 .Where(c => planDict.ContainsKey(c))
-                .Select(card => new KeyValuePair<string, string>(card, planDict[card]))
+                .Select(card => new KeyValuePair<string, string>(card.ToString(), planDict[card]))
                 .ToDictionary(card => card.Key, card => card.Value);
 
             model.Plans.Add("Custom", Resources.Resources.Custom);
@@ -404,7 +405,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
 
             var paymentSummary = GetPaymentSummary(contractsResult.Item1,
-                (decimal?) summaryViewModel.ProvinceTaxRate?.Rate, summaryViewModel.IsClarityDealer, summaryViewModel.IsOldClarityDeal);
+                (decimal?)summaryViewModel.ProvinceTaxRate?.Rate, summaryViewModel.IsClarityDealer, summaryViewModel.IsOldClarityDeal);
 
             var contractEditViewModel = new ContractEditViewModel()
             {
@@ -441,18 +442,18 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             contractEditViewModel.UploadDocumentsInfo =
                     new UploadDocumentsViewModel
                     {
-                            ExistingDocuments =
+                        ExistingDocuments =
                                     Mapper.Map<List<ExistingDocument>>(contractsResult
                                             .Item1.Documents),
-                            DocumentsForUpload = new List<DocumentForUpload>()
+                        DocumentsForUpload = new List<DocumentForUpload>()
                     };
             var docTypes = await _dictionaryServiceAgent.GetStateDocumentTypes(summaryViewModel.ProvinceTaxRate.Province);
-            if (docTypes?.Item1 != null)
+            if(docTypes?.Item1 != null)
             {
 
                 contractEditViewModel.UploadDocumentsInfo.MandatoryDocumentTypes = docTypes.Item1.Where(x => x.IsMandatory).Select(d => d.Id).ToList();
                 var otherDoc = docTypes.Item1.SingleOrDefault(x => x.Id == (int)DocumentTemplateType.Other);
-                if (otherDoc != null)
+                if(otherDoc != null)
                 {
                     docTypes.Item1.RemoveAt(docTypes.Item1.IndexOf(otherDoc));
                     docTypes.Item1.Add(otherDoc);
@@ -658,12 +659,11 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 Notes = equipmnetInfo.Notes
             };
 
-            contractData.Details.AgreementType = (AgreementType?) equipmnetInfo.AgreementType;
+            contractData.Details.AgreementType = (AgreementType?)equipmnetInfo.AgreementType;
 
             if(equipmnetInfo.HouseSize.HasValue)
             {
                 contractData.Details.HouseSize = equipmnetInfo.HouseSize;
-                
             }
 
             return await _contractServiceAgent.UpdateContractData(contractData);
@@ -897,7 +897,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
         private async Task MapSummary(SummaryAndConfirmationViewModel summary, ContractDTO contract, int contractId)
         {
-            summary.BasicInfo = new BasicInfoViewModel {ContractId = contractId};
+            summary.BasicInfo = new BasicInfoViewModel { ContractId = contractId };
             await MapBasicInfo(summary.BasicInfo, contract);
             summary.EquipmentInfo = Mapper.Map<EquipmentInformationViewModel>(contract.Equipment);
 
@@ -922,7 +922,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 summary.AdditionalInfo.CustomerComments = comments;
             }
 
-            summary.ContactAndPaymentInfo = new ContactAndPaymentInfoViewModel {ContractId = contractId};
+            summary.ContactAndPaymentInfo = new ContactAndPaymentInfoViewModel { ContractId = contractId };
             MapContactAndPaymentInfo(summary.ContactAndPaymentInfo, contract);
             if(summary.BasicInfo.HomeOwner?.AddressInformation != null)
             {
@@ -957,7 +957,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             var summaryViewModel = await GetSummaryAndConfirmationAsync(contractId, contract);
 
             var paymentSummary = GetPaymentSummary(contract,
-                (decimal?) summaryViewModel.ProvinceTaxRate?.Rate, summaryViewModel.IsClarityDealer, summaryViewModel.IsOldClarityDeal);
+                (decimal?)summaryViewModel.ProvinceTaxRate?.Rate, summaryViewModel.IsClarityDealer, summaryViewModel.IsOldClarityDeal);
 
             contractViewModel.AdditionalInfo = summaryViewModel.AdditionalInfo;
             contractViewModel.ContactAndPaymentInfo = summaryViewModel.ContactAndPaymentInfo;
@@ -972,13 +972,13 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             contractViewModel.UploadDocumentsInfo =
                     new UploadDocumentsViewModel
                     {
-                            ExistingDocuments =
+                        ExistingDocuments =
                                     Mapper.Map<List<ExistingDocument>>(contract.Documents),
-                            DocumentsForUpload = new List<DocumentForUpload>()
+                        DocumentsForUpload = new List<DocumentForUpload>()
                     };
 
             var docTypes = await _dictionaryServiceAgent.GetStateDocumentTypes(summaryViewModel.ProvinceTaxRate.Province);
-            if (docTypes?.Item1 != null)
+            if(docTypes?.Item1 != null)
             {
                 contractViewModel.UploadDocumentsInfo.MandatoryDocumentTypes = docTypes.Item1.Where(x => x.IsMandatory).Select(d => d.Id).ToList();
                 contractViewModel.UploadDocumentsInfo.DocumentTypes = docTypes.Item1.Select(d => new SelectListItem()

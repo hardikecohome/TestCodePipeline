@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Text;
@@ -381,11 +382,11 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }       
 
-        public async Task<AgreementDocument> GetXlsxReport(IEnumerable<int> ids)
+        public async Task<AgreementDocument> GetXlsxReport(IEnumerable<int> ids, int? timeZoneOffset = null)
         {
             try
             {
-                var report = await Client.PostAsyncEx<IEnumerable<int>, AgreementDocument> ($"{_fullUri}/CreateXlsxReport", ids, AuthenticationHeader, CurrentCulture);
+                var report = await Client.PostAsyncEx<Tuple<IEnumerable<int>, int?>, AgreementDocument> ($"{_fullUri}/CreateXlsxReport", Tuple.Create(ids, timeZoneOffset), AuthenticationHeader, CurrentCulture);
                 return report;
             }
             catch (Exception ex)
@@ -488,7 +489,7 @@ namespace DealnetPortal.Web.ServiceAgent
             {
                 return
                     await
-                        Client.GetAsyncEx<IList<Alert>>($"{_fullUri}/CheckCustomerExisting?email={email}", AuthenticationHeader, CurrentCulture).ConfigureAwait(false);
+                        Client.GetAsyncEx<IList<Alert>>($"{_fullUri}/CheckCustomerExisting?email={WebUtility.UrlEncode(email)}", AuthenticationHeader, CurrentCulture).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

@@ -19,7 +19,7 @@ using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
-using Microsoft.Practices.ObjectBuilder2;
+using Unity.Interception.Utilities;
 
 namespace DealnetPortal.Api.Integration.Services.Signature
 {
@@ -59,12 +59,12 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             _signatureServiceAgent = signatureServiceAgent;
             _loggingService = loggingService;
 
-            _eCoreLogin = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_USER_CONFIG_KEY];
-            _eCorePassword = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_PASSWORD_CONFIG_KEY];
-            _eCoreOrganisation = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_ORGANIZATION_CONFIG_KEY];
-            _eCoreSignatureRole = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_SIGNATUREROLE_CONFIG_KEY];
-            _eCoreAgreementTemplate = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_AGREEMENTTEMPLATE_CONFIG_KEY];
-            _eCoreCustomerSecurityCode = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_CUSTOMERSECURITYCODE_CONFIG_KEY];
+            //_eCoreLogin = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_USER_CONFIG_KEY];
+            //_eCorePassword = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_PASSWORD_CONFIG_KEY];
+            //_eCoreOrganisation = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_ORGANIZATION_CONFIG_KEY];
+            //_eCoreSignatureRole = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_SIGNATUREROLE_CONFIG_KEY];
+            //_eCoreAgreementTemplate = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_AGREEMENTTEMPLATE_CONFIG_KEY];
+            //_eCoreCustomerSecurityCode = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_CUSTOMERSECURITYCODE_CONFIG_KEY];
 
             _signatureRoles.Add(_eCoreSignatureRole);
             _signatureRoles.Add($"{_eCoreSignatureRole}2");

@@ -1,6 +1,3 @@
-﻿using System.Configuration;
-using System.Web.Hosting;
-using Microsoft.Practices.Unity;
 using System.Web.Http;
 using DealnetPortal.Api.BackgroundScheduler;
 using DealnetPortal.Api.Common.Constants;
@@ -16,13 +13,16 @@ using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain.Repositories;
-using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.DataAccess;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Utilities.Messaging;
-using Microsoft.AspNet.Identity;
+using Unity;
 using Unity.WebApi;
+using Unity.Lifetime;
+using Unity.Injection;
+using System.Web.Hosting;
+using System.Configuration;
 
 namespace DealnetPortal.Api
 {
@@ -30,7 +30,7 @@ namespace DealnetPortal.Api
     {
         public static void RegisterComponents()
         {
-            var container = new UnityContainer();
+			var container = new UnityContainer();
 
             // register all your components with the container here
             // it is NOT necessary to register your controllers
@@ -70,13 +70,13 @@ namespace DealnetPortal.Api
             container.RegisterType<IEmailService, EmailService>();
             container.RegisterType<IRateCardsService, RateCardsService>();
             container.RegisterType<IPersonalizedMessageService, PersonalizedMessageService>();
-            container.RegisterType<IMailСhimpService, MailChimpService>();
+            container.RegisterType<IMailChimpService, MailChimpService>();
             container.RegisterType<ISmsSubscriptionService, SmsSubscriptionService>();
             container.RegisterType<IMandrillService, MandrillService>();
             #endregion
 
             container.RegisterType<IHttpApiClient, HttpApiClient>("AspireClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(configReader.GetSetting(WebConfigKeys.ASPIRE_APIURL_CONFIG_KEY)));
-            container.RegisterType<IHttpApiClient, HttpApiClient>("EcoreClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(configReader.GetSetting("EcoreApiUrl")));
+            //container.RegisterType<IHttpApiClient, HttpApiClient>("EcoreClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(configReader.GetSetting("EcoreApiUrl")));
             container.RegisterType<IHttpApiClient, HttpApiClient>("CustomerWalletClient", new ContainerControlledLifetimeManager(), new InjectionConstructor(configReader.GetSetting(WebConfigKeys.CW_APIURL_CONFIG_KEY)));
 
             container.RegisterType<IAspireServiceAgent, AspireServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("AspireClient")));

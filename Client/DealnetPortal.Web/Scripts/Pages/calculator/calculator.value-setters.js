@@ -138,7 +138,7 @@
                             $('#' + optionKey + field).attr('disabled', true).val('');
                         }
                     });
-                    dropdownParentDiv.removeClass('hidden');
+                    dropdownParentDiv.removeClass('hidden').attr('disabled', false);
                 }
 
             } else {

@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.Practices.ObjectBuilder2;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
@@ -24,6 +23,7 @@ using DealnetPortal.Domain;
 using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
+using Unity.Interception.Utilities;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -179,10 +179,20 @@ namespace DealnetPortal.Api.Integration.Services
                             _aspireService.UpdateContractCustomer(updatedContract, contractOwnerId, contract.LeadSource).GetAwaiter().GetResult();
                     }
                     if (updatedContract.ContractState != ContractState.Completed &&
-                        updatedContract.ContractState != ContractState.Closed)
+                        updatedContract.ContractState != ContractState.Closed && !updatedContract.DateOfSubmit.HasValue)
                     {
                         var aspireAlerts = 
                             _aspireService.SendDealUDFs(updatedContract, contractOwnerId, contract.LeadSource, contractor).GetAwaiter().GetResult();
+                    }
+                    else if (updatedContract.ContractState == ContractState.Completed || updatedContract.DateOfSubmit.HasValue)
+                    {
+                        //if Contract has been submitted already, we will resubmit it to Aspire after each contract changes 
+                        //(DEAL-3628: [DP] Submit deal after each step when editing previously submitted deal)
+                        var submitRes = SubmitContract(contract.Id, contractOwnerId);
+                        if (submitRes?.Item2?.Any() == true)
+                        {
+                            alerts.AddRange(submitRes.Item2);
+                        }
                     }
 
                     //check contract signature status and clean if needed
@@ -255,12 +265,11 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public AgreementDocument GetContractsFileReport(IEnumerable<int> ids,
-            string contractOwnerId)
+        public AgreementDocument GetContractsFileReport(IEnumerable<int> ids, string contractOwnerId, int? timeZoneOffset = null)
         {
             var stream = new MemoryStream();
             var contracts = GetContracts(ids, contractOwnerId);
-            XlsxExporter.Export(contracts, stream);
+            XlsxExporter.Export(contracts, stream, timeZoneOffset);
             var report = new AgreementDocument()
             {
                 DocumentRaw = stream.ToArray(),
@@ -873,6 +882,18 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     try
                     {
+                        // if e-signature is initiated, cancel e-signature
+                        if (!string.IsNullOrEmpty(contract.Details.SignatureTransactionId) &&
+                            (contract.Details.SignatureStatus == SignatureStatus.Created || contract.Details.SignatureStatus == SignatureStatus.Sent
+                                || contract.Details.SignatureStatus == SignatureStatus.Delivered))
+                        {
+                            var cancelResults = await _documentService.CancelSignatureProcess(contractId, contractOwnerId);
+                            if (cancelResults?.Item2?.Any() == true)
+                            {
+                                alerts.AddRange(cancelResults.Item2);
+                            }
+                        }
+
                         var status = _configuration.GetSetting(WebConfigKeys.ALL_DOCUMENTS_UPLOAD_STATUS_CONFIG_KEY);
                         var aspireAlerts = await _aspireService.ChangeDealStatus(contract.Details?.TransactionId, status, contractOwnerId, "Request to Fund");
                         //var aspireAlerts = await _aspireService.SubmitAllDocumentsUploaded(contractId, contractOwnerId);

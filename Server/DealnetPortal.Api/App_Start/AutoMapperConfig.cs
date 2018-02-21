@@ -1,32 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security;
-using System.Web;
-using System.Web.UI;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
-using DealnetPortal.Api.Helpers;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Api.Models.Contract.EquipmentInformation;
 using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.Profile;
 using DealnetPortal.Api.Models.Signature;
-using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.Aspire.Integration.Models.AspireDb;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Dealer;
-using Microsoft.Practices.ObjectBuilder2;
+using DealnetPortal.Utilities.Configuration;
+using Unity.Interception.Utilities;
 using Contract = DealnetPortal.Domain.Contract;
 
 namespace DealnetPortal.Api.App_Start
-{
-    using Models.Contract.EquipmentInformation;
-    using Utilities.Configuration;
+{   
 
     public static class AutoMapperConfig
     {

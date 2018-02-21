@@ -132,7 +132,7 @@
                     </div>
                 </div>
             }
-            <div class="well well-info @(Model.ESignature.Status != ApiEnum.SignatureStatus.Declined ? " hidden" : "")" id="contact-before-resend">
+            <div class="well well-info clear-border @(Model.ESignature.Status != ApiEnum.SignatureStatus.Declined ? " hidden" : "")" id="contact-before-resend">
                 <span class="icon-hold">
                     <svg aria-hidden="true" class="icon icon-info-well">
                         <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
@@ -140,7 +140,7 @@
                 </span>
                 <span>@Resources.ContactPersonWhoDeclinedSignature</span>
             </div>
-            <div class="well danger-well hidden" id="fill-all-emails">
+            <div class="well position-well clear-border danger-well hidden" id="fill-all-emails">
                 @Resources.PleaseEnterAllEmails
             </div>
             <div class="row form-group @(Model.ESignature.Status == ApiEnum.SignatureStatus.Completed || Model.ESignature.Status == ApiEnum.SignatureStatus.Signed ? " hidden" : "")">

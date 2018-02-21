@@ -105,7 +105,7 @@ namespace DealnetPortal.Web.Controllers
 
             var identity = (ClaimsIdentity)User.Identity;
 
-            viewModel.QuebecDealer = identity.HasClaim("QuebecDealer", "True");
+            viewModel.QuebecDealer = identity.HasClaim(ClaimContstants.QuebecDealer, "True");
 
             if (viewModel?.ContractState >= ContractState.Closed)
             {
@@ -350,7 +350,7 @@ namespace DealnetPortal.Web.Controllers
                 ViewBag.totalAmountFinancedFor180amortTerm = 4999;
                 ViewBag.LoanOnly = false;
             }
-            if (model.IsOnlyLoanAvailable) {
+            if (model.IsQuebecProvince) {
                 ViewBag.LoanOnly = true;
             }
             ViewBag.AdminFee = 0;

@@ -8,27 +8,28 @@
 @using DealnetPortal.Web.Models.Enumeration
 @using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType
 @using ContractState = DealnetPortal.Web.Models.Enumeration.ContractState
+
 @model ContractEditViewModel
 @{
-    var contractState = Model.AdditionalInfo.ContractState;
+    //var contractState = Model.AdditionalInfo.ContractState;
+    bool contractDeclined = Model.AdditionalInfo.ContractState == ContractState.CreditCheckDeclined;
+    bool contractClosed = Model.AdditionalInfo.ContractState == ContractState.Closed;
 
     Func<string, string> formatIncome = str =>
     {
-        if (str.Contains('<'))
+        if(str.Contains('<'))
         {
             return str.Replace("<", Resources.LessThan + " $");
         }
-        if (str.Contains('-'))
+        if(str.Contains('-'))
         {
             return "$" + str.Replace("-", " - $");
         }
         return "$" + str;
     };
 }
-<div id="label-steps">
-    @Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new { @class = "dealnet-action-link" }) > <div class="dealnet-action-link">@Resources.Contract #@(Model.AdditionalInfo.TransactionId ?? Model.BasicInfo.ContractId.ToString())</div>  >
-</div>
 
+<span class="hidden" id="cookieName">@System.Configuration.ConfigurationManager.AppSettings[DealnetPortal.Web.Common.Constants.PortalConstants.CultureCookieNameKey]</span>
 <div class="form-container contract-edit">
     <div class="form-section">
         <div class="dealnet-large-header">@Resources.Contract #@(Model.AdditionalInfo.TransactionId ?? Model.BasicInfo.ContractId.ToString())</div>
@@ -42,13 +43,13 @@
                 </div>
             }*@
 
-        @if (ViewBag.IsNewlySubmitted)
+        @if(ViewBag.IsNewlySubmitted)
         {
             <div class="message-header">
                 @(Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication ? Resources.Loan : Resources.Rental)
                 @Resources.AgreementSubmittedSuccessfully
                 @Html.Raw(string.Format(Resources.PleaseSignContractOr, "<br/>"))
-                @Html.ActionLink(Resources.CreateAnotherApplicationForHomeOwner, "CreateNewApplication", "NewRental", new { contractId = Model.SendEmails.ContractId }, null)
+                @Html.ActionLink(Resources.CreateAnotherApplicationForHomeOwner, "CreateNewApplication", "NewRental", new { contractId = Model.SendEmails.ContractId }, new { @class="action-link blue" })
             </div>
         }
 
@@ -58,24 +59,29 @@
                 <div class="col-md-5">
                     <h3 class="dealnet-section-title">
                         @Resources.FundingChecklist
-                        <span class="mandatory-title"><i class="mandatory-icon">*</i> &mdash; @Resources.MandatoryDocuments</span>
+                        <span class="mandatory-title">
+                            <i class="mandatory-icon">*</i>
+                            &mdash; @Resources.MandatoryDocuments
+                        </span>
                     </h3>
                     <ul class="nav nav-pills nav-stacked documents-pills">
-                        @for (var i = 0; i < Model.UploadDocumentsInfo.DocumentTypes?.Count; i++)
+                        @for(var i = 0; i < Model.UploadDocumentsInfo.DocumentTypes?.Count; i++)
                         {
-                            var document = Model.UploadDocumentsInfo.ExistingDocuments.FirstOrDefault(x => x.DocumentTypeId.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value);
+                            var document = Model.UploadDocumentsInfo
+                                .ExistingDocuments
+                                .FirstOrDefault(x => x.DocumentTypeId.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value);
                             var documentReady = document != null
                                                 || (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "1" && Model.ESignature?.Status == SignatureStatus.Completed);
                             <li class="@(i == 0 ? "active" : "") @( documentReady  ? "uploaded" : "") @(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value) ? "mandatory" : "" ) documents-pills-item tab-container-@(i+1)">
                                 <a href="#tab@(i+1)" class="documents-pills-link" aria-controls="tab@(i+1)" role="tab" data-toggle="tab">
-                                    @if (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "7")
+                                    @if(Model.UploadDocumentsInfo.DocumentTypes[i].Value == "7")
                                     {
                                         <text>@Resources.OtherDocuments</text>
                                     }
                                     else
                                     {
                                         @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
-                                        if (Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value))
+                                        if(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value))
                                         {
                                             <i class="mandatory-icon">*</i>
                                         }
@@ -87,20 +93,26 @@
                 </div>
                 <div class="col-md-7">
                     <div class="tab-content doc-tab-content documents-pills" role="tablist">
-                        @for (var i = 0; i < Model.UploadDocumentsInfo.DocumentTypes?.Count; i++)
+                        @for(var i = 0; i < Model.UploadDocumentsInfo.DocumentTypes?.Count; i++)
                         {
-                            if (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "7")
+                            if(Model.UploadDocumentsInfo.DocumentTypes[i].Value == "7")
                             {
                                 continue;
                             }
-                            var document = Model.UploadDocumentsInfo.ExistingDocuments.FirstOrDefault(x => x.DocumentTypeId.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value);
-                            var documentReady = document != null
-                                                || (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "1" && Model.ESignature?.Status == SignatureStatus.Completed);
+                            var document = Model
+                                .UploadDocumentsInfo
+                                .ExistingDocuments
+                                .FirstOrDefault(x => x.DocumentTypeId.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value);
+
+                            var documentReady = document != null ||
+                                                (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "1" &&
+                                                Model.ESignature?.Status == SignatureStatus.Completed);
+
                             <div class="@(i == 0 ? "active" : "") @(documentReady ? "uploaded" : "") @(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value) ? "mandatory" : "" ) documents-pills-item tab-container-@(i+1)">
                                 <a href="#tab@(i+1)" class="documents-pills-link" aria-controls="tab@(i+1)" role="tab" data-toggle="tab">
                                     <span class="mandatory-text">
                                         @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
-                                        @if (Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value))
+                                        @if(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value))
                                         {
                                             <i class="mandatory-icon">*</i>
                                         }
@@ -108,20 +120,20 @@
                                 </a>
                             </div>
                             <div role="tabpanel" class="tab-pane @(i == 0 ? "active" : "")" id="tab@(i + 1)">
-                                @if (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "1")
+                                @if(Model.UploadDocumentsInfo.DocumentTypes[i].Value == "1")
                                 {
                                     <h3 class="document-pane-header">
                                         @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
                                     </h3>
-                                    if (ViewBag.IsEsignatureEnabled)
+                                    if(ViewBag.IsEsignatureEnabled)
                                     {
                                         @Html.Partial("Esignature", Model)
                                     }
                                     else
                                     {
-                                        using (Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new { enctype = "multipart/form-data", data_container = "tab-container-" + (i + 1) }))
+                                        using(Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new { enctype = "multipart/form-data", data_container = "tab-container-" + (i + 1) }))
                                         {
-                                            <div class="well danger-well error-descr collapse">
+                                            <div class="well position-well danger-well clear-border error-descr collapse">
                                                 <svg aria-hidden="true" class="icon icon-error">
                                                     <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
                                                 </svg>
@@ -155,44 +167,57 @@
                                             @Html.HiddenFor(m => m.BasicInfo.ContractId, new { Name = "ContractId" })
                                             @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[i].Value, new { Name = "DocumentTypeId" })
                                             <div class="form-group clearfix">
-                                                <div @if (contractState == ContractState.Closed || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text> } class="file-upload btn dealnet-button dealnet-success-button disablable @if (contractState == ContractState.Closed || contractState == ContractState.CreditCheckDeclined) {<text>disabled</text>}">
+                                                <div @(contractClosed || contractDeclined ? "disabled=disabled" : "")
+                                                     class="file-upload btn btn-green col-md-6 disablable @(contractClosed || contractDeclined ? "disabled" : "")">
                                                     <span>@Resources.Upload</span>
                                                     <input type="file" name="File" class="upload main-document-upload" />
                                                 </div>
                                             </div>
                                         }
-                                        <a href="#" id="print-button" class="dealnet-info-link doc-tab-print-link @if (contractState == ContractState.CreditCheckDeclined)
-                               { <text>disabled</text> } ">
-                                            <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg>@Resources.PrintTheContract
+                                        <a href="#" id="print-button"
+                                           class="action-link blue doc-tab-print-link @(contractDeclined ? "disabled" : "")">
+                                            <svg aria-hidden="true" class="icon icon-printer">
+                                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use>
+                                            </svg>
+                                            @Resources.PrintTheContract
                                         </a>
 
-                                        <div class="well danger-well error-descr collapse" id="print-error-message">
-                                            <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+                                        <div class="well position-well danger-well clear-border error-descr collapse" id="print-error-message">
+                                            <svg aria-hidden="true" class="icon icon-error">
+                                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
+                                            </svg>
                                             @Resources.CannotGetAgreementForPrint
                                         </div>
                                     }
                                 }
                                 else
                                 {
-                                    using (Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new { enctype = "multipart/form-data", data_container = "tab-container-" + (i + 1) }))
+                                    using(Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new { enctype = "multipart/form-data", data_container = "tab-container-" + (i + 1) }))
                                     {
                                         <h3 class="document-pane-header">
                                             @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
                                         </h3>
-                                        <div class="well danger-well error-descr collapse">
-                                            <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+                                        <div class="well position-well danger-well clear-border error-descr collapse">
+                                            <svg aria-hidden="true" class="icon icon-error">
+                                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
+                                            </svg>
                                             <span class="error-message"></span>
                                         </div>
-                                        if (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "2")
+                                        if(Model.UploadDocumentsInfo.DocumentTypes[i].Value == "2")
                                         {
                                             <div>
-                                                <a href="" onclick="$('#download-certificate-modal').modal(); return false;" class="dealnet-info-link download-certificate-link @if (contractState == ContractState.CreditCheckDeclined) { <text>disabled</text> }">
-                                                    <svg aria-hidden="true" class="icon icon-download"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-upload")"></use></svg>
+                                                <a href="" onclick="$('#download-certificate-modal').modal(); return false;"
+                                                   class="action-link blue download-certificate-link @(contractDeclined ? "disabled" : "")">
+                                                    <svg aria-hidden="true" class="icon icon-download">
+                                                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-upload")"></use>
+                                                    </svg>
                                                     @Resources.DownloadCertificateTemplate
                                                 </a>
                                             </div>
-                                            <div class="well danger-well collapse" id="certificate-error-message">
-                                                <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+                                            <div class="well position-well danger-well clear-border collapse" id="certificate-error-message">
+                                                <svg aria-hidden="true" class="icon icon-error">
+                                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
+                                                </svg>
                                                 @Resources.CannotGetCertificateForPrint
                                             </div>
                                             <hr>
@@ -200,7 +225,9 @@
 
                                         <div class="documents-list">
                                             <div class="document-item block-item @(document != null ? "" : "collapse")">
-                                                <svg aria-hidden="true" class="icon icon-pdf"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use></svg>
+                                                <svg aria-hidden="true" class="icon icon-pdf">
+                                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use>
+                                                </svg>
                                                 <span class="document-naming">@(document?.DocumentName)</span>
                                                 <br />
                                                 <span class="document-lastUpdateTime">@(document?.LastUpdateTime)</span>
@@ -213,7 +240,9 @@
                                             </div>
                                             <div class="progress-bar-value text-center">0%</div>
                                             <a href="#" class="clear-data-link">
-                                                <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg>
+                                                <svg aria-hidden="true" class="icon icon-remove">
+                                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
+                                                </svg>
                                             </a>
                                         </div>
                                         @Html.AntiForgeryToken()
@@ -221,7 +250,8 @@
                                         @Html.HiddenFor(m => m.BasicInfo.ContractId, new { Name = "ContractId" })
                                         @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[i].Value, new { Name = "DocumentTypeId" })
                                         <div class="form-group clearfix">
-                                            <div @if (contractState == ContractState.Closed || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text> } class="file-upload btn dealnet-button dealnet-success-button disablable @if(contractState == ContractState.Closed || contractState == ContractState.CreditCheckDeclined) { <text>disabled</text> }">
+                                            <div @(contractClosed || contractDeclined ? "disabled=disabled" : "")
+                                                 class="file-upload btn btn-green col-md-6 disablable @(contractClosed||contractDeclined ? "disabled" : "")">
                                                 <span>@Resources.Upload</span>
                                                 <input type="file" name="File" class="upload main-document-upload" />
                                             </div>
@@ -242,27 +272,34 @@
                                 @Resources.OtherDocuments
                             </h3>
                             <div class="documents-list" id="other-documents-list">
-                                @foreach (var document in Model.UploadDocumentsInfo.ExistingDocuments.Where(x => x.DocumentTypeId == 7))
+                                @foreach(var document in Model.UploadDocumentsInfo.ExistingDocuments.Where(x => x.DocumentTypeId == 7))
                                 {
-                                    using (Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                    using(Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new { enctype = "multipart/form-data" }))
                                     {
                                         @Html.AntiForgeryToken()
                                         @Html.Hidden("OperationGuid")
                                         @Html.HiddenFor(m => m.BasicInfo.ContractId, new { Name = "ContractId" })
                                         @Html.Hidden("DocumentTypeId", 7)
                                         <input type="hidden" name="Id" value="@document.DocumentId" />
-                                        <div class="well danger-well error-descr collapse">
-                                            <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+                                        <div class="well position-well danger-well clear-border error-descr collapse">
+                                            <svg aria-hidden="true" class="icon icon-error">
+                                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
+                                            </svg>
                                             <span class="error-message"></span>
                                         </div>
                                         <div class="document-item block-item">
-                                            <svg aria-hidden="true" class="icon icon-pdf"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use></svg>
+                                            <svg aria-hidden="true" class="icon icon-pdf">
+                                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use>
+                                            </svg>
                                             <span class="document-naming">@document.DocumentName</span>
                                             <br />
                                             <span class="document-lastUpdateTime">@(document?.LastUpdateTime)</span>
                                             @Html.Hidden("DocumentName", document.DocumentName)
-                                            <a class="upload-doc-link file-upload disablable @if(contractState == ContractState.Closed || contractState == ContractState.CreditCheckDeclined) { <text>disabled</text> }" href="#" @if (contractState == ContractState.Closed || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text> }>
-                                                <svg aria-hidden="true" class="icon icon-upload"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-upload")"></use></svg>
+                                            <a class="upload-doc-link file-upload disablable @(contractClosed||contractDeclined?"disabled":"")" href="#"
+                                               @(contractClosed || contractDeclined ? "disabled=disabled" : "")>
+                                                <svg aria-hidden="true" class="icon icon-upload">
+                                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-upload")"></use>
+                                                </svg>
                                                 @Resources.Reupload
                                                 <input type="file" name="File" class="upload uploaded-other-document-input" />
                                             </a>
@@ -272,7 +309,11 @@
                                                 <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
                                             </div>
                                             <div class="progress-bar-value text-center">0%</div>
-                                            <a href="#" class="clear-data-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
+                                            <a href="#" class="clear-data-link">
+                                                <svg aria-hidden="true" class="icon icon-remove">
+                                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
+                                                </svg>
+                                            </a>
                                         </div>
                                         <hr>
                                     }
@@ -285,7 +326,8 @@
                                 <div class="collapse" id="empty-document-name-message">
                                     <span class="text-danger">@Resources.DocumentNameEmpty</span>
                                 </div>
-                                <div class="file-upload btn dealnet-button dealnet-success-button disablable @if(contractState == ContractState.Closed || contractState == ContractState.CreditCheckDeclined ) { <text>disabled</text> }" id="other-documents-upload-button" @if (contractState == ContractState.Closed || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text> }>
+                                <div class="file-upload btn btn-green col-md-6 disablable @(contractClosed||contractDeclined ? "disabled" : "")"
+                                     id="other-documents-upload-button" @(contractClosed || contractDeclined ? "disabled=disabled" : "")>
                                     <span>@Resources.Upload</span>
                                     <input type="file" name="File" class="upload" id="other-documents-upload" />
                                 </div>
@@ -296,23 +338,29 @@
             </div>
 
             <div class="hidden">
-                @using (Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new { enctype = "multipart/form-data", id = "other-document-template" }))
+                @using(Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new { enctype = "multipart/form-data", id = "other-document-template" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.Hidden("OperationGuid")
                     @Html.HiddenFor(m => m.BasicInfo.ContractId, new { Name = "ContractId" })
                     @Html.Hidden("DocumentTypeId", 7)
                     <input type="hidden" name="Id" />
-                    <div class="well danger-well error-descr collapse">
-                        <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+                    <div class="well position-well danger-well clear-border error-descr collapse">
+                        <svg aria-hidden="true" class="icon icon-error">
+                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use>
+                        </svg>
                         <span class="error-message"></span>
                     </div>
                     <div class="document-item block-item">
-                        <svg aria-hidden="true" class="icon icon-pdf"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use></svg>
+                        <svg aria-hidden="true" class="icon icon-pdf">
+                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-pdf")"></use>
+                        </svg>
                         <span class="document-naming"></span>
                         @Html.Hidden("DocumentName")
                         <a class="upload-doc-link file-upload disablable" href="#">
-                            <svg aria-hidden="true" class="icon icon-upload"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-upload")"></use></svg>
+                            <svg aria-hidden="true" class="icon icon-upload">
+                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-upload")"></use>
+                            </svg>
                             @Resources.Reupload
                         </a>
                     </div>
@@ -321,12 +369,16 @@
                             <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
                         </div>
                         <div class="progress-bar-value text-center">0%</div>
-                        <a href="#" class="clear-data-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
+                        <a href="#" class="clear-data-link">
+                            <svg aria-hidden="true" class="icon icon-remove">
+                                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
+                            </svg>
+                        </a>
                     </div>
                     <hr>
                 }
             </div>
-            @using (Html.BeginForm("CancelDocumentUpload", "AsyncCancellation", FormMethod.Post, new { id = "cancel-upload-form" }))
+            @using(Html.BeginForm("CancelDocumentUpload", "AsyncCancellation", FormMethod.Post, new { id = "cancel-upload-form" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.Hidden("operationGuid")
@@ -339,7 +391,7 @@
             <div class="before-all-documents-submitted text-right">
                 @Resources.PleaseUploadAllMandatoryDocuments
             </div>
-            <div class="well danger-well error-descr collapse before-all-documents-submitted">
+            <div class="well danger-well error-descr position-well clear-border collapse before-all-documents-submitted">
                 <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
                 @Resources.YouNeedToUploadMoreDocuments
             </div>
@@ -347,26 +399,28 @@
                 <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
                 @Resources.DealSubmittedForAudit
             </div>
-            <div class="well success-well collapse before-all-documents-submitted">
-                <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
+            <div class="well success-well collapse position-well before-all-documents-submitted">
+                <svg aria-hidden="true" class="icon icon-success">
+                <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
+                </svg>
                 @Resources.AllDocumentsChecked
             </div>
         </div>
         <div class="btn-hold">
-            <button class="btn dealnet-button dealnet-success-button disablable disabled" id="send-all-documents-report" @if (contractState == ContractState.Closed || contractState == ContractState.CreditCheckDeclined) { <text> disabled="disabled" </text> }>
+            <button class="btn btn-green col-md-12 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-12 disablable disabled" id="send-all-documents-report" @(contractClosed || contractDeclined ? "disabled=disabled" : "")>
                 @Resources.ReadyForAudit
             </button>
         </div>
     </div>
 
-    @using (Html.BeginForm("SubmitAllDocumentsUploaded", "MyDeals", FormMethod.Post, new { id = "all-documents-uploaded-form" }))
+    @using(Html.BeginForm("SubmitAllDocumentsUploaded", "MyDeals", FormMethod.Post, new { id = "all-documents-uploaded-form" }))
     {
         @Html.AntiForgeryToken()
         @Html.Hidden("contractId", Model.BasicInfo.ContractId)
     }
     <hr>
     <div class="form-section">
-        @if (Model.BasicInfo.SubDealers?.Any() ?? false)
+        @if(Model.BasicInfo.SubDealers?.Any() ?? false)
         {
             <div class="row credit-check-info-hold">
                 <div class="col-md-6 grid-column">
@@ -377,7 +431,7 @@
                                 <label for="" class="dealnet-field-caption col-xs-6">@Resources.DealerName</label>
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
-                                        @(Model.BasicInfo.SubDealers.FirstOrDefault(x => x.Id == Model.BasicInfo.SubmittingDealerId)?.DisplayName)
+                                        @(Model.BasicInfo.SubDealers.FirstOrDefault(x => x.Id == Model.BasicInfo.SubmittingDealerId)?.DisplayName ?? @Resources.OnMyBehalf)
                                     </div>
                                 </div>
                             </div>
@@ -390,9 +444,12 @@
             <div class="col-md-6 grid-column">
                 <div class="dealnet-credit-check-section">
                     <h3 class="dealnet-section-title">
-                        @Resources.DealInformation @if (contractState != ContractState.Closed)
+                        @Resources.DealInformation @if(!contractClosed)
                         {
-                            <a href="@Url.Action("EquipmentInformation", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#deal-info-form'), $('#deal-info-section-modal'), false); $('#deal-info-modal').modal();"*@>@Resources.Edit</a>
+                            <a href="@Url.Action("EquipmentInformation", "NewRental", new {contractId = Model.BasicInfo.ContractId})"
+                               class="dealnet-section-edit-link pull-right">
+                                @Resources.Edit
+                            </a>
                         }
                     </h3>
                 </div>
@@ -403,19 +460,19 @@
 
             <div class="col-md-6 col-md-push-6 grid-column">
                 <div class="dealnet-credit-check-section">
-                    @if (Model.EquipmentInfo != null)
+                    @if(Model.EquipmentInfo != null)
                     {
                         <div class="form-group">
                             <div class="row">
                                 <label class="dealnet-field-caption col-xs-6">@Resources.TotalValue</label>
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
-                                        <div class="dealnet-disabled-input dealnet-disabled-input-value">$ @($"{Model.EquipmentInfo.ValueOfDeal:0.00}")</div>
+                                        <div class="dealnet-disabled-input dealnet-disabled-input-value">$ @($"{(Model.EquipmentInfo.AgreementType ==AgreementType.LoanApplication? Model.EquipmentInfo.ValueOfDeal:(double)Model.PaymentSummary.TotalMonthlyPayment):0.00}")</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        using (Html.BeginForm(null, null, FormMethod.Post, new { id = "deal-info-form" }))
+                        using(Html.BeginForm(null, null, FormMethod.Post, new { id = "deal-info-form" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
@@ -425,8 +482,8 @@
                             @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate)
                             @Html.HiddenFor(m => m.EquipmentInfo.AdminFee)
                             @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
-                            @Html.HiddenFor(m => m.IsClarityDealer, new { id = "clarity-dealer"})
-                            if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
+                            @Html.HiddenFor(m => m.IsClarityDealer, new { id = "clarity-dealer" })
+                            if(Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
                             {
                                 <div class="form-group">
                                     <div class="row">
@@ -514,7 +571,7 @@
                             </div>
                         </div>
                     </div>
-                    @if (Model.EquipmentInfo != null)
+                    @if(Model.EquipmentInfo != null)
                     {
                         <div class="form-group">
                             <div class="row">
@@ -537,14 +594,16 @@
                             </div>
                         </div>
                     </div>
-                    @if (Model.EquipmentInfo != null)
+                    @if(Model.EquipmentInfo != null)
                     {
                         <div class="form-group">
                             <div class="row">
                                 <label class="dealnet-field-caption col-xs-6">@Resources.TypeOfEquipment</label>
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
-                                        <div class="dealnet-disabled-input dealnet-disabled-input-value">@(Model.EquipmentInfo?.NewEquipment?.Select(eq => eq.TypeDescription).ConcatWithComma())</div>
+                                        <div class="dealnet-disabled-input dealnet-disabled-input-value">
+                                            @(Model.EquipmentInfo?.NewEquipment?.Select(eq => eq.TypeDescription).ConcatWithComma())
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -558,7 +617,7 @@
     <div class="form-section">
         <div class="row">
 
-            @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "basic-info-form", @class = "grid-parent" }))
+            @using(Html.BeginForm(null, null, FormMethod.Post, new { id = "basic-info-form", @class = "grid-parent" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(m => m.BasicInfo.ContractId)
@@ -569,9 +628,10 @@
                         <div class="dealnet-credit-check-section" id="home-owner-section">
                             <h3 class="dealnet-section-title">
                                 @Resources.BorrowerInformation
-                                @if (contractState != ContractState.Closed)
+                                @if(!contractClosed)
                                 {
-                                    <a href="@Url.Action("BasicInfo", "NewRental", new { contractId = Model.BasicInfo.ContractId })" class="dealnet-section-edit-link pull-right editToStep1" @*onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();"*@>@Resources.Edit</a>
+                                    <a href="@Url.Action("BasicInfo", "NewRental", new { contractId = Model.BasicInfo.ContractId })"
+                                       class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
                                 }
                             </h3>
                             <div class="form-group">
@@ -634,7 +694,7 @@
                     <div class="col-md-6 grid-column">
                         <div class="dealnet-credit-check-section" id="address-section">
                             <h3 class="dealnet-section-title">
-                                @Resources.InstallationAddressInformation @*<a href="#" class="dealnet-section-edit-link pull-right" onclick="copyFormData($('#address-section'), $('#address-section-modal'), false); $('#address-modal').modal();">@Resources.Edit</a>*@
+                                @Resources.InstallationAddressInformation
                             </h3>
                             <div class="form-group">
                                 <div class="row">
@@ -690,7 +750,7 @@
                             </div>
                         </div>
                     </div>
-                    @if (Model.BasicInfo.HomeOwner.PreviousAddressInformation != null)
+                    @if(Model.BasicInfo.HomeOwner.PreviousAddressInformation != null)
                     {
                         <div class="col-md-6 grid-column">
                             <div class="dealnet-credit-check-section" id="prev-address-section">
@@ -753,7 +813,7 @@
                             </div>
                         </div>
                     }
-                    @if (Model.BasicInfo.HomeOwner.MailingAddressInformation != null)
+                    @if(Model.BasicInfo.HomeOwner.MailingAddressInformation != null)
                     {
                         <div class="col-md-6 grid-column">
                             <div class="dealnet-credit-check-section" id="mailing-address-section">
@@ -819,20 +879,23 @@
                 </div>
             }
 
-            @if (Model.ContactAndPaymentInfo.PaymentInfo != null)
+            @if(Model.ContactAndPaymentInfo.PaymentInfo != null)
             {
                 <div class="credit-check-info-hold">
                     <div class="col-md-6 grid-column">
-                        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "contact-info-form" }))
+                        @using(Html.BeginForm(null, null, FormMethod.Post, new { id = "contact-info-form" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(m => m.ContactAndPaymentInfo.ContractId)
                             <div class="dealnet-credit-check-section" id="contact-info-section">
                                 @Html.HiddenFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.CustomerId)
                                 <h3 class="dealnet-section-title">
-                                    @Resources.ContactInformation @if (contractState != ContractState.Closed)
+                                    @Resources.ContactInformation @if(!contractClosed)
                                     {
-                                        <a href="@Url.Action("ContactAndPaymentInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();"*@>@Resources.Edit</a>
+                                        <a href="@Url.Action("ContactAndPaymentInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})"
+                                           class="dealnet-section-edit-link pull-right">
+                                            @Resources.Edit
+                                        </a>
                                     }
                                 </h3>
                                 <div class="form-group">
@@ -892,7 +955,7 @@
                     </div>
                 </div>
             }
-            @if (Model.BasicInfo.HomeOwner.EmploymentInformation != null)
+            @if(Model.BasicInfo.HomeOwner.EmploymentInformation != null)
             {
                 <div class="credit-check-info-hold">
                     <div class="col-md-6 grid-column">
@@ -906,25 +969,33 @@
                                     @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus, new { @class = "dealnet-field-caption col-xs-6" })
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
-                                            <input readonly="readonly" class="dealnet-disabled-input" id="@Html.IdFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus)" name="@Html.NameFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus)" value="@Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus.GetEnumDescription()" />
+                                            <input readonly="readonly"
+                                                   class="dealnet-disabled-input"
+                                                   id="@Html.IdFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus)"
+                                                   name="@Html.NameFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus)"
+                                                   value="@Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus.GetEnumDescription()" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            @if (Model.BasicInfo.HomeOwner.EmploymentInformation.IncomeType.HasValue)
+                            @if(Model.BasicInfo.HomeOwner.EmploymentInformation.IncomeType.HasValue)
                             {
                                 <div class="form-group">
                                     <div class="row">
                                         @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.IncomeType, new { @class = "dealnet-field-caption col-xs-6" })
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
-                                                <input readonly="readonly" class="dealnet-disabled-input" id="@Html.IdFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.IncomeType)" name="@Html.NameFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.IncomeType)" value="@Model.BasicInfo.HomeOwner.EmploymentInformation.IncomeType.GetEnumDescription()" />
+                                                <input readonly="readonly"
+                                                       class="dealnet-disabled-input"
+                                                       id="@Html.IdFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.IncomeType)"
+                                                       name="@Html.NameFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.IncomeType)"
+                                                       value="@Model.BasicInfo.HomeOwner.EmploymentInformation.IncomeType.GetEnumDescription()" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             }
-                            @if (!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary))
+                            @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary))
                             {
                                 <div class="form-group">
                                     <div class="row">
@@ -940,7 +1011,7 @@
                                     </div>
                                 </div>
                             }
-                            @if (!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate))
+                            @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate))
                             {
                                 <div class="form-group">
                                     <div class="row">
@@ -957,7 +1028,7 @@
                                 </div>
                             }
 
-                            @if (Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
+                            @if(Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
                             {
                                 <div class="form-group">
                                     <div class="row">
@@ -965,10 +1036,16 @@
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
                                                 <div class="dealnet-disabled-input">
-                                                    <span>@Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ? Resources.Year : Resources.Years)</span>
-                                                    @if (!string.IsNullOrEmpty(Model?.BasicInfo.HomeOwner?.EmploymentInformation?.MonthsOfEmployment))
+                                                    <span>
+                                                        @Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment
+                                                        @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ? Resources.Year : Resources.Years)
+                                                    </span>
+                                                    @if(!string.IsNullOrEmpty(Model?.BasicInfo.HomeOwner?.EmploymentInformation?.MonthsOfEmployment))
                                                     {
-                                                        <span>@Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ? Resources.Month : Resources.Months)</span>
+                                                        <span>
+                                                            @Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment
+                                                            @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ? Resources.Month : Resources.Months)
+                                                        </span>
                                                     }
                                                 </div>
                                             </div>
@@ -978,28 +1055,33 @@
                             }
                         </div>
                     </div>
-                    @if (Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
+                    @if(Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
                     {
                         <div class="col-md-6 grid-column">
                             <div class="dealnet-credit-check-section">
                                 <h3 class="dealnet-section-title">
                                     &nbsp;
-                                    <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
+                                    <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})"
+                                       class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
                                 </h3>
-                                @if (Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed)
+                                @if(Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed)
                                 {
                                     <div class="form-group">
                                         <div class="row">
                                             @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentType, new { @class = "dealnet-field-caption col-xs-6" })
                                             <div class="dealnet-field-holder col-xs-6">
                                                 <div class="control-group">
-                                                    <input readonly="readonly" class="dealnet-disabled-input" id="@Html.IdFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentType)" name="@Html.NameFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentType)" value="@Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentType.GetEnumDescription()" />
+                                                    <input readonly="readonly"
+                                                           class="dealnet-disabled-input"
+                                                           id="@Html.IdFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentType)"
+                                                           name="@Html.NameFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentType)"
+                                                           value="@Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentType.GetEnumDescription()" />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 }
-                                @if (!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.JobTitle))
+                                @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.JobTitle))
                                 {
                                     <div class="form-group">
                                         <div class="row">
@@ -1012,7 +1094,7 @@
                                         </div>
                                     </div>
                                 }
-                                @if (!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.CompanyName))
+                                @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.CompanyName))
                                 {
                                     <div class="form-group">
                                         <div class="row">
@@ -1025,7 +1107,7 @@
                                         </div>
                                     </div>
                                 }
-                                @if (!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.CompanyPhone))
+                                @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.CompanyPhone))
                                 {
                                     <div class="form-group">
                                         <div class="row">
@@ -1041,13 +1123,16 @@
                             </div>
                         </div>
                     }
-                    @if (Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
+                    @if(Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
                     {
                         <div class="col-md-6 grid-column">
                             <div class="dealnet-credit-check-section">
                                 <h3 class="dealnet-section-title">
                                     @Resources.CompanyAddress
-                                    <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
+                                    <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})"
+                                       class="dealnet-section-edit-link pull-right editToStep1">
+                                        @Resources.Edit
+                                    </a>
                                 </h3>
                                 <div class="form-group">
                                     <div class="row">
@@ -1107,13 +1192,13 @@
         </div>
     </div>
 
-    @if (Model.ContactAndPaymentInfo.CoBorrowersContactInfo != null && Model.ContactAndPaymentInfo.CoBorrowersContactInfo.Any())
+    @if(Model.ContactAndPaymentInfo.CoBorrowersContactInfo != null && Model.ContactAndPaymentInfo.CoBorrowersContactInfo.Any())
     {
         <div class="form-section">
             <div class="row">
-                @for (var i = 0; i < Model.ContactAndPaymentInfo.CoBorrowersContactInfo.Count; i++)
+                @for(var i = 0; i < Model.ContactAndPaymentInfo.CoBorrowersContactInfo.Count; i++)
                 {
-                    using (Html.BeginForm(null, null, FormMethod.Post, new { id = "additional-basic-info-form-" + (i + 1), @class = "grid-parent main-parent" }))
+                    using(Html.BeginForm(null, null, FormMethod.Post, new { id = "additional-basic-info-form-" + (i + 1), @class = "grid-parent main-parent" }))
                     {
                         <hr style="clear: both">
                         <input type="hidden" name="BasicInfo.AdditionalApplicants.Index" value="@i" />
@@ -1127,9 +1212,12 @@
                                 <div class="dealnet-credit-check-section" id="additional@(i + 1)-section">
                                     <h3 class="dealnet-section-title">
                                         @Resources.AdditionalApplicant
-                                        @if (contractState != ContractState.Closed)
+                                        @if(!contractClosed)
                                         {
-                                            <a href="@Url.Action("BasicInfo", "NewRental", new { contractId = Model.BasicInfo.ContractId })" class="dealnet-section-edit-link pull-right editToStep1" @*onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();"*@>@Resources.Edit</a>
+                                            <a href="@Url.Action("BasicInfo", "NewRental", new { contractId = Model.BasicInfo.ContractId })"
+                                               class="dealnet-section-edit-link pull-right editToStep1">
+                                                @Resources.Edit
+                                            </a>
                                         }
                                     </h3>
                                     <div class="form-group">
@@ -1180,14 +1268,17 @@
                                             <div class="dealnet-field-holder col-xs-6">
                                                 <div class="control-group">
                                                     @Html.HiddenFor(m => m.BasicInfo.AdditionalApplicants[i].IsHomeOwner)
-                                                    <input type="text" readonly="readonly" class="dealnet-disabled-input" value=@(Model.BasicInfo.AdditionalApplicants[i].IsHomeOwner ? Resources.Yes : Resources.No )>
+                                                    <input type="text"
+                                                           readonly="readonly"
+                                                           class="dealnet-disabled-input"
+                                                           value=@(Model.BasicInfo.AdditionalApplicants[i].IsHomeOwner ? Resources.Yes : Resources.No )>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            @if (Model.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation != null)
+                            @if(Model.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation != null)
                             {
                                 <div class="col-md-6 grid-column">
                                     <div class="dealnet-credit-check-section" id="additional-prev-address-section-@(i + 1)">
@@ -1248,8 +1339,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>}
-                            @if (Model.BasicInfo.AdditionalApplicants[i].AddressInformation != null)
+                                </div>
+                            }
+                            @if(Model.BasicInfo.AdditionalApplicants[i].AddressInformation != null)
                             {
                                 <div class="col-md-6 grid-column">
                                     <div class="dealnet-credit-check-section" id="additional-mailing-address-section-@(i + 1)">
@@ -1313,11 +1405,11 @@
                                 </div>}
                         </div>
                     }
-                    if (Model.ContactAndPaymentInfo.PaymentInfo != null)
+                    if(Model.ContactAndPaymentInfo.PaymentInfo != null)
                     {
                         <div class="credit-check-info-hold">
                             <div class="col-md-6 grid-column">
-                                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "contact-info-coborrowers-form-" + (i + 1), @class = "" }))
+                                @using(Html.BeginForm(null, null, FormMethod.Post, new { id = "contact-info-coborrowers-form-" + (i + 1), @class = "" }))
                                 {
                                     <input type="hidden" name="ContactAndPaymentInfo.CoBorrowersContactInfo.Index" value="@i" />
                                     @Html.AntiForgeryToken()
@@ -1325,9 +1417,12 @@
                                     <div class="dealnet-credit-check-section" id="contact-info-section@(i + 1)-coborrower">
                                         @Html.HiddenFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].CustomerId)
                                         <h3 class="dealnet-section-title">
-                                            @Resources.ContactInformation @if (contractState != ContractState.Closed)
+                                            @Resources.ContactInformation @if(!contractClosed)
                                             {
-                                                <a href="@Url.Action("ContactAndPaymentInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" @*onclick="copyFormData($('#contact-info-section@(i + 1)-coborrower'), $('#contact-info-section@(i + 1)-coborrower-modal'), false); $('#contact-info-coborrower@(i + 1)-modal').modal();"*@ class="dealnet-section-edit-link pull-right">@Resources.Edit</a>
+                                                <a href="@Url.Action("ContactAndPaymentInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})"
+                                                   class="dealnet-section-edit-link pull-right">
+                                                    @Resources.Edit
+                                                </a>
                                             }
                                         </h3>
                                         <div class="form-group">
@@ -1335,7 +1430,7 @@
                                                 @Html.LabelFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].HomePhone, new { @class = "dealnet-field-caption col-xs-6" })
                                                 <div class="dealnet-field-holder col-xs-6">
                                                     @Html.TextBoxFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].HomePhone,
-                                       new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                                                                                    new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                                 </div>
                                             </div>
                                         </div>
@@ -1345,7 +1440,7 @@
                                                 @Html.LabelFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].CellPhone, new { @class = "dealnet-field-caption col-xs-6" })
                                                 <div class="dealnet-field-holder col-xs-6">
                                                     @Html.TextBoxFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].CellPhone,
-                                       new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                                                                                    new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                                 </div>
                                             </div>
                                         </div>
@@ -1355,7 +1450,7 @@
                                                 @Html.LabelFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].BusinessPhone, new { @class = "dealnet-field-caption col-xs-6" })
                                                 <div class="dealnet-field-holder col-xs-6">
                                                     @Html.TextBoxFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].BusinessPhone,
-                                       new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                                                                               new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                                 </div>
                                             </div>
                                         </div>
@@ -1364,7 +1459,7 @@
                                                 @Html.LabelFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].EmailAddress, new { @class = "dealnet-field-caption col-xs-6" })
                                                 <div class="dealnet-field-holder col-xs-6">
                                                     @Html.TextBoxFor(m => m.ContactAndPaymentInfo.CoBorrowersContactInfo[i].EmailAddress,
-                                       new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                                                                               new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                                 </div>
                                             </div>
                                         </div>
@@ -1373,46 +1468,58 @@
                             </div>
                         </div>
                     }
-                    if (Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation != null)
+                    if(Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation != null)
                     {
                         <div class="credit-check-info-hold">
                             <div class="col-md-6 grid-column">
                                 <div class="dealnet-credit-check-section">
                                     <h3 class="dealnet-section-title">
                                         @Resources.AdditionalApplicant @Resources.EmploymentInformation
-                                        <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
+                                        <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})"
+                                           class="dealnet-section-edit-link pull-right editToStep1">
+                                            @Resources.Edit
+                                        </a>
                                     </h3>
                                     <div class="form-group">
                                         <div class="row">
                                             @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus, new { @class = "dealnet-field-caption col-xs-6" })
                                             <div class="dealnet-field-holder col-xs-6">
                                                 <div class="control-group">
-                                                    <input readonly="readonly" class="dealnet-disabled-input" id="@Html.IdFor(m=>m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus)" name="@Html.NameFor(m=>m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus)" value="@Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus.GetEnumDescription()" />
+                                                    <input readonly="readonly"
+                                                           class="dealnet-disabled-input"
+                                                           id="@Html.IdFor(m=>m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus)"
+                                                           name="@Html.NameFor(m=>m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus)"
+                                                           value="@Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus.GetEnumDescription()" />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    @if (Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.IncomeType.HasValue)
+                                    @if(Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.IncomeType.HasValue)
                                     {
                                         <div class="form-group">
                                             <div class="row">
                                                 @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.IncomeType, new { @class = "dealnet-field-caption col-xs-6" })
                                                 <div class="dealnet-field-holder col-xs-6">
                                                     <div class="control-group">
-                                                        <input readonly="readonly" class="dealnet-disabled-input" id="@Html.IdFor(m=>m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.IncomeType)" name="@Html.NameFor(m=>m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.IncomeType)" value="@Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.IncomeType.GetEnumDescription()" />
+                                                        <input readonly="readonly"
+                                                               class="dealnet-disabled-input"
+                                                               id="@Html.IdFor(m=>m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.IncomeType)"
+                                                               name="@Html.NameFor(m=>m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.IncomeType)"
+                                                               value="@Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.IncomeType.GetEnumDescription()" />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     }
-                                    @if (!string.IsNullOrWhiteSpace(Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.AnnualSalary))
+                                    @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.AnnualSalary))
                                     {
                                         <div class="form-group">
                                             <div class="row">
                                                 @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.AnnualSalary, new { @class = "dealnet-field-caption col-xs-6" })
                                                 <div class="dealnet-field-holder col-xs-6">
                                                     <div class="control-group">
-                                                        <input readonly="readonly" class="dealnet-disabled-input"
+                                                        <input readonly="readonly"
+                                                               class="dealnet-disabled-input"
                                                                id="@Html.IdFor(m=>m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.AnnualSalary)"
                                                                name="@Html.NameFor(m=>m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.AnnualSalary)"
                                                                value="@formatIncome(Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.AnnualSalary)" />
@@ -1421,14 +1528,15 @@
                                             </div>
                                         </div>
                                     }
-                                    @if (!string.IsNullOrWhiteSpace(Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.HourlyRate))
+                                    @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.HourlyRate))
                                     {
                                         <div class="form-group">
                                             <div class="row">
                                                 @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.HourlyRate, new { @class = "dealnet-field-caption col-xs-6" })
                                                 <div class="dealnet-field-holder col-xs-6">
                                                     <div class="control-group">
-                                                        <input readonly="readonly" class="dealnet-disabled-input"
+                                                        <input readonly="readonly"
+                                                               class="dealnet-disabled-input"
                                                                id="@Html.IdFor(m=>m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.HourlyRate)"
                                                                name="@Html.NameFor(m=>m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.HourlyRate)"
                                                                value="@formatIncome(Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.HourlyRate)" />
@@ -1438,7 +1546,7 @@
                                         </div>
                                     }
 
-                                    @if (Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
+                                    @if(Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
                                     {
                                         <div class="form-group">
                                             <div class="row">
@@ -1446,10 +1554,16 @@
                                                 <div class="dealnet-field-holder col-xs-6">
                                                     <div class="control-group">
                                                         <div class="dealnet-disabled-input">
-                                                            <span>@Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.YearsOfEmployment @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ? Resources.Year : Resources.Years)</span>
-                                                            @if (!string.IsNullOrEmpty(Model?.BasicInfo.AdditionalApplicants[i]?.EmploymentInformation?.MonthsOfEmployment))
+                                                            <span>
+                                                                @Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.YearsOfEmployment
+                                                                @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ? Resources.Year : Resources.Years)
+                                                            </span>
+                                                            @if(!string.IsNullOrEmpty(Model?.BasicInfo.AdditionalApplicants[i]?.EmploymentInformation?.MonthsOfEmployment))
                                                             {
-                                                                <span>@Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.MonthsOfEmployment @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ? Resources.Month : Resources.Months)</span>
+                                                                <span>
+                                                                    @Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.MonthsOfEmployment
+                                                                    @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ? Resources.Month : Resources.Months)
+                                                                </span>
                                                             }
                                                         </div>
                                                     </div>
@@ -1459,7 +1573,7 @@
                                     }
                                 </div>
                             </div>
-                            @if (Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
+                            @if(Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
                             {
                                 <div class="col-md-6 grid-column">
                                     <div class="dealnet-credit-check-section">
@@ -1467,20 +1581,24 @@
                                             &nbsp;
                                             <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
                                         </h3>
-                                        @if (Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed)
+                                        @if(Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed)
                                         {
                                             <div class="form-group">
                                                 <div class="row">
                                                     @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentType, new { @class = "dealnet-field-caption col-xs-6" })
                                                     <div class="dealnet-field-holder col-xs-6">
                                                         <div class="control-group">
-                                                            <input readonly="readonly" class="dealnet-disabled-input" id="@Html.IdFor(m => m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentType)" name="@Html.NameFor(m => m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentType)" value="@Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentType.GetEnumDescription()" />
+                                                            <input readonly="readonly"
+                                                                   class="dealnet-disabled-input"
+                                                                   id="@Html.IdFor(m => m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentType)"
+                                                                   name="@Html.NameFor(m => m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentType)"
+                                                                   value="@Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentType.GetEnumDescription()" />
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         }
-                                        @if (!string.IsNullOrWhiteSpace(Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.JobTitle))
+                                        @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.JobTitle))
                                         {
                                             <div class="form-group">
                                                 <div class="row">
@@ -1493,7 +1611,7 @@
                                                 </div>
                                             </div>
                                         }
-                                        @if (!string.IsNullOrWhiteSpace(Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.CompanyName))
+                                        @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.CompanyName))
                                         {
                                             <div class="form-group">
                                                 <div class="row">
@@ -1506,7 +1624,7 @@
                                                 </div>
                                             </div>
                                         }
-                                        @if (!string.IsNullOrWhiteSpace(Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.CompanyPhone))
+                                        @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.CompanyPhone))
                                         {
                                             <div class="form-group">
                                                 <div class="row">
@@ -1522,14 +1640,17 @@
                                     </div>
                                 </div>
                             }
-                            @if (Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed ||
+                            @if(Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed ||
                     Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
                             {
                                 <div class="col-md-6 grid-column">
                                     <div class="dealnet-credit-check-section">
                                         <h3 class="dealnet-section-title">
                                             @Resources.CompanyAddress
-                                            <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
+                                            <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})"
+                                               class="dealnet-section-edit-link pull-right editToStep1">
+                                                @Resources.Edit
+                                            </a>
                                         </h3>
                                         <div class="form-group">
                                             <div class="row">
@@ -1591,11 +1712,14 @@
         </div>
     }
 
-    @if (contractState == ContractState.CreditCheckDeclined && (Model.BasicInfo.AdditionalApplicants == null || !Model.BasicInfo.AdditionalApplicants.Any()))
+    @if(contractDeclined && (Model.BasicInfo.AdditionalApplicants == null || !Model.BasicInfo.AdditionalApplicants.Any()))
     {
         <div class="form-section">
-            <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="add-applicant-link add-applicant-contract-edit dealnet-info-link align-middle">
-                <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
+            <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})"
+               class="add-applicant-link add-applicant-contract-edit action-link blue">
+                <svg aria-hidden="true" class="icon icon-add-app">
+                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
+                </svg>
                 <span>@Resources.AddAdditionalApplicant</span>
             </a>
         </div>
@@ -1603,531 +1727,608 @@
 
     <hr>
     <div class="form-section">
-        @if (Model.EquipmentInfo != null)
-    {
-        using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "clearfix", id = "new-equipment-info-form" }))
+        @if(Model.EquipmentInfo != null)
         {
-            @Html.AntiForgeryToken()
-            @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
-            @Html.HiddenFor(m => m.EquipmentInfo.AgreementType)
-            @Html.HiddenFor(m => m.EquipmentInfo.SalesRep)
-            @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm)
-            @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
-            @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm)
-            @Html.HiddenFor(m => m.EquipmentInfo.LoanDeferralType)
-            @Html.HiddenFor(m => m.EquipmentInfo.RentalDeferralType)
-            @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate)
-            @Html.HiddenFor(m => m.EquipmentInfo.AdminFee)
-            @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
-            <div class="row credit-check-info-hold">
-                <div class="col-md-6 grid-column">
-                    <div class="dealnet-credit-check-section">
-
-                        <h3 class="dealnet-section-title">
-                            @Resources.EquipmentInformation
-                            @if (contractState != ContractState.Closed)
-                        {
-                            <a href="@Url.Action("EquipmentInformation", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#new-equipment-info-section'), $('#new-equipment-info-section-modal'), false); $('#new-equipment-info-modal').modal();"*@>@Resources.Edit</a>
-                    }
-                        </h3>
-
-                    </div>
-                </div>
-            </div>
-            <div class="row credit-check-info-hold equipment-info no-top-margin" id="new-equipment-info-section">
-                @for (var i = 0; i < Model.EquipmentInfo.NewEquipment.Count; i++)
+            using(Html.BeginForm(null, null, FormMethod.Post, new { @class = "clearfix", id = "new-equipment-info-form" }))
             {
-                <div class="col-md-6 grid-column">
-                    <div class="dealnet-credit-check-section">
-                        @Html.HiddenFor(m => m.EquipmentInfo.NewEquipment[i].Id)
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    #@(i + 1)
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="row">
-                                @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Type, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
-                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                    @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].Type,
-                                         ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description, Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type }),
-                                         new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="row">
-                                @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Description, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
-                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                    @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Description, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                                </div>
-                            </div>
-                        </div>
-                        @if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
-                    {
-
-                        if (Model.IsClarityDealer && !Model.IsOldClarityDeal)
-                        {
-                            <div class="form-group">
-                                <div class="row">
-                                    @Html.Label(Resources.MonthlyCostOfOwnership, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
-                                    <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                        @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new { @readonly = "readonly", @class = "dealnet-disabled-input has-cost-sign", id = "" })
-                                    </div>
-                                </div>
-                            </div>
-                    }
-                    else
-                    {
-                        <div class="form-group">
-                            <div class="row">
-                                @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
-                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                    @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new { @readonly = "readonly", @class = "dealnet-disabled-input has-cost-sign", id = "" })
-                                </div>
-                            </div>
-                        </div>
-                }
-            }
-            else
-            {
-                <div class="form-group">
-                    <div class="row">
-                        @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
-                        <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                            @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new { @readonly = "readonly", @class = "dealnet-disabled-input has-cost-sign", id = "" })
-                        </div>
-                    </div>
-                </div>
-        }
-                    </div>
-                </div>}
-            </div>
-            if (Model.EquipmentInfo.InstallationPackages.Any())
-        {
-            <div class="row credit-check-info-hold">
-                <div class="col-md-6 grid-column">
-                    <div class="dealnet-credit-check-section">
-
-                        <h3 class="dealnet-section-title">
-                            @Resources.InstallationPackage
-                        </h3>
-
-                    </div>
-                </div>
-            </div>
-    }
-            <div class="row credit-check-info-hold  equipment-info cols-no-titles no-top-margin equipment-info">
-                @for (var i = 0; i < Model.EquipmentInfo.InstallationPackages.Count; i++)
-            {
-                <div class="col-md-6 grid-column">
-                    <div class="dealnet-credit-check-section">
-                        @Html.HiddenFor(m => m.EquipmentInfo.InstallationPackages[i].Id)
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    #@(i + 1)
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                @Html.LabelFor(m => m.EquipmentInfo.InstallationPackages[i].Description, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
-                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                    @Html.TextBoxFor(m => m.EquipmentInfo.InstallationPackages[i].Description, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                @Html.LabelFor(m => m.EquipmentInfo.InstallationPackages[i].MonthlyCost, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
-                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                    @Html.TextBoxFor(m => m.EquipmentInfo.InstallationPackages[i].MonthlyCost, new { @readonly = "readonly", @class = "dealnet-disabled-input has-cost-sign package-cost", id = "" })
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        }
-            </div>
-            <div class="row credit-check-info-hold equipment-info">
-                <div class="col-md-6 grid-column">
-                    <div class="dealnet-credit-check-section">
-                        <div class="form-group">
-                            <div class="row">
-                                @Html.LabelFor(m => m.EquipmentInfo.EstimatedInstallationDate, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
-                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                    @Html.TextBoxFor(m => m.EquipmentInfo.EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "", data_val_date = "" })
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="summary-payment-info well">
-                <div class="row">
-                    <div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
-                        <div class="row">
-                            <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
-                                @Resources.MonthlyPayment
-                            </div>
-                            <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                                <div class="inline-children">
-                                    <text>$</text>
-                                    @(Math.Round(Model.PaymentSummary.MonthlyPayment ?? 0, 2))
-                                    @*@if (Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
-                                    {
-                                        <text>$</text>
-                                        @(Math.Round(Model.PaymentSummary.MonthlyPayment ?? 0, 2))
-                                    }
-                                    else
-                                    {
-                                        <text>$</text>
-                                        @Html.TextBoxFor(m => m.EquipmentInfo.TotalMonthlyPayment, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                                    }*@
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @if (Model.EquipmentInfo.AgreementType != AgreementType.LoanApplication)
-                {
-                    <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
-                        <div class="row">
-                            <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
-                                @(Model.ProvinceTaxRate?.Description ?? @Resources.Tax)
-                            </div>
-                            <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                                $@(Math.Round(Model.PaymentSummary.Hst ?? 0, 2))
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-7 col-xs-12 summary-payment-info-item">
-                        <div class="row">
-                            <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
-                                @Resources.TotalMonthlyPaymentWithTaxes
-                            </div>
-                            <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                                $@(Math.Round(Model.PaymentSummary.TotalMonthlyPayment ?? 0, 2))
-                            </div>
-                        </div>
-                    </div>
-            }
-                </div>
-            </div>}
-}
-
-        @if (Model.ContactAndPaymentInfo.PaymentInfo != null)
-    {
-        using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "clearfix", id = "payment-info-form" }))
-        {
-            @Html.AntiForgeryToken()
-            @Html.HiddenFor(m => m.ContactAndPaymentInfo.ContractId)
-            <div class="row credit-check-info-hold">
-                <div class="col-md-6 grid-column">
-                    <div class="dealnet-credit-check-section">
-
-                        <h3 class="dealnet-section-title">
-                            @Resources.PaymentInformation
-                            @if (contractState != ContractState.Closed)
-                        {
-                            <a href="@Url.Action("ContactAndPaymentInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#payment-info-section'), $('#payment-info-section-modal'), false); $('#payment-type').change(); $('#payment-info-modal').modal();"*@>@Resources.Edit</a>
-                    }
-                        </h3>
-
-                    </div>
-                </div>
-            </div>
-            <div class="row credit-check-info-hold no-top-margin">
-                <div class="col-md-6 grid-column">
-                    <div class="dealnet-credit-check-section" id="payment-info-section">
-                        <div class="form-group">
-                            <div class="row">
-                                @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PaymentType, new { @class = "dealnet-field-caption col-xs-6" })
-                                <div class="dealnet-field-holder col-xs-6">
-                                    @Html.EnumDropDownListFor(m => m.ContactAndPaymentInfo.PaymentInfo.PaymentType, null, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "payment-type-form" })
-                                </div>
-                            </div>
-                        </div>
-						@if (Model.ContactAndPaymentInfo.IsAllPaymentTypesAvailable)
-						{
-                        <div class="form-group pap-payment-form">
-                            <div class="row">
-                                @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, new { @class = "dealnet-field-caption col-xs-6" })
-                                <div class="dealnet-field-holder col-xs-6">
-                                    @Html.EnumDropDownListFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, null, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                                </div>
-                            </div>
-                        </div>
-						}
-                        <div class="pap-payment-form">
-                            <div class="form-group">
-                                <div class="row">
-                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new { @class = "dealnet-field-caption col-xs-6" })
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new { @class = "dealnet-field-caption col-xs-6" })
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new { @class = "dealnet-field-caption col-xs-6" })
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="enbridge-payment-form">
-                            <div class="form-group">
-                                <div class="row">
-                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new { @class = "dealnet-field-caption col-xs-6" })
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new { @class = "dealnet-field-caption col-xs-6" })
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>}
-}
-        @if (Model.EquipmentInfo?.ExistingEquipment != null && Model.EquipmentInfo.ExistingEquipment.Any())
-    {
-        using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "clearfix", id = "existing-equipment-form" }))
-        {
-            @Html.AntiForgeryToken()
-            @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
-            @Html.HiddenFor(m => m.EquipmentInfo.AgreementType)
-            @Html.HiddenFor(m => m.EquipmentInfo.SalesRep)
-            @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm)
-            @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
-            @Html.HiddenFor(m => m.EquipmentInfo.TotalMonthlyPayment)
-            @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm)
-            @Html.HiddenFor(m => m.EquipmentInfo.LoanDeferralType)
-            @Html.HiddenFor(m => m.EquipmentInfo.RentalDeferralType)
-            @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate)
-            @Html.HiddenFor(m => m.EquipmentInfo.AdminFee)
-            @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
-            <div class="" id="existing-equipment-section">
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
+                @Html.HiddenFor(m => m.EquipmentInfo.AgreementType)
+                @Html.HiddenFor(m => m.EquipmentInfo.SalesRep)
+                @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm)
+                @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
+                @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm)
+                @Html.HiddenFor(m => m.EquipmentInfo.LoanDeferralType)
+                @Html.HiddenFor(m => m.EquipmentInfo.RentalDeferralType)
+                @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate)
+                @Html.HiddenFor(m => m.EquipmentInfo.AdminFee)
+                @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
                 <div class="row credit-check-info-hold">
                     <div class="col-md-6 grid-column">
                         <div class="dealnet-credit-check-section">
 
                             <h3 class="dealnet-section-title">
-                                @Resources.ExistingEquipmentInformation
-                                @if (contractState != ContractState.Closed)
-                            {
-                                <a href="@Url.Action("EquipmentInformation", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#existing-equipment-section'), $('#existing-equipment-section-modal'), false); $('#existing-equipment-modal').modal();"*@>@Resources.Edit</a>}
+                                @Resources.EquipmentInformation
+                                @if(!contractClosed)
+                                {
+                                    <a href="@Url.Action("EquipmentInformation", "NewRental", new {contractId = Model.BasicInfo.ContractId})"
+                                       class="dealnet-section-edit-link pull-right">
+                                        @Resources.Edit
+                                    </a>
+                                }
                             </h3>
-                            @for (var i = 0; i < Model.EquipmentInfo.ExistingEquipment.Count; i++)
-                        {
-                            <div class="summury-return-equip-item">
-                                @Html.HiddenFor(m => m.EquipmentInfo.ExistingEquipment[i].Id)
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="dealnet-field-caption col-xs-6">
-                                            @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].IsRental)
-                                        </div>
-                                        <div class="dealnet-field-holder col-xs-6">
-                                            @{
-                                            var yesNaming = Resources.Yes;
-                                            var noNaming = Resources.No;
-                                            }
-                                            @Html.DropDownListFor(m => m.EquipmentInfo.ExistingEquipment[i].IsRental, new SelectList(
-                                           new[]
-                                           {
-                                                                                                                new {Value = "true", Text = yesNaming, Selected = Model.EquipmentInfo.ExistingEquipment[i].IsRental},
-                                                                                                                new {Value = "false", Text = noNaming, Selected = !Model.EquipmentInfo.ExistingEquipment[i].IsRental},
-                                           },
-                                           "Value", "Text", Model.EquipmentInfo.ExistingEquipment[i].IsRental), new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="dealnet-field-caption col-xs-6">
-                                            @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].RentalCompany)
-                                        </div>
-                                        <div class="dealnet-field-holder col-xs-6">
-                                            @Html.TextBoxFor(m => m.EquipmentInfo.ExistingEquipment[i].RentalCompany, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="dealnet-field-caption col-xs-6">
-                                            @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].EstimatedAge)
-                                        </div>
-                                        <div class="dealnet-field-holder col-xs-6">
-                                            @Html.TextBoxFor(m => m.EquipmentInfo.ExistingEquipment[i].EstimatedAge, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="dealnet-field-caption col-xs-6">
-                                            @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].Make)
-                                        </div>
-                                        <div class="dealnet-field-holder col-xs-6">
-                                            @Html.TextBoxFor(m => m.EquipmentInfo.ExistingEquipment[i].Make, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="dealnet-field-caption col-xs-6">
-                                            @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].Model)
-                                        </div>
-                                        <div class="dealnet-field-holder col-xs-6">
-                                            @Html.TextBoxFor(m => m.EquipmentInfo.ExistingEquipment[i].Model, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="dealnet-field-caption col-xs-6">
-                                            @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].SerialNumber)
-                                        </div>
-                                        <div class="dealnet-field-holder col-xs-8 col-sm-9 col-md-9 col-lg-10 ">
-                                            @Html.TextBoxFor(m => m.EquipmentInfo.ExistingEquipment[i].SerialNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="dealnet-field-caption col-xs-6">
-                                            @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].GeneralCondition)
-                                        </div>
-                                        <div class="dealnet-field-holder col-xs-6">
-                                            @Html.TextBoxFor(m => m.EquipmentInfo.ExistingEquipment[i].GeneralCondition, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="dealnet-field-caption col-xs-6">
-                                            @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].Notes)
-                                        </div>
-                                        <div class="dealnet-field-holder col-xs-6">
-                                            <div class="control-group">
-                                                @Html.TextAreaFor(m => m.EquipmentInfo.ExistingEquipment[i].Notes, new { @class = "form-control dealnet-disabled-input", id = "" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                    }
-
 
                         </div>
                     </div>
                 </div>
-            </div>}
-}
-        @if (!string.IsNullOrEmpty(Model.Notes) || (Model.CustomerComments != null && Model.CustomerComments.Any()))
-    {
-        <hr>
-        <div class="form-section">
-            <div class="row">
-                <div class="credit-check-info-hold">
-                    <div class="col-md-6 grid-column" id="edit-add-contract-section">
-                        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "contract-notes-form", @class = "credit-check-info-hold" }))
+                <div class="row credit-check-info-hold equipment-info no-top-margin" id="new-equipment-info-section">
+                    @for(var i = 0; i < Model.EquipmentInfo.NewEquipment.Count; i++)
                     {
-                        @Html.AntiForgeryToken()
-                        @Html.HiddenFor(m => m.BasicInfo.ContractId)
-
-                        <div class="dealnet-credit-check-section">
-                            <h3 class="dealnet-section-title">
-                                @Resources.AdditionalContractInformation
-                                @if (contractState != ContractState.Closed)
-                            {
-                                <a href="@Url.Action("EquipmentInformation", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right" @*onclick="copyFormData($('#edit-add-contract-section'), $('#edit-add-contract-section-modal'), false); $('#edit-add-contract-modal').modal()"*@>@Resources.Edit</a>
-                        }
-                            </h3>
-                            @if (Model.CustomerComments != null && Model.CustomerComments.Any())
-                        {
-                            <div class="form-group">
-                                <div class="row">
-                                    @Html.LabelFor(m => m.CustomerComments, new { @class = "text-semibold text-md-sm col-xs-12" })
-                                    <div class="dealnet-field-holder col-xs-12">
-                                        <div class="control-group">
-                                            <div class="text-left">
-                                                @foreach (var comment in Model.AdditionalInfo.CustomerComments)
-                                            {
-                                                @comment
-                                                <br />
-                                        }
-                                            </div>
+                        <div class="col-md-6 grid-column">
+                            <div class="dealnet-credit-check-section">
+                                @Html.HiddenFor(m => m.EquipmentInfo.NewEquipment[i].Id)
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            #@(i + 1)
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Type, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                        <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                            @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].Type,
+                                                                                        ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes)
+                                                                                        .Select(x => new SelectListItem
+                                                                                        {
+                                                                                            Value = x.Type,
+                                                                                            Text = x.Description,
+                                                                                            Selected = Model?.EquipmentInfo?.NewEquipment != null &&
+                                                                                            Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type
+                                                                                        }),
+                                                                                        new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Description, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                        <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                            @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Description, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                        </div>
+                                    </div>
+                                </div>
+                                @if(Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
+                                {
+
+                                    if(Model.IsClarityDealer && !Model.IsOldClarityDeal)
+                                    {
+                                        <div class="form-group">
+                                            <div class="row">
+                                                @Html.Label(Resources.MonthlyCostOfOwnership, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                                    @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new { @readonly = "readonly", @class = "dealnet-disabled-input has-cost-sign", id = "" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="form-group">
+                                            <div class="row">
+                                                @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                                    @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Cost, new { @readonly = "readonly", @class = "dealnet-disabled-input has-cost-sign", id = "" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="form-group">
+                                        <div class="row">
+                                            @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new { @readonly = "readonly", @class = "dealnet-disabled-input has-cost-sign", id = "" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                             </div>
-                    }
-                            <div class="form-group">
-                                <div class="row">
-                                    @Html.LabelFor(m => m.Notes, new { @class = "text-semibold text-md-sm col-xs-12" })
-                                    <div class="dealnet-field-holder col-xs-12">
-                                        <div class="control-group">
-                                            @Html.TextAreaFor(m => m.Notes, new { @class = "dealnet-disabled-input dealnet-disabled-textarea", @cols = "30", @rows = "2", id = "contract-notes" })
+                        </div>}
+                </div>
+                if(Model.EquipmentInfo.InstallationPackages.Any())
+                {
+                    <div class="row credit-check-info-hold">
+                        <div class="col-md-6 grid-column">
+                            <div class="dealnet-credit-check-section">
+
+                                <h3 class="dealnet-section-title">
+                                    @Resources.InstallationPackage
+                                </h3>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="row credit-check-info-hold  equipment-info cols-no-titles no-top-margin equipment-info">
+                    @for(var i = 0; i < Model.EquipmentInfo.InstallationPackages.Count; i++)
+                    {
+                        <div class="col-md-6 grid-column">
+                            <div class="dealnet-credit-check-section">
+                                @Html.HiddenFor(m => m.EquipmentInfo.InstallationPackages[i].Id)
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            #@(i + 1)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.EquipmentInfo.InstallationPackages[i].Description, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                        <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                            @Html.TextBoxFor(m => m.EquipmentInfo.InstallationPackages[i].Description, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.EquipmentInfo.InstallationPackages[i].MonthlyCost, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                        <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                            @Html.TextBoxFor(m => m.EquipmentInfo.InstallationPackages[i].MonthlyCost, new { @readonly = "readonly", @class = "dealnet-disabled-input has-cost-sign package-cost", id = "" })
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                }
+                    }
+                </div>
+                <div class="row credit-check-info-hold equipment-info">
+                    <div class="col-md-6 grid-column">
+                        <div class="dealnet-credit-check-section">
+                            <div class="form-group">
+                                <div class="row">
+                                    @Html.LabelFor(m => m.EquipmentInfo.EstimatedInstallationDate, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                    <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                        @Html.TextBoxFor(m => m.EquipmentInfo.EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "", data_val_date = "" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="summary-payment-info well">
+                    @if(Model.IsClarityDealer && !Model.IsOldClarityDeal)
+                    {
+                        <div class="row">
+                            <div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
+                                <div class="row">
+                                    <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+                                        <div>
+                                            @Resources.TotalMonthlyCostOfOwnership (@Resources.TaxExcl)
+                                        </div>
+                                    </div>
+                                    <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                                        <div class="inline-children">
+                                            $@(Math.Round(Model.PaymentSummary.MonthlyPayment - Model.PaymentSummary.Hst ?? 0, 2))
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
+                                <div class="row">
+                                    <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+                                        <div>
+                                            @Model.ProvinceTaxRate.Description
+                                        </div>
+                                    </div>
+                                    <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                                        <div class="inline-children">
+                                            $@(Math.Round(Model.PaymentSummary.Hst ?? 0, 2))
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
+                                <div class="row">
+                                    <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+                                        <div>
+                                            @Resources.TotalMonthlyCostOfOwnership (@Resources.TaxIncl)
+                                        </div>
+                                    </div>
+                                    <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                                        <div class="inline-children">
+                                            $@(Math.Round(Model.PaymentSummary.MonthlyPayment ?? 0, 2))
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
+                                <div class="row">
+                                    <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+                                        <div>
+                                            <text>@Resources.MonthlyPayment</text>
+                                        </div>
+                                    </div>
+                                    <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                                        <div class="inline-children">
+                                            $@(Math.Round(Model.PaymentSummary.MonthlyPayment ?? 0, 2))
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @if(Model.EquipmentInfo.AgreementType != AgreementType.LoanApplication)
+                            {
+                                <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
+                                    <div class="row">
+                                        <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+                                            <div>
+                                                @(Model.ProvinceTaxRate?.Description ?? @Resources.Tax)
+                                            </div>
+                                        </div>
+                                        <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                                            $@(Math.Round(Model.PaymentSummary.Hst ?? 0, 2))
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-7 col-xs-12 summary-payment-info-item">
+                                    <div class="row">
+                                        <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+                                            @Resources.TotalMonthlyPaymentWithTaxes
+                                        </div>
+                                        <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                                            $@(Math.Round(Model.PaymentSummary.MonthlyPayment + Model.PaymentSummary.Hst ?? 0, 2))
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+        }
+
+        @if(Model.ContactAndPaymentInfo.PaymentInfo != null)
+        {
+            using(Html.BeginForm(null, null, FormMethod.Post, new { @class = "clearfix", id = "payment-info-form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.ContactAndPaymentInfo.ContractId)
+                <div class="row credit-check-info-hold">
+                    <div class="col-md-6 grid-column">
+                        <div class="dealnet-credit-check-section">
+
+                            <h3 class="dealnet-section-title">
+                                @Resources.PaymentInformation
+                                @if(!contractClosed)
+                                {
+                                    <a href="@Url.Action("ContactAndPaymentInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})"
+                                       class="dealnet-section-edit-link pull-right">
+                                        @Resources.Edit
+                                    </a>
+                                }
+                            </h3>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row credit-check-info-hold no-top-margin">
+                    <div class="col-md-6 grid-column">
+                        <div class="dealnet-credit-check-section" id="payment-info-section">
+                            <div class="form-group">
+                                <div class="row">
+                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PaymentType, new { @class = "dealnet-field-caption col-xs-6" })
+                                    <div class="dealnet-field-holder col-xs-6">
+                                        @Html.EnumDropDownListFor(m => m.ContactAndPaymentInfo.PaymentInfo.PaymentType, null, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "payment-type-form" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group pap-payment-form">
+                                <div class="row">
+                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, new { @class = "dealnet-field-caption col-xs-6" })
+                                    <div class="dealnet-field-holder col-xs-6">
+                                        @Html.EnumDropDownListFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, null, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pap-payment-form">
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="enbridge-payment-form">
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>}
+        }
+        @if(Model.EquipmentInfo?.ExistingEquipment != null && Model.EquipmentInfo.ExistingEquipment.Any())
+        {
+            using(Html.BeginForm(null, null, FormMethod.Post, new { @class = "clearfix", id = "existing-equipment-form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
+                @Html.HiddenFor(m => m.EquipmentInfo.AgreementType)
+                @Html.HiddenFor(m => m.EquipmentInfo.SalesRep)
+                @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm)
+                @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
+                @Html.HiddenFor(m => m.EquipmentInfo.TotalMonthlyPayment)
+                @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm)
+                @Html.HiddenFor(m => m.EquipmentInfo.LoanDeferralType)
+                @Html.HiddenFor(m => m.EquipmentInfo.RentalDeferralType)
+                @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate)
+                @Html.HiddenFor(m => m.EquipmentInfo.AdminFee)
+                @Html.HiddenFor(m => m.EquipmentInfo.DownPayment)
+                <div class="" id="existing-equipment-section">
+                    <div class="row credit-check-info-hold">
+                        <div class="col-md-6 grid-column">
+                            <div class="dealnet-credit-check-section">
+
+                                <h3 class="dealnet-section-title">
+                                    @Resources.ExistingEquipmentInformation
+                                    @if(!contractClosed)
+                                    {
+                                        <a href="@Url.Action("EquipmentInformation", "NewRental", new {contractId = Model.BasicInfo.ContractId})"
+                                           class="dealnet-section-edit-link pull-right">
+                                            @Resources.Edit
+                                        </a>
+                                    }
+                                </h3>
+                                @for(var i = 0; i < Model.EquipmentInfo.ExistingEquipment.Count; i++)
+                                {
+                                    <div class="summury-return-equip-item">
+                                        @Html.HiddenFor(m => m.EquipmentInfo.ExistingEquipment[i].Id)
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="dealnet-field-caption col-xs-6">
+                                                    @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].IsRental)
+                                                </div>
+                                                <div class="dealnet-field-holder col-xs-6">
+                                                    @{
+                                                        var yesNaming = Resources.Yes;
+                                                        var noNaming = Resources.No;
+                                                    }
+                                                    @Html.DropDownListFor(m => m.EquipmentInfo.ExistingEquipment[i].IsRental,
+                                                                                           new SelectList(new[]
+                                                                                           {
+                                                                                                                                                                                                                                                                                    new {
+                                                                                                                                                                                                                                                                                        Value = "true",
+                                                                                                                                                                                                                                                                                        Text = yesNaming,
+                                                                                                                                                                                                                                                                                        Selected = Model.EquipmentInfo.ExistingEquipment[i].IsRental
+                                                                                                                                                                                                                                                                                    },
+                                                                                                                                                                                                                                                                                    new {
+                                                                                                                                                                                                                                                                                        Value = "false",
+                                                                                                                                                                                                                                                                                        Text = noNaming,
+                                                                                                                                                                                                                                                                                        Selected = !Model.EquipmentInfo.ExistingEquipment[i].IsRental
+                                                                                                                                                                                                                                                                                    },
+                                                                                            },
+                                                                                            "Value",
+                                                                                            "Text",
+                                                                                            Model.EquipmentInfo.ExistingEquipment[i].IsRental),
+                                                                                           new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="dealnet-field-caption col-xs-6">
+                                                    @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].RentalCompany)
+                                                </div>
+                                                <div class="dealnet-field-holder col-xs-6">
+                                                    @Html.TextBoxFor(m => m.EquipmentInfo.ExistingEquipment[i].RentalCompany, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="dealnet-field-caption col-xs-6">
+                                                    @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].EstimatedAge)
+                                                </div>
+                                                <div class="dealnet-field-holder col-xs-6">
+                                                    @Html.TextBoxFor(m => m.EquipmentInfo.ExistingEquipment[i].EstimatedAge, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="dealnet-field-caption col-xs-6">
+                                                    @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].Make)
+                                                </div>
+                                                <div class="dealnet-field-holder col-xs-6">
+                                                    @Html.TextBoxFor(m => m.EquipmentInfo.ExistingEquipment[i].Make, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="dealnet-field-caption col-xs-6">
+                                                    @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].Model)
+                                                </div>
+                                                <div class="dealnet-field-holder col-xs-6">
+                                                    @Html.TextBoxFor(m => m.EquipmentInfo.ExistingEquipment[i].Model, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="dealnet-field-caption col-xs-6">
+                                                    @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].SerialNumber)
+                                                </div>
+                                                <div class="dealnet-field-holder col-md-6">
+                                                    @Html.TextBoxFor(m => m.EquipmentInfo.ExistingEquipment[i].SerialNumber, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="dealnet-field-caption col-xs-6">
+                                                    @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].GeneralCondition)
+                                                </div>
+                                                <div class="dealnet-field-holder col-xs-6">
+                                                    @Html.TextBoxFor(m => m.EquipmentInfo.ExistingEquipment[i].GeneralCondition, new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="dealnet-field-caption col-xs-6">
+                                                    @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].Notes)
+                                                </div>
+                                                <div class="dealnet-field-holder col-xs-6">
+                                                    <div class="control-group">
+                                                        @Html.TextAreaFor(m => m.EquipmentInfo.ExistingEquipment[i].Notes, new { @class = "form-control dealnet-disabled-input", id = "" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>}
+        }
+        @if(!string.IsNullOrEmpty(Model.Notes) || (Model.CustomerComments != null && Model.CustomerComments.Any()))
+        {
+            <hr>
+            <div class="form-section">
+                <div class="row">
+                    <div class="credit-check-info-hold">
+                        <div class="col-md-6 grid-column" id="edit-add-contract-section">
+                            @using(Html.BeginForm(null, null, FormMethod.Post, new { id = "contract-notes-form", @class = "credit-check-info-hold" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(m => m.BasicInfo.ContractId)
+
+                                <div class="dealnet-credit-check-section">
+                                    <h3 class="dealnet-section-title">
+                                        @Resources.AdditionalContractInformation
+                                        @if(!contractClosed)
+                                        {
+                                            <a href="@Url.Action("EquipmentInformation", "NewRental", new {contractId = Model.BasicInfo.ContractId})"
+                                               class="dealnet-section-edit-link pull-right">
+                                                @Resources.Edit
+                                            </a>
+                                        }
+                                    </h3>
+                                    @if(Model.CustomerComments != null && Model.CustomerComments.Any())
+                                    {
+                                        <div class="form-group">
+                                            <div class="row">
+                                                @Html.LabelFor(m => m.CustomerComments, new { @class = "text-semibold text-md-sm col-xs-12" })
+                                                <div class="dealnet-field-holder col-xs-12">
+                                                    <div class="control-group">
+                                                        <div class="text-left">
+                                                            @foreach(var comment in Model.AdditionalInfo.CustomerComments)
+                                                            {
+                                                                @comment
+                                                                <br />
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    <div class="form-group">
+                                        <div class="row">
+                                            @Html.LabelFor(m => m.Notes, new { @class = "text-semibold text-md-sm col-xs-12" })
+                                            <div class="dealnet-field-holder col-xs-12">
+                                                <div class="control-group">
+                                                    @Html.TextAreaFor(m => m.Notes, new { @class = "dealnet-disabled-input dealnet-disabled-textarea", @cols = "30", @rows = "2", id = "contract-notes" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-}
+        }
         <br>
         <div class="comments-widget" data-username="@User.Identity.Name">
             <h3 class="dealnet-section-title">@Resources.Comments</h3>
-            @using (Html.BeginForm("AddComment", "MyDeals"))
-        {
-            <div class="form-group">
-                @Html.AntiForgeryToken()
-                @Html.Hidden("ContractId", Model.BasicInfo.ContractId)
-                <label for="">@Resources.AddComment</label>
-                <textarea name="Text" cols="30" rows="2" class="form-control base-comment-text" placeholder="@Resources.WriteReply"></textarea>
-            </div>
-            <div class="row">
-                <div class="col-sm-5 col-md-3">
-                    <button type="button" class="btn dealnet-button dealnet-success-button block-button reply-button">@Resources.Reply</button>
+            @using(Html.BeginForm("AddComment", "MyDeals"))
+            {
+                <div class="form-group">
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("ContractId", Model.BasicInfo.ContractId)
+                    <label for="">@Resources.AddComment</label>
+                    <textarea name="Text" cols="30" rows="2" class="form-control base-comment-text" placeholder="@Resources.WriteReply"></textarea>
                 </div>
-            </div>
-    }
+                <div class="form-group">
+                        <button type="button" class="btn btn-green btn-form reply-button">
+                    @Resources.Reply
+                        </button>
+
+                </div>
+            }
             <div id="comments-start"></div>
             @AddComments(Model.Comments)
         </div>
     </div>
 </div>
+
 @helper AddComments(IEnumerable<CommentViewModel> comments)
     {
-        if (comments == null)
+        if(comments == null)
         { return; }
-        foreach (var comment in comments)
+        foreach(var comment in comments)
         {
             <div class="comment @if (comment.Replies != null && comment.Replies.Any()) { <text>active</text> }">
                 <div class="commetn-header">
@@ -2138,7 +2339,7 @@
                     <span class="comment-update">
                         <span class="comment-update-time">@comment.Date.ToString("hh:mm tt MM/d/yyyy", CultureInfo.InvariantCulture)</span>
                     </span>
-                    @if (comment.IsOwn)
+                    @if(comment.IsOwn)
                     {
                         <span class="owner-comment">@Resources.YourComment</span>
                     }
@@ -2146,11 +2347,15 @@
                 <div class="comment-body">
                     <input hidden name="comment-id" value="@comment.Id" />
                     <p style="white-space: pre-wrap;">@comment.Text</p>
-                    <a href="#" class="comment-remove-link" @if (!comment.IsOwn || (comment.Replies != null && comment.Replies.Any())) { <text> style="display:none;" </text> }><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
+                    <a href="#" class="comment-remove-link" @(!comment.IsOwn || (comment.Replies != null && comment.Replies.Any()) ? "style=display:none;" : "")>
+                        <svg aria-hidden="true" class="icon icon-remove">
+                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
+                        </svg>
+                    </a>
                 </div>
                 <div class="comment-footer">
                     <a href="#" class="show-comments-answers"><span class="answers-quantity">@(comment.Replies?.Count() ?? 0)</span> @Resources.Answers</a>
-                    <a href="#" class="dealnet-success-link write-reply-link @if (comment.Replies != null && comment.Replies.Any()) { <text>active</text> }">@Resources.WriteReply</a>
+                    <a href="#" class="dealnet-success-link write-reply-link @(comment.Replies != null && comment.Replies.Any()?"active":"") ">@Resources.WriteReply</a>
                 </div>
 
             </div>
@@ -2164,7 +2369,7 @@
 }
 <div class="hidden">
     <div class="comment-reply-form" id="comment-reply-form">
-        @using (Html.BeginForm("AddComment", "MyDeals"))
+        @using(Html.BeginForm("AddComment", "MyDeals"))
         {
             @Html.AntiForgeryToken()
             @Html.Hidden("ParentCommentId")
@@ -2172,7 +2377,7 @@
             <textarea name="Text" cols="30" rows="2" class="form-control base-comment-text" placeholder="@Resources.WriteReply"></textarea>
             <div class="row">
                 <div class="col-sm-5 col-md-3">
-                    <button type="button" class="btn dealnet-button dealnet-success-button block-button reply-button">@Resources.Reply</button>
+                    <button type="button" class="btn btn-green col-xs-12 col-sm-12 col-md-12">@Resources.Reply</button>
                 </div>
             </div>}
     </div>
@@ -2181,7 +2386,9 @@
     <div class="comment" id="comment-template">
         <div class="commetn-header">
             <span class="comment-user">
-                <svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
+                <svg aria-hidden="true" class="icon icon-user">
+                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use>
+                </svg>
                 <span class="comment-username"></span>
             </span>
             <span class="comment-update">
@@ -2192,7 +2399,11 @@
         <div class="comment-body">
             <input hidden name="comment-id" />
             <p></p>
-            <a href="#" class="comment-remove-link"><svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg></a>
+            <a href="#" class="comment-remove-link">
+                <svg aria-hidden="true" class="icon icon-remove">
+                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
+                </svg>
+            </a>
         </div>
         <div class="comment-footer">
             <a href="#" class="show-comments-answers"><span class="answers-quantity">0</span> @Resources.Answers</a>
@@ -2206,14 +2417,19 @@
         </li>
     </ul>
 </div>
-@using (Html.BeginForm("RemoveComment", "MyDeals", FormMethod.Post, new { id = "remove-comment-form" }))
+@using(Html.BeginForm("RemoveComment", "MyDeals", FormMethod.Post, new { id = "remove-comment-form" }))
 {
     @Html.AntiForgeryToken()
     @Html.Hidden("commentId")
 }
 <div class="text-center back-to-top-hold">
     <br />
-    <a href="#" class="dealnet-info-link" id="back-to-top"><svg aria-hidden="true" class="icon icon-back-to-top"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-back-to-top")"></use></svg>@Resources.BackToTop</a>
+    <a href="#" class="dealnet-info-link" id="back-to-top">
+    <svg aria-hidden="true" class="icon icon-back-to-top">
+        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-back-to-top")"></use>
+        </svg>
+        @Resources.BackToTop
+    </a>
 </div>
 
 <div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="download-certificate-modal">
@@ -2225,10 +2441,10 @@
             </div>
             <div class="modal-body no-padding-top">
                 <div class="dealnet-credit-check-section dealnet-modal-section">
-                    @using (Html.BeginForm("PrepareInstallationCertificate", "MyDeals", FormMethod.Post, new { id = "install-certificate-info-section-modal" }))
+                    @using(Html.BeginForm("PrepareInstallationCertificate", "MyDeals", FormMethod.Post, new { id = "install-certificate-info-section-modal" }))
                     {
                         @Html.HiddenFor(m => m.InstallCertificateInformation.ContractId)
-                        for (var i = 0; i < Model.EquipmentInfo?.NewEquipment.Count; i++)
+                        for(var i = 0; i < Model.EquipmentInfo?.NewEquipment.Count; i++)
                         {
                             <div class="certificate-equipment">
                                 @Html.HiddenFor(m => m.InstallCertificateInformation.Equipments[i].Id)
@@ -2241,8 +2457,12 @@
                                         <div class="col-sm-9 col-xs-8">
                                             <div class="dealnet-field-holder text-left text-uppercase text-normal">
                                                 @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].Type,
-                                                      ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description, Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type }),
-                                                          new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                              ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem
+                                                              {
+                                                                  Value = x.Type,
+                                                                  Text = x.Description,
+                                                                  Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type
+                                                              }), new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                             </div>
                                         </div>
                                     </div>
@@ -2332,8 +2552,11 @@
                     }
                 </div>
                 <div class="btn-container">
-                    <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" onclick="printCertificate('@Url.Action("CheckInstallationCertificate", "MyDeals", new {@contractId = Model.BasicInfo.ContractId})', $('#install-certificate-info-section-modal')); $('#download-certificate-modal').modal('hide');">@Resources.Download</button>
-                    <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
+                    <button type="button" class="btn btn-green"
+                            onclick="printCertificate('@Url.Action("CheckInstallationCertificate", "MyDeals", new {@contractId = Model.BasicInfo.ContractId})', $('#install-certificate-info-section-modal')); $('#download-certificate-modal').modal('hide');">
+                        @Resources.Download
+                    </button>
+                    <a class="action-link green" data-dismiss="modal">@Resources.Cancel</a>
                 </div>
             </div>
         </div>
@@ -2368,16 +2591,15 @@
     translations['InvitesSentWaitingSignatures'] = "@Html.Raw(Resources.InvitesSentWaitingSignatures)";
 }
 
-
 @section scripts
 {
     <script type="text/javascript">
+        var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
         var isMobileBrowser = @(ViewBag.IsMobileRequest ? "true" : "false");
         var isSentToAudit = @(Model.AdditionalInfo.ContractState == ContractState.Closed ? "true" : "false");
 
         var checkUrl = '@Url.Action("CheckContractAgreement", "NewRental", new {contractId = Model.BasicInfo.ContractId })';
         var downloadUrl = '@Url.Action("PrintContract", "NewRental", new { contractId = Model.BasicInfo.ContractId })';
-
         var downloadSignedUrl = '@Url.Action("GetSignedContract", "NewRental", new { contractId = Model.BasicInfo.ContractId })';
         var esignUrl = '@Url.Action("SendContractEmails", "NewRental")';
         var updateEsignUrl = '@Url.Action("UpdateContractEmails", "NewRental")';
