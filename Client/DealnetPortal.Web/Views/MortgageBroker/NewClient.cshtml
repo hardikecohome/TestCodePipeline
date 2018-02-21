@@ -1,7 +1,11 @@
 ﻿@using DealnetPortal.Api.Core.Helpers
 @model DealnetPortal.Web.Models.NewCustomerViewModel
 
-@if (!ViewBag.IsMobileRequest)
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if(!ViewBag.IsMobileRequest)
 {
     <div class="modal fade" id="camera-modal" role="dialog" data-fnToFill="first-name" data-lnToFill="last-name" data-bdToFill="birth-date" data-dlToFill="dl-number" data-stToFill="street" data-ctToFill="locality" data-prToFill="province" data-pcToFill="postal_code">
         <div class="modal-dialog">
@@ -53,7 +57,7 @@
     <div class="dealnet-action-link">@Resources.NewClient</div> &gt;
 </div>
 
-@using (Html.BeginForm("NewClient", "MortgageBroker", FormMethod.Post, new { id = "main-form" }))
+@using(Html.BeginForm("NewClient", "MortgageBroker", FormMethod.Post, new { id = "main-form" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(x => x.IsLiveInCurrentAddress)
@@ -66,7 +70,7 @@
             </div>
             <div class="panel-body">
                 <div class="form-group">
-                    @if (!ViewBag.IsMobileRequest)
+                    @if(!ViewBag.IsMobileRequest)
                     {
                         <button class="file-upload btn dealnet-button dealnet-success-button" id="owner-scan-button" data-toggle="modal" formnovalidate data-target="#camera-modal">
                             <svg aria-hidden="true" class="icon icon-scan-licence"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-scan-licence")"></use></svg>
@@ -108,55 +112,55 @@
                             <div class="control-group dob-group">
                                 <div class="dob-input-hold">
                                     @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dob-input check-age", id = "birth-date", placeholder = Resources.DateFormat })
-                                    </div>
-                                    @{
-                                        int month = 0;
-                                        int day = 0;
-                                        int year = 0;
-                                        if (Model.HomeOwner != null && Model.HomeOwner.BirthDate.HasValue)
-                                        {
-                                            day = Model.HomeOwner.BirthDate.Value.Day;
-                                            month = Model.HomeOwner.BirthDate.Value.Month;
-                                            year = Model.HomeOwner.BirthDate.Value.Year;
-                                        }
-                                    }
-                                    <div class="dealnet-input no-border">
-                                        <div class="custom-select">
-                                            <select class="form-control dealnet-input dob-month">
-                                                <option value="">mm</option>
-                                                @for (var i = 1; i < 13; i++)
-                                                {
-                                                    <option value="@i" @(month == i ? "selected=selected" : "")>@i</option>
-                                                }
-                                            </select>
-                                            <span class="caret"></span>
-                                            </div>
-
-                                        <div class="custom-select">
-                                            <select class="form-control dealnet-input dob-day">
-                                                <option value="">dd</option>
-                                                @for (var i = 1; i < 32; i++)
-                                                {
-                                                    <option value="@i" @(day == i ? "selected=selected" : "")>@i</option>
-                                                }
-                                            </select>
-                                            <span class="caret"></span>
-                                            </div>
-
-                                        <div class="custom-select last">
-                                            <select class="form-control dealnet-input dob-year">
-                                                <option value="">yyyy</option>
-                                                @{ var yearLess18 = DateTime.Now.Year - 18;}
-                                                @for (var i = yearLess18; i >= 1900; i--)
-                                                {
-                                                    <option value="@i" @(year == i ? "selected=selected" : "")>@i</option>
-                                                }
-                                            </select>
-                                            <span class="caret"></span>
-                                            </div>
-                                        </div>
-                                    @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new { @class = "text-danger" })
                                 </div>
+                                @{
+                                    int month = 0;
+                                    int day = 0;
+                                    int year = 0;
+                                    if(Model.HomeOwner != null && Model.HomeOwner.BirthDate.HasValue)
+                                    {
+                                        day = Model.HomeOwner.BirthDate.Value.Day;
+                                        month = Model.HomeOwner.BirthDate.Value.Month;
+                                        year = Model.HomeOwner.BirthDate.Value.Year;
+                                    }
+                                }
+                                <div class="dealnet-input no-border">
+                                    <div class="custom-select">
+                                        <select class="form-control dealnet-input dob-month">
+                                            <option value="">mm</option>
+                                            @for(var i = 1; i < 13; i++)
+                                            {
+                                                <option value="@i" @(month == i ? "selected=selected" : "")>@i</option>
+                                            }
+                                        </select>
+                                        <span class="caret"></span>
+                                    </div>
+
+                                    <div class="custom-select">
+                                        <select class="form-control dealnet-input dob-day">
+                                            <option value="">dd</option>
+                                            @for(var i = 1; i < 32; i++)
+                                            {
+                                                <option value="@i" @(day == i ? "selected=selected" : "")>@i</option>
+                                            }
+                                        </select>
+                                        <span class="caret"></span>
+                                    </div>
+
+                                    <div class="custom-select last">
+                                        <select class="form-control dealnet-input dob-year">
+                                            <option value="">yyyy</option>
+                                            @{ var yearLess18 = DateTime.Now.Year - 18;}
+                                            @for(var i = yearLess18; i >= 1900; i--)
+                                            {
+                                                <option value="@i" @(year == i ? "selected=selected" : "")>@i</option>
+                                            }
+                                        </select>
+                                        <span class="caret"></span>
+                                    </div>
+                                </div>
+                                @Html.ValidationMessageFor(m => m.HomeOwner.BirthDate, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                     </div>
                     <div class="hidden">
@@ -213,7 +217,7 @@
                                 @Html.LabelFor(m => m.HomeOwner.AddressInformation.Province, new { @for = "province", @class = "mandatory-field" })
                                 <div class="control-group">
                                     @Html.DropDownListFor(m => m.HomeOwner.AddressInformation.Province, Model.ProvinceTaxRates.Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.HomeOwner?.AddressInformation?.Province == x.Province }), "Please Select",
-                  new { @class = "form-control dealnet-input", id = "province" })
+                       new { @class = "form-control dealnet-input", id = "province" })
                                     @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Province, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -278,7 +282,7 @@
                                 @Html.LabelFor(m => m.HomeOwner.PreviousAddressInformation.Province, new { @for = "previous_administrative_area_level_1", @class = "mandatory-field" })
                                 <div class="control-group">
                                     @Html.DropDownListFor(m => m.HomeOwner.PreviousAddressInformation.Province, (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.HomeOwner?.PreviousAddressInformation?.Province == x.Province }), "Please Select",
-                  new { @class = "form-control dealnet-input", id = "previous_administrative_area_level_1" })
+                       new { @class = "form-control dealnet-input", id = "previous_administrative_area_level_1" })
                                     @Html.ValidationMessageFor(m => m.HomeOwner.PreviousAddressInformation.Province, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -416,7 +420,7 @@
                                     @Html.LabelFor(m => m.ImprovmentLocation.Province, new { @for = "improvment_administrative_area_level_1", @class = "mandatory-field" })
                                     <div class="control-group">
                                         @Html.DropDownListFor(m => m.ImprovmentLocation.Province, (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model?.ImprovmentLocation?.Province == x.Province }), Resources.PleaseSelect,
-                    new { @class = "form-control dealnet-input", id = "improvment_administrative_area_level_1" })
+                         new { @class = "form-control dealnet-input", id = "improvment_administrative_area_level_1" })
                                         @Html.ValidationMessageFor(m => m.ImprovmentLocation.Province, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -457,7 +461,7 @@
                             <label>@Resources.HomeImprovementType</label>
                             <div class="control-group">
                                 @Html.DropDownList("ImpromventTypes", (Model.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }), Resources.PleaseSelect,
-                new { @class = "form-control dealnet-input", id = "improvment-equipment" })
+                     new { @class = "form-control dealnet-input", id = "improvment-equipment" })
                             </div>
                         </div>
                     </div>
@@ -466,9 +470,9 @@
                             <label class="hidden-xs">&nbsp;</label>
 
                             <ul class="customer-needs-list tags-list" id="improvement-types">
-                                @if (Model.HomeImprovementTypes != null)
+                                @if(Model.HomeImprovementTypes != null)
                                 {
-                                    foreach (var imporvment in Model.HomeImprovementTypes)
+                                    foreach(var imporvment in Model.HomeImprovementTypes)
                                     {
                                         <li><input class="hidden" name="HomeImprovementTypes" value="@imporvment">@imporvment <span class="icon-remove" onclick="$(this).parent().remove()"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
                                     }
@@ -527,7 +531,7 @@
     </div>
 
     @Html.Partial("_AgreementPersonalData", false)
-                                            }
+}
 
 
 @section Translations

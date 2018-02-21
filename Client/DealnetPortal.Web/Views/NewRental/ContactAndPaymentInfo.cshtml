@@ -2,11 +2,6 @@
 @using System.Security.Claims
 @model DealnetPortal.Web.Models.ContactAndPaymentInfoViewModel
 
-<div id="label-steps">
-	<div class="dealnet-action-link">@Resources.NewApplication</div> >
-</div>
-
-
 <div class="dealnet-large-header">@Resources.ContactAndPaymentInfo</div>
 
 <div id="steps-line"></div>
@@ -253,23 +248,23 @@
 				</div>
 			</div>
 
-			<div class="col-xs-12 col-md-4">
-				<div class="form-group">
-					@Html.LabelFor(m => m.PaymentInfo.AccountNumber)
-					<div class="control-group">
-						@Html.TextBoxFor(m => m.PaymentInfo.AccountNumber, new { @class = "form-control dealnet-input", type = "text", id = "account-number", placeholder = Resources.AccountNumber })
-						@Html.ValidationMessageFor(m => m.PaymentInfo.AccountNumber, "", new { @class = "text-danger" })
-					</div>
-				</div>
-			</div>
-		</div>*@
-		<div id="saveproceed-button">
-			<button class="btn dealnet-button dealnet-success-button">
-				@Resources.SaveAndProceed
-			</button>
-		</div>
-	}
-	</div>
+                  <div class="col-xs-12 col-md-4">
+                    <div class="form-group">
+                      @Html.LabelFor(m => m.PaymentInfo.AccountNumber)
+                      <div class="control-group">
+                        @Html.TextBoxFor(m => m.PaymentInfo.AccountNumber, new { @class = "form-control dealnet-input", type = "text", id = "account-number", placeholder = Resources.AccountNumber })
+                        @Html.ValidationMessageFor(m => m.PaymentInfo.AccountNumber, "", new { @class = "text-danger" })
+                      </div>
+                    </div>
+                  </div>
+                </div>*@
+                <div class="save-proceed-btn-hold">
+                  <button class="btn btn-green btn-form">
+                    @Resources.SaveAndProceed
+                  </button>
+                </div>
+                }
+              </div>
 </div>
 
 @section Translations

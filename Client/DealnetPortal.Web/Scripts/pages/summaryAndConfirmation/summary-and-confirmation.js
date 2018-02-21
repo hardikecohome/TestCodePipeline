@@ -97,11 +97,12 @@ function recalculateTotalCashPrice () {
             }
         });
     }
-
+    
     $("#equipment-cash-price").text(formatNumber(sum));
 
     if (isClarity && !isOldClarityDeal) {
         calculateClarityTotalCashPrice();
+        calculateClarityTotalsAndRender(sum + packageSum);
     } else {
         calculateLoanValues();
     }
@@ -190,4 +191,13 @@ function assignAutocompletes () {
                 initGoogleServices("additional-previous-street-" + i, "additional-previous-locality-" + i, "additional-previous-administrative_area_level_1-" + i, "additional-previous-postal_code-" + i);
             }
         });
+}
+
+function calculateClarityTotalsAndRender(sum) {
+    var hst = parseFloat($('#hst').text());
+    var totalWithTax = sum + hst;
+
+    $('#totalMonthlyCostNoTax').text(formatNumber(sum));
+    $('#total-hst').text(formatNumber(hst));
+    $('#totalMonthlyCostTax').text(formatNumber(totalWithTax));
 }

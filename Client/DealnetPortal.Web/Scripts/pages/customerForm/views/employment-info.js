@@ -249,10 +249,11 @@
 
         observeCustomerFormStore(function (state) {
             return {
-                province: state.province
-            };
+                province: state.province,
+                isQuebecDealer: state.isQuebecDealer
+        };
         })(function (props) {
-            if (props.province.toLowerCase() === 'qc') {
+            if (props.province.toLowerCase() === 'qc' && props.isQuebecDealer) {
                 $('#employmentInfoForm').removeClass('hidden');
                 status.val('0').change().prop('disabled', false);
             } else {

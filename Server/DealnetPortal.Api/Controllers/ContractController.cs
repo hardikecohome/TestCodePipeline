@@ -393,11 +393,11 @@ namespace DealnetPortal.Api.Controllers
 
         [Route("CreateXlsxReport")]
         [HttpPost]
-        public IHttpActionResult CreateXlsxReport(IEnumerable<int> ids)
+        public IHttpActionResult CreateXlsxReport(Tuple<IEnumerable<int>, int?> reportData)
         {
             try
             {
-                var report = _contractService.GetContractsFileReport(ids, LoggedInUser.UserId);
+                var report = _contractService.GetContractsFileReport(reportData.Item1, LoggedInUser.UserId, reportData.Item2);
                 return Ok(report);
             }
             catch (Exception ex)

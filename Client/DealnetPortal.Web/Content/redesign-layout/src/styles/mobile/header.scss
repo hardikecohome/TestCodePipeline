@@ -1,0 +1,227 @@
+@media screen and (max-width: 767px) {
+    .header__logo {
+        text-align: center;
+    }
+    .header__logo-img {
+        float: none;
+        margin-top: 0;
+        max-width: 90px;
+        display: inline-block;
+    }
+    .header__background {
+        min-height: 80px;
+        padding: 8px 0 0;
+    }
+    .mobile-navigation {
+        z-index: 201;
+        position: absolute;
+        right: 0;
+        bottom: -5px;
+    }
+    .mobile-navigation__active-item {
+        float: right;
+        background-color: $main-green;
+        cursor: pointer;
+        height: 40px;
+        text-transform: uppercase;
+        font-size: 11px;
+        width: 150px;
+        line-height: 40px;
+        background-image: url('../images/forms/selectArrow.svg');
+        background-repeat: no-repeat;
+        background-position: 92% center;
+        &.leads:lang(fr),
+        &.leads:lang(fr-CA) {
+            line-height: 13px;
+            padding-top: 9px;
+            .mobile-navigation__nav-icon {
+                padding: 0 10px
+            }
+            span:not(.mobile-navigation__nav-icon) {
+                padding-top: 5px;
+            }
+        }
+    }
+    .mobile-navigation__dropdown {
+        position: absolute;
+        right: 0;
+        background-color: white;
+        display: none;
+        width: 150px;
+        z-index: 2000;
+        top: 40px;
+        .mobile-navigation__nav-icon {
+            &:before {
+                color: $middle-grey;
+            }
+        }
+        ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            &>li {
+                border-bottom: 1px solid #f2f2f2;
+                position: relative;
+                a {
+                    color: $middle-grey;
+                    text-decoration: none;
+                    height: 40px;
+                    line-height: 40px;
+                    display: block;
+                    font-size: 11px;
+                    text-transform: uppercase;
+                    &.leads:lang(fr),
+                    &.leads:lang(fr-CA) {
+                        line-height: 13px;
+                        padding-top: 9px;
+                        .mobile-navigation__nav-icon {
+                            padding: 0 10px
+                        }
+                        span:not(.mobile-navigation__nav-icon) {
+                            padding-top: 5px;
+                        }
+                    }
+                    .notification {
+                        padding: 0 6px;
+                        top: 11px;
+                        position: absolute;
+                        right: 143px;
+                        font-size: 10px;
+                        height: 17px;
+                        line-height: 17px;
+                        border-radius: 15px;
+                        background-image: linear-gradient(111deg, #ff613c, #ff3258);
+                        color: white;
+                        width: 42px;
+                        &:lang(fr) {
+                            right: 143px;
+                            width: 64px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .mobile-navigation__nav-icon {
+        font-size: 19px;
+        padding: 9px 10px 0 10px;
+        display: block;
+        float: left;
+        &:before {
+            color: white;
+        }
+    }
+    .body-dark-overlay {
+        height: 100%;
+        min-height: 100px;
+        background-color: black;
+        opacity: 0;
+        z-index: 200;
+        width: 100%;
+        position: fixed;
+        display: none;
+    }
+    .mobile-navigation__user {
+        margin-top: 30px;
+        color: $middle-grey;
+        font-size: 11px;
+        padding: 0 12px 12px;
+    }
+    .mobile-navigation__logout {
+        float: right;
+        color: $main-green;
+        text-decoration: underline;
+        cursor: pointer;
+        &:hover {
+            color: $main-green;
+        }
+    }
+    .mobile-navigation__action-block {
+        padding: 0 12px;
+        border-bottom: 1px solid #f2f2f2;
+        .dropdown-custom {
+            width: 100%;
+            .dropdown-toggle {
+                font-size: 11px;
+                text-transform: uppercase;
+                font-weight: 400;
+                color: #5d5d5d;
+                background-image: url('../images/forms/selectArrowBlack.svg');
+                background-position-x: 25%;
+                padding: 12px 0;
+                width: 100%;
+            }
+        }
+    }
+    .header__select {
+        color: $middle-grey;
+        font-size: 11px;
+        float: none;
+        background-image: url('../images/forms/selectArrowBlack.svg');
+    }
+    .mobile-help {
+        margin-top: 15px;
+        min-width: 145px;
+        left: 0;
+        position: absolute;
+        z-index: 1003;
+        .mobile-navigation__dropdown {
+            left: 0;
+            top: 30px; // width: 100%;
+            min-width: 170px;
+            [class^="icon-"],
+            [class*=" icon-"] {
+                margin-top: 6px;
+            }
+            ul>li a {
+                text-transform: capitalize;
+                text-decoration: underline;
+                color: $main-green;
+            }
+        }
+        [class^="icon-"],
+        [class*=" icon-"] {
+            vertical-align: text-bottom;
+            float: left;
+            margin: 0 5px 0 6px;
+            &:before {
+                font-size: 23px;
+            }
+        }
+    }
+    .mobile-help__phone {
+        color: #5d5d5d;
+        font-size: 18px;
+        font-weight: 600;
+        text-align: center;
+        line-height: 40px;
+    }
+    .mobile-help__toggle {
+        max-width: 155px;
+        font-size: 12px;
+        background-color: transparent;
+        border: 0;
+        outline: none;
+        background-image: url('../images/forms/selectArrow.svg');
+        background-repeat: no-repeat;
+        background-position: right;
+        padding-right: 15px;
+        line-height: 25px;
+        cursor: pointer;
+    }
+    .mobile-navigation,
+    .mobile-help {
+        display: block;
+    }
+    :lang(fr),
+    :lang(fr-CA) {
+        .mobile-help__toggle,
+        .dealer-support-contact a {
+            font-size: 11px;
+            line-height: 13px;
+        }
+        .dealer-support-contact a {
+            padding-top: 6px;
+        }
+    }
+}

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DealnetPortal.Web.Common.Constants
+﻿namespace DealnetPortal.Web.Common.Constants
 {
     public static class PortalConstants
     {
@@ -23,5 +17,20 @@ namespace DealnetPortal.Web.Common.Constants
         public const string OnboardingLeadSourceFrenchKey = "OnboardingLeadSourceFrench";
 
         public const string ClarityTierNameKey = "ClarityTierName";
+        public const string CultureCookieNameKey = "CultureCookieName";
+
+        public const string NewDesignLogin = "NewDesignLogin";
+
+        public const string QuebecPostalCodesNameKey = "QuebecPostalCodes";
+    }
+
+    public static class ClaimContstants
+    {
+        public const string QuebecDealer = "QuebecDealer";
+    }
+    public static class RoleContstants
+    {
+        public const string Dealer = "Dealer";
+        public const string MortgageBroker = "MortgageBroker";
     }
 }

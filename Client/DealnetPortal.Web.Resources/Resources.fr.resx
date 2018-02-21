@@ -2348,7 +2348,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Comment pouvons-nous vous aider?</value>
   </data>
   <data name="DealerSupport" xml:space="preserve">
-    <value>Soutien aux marchands / Financement</value>
+    <value>Soutien aux marchands</value>
   </data>
   <data name="CustomerService" xml:space="preserve">
     <value>Service à la clientèle</value>
@@ -2634,5 +2634,8 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
   </data>
   <data name="ConditionalApprovalFor" xml:space="preserve">
     <value>Approbation conditionnelle pour</value>
+  </data>
+  <data name="Funding" xml:space="preserve">
+    <value>Financement</value>
   </data>
 </root>

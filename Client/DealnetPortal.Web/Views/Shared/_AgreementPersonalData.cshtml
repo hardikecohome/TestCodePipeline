@@ -1,5 +1,6 @@
 ﻿@using DealnetPortal.Api.Core.Helpers;
 @using System.Security.Claims;
+@using DealnetPortal.Web.Common.Constants
 @model bool
 <div id="personal-data-used" style="display: none;">
 	@Html.Raw(((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True") || Model )? (CultureHelper.CurrentCultureType != CultureType.French) ? File.ReadAllText(Server.MapPath("~/Content/files/HTML/en/qc/AgreementPersonalDataQC.html")) : File.ReadAllText(Server.MapPath("~/Content/files/HTML/fr/qc/AgreementPersonalDataQCFR.html"))

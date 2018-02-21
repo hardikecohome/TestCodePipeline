@@ -1,19 +1,18 @@
-﻿using DealnetPortal.Api.Models.UserSettings;
-using DealnetPortal.Web.Infrastructure;
-using DealnetPortal.Web.Infrastructure.Managers;
-using DealnetPortal.Web.Models.Enumeration;
-
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.UI;
 using DealnetPortal.Api.Core.Helpers;
-using DealnetPortal.Web.Common.Culture;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using System.Security.Claims;
+
 using DealnetPortal.Utilities.Logging;
 using log4net;
 using DealnetPortal.Web.ServiceAgent;
+using DealnetPortal.Web.Common.Constants;
+using DealnetPortal.Api.Models.UserSettings;
+using DealnetPortal.Web.Infrastructure.Managers;
+using DealnetPortal.Web.Models.Enumeration;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -42,7 +41,7 @@ namespace DealnetPortal.Web.Controllers
             if (image?.ValueBytes != null)
             {
                 _loggingService.LogInfo($"Got dealer Logo {image?.ValueBytes.Length}bytes settings for dealer: {(!string.IsNullOrEmpty(User?.Identity?.Name) ? User.Identity.Name : hashDealerName)}");
-                return File(image.ValueBytes, "application/octet-stream");
+                return File(image.ValueBytes, "image/png");
             }
             //fallback:
             bool IsQuebecDealer = false;
@@ -53,6 +52,7 @@ namespace DealnetPortal.Web.Controllers
             }
             Stream stream;
             if ((CultureHelper.CurrentCultureType != CultureType.French && string.IsNullOrEmpty(User?.Identity?.Name) && string.IsNullOrEmpty(hashDealerName)) || (!string.IsNullOrEmpty(User?.Identity?.Name) && !((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True"))) || (!string.IsNullOrEmpty(hashDealerName) && IsQuebecDealer==false))
+//            if ((CultureHelper.CurrentCultureType != CultureType.French && string.IsNullOrEmpty(User?.Identity?.Name)) || (!string.IsNullOrEmpty(User?.Identity?.Name) && !((bool)((ClaimsPrincipal)User)?.HasClaim(ClaimContstants.QuebecDealer, "True"))))
             {
                 switch (ApplicationSettingsManager.PortalType)
                 {

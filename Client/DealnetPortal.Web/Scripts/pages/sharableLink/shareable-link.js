@@ -48,11 +48,11 @@
                         alert(translations['ErrorWhileUpdatingData']);
                     } else if (json.isSuccess) {
                         if ($('.toggle-language-link:checked').length) {
-                            $('#success-message-disabled').hide();
-                            $('#success-message-enabled').show();
+                            $('#success-message-disabled').addClass('hidden');
+                            $('#success-message-enabled').removeClass('hidden');
                         } else {
-                            $('#success-message-enabled').hide();
-                            $('#success-message-disabled').show();
+                            $('#success-message-enabled').addClass('hidden');
+                            $('#success-message-disabled').removeClass('hidden');
                         }
                     }
                 },

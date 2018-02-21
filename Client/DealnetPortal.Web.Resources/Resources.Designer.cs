@@ -1943,6 +1943,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Credit.
+        /// </summary>
+        public static string Credit {
+            get {
+                return ResourceManager.GetString("Credit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Credit check approved.
         /// </summary>
         public static string CreditCheckApproved {
@@ -2231,7 +2240,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dealer Support/Funding.
+        ///   Looks up a localized string similar to Dealer Support.
         /// </summary>
         public static string DealerSupport {
             get {
@@ -3095,6 +3104,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Funding.
+        /// </summary>
+        public static string Funding {
+            get {
+                return ResourceManager.GetString("Funding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Funding Checklist.
         /// </summary>
         public static string FundingChecklist {
@@ -3190,6 +3208,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Help {
             get {
                 return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Home.
+        /// </summary>
+        public static string Home {
+            get {
+                return ResourceManager.GetString("Home", resourceCulture);
             }
         }
         
@@ -6044,6 +6071,24 @@ namespace DealnetPortal.Web.Resources {
         public static string SerialNumber {
             get {
                 return ResourceManager.GetString("SerialNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your service area should be in Quebec.
+        /// </summary>
+        public static string ServiceAreaInQc {
+            get {
+                return ResourceManager.GetString("ServiceAreaInQc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your service area cannot be in Quebec.
+        /// </summary>
+        public static string ServiceAreaNotInQc {
+            get {
+                return ResourceManager.GetString("ServiceAreaNotInQc", resourceCulture);
             }
         }
         

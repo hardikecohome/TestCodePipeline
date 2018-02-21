@@ -22,7 +22,7 @@ using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 using Microsoft.AspNet.Identity;
-using Microsoft.Practices.ObjectBuilder2;
+using Unity.Interception.Utilities;
 
 namespace DealnetPortal.Api.Providers
 {

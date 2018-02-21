@@ -2,6 +2,13 @@
   .message-header {
     font-size: 20px;
     margin: 15px 0;
+    .action-link {
+      display: inline;
+      font-size: 20px;
+      line-height: inherit;
+      margin:0;
+      white-space: initial;
+    }
   }
 }
 .contract-edit {
@@ -302,20 +309,20 @@
           bottom: 6px;
           margin-bottom: 10px;
         }
-        .dealnet-link-button {
+        .action-link {
           display: none;
         }
       }
       &.declined { 
         display: block;
-        .dealnet-link-button {
+        .action-link {
           display: none;
         }
         padding-top: 20px; 
         @media @tablet-down {
           padding-top: 15px;
         }
-      }
+      }         
     }
     .signature-status {
       .comment-btn {
@@ -340,6 +347,9 @@
       .signature-hold {
         display: inline-block;
         max-width: 160px;
+        @media @large-tablet-only{
+          max-width:140px;
+        }
       }
       .signature-header {
         font-size: 12px;
@@ -354,13 +364,16 @@
           height: 13px;
           width: 13px;
         }
-        .icon:not(.hidden) + .dealnet-link-button{
-          padding-left: 0;
-        }
-        .dealnet-link-button {
+        .action-link {
           font-size: 13px;
+          margin: 0;
           padding-bottom: 0;
+          padding-left: 12px;
           padding-top: 0;
+          font-weight: 500;
+        }
+        .icon:not(.hidden) + .action-link {
+          padding-left: 0;
         }
       }
     }
@@ -400,6 +413,7 @@
     background: #eeeeee;
   }
 }
+
 .esig-modal {
   .signed-contract .sent-contract-secton {
     .signature-status .signature-hold {

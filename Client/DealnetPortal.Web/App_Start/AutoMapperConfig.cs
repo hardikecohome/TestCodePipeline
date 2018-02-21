@@ -418,7 +418,7 @@ namespace DealnetPortal.Web.App_Start
                         (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription()))
                 .ForMember(d => d.AgreementType, s => s.ResolveUsing(src =>
                 {
-                    if(src.Equipment?.AgreementType != null && src.Equipment?.ValueOfDeal != null)
+                    if(src.Equipment?.AgreementType != null && src.Equipment?.ValueOfDeal != null && (src.Equipment.LoanTerm != null || src.Equipment.AmortizationTerm != null || src.Equipment.RequestedTerm != null))
                     {
                         return src.Equipment?.AgreementType.ConvertTo<AgreementType>()
                             .GetEnumDescription();
@@ -481,7 +481,7 @@ namespace DealnetPortal.Web.App_Start
                 }))
                 .ForMember(d => d.Value, s => s.ResolveUsing(src =>
                 {
-                    if(src.Equipment != null && src.Equipment.ValueOfDeal != null)
+                    if(src.Equipment != null && src.Equipment.ValueOfDeal != null && (src.Equipment.LoanTerm != null || src.Equipment.AmortizationTerm != null || src.Equipment.RequestedTerm != null))
                     {
                         return FormattableString.Invariant($"$ {src.Equipment.ValueOfDeal:0.00}");
                     }
@@ -569,7 +569,7 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<ContractDocumentDTO, ExistingDocument>()
             .ForMember(x => x.DocumentId, d => d.MapFrom(src => src.Id))
             .ForMember(x => x.DocumentName, d => d.ResolveUsing(src => src.DocumentName.Substring(src.DocumentName.IndexOf("_") + 1)))
-            .ForMember(x => x.LastUpdateTime, d => d.MapFrom(src => src.CreationDate));
+            .ForMember(x => x.LastUpdateTime, d => d.MapFrom(src => src.CreationDate.TryConvertToLocalUserDate()));
 
             cfg.CreateMap<PaymentInfoDTO, PaymentInfoViewModel>();
             cfg.CreateMap<CustomerDTO, ContactInfoViewModel>()

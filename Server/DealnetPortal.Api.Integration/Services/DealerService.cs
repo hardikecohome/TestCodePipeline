@@ -19,9 +19,9 @@ using DealnetPortal.Domain;
 using DealnetPortal.Domain.Dealer;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
-using Microsoft.Practices.ObjectBuilder2;
 using DealnetPortal.Api.Models.Notify;
 using DealnetPortal.Domain.Repositories;
+using Unity.Interception.Utilities;
 
 namespace DealnetPortal.Api.Integration.Services
 {

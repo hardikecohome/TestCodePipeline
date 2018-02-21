@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Description" content="<%= description %>">
+    <meta name="Keywords" content="<%= keywords %>">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Mukta:300,400,500,700,800" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="librarys/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="librarys/jquery.selectric/selectric.css" />
+    <script src="librarys/bootstrap/js/bootstrap.min.js"></script>
+    <script src="librarys/jquery.selectric/jquery.selectric.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="css/styles-tablet.css" />
+    <link rel="stylesheet" type="text/css" href="css/styles-mobile.css" />
+
+  </head>
+  <body>
+    <%- partial('../_partials/header') %>
+    <%- body %>
+    <%- partial('../_partials/footer') %>
+    <!-- include: "type": "js", "files": "js/*.js" -->
+    <!-- /include -->
+    <script src="http://localhost:35729/livereload.js"></script>
+  </body>
+</html>

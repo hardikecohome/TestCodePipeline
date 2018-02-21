@@ -33,10 +33,10 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IContractRepository _contractRepository;
         private readonly ISmsSubscriptionService _smsSubscriptionServive;
         private readonly IPersonalizedMessageService _personalizedMessageService;
-        private readonly IMailСhimpService _mailChimpService;
+        private readonly IMailChimpService _mailChimpService;
         private readonly IMandrillService _mandrillService;
 
-        public MailService(IEmailService emailService, IContractRepository contractRepository, ILoggingService loggingService, IPersonalizedMessageService personalizedMessageService, IMailСhimpService mailChimpService, IMandrillService mandrillService, ISmsSubscriptionService smsSubscriptionServive)
+        public MailService(IEmailService emailService, IContractRepository contractRepository, ILoggingService loggingService, IPersonalizedMessageService personalizedMessageService, IMailChimpService mailChimpService, IMandrillService mandrillService, ISmsSubscriptionService smsSubscriptionServive)
         {
             _emailService = emailService;
             _contractRepository = contractRepository;

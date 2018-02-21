@@ -11,6 +11,11 @@ namespace DealnetPortal.Web.Common.Helpers
             ClientOffset = offset;
         }
 
+        public static int? GetOffset()
+        {
+            return ClientOffset;
+        }
+
         public static DateTime TryConvertToLocalUserDate(this DateTime time)
         {
             if (time == default(DateTime)) return time;

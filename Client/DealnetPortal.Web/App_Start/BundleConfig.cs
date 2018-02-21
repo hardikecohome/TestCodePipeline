@@ -11,6 +11,16 @@ namespace DealnetPortal.Web
             bundles.Add(new ScriptBundle("~/bundles/jquery")
                 .Include("~/Scripts/vendor/jquery-{version}.js"));
 
+            bundles.Add(new StyleBundle("~/bundles/vendor-styles")
+                .Include("~/Content/css/jquery-ui.css")
+                .Include("~/Content/css/bootstrap.css")
+                .Include("~/Content/css/selectric.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/styles")
+                .Include("~/Content/css/styles.css")
+                .Include("~/Content/css/styles-tablet.css")
+                .Include("~/Content/css/styles-mobile.css"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").NonOrdering()
                 .Include(
                 "~/Scripts/vendor/jquery.validate*",
@@ -59,6 +69,7 @@ namespace DealnetPortal.Web
             bundles.Add(new ScriptBundle("~/bundles/bootstrap")
                 .Include(
                     "~/Scripts/vendor/bootstrap.js",
+                    "~/Scripts/vendor/jquery.selectric.min.js",
                     "~/Scripts/vendor/respond.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/data-tables-scripts")
@@ -139,6 +150,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/datepicker.js")
                 .Include("~/Scripts/utils/loader.js")
                 .Include("~/Scripts/utils/tables.js")
+                .Include("~/Scripts/vendor/jquery.form.js")
                 .Include("~/Scripts/pages/leads/leads.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/my-deals")
@@ -158,6 +170,7 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/report-contracts")
                 .Include("~/Scripts/common/init-responsive-tabs.js")
+                .Include("~/Scripts/utils/backToTop.js")
                 .Include("~/Scripts/pages/reportContracts/index.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/contract-edit")
@@ -174,6 +187,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/navigateToStep.js")
                 .Include("~/Scripts/utils/backToTop.js")
                 .Include("~/Scripts/utils/resetPlaceholder.js")
+                .Include("~/Scripts/utils/setEqualHeightRows.js")
                 .Include("~/Scripts/common/init-responsive-tabs.js")
                 .Include("~/Scripts/pages/aggrementSubmitSuccess/agreement-submit-success.js")
                 .IncludeDirectory("~/Scripts/pages/contractEdit", "*.js", true));

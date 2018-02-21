@@ -29,7 +29,7 @@ namespace DealnetPortal.Api.Integration.Interfaces
 
         IList<Alert> NotifyContractEdit(int contractId, string contractOwnerId);
 
-        AgreementDocument GetContractsFileReport(IEnumerable<int> ids, string contractOwnerId);
+        AgreementDocument  GetContractsFileReport(IEnumerable<int> ids, string contractOwnerId, int? timeZoneOffset = null);
 
         IList<Alert> UpdateInstallationData(InstallationCertificateDataDTO installationCertificateData, string contractOwnerId);
 

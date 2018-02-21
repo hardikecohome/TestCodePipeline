@@ -114,7 +114,7 @@ namespace DealnetPortal.Web.Controllers
                 var document = new ContractDocumentDTO
                 {
                     Id = documentForUpload.Id ?? 0,
-                    CreationDate = DateTime.Now,
+                    CreationDate = DateTime.UtcNow,
                     DocumentTypeId = documentForUpload.DocumentTypeId != 0 ? documentForUpload.DocumentTypeId : 7,
                     DocumentBytes = documentBytes,
                     DocumentName =
