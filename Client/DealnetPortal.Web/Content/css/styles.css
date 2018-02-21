@@ -148,8 +148,10 @@
   height: 270px;
   margin: 0 15px; }
 
-.banner {
-  margin: 0; }
+.banner img {
+  display: block;
+  height: auto;
+  width: 100%; }
 
 /* Customize the label (the container) */
 .checkbox-container {
