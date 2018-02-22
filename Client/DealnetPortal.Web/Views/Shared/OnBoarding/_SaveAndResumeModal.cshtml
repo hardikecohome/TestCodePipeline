@@ -44,7 +44,17 @@
                                         <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
                                     </svg>
                                 </span>
-                                <span>@Resources.ConsentToReceiveCommercialElectronicMessages | <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>.</span>
+								<span>
+									@Resources.ConsentToReceiveCommercialElectronicMessages |
+									@if (CultureHelper.CurrentCultureType != CultureType.French)
+									{
+										<a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>
+									}
+									else
+									{
+										<a target="_blank" href="http://www.financementecohome.com/" class="link-color-inherit">www.financementecohome.com</a>
+									}
+									.</span>
                             </label>
                             <span class="text-danger" id="agreement-email-error"></span>
                         </div>

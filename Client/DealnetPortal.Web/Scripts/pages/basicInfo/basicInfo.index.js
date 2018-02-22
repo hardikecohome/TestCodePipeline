@@ -8,6 +8,7 @@
     var checkCreditAgree = require('customer-validation').checkCreditAgree;
     var scrollPageTo = require('scrollPageTo');
     var dynamicAlertModal = require('alertModal').dynamicAlertModal;
+    var hideDynamicAlertModal = require('alertModal').hideDynamicAlertModal;
     var addAdditionalButton, aditional1Section;
 
     function setDataAttrInModal(index) {
@@ -78,10 +79,15 @@
         $('.j-personal-data-used-modal').on('click', function (e) {
             var data = {
                 message: $('#personal-data-used').html(),
-                "class": 'consents-modal',
-                cancelBtnText: 'OK'
+                "class": 'consents-modal basic-info',
+                cancelBtnText: '',
+                confirmBtnText:'OK'
             };
             dynamicAlertModal(data);
+            $('#confirmAlert').one('click', function (e) {
+                hideDynamicAlertModal()
+                e.preventDefault();
+            });
             e.preventDefault();
         });
 
@@ -183,7 +189,7 @@
             $.each(holders, function (index, item) {
                 item.find(':input').each(function () {
                     if ($(this).not('.placeholder')) {
-                        $(this).val('');
+                        $(this).val('').change();
                     }
                 });
             });

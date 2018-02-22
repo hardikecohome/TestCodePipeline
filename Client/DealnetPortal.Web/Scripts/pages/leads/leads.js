@@ -16,8 +16,11 @@ $(document).ready(function () {
     commonDataTablesSettings();
 });
 
-function showTable () {
-    $.when($.ajax(itemsUrl, { cache: false, mode: 'GET' }))
+function showTable() {
+    $.when($.ajax(itemsUrl, {
+            cache: false,
+            mode: 'GET'
+        }))
         .done(function (data) {
             var postalCodeOptions = [];
             var preApprovedOptions = [];
@@ -43,15 +46,36 @@ function showTable () {
             table = $('#work-items-table')
                 .DataTable({
                     data: data,
+                    autoWidth: false,
                     responsive: {
-                        breakpoints: [
-                            { name: 'desktop-lg', width: Infinity },
-                            { name: 'desktop', width: 1169 },
-                            { name: 'tablet-l', width: $('body').is('.tablet-device') ? 1025 : 1023 },
-                            { name: 'tablet', width: 1023 },
-                            { name: 'mobile', width: 767 },
-                            { name: 'mobile-l', width: 767 },
-                            { name: 'mobile-p', width: 480 },
+                        breakpoints: [{
+                                name: 'desktop-lg',
+                                width: Infinity
+                            },
+                            {
+                                name: 'desktop',
+                                width: 1169
+                            },
+                            {
+                                name: 'tablet-l',
+                                width: $('body').is('.tablet-device') ? 1025 : 1023
+                            },
+                            {
+                                name: 'tablet',
+                                width: 1023
+                            },
+                            {
+                                name: 'mobile',
+                                width: 767
+                            },
+                            {
+                                name: 'mobile-l',
+                                width: 767
+                            },
+                            {
+                                name: 'mobile-p',
+                                width: 480
+                            },
                         ]
                     },
                     oLanguage: {
@@ -64,13 +88,27 @@ function showTable () {
                         "sZeroRecords": translations['NoMatchingRecordsFound'],
                         "sEmptyTable": isCompletedProfile ? translations['NoMatchingRecordsFound'] : translations['LeadsNoMatchingRecordsFound']
                     },
-                    columns: [
-                        { "data": "Date", className: 'date-cell expanded-cell' },
-                        { "data": "PostalCode", className: 'code-cell' },
-                        { "data": "PreApprovalAmount", className: 'preapproved-cell' },
-                        { "data": "Equipment", className: 'equipment-cell' },
-                        { "data": "CustomerComment", className: 'customer-cell' },
-                        {// this is Actions Column
+                    columns: [{
+                            "data": "Date",
+                            className: 'date-cell expanded-cell'
+                        },
+                        {
+                            "data": "PostalCode",
+                            className: 'code-cell'
+                        },
+                        {
+                            "data": "PreApprovalAmount",
+                            className: 'preapproved-cell'
+                        },
+                        {
+                            "data": "Equipment",
+                            className: 'equipment-cell'
+                        },
+                        {
+                            "data": "CustomerComment",
+                            className: 'customer-cell'
+                        },
+                        { // this is Actions Column
                             "render": function (sdata, type, row) {
                                 return '<div class="contract-controls text-center"><a class="link-accepted" data-container="body" data-toggle="popover" data-trigger="hover" data-content="' + translations['PreApprovedLoanValueFeeWillBeApplied'] + '" id = "lead' + row.Id + '"  onclick="addLead(' + row.Id + ', ' + row.TransactionId + ')"><svg aria-hidden="true" class="icon icon-accept-lead"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-accept-lead-new"></use></svg></a></div>';
                             },
@@ -78,8 +116,7 @@ function showTable () {
                             orderable: false
                         },
                     ],
-                    dom:
-                        "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
+                    dom: "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
                         "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
                         "<'row'<'col-md-12 col-sm-6'l>>" +
                         "<'row'<'col-md-12''<'#section-before-table'>'>>" +
@@ -105,9 +142,14 @@ function showTable () {
             $('.filter-button').click(function () {
                 table.draw();
             });
+
+            var isNotMobile = $('body').not('.tablet-device').not('.mobile-device').length > 0;
+            resetPopover(isNotMobile)
+
             table.on('draw.dt', function () {
                 redrawDataTablesSvgIcons();
                 resetDataTablesExpandedRows(table);
+                resetPopover(isNotMobile);
             });
 
             $('#work-items-table th').on('click', function () {
@@ -134,34 +176,24 @@ function showTable () {
             $('#clear-filters-mobile').on('click', clearFilters);
 
             $('.dataTables_filter input[type="search"]').attr('placeholder', translations.RequestedService);
-            if ($('body').not('.tablet-device').not('.mobile-device').length > 0) {
-                $('.link-accepted').popover({
-                    placement: 'left',
-                    template: '<div class="popover customer-popover accepted-leads-popover" role="tooltip"><div class="popover-inner"><div class="popover-container"><span class="popover-icon"><svg aria-hidden="true" class="icon icon-tooltip-info"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-tooltip-info"></use></svg></span><div class="popover-content text-center"></div></div></div></div>',
-                });
-            }
-
         });
 
-    function clearFilters () {
-        $('.filter-input').val("");
+    function resetPopover(isNotMobile) {
+        if (isNotMobile) {
+            $('.link-accepted').popover('destroy');
+            $('.link-accepted').popover({
+                placement: 'left',
+                template: '<div class="popover customer-popover accepted-leads-popover" role="tooltip"><div class="popover-inner"><div class="popover-container"><span class="popover-icon"><svg aria-hidden="true" class="icon icon-tooltip-info"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-tooltip-info"></use></svg></span><div class="popover-content text-center"></div></div></div></div>',
+            });
+        }
+    }
+
+    function clearFilters() {
+        $('.filter-input').val("").change();
         table.search('').draw(false);
     }
 
 };
-
-
-$.fn.dataTable.Api.register('order.neutral()', function () {
-    return this.iterator('table', function (s) {
-        s.aaSorting.length = 0;
-        s.aiDisplay.sort(function (a, b) {
-            return a - b;
-        });
-        s.aiDisplayMaster.sort(function (a, b) {
-            return a - b;
-        });
-    });
-});
 
 $.fn.dataTable.ext.search.push(
     function () {
@@ -185,7 +217,7 @@ $.fn.dataTable.ext.search.push(
         }
     }());
 
-function removeLead (id) {
+function removeLead(id) {
     var table = $('#work-items-table').DataTable();
     var rowLead = $("#lead" + id).closest('tr');
     table.row(rowLead)
@@ -193,7 +225,7 @@ function removeLead (id) {
         .draw(false);
 };
 
-function addLead (id, transactionId) {
+function addLead(id, transactionId) {
     $('.link-accepted').popover('hide');
     var data = {
         message: "<div class=\"modal-leads-content\"><div>" + translations['AreYouSure'] + "</div><div>" + translations['AcceptanceOfLeadFeeAppliedToYourAccount'] + "</div></div>",

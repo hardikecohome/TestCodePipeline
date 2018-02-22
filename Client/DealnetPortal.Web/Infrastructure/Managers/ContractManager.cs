@@ -138,7 +138,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 equipmentInfo.ProvinceTaxRate = rate;
             }
 
-            equipmentInfo.IsOnlyLoanAvailable = mainAddressProvinceCode == ContractProvince.QC.ToString();
+            equipmentInfo.IsQuebecProvince = mainAddressProvinceCode == ContractProvince.QC.ToString();
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
             equipmentInfo.IsAllInfoCompleted = result.Item1.PaymentInfo != null && result.Item1.PrimaryCustomer?.Phones != null && result.Item1.PrimaryCustomer.Phones.Any();
             equipmentInfo.IsApplicantsInfoEditAvailable = result.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;
@@ -346,7 +346,6 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             var dealerTier = await _contractServiceAgent.GetDealerTier();
             model.DealerTier = dealerTier ?? new TierDTO { RateCards = new List<RateCardDTO>() };
 
-            //TODO: FOR DEMO PUROPSE ONLY REFACTOR AS SOON AS POSSIBLE!!!
             var planDict = new Dictionary<RateCardType, string>
             {
                 {RateCardType.FixedRate, Resources.Resources.StandardRate},
@@ -665,7 +664,6 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             if(equipmnetInfo.HouseSize.HasValue)
             {
                 contractData.Details.HouseSize = equipmnetInfo.HouseSize;
-
             }
 
             return await _contractServiceAgent.UpdateContractData(contractData);

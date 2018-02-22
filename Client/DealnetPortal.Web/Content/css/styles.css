@@ -138,12 +138,20 @@
   .action-link.disabled {
     opacity: 0.5;
     cursor: default; }
+  .action-link .icon {
+    margin-right: 5px; }
 
 .main-banner {
   background-repeat: no-repeat;
+  background-size: auto auto;
   display: block;
   height: 270px;
-  background-size: auto 100%; }
+  margin: 0 15px; }
+
+.banner img {
+  display: block;
+  height: auto;
+  width: 100%; }
 
 /* Customize the label (the container) */
 .checkbox-container {
@@ -217,6 +225,8 @@
     background-position: right;
     position: relative;
     cursor: pointer; }
+    .dropdown-custom .dropdown-toggle span {
+      padding: 5px; }
   .dropdown-custom .dropdown-menu {
     min-width: 80px;
     border-radius: 0;
@@ -245,11 +255,13 @@
 .header__navigation {
   float: left;
   margin-left: 66px; }
+  .header__navigation.has-about:lang(fr), .header__navigation.has-about:lang(fr-CA) {
+    margin-left: 20px; }
   .header__navigation ul {
     padding: 0;
     margin: 0;
     list-style: none;
-    position: absolute;
+    position: relative;
     bottom: -6px; }
     .header__navigation ul li {
       float: left;
@@ -361,9 +373,9 @@
   border: 0;
   margin: 0 10px 0 0;
   background-color: transparent;
-  appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;
+  appearance: none;
   padding-right: 10px;
   background-image: url("../images/forms/selectArrow.svg");
   background-repeat: no-repeat;
@@ -471,13 +483,12 @@ body {
   font-family: 'Mukta', sans-serif; }
 
 .body-container {
-  padding-top: 10px; }
+  padding-top: 10px;
+  padding-bottom: 15px; }
 
 .custom-container {
-  max-width: 1030px;
+  max-width: 1280px;
   margin: 0 auto; }
-  .custom-container.table-page {
-    max-width: 1280px; }
 
 .margin-block {
   margin: 10px auto; }

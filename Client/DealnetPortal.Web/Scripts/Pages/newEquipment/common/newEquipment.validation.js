@@ -64,7 +64,7 @@
             }
         });
 
-        $(settings.amortizationTermId).rules('add', {
+        $(settings.customAmortTermId).rules('add', {
             required: true,
             regex: /^[1-9]\d{0,2}?$/,
             min: 1,
@@ -76,7 +76,7 @@
             }
         });
 
-        $(settings.loanTermId).rules('add', {
+        $(settings.customLoanTermId).rules('add', {
             required: true,
             regex: /^[1-9]\d{0,2}?$/,
             min: 1,

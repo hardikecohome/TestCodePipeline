@@ -282,14 +282,24 @@
     button#confirmAlert{
       display: none;
     }
-    button[data-dismiss="modal"]{
+    /*button[data-dismiss="modal"]{
       &:extend(.dealnet-success-button);
-    }
+    }*/
   }
   .address-info{
     padding-left: 50px;
   }
   p .dealnet-info-link{
     font-size: inherit;
+  }
+}
+.consents-modal.basic-info {
+  .modal-footer {
+    button#confirmAlert {
+      display: inline-block;
+    }
+    .action-link {
+      display: none;
+    }
   }
 }

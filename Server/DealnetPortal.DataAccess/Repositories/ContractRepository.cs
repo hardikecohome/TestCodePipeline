@@ -998,7 +998,7 @@ namespace DealnetPortal.DataAccess.Repositories
             }
 
             var paymentSummary = GetContractPaymentsSummary(contract);
-            dbEquipment.ValueOfDeal = contract.Details.AgreementType == AgreementType.LoanApplication ? (double?) paymentSummary.TotalAmountFinanced : (double?) paymentSummary.TotalMonthlyPayment;            
+            dbEquipment.ValueOfDeal = contract.Equipment.AgreementType == AgreementType.LoanApplication ? (double?) paymentSummary.TotalAmountFinanced : (double?) paymentSummary.TotalMonthlyPayment;
 
             return dbEquipment;
         }
@@ -1366,6 +1366,9 @@ namespace DealnetPortal.DataAccess.Repositories
                 if (contract.Equipment != null)
                 {
                     contract.Equipment.AgreementType = contractDetails.AgreementType.Value;
+
+                    var paymentSummary = GetContractPaymentsSummary(contract);
+                    contract.Equipment.ValueOfDeal = contract.Equipment.AgreementType == AgreementType.LoanApplication ? (double?)paymentSummary.TotalAmountFinanced : (double?)paymentSummary.TotalMonthlyPayment;
                 }
             }
             if (contractDetails.SignatureDocumentId != null)

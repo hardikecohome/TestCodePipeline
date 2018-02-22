@@ -30,6 +30,17 @@
         background-image: url('../images/forms/selectArrow.svg');
         background-repeat: no-repeat;
         background-position: 92% center;
+        &.leads:lang(fr),
+        &.leads:lang(fr-CA) {
+            line-height: 13px;
+            padding-top: 9px;
+            .mobile-navigation__nav-icon {
+                padding: 0 10px
+            }
+            span:not(.mobile-navigation__nav-icon) {
+                padding-top: 5px;
+            }
+        }
     }
     .mobile-navigation__dropdown {
         position: absolute;
@@ -59,6 +70,17 @@
                     display: block;
                     font-size: 11px;
                     text-transform: uppercase;
+                    &.leads:lang(fr),
+                    &.leads:lang(fr-CA) {
+                        line-height: 13px;
+                        padding-top: 9px;
+                        .mobile-navigation__nav-icon {
+                            padding: 0 10px
+                        }
+                        span:not(.mobile-navigation__nav-icon) {
+                            padding-top: 5px;
+                        }
+                    }
                     .notification {
                         padding: 0 6px;
                         top: 11px;
@@ -115,16 +137,19 @@
         }
     }
     .mobile-navigation__action-block {
-        padding: 12px;
+        padding: 0 12px;
         border-bottom: 1px solid #f2f2f2;
         .dropdown-custom {
+            width: 100%;
             .dropdown-toggle {
                 font-size: 11px;
                 text-transform: uppercase;
                 font-weight: 400;
                 color: #5d5d5d;
                 background-image: url('../images/forms/selectArrowBlack.svg');
-                width: 30%;
+                background-position-x: 25%;
+                padding: 12px 0;
+                width: 100%;
             }
         }
     }
@@ -190,9 +215,13 @@
     }
     :lang(fr),
     :lang(fr-CA) {
-        .mobile-help__toggle {
+        .mobile-help__toggle,
+        .dealer-support-contact a {
             font-size: 11px;
             line-height: 13px;
+        }
+        .dealer-support-contact a {
+            padding-top: 6px;
         }
     }
 }

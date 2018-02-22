@@ -155,7 +155,7 @@ $.fn.dataTable.ext.search.push(
 );
 
 function clearFilters () {
-    $('.filter-input').val("");
+    $('.filter-input').val("").change();
     var table = $('#work-items-table').DataTable();
     table.search('').draw();
 }
