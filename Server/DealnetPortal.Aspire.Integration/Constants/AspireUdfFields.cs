@@ -65,6 +65,11 @@
         public static string InstallPackageDescr = "Install Package Descr";
 
         public static string AdminFee = "Admin Fee";
+        public static string DownPayment = "Down Payment";
+        public static string CustomerRate = "Customer Rate";
+        public static string DealerCost = "Dealer Cost";
+        public static string DealerRate = "Dealer Rate";
+        public static string RateCardType = "Rate Card Type";
 
         public static string RentalMonthlyPaymen = "EH Rental Payment Amount";
 

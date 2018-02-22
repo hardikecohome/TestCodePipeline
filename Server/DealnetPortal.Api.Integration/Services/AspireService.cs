@@ -1745,14 +1745,11 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = contract.Equipment.DeferralType.GetPersistentEnumDescription()
                     });
                 }
-                if (contract.Equipment.RequestedTerm != null)
+                udfList.Add(new UDF()
                 {
-                    udfList.Add(new UDF()
-                    {
-                        Name = AspireUdfFields.RequestedTerm,
-                        Value = contract.Equipment.RequestedTerm.ToString()
-                    });
-                }
+                    Name = AspireUdfFields.RequestedTerm,
+                    Value = contract.Equipment.RequestedTerm?.ToString() ?? BlankValue
+                });
 
                 udfList.Add(new UDF()
                 {
@@ -1782,6 +1779,28 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = AspireUdfFields.AdminFee,
                     Value = contract.Equipment?.AdminFee?.ToString() ?? "0.0"
                 });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.DownPayment,
+                    Value = contract.Equipment?.DownPayment?.ToString() ?? "0.0"
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.CustomerRate,
+                    Value = contract.Equipment?.CustomerRate?.ToString() ?? "0.0"
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.DealerCost,
+                    Value = contract.Equipment?.DealerCost?.ToString() ?? "0.0"
+                });
+                //TODO: add RateCard navigation property
+                //udfList.Add(new UDF()
+                //{
+                //    Name = AspireUdfFields.DealerRate,
+                //    Value = contract.Equipment?.RateCardId DealerCost?.ToString() ?? "0.0"
+                //});
+                
 
                 if (contract.Equipment?.AgreementType != AgreementType.LoanApplication)
                 {
