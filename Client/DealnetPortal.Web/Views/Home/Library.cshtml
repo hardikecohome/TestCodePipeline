@@ -1,6 +1,18 @@
-﻿@model Dictionary<string, string>
+﻿@using DealnetPortal.Web.Common.Constants
+
+@model Dictionary<string, string>
 @{
     ViewBag.Title = Resources.Library;
+    bool useNew;
+    Boolean.TryParse(System.Configuration.ConfigurationManager.AppSettings[PortalConstants.NewDesignLogin], out useNew);
+    if(!useNew)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_NewLayout.cshtml";
+    }
 }
 
 <div class="dealnet-large-header">@Resources.Library</div>
