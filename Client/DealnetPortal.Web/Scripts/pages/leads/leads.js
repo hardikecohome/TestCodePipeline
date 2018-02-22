@@ -189,7 +189,7 @@ function showTable() {
     }
 
     function clearFilters() {
-        $('.filter-input').val("");
+        $('.filter-input').val("").change();
         table.search('').draw(false);
     }
 

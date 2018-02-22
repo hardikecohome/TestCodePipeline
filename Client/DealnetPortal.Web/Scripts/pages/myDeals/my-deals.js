@@ -305,7 +305,7 @@ function showTable () {
             });
 
             $('#clear-filters').click(function () {
-                $('.filter-input').val("");
+                $('.filter-input').val("").change();
                 table.search('').draw();
             });
 

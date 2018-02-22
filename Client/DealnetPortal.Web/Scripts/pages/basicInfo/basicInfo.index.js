@@ -189,7 +189,7 @@
             $.each(holders, function (index, item) {
                 item.find(':input').each(function () {
                     if ($(this).not('.placeholder')) {
-                        $(this).val('');
+                        $(this).val('').change();
                     }
                 });
             });
