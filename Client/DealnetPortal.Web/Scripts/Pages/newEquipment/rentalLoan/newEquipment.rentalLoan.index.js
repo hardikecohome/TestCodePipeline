@@ -53,7 +53,7 @@
          * @returns {void} 
          */
         var init = function (id, cards, onlyCustomRateCard) {
-            var isOnlyLoan = $(settings.dealProvinceId).val().toLowerCase() == 'qc'; //$(settings.isQuebecProvinceId).val().toLowerCase() === 'true';
+            var isOnlyLoan = $(settings.dealProvinceId).val().toLowerCase() == 'qc';
 
             if (isOnlyLoan) {
                 if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.loanApplication) {

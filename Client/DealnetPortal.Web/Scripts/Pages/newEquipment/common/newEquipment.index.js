@@ -25,7 +25,7 @@
      * @returns {void} 
      */
     var init = function () {
-        var isOnlyLoan = $(settings.dealProvinceId).val().toLowerCase() == 'qc'; //$(settings.isQuebecProvinceId).val().toLowerCase() === 'true';
+        var isOnlyLoan = $(settings.dealProvinceId).val().toLowerCase() == 'qc';
 
         if (isOnlyLoan) {
             if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.loanApplication) {

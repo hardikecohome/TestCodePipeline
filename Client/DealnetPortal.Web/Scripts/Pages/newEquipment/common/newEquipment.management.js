@@ -24,30 +24,30 @@
             type: '',
             description: '',
             cost: '',
-            monthlyCost: ''
+            monthlyCost: '',
+            estimatedRetail: ''
         };
 
         //create new template with appropiate id and names
-        var newTemplate = conversion.createItem(
-            {
-                id: id,
-                templateId: 'new-equipment-base',
-                equipmentName: 'NewEquipment',
-                equipmentIdPattern: 'new-equipment-',
-                equipmentDiv: 'div#new-equipments'
-            });
+        var newTemplate = conversion.createItem({
+            id: id,
+            templateId: 'new-equipment-base',
+            equipmentName: 'NewEquipment',
+            equipmentIdPattern: 'new-equipment-',
+            equipmentDiv: 'div#new-equipments'
+        });
 
-		if (id > 0) {
-			newTemplate.find('div.additional-remove').attr('id', 'addequipment-remove-' + id);
-		}
-		if (id === 2) {
-			$('.add-equip-link').addClass("hidden");
-		}
-		state.equipments[newId].template = newTemplate;
+        if (id > 0) {
+            newTemplate.find('div.additional-remove').attr('id', 'addequipment-remove-' + id);
+        }
+        if (id === 2) {
+            $('.add-equip-link').addClass("hidden");
+        }
+        state.equipments[newId].template = newTemplate;
 
         // equipment handlers
         newTemplate.find('.equipment-cost').on('change', updateCost);
-        newTemplate.find('#addequipment-remove-' + id).on('click', function() {
+        newTemplate.find('#addequipment-remove-' + id).on('click', function () {
             var options = {
                 name: 'equipments',
                 equipmentIdPattern: 'new-equipment-',
@@ -71,6 +71,7 @@
         });
 
         newTemplate.find('.monthly-cost').on('change', updateMonthlyCost);
+        newTemplate.find('.estimated-retail').on('change', updateEstimatedRetail);
 
         customizeSelect();
         toggleClearInputIcon($(newTemplate).find('textarea, input'));
@@ -79,16 +80,15 @@
         $('#new-equipments').append(newTemplate);
         resetFormValidator("#equipment-form");
 
-        $('#new-equipments').find('.monthly-cost').each(function() {
-            $(this).rules('add',
-                {
-                    required: true,
-                    messages: {
-                        required: function(ele) {
-                            return translations.ThisFieldIsRequired;
-                        }
+        $('#new-equipments').find('.monthly-cost').each(function () {
+            $(this).rules('add', {
+                required: true,
+                messages: {
+                    required: function (ele) {
+                        return translations.ThisFieldIsRequired;
                     }
-                });
+                }
+            });
         });
 
     };
@@ -109,21 +109,20 @@
             monthlyCost: ''
         };
 
-        var newTemplate = conversion.createItem(
-            {
-                id: id,
-                templateId: 'existing-equipment-base',
-                equipmentName: 'ExistingEquipment',
-                equipmentIdPattern: 'existing-equipment-',
-                equipmentDiv: 'div#existing-equipments'
-            });
+        var newTemplate = conversion.createItem({
+            id: id,
+            templateId: 'existing-equipment-base',
+            equipmentName: 'ExistingEquipment',
+            equipmentIdPattern: 'existing-equipment-',
+            equipmentDiv: 'div#existing-equipments'
+        });
 
         state.existingEquipments[newId].template = newTemplate;
 
         newTemplate.find('div.additional-remove').attr('id', 'remove-existing-equipment-' + id);
 
         newTemplate.find('#remove-existing-equipment-' + id).on('click',
-            function() {
+            function () {
                 var options = {
                     name: 'existingEquipments',
                     equipmentIdPattern: 'existing-equipment-',
@@ -134,7 +133,7 @@
                 conversion.removeItem.call(this, options);
             });
 
-        newTemplate.find('textarea').keyup(function(e) {
+        newTemplate.find('textarea').keyup(function (e) {
             if (e.keyCode === 13) {
                 var textarea = $(this);
                 textarea.val(textarea.val() + '\n');
@@ -155,27 +154,45 @@
      * @param {number} i - new id for new equipment 
      * @returns {void} 
      */
-    function initEquipment (i) {
-        var cost = $('#NewEquipment_' + i + '__Cost').length ? Globalize.parseNumber($('#NewEquipment_' + i + '__Cost').val()) : 0;
+    function initEquipment(i) {
+        var cost = $('#NewEquipment_' + i + '__Cost').length ?
+            Globalize.parseNumber($('#NewEquipment_' + i + '__Cost').val()) :
+            0;
         if (state.equipments[i] === undefined) {
-            state.equipments[i] = { id: i.toString(), cost: cost };
+            state.equipments[i] = {
+                id: i.toString(),
+                cost: cost
+            };
         } else {
             state.equipments[i].cost = cost;
         }
         cost = Globalize.parseNumber($('#NewEquipment_' + i + '__MonthlyCost').val());
         if (state.equipments[i] === undefined) {
-            state.equipments[i] = { id: i.toString(), monthlyCost: cost };
+            state.equipments[i] = {
+                id: i.toString(),
+                monthlyCost: cost
+            };
         } else {
             state.equipments[i].monthlyCost = cost;
+        }
+        cost = Globalize.parseNumber($('#NewEquipment_' + i + '__EstimatedRetailCost').val());
+        if (state.equipments[i] === undefined) {
+            state.equipments[i] = {
+                id: i.toString(),
+                estimatedRetail: cost
+            };
+        } else {
+            state.equipments[i].estimatedRetail = cost;
         }
 
         $('#new-equipment-' + i).find('.equipment-cost').on('change', updateCost);
         $('#new-equipment-' + i).find('.monthly-cost').on('change', updateMonthlyCost);
+        $('#new-equipment-' + i).find('.estimated-retail').on('change', updateEstimatedRetail);
 
         customizeSelect();
         //if not first equipment add handler (first equipment should always be visible)
         if (i > 0) {
-            $('#addequipment-remove-' + i).on('click', function() {
+            $('#addequipment-remove-' + i).on('click', function () {
                 var options = {
                     name: 'equipments',
                     equipmentIdPattern: 'new-equipment-',
@@ -196,10 +213,10 @@
                 $('.add-equip-link').removeClass("hidden");
 
             });
-		}
-		if (i === 2) {
-			$('.add-equip-link').addClass("hidden");
-		}
+        }
+        if (i === 2) {
+            $('.add-equip-link').addClass("hidden");
+        }
     }
 
     /**
@@ -208,9 +225,11 @@
      * @param {number} i - new id for new equipment 
      * @returns {void} 
      */
-    function initExistingEquipment (i) {
-        state.existingEquipments[i] = { id: i.toString() };
-        $('#remove-existing-equipment-' + i).on('click', function() {
+    function initExistingEquipment(i) {
+        state.existingEquipments[i] = {
+            id: i.toString()
+        };
+        $('#remove-existing-equipment-' + i).on('click', function () {
             var options = {
                 name: 'existingEquipments',
                 equipmentIdPattern: 'existing-equipment-',
@@ -222,7 +241,7 @@
         });
     }
 
-    function resetFormValidator (formId) {
+    function resetFormValidator(formId) {
         $(formId).removeData('validator');
         $(formId).removeData('unobtrusiveValidation');
         $.validator.unobtrusive.parse($(formId));
@@ -234,7 +253,7 @@
      * method uses only for Loan agreement type
      * @returns {void} 
      */
-    function updateCost () {
+    function updateCost() {
         var mvcId = $(this).attr("id");
         var id = mvcId.split('__Cost')[0].substr(mvcId.split('__Cost')[0].lastIndexOf('_') + 1);
         state.equipments[id].cost = Globalize.parseNumber($(this).val());
@@ -251,7 +270,7 @@
      * method uses only for Rental/RentalHwt agreement type
      * @returns {void} 
      */
-    function updateMonthlyCost () {
+    function updateMonthlyCost() {
         var mvcId = $(this).attr("id");
         var id = mvcId.split('__MonthlyCost')[0].substr(mvcId.split('__MonthlyCost')[0].lastIndexOf('_') + 1);
         state.equipments[id].monthlyCost = Globalize.parseNumber($(this).val());
@@ -265,17 +284,28 @@
             }
         }
     }
-    
-    function _initExistingEquipment () {
+
+    /**
+     * update estimated retail cost of equipment in our global state object
+     * method is used for Rental/RentalHwt agreement type in Ontario 
+     * @returns {void}
+     */
+    function updateEstimatedRetail() {
+        var mvcId = $(this).attr("id");
+        var id = mvcId.split('__EstmatedRetailCost')[0].substr(mvcId.split('__EstmatedRetailCost')[0].lastIndexOf('_') + 1);
+        state.equipments[i].estimatedRetail = Globalize.parseNumber($(this).val());
+    }
+
+    function _initExistingEquipment() {
         var existingEquipments = $('div#existing-equipments').find('[id^=existing-equipment-]').length;
-        for (var j = 0;j < existingEquipments;j++) {
+        for (var j = 0; j < existingEquipments; j++) {
             initExistingEquipment(j);
         }
     }
 
     function _initNewEquipment() {
         var equipments = $('div#new-equipments').find('[id^=new-equipment-]').length;
-        for (var i = 0;i < equipments;i++) {
+        for (var i = 0; i < equipments; i++) {
             initEquipment(i);
         }
 
@@ -284,7 +314,7 @@
         }
     }
 
-    function init (params) {
+    function init(params) {
 
         if (!params.isClarity) {
             settings.recalculateAndRenderRentalValues = params.recalculateAndRenderRentalValues;
