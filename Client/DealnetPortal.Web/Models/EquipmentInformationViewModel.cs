@@ -139,7 +139,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public TierViewModel DealerTier { get; set; }
 
         public bool? RateCardValid { get; set; }
-        public bool IsQuebecProvince { get; set; }
+        public string DealProvince { get; set; }
         public bool IsClarityDealer { get; set; } = false;
         public bool IsOldClarityDeal { get; set; } = false;
         public bool? IsClarityProgram { get; set; }

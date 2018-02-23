@@ -23,6 +23,7 @@ using System.Web.Mvc;
 using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType;
+using ContractProvince = DealnetPortal.Web.Models.Enumeration.ContractProvince;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -244,10 +245,8 @@ namespace DealnetPortal.Web.Controllers
                 case CreditCheckState.MoreInfoRequired:
                     TempData["MaxCreditAmount"] = checkResult?.Item1.CreditAmount;
                     return RedirectToAction("EquipmentInformation", new { contractId });
-                    break;
                 case CreditCheckState.Declined:
-                    return View("CreditDeclined", contractId);
-                    break;                                
+                    return View("CreditDeclined", contractId);                          
                 case CreditCheckState.NotInitiated:
                 case CreditCheckState.Initiated:
                 default:
@@ -350,7 +349,7 @@ namespace DealnetPortal.Web.Controllers
                 ViewBag.totalAmountFinancedFor180amortTerm = 4999;
                 ViewBag.LoanOnly = false;
             }
-            if (model.IsQuebecProvince) {
+            if (model.DealProvince == ContractProvince.QC.ToString()) {
                 ViewBag.LoanOnly = true;
             }
             ViewBag.AdminFee = 0;
