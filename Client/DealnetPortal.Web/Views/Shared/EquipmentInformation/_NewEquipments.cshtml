@@ -52,6 +52,16 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-2 col-xs-12 estimated-retail-col">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.NewEquipment[i].EstimatedRetailCost)
+                    <div class="control-group has-addon-left">
+                        <div class="control-group-addon">$</div>
+                        @Html.TextBoxFor(m=>m.NewEquipment[i].EstimatedRetailCost, new { @class="form-control dealnet-input estimated-retail", type="text" })
+                        @Html.ValidationMessageFor(m=>m.NewEquipment[i].EstimatedRetailCost,"",new { @class="text-danger"})
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 }

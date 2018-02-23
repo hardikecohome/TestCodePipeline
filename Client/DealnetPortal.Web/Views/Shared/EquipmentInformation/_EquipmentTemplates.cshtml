@@ -56,8 +56,8 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.NewEquipment[0].Type)
                         @Html.DropDownListFor(m => m.NewEquipment[0].Type,
-                                 ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
-                                 new { @class = "form-control", @Value = 0 })
+                          ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
+                          new { @class = "form-control", @Value = 0 })
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-6">
@@ -86,6 +86,16 @@
                             <div class="control-group-addon">$</div>
                             @Html.TextBoxFor(m => m.NewEquipment[0].MonthlyCost, new { @class = "form-control dealnet-input monthly-cost", type = "text", placeholder = Resources.MonthlyCost, @Value = "" })
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].MonthlyCost, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-xs-12 estimated-retail-col">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.NewEquipment[0].EstimatedRetailCost)
+                        <div class="control-group has-addon-left">
+                            <div class="control-group-addon">$</div>
+                            @Html.TextBoxFor(m => m.NewEquipment[0].EstimatedRetailCost, new { @class = "form-control dealnet-input estimated-retail", type = "text" })
+                            @Html.ValidationMessageFor(m => m.NewEquipment[0].EstimatedRetailCost, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
