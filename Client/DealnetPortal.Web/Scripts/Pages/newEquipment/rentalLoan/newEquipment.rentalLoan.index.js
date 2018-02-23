@@ -52,7 +52,7 @@
          * @param {boolean} onlyCustomRateCard - flag indicates that we have only one card 
          * @returns {void} 
          */
-        var init = function (id, cards, onlyCustomRateCard) {
+        var init = function (id, cards, onlyCustomRateCard, bill59Equipment) {
             var isOnlyLoan = $(settings.dealProvinceId).val().toLowerCase() == 'qc';
 
             if (isOnlyLoan) {
@@ -64,10 +64,12 @@
 
             var agreementType = $(settings.agreementTypeId).find(":selected").val();
             state.agreementType = Number(agreementType);
+
+            state.bill59Equipment = bill59Equipment;
+            state.isOntario = $(settings.dealProvinceId).val().toLowerCase() == 'on';
+
             _initHandlers();
             _initDatepickers();
-
-            var isOntario = $(settings.dealProvinceId).val().toLowerCase() == 'on';
 
             setters.init({
                 isClarity: false,
@@ -76,7 +78,6 @@
             });
             equipment.init({
                 isClarity: false,
-                isOntario: isOntario,
                 recalculateValuesAndRender: recalculateValuesAndRender,
                 recalculateAndRenderRentalValues: recalculateAndRenderRentalValues
             });

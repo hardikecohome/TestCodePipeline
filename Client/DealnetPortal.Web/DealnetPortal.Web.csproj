@@ -884,6 +884,7 @@
     <Content Include="Scripts\pages\newEquipment\common\newEquipment.conversion.js" />
     <Content Include="Scripts\pages\newEquipment\common\newEquipment.index.js" />
     <Content Include="Scripts\pages\newEquipment\clarity\newEquipment.clarity.ui.js" />
+    <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.bill59.js" />
     <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.index.js" />
     <Content Include="Scripts\utils\financial-functions.clarity.module.js" />
     <Content Include="Scripts\vendor\jquery.selectric.min.js" />
@@ -957,7 +958,6 @@
     <Content Include="Scripts\pages\MyProfile\postalCode-handlers.js" />
     <Content Include="Scripts\pages\MyProfile\postalCode-template.js" />
     <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.custom-rate-card.js" />
-    <Content Include="Scripts\pages\newEquipment\newEquipment.index.js" />
     <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.rate-cards.init.js" />
     <Content Include="Scripts\pages\newEquipment\common\newEquipment.rate-cards.ui.js" />
     <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.rate-cards.js" />
