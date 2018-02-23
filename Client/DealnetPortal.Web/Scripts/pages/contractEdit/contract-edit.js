@@ -106,6 +106,7 @@ configInitialized
                 beforeSend: function (event) {
                     //tabContainers.removeClass('uploaded');
                     var cancelButton = form.find('.progress-container .clear-data-link');
+                    cancelButton.show();
                     cancelButton.off('click');
                     cancelButton.on('click', function () {
                         showLoader();
@@ -125,6 +126,8 @@ configInitialized
                 uploadProgress: function (event, position, total, percentComplete) {
                     if (percentComplete === 100) {
                         percentComplete = 99;
+                        var cancelButton = form.find('.progress-container .clear-data-link');
+                        cancelButton.hide();
                     }
                     var percentVal = percentComplete + '%';
                     progressBar.width(percentVal);
