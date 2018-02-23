@@ -2861,6 +2861,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Estimated Retail Cost is in incorrect format.
+        /// </summary>
+        public static string EstimatedCostIncorrectFormat {
+            get {
+                return ResourceManager.GetString("EstimatedCostIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Estimated Installation Date.
         /// </summary>
         public static string EstimatedInstallationDate {
@@ -2875,6 +2884,15 @@ namespace DealnetPortal.Web.Resources {
         public static string EstimatedMoveInDate {
             get {
                 return ResourceManager.GetString("EstimatedMoveInDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Estimated Retail Cost.
+        /// </summary>
+        public static string EstimatedRetailCost {
+            get {
+                return ResourceManager.GetString("EstimatedRetailCost", resourceCulture);
             }
         }
         
