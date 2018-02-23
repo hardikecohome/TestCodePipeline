@@ -131,6 +131,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/navigateToStep.js")
                 .Include("~/Scripts/utils/loader.js")
                 .Include("~/Scripts/utils/financial-functions.clarity.module.js")
+                .Include("~/Scripts/utils/setEqualHeightRows.js")
                 .Include("~/Scripts/pages/summaryAndConfirmation/summary-and-confirmation.js")
                 .Include("~/Scripts/pages/basicInfo/address-autocomplete.js"));
 
