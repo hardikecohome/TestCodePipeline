@@ -29,7 +29,7 @@
     };
 }
 
-<span class="hidden" id="cookieName">@System.Configuration.ConfigurationManager.AppSettings[DealnetPortal.Web.Common.Constants.PortalConstants.CultureCookieNameKey]</span>
+<span class="hidden" id="cookieName">@DealnetPortal.Web.Common.Constants.PortalConstants.CultureCookieName.ToString()</span>
 <div class="form-container contract-edit">
     <div class="form-section">
         <div class="dealnet-large-header">@Resources.Contract #@(Model.AdditionalInfo.TransactionId ?? Model.BasicInfo.ContractId.ToString())</div>

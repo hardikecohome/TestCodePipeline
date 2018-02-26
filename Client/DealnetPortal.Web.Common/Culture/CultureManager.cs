@@ -10,7 +10,7 @@ namespace DealnetPortal.Web.Common.Culture
 {
     public class CultureManager : ICultureManager
     {
-        private readonly string _cookieName = ConfigurationManager.AppSettings[PortalConstants.CultureCookieNameKey];
+        private readonly string _cookieName = PortalConstants.CultureCookieName;
 
         public void EnsureCorrectCulture(string cultureFromRoute = null)
         {
