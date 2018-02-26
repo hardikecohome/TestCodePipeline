@@ -2,6 +2,7 @@
 
     var state = require('state').state;
     var conversion = require('newEquipment.conversion');
+    var bill59EquipmentChange = require('bill59').onEquipmentChange;
 
     var settings = {
         recalculateValuesAndRender: {},
@@ -46,6 +47,7 @@
         state.equipments[newId].template = newTemplate;
 
         // equipment handlers
+        newTemplate.find('.equipment-select').on('change', bill59EquipmentChange);
         newTemplate.find('.equipment-cost').on('change', updateCost);
         newTemplate.find('#addequipment-remove-' + id).on('click', function () {
             var options = {
@@ -185,9 +187,11 @@
             state.equipments[i].estimatedRetail = cost;
         }
 
-        $('#new-equipment-' + i).find('.equipment-cost').on('change', updateCost);
-        $('#new-equipment-' + i).find('.monthly-cost').on('change', updateMonthlyCost);
-        $('#new-equipment-' + i).find('.estimated-retail').on('change', updateEstimatedRetail);
+        var equipmentRow = $('#new-equipment-' + i);
+        equipmentRow.find('. equipment-select').on('change', bill59EquipmentChange);
+        equipmentRow.find('.equipment-cost').on('change', updateCost);
+        equipmentRow.find('.monthly-cost').on('change', updateMonthlyCost);
+        equipmentRow.find('.estimated-retail').on('change', updateEstimatedRetail);
 
         customizeSelect();
         //if not first equipment add handler (first equipment should always be visible)

@@ -61,8 +61,8 @@
 
 
             @((Model.IsClarityDealer && !Model.IsOldClarityDeal) ?
-                                        Html.Partial("EquipmentInformation/_ClarityProgram", Model) :
-                                        Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
+                                                Html.Partial("EquipmentInformation/_ClarityProgram", Model) :
+                                                Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
 
             @Html.Partial("EquipmentInformation/_AdditionalContractInformation", Model)
             @Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })
@@ -117,7 +117,9 @@ else
                     'True'
                     ? true
                     : false,
-                @Html.Raw(((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Where(e => e.UnderBill59).Select(e => e.Type));
+                @Html.Raw(Json.Encode(((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes)
+               .Where(e => e.UnderBill59)
+               .Select(e => e.Type).ToArray())));
         });
         </script>
     }
