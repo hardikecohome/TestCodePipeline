@@ -189,7 +189,11 @@
                             postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : place['postal_code_prefix'] ? place['postal_code_prefix'].replace(' ', '') : '',
                         }));
 
-                    $('#province').change();
+                    $('#street').keyup();
+                    $('#unit').keyup();
+                    $('#city').keyup();
+                    $('#province').keyup();
+                    $('#postalCode').keyup();
                 });
 
             gAutoCompletes.city.addListener('place_changed',
@@ -202,6 +206,9 @@
                             city: place['locality'] || '',
                             province: place['administrative_area_level_1'] || '',
                         }));
+
+                    $('#city').keyup();
+                    $('#province').keyup();
                 });
 
             gPAutoCompletes.street.addListener('place_changed',
@@ -218,7 +225,11 @@
                             postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : place['postal_code_prefix'] ? place['postal_code_prefix'].replace(' ', '') : '',
                         }));
 
-                    $('#pprovince').change();
+                    $('#pstreet').keyup();
+                    $('#punit').keyup();
+                    $('#pcity').keyup();
+                    $('#pprovince').keyup();
+                    $('#ppostalCode').keyup();
                 });
 
             gPAutoCompletes.city.addListener('place_changed',
@@ -231,6 +242,9 @@
                             city: place['locality'] || '',
                             province: place['administrative_area_level_1'] || '',
                         }));
+
+                    $('#pcity').keyup();
+                    $('#pprovince').keyup();
                 });
 
             gCAutoCompletes.street.addListener('place_changed',
@@ -247,7 +261,11 @@
                             postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : place['postal_code_prefix'] ? place['postal_code_prefix'].replace(' ', '') : '',
                         }));
 
-                    $('#company-province').change();
+                    $('#company-street').keyup();
+                    $('#company-unit').keyup();
+                    $('#company-city').keyup();
+                    $('#company-province').keyup();
+                    $('#company-postal-code').keyup();
                 });
 
             gCAutoCompletes.city.addListener('place_changed',
@@ -260,6 +278,9 @@
                             city: place['locality'] || '',
                             province: place['administrative_area_level_1'] || '',
                         }));
+
+                    $('#company-city').keyup();
+                    $('#company-province').keyup();
                 });
         });
     };

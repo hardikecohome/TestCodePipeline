@@ -1,5 +1,15 @@
 ﻿configInitialized
     .then(function () {
+        var setEqualHeightRows = module.require('setEqualHeightRows');
+
+        $(window).on('resize', function () {
+            setEqualHeightRows($('.equal-height-label'));
+        });
+
+        setTimeout(function () {
+            setEqualHeightRows($('.equal-height-label'));
+        },0);
+
         var datepickerOptions = {
             yearRange: '1900:2200',
             minDate: new Date()

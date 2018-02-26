@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using DealnetPortal.Web.Infrastructure;
+﻿using System.ComponentModel.DataAnnotations;
 using DealnetPortal.Web.Infrastructure.Attributes;
 
 namespace DealnetPortal.Web.Models.EquipmentInformation
-{    
+{
     public class ExistingEquipmentInformation
     {
         [Display(ResourceType = typeof (Resources.Resources), Name = "IsRental")]
