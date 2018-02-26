@@ -1,11 +1,10 @@
-﻿@using DealnetPortal.Web.Common.Constants
+﻿@using System.Security.Claims
 
 @model Dictionary<string, string>
+
 @{
     ViewBag.Title = Resources.Library;
-    bool useNew;
-    Boolean.TryParse(System.Configuration.ConfigurationManager.AppSettings[PortalConstants.NewDesignLogin], out useNew);
-    if(!useNew)
+    if(User.Identity.IsAuthenticated && ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") == true))
     {
         Layout = "~/Views/Shared/_Layout.cshtml";
     }

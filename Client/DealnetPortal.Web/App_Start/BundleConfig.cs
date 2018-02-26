@@ -131,6 +131,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/navigateToStep.js")
                 .Include("~/Scripts/utils/loader.js")
                 .Include("~/Scripts/utils/financial-functions.clarity.module.js")
+                .Include("~/Scripts/utils/setEqualHeightRows.js")
                 .Include("~/Scripts/pages/summaryAndConfirmation/summary-and-confirmation.js")
                 .Include("~/Scripts/pages/basicInfo/address-autocomplete.js"));
 
@@ -255,8 +256,8 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/navigateToStep.js")
                 .Include("~/Scripts/utils/setEqualHeightRows.js")
                 .Include("~/Scripts/utils/resetPlaceholder.js")
-                .IncludeDirectory("~/Scripts/pages/newEquipment/common", "*.js", true)
                 .IncludeDirectory("~/Scripts/utils/rateCards", "*.js", true)
+                .IncludeDirectory("~/Scripts/pages/newEquipment/common", "*.js", true)
             );
 
             bundles.Add(new ScriptBundle("~/bundles/equipment-info-clarity")
@@ -277,8 +278,8 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/navigateToStep.js")
                 .Include("~/Scripts/utils/setEqualHeightRows.js")
                 .Include("~/Scripts/utils/resetPlaceholder.js")
-                .IncludeDirectory("~/Scripts/pages/newEquipment", "*.js", true)
                 .IncludeDirectory("~/Scripts/utils/rateCards", "*.js", true)
+                .IncludeDirectory("~/Scripts/pages/newEquipment", "*.js", true)
             );
 
             bundles.Add(new ScriptBundle("~/bundles/additional-equipment-information")

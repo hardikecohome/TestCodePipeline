@@ -44,7 +44,7 @@
             }
         }
         > a {
-            &::after{
+            &:after{
                 background-image:linear-gradient(296deg, #94d802, #7cc501);
             }
         }
@@ -185,19 +185,19 @@ table.dataTable thead {
 .ie table.dataTable thead {
     .sorting:before,
     .sorting_asc:before,
-    .sorting_desc:before, 
+    .sorting_desc:before,
+    .sorting_asc_disabled:before, 
+    .sorting_desc_disabled:before{
+        margin-top:4px;
+    }
     .sorting:after,
     .sorting_asc:after,
-    .sorting_desc:after {
-        top:55%;
-    }
-    .sorting:after, 
-    .sorting_asc:after,
-    .sorting_desc:after, 
+    .sorting_desc:after,
     .sorting_asc_disabled:after, 
     .sorting_desc_disabled:after{
-        top:55%;
+        padding-top:4px;
     }
+
 }
 .control-group {
     .clear-input, .recover-pass-link{

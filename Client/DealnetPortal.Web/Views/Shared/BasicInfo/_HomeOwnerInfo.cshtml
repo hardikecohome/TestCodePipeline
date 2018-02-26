@@ -182,7 +182,7 @@ else
         <div class="form-group">
             @Html.LabelFor(m => m.HomeOwner.AddressInformation.Street)
             <div class="control-group">
-                @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.Street, new { @class = "form-control dealnet-input", autocomplete = "new-password", id = "street", placeholder = Resources.StreetPlaceholder })
+                @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.Street, new { @class = "form-control dealnet-input", autocomplete = "installation street-address", id = "street", placeholder = Resources.StreetPlaceholder })
                 @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Street, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -200,7 +200,7 @@ else
         <div class="form-group">
             @Html.LabelFor(m => m.HomeOwner.AddressInformation.City)
             <div class="control-group">
-                @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.City, new { @class = "form-control dealnet-input", id = "locality", placeholder = Resources.Ottawa })
+                @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.City, new { @class = "form-control dealnet-input", autocomplete="installation address-level-2", id = "locality", placeholder = Resources.Ottawa })
                 @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.City, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -212,7 +212,7 @@ else
         <div class="form-group">
             @Html.LabelFor(m => m.HomeOwner.AddressInformation.Province)
             @Html.DropDownListFor(m => m.HomeOwner.AddressInformation.Province, (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.HomeOwner?.AddressInformation?.Province == x.Province }), "",
-                                                                                                        new { @class = "form-control dealnet-input", id = "administrative_area_level_1" })
+                                                                                                        new { @class = "form-control dealnet-input", id = "administrative_area_level_1", autocomplete="installation address-level-2" })
             @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Province, "", new { @class = "text-danger" })
             <span id="qcError" class="text-danger field-validation-error"></span>
         </div>
@@ -221,7 +221,7 @@ else
         <div class="form-group">
             @Html.LabelFor(m => m.HomeOwner.AddressInformation.PostalCode)
             <div class="control-group">
-                @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "postal_code", placeholder = "12345" })
+                @Html.TextBoxFor(m => m.HomeOwner.AddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", autocomplete="installation postal-code", id = "postal_code", placeholder = "12345" })
                 @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.PostalCode, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -261,7 +261,7 @@ else
             <div class="form-group">
                 @Html.LabelFor(m => m.HomeOwner.PreviousAddressInformation.Street, new { @for = "previous_street" })
                 <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.Street, new { @class = "form-control dealnet-input", id = "previous_street", placeholder = Resources.StreetPlaceholder, disabled = "disabled" })
+                    @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.Street, new { @class = "form-control dealnet-input", id = "previous_street", placeholder = Resources.StreetPlaceholder, disabled = "disabled", autocomplete="previous-ho street-address" })
                     @Html.ValidationMessageFor(m => m.HomeOwner.PreviousAddressInformation.Street, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -279,7 +279,7 @@ else
             <div class="form-group">
                 @Html.LabelFor(m => m.HomeOwner.PreviousAddressInformation.City, new { @for = "previous_locality" })
                 <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.City, new { @class = "form-control dealnet-input", id = "previous_locality", placeholder = Resources.Ottawa, disabled = "disabled" })
+                    @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.City, new { @class = "form-control dealnet-input", id = "previous_locality", placeholder = Resources.Ottawa, disabled = "disabled", autocomplete = "previous-ho address-level-2" })
                     @Html.ValidationMessageFor(m => m.HomeOwner.PreviousAddressInformation.City, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -291,7 +291,7 @@ else
                 @Html.LabelFor(m => m.HomeOwner.PreviousAddressInformation.Province, new { @for = "previous_administrative_area_level_1" })
                 <div class="control-group">
                     @Html.DropDownListFor(m => m.HomeOwner.PreviousAddressInformation.Province, (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.HomeOwner?.PreviousAddressInformation?.Province == x.Province }), "",
-                                                                                                                new { @class = "form-control dealnet-input", id = "previous_administrative_area_level_1", disabled = "disabled" })
+                                                                                                                new { @class = "form-control dealnet-input", id = "previous_administrative_area_level_1", disabled = "disabled", autocomplete = "previous-ho address-level-1" })
                     @Html.ValidationMessageFor(m => m.HomeOwner.PreviousAddressInformation.Province, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -300,7 +300,7 @@ else
             <div class="form-group">
                 @Html.LabelFor(m => m.HomeOwner.PreviousAddressInformation.PostalCode, new { @for = "previous_postal_code" })
                 <div class="control-group">
-                    @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "previous_postal_code", placeholder = "12345", disabled = "disabled" })
+                    @Html.TextBoxFor(m => m.HomeOwner.PreviousAddressInformation.PostalCode, new { @class = "form-control dealnet-input postal-code", id = "previous_postal_code", placeholder = "12345", disabled = "disabled", autocomplete = "previous-ho postal-code" })
                     @Html.ValidationMessageFor(m => m.HomeOwner.PreviousAddressInformation.PostalCode, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -536,7 +536,7 @@ else
                         <div class="form-group">
                             @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.Street)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.Street, new { @class = "form-control dealnet-input", placeholder = Resources.StreetPlaceholder, id = "ho-employment-street", autocomplete = "ho-employment street-address" })
+                                @Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.Street, new { autocomplete = "ho-employment street-address", @class = "form-control dealnet-input",  placeholder = Resources.StreetPlaceholder, id = "ho-employment-street" })
                                 @Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.CompanyAddress.Street, "", new { @class = "text-danger" })
                             </div>
                         </div>

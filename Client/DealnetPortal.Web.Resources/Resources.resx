@@ -2554,4 +2554,10 @@ changing contract terms or signing contract on paper.</value>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="EstimatedCostIncorrectFormat" xml:space="preserve">
+    <value>Estimated Retail Cost is in incorrect format</value>
+  </data>
+  <data name="EstimatedRetailCost" xml:space="preserve">
+    <value>Estimated Retail Cost</value>
+  </data>
 </root>

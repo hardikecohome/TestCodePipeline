@@ -11,6 +11,7 @@
         public string Description { get; set; }
         public decimal? Cost { get; set; }
         public decimal? MonthlyCost { get; set; }
+        public decimal? EstimatedRetailCost { get; set; }
         public DateTime? EstimatedInstallationDate { get; set; }
         public string AssetNumber { get; set; }
 
@@ -22,5 +23,6 @@
         public int EquipmentInfoId { get; set; }
         [ForeignKey("EquipmentInfoId")]
         public EquipmentInfo EquipmentInfo { get; set; }
+        public decimal? EstimatedRetailPrice { get; set; }
     }
 }

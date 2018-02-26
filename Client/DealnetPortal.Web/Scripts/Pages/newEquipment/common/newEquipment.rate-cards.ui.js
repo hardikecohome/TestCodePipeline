@@ -2,6 +2,7 @@
 
     var state = require('state').state;
     var validateCustomCard = require('validation').validateCustomCard;
+    var bill59 = require('bill59');
 
     var setEqualHeightRows = require('setEqualHeightRows');
 
@@ -51,6 +52,7 @@
                 input.removeClass('input-validation-error');
                 input.next('.text-danger').empty();
             });
+            bill59.disableForAll();
         } else {
             $(".equipment-cost").each(function () {
                 var input = $(this);
@@ -64,6 +66,7 @@
                 input.prop("disabled", false).parents('.monthly-cost-col').show();
                 input[0].form && input.rules("add", "required");
             });
+            bill59.enableForAll();
         }
     }
 
@@ -192,121 +195,121 @@
         });
     }
 
-    function carouselRateCards () {
+    function carouselRateCards() {
 
-    if (state.onlyCustomRateCard) {
-        return;
-    }
+        if (state.onlyCustomRateCard) {
+            return;
+        }
 
-    var jcarousel = $('.rate-cards-container:not(".one-rate-card") .jcarousel');
-    if (jcarousel.length < 1) {
-        return;
-    }
+        var jcarousel = $('.rate-cards-container:not(".one-rate-card") .jcarousel');
+        if (jcarousel.length < 1) {
+            return;
+        }
 
-    var windowWidth = $(window).width();
-    var paginationItems;
-    var targetSlides;
-    if (windowWidth >= 1400) {
-        paginationItems = 5;
-        targetSlides = 0;
-    } else if (windowWidth >= 1024) {
-        paginationItems = 4;
-        targetSlides = 3;
-    } else if (windowWidth >= 768) {
-        paginationItems = 2;
-        targetSlides = 2;
-    } else {
-        paginationItems = 1;
-        targetSlides = 1;
-    }
+        var windowWidth = $(window).width();
+        var paginationItems;
+        var targetSlides;
+        if (windowWidth >= 1400) {
+            paginationItems = 5;
+            targetSlides = 0;
+        } else if (windowWidth >= 1024) {
+            paginationItems = 4;
+            targetSlides = 3;
+        } else if (windowWidth >= 768) {
+            paginationItems = 2;
+            targetSlides = 2;
+        } else {
+            paginationItems = 1;
+            targetSlides = 1;
+        }
 
-    var numItems = jcarousel.find('li').length;
-    if (paginationItems > numItems)
-        paginationItems = numItems;
-    var width = viewport().width
+        var numItems = jcarousel.find('li').length;
+        if (paginationItems > numItems)
+            paginationItems = numItems;
+        var width = viewport().width
 
-    var carouselItemsToView = width >= 1400 ? numItems : width >= 768 && width < 1024 ? 2 : width < 768 ? 1 : numItems;
+        var carouselItemsToView = width >= 1400 ? numItems : width >= 768 && width < 1024 ? 2 : width < 768 ? 1 : numItems;
 
-    jcarousel
-        .on('jcarousel:reload jcarousel:create', function () {
-            var carousel = $(this),
-                carouselWidth = carousel.innerWidth(),
-                width = carouselWidth / carouselItemsToView;
+        jcarousel
+            .on('jcarousel:reload jcarousel:create', function () {
+                var carousel = $(this),
+                    carouselWidth = carousel.innerWidth(),
+                    width = carouselWidth / carouselItemsToView;
 
-            carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
-        }).jcarousel();
+                carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
+            }).jcarousel();
 
-    if (width < 1400) {
-        jcarousel.swipe({
-            //Generic swipe handler for all directions
-            swipe: function (event, direction, distance, duration, fingerCount, fingerData) {
-                $('.link-over-notify').each(function () {
-                    if ($(this).attr('aria-describedby')) {
-                        $(this).click();
+        if (width < 1400) {
+            jcarousel.swipe({
+                //Generic swipe handler for all directions
+                swipe: function (event, direction, distance, duration, fingerCount, fingerData) {
+                    $('.link-over-notify').each(function () {
+                        if ($(this).attr('aria-describedby')) {
+                            $(this).click();
+                        }
+                    });
+
+                    if (direction === "left") {
+                        jcarousel.jcarousel('scroll', '+=' + carouselItemsToView);
+                    } else if (direction === "right") {
+                        jcarousel.jcarousel('scroll', '-=' + carouselItemsToView);
+                    } else {
+                        event.preventDefault();
                     }
-                });
+                },
+                excludedElements: "button, input, select, textarea, .noSwipe, a",
+                threshold: 50,
+                allowPageScroll: "auto",
+                triggerOnTouchEnd: false
+            });
+        }
 
-                if (direction === "left") {
-                    jcarousel.jcarousel('scroll', '+=' + carouselItemsToView);
-                } else if (direction === "right") {
-                    jcarousel.jcarousel('scroll', '-=' + carouselItemsToView);
+        if (numItems > paginationItems) {
+            jcarousel.css('padding-top', '40px');
+            $('.jcarousel-controls').show();
+        } else {
+            jcarousel.css('padding-top', 0);
+            $('.jcarousel-controls').hide();
+        }
+
+        $('.jcarousel-control-prev')
+            .jcarouselControl({
+                target: '-=' + targetSlides
+            });
+
+        $('.jcarousel-control-next')
+            .jcarouselControl({
+                target: '+=' + targetSlides
+            });
+
+        $('.jcarousel-pagination')
+            .on('jcarouselpagination:active', 'a', function () {
+                $(this).addClass('active');
+                if ($(this).is(':first-child')) {
+                    $('.jcarousel-control-prev').addClass('disabled');
                 } else {
-                    event.preventDefault();
+                    $('.jcarousel-control-prev').removeClass('disabled');
                 }
-            },
-            excludedElements: "button, input, select, textarea, .noSwipe, a",
-            threshold: 50,
-            allowPageScroll: "auto",
-            triggerOnTouchEnd: false
-        });
+                if ($(this).is(':last-child')) {
+                    $('.jcarousel-control-next').addClass('disabled');
+                } else {
+                    $('.jcarousel-control-next').removeClass('disabled');
+                }
+
+            })
+            .on('jcarouselpagination:inactive', 'a', function () {
+                $(this).removeClass('active');
+            })
+            .on('click', function (e) {
+                e.preventDefault();
+            })
+            .jcarouselPagination({
+                carousel: jcarousel,
+                item: function (page, items) {
+                    return '<a href="#' + page + '">' + page + '</a>';
+                }
+            });
     }
-
-    if (numItems > paginationItems) {
-        jcarousel.css('padding-top', '40px');
-        $('.jcarousel-controls').show();
-    } else {
-        jcarousel.css('padding-top', 0);
-        $('.jcarousel-controls').hide();
-    }
-
-    $('.jcarousel-control-prev')
-        .jcarouselControl({
-            target: '-=' + targetSlides
-        });
-
-    $('.jcarousel-control-next')
-        .jcarouselControl({
-            target: '+=' + targetSlides
-        });
-
-    $('.jcarousel-pagination')
-        .on('jcarouselpagination:active', 'a', function () {
-            $(this).addClass('active');
-            if ($(this).is(':first-child')) {
-                $('.jcarousel-control-prev').addClass('disabled');
-            } else {
-                $('.jcarousel-control-prev').removeClass('disabled');
-            }
-            if ($(this).is(':last-child')) {
-                $('.jcarousel-control-next').addClass('disabled');
-            } else {
-                $('.jcarousel-control-next').removeClass('disabled');
-            }
-
-        })
-        .on('jcarouselpagination:inactive', 'a', function () {
-            $(this).removeClass('active');
-        })
-        .on('click', function (e) {
-            e.preventDefault();
-        })
-        .jcarouselPagination({
-            carousel: jcarousel,
-            item: function (page, items) {
-                return '<a href="#' + page + '">' + page + '</a>';
-            }
-        });
-}
 
     return {
         init: init,
@@ -318,4 +321,3 @@
         highlightCardBySelector: highlightCardBySelector
     };
 });
-
