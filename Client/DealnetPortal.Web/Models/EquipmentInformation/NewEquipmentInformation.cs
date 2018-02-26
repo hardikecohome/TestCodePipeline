@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Attributes;
 
 namespace DealnetPortal.Web.Models.EquipmentInformation
 {
     using System.ComponentModel.DataAnnotations;
-    using System.Security.AccessControl;
 
     public class NewEquipmentInformation
     {
