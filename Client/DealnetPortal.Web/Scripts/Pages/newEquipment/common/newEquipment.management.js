@@ -47,7 +47,6 @@
         state.equipments[newId].template = newTemplate;
 
         // equipment handlers
-        newTemplate.find('.equipment-select').on('change', bill59EquipmentChange);
         newTemplate.find('.equipment-cost').on('change', updateCost);
         newTemplate.find('#addequipment-remove-' + id).on('click', function () {
             var options = {
@@ -69,11 +68,11 @@
             }
 
             $('.add-equip-link').removeClass("hidden");
-
         });
 
         newTemplate.find('.monthly-cost').on('change', updateMonthlyCost);
         newTemplate.find('.estimated-retail').on('change', updateEstimatedRetail);
+        newTemplate.find('.equipment-select').on('change', bill59EquipmentChange).change();
 
         customizeSelect();
         toggleClearInputIcon($(newTemplate).find('textarea, input'));
@@ -188,7 +187,7 @@
         }
 
         var equipmentRow = $('#new-equipment-' + i);
-        equipmentRow.find('. equipment-select').on('change', bill59EquipmentChange);
+        equipmentRow.find('.equipment-select').on('change', bill59EquipmentChange);
         equipmentRow.find('.equipment-cost').on('change', updateCost);
         equipmentRow.find('.monthly-cost').on('change', updateMonthlyCost);
         equipmentRow.find('.estimated-retail').on('change', updateEstimatedRetail);
@@ -295,9 +294,10 @@
      * @returns {void}
      */
     function updateEstimatedRetail() {
-        var mvcId = $(this).attr("id");
-        var id = mvcId.split('__EstmatedRetailCost')[0].substr(mvcId.split('__EstmatedRetailCost')[0].lastIndexOf('_') + 1);
-        state.equipments[i].estimatedRetail = Globalize.parseNumber($(this).val());
+        var $this = $(this);
+        var mvcId = $this.attr("id");
+        var id = mvcId.split('__EstimatedRetailCost')[0].substr(mvcId.split('__EstimatedRetailCost')[0].lastIndexOf('_') + 1);
+        state.equipments[id].estimatedRetail = Globalize.parseNumber($this.val());
     }
 
     function _initExistingEquipment() {
