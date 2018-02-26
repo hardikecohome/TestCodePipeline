@@ -55,9 +55,9 @@ namespace DealnetPortal.Domain
 
         public string InstallerLastName { get; set; }
 
-        //[ForeignKey(nameof(RateCard))]
-        public int? RateCardId { get; set; }        
-        //public RateCard RateCard { get; set; }
+        [ForeignKey(nameof(RateCard))]
+        public int? RateCardId { get; set; }
+        public RateCard RateCard { get; set; }
 
         public bool? IsClarityProgram { get; set; }
 

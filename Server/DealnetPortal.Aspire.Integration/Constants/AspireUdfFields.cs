@@ -71,7 +71,17 @@
         public static string DealerRate = "Dealer Rate";
         public static string RateCardType = "Rate Card Type";
 
-        public static string RentalMonthlyPaymen = "EH Rental Payment Amount";
+        public static string RentalMonthlyPayment = "EH Rental Payment Amount";
+        //used both for contract and equipment
+        public static string MonthlyPayment = "Monthly Payment";
+
+        public static string BorrowingCost = "Borrowing Cost";
+        public static string TotalAmountFinanced = "Total Amount Financed";
+        public static string TotalOfAllMonthlyPayment = "Total of all Monthly Payment";
+        public static string ResidualValue = "Residual Value";
+        public static string TotalObligation = "Total Obligation";
+        public static string TotalEquipmentPrice = "Total Equipment Price";
+        public static string PstRate = "PST Rate";        
 
         public static string EstimatedRetailPrice = "Estimated Retail Price";
 

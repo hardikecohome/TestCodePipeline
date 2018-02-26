@@ -1777,7 +1777,8 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.AdminFee,
-                    Value = contract.Equipment?.AdminFee?.ToString() ?? "0.0"
+                    Value = contract.Equipment?.RateCard?.AdminFee.ToString(CultureInfo.InvariantCulture) ??
+                        contract.Equipment?.AdminFee?.ToString() ?? "0.0"
                 });
                 udfList.Add(new UDF()
                 {
@@ -1787,26 +1788,48 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.CustomerRate,
-                    Value = contract.Equipment?.CustomerRate?.ToString() ?? "0.0"
+                    Value = contract.Equipment?.RateCard?.CustomerRate.ToString(CultureInfo.InvariantCulture) ??
+                            contract.Equipment?.CustomerRate?.ToString() ?? "0.0"
                 });
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.DealerCost,
-                    Value = contract.Equipment?.DealerCost?.ToString() ?? "0.0"
+                    Value = contract.Equipment?.RateCard?.DealerCost.ToString(CultureInfo.InvariantCulture) ?? 
+                        contract.Equipment?.DealerCost?.ToString() ?? "0.0"
                 });
-                //TODO: add RateCard navigation property
-                //udfList.Add(new UDF()
-                //{
-                //    Name = AspireUdfFields.DealerRate,
-                //    Value = contract.Equipment?.RateCardId DealerCost?.ToString() ?? "0.0"
-                //});
-                
 
-                if (contract.Equipment?.AgreementType != AgreementType.LoanApplication)
+
+                var paymentInfo = _contractRepository.GetContractPaymentsSummary(contract.Id);
+                if (paymentInfo != null)
                 {
-                    
+                    if (contract.Details?.AgreementType == AgreementType.LoanApplication)
+                    {
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.MonthlyPayment,
+                            Value = paymentInfo.TotalMonthlyPayment?.ToString() ?? "0.0"
+                        });
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.RentalMonthlyPayment,
+                            Value = "0.0"
+                        });
+                    }
+                    else
+                    {
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.MonthlyPayment,
+                            Value = "0.0"
+                        });
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.RentalMonthlyPayment,
+                            Value = paymentInfo.TotalMonthlyPayment?.ToString() ?? "0.0"
+                        });
+                    }                    
                 }
-
+                
                 if (!string.IsNullOrEmpty(contract.Equipment.SalesRep))
                 {
                     udfList.Add(new UDF()
