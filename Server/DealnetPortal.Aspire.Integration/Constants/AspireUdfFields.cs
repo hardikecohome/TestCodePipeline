@@ -62,6 +62,8 @@
         public static string InstallMonthlyPay = "Install Monthly Pay";
         public static string InstallPackageDescr = "Install Package Descr";
 
+        public static string EstimatedRetailPrice = "Estimated Retail Price";
+
         #region Dealer onboarding UDFs        
         public static string OperatingName = "Operating Name";
         public static string NumberOfInstallers = "Number of Installers";
