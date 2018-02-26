@@ -17,7 +17,7 @@
         public const string OnboardingLeadSourceFrenchKey = "OnboardingLeadSourceFrench";
 
         public const string ClarityTierNameKey = "ClarityTierName";
-        public const string CultureCookieNameKey = "CultureCookieName";
+        public const string CultureCookieName = "DEALNET_CULTURE_COOKIE";
 
         public const string NewDesignLogin = "NewDesignLogin";
 
