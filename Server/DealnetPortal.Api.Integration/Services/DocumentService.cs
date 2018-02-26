@@ -686,7 +686,7 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         case SignatureStatus.Completed:
                             //upload doc from docuSign to Aspire
-                            updated |= await TransferSignedContractAgreement(contract);
+                            updated |= await TransferSignedContractAgreement(contract).ConfigureAwait(false);
                             break;
                         case SignatureStatus.Deleted:
                             updated |= CleanContractSignatureInfo(contract);
@@ -885,8 +885,8 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogInfo($"Starting download signed contract for {contract.Id} from DocuSign");
 
                 _signatureEngine.TransactionId = contract.Details.SignatureTransactionId;
-                var logRes = await _signatureEngine.ServiceLogin();
-                var docResult = await _signatureEngine.GetDocument();
+                var logRes = await _signatureEngine.ServiceLogin().ConfigureAwait(false);
+                var docResult = await _signatureEngine.GetDocument().ConfigureAwait(false);
                 if (docResult?.Item1 != null)
                 {
                     _loggingService.LogInfo(
@@ -902,7 +902,7 @@ namespace DealnetPortal.Api.Integration.Services
                     //DEAL-3306 - Digitally signed contract shouldn't be displayed in 'Paper Contract' tab on Dealer Portal
                     //_contractRepository.AddDocumentToContract(contract.Id, AutoMapper.Mapper.Map<ContractDocument>(document), contract.DealerId);
                     //updated = true;
-                    var alerts = await _aspireService.UploadDocument(contract.Id, document, contract.DealerId);
+                    var alerts = await _aspireService.UploadDocument(contract.Id, document, contract.DealerId).ConfigureAwait(false);
                     if (alerts?.All(a => a.Type != AlertType.Error) == true)
                     {
                         _loggingService.LogInfo(
