@@ -6228,6 +6228,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Some special characters like &apos;, &lt;, &gt;, &amp; are not allowed.
+        /// </summary>
+        public static string SomeSpecialCharactersAreRestricted {
+            get {
+                return ResourceManager.GetString("SomeSpecialCharactersAreRestricted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Something went wrong..
         /// </summary>
         public static string SomethingWentWrong {

@@ -2638,4 +2638,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
   <data name="Funding" xml:space="preserve">
     <value>Financement</value>
   </data>
+  <data name="SomeSpecialCharactersAreRestricted" xml:space="preserve">
+    <value>Certains caractères spéciaux comme ', &lt;,&gt;, &amp; ne sont pas autorisés</value>
+  </data>
 </root>

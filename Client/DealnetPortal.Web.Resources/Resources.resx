@@ -2557,4 +2557,7 @@ changing contract terms or signing contract on paper.</value>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="SomeSpecialCharactersAreRestricted" xml:space="preserve">
+    <value>Some special characters like ', &lt;, &gt;, &amp; are not allowed</value>
+  </data>
 </root>
