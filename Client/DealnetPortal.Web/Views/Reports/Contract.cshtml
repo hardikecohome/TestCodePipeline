@@ -1279,6 +1279,20 @@
                                         </div>
                                     </div>
                                 </div>
+                                if(equipment.EstimatedRetailCost.HasValue)
+                                {
+                                    <div class="form-group">
+                                        <div class="row">
+                                            @Html.LabelFor(m => equipment.EstimatedRetailCost, new
+                                            {
+                                                @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
+                                            })
+                                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                                @equipment.EstimatedRetailCost
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                             }
                         </div>
                     </div>
