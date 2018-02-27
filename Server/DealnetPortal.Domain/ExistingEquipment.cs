@@ -28,7 +28,7 @@ namespace DealnetPortal.Domain
         [ForeignKey("EquipmentInfoId")]
         public EquipmentInfo EquipmentInfo { get; set; }
 
-        public ResponsibleForRemovalType ResponsibleForRemoval { get; set; }
+        public ResponsibleForRemovalType? ResponsibleForRemoval { get; set; }
         public string ResponsibleForRemovalValue { get; set; }
     }
 }
