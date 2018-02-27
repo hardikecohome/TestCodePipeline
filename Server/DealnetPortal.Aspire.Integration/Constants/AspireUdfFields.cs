@@ -63,6 +63,7 @@
         public static string InstallPackageDescr = "Install Package Descr";
 
         public static string EstimatedRetailPrice = "Estimated Retail Price";
+        public static string ResponsibilityForCostOfRemoval = "Responsibility for cost of removal";
 
         #region Dealer onboarding UDFs        
         public static string OperatingName = "Operating Name";
