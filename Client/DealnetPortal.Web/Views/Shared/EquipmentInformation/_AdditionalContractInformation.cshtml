@@ -1,5 +1,18 @@
-﻿@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+﻿
+@using DealnetPortal.Web.Common.Constants
+@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
 
+@{
+    var enSelectList = new [] {"6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM"};
+    var frSelectList = new[] {"06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"};
+    var culture = Request.Cookies[PortalConstants.CultureCookieName]?.Value;
+    var options = new List<SelectListItem>();
+    for (int i = 0; i < frSelectList.Length; i++)
+    {
+        options.Add(new SelectListItem{ Value = frSelectList[i].Replace(":", ""), Text = culture == "en" ? enSelectList[i] : frSelectList[i] });
+    }
+
+}
 <hr />
 <div class="row"></div>
 <div class="form-section">
@@ -44,7 +57,7 @@
             <div class="form-group">
                 @Html.Label(Resources.PreferredInstallTime, new { @class = "visible-sm visible-xs" })
                 <div class="control-group date-group">
-                    @Html.TextBoxFor(m => m.PrefferedInstallTime, new { @class = "form-control dealnet-input date-input", id = "estimated-installation-date", placeholder = Resources.InstallationDate, data_val_date = "" })
+                    @Html.DropDownListFor(m => m.PrefferedInstallTime, new SelectList(options, "Value", "Text", !string.IsNullOrEmpty(Model.PrefferedInstallTime) ? Model.PrefferedInstallTime : "0900"), new { @class = "form-control dealnet-input date-input", id = "estimated-installation-date", placeholder = Resources.InstallationDate, data_val_date = "" })
                     @Html.ValidationMessageFor(m => m.PrefferedInstallTime, "", new { @class = "text-danger" })
                 </div>
             </div>

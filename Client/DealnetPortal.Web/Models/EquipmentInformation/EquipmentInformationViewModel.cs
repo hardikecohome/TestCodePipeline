@@ -85,5 +85,6 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? EstimatedInstallationDate { get; set; }
+        public string PreferredInstallTime { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -652,6 +653,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             contractData.Equipment.InstallationPackages = installationPackeges ?? new List<InstallationPackageDTO>();
             contractData.Equipment.SalesRep = equipmnetInfo.SalesRep;
             contractData.Equipment.EstimatedInstallationDate = equipmnetInfo.PrefferedInstallDate;
+            contractData.Equipment.InstallationTime = DateTime.ParseExact(equipmnetInfo.PrefferedInstallTime, "hhmm", DateTimeFormatInfo.InvariantInfo);
             contractData.Equipment.IsClarityProgram = equipmnetInfo.IsClarityProgram;
 
             contractData.Details = new ContractDetailsDTO

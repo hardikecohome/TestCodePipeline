@@ -28,7 +28,6 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? PrefferedInstallDate { get; set; }
 
-        [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "PreferredInstallTime")]
         public string PrefferedInstallTime { get; set; }
 
