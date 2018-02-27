@@ -171,7 +171,8 @@
         if (state.equipments[i] === undefined) {
             state.equipments[i] = {
                 id: i.toString(),
-                cost: cost
+                cost: cost,
+                type: $('#NewEquipment_' + i + '__Type').val()
             };
         } else {
             state.equipments[i].cost = cost;
@@ -180,7 +181,8 @@
         if (state.equipments[i] === undefined) {
             state.equipments[i] = {
                 id: i.toString(),
-                monthlyCost: cost
+                monthlyCost: cost,
+                type: $('#NewEquipment_' + i + '__Type').val()
             };
         } else {
             state.equipments[i].monthlyCost = cost;
@@ -189,7 +191,8 @@
         if (state.equipments[i] === undefined) {
             state.equipments[i] = {
                 id: i.toString(),
-                estimatedRetail: cost
+                estimatedRetail: cost,
+                type: $('#NewEquipment_' + i + '__Type').val()
             };
         } else {
             state.equipments[i].estimatedRetail = cost;
@@ -267,6 +270,11 @@
         $.validator.unobtrusive.parse($(formId));
     }
 
+    /**
+     * update equipment type in global state object
+     * needed to update Existing equipment 
+     * @returns {void}
+     */
     function updateType() {
         var mvcId = $(this).attr('id');
         var id = mvcId.split('__Type')[0].substr(mvcId.split('__Type')[0].lastIndexOf('_') + 1);
