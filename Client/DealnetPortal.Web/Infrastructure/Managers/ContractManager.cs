@@ -119,7 +119,13 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 if(result.Item1.Equipment.ValueOfDeal == null || result.Item1.Equipment.ValueOfDeal == 0)
                 {
                     equipmentInfo.IsNewContract = true;
+
                     equipmentInfo.RequestedTerm = 120;
+                }
+                else
+                {
+                    var isCustomSelected = result.Item1.Equipment?.RateCardId == 0 || result.Item1.Equipment?.RateCardId == null;
+                    equipmentInfo.IsCustomRateCardSelected = isCustomSelected;
                 }
 
                 equipmentInfo.IsOldClarityDeal = result.Item1.Equipment.IsClarityProgram == null && equipmentInfo.IsClarityDealer;
