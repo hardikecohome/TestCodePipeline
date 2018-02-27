@@ -2560,4 +2560,10 @@ changing contract terms or signing contract on paper.</value>
   <data name="EstimatedRetailCost" xml:space="preserve">
     <value>Estimated Retail Cost</value>
   </data>
+  <data name="PreferredInstallDate" xml:space="preserve">
+    <value>Preferred Install Date</value>
+  </data>
+  <data name="PreferredInstallTime" xml:space="preserve">
+    <value>Preferred Install Time</value>
+  </data>
 </root>

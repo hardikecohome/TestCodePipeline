@@ -5201,6 +5201,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Preferred Install Date.
+        /// </summary>
+        public static string PreferredInstallDate {
+            get {
+                return ResourceManager.GetString("PreferredInstallDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preferred Install Time.
+        /// </summary>
+        public static string PreferredInstallTime {
+            get {
+                return ResourceManager.GetString("PreferredInstallTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Preferred Withdrawal Date.
         /// </summary>
         public static string PrefferedWithdrawalDateIncorrectFormat {

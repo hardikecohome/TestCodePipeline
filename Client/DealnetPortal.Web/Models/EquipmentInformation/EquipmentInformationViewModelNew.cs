@@ -23,10 +23,14 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public List<string> CustomerComments { get; set; }
 
         [CustomRequired]
-        [Display(ResourceType = typeof(Resources.Resources), Name = "EstimatedInstallationDate")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "PreferredInstallDate")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
-        public DateTime? EstimatedInstallationDate { get; set; }
+        public DateTime? PrefferedInstallDate { get; set; }
+
+        [CustomRequired]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "PreferredInstallTime")]
+        public string PrefferedInstallTime { get; set; }
 
         [CustomRequired]
         [StringLength(50, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]

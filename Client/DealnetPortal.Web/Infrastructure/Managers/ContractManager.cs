@@ -651,7 +651,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             var installationPackeges = Mapper.Map<List<InstallationPackageDTO>>(equipmnetInfo.InstallationPackages);
             contractData.Equipment.InstallationPackages = installationPackeges ?? new List<InstallationPackageDTO>();
             contractData.Equipment.SalesRep = equipmnetInfo.SalesRep;
-            contractData.Equipment.EstimatedInstallationDate = equipmnetInfo.EstimatedInstallationDate;
+            contractData.Equipment.EstimatedInstallationDate = equipmnetInfo.PrefferedInstallDate;
             contractData.Equipment.IsClarityProgram = equipmnetInfo.IsClarityProgram;
 
             contractData.Details = new ContractDetailsDTO
@@ -1007,7 +1007,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
             if(contract.Equipment != null)
             {
-                equipmentInfo.EstimatedInstallationDate = contract.Equipment.EstimatedInstallationDate;
+                equipmentInfo.PrefferedInstallDate = contract.Equipment.EstimatedInstallationDate;
                 equipmentInfo.SalesRep = contract.Equipment.SalesRep;
                 equipmentInfo.ExistingEquipment = Mapper.Map<List<ExistingEquipmentInformation>>(contract.Equipment.ExistingEquipment);
             }
