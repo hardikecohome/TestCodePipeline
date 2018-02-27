@@ -157,6 +157,7 @@
 
         $('#existing-equipments').append(newTemplate);
         resetFormValidator("#equipment-form");
+        bill59EnableExisting();
     };
 
     /**
