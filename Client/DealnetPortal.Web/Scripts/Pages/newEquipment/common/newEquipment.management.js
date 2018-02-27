@@ -70,9 +70,14 @@
             $('.add-equip-link').removeClass("hidden");
         });
 
-        newTemplate.find('.monthly-cost').on('change', updateMonthlyCost);
-        newTemplate.find('.estimated-retail').on('change', updateEstimatedRetail);
-        newTemplate.find('.equipment-select').on('change', bill59EquipmentChange).change();
+        newTemplate.find('.monthly-cost')
+            .on('change', updateMonthlyCost);
+        newTemplate.find('.estimated-retail')
+            .on('change', updateEstimatedRetail);
+        newTemplate.find('.equipment-select')
+            .on('change', updateType)
+            .on('change', bill59EquipmentChange)
+            .change();
 
         customizeSelect();
         toggleClearInputIcon($(newTemplate).find('textarea, input'));
@@ -187,10 +192,15 @@
         }
 
         var equipmentRow = $('#new-equipment-' + i);
-        equipmentRow.find('.equipment-select').on('change', bill59EquipmentChange);
-        equipmentRow.find('.equipment-cost').on('change', updateCost);
-        equipmentRow.find('.monthly-cost').on('change', updateMonthlyCost);
-        equipmentRow.find('.estimated-retail').on('change', updateEstimatedRetail);
+        equipmentRow.find('.equipment-select')
+            .on('change', updateType)
+            .on('change', bill59EquipmentChange);
+        equipmentRow.find('.equipment-cost')
+            .on('change', updateCost);
+        equipmentRow.find('.monthly-cost')
+            .on('change', updateMonthlyCost);
+        equipmentRow.find('.estimated-retail')
+            .on('change', updateEstimatedRetail);
 
         customizeSelect();
         //if not first equipment add handler (first equipment should always be visible)
@@ -248,6 +258,12 @@
         $(formId).removeData('validator');
         $(formId).removeData('unobtrusiveValidation');
         $.validator.unobtrusive.parse($(formId));
+    }
+
+    function updateType() {
+        var mvcId = $(this).attr('id');
+        var id = mvcId.split('__Type')[0].substr(mvcId.split('__Type')[0].lastIndexOf('_') + 1);
+        state.equipments[id].type = this.value;
     }
 
     /**

@@ -25,7 +25,7 @@ namespace DealnetPortal.Web
                 .Include(
                 "~/Scripts/vendor/jquery.validate*",
                 "~/Scripts/vendor/jquery-validation-messages.js"
-                //,"~/Scripts/vendor/knockout.validation.js"
+                            //,"~/Scripts/vendor/knockout.validation.js"
                             ));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
@@ -52,7 +52,7 @@ namespace DealnetPortal.Web
                     "~/Scripts/vendor/jquery.loader.js",
                     "~/Scripts/vendor/jquery.jcarousel.min.js",
                     "~/Scripts/vendor/jquery.touchSwipe.min.js",
-                   // "~/Scripts/vendor/knockout-3.4.2.debug.js",
+                    // "~/Scripts/vendor/knockout-3.4.2.debug.js",
                     "~/Scripts/vendor/js.cookie.js",
                     "~/Scripts/utils/modules/index.js",
                     "~/Scripts/utils/helpPopup.js",
@@ -256,6 +256,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/navigateToStep.js")
                 .Include("~/Scripts/utils/setEqualHeightRows.js")
                 .Include("~/Scripts/utils/resetPlaceholder.js")
+                .Include("~/Scripts/utils/idToValue.js")
                 .IncludeDirectory("~/Scripts/utils/rateCards", "*.js", true)
                 .IncludeDirectory("~/Scripts/pages/newEquipment/common", "*.js", true)
             );
