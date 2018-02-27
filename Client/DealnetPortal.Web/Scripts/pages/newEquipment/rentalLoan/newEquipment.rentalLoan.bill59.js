@@ -81,7 +81,19 @@
     };
 
     var disableExistingEquipment = function () {
-
+        if (state.isOntario && state.agreementType === 0 || !equipmentInListSelected()) {
+            Object.keys(state.existingEquipments)
+                .map(idToValue(state.existingEquipments))
+                .forEach(function (equip) {
+                    var $equip = $('#existing-equipment-' + equip.id);
+                    $equip.find('.responsible-col')
+                        .addClass('hidden');
+                    var $dropdown = $equip.find('.responsible-dropdown-col');
+                    $dropdown.val('').change();
+                    $dropdown.attr('disabled', true);
+                    $dropdown[0].form && $dropdown.rules('remove', 'required');
+                });
+        }
     };
 
     var onEquipmentChange = function (e) {
