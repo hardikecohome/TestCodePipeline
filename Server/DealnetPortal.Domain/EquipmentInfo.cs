@@ -9,6 +9,8 @@ namespace DealnetPortal.Domain
 
     public class EquipmentInfo
     {
+
+        private bool? isCustomRateCard;
         public EquipmentInfo()
         {
             NewEquipment = new HashSet<NewEquipment>();
@@ -58,6 +60,13 @@ namespace DealnetPortal.Domain
         [ForeignKey(nameof(RateCard))]
         public int? RateCardId { get; set; }
         public RateCard RateCard { get; set; }
+
+        [NotMapped]
+        public bool IsCustomRateCard
+        {
+            get { return isCustomRateCard ?? RateCardId == null && AmortizationTerm.HasValue && LoanTerm.HasValue; }
+            set { isCustomRateCard = value; }
+        }
 
         public bool? IsClarityProgram { get; set; }
 
