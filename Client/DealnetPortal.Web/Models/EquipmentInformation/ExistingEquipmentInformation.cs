@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using DealnetPortal.Web.Infrastructure.Attributes;
-using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Web.Models.Enumeration;
 
 namespace DealnetPortal.Web.Models.EquipmentInformation
 {
@@ -44,7 +44,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         [CustomRequired]
         [Display(ResourceType =typeof(Resources.Resources), Name = "ResponsibleForCostRemoval")]
-        public ResponsibleForRemovalType? ResponsibleForRemoval { get; set; }
+        public ResponsibleForRemoval? ResponsibleForRemoval { get; set; }
 
         [StringLength(20, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "Other")]

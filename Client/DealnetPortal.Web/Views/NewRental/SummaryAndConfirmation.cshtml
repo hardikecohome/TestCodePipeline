@@ -616,16 +616,16 @@
                                                         <span>
                                                             @Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment
                                                             @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ?
-                                                                            Resources.Year :
-                                                                            Resources.Years)
+                                                                                                                            Resources.Year :
+                                                                                                                            Resources.Years)
                                                         </span>
                                                         @if(!string.IsNullOrEmpty(Model?.BasicInfo.HomeOwner?.EmploymentInformation?.MonthsOfEmployment))
                                                         {
                                                             <span>
                                                                 @Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment
                                                                 @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ?
-                                                                                                        Resources.Month :
-                                                                                                        Resources.Months)
+                                                                                                                                                        Resources.Month :
+                                                                                                                                                        Resources.Months)
                                                             </span>
                                                         }
                                                     </div>
@@ -962,24 +962,22 @@
                                                 </div>
                                                 <div class="dealnet-field-holder col-xs-6">
                                                     @Html.DropDownListFor(m => m.EquipmentInfo.ExistingEquipment[i].IsRental,
-                                                             new SelectList(
-                                                                 new[]
-                                                                 {
-                                                                                                            new {
-                                                                                                            Value = "true",
-                                                                                                            Text = yesNaming,
-                                                                                                            Selected = Model.EquipmentInfo.ExistingEquipment[i].IsRental
-                                                                                                            },
-                                                                                                            new {
-                                                                                                            Value = "false",
-                                                                                                            Text = noNaming,
-                                                                                                            Selected = !Model.EquipmentInfo.ExistingEquipment[i].IsRental
-                                                                                                            },
-                                                              },
-                                                                 "Value",
-                                                                 "Text",
-                                                                 Model.EquipmentInfo.ExistingEquipment[i].IsRental),
-                                                             new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                        new SelectList(new[]{
+                                                                                new {
+                                                                                Value = "true",
+                                                                                Text = yesNaming,
+                                                                                Selected = Model.EquipmentInfo.ExistingEquipment[i].IsRental
+                                                                                },
+                                                                                new {
+                                                                                Value = "false",
+                                                                                Text = noNaming,
+                                                                                Selected = !Model.EquipmentInfo.ExistingEquipment[i].IsRental
+                                                                                },
+                                                        },
+                                                        "Value",
+                                                        "Text",
+                                                        Model.EquipmentInfo.ExistingEquipment[i].IsRental),
+                                                        new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                                 </div>
                                             </div>
                                         </div>
@@ -1073,6 +1071,42 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @if(Model.EquipmentInfo.ExistingEquipment[i].ResponsibleForRemoval.HasValue)
+                                        {
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="dealnet-field-caption col-xs-6">
+                                                        @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].ResponsibleForRemoval)
+                                                    </div>
+                                                    <div class="dealnet-field-holder col-xs-6">
+                                                        @Html.EnumDropDownListFor(m => m.EquipmentInfo.ExistingEquipment[i].ResponsibleForRemoval, new
+                                                        {
+                                                            id = "",
+                                                            @readonly = "readonly",
+                                                            @class = "form-control dealnet-disabled-input"
+                                                        })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        @if(!string.IsNullOrEmpty(Model.EquipmentInfo.ExistingEquipment[i].ResponsibleForRemovalValue))
+                                        {
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="dealnet-field-caption col-xs-6">
+                                                        @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].ResponsibleForRemovalValue)
+                                                    </div>
+                                                    <div class="dealnet-field-holder col-xs-6">
+                                                        @Html.TextAreaFor(m => m.EquipmentInfo.ExistingEquipment[i].ResponsibleForRemovalValue, new
+                                                        {
+                                                            id = "",
+                                                            @readonly = "readonly",
+                                                            @class = "form-control dealnet-disabled-input"
+                                                        })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="dealnet-field-caption col-xs-6">
@@ -1237,8 +1271,8 @@
                                     <div class="dealnet-field-holder">
                                         <div class="control-group">
                                             @Html.DropDownListFor(m => m.BasicInfo.HomeOwner.AddressInformation.Province,
-                                                                                                                     (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
-                                                                                                                     new { @class = "form-control dealnet-input", id = "administrative_area_level_1" })
+                                                                                                                                                   (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
+                                                                                                                                                   new { @class = "form-control dealnet-input", id = "administrative_area_level_1" })
                                             @Html.ValidationMessageFor(m => m.BasicInfo.HomeOwner.AddressInformation.Province, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -1330,8 +1364,8 @@
                                         <div class="dealnet-field-holder">
                                             <div class="control-group">
                                                 @Html.DropDownListFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.Province,
-                                                                                                                         (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
-                                                                                                                         new { @class = "form-control dealnet-input", id = "mailing_administrative_area_level_1" })
+                                                                                                                                                       (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
+                                                                                                                                                       new { @class = "form-control dealnet-input", id = "mailing_administrative_area_level_1" })
                                                 @Html.ValidationMessageFor(m => m.BasicInfo.HomeOwner.MailingAddressInformation.Province, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -1588,8 +1622,8 @@
                                                     @Html.DropDownListFor(m => m.EquipmentInfo.ExistingEquipment[i].IsRental, new SelectList(
                                                                                                                              new[]
                                                                                                                              {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        new {Value = "true", Text = yesNaming, Selected = Model.EquipmentInfo.ExistingEquipment[i].IsRental},
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        new {Value = "false", Text = noNaming, Selected = !Model.EquipmentInfo.ExistingEquipment[i].IsRental},
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        new {Value = "true", Text = yesNaming, Selected = Model.EquipmentInfo.ExistingEquipment[i].IsRental},
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        new {Value = "false", Text = noNaming, Selected = !Model.EquipmentInfo.ExistingEquipment[i].IsRental},
                                                                                                                              },
                                                                                                                              "Value", "Text", Model.EquipmentInfo.ExistingEquipment[i].IsRental),
                                                                                                                              new { @class = "form-control" })
@@ -1670,14 +1704,72 @@
                                         </div>
                                     </div>
                                 </div>
+                                if(Model.EquipmentInfo.ExistingEquipment[i].ResponsibleForRemoval.HasValue)
+                                {
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].ResponsibleForRemoval, new
+                                                {
+                                                    @class = "dealnet-field-caption"
+                                                })
+                                                <div class="dealnet-field-holder">
+                                                    <div class="control-group">
+                                                        @Html.EnumDropDownListFor(m => m.EquipmentInfo.ExistingEquipment[i].ResponsibleForRemoval, new
+                                                        {
+                                                            @class = "form-control dealnet-input"
+                                                        })
+                                                        @Html.ValidationMessageFor(m => m.EquipmentInfo.ExistingEquipment[i].ResponsibleForRemoval, "", new
+                                                        {
+                                                            @class = "text-danger"
+                                                        })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                if(!string.IsNullOrEmpty(Model.EquipmentInfo.ExistingEquipment[i].ResponsibleForRemovalValue))
+                                {
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].ResponsibleForRemovalValue, new
+                                                {
+                                                    @class = "dealnet-field-caption"
+                                                })
+                                                <div class="dealnet-field-holder">
+                                                    <div class="control-group">
+                                                        @Html.TextBoxFor(m => m.EquipmentInfo.ExistingEquipment[i].ResponsibleForRemovalValue, new
+                                                        {
+                                                            @class = "form-control dealnet-input"
+                                                        })
+                                                        @Html.ValidationMessageFor(m => m.EquipmentInfo.ExistingEquipment[i].ResponsibleForRemovalValue, "", new
+                                                        {
+                                                            @class = "text-danger"
+                                                        })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                }
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].Notes, new { @class = "dealnet-field-caption" })
                                             <div class="dealnet-field-holder">
                                                 <div class="control-group">
-                                                    @Html.TextAreaFor(m => m.EquipmentInfo.ExistingEquipment[i].Notes, new { @class = "form-control dealnet-input", placeholder = Resources.Notes })
-                                                    @Html.ValidationMessageFor(m => m.EquipmentInfo.ExistingEquipment[i].Notes, "", new { @class = "text-danger" })
+                                                    @Html.TextAreaFor(m => m.EquipmentInfo.ExistingEquipment[i].Notes, new
+                                                    {
+                                                        @class = "form-control dealnet-input",
+                                                        placeholder = Resources.Notes
+                                                    })
+                                                    @Html.ValidationMessageFor(m => m.EquipmentInfo.ExistingEquipment[i].Notes, "", new
+                                                    {
+                                                        @class = "text-danger"
+                                                    })
                                                 </div>
                                             </div>
                                         </div>
@@ -1843,8 +1935,8 @@
                                                 <div class="dealnet-field-holder">
                                                     <div class="control-group">
                                                         @Html.DropDownListFor(m => m.BasicInfo.AdditionalApplicants[i].AddressInformation.Province,
-                                                                                                                                 (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.BasicInfo.AdditionalApplicants[i]?.AddressInformation?.Province == x.Province }), "",
-                                                                                                                                 new { @class = "form-control dealnet-input", id = "additional-administrative_area_level_1-" + (i + 1) })
+                                                                                                                                                               (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.BasicInfo.AdditionalApplicants[i]?.AddressInformation?.Province == x.Province }), "",
+                                                                                                                                                               new { @class = "form-control dealnet-input", id = "additional-administrative_area_level_1-" + (i + 1) })
                                                         @Html.ValidationMessageFor(m => m.BasicInfo.AdditionalApplicants[i].AddressInformation.Province, "", new { @class = "text-danger" })
                                                     </div>
                                                 </div>
@@ -1933,8 +2025,8 @@
                                                 <div class="dealnet-field-holder">
                                                     <div class="control-group">
                                                         @Html.DropDownListFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.Province,
-                                                                                                                                 (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
-                                                                                                                                 new { @class = "form-control dealnet-input", id = "additional-previous-administrative_area_level_1-" + (i + 1) })
+                                                                                                                                                               (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
+                                                                                                                                                               new { @class = "form-control dealnet-input", id = "additional-previous-administrative_area_level_1-" + (i + 1) })
                                                         @Html.ValidationMessageFor(m => m.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation.Province, "", new { @class = "text-danger" })
                                                     </div>
                                                 </div>
@@ -2058,8 +2150,8 @@
                                         <div class="dealnet-field-holder">
                                             <div class="control-group">
                                                 @Html.DropDownListFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.Province,
-                                                                                                                         (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
-                                                                                                                         new { @class = "form-control dealnet-input", id = "previous_administrative_area_level_1" })
+                                                                                                                                                       (provinces).Select(x => new SelectListItem { Value = x.Province, Text = x.Province }), "",
+                                                                                                                                                       new { @class = "form-control dealnet-input", id = "previous_administrative_area_level_1" })
                                                 @Html.ValidationMessageFor(m => m.BasicInfo.HomeOwner.PreviousAddressInformation.Province, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
