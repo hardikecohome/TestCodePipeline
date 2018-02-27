@@ -195,6 +195,24 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-6 responsible-col hidden">
+                <div class="row">
+                    <div class="col-md-12 responsible-dropdown-col">
+                        @Html.LabelFor(m => m.ExistingEquipment[0].ResponsibleForRemoval)
+                        <div class="control-group">
+                            @Html.EnumDropDownListFor(m => m.ExistingEquipment[0].ResponsibleForRemoval, new { @class = "form-control dealnet-input" })
+                            @Html.ValidationMessageFor(m => m.ExistingEquipment[0].ResponsibleForRemoval, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6 responsible-other-col hidden">
+                        @Html.LabelFor(m => m.ExistingEquipment[0].ResponsibiltyOfOther)
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.ExistingEquipment[0].ResponsibiltyOfOther, new { @class = "form-control dealnet-input" })
+                            @Html.ValidationMessageFor(m => m.ExistingEquipment[0].ResponsibiltyOfOther, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-6">
                 <div class="form-group">
                     @Html.LabelFor(m => m.ExistingEquipment[0].Notes)
