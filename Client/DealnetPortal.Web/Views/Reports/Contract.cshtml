@@ -1601,6 +1601,42 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if(equipment.ResponsibleForRemoval.HasValue)
+                                {
+                                    <div class="form-group">
+                                        <div class="row">
+                                            @Html.LabelFor(x => equipment.ResponsibleForRemoval, new { @class = "dealnet-field-caption col-xs-6" })
+                                            <div class="dealnet-field-holder col-xs-6">
+                                                @switch(equipment.ResponsibleForRemoval)
+                                                {
+                                                    case ResponsibleForRemoval.Customer:
+                                                        @Resources.Customer
+                                                        break;
+                                                    case ResponsibleForRemoval.ExistingSupplier:
+                                                        @Resources.ExistingSupplier
+                                                        break;
+                                                    case ResponsibleForRemoval.NA:
+                                                        @Resources.N_A
+                                                        break;
+                                                    case ResponsibleForRemoval.Other:
+                                                        @Resources.Other
+                                                        break;
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                @if(!string.IsNullOrEmpty(equipment.ResponsibleForRemovalValue))
+                                {
+                                    <div class="form-group">
+                                        <div class="row">
+                                            @Html.LabelFor(x => equipment.ResponsibleForRemovalValue, new { @class = "dealnet-field-caption col-xs-6" })
+                                            <div class="dealnet-field-holder col-xs-6">
+                                                @equipment.ResponsibleForRemovalValue
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                                 <div class="form-group">
                                     <div class="row">
                                         @Html.LabelFor(x => equipment.Notes, new { @class = "dealnet-field-caption col-xs-6" })
