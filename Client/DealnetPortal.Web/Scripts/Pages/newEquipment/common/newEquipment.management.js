@@ -4,6 +4,7 @@
     var conversion = require('newEquipment.conversion');
     var bill59EquipmentChange = require('bill59').onEquipmentChange;
     var bill59ResponsiblityChange = require('bill59').onResposibilityChange;
+    var bill59EnableExisting = require('bill59').enableExistingEquipment;
 
     var settings = {
         recalculateValuesAndRender: {},
@@ -360,6 +361,7 @@
 
         _initExistingEquipment();
         _initNewEquipment();
+        bill59EnableExisting();
     }
 
     return {

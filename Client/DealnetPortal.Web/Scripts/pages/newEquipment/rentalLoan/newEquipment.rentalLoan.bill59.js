@@ -74,7 +74,6 @@
                         $dropdown.prop('disabled', false);
                         $dropdown[0].form && $dropdown.rules('add', 'required');
                         $dropdown.change();
-                        $equip.find('.note-col').addClass('col-md-pull-6');
                     });
             }
         }
@@ -124,6 +123,7 @@
         enableForAll: enableForAll,
         disableForAll: disableForAll,
         onEquipmentChange: onEquipmentChange,
-        onResposibilityChange: onResposibilityChange
+        onResposibilityChange: onResposibilityChange,
+        enableExistingEquipment: enableExistingEquipment
     };
 });
