@@ -97,7 +97,7 @@
     var onResposibilityChange = function (e) {
         var otherCol = $(e.target).parents('.responsible-col').find('.responsible-other-col');
         var $input = otherCol.find('.responsible-other');
-        if (e.target.value.toLowerCase() === 'other') {
+        if (e.target.value.toLowerCase() === '3') {
             otherCol.removeClass('hidden');
             $input.attr('disabled', false);
             $input[0].form && $input.rules('add', 'required');

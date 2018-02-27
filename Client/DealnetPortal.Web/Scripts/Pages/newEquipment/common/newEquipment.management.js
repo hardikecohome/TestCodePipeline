@@ -3,6 +3,7 @@
     var state = require('state').state;
     var conversion = require('newEquipment.conversion');
     var bill59EquipmentChange = require('bill59').onEquipmentChange;
+    var bill59ResponsiblityChange = require('bill59').onResposibilityChange;
 
     var settings = {
         recalculateValuesAndRender: {},
@@ -146,6 +147,9 @@
             }
         });
 
+        newTemplate.find('.responsible-dropdown')
+            .on('change', bill59ResponsiblityChange);
+
         customizeSelect();
         toggleClearInputIcon($(newTemplate).find('textarea, input'));
         resetPlaceholder($(newTemplate).find('textarea, input'));
@@ -252,6 +256,9 @@
 
             conversion.removeItem.call(this, options);
         });
+
+        $('#existing-equipment-' + i + ' .responsible-dropdown')
+            .on('change', bill59ResponsiblityChange);
     }
 
     function resetFormValidator(formId) {
