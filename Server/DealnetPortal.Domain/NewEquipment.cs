@@ -23,6 +23,5 @@
         public int EquipmentInfoId { get; set; }
         [ForeignKey("EquipmentInfoId")]
         public EquipmentInfo EquipmentInfo { get; set; }
-        public decimal? EstimatedRetailPrice { get; set; }
     }
 }
