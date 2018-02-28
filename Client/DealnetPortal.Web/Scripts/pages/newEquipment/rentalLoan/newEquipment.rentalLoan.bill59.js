@@ -13,6 +13,7 @@
                 var $el = $(el);
                 if (equipmentInList($el.find('.equipment-select').val())) {
                     enable($el);
+                    if ($('#sales-rep-types').is(':hidden')) enableSalesRepSection();
                 }
             });
         }
@@ -23,6 +24,7 @@
             var newEquipment = $('div#new-equipments [id^="new-equipment-"]');
             $.each(newEquipment, function (i, el) {
                 disable($(el));
+                if (!$('#sales-rep-types').is(':hidden')) disableSalesRepSection();
             });
         }
     };
@@ -35,7 +37,24 @@
         var input = $row.find('.estimated-retail');
         input.prop('disabled', false);
         input[0].form && input.rules('add', 'required');
+
     };
+
+    function enableSalesRepSection() {
+        $('#sales-rep-types').removeClass('hidden');
+        $('#sales-rep-title').removeClass('hidden');
+    }
+
+    function disableSalesRepSection() {
+        $('#sales-rep-types').addClass('hidden');
+        $('#sales-rep-title').addClass('hidden');
+        $('#initiated-contract').val(null);
+        $('#initiated-contract-checkbox').prop('checked', false);
+        $('#negotiated-contract').val(null);
+        $('#negotiated-contract-checkbox').prop('checked', false);
+        $('#concluded-contract').val(null);
+        $('#concluded-contract-checkbox').prop('checked', false);
+    }
 
     var disable = function ($row) {
         $row.find('.description-col').removeClass('col-md-5').addClass('col-md-6');
@@ -51,8 +70,10 @@
         if (state.isOntario && state.agreementType !== 0) {
             if (equipmentInList(e.target.value)) {
                 enable($(e.target).parents('.new-equipment'));
+                enableSalesRepSection();
             } else {
                 disable($(e.target).parents('.new-equipment'));
+                disableSalesRepSection();
             }
         }
     }

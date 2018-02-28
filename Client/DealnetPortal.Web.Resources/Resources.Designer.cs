@@ -1618,6 +1618,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Concluded agreement.
+        /// </summary>
+        public static string ConcludedAgreement {
+            get {
+                return ResourceManager.GetString("ConcludedAgreement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm new password.
         /// </summary>
         public static string ConfirmNewPassword {
@@ -3491,6 +3500,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Initiated contract.
+        /// </summary>
+        public static string InitiatedContract {
+            get {
+                return ResourceManager.GetString("InitiatedContract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Installation Address.
         /// </summary>
         public static string InstallationAddress {
@@ -4297,6 +4315,15 @@ namespace DealnetPortal.Web.Resources {
         public static string NavigateToStep {
             get {
                 return ResourceManager.GetString("NavigateToStep", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Negotiated agreement.
+        /// </summary>
+        public static string NegotiatedAgreement {
+            get {
+                return ResourceManager.GetString("NegotiatedAgreement", resourceCulture);
             }
         }
         
@@ -5774,6 +5801,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Reupload {
             get {
                 return ResourceManager.GetString("Reupload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role of the sales rep.
+        /// </summary>
+        public static string RoleOfSalesRep {
+            get {
+                return ResourceManager.GetString("RoleOfSalesRep", resourceCulture);
             }
         }
         

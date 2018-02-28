@@ -2566,4 +2566,16 @@ changing contract terms or signing contract on paper.</value>
   <data name="PreferredInstallTime" xml:space="preserve">
     <value>Preferred Install Time</value>
   </data>
+  <data name="ConcludedAgreement" xml:space="preserve">
+    <value>Concluded agreement</value>
+  </data>
+  <data name="InitiatedContract" xml:space="preserve">
+    <value>Initiated contract</value>
+  </data>
+  <data name="NegotiatedAgreement" xml:space="preserve">
+    <value>Negotiated agreement</value>
+  </data>
+  <data name="RoleOfSalesRep" xml:space="preserve">
+    <value>Role of the sales rep</value>
+  </data>
 </root>

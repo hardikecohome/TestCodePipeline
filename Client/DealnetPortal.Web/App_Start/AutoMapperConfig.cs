@@ -628,6 +628,9 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.IsNewContract, d => d.Ignore())
                 .ForMember(x => x.DealerTier, d => d.Ignore());
 
+            cfg.CreateMap<EquipmentInfoDTO, SalesRepInformation>()
+                .ForMember(x => x.SalesRep, d => d.MapFrom(src => src.SalesRep));
+
             cfg.CreateMap<AddressDTO, AddressInformation>()
                 .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))
                 .ForMember(x => x.Province, d => d.MapFrom(src => src.State))

@@ -18,18 +18,57 @@
 <div class="form-section">
     <div class="row label-row hidden-sm  hidden-xs">
         <div class="col-md-4">
-            @Html.LabelFor(m => m.SalesRep)
+            @Html.LabelFor(m => m.SalesRepInformation.SalesRep)
+        </div>
+        <div class="col-md-4" id="sales-rep-title">
+            @Html.Label(Resources.RoleOfSalesRep)
         </div>
     </div>
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                @Html.LabelFor(m => m.SalesRep, new { @class="visible-sm visible-xs" })
+                @Html.LabelFor(m => m.SalesRepInformation.SalesRep, new { @class="visible-sm visible-xs" })
                 <div class="control-group">
-                    @Html.TextBoxFor(m => m.SalesRep, new { @class = "form-control dealnet-input", placeholder = Resources.SalesRep })
-                    @Html.ValidationMessageFor(m => m.SalesRep, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.SalesRepInformation.SalesRep, new { @class = "form-control dealnet-input", placeholder = Resources.SalesRep })
+                    @Html.ValidationMessageFor(m => m.SalesRepInformation.SalesRep, "", new { @class = "text-danger" })
                 </div>
             </div>
+        </div>
+        <div class="col-md-6" id="sales-rep-types">
+            <div class="form-group">
+                <label class="align-middle custom-checkbox">
+                    @Html.CheckBox("initiated-contract-checkbox", @Model.SalesRepInformation.IniatedContract ?? false ? (object)new { id = "initiated-contract-checkbox", @checked = "true" } : new { id = "initiated-contract-checkbox" })
+                    <span class="checkbox-icon">
+                        <svg aria-hidden="true" class="icon icon-checked">
+                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
+                        </svg>
+                    </span>
+                    <span>@Resources.InitiatedContract</span>
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="align-middle custom-checkbox">
+                    @Html.CheckBox("negotiated-contract-checkbox", Model.SalesRepInformation.NegotiatedAgreement ?? false ? (object)new { id = "negotiated-contract-checkbox", @checked = "true" } : new { id = "negotiated-contract-checkbox" })
+                    <span class="checkbox-icon">
+                        <svg aria-hidden="true" class="icon icon-checked">
+                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
+                        </svg>
+                    </span>
+                    <span>@Resources.NegotiatedAgreement</span>
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="align-middle custom-checkbox">
+                    @Html.CheckBox("concluded-contract-checkbox", Model.SalesRepInformation.ConcludedAgreement ?? false ? (object)new { id = "concluded-contract-checkbox", @checked = "true" } : new { id = "concluded-contract-checkbox" })
+                    <span class="checkbox-icon">
+                        <svg aria-hidden="true" class="icon icon-checked">
+                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
+                        </svg>
+                    </span>
+                    <span>@Resources.ConcludedAgreement</span>
+                </label>
+            </div>
+            <div id="error-message" class="text-danger field-validation-error hidden">@Resources.ThisFieldIsRequired</div>
         </div>
     </div>
     <div class="row label-row hidden-sm  hidden-xs">
