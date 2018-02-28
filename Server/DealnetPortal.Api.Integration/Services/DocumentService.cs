@@ -1011,7 +1011,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var agreementTemplates = dealerTemplates.Where(at =>
                     ((agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
                     && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
-                    && (string.IsNullOrEmpty(equipmentType) || (at.EquipmentType?.Contains(equipmentType) ?? false))).ToList();
+                    && (string.IsNullOrEmpty(equipmentType) || (at.EquipmentType?.Split(' ', ',').Contains(equipmentType) ?? false))).ToList();
 
                 if (!agreementTemplates.Any())
                 {
@@ -1019,7 +1019,7 @@ namespace DealnetPortal.Api.Integration.Services
                         (!at.AgreementType.HasValue || (agreementType == at.AgreementType) || (at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
                         && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
                         && (string.IsNullOrEmpty(equipmentType) ||
-                            (at.EquipmentType?.Contains(equipmentType) ?? false))).ToList();
+                            (at.EquipmentType?.Split(' ', ',').Contains(equipmentType) ?? false))).ToList();
                 }
 
                 if (!agreementTemplates.Any())
