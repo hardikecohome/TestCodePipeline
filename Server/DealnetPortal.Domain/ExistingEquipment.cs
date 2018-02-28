@@ -1,4 +1,5 @@
-﻿using DealnetPortal.Api.Common.Enumeration;
+﻿using System.ComponentModel.DataAnnotations;
+using DealnetPortal.Api.Common.Enumeration;
 
 namespace DealnetPortal.Domain
 {
@@ -29,6 +30,7 @@ namespace DealnetPortal.Domain
         public EquipmentInfo EquipmentInfo { get; set; }
 
         public ResponsibleForRemovalType? ResponsibleForRemoval { get; set; }
+        [MaxLength(20)]
         public string ResponsibleForRemovalValue { get; set; }
     }
 }
