@@ -27,7 +27,7 @@
         // check if we have any prefilled values in database
         // related to this contract, if yes contract is not new
         state.isNewContract = $(settings.isNewContractId).val().toLowerCase() === 'true';
-        state.suctomSelected = $(settings.customSelectedId).val().toLowerCase() === 'true';
+        state.customSelected = $(settings.customSelectedId).val().toLowerCase() === 'true';
         state.selectedCardId = $(settings.selectedRateCardId).val() !== "" ? +$(settings.selectedRateCardId).val() : null;
         if (state.selectedCardId === 0) state.selectedCardId = null;
         state.onlyCustomRateCard = onlyCustomRateCard;
@@ -48,7 +48,7 @@
         rateCardsCaclulationEngine.init(cards);
 
         if (state.onlyCustomRateCard) {
-            if (state.suctomSelected) {
+            if (state.customSelected) {
                 renderRateCardOption(settings.customRateCardName);
             }
         } else {
@@ -69,7 +69,7 @@
      */
     function renderRateCardOption (option, items) {
         rateCardBlock.toggle(state.isNewContract);
-        if (option !== settings.customRateCardName && !state.suctomSelected) {
+        if (option !== settings.customRateCardName && !state.customSelected) {
             setSelectedRateCard(option, items);
 
             if (option === settings.deferralRateCardName) {
@@ -82,7 +82,7 @@
             }
         }
 
-        if (option === settings.customRateCardName && state.suctomSelected) {
+        if (option === settings.customRateCardName && state.customSelected) {
             customRateCardBlock.setSelectedCustomRateCard();
             rateCardBlock.highlightCardBySelector('#CustomLoanTerm');
         }

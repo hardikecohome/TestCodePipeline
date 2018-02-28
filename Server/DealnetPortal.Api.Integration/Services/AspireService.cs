@@ -1817,7 +1817,7 @@ namespace DealnetPortal.Api.Integration.Services
                 });
                 udfList.Add(new UDF()
                 {
-                    Name = AspireUdfFields.DealerCost,
+                    Name = AspireUdfFields.DealerRate,
                     Value = contract.Equipment?.RateCard?.DealerCost.ToString(CultureInfo.InvariantCulture) ?? 
                         contract.Equipment?.DealerCost?.ToString() ?? "0.0"
                 });
