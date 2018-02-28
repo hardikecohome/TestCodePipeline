@@ -1152,7 +1152,7 @@ namespace DealnetPortal.Api.Integration.Services
                 formFields.Add(new FormField()
                 {
                     FieldType = FieldType.Text,
-                    Name = "ID1",
+                    Name = PdfFormFields.DealerInitials,
                     Value = contract.PrimaryCustomer.DealerInitial
                 });
 
@@ -1161,7 +1161,7 @@ namespace DealnetPortal.Api.Integration.Services
                     formFields.Add(new FormField()
                     {
                         FieldType = FieldType.CheckBox,
-                        Name = "Tiv1",
+                        Name = PdfFormFields.CustomerIdTypeDriverLicense,
                         Value = "true"
                     });                    
                 }
@@ -1170,13 +1170,13 @@ namespace DealnetPortal.Api.Integration.Services
                     formFields.Add(new FormField()
                     {
                         FieldType = FieldType.CheckBox,
-                        Name = "Tiv1Other",
+                        Name = PdfFormFields.CustomerIdTypeOther,
                         Value = "true"
                     });
                     formFields.Add(new FormField()
                     {
                         FieldType = FieldType.Text,
-                        Name = "OtherID",
+                        Name = PdfFormFields.CustomerIdTypeOtherValue,
                         Value = contract.PrimaryCustomer.VerificationIdName
                     });
                 }
