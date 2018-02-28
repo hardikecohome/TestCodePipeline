@@ -820,6 +820,16 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m=>m.BasicInfo.AdditionalApplicants[i].RelationshipToMainBorrower, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                @Model.BasicInfo.AdditionalApplicants[i].RelationshipToMainBorrower
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         @if(Model.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation != null)
