@@ -121,6 +121,11 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                     equipmentInfo.IsNewContract = true;
                     equipmentInfo.RequestedTerm = 120;
                 }
+                else
+                {
+                    var isCustomSelected = result.Item1.Equipment?.IsCustomRateCard == true || result.Item1.Equipment?.RateCardId == 0; //result.Item1.Equipment?.RateCardId == null;
+                    equipmentInfo.IsCustomRateCardSelected = isCustomSelected;
+                }
 
                 equipmentInfo.IsOldClarityDeal = result.Item1.Equipment.IsClarityProgram == null && equipmentInfo.IsClarityDealer;
             }
@@ -653,6 +658,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             contractData.Equipment.SalesRep = equipmnetInfo.SalesRep;
             contractData.Equipment.EstimatedInstallationDate = equipmnetInfo.EstimatedInstallationDate;
             contractData.Equipment.IsClarityProgram = equipmnetInfo.IsClarityProgram;
+            contractData.Equipment.IsCustomRateCard = equipmnetInfo.SelectedRateCardId == null;
 
             contractData.Details = new ContractDetailsDTO
             {

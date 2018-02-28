@@ -1442,7 +1442,8 @@ namespace DealnetPortal.Api.Integration.Services
                             Quantity = "1",
                             Cost = GetEquipmentCost(contract, eq, bFirstEquipment)?.ToString(CultureInfo.InvariantCulture),
                             Description = eq.Description,
-                            AssetClass = new AssetClass() { AssetCode = eq.Type }
+                            AssetClass = new AssetClass() { AssetCode = eq.Type },
+                            UDFs = GetEquipmentUdfs(contract, eq).ToList()
                         });
                     }
                     if (!isFirstEquipment.HasValue && bFirstEquipment)
@@ -1535,6 +1536,11 @@ namespace DealnetPortal.Api.Integration.Services
             //TODO: Implement finance program selection
             application.FinanceProgram = contract.Dealer?.Application?.FinanceProgram;//"EcoHome Finance Program";
             application.UDFs = GetApplicationUdfs(contract, leadSource, contractor).ToList();
+
+            if (contractor != null)
+            {
+                application.UDFs.AddRange(GetContractorUdfs(contractor));
+            }
 
             return application;
         }
@@ -1727,6 +1733,29 @@ namespace DealnetPortal.Api.Integration.Services
             return checkResult;
         }
 
+        private IList<UDF> GetEquipmentUdfs(Domain.Contract contract, NewEquipment equipment)
+        {
+            var udfList = new List<UDF>();
+            decimal? eqCost = 0.0m;
+            if (equipment.IsDeleted != true && IsClarityProgram(contract))
+            {
+                decimal? installPackagesCost =
+                    contract.Equipment?.InstallationPackages?.Aggregate(0.0m,
+                        (sum, ip) => sum + ip.MonthlyCost ?? 0.0m);
+
+                int eqCount = contract.Equipment?.NewEquipment?.Count(ne => ne.IsDeleted != true) ?? 0;
+                eqCost = installPackagesCost.HasValue && eqCount > 0
+                    ? equipment.MonthlyCost + (installPackagesCost.Value / eqCount)
+                    : equipment.MonthlyCost;                
+            }
+            udfList.Add(new UDF
+            {
+                Name = AspireUdfFields.MonthlyPayment,
+                Value = eqCost?.ToString() ?? "0.0"
+            });
+            return udfList;
+        }
+
         private IList<UDF> GetApplicationUdfs(Domain.Contract contract, string leadSource = null, ContractorDTO contractor = null)
         {
             var udfList = new List<UDF>();
@@ -1740,15 +1769,146 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = contract.Equipment.DeferralType.GetPersistentEnumDescription()
                     });
                 }
-                if (contract.Equipment.RequestedTerm != null)
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.RequestedTerm,
+                    Value = contract.Equipment.RequestedTerm?.ToString() ?? BlankValue
+                });
+
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.AmortizationTerm,
+                    Value = contract.Equipment.AmortizationTerm?.ToString() ?? "0"
+                });
+
+                if (contract.Equipment.LoanTerm.HasValue && (new decimal[] { 24m, 36m, 48m, 60m, 84m, 120m }).Contains(contract.Equipment.LoanTerm.Value))
                 {
                     udfList.Add(new UDF()
                     {
-                        Name = AspireUdfFields.RequestedTerm,
-                        Value = contract.Equipment.RequestedTerm.ToString()
+                        Name = AspireUdfFields.TermType,
+                        Value = $"{contract.Equipment.LoanTerm.Value} Months"
+                    });
+                }
+                else
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.TermType,
+                        Value = BlankValue
                     });
                 }
 
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.AdminFee,
+                    Value = contract.Equipment?.RateCard?.AdminFee.ToString(CultureInfo.InvariantCulture) ??
+                        contract.Equipment?.AdminFee?.ToString() ?? "0.0"
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.DownPayment,
+                    Value = contract.Equipment?.DownPayment?.ToString() ?? "0.0"
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.CustomerRate,
+                    Value = contract.Equipment?.RateCard?.CustomerRate.ToString(CultureInfo.InvariantCulture) ??
+                            contract.Equipment?.CustomerRate?.ToString() ?? "0.0"
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.DealerRate,
+                    Value = contract.Equipment?.RateCard?.DealerCost.ToString(CultureInfo.InvariantCulture) ?? 
+                        contract.Equipment?.DealerCost?.ToString() ?? "0.0"
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.RateCardType,
+                    Value = contract.Equipment?.RateCard?.CardType.GetEnumDescription() ?? BlankValue                    
+                });
+
+
+                var paymentInfo = _contractRepository.GetContractPaymentsSummary(contract.Id);
+                if (paymentInfo != null)
+                {
+                    if (contract.Details?.AgreementType == AgreementType.LoanApplication)
+                    {
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.MonthlyPayment,
+                            Value = paymentInfo.TotalMonthlyPayment?.ToString() ?? "0.0"
+                        });
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.RentalMonthlyPayment,
+                            Value = "0.0"
+                        });
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.BorrowingCost,
+                            Value = paymentInfo.LoanDetails?.TotalBorowingCost.ToString(CultureInfo.InvariantCulture) ?? "0.0"
+                        });
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.ResidualValue,
+                            Value = paymentInfo.LoanDetails?.ResidualBalance.ToString(CultureInfo.InvariantCulture) ?? "0.0"
+                        });
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.TotalObligation,
+                            Value = paymentInfo.LoanDetails?.TotalObligation.ToString(CultureInfo.InvariantCulture) ?? "0.0"
+                        });
+                    }
+                    else
+                    {
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.MonthlyPayment,
+                            Value = "0.0"
+                        });
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.RentalMonthlyPayment,
+                            Value = paymentInfo.TotalMonthlyPayment?.ToString() ?? "0.0"
+                        });
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.BorrowingCost,
+                            Value = "0.0"
+                        });
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.ResidualValue,
+                            Value = "0.0"
+                        });
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.TotalObligation,
+                            Value = "0.0"
+                        });
+                    }
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.TotalAmountFinanced,
+                        Value = contract.Equipment.AgreementType == AgreementType.LoanApplication ? paymentInfo.TotalAmountFinanced?.ToString() : paymentInfo.TotalMonthlyPayment?.ToString()
+                    });
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.TotalOfAllMonthlyPayment,
+                        Value = paymentInfo.TotalAllMonthlyPayment?.ToString(CultureInfo.InvariantCulture) ?? "0.0"
+                    });
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.TotalEquipmentPrice,
+                        Value = paymentInfo.LoanDetails?.PriceOfEquipmentWithHst.ToString(CultureInfo.InvariantCulture) ?? "0.0"
+                    });
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.PstRate,
+                        Value = paymentInfo.Hst?.ToString(CultureInfo.InvariantCulture) ?? "0.0"
+                    });
+                }
+                
                 if (!string.IsNullOrEmpty(contract.Equipment.SalesRep))
                 {
                     udfList.Add(new UDF()
@@ -1867,7 +2027,14 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = AspireUdfFields.LeadSource,
                     Value = setLeadSource
                 });
-            }
+            }            
+
+            return udfList;
+        }
+
+        private IList<UDF> GetContractorUdfs(ContractorDTO contractor)
+        {
+            var udfList = new List<UDF>();
             if (contractor != null)
             {
                 if (!string.IsNullOrEmpty(contractor.CompanyName))

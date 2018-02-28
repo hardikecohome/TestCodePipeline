@@ -11,7 +11,8 @@
         rateCardValidId: '#RateCardValid',
         submitButtonId: '#submit',
         customRateCardName: 'Custom',
-        deferralRateCardName: 'Deferral'
+        deferralRateCardName: 'Deferral',
+        customSelectedId: '#custom-selected'
     }
 
     /**
@@ -26,7 +27,9 @@
         // check if we have any prefilled values in database
         // related to this contract, if yes contract is not new
         state.isNewContract = $(settings.isNewContractId).val().toLowerCase() === 'true';
+        state.customSelected = $(settings.customSelectedId).val().toLowerCase() === 'true';
         state.selectedCardId = $(settings.selectedRateCardId).val() !== "" ? +$(settings.selectedRateCardId).val() : null;
+        if (state.selectedCardId === 0) state.selectedCardId = null;
         state.onlyCustomRateCard = onlyCustomRateCard;
         var isValidRateCard = $(settings.rateCardValidId).val().toLocaleLowerCase() === 'true';
 
@@ -45,17 +48,16 @@
         rateCardsCaclulationEngine.init(cards);
 
         if (state.onlyCustomRateCard) {
-            if (state.selectedCardId !== null) {
+            if (state.customSelected) {
                 renderRateCardOption(settings.customRateCardName);
             }
         } else {
 
-            if (state.selectedCardId !== null) {
-                constants.rateCards.forEach(function (option) {
-                    var filtred = $.grep(cards, function (card) { return card.CardType === option.id; });
-                    renderRateCardOption(option.name, filtred);
-                });
-            }
+        constants.rateCards.forEach(function (option) {
+            var filtred = $.grep(cards, function (card) { return card.CardType === option.id; });
+            renderRateCardOption(option.name, filtred);
+        });
+            
         }
     };
 
@@ -67,7 +69,7 @@
      */
     function renderRateCardOption (option, items) {
         rateCardBlock.toggle(state.isNewContract);
-        if (option !== settings.customRateCardName && state.selectedCardId !== 0) {
+        if (option !== settings.customRateCardName && !state.customSelected) {
             setSelectedRateCard(option, items);
 
             if (option === settings.deferralRateCardName) {
@@ -80,7 +82,7 @@
             }
         }
 
-        if (option === settings.customRateCardName && state.selectedCardId === 0) {
+        if (option === settings.customRateCardName && state.customSelected) {
             customRateCardBlock.setSelectedCustomRateCard();
             rateCardBlock.highlightCardBySelector('#CustomLoanTerm');
         }
