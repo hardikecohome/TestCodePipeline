@@ -49,6 +49,8 @@ namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
 
         public int? RateCardId { get; set; }
 
+        public bool? IsCustomRateCard { get; set; }
+
         public bool? IsClarityProgram { get; set; }
 
         public double? DealerCost { get; set; }

@@ -29,7 +29,7 @@ namespace DealnetPortal.DataAccess.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            //AutomaticMigrationDataLossAllowed = true;
+            AutomaticMigrationDataLossAllowed = true;
             ContextKey = "DealnetPortal.DataAccess.ApplicationDbContext";
             _configuration = new Utilities.Configuration.AppConfiguration(WebConfigSections.AdditionalSections);
         }

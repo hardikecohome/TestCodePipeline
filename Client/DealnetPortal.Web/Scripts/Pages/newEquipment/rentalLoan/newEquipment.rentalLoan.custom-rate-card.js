@@ -51,8 +51,7 @@
         $(settings.delaerCostId).val(state[option].DealerCost);
         $(settings.totalMonthlyPaymentId).val(customSlicedTotalMPayment);
         $(settings.loanDeferralTypeId).val(state[option].DeferralPeriod);
-
-        $(settings.selectedRateCardId).val(0);
+        $(settings.selectedRateCardId).val(null);
     };
 
     /**
