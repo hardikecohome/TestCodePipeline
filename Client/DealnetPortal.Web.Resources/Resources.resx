@@ -2569,4 +2569,10 @@ changing contract terms or signing contract on paper.</value>
   <data name="ResponsibleForCostRemoval" xml:space="preserve">
     <value>Responsible for cost of removal</value>
   </data>
+  <data name="RelationshipToMainBorrower" xml:space="preserve">
+    <value>Relationship to Main Borrower</value>
+  </data>
+  <data name="RelationshipToMainBorrowerIncorrectFormat" xml:space="preserve">
+    <value>Relationship to Main Borrower is in incorrect format</value>
+  </data>
 </root>
