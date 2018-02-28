@@ -3,6 +3,8 @@
     var state = require('state').state;
     var conversion = require('newEquipment.conversion');
     var bill59EquipmentChange = require('bill59').onEquipmentChange;
+    var bill59ResponsiblityChange = require('bill59').onResposibilityChange;
+    var bill59EnableExisting = require('bill59').enableExistingEquipment;
 
     var settings = {
         recalculateValuesAndRender: {},
@@ -70,9 +72,14 @@
             $('.add-equip-link').removeClass("hidden");
         });
 
-        newTemplate.find('.monthly-cost').on('change', updateMonthlyCost);
-        newTemplate.find('.estimated-retail').on('change', updateEstimatedRetail);
-        newTemplate.find('.equipment-select').on('change', bill59EquipmentChange).change();
+        newTemplate.find('.monthly-cost')
+            .on('change', updateMonthlyCost);
+        newTemplate.find('.estimated-retail')
+            .on('change', updateEstimatedRetail);
+        newTemplate.find('.equipment-select')
+            .on('change', updateType)
+            .on('change', bill59EquipmentChange)
+            .change();
 
         customizeSelect();
         toggleClearInputIcon($(newTemplate).find('textarea, input'));
@@ -141,12 +148,16 @@
             }
         });
 
+        newTemplate.find('.responsible-dropdown')
+            .on('change', bill59ResponsiblityChange);
+
         customizeSelect();
         toggleClearInputIcon($(newTemplate).find('textarea, input'));
         resetPlaceholder($(newTemplate).find('textarea, input'));
 
         $('#existing-equipments').append(newTemplate);
         resetFormValidator("#equipment-form");
+        bill59EnableExisting();
     };
 
     /**
@@ -162,7 +173,8 @@
         if (state.equipments[i] === undefined) {
             state.equipments[i] = {
                 id: i.toString(),
-                cost: cost
+                cost: cost,
+                type: $('#NewEquipment_' + i + '__Type').val()
             };
         } else {
             state.equipments[i].cost = cost;
@@ -171,7 +183,8 @@
         if (state.equipments[i] === undefined) {
             state.equipments[i] = {
                 id: i.toString(),
-                monthlyCost: cost
+                monthlyCost: cost,
+                type: $('#NewEquipment_' + i + '__Type').val()
             };
         } else {
             state.equipments[i].monthlyCost = cost;
@@ -180,17 +193,23 @@
         if (state.equipments[i] === undefined) {
             state.equipments[i] = {
                 id: i.toString(),
-                estimatedRetail: cost
+                estimatedRetail: cost,
+                type: $('#NewEquipment_' + i + '__Type').val()
             };
         } else {
             state.equipments[i].estimatedRetail = cost;
         }
 
         var equipmentRow = $('#new-equipment-' + i);
-        equipmentRow.find('.equipment-select').on('change', bill59EquipmentChange);
-        equipmentRow.find('.equipment-cost').on('change', updateCost);
-        equipmentRow.find('.monthly-cost').on('change', updateMonthlyCost);
-        equipmentRow.find('.estimated-retail').on('change', updateEstimatedRetail);
+        equipmentRow.find('.equipment-select')
+            .on('change', updateType)
+            .on('change', bill59EquipmentChange);
+        equipmentRow.find('.equipment-cost')
+            .on('change', updateCost);
+        equipmentRow.find('.monthly-cost')
+            .on('change', updateMonthlyCost);
+        equipmentRow.find('.estimated-retail')
+            .on('change', updateEstimatedRetail);
 
         customizeSelect();
         //if not first equipment add handler (first equipment should always be visible)
@@ -242,12 +261,26 @@
 
             conversion.removeItem.call(this, options);
         });
+
+        $('#existing-equipment-' + i + ' .responsible-dropdown')
+            .on('change', bill59ResponsiblityChange);
     }
 
     function resetFormValidator(formId) {
         $(formId).removeData('validator');
         $(formId).removeData('unobtrusiveValidation');
         $.validator.unobtrusive.parse($(formId));
+    }
+
+    /**
+     * update equipment type in global state object
+     * needed to update Existing equipment 
+     * @returns {void}
+     */
+    function updateType() {
+        var mvcId = $(this).attr('id');
+        var id = mvcId.split('__Type')[0].substr(mvcId.split('__Type')[0].lastIndexOf('_') + 1);
+        state.equipments[id].type = this.value;
     }
 
     /**
@@ -329,6 +362,7 @@
 
         _initExistingEquipment();
         _initNewEquipment();
+        bill59EnableExisting();
     }
 
     return {

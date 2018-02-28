@@ -2578,4 +2578,13 @@ changing contract terms or signing contract on paper.</value>
   <data name="RoleOfSalesRep" xml:space="preserve">
     <value>Role of the sales rep</value>
   </data>
+  <data name="ExistingSupplier" xml:space="preserve">
+    <value>Existing Supplier</value>
+  </data>
+  <data name="N_A" xml:space="preserve">
+    <value>N/A</value>
+  </data>
+  <data name="ResponsibleForCostRemoval" xml:space="preserve">
+    <value>Responsible for cost of removal</value>
+  </data>
 </root>

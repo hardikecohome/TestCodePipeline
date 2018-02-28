@@ -2915,6 +2915,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Existing Supplier.
+        /// </summary>
+        public static string ExistingSupplier {
+            get {
+                return ResourceManager.GetString("ExistingSupplier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expiry Date.
         /// </summary>
         public static string ExpiryDate {
@@ -4288,6 +4297,15 @@ namespace DealnetPortal.Web.Resources {
         public static string MyWorkItems {
             get {
                 return ResourceManager.GetString("MyWorkItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to N/A.
+        /// </summary>
+        public static string N_A {
+            get {
+                return ResourceManager.GetString("N_A", resourceCulture);
             }
         }
         
@@ -5774,6 +5792,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Residence {
             get {
                 return ResourceManager.GetString("Residence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Responsible for cost of removal.
+        /// </summary>
+        public static string ResponsibleForCostRemoval {
+            get {
+                return ResourceManager.GetString("ResponsibleForCostRemoval", resourceCulture);
             }
         }
         

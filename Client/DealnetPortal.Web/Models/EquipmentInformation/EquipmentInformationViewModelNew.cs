@@ -110,6 +110,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public bool IsClarityDealer { get; set; } = false;
         public bool IsOldClarityDeal { get; set; } = false;
         public bool? IsClarityProgram { get; set; }
+        public bool IsCustomRateCardSelected { get; set; }
     }
 
     public class SalesRepInformation

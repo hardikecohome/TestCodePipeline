@@ -48,7 +48,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.CustomerId, o => o.MapFrom(src => src.Customer != null ? src.Customer.Id : 0));
             mapperConfig.CreateMap<EquipmentInfo, EquipmentInfoDTO>()
                 .ForMember(x => x.NewEquipment, d => d.ResolveUsing(
-                    src => src.NewEquipment?.Where(ne => ne.IsDeleted != true)));
+                    src => src.NewEquipment?.Where(ne => ne.IsDeleted != true)))
+                .ForMember(x => x.IsCustomRateCard, d => d.MapFrom(src => src.IsCustomRateCard));
             mapperConfig.CreateMap<ExistingEquipment, ExistingEquipmentDTO>();
             mapperConfig.CreateMap<NewEquipment, NewEquipmentDTO>()
                 .ForMember(x => x.TypeDescription, d => d.Ignore());
@@ -386,7 +387,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.DescriptionResource, d => d.Ignore());
             mapperConfig.CreateMap<EquipmentInfoDTO, EquipmentInfo>()
                 .ForMember(d => d.Contract, x => x.Ignore())
-                .ForMember(d => d.ValueOfDeal, x => x.Ignore());
+                .ForMember(d => d.ValueOfDeal, x => x.Ignore())
+                .ForMember(d => d.IsCustomRateCard, x => x.MapFrom(src => src.IsCustomRateCard ?? false));
             mapperConfig.CreateMap<NewEquipmentDTO, NewEquipment>()
                 .ForMember(x => x.EquipmentInfo, d => d.Ignore())
                 .ForMember(x => x.EquipmentInfoId, d => d.Ignore())

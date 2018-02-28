@@ -48,6 +48,8 @@
 
         public static string DeferralType = "Deferral Type";
         public static string RequestedTerm = "Requested Term";
+        public static string AmortizationTerm = "Amortization Term";
+        public static string TermType = "Term Type";
 
         public static string DealerSalesRep = "Dealer Sales Rep";
         public static string LeadSource = "LeadSource";
@@ -62,7 +64,27 @@
         public static string InstallMonthlyPay = "Install Monthly Pay";
         public static string InstallPackageDescr = "Install Package Descr";
 
+        public static string AdminFee = "Admin Fee";
+        public static string DownPayment = "Down Payment";
+        public static string CustomerRate = "Customer Rate";
+        public static string DealerCost = "Dealer Cost";
+        public static string DealerRate = "Dealer Rate";
+        public static string RateCardType = "Rate Card Type";
+
+        public static string RentalMonthlyPayment = "EH Rental Payment Amount";
+        //used both for contract and equipment
+        public static string MonthlyPayment = "Monthly Payment";
+
+        public static string BorrowingCost = "Borrowing Cost";
+        public static string TotalAmountFinanced = "Total Amount Financed";
+        public static string TotalOfAllMonthlyPayment = "Total of all Monthly Payment";
+        public static string ResidualValue = "Residual Value";
+        public static string TotalObligation = "Total Obligation";
+        public static string TotalEquipmentPrice = "Total Equipment Price";
+        public static string PstRate = "PST Rate";        
+
         public static string EstimatedRetailPrice = "Estimated Retail Price";
+        public static string ResponsibilityForCostOfRemoval = "Responsibility for cost of removal";
 
         #region Dealer onboarding UDFs        
         public static string OperatingName = "Operating Name";
