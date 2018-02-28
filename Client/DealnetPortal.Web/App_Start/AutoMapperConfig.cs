@@ -95,7 +95,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.InstalledSerialNumber, d => d.Ignore())
                 .ForMember(x => x.InstalledModel, d => d.Ignore());
             cfg.CreateMap<ExistingEquipmentInformation, ExistingEquipmentDTO>()
-                .ForMember(x => x.ResponsibleForRemoval, d => d.ResolveUsing(src => src.ResponsibleForRemoval.ConvertTo<ResponsibleForRemovalType>()));
+                .ForMember(x => x.ResponsibleForRemoval, d => d.ResolveUsing(src => src.ResponsibleForRemoval?.ConvertTo<ResponsibleForRemovalType>()));
             cfg.CreateMap<InstallationPackageInformation, InstallationPackageDTO>();
             cfg.CreateMap<PaymentInfoViewModel, PaymentInfoDTO>().ForMember(x => x.Id, d => d.Ignore());
 
