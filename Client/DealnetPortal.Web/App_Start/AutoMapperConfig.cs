@@ -647,7 +647,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.FullUpdate, d => d.Ignore())
                 .ForMember(x => x.IsAllInfoCompleted, d => d.Ignore())
                 .ForMember(x => x.PrefferedInstallDate, d => d.MapFrom(src => src.EstimatedInstallationDate))
-                .ForMember(x => x.PrefferedInstallTime, d => d.MapFrom(src => src.EstimatedInstallationDate.HasValue ? src.EstimatedInstallationDate.Value.TimeOfDay.ToString("HHmm") : string.Empty))
+                .ForMember(x => x.PrefferedInstallTime, d => d.MapFrom(src => src.EstimatedInstallationDate.HasValue ? src.EstimatedInstallationDate.Value.ToString("HHmm") : string.Empty))
                 .ForMember(x => x.IsApplicantsInfoEditAvailable, d => d.Ignore())
                 .ForMember(x => x.IsFirstStepAvailable, d => d.Ignore())
                 .ForMember(x => x.HouseSize, d => d.Ignore())
