@@ -68,7 +68,7 @@
         $('#concluded-contract-checkbox').prop('checked', false);
     }
 
-    var disable = disableNewEquipment function (row) {
+    var disableNewEquipment = function (row) {
         var $row = $(row);
         $row.find('.description-col').removeClass('col-md-5').addClass('col-md-6');
         $row.find('.monthly-cost-col').removeClass('col-md-2').addClass('col-md-3');
