@@ -1921,6 +1921,18 @@ namespace DealnetPortal.Api.Integration.Services
                                 .EstimatedInstallationDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
                     });
                 }
+
+                var totalRetailPrice = newEquipments.Where(ne => ne.EstimatedRetailCost.HasValue).Aggregate(0.0m,
+                    (sum, ne) => sum + ne.EstimatedRetailCost.Value);
+                if (totalRetailPrice > 0)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.TotalRetailPrice,
+                        Value = totalRetailPrice.ToString("F", CultureInfo.InvariantCulture)
+                    });
+                }
             }
             if (contract.Equipment != null)
             {
