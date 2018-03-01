@@ -1,4 +1,4 @@
-﻿module.exports('newEquipment.clarity.index', function(require) {
+﻿module.exports('newEquipment.clarity.index', function (require) {
     var state = require('state').state;
     var calrityUi = require('newEquipment.clarity.ui');
     var equipment = require('equipment');
@@ -20,7 +20,7 @@
         formId: '#equipment-form'
     }
 
-    var init = function(id, cards) {
+    var init = function (id, cards) {
         state.contractId = id;
         // check if we have any prefilled values in database
         // related to this contract, if yes contract is not new
@@ -28,10 +28,20 @@
         state.agreementType = Number(agreementType);
         state.isNewContract = $(settings.isNewContractId).val().toLowerCase() === 'true';
         state.clarity = cards[0];
+        state.isClarity = true;
 
-        setters.init({ isClarity: true, recalculateClarityValuesAndRender: calculate });
-        equipment.init({isClarity: true, recalculateClarityValuesAndRender : calculate});
-        packages.init({isClarity: true, recalculateClarityValuesAndRender : calculate});
+        setters.init({
+            isClarity: true,
+            recalculateClarityValuesAndRender: calculate
+        });
+        equipment.init({
+            isClarity: true,
+            recalculateClarityValuesAndRender: calculate
+        });
+        packages.init({
+            isClarity: true,
+            recalculateClarityValuesAndRender: calculate
+        });
 
         _initHandlers();
         calrityUi.init();
@@ -42,7 +52,7 @@
         }
     }
 
-    function _initHandlers () {
+    function _initHandlers() {
         $(settings.submitButtonId).on('click', _submitForm);
         $(settings.downPaymentId).on('change', setters.setDownPayment);
         $(settings.totalMonthlyPaymentId).on('change', setters.setRentalMPayment);
@@ -51,7 +61,7 @@
         $(settings.addInstallationPackageId).on('click', packages.addPackage);
     }
 
-    function _submitForm (event) {
+    function _submitForm(event) {
         $(settings.formId).valid();
         var monthPayment = Globalize.parseNumber($(settings.totalAmountFinancedId).text().replace('$', '').trim());
 
@@ -72,5 +82,7 @@
         $(settings.formId).submit();
     }
 
-    return { init: init }
+    return {
+        init: init
+    }
 })

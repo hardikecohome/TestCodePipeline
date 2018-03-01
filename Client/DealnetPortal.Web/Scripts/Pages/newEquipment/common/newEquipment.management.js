@@ -2,9 +2,6 @@
 
     var state = require('state').state;
     var conversion = require('newEquipment.conversion');
-    var bill59EquipmentChange = require('bill59').onEquipmentChange;
-    var bill59ResponsiblityChange = require('bill59').onResposibilityChange;
-    var bill59EnableExisting = require('bill59').enableExistingEquipment;
 
     var settings = {
         recalculateValuesAndRender: {},
@@ -76,9 +73,12 @@
             .on('change', updateMonthlyCost);
         newTemplate.find('.estimated-retail')
             .on('change', updateEstimatedRetail);
+        if (!state.isClarity) {
+            newTemplate.find('.equipment-select')
+                .on('change', require('bill59').onEquipmentChange);
+        }
         newTemplate.find('.equipment-select')
             .on('change', updateType)
-            .on('change', bill59EquipmentChange)
             .change();
 
         customizeSelect();
@@ -148,8 +148,10 @@
             }
         });
 
-        newTemplate.find('.responsible-dropdown')
-            .on('change', bill59ResponsiblityChange);
+        if (!state.isClarity) {
+            newTemplate.find('.responsible-dropdown')
+                .on('change', require('bill59').onResposibilityChange);
+        }
 
         customizeSelect();
         toggleClearInputIcon($(newTemplate).find('textarea, input'));
@@ -157,7 +159,9 @@
 
         $('#existing-equipments').append(newTemplate);
         resetFormValidator("#equipment-form");
-        bill59EnableExisting();
+        if (!state.isClarity) {
+            require('bill59').enableExistingEquipment();
+        }
     };
 
     /**
@@ -189,21 +193,27 @@
         } else {
             state.equipments[i].monthlyCost = cost;
         }
-        cost = Globalize.parseNumber($('#NewEquipment_' + i + '__EstimatedRetailCost').val());
-        if (state.equipments[i] === undefined) {
-            state.equipments[i] = {
-                id: i.toString(),
-                estimatedRetail: cost,
-                type: $('#NewEquipment_' + i + '__Type').val()
-            };
-        } else {
-            state.equipments[i].estimatedRetail = cost;
+        var retail = $('#NewEquipment_' + i + '__EstimatedRetailCost')
+        if (retail.length) {
+            cost = Globalize.parseNumber(retail.val());
+            if (state.equipments[i] === undefined) {
+                state.equipments[i] = {
+                    id: i.toString(),
+                    estimatedRetail: cost,
+                    type: $('#NewEquipment_' + i + '__Type').val()
+                };
+            } else {
+                state.equipments[i].estimatedRetail = cost;
+            }
         }
 
         var equipmentRow = $('#new-equipment-' + i);
         equipmentRow.find('.equipment-select')
-            .on('change', updateType)
-            .on('change', bill59EquipmentChange);
+            .on('change', updateType);
+        if (!state.isClarity) {
+            equipmentRow.find('.equipment-select')
+                .on('change', require('bill59').onEquipmentChange);
+        }
         equipmentRow.find('.equipment-cost')
             .on('change', updateCost);
         equipmentRow.find('.monthly-cost')
@@ -262,8 +272,10 @@
             conversion.removeItem.call(this, options);
         });
 
-        $('#existing-equipment-' + i + ' .responsible-dropdown')
-            .on('change', bill59ResponsiblityChange);
+        if (!state.isClarity) {
+            $('#existing-equipment-' + i + ' .responsible-dropdown')
+                .on('change', require('bill59').onResposibilityChange);
+        }
     }
 
     function resetFormValidator(formId) {
@@ -362,7 +374,9 @@
 
         _initExistingEquipment();
         _initNewEquipment();
-        bill59EnableExisting();
+        if (!state.isClarity) {
+            require('bill59').enableExistingEquipment();
+        }
     }
 
     return {
