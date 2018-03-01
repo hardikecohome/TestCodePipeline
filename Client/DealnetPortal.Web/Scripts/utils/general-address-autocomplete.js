@@ -6,19 +6,26 @@
     postal_code: 'short_name',
     postal_code_prefix: 'short_name'
 };
+
 function initGoogleServices(streetId, cityId, provenceId, postalCodeId) {
     var streetInput = document.getElementById(streetId);
     var cityInput = document.getElementById(cityId);
     var provenceInput = document.getElementById(provenceId);
     var postalCodeInput = document.getElementById(postalCodeId);
-    if (streetInput == null || cityInput == null || provenceInput == null || postalCodeInput == null) { return; }
+    if (streetInput == null || cityInput == null || provenceInput == null || postalCodeInput == null) {
+        return;
+    }
     var streetsOptions = {
         types: ['geocode'],
-        componentRestrictions: { country: "ca" }
+        componentRestrictions: {
+            country: "ca"
+        }
     };
     var citiesOptions = {
         types: ['(cities)'],
-        componentRestrictions: { country: "ca" }
+        componentRestrictions: {
+            country: "ca"
+        }
     };
     var streetAutocomplete1 = new google.maps.places.Autocomplete(streetInput, streetsOptions);
     var cityAutocomplete1 = new google.maps.places.Autocomplete(cityInput, citiesOptions);

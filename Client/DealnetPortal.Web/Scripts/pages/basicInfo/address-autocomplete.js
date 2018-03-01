@@ -7,20 +7,22 @@ var addressForm = {
     postal_code: 'short_name',
     postal_code_prefix: 'short_name'
 };
-function assignAutocompletes () {
+
+function assignAutocompletes() {
     geocoder = new google.maps.Geocoder;
 
     initGoogleServices("street", "locality", "administrative_area_level_1", "postal_code");
     initGoogleServices("mailing_street", "mailing_locality", "mailing_administrative_area_level_1", "mailing_postal_code");
     initGoogleServices("previous_street", "previous_locality", "previous_administrative_area_level_1", "previous_postal_code");
     initGoogleServices("ho-employment-street", "ho-employment-city", "ho-employment-province", "ho-employment-postal-code");
-    for (var i = 1;i <= 3;i++) {
+    for (var i = 1; i <= 3; i++) {
         initGoogleServices("additional-street-" + i, "additional-locality-" + i, "additional-administrative_area_level_1-" + i, "additional-postal_code-" + i);
         initGoogleServices("additional-previous-street-" + i, "additional-previous-locality-" + i, "additional-previous-administrative_area_level_1-" + i, "additional-previous-postal_code-" + i);
-        initGoogleServices("add"+i+"-employment-street", "add"+i+"-employment-city", "add"+i+"-employment-province", "add"+i+"-employment-postal-code");
+        initGoogleServices("add" + i + "-employment-street", "add" + i + "-employment-city", "add" + i + "-employment-province", "add" + i + "-employment-postal-code");
     }
 }
-function autodetectAddress () {
+
+function autodetectAddress() {
     if (geocoder) {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
@@ -32,7 +34,7 @@ function autodetectAddress () {
                         //$('#street, #locality, #administrative_area_level_1').removeClass('placeholder').removeClass('pac-placeholder');
                         if (results[0]) {
                             var street;
-                            for (var i = 0;i < results[0].address_components.length;i++) {
+                            for (var i = 0; i < results[0].address_components.length; i++) {
                                 var addressType = results[0].address_components[i].types[0];
                                 if (addressForm[addressType]) {
                                     var val = results[0].address_components[i][addressForm[addressType]];
@@ -61,7 +63,7 @@ function autodetectAddress () {
                                     }
 
                                     document.getElementById(addressType).value = val;
-                                    $('#' + addressType).removeClass('placeholder').removeClass('pac-placeholder');
+                                    $('#' + addressType).removeClass('placeholder').removeClass('pac-placeholder').change();
                                 }
                             }
                             if (street) {
