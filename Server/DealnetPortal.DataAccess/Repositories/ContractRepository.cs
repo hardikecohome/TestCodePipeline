@@ -1485,6 +1485,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 dbCustomer.DriverLicenseNumber = customer.DriverLicenseNumber;
                 dbCustomer.VerificationIdName = customer.VerificationIdName;
                 dbCustomer.DealerInitial = customer.DealerInitial;
+                dbCustomer.RelationshipToMainBorrower = customer.RelationshipToMainBorrower;
             }
 
             if (customer.EmploymentInfo != null)

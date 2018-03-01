@@ -130,6 +130,11 @@
                     submitRateCard(option);
                 }
             }
+            if ($('#sales-rep-types').is(':visible')) {
+                if (!$('#sales-rep-types').find('input[type=checkbox]:checked').length) {
+                    _toggleSalesRepErrors(true);
+                }
+            }
 
             $(settings.formId).submit();
         }
@@ -185,6 +190,19 @@
             $(settings.selectRateCardButtonClass).on('click', _onRateCardSelect);
             $(settings.deferralTermId).on('change', setters.setLoanAmortTerm('Deferral'));
             $(settings.deferralDropdownId).on('change', setters.setDeferralPeriod('Deferral'));
+
+            $('#initiated-contract-checkbox').on('click', function(e) { $('#initiated-contract').val(e.target.checked); _toggleSalesRepErrors(false); });
+            $('#negotiated-contract-checkbox').on('click', function(e) { $('#negotiated-contract').val(e.target.checked); _toggleSalesRepErrors(false); });
+            $('#concluded-contract-checkbox').on('click', function(e) { $('#concluded-contract').val(e.target.checked);  _toggleSalesRepErrors(false); });
+        }
+
+        function _toggleSalesRepErrors(show) {
+            $.each($('#sales-rep-types').find('span.checkbox-icon'), function(i, el) {
+                var $el = $(el);
+                show ? $el.addClass('checkbox-error') : $el.removeClass('checkbox-error');
+            });
+
+            show ? $('#error-message').removeClass('hidden') : $('#error-message').addClass('hidden');
         }
 
         function _initDatepickers() {

@@ -2560,6 +2560,24 @@ changing contract terms or signing contract on paper.</value>
   <data name="EstimatedRetailCost" xml:space="preserve">
     <value>Estimated Retail Cost</value>
   </data>
+  <data name="PreferredInstallDate" xml:space="preserve">
+    <value>Preferred Install Date</value>
+  </data>
+  <data name="PreferredInstallTime" xml:space="preserve">
+    <value>Preferred Install Time</value>
+  </data>
+  <data name="ConcludedAgreement" xml:space="preserve">
+    <value>Concluded agreement</value>
+  </data>
+  <data name="InitiatedContract" xml:space="preserve">
+    <value>Initiated contract</value>
+  </data>
+  <data name="NegotiatedAgreement" xml:space="preserve">
+    <value>Negotiated agreement</value>
+  </data>
+  <data name="RoleOfSalesRep" xml:space="preserve">
+    <value>Role of the sales rep</value>
+  </data>
   <data name="ExistingSupplier" xml:space="preserve">
     <value>Existing Supplier</value>
   </data>
@@ -2568,5 +2586,11 @@ changing contract terms or signing contract on paper.</value>
   </data>
   <data name="ResponsibleForCostRemoval" xml:space="preserve">
     <value>Responsible for cost of removal</value>
+  </data>
+  <data name="RelationshipToMainBorrower" xml:space="preserve">
+    <value>Relationship to Main Borrower</value>
+  </data>
+  <data name="RelationshipToMainBorrowerIncorrectFormat" xml:space="preserve">
+    <value>Relationship to Main Borrower is in incorrect format</value>
   </data>
 </root>

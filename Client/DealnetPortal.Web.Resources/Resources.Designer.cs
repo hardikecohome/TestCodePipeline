@@ -1618,6 +1618,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Concluded agreement.
+        /// </summary>
+        public static string ConcludedAgreement {
+            get {
+                return ResourceManager.GetString("ConcludedAgreement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm new password.
         /// </summary>
         public static string ConfirmNewPassword {
@@ -3500,6 +3509,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Initiated contract.
+        /// </summary>
+        public static string InitiatedContract {
+            get {
+                return ResourceManager.GetString("InitiatedContract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Installation Address.
         /// </summary>
         public static string InstallationAddress {
@@ -4315,6 +4333,15 @@ namespace DealnetPortal.Web.Resources {
         public static string NavigateToStep {
             get {
                 return ResourceManager.GetString("NavigateToStep", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Negotiated agreement.
+        /// </summary>
+        public static string NegotiatedAgreement {
+            get {
+                return ResourceManager.GetString("NegotiatedAgreement", resourceCulture);
             }
         }
         
@@ -5219,6 +5246,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Preferred Install Date.
+        /// </summary>
+        public static string PreferredInstallDate {
+            get {
+                return ResourceManager.GetString("PreferredInstallDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preferred Install Time.
+        /// </summary>
+        public static string PreferredInstallTime {
+            get {
+                return ResourceManager.GetString("PreferredInstallTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Preferred Withdrawal Date.
         /// </summary>
         public static string PrefferedWithdrawalDateIncorrectFormat {
@@ -5571,6 +5616,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Relationship to Main Borrower.
+        /// </summary>
+        public static string RelationshipToMainBorrower {
+            get {
+                return ResourceManager.GetString("RelationshipToMainBorrower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relationship to Main Borrower is in incorrect format.
+        /// </summary>
+        public static string RelationshipToMainBorrowerIncorrectFormat {
+            get {
+                return ResourceManager.GetString("RelationshipToMainBorrowerIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remember me?.
         /// </summary>
         public static string RememberMe {
@@ -5783,6 +5846,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Reupload {
             get {
                 return ResourceManager.GetString("Reupload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role of the sales rep.
+        /// </summary>
+        public static string RoleOfSalesRep {
+            get {
+                return ResourceManager.GetString("RoleOfSalesRep", resourceCulture);
             }
         }
         

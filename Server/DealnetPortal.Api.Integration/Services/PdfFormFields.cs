@@ -30,6 +30,12 @@ namespace DealnetPortal.Api.Integration.Services
         public static string PreviousAddress2 = "PreviousAddress_2";
         public static string MailingOrPreviousAddress2 = "MailingOrPreviousAddress_2";
 
+        public static string CustomerIdTypeDriverLicense = "Tiv1";
+        public static string CustomerIdTypeOther = "Tiv1Other";
+        public static string CustomerIdTypeOtherValue = "OtherID";
+
+        public static string RelationshipToCustomer2 = "RelationshipToCustomer_2";
+
         public static string Sin = "SIN";
         public static string DriverLicense = "DriverLicense";
         public static string Dl = "DL";
@@ -84,6 +90,8 @@ namespace DealnetPortal.Api.Integration.Services
         public static string OtherMonthlyRental2 = "OtherMonthlyRental2";
         public static string OtherMonthlyRentalBase = "OtherMonthlyRental";
 
+        public static string TotalRetailPrice = "TotalRetailPrice";
+
         public static string MonthlyPayment = "MonthlyPayment";
         public static string CustomerRate = "CustomerRate";
         public static string CustomerRate2 = "CustomerRate2";
@@ -135,6 +143,11 @@ namespace DealnetPortal.Api.Integration.Services
         public static string DealerPhone = "DealerPhone";
         public static string DealerFax = "DealerFax";
         public static string DealerEmail = "DealerEmail";
+        public static string DealerInitials = "ID1";
+
+        public static string SalesRepInitiatedContact = "SalesRepInitiatedContact";
+        public static string SalesRepNegotiatedAgreement = "SalesRepNegotiatedAgreement";
+        public static string SalesRepConcludedAgreement = "SalesRepConcludedAgreement";
 
         //For Signed Installation Certificate
         public static string InstallerName = "InstallerName";
@@ -150,6 +163,13 @@ namespace DealnetPortal.Api.Integration.Services
         public static string ExistingEquipmentSerialNumber = "ExistingEquipmentSerialNumber";
         public static string ExistingEquipmentGeneralCondition = "ExistingEquipmentGeneralCondition";
         public static string ExistingEquipmentAge = "ExistingEquipmentAge";
+
+        // Existing Equipment
+        public static string ExistingEquipmentRemovalCustomer = "ExistingEquipmentRemovalCustomer";
+        public static string ExistingEquipmentRemovalSupplier = "ExistingEquipmentRemovalSupplier";
+        public static string ExistingEquipmentRemovalOther = "ExistingEquipmentRemovalOther";
+        public static string ExistingEquipmentRemovalOtherValue = "ExistingEquipmentRemovalOtherValue";
+        public static string ExistingEquipmentRemovalNA = "ExistingEquipmentRemovalNA";
 
         //Custom envelop fields
         public static string ApplicationID = "ApplicationID";
