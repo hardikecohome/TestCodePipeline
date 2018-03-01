@@ -88,6 +88,7 @@ namespace DealnetPortal.Api.Controllers
             {
                 return Ok(contract);
             }
+
             return NotFound();
         }
 

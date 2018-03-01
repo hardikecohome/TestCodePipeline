@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -110,6 +111,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             if(result.Item1.Equipment != null)
             {
                 equipmentInfo = Mapper.Map<EquipmentInformationViewModelNew>(result.Item1.Equipment);
+                equipmentInfo.SalesRepInformation = Mapper.Map<SalesRepInformation>(result.Item1.Equipment);
 
                 if(!equipmentInfo.NewEquipment.Any())
                 {
@@ -655,8 +657,9 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             contractData.Equipment.ExistingEquipment = existingEquipment ?? new List<ExistingEquipmentDTO>();
             var installationPackeges = Mapper.Map<List<InstallationPackageDTO>>(equipmnetInfo.InstallationPackages);
             contractData.Equipment.InstallationPackages = installationPackeges ?? new List<InstallationPackageDTO>();
-            contractData.Equipment.SalesRep = equipmnetInfo.SalesRep;
-            contractData.Equipment.EstimatedInstallationDate = equipmnetInfo.EstimatedInstallationDate;
+            contractData.Equipment.SalesRep = equipmnetInfo.SalesRepInformation.SalesRep;
+            contractData.Equipment.EstimatedInstallationDate = equipmnetInfo.PrefferedInstallDate;
+            contractData.Equipment.InstallationTime = DateTime.ParseExact(equipmnetInfo.PrefferedInstallTime, "hhmm", DateTimeFormatInfo.InvariantInfo);
             contractData.Equipment.IsClarityProgram = equipmnetInfo.IsClarityProgram;
             contractData.Equipment.IsCustomRateCard = equipmnetInfo.SelectedRateCardId == null;
 
@@ -1013,8 +1016,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
             if(contract.Equipment != null)
             {
-                equipmentInfo.EstimatedInstallationDate = contract.Equipment.EstimatedInstallationDate;
-                equipmentInfo.SalesRep = contract.Equipment.SalesRep;
+                equipmentInfo.PrefferedInstallDate = contract.Equipment.EstimatedInstallationDate;
+                equipmentInfo.SalesRepInformation.SalesRep = contract.Equipment.SalesRep;
                 equipmentInfo.ExistingEquipment = Mapper.Map<List<ExistingEquipmentInformation>>(contract.Equipment.ExistingEquipment);
             }
         }

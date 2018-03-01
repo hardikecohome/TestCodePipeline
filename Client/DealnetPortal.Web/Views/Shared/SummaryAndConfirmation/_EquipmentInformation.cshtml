@@ -231,6 +231,22 @@
                             </div>
                         </div>
                     </div>
+                    @if (!string.IsNullOrEmpty(Model.EquipmentInfo.PreferredInstallTime))
+                    {
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.LabelFor(m => m.EquipmentInfo.PreferredInstallTime, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                    @Html.TextBoxFor(m => m.EquipmentInfo.PreferredInstallTime, new
+                                    {
+                                        id = "",
+                                        @readonly = "readonly",
+                                        @class = "dealnet-disabled-input"
+                                    })
+                                </div>
+                            </div>
+                        </div>
+                    }
                     <div class="form-group">
                         <div class="row">
                             @Html.LabelFor(m => m.ContactAndPaymentInfo.HouseSize, new { @class = "dealnet-field-caption col-xs-6" })

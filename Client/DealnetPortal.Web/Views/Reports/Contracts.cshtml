@@ -1369,6 +1369,22 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @if (!string.IsNullOrEmpty(contract.EquipmentInfo.PreferredInstallTime))
+                                    {
+                                        <div class="form-group">
+                                            <div class="row">
+                                                @Html.LabelFor(m => contract.EquipmentInfo.PreferredInstallTime, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                                    @Html.TextBoxFor(m => contract.EquipmentInfo.PreferredInstallTime, new
+                                                    {
+                                                        id = "",
+                                                        @readonly = "readonly",
+                                                        @class = "dealnet-disabled-input"
+                                                    })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
