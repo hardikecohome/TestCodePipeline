@@ -283,11 +283,16 @@
     <Compile Include="Infrastructure\RequreSecureConnectionFilter.cs" />
     <Compile Include="Infrastructure\ViewPageWithUserIdentity.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AdditionalInfoViewModel.cs" />
     <Compile Include="Models\AddressInfomation.cs" />
+    <Compile Include="Models\ApplicantsViewModel.cs" />
+    <Compile Include="Models\BasicInfoViewModel.cs" />
     <Compile Include="Models\CertificateEquipmentInfoViewModel.cs" />
     <Compile Include="Models\CertificateInformationViewModel.cs" />
     <Compile Include="Models\ClientsInformationViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
+    <Compile Include="Models\ContactAndPaymentInfoViewModel.cs" />
+    <Compile Include="Models\ContactInfoViewModel.cs" />
     <Compile Include="Models\EquipmentInformation\ContactAndPaymentInfoViewModelNew.cs" />
     <Compile Include="Models\ContractEditViewModel.cs" />
     <Compile Include="Models\ContractViewModel.cs" />
@@ -311,9 +316,11 @@
     <Compile Include="Models\MyProfile\DealerAreaViewModel.cs" />
     <Compile Include="Models\MyProfile\ProfileViewModel.cs" />
     <Compile Include="Models\NewCustomerViewModel.cs" />
+    <Compile Include="Models\PaymentInfoViewModel.cs" />
     <Compile Include="Models\RateCardViewModel.cs" />
     <Compile Include="Models\SignerViewModel.cs" />
     <Compile Include="Models\StandaloneCalculatorViewModel.cs" />
+    <Compile Include="Models\SubDealer.cs" />
     <Compile Include="Models\SubmittedCustomerFormViewModel.cs" />
     <Compile Include="Models\CustomerFormViewModel.cs" />
     <Compile Include="Models\EquipmentInformation\EquipmentInformationViewModel.cs" />
@@ -321,14 +328,16 @@
     <Compile Include="Models\LoanCalculatorViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\EquipmentInformation\NewEquipmentInformation.cs" />
-    <Compile Include="Models\NewRentalViewModels.cs" />
+    <Compile Include="Models\ApplicantPersonalInfo.cs" />
     <Compile Include="Models\SendEmailsViewModel.cs" />
     <Compile Include="Models\ShareableLinkViewModel.cs" />
+    <Compile Include="Models\SummaryAndConfirmationViewModel.cs" />
     <Compile Include="Models\TierViewModel.cs" />
     <Compile Include="Models\UploadDocumentsViewModel.cs" />
     <Compile Include="Models\Validation\CheckCustomersAgeAttribute.cs" />
     <Compile Include="Models\Validation\CheckEquipmentsCostAttribute.cs" />
     <Compile Include="Models\Validation\CheckHomeOwnerAttribute.cs" />
+    <Compile Include="Models\Validation\EligibleAgeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

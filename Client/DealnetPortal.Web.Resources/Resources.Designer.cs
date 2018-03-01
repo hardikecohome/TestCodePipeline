@@ -5616,6 +5616,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Relationship to Main Borrower.
+        /// </summary>
+        public static string RelationshipToMainBorrower {
+            get {
+                return ResourceManager.GetString("RelationshipToMainBorrower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relationship to Main Borrower is in incorrect format.
+        /// </summary>
+        public static string RelationshipToMainBorrowerIncorrectFormat {
+            get {
+                return ResourceManager.GetString("RelationshipToMainBorrowerIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remember me?.
         /// </summary>
         public static string RememberMe {
