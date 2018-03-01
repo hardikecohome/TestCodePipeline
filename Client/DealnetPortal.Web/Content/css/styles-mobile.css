@@ -134,6 +134,10 @@
     background-image: url("../images/forms/selectArrow.svg");
     background-repeat: no-repeat;
     background-position: 92% center; }
+    .mobile-navigation__active-item .mobile-navigation__nav-icon:lang(fr).icon-new_document, .mobile-navigation__active-item .mobile-navigation__nav-icon:lang(fr).icon-deals, .mobile-navigation__active-item .mobile-navigation__nav-icon:lang(fr-CA).icon-new_document, .mobile-navigation__active-item .mobile-navigation__nav-icon:lang(fr-CA).icon-deals {
+      padding-right: 5px; }
+    .mobile-navigation__active-item .mobile-navigation__nav-icon:lang(fr).icon-new_document, .mobile-navigation__active-item .mobile-navigation__nav-icon:lang(fr-CA).icon-new_document {
+      padding-left: 5px; }
     .mobile-navigation__active-item.leads:lang(fr), .mobile-navigation__active-item.leads:lang(fr-CA) {
       line-height: 13px;
       padding-top: 9px; }
@@ -185,7 +189,7 @@
             border-radius: 15px;
             background-image: linear-gradient(111deg, #ff613c, #ff3258);
             color: white;
-            width: 42px; }
+            width: 50px; }
             .mobile-navigation__dropdown ul > li a .notification:lang(fr) {
               right: 143px;
               width: 64px; }

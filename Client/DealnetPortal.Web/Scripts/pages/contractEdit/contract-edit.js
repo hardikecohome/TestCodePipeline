@@ -170,7 +170,7 @@ configInitialized
             var errorDesc = form.find('.error-descr');
             var wasCancelled;
             var afterError = function (message) {
-                form.find('.error-message').text(translations['ErrorWhileUploadingFile']);
+                form.find('.error-message').text(message || translations['ErrorWhileUploadingFile']);
                 errorDesc.show();
                 tabContainers.removeClass('uploaded');
                 tabContainers.addClass('error');
