@@ -193,15 +193,18 @@
         } else {
             state.equipments[i].monthlyCost = cost;
         }
-        cost = Globalize.parseNumber($('#NewEquipment_' + i + '__EstimatedRetailCost').val());
-        if (state.equipments[i] === undefined) {
-            state.equipments[i] = {
-                id: i.toString(),
-                estimatedRetail: cost,
-                type: $('#NewEquipment_' + i + '__Type').val()
-            };
-        } else {
-            state.equipments[i].estimatedRetail = cost;
+        var retail = $('#NewEquipment_' + i + '__EstimatedRetailCost')
+        if (retail.length) {
+            cost = Globalize.parseNumber(retail.val());
+            if (state.equipments[i] === undefined) {
+                state.equipments[i] = {
+                    id: i.toString(),
+                    estimatedRetail: cost,
+                    type: $('#NewEquipment_' + i + '__Type').val()
+                };
+            } else {
+                state.equipments[i].estimatedRetail = cost;
+            }
         }
 
         var equipmentRow = $('#new-equipment-' + i);
