@@ -945,6 +945,7 @@ namespace DealnetPortal.Api.Integration.Services
             FillHomeOwnerFields(fields, templateFields, contract);
             FillApplicantsFields(fields, contract);
             FillEquipmentFields(fields, contract, ownerUserId);
+            FillExistingEquipmentFields(fields, contract);
             FillPaymentFields(fields, contract);
             FillDealerFields(fields, contract);
 
@@ -2195,6 +2196,68 @@ namespace DealnetPortal.Api.Integration.Services
                             Value = DateTime.Now.AddMonths(contract.Equipment.LoanTerm + 1 ?? 1).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)
                         });
                     }
+                }
+            }
+        }
+
+        private void FillExistingEquipmentFields(List<FormField> formFields, Contract contract)
+        {
+            if (contract?.Equipment?.ExistingEquipment?.Any() == true)
+            {
+                var fstEq = contract.Equipment.ExistingEquipment.First();
+                if (fstEq.ResponsibleForRemoval == ResponsibleForRemovalType.Customer)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.CheckBox,
+                        Name = PdfFormFields.ExistingEquipmentRemovalCustomer,
+                        Value = "true"
+                    });
+                }
+                if (fstEq.ResponsibleForRemoval == ResponsibleForRemovalType.ExistingSupplier)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.CheckBox,
+                        Name = PdfFormFields.ExistingEquipmentRemovalSupplier,
+                        Value = "true"
+                    });
+                }
+                if (fstEq.ResponsibleForRemoval == ResponsibleForRemovalType.NA)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.CheckBox,
+                        Name = PdfFormFields.ExistingEquipmentRemovalNA,
+                        Value = "true"
+                    });
+                }
+                if (fstEq.ResponsibleForRemoval == ResponsibleForRemovalType.Other)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.CheckBox,
+                        Name = PdfFormFields.ExistingEquipmentRemovalOther,
+                        Value = "true"
+                    });
+                    if (!string.IsNullOrEmpty(fstEq.ResponsibleForRemovalValue))
+                    {
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.ExistingEquipmentRemovalOtherValue,
+                            Value = fstEq.ResponsibleForRemovalValue
+                        });
+                    }
+                }
+                if (!string.IsNullOrEmpty(fstEq.SerialNumber))
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.ExistingEquipmentSerialNumber,
+                        Value = fstEq.SerialNumber
+                    });
                 }
             }
         }
