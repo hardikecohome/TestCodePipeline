@@ -1,7 +1,9 @@
 ﻿@using System.Globalization
-@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
 @using DealnetPortal.Api.Common.Enumeration
 @using DealnetPortal.Api.Models.Contract
+@using DealnetPortal.Web.Infrastructure.Extensions
+
+@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
 
 @{
     Layout = "EquipmentInformationLayout.cshtml";
@@ -34,7 +36,7 @@
     @Html.HiddenFor(x => x.CreditAmount)
     @Html.HiddenFor(x => x.DealProvince)
     @Html.HiddenFor(x => x.AmortizationTerm)
-    @Html.HiddenFor(x => x.IsCustomRateCardSelected, new {id = "custom-selected"})
+    @Html.HiddenFor(x => x.IsCustomRateCardSelected, new { id = "custom-selected" })
     @Html.HiddenFor(x => x.AdminFee)
     @Html.HiddenFor(x => x.CustomerRate)
     @Html.HiddenFor(x => x.ValueOfDeal)
@@ -62,13 +64,13 @@
 
 
             @((Model.IsClarityDealer && !Model.IsOldClarityDeal) ?
-                                                Html.Partial("EquipmentInformation/_ClarityProgram", Model) :
-                                                Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
+                                                                Html.Partial("EquipmentInformation/_ClarityProgram", Model) :
+                                                                Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
 
             @Html.Partial("EquipmentInformation/_AdditionalContractInformation", Model)
             @Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })
             <div class="form-group">
-                <span data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Resources.YouShouldFillAllMandatoryFields">
+                <span data-toggle="popover" data-placement="top" data-container="body" data-trigger="@(Request.IsMobileBrowser()?"click":"hover")" data-content="@Resources.YouShouldFillAllMandatoryFields">
                     <input type="submit" value="@Resources.SaveAndProceed" class="btn btn-green btn-form" id="submit" />
                 </span>
             </div>
