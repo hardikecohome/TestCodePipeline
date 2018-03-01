@@ -9,6 +9,11 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 {
     public class EquipmentInformationViewModelNew
     {
+        public EquipmentInformationViewModelNew()
+        {
+            SalesRepInformation = new SalesRepInformation();
+        }
+
         [Display(ResourceType = typeof(Resources.Resources), Name = "TypeOfAgreement")]
         public AgreementType AgreementType { get; set; }
 
@@ -23,16 +28,15 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public List<string> CustomerComments { get; set; }
 
         [CustomRequired]
-        [Display(ResourceType = typeof(Resources.Resources), Name = "EstimatedInstallationDate")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "PreferredInstallDate")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
-        public DateTime? EstimatedInstallationDate { get; set; }
+        public DateTime? PrefferedInstallDate { get; set; }
 
-        [CustomRequired]
-        [StringLength(50, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
-        [Display(ResourceType = typeof(Resources.Resources), Name = "SalesRep")]
-        [RegularExpression(@"^[^0-9]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "SalesRepIncorrectFormat")]
-        public string SalesRep { get; set; }
+        [Display(ResourceType = typeof(Resources.Resources), Name = "PreferredInstallTime")]
+        public string PrefferedInstallTime { get; set; }
+
+        public SalesRepInformation SalesRepInformation { get; set; }
 
         [StringLength(500, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "ContractNotes")]
@@ -109,4 +113,16 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public bool IsCustomRateCardSelected { get; set; }
     }
 
+    public class SalesRepInformation
+    {
+        [CustomRequired]
+        [StringLength(50, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "SalesRep")]
+        [RegularExpression(@"^[^0-9]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "SalesRepIncorrectFormat")]
+        public string SalesRep { get; set; }
+
+        public bool? IniatedContract { get; set; }
+        public bool? NegotiatedAgreement { get; set; }
+        public bool? ConcludedAgreement { get; set; }
+    }
 }

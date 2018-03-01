@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Attributes;
+using DealnetPortal.Web.Models.Validation;
 
 namespace DealnetPortal.Web.Models.Dealer
 {

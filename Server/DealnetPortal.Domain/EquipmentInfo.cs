@@ -48,9 +48,14 @@ namespace DealnetPortal.Domain
         public string Notes { get; set; }
 
         public DateTime? PreferredStartDate { get; set; }
-
+        /// <summary>
+        /// Preffered installation date
+        /// </summary>
         public DateTime? EstimatedInstallationDate { get; set; }
 
+        /// <summary>
+        /// Factical date of equipment installation
+        /// </summary>
         public DateTime? InstallationDate { get; set; }
 
         public string InstallerFirstName { get; set; }

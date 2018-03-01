@@ -24,6 +24,7 @@
                 var $el = $(el);
                 if (equipmentInList($el.find('.equipment-select').val())) {
                     enableNewEquipment($el);
+                    if ($('#sales-rep-types').is(':hidden')) enableSalesRepSection();
                 }
             });
         }
@@ -34,6 +35,7 @@
             var newEquipment = $('div#new-equipments [id^="new-equipment-"]');
             $.each(newEquipment, function (i, el) {
                 disableNewEquipment(el);
+                if (!$('#sales-rep-types').is(':hidden')) disableSalesRepSection();
             });
         }
     };
@@ -50,7 +52,23 @@
         enableExistingEquipment();
     };
 
-    var disableNewEquipment = function (row) {
+    function enableSalesRepSection() {
+        $('#sales-rep-types').removeClass('hidden');
+        $('#sales-rep-title').removeClass('hidden');
+    }
+
+    function disableSalesRepSection() {
+        $('#sales-rep-types').addClass('hidden');
+        $('#sales-rep-title').addClass('hidden');
+        $('#initiated-contract').val(null);
+        $('#initiated-contract-checkbox').prop('checked', false);
+        $('#negotiated-contract').val(null);
+        $('#negotiated-contract-checkbox').prop('checked', false);
+        $('#concluded-contract').val(null);
+        $('#concluded-contract-checkbox').prop('checked', false);
+    }
+
+    var disable = disableNewEquipment function (row) {
         var $row = $(row);
         $row.find('.description-col').removeClass('col-md-5').addClass('col-md-6');
         $row.find('.monthly-cost-col').removeClass('col-md-2').addClass('col-md-3');
@@ -99,8 +117,10 @@
         if (state.isOntario && state.agreementType !== 0) {
             if (equipmentInList(e.target.value)) {
                 enableNewEquipment($(e.target).parents('.new-equipment'));
+                enableSalesRepSection();
             } else {
                 disableNewEquipment($(e.target).parents('.new-equipment'));
+                disableSalesRepSection();
             }
         }
     }

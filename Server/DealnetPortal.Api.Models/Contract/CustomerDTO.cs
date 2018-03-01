@@ -42,5 +42,7 @@ namespace DealnetPortal.Api.Models.Contract
         public string DealerInitial { get; set; }
 
         public EmploymentInfoDTO EmploymentInfo { get; set; }
+
+        public string RelationshipToMainBorrower { get; set; }
     }
 }

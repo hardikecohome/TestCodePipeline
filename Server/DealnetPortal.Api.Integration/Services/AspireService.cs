@@ -1922,7 +1922,8 @@ namespace DealnetPortal.Api.Integration.Services
                     udfList.Add(new UDF()
                     {
                         Name = AspireUdfFields.PreferredInstallationDate,
-                        Value = contract.Equipment.EstimatedInstallationDate.Value.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
+                        Value = contract.Equipment.EstimatedInstallationDate.Value.Hour > 0 ? contract.Equipment.EstimatedInstallationDate.Value.ToString("g", CultureInfo.CreateSpecificCulture("en-US"))
+                            : contract.Equipment.EstimatedInstallationDate.Value.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
                     });
                 }
                 if (contract.Equipment.PreferredStartDate.HasValue)
