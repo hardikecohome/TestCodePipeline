@@ -650,30 +650,14 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             {
                 Id = equipmnetInfo.ContractId ?? 0,
                 LeadSource = _leadSource,
-                Equipment = Mapper.Map<EquipmentInfoDTO>(equipmnetInfo)
+                Equipment = Mapper.Map<EquipmentInfoDTO>(equipmnetInfo),
+                Details = Mapper.Map<ContractDetailsDTO>(equipmnetInfo)
             };
 
             var existingEquipment = Mapper.Map<List<ExistingEquipmentDTO>>(equipmnetInfo.ExistingEquipment);
             contractData.Equipment.ExistingEquipment = existingEquipment ?? new List<ExistingEquipmentDTO>();
             var installationPackeges = Mapper.Map<List<InstallationPackageDTO>>(equipmnetInfo.InstallationPackages);
             contractData.Equipment.InstallationPackages = installationPackeges ?? new List<InstallationPackageDTO>();
-            contractData.Equipment.SalesRep = equipmnetInfo.SalesRepInformation.SalesRep;
-            contractData.Equipment.EstimatedInstallationDate = equipmnetInfo.PrefferedInstallDate;
-            contractData.Equipment.InstallationTime = DateTime.ParseExact(equipmnetInfo.PrefferedInstallTime, "hhmm", DateTimeFormatInfo.InvariantInfo);
-            contractData.Equipment.IsClarityProgram = equipmnetInfo.IsClarityProgram;
-            contractData.Equipment.IsCustomRateCard = equipmnetInfo.SelectedRateCardId == null;
-
-            contractData.Details = new ContractDetailsDTO
-            {
-                Notes = equipmnetInfo.Notes
-            };
-
-            contractData.Details.AgreementType = (AgreementType?)equipmnetInfo.AgreementType;
-
-            if(equipmnetInfo.HouseSize.HasValue)
-            {
-                contractData.Details.HouseSize = equipmnetInfo.HouseSize;
-            }
 
             return await _contractServiceAgent.UpdateContractData(contractData);
         }
@@ -897,13 +881,6 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                     dealerTier.RateCards.Any(x => x.Id == result.Item1.Equipment.RateCardId.Value));
         }
 
-        public async Task<ESignatureViewModel> GetContractSignatureStatus(int contractId)
-        {
-            var contractsResult = await _contractServiceAgent.GetContract(contractId);
-
-            return contractsResult == null ? null : MapESignature(contractsResult.Item1);
-        }
-
         private async Task MapSummary(SummaryAndConfirmationViewModel summary, ContractDTO contract, int contractId)
         {
             summary.BasicInfo = new BasicInfoViewModel { ContractId = contractId };
@@ -920,6 +897,22 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             }
             summary.Notes = contract.Details?.Notes;
             summary.AdditionalInfo = new AdditionalInfoViewModel();
+
+
+            summary.AdditionalInfo.SalesRepRole = new List<string>();
+
+            if (contract.Equipment.InitiatedContract.HasValue && contract.Equipment.InitiatedContract.Value)
+            {
+                summary.AdditionalInfo.SalesRepRole.Add(Resources.Resources.InitiatedContract);
+            }
+            if (contract.Equipment.NegotiatedAgreement.HasValue && contract.Equipment.NegotiatedAgreement.Value)
+            {
+                summary.AdditionalInfo.SalesRepRole.Add(Resources.Resources.NegotiatedAgreement);
+            }
+            if (contract.Equipment.ConcludedAgreement.HasValue && contract.Equipment.ConcludedAgreement.Value)
+            {
+                summary.AdditionalInfo.SalesRepRole.Add(Resources.Resources.ConcludedAgreement);
+            }
 
             if(contract?.Comments.Any(x => x.IsCustomerComment == true) == true)
             {
@@ -959,6 +952,13 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 };
                 summary.LoanCalculatorOutput = loanCalculatorInput.AmortizationTerm > 0 ? LoanCalculator.Calculate(loanCalculatorInput) : new LoanCalculator.Output();
             }
+        }
+
+        public async Task<ESignatureViewModel> GetContractSignatureStatus(int contractId)
+        {
+            var contractsResult = await _contractServiceAgent.GetContract(contractId);
+
+            return contractsResult == null ? null : MapESignature(contractsResult.Item1);
         }
 
         private async Task MapContract(ContractViewModel contractViewModel, ContractDTO contract, int contractId)

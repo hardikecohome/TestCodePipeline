@@ -178,6 +178,8 @@ namespace DealnetPortal.Web.Models
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "CustomersComment")]
         public List<string> CustomerComments { get; set; }
+        [Display(ResourceType = typeof (Resources.Resources), Name = "RoleOfSalesRep")]
+        public List<string> SalesRepRole { get; set; }
     }
 
     public class SummaryAndConfirmationViewModel
