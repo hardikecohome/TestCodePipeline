@@ -1458,6 +1458,16 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                 }
 
+                if (!string.IsNullOrEmpty(addApplicant.RelationshipToMainBorrower))
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.RelationshipToCustomer2,
+                        Value = addApplicant.RelationshipToMainBorrower
+                    });
+                }
+
                 var mainAddress2 =
                     addApplicant?.Locations?.FirstOrDefault(
                         l => l.AddressType == AddressType.MainAddress) ?? contract.PrimaryCustomer.Locations?.FirstOrDefault(m => m.AddressType == AddressType.MainAddress);
@@ -1907,18 +1917,18 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = eqDescription
                     });                    
                 }
-                    // support old contracts with EstimatedInstallationDate in Equipment
-                if (contract.Equipment.EstimatedInstallationDate.HasValue ||
-                    ((newEquipments.First()?.EstimatedInstallationDate.HasValue) ?? false))
-                {
+                // support old contracts with EstimatedInstallationDate in Equipment
+                var estimatedInstallationDate = contract.Equipment.EstimatedInstallationDate ??
+                                                newEquipments.First()?.EstimatedInstallationDate;
+                if (estimatedInstallationDate.HasValue)
+                {                    
                     formFields.Add(new FormField()
                     {
                         FieldType = FieldType.Text,
                         Name = PdfFormFields.InstallDate,
-                        Value =
-                            contract.Equipment.EstimatedInstallationDate?.ToString("MM/dd/yyyy",
-                                CultureInfo.InvariantCulture) ?? newEquipments.First()
-                                .EstimatedInstallationDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
+                        Value = estimatedInstallationDate.Value.Hour != 0 ? estimatedInstallationDate.Value.ToString("MM/dd/yyyy Htt", CultureInfo.InvariantCulture) 
+                            : estimatedInstallationDate.Value.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
+
                     });
                 }
 

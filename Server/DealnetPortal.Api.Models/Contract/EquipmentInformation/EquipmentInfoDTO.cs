@@ -40,7 +40,6 @@ namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
         public DateTime? EstimatedInstallationDate { get; set; }
 
         public DateTime? InstallationDate { get; set; }
-        public DateTime? InstallationTime { get; set; }
 
         public string InstallerFirstName { get; set; }
 

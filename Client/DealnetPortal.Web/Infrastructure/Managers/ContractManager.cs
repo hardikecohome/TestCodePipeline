@@ -658,8 +658,14 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             var installationPackeges = Mapper.Map<List<InstallationPackageDTO>>(equipmnetInfo.InstallationPackages);
             contractData.Equipment.InstallationPackages = installationPackeges ?? new List<InstallationPackageDTO>();
             contractData.Equipment.SalesRep = equipmnetInfo.SalesRepInformation.SalesRep;
-            contractData.Equipment.EstimatedInstallationDate = equipmnetInfo.PrefferedInstallDate;
-            contractData.Equipment.InstallationTime = DateTime.ParseExact(equipmnetInfo.PrefferedInstallTime, "hhmm", DateTimeFormatInfo.InvariantInfo);
+            contractData.Equipment.EstimatedInstallationDate = equipmnetInfo.PrefferedInstallDate;            
+            if (contractData.Equipment.EstimatedInstallationDate.HasValue)
+            {
+                var installationTime = DateTime.ParseExact(equipmnetInfo.PrefferedInstallTime, "hhmm",
+                    DateTimeFormatInfo.InvariantInfo);
+                contractData.Equipment.EstimatedInstallationDate = contractData.Equipment.EstimatedInstallationDate.Value.AddHours(installationTime.Hour);
+            }
+            //contractData.Equipment.InstallationTime = DateTime.ParseExact(equipmnetInfo.PrefferedInstallTime, "hhmm", DateTimeFormatInfo.InvariantInfo);
             contractData.Equipment.IsClarityProgram = equipmnetInfo.IsClarityProgram;
             contractData.Equipment.IsCustomRateCard = equipmnetInfo.SelectedRateCardId == null;
 
