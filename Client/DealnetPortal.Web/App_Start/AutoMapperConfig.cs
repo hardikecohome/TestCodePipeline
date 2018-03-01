@@ -255,10 +255,18 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.InitiatedContract, s => s.MapFrom(d => d.SalesRepInformation.IniatedContract))
                 .ForMember(x => x.NegotiatedAgreement, s => s.MapFrom(d => d.SalesRepInformation.NegotiatedAgreement))
                 .ForMember(x => x.ConcludedAgreement, s => s.MapFrom(d => d.SalesRepInformation.ConcludedAgreement))
-                .ForMember(x => x.EstimatedInstallationDate, s => s.MapFrom(d => d.PrefferedInstallDate))
-                .ForMember(x => x.InstallationTime, s => s.ResolveUsing(d => DateTime.ParseExact(d.PrefferedInstallTime, "HHmm", DateTimeFormatInfo.InvariantInfo)))
+                .ForMember(x => x.EstimatedInstallationDate, s => s.ResolveUsing(d =>
+                {
+                    if (d.PrefferedInstallDate.HasValue)
+                    {
+                        var installationTime = DateTime.ParseExact(d.PrefferedInstallTime, "HHmm",
+                            DateTimeFormatInfo.InvariantInfo);
+                        return d.PrefferedInstallDate.Value.AddHours(installationTime.Hour);
+                    }
+                    return d.PrefferedInstallDate;
+                }))
                 .ForMember(x => x.IsCustomRateCard, s => s.ResolveUsing(d => d.SelectedRateCardId == null))
-                .ForMember(x => x.DeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.LoanDeferralType.ConvertTo<DeferralType>() : src.RentalDeferralType.ConvertTo<DeferralType>()));
+                .ForMember(x => x.DeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.LoanDeferralType.ConvertTo<DeferralType>() : src.RentalDeferralType.ConvertTo<DeferralType>()));            
 
             cfg.CreateMap<AddressInformation, AddressDTO>()
                 .ForMember(x => x.Unit, d => d.MapFrom(src => src.UnitNumber))
@@ -579,7 +587,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.LoanDeferralType, d => d.ResolveUsing(src => src.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication ? src.DeferralType : 0))
                 .ForMember(x => x.RentalDeferralType, d => d.ResolveUsing(src => src.AgreementType != Api.Common.Enumeration.AgreementType.LoanApplication ? src.DeferralType : 0))
                 .ForMember(x => x.EstimatedInstallationDate, d => d.ResolveUsing(src => src.EstimatedInstallationDate ?? ((src.NewEquipment?.Any() ?? false) ? src.NewEquipment.First().EstimatedInstallationDate : DateTime.Today)))
-                .ForMember(x => x.PreferredInstallTime, d => d.ResolveUsing(src => src.EstimatedInstallationDate?.ToShortTimeString() ?? string.Empty))
+                .ForMember(x => x.PreferredInstallTime, d => d.ResolveUsing(src => src.EstimatedInstallationDate?.ToString("HHmm") ?? string.Empty))
                 .ForMember(x => x.FullUpdate, d => d.Ignore())
                 .ForMember(x => x.IsAllInfoCompleted, d => d.Ignore())
                 .ForMember(x => x.IsApplicantsInfoEditAvailable, d => d.Ignore())
@@ -639,7 +647,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.FullUpdate, d => d.Ignore())
                 .ForMember(x => x.IsAllInfoCompleted, d => d.Ignore())
                 .ForMember(x => x.PrefferedInstallDate, d => d.MapFrom(src => src.EstimatedInstallationDate))
-                .ForMember(x => x.PrefferedInstallTime, d => d.MapFrom(src => src.EstimatedInstallationDate.HasValue ? src.EstimatedInstallationDate.Value.TimeOfDay.ToString("hhmm") : string.Empty))
+                .ForMember(x => x.PrefferedInstallTime, d => d.MapFrom(src => src.EstimatedInstallationDate.HasValue ? src.EstimatedInstallationDate.Value.TimeOfDay.ToString("HHmm") : string.Empty))
                 .ForMember(x => x.IsApplicantsInfoEditAvailable, d => d.Ignore())
                 .ForMember(x => x.IsFirstStepAvailable, d => d.Ignore())
                 .ForMember(x => x.HouseSize, d => d.Ignore())

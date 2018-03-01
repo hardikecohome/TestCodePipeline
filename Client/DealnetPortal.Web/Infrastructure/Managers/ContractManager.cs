@@ -898,7 +898,6 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             summary.Notes = contract.Details?.Notes;
             summary.AdditionalInfo = new AdditionalInfoViewModel();
 
-
             summary.AdditionalInfo.SalesRepRole = new List<string>();
 
             if (contract.Equipment.InitiatedContract.HasValue && contract.Equipment.InitiatedContract.Value)
