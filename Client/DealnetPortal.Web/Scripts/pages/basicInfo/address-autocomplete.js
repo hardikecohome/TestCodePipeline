@@ -63,12 +63,14 @@ function autodetectAddress() {
                                     }
 
                                     document.getElementById(addressType).value = val;
-                                    $('#' + addressType).removeClass('placeholder').removeClass('pac-placeholder').change();
+                                    $('#' + addressType).removeClass('placeholder').removeClass('pac-placeholder');
+                                    $('#' + addressType).change().keyup();
                                 }
                             }
                             if (street) {
                                 $('#street').removeClass('placeholder').removeClass('pac-placeholder');
                                 document.getElementById('street').value = street;
+                                $('#street').keyup();
                             }
                         } else {
                             console.log('No results by Location service');
