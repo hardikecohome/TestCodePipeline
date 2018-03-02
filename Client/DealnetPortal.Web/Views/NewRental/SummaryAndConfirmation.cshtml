@@ -1296,6 +1296,25 @@
                                 <h3 class="dealnet-section-title">
                                     @Resources.AdditionalContractInformation
                                 </h3>
+                                @if(Model.AdditionalInfo.SalesRepRole.Any())
+                                {
+                                    <div class="form-group">
+                                        <div class="row">
+                                            @Html.LabelFor(m => m.AdditionalInfo.SalesRepRole, new { @class = "text-semibold text-md-sm col-xs-12" })
+                                            <div class="dealnet-field-holder col-xs-12">
+                                                <div class="control-group">
+                                                    <div class="text-left">
+                                                        @{
+                                                            var roleOfSalesRep = string.Join(", ", Model.AdditionalInfo.SalesRepRole);
+                                                        }
+
+                                                        @roleOfSalesRep
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                                 @if(Model.AdditionalInfo.CustomerComments != null && Model.AdditionalInfo.CustomerComments.Any())
                                 {
                                     <div class="form-group">

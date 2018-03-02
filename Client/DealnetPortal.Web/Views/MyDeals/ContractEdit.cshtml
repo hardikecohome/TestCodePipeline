@@ -2929,7 +2929,7 @@ new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                     </div>
                 </div>}
         }
-        @if(!string.IsNullOrEmpty(Model.Notes) || (Model.CustomerComments != null && Model.CustomerComments.Any()))
+        @if(!string.IsNullOrEmpty(Model.Notes) || (Model.CustomerComments != null && Model.CustomerComments.Any()) || Model.AdditionalInfo.SalesRepRole.Any())
         {
             <hr>
             <div class="form-section">
@@ -2952,6 +2952,28 @@ new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                             </a>
                                         }
                                     </h3>
+                                    @if(Model.AdditionalInfo.SalesRepRole.Any())
+                                    {
+                                        <div class="form-group">
+                                            <div class="row">
+                                                @Html.LabelFor(m => m.AdditionalInfo.SalesRepRole, new
+                                                {
+                                                    @class = "text-semibold text-md-sm col-xs-12"
+                                                })
+                                                <div class="dealnet-field-holder col-xs-12">
+                                                    <div class="control-group">
+                                                        <div class="text-left">
+                                                            @{
+                                                                var roleOfSalesRep = string.Join(", ", Model.AdditionalInfo.SalesRepRole);
+                                                            }
+
+                                                            @roleOfSalesRep
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
                                     @if(Model.CustomerComments != null && Model.CustomerComments.Any())
                                     {
                                         <div class="form-group">
