@@ -45,6 +45,21 @@
         });
 
         ga('send', 'event', 'Summary And Confirmation', 'button_click', 'Step 5 from Dealer Portal', '100');
+        $('.responsible-input').on('change', function () {
+            var mvcId = this.id;
+            var id = mvcId.split('-')[1];
+            var col = $('#other-col-' + id);
+            var input = $('#other-' + id);
+            if (this.value === '3') {
+                col.removeClass('hidden');
+                input.attr('disabled', false);
+                input[0].form && input.rules('add', 'required');
+            } else {
+                col.addClass('hidden');
+                input.attr('disabled', true);
+                input[0].form && input.rules('remove', 'required');
+            }
+        }).change();
     });
 
 function managePaymentFormElements (paymentType) {
