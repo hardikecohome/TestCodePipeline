@@ -73,13 +73,13 @@
             .on('change', updateMonthlyCost);
         newTemplate.find('.estimated-retail')
             .on('change', updateEstimatedRetail);
+        var equipSelect = newTemplate.find('.equipment-select');
+        equipSelect.on('change', updateType);
         if (!state.isClarity) {
-            newTemplate.find('.equipment-select')
+            equipSelect
                 .on('change', require('bill59').onEquipmentChange);
         }
-        newTemplate.find('.equipment-select')
-            .on('change', updateType)
-            .change();
+        equipSelect.change();
 
         customizeSelect();
         toggleClearInputIcon($(newTemplate).find('textarea, input'));
@@ -208,11 +208,10 @@
         }
 
         var equipmentRow = $('#new-equipment-' + i);
-        equipmentRow.find('.equipment-select')
-            .on('change', updateType);
+        var equipSelect = equipmentRow.find('.equipment-select');
+        equipSelect.on('change', updateType);
         if (!state.isClarity) {
-            equipmentRow.find('.equipment-select')
-                .on('change', require('bill59').onEquipmentChange);
+            equipSelect.on('change', require('bill59').onEquipmentChange);
         }
         equipmentRow.find('.equipment-cost')
             .on('change', updateCost);
