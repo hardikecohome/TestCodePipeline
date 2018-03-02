@@ -6,7 +6,7 @@ namespace DealnetPortal.Web.Models.Enumeration
     {
         [Display(ResourceType = typeof (Resources.Resources), Name = "EnbridgeCapital")]
         Enbridge,
-        [Display(ResourceType = typeof (Resources.Resources), Name = "PapCapital")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "PadCapital")]
         Pap
     }
 }

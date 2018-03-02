@@ -1025,8 +1025,8 @@
   <data name="EnbridgeCapital" xml:space="preserve">
     <value>ENBRIDGE</value>
   </data>
-  <data name="PapCapital" xml:space="preserve">
-    <value>PAP</value>
+  <data name="PadCapital" xml:space="preserve">
+    <value>PAD</value>
   </data>
   <data name="Own" xml:space="preserve">
     <value>Possède</value>

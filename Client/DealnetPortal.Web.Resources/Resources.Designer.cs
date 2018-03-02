@@ -4778,20 +4778,20 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PAD.
+        /// </summary>
+        public static string PadCapital {
+            get {
+                return ResourceManager.GetString("PadCapital", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Possession and Acquisition License (PAL card).
         /// </summary>
         public static string PalCard {
             get {
                 return ResourceManager.GetString("PalCard", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to PAP.
-        /// </summary>
-        public static string PapCapital {
-            get {
-                return ResourceManager.GetString("PapCapital", resourceCulture);
             }
         }
         
