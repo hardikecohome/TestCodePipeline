@@ -71,7 +71,7 @@ function initGoogleServices(streetId, cityId, provenceId, postalCodeId) {
                 }
                 if (addressType == 'administrative_area_level_1') {
                     provenceInput.value = val;
-                    $(provenceInput).keyup();
+                    $(provenceInput).change();
                     $(provenceInput).removeClass('pac-placeholder').removeClass('placeholder');
                     continue;
                 }
