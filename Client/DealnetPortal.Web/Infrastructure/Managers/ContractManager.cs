@@ -900,15 +900,15 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
             summary.AdditionalInfo.SalesRepRole = new List<string>();
 
-            if (contract.Equipment.InitiatedContract.HasValue && contract.Equipment.InitiatedContract.Value)
+            if (contract.Equipment.InitiatedContact == true)
             {
                 summary.AdditionalInfo.SalesRepRole.Add(Resources.Resources.InitiatedContract);
             }
-            if (contract.Equipment.NegotiatedAgreement.HasValue && contract.Equipment.NegotiatedAgreement.Value)
+            if (contract.Equipment.NegotiatedAgreement == true)
             {
                 summary.AdditionalInfo.SalesRepRole.Add(Resources.Resources.NegotiatedAgreement);
             }
-            if (contract.Equipment.ConcludedAgreement.HasValue && contract.Equipment.ConcludedAgreement.Value)
+            if (contract.Equipment.ConcludedAgreement == true)
             {
                 summary.AdditionalInfo.SalesRepRole.Add(Resources.Resources.ConcludedAgreement);
             }

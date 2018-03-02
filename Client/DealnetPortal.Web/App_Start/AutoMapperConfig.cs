@@ -252,7 +252,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.DownPayment, d => d.MapFrom(s => s.DownPayment ?? 0))
                 .ForMember(x => x.RateCardId, s => s.MapFrom(d => d.SelectedRateCardId))
                 .ForMember(x => x.SalesRep, s => s.MapFrom(d => d.SalesRepInformation.SalesRep))
-                .ForMember(x => x.InitiatedContract, s => s.MapFrom(d => d.SalesRepInformation.IniatedContract))
+                .ForMember(x => x.InitiatedContact, s => s.MapFrom(d => d.SalesRepInformation.IniatedContract))
                 .ForMember(x => x.NegotiatedAgreement, s => s.MapFrom(d => d.SalesRepInformation.NegotiatedAgreement))
                 .ForMember(x => x.ConcludedAgreement, s => s.MapFrom(d => d.SalesRepInformation.ConcludedAgreement))
                 .ForMember(x => x.EstimatedInstallationDate, s => s.ResolveUsing(d =>

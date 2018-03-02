@@ -2296,6 +2296,34 @@ namespace DealnetPortal.Api.Integration.Services
                 });
             }
 
+            if (contract?.Equipment?.SalesRepConcludedAgreement == true)
+            {
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.CheckBox,
+                    Name = PdfFormFields.SalesRepConcludedAgreement,
+                    Value = "true"
+                });
+            }
+            if (contract?.Equipment?.SalesRepNegotiatedAgreement == true)
+            {
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.CheckBox,
+                    Name = PdfFormFields.SalesRepNegotiatedAgreement,
+                    Value = "true"
+                });
+            }
+            if (contract?.Equipment?.SalesRepInitiatedContact == true)
+            {
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.CheckBox,
+                    Name = PdfFormFields.SalesRepInitiatedContact,
+                    Value = "true"
+                });
+            }
+
             //try to get Dealer info from Aspire and fill it
             if (!string.IsNullOrEmpty(contract?.Dealer.AspireLogin))
             {
