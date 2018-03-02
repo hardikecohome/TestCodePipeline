@@ -20,7 +20,7 @@
         <div class="col-md-4">
             @Html.LabelFor(m => m.SalesRepInformation.SalesRep)
         </div>
-        <div class="col-md-4" id="sales-rep-title">
+        <div class="col-md-4 hidden" id="sales-rep-title">
             @Html.Label(Resources.RoleOfSalesRep)
         </div>
     </div>
@@ -34,7 +34,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6" id="sales-rep-types">
+        <div class="col-md-6 hidden" id="sales-rep-types">
             <div class="form-group">
                 <label class="align-middle custom-checkbox">
                     @Html.CheckBox("initiated-contract-checkbox", @Model.SalesRepInformation.IniatedContract ?? false ? (object)new { id = "initiated-contract-checkbox", @checked = "true", value=true } : new { id = "initiated-contract-checkbox", value=false })
@@ -96,7 +96,7 @@
             <div class="form-group">
                 @Html.Label(Resources.PreferredInstallTime, new { @class = "visible-sm visible-xs" })
                 <div class="control-group date-group">
-                    @Html.DropDownListFor(m => m.PrefferedInstallTime, new SelectList(options, "Value", "Text", !string.IsNullOrEmpty(Model.PrefferedInstallTime) ? Model.PrefferedInstallTime : "0900"), new { @class = "form-control dealnet-input date-input", id = "estimated-installation-date", placeholder = Resources.InstallationDate, data_val_date = "" })
+                    @Html.DropDownListFor(m => m.PrefferedInstallTime, new SelectList(options, "Value", "Text", !string.IsNullOrEmpty(Model.PrefferedInstallTime) ? Model.PrefferedInstallTime : "0900"), new { @class = "form-control dealnet-input", id = "estimated-installation-date", placeholder = Resources.InstallationDate, data_val_date = "" })
                     @Html.ValidationMessageFor(m => m.PrefferedInstallTime, "", new { @class = "text-danger" })
                 </div>
             </div>
