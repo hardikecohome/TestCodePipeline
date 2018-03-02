@@ -81,10 +81,12 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public double? ValueOfDeal { get; set; }
 
-        [Display(ResourceType = typeof(Resources.Resources), Name = "EstimatedInstallationDate")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "PreferredInstallDate")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? EstimatedInstallationDate { get; set; }
+
+        [Display(ResourceType = typeof(Resources.Resources), Name = "PreferredInstallTime")]
         public string PreferredInstallTime { get; set; }
     }
 }
