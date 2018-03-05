@@ -99,7 +99,7 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<InstallationPackageInformation, InstallationPackageDTO>();
             cfg.CreateMap<PaymentInfoViewModel, PaymentInfoDTO>()
                 .ForMember(x => x.Id, d => d.Ignore())
-                .ForMember(x=>x.PaymentType, d=>d.ResolveUsing(src=>src.PaymentType.ConvertTo<Api.Common.Enumeration.PaymentType>()));
+                .ForMember(x => x.PaymentType, d => d.ResolveUsing(src => src.PaymentType.ConvertTo<Api.Common.Enumeration.PaymentType>()));
 
             cfg.CreateMap<CommentViewModel, CommentDTO>()
                 .ForMember(x => x.DealerId, d => d.Ignore())
@@ -221,7 +221,12 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.HashLink, d => d.MapFrom(s => s.HashDealerName));
             cfg.CreateMap<ProfileViewModel, DealerProfileDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(src => src.ProfileId))
-                .ForMember(x => x.EquipmentList, d => d.ResolveUsing(src => src.DealerEquipments != null ? src.DealerEquipments.Select(s => new DealerEquipmentDTO() { Equipment = s }).ToList() : null))
+                .ForMember(x => x.EquipmentList, d => d.ResolveUsing(src =>
+                src.DealerEquipments != null ?
+                src.DealerEquipments.Select(s => new DealerEquipmentDTO()
+                {
+                    Equipment = s
+                }).ToList() : null))
                 .ForMember(d => d.PostalCodesList, d => d.MapFrom(src => src.PostalCodes))
                 .ForMember(x => x.DealerId, d => d.Ignore());
             cfg.CreateMap<DealerAreaViewModel, DealerAreaDTO>();
@@ -237,9 +242,9 @@ namespace DealnetPortal.Web.App_Start
 
             cfg.CreateMap<SalesRepInformation, EquipmentInfoDTO>()
                 .ForMember(x => x.SalesRep, d => d.MapFrom(src => src.SalesRep))
-                .ForMember(x => x.SalesRep, d => d.MapFrom(src => src.IniatedContract))
-                .ForMember(x => x.SalesRep, d => d.MapFrom(src => src.ConcludedAgreement))
-                .ForMember(x => x.SalesRep, d => d.MapFrom(src => src.NegotiatedAgreement));
+                .ForMember(x => x.InitiatedContact, d => d.MapFrom(src => src.IniatedContract))
+                .ForMember(x => x.ConcludedAgreement, d => d.MapFrom(src => src.ConcludedAgreement))
+                .ForMember(x => x.NegotiatedAgreement, d => d.MapFrom(src => src.NegotiatedAgreement));
 
             cfg.CreateMap<EquipmentInformationViewModelNew, ContractDetailsDTO>()
                 .ForMember(x => x.AgreementType, d => d.MapFrom(src => (AgreementType?)src.AgreementType))
@@ -259,7 +264,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.ConcludedAgreement, s => s.MapFrom(d => d.SalesRepInformation.ConcludedAgreement))
                 .ForMember(x => x.EstimatedInstallationDate, s => s.ResolveUsing(d =>
                 {
-                    if (d.PrefferedInstallDate.HasValue)
+                    if(d.PrefferedInstallDate.HasValue)
                     {
                         var installationTime = DateTime.ParseExact(d.PrefferedInstallTime, "HHmm",
                             DateTimeFormatInfo.InvariantInfo);
@@ -268,7 +273,7 @@ namespace DealnetPortal.Web.App_Start
                     return d.PrefferedInstallDate;
                 }))
                 .ForMember(x => x.IsCustomRateCard, s => s.ResolveUsing(d => d.SelectedRateCardId == null))
-                .ForMember(x => x.DeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.LoanDeferralType.ConvertTo<DeferralType>() : src.RentalDeferralType.ConvertTo<DeferralType>()));            
+                .ForMember(x => x.DeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.LoanDeferralType.ConvertTo<DeferralType>() : src.RentalDeferralType.ConvertTo<DeferralType>()));
 
             cfg.CreateMap<AddressInformation, AddressDTO>()
                 .ForMember(x => x.Unit, d => d.MapFrom(src => src.UnitNumber))
@@ -464,7 +469,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.Phone, s => s.ResolveUsing(src =>
                     src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Cell)?.PhoneNum
                     ?? src.PrimaryCustomer?.Phones?.FirstOrDefault(e => e.PhoneType == PhoneType.Home)?.PhoneNum))
-                .ForMember(d => d.Date, s => s.ResolveUsing(src => src.Id!=0 ? 
+                .ForMember(d => d.Date, s => s.ResolveUsing(src => src.Id != 0 ?
                     (src.LastUpdateTime ?? src.CreationTime).TryConvertToLocalUserDate().ToString("MM/dd/yyyy",
                         CultureInfo.InvariantCulture) : (src.LastUpdateTime ?? src.CreationTime).ToString("MM/dd/yyyy",
                         CultureInfo.InvariantCulture)))
@@ -645,12 +650,19 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.SelectedRateCardId, d => d.MapFrom(o => o.RateCardId))
                 .ForMember(x => x.ProvinceTaxRate, d => d.Ignore())
                 .ForMember(x => x.CreditAmount, d => d.Ignore())
-                .ForMember(x => x.LoanDeferralType, d => d.ResolveUsing(src => src.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication ? src.DeferralType.ConvertTo<LoanDeferralType>() : 0))
-                .ForMember(x => x.RentalDeferralType, d => d.ResolveUsing(src => src.AgreementType != Api.Common.Enumeration.AgreementType.LoanApplication ? src.DeferralType : 0))
+                .ForMember(x => x.LoanDeferralType, d => d.ResolveUsing(src =>
+                src.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication ?
+                src.DeferralType.ConvertTo<LoanDeferralType>() : 0))
+                .ForMember(x => x.RentalDeferralType, d => d.ResolveUsing(src =>
+                src.AgreementType != Api.Common.Enumeration.AgreementType.LoanApplication ?
+                src.DeferralType : 0))
                 .ForMember(x => x.FullUpdate, d => d.Ignore())
                 .ForMember(x => x.IsAllInfoCompleted, d => d.Ignore())
                 .ForMember(x => x.PrefferedInstallDate, d => d.MapFrom(src => src.EstimatedInstallationDate))
-                .ForMember(x => x.PrefferedInstallTime, d => d.MapFrom(src => src.EstimatedInstallationDate.HasValue ? src.EstimatedInstallationDate.Value.ToString("HHmm") : string.Empty))
+                .ForMember(x => x.PrefferedInstallTime, d => d.MapFrom(src =>
+                src.EstimatedInstallationDate.HasValue ?
+                src.EstimatedInstallationDate.Value.ToString("HHmm") :
+                string.Empty))
                 .ForMember(x => x.IsApplicantsInfoEditAvailable, d => d.Ignore())
                 .ForMember(x => x.IsFirstStepAvailable, d => d.Ignore())
                 .ForMember(x => x.HouseSize, d => d.Ignore())
@@ -659,7 +671,10 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.DealerTier, d => d.Ignore());
 
             cfg.CreateMap<EquipmentInfoDTO, SalesRepInformation>()
-                .ForMember(x => x.SalesRep, d => d.MapFrom(src => src.SalesRep));
+                .ForMember(x => x.SalesRep, d => d.MapFrom(src => src.SalesRep))
+                .ForMember(x => x.IniatedContract, d => d.MapFrom(src => src.InitiatedContact))
+                .ForMember(x => x.ConcludedAgreement, d => d.MapFrom(src => src.ConcludedAgreement))
+                .ForMember(x => x.NegotiatedAgreement, d => d.MapFrom(src => src.NegotiatedAgreement));
 
             cfg.CreateMap<AddressDTO, AddressInformation>()
                 .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))
@@ -701,7 +716,8 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.IncomeType, d => d.MapFrom(src => src.IncomeType.ConvertTo<IncomeType>()))
                 .ForMember(x => x.EmploymentType, d => d.MapFrom(src => src.EmploymentType.ConvertTo<EmploymentType>()))
                 .ForMember(x => x.CompanyAddress, d => d.MapFrom(src => src.CompanyAddress))
-                .ForMember(x => x.MonthsOfEmployment, d => d.ResolveUsing(src => {
+                .ForMember(x => x.MonthsOfEmployment, d => d.ResolveUsing(src =>
+                {
                     if(!string.IsNullOrWhiteSpace(src.LengthOfEmployment))
                     {
                         if(src.LengthOfEmployment.Contains("/"))
@@ -711,12 +727,13 @@ namespace DealnetPortal.Web.App_Start
                     }
                     return string.Empty;
                 }))
-                .ForMember(x => x.YearsOfEmployment, d => d.ResolveUsing(src => {
+                .ForMember(x => x.YearsOfEmployment, d => d.ResolveUsing(src =>
+                {
                     if(!string.IsNullOrWhiteSpace(src.LengthOfEmployment))
                     {
                         if(src.LengthOfEmployment.Contains("/"))
                         {
-                         return   src.LengthOfEmployment.Split('/')[0];
+                            return src.LengthOfEmployment.Split('/')[0];
                         }
                         return src.LengthOfEmployment;
                     }
