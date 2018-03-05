@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -65,12 +68,17 @@
     <Compile Include="Enumeration\YearsInBusiness.cs" />
     <Compile Include="Enumeration\YearsOfEmployment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecaptchaResponseModel.cs" />
+    <Compile Include="RecaptchaViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DealnetPortal.Web.Resources\DealnetPortal.Web.Resources.csproj">
       <Project>{E996DF6C-67CD-4178-A6AD-3DF9C1583677}</Project>
       <Name>DealnetPortal.Web.Resources</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -25,6 +25,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers.Interfaces
         /// </summary>
         /// <param name="user"></param>
         void SetUser(IPrincipal user, bool rememberMe);
-        void Logout();        
+        void Logout();
+        Task<bool> VerifyRecaptcha(string response);
     }
 }
