@@ -245,6 +245,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.SecondaryCustomers.Select(sc => sc.EmploymentInfo))
                 .Include(c => c.HomeOwners)
                 .Include(c => c.InitialCustomers)
+                .Include(c => c.SalesRepRole)
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
@@ -290,6 +291,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.NewEquipment)
                 .Include(c => c.Equipment.InstallationPackages)
                 .Include(c => c.Signers)
+                .Include(c => c.SalesRepRole)
                 .AsNoTracking().
                 FirstOrDefault(
                     c =>

@@ -231,13 +231,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.CustomerComment, d => d.MapFrom(src => src.CustomerComment))
                 .ForMember(x => x.HomeImprovementTypes, d => d.MapFrom(src => src.HomeImprovementTypes))
                 .ForMember(x => x.PrimaryCustomer, d => d.MapFrom(src => src.HomeOwnerContactInfo))
-                .ForMember(x => x.LeadSource, d => d.Ignore());
-
-            //cfg.CreateMap<SalesRepInformation, EquipmentInfoDTO>()
-            //    .ForMember(x => x.SalesRep, d => d.MapFrom(src => src.SalesRep))
-            //    .ForMember(x => x.SalesRep, d => d.MapFrom(src => src.IniatedContract))
-            //    .ForMember(x => x.SalesRep, d => d.MapFrom(src => src.ConcludedAgreement))
-            //    .ForMember(x => x.SalesRep, d => d.MapFrom(src => src.NegotiatedAgreement));
+                .ForMember(x => x.LeadSource, d => d.Ignore());            
 
             cfg.CreateMap<EquipmentInformationViewModelNew, ContractDetailsDTO>()
                 .ForMember(x => x.AgreementType, d => d.MapFrom(src => (AgreementType?)src.AgreementType))

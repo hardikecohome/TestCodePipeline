@@ -45,12 +45,6 @@ namespace DealnetPortal.Domain
 
         public string SalesRep { get; set; }
 
-        //public bool? SalesRepInitiatedContact { get; set; }
-
-        //public bool? SalesRepNegotiatedAgreement { get; set; }
-
-        //public bool? SalesRepConcludedAgreement { get; set; }
-
         public string Notes { get; set; }
 
         public DateTime? PreferredStartDate { get; set; }
