@@ -486,6 +486,15 @@ namespace DealnetPortal.DataAccess.Repositories
                         updated = true;
                     }
 
+                    if (contractData.SalesRepRole != null)
+                    {
+                        var salesRepRole = contractData.SalesRepRole;
+                        salesRepRole.Id = contract.Id;
+                        salesRepRole.Contract = contract;
+                        _dbContext.ContractSalesRepRoles.AddOrUpdate(salesRepRole);
+                        updated = true;
+                    }
+
                     if (contractData.Details != null)
                     {
                         AddOrUpdateContactDetails(contract, contractData.Details);
@@ -1161,18 +1170,18 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 dbEquipment.IsClarityProgram = equipmentInfo.IsClarityProgram;
             }
-            if (equipmentInfo.SalesRepConcludedAgreement.HasValue)
-            {
-                dbEquipment.SalesRepConcludedAgreement = equipmentInfo.SalesRepConcludedAgreement;
-            }
-            if (equipmentInfo.SalesRepInitiatedContact.HasValue)
-            {
-                dbEquipment.SalesRepInitiatedContact = equipmentInfo.SalesRepInitiatedContact;
-            }
-            if (equipmentInfo.SalesRepNegotiatedAgreement.HasValue)
-            {
-                dbEquipment.SalesRepNegotiatedAgreement = equipmentInfo.SalesRepNegotiatedAgreement;
-            }
+            //if (equipmentInfo.SalesRepConcludedAgreement.HasValue)
+            //{
+            //    dbEquipment.SalesRepConcludedAgreement = equipmentInfo.SalesRepConcludedAgreement;
+            //}
+            //if (equipmentInfo.SalesRepInitiatedContact.HasValue)
+            //{
+            //    dbEquipment.SalesRepInitiatedContact = equipmentInfo.SalesRepInitiatedContact;
+            //}
+            //if (equipmentInfo.SalesRepNegotiatedAgreement.HasValue)
+            //{
+            //    dbEquipment.SalesRepNegotiatedAgreement = equipmentInfo.SalesRepNegotiatedAgreement;
+            //}
 
             return dbEquipment;
         }

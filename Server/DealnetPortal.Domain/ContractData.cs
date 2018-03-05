@@ -21,5 +21,7 @@ namespace DealnetPortal.Domain
         public IList<Customer> HomeOwners { get; set; }
         public PaymentInfo PaymentInfo { get; set; }
         public EquipmentInfo Equipment { get; set; }
+
+        public ContractSalesRepRole SalesRepRole { get; set; }
     }
 }

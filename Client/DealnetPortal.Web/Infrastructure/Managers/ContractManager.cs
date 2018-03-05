@@ -111,7 +111,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             if(result.Item1.Equipment != null)
             {
                 equipmentInfo = Mapper.Map<EquipmentInformationViewModelNew>(result.Item1.Equipment);
-                equipmentInfo.SalesRepInformation = Mapper.Map<SalesRepInformation>(result.Item1.Equipment);
+                equipmentInfo.SalesRepInformation = Mapper.Map<SalesRepInformation>(result.Item1);
 
                 if(!equipmentInfo.NewEquipment.Any())
                 {
@@ -651,7 +651,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 Id = equipmnetInfo.ContractId ?? 0,
                 LeadSource = _leadSource,
                 Equipment = Mapper.Map<EquipmentInfoDTO>(equipmnetInfo),
-                Details = Mapper.Map<ContractDetailsDTO>(equipmnetInfo)
+                Details = Mapper.Map<ContractDetailsDTO>(equipmnetInfo),
+                SalesRepRole = Mapper.Map<ContractSalesRepRoleDTO>(equipmnetInfo.SalesRepInformation)
             };
 
             var existingEquipment = Mapper.Map<List<ExistingEquipmentDTO>>(equipmnetInfo.ExistingEquipment);
@@ -900,15 +901,15 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
             summary.AdditionalInfo.SalesRepRole = new List<string>();
 
-            if (contract.Equipment.InitiatedContact == true)
+            if (contract.SalesRepRole?.InitiatedContact == true)
             {
                 summary.AdditionalInfo.SalesRepRole.Add(Resources.Resources.InitiatedContract);
             }
-            if (contract.Equipment.NegotiatedAgreement == true)
+            if (contract.SalesRepRole?.NegotiatedAgreement == true)
             {
                 summary.AdditionalInfo.SalesRepRole.Add(Resources.Resources.NegotiatedAgreement);
             }
-            if (contract.Equipment.ConcludedAgreement == true)
+            if (contract.SalesRepRole?.ConcludedAgreement == true)
             {
                 summary.AdditionalInfo.SalesRepRole.Add(Resources.Resources.ConcludedAgreement);
             }

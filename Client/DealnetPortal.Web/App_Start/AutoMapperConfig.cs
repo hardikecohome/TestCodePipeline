@@ -233,11 +233,11 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.PrimaryCustomer, d => d.MapFrom(src => src.HomeOwnerContactInfo))
                 .ForMember(x => x.LeadSource, d => d.Ignore());
 
-            cfg.CreateMap<SalesRepInformation, EquipmentInfoDTO>()
-                .ForMember(x => x.SalesRep, d => d.MapFrom(src => src.SalesRep))
-                .ForMember(x => x.SalesRep, d => d.MapFrom(src => src.IniatedContract))
-                .ForMember(x => x.SalesRep, d => d.MapFrom(src => src.ConcludedAgreement))
-                .ForMember(x => x.SalesRep, d => d.MapFrom(src => src.NegotiatedAgreement));
+            //cfg.CreateMap<SalesRepInformation, EquipmentInfoDTO>()
+            //    .ForMember(x => x.SalesRep, d => d.MapFrom(src => src.SalesRep))
+            //    .ForMember(x => x.SalesRep, d => d.MapFrom(src => src.IniatedContract))
+            //    .ForMember(x => x.SalesRep, d => d.MapFrom(src => src.ConcludedAgreement))
+            //    .ForMember(x => x.SalesRep, d => d.MapFrom(src => src.NegotiatedAgreement));
 
             cfg.CreateMap<EquipmentInformationViewModelNew, ContractDetailsDTO>()
                 .ForMember(x => x.AgreementType, d => d.MapFrom(src => (AgreementType?)src.AgreementType))
@@ -251,10 +251,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.InstallerLastName, d => d.Ignore())
                 .ForMember(x => x.DownPayment, d => d.MapFrom(s => s.DownPayment ?? 0))
                 .ForMember(x => x.RateCardId, s => s.MapFrom(d => d.SelectedRateCardId))
-                .ForMember(x => x.SalesRep, s => s.MapFrom(d => d.SalesRepInformation.SalesRep))
-                .ForMember(x => x.InitiatedContact, s => s.MapFrom(d => d.SalesRepInformation.IniatedContract))
-                .ForMember(x => x.NegotiatedAgreement, s => s.MapFrom(d => d.SalesRepInformation.NegotiatedAgreement))
-                .ForMember(x => x.ConcludedAgreement, s => s.MapFrom(d => d.SalesRepInformation.ConcludedAgreement))
+                .ForMember(x => x.SalesRep, s => s.MapFrom(d => d.SalesRepInformation.SalesRep))                
                 .ForMember(x => x.EstimatedInstallationDate, s => s.ResolveUsing(d =>
                 {
                     if (d.PrefferedInstallDate.HasValue)
@@ -266,7 +263,12 @@ namespace DealnetPortal.Web.App_Start
                     return d.PrefferedInstallDate;
                 }))
                 .ForMember(x => x.IsCustomRateCard, s => s.ResolveUsing(d => d.SelectedRateCardId == null))
-                .ForMember(x => x.DeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.LoanDeferralType.ConvertTo<DeferralType>() : src.RentalDeferralType.ConvertTo<DeferralType>()));            
+                .ForMember(x => x.DeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.LoanDeferralType.ConvertTo<DeferralType>() : src.RentalDeferralType.ConvertTo<DeferralType>()));
+
+            cfg.CreateMap<SalesRepInformation, ContractSalesRepRoleDTO>()
+                .ForMember(x => x.InitiatedContact, s => s.MapFrom(d => d.IniatedContract))
+                .ForMember(x => x.NegotiatedAgreement, s => s.MapFrom(d => d.NegotiatedAgreement))
+                .ForMember(x => x.ConcludedAgreement, s => s.MapFrom(d => d.ConcludedAgreement));
 
             cfg.CreateMap<AddressInformation, AddressDTO>()
                 .ForMember(x => x.Unit, d => d.MapFrom(src => src.UnitNumber))
@@ -655,8 +657,11 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.IsNewContract, d => d.Ignore())
                 .ForMember(x => x.DealerTier, d => d.Ignore());
 
-            cfg.CreateMap<EquipmentInfoDTO, SalesRepInformation>()
-                .ForMember(x => x.SalesRep, d => d.MapFrom(src => src.SalesRep));
+            cfg.CreateMap<ContractDTO, SalesRepInformation>()
+                .ForMember(x => x.SalesRep, d => d.ResolveUsing(src => src.Equipment?.SalesRep))
+                .ForMember(x => x.ConcludedAgreement, d => d.ResolveUsing(src => src.SalesRepRole?.ConcludedAgreement))
+                .ForMember(x => x.IniatedContract, d => d.ResolveUsing(src => src.SalesRepRole?.InitiatedContact))
+                .ForMember(x => x.NegotiatedAgreement, d => d.ResolveUsing(src => src.SalesRepRole?.NegotiatedAgreement));
 
             cfg.CreateMap<AddressDTO, AddressInformation>()
                 .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))
