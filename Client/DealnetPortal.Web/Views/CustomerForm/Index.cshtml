@@ -626,7 +626,11 @@
 @section scripts
 {
     <script>
-        window.config = { reCaptchaKey: '@(System.Configuration.ConfigurationManager.AppSettings["ReCaptchaKey"])', reCaptchaEnabled: @(reCaptchaEnabled ? "true" : "false") }
+        window.config = {
+            reCaptchaKey: '@(System.Configuration.ConfigurationManager.AppSettings["ReCaptchaKey"])',
+            reCaptchaEnabled: @(reCaptchaEnabled ? "true" : "false") ,
+            verifyRecaptchaUrl: '@Url.Action("Index", "VerifyRecaptcha")'
+            }
     </script>
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/customer-form")

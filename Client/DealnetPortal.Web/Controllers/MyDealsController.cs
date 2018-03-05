@@ -216,7 +216,7 @@ namespace DealnetPortal.Web.Controllers
                 }
                 return GetSuccessJson();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return GetErrorJson();
             }
