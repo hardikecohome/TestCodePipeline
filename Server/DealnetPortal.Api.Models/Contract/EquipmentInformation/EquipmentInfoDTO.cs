@@ -33,12 +33,6 @@ namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
 
         public string SalesRep { get; set; }
 
-        public bool? InitiatedContact { get; set; }
-
-        public bool? NegotiatedAgreement { get; set; }
-
-        public bool? ConcludedAgreement { get; set; }
-
         public DateTime? PreferredStartDate { get; set; }
         public string Notes { get; set; }
 
