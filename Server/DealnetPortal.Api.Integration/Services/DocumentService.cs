@@ -2296,7 +2296,7 @@ namespace DealnetPortal.Api.Integration.Services
                 });
             }
 
-            if (contract?.SalesRepRole?.ConcludedAgreement == true)
+            if (contract?.SalesRepInfo?.ConcludedAgreement == true)
             {
                 formFields.Add(new FormField()
                 {
@@ -2305,7 +2305,7 @@ namespace DealnetPortal.Api.Integration.Services
                     Value = "true"
                 });
             }
-            if (contract?.SalesRepRole?.NegotiatedAgreement == true)
+            if (contract?.SalesRepInfo?.NegotiatedAgreement == true)
             {
                 formFields.Add(new FormField()
                 {
@@ -2314,7 +2314,7 @@ namespace DealnetPortal.Api.Integration.Services
                     Value = "true"
                 });
             }
-            if (contract?.SalesRepRole?.InitiatedContact == true)
+            if (contract?.SalesRepInfo?.InitiatedContact == true)
             {
                 formFields.Add(new FormField()
                 {

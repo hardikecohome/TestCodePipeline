@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Api.Models.Contract
 {
-    public class ContractSalesRepRoleDTO
+    public class ContractSalesRepInfoDTO
     {
         public bool InitiatedContact { get; set; }
 

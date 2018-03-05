@@ -259,7 +259,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.IsCustomRateCard, s => s.ResolveUsing(d => d.SelectedRateCardId == null))
                 .ForMember(x => x.DeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.LoanDeferralType.ConvertTo<DeferralType>() : src.RentalDeferralType.ConvertTo<DeferralType>()));
 
-            cfg.CreateMap<SalesRepInformation, ContractSalesRepRoleDTO>()
+            cfg.CreateMap<SalesRepInformation, ContractSalesRepInfoDTO>()
                 .ForMember(x => x.InitiatedContact, s => s.MapFrom(d => d.IniatedContract))
                 .ForMember(x => x.NegotiatedAgreement, s => s.MapFrom(d => d.NegotiatedAgreement))
                 .ForMember(x => x.ConcludedAgreement, s => s.MapFrom(d => d.ConcludedAgreement));
@@ -653,9 +653,9 @@ namespace DealnetPortal.Web.App_Start
 
             cfg.CreateMap<ContractDTO, SalesRepInformation>()
                 .ForMember(x => x.SalesRep, d => d.ResolveUsing(src => src.Equipment?.SalesRep))
-                .ForMember(x => x.ConcludedAgreement, d => d.ResolveUsing(src => src.SalesRepRole?.ConcludedAgreement))
-                .ForMember(x => x.IniatedContract, d => d.ResolveUsing(src => src.SalesRepRole?.InitiatedContact))
-                .ForMember(x => x.NegotiatedAgreement, d => d.ResolveUsing(src => src.SalesRepRole?.NegotiatedAgreement));
+                .ForMember(x => x.ConcludedAgreement, d => d.ResolveUsing(src => src.SalesRepInfo?.ConcludedAgreement))
+                .ForMember(x => x.IniatedContract, d => d.ResolveUsing(src => src.SalesRepInfo?.InitiatedContact))
+                .ForMember(x => x.NegotiatedAgreement, d => d.ResolveUsing(src => src.SalesRepInfo?.NegotiatedAgreement));
 
             cfg.CreateMap<AddressDTO, AddressInformation>()
                 .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))

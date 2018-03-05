@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Domain
 {
-    public class ContractSalesRepRole
+    public class ContractSalesRepInfo
     {
         [ForeignKey("Contract")]
         public int Id { get; set; }

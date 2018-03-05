@@ -652,7 +652,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 LeadSource = _leadSource,
                 Equipment = Mapper.Map<EquipmentInfoDTO>(equipmnetInfo),
                 Details = Mapper.Map<ContractDetailsDTO>(equipmnetInfo),
-                SalesRepRole = Mapper.Map<ContractSalesRepRoleDTO>(equipmnetInfo.SalesRepInformation)
+                SalesRepInfo = Mapper.Map<ContractSalesRepInfoDTO>(equipmnetInfo.SalesRepInformation)
             };
 
             var existingEquipment = Mapper.Map<List<ExistingEquipmentDTO>>(equipmnetInfo.ExistingEquipment);
@@ -901,15 +901,15 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
             summary.AdditionalInfo.SalesRepRole = new List<string>();
 
-            if (contract.SalesRepRole?.InitiatedContact == true)
+            if (contract.SalesRepInfo?.InitiatedContact == true)
             {
                 summary.AdditionalInfo.SalesRepRole.Add(Resources.Resources.InitiatedContract);
             }
-            if (contract.SalesRepRole?.NegotiatedAgreement == true)
+            if (contract.SalesRepInfo?.NegotiatedAgreement == true)
             {
                 summary.AdditionalInfo.SalesRepRole.Add(Resources.Resources.NegotiatedAgreement);
             }
-            if (contract.SalesRepRole?.ConcludedAgreement == true)
+            if (contract.SalesRepInfo?.ConcludedAgreement == true)
             {
                 summary.AdditionalInfo.SalesRepRole.Add(Resources.Resources.ConcludedAgreement);
             }

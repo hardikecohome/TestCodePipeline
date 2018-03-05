@@ -42,7 +42,7 @@ namespace DealnetPortal.Api.Models.Contract
 
         public EquipmentInfoDTO Equipment { get; set; }
 
-        public ContractSalesRepRoleDTO SalesRepRole { get; set; }
+        public ContractSalesRepInfoDTO SalesRepInfo { get; set; }
 
         public List<CommentDTO> Comments { get; set; }
         

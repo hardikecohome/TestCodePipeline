@@ -245,7 +245,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.SecondaryCustomers.Select(sc => sc.EmploymentInfo))
                 .Include(c => c.HomeOwners)
                 .Include(c => c.InitialCustomers)
-                .Include(c => c.SalesRepRole)
+                .Include(c => c.SalesRepInfo)
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
@@ -291,7 +291,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.NewEquipment)
                 .Include(c => c.Equipment.InstallationPackages)
                 .Include(c => c.Signers)
-                .Include(c => c.SalesRepRole)
+                .Include(c => c.SalesRepInfo)
                 .AsNoTracking().
                 FirstOrDefault(
                     c =>
@@ -488,12 +488,12 @@ namespace DealnetPortal.DataAccess.Repositories
                         updated = true;
                     }
 
-                    if (contractData.SalesRepRole != null)
+                    if (contractData.SalesRepInfo != null)
                     {
-                        var salesRepRole = contractData.SalesRepRole;
+                        var salesRepRole = contractData.SalesRepInfo;
                         salesRepRole.Id = contract.Id;
                         salesRepRole.Contract = contract;
-                        _dbContext.ContractSalesRepRoles.AddOrUpdate(salesRepRole);
+                        _dbContext.ContractSalesRepInfoes.AddOrUpdate(salesRepRole);
                         updated = true;
                     }
 

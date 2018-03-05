@@ -63,7 +63,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.IsHomeOwner, d => d.Ignore())
                 .ForMember(x => x.IsInitialCustomer, d => d.Ignore());
             mapperConfig.CreateMap<EmploymentInfo, EmploymentInfoDTO>();
-            mapperConfig.CreateMap<ContractSalesRepRole, ContractSalesRepRoleDTO>();
+            mapperConfig.CreateMap<ContractSalesRepInfo, ContractSalesRepInfoDTO>();
             mapperConfig.CreateMap<PaymentInfo, PaymentInfoDTO>();
             mapperConfig.CreateMap<ContractDetails, ContractDetailsDTO>()                
                 .ForMember(d => d.LocalizedStatus, s => s.ResolveUsing(src => !string.IsNullOrEmpty(src.Status) ? 
@@ -285,7 +285,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.OnCreditReview, s => s.Ignore())
                 .ForMember(d => d.IsNewlyCreated, s => s.Ignore())
                 .ForMember(d => d.Signers, s => s.Ignore())
-                .ForMember(d => d.SalesRepRole, s => s.Ignore());
+                .ForMember(d => d.SalesRepInfo, s => s.Ignore());
 
             mapperConfig.CreateMap<Aspire.Integration.Models.AspireDb.Entity, CustomerDTO>()
                 .ForMember(d => d.Id, s => s.UseValue(0))
@@ -387,7 +387,7 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<ContractDetailsDTO, ContractDetails>();
             mapperConfig.CreateMap<EquipmentTypeDTO, EquipmentType>()
                 .ForMember(x => x.DescriptionResource, d => d.Ignore());
-            mapperConfig.CreateMap<ContractSalesRepRoleDTO, ContractSalesRepRole>()
+            mapperConfig.CreateMap<ContractSalesRepInfoDTO, ContractSalesRepInfo>()
                 .ForMember(x => x.Id, d => d.Ignore())
                 .ForMember(x => x.Contract, d => d.Ignore());
             mapperConfig.CreateMap<EquipmentInfoDTO, EquipmentInfo>()
