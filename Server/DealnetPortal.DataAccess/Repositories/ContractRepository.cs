@@ -245,6 +245,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.SecondaryCustomers.Select(sc => sc.EmploymentInfo))
                 .Include(c => c.HomeOwners)
                 .Include(c => c.InitialCustomers)
+                .Include(c => c.SalesRepInfo)
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
@@ -290,6 +291,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.NewEquipment)
                 .Include(c => c.Equipment.InstallationPackages)
                 .Include(c => c.Signers)
+                .Include(c => c.SalesRepInfo)
                 .AsNoTracking().
                 FirstOrDefault(
                     c =>
@@ -483,6 +485,15 @@ namespace DealnetPortal.DataAccess.Repositories
                     if (contractData.Equipment != null)
                     {
                         AddOrUpdateEquipment(contract, contractData.Equipment);
+                        updated = true;
+                    }
+
+                    if (contractData.SalesRepInfo != null)
+                    {
+                        var salesRepRole = contractData.SalesRepInfo;
+                        salesRepRole.Id = contract.Id;
+                        salesRepRole.Contract = contract;
+                        _dbContext.ContractSalesRepInfoes.AddOrUpdate(salesRepRole);
                         updated = true;
                     }
 
@@ -1161,18 +1172,18 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 dbEquipment.IsClarityProgram = equipmentInfo.IsClarityProgram;
             }
-            if (equipmentInfo.SalesRepConcludedAgreement.HasValue)
-            {
-                dbEquipment.SalesRepConcludedAgreement = equipmentInfo.SalesRepConcludedAgreement;
-            }
-            if (equipmentInfo.SalesRepInitiatedContact.HasValue)
-            {
-                dbEquipment.SalesRepInitiatedContact = equipmentInfo.SalesRepInitiatedContact;
-            }
-            if (equipmentInfo.SalesRepNegotiatedAgreement.HasValue)
-            {
-                dbEquipment.SalesRepNegotiatedAgreement = equipmentInfo.SalesRepNegotiatedAgreement;
-            }
+            //if (equipmentInfo.SalesRepConcludedAgreement.HasValue)
+            //{
+            //    dbEquipment.SalesRepConcludedAgreement = equipmentInfo.SalesRepConcludedAgreement;
+            //}
+            //if (equipmentInfo.SalesRepInitiatedContact.HasValue)
+            //{
+            //    dbEquipment.SalesRepInitiatedContact = equipmentInfo.SalesRepInitiatedContact;
+            //}
+            //if (equipmentInfo.SalesRepNegotiatedAgreement.HasValue)
+            //{
+            //    dbEquipment.SalesRepNegotiatedAgreement = equipmentInfo.SalesRepNegotiatedAgreement;
+            //}
 
             return dbEquipment;
         }

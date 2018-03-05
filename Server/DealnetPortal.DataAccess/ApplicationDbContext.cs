@@ -35,6 +35,7 @@ namespace DealnetPortal.DataAccess
 
         public virtual DbSet<ContractDocument> ContractDocuments { get; set; }
 
+        public virtual DbSet<ContractSalesRepInfo> ContractSalesRepInfoes { get; set; }
         public virtual DbSet<EquipmentInfo> EquipmentInfo { get; set; }
         public virtual DbSet<NewEquipment> NewEquipment { get; set; }
         public virtual DbSet<ExistingEquipment> ExistingEquipment { get; set; }
