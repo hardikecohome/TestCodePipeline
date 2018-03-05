@@ -97,7 +97,9 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<ExistingEquipmentInformation, ExistingEquipmentDTO>()
                 .ForMember(x => x.ResponsibleForRemoval, d => d.ResolveUsing(src => src.ResponsibleForRemoval?.ConvertTo<ResponsibleForRemovalType>()));
             cfg.CreateMap<InstallationPackageInformation, InstallationPackageDTO>();
-            cfg.CreateMap<PaymentInfoViewModel, PaymentInfoDTO>().ForMember(x => x.Id, d => d.Ignore());
+            cfg.CreateMap<PaymentInfoViewModel, PaymentInfoDTO>()
+                .ForMember(x => x.Id, d => d.Ignore())
+                .ForMember(x=>x.PaymentType, d=>d.ResolveUsing(src=>src.PaymentType.ConvertTo<Api.Common.Enumeration.PaymentType>()));
 
             cfg.CreateMap<CommentViewModel, CommentDTO>()
                 .ForMember(x => x.DealerId, d => d.Ignore())
@@ -599,7 +601,8 @@ namespace DealnetPortal.Web.App_Start
             .ForMember(x => x.DocumentName, d => d.ResolveUsing(src => src.DocumentName.Substring(src.DocumentName.IndexOf("_") + 1)))
             .ForMember(x => x.LastUpdateTime, d => d.MapFrom(src => src.CreationDate.TryConvertToLocalUserDate()));
 
-            cfg.CreateMap<PaymentInfoDTO, PaymentInfoViewModel>();
+            cfg.CreateMap<PaymentInfoDTO, PaymentInfoViewModel>()
+                .ForMember(x => x.PaymentType, d => d.ResolveUsing(src => src.PaymentType.ConvertTo<Models.Enumeration.PaymentType>()));
             cfg.CreateMap<CustomerDTO, ContactInfoViewModel>()
                 .ForMember(x => x.CustomerId, d => d.MapFrom(src => src.Id))
                 .ForMember(x => x.BusinessPhone, d => d.ResolveUsing(src =>

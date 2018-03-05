@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Web.Models.Enumeration;
+using ApiEnums = DealnetPortal.Api.Common.Enumeration;
 
 namespace DealnetPortal.Web.Models
 {
@@ -8,7 +9,7 @@ namespace DealnetPortal.Web.Models
         [Display(ResourceType = typeof(Resources.Resources), Name = "PaymentType")]
         public PaymentType PaymentType { get; set; }
         [Display(ResourceType = typeof(Resources.Resources), Name = "PrefferedWithdrawalDateIncorrectFormat")]
-        public WithdrawalDateType PrefferedWithdrawalDate { get; set; }
+        public ApiEnums.WithdrawalDateType PrefferedWithdrawalDate { get; set; }
         [StringLength(20, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
         [RegularExpression(@"^[0-9 ]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "BankNumberIncorrectFormat")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "BlankNumber")]
