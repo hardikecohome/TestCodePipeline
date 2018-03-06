@@ -56,7 +56,10 @@
                 _enableSalesRepSection();
             } else {
                 _disableNewEquipment($(e.target).parents(settings.newEuqipmentClass));
-                _disableSalesRepSection();
+
+                if (!_isBill59EquipmentSelected()) {
+                    _disableSalesRepSection();
+                }
             }
         }
     }
@@ -91,6 +94,10 @@
             }
         }
     };
+
+    function _isBill59EquipmentSelected() {
+        return Object.keys(state.equipments).map(function(k) { return state.equipments[k].type }).some(function (i) { return state.bill59Equipment.indexOf(i) !== -1 });
+    }
 
     function _equipmentInList(id) {
         return state.bill59Equipment.indexOf(id) > -1;

@@ -132,6 +132,7 @@
             }
             if ($('#sales-rep-types').is(':visible')) {
                 if (!$('#sales-rep-types').find('input[type=checkbox]:checked').length) {
+                    event.preventDefault();
                     _toggleSalesRepErrors(true);
                 }
             }

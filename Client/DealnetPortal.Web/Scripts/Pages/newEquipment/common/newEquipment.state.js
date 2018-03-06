@@ -33,11 +33,10 @@
         minimumLoanValue: 1000,
         amortizationValueToDisable : 180,
 		totalAmountFinancedFor180amortTerm: TotalAmtFinancedFor180amortTerm,
-        maxRateCardLoanValue: 50000,
-        enContactTimeList: ['6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM'],
-        frContactTimeList: ['06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00']
+        maxRateCardLoanValue: 50000
     };
 
+    window.state = state;
     return {
         state: state,
         constants: constants
