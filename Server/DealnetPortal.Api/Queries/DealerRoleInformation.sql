@@ -1,9 +1,11 @@
 SELECT 
-	d_type.value as Product_Type,
-	c_type.value as Channel_Type,
-	case when ratecard.value is null then 'Tier 1'  when ratecard.value = 'Rate Card Tier 2' then 'Tier 1' when
-	ratecard.value = 'Rate Card Tier 1' then 'Tier 1'
-	 else ratecard.value end as ratecard,
+DISTINCT
+	COALESCE(parent_d_type.value,d_type.value) as Product_Type,
+	COALESCE(parent_c_type.value,c_type.value) as Channel_Type,
+	
+	case when COALESCE(parent_ratecard.Value, ratecard.value) is null then 'Tier 1'  when COALESCE(parent_ratecard.Value, ratecard.value) = 'Rate Card Tier 2' then 'Tier 1' when
+	COALESCE(parent_ratecard.Value, ratecard.value) = 'Rate Card Tier 1' then 'Tier 1'
+	 else COALESCE(parent_ratecard.Value, ratecard.value) end as ratecard,
 	rol.active,
 	rol.inactive_date,
 	rol.descr as Role,
@@ -23,7 +25,7 @@ INNER JOIN SecurityUser (nolock) sc on sc.oid = e.secu_oid
 LEFT JOIN Location (nolock) as l
     on (e.oid = l.entt_oid and e.loca_oid = l.oid)
 LEFT JOIN Phone (nolock) as main
-    on (e.oid = main.entt_oid and main.phone_type ='M')
+    on (e.oid = main.entt_oid and main.phone_type ='M') 
 LEFT JOIN Phone (nolock) as fax
     on (e.oid = fax.entt_oid and fax.phone_type ='F')
  LEFT JOIN Entity (nolock) as p 	on e.parent_oid = p.oid  
@@ -33,5 +35,9 @@ LEFT JOIN Phone (nolock) as fax
  LEFT JOIN [DocGenAccOtherUDF-Dealer Type] d_type (NOLOCK) ON e.oid = d_type.oid
  LEFT JOIN [DocGenAccOtherUDF-ChannelType] c_type (NOLOCK) ON e.oid = c_type.oid
  LEFT JOIN [DocGenAccOtherUDF-RateCard] ratecard (NOLOCK) ON e.oid = ratecard.oid
+ 
+ LEFT JOIN [DocGenAccOtherUDF-RateCard] parent_ratecard (NOLOCK) ON e.parent_oid = parent_ratecard.oid
+ LEFT JOIN [DocGenAccOtherUDF-Dealer Type] parent_d_type (NOLOCK) ON e.parent_oid = parent_d_type.oid
+ LEFT JOIN [DocGenAccOtherUDF-ChannelType] parent_c_type (NOLOCK) ON e.parent_oid = parent_c_type.oid
  
  where sc.user_id  = '{0}';
