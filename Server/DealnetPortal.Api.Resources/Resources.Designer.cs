@@ -997,7 +997,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Void Cheque or Bank PAP Authorization Letter.
+        ///   Looks up a localized string similar to Void Cheque or Bank PAD Authorization Letter.
         /// </summary>
         public static string ChequeBankPAP {
             get {
@@ -2457,9 +2457,9 @@ namespace DealnetPortal.Api.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Void Cheque Bank PAD Authorization Letter.
         /// </summary>
-        public static string VoidChequeBankPADAuthorizationLetter {
+        public static string VoidChequeBankPAPAuthorizationLetter {
             get {
-                return ResourceManager.GetString("VoidChequeBankPADAuthorizationLetter", resourceCulture);
+                return ResourceManager.GetString("VoidChequeBankPAPAuthorizationLetter", resourceCulture);
             }
         }
         
