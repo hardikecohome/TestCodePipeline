@@ -167,18 +167,20 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 var contractData = Mapper.Map<ContractData>(contract);
+                var lastUpdateTime = _contractRepository.GetContract(contract.Id, contractOwnerId)?.LastUpdateTime;
                 var updatedContract = _contractRepository.UpdateContractData(contractData, contractOwnerId);
                 if (updatedContract != null)
                 {
                     _unitOfWork.Save();
                     _loggingService.LogInfo($"A contract [{contract.Id}] updated");
+                    var contractUpdated = updatedContract.LastUpdateTime > lastUpdateTime || string.IsNullOrEmpty(updatedContract.Details?.TransactionId);
 
-                    if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null)
+                    if (contractUpdated && (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null))
                     {
                         var aspireAlerts = 
                             _aspireService.UpdateContractCustomer(updatedContract, contractOwnerId, contract.LeadSource).GetAwaiter().GetResult();
                     }
-                    if (updatedContract.ContractState != ContractState.Completed &&
+                    if (contractUpdated && updatedContract.ContractState != ContractState.Completed &&
                         updatedContract.ContractState != ContractState.Closed && !updatedContract.DateOfSubmit.HasValue)
                     {
                         var aspireAlerts = 
@@ -196,8 +198,8 @@ namespace DealnetPortal.Api.Integration.Services
                     }
 
                     //check contract signature status and clean if needed
-                    if (updatedContract.Details.SignatureStatus != null || !string.IsNullOrEmpty(updatedContract.Details?.SignatureTransactionId) &&
-                        updatedContract.LastUpdateTime > updatedContract.Details.SignatureInitiatedTime)
+                    if (contractUpdated && (updatedContract.Details.SignatureStatus != null || !string.IsNullOrEmpty(updatedContract.Details?.SignatureTransactionId) &&
+                        updatedContract.LastUpdateTime > updatedContract.Details.SignatureInitiatedTime))
                     {
                         _documentService.CleanSignatureInfo(updatedContract.Id, contractOwnerId);
                     }
@@ -622,7 +624,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             _contractRepository.UpdateCustomerData(c.Id, Mapper.Map<Customer>(c.CustomerInfo),
                                 Mapper.Map<IList<Location>>(c.Locations), Mapper.Map<IList<Phone>>(c.Phones),
-                                Mapper.Map<IList<Email>>(c.Emails));
+                                Mapper.Map<IList<Email>>(c.Emails));                            
                             customersUpdated = true;
                         }
                     });

@@ -450,7 +450,7 @@ namespace DealnetPortal.DataAccess.Repositories
                             { 
                                 contract.ContractState = ContractState.CustomerInfoInputted;
                             }
-                            updated = true;
+                            updated |= _dbContext.Entry(contract.PrimaryCustomer).State != EntityState.Unchanged;
                         }
                     }
 
@@ -461,7 +461,7 @@ namespace DealnetPortal.DataAccess.Repositories
                         {
                             contract.ContractState = ContractState.CustomerInfoInputted;
                         }
-                        updated = true;
+                        updated |= contract.SecondaryCustomers.Any(c => _dbContext.Entry(c).State != EntityState.Unchanged);
                     }
 
                     if (contractData.HomeOwners != null)
@@ -471,32 +471,34 @@ namespace DealnetPortal.DataAccess.Repositories
                         {
                             contract.ContractState = ContractState.CustomerInfoInputted;
                         }
-                        updated = true;
+                        updated |= contract.HomeOwners?.Any(c => _dbContext.Entry(c).State != EntityState.Unchanged) ?? false;
                     }
 
                     if (!contract.WasDeclined.HasValue || contract.WasDeclined == false)
                     {
                         AddOrUpdateInitialCustomers(contract);
-                        updated = true;
+                        updated |= contract.InitialCustomers?.Any(c => _dbContext.Entry(c).State != EntityState.Unchanged) ?? false;
                     }
 
                     if (contractData.Equipment != null)
                     {
                         AddOrUpdateEquipment(contract, contractData.Equipment);
-                        updated = true;
+                        updated |= _dbContext.Entry(contract.Equipment).State != EntityState.Unchanged;
                     }
 
                     if (contractData.Details != null)
                     {
                         AddOrUpdateContactDetails(contract, contractData.Details);
-                        updated = true;
+                        updated |= _dbContext.Entry(contract).State != EntityState.Unchanged;
                     }
 
                     if (contractData.PaymentInfo != null)
                     {
                         AddOrUpdatePaymentInfo(contract, contractData.PaymentInfo);
-                        updated = true;
+                        updated |= _dbContext.Entry(contract.PaymentInfo).State != EntityState.Unchanged;
                     }
+
+                    updated |= _dbContext.Entry(contract).State != EntityState.Unchanged;
 
                     if (updated)
                     {
