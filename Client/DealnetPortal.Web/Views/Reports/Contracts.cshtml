@@ -3,7 +3,7 @@
 @using System.Linq
 @using DealnetPortal.Api.Common.Helpers
 @using DealnetPortal.Web.Models.Enumeration
-@using ApiEnums = DealnetPortal.Api.Common.Enumeration
+
 @model System.Collections.Generic.IList<DealnetPortal.Web.Models.ContractViewModel>
 
 @{
@@ -1557,7 +1557,7 @@
                                     </div>
                                     @switch(contract.ContactAndPaymentInfo.PaymentInfo.PaymentType)
                                     {
-                                        case ApiEnums.PaymentType.Enbridge:
+                                        case PaymentType.Enbridge:
                                             <div class="form-group">
                                                 <div class="row">
                                                     @Html.LabelFor(m => contract.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new { @class = "dealnet-field-caption col-xs-6" })
@@ -1579,7 +1579,7 @@
                                                 </div>
                                             </div>
                                             break;
-                                        case ApiEnums.PaymentType.Pap:
+                                        case PaymentType.Pap:
                                             <div class="form-group">
                                                 <div class="row">
                                                     @Html.LabelFor(m => contract.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new { @class = "dealnet-field-caption col-xs-6" })
