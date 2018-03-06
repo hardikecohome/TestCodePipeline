@@ -12,7 +12,7 @@ namespace DealnetPortal.Domain
         [ForeignKey("Contract")]
         public int Id { get; set; }
         public Contract Contract { get; set; }
-
+        
         public bool InitiatedContact { get; set; }
 
         public bool NegotiatedAgreement { get; set; }
