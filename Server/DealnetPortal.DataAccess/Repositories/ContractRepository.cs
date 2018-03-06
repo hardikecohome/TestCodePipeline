@@ -493,8 +493,8 @@ namespace DealnetPortal.DataAccess.Repositories
                         var salesRepRole = contractData.SalesRepInfo;
                         salesRepRole.Id = contract.Id;
                         salesRepRole.Contract = contract;
-                        _dbContext.ContractSalesRepInfoes.AddOrUpdate(salesRepRole);
-                        updated = true;
+                        _dbContext.ContractSalesRepInfoes.AddOrUpdate(salesRepRole);                        
+                        updated |= _dbContext.Entry(contract.SalesRepInfo).State != EntityState.Unchanged;
                     }
 
                     if (contractData.Details != null)
