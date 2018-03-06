@@ -2455,6 +2455,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Void Cheque Bank PAD Authorization Letter.
+        /// </summary>
+        public static string VoidChequeBankPADAuthorizationLetter {
+            get {
+                return ResourceManager.GetString("VoidChequeBankPADAuthorizationLetter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copy of Void Personal Cheque.
         /// </summary>
         public static string VoidPersonalChequeCopy {
