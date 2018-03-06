@@ -446,32 +446,37 @@ namespace DealnetPortal.DataAccess.Repositories
                         if (homeOwner != null)
                         {
                             contract.PrimaryCustomer = homeOwner;
-                            if (contract.ContractState != ContractState.Completed && contract.ContractState != ContractState.Closed)
+                            var userUpdated = _dbContext.Entry(contract.PrimaryCustomer).State != EntityState.Unchanged;
+                            if (userUpdated && contract.ContractState != ContractState.Completed && contract.ContractState != ContractState.Closed)
                             { 
                                 contract.ContractState = ContractState.CustomerInfoInputted;
                             }
-                            updated |= _dbContext.Entry(contract.PrimaryCustomer).State != EntityState.Unchanged;
+                            updated |= userUpdated;
                         }
                     }
 
                     if (contractData.SecondaryCustomers != null)
                     {
                         AddOrUpdateAdditionalApplicants(contract, contractData.SecondaryCustomers);
-                        if (contract.ContractState != ContractState.Completed && contract.ContractState != ContractState.Closed)
+                        var usersUpdated =
+                            contract.SecondaryCustomers.Any(c => _dbContext.Entry(c).State != EntityState.Unchanged);
+                        if (usersUpdated && contract.ContractState != ContractState.Completed && contract.ContractState != ContractState.Closed)
                         {
                             contract.ContractState = ContractState.CustomerInfoInputted;
                         }
-                        updated |= contract.SecondaryCustomers.Any(c => _dbContext.Entry(c).State != EntityState.Unchanged);
+                        updated |= usersUpdated;
                     }
 
                     if (contractData.HomeOwners != null)
                     {
                         AddOrUpdateHomeOwners(contract, contractData.HomeOwners);
-                        if (contract.ContractState != ContractState.Completed && contract.ContractState != ContractState.Closed)
+                        var usersUpdated =
+                            contract.HomeOwners?.Any(c => _dbContext.Entry(c).State != EntityState.Unchanged) ?? false;
+                        if (usersUpdated && contract.ContractState != ContractState.Completed && contract.ContractState != ContractState.Closed)
                         {
                             contract.ContractState = ContractState.CustomerInfoInputted;
                         }
-                        updated |= contract.HomeOwners?.Any(c => _dbContext.Entry(c).State != EntityState.Unchanged) ?? false;
+                        updated |= usersUpdated;
                     }
 
                     if (!contract.WasDeclined.HasValue || contract.WasDeclined == false)
@@ -1523,8 +1528,6 @@ namespace DealnetPortal.DataAccess.Repositories
                     contract.SecondaryCustomers.Add(customer);
                 }
             });
-
-            contract.LastUpdateTime = DateTime.UtcNow;
 
             return true;
         }
