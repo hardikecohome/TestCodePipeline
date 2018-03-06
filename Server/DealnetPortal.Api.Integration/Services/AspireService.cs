@@ -1922,6 +1922,36 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = contract.Equipment.SalesRep
                     });
                 }
+                if (contract.SalesRepInfo != null)
+                {
+                    var roles = new List<string>();
+                    if (contract.SalesRepInfo.ConcludedAgreement)
+                    {
+                        roles.Add("Concluded Agreement");
+                    }
+                    if (contract.SalesRepInfo.InitiatedContact)
+                    {
+                        roles.Add("Initiated Contact");
+                    }
+                    if (contract.SalesRepInfo.NegotiatedAgreement)
+                    {
+                        roles.Add("Negotiated Agreement");
+                    }
+                    var rolesStr = string.Join(", ", roles);
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.DealerSalesRepRoles,
+                        Value = !string.IsNullOrEmpty(rolesStr) ? rolesStr : BlankValue
+                    });
+                }
+                else
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.DealerSalesRepRoles,
+                        Value = BlankValue
+                    });
+                }
                 if (contract.Equipment.EstimatedInstallationDate.HasValue)
                 {
                     udfList.Add(new UDF()

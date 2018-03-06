@@ -46,12 +46,15 @@
 
         public static string CustomerType = "Customer Type";
 
+        public static string RelationshipToCustomer = "Relationship to customer";
+
         public static string DeferralType = "Deferral Type";
         public static string RequestedTerm = "Requested Term";
         public static string AmortizationTerm = "Amortization Term";
         public static string TermType = "Term Type";
 
         public static string DealerSalesRep = "Dealer Sales Rep";
+        public static string DealerSalesRepRoles = "Dealer Sales Rep Roles";        
         public static string LeadSource = "LeadSource";
         public static string CustomerLeadSource = "Lead Source";
 
