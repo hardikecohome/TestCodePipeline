@@ -958,6 +958,7 @@ namespace DealnetPortal.Api.Integration.Services
             var alerts = new List<Alert>();
             var agreementType = contract.Equipment.AgreementType;
             var equipmentType = contract.Equipment.NewEquipment?.First()?.Type;
+            var equipmentTypes = contract.Equipment.NewEquipment?.Select(ne => ne.Type).ToList() ?? new List<string>();
             var culture = CultureHelper.GetCurrentNeutralCulture();
 
             var province =
@@ -1012,15 +1013,15 @@ namespace DealnetPortal.Api.Integration.Services
                 var agreementTemplates = dealerTemplates.Where(at =>
                     ((agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
                     && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
-                    && (string.IsNullOrEmpty(equipmentType) || (at.EquipmentType?.Split(' ', ',').Contains(equipmentType) ?? false))).ToList();
+                    && (!equipmentTypes.Any() || (at.EquipmentType?.Split(' ', ',').Any(et => equipmentTypes.Contains(et)) ?? false))).ToList();
 
                 if (!agreementTemplates.Any())
                 {
                     agreementTemplates = dealerTemplates.Where(at =>
                         (!at.AgreementType.HasValue || (agreementType == at.AgreementType) || (at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
                         && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
-                        && (string.IsNullOrEmpty(equipmentType) ||
-                            (at.EquipmentType?.Split(' ', ',').Contains(equipmentType) ?? false))).ToList();
+                        && (!equipmentTypes.Any() ||
+                            (at.EquipmentType?.Split(' ', ',').Any(et => equipmentTypes.Contains(et)) ?? false))).ToList();
                 }
 
                 if (!agreementTemplates.Any())
