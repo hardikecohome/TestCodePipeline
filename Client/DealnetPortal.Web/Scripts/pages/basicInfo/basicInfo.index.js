@@ -195,8 +195,8 @@
             });
             return false;
         });
-        $('#owner-scan-button').click(function (e) {
-            ga('send', 'event', 'Scan License', 'button_click', 'DrivingLicense', '100');
+		$('#owner-scan-button').click(function (e) {
+			gtag('event', 'Scan License', { 'event_category': 'Scan License', 'event_action': 'button_click', 'event_label': 'DrivingLicense' });
             if (!(isMobileRequest || typeof isMobileRequest === 'string' && isMobileRequest.toLowerCase() === 'true')) {
                 e.preventDefault();
                 var modal = document.getElementById('camera-modal');
