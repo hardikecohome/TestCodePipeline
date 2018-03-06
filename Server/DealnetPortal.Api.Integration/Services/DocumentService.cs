@@ -1921,14 +1921,14 @@ namespace DealnetPortal.Api.Integration.Services
                 var estimatedInstallationDate = contract.Equipment.EstimatedInstallationDate ??
                                                 newEquipments.First()?.EstimatedInstallationDate;
                 if (estimatedInstallationDate.HasValue)
-                {                    
+                {
+                    var cultureInfo = CultureInfo.GetCultureInfo(CultureHelper.GetCurrentCulture());
                     formFields.Add(new FormField()
                     {
                         FieldType = FieldType.Text,
                         Name = PdfFormFields.InstallDate,
-                        Value = estimatedInstallationDate.Value.Hour != 0 ? estimatedInstallationDate.Value.ToString("MM/dd/yyyy Htt", CultureInfo.InvariantCulture) 
-                            : estimatedInstallationDate.Value.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
-
+                        Value = estimatedInstallationDate.Value.Hour > 0 ? estimatedInstallationDate.Value.ToString("g", cultureInfo)
+                            : estimatedInstallationDate.Value.ToString("d", cultureInfo)                        
                     });
                 }
 
