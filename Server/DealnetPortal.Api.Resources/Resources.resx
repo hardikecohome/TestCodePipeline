@@ -973,4 +973,7 @@
   <data name="_CVCWaitingtoFund" xml:space="preserve">
     <value>CVC Waiting to Fund</value>
   </data>
+  <data name="VoidChequeBankPADAuthorizationLetter" xml:space="preserve">
+    <value>Void Cheque Bank PAD Authorization Letter</value>
+  </data>
 </root>

@@ -298,9 +298,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             Application = application
                         }
-                    };
-
-                    XmlSerializerHelper.SerializeToFile(request, $"d:\\Tests\\SubmitDeal_{contract.Details?.TransactionId}.xml");
+                    };                                                                 
 
                     var sendResult = await DoAspireRequestWithAnalyze(_aspireServiceAgent.DealUploadSubmission,
                         request, (r, c) => AnalyzeResponse(r, c), contract,

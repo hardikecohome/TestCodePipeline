@@ -2593,4 +2593,7 @@ changing contract terms or signing contract on paper.</value>
   <data name="RelationshipToMainBorrowerIncorrectFormat" xml:space="preserve">
     <value>Relationship to Main Borrower is in incorrect format</value>
   </data>
+  <data name="VoidChequeBankPADAuthorizationLetter" xml:space="preserve">
+    <value>Void Cheque Bank PAD Authorization Letter</value>
+  </data>
 </root>
