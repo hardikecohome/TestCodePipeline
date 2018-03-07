@@ -3,13 +3,13 @@
 @model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
 
 @{
-    var enSelectList = new [] {"6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM"};
-    var frSelectList = new[] {"06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"};
+    var enSelectList = new[] { "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM" };
+    var frSelectList = new[] { "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00" };
     var culture = Request.Cookies[PortalConstants.CultureCookieName]?.Value;
     var options = new List<SelectListItem>();
-    for (int i = 0; i < frSelectList.Length; i++)
+    for(int i = 0; i < frSelectList.Length; i++)
     {
-        options.Add(new SelectListItem{ Value = frSelectList[i].Replace(":", ""), Text = culture == "en" ? enSelectList[i] : frSelectList[i] });
+        options.Add(new SelectListItem { Value = frSelectList[i].Replace(":", ""), Text = culture == "en" ? enSelectList[i] : frSelectList[i] });
     }
 
 }
@@ -27,7 +27,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                @Html.LabelFor(m => m.SalesRepInformation.SalesRep, new { @class="visible-sm visible-xs" })
+                @Html.LabelFor(m => m.SalesRepInformation.SalesRep, new { @class = "visible-sm visible-xs" })
                 <div class="control-group">
                     @Html.TextBoxFor(m => m.SalesRepInformation.SalesRep, new { @class = "form-control dealnet-input", placeholder = Resources.SalesRep })
                     @Html.ValidationMessageFor(m => m.SalesRepInformation.SalesRep, "", new { @class = "text-danger" })
@@ -37,7 +37,7 @@
         <div class="col-md-6 hidden" id="sales-rep-types">
             <div class="form-group">
                 <label class="align-middle custom-checkbox">
-                    @Html.CheckBox("initiated-contract-checkbox", @Model.SalesRepInformation.IniatedContract ? (object)new { id = "initiated-contract-checkbox", @checked = "true", value=true } : new { id = "initiated-contract-checkbox", value=false })
+                    @Html.CheckBox("initiated-contract-checkbox", @Model.SalesRepInformation.IniatedContract ?? false ? (object)new { id = "initiated-contract-checkbox", @checked = "true", value = true } : new { id = "initiated-contract-checkbox", value = false })
                     <span class="checkbox-icon">
                         <svg aria-hidden="true" class="icon icon-checked">
                             <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
@@ -48,7 +48,7 @@
             </div>
             <div class="form-group">
                 <label class="align-middle custom-checkbox">
-                    @Html.CheckBox("negotiated-contract-checkbox", Model.SalesRepInformation.NegotiatedAgreement ? (object)new { id = "negotiated-contract-checkbox", @checked = "true", value=true } : new { id = "negotiated-contract-checkbox", value = false })
+                    @Html.CheckBox("negotiated-contract-checkbox", Model.SalesRepInformation.NegotiatedAgreement ?? false ? (object)new { id = "negotiated-contract-checkbox", @checked = "true", value = true } : new { id = "negotiated-contract-checkbox", value = false })
                     <span class="checkbox-icon">
                         <svg aria-hidden="true" class="icon icon-checked">
                             <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
@@ -59,7 +59,7 @@
             </div>
             <div class="form-group">
                 <label class="align-middle custom-checkbox">
-                    @Html.CheckBox("concluded-contract-checkbox", Model.SalesRepInformation.ConcludedAgreement ? (object)new { id = "concluded-contract-checkbox", @checked = "true", value = true } : new { id = "concluded-contract-checkbox" })
+                    @Html.CheckBox("concluded-contract-checkbox", Model.SalesRepInformation.ConcludedAgreement ?? false ? (object)new { id = "concluded-contract-checkbox", @checked = "true", value = true } : new { id = "concluded-contract-checkbox" })
                     <span class="checkbox-icon">
                         <svg aria-hidden="true" class="icon icon-checked">
                             <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
@@ -114,7 +114,7 @@
     <div class="equipment-editable-section">
         <div id="existing-equipments">
             <h3 class="dealnet-middle-header">@Resources.ExistingEquipmentInformation</h3>
-            @if (Model?.ExistingEquipment != null)
+            @if(Model?.ExistingEquipment != null)
             {
                 @Html.Partial("EquipmentInformation/_ExistingEquipments", Model)
             }

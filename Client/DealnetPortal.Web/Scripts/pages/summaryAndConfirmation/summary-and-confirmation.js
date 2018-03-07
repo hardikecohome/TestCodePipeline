@@ -57,21 +57,18 @@
         $('#edit-existing-equipment-submit').on('click', function () {
             var url = this.dataset['url'];
             var modal = $('#existing-equipment-section-modal')
-            if (saveChanges(modal,
-                    $('#existing-equipment-section'),
-                    url, $('#existing-equipment-form'))) {
+            if (saveChanges(modal, $('#existing-equipment-section'), url, $('#existing-equipment-form'))) {
                 $('#existing-equipment-modal').modal('hide');
-                if (modal.find('.responsible-input').val() == "3") {
-                    var htmlId = modal.find('.responsible-input').attr('id');
-                    var id = htmlId.split('-')[1];
-                    $('#other-display-' + id).removeClass('hidden');
+                var input = modal.find('.responsible-input');
+                var id = input.attr('id').split('-')[1];
+                debugger
+                if (input.val() !== "3") {
+                    $('#responsible-display-' + id).val(input.find(':selected').text());
                 } else {
-                    var htmlId = modal.find('.responsible-input').attr('id');
-                    var id = htmlId.split('-')[1];
-                    $('#other-display-' + id).addClass('hidden');
+                    $('#responsible-display-' + id).val(modal.find('.other-input').val());
                 }
             }
-        })
+        });
 
         ga('send', 'event', 'Summary And Confirmation', 'button_click', 'Step 5 from Dealer Portal', '100');
     });
