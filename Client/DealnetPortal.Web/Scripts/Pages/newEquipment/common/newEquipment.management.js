@@ -47,27 +47,7 @@
 
         // equipment handlers
         newTemplate.find('.equipment-cost').on('change', updateCost);
-        newTemplate.find('#addequipment-remove-' + id).on('click', function () {
-            var options = {
-                name: 'equipments',
-                equipmentIdPattern: 'new-equipment-',
-                equipmentName: 'NewEquipment',
-                equipmentRemovePattern: 'addequipment-remove-'
-            };
-            conversion.removeItem.call(this, options);
-
-            if (state.agreementType !== 3) {
-                if (state.agreementType === 1 || state.agreementType === 2) {
-                    settings.recalculateAndRenderRentalValues();
-                } else {
-                    settings.recalculateValuesAndRender();
-                }
-            } else {
-                settings.recalculateClarityValuesAndRender();
-            }
-
-            $('.add-equip-link').removeClass("hidden");
-        });
+        newTemplate.find('#addequipment-remove-' + id).on('click', _initRemoveNewEquipment(id));
 
         newTemplate.find('.monthly-cost')
             .on('change', updateMonthlyCost);
@@ -223,27 +203,7 @@
         customizeSelect();
         //if not first equipment add handler (first equipment should always be visible)
         if (i > 0) {
-            $('#addequipment-remove-' + i).on('click', function () {
-                var options = {
-                    name: 'equipments',
-                    equipmentIdPattern: 'new-equipment-',
-                    equipmentName: 'NewEquipment',
-                    equipmentRemovePattern: 'addequipment-remove-'
-                };
-                conversion.removeItem.call(this, options);
-
-                if (state.agreementType !== 3) {
-                    if (state.agreementType === 1 || state.agreementType === 2) {
-                        settings.recalculateAndRenderRentalValues();
-                    } else {
-                        settings.recalculateValuesAndRender();
-                    }
-                } else {
-                    settings.recalculateClarityValuesAndRender();
-                }
-                $('.add-equip-link').removeClass("hidden");
-
-            });
+            $('#addequipment-remove-' + i).on('click', _initRemoveNewEquipment(i));
         }
         if (i === 2) {
             $('.add-equip-link').addClass("hidden");
@@ -342,6 +302,30 @@
         var mvcId = $this.attr("id");
         var id = mvcId.split('__EstimatedRetailCost')[0].substr(mvcId.split('__EstimatedRetailCost')[0].lastIndexOf('_') + 1);
         state.equipments[id].estimatedRetail = Globalize.parseNumber($this.val());
+    }
+
+    function _initRemoveNewEquipment(i) {
+        return function removeNewEquipment() {
+            var options = {
+                name: 'equipments',
+                equipmentIdPattern: 'new-equipment-',
+                equipmentName: 'NewEquipment',
+                equipmentRemovePattern: 'addequipment-remove-'
+            };
+            conversion.removeItem.call(this, options);
+
+            if (state.agreementType !== 3) {
+                if (state.agreementType === 1 || state.agreementType === 2) {
+                    settings.recalculateAndRenderRentalValues();
+                } else {
+                    settings.recalculateValuesAndRender();
+                }
+            } else {
+                settings.recalculateClarityValuesAndRender();
+            }
+            $('.add-equip-link').removeClass("hidden");
+            !state.isClarity && require('bill59').onDeleteEquipment();
+        }
     }
 
     function _initExistingEquipment() {

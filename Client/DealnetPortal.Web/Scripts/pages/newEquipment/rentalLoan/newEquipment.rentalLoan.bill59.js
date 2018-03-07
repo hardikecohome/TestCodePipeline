@@ -78,6 +78,13 @@
         }
     };
 
+    var onDeleteEquipment = function () {
+        if (!_isBill59EquipmentSelected()) {
+            _disableSalesRepSection();
+            _disableExistingEquipment();
+        }
+    };
+
     var enableExistingEquipment = function () {
         if (state.isOntario && state.agreementType !== 0) {
             if (_equipmentInListSelected()) {
@@ -96,14 +103,20 @@
     };
 
     function _isBill59EquipmentSelected() {
-        return Object.keys(state.equipments).map(function(k) { return state.equipments[k].type }).some(function (i) { return state.bill59Equipment.indexOf(i) !== -1 });
+        return Object.keys(state.equipments)
+            .map(function (k) {
+                return state.equipments[k].type
+            })
+            .some(function (i) {
+                return state.bill59Equipment.indexOf(i) !== -1
+            });
     }
 
     function _equipmentInList(id) {
         return state.bill59Equipment.indexOf(id) > -1;
     };
 
-    function _equipmentInListSelected () {
+    function _equipmentInListSelected() {
         return Object.keys(state.equipments)
             .map(idToValue(state.equipments))
             .map(function (item) {
@@ -113,7 +126,7 @@
             }, false);
     };
 
-    function _enableNewEquipment (row) {
+    function _enableNewEquipment(row) {
         var $row = $(row);
         $row.find(settings.descriptionColClass).removeClass('col-md-6').addClass('col-md-5');
         $row.find(settings.monthlyColClass).removeClass('col-md-3').addClass('col-md-2');
@@ -176,6 +189,7 @@
         disableForAll: disableForAll,
         onEquipmentChange: onEquipmentChange,
         onResposibilityChange: onResposibilityChange,
-        enableExistingEquipment: enableExistingEquipment
+        enableExistingEquipment: enableExistingEquipment,
+        onDeleteEquipment: onDeleteEquipment
     };
 });
