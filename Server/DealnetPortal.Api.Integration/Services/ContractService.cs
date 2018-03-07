@@ -186,7 +186,7 @@ namespace DealnetPortal.Api.Integration.Services
                         var aspireAlerts = 
                             _aspireService.SendDealUDFs(updatedContract, contractOwnerId, contract.LeadSource, contractor).GetAwaiter().GetResult();
                     }
-                    else if (contractUpdated && updatedContract.ContractState == ContractState.Completed || updatedContract.DateOfSubmit.HasValue)
+                    else if (contractUpdated && (updatedContract.ContractState == ContractState.Completed || updatedContract.DateOfSubmit.HasValue))
                     {
                         //if Contract has been submitted already, we will resubmit it to Aspire after each contract changes 
                         //(DEAL-3628: [DP] Submit deal after each step when editing previously submitted deal)
