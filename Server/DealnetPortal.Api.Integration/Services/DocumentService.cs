@@ -958,6 +958,7 @@ namespace DealnetPortal.Api.Integration.Services
             var alerts = new List<Alert>();
             var agreementType = contract.Equipment.AgreementType;
             var equipmentType = contract.Equipment.NewEquipment?.First()?.Type;
+            var equipmentTypes = contract.Equipment.NewEquipment?.Select(ne => ne.Type).ToList() ?? new List<string>();
             var culture = CultureHelper.GetCurrentNeutralCulture();
 
             var province =
@@ -1012,15 +1013,15 @@ namespace DealnetPortal.Api.Integration.Services
                 var agreementTemplates = dealerTemplates.Where(at =>
                     ((agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
                     && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
-                    && (string.IsNullOrEmpty(equipmentType) || (at.EquipmentType?.Split(' ', ',').Contains(equipmentType) ?? false))).ToList();
+                    && (!equipmentTypes.Any() || (at.EquipmentType?.Split(' ', ',').Any(et => equipmentTypes.Contains(et)) ?? false))).ToList();
 
                 if (!agreementTemplates.Any())
                 {
                     agreementTemplates = dealerTemplates.Where(at =>
                         (!at.AgreementType.HasValue || (agreementType == at.AgreementType) || (at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
                         && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
-                        && (string.IsNullOrEmpty(equipmentType) ||
-                            (at.EquipmentType?.Split(' ', ',').Contains(equipmentType) ?? false))).ToList();
+                        && (!equipmentTypes.Any() ||
+                            (at.EquipmentType?.Split(' ', ',').Any(et => equipmentTypes.Contains(et)) ?? false))).ToList();
                 }
 
                 if (!agreementTemplates.Any())
@@ -1921,14 +1922,14 @@ namespace DealnetPortal.Api.Integration.Services
                 var estimatedInstallationDate = contract.Equipment.EstimatedInstallationDate ??
                                                 newEquipments.First()?.EstimatedInstallationDate;
                 if (estimatedInstallationDate.HasValue)
-                {                    
+                {
+                    var cultureInfo = CultureInfo.GetCultureInfo(CultureHelper.GetCurrentCulture());
                     formFields.Add(new FormField()
                     {
                         FieldType = FieldType.Text,
                         Name = PdfFormFields.InstallDate,
-                        Value = estimatedInstallationDate.Value.Hour != 0 ? estimatedInstallationDate.Value.ToString("MM/dd/yyyy Htt", CultureInfo.InvariantCulture) 
-                            : estimatedInstallationDate.Value.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
-
+                        Value = estimatedInstallationDate.Value.Hour > 0 ? estimatedInstallationDate.Value.ToString("g", cultureInfo)
+                            : estimatedInstallationDate.Value.ToString("d", cultureInfo)                        
                     });
                 }
 
