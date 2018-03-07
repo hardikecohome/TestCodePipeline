@@ -481,7 +481,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }        
 
-        public async Task<Tuple<SignatureSummaryDTO, IList<Alert>>> CancelSignatureProcess(int contractId, string ownerUserId)
+        public async Task<Tuple<SignatureSummaryDTO, IList<Alert>>> CancelSignatureProcess(int contractId, string ownerUserId, string cancelReason = null)
         {
             List<Alert> alerts = new List<Alert>();
             SignatureSummaryDTO summary = null;
@@ -496,7 +496,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                 if (alerts.All(a => a.Type != AlertType.Error))
                 {
-                    var cancelRes = await _signatureEngine.CancelSignature().ConfigureAwait(false);
+                    var cancelRes = await _signatureEngine.CancelSignature(cancelReason).ConfigureAwait(false);
                     alerts.AddRange(cancelRes);
                 }
                 if (alerts.All(a => a.Type != AlertType.Error))
