@@ -27,7 +27,7 @@ namespace DealnetPortal.Api.Integration.Interfaces
         /// <param name="contractId">Id of a contract</param>
         /// <param name="ownerUserId">dealer Id</param>
         /// <returns>Summary about canceled signature process</returns>
-        Task<Tuple<SignatureSummaryDTO, IList<Alert>>> CancelSignatureProcess(int contractId, string ownerUserId);
+        Task<Tuple<SignatureSummaryDTO, IList<Alert>>> CancelSignatureProcess(int contractId, string ownerUserId, string cancelReason = null);
         /// <summary>
         /// Clean all signature information related to a contract
         /// </summary>
