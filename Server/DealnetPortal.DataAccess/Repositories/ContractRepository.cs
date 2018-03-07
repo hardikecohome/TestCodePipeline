@@ -1344,6 +1344,7 @@ namespace DealnetPortal.DataAccess.Repositories
             updated = entriesForDelete.Any();
             entriesForDelete.ForEach(e => _dbContext.Entry(e).State = EntityState.Deleted);
 
+            //we don't track Notifications mail changes here
             emails.ForEach(email =>
             {
                 var curEmail =
@@ -1352,12 +1353,12 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     email.Customer = customer;
                     customer.Emails.Add(email);
-                    updated = true;
+                    updated = email.EmailType != EmailType.Notification;
                 }
                 else
                 {
                     curEmail.EmailAddress = email.EmailAddress;                    
-                    updated |= _dbContext.Entry(curEmail).State != EntityState.Unchanged;
+                    updated |= _dbContext.Entry(curEmail).State != EntityState.Unchanged && curEmail.EmailType != EmailType.Notification;
                 }                
             });
 
