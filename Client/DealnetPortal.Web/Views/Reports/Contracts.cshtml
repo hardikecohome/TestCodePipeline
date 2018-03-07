@@ -169,7 +169,7 @@
                                     <label class="dealnet-field-caption col-xs-6">@Resources.TotalValue</label>
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
-                                            $ @($"{(contract.EquipmentInfo ==null?0: contract.EquipmentInfo.AgreementType == AgreementType.LoanApplication ? contract.EquipmentInfo.ValueOfDeal : (double)contract.PaymentSummary.TotalMonthlyPayment):0.00}")
+                                            $ @($"{(contract.EquipmentInfo == null ? 0 : contract.EquipmentInfo.AgreementType == AgreementType.LoanApplication ? contract.EquipmentInfo.ValueOfDeal : (double)contract.PaymentSummary.TotalMonthlyPayment):0.00}")
                                         </div>
                                     </div>
                                 </div>
@@ -1372,7 +1372,10 @@
                                 <div class="dealnet-credit-check-section">
                                     <div class="form-group">
                                         <div class="row">
-                                            @Html.LabelFor(m => contract.EquipmentInfo.EstimatedInstallationDate, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                            @Html.LabelFor(m => contract.EquipmentInfo.EstimatedInstallationDate, new
+                                            {
+                                                @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
+                                            })
                                             <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                                 <div class="control-group">
                                                     @(contract.EquipmentInfo.EstimatedInstallationDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
@@ -1380,13 +1383,29 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if (!string.IsNullOrEmpty(contract.EquipmentInfo.PreferredInstallTime))
+                                    @if(!string.IsNullOrEmpty(contract.EquipmentInfo.PreferredInstallTime))
                                     {
                                         <div class="form-group">
                                             <div class="row">
                                                 @Html.LabelFor(m => contract.EquipmentInfo.PreferredInstallTime, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
                                                 <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                                     @(contract.EquipmentInfo.PreferredInstallTime)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    @if(contract.ContactAndPaymentInfo.HouseSize.HasValue)
+                                    {
+                                        <div class="form-group">
+                                            <div class="row">
+                                                @Html.LabelFor(m => contract.ContactAndPaymentInfo.HouseSize, new
+                                                {
+                                                    @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
+                                                })
+                                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                                    <div class="control-group">
+                                                        @(contract.ContactAndPaymentInfo.HouseSize)
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
