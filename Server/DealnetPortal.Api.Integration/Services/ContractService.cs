@@ -1116,7 +1116,7 @@ namespace DealnetPortal.Api.Integration.Services
                                             contract.LastUpdateTime >
                                             contract.Details.SignatureInitiatedTime)
                     {
-                        var cancelRes = await _documentService.CancelSignatureProcess(contractId, contractOwnerId);
+                        var cancelRes = await _documentService.CancelSignatureProcess(contractId, contractOwnerId, Resources.Resources.ContractChangedCancelledEsign);
                         if (cancelRes?.Item2?.Any() == true)
                         {
                             alerts.AddRange(cancelRes.Item2);
