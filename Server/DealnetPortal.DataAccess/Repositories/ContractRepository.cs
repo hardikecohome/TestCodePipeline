@@ -544,9 +544,10 @@ namespace DealnetPortal.DataAccess.Repositories
             return null;
         }
 
-        public Customer UpdateCustomerData(int customerId, Customer customerInfo, IList<Location> locations,
+        public bool UpdateCustomerData(int customerId, Customer customerInfo, IList<Location> locations,
             IList<Phone> phones, IList<Email> emails)
         {
+            bool updated = false;
             var dbCustomer = GetCustomer(customerId);
             if (dbCustomer != null)
             {
@@ -579,26 +580,26 @@ namespace DealnetPortal.DataAccess.Repositories
                     if (!string.IsNullOrWhiteSpace(customerInfo.VerificationIdName))
                     {
                         dbCustomer.VerificationIdName = customerInfo.VerificationIdName;
-                    }
-                    
-                    //AddOrUpdateCustomer(customerInfo);
+                    }                                        
                 }
+
+                updated = _dbContext.Entry(dbCustomer).State != EntityState.Unchanged;
 
                 if (locations != null)
                 {
-                    AddOrUpdateCustomerLocations(dbCustomer, locations.ToList());
+                    updated |= AddOrUpdateCustomerLocations(dbCustomer, locations.ToList());
                 }
                 if (phones != null)
                 {
-                    AddOrUpdateCustomerPhones(dbCustomer, phones.ToList());
+                    updated |= AddOrUpdateCustomerPhones(dbCustomer, phones.ToList());
                 }
                 if (emails != null)
                 {
-                    AddOrUpdateCustomerEmails(dbCustomer, emails.ToList());
+                    updated |= AddOrUpdateCustomerEmails(dbCustomer, emails.ToList());
                 }
-                return dbCustomer;
+                //return dbCustomer;
             }
-            return null;
+            return updated;
         }
 
         public Customer GetCustomer(int customerId)
@@ -1269,14 +1270,16 @@ namespace DealnetPortal.DataAccess.Repositories
             return dbEquipment;
         }
 
-        private Customer AddOrUpdateCustomerLocations(Customer customer, IEnumerable<Location> locations)
+        private bool AddOrUpdateCustomerLocations(Customer customer, IEnumerable<Location> locations)
         {
+            bool updated = false;
             //??
             locations = locations.ToList();
             var existingEntities =
                 customer.Locations.Where(
                     a => locations.Any(ca => ca.Id == a.Id || ca.AddressType == a.AddressType)).ToList();
             var entriesForDelete = customer.Locations.Except(existingEntities).ToList();
+            updated = entriesForDelete.Any();
             entriesForDelete.ForEach(e => _dbContext.Entry(e).State = EntityState.Deleted);
 
             locations.ForEach(addr =>
@@ -1287,25 +1290,28 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     addr.Customer = customer;
                     customer.Locations.Add(addr);
+                    updated = true;
                 }
                 else
                 {
                     addr.Customer = customer;
                     addr.Id = curAddress.Id;
                     _dbContext.Locations.AddOrUpdate(addr);
-                    //_dbContext.Entry<Location>(addr).State = EntityState.Modified;                    
-                }
+                    updated |= _dbContext.Entry(addr).State != EntityState.Unchanged;
+                }                
             });
 
-            return customer;
+            return updated;
         }
 
-        private Customer AddOrUpdateCustomerPhones(Customer customer, IList<Phone> phones)
+        private bool AddOrUpdateCustomerPhones(Customer customer, IList<Phone> phones)
         {
+            bool updated = false;
             var existingEntities =
                 customer.Phones.Where(
                     p => phones.Any(pa => pa.Id == p.Id || pa.PhoneType == p.PhoneType)).ToList();
             var entriesForDelete = customer.Phones.Except(existingEntities).ToList();
+            updated = entriesForDelete.Any();
             entriesForDelete.ForEach(e => _dbContext.Entry(e).State = EntityState.Deleted);
 
             phones.ForEach(phone =>
@@ -1316,25 +1322,26 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     phone.Customer = customer;
                     customer.Phones.Add(phone);
+                    updated = true;
                 }
                 else
                 {
-                    phone.Customer = customer;
-                    phone.Id = curPhone.Id;
-                    _dbContext.Phones.AddOrUpdate(phone);
-                    //_dbContext.Entry<Phone>(phone).State = EntityState.Modified;
-                }
+                    curPhone.PhoneNum = phone.PhoneNum;
+                    updated |= _dbContext.Entry(curPhone).State != EntityState.Unchanged;
+                }                
             });
 
-            return customer;
+            return updated;
         }
 
-        private Customer AddOrUpdateCustomerEmails(Customer customer, IList<Email> emails)
+        private bool AddOrUpdateCustomerEmails(Customer customer, IList<Email> emails)
         {
+            bool updated = false;
             var existingEntities =
                 customer.Emails.Where(
                     e => emails.Any(em => e.Id == em.Id || e.EmailType == em.EmailType)).ToList();
             var entriesForDelete = customer.Emails.Except(existingEntities).ToList();
+            updated = entriesForDelete.Any();
             entriesForDelete.ForEach(e => _dbContext.Entry(e).State = EntityState.Deleted);
 
             emails.ForEach(email =>
@@ -1345,17 +1352,16 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     email.Customer = customer;
                     customer.Emails.Add(email);
+                    updated = true;
                 }
                 else
                 {
-                    email.Customer = customer;
-                    email.Id = curEmail.Id;
-                    _dbContext.Emails.AddOrUpdate(email);
-                    //_dbContext.Entry<Email>(email).State = EntityState.Modified;
-                }
+                    curEmail.EmailAddress = email.EmailAddress;                    
+                    updated |= _dbContext.Entry(curEmail).State != EntityState.Unchanged;
+                }                
             });
 
-            return customer;
+            return updated;
         }
 
         private void AddOrUpdateContactDetails(Contract contract, ContractDetails contractDetails)

@@ -622,10 +622,9 @@ namespace DealnetPortal.Api.Integration.Services
                         if (contract == null || contract.WasDeclined != true ||
                             (contract.InitialCustomers?.All(ic => ic.Id != c.Id) ?? false))
                         {
-                            _contractRepository.UpdateCustomerData(c.Id, Mapper.Map<Customer>(c.CustomerInfo),
+                            customersUpdated = _contractRepository.UpdateCustomerData(c.Id, Mapper.Map<Customer>(c.CustomerInfo),
                                 Mapper.Map<IList<Location>>(c.Locations), Mapper.Map<IList<Phone>>(c.Phones),
                                 Mapper.Map<IList<Email>>(c.Emails));                            
-                            customersUpdated = true;
                         }
                     });
 
