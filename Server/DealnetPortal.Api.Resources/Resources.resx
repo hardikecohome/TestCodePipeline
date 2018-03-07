@@ -973,4 +973,7 @@
   <data name="_CVCWaitingtoFund" xml:space="preserve">
     <value>CVC Waiting to Fund</value>
   </data>
+  <data name="ContractChangedCancelledEsign" xml:space="preserve">
+    <value>Contract was changed</value>
+  </data>
 </root>

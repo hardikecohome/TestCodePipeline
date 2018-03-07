@@ -43,7 +43,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             throw new NotImplementedException();
         }
 
-        public Task<IList<Alert>> CancelSignature()
+        public Task<IList<Alert>> CancelSignature(string cancelReason = null)
         {
             throw new NotImplementedException();
         }
