@@ -1105,6 +1105,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contract was changed.
+        /// </summary>
+        public static string ContractChangedCancelledEsign {
+            get {
+                return ResourceManager.GetString("ContractChangedCancelledEsign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contract ID.
         /// </summary>
         public static string ContractId {

@@ -618,7 +618,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
         }
 
-        public async Task<IList<Alert>> CancelSignature()
+        public async Task<IList<Alert>> CancelSignature(string cancelReason = null)
         {
             var alerts = new List<Alert>();
             try
@@ -630,7 +630,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     envelope = new Envelope
                     {
                         Status = "voided",
-                        VoidedReason = Resources.Resources.DealerCancelledEsign
+                        VoidedReason = cancelReason ?? Resources.Resources.DealerCancelledEsign
                     };
                     var updateEnvelopeRes = await
                         envelopesApi.UpdateAsync(AccountId, TransactionId, envelope);
