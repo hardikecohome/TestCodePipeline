@@ -487,6 +487,8 @@
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\email\email.html" />
     <Content Include="Content\email\images\icon-success.png" />
+    <Content Include="Content\files\banners\en\Bill-59-Banner-mobile.jpg" />
+    <Content Include="Content\files\banners\en\Bill-59-Banner.jpg" />
     <Content Include="Content\files\banners\en\home-banner-mobile.jpg" />
     <Content Include="Content\files\banners\en\home-banner.jpg" />
     <Content Include="Content\files\HTML\en\AgreementPersonalData.html" />
@@ -842,7 +844,6 @@
     <Content Include="Content\files\resources\en\Loan-Agreement-Changes-From-August-To-September.pdf" />
     <Content Include="Content\files\resources\en\Myhome-Wallet-Detailed-Description.pdf" />
     <Content Include="Content\files\resources\en\Myhome-Wallet-Short-Description.pdf" />
-    <Content Include="Content\files\resources\en\Portal-User-Guide.pdf" />
     <Content Include="Content\less\components\status-colors.less" />
     <Content Include="Content\less\components\dob-control.less" />
     <Content Include="Content\files\Dealer Portal Update Oct 2017.pdf" />
@@ -870,6 +871,15 @@
     <Content Include="Content\files\resources\en\MortgageBroker\Mortgage Broker FAQs.pdf" />
     <Content Include="Content\files\resources\en\MortgageBroker\Mortgage Broker Portal User Guide February 2018.pdf" />
     <Content Include="Content\files\resources\en\MortgageBroker\Consumer FAQs for Mortgage-Real Estate Channel.pdf" />
+    <Content Include="Content\files\resources\en\Bill 59 Readiness Assessment_Final 02 27 2018.pdf" />
+    <Content Include="Content\files\resources\en\Consumer Ecohome Ontario HVAC Rental Agreement.pdf" />
+    <Content Include="Content\files\resources\en\Consumer Ontario Bill 59 Cover Page.pdf" />
+    <Content Include="Content\files\resources\en\Cosumer Ontario Loan Agreement.pdf" />
+    <Content Include="Content\files\resources\en\MortgageBroker\myhome-wallet-info-deck Dealer.pdf" />
+    <Content Include="Content\files\resources\en\Portal user guide January 2018.pdf" />
+    <Content Include="Content\files\resources\en\Supplemental Information Sheet_Final_2 28 2018.pdf" />
+    <Content Include="Content\files\resources\fr\qc\Portail d entrepreneur pour la signature electronique fevrier 2018.pdf" />
+    <Content Include="Content\files\resources\fr\qc\Portail de lentrepreneur guide de demarrage fevrier 2018.pdf" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\components\addressInformation.js" />
@@ -1247,7 +1257,6 @@
     <Folder Include="Content\files\banners\en\qc\" />
     <Folder Include="Content\files\banners\fr\qc\" />
     <Folder Include="Content\files\resources\en\qc\" />
-    <Folder Include="Content\files\resources\fr\qc\" />
     <Folder Include="Content\themes\" />
     <Folder Include="Views\Shared\Maintenance\en\qc\" />
     <Folder Include="Views\Shared\Maintenance\fr\qc\" />
