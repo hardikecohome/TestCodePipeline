@@ -880,6 +880,8 @@
     <Content Include="Content\files\resources\en\Supplemental Information Sheet_Final_2 28 2018.pdf" />
     <Content Include="Content\files\resources\fr\qc\Portail d entrepreneur pour la signature electronique fevrier 2018.pdf" />
     <Content Include="Content\files\resources\fr\qc\Portail de lentrepreneur guide de demarrage fevrier 2018.pdf" />
+    <Content Include="Content\files\resources\en\qc\Credit Application.pdf" />
+    <Content Include="Content\files\resources\fr\qc\demande de crédit.pdf" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\components\addressInformation.js" />
@@ -1256,7 +1258,6 @@
     <Folder Include="App_Data\Upload\" />
     <Folder Include="Content\files\banners\en\qc\" />
     <Folder Include="Content\files\banners\fr\qc\" />
-    <Folder Include="Content\files\resources\en\qc\" />
     <Folder Include="Content\themes\" />
     <Folder Include="Views\Shared\Maintenance\en\qc\" />
     <Folder Include="Views\Shared\Maintenance\fr\qc\" />
