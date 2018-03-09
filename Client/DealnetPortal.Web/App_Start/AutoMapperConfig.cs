@@ -157,14 +157,27 @@ namespace DealnetPortal.Web.App_Start
                     }
                     return phones.Any() ? phones : null;
                 }))
-                .ForMember(x => x.Emails, d => d.ResolveUsing(src => new List<EmailDTO>()
+                .ForMember(x => x.Emails, d => d.ResolveUsing(src =>
                 {
-                    new EmailDTO()
+                    var emails = new List<EmailDTO>();
+                    emails.Add(
+                        new EmailDTO()
+                        {
+                            CustomerId = src.CustomerId,
+                            EmailType = EmailType.Main,
+                            EmailAddress = src.EmailAddress
+                        });
+                    if (!string.IsNullOrEmpty(src.NotificationEmailAddress))
                     {
-                        CustomerId = src.CustomerId,
-                        EmailType = EmailType.Main,
-                        EmailAddress = src.EmailAddress
+                        emails.Add(
+                            new EmailDTO()
+                            {
+                                CustomerId = src.CustomerId,
+                                EmailType = EmailType.Notification,
+                                EmailAddress = src.NotificationEmailAddress
+                            });
                     }
+                    return emails;
                 }))
                 .ForMember(x => x.CustomerInfo, d => d.ResolveUsing(src =>
                 new CustomerInfoDTO()
@@ -582,6 +595,8 @@ namespace DealnetPortal.Web.App_Start
                     src.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum))
                 .ForMember(x => x.EmailAddress, d => d.ResolveUsing(src =>
                     src.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress))
+                .ForMember(x => x.NotificationEmailAddress, d => d.ResolveUsing(src =>
+                    src.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress))
                 .ForMember(x => x.AllowCommunicate, d => d.ResolveUsing(src => src.AllowCommunicate ?? false));
 
             cfg.CreateMap<CustomerLinkDTO, ShareableLinkViewModel>()
