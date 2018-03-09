@@ -68,13 +68,14 @@
 
 			<div class="row">
 				<div class="col-md-4 col-lg-4">
-					<div class="form-group">
-						@Html.LabelFor(m => m.HomeOwnerContactInfo.EmailAddress)
-						<div class="control-group">
-							@Html.TextBoxFor(m => m.HomeOwnerContactInfo.EmailAddress, new { @class = "form-control dealnet-input", id = "email-address", placeholder = Resources.EmailAddress, type = "email" })
-							@Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.EmailAddress, "", new { @class = "text-danger" })
-						</div>
-					</div>
+                    <div class="form-group">
+                        @Html.HiddenFor(m => m.HomeOwnerContactInfo.NotificationEmailAddress)
+                        @Html.LabelFor(m => m.HomeOwnerContactInfo.EmailAddress)
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.HomeOwnerContactInfo.EmailAddress, new { @class = "form-control dealnet-input", id = "email-address", placeholder = Resources.EmailAddress, type = "email" })
+                            @Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.EmailAddress, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 				</div>
 			</div>
 
@@ -133,13 +134,14 @@
 
 				<div class="row">
 					<div class="col-md-4 col-lg-4">
-						<div class="form-group">
-							@Html.LabelFor(m => m.CoBorrowersContactInfo[i].EmailAddress)
-							<div class="control-group">
-								@Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].EmailAddress, new { @class = "form-control dealnet-input", id = "email-address", placeholder = Resources.EmailAddress, type = "email" })
-								@Html.ValidationMessageFor(m => m.CoBorrowersContactInfo[i].EmailAddress, "", new { @class = "text-danger" })
-							</div>
-						</div>
+                        <div class="form-group">
+                            @Html.HiddenFor(m => m.CoBorrowersContactInfo[i].NotificationEmailAddress)
+                            @Html.LabelFor(m => m.CoBorrowersContactInfo[i].EmailAddress)
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].EmailAddress, new { @class = "form-control dealnet-input", id = "email-address", placeholder = Resources.EmailAddress, type = "email" })
+                                @Html.ValidationMessageFor(m => m.CoBorrowersContactInfo[i].EmailAddress, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
 					</div>
 				</div>
 
