@@ -369,8 +369,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 .Select(x => new KeyValuePair<string, string>(x.ToString(), x + " " + (x == 1 ? Resources.Resources.Month : Resources.Resources.Months)))
                 .ToDictionary(s => s.Key, s => s.Value);
 
-            if(model.DealerTier != null && model.DealerTier.Id ==
-                Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["Amort180RateCardId"]))
+            if(model.DealerTier != null && model.DealerTier.Name == _clarityProgramTier)
             {
                 model.TotalAmountFinancedFor180AmortTerm = 4999;
             }
