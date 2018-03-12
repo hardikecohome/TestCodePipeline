@@ -298,7 +298,9 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             Application = application
                         }
-                    };                                                                 
+                    };            
+                    
+                    XmlSerializerHelper.SerializeToFile(request, $"d:\\tests\\SubmitDeal_{contract.Details.TransactionId}.xml");                    
 
                     var sendResult = await DoAspireRequestWithAnalyze(_aspireServiceAgent.DealUploadSubmission,
                         request, (r, c) => AnalyzeResponse(r, c), contract,
@@ -1746,18 +1748,21 @@ namespace DealnetPortal.Api.Integration.Services
                 int eqCount = contract.Equipment?.NewEquipment?.Count(ne => ne.IsDeleted != true) ?? 0;
                 eqCost = installPackagesCost.HasValue && eqCount > 0
                     ? equipment.MonthlyCost + (installPackagesCost.Value / eqCount)
-                    : equipment.MonthlyCost;                
+                    : equipment.MonthlyCost;
+                udfList.Add(new UDF
+                {
+                    Name = AspireUdfFields.MonthlyPayment,
+                    Value = eqCost?.ToString() ?? "0.0"
+                });
             }
-            //udfList.Add(new UDF
-            //{
-            //    Name = AspireUdfFields.MonthlyPayment,
-            //    Value = eqCost?.ToString() ?? "0.0"
-            //});
-            udfList.Add(new UDF
+            else
             {
-                Name = AspireUdfFields.EstimatedRetailPrice,
-                Value = equipment.EstimatedRetailCost?.ToString() ?? "0.0"
-            });
+                udfList.Add(new UDF
+                {
+                    Name = AspireUdfFields.EstimatedRetailPrice,
+                    Value = equipment.EstimatedRetailCost?.ToString() ?? "0.0"
+                });
+            }            
             return udfList;
         }
 
