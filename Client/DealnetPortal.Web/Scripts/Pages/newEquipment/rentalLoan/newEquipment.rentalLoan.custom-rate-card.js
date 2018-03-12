@@ -32,16 +32,16 @@
     };
 
     var setAdminFeeByEquipmentSum = function(eSum) {
-        if (state.customRateCardBoundaires) {
-            Object.keys(state.customRateCardBoundaires).map(function(bound) {
-                var numbers = bound.split('-');
-                var lowBound = +numbers[0];
-                var highBound = +numbers[1];
-                if (lowBound <= eSum && highBound >= eSum) {
-                    state[settings.customRateCardName].AdminFee = +state.customRateCardBoundaires[bound].adminFee;
-                }
-            });
-        }
+        if($.isEmptyObject(state.customRateCardBoundaires)) return;
+
+        Object.keys(state.customRateCardBoundaires).map(function(bound) {
+            var numbers = bound.split('-');
+            var lowBound = +numbers[0];
+            var highBound = +numbers[1];
+            if (lowBound <= eSum && highBound >= eSum) {
+                state[settings.customRateCardName].AdminFee = +state.customRateCardBoundaires[bound].adminFee;
+            }
+        });
     }
 
     /**
