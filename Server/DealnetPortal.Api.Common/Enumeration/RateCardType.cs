@@ -14,6 +14,8 @@ namespace DealnetPortal.Api.Common.Enumeration
         [Display(ResourceType = typeof(Resources.Resources), Name = "NoInterest")]
         NoInterest = 1,
         [Display(ResourceType = typeof(Resources.Resources), Name = "Deferral")]
-        Deferral = 2
+        Deferral = 2,
+        [Display(ResourceType = typeof(Resources.Resources), Name = "Custom")]
+        Custom = 3 
     }
 }

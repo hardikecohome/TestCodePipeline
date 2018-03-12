@@ -298,7 +298,9 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             Application = application
                         }
-                    };                                                                 
+                    };            
+                    
+                    XmlSerializerHelper.SerializeToFile(request, $"d:\\tests\\SubmitDeal_{contract.Details.TransactionId}.xml");                    
 
                     var sendResult = await DoAspireRequestWithAnalyze(_aspireServiceAgent.DealUploadSubmission,
                         request, (r, c) => AnalyzeResponse(r, c), contract,
@@ -1229,7 +1231,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 } 
                 
-                account.UDFs = GetCustomerUdfs(c, location, setLeadSource, 
+                account.UDFs = GetCustomerUdfs(c, location, setLeadSource, isBorrower,
                     contract.HomeOwners?.Any(hw => hw.Id == c.Id) == true ? (bool?)true : null, existingCustomer).ToList();                
 
                 if (!string.IsNullOrEmpty(role))
@@ -1746,18 +1748,21 @@ namespace DealnetPortal.Api.Integration.Services
                 int eqCount = contract.Equipment?.NewEquipment?.Count(ne => ne.IsDeleted != true) ?? 0;
                 eqCost = installPackagesCost.HasValue && eqCount > 0
                     ? equipment.MonthlyCost + (installPackagesCost.Value / eqCount)
-                    : equipment.MonthlyCost;                
+                    : equipment.MonthlyCost;
+                udfList.Add(new UDF
+                {
+                    Name = AspireUdfFields.MonthlyPayment,
+                    Value = eqCost?.ToString() ?? "0.0"
+                });
             }
-            //udfList.Add(new UDF
-            //{
-            //    Name = AspireUdfFields.MonthlyPayment,
-            //    Value = eqCost?.ToString() ?? "0.0"
-            //});
-            udfList.Add(new UDF
+            else
             {
-                Name = AspireUdfFields.EstimatedRetailPrice,
-                Value = equipment.EstimatedRetailCost?.ToString() ?? "0.0"
-            });
+                udfList.Add(new UDF
+                {
+                    Name = AspireUdfFields.EstimatedRetailPrice,
+                    Value = equipment.EstimatedRetailCost?.ToString() ?? "0.0"
+                });
+            }            
             return udfList;
         }
 
@@ -2150,7 +2155,7 @@ namespace DealnetPortal.Api.Integration.Services
             return udfList;
         }
 
-        private IList<UDF> GetCustomerUdfs(Domain.Customer customer, Location mainLocation, string leadSource, bool? isHomeOwner = null, bool? existingCustomer = null)
+        private IList<UDF> GetCustomerUdfs(Domain.Customer customer, Location mainLocation, string leadSource, bool isBorrower, bool? isHomeOwner = null, bool? existingCustomer = null)
         {
             var udfList = new List<UDF>();
             if (!string.IsNullOrEmpty(leadSource))
@@ -2330,6 +2335,15 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     Name = AspireUdfFields.HomeOwner,
                     Value = isHomeOwner == true ? "Y" : "N"
+                });
+            }
+
+            if (!isBorrower)
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.RelationshipToCustomer,
+                    Value = customer.RelationshipToMainBorrower ?? BlankValue
                 });
             }
 

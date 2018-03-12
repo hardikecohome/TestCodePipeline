@@ -979,4 +979,7 @@
   <data name="ContractChangedCancelledEsign" xml:space="preserve">
     <value>Contract was changed</value>
   </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
 </root>
