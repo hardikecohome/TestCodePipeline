@@ -53,15 +53,13 @@
                 .on('change', changeResponsibilityForRemovalOfExistingEquipment).change();
             eEModal.modal();
         });
-
         $('#edit-existing-equipment-submit').on('click', function () {
             var url = this.dataset['url'];
-            var modal = $('#existing-equipment-section-modal')
+            var modal = $('#existing-equipment-section-modal');
             if (saveChanges(modal, $('#existing-equipment-section'), url, $('#existing-equipment-form'))) {
                 $('#existing-equipment-modal').modal('hide');
                 var input = modal.find('.responsible-input');
                 var id = input.attr('id').split('-')[1];
-                debugger
                 if (input.val() !== "3") {
                     $('#responsible-display-' + id).val(input.find(':selected').text());
                 } else {
