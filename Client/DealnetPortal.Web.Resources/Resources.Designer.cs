@@ -448,7 +448,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Customer Fee.
+        ///   Looks up a localized string similar to Admin Fee.
         /// </summary>
         public static string AdminFee {
             get {
@@ -1907,6 +1907,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Covered by Customer.
+        /// </summary>
+        public static string CoveredByCustomer {
+            get {
+                return ResourceManager.GetString("CoveredByCustomer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Covered by Dealer.
+        /// </summary>
+        public static string CoveredByDealer {
+            get {
+                return ResourceManager.GetString("CoveredByDealer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create another application for this home owner.
         /// </summary>
         public static string CreateAnotherApplicationForHomeOwner {
@@ -2083,6 +2101,15 @@ namespace DealnetPortal.Web.Resources {
         public static string CustomerComment {
             get {
                 return ResourceManager.GetString("CustomerComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customer Fee.
+        /// </summary>
+        public static string CustomerFee {
+            get {
+                return ResourceManager.GetString("CustomerFee", resourceCulture);
             }
         }
         
@@ -7088,6 +7115,15 @@ namespace DealnetPortal.Web.Resources {
         public static string VoidCheque {
             get {
                 return ResourceManager.GetString("VoidCheque", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Void Cheque Bank PAD Authorization Letter.
+        /// </summary>
+        public static string VoidChequeBankPADAuthorizationLetter {
+            get {
+                return ResourceManager.GetString("VoidChequeBankPADAuthorizationLetter", resourceCulture);
             }
         }
         
