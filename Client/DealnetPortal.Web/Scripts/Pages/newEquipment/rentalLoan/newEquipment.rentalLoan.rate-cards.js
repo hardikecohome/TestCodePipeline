@@ -116,7 +116,7 @@ module.exports('rate-cards', function (require) {
             }
 
             if (option.name === 'Custom') {
-                customRateCard.setAdminFeeByEquipmentSum(eSumData);
+                customRateCard.setAdminFeeByEquipmentSum(eSumData.totalPrice !== "-" ? eSumData.totalPrice : 0);
             }
 
             var data = rateCardsCalculator.calculateValuesForRender($.extend({}, idToValue(state)(option.name)));

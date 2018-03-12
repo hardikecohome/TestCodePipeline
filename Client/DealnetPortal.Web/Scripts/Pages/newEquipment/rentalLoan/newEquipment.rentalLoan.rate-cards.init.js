@@ -115,11 +115,11 @@
     }
 
     function _setCustomRateCardAdminFee(cards) {
-        var customRcId = constants.rateCards.filter(function(card) { return card.name === 'customRateCardName' })[0].id;
-        var customRateCards = cards.filter(function(card) { return card.Type === customRcId });
+        var customRcId = constants.rateCards.filter(function(card) { return card.name === settings.customRateCardName })[0].id;
+        var customRateCards = cards.filter(function(card) { return card.CardType === customRcId });
         if (!customRateCards.length) return;
 
-        $.each(customRateCards, function(card) {
+        $.grep(customRateCards, function(card) {
             state.customRateCardBoundaires[card.LoanValueFrom + '-' + card.LoanValueTo] = { adminFee: card.AdminFee };
         });
     }
