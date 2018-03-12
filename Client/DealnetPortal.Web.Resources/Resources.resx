@@ -511,7 +511,7 @@
     <value>Admin Fee is in incorrect format</value>
   </data>
   <data name="AdminFee" xml:space="preserve">
-    <value>Customer Fee</value>
+    <value>Admin Fee</value>
   </data>
   <data name="DownPaymentIncorrectFormat" xml:space="preserve">
     <value>Down Payment is in incorrect format</value>
@@ -2595,5 +2595,14 @@ changing contract terms or signing contract on paper.</value>
   </data>
   <data name="VoidChequeBankPADAuthorizationLetter" xml:space="preserve">
     <value>Void Cheque Bank PAD Authorization Letter</value>
+  </data>
+  <data name="CoveredByCustomer" xml:space="preserve">
+    <value>Covered by Customer</value>
+  </data>
+  <data name="CoveredByDealer" xml:space="preserve">
+    <value>Covered by Dealer</value>
+  </data>
+  <data name="CustomerFee" xml:space="preserve">
+    <value>Customer Fee</value>
   </data>
 </root>
