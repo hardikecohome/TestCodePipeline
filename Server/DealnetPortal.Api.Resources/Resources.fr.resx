@@ -979,4 +979,7 @@
   <data name="VoidChequeBankPAPAuthorizationLetter" xml:space="preserve">
     <value>Chèque annulé ou lettre d’autorisation de paiement pré-autorisé par la banque</value>
   </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Personnaliser</value>
+  </data>
 </root>
