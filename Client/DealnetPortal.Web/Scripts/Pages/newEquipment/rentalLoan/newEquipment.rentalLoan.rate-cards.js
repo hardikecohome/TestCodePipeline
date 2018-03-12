@@ -5,6 +5,7 @@ module.exports('rate-cards', function (require) {
     var state = require('state').state;
     var rateCardsCalculator = require('rateCards.index');
     var rateCardsRenderEngine = require('rateCards.render');
+    var customRateCard = require('custom-rate-card');
 
     var settings = {
         rateCardFields: {
@@ -112,6 +113,10 @@ module.exports('rate-cards', function (require) {
             }
             if (option.name !== 'Custom') {
                 rateCardsRenderEngine.renderDropdownValues({ rateCardPlan: option.name });
+            }
+
+            if (option.name === 'Custom') {
+                customRateCard.setAdminFeeByEquipmentSum(eSumData);
             }
 
             var data = rateCardsCalculator.calculateValuesForRender($.extend({}, idToValue(state)(option.name)));
