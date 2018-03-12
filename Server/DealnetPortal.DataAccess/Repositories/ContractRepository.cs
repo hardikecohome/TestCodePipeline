@@ -602,6 +602,32 @@ namespace DealnetPortal.DataAccess.Repositories
             return updated;
         }
 
+        public bool UpdateCustomerEmails(int customerId, IList<Email> emails)
+        {
+            bool updated = false;
+            var dbCustomer = GetCustomer(customerId);
+            if (dbCustomer != null)
+            {
+                emails?.ForEach(email =>
+                {
+                    var curEmail =
+                        dbCustomer.Emails.FirstOrDefault(e => e.EmailType == email.EmailType);
+                    if (curEmail == null)
+                    {
+                        email.Customer = dbCustomer;
+                        dbCustomer.Emails.Add(email);
+                        updated = true;
+                    }
+                    else
+                    {
+                        curEmail.EmailAddress = email.EmailAddress;
+                        updated |= _dbContext.Entry(curEmail).State != EntityState.Unchanged;
+                    }
+                });
+            }
+            return updated;
+        }
+
         public Customer GetCustomer(int customerId)
         {
             return _dbContext.Customers
@@ -1342,9 +1368,8 @@ namespace DealnetPortal.DataAccess.Repositories
                     e => emails.Any(em => e.Id == em.Id || e.EmailType == em.EmailType)).ToList();
             var entriesForDelete = customer.Emails.Except(existingEntities).ToList();
             updated = entriesForDelete.Any();
-            entriesForDelete.ForEach(e => _dbContext.Entry(e).State = EntityState.Deleted);
-
-            //we don't track Notifications mail changes here
+            entriesForDelete.ForEach(e => _dbContext.Entry(e).State = EntityState.Deleted);            
+            
             emails.ForEach(email =>
             {
                 var curEmail =
@@ -1353,12 +1378,12 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     email.Customer = customer;
                     customer.Emails.Add(email);
-                    updated = email.EmailType != EmailType.Notification;
+                    updated = true;
                 }
                 else
                 {
                     curEmail.EmailAddress = email.EmailAddress;                    
-                    updated |= _dbContext.Entry(curEmail).State != EntityState.Unchanged && curEmail.EmailType != EmailType.Notification;
+                    updated |= _dbContext.Entry(curEmail).State != EntityState.Unchanged;
                 }                
             });
 

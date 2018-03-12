@@ -604,7 +604,7 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 // update only new customers for declined deals
-                if (customers?.Any() ?? false)
+                if (customers?.Any() == true)
                 {
                     var contractId = customers.FirstOrDefault(c => c.ContractId.HasValue)?.ContractId;
                     var contract = contractId.HasValue
@@ -612,29 +612,57 @@ namespace DealnetPortal.Api.Integration.Services
                         : null;
 
                     var customersUpdated = false;
+                    var customersMailsUpdated = false;
 
                     customers.ForEach(c =>
                     {
                         if (contract == null || contract.WasDeclined != true ||
                             (contract.InitialCustomers?.All(ic => ic.Id != c.Id) ?? false))
                         {
-                            customersUpdated = _contractRepository.UpdateCustomerData(c.Id, Mapper.Map<Customer>(c.CustomerInfo),
-                                Mapper.Map<IList<Location>>(c.Locations), Mapper.Map<IList<Phone>>(c.Phones),
-                                Mapper.Map<IList<Email>>(c.Emails));                            
+                            if (c.CustomerInfo == null && c.Locations?.Any() != true &&
+                                c.Phones?.Any() != true &&
+                                c.Emails?.Any() == true)
+                            {
+                                var mails = Mapper.Map<IList<Email>>(c.Emails);
+                                mails.ForEach(email =>
+                                {
+                                    if (email.EmailType == EmailType.Main)
+                                    {
+                                        customersUpdated = _contractRepository.UpdateCustomerEmails(c.Id,
+                                            new List<Email>(){ email });
+                                    }
+                                    else
+                                    {
+                                        customersMailsUpdated = _contractRepository.UpdateCustomerEmails(c.Id,
+                                            new List<Email>() { email });
+                                    }
+                                });                                
+                            }
+                            else
+                            {
+                                customersUpdated = _contractRepository.UpdateCustomerData(c.Id,
+                                    Mapper.Map<Customer>(c.CustomerInfo),
+                                    Mapper.Map<IList<Location>>(c.Locations), Mapper.Map<IList<Phone>>(c.Phones),
+                                    Mapper.Map<IList<Email>>(c.Emails));
+                            }
                         }
                     });
 
-                    _unitOfWork.Save();
+                    if (customersUpdated || customersMailsUpdated)
+                    {
+                        _unitOfWork.Save();
+                    }
 
                     if (customersUpdated == true)
-                    {
+                    {                                            
                         // get latest contract changes
                         if (contractId.HasValue)
                         {
-                            contract = _contractRepository.GetContractAsUntracked(contractId.Value, contractOwnerId);
-                        }                        
+                            contract = _contractRepository.GetContractAsUntracked(contractId.Value,
+                                contractOwnerId);
+                        }
                         if (contract != null)
-                        {                            
+                        {
                             // update customers on aspire
                             var leadSource = customers.FirstOrDefault(c => !string.IsNullOrEmpty(c.LeadSource))
                                 ?.LeadSource;
@@ -652,7 +680,7 @@ namespace DealnetPortal.Api.Integration.Services
                                     alerts.AddRange(submitRes);
                                 }
                             }
-                        }
+                        }                       
                     }
                 }
             }

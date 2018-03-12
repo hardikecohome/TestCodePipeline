@@ -110,6 +110,8 @@ namespace DealnetPortal.Domain.Repositories
         /// <param name="emails">emails to set</param>
         bool UpdateCustomerData(int customerId, Customer customerInfo, IList<Location> locations, IList<Phone> phones, IList<Email> emails);
 
+        bool UpdateCustomerEmails(int customerId, IList<Email> emails);
+
         Customer GetCustomer(int customerId);
 
         ContractState? GetContractState(int contractId, string contractOwnerId);
