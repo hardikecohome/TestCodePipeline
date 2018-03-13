@@ -65,6 +65,7 @@ namespace DealnetPortal.Domain
         [ForeignKey(nameof(RateCard))]
         public int? RateCardId { get; set; }
         public RateCard RateCard { get; set; }
+        public bool? IsPaidByCutomer { get; set; }
 
         [NotMapped]
         public bool IsCustomRateCard
