@@ -340,7 +340,7 @@ namespace DealnetPortal.Web.Controllers
             ViewBag.CardTypes = model.DealerTier?.RateCards?.Select(x => x.CardType).Distinct().ToList();
             ViewBag.AmortizationTerm = model.DealerTier?.RateCards?.ConvertToAmortizationSelectList();
             ViewBag.DefferalPeriod = model.DealerTier?.RateCards?.ConvertToDeferralSelectList();
-            if (model.DealerTier != null && model.DealerTier.Id == Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["Amort180RateCardId"]))
+            if (model.DealerTier != null && model.DealerTier.Name == System.Configuration.ConfigurationManager.AppSettings[PortalConstants.ClarityTierNameKey])
             {
                 ViewBag.totalAmountFinancedFor180amortTerm = 3999;
                 ViewBag.LoanOnly = true;
@@ -354,7 +354,21 @@ namespace DealnetPortal.Web.Controllers
                 ViewBag.LoanOnly = true;
             }
             ViewBag.AdminFee = 0;
-
+            var contract = await _contractServiceAgent.GetContract(contractId);
+            if (contract.Item1 == null || contract.Item1.ContractState >= ContractState.Closed)
+            {
+                var alerts = new List<Alert>()
+                        {
+                            new Alert()
+                            {
+                                Type = AlertType.Error,
+                                Message = $"Contract is not editable",
+                                Header = "Cannot edit contract"
+                            }
+                        };
+                TempData[PortalConstants.CurrentAlerts] = alerts;
+                return RedirectToAction("Error", "Info");
+            }
             return View("EquipmentInformation/EquipmentInformation", model);
         }
 
@@ -386,7 +400,21 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> ContactAndPaymentInfo(int contractId)
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
-
+            var contract = await _contractServiceAgent.GetContract(contractId);
+            if (contract.Item1 == null || contract.Item1.ContractState >= ContractState.Closed)
+            {
+                var alerts = new List<Alert>()
+                        {
+                            new Alert()
+                            {
+                                Type = AlertType.Error,
+                                Message = $"Contract is not editable",
+                                Header = "Cannot edit contract"
+                            }
+                        };
+                TempData[PortalConstants.CurrentAlerts] = alerts;
+                return RedirectToAction("Error", "Info");
+            }
             return View(await _contractManager.GetContactAndPaymentInfoAsync(contractId));
         }
 
@@ -417,12 +445,30 @@ namespace DealnetPortal.Web.Controllers
         {
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
             ViewBag.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
-
+            var contract = await _contractServiceAgent.GetContract(contractId);
+            if (contract.Item1 == null || contract.Item1.ContractState >= ContractState.Closed || contract.Item1.Equipment == null)
+            {
+                var alerts = new List<Alert>()
+                        {
+                            new Alert()
+                            {
+                                Type = AlertType.Error,
+                                Message = $"Contract is not editable",
+                                Header = "Cannot edit contract"
+                            }
+                        };
+                TempData[PortalConstants.CurrentAlerts] = alerts;
+                return RedirectToAction("Error", "Info");
+            }
             return View(await _contractManager.GetSummaryAndConfirmationAsync(contractId));
         }
-
         public async Task<ActionResult> SubmitDeal(int contractId)
         {
+            var contract = await _contractServiceAgent.GetContract(contractId);
+            if (contract.Item1 == null || contract.Item1.ContractState >= ContractState.Closed)
+            {
+                return RedirectToAction("Error", "Info");
+            }
             var rateCardValid = await _contractManager.CheckRateCard(contractId, null);
             if (rateCardValid)
             {

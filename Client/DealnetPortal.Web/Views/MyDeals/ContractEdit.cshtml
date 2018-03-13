@@ -6,6 +6,7 @@
 @using DealnetPortal.Api.Models.Contract
 @using DealnetPortal.Web.Models
 @using DealnetPortal.Web.Models.Enumeration
+@using System.Security.Claims
 @using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType
 @using ContractState = DealnetPortal.Web.Models.Enumeration.ContractState
 
@@ -2035,7 +2036,8 @@
                                     </div>
                                 </div>
                             </div>
-
+							@if (!((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True")))
+							{
                             <div class="form-group pap-payment-form">
                                 <div class="row">
                                     @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, new { @class = "dealnet-field-caption col-xs-6" })
@@ -2044,7 +2046,7 @@
                                     </div>
                                 </div>
                             </div>
-
+							}
                             <div class="pap-payment-form">
                                 <div class="form-group">
                                     <div class="row">

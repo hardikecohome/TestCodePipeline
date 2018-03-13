@@ -1618,6 +1618,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Conditional Approval for.
+        /// </summary>
+        public static string ConditionalApprovalFor {
+            get {
+                return ResourceManager.GetString("ConditionalApprovalFor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm new password.
         /// </summary>
         public static string ConfirmNewPassword {
@@ -1699,7 +1708,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to By checking this box, you consent to receive commercial electronic messages from Services financiers Ecohome at your email address and telephone number(s) provided by you in this application or from time to time in connection with your account, including electronic communications that market or promote our programs, products, services, offers, events and surveys that may be of interest to you. You may withdraw this consent at any time. You may contact Services financiers Ecohome Inc. at 425, boul de Maisonn [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to By checking this box, you consent to receive commercial electronic messages from Services financiers Ecohome at your email address and telephone number(s) provided by you in this application or from time to time in connection with your account, including electronic communications that market or promote our programs, products, services, offers, events and surveys that may be of interest to you. You may withdraw this consent at any time. You may contact Services financiers Ecohome Inc. at 425 Boul. De Maisonn [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ConsentToReceiveCommercialElectronicMessagesDPQC {
             get {
@@ -6215,6 +6224,15 @@ namespace DealnetPortal.Web.Resources {
         public static string SoleProp {
             get {
                 return ResourceManager.GetString("SoleProp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Some special characters like &apos;, &lt;, &gt;, &amp; are not allowed.
+        /// </summary>
+        public static string SomeSpecialCharactersAreRestricted {
+            get {
+                return ResourceManager.GetString("SomeSpecialCharactersAreRestricted", resourceCulture);
             }
         }
         

@@ -267,7 +267,8 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var stream = new MemoryStream();
             var contracts = GetContracts(ids, contractOwnerId);
-            XlsxExporter.Export(contracts, stream, timeZoneOffset);
+            var provincialTaxRates = _contractRepository.GetAllProvinceTaxRates().ToList();
+            XlsxExporter.Export(contracts, stream, provincialTaxRates);
             var report = new AgreementDocument()
             {
                 DocumentRaw = stream.ToArray(),

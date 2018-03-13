@@ -18,13 +18,10 @@ namespace DealnetPortal.Api.Integration.Utility
 {
     public static class XlsxExporter
     {
-        public static void Export(IEnumerable<ContractDTO> contracts, Stream stream, int? timeZoneOffset = null)
+        public static void Export(IEnumerable<ContractDTO> contracts, Stream stream, List<ProvinceTaxRate> provincialTaxRates)
         {
             using (var package = new ExcelPackage(stream))
             {
-                //var aspireRequestTask =
-                //    Task.Run(() => _aspireStorageReader.GetDealerInfo(contract?.Dealer.AspireLogin));
-                //var dealerInfo = AutoMapper.Mapper.Map<DealerDTO>(aspireRequestTask.Result);
                 var worksheet = package.Workbook.Worksheets.Add(Resources.Resources.Reports);
                 worksheet.Cells[1, 1].Value = Resources.Resources.Contract + " #";
                 worksheet.Cells[1, 2].Value = Resources.Resources.Date;
@@ -48,15 +45,6 @@ namespace DealnetPortal.Api.Integration.Utility
                 worksheet.Cells[1, 20].Value = Resources.Resources.Status;
                 worksheet.Cells[1, 21].Value = Resources.Resources.Type;
                 worksheet.Cells[1, 22].Value = Resources.Resources.SalesRep;
-                //worksheet.Cells[1, 2].Value = Resources.Resources.;
-                //worksheet.Cells[1, 3].Value = Resources.Resources.Status;
-                //worksheet.Cells[1, 4].Value = Resources.Resources.Type;
-                //worksheet.Cells[1, 5].Value = Resources.Resources.Email;
-                //worksheet.Cells[1, 6].Value = Resources.Resources.Phone;
-                //worksheet.Cells[1, 7].Value = Resources.Resources.Date;
-                //worksheet.Cells[1, 8].Value = Resources.Resources.Equipment;
-                //worksheet.Cells[1, 9].Value = Resources.Resources.SalesRep;
-                //worksheet.Cells[1, 10].Value = Resources.Resources.Value;
                 var counter = 1;
                 foreach (var contract in contracts)
                 {
@@ -80,7 +68,7 @@ namespace DealnetPortal.Api.Integration.Utility
                         {
                             
                                 var priceOfEquipment = 0.0m;
-                            var TaxRate = 0.0;
+                                var TaxRate = 0.0;
                                 if (contract.Equipment?.IsClarityProgram == true)
                                 {
                                     //for Clarity program we have different logic
@@ -88,53 +76,7 @@ namespace DealnetPortal.Api.Integration.Utility
                                         (contract.Equipment?.NewEquipment?
                                                       .Sum(x => x.MonthlyCost) ?? 0.0m);
 
-                                //this is quick fix for clarity deployment and need to refactor in next version.
-                                
-                                switch (contract.PrimaryCustomer?.Locations?.FirstOrDefault(m => m.AddressType == AddressType.MainAddress).State)
-                                {
-                                    case "AB":
-                                        TaxRate = 5.0;
-                                        break;
-                                    case "BC":
-                                        TaxRate = 12.0;
-                                        break;
-                                    case "MB":
-                                        TaxRate = 13.0;
-                                        break;
-                                    case "NB":
-                                        TaxRate = 15.0;
-                                        break;
-                                    case "NL":
-                                        TaxRate = 15.0;
-                                        break;
-                                    case "NT":
-                                        TaxRate = 5.0;
-                                        break;
-                                    case "NS":
-                                        TaxRate = 15.0;
-                                        break;
-                                    case "NU":
-                                        TaxRate = 5.0;
-                                        break;
-                                    case "ON":
-                                        TaxRate = 13.0;
-                                        break;
-                                    case "PE":
-                                        TaxRate = 15.0;
-                                        break;
-                                    case "QC":
-                                        TaxRate = 14.975;
-                                        break;
-                                    case "SK":
-                                        TaxRate = 11.0;
-                                        break;
-                                    case "YT":
-                                        TaxRate = 5.0;
-                                        break;
-                                    default:
-                                        TaxRate = 0.0;
-                                        break;
-                                }
+                                    TaxRate = provincialTaxRates.FirstOrDefault(p => p.Province == contract.PrimaryCustomer?.Locations?.FirstOrDefault(m => m.AddressType == AddressType.MainAddress).State).Rate;
                                     var packages =
                                         (contract.Equipment?.InstallationPackages?.Sum(x => x.MonthlyCost) ?? 0.0m);
                                     priceOfEquipment += packages;
@@ -151,24 +93,15 @@ namespace DealnetPortal.Api.Integration.Utility
                                 LoanTerm = contract.Equipment.LoanTerm ?? 0,
                                 AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
                                 PriceOfEquipment = (double)priceOfEquipment,
-                                //  EquipmentCashPrice = (double?)contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
                                 AdminFee = contract.Equipment.AdminFee ?? 0,
                                 DownPayment = contract.Equipment.DownPayment ?? 0,
                                 CustomerRate = contract.Equipment.CustomerRate ?? 0,
-                                IsClarity = contract.Equipment.IsClarityProgram,
-                               // IsOldClarityDeal = contract.Equipment?.IsClarityProgram == null && contract.Dealer?.Tier?.Name == _config.GetSetting(WebConfigKeys.CLARITY_TIER_NAME)
+                                IsClarity = contract.Equipment.IsClarityProgram
                             };
                             var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
-                            //totalMp = (decimal)loanCalculatorOutput.TotalMonthlyPayment;
-                            //worksheet.Cells[counter, 13].Value = loanCalculatorOutput.TotalCashPrice;
                             worksheet.Cells[counter, 13].Value = loanCalculatorOutput.PriceOfEquipmentWithHst;
-                            //worksheet.Cells[counter, 13].Style.Numberformat.Format = "##0.00";
                             worksheet.Cells[counter, 14].Value = contract.Equipment?.DownPayment ?? null;
                             worksheet.Cells[counter, 15].Value = loanCalculatorOutput.TotalAmountFinanced;
-                            //if (contract.Equipment?.ValueOfDeal != null)
-                            //{
-                            //    worksheet.Cells[counter, 15].Value = Math.Round(contract.Equipment.ValueOfDeal.Value, 2);
-                            //}
                             worksheet.Cells[counter, 16].Value = Math.Round(loanCalculatorOutput.TotalMonthlyPayment, 2);
                             worksheet.Cells[counter, 17].Value = loanCalculatorOutput.TotalObligation;
                             worksheet.Cells[counter, 18].Value = loanCalculatorOutput.TotalBorowingCost;
@@ -184,8 +117,6 @@ namespace DealnetPortal.Api.Integration.Utility
                         }
                     }
 
-                    // worksheet.Cells[counter, 17].Value = contract.Equipment?. Total obligation
-                    // worksheet.Cells[counter, 18].Value = contract.Equipment?. cost of borrowing
                     worksheet.Cells[counter, 19].Value = contract.DealerName;
                     worksheet.Cells[counter, 20].Value = contract.Details?.LocalizedStatus ?? contract.ContractState.GetEnumDescription();
                     worksheet.Cells[counter, 21].Value = contract.Equipment?.AgreementType.GetEnumDescription();
