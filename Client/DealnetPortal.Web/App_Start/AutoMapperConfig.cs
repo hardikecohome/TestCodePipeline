@@ -665,7 +665,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.ContractId, d => d.MapFrom(src => src.Id))
                 .ForMember(x => x.DownPayment, d => d.MapFrom(src => src.DownPayment == 0 ? null : src.DownPayment))
                 .ForMember(x => x.SelectedRateCardId, d => d.MapFrom(o => o.RateCardId))
-                .ForMember(x => x.IsPaidByCustomer, d => d.MapFrom(o => o.IsPaidByCutomer))
+                .ForMember(x => x.IsAdminFeePaidByCustomer, d => d.MapFrom(o => o.IsFeePaidByCutomer))
                 .ForMember(x => x.ProvinceTaxRate, d => d.Ignore())
                 .ForMember(x => x.CreditAmount, d => d.Ignore())
                 .ForMember(x => x.LoanDeferralType, d => d.ResolveUsing(src =>
