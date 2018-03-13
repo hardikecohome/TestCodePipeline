@@ -1856,17 +1856,17 @@ namespace DealnetPortal.Api.Integration.Services
                         udfList.Add(new UDF()
                         {
                             Name = AspireUdfFields.BorrowingCost,
-                            Value = paymentInfo.LoanDetails?.TotalBorowingCost.ToString(CultureInfo.InvariantCulture) ?? "0.0"
+                            Value = paymentInfo.LoanDetails?.TotalBorowingCost.ToString("F", CultureInfo.InvariantCulture) ?? "0.0"
                         });
                         udfList.Add(new UDF()
                         {
                             Name = AspireUdfFields.ResidualValue,
-                            Value = paymentInfo.LoanDetails?.ResidualBalance.ToString(CultureInfo.InvariantCulture) ?? "0.0"
+                            Value = paymentInfo.LoanDetails?.ResidualBalance.ToString("F", CultureInfo.InvariantCulture) ?? "0.0"
                         });
                         udfList.Add(new UDF()
                         {
                             Name = AspireUdfFields.TotalObligation,
-                            Value = paymentInfo.LoanDetails?.TotalObligation.ToString(CultureInfo.InvariantCulture) ?? "0.0"
+                            Value = paymentInfo.LoanDetails?.TotalObligation.ToString("F", CultureInfo.InvariantCulture) ?? "0.0"
                         });
                         var dealerCostRate = contract.Equipment?.RateCard?.DealerCost ?? contract.Equipment?.DealerCost;
                         udfList.Add(new UDF()
@@ -1935,21 +1935,21 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         Name = AspireUdfFields.TotalAmountFinanced,
                         Value = contract.Details.AgreementType == AgreementType.LoanApplication ? 
-                            paymentInfo.TotalAmountFinanced?.ToString() ?? "0.0"
+                            paymentInfo.TotalAmountFinanced?.ToString("F", CultureInfo.InvariantCulture) ?? "0.0"
                             : "0.0"
                     });
                     udfList.Add(new UDF()
                     {
                         Name = AspireUdfFields.TotalOfAllMonthlyPayment,
                         Value = contract.Details.AgreementType == AgreementType.LoanApplication ?
-                            paymentInfo.TotalAllMonthlyPayment?.ToString(CultureInfo.InvariantCulture) ?? "0.0"
+                            paymentInfo.TotalAllMonthlyPayment?.ToString("F", CultureInfo.InvariantCulture) ?? "0.0"
                             : "0.0"
                     });
                     udfList.Add(new UDF()
                     {
                         Name = AspireUdfFields.TotalEquipmentPrice,
                         Value = contract.Equipment.AgreementType == AgreementType.LoanApplication ? 
-                            ((paymentInfo.TotalAmountFinanced ?? 0.0m) + ((decimal?)contract.Equipment.DownPayment ?? 0.0m)).ToString(CultureInfo.InvariantCulture)
+                            ((paymentInfo.TotalAmountFinanced ?? 0.0m) + ((decimal?)contract.Equipment.DownPayment ?? 0.0m)).ToString("F", CultureInfo.InvariantCulture)
                                 : "0.0"
                     });                    
                 }
