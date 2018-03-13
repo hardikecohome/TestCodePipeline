@@ -124,7 +124,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 }
                 else
                 {
-                    var isCustomSelected = result.Item1.Equipment?.IsCustomRateCard == true || result.Item1.Equipment?.RateCardId == 0; //result.Item1.Equipment?.RateCardId == null;
+                    var isCustomSelected = result.Item1.Equipment?.IsCustomRateCard == true || result.Item1.Equipment?.RateCardId == 0;
                     equipmentInfo.IsCustomRateCardSelected = isCustomSelected;
                 }
 
