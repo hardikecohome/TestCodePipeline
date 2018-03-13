@@ -40,13 +40,13 @@
                             <div class="form-group">
                                 @Html.LabelFor(m => m.NewEquipment[i].Type)
                                 @Html.DropDownListFor(m => m.NewEquipment[i].Type,
-                                                        ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem
-                                                        {
-                                                            Value = x.Type,
-                                                            Text = x.Description,
-                                                            Selected = Model?.NewEquipment != null && Model.NewEquipment[i]?.Type == x.Type
-                                                        }),
-                                                        new { @class = "form-control" })
+                                                             ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem
+                                                             {
+                                                                 Value = x.Type,
+                                                                 Text = x.Description,
+                                                                 Selected = Model?.NewEquipment != null && Model.NewEquipment[i]?.Type == x.Type
+                                                             }),
+                                                             new { @class = "form-control" })
                             </div>
                         </div>
                         <div class="col-xs-12 col-md-5">
@@ -87,7 +87,8 @@
                                         @class = "form-control dealnet-input reduced-monthly-cost",
                                         type = "text",
                                         @readonly = "readonly",
-                                        name = ""
+                                        name = "",
+                                        tabindex = "-1"
                                     })
                                 </div>
                             </div>
@@ -160,7 +161,8 @@
                                         @class = "form-control dealnet-input reduced-monthly-cost",
                                         type = "text",
                                         @readonly = "",
-                                        name = ""
+                                        name = "",
+                                        tabindex = "-1"
                                     })
                                 </div>
                             </div>

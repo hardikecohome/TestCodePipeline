@@ -1,6 +1,8 @@
 ﻿module.exports('financial-functions.clarity',
     function () {
 
+        var clarityPaymentFactor = 0.010257;
+
         var clarityTax = function (data) {
             return (data.packagesSum + data.equipmentSum) * data.tax / 100;
         };
@@ -18,7 +20,7 @@
             //var amortizationTerm = data.AmortizationTerm;
             //var customerRate = data.CustomerRate;
 
-            var res = tPrice / 0.010257; //clarityPaymentFactor
+            var res = tPrice / clarityPaymentFactor;
 
             //var res = -pv(customerRate / 100 / 12, amortizationTerm, tPrice, 0);
 
@@ -26,7 +28,7 @@
         }
 
         var totalClarityMonthlyPayments = function (data) {
-            var mPayment = totalMonthlyCostOfOwnership(data);
+            var mPayment = totalClarityMonthlyPaymentsLessDownPayment(data);
             var loanTerm = data.LoanTerm;
 
             return mPayment.toFixed(2) * loanTerm;
@@ -78,6 +80,12 @@
             return totalAmountFinanced /* - adminFee*/ - downPayment;
         }
 
+        var totalClarityMonthlyPaymentsLessDownPayment = function (data) {
+            var priceOfEquipment = totalPriceOfEquipment(data);
+
+            return priceOfEquipment * clarityPaymentFactor;
+        }
+
         return {
             totalMonthlyCostOfOwnership: totalMonthlyCostOfOwnership,
             totalObligation: totalClarityObligation,
@@ -87,6 +95,7 @@
             totalAmountFinanced: totalClarityAmountFinanced,
             yourCost: clarityYourCost,
             totalPriceOfEquipment: totalPriceOfEquipment,
-            tax: clarityTax
+            tax: clarityTax,
+            totalMonthlyPaymentsLessDownPayment: totalClarityMonthlyPaymentsLessDownPayment
         };
     });

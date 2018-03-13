@@ -76,7 +76,9 @@
             equipmentSum: eSum,
             downPayment: state.downPayment,
             tax: state.tax,
-            packagesSum: packagesSum
+            packagesSum: packagesSum,
+            numEquipment: countItems(state.equipments),
+            numPackages: !$.isEmptyObject(state.packages) ? countItems(state.packages) : 0
         }, idToValue(state)('clarity'));
 
         var briefData = rateCardsCalculator.caclulateClarityBriefValues(totalMonthlyData);
@@ -104,6 +106,7 @@
             $('#loanAmortTerm').text(data.loanTerm + '/' + data.amortTerm);
             $('#customerRate').text(data.CustomerRate.toFixed(2) + '%');
             $('#total-amount-financed').text(formatCurrency(data.totalAmountFinanced));
+            $('#totalMonthlyCostTaxDP').text(formatCurrency(data.totalMonthlyCostTaxDP));
             Object.keys(settings.rateCardCurrencyFields).map(function (key) {
                 $('#' + key).text(formatCurrency(data[settings.rateCardCurrencyFields[key]]));
             });
@@ -117,6 +120,7 @@
             $('#loanAmortTerm').text('-');
             $('#customerRate').text('-');
             $('#total-amount-financed').text('-');
+            $('#totalMonthlyCostTaxDP').text('-');
             Object.keys(settings.rateCardCurrencyFields).map(function (key) {
                 $('#' + key).text('-');
             });
@@ -138,13 +142,11 @@
             $("#tax").text(formatCurrency(data.tax));
             $("#totalMonthlyCostTax").text(formatCurrency(data.totalMonthlyCostOfOwnership));
             $("#totalPriceEquipment").text(formatCurrency(data.totalPriceOfEquipment));
-            $('#totalMonthlyCostTaxDP').text(formatCurrency(data.totalMonthlyCostOfOwnership));
         } else {
             $("#tax").text('-');
             $("#totalMonthlyCostNoTax").text('-');
             $("#totalMonthlyCostTax").text('-');
             $("#totalPriceEquipment").text('-');
-            $('#totalMonthlyCostTaxDP').text(formatCurrency('-'));
         }
     }
 
