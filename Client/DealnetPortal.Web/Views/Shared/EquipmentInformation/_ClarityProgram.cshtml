@@ -40,13 +40,13 @@
                             <div class="form-group">
                                 @Html.LabelFor(m => m.NewEquipment[i].Type)
                                 @Html.DropDownListFor(m => m.NewEquipment[i].Type,
-                                              ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem
-                                              {
-                                                  Value = x.Type,
-                                                  Text = x.Description,
-                                                  Selected = Model?.NewEquipment != null && Model.NewEquipment[i]?.Type == x.Type
-                                              }),
-                                              new { @class = "form-control" })
+                                                        ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem
+                                                        {
+                                                            Value = x.Type,
+                                                            Text = x.Description,
+                                                            Selected = Model?.NewEquipment != null && Model.NewEquipment[i]?.Type == x.Type
+                                                        }),
+                                                        new { @class = "form-control" })
                             </div>
                         </div>
                         <div class="col-xs-12 col-md-5">
@@ -79,14 +79,15 @@
                         </div>
                         <div class="col-md-2 col-xs-12 monthly-cost-col">
                             <div class="form-group">
-                                @Html.Label(Resources.MCOReducedDownPayment)
+                                @Html.LabelFor(m => m.NewEquipment[i].MonthlyCostLessDP)
                                 <div class="control-group has-addon-left">
                                     <div class="control-group-addon">$</div>
-                                    @Html.TextBoxFor(m => m.NewEquipment[i].MonthlyCost, new
+                                    @Html.TextBoxFor(m => m.NewEquipment[i].MonthlyCostLessDP, new
                                     {
                                         @class = "form-control dealnet-input reduced-monthly-cost",
                                         type = "text",
-                                        @readonly = "readonly"
+                                        @readonly = "readonly",
+                                        name = ""
                                     })
                                 </div>
                             </div>
@@ -125,9 +126,11 @@
                             <div class="form-group">
                                 @Html.LabelFor(m => m.InstallationPackages[i].Description)
                                 <div class="control-group">
-                                    @Html.TextBoxFor(m => m.InstallationPackages[i].Description, new {
-                                   @class = "form-control dealnet-input",
-                                   placeholder = Resources.Description })
+                                    @Html.TextBoxFor(m => m.InstallationPackages[i].Description, new
+                                    {
+                                        @class = "form-control dealnet-input",
+                                        placeholder = Resources.Description
+                                    })
                                     @Html.ValidationMessageFor(m => m.InstallationPackages[i].Description, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -137,23 +140,27 @@
                                 @Html.LabelFor(m => m.InstallationPackages[i].MonthlyCost)
                                 <div class="control-group has-addon-left">
                                     <div class="control-group-addon">$</div>
-                                    @Html.TextBoxFor(m => m.InstallationPackages[i].MonthlyCost, new {
-                                   @class = "form-control dealnet-input monthly-cost",
-                                   type = "text",
-                                   placeholder = Resources.MonthlyCostOfOwnership })
+                                    @Html.TextBoxFor(m => m.InstallationPackages[i].MonthlyCost, new
+                                    {
+                                        @class = "form-control dealnet-input monthly-cost",
+                                        type = "text",
+                                        placeholder = Resources.MonthlyCostOfOwnership
+                                    })
                                     @Html.ValidationMessageFor(m => m.InstallationPackages[i].MonthlyCost, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3 col-xs-12 monthly-cost-col">
                             <div class="form-group">
-                                @Html.Label(Resources.MCOReducedDownPayment)
+                                @Html.LabelFor(m => m.InstallationPackages[i].MonthlyCostLessDP)
                                 <div class="control-group has-addon-left">
                                     <div class="control-group-addon">$</div>
-                                    @Html.TextBoxFor(m => m.InstallationPackages[i].MonthlyCost, new
+                                    @Html.TextBoxFor(m => m.InstallationPackages[i].MonthlyCostLessDP, new
                                     {
                                         @class = "form-control dealnet-input reduced-monthly-cost",
-                                        type = "text"
+                                        type = "text",
+                                        @readonly = "",
+                                        name = ""
                                     })
                                 </div>
                             </div>

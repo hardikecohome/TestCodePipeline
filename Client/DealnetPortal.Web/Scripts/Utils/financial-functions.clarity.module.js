@@ -1,7 +1,7 @@
 ﻿module.exports('financial-functions.clarity',
-    function() {
-        
-        var clarityTax = function(data) {
+    function () {
+
+        var clarityTax = function (data) {
             return (data.packagesSum + data.equipmentSum) * data.tax / 100;
         };
 
@@ -13,26 +13,26 @@
             return packagesSum + equipmentSum + t;
         };
 
-        var totalClarityAmountFinanced = function(data) {
+        var totalClarityAmountFinanced = function (data) {
             var tPrice = totalMonthlyCostOfOwnership(data);
             //var amortizationTerm = data.AmortizationTerm;
             //var customerRate = data.CustomerRate;
 
-            var res = tPrice / 0.010257;//clarityPaymentFactor
-             
+            var res = tPrice / 0.010257; //clarityPaymentFactor
+
             //var res = -pv(customerRate / 100 / 12, amortizationTerm, tPrice, 0);
 
             return res;
         }
 
-        var totalClarityMonthlyPayments = function(data) {
+        var totalClarityMonthlyPayments = function (data) {
             var mPayment = totalMonthlyCostOfOwnership(data);
             var loanTerm = data.LoanTerm;
 
             return mPayment.toFixed(2) * loanTerm;
         };
 
-        var clarityResidualBalance = function(data) {
+        var clarityResidualBalance = function (data) {
             var amortizationTerm = data.AmortizationTerm;
             var loanTerm = data.LoanTerm;
             var customerRate = data.CustomerRate;
@@ -47,14 +47,14 @@
             return +rbalance.toFixed(2);
         };
 
-        var totalClarityObligation = function(data) {
+        var totalClarityObligation = function (data) {
             var tMonthlyPayments = totalClarityMonthlyPayments(data);
             var rBalance = clarityResidualBalance(data);
             var adminFee = data.AdminFee;
             return tMonthlyPayments + rBalance + adminFee;
         };
 
-        var totalClarityBorrowingCost = function(data) {
+        var totalClarityBorrowingCost = function (data) {
             var tObligation = totalClarityObligation(data);
             var tAmountFinanced = totalClarityAmountFinanced(data);
             var adminFee = data.AdminFee;
@@ -75,7 +75,7 @@
             var totalAmountFinanced = totalClarityAmountFinanced(data);
             var downPayment = data.downPayment;
 
-            return totalAmountFinanced/* - adminFee*/ + downPayment;
+            return totalAmountFinanced /* - adminFee*/ - downPayment;
         }
 
         return {

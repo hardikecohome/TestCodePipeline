@@ -17,12 +17,12 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.NewEquipment[0].Type)
                             @Html.DropDownListFor(m => m.NewEquipment[0].Type,
-                                                    ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem
-                                                    {
-                                                        Value = x.Type,
-                                                        Text = x.Description
-                                                    }),
-                                                    new { @class = "form-control", @Value = 0 })
+                                                         ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem
+                                                         {
+                                                             Value = x.Type,
+                                                             Text = x.Description
+                                                         }),
+                                                         new { @class = "form-control", @Value = 0 })
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-4">
@@ -57,10 +57,10 @@
                     </div>
                     <div class="col-md-3 col-xs-12 monthly-cost-col">
                         <div class="form-group">
-                            @Html.Label(Resources.MCOReducedDownPayment)
+                            @Html.LabelFor(m => m.NewEquipment[0].MonthlyCostLessDP)
                             <div class="control-group has-addon-left">
                                 <div class="control-group-addon">$</div>
-                                @Html.TextBoxFor(m => m.NewEquipment[0].MonthlyCost, new
+                                @Html.TextBoxFor(m => m.NewEquipment[0].MonthlyCostLessDP, new
                                 {
                                     @class = "form-control dealnet-input reduced-monthly-cost",
                                     type = "text",
@@ -90,8 +90,8 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.NewEquipment[0].Type)
                             @Html.DropDownListFor(m => m.NewEquipment[0].Type,
-                                         ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
-                                         new { @class = "form-control equipment-select", @Value = 0 })
+                                              ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
+                                              new { @class = "form-control equipment-select", @Value = 0 })
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-6 description-col">
@@ -153,12 +153,12 @@
                             @Html.LabelFor(m => m.ExistingEquipment[0].IsRental)
                             <div class="control-group">
                                 @Html.DropDownListFor(m => m.ExistingEquipment[0].IsRental, new SelectList(
-                                                                  new[]
-                                                                  {
-                                                                                                                                                            new {Value = "true", Text = Resources.Yes, Selected = Model?.ExistingEquipment != null && Model.ExistingEquipment[0].IsRental},
-                                                                                                                                                            new {Value = "false", Text = Resources.No, Selected = Model?.ExistingEquipment != null && !Model.ExistingEquipment[0].IsRental},
-                                                                  },
-                                                                  "Value", "Text", Model?.ExistingEquipment?[0].IsRental ?? true), new { @class = "form-control", @Value = true })
+                                                                       new[]
+                                                                       {
+                                                                                                                                                                                new {Value = "true", Text = Resources.Yes, Selected = Model?.ExistingEquipment != null && Model.ExistingEquipment[0].IsRental},
+                                                                                                                                                                                new {Value = "false", Text = Resources.No, Selected = Model?.ExistingEquipment != null && !Model.ExistingEquipment[0].IsRental},
+                                                                       },
+                                                                       "Value", "Text", Model?.ExistingEquipment?[0].IsRental ?? true), new { @class = "form-control", @Value = true })
                             </div>
                         </div>
                     </div>
@@ -302,10 +302,10 @@
                 </div>
                 <div class="col-md-3 col-xs-12 monthly-cost-col">
                     <div class="form-group">
-                        @Html.Label(Resources.MCOReducedDownPayment)
+                        @Html.LabelFor(m => m.InstallationPackages[0])
                         <div class="control-group has-addon-left">
                             <div class="control-group-addon">$</div>
-                            @Html.TextBoxFor(m => m.InstallationPackages[0].MonthlyCost, new
+                            @Html.TextBoxFor(m => m.InstallationPackages[0].MonthlyCostLessDP, new
                             {
                                 @class = "form-control dealnet-input reduced-monthly-cost",
                                 type = "text",
