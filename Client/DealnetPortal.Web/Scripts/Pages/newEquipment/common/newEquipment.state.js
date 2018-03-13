@@ -7,6 +7,7 @@
         tax: taxRate,
         downPayment: 0,
         rentalMPayment: 0,
+        customRateCardBoundaires: { },
         clarity: {
 
         },
