@@ -1879,6 +1879,11 @@ namespace DealnetPortal.Api.Integration.Services
                                 ((decimal)dealerCostRate.Value / 100 * paymentInfo.TotalAmountFinanced ?? 0.0m).ToString(CultureInfo.InvariantCulture)
                                 : "0.0"
                         });
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.PstRate,
+                            Value = "0.0"
+                        });
                     }
                     else
                     {
@@ -1917,6 +1922,11 @@ namespace DealnetPortal.Api.Integration.Services
                             Name = AspireUdfFields.DealerCost,
                             Value = "0.0"
                         });
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.PstRate,
+                            Value = ((paymentInfo.Hst ?? 0.0m)/100).ToString(CultureInfo.InvariantCulture) ?? "0.0"
+                        });
                     }                    
 
                     udfList.Add(new UDF()
@@ -1939,12 +1949,7 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = contract.Equipment.AgreementType == AgreementType.LoanApplication ? 
                             ((paymentInfo.TotalAmountFinanced ?? 0.0m) + ((decimal?)contract.Equipment.DownPayment ?? 0.0m)).ToString(CultureInfo.InvariantCulture)
                                 : "0.0"
-                    });
-                    udfList.Add(new UDF()
-                    {
-                        Name = AspireUdfFields.PstRate,
-                        Value = paymentInfo.Hst?.ToString(CultureInfo.InvariantCulture) ?? "0.0"
-                    });
+                    });                    
                 }
                 
                 if (!string.IsNullOrEmpty(contract.Equipment.SalesRep))
