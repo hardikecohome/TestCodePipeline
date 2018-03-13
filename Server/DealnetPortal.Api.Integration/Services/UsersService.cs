@@ -65,6 +65,7 @@ namespace DealnetPortal.Api.Integration.Services
                 claims.Add(new Claim(ClaimNames.QuebecDealer, (dealerProvinceCode != null && dealerProvinceCode == "QC").ToString()));
                 claims.Add(new Claim(ClaimNames.ClarityDealer, (!string.IsNullOrEmpty(aspireUserInfo.Ratecard) && aspireUserInfo.Ratecard == _сonfiguration.GetSetting(WebConfigKeys.CLARITY_TIER_NAME)).ToString()));
                 claims.Add(new Claim(ClaimNames.MortgageBroker, (aspireUserInfo.Role != null && mbConfigRoles.Contains(aspireUserInfo.Role)).ToString()));
+                claims.Add(new Claim(ClaimNames.DealerNotPaidFee, (!string.IsNullOrEmpty(aspireUserInfo.DealerNotPaidFee) && aspireUserInfo.DealerNotPaidFee == true.ToString()).ToString()));
             }
 
             if (settings?.SettingValues != null)

@@ -362,6 +362,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.ChannelType, s => s.Ignore())
                 .ForMember(d => d.Role, s => s.Ignore())
                 .ForMember(d => d.Ratecard, s => s.Ignore())
+                .ForMember(d => d.DealerNotPaidFee, s => s.Ignore())
                 .ForMember(d => d.EmploymentInfo, s => s.Ignore());
 
             mapperConfig.CreateMap<Aspire.Integration.Models.AspireDb.DealerRoleEntity, DealerDTO>()
@@ -373,6 +374,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.ChannelType, s => s.MapFrom(src => src.ChannelType))
                 .ForMember(d => d.Role, s => s.MapFrom(src => src.Role))
                 .ForMember(d => d.Ratecard, s => s.MapFrom(src => src.Ratecard))
+                .ForMember(d => d.DealerNotPaidFee, s => s.MapFrom(src => src.DealerNotPaidFee))
                 .ForMember(d => d.EmploymentInfo, s => s.Ignore());
         }
 
