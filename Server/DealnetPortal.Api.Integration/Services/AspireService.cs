@@ -1898,12 +1898,16 @@ namespace DealnetPortal.Api.Integration.Services
                     udfList.Add(new UDF()
                     {
                         Name = AspireUdfFields.TotalAmountFinanced,
-                        Value = contract.Equipment.AgreementType == AgreementType.LoanApplication ? paymentInfo.TotalAmountFinanced?.ToString() : paymentInfo.TotalMonthlyPayment?.ToString()
+                        Value = contract.Details.AgreementType == AgreementType.LoanApplication ? 
+                            paymentInfo.TotalAmountFinanced?.ToString() ?? "0.0"
+                            : "0.0"
                     });
                     udfList.Add(new UDF()
                     {
                         Name = AspireUdfFields.TotalOfAllMonthlyPayment,
-                        Value = paymentInfo.TotalAllMonthlyPayment?.ToString(CultureInfo.InvariantCulture) ?? "0.0"
+                        Value = contract.Details.AgreementType == AgreementType.LoanApplication ?
+                            paymentInfo.TotalAllMonthlyPayment?.ToString(CultureInfo.InvariantCulture) ?? "0.0"
+                            : "0.0"
                     });
                     udfList.Add(new UDF()
                     {
