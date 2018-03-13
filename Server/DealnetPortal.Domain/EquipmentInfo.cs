@@ -70,7 +70,11 @@ namespace DealnetPortal.Domain
         [NotMapped]
         public bool IsCustomRateCard
         {
-            get { return isCustomRateCard ?? RateCardId == null && AmortizationTerm.HasValue && LoanTerm.HasValue; }
+            get
+            {
+                return (RateCard != null && RateCard.CardType == RateCardType.Custom) ||
+                       (isCustomRateCard ?? RateCardId == null && AmortizationTerm.HasValue && LoanTerm.HasValue);
+            }
             set { isCustomRateCard = value; }
         }
 
