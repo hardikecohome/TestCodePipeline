@@ -336,7 +336,7 @@ namespace DealnetPortal.Web.Controllers
             var model = await _contractManager.GetEquipmentInfoAsyncNew(contractId);
 
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
-            ViewBag.CardTypes = model.DealerTier?.RateCards?.Select(x => x.CardType).Distinct().ToList();
+            ViewBag.CardTypes = model.DealerTier?.RateCards?.Where(q => q.CardType != RateCardType.Custom).Select(x => x.CardType).Distinct().ToList();
             ViewBag.AmortizationTerm = model.DealerTier?.RateCards?.ConvertToAmortizationSelectList();
             ViewBag.DefferalPeriod = model.DealerTier?.RateCards?.ConvertToDeferralSelectList();
             if (model.DealerTier != null && model.DealerTier.Id == Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["Amort180RateCardId"]))
