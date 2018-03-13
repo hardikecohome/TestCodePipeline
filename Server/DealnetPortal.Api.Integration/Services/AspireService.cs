@@ -1786,10 +1786,11 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.AmortizationTerm,
-                    Value = contract.Equipment.AmortizationTerm?.ToString() ?? "0"
+                    Value = contract.Details.AgreementType == AgreementType.LoanApplication ? 
+                        contract.Equipment.AmortizationTerm?.ToString() ?? "0" : "0"
                 });
 
-                if (contract.Equipment.LoanTerm.HasValue && (new decimal[] { 24m, 36m, 48m, 60m, 84m, 120m }).Contains(contract.Equipment.LoanTerm.Value))
+                if (contract.Details.AgreementType == AgreementType.LoanApplication && contract.Equipment.LoanTerm.HasValue && (new decimal[] { 24m, 36m, 48m, 60m, 84m, 120m }).Contains(contract.Equipment.LoanTerm.Value))
                 {
                     udfList.Add(new UDF()
                     {
@@ -1815,7 +1816,8 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.DownPayment,
-                    Value = contract.Equipment?.DownPayment?.ToString() ?? "0.0"
+                    Value = contract.Details.AgreementType == AgreementType.LoanApplication ? 
+                            contract.Equipment?.DownPayment?.ToString() ?? "0.0" : "0.0"
                 });
                 udfList.Add(new UDF()
                 {
