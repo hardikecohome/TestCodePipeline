@@ -1780,7 +1780,7 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.RequestedTerm,
-                    Value = contract.Equipment.RequestedTerm?.ToString() ?? BlankValue
+                    Value = (contract.Details.AgreementType == AgreementType.LoanApplication ? contract.Equipment.LoanTerm?.ToString() : contract.Equipment.RequestedTerm?.ToString()) ?? BlankValue
                 });
 
                 udfList.Add(new UDF()
