@@ -2,20 +2,22 @@
     var state = require('calculator-state').state;
     var constants = require('calculator-state').constants;
 
-    var notNaN = function (num) { return !isNaN(num); };
-
-    var idToValue = function (obj) {
-        return function (id) {
-            return obj.hasOwnProperty(id) ? obj[id] : '';
-        };
+    var notNaN = function (num) {
+        return !isNaN(num);
     };
-    
+
+    var idToValue = require('idToValue');
+
     var equipmentSum = function (equipments) {
         return Object.keys(equipments)
             .map(idToValue(equipments))
-            .map(function (equipment) { return parseFloat(equipment.cost); })
+            .map(function (equipment) {
+                return parseFloat(equipment.cost);
+            })
             .filter(notNaN)
-            .reduce(function (sum, cost) { return sum + cost; }, 0);
+            .reduce(function (sum, cost) {
+                return sum + cost;
+            }, 0);
     };
 
     var setLoanAmortTerm = function (optionKey, callback) {
@@ -29,7 +31,7 @@
             $(e.target).valid();
             state[optionKey].LoanTerm = parseFloat(e.target.value);
             validateLoanAmortTerm(optionKey);
-            callback([ optionKey ]);
+            callback([optionKey]);
         };
     };
 
@@ -53,7 +55,7 @@
         return function (e) {
             $(e.target).valid();
             state[optionKey].CustomerRate = parseFloat(e.target.value);
-            callback([ optionKey ]);
+            callback([optionKey]);
         };
     };
 
@@ -65,7 +67,7 @@
         };
     };
 
-    var setAdminFee = function(optionKey, callback) {
+    var setAdminFee = function (optionKey, callback) {
         return function (e) {
             $(e.target).valid();
             state[optionKey].AdminFee = Number(e.target.value);
@@ -73,19 +75,21 @@
         };
     };
 
-    var setDownPayment = function(optionKey, callback) {
+    var setDownPayment = function (optionKey, callback) {
         return function (e) {
             $(e.target).valid();
-            state[optionKey].downPayment = e.target.value !== '' ?  parseFloat(e.target.value) : 0;
+            state[optionKey].downPayment = e.target.value !== '' ? parseFloat(e.target.value) : 0;
             callback([optionKey]);
         }
     };
 
-    var setRateCardPlan = function(optionKey, callback) {
+    var setRateCardPlan = function (optionKey, callback) {
         return function (e) {
-            var planType = $.grep(constants.rateCards, function (c) { return c.name === e.target.value; })[0].name;
+            var planType = $.grep(constants.rateCards, function (c) {
+                return c.name === e.target.value;
+            })[0].name;
             state[optionKey].plan = planType;
-          
+
             var dropdownParentDiv = $('#' + optionKey + '-deferralDropdownWrapper');
             //var e = document.getElementById(optionKey + '-amortDropdown');
             //e.selectedIndex = -1;
@@ -108,12 +112,12 @@
                     $('#deferralDropdownForCustomRc option').clone().appendTo('#' + optionKey + '-deferralDropdown');
 
                     $.grep(constants.inputsToHide,
-                        function(field) {
+                        function (field) {
                             $('#' + optionKey + field).addClass('hidden');
                         });
 
                     $.grep(constants.customInputsToShow,
-                        function(field) {
+                        function (field) {
                             $('#' + optionKey + field).removeClass('hidden').attr('disabled', false);
                         });
                 } else {
@@ -155,7 +159,7 @@
                 $.grep(constants.inputsToHide, function (field) {
                     $('#' + optionKey + field).removeClass('hidden');
                 });
-                
+
                 $.grep(constants.customInputsToShow, function (field) {
                     $('#' + optionKey + field).addClass('hidden');
                     $('#' + optionKey + field).siblings('a.clear-input').css('display', 'none');
@@ -169,7 +173,7 @@
         }
     }
 
-    var setEquipmentCost = function(optionKey, callback) {
+    var setEquipmentCost = function (optionKey, callback) {
         return function (e) {
             $(e.target).valid();
             var mvcId = e.target.id;
@@ -188,7 +192,7 @@
         }
     }
 
-    var setEquipmentDescription = function(optionKey) {
+    var setEquipmentDescription = function (optionKey) {
         return function (e) {
             $(e.target).valid();
             var mvcId = e.target.id;
@@ -199,7 +203,12 @@
 
     var setNewEquipment = function (optionKey, callback) {
         var nextIndex = state[optionKey].equipmentNextIndex;
-        state[optionKey].equipments[nextIndex] = { id: nextIndex.toString(), cost: '', description: '', type: state.defaultEquipment };
+        state[optionKey].equipments[nextIndex] = {
+            id: nextIndex.toString(),
+            cost: '',
+            description: '',
+            type: state.defaultEquipment
+        };
         state[optionKey].equipmentNextIndex++;
 
         callback([optionKey]);
@@ -235,7 +244,7 @@
         var options = $('#' + optionKey + '-amortDropdown');
         options.empty();
         var dropdownValues = state.amortLoanPeriods[planType];
-        
+
         dropdownValues.forEach(function (item) {
             var optionTemplate = $("<option />").val(item).text(item);
 
@@ -252,15 +261,15 @@
                 if (error.is(':hidden')) {
                     error.show();
                     error.parent().find('input[type="text"]')
-                      .addClass('input-validation-error')
-                      .addClass('input-has-error');
+                        .addClass('input-validation-error')
+                        .addClass('input-has-error');
                 }
             } else {
                 if (error.is(':visible')) {
                     error.hide();
                     error.parent().find('input[type="text"]')
-                      .removeClass('input-validation-error')
-                      .removeClass('input-has-error');
+                        .removeClass('input-validation-error')
+                        .removeClass('input-has-error');
                 }
             }
         }

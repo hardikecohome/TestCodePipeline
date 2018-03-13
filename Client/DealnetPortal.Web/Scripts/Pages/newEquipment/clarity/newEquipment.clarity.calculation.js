@@ -32,7 +32,6 @@
             'customerRate': 'CustomerRate',
             'total-amount-financed': 'totalAmountFinanced',
             'loanAmortTerm': 'loanAmortTerm'
-
         },
 
         numberFields: ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'DealerCost', 'AdminFee'],
@@ -80,6 +79,7 @@
             numEquipment: countItems(state.equipments),
             numPackages: !$.isEmptyObject(state.packages) ? countItems(state.packages) : 0
         }, idToValue(state)('clarity'));
+        debugger
 
         var briefData = rateCardsCalculator.caclulateClarityBriefValues(totalMonthlyData);
         _renderTotalPriceInfo(briefData);
@@ -163,12 +163,12 @@
 
         for (var id in state.equipments) {
             state.equipments[id].monthlyCostLessDp = state.equipments[id].monthlyCost - dpTaxPerItem;
-            state.equipments[id].template.find('.reduced-monthly-cost').val(state.equipments[id].monthlyCostLessDp);
+            state.equipments[id].template.find('.reduced-monthly-cost').val(state.equipments[id].monthlyCostLessDp.toFixed(2));
         }
 
         for (var id in state.packages) {
             state.packages[id].monthlyCostLessDp = state.packages[id].monthlyCost - dpTaxPerItem;
-            state.packages[id].template.find('.reduced-monthly-cost').val(state.packages[id].monthlyCostLessDp);
+            state.packages[id].template.find('.reduced-monthly-cost').val(state.packages[id].monthlyCostLessDp.toFixed(2));
         }
     }
 

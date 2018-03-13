@@ -9,26 +9,28 @@
         rentalTotalMonthlyPaymentId: '#rentalTMPayment'
     }
 
-    var notNaN = function (num) { return !isNaN(num); };
-
-    var idToValue = function (obj) {
-        return function (id) {
-            return obj.hasOwnProperty(id) ? obj[id] : '';
-        };
+    var notNaN = function (num) {
+        return !isNaN(num);
     };
+
+    var idToValue = require('idToValue');
 
     var monthlySum = function (equipments) {
         return Object.keys(equipments)
             .map(idToValue(equipments))
-            .map(function (equipment) { return parseFloat(equipment.monthlyCost); })
+            .map(function (equipment) {
+                return parseFloat(equipment.monthlyCost);
+            })
             .filter(notNaN)
-            .reduce(function (sum, cost) { return sum + cost; }, 0);
+            .reduce(function (sum, cost) {
+                return sum + cost;
+            }, 0);
     };
 
     /**
-      * recalculate all financial values for Rental/RentalHwt agreement type
-      * @returns {void} 
-      */
+     * recalculate all financial values for Rental/RentalHwt agreement type
+     * @returns {void} 
+     */
     var recalculateAndRenderRentalValues = function () {
         var eSum = monthlySum(state.equipments);
 
@@ -37,7 +39,9 @@
             equipmentSum: eSum
         };
 
-        var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
+        var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) {
+            return isNaN(val);
+        });
         if (notNan && data.equipmentSum !== 0) {
             $(settings.totalMonthlyPaymentId).val(formatNumber(eSum));
             $(settings.rentalTaxId).text(formatNumber(tax(data)));
@@ -55,7 +59,9 @@
             equipmentSum: state.rentalMPayment
         };
 
-        var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) { return isNaN(val); });
+        var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) {
+            return isNaN(val);
+        });
         if (notNan && data.equipmentSum !== 0) {
             $(settings.rentalTaxId).text(formatNumber(tax(data)));
             $(settings.rentalTotalMonthlyPaymentId).text(formatNumber(totalRentalPrice(data)));
@@ -63,7 +69,7 @@
             $(settings.rentalTaxId).text('-');
             $(settings.rentalTotalMonthlyPaymentId).text('-');
         }
-    }; 
+    };
 
     return {
         recalculateAndRenderRentalValues: recalculateAndRenderRentalValues,

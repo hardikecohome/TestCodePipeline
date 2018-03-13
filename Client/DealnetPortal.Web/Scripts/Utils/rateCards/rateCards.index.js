@@ -23,11 +23,7 @@
     var state = require('rateCards.state').state;
     var constants = require('rateCards.state').constants;
 
-    var idToValue = function (obj) {
-        return function (id) {
-            return obj.hasOwnProperty(id) ? obj[id] : '';
-        };
-    };
+    var idToValue = require('idToValue');
 
     var equipmentSum = function (equipments) {
         return Object.keys(equipments)
@@ -121,7 +117,7 @@
     var calculateClarityValuesForRender = function (data) {
         return $.extend({}, data, {
             costOfBorrowing: clarityCalculations.totalBorrowingCost(data),
-            totalAmountFinanced: clarityCalculations.totalPriceOfEquipment(data),
+            totalAmountFinanced: clarityCalculations.totalAmountFinanced(data),
             totalMonthlyPayments: clarityCalculations.totalMonthlyPayments(data),
             residualBalance: clarityCalculations.residualBalance(data),
             totalObligation: clarityCalculations.totalObligation(data),

@@ -16,11 +16,12 @@
         };
 
         var totalClarityAmountFinanced = function (data) {
-            var tPrice = totalMonthlyCostOfOwnership(data);
+            var tPrice = totalPriceOfEquipment(data);
+            var downPayment = data.downPayment;
             //var amortizationTerm = data.AmortizationTerm;
             //var customerRate = data.CustomerRate;
 
-            var res = tPrice / clarityPaymentFactor;
+            var res = tPrice - downPayment;
 
             //var res = -pv(customerRate / 100 / 12, amortizationTerm, tPrice, 0);
 
@@ -38,7 +39,7 @@
             var amortizationTerm = data.AmortizationTerm;
             var loanTerm = data.LoanTerm;
             var customerRate = data.CustomerRate;
-            var mPayment = totalMonthlyCostOfOwnership(data);
+            var mPayment = totalClarityMonthlyPaymentsLessDownPayment(data);
 
             var rbalance = 0;
             if (loanTerm !== amortizationTerm) {
@@ -74,14 +75,12 @@
 
         var totalPriceOfEquipment = function (data) {
             var tPrice = totalMonthlyCostOfOwnership(data);
-            var totalAmountFinanced = totalClarityAmountFinanced(data);
-            var downPayment = data.downPayment;
 
-            return totalAmountFinanced /* - adminFee*/ - downPayment;
+            return tPrice / clarityPaymentFactor;
         }
 
         var totalClarityMonthlyPaymentsLessDownPayment = function (data) {
-            var priceOfEquipment = totalPriceOfEquipment(data);
+            var priceOfEquipment = totalClarityAmountFinanced(data);
 
             return priceOfEquipment * clarityPaymentFactor;
         }
