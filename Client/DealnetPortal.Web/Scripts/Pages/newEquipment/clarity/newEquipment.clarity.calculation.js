@@ -79,7 +79,6 @@
             numEquipment: countItems(state.equipments),
             numPackages: !$.isEmptyObject(state.packages) ? countItems(state.packages) : 0
         }, idToValue(state)('clarity'));
-        debugger
 
         var briefData = rateCardsCalculator.caclulateClarityBriefValues(totalMonthlyData);
         _renderTotalPriceInfo(briefData);
