@@ -1822,8 +1822,9 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.CustomerRate,
-                    Value = contract.Equipment?.RateCard?.CustomerRate.ToString(CultureInfo.InvariantCulture) ??
-                            contract.Equipment?.CustomerRate?.ToString() ?? "0.0"
+                    Value = contract.Details.AgreementType == AgreementType.LoanApplication ?
+                        (contract.Equipment?.RateCard?.CustomerRate.ToString(CultureInfo.InvariantCulture) ?? contract.Equipment?.CustomerRate?.ToString() ?? "0.0")
+                        : "0.0"
                 });                            
                 udfList.Add(new UDF()
                 {
