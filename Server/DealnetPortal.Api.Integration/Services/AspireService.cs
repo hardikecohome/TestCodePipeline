@@ -1483,7 +1483,11 @@ namespace DealnetPortal.Api.Integration.Services
 
                     int eqCount = contract.Equipment?.NewEquipment?.Count(ne => ne.IsDeleted != true) ?? 0;
                     eqCost = installPackagesCost.HasValue && eqCount > 0 ? equipment.MonthlyCost + (installPackagesCost.Value / eqCount) : equipment.MonthlyCost;
-                    var totalAmount = _contractRepository.GetContractPaymentsSummary(contract.Id, eqCost)?.TotalAmountFinanced;
+                    var totalAmount = (decimal?)_contractRepository.GetContractPaymentsSummary(contract.Id, eqCost)?.LoanDetails?.PriceOfEquipmentWithHst;
+                    if (isFirstEquipment && totalAmount.HasValue)
+                    {
+                        totalAmount = totalAmount - (decimal?) contract.Equipment?.DownPayment ?? 0.0m;
+                    }
                     eqCost = totalAmount;
                 }
                 else
