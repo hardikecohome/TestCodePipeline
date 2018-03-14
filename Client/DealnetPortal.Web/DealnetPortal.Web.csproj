@@ -1246,6 +1246,12 @@
     <None Include="Web.Staging.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <None Include="Web.Training.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.TrainingClarity.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Web.UnitTesting.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1313,6 +1319,12 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Staging|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Training|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'TrainingClarity|AnyCPU'">
     <OutputPath>bin\</OutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
