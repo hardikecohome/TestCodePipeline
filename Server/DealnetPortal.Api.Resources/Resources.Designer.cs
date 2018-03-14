@@ -19,7 +19,7 @@ namespace DealnetPortal.Api.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -1366,6 +1366,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 0% Equal Payments.
+        /// </summary>
+        public static string EqualPayments {
+            get {
+                return ResourceManager.GetString("EqualPayments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Equipment.
         /// </summary>
         public static string Equipment {
@@ -2217,6 +2226,15 @@ namespace DealnetPortal.Api.Resources {
         public static string Spa {
             get {
                 return ResourceManager.GetString("Spa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Standard Rate.
+        /// </summary>
+        public static string StandardRate {
+            get {
+                return ResourceManager.GetString("StandardRate", resourceCulture);
             }
         }
         
