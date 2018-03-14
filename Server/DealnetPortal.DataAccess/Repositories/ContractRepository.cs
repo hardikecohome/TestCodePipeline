@@ -1041,7 +1041,7 @@ namespace DealnetPortal.DataAccess.Repositories
             }
 
             var paymentSummary = GetContractPaymentsSummary(contract);
-            dbEquipment.ValueOfDeal = contract.Equipment.AgreementType == AgreementType.LoanApplication ? (double?) paymentSummary.TotalAmountFinanced : (double?) paymentSummary.TotalMonthlyPayment;
+            dbEquipment.ValueOfDeal = contract.Equipment.AgreementType == AgreementType.LoanApplication ? paymentSummary.TotalAmountFinanced : paymentSummary.TotalMonthlyPayment;
 
             return dbEquipment;
         }
@@ -1090,9 +1090,9 @@ namespace DealnetPortal.DataAccess.Repositories
                             LoanTerm = contract.Equipment?.LoanTerm ?? 0,
                             AmortizationTerm = contract.Equipment?.AmortizationTerm ?? 0,
                             PriceOfEquipment = (double?)priceOfEquipment ?? 0.0,
-                            AdminFee = contract.Equipment?.AdminFee ?? 0,
-                            DownPayment = contract.Equipment?.DownPayment ?? 0,
-                            CustomerRate = contract.Equipment?.CustomerRate ?? 0,
+                            AdminFee = (double)(contract.Equipment?.AdminFee ?? 0),
+                            DownPayment = (double)(contract.Equipment?.DownPayment ?? 0),
+                            CustomerRate = (double)(contract.Equipment?.CustomerRate ?? 0),
                             IsClarity = contract.Dealer?.Tier?.Name ==
                                         _config.GetSetting(WebConfigKeys.CLARITY_TIER_NAME),
                             IsOldClarityDeal = contract.Equipment?.IsClarityProgram == null &&
@@ -1428,7 +1428,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     contract.Equipment.AgreementType = contractDetails.AgreementType.Value;
 
                     var paymentSummary = GetContractPaymentsSummary(contract);
-                    contract.Equipment.ValueOfDeal = contract.Equipment.AgreementType == AgreementType.LoanApplication ? (double?)paymentSummary.TotalAmountFinanced : (double?)paymentSummary.TotalMonthlyPayment;
+                    contract.Equipment.ValueOfDeal = contract.Equipment.AgreementType == AgreementType.LoanApplication ? paymentSummary.TotalAmountFinanced : paymentSummary.TotalMonthlyPayment;
                 }
             }
             if (contractDetails.SignatureDocumentId != null)

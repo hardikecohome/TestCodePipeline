@@ -1873,7 +1873,7 @@ namespace DealnetPortal.Api.Integration.Services
                             Name = AspireUdfFields.TotalObligation,
                             Value = paymentInfo.LoanDetails?.TotalObligation.ToString("F", CultureInfo.InvariantCulture) ?? "0.0"
                         });
-                        var dealerCostRate = contract.Equipment?.RateCard?.DealerCost ?? contract.Equipment?.DealerCost;
+                        var dealerCostRate = (decimal?)contract.Equipment?.RateCard?.DealerCost ?? contract.Equipment?.DealerCost;
                         udfList.Add(new UDF()
                         {
                             Name = AspireUdfFields.DealerRate,
