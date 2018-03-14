@@ -298,8 +298,8 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             Application = application
                         }
-                    };            
-                    
+                    };                   
+
                     var sendResult = await DoAspireRequestWithAnalyze(_aspireServiceAgent.DealUploadSubmission,
                         request, (r, c) => AnalyzeResponse(r, c), contract,
                         equipmentAnalyze).ConfigureAwait(false);

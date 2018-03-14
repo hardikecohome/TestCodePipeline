@@ -2605,4 +2605,10 @@ changing contract terms or signing contract on paper.</value>
   <data name="CustomerFee" xml:space="preserve">
     <value>Customer Fee</value>
   </data>
+  <data name="MCOReducedDownPayment" xml:space="preserve">
+    <value>MCO reduced by down payment</value>
+  </data>
+  <data name="TotalMCOReducedDownPayment" xml:space="preserve">
+    <value>Total MCO reduced by down payment</value>
+  </data>
 </root>
