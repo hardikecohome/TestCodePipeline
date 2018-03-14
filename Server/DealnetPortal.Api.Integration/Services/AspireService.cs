@@ -1924,10 +1924,14 @@ namespace DealnetPortal.Api.Integration.Services
                             Name = AspireUdfFields.DealerCost,
                             Value = "0.0"
                         });
+                        
+                        var taxRate = _contractRepository.GetProvinceTaxRate((contract.PrimaryCustomer?.Locations.FirstOrDefault(
+                                                                             l => l.AddressType == AddressType.MainAddress) ??
+                                                                         contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
                         udfList.Add(new UDF()
                         {
                             Name = AspireUdfFields.PstRate,
-                            Value = ((paymentInfo.Hst ?? 0.0m)/100).ToString(CultureInfo.InvariantCulture) ?? "0.0"
+                            Value = ((taxRate?.Rate ?? 0.0)/100).ToString(CultureInfo.InvariantCulture) ?? "0.0"
                         });
                     }                    
 
