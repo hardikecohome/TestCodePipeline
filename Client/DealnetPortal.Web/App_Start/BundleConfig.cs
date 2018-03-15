@@ -13,7 +13,7 @@ namespace DealnetPortal.Web
 
             bundles.Add(new StyleBundle("~/bundles/vendor-styles")
                 .Include("~/Content/css/jquery-ui.css")
-                .Include("~/Content/css/bootstrap.min.css")
+                .Include("~/Content/css/bootstrap.css")
                 .Include("~/Content/css/selectric.css"));
 
             bundles.Add(new StyleBundle("~/bundles/styles")
@@ -25,7 +25,7 @@ namespace DealnetPortal.Web
                 .Include(
                 "~/Scripts/vendor/jquery.validate*",
                 "~/Scripts/vendor/jquery-validation-messages.js"
-                //,"~/Scripts/vendor/knockout.validation.js"
+                            //,"~/Scripts/vendor/knockout.validation.js"
                             ));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
@@ -52,7 +52,7 @@ namespace DealnetPortal.Web
                     "~/Scripts/vendor/jquery.loader.js",
                     "~/Scripts/vendor/jquery.jcarousel.min.js",
                     "~/Scripts/vendor/jquery.touchSwipe.min.js",
-                   // "~/Scripts/vendor/knockout-3.4.2.debug.js",
+                    // "~/Scripts/vendor/knockout-3.4.2.debug.js",
                     "~/Scripts/vendor/js.cookie.js",
                     "~/Scripts/utils/modules/index.js",
                     "~/Scripts/utils/helpPopup.js",
@@ -68,7 +68,7 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap")
                 .Include(
-                    "~/Scripts/vendor/bootstrap.min.js",
+                    "~/Scripts/vendor/bootstrap.js",
                     "~/Scripts/vendor/jquery.selectric.min.js",
                     "~/Scripts/vendor/respond.js"));
 
@@ -120,6 +120,7 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/summary-and-confirmation")
                 .Include("~/Scripts/vendor/jquery.form.js")
+                .Include("~/Scripts/utils/idToValue.js")
                 .Include("~/Scripts/utils/custom-validation.js")
                 .Include("~/Scripts/utils/province-codes-helper.js")
                 .Include("~/Scripts/utils/financial-functions.js")
@@ -131,6 +132,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/navigateToStep.js")
                 .Include("~/Scripts/utils/loader.js")
                 .Include("~/Scripts/utils/financial-functions.clarity.module.js")
+                .Include("~/Scripts/utils/setEqualHeightRows.js")
                 .Include("~/Scripts/pages/summaryAndConfirmation/summary-and-confirmation.js")
                 .Include("~/Scripts/pages/basicInfo/address-autocomplete.js"));
 
@@ -150,6 +152,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/datepicker.js")
                 .Include("~/Scripts/utils/loader.js")
                 .Include("~/Scripts/utils/tables.js")
+                .Include("~/Scripts/vendor/jquery.form.js")
                 .Include("~/Scripts/pages/leads/leads.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/my-deals")
@@ -169,6 +172,7 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/report-contracts")
                 .Include("~/Scripts/common/init-responsive-tabs.js")
+                .Include("~/Scripts/utils/backToTop.js")
                 .Include("~/Scripts/pages/reportContracts/index.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/contract-edit")
@@ -243,7 +247,8 @@ namespace DealnetPortal.Web
             );
 
             bundles.Add(new ScriptBundle("~/bundles/equipment-info-layout")
-                .Include("~/Scripts/vendor/datejs.js")
+                .Include("~/Scripts/vendor/datejs.js") 
+                .Include("~/Scripts/utils/idToValue.js")
                 .Include("~/Scripts/utils/financial-functions.js")
                 .Include("~/Scripts/utils/loan-calculator.js")
                 .Include("~/Scripts/utils/logger/log.js")
@@ -253,8 +258,8 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/navigateToStep.js")
                 .Include("~/Scripts/utils/setEqualHeightRows.js")
                 .Include("~/Scripts/utils/resetPlaceholder.js")
-                .IncludeDirectory("~/Scripts/pages/newEquipment/common", "*.js", true)
                 .IncludeDirectory("~/Scripts/utils/rateCards", "*.js", true)
+                .IncludeDirectory("~/Scripts/pages/newEquipment/common", "*.js", true)
             );
 
             bundles.Add(new ScriptBundle("~/bundles/equipment-info-clarity")
@@ -275,8 +280,8 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/navigateToStep.js")
                 .Include("~/Scripts/utils/setEqualHeightRows.js")
                 .Include("~/Scripts/utils/resetPlaceholder.js")
-                .IncludeDirectory("~/Scripts/pages/newEquipment", "*.js", true)
                 .IncludeDirectory("~/Scripts/utils/rateCards", "*.js", true)
+                .IncludeDirectory("~/Scripts/pages/newEquipment", "*.js", true)
             );
 
             bundles.Add(new ScriptBundle("~/bundles/additional-equipment-information")
@@ -287,6 +292,7 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/standalone-calculator")
                 .Include("~/Scripts/vendor/datejs.js")
+                .Include("~/Scripts/utils/idToValue.js")
                 .Include("~/Scripts/utils/financial-functions.js")
                 .Include("~/Scripts/utils/financial-functions.module.js")
                 .Include("~/Scripts/utils/financial-functions.clarity.module.js")

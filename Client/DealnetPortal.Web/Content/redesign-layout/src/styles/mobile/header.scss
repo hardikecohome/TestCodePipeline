@@ -13,8 +13,7 @@
         padding: 8px 0 0;
     }
     .mobile-navigation {
-        position: relative;
-        z-index: 2000;
+        z-index: 201;
         position: absolute;
         right: 0;
         bottom: -5px;
@@ -31,6 +30,29 @@
         background-image: url('../images/forms/selectArrow.svg');
         background-repeat: no-repeat;
         background-position: 92% center;
+        .mobile-navigation__nav-icon {
+            &:lang(fr),
+            &:lang(fr-CA) {
+                &.icon-new_document,
+                &.icon-deals {
+                    padding-right: 5px;
+                }
+                &.icon-new_document {
+                    padding-left: 5px;
+                }
+            }
+        }
+        &.leads:lang(fr),
+        &.leads:lang(fr-CA) {
+            line-height: 13px;
+            padding-top: 9px;
+            .mobile-navigation__nav-icon {
+                padding: 0 10px;
+            }
+            span:not(.mobile-navigation__nav-icon) {
+                padding-top: 5px;
+            }
+        }
     }
     .mobile-navigation__dropdown {
         position: absolute;
@@ -60,21 +82,32 @@
                     display: block;
                     font-size: 11px;
                     text-transform: uppercase;
+                    &.leads:lang(fr),
+                    &.leads:lang(fr-CA) {
+                        line-height: 13px;
+                        padding-top: 9px;
+                        .mobile-navigation__nav-icon {
+                            padding: 0 10px
+                        }
+                        span:not(.mobile-navigation__nav-icon) {
+                            padding-top: 5px;
+                        }
+                    }
                     .notification {
                         padding: 0 6px;
                         top: 11px;
                         position: absolute;
-                        right: 4px;
+                        right: 143px;
                         font-size: 10px;
                         height: 17px;
                         line-height: 17px;
                         border-radius: 15px;
                         background-image: linear-gradient(111deg, #ff613c, #ff3258);
                         color: white;
-
+                        width: 50px;
                         &:lang(fr) {
                             right: 143px;
-                            width: 64px;
+                            width: 68px;
                         }
                     }
                 }
@@ -95,7 +128,7 @@
         min-height: 100px;
         background-color: black;
         opacity: 0;
-        z-index: 1001;
+        z-index: 200;
         width: 100%;
         position: fixed;
         display: none;
@@ -116,16 +149,19 @@
         }
     }
     .mobile-navigation__action-block {
-        padding: 12px;
+        padding: 0 12px;
         border-bottom: 1px solid #f2f2f2;
         .dropdown-custom {
-            float: left;
+            width: 100%;
             .dropdown-toggle {
                 font-size: 11px;
                 text-transform: uppercase;
                 font-weight: 400;
                 color: #5d5d5d;
                 background-image: url('../images/forms/selectArrowBlack.svg');
+                background-position-x: 25%;
+                padding: 12px 0;
+                width: 100%;
             }
         }
     }
@@ -188,5 +224,16 @@
     .mobile-navigation,
     .mobile-help {
         display: block;
+    }
+    :lang(fr),
+    :lang(fr-CA) {
+        .mobile-help__toggle,
+        .dealer-support-contact a {
+            font-size: 11px;
+            line-height: 13px;
+        }
+        .dealer-support-contact a {
+            padding-top: 6px;
+        }
     }
 }

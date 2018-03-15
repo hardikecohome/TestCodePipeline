@@ -5,6 +5,7 @@ module.exports('rate-cards', function (require) {
     var state = require('state').state;
     var rateCardsCalculator = require('rateCards.index');
     var rateCardsRenderEngine = require('rateCards.render');
+    var customRateCard = require('custom-rate-card');
 
     var settings = {
         rateCardFields: {
@@ -30,11 +31,7 @@ module.exports('rate-cards', function (require) {
         notCero: ['equipmentSum', 'LoanTerm', 'AmortizationTerm']
     }
 
-    var idToValue = function (obj) {
-        return function (id) {
-            return obj.hasOwnProperty(id) ? obj[id] : '';
-        };
-    };
+    var idToValue = require('idToValue');
 
     var submitRateCard = function (option) {
         if (option === 'Deferral') {
@@ -51,7 +48,9 @@ module.exports('rate-cards', function (require) {
         var slicedAdminFee = $('#' + option + 'AFee').text().replace('$', '').trim();
         var slicedTotalMPayment = $('#' + option + 'TMPayments').text().substring(1);
 
-        var cardType = $.grep(constants.rateCards, function(c) { return c.name === option; })[0].name;
+        var cardType = $.grep(constants.rateCards, function (c) {
+            return c.name === option;
+        })[0].name;
         var deferralPeriod = option === 'Deferral' ? +$('#DeferralPeriodDropdown').val() : 0;
         var amortTerm = Number(amortizationTerm);
         var adminFee = slicedAdminFee.indexOf(',') > -1 ? Globalize.parseNumber(slicedAdminFee) : Number(slicedAdminFee);
@@ -89,9 +88,9 @@ module.exports('rate-cards', function (require) {
 
         rateCardsRenderEngine.renderTotalPrice('', eSumData);
 
-        var selectedRateCard = $('#rateCardsBlock').find('div.checked').length > 0
-            ? $('#rateCardsBlock').find('div.checked').find('#hidden-option').text()
-            : '';
+        var selectedRateCard = $('#rateCardsBlock').find('div.checked').length > 0 ?
+            $('#rateCardsBlock').find('div.checked').find('#hidden-option').text() :
+            '';
 
         if (selectedRateCard !== '') {
             if ($("#submit").hasClass('disabled')) {
@@ -101,26 +100,41 @@ module.exports('rate-cards', function (require) {
         }
 
         optionsToCompute.forEach(function (option) {
-            var rateCard = rateCardsCalculator.filterRateCard({ rateCardPlan: option.name });
+            var rateCard = rateCardsCalculator.filterRateCard({
+                rateCardPlan: option.name
+            });
 
             if (rateCard !== null && rateCard !== undefined) {
 
                 state[option.name] = $.extend(true, {}, rateCard);
                 state[option.name].yourCost = '';
 
-                rateCardsRenderEngine.renderAfterFiltration(option.name, { deferralPeriod: state[option.name].DeferralPeriod, adminFee: state[option.name].AdminFee, dealerCost: state[option.name].DealerCost, customerRate: state[option.name].CustomerRate });
+                rateCardsRenderEngine.renderAfterFiltration(option.name, {
+                    deferralPeriod: state[option.name].DeferralPeriod,
+                    adminFee: state[option.name].AdminFee,
+                    dealerCost: state[option.name].DealerCost,
+                    customerRate: state[option.name].CustomerRate
+                });
             }
             if (option.name !== 'Custom') {
-                rateCardsRenderEngine.renderDropdownValues({ rateCardPlan: option.name });
+                rateCardsRenderEngine.renderDropdownValues({
+                    rateCardPlan: option.name
+                });
             }
 
-            var data = rateCardsCalculator.calculateValuesForRender($.extend({}, idToValue(state)(option.name)));
+            var includeAdminFeeInCalc = false;
+            if (option.name === 'Custom') {
+                customRateCard.setAdminFeeByEquipmentSum(eSumData.totalPrice !== "-" ? eSumData.totalPrice : 0);
+                includeAdminFeeInCalc = true;
+            }
+
+            var data = rateCardsCalculator.calculateValuesForRender($.extend({ includeAdminFee: includeAdminFeeInCalc }, idToValue(state)(option.name)));
 
             rateCardsRenderEngine.renderOption(option.name, selectedRateCard, data);
         });
     };
 
-    var init = function() {
+    var init = function () {
         rateCardsRenderEngine.init(settings);
     }
 

@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Formatting;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Api.Models.Storage;
@@ -21,8 +15,6 @@ using Microsoft.Owin.Security;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
-    using Api.Models.Contract.EquipmentInformation;
-
     public class ContractServiceAgent : ApiBase, IContractServiceAgent
     {
         private const string ContractApi = "Contract";
@@ -161,7 +153,7 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                this._loggingService.LogError($"Can't update client data for contract {contractData.Id}", ex);
+                _loggingService.LogError($"Can't update client data for contract {contractData.Id}", ex);
                 throw;
             }
         }
@@ -175,7 +167,7 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                this._loggingService.LogError("Can't update customers data", ex);
+                _loggingService.LogError("Can't update customers data", ex);
                 throw;
             }            
         }
@@ -219,7 +211,7 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                this._loggingService.LogError($"Can't update signature users for contract {signatureUsers.ContractId}", ex);
+                _loggingService.LogError($"Can't update signature users for contract {signatureUsers.ContractId}", ex);
                 throw;
             }
         }
@@ -235,7 +227,7 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                this._loggingService.LogError($"Can't cancel digital signature for contract {contractId}", ex);
+                _loggingService.LogError($"Can't cancel digital signature for contract {contractId}", ex);
                 throw;
             }
         }        
@@ -409,7 +401,7 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                this._loggingService.LogError("Can't add document to contract", ex);
+                _loggingService.LogError("Can't add document to contract", ex);
                 throw;
             }
         }

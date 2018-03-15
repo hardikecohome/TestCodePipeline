@@ -265,6 +265,10 @@
                                         <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-my-account"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-account")"></use></svg></span>
                                         @Html.ActionLink(Resources.MyClients, "MyClients", "MortgageBroker", null, new { @class = "dealnet-sidebar-link" })
                                     </li>
+									<li class="dealnet-sidebar-item" id="sidebar-item-help">
+                                        <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg></span>
+                                        @Html.ActionLink(Resources.Library, "Library", "Home", null, new { @class = "dealnet-sidebar-link" })
+                                    </li>
                                 }
                             </ul>
 
@@ -355,7 +359,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="btn-container">
-                        <button type="button" class="btn dealnet-button dealnet-success-button block-button big-button" id="confirmAlert">@Resources.Yes</button>
+                        <button type="button" class="btn btn-green btn-form" id="confirmAlert">@Resources.Yes</button>
                         <button type="button" class="btn dealnet-button dealnet-link-button block-button big-button" data-dismiss="modal">@Resources.Cancel</button>
                     </div>
                 </div>

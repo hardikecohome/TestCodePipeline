@@ -1,13 +1,24 @@
-﻿@model Dictionary<string, string>
+﻿@using System.Security.Claims
+
+@model Dictionary<string, string>
+
 @{
-	ViewBag.Title = Resources.Library;
+    ViewBag.Title = Resources.Library;
+    if(User.Identity.IsAuthenticated && ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") == true))
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_NewLayout.cshtml";
+    }
 }
 
-<h2>@Resources.Library</h2>
+<div class="dealnet-large-header">@Resources.Library</div>
 
 <div>
     <ul>
-        @foreach (var doc in @Model)
+        @foreach(var doc in @Model)
         {
             <li>
                 <a href="@Url.Content(doc.Key)" target="_blank">@doc.Value</a>

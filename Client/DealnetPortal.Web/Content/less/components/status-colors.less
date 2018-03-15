@@ -1,13 +1,13 @@
 ﻿#work-items-table.dataTable.home-page-table {
     tbody {
         td.status-cell {
-            padding: 5px 8px;
+            padding: 1px 8px;
         }
         td.contract-cell {
-            padding: 5px 8px 5px 0;
+            padding: 8px 8px;
             @media @tablet-up {
                 &:after {
-                    margin-top: -8px;
+                    margin-top: -14px;
                 }
             }
             @media @mobile {
@@ -58,7 +58,17 @@
         }
     }
 }
-
+    .ff {
+:lang(fr),:lang(fr-CA){
+        .status-hold .text-hold .text {
+            line-height: 1.3;
+        }
+    }
+    
+        .contract-cell .status-hold .text-hold {
+            margin-top: 5px;
+        }
+}
 .status-cell{
     .status-hold {
         .text-hold {
@@ -154,7 +164,9 @@
     .icon-funding-requested,
     .icon-credit-check-approved,
     .icon-32-docs-received,
-    .icon-docs-received {
+    .icon-docs-received,
+	.icon-cvc-confirmed,
+	.icon-cvc-waiting-to-fund{
         background: #61c53c;
     }
     .icon-14-cbr-warnings,

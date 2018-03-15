@@ -481,7 +481,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }        
 
-        public async Task<Tuple<SignatureSummaryDTO, IList<Alert>>> CancelSignatureProcess(int contractId, string ownerUserId)
+        public async Task<Tuple<SignatureSummaryDTO, IList<Alert>>> CancelSignatureProcess(int contractId, string ownerUserId, string cancelReason = null)
         {
             List<Alert> alerts = new List<Alert>();
             SignatureSummaryDTO summary = null;
@@ -496,7 +496,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                 if (alerts.All(a => a.Type != AlertType.Error))
                 {
-                    var cancelRes = await _signatureEngine.CancelSignature().ConfigureAwait(false);
+                    var cancelRes = await _signatureEngine.CancelSignature(cancelReason).ConfigureAwait(false);
                     alerts.AddRange(cancelRes);
                 }
                 if (alerts.All(a => a.Type != AlertType.Error))
@@ -686,7 +686,7 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         case SignatureStatus.Completed:
                             //upload doc from docuSign to Aspire
-                            updated |= await TransferSignedContractAgreement(contract);
+                            updated |= await TransferSignedContractAgreement(contract).ConfigureAwait(false);
                             break;
                         case SignatureStatus.Deleted:
                             updated |= CleanContractSignatureInfo(contract);
@@ -885,8 +885,8 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogInfo($"Starting download signed contract for {contract.Id} from DocuSign");
 
                 _signatureEngine.TransactionId = contract.Details.SignatureTransactionId;
-                var logRes = await _signatureEngine.ServiceLogin();
-                var docResult = await _signatureEngine.GetDocument();
+                var logRes = await _signatureEngine.ServiceLogin().ConfigureAwait(false);
+                var docResult = await _signatureEngine.GetDocument().ConfigureAwait(false);
                 if (docResult?.Item1 != null)
                 {
                     _loggingService.LogInfo(
@@ -902,7 +902,7 @@ namespace DealnetPortal.Api.Integration.Services
                     //DEAL-3306 - Digitally signed contract shouldn't be displayed in 'Paper Contract' tab on Dealer Portal
                     //_contractRepository.AddDocumentToContract(contract.Id, AutoMapper.Mapper.Map<ContractDocument>(document), contract.DealerId);
                     //updated = true;
-                    var alerts = await _aspireService.UploadDocument(contract.Id, document, contract.DealerId);
+                    var alerts = await _aspireService.UploadDocument(contract.Id, document, contract.DealerId).ConfigureAwait(false);
                     if (alerts?.All(a => a.Type != AlertType.Error) == true)
                     {
                         _loggingService.LogInfo(
@@ -945,6 +945,7 @@ namespace DealnetPortal.Api.Integration.Services
             FillHomeOwnerFields(fields, templateFields, contract);
             FillApplicantsFields(fields, contract);
             FillEquipmentFields(fields, contract, ownerUserId);
+            FillExistingEquipmentFields(fields, contract);
             FillPaymentFields(fields, contract);
             FillDealerFields(fields, contract);
 
@@ -957,6 +958,7 @@ namespace DealnetPortal.Api.Integration.Services
             var alerts = new List<Alert>();
             var agreementType = contract.Equipment.AgreementType;
             var equipmentType = contract.Equipment.NewEquipment?.First()?.Type;
+            var equipmentTypes = contract.Equipment.NewEquipment?.Select(ne => ne.Type).ToList() ?? new List<string>();
             var culture = CultureHelper.GetCurrentNeutralCulture();
 
             var province =
@@ -1011,15 +1013,15 @@ namespace DealnetPortal.Api.Integration.Services
                 var agreementTemplates = dealerTemplates.Where(at =>
                     ((agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
                     && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
-                    && (string.IsNullOrEmpty(equipmentType) || (at.EquipmentType?.Contains(equipmentType) ?? false))).ToList();
+                    && (!equipmentTypes.Any() || (at.EquipmentType?.Split(' ', ',').Any(et => equipmentTypes.Contains(et)) ?? false))).ToList();
 
                 if (!agreementTemplates.Any())
                 {
                     agreementTemplates = dealerTemplates.Where(at =>
                         (!at.AgreementType.HasValue || (agreementType == at.AgreementType) || (at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
                         && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
-                        && (string.IsNullOrEmpty(equipmentType) ||
-                            (at.EquipmentType?.Contains(equipmentType) ?? false))).ToList();
+                        && (!equipmentTypes.Any() ||
+                            (at.EquipmentType?.Split(' ', ',').Any(et => equipmentTypes.Contains(et)) ?? false))).ToList();
                 }
 
                 if (!agreementTemplates.Any())
@@ -1152,7 +1154,7 @@ namespace DealnetPortal.Api.Integration.Services
                 formFields.Add(new FormField()
                 {
                     FieldType = FieldType.Text,
-                    Name = "ID1",
+                    Name = PdfFormFields.DealerInitials,
                     Value = contract.PrimaryCustomer.DealerInitial
                 });
 
@@ -1161,7 +1163,7 @@ namespace DealnetPortal.Api.Integration.Services
                     formFields.Add(new FormField()
                     {
                         FieldType = FieldType.CheckBox,
-                        Name = "Tiv1",
+                        Name = PdfFormFields.CustomerIdTypeDriverLicense,
                         Value = "true"
                     });                    
                 }
@@ -1170,13 +1172,13 @@ namespace DealnetPortal.Api.Integration.Services
                     formFields.Add(new FormField()
                     {
                         FieldType = FieldType.CheckBox,
-                        Name = "Tiv1Other",
+                        Name = PdfFormFields.CustomerIdTypeOther,
                         Value = "true"
                     });
                     formFields.Add(new FormField()
                     {
                         FieldType = FieldType.Text,
-                        Name = "OtherID",
+                        Name = PdfFormFields.CustomerIdTypeOtherValue,
                         Value = contract.PrimaryCustomer.VerificationIdName
                     });
                 }
@@ -1457,12 +1459,128 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                 }
 
+                if (!string.IsNullOrEmpty(addApplicant.RelationshipToMainBorrower))
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.RelationshipToCustomer2,
+                        Value = addApplicant.RelationshipToMainBorrower
+                    });
+                }
+
+                var mainAddress2 =
+                    addApplicant?.Locations?.FirstOrDefault(
+                        l => l.AddressType == AddressType.MainAddress) ?? contract.PrimaryCustomer.Locations?.FirstOrDefault(m => m.AddressType == AddressType.MainAddress);
+                if (mainAddress2 != null)
+                {
+                    if (!string.IsNullOrEmpty(mainAddress2.Unit))//&&  templateFields?.All(tf => tf.Name != PdfFormFields.SuiteNo2) == true)
+                    {
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.InstallationAddress2,
+                            Value = $"{mainAddress2.Street}, {Resources.Resources.Suite} {mainAddress2.Unit}"
+                        });
+                    }
+                    else
+                    {
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.InstallationAddress2,
+                            Value = mainAddress2.Street
+                        });
+                    }
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.City2,
+                        Value = mainAddress2.City
+                    });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.Province2,
+                        Value = mainAddress2.State
+                    });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.PostalCode2,
+                        Value = mainAddress2.PostalCode
+                    });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.SuiteNo2,
+                        Value = mainAddress2.Unit
+                    });
+                }
+                var mailAddress2 =
+                    addApplicant?.Locations?.FirstOrDefault(
+                        l => l.AddressType == AddressType.MailAddress);
+                if (mailAddress2 != null)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.CheckBox,
+                        Name = PdfFormFields.IsMailingDifferent2,
+                        Value = "true"
+                    });
+                    var sMailAddress = !string.IsNullOrEmpty(mailAddress2.Unit) ?
+                                    $"{mailAddress2.Street}, {Resources.Resources.Suite} {mailAddress2.Unit}, {mailAddress2.City}, {mailAddress2.State}, {mailAddress2.PostalCode}"
+                                    : $"{mailAddress2.Street}, {mailAddress2.City}, {mailAddress2.State}, {mailAddress2.PostalCode}";
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.MailingAddress2,
+                        Value = sMailAddress
+                    });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.MailingOrPreviousAddress2,
+                        Value = sMailAddress
+                    });
+                }
+                var previousAddress =
+                    addApplicant?.Locations?.FirstOrDefault(
+                        l => l.AddressType == AddressType.PreviousAddress);
+                if (previousAddress != null)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.CheckBox,
+                        Name = PdfFormFields.IsPreviousAddress2,
+                        Value = "true"
+                    });
+                    var sPrevAddress = !string.IsNullOrEmpty(previousAddress.Unit) ?
+                        $"{previousAddress.Street}, {Resources.Resources.Suite} {previousAddress.Unit}, {previousAddress.City}, {previousAddress.State}, {previousAddress.PostalCode}"
+                        : $"{previousAddress.Street}, {previousAddress.City}, {previousAddress.State}, {previousAddress.PostalCode}";
+
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.PreviousAddress2,
+                        Value = sPrevAddress
+                    });
+                    if (mailAddress2 == null)
+                    {
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.MailingOrPreviousAddress2,
+                            Value = sPrevAddress
+                        });
+                    }
+                }
                 formFields.Add(new FormField()
                 {
                     FieldType = FieldType.Text,
                     Name = PdfFormFields.EmailAddress2,
                     Value = addApplicant.Emails.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
-                            addApplicant.Emails.First()?.EmailAddress
+                        addApplicant.Emails.First()?.EmailAddress
                 });
                 if (!string.IsNullOrEmpty(addApplicant?.Sin))
                 {
@@ -1524,6 +1642,7 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = "true"
                     });
                 }
+                
             }
         }
 
@@ -1799,18 +1918,30 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = eqDescription
                     });                    
                 }
-                    // support old contracts with EstimatedInstallationDate in Equipment
-                if (contract.Equipment.EstimatedInstallationDate.HasValue ||
-                    ((newEquipments.First()?.EstimatedInstallationDate.HasValue) ?? false))
+                // support old contracts with EstimatedInstallationDate in Equipment
+                var estimatedInstallationDate = contract.Equipment.EstimatedInstallationDate ??
+                                                newEquipments.First()?.EstimatedInstallationDate;
+                if (estimatedInstallationDate.HasValue)
                 {
+                    var cultureInfo = CultureInfo.GetCultureInfo(CultureHelper.GetCurrentCulture());
                     formFields.Add(new FormField()
                     {
                         FieldType = FieldType.Text,
                         Name = PdfFormFields.InstallDate,
-                        Value =
-                            contract.Equipment.EstimatedInstallationDate?.ToString("MM/dd/yyyy",
-                                CultureInfo.InvariantCulture) ?? newEquipments.First()
-                                .EstimatedInstallationDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
+                        Value = estimatedInstallationDate.Value.Hour > 0 ? estimatedInstallationDate.Value.ToString("g", cultureInfo)
+                            : estimatedInstallationDate.Value.ToString("d", cultureInfo)                        
+                    });
+                }
+
+                var totalRetailPrice = newEquipments.Where(ne => ne.EstimatedRetailCost.HasValue).Aggregate(0.0m,
+                    (sum, ne) => sum + ne.EstimatedRetailCost.Value);
+                if (totalRetailPrice > 0)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.TotalRetailPrice,
+                        Value = totalRetailPrice.ToString("F", CultureInfo.InvariantCulture)
                     });
                 }
             }
@@ -2061,6 +2192,95 @@ namespace DealnetPortal.Api.Integration.Services
                             });
                         }
                     }
+                    if (contract.PrimaryCustomer.Locations.FirstOrDefault(m => m.AddressType == AddressType.MainAddress).State == "QC")
+                    {
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.DateOfAgreement,
+                            Value = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)
+                        });
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.FirstPaymentDate,
+                            Value = DateTime.Now.AddMonths(1).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)
+                        });
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.MonthlyPaymentDate,
+                            Value = DateTime.Now.Day.ToString()
+                        });
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.FinalPaymentDate,
+                            Value = DateTime.Now.AddMonths(contract.Equipment.LoanTerm + 1 ?? 1).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)
+                        });
+                    }
+                }
+            }
+        }
+
+        private void FillExistingEquipmentFields(List<FormField> formFields, Contract contract)
+        {
+            if (contract?.Equipment?.ExistingEquipment?.Any() == true)
+            {
+                var fstEq = contract.Equipment.ExistingEquipment.First();
+                if (fstEq.ResponsibleForRemoval == ResponsibleForRemovalType.Customer)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.CheckBox,
+                        Name = PdfFormFields.ExistingEquipmentRemovalCustomer,
+                        Value = "true"
+                    });
+                }
+                if (fstEq.ResponsibleForRemoval == ResponsibleForRemovalType.ExistingSupplier)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.CheckBox,
+                        Name = PdfFormFields.ExistingEquipmentRemovalSupplier,
+                        Value = "true"
+                    });
+                }
+                if (fstEq.ResponsibleForRemoval == ResponsibleForRemovalType.NA)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.CheckBox,
+                        Name = PdfFormFields.ExistingEquipmentRemovalNA,
+                        Value = "true"
+                    });
+                }
+                if (fstEq.ResponsibleForRemoval == ResponsibleForRemovalType.Other)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.CheckBox,
+                        Name = PdfFormFields.ExistingEquipmentRemovalOther,
+                        Value = "true"
+                    });
+                    if (!string.IsNullOrEmpty(fstEq.ResponsibleForRemovalValue))
+                    {
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.ExistingEquipmentRemovalOtherValue,
+                            Value = fstEq.ResponsibleForRemovalValue
+                        });
+                    }
+                }
+                if (!string.IsNullOrEmpty(fstEq.SerialNumber))
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.ExistingEquipmentSerialNumber,
+                        Value = fstEq.SerialNumber
+                    });
                 }
             }
         }
@@ -2074,6 +2294,34 @@ namespace DealnetPortal.Api.Integration.Services
                     FieldType = FieldType.Text,
                     Name = PdfFormFields.SalesRep,
                     Value = contract.Equipment.SalesRep
+                });
+            }
+
+            if (contract?.SalesRepInfo?.ConcludedAgreement == true)
+            {
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.CheckBox,
+                    Name = PdfFormFields.SalesRepConcludedAgreement,
+                    Value = "true"
+                });
+            }
+            if (contract?.SalesRepInfo?.NegotiatedAgreement == true)
+            {
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.CheckBox,
+                    Name = PdfFormFields.SalesRepNegotiatedAgreement,
+                    Value = "true"
+                });
+            }
+            if (contract?.SalesRepInfo?.InitiatedContact == true)
+            {
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.CheckBox,
+                    Name = PdfFormFields.SalesRepInitiatedContact,
+                    Value = "true"
                 });
             }
 
@@ -2123,7 +2371,7 @@ namespace DealnetPortal.Api.Integration.Services
                                     Value = dealerInfo.Phones.First().PhoneNum
                                 });
                             }
-                        }
+                       }
                     }
                     else
                     {

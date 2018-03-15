@@ -38,104 +38,127 @@
 
   }
 }
-.rate-cards-container{
-  &:not(.one-rate-card){
+.rate-cards-container {
+    &:not(.one-rate-card) {
 
-    .table-mode{
-      div:not(.row-mode){
-        .row{
-          display: table;
-          width: 100%;
-          margin: 0 0 15px;
-          .col-sm-6,
-          .col-xs-6{
-            width: 50%;
-          }
-          [class*="col-"]{
-            display: table-cell;
-            vertical-align: bottom;
-            float: none;
-            padding: 0;
-            &:first-child{
-              padding-right: 15px;
+        .table-mode {
+            div:not(.row-mode) {
+                .row {
+                    display: table;
+                    width: 100%;
+                    margin: 0 0 15px;
+
+                    .col-sm-6,
+                    .col-xs-6 {
+                        width: 50%;
+                    }
+
+                    [class*="col-"] {
+                        display: table-cell;
+                        vertical-align: bottom;
+                        float: none;
+                        padding: 0;
+
+                        &:first-child {
+                            padding-right: 15px;
+                        }
+
+                        &:last-child {
+                            padding-left: 15px;
+                        }
+                    }
+
+                    .col-xs-12 {
+                        padding: 0 !important;
+                    }
+
+                    &.align-middle {
+                        [class*="col-"] {
+                            height: 40px;
+                            vertical-align: middle;
+                        }
+                    }
+
+                    &.align-top {
+                        [class*="col-"] {
+                            vertical-align: top;
+                        }
+                    }
+
+                    & + .row-error {
+                        margin-top: -25px;
+                        position: relative;
+                        top: 0;
+                    }
+                }
             }
-            &:last-child{
-              padding-left: 15px;
-            }
-          }
-          .col-xs-12{
-            padding: 0 !important;
-          }
-          &.align-middle{
-            [class*="col-"]{
-              height: 40px;
-              vertical-align: middle;
-            }
-          }
-          &.align-top{
-            [class*="col-"]{
-              vertical-align: top;
-            }
-          }
-          &+.row-error{
-           margin-top: -25px;
-           position: relative;
-           top: 0;
-          }
         }
-      }
-    }
 
-    .col-cards-md-12{
-      width: 100%;
-    }
-    .control-cell{
-      padding-left: 15px;
-    }
-  }
-  &.one-rate-card{
-    &.jcarousel-wrapper{
-      margin-left: 10px;
-      margin-right: 10px;
-      padding-top: 0;
-      overflow: hidden;
-      .jcarousel{
-        margin: 0 -5px;
-        padding: 5px;
-        width: auto;
-        ul{
-          max-width: 100%;
-          li{
-            display: block;
+        .col-cards-md-12 {
             width: 100%;
-            padding: 0;
-          }
         }
-      }
-    }
-    .jcarousel-controls{
-      display: none;
-    }
-    li:not(:last-child){
-      display: none;
-    }
-    .rate-card:not(.shown-card){
-      display: none;
-    }
-    .btn{
-      display: none;
-    }
-  }
 
-  .rate-card-header{
-    .clearfix;
-  }
-  .rate-card-title{
-    float: left;
-  }
-  .promo-label{
-    float: right;
-  }
+        .control-cell {
+            padding-left: 15px;
+        }
+
+        .rate-card-details{
+            line-height: 1.2;
+        }
+    }
+
+    &.one-rate-card {
+        &.jcarousel-wrapper {
+            margin-left: 10px;
+            margin-right: 10px;
+            padding-top: 0;
+            overflow: hidden;
+
+            .jcarousel {
+                margin: 0 -5px;
+                padding: 5px;
+                width: auto;
+
+                ul {
+                    max-width: 100%;
+
+                    li {
+                        display: block;
+                        width: 100%;
+                        padding: 0;
+                    }
+                }
+            }
+        }
+
+        .jcarousel-controls {
+            display: none;
+        }
+
+        li:not(:last-child) {
+            display: none;
+        }
+
+        .rate-card:not(.shown-card) {
+            display: none;
+        }
+
+        .btn {
+            display: none;
+        }
+    }
+
+    .rate-card-header {
+        .clearfix;
+    }
+
+    .rate-card-title {
+        float: left;
+    }
+
+    .promo-label {
+        float: right;
+    }
 }
 
 .row +.row-error{
@@ -212,7 +235,7 @@
   }
 }
 .financing-arrow{
-  float: right;
+    margin-left: 20px;
   color: @btn-success-bg;
   cursor: pointer;
 }

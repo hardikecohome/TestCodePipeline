@@ -1,11 +1,12 @@
 ﻿module.exports('rateCards.render', function (require) {
-    var settings = {
-    };
+    var settings = {};
 
     var state = require('rateCards.state').state;
     var constants = require('rateCards.state').constants;
 
-    var init = function(viewSettings) {
+    var idToValue = require('idToValue');
+
+    var init = function (viewSettings) {
         $.extend(settings, viewSettings);
     }
 
@@ -13,35 +14,57 @@
         if (_isEmpty(settings))
             throw new Error('settings are empty. Use init method first.');
 
-        var notNan = !Object.keys(data).map(_idToValue(data)).some(function (val) { return isNaN(val); });
-        var validateNumber = settings.numberFields.every(function (field) { return typeof data[field] === 'number'; });
-        var validateNotEmpty = settings.notCero.every(function (field) { return data[field] !== 0; });
+        var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) {
+            return isNaN(val);
+        });
+        var validateNumber = settings.numberFields.every(function (field) {
+            return typeof data[field] === 'number';
+        });
+        var validateNotEmpty = settings.notCero.every(function (field) {
+            return data[field] !== 0;
+        });
 
         if (notNan && validateNumber && validateNotEmpty) {
             if (option === selectedRateCard) {
                 $('#displayLoanAmortTerm').text(data.loanTerm + '/' + data.amortTerm);
                 $('#displayCustomerRate').text(data.CustomerRate.toFixed(2));
-                Object.keys(settings.displaySectionFields).map(function (key) { $('#' + key).text(formatCurrency(data[settings.displaySectionFields[key]])); });
+                Object.keys(settings.displaySectionFields).map(function (key) {
+                    $('#' + key).text(formatCurrency(data[settings.displaySectionFields[key]]));
+                });
             }
 
-            Object.keys(settings.displaySectionFields).map(function (key) { $('#' + option  + key).text(formatNumber(data[settings.displaySectionFields[key]]) + '%'); });
-            Object.keys(settings.rateCardFields).map(function (key) { $('#' + option + key).text(formatCurrency(data[settings.rateCardFields[key]])); });
+            Object.keys(settings.displaySectionFields).map(function (key) {
+                $('#' + option + key).text(formatNumber(data[settings.displaySectionFields[key]]) + '%');
+            });
+            Object.keys(settings.rateCardFields).map(function (key) {
+                $('#' + option + key).text(formatCurrency(data[settings.rateCardFields[key]]));
+            });
         } else {
             if (option === selectedRateCard) {
                 $('#displayLoanAmortTerm').text('-');
                 $('#displayCustomerRate').text('-');
-                Object.keys(settings.displaySectionFields).map(function (key) { $('#' + key).text('-'); });
+                Object.keys(settings.displaySectionFields).map(function (key) {
+                    $('#' + key).text('-');
+                });
             }
-            Object.keys(settings.rateCardFields).map(function (key) { $('#' + option + key).text('-'); });
+            Object.keys(settings.rateCardFields).map(function (key) {
+                $('#' + option + key).text('-');
+            });
         }
     }
 
     var renderTotalPrice = function (option, data) {
-        var notNan = !Object.keys(data).map(_idToValue(data)).some(function (val) { return isNaN(val); });
+        var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) {
+            return isNaN(val);
+        });
         if (notNan) {
-            Object.keys(settings.totalPriceFields).map(function (key) { $('#' + option + key).text(formatNumber(data[settings.totalPriceFields[key]])); });
+            Object.keys(settings.totalPriceFields).map(function (key) {
+                $('#' + option + key).text(formatNumber(data[settings.totalPriceFields[key]]));
+            });
         } else {
-            Object.keys(settings.totalPriceFields).map(function (key) { $('#' + option + key).text('-'); });
+            Object.keys(settings.totalPriceFields).map(function (key) {
+                $('#' + option + key).text('-');
+            });
         }
     };
 
@@ -67,7 +90,7 @@
 
         var selectorName = isStandalone ? dataObject.standaloneOption : dataObject.rateCardPlan;
 
-        var dropdown = $('#' + selectorName  + '-amortDropdown')[0];
+        var dropdown = $('#' + selectorName + '-amortDropdown')[0];
         if (!dropdown || !dropdown.options) return;
 
         var dropdowns = [];
@@ -76,7 +99,7 @@
         if ($('#DeferralPeriodDropdown').length) {
             deferralValue = +$('#DeferralPeriodDropdown').val();
         } else {
-            deferralValue = +$('#' + selectorName+ '-deferralDropdown').val();
+            deferralValue = +$('#' + selectorName + '-deferralDropdown').val();
         }
 
         $.each(items, function () {
@@ -157,7 +180,7 @@
         }
     }
 
-    var renderAfterFiltration = function(option, data) {
+    var renderAfterFiltration = function (option, data) {
         if (option === 'Deferral') {
             $('#DeferralPeriodDropdown').val(data.deferralPeriod);
         }
@@ -178,12 +201,6 @@
 
         return Object.key(obj).length === 0;
     }
-
-    function _idToValue(obj) {
-        return function (id) {
-            return obj.hasOwnProperty(id) ? obj[id] : '';
-        };
-    };
 
     return {
         init: init,

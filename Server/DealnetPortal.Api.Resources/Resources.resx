@@ -920,12 +920,72 @@
     <value>Salary/Income</value>
   </data>
   <data name="ChequeBankPAP" xml:space="preserve">
-    <value>Void Cheque or Bank PAP Authorization Letter</value>
+    <value>Void Cheque or Bank PAD Authorization Letter</value>
   </data>
   <data name="CreditApplication" xml:space="preserve">
     <value>Credit Application</value>
   </data>
   <data name="IncomeVerification" xml:space="preserve">
     <value>Income verification</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="CostOfBorrowing" xml:space="preserve">
+    <value>Cost of Borrowing</value>
+  </data>
+  <data name="CustomerFirstName" xml:space="preserve">
+    <value>Customer First Name</value>
+  </data>
+  <data name="CustomerLastName" xml:space="preserve">
+    <value>Customer Last Name</value>
+  </data>
+  <data name="DealerInvoiceAmount" xml:space="preserve">
+    <value>Dealer Invoice Amount</value>
+  </data>
+  <data name="DownPayment" xml:space="preserve">
+    <value>Down Payment</value>
+  </data>
+  <data name="MonthlyPayment" xml:space="preserve">
+    <value>Monthly Payment</value>
+  </data>
+  <data name="PaymentType" xml:space="preserve">
+    <value>Payment Type</value>
+  </data>
+  <data name="PostalCode" xml:space="preserve">
+    <value>Postal Code</value>
+  </data>
+  <data name="Province" xml:space="preserve">
+    <value>Province</value>
+  </data>
+  <data name="TotalAmountFinanced" xml:space="preserve">
+    <value>Total Amount Financed</value>
+  </data>
+  <data name="TotalObligation" xml:space="preserve">
+    <value>Total Obligation</value>
+  </data>
+  <data name="_CVCConfirmed" xml:space="preserve">
+    <value>CVC Confirmed</value>
+  </data>
+  <data name="_CVCWaitingtoFund" xml:space="preserve">
+    <value>CVC Waiting to Fund</value>
+  </data>
+  <data name="VoidChequeBankPAPAuthorizationLetter" xml:space="preserve">
+    <value>Void Cheque Bank PAD Authorization Letter</value>
+  </data>
+  <data name="ContractChangedCancelledEsign" xml:space="preserve">
+    <value>Contract was changed</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="EqualPayments" xml:space="preserve">
+    <value>0% Equal Payments</value>
+  </data>
+  <data name="StandardRate" xml:space="preserve">
+    <value>Standard Rate</value>
   </data>
 </root>

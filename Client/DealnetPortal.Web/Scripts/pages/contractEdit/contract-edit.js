@@ -106,6 +106,7 @@ configInitialized
                 beforeSend: function (event) {
                     //tabContainers.removeClass('uploaded');
                     var cancelButton = form.find('.progress-container .clear-data-link');
+                    cancelButton.show();
                     cancelButton.off('click');
                     cancelButton.on('click', function () {
                         showLoader();
@@ -125,6 +126,8 @@ configInitialized
                 uploadProgress: function (event, position, total, percentComplete) {
                     if (percentComplete === 100) {
                         percentComplete = 99;
+                        var cancelButton = form.find('.progress-container .clear-data-link');
+                        cancelButton.hide();
                     }
                     var percentVal = percentComplete + '%';
                     progressBar.width(percentVal);
@@ -167,7 +170,7 @@ configInitialized
             var errorDesc = form.find('.error-descr');
             var wasCancelled;
             var afterError = function (message) {
-                form.find('.error-message').text(translations['ErrorWhileUploadingFile']);
+                form.find('.error-message').text(message || translations['ErrorWhileUploadingFile']);
                 errorDesc.show();
                 tabContainers.removeClass('uploaded');
                 tabContainers.addClass('error');
@@ -257,8 +260,6 @@ configInitialized
             fileInput.change(submitOtherDocument);
             fileInput.change();
         });
-
-        $('#send-all-documents-report').on('click', auditConfirmModal);
     });
 
 function generateGuid () {
@@ -279,49 +280,6 @@ function managePaymentFormElements (paymentType) {
             $(".pap-payment-form").show();
             break;
     }
-}
-
-function auditConfirmModal () {
-    var data = {
-        class: "audit-alert-modal",
-        message: translations['DidYouUploadAllDocuments'],
-        title: translations['FinalCheck'],
-        confirmBtnText: translations['Proceed']
-    };
-
-    module.require('alertModal').dynamicAlertModal(data);
-    $('#confirmAlert').on('click', function () {
-        submitAllDocumentsUploaded();
-
-        ga('send', 'event', 'Button', 'Click', 'SendDocuments');
-    });
-}
-
-function submitAllDocumentsUploaded () {
-    showLoader();
-    $('#all-documents-uploaded-form').ajaxSubmit({
-        method: 'post',
-        success: function (result) {
-            if (result.isSuccess) {
-                $('.before-all-documents-submitted').hide();
-                $('#all-documents-submitted-message').show();
-                $('.disablable').addClass('disabled');
-                $('button.disabled, input.disabled').attr('disabled', 'disabled');
-                $('.dealnet-section-edit-link').hide();
-                $('.add-applicant-link').hide();
-                $('#esignature-link').addClass('disabled');
-                isSentToAudit = true;
-            } else if (result.isError) {
-                alert(translations['AnErrorWhileSendingReport']);
-            }
-        },
-        error: function () {
-        },
-        complete: function (xhr) {
-            hideLoader();
-            module.require('alertModal').hideDynamicAlertModal();
-        }
-    });
 }
 
 function checkSubmitAllDocumentsAvailability () {

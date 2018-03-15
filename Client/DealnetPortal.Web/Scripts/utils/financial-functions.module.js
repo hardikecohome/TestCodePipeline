@@ -20,10 +20,12 @@
 
         var totalAmountFinanced = function(data) {
             var tPrice = totalPrice(data);
-            var adminFee = data.AdminFee;
             var downPayment = data.downPayment;
+            var includeAdminFee = data.includeAdminFee !== undefined ? data.includeAdminFee : false;
+            var withAdminFee = tPrice + data.AdminFee - downPayment;
+            var withoutAdminFee = tPrice - downPayment;
 
-            return tPrice/* + adminFee*/ - downPayment;
+            return includeAdminFee ? withAdminFee : withoutAdminFee;
         };
 
         var yourCost = function (data) {

@@ -6,7 +6,7 @@
     function init() {
         setDeviceClasses();
 
-        $.fn.modal.Constructor.prototype.enforceFocus = function () { };
+        $.fn.modal.Constructor.prototype.enforceFocus = function () {};
 
         $(window).on('resize', function () {
             setDeviceClasses();
@@ -50,6 +50,9 @@
 
         if (detectIe()) {
             $('body').addClass('ie');
+        }
+        if (window.navigator.userAgent.indexOf('Firefox')) {
+            $('body').addClass('ff');
         }
 
         $('.credit-check-info-hold.fit-to-next-grid').each(function () {
@@ -144,7 +147,9 @@ $.prototype.disableTab = function () {
 };
 
 String.prototype.toDash = function () {
-    return this.replace(/([A-Z])/g, function ($1) { return '-' + $1.toLowerCase(); });
+    return this.replace(/([A-Z])/g, function ($1) {
+        return '-' + $1.toLowerCase();
+    });
 };
 
 var isMobile = {
@@ -169,17 +174,21 @@ var isMobile = {
 };
 
 function viewport() {
-    var e = window, a = 'inner';
+    var e = window,
+        a = 'inner';
     if (!('innerWidth' in window)) {
         a = 'client';
         e = document.documentElement || document.body;
     }
-    return { width: e[a + 'Width'], height: e[a + 'Height'] };
+    return {
+        width: e[a + 'Width'],
+        height: e[a + 'Height']
+    };
 }
 
 //Next two lines for IE
 if (!window.console) window.console = {};
-if (!window.console.log) window.console.log = function () { };
+if (!window.console.log) window.console.log = function () {};
 // global formatNumber function Todo: remove global variables
 window.formatNumber = function (num) {
     if (typeof num === 'number') {

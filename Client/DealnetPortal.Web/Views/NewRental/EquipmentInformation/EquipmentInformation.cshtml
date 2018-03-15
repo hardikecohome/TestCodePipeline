@@ -1,7 +1,9 @@
 ﻿@using System.Globalization
-@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
 @using DealnetPortal.Api.Common.Enumeration
-@using DealnetPortal.Web.Common.Constants
+@using DealnetPortal.Api.Models.Contract
+@using DealnetPortal.Web.Infrastructure.Extensions
+
+@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
 
 @{
     Layout = "EquipmentInformationLayout.cshtml";
@@ -32,8 +34,9 @@
     @Html.HiddenFor(model => model.ContractId)
     @Html.HiddenFor(model => model.FullUpdate, new { Value = true })
     @Html.HiddenFor(x => x.CreditAmount)
-    @Html.HiddenFor(x => x.IsOnlyLoanAvailable)
+    @Html.HiddenFor(x => x.DealProvince)
     @Html.HiddenFor(x => x.AmortizationTerm)
+    @Html.HiddenFor(x => x.IsCustomRateCardSelected, new { id = "custom-selected" })
     @Html.HiddenFor(x => x.AdminFee)
     @Html.HiddenFor(x => x.CustomerRate)
     @Html.HiddenFor(x => x.ValueOfDeal)
@@ -43,6 +46,9 @@
     @Html.HiddenFor(x => x.IsNewContract)
     @Html.HiddenFor(x => x.DealerCost)
     @Html.HiddenFor(x => x.RateCardValid)
+    @Html.HiddenFor(x => x.SalesRepInformation.IniatedContract, new { id = "initiated-contract"})
+    @Html.HiddenFor(x => x.SalesRepInformation.NegotiatedAgreement, new { id = "negotiated-contract"})
+    @Html.HiddenFor(x => x.SalesRepInformation.ConcludedAgreement, new { id = "concluded-contract"})
     <div class="form-container">
         <div class="form-section">
             @if(Model.CustomerComments != null && Model.CustomerComments.Any())
@@ -61,19 +67,15 @@
 
 
             @((Model.IsClarityDealer && !Model.IsOldClarityDeal) ?
-                Html.Partial("EquipmentInformation/_ClarityProgram", Model) :
-                Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
+                                                                Html.Partial("EquipmentInformation/_ClarityProgram", Model) :
+                                                                Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
 
             @Html.Partial("EquipmentInformation/_AdditionalContractInformation", Model)
             @Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="rate-card-button-proceed">
-                        <span class="btn-proceed-inline-hold btn-form-common col-md-3 form-group" data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Resources.YouShouldFillAllMandatoryFields">
-                            <input type="submit" value="@Resources.SaveAndProceed" class="btn btn-green col-md-12" id="submit" />
-                        </span>
-                    </div>
-                </div>
+            <div class="form-group">
+                <span data-toggle="popover" data-placement="top" data-container="body" data-trigger="@(Request.IsMobileBrowser()?"click":"hover")" data-content="@Resources.YouShouldFillAllMandatoryFields">
+                    <input type="submit" value="@Resources.SaveAndProceed" class="btn btn-green btn-form" id="submit" />
+                </span>
             </div>
         </div>
     </div>
@@ -118,9 +120,12 @@ else
             module.require('newEquipment.rentalLoan.index').init(@Model.ContractId,
                 @Html.Raw(Json.Encode(Model.DealerTier.RateCards)),
                 '@(!((List<RateCardType>) ViewBag.CardTypes != null && ((List<RateCardType>) ViewBag.CardTypes).Any()))' ===
-                'True'
-                ? true
-                : false);
+                    'True'
+                    ? true
+                    : false,
+                @Html.Raw(Json.Encode(((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes)
+               .Where(e => e.UnderBill59)
+               .Select(e => e.Type).ToArray())));
         });
         </script>
     }

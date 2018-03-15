@@ -23,6 +23,7 @@ using System.Web.Mvc;
 using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType;
+using ContractProvince = DealnetPortal.Web.Models.Enumeration.ContractProvince;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -244,10 +245,8 @@ namespace DealnetPortal.Web.Controllers
                 case CreditCheckState.MoreInfoRequired:
                     TempData["MaxCreditAmount"] = checkResult?.Item1.CreditAmount;
                     return RedirectToAction("EquipmentInformation", new { contractId });
-                    break;
                 case CreditCheckState.Declined:
-                    return View("CreditDeclined", contractId);
-                    break;                                
+                    return View("CreditDeclined", contractId);                          
                 case CreditCheckState.NotInitiated:
                 case CreditCheckState.Initiated:
                 default:
@@ -337,7 +336,7 @@ namespace DealnetPortal.Web.Controllers
             var model = await _contractManager.GetEquipmentInfoAsyncNew(contractId);
 
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
-            ViewBag.CardTypes = model.DealerTier?.RateCards?.Select(x => x.CardType).Distinct().ToList();
+            ViewBag.CardTypes = model.DealerTier?.RateCards?.Where(q => q.CardType != RateCardType.Custom).Select(x => x.CardType).Distinct().ToList();
             ViewBag.AmortizationTerm = model.DealerTier?.RateCards?.ConvertToAmortizationSelectList();
             ViewBag.DefferalPeriod = model.DealerTier?.RateCards?.ConvertToDeferralSelectList();
             if (model.DealerTier != null && model.DealerTier.Id == Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["Amort180RateCardId"]))
@@ -350,7 +349,9 @@ namespace DealnetPortal.Web.Controllers
                 ViewBag.totalAmountFinancedFor180amortTerm = 4999;
                 ViewBag.LoanOnly = false;
             }
-
+            if (model.DealProvince == ContractProvince.QC.ToString()) {
+                ViewBag.LoanOnly = true;
+            }
             ViewBag.AdminFee = 0;
 
             return View("EquipmentInformation/EquipmentInformation", model);

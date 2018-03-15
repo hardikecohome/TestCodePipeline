@@ -4,7 +4,8 @@
   src: url("../fonts/icomoon.eot?dmi30k#iefix") format("embedded-opentype"), url("../fonts/icomoon.ttf?dmi30k") format("truetype"), url("../fonts/icomoon.woff?dmi30k") format("woff"), url("../fonts/icomoon.svg?dmi30k#icomoon") format("svg");
   font-weight: normal;
   font-style: normal; }
-[class^="icon-"], [class*=" icon-"] {
+[class^="icon-"],
+[class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: none;
@@ -62,7 +63,7 @@
   color: #97c501; }
 
 .icon-calculator:before {
-  content: "\73";
+  content: "\e913";
   color: #5d5d5d; }
 
 .icon-cart:before {
@@ -80,7 +81,7 @@
 .icon-library:before {
   content: "\e904"; }
 
-.icon-link:before {
+.icon-customer-link:before {
   content: "\e905";
   color: #5d5d5d; }
 
@@ -92,9 +93,15 @@
   content: "\e907";
   color: #5d5d5d; }
 
+.icon-about:before {
+  content: "\e912";
+  color: #5d5d5d; }
+
 @media screen and (max-width: 1309px) and (min-width: 768px) {
   .main-banner {
-    height: 220px; } }
+    background-size: 100% 100%;
+    height: 220px;
+    margin: 0; } }
 @media screen and (max-width: 1309px) and (min-width: 768px) {
   .container {
     width: 100%; }
@@ -111,7 +118,8 @@
 
   .header__right-panel {
     float: left;
-    width: auto; }
+    width: auto;
+    font-size: 12px; }
     .header__right-panel:before {
       display: none; }
     .header__right-panel .header__help {

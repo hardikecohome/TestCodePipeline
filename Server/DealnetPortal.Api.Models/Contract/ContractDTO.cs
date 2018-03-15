@@ -20,6 +20,8 @@ namespace DealnetPortal.Api.Models.Contract
 
         public string DealerId { get; set; }
 
+        public string DealerName { get; set; }
+
         public ContractState ContractState { get; set; }       
 
         public DateTime CreationTime { get; set; }
@@ -39,6 +41,8 @@ namespace DealnetPortal.Api.Models.Contract
         public PaymentInfoDTO PaymentInfo { get; set; }
 
         public EquipmentInfoDTO Equipment { get; set; }
+
+        public ContractSalesRepInfoDTO SalesRepInfo { get; set; }
 
         public List<CommentDTO> Comments { get; set; }
         

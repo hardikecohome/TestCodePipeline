@@ -108,7 +108,9 @@ namespace DealnetPortal.Domain.Repositories
         /// <param name="locations">locations to set</param>
         /// <param name="phones">phones to set</param>
         /// <param name="emails">emails to set</param>
-        Customer UpdateCustomerData(int customerId, Customer customerInfo, IList<Location> locations, IList<Phone> phones, IList<Email> emails);
+        bool UpdateCustomerData(int customerId, Customer customerInfo, IList<Location> locations, IList<Phone> phones, IList<Email> emails);
+
+        bool UpdateCustomerEmails(int customerId, IList<Email> emails);
 
         Customer GetCustomer(int customerId);
 
@@ -186,7 +188,7 @@ namespace DealnetPortal.Domain.Repositories
 
         AspireStatus GetAspireStatus(string status);
         
-        PaymentSummary GetContractPaymentsSummary(int contractId);
+        PaymentSummary GetContractPaymentsSummary(int contractId, decimal? priceOfEquipment = null);
 
         Comment TryAddComment(Comment comment, string contractOwnerId);
 
@@ -233,5 +235,7 @@ namespace DealnetPortal.Domain.Repositories
         Contract UpdateContractAspireSubmittedDate(int contractId, string contractOwnerId);
 
         Contract UpdateContractSigners(int contractId, IList<ContractSigner> signers, string contractOwnerId, bool syncOnly = false);
+
+        bool IsMortgageBrokerCustomerExist(string email);
     }
 }

@@ -326,7 +326,7 @@
     <value>Date</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value>Adresse électronique</value>
+    <value>Adresse Courriel</value>
   </data>
   <data name="Equipment" xml:space="preserve">
     <value>Équipement</value>
@@ -385,7 +385,7 @@
     <value>Si vous avez des questions, veuillez communiquer avec</value>
   </data>
   <data name="DealerSalesAgent" xml:space="preserve">
-    <value>Courtier ou agent de vente</value>
+    <value>Marchand ou agent de vente</value>
   </data>
   <data name="NewCustomerAppliedForFinancing" xml:space="preserve">
     <value>Nouveau client ayant fait une demande de financement</value>
@@ -415,7 +415,7 @@
     <value>Vous pouvez consulter cette transaction ici</value>
   </data>
   <data name="Dealer" xml:space="preserve">
-    <value>Courtier</value>
+    <value>Marchand</value>
   </data>
   <data name="Spa" xml:space="preserve">
     <value>Spa</value>
@@ -433,10 +433,10 @@
     <value>Combo ventilateur vertical et ventilateur-récupérateur de chaleur</value>
   </data>
   <data name="Pool" xml:space="preserve">
-    <value>Pool</value>
+    <value>Piscines</value>
   </data>
   <data name="Broker" xml:space="preserve">
-    <value>Courtier</value>
+    <value>Marchand</value>
   </data>
   <data name="Client" xml:space="preserve">
     <value>Client</value>
@@ -865,7 +865,7 @@
     <value>Carte BYID</value>
   </data>
   <data name="DealerCancelledEsign" xml:space="preserve">
-    <value>Le courtier a annulé le processus lié à la signature électronique</value>
+    <value>L'entrepreneur a annulé le processus lié à la signature électronique</value>
   </data>
   <data name="CanadianFamilyMilitaryCard" xml:space="preserve">
     <value>Carte d’identité pour les familles des militaires canadiens
@@ -899,7 +899,7 @@
     <value>À la retraite</value>
   </data>
   <data name="SelfEmployed" xml:space="preserve">
-    <value>À son propre compte</value>
+    <value>travailleur autonome</value>
   </data>
   <data name="CanadianBlindIdentificationCard" xml:space="preserve">
     <value>Carte d’identité de l’Institut national canadien pour les aveugles</value>
@@ -920,7 +920,7 @@
     <value>Temps partiel</value>
   </data>
   <data name="SalaryIncome" xml:space="preserve">
-    <value>Salaire/Revenu</value>
+    <value>Salaire</value>
   </data>
   <data name="ChequeBankPAP" xml:space="preserve">
     <value>Chèque annulé ou lettre d’autorisation de paiement pré-autorisé par la banque</value>
@@ -930,5 +930,62 @@
   </data>
   <data name="IncomeVerification" xml:space="preserve">
     <value>Preuve de revenu</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Adresse</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>Ville</value>
+  </data>
+  <data name="CostOfBorrowing" xml:space="preserve">
+    <value>Frais d’emprunt</value>
+  </data>
+  <data name="CustomerFirstName" xml:space="preserve">
+    <value>Client Prénom</value>
+  </data>
+  <data name="CustomerLastName" xml:space="preserve">
+    <value>Client Nom de famille</value>
+  </data>
+  <data name="DealerInvoiceAmount" xml:space="preserve">
+    <value>Montant de la facture</value>
+  </data>
+  <data name="DownPayment" xml:space="preserve">
+    <value>Acompte</value>
+  </data>
+  <data name="MonthlyPayment" xml:space="preserve">
+    <value>Paiement mensuel</value>
+  </data>
+  <data name="PaymentType" xml:space="preserve">
+    <value>Type de paiement</value>
+  </data>
+  <data name="PostalCode" xml:space="preserve">
+    <value>Code postal</value>
+  </data>
+  <data name="Province" xml:space="preserve">
+    <value>Province</value>
+  </data>
+  <data name="TotalAmountFinanced" xml:space="preserve">
+    <value>Total du montant financé</value>
+  </data>
+  <data name="TotalObligation" xml:space="preserve">
+    <value>Total de l’obligation</value>
+  </data>
+  <data name="_CVCConfirmed" xml:space="preserve">
+    <value>CVC Confirmé</value>
+  </data>
+  <data name="_CVCWaitingtoFund" xml:space="preserve">
+    <value>CVC Attendant à fonds</value>
+  </data>
+  <data name="VoidChequeBankPAPAuthorizationLetter" xml:space="preserve">
+    <value>Chèque annulé ou lettre d’autorisation de paiement pré-autorisé par la banque</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Personnaliser</value>
+  </data>
+  <data name="EqualPayments" xml:space="preserve">
+    <value>0% Egal Payments</value>
+  </data>
+  <data name="StandardRate" xml:space="preserve">
+    <value>Taux Standard</value>
   </data>
 </root>

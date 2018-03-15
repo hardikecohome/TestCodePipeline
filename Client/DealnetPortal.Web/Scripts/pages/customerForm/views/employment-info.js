@@ -243,7 +243,7 @@
             street.val(props.street);
             unit.val(props.unit);
             city.val(props.city);
-            province.val(props.province);
+            province.val(props.province).change();
             postal.val(props.postalCode);
         });
 

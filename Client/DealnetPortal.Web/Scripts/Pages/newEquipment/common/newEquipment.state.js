@@ -7,6 +7,7 @@
         tax: taxRate,
         downPayment: 0,
         rentalMPayment: 0,
+        customRateCardBoundaires: { },
         clarity: {
 
         },
@@ -36,6 +37,7 @@
         maxRateCardLoanValue: 50000
     };
 
+    window.state = state;
     return {
         state: state,
         constants: constants

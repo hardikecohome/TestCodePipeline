@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Web.Common;
 using DealnetPortal.Web.Common.Helpers;
-using DealnetPortal.Web.Models;
 using Microsoft.Owin.Security;
-using Microsoft.Practices.ObjectBuilder2;
-using Newtonsoft.Json;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
@@ -31,7 +23,7 @@ namespace DealnetPortal.Web.ServiceAgent
             return result.IsSuccessStatusCode;
         }
 
-        public async Task<IList<Alert>> Register(DealnetPortal.Api.Models.RegisterBindingModel registerModel)
+        public async Task<IList<Alert>> Register(Api.Models.RegisterBindingModel registerModel)
         {
             var alerts = new List<Alert>();
             var result = await Client.PostAsyncWithHttpResponse($"{_fullUri}/Register", registerModel);
@@ -45,7 +37,7 @@ namespace DealnetPortal.Web.ServiceAgent
             return alerts;
         }
 
-        public async Task<IList<Alert>> ChangePassword(DealnetPortal.Api.Models.ChangePasswordBindingModel changePasswordModel)
+        public async Task<IList<Alert>> ChangePassword(Api.Models.ChangePasswordBindingModel changePasswordModel)
         {
             var alerts = new List<Alert>();
             var result = await Client.PostAsyncWithHttpResponse($"{_fullUri}/ChangePassword", changePasswordModel, AuthenticationHeader);
@@ -59,7 +51,7 @@ namespace DealnetPortal.Web.ServiceAgent
             return alerts;
         }
 
-        public async Task<IList<Alert>> ChangePasswordAnonymously(DealnetPortal.Api.Models.ChangePasswordAnonymouslyBindingModel changePasswordModel)
+        public async Task<IList<Alert>> ChangePasswordAnonymously(Api.Models.ChangePasswordAnonymouslyBindingModel changePasswordModel)
         {
             var alerts = new List<Alert>();
             var result = await Client.PostAsyncWithHttpResponse($"{_fullUri}/ChangePasswordAnonymously", changePasswordModel);
@@ -73,7 +65,7 @@ namespace DealnetPortal.Web.ServiceAgent
             return alerts;
         }
 
-        public async Task<IList<Alert>> ForgotPassword(DealnetPortal.Api.Models.ForgotPasswordBindingModel forgotPasswordModel)
+        public async Task<IList<Alert>> ForgotPassword(Api.Models.ForgotPasswordBindingModel forgotPasswordModel)
         {
             var alerts = new List<Alert>();
             var result = await Client.PostAsyncWithHttpResponse($"{_fullUri}/ForgotPassword", forgotPasswordModel);

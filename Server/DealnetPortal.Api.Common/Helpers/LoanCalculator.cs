@@ -47,25 +47,27 @@ namespace DealnetPortal.Api.Common.Helpers
             output.Hst = input.TaxRate/100*input.PriceOfEquipment;
             output.PriceOfEquipmentWithHst = output.Hst + input.PriceOfEquipment;
             var customerRate = input.CustomerRate / 100 / 12;
+            var mco = 0.0;
             if (input.IsClarity == true)
             {
                 if (input.IsOldClarityDeal)
                 {
-                    output.TotalAmountFinanced = input.PriceOfEquipment /*+ input.AdminFee*/ - input.DownPayment;//output.PriceOfEquipmentWithHst /*+ input.AdminFee*/ - input.DownPayment;
+                    output.TotalAmountFinanced = input.PriceOfEquipment /*+ input.AdminFee*/ - input.DownPayment;
+                    //output.PriceOfEquipmentWithHst /*+ input.AdminFee*/ - input.DownPayment;
                     output.TotalMonthlyPayment = customerRate == 0 && input.AmortizationTerm == 0 ? 0 :
                         customerRate > 0 ? Math.Round(output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1), 2)
                             : output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1);
+                    output.TotalAllMonthlyPayments = Math.Round(output.TotalMonthlyPayment, 2) * input.LoanTerm;
+                    mco = output.TotalMonthlyPayment;
                 }
                 else
                 {
                     const double clarityPaymentFactor = 0.010257;
-                    output.TotalMonthlyPayment = output.PriceOfEquipmentWithHst;
-                    //output.TotalAmountFinanced = customerRate == 0.0 ? 0.0 :
-                    //    (1.0 - Math.Pow(1 + customerRate,
-                    //                   -input.AmortizationTerm)) / customerRate;
-                    //output.TotalAmountFinanced *= output.TotalMonthlyPayment;
-                    output.TotalAmountFinanced = output.TotalMonthlyPayment / clarityPaymentFactor;
-                    output.PriceOfEquipmentWithHst = output.TotalAmountFinanced - input.AdminFee + input.DownPayment;
+                    output.TotalMonthlyPayment = output.PriceOfEquipmentWithHst;                             
+                    output.PriceOfEquipmentWithHst = output.TotalMonthlyPayment / clarityPaymentFactor;
+                    output.TotalAmountFinanced = output.PriceOfEquipmentWithHst + input.AdminFee - input.DownPayment;
+                    mco = output.TotalAmountFinanced * clarityPaymentFactor;
+                    output.TotalAllMonthlyPayments = Math.Round(mco, 2) * input.LoanTerm;                    
                 }
             }
             else
@@ -74,12 +76,13 @@ namespace DealnetPortal.Api.Common.Helpers
                 output.TotalMonthlyPayment = customerRate == 0 && input.AmortizationTerm == 0 ? 0 :
                     customerRate > 0 ? Math.Round(output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1), 2)
                         : output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1);
+                output.TotalAllMonthlyPayments = Math.Round(output.TotalMonthlyPayment, 2) * input.LoanTerm;
+                mco = output.TotalMonthlyPayment;
             }
             output.LoanTotalCashPrice = output.TotalAmountFinanced - input.AdminFee + input.DownPayment;
-            output.TotalAllMonthlyPayments = Math.Round(output.TotalMonthlyPayment, 2)*input.LoanTerm;
             if (input.LoanTerm != input.AmortizationTerm)
             {
-                output.ResidualBalance = Math.Round(-Financial.PV(customerRate, input.AmortizationTerm - input.LoanTerm, output.TotalMonthlyPayment) * (1 + customerRate),2);
+                output.ResidualBalance = Math.Round(-Financial.PV(customerRate, input.AmortizationTerm - input.LoanTerm, mco) * (1 + customerRate),2);
             }
             output.TotalObligation = output.ResidualBalance + output.TotalAllMonthlyPayments + input.AdminFee;
             output.TotalBorowingCost = Math.Round(output.TotalObligation - output.TotalAmountFinanced - input.AdminFee,2);

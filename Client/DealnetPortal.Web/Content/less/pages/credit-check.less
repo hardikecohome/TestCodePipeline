@@ -491,6 +491,9 @@ select.dealnet-disabled-input{
         position: absolute;
         top: 13px;
         left: 18px;
+        @media @mobile{
+          top: 22px;
+        }
       }
     }
   }
@@ -520,8 +523,8 @@ select.dealnet-disabled-input{
     line-height: 1.3;
     padding: 14px 18px 12px 45px;
     margin: 15px 0;
-    background-color: rgba(217, 46, 0, 0.04);
-    border: solid 1px #f4b7b7;
+    background-color: @white-color;
+    border: solid 0px #f4b7b7;    
     color: @default-dark-grey-color;
     &.error-descr{
       padding: 20px 20px 20px 60px;
@@ -549,6 +552,9 @@ select.dealnet-disabled-input{
       position: absolute;
       top: 13px;
       left: 18px;
+      @media @mobile{
+          top: 22px;
+        }
       color: @well-info-icon-color;
     }
   }
@@ -835,3 +841,15 @@ body.tablet-device.ios-device{
 .loan-only-dropdown-disabled{
 	background-color:#eeeeee!important;
 	}
+.summary-submit-hold{
+    a.btn {
+        margin-bottom:14px;
+    }
+    .well.danger-well {
+        padding-bottom:11px;
+        padding-top:11px;
+        .icon-error{
+            top: 10px;
+        }
+    }
+}

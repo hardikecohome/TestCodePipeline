@@ -31,6 +31,19 @@
         settings.disableInputsArr.forEach(function(field) { $('#' + field).prop('disabled', isDisable); });
     };
 
+    var setAdminFeeByEquipmentSum = function(eSum) {
+        if($.isEmptyObject(state.customRateCardBoundaires)) return;
+
+        Object.keys(state.customRateCardBoundaires).map(function(bound) {
+            var numbers = bound.split('-');
+            var lowBound = +numbers[0];
+            var highBound = +numbers[1];
+            if (lowBound <= eSum && highBound >= eSum) {
+                state[settings.customRateCardName].AdminFee = +state.customRateCardBoundaires[bound].adminFee;
+            }
+        });
+    }
+
     /**
      * On form submit takes values from state and set them to inputs
      * @param {any} event parent javascript event
@@ -51,8 +64,7 @@
         $(settings.delaerCostId).val(state[option].DealerCost);
         $(settings.totalMonthlyPaymentId).val(customSlicedTotalMPayment);
         $(settings.loanDeferralTypeId).val(state[option].DeferralPeriod);
-
-        $(settings.selectedRateCardId).val(0);
+        $(settings.selectedRateCardId).val(null);
     };
 
     /**
@@ -124,8 +136,9 @@
 
     return {
         init: init,
+        setAdminFeeByEquipmentSum: setAdminFeeByEquipmentSum,
         validateCustomCard: validation.validateCustomCard,
-        submitCustomRateCard: submitCustomRateCard, 
+        submitCustomRateCard: submitCustomRateCard,
         toggleDisableClassOnInputs: toggleDisableClassOnInputs,
         setSelectedCustomRateCard: setSelectedCustomRateCard
     }

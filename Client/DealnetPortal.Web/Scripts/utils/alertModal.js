@@ -6,7 +6,7 @@
         alertModal.find('.modal-body p').html(obj.message);
         alertModal.find('.modal-title').html(obj.title ? obj.title : '');
         alertModal.find('#confirmAlert').html(obj.confirmBtnText);
-        alertModal.find('.modal-footer button[data-dismiss="modal"]').html(obj.cancelBtnText);
+        alertModal.find('.modal-footer [data-dismiss="modal"]').html(obj.cancelBtnText);
         alertModal.addClass(classes);
         alertModal.modal('show');
         alertModal.one('hidden.bs.modal', function () {

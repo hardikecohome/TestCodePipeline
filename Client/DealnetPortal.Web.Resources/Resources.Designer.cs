@@ -124,6 +124,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to By submitting this application, you acknowledge and agree that EcoHome Financial is authorized to obtain your credit report from one or more consumer credit reporting agencies (e.g. Equifax or TransUnion), to verify the information in your credit report with third parties as necessary, and to periodically update your credit information with credit reporting agencies. You are hereby notified that a consumer report containing credit and/or personal information may be referred to in connection with this applic [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string AcknowledgeAndAgreementObtainCreditReportDP {
+            get {
+                return ResourceManager.GetString("AcknowledgeAndAgreementObtainCreditReportDP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By submitting this application, you acknowledge and agree that Services financiers Ecohome is authorized to obtain your credit report from one or more consumer credit reporting agencies (e.g. Equifax or TransUnion), to verify the information in your credit report with third parties as necessary, and to periodically update your credit information with credit reporting agencies. You are hereby notified that a consumer report containing credit and/or personal information may be referred to in connection with t [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string AcknowledgeAndAgreementObtainCreditReportDPQC {
+            get {
+                return ResourceManager.GetString("AcknowledgeAndAgreementObtainCreditReportDPQC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Acknowledgment.
         /// </summary>
         public static string Acknowledgment {
@@ -430,7 +448,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Customer Fee.
+        ///   Looks up a localized string similar to Admin Fee.
         /// </summary>
         public static string AdminFee {
             get {
@@ -462,32 +480,6 @@ namespace DealnetPortal.Web.Resources {
         public static string Agreement {
             get {
                 return ResourceManager.GetString("Agreement", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;h2&gt;Collection, Use and Disclosure of Personal Information&lt;/h2&gt;
-        ///    &lt;p&gt;EcoHome Financial may collect, use and disclose personal information provided by you on this application, obtained as part of the application process (including from credit reporting agencies and other sources) and/or, if your application is approved, obtained from time to time in the administration or operation of your account, for some or all of the following purposes:&lt;/p&gt;
-        ///    &lt;ul&gt;
-        ///        &lt;li&gt;
-        ///            to verify your identity a [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string AgreementPersonalData {
-            get {
-                return ResourceManager.GetString("AgreementPersonalData", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;h2&gt;Collection, Use and Disclosure of Personal Information&lt;/h2&gt;
-        ///    &lt;p&gt;Financement Ecohome may collect, use and disclose personal information provided by you on this application, obtained as part of the application process (including from credit reporting agencies and other sources) and/or, if your application is approved, obtained from time to time in the administration or operation of your account, for some or all of the following purposes:&lt;/p&gt;
-        ///    &lt;ul&gt;
-        ///        &lt;li&gt;
-        ///            to verify your identity [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string AgreementPersonalDataQC {
-            get {
-                return ResourceManager.GetString("AgreementPersonalDataQC", resourceCulture);
             }
         }
         
@@ -1626,6 +1618,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Concluded agreement.
+        /// </summary>
+        public static string ConcludedAgreement {
+            get {
+                return ResourceManager.GetString("ConcludedAgreement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm new password.
         /// </summary>
         public static string ConfirmNewPassword {
@@ -1685,6 +1686,33 @@ namespace DealnetPortal.Web.Resources {
         public static string ConsentToReceiveCommercialElectronicMessages {
             get {
                 return ResourceManager.GetString("ConsentToReceiveCommercialElectronicMessages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You consent to accept, receive and use in electronic form any and all agreements, notices, disclosures and other documents or information in relation to this application that EcoHome Financial may deliver to you. .
+        /// </summary>
+        public static string ConsentToReceiveCommercialElectronicMessages1 {
+            get {
+                return ResourceManager.GetString("ConsentToReceiveCommercialElectronicMessages1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By checking this box, you consent to receive commercial electronic messages from EcoHome Financial at your email address and telephone number(s) provided by you in this application or from time to time in connection with your account, including electronic communications that market or promote our programs, products, services, offers, events and surveys that may be of interest to you. You may withdraw this consent at any time. You may contact EcoHome Financial Inc. at 325 Milner Avenue, Suite 300, Toronto, O [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string ConsentToReceiveCommercialElectronicMessagesDP {
+            get {
+                return ResourceManager.GetString("ConsentToReceiveCommercialElectronicMessagesDP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By checking this box, you consent to receive commercial electronic messages from Services financiers Ecohome at your email address and telephone number(s) provided by you in this application or from time to time in connection with your account, including electronic communications that market or promote our programs, products, services, offers, events and surveys that may be of interest to you. You may withdraw this consent at any time. You may contact Services financiers Ecohome Inc. at 425, boul de Maisonn [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string ConsentToReceiveCommercialElectronicMessagesDPQC {
+            get {
+                return ResourceManager.GetString("ConsentToReceiveCommercialElectronicMessagesDPQC", resourceCulture);
             }
         }
         
@@ -1879,6 +1907,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Covered by Customer.
+        /// </summary>
+        public static string CoveredByCustomer {
+            get {
+                return ResourceManager.GetString("CoveredByCustomer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Covered by Dealer.
+        /// </summary>
+        public static string CoveredByDealer {
+            get {
+                return ResourceManager.GetString("CoveredByDealer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create another application for this home owner.
         /// </summary>
         public static string CreateAnotherApplicationForHomeOwner {
@@ -2059,6 +2105,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Customer Fee.
+        /// </summary>
+        public static string CustomerFee {
+            get {
+                return ResourceManager.GetString("CustomerFee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Customer Rate or Your Cost is Required.
         /// </summary>
         public static string CustomerOrYourCostRequired {
@@ -2212,7 +2267,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dealer Support/Funding.
+        ///   Looks up a localized string similar to Dealer Support.
         /// </summary>
         public static string DealerSupport {
             get {
@@ -2572,7 +2627,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Financement Ecohome is a Canadian owned finance company providing custom consumer financing and loan products to the HVAC and home improvement markets. We manage all of our business in-house..
+        ///   Looks up a localized string similar to Services financiers Ecohome is a Canadian owned finance company providing custom consumer financing and loan products to the HVAC and home improvement markets. We manage all of our business in-house..
         /// </summary>
         public static string EcoHomeAbout1QC {
             get {
@@ -2824,7 +2879,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while uploading file. (Maximum file size 20 MB).
+        ///   Looks up a localized string similar to An error occurred while uploading file..
         /// </summary>
         public static string ErrorWhileUploadingFile {
             get {
@@ -2838,6 +2893,15 @@ namespace DealnetPortal.Web.Resources {
         public static string EstimatedAge {
             get {
                 return ResourceManager.GetString("EstimatedAge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Estimated Retail Cost is in incorrect format.
+        /// </summary>
+        public static string EstimatedCostIncorrectFormat {
+            get {
+                return ResourceManager.GetString("EstimatedCostIncorrectFormat", resourceCulture);
             }
         }
         
@@ -2860,11 +2924,29 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Estimated Retail Cost.
+        /// </summary>
+        public static string EstimatedRetailCost {
+            get {
+                return ResourceManager.GetString("EstimatedRetailCost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Existing Equipment Information.
         /// </summary>
         public static string ExistingEquipmentInformation {
             get {
                 return ResourceManager.GetString("ExistingEquipmentInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Existing Supplier.
+        /// </summary>
+        public static string ExistingSupplier {
+            get {
+                return ResourceManager.GetString("ExistingSupplier", resourceCulture);
             }
         }
         
@@ -3076,6 +3158,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Funding.
+        /// </summary>
+        public static string Funding {
+            get {
+                return ResourceManager.GetString("Funding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Funding Checklist.
         /// </summary>
         public static string FundingChecklist {
@@ -3171,6 +3262,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Help {
             get {
                 return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Home.
+        /// </summary>
+        public static string Home {
+            get {
+                return ResourceManager.GetString("Home", resourceCulture);
             }
         }
         
@@ -3432,6 +3532,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Information {
             get {
                 return ResourceManager.GetString("Information", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Initiated contract.
+        /// </summary>
+        public static string InitiatedContract {
+            get {
+                return ResourceManager.GetString("InitiatedContract", resourceCulture);
             }
         }
         
@@ -3994,6 +4103,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MCO reduced by down payment.
+        /// </summary>
+        public static string MCOReducedDownPayment {
+            get {
+                return ResourceManager.GetString("MCOReducedDownPayment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Meter #.
         /// </summary>
         public static string MeterNumber {
@@ -4219,6 +4337,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to N/A.
+        /// </summary>
+        public static string N_A {
+            get {
+                return ResourceManager.GetString("N_A", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name is in incorrect format.
         /// </summary>
         public static string NameIncorrectFormat {
@@ -4242,6 +4369,15 @@ namespace DealnetPortal.Web.Resources {
         public static string NavigateToStep {
             get {
                 return ResourceManager.GetString("NavigateToStep", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Negotiated agreement.
+        /// </summary>
+        public static string NegotiatedAgreement {
+            get {
+                return ResourceManager.GetString("NegotiatedAgreement", resourceCulture);
             }
         }
         
@@ -4678,20 +4814,20 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PAD.
+        /// </summary>
+        public static string PadCapital {
+            get {
+                return ResourceManager.GetString("PadCapital", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Possession and Acquisition License (PAL card).
         /// </summary>
         public static string PalCard {
             get {
                 return ResourceManager.GetString("PalCard", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to PAP.
-        /// </summary>
-        public static string PapCapital {
-            get {
-                return ResourceManager.GetString("PapCapital", resourceCulture);
             }
         }
         
@@ -5146,6 +5282,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Preferred Install Date.
+        /// </summary>
+        public static string PreferredInstallDate {
+            get {
+                return ResourceManager.GetString("PreferredInstallDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preferred Install Time.
+        /// </summary>
+        public static string PreferredInstallTime {
+            get {
+                return ResourceManager.GetString("PreferredInstallTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Preferred Withdrawal Date.
         /// </summary>
         public static string PrefferedWithdrawalDateIncorrectFormat {
@@ -5232,30 +5386,6 @@ namespace DealnetPortal.Web.Resources {
         public static string PrivacyPolicy {
             get {
                 return ResourceManager.GetString("PrivacyPolicy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;h2 class=&quot;dealnet-large-header&quot;&gt;Privacy Policy _ Ecohome_External&lt;/h2&gt;
-        ///    &lt;p&gt;&lt;strong&gt;Effective: June 15, 2017&lt;/strong&gt;&lt;/p&gt;
-        ///    &lt;h3 class=&quot;dealnet-section-title&quot;&gt;Our Commitment&lt;/h3&gt;
-        ///    &lt;p&gt;At EcoHome Financial Inc. (“EcoHome Financial”, “we”, “us”, “the Company”, etc.) we are committed to providing excellent service and to ensuring that our relationship with individuals with whom we interact, such as our customers or potential customers (“you”), is conducted with integrity and in a responsible, fair, ho [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string PrivacyPolicyText {
-            get {
-                return ResourceManager.GetString("PrivacyPolicyText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;h2 class=&quot;dealnet-large-header&quot;&gt;Privacy Policy _ Ecohome_External&lt;/h2&gt;
-        ///    &lt;p&gt;&lt;strong&gt;Effective: June 15, 2017&lt;/strong&gt;&lt;/p&gt;
-        ///    &lt;h3 class=&quot;dealnet-section-title&quot;&gt;Our Commitment&lt;/h3&gt;
-        ///    &lt;p&gt;At Financement Ecohome Inc. (“Financement Ecohome”, “we”, “us”, “the Company”, etc.) we are committed to providing excellent service and to ensuring that our relationship with individuals with whom we interact, such as our customers or potential customers (“you”), is conducted with integrity and in a responsible, fair [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string PrivacyPolicyTextQC {
-            get {
-                return ResourceManager.GetString("PrivacyPolicyTextQC", resourceCulture);
             }
         }
         
@@ -5522,6 +5652,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Relationship to Main Borrower.
+        /// </summary>
+        public static string RelationshipToMainBorrower {
+            get {
+                return ResourceManager.GetString("RelationshipToMainBorrower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relationship to Main Borrower is in incorrect format.
+        /// </summary>
+        public static string RelationshipToMainBorrowerIncorrectFormat {
+            get {
+                return ResourceManager.GetString("RelationshipToMainBorrowerIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remember me?.
         /// </summary>
         public static string RememberMe {
@@ -5702,6 +5850,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Responsible for cost of removal.
+        /// </summary>
+        public static string ResponsibleForCostRemoval {
+            get {
+                return ResourceManager.GetString("ResponsibleForCostRemoval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Retake.
         /// </summary>
         public static string Retake {
@@ -5725,6 +5882,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Reupload {
             get {
                 return ResourceManager.GetString("Reupload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role of the sales rep.
+        /// </summary>
+        public static string RoleOfSalesRep {
+            get {
+                return ResourceManager.GetString("RoleOfSalesRep", resourceCulture);
             }
         }
         
@@ -6593,6 +6759,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Total MCO reduced by down payment.
+        /// </summary>
+        public static string TotalMCOReducedDownPayment {
+            get {
+                return ResourceManager.GetString("TotalMCOReducedDownPayment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total Monthly Cost of Ownership.
         /// </summary>
         public static string TotalMonthlyCostOfOwnership {
@@ -6958,6 +7133,15 @@ namespace DealnetPortal.Web.Resources {
         public static string VoidCheque {
             get {
                 return ResourceManager.GetString("VoidCheque", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Void Cheque Bank PAD Authorization Letter.
+        /// </summary>
+        public static string VoidChequeBankPADAuthorizationLetter {
+            get {
+                return ResourceManager.GetString("VoidChequeBankPADAuthorizationLetter", resourceCulture);
             }
         }
         

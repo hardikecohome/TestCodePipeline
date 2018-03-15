@@ -167,40 +167,38 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 var contractData = Mapper.Map<ContractData>(contract);
+                var lastUpdateTime = _contractRepository.GetContract(contract.Id, contractOwnerId)?.LastUpdateTime;
                 var updatedContract = _contractRepository.UpdateContractData(contractData, contractOwnerId);
                 if (updatedContract != null)
                 {
                     _unitOfWork.Save();
                     _loggingService.LogInfo($"A contract [{contract.Id}] updated");
+                    var contractUpdated = updatedContract.LastUpdateTime > lastUpdateTime || string.IsNullOrEmpty(updatedContract.Details?.TransactionId);
 
-                    if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null)
+                    if (contractUpdated && (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null))
                     {
                         var aspireAlerts = 
                             _aspireService.UpdateContractCustomer(updatedContract, contractOwnerId, contract.LeadSource).GetAwaiter().GetResult();
                     }
-                    if (updatedContract.ContractState != ContractState.Completed &&
+                    if (contractUpdated && updatedContract.ContractState != ContractState.Completed &&
                         updatedContract.ContractState != ContractState.Closed && !updatedContract.DateOfSubmit.HasValue)
                     {
                         var aspireAlerts = 
                             _aspireService.SendDealUDFs(updatedContract, contractOwnerId, contract.LeadSource, contractor).GetAwaiter().GetResult();
                     }
-                    else if (updatedContract.ContractState == ContractState.Completed || updatedContract.DateOfSubmit.HasValue)
+                    else if (contractUpdated && (updatedContract.ContractState == ContractState.Completed || updatedContract.DateOfSubmit.HasValue))
                     {
                         //if Contract has been submitted already, we will resubmit it to Aspire after each contract changes 
                         //(DEAL-3628: [DP] Submit deal after each step when editing previously submitted deal)
-                        var submitRes = SubmitContract(contract.Id, contractOwnerId);
-                        if (submitRes?.Item2?.Any() == true)
+                        var submitResTask =
+                            Task.Run(async () =>
+                                await ReSubmitContract(contract.Id, contractOwnerId));
+                        var submitRes = submitResTask.GetAwaiter().GetResult();
+                        if (submitRes?.Any() == true)
                         {
-                            alerts.AddRange(submitRes.Item2);
+                            alerts.AddRange(submitRes);
                         }
-                    }
-
-                    //check contract signature status and clean if needed
-                    if (updatedContract.Details.SignatureStatus != null || !string.IsNullOrEmpty(updatedContract.Details?.SignatureTransactionId) &&
-                        updatedContract.LastUpdateTime > updatedContract.Details.SignatureInitiatedTime)
-                    {
-                        _documentService.CleanSignatureInfo(updatedContract.Id, contractOwnerId);
-                    }
+                    }                    
                 }
                 else
                 {
@@ -428,7 +426,7 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 //var totalMp = _contractRepository.GetContractPaymentsSummary(c.Id);
                                 //totalSum += totalMp?.TotalAllMonthlyPayment ?? 0;
-                                totalSum += c.Equipment?.ValueOfDeal ?? 0;
+                                totalSum += (double)(c.Equipment?.ValueOfDeal ?? 0);
                             });
                             summary.Add(new FlowingSummaryItemDTO()
                             {
@@ -459,7 +457,7 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 //var totalMp = _contractRepository.GetContractPaymentsSummary(c.Id);
                                 //totalSum += totalMp?.TotalAllMonthlyPayment ?? 0;
-                                totalSum += c.Equipment?.ValueOfDeal ?? 0;
+                                totalSum += (double)(c.Equipment?.ValueOfDeal ?? 0);
                             });
 
                             summary.Add(new FlowingSummaryItemDTO()
@@ -485,7 +483,7 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 //var totalMp = _contractRepository.GetContractPaymentsSummary(c.Id);
                                 //totalSum += totalMp?.TotalAllMonthlyPayment ?? 0;
-                                totalSum += c.Equipment?.ValueOfDeal ?? 0;
+                                totalSum += (double)(c.Equipment?.ValueOfDeal ?? 0);
                             });
 
                             summary.Add(new FlowingSummaryItemDTO()
@@ -606,7 +604,7 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 // update only new customers for declined deals
-                if (customers?.Any() ?? false)
+                if (customers?.Any() == true)
                 {
                     var contractId = customers.FirstOrDefault(c => c.ContractId.HasValue)?.ContractId;
                     var contract = contractId.HasValue
@@ -614,35 +612,75 @@ namespace DealnetPortal.Api.Integration.Services
                         : null;
 
                     var customersUpdated = false;
+                    var customersMailsUpdated = false;
 
                     customers.ForEach(c =>
                     {
                         if (contract == null || contract.WasDeclined != true ||
                             (contract.InitialCustomers?.All(ic => ic.Id != c.Id) ?? false))
                         {
-                            _contractRepository.UpdateCustomerData(c.Id, Mapper.Map<Customer>(c.CustomerInfo),
-                                Mapper.Map<IList<Location>>(c.Locations), Mapper.Map<IList<Phone>>(c.Phones),
-                                Mapper.Map<IList<Email>>(c.Emails));
-                            customersUpdated = true;
+                            if (c.CustomerInfo == null && c.Locations?.Any() != true &&
+                                c.Phones?.Any() != true &&
+                                c.Emails?.Any() == true)
+                            {
+                                var mails = Mapper.Map<IList<Email>>(c.Emails);
+                                mails.ForEach(email =>
+                                {
+                                    if (email.EmailType == EmailType.Main)
+                                    {
+                                        customersUpdated = _contractRepository.UpdateCustomerEmails(c.Id,
+                                            new List<Email>(){ email });
+                                    }
+                                    else
+                                    {
+                                        customersMailsUpdated = _contractRepository.UpdateCustomerEmails(c.Id,
+                                            new List<Email>() { email });
+                                    }
+                                });                                
+                            }
+                            else
+                            {
+                                customersUpdated = _contractRepository.UpdateCustomerData(c.Id,
+                                    Mapper.Map<Customer>(c.CustomerInfo),
+                                    Mapper.Map<IList<Location>>(c.Locations), Mapper.Map<IList<Phone>>(c.Phones),
+                                    Mapper.Map<IList<Email>>(c.Emails));
+                            }
                         }
                     });
 
-                    if (customersUpdated == true)
+                    if (customersUpdated || customersMailsUpdated)
                     {
                         _unitOfWork.Save();
+                    }
 
+                    if (customersUpdated == true)
+                    {                                            
                         // get latest contract changes
                         if (contractId.HasValue)
                         {
-                            contract = _contractRepository.GetContractAsUntracked(contractId.Value, contractOwnerId);
-                        }                        
+                            contract = _contractRepository.GetContractAsUntracked(contractId.Value,
+                                contractOwnerId);
+                        }
                         if (contract != null)
-                        {                            
+                        {
                             // update customers on aspire
                             var leadSource = customers.FirstOrDefault(c => !string.IsNullOrEmpty(c.LeadSource))
                                 ?.LeadSource;
                             _aspireService.UpdateContractCustomer(contractId.Value, contractOwnerId, leadSource);
-                        }
+
+                            if (contract.ContractState == ContractState.Completed ||
+                                contract.DateOfSubmit.HasValue)
+                            {
+                                var submitResTask =
+                                    Task.Run(async () =>
+                                        await ReSubmitContract(contract.Id, contractOwnerId));
+                                var submitRes = submitResTask.GetAwaiter().GetResult();
+                                if (submitRes?.Any() == true)
+                                {
+                                    alerts.AddRange(submitRes);
+                                }
+                            }
+                        }                       
                     }
                 }
             }
@@ -882,6 +920,18 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     try
                     {
+                        // if e-signature is initiated, cancel e-signature
+                        if (!string.IsNullOrEmpty(contract.Details.SignatureTransactionId) &&
+                            (contract.Details.SignatureStatus == SignatureStatus.Created || contract.Details.SignatureStatus == SignatureStatus.Sent
+                                || contract.Details.SignatureStatus == SignatureStatus.Delivered))
+                        {
+                            var cancelResults = await _documentService.CancelSignatureProcess(contractId, contractOwnerId);
+                            if (cancelResults?.Item2?.Any() == true)
+                            {
+                                alerts.AddRange(cancelResults.Item2);
+                            }
+                        }
+
                         var status = _configuration.GetSetting(WebConfigKeys.ALL_DOCUMENTS_UPLOAD_STATUS_CONFIG_KEY);
                         var aspireAlerts = await _aspireService.ChangeDealStatus(contract.Details?.TransactionId, status, contractOwnerId, "Request to Fund");
                         //var aspireAlerts = await _aspireService.SubmitAllDocumentsUploaded(contractId, contractOwnerId);
@@ -1073,6 +1123,37 @@ namespace DealnetPortal.Api.Integration.Services
                 }
             }
             return isChanged;
+        }
+
+        private async Task<IList<Alert>> ReSubmitContract(int contractId, string contractOwnerId)
+        {
+            var alerts = new List<Alert>();            
+            var submitRes = SubmitContract(contractId, contractOwnerId);            
+            //check contract signature status and clean if needed
+            if (submitRes != null)
+            {
+                if (submitRes.Item2?.Any() == true)
+                {
+                    alerts.AddRange(submitRes.Item2);
+                }
+                var contract = GetContract(contractId, contractOwnerId);
+                if (contract != null)
+                {
+                    if (contract.Details.SignatureStatus != null ||
+                                            !string.IsNullOrEmpty(contract.Details?.SignatureTransactionId) &&
+                                            contract.LastUpdateTime >
+                                            contract.Details.SignatureInitiatedTime)
+                    {
+                        var cancelRes = await _documentService.CancelSignatureProcess(contractId, contractOwnerId, Resources.Resources.ContractChangedCancelledEsign);
+                        if (cancelRes?.Item2?.Any() == true)
+                        {
+                            alerts.AddRange(cancelRes.Item2);
+                        }
+                        _documentService.CleanSignatureInfo(contractId, contractOwnerId);
+                    }
+                }
+            }            
+            return alerts;
         }
 
         private bool IsSentToAuditValid(Contract contract)

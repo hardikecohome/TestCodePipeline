@@ -12,14 +12,27 @@
     max-width: 105px;
 }
 
+:lang(fr),
+:lang(fr-CA) {
+    .header__navigation ul li a {
+        font-size: 9px;
+    }
+}
+
 .header__navigation {
     float: left;
     margin-left: 66px;
+    &.has-about {
+        &:lang(fr),
+        &:lang(fr-CA) {
+            margin-left: 20px;
+        }
+    }
     ul {
         padding: 0;
         margin: 0;
         list-style: none;
-        position: absolute;
+        position: relative;
         bottom: -6px;
         li {
             float: left;
@@ -36,7 +49,7 @@
                 text-decoration: none;
                 text-transform: uppercase;
                 color: $middle-grey;
-                font-size: 11px;
+                font-size: 10px;
                 line-height: 1.0;
                 position: relative;
                 .notification {
@@ -97,7 +110,7 @@
 
 .header__right-panel {
     float: right;
-    width: 30%;
+    min-width: 30%;
     position: relative;
     &:before {
         display: block;
@@ -150,9 +163,9 @@
     border: 0;
     margin: 0 10px 0 0;
     background-color: transparent;
-    appearance: none;
     -moz-appearance: none;
     -webkit-appearance: none;
+    appearance: none;
     padding-right: 10px;
     background-image: url('../images/forms/selectArrow.svg');
     background-repeat: no-repeat;

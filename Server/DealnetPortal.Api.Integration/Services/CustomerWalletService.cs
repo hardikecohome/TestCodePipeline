@@ -14,6 +14,7 @@ using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.CustomerWallet;
 using DealnetPortal.Domain;
+using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.Api.Integration.Services
@@ -22,16 +23,18 @@ namespace DealnetPortal.Api.Integration.Services
     {
         private readonly ICustomerWalletServiceAgent _customerWalletServiceAgent;
         private readonly IMailService _mailService;
+        private readonly IContractRepository _contractRepository;
         private readonly ILoggingService _loggingService;
 
         public CustomerWalletService(
             ICustomerWalletServiceAgent customerWalletServiceAgent, 
             ILoggingService loggingService, 
-            IMailService mailService)
+            IMailService mailService, IContractRepository contractRepository)
         {
             _customerWalletServiceAgent = customerWalletServiceAgent;
             _loggingService = loggingService;
             _mailService = mailService;
+            _contractRepository = contractRepository;
         }
 
         public async Task<IList<Alert>> CreateCustomerByContractList(List<Contract> contracts, string contractOwnerId)
@@ -122,11 +125,24 @@ namespace DealnetPortal.Api.Integration.Services
             var alerts = new List<Alert>();
             try
             {
-                var response = await _customerWalletServiceAgent.CheckUser(login);
-                if (response?.Any() ?? false)
+                if (_contractRepository.IsMortgageBrokerCustomerExist(login))
                 {
-                    _loggingService.LogInfo($"Customer {login} already registered on Customer Wallet.");
-                    alerts.AddRange(response);
+                    _loggingService.LogInfo($"Customer {login} already registered on Mortgage Broker Service.");
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = "Cannot create customer",
+                        Message = "Customer with this email address is already registered."
+                    });
+                }
+                else
+                {
+                    var response = await _customerWalletServiceAgent.CheckUser(login);
+                    if (response?.Any() ?? false)
+                    {
+                        _loggingService.LogInfo($"Customer {login} already registered on Customer Wallet.");
+                        alerts.AddRange(response);
+                    }
                 }
             }
             catch (HttpRequestException ex)

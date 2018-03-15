@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Attributes;
 
 namespace DealnetPortal.Web.Models.EquipmentInformation
 {
     using System.ComponentModel.DataAnnotations;
-    using System.Security.AccessControl;
 
     public class NewEquipmentInformation
     {
@@ -32,6 +27,14 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [RegularExpression(@"^[1-9]\d{0,5}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "MonthlyCostIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "MonthlyCost")]
         public double? MonthlyCost { get; set; }
+
+        [Display(ResourceType = typeof(Resources.Resources), Name = "MCOReducedDownPayment")]
+        public decimal? MonthlyCostLessDP { get; set; }
+
+        [CustomRequired]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "EstimatedRetailCost")]
+        [RegularExpression(@"^[1-9]\d{0,11}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "EstimatedCostIncorrectFormat")]
+        public double? EstimatedRetailCost { get; set; }
 
         [Display(ResourceType = typeof (Resources.Resources), Name = "EstimatedInstallationDate")]
         [DataType(DataType.Date)]

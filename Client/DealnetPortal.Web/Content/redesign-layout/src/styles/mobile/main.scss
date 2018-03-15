@@ -1,6 +1,12 @@
 @media screen and (max-width: 767px) {
-  .custom-container {
-    max-width: 1030px;
-    margin: 0 auto;
-  }
+    .custom-container {
+        max-width: 1030px;
+        margin: 0 auto;
+    }
+    .body-container {
+        margin-bottom: 60px;
+    }
+    .ios-device .body-container {
+        padding-bottom: 60px;
+    }
 }

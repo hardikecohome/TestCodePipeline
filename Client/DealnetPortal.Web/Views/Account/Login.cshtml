@@ -45,7 +45,10 @@
                                 <div class="pull-left">
                                     <label class="align-middle custom-checkbox">
                                         @Html.CheckBoxFor(m => m.RememberMe)
-                                        <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                                        <span class="checkbox-icon">
+                                        <svg aria-hidden="true" class="icon icon-checked">
+                                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg>
+                                        </span>
                                         <span>@Resources.RememberMe</span>
                                     </label>
                                 </div>
@@ -62,7 +65,7 @@
                         <div class="row">
                             <div class="col-sm-2"></div>
                             <div class="col-sm-8 col-xs-12 col-lg-12 col-md-12">
-                                <input type="submit" value="@Resources.Login" class="@(useNew?"btn btn-green dealnet-button min-w-60":"btn dealnet-button dealnet-success-button")" />
+                                <input type="submit" value="@Resources.Login" class="@(useNew?"btn btn-green col-xs-12":"btn dealnet-button dealnet-success-button")" />
                             </div>
                             <div class="col-sm-2"></div>
                         </div>
