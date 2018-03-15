@@ -2641,4 +2641,10 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
   <data name="SomeSpecialCharactersAreRestricted" xml:space="preserve">
     <value>Certains caractères spéciaux comme ', &lt;,&gt;, &amp; ne sont pas autorisés</value>
   </data>
+  <data name="Credit" xml:space="preserve">
+    <value>Département de crédit</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Page d’accueil</value>
+  </data>
 </root>
