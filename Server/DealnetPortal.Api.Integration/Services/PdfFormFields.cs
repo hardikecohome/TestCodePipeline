@@ -34,6 +34,8 @@ namespace DealnetPortal.Api.Integration.Services
         public static string CustomerIdTypeOther = "Tiv1Other";
         public static string CustomerIdTypeOtherValue = "OtherID";
 
+        public static string AllowCommunicate = "AllowCommunicate";
+        public static string AllowCommunicate2 = "AllowCommunicate_2";
         public static string RelationshipToCustomer2 = "RelationshipToCustomer_2";
 
         public static string Sin = "SIN";

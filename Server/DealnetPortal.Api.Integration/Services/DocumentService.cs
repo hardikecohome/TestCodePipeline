@@ -1402,6 +1402,16 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                 }
             }
+
+            if (contract.PrimaryCustomer.AllowCommunicate == true)
+            {
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.CheckBox,
+                    Name = PdfFormFields.AllowCommunicate,
+                    Value = "true"
+                });
+            }
         }
 
         private void FillApplicantsFields(List<FormField> formFields, Contract contract)
@@ -1433,6 +1443,16 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = "ID2",
                     Value = addApplicant.DealerInitial
                 });
+
+                if (addApplicant.AllowCommunicate == true)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.CheckBox,
+                        Name = PdfFormFields.AllowCommunicate2,
+                        Value = "true"
+                    });
+                }
 
                 if (addApplicant.VerificationIdName == "Driver’s license")
                 {
