@@ -138,3 +138,711 @@
     text-align: center;
   }
 }
+
+.main-table {
+    display: flex;
+    flex-direction: column;
+    max-width: 1920px;
+    padding: 0 16px;
+    margin-left: auto;
+    margin-right: auto;
+
+    &__block {
+        display: flex;
+        flex-direction: column;
+
+        &__row {
+            display: flex;
+            flex-wrap: nowrap;
+
+            .table-row-details {
+                display: none;
+                flex: 1 1 auto;
+            }
+
+            .filter-ico {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: center;
+
+                &--asc {
+                    .sort-arrow-top {
+                        background-image: url('../../images/redesign_icons/sort-arrow-top-green.svg');
+                    }
+
+                    .sort-arrow-bottom {
+                        display: none;
+                    }
+                }
+
+                &--desc {
+                    .sort-arrow-top {
+                        display: none;
+                    }
+
+                    .sort-arrow-bottom {
+                        background-image: url('../../images/redesign_icons/sort-arrow-bottom-green.svg');
+                    }
+                }
+
+                &--default {
+                    .sort-arrow-top {
+                        background-image: url('../../images/redesign_icons/sort-arrow-top-grey.svg');
+                    }
+
+                    .sort-arrow-bottom {
+                        background-image: url('../../images/redesign_icons/sort-arrow-bottom-grey.svg');
+                    }
+                }
+            }
+
+            &.new-deal {
+                .main-table__block__row__cell.checkbox-cell {
+                    .customized-checkbox-icon {
+                        display: none;
+                    }
+                }
+
+                .main-table__block__row__cell.contract-number {
+                    .contract-number__notification {
+                        display: flex !important;
+
+                        &--blue {
+                            background-color: #c3e5f9;
+                            color: #38aaee;
+                        }
+                    }
+                }
+            }
+
+            &.expired-deal {
+
+                .main-table__block__row__cell.contract-number {
+                    .contract-number__notification {
+                        display: flex !important;
+
+                        &--red {
+                            background-color: rgba(249, 39, 0, 0.26);
+                            color: #bb1d00;
+                        }
+                    }
+                }
+            }
+
+            &__cell {
+                justify-content: center;
+                flex-grow: 0;
+                flex-basis: 9%;
+                min-height: 64px;
+                word-break: break-word;
+                display: flex;
+                font-size: 13px;
+                color: #5f5f5f;
+
+                span, i {
+                    align-self: center;
+                }
+
+                &.deal-status {
+                    flex-basis: 18%;
+                    justify-content: flex-start;
+
+                    span {
+                        flex-basis: 80%;
+                    }
+
+                    span.icon {
+                        display: flex;
+                        justify-content: flex-end;
+                        flex-basis: 20%;
+                        margin-right: 5px;
+                    }
+                }
+
+                &.e-sign,
+                &.term,
+                &.amort {
+                    flex-basis: 7%;
+                }
+
+                &.days-left {
+                    padding: 6px;
+                    flex-basis: 5%;
+                }
+
+                &.loan-amount {
+                    flex-basis: 12.5%;
+                }
+
+                &.payment-amount,
+                &.funded-amount {
+                    flex-basis: 11%;
+                }
+
+                &.address {
+                    flex-basis: 14%;
+                }
+
+                &.sales-rep,
+                &.entered-by {
+                    flex-basis: 8%;
+                }
+
+                &.icon-cell-gear {
+                    .show-details {
+                        display: none;
+                    }
+                }
+
+                &.checkbox-cell {
+                    justify-content: center;
+                    flex-basis: 4%;
+                    border: none;
+                }
+            }
+
+            &__cell.icon-cell {
+                flex-basis: 4%;
+            }
+        }
+
+        &--header {
+            border-bottom: 1px solid #97c501;
+
+            .main-table__block__row {
+                &__cell {
+                    font-family: 'Mukta', sans-serif !important;
+                    min-height: 38px;
+                    align-items: center;
+                    border: none;
+                    font-size: 11px;
+                    font-weight: bold;
+                    line-height: 1.09;
+                    text-align: left;
+                    color: #000000;
+                    display: flex;
+
+                    &.contract-number,
+                    &.deal-status,
+                    &.e-sign,
+                    &.applicant-name,
+                    &.last-activity,
+                    &.days-left,
+                    &.loan-amount,
+                    &.program-option,
+                    &.term,
+                    &.amort,
+                    &.payment-amount,
+                    &.funded-amount,
+                    &.project-desc,
+                    &.address,
+                    &.sales-rep,
+                    &.entered-by,
+                    &.icon-cell-notes,
+                    &.icon-cell-lead,
+                    &.icon-cell-gear {
+                        span {
+                            text-align: center;
+
+                            &.filter-ico {
+                                margin-left: 5px;
+                            }
+                        }
+                    }
+
+                    &.deal-status {
+                        justify-content: flex-start;
+                    }
+
+                    &.days-left {
+                        padding: 0;
+                        font-size: 11px;
+                    }
+
+                    &.program-option,
+                    &.funded-amount,
+                    &.project-desc {
+                        span {
+                            margin-left: 10px;
+                        }
+                    }
+                }
+            }
+        }
+
+        &--body {
+            &:nth-child(odd) {
+                background-color: #f1f1f1;
+            }
+
+            .main-table__block__row {
+
+                &__cell {
+                    &:not(:first-child):not(:last-child) {
+                        background-image: linear-gradient(#bcc6d9 14%, rgba(255,255,255,0) 0%);
+                        background-position: right;
+                        background-size: 1px 9px;
+                        background-repeat: repeat-y;
+                    }
+
+                    &:nth-child(2) {
+                        justify-content: flex-start;
+                    }
+
+                    &.checkbox-cell {
+                        margin-bottom: 0;
+                    }
+
+                    &.contract-number {
+                        color: #38aaee;
+                        justify-content: center;
+                        display: flex;
+                        flex-direction: column;
+
+                        .contract-number__notification {
+                            display: none;
+                            position: absolute;
+                            padding: 1px 10px 1px 10px;
+                            border-radius: 8px;
+                            background-color: #c3e5f9;
+                            font-size: 10px;
+                            text-transform: capitalize;
+                            margin-top: -20px;
+                            margin-bottom: 20px;
+                        }
+                    }
+
+                    &.e-sign {
+                        flex-basis: 7%;
+                        font-size: 9px;
+                        color: #5f5f5f;
+                        flex-direction: column;
+                    }
+
+                    &.applicant-name {
+                        span {
+                            padding-left: 7px;
+                        }
+                    }
+
+
+                    &.loan-amount {
+                        span {
+                            text-align: right;
+                        }
+                    }
+
+                    &.program-option,
+                    &.sales-rep,
+                    &.entered-by {
+                        span {
+                            padding: 2px;
+                            text-align: center;
+                        }
+                    }
+
+                    &.address {
+                        span {
+                            padding-left: 5px;
+                            text-align: left;
+                        }
+                    }
+
+                    &.icon-cell-gear {
+                        .table-row-settings-popup {
+                            display: none;
+                        }
+
+                        &:hover {
+                            .table-row-settings-popup {
+                                display: flex;
+                                position: absolute;
+                                margin-left: -67px;
+                                margin-right: 67px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        &--total {
+            border-top: 1px solid #f1f1f1;
+            margin-bottom: 20px;
+
+            .main-table__block__row {
+                display: flex;
+
+
+                &__grand-total,
+                &__grand-total-value,
+                &__entries-number {
+                }
+
+                &__grand-total {
+                    align-self: flex-end;
+                    font-weight: bold;
+                    flex-basis: 36%;
+                }
+
+                &__grand-total-value {
+                    flex-basis: 8%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    font-weight: bold;
+
+                    &__total-container {
+                        top: -12px;
+                        text-align: center;
+                        padding: 1px 15px;
+                        position: relative;
+                        border-radius: 2px;
+                        background-color: #f7f7f7;
+                        border: solid 1px #e3eaf2;
+                    }
+                }
+
+                &__entries-number {
+                    position: relative;
+                    margin-left: auto;
+                    top: 13px;
+                    max-width: 200px;
+                    flex-basis: 56%;
+                }
+
+
+            }
+        }
+    }
+
+    @media @tablet-only {
+        &__entries-number {
+            width: 20%;
+            margin-left: auto;
+            position: relative;
+            top: -64px;
+        }
+
+        &__block {
+            &--total {
+                .main-table__block__row {
+
+                    &__grand-total {
+                        flex-basis: 67%;
+                    }
+
+                    &__grand-total-value {
+                        flex-basis: 14%;
+                    }
+
+                    &__entries-number {
+                        flex-basis: 19%;
+                    }
+                }
+            }
+
+            &__row {
+                &__cell {
+                    /*ctrl-k ctrl-c ctrl-k ctrl-u*/
+                    &.deal-status {
+                        flex-basis: 19%;
+                    }
+
+                    &.days-left {
+                        flex-basis: 6%;
+                    }
+
+                    &.applicant-name {
+                        flex-basis: 13.5%;
+                    }
+
+                    &.loan-amount {
+                        flex-basis: 14%;
+                    }
+
+                    &.program-option {
+                        flex-basis: 11%;
+                    }
+
+                    &.term,
+                    &.amort,
+                    &.payment-amount,
+                    &.funded-amount,
+                    &.project-desc,
+                    &.address,
+                    &.sales-rep,
+                    &.entered-by,
+                    &.icon-cell-notes,
+                    &.icon-cell-lead {
+                        display: none;
+                    }
+
+                    &.icon-cell-gear {
+                        flex-basis: 8%;
+                        display: flex;
+                        justify-content: space-around;
+
+                        .show-details {
+                            margin-bottom: 5px;
+                            display: inline-block;
+                        }
+                    }
+                }
+
+                .table-row-details {
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    display: flex;
+                    justify-content: space-around;
+
+                    &__left,
+                    &__right {
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                        flex-basis: 37%;
+
+                        &__term,
+                        &__amort,
+                        &__payment-amount,
+                        &__project-desc,
+                        &__funded-amount,
+                        &__address,
+                        &__sales-rep,
+                        &__entered-by,
+                        &__notes,
+                        &__lead,
+                        &__value {
+                            display: flex;
+                            align-items: center;
+                            flex-basis: 50%;
+                            min-height: 30px;
+
+                            .filter-ico {
+                                display: flex;
+                                align-items: center;
+                                flex-direction: column;
+                                justify-content: center;
+                            }
+                        }
+
+                        &__gear,
+                        &__last-activity,
+                        &__days-left,
+                        &__loan-amount,
+                        &__program-option {
+                            display: none;
+
+                            & + .table-row-details__left__value {
+                                display: none;
+                            }
+                        }
+
+                        &__term,
+                        &__amort,
+                        &__payment-amount,
+                        &__project-desc,
+                        &__funded-amount,
+                        &__address,
+                        &__sales-rep,
+                        &__entered-by,
+                        &__notes,
+                        &__lead {
+                            font-size: 11px;
+                            font-weight: bold;
+                        }
+
+                        &__value {
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media @mobile {
+        &__entries-number {
+            width: 20%;
+            margin-left: auto;
+            position: relative;
+            top: -64px;
+        }
+
+        &__block {
+            &--header {
+                .main-table__block__row {
+                    &__cell {
+                        &.e-sign {
+                            flex-basis: 19%;
+                        }
+
+                        &.deal-status {
+                            justify-content: center;
+
+                            span {
+                                width: 100%;
+
+                                &.icon {
+                                    flex-basis: inherit;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            &--body {
+                .main-table__block__row {
+                    &__cell {
+                        &.e-sign {
+                            flex-basis: 19%;
+                        }
+
+                        &.deal-status {
+                            flex-direction: column;
+                        }
+                    }
+                }
+            }
+
+            &--total {
+                .main-table__block__row {
+                    flex-wrap: wrap;
+
+                    &__grand-total {
+                        flex-basis: 70%;
+                    }
+
+                    &__grand-total-value {
+                        flex-basis: 30%;
+                    }
+
+                    &__entries-number {
+                        flex-basis: 100%;
+                        max-width: 100%;
+                    }
+                }
+            }
+
+            &__row {
+                &__cell {
+                    /*ctrl-k ctrl-c ctrl-k ctrl-u*/
+                    &.checkbox-cell {
+                        flex-basis: 6%;
+                    }
+
+                    &.deal-status {
+                        justify-content: center;
+
+                        span {
+                            flex-basis: auto;
+                        }
+
+                        span.icon {
+                            flex-basis: auto;
+                        }
+                    }
+
+                    &.contract-number,
+                    &.deal-status,
+                    &.e-sign,
+                    &.applicant-name {
+                        flex-basis: 25%;
+                    }
+
+                    &.days-left,
+                    &.last-activity,
+                    &.program-option,
+                    &.loan-amount,
+                    &.term,
+                    &.amort,
+                    &.payment-amount,
+                    &.funded-amount,
+                    &.project-desc,
+                    &.address,
+                    &.sales-rep,
+                    &.entered-by,
+                    &.icon-cell-notes,
+                    &.icon-cell-lead {
+                        display: none;
+                    }
+
+                    &.icon-cell-gear {
+                        flex-basis: 4%;
+                        display: flex;
+                        justify-content: space-around;
+
+                        .gear-ico {
+                            display: none;
+                        }
+
+                        .show-details {
+                            margin-bottom: 5px;
+                            display: inline-block;
+                        }
+                    }
+                }
+
+                .table-row-details {
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    display: flex;
+                    justify-content: space-around;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+
+                    &__left,
+                    &__right {
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                        flex-basis: 100%;
+                        justify-content: center;
+
+                        div {
+                            align-items: center;
+                            display: flex;
+                            flex-basis: 35%;
+                            min-height: 30px;
+
+                            .filter-ico {
+                                display: none;
+                            }
+                        }
+
+                        &__last-activity,
+                        &__days-left,
+                        &__loan-amount,
+                        &__program-option,
+                        &__gear {
+                            display: flex;
+                        }
+
+                        &__gear,
+                        &__last-activity,
+                        &__days-left,
+                        &__loan-amount,
+                        &__program-option,
+                        &__term,
+                        &__amort,
+                        &__payment-amount,
+                        &__project-desc,
+                        &__funded-amount,
+                        &__address,
+                        &__sales-rep,
+                        &__entered-by,
+                        &__notes,
+                        &__lead {
+                            font-size: 11px;
+                            font-weight: bold;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+

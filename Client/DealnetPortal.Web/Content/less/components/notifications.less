@@ -1,0 +1,118 @@
+﻿.new-notification-wp {
+    display: flex;
+    justify-content: center;
+    margin: 16px 0;
+
+    .new-notification {
+        margin: 0 16px;
+        min-height: 40px;
+        background-color: #ff7575;
+        display: flex;
+        font-size: 12px;
+        color: white;
+        width: 100%;
+
+        &__left-icon-block {
+            min-width: 40px;
+            min-height: 40px;
+            background-color: #ff203c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        &__message {
+            align-self: center;
+            margin-left: 15px;
+        }
+
+        .close-white-ico {
+            align-self: flex-start;
+            margin: 3px 3px 0 auto;
+        }
+
+        &--red {
+        }
+    }
+}
+
+.new-notification-wp {
+    .new-notification-blank {
+        box-shadow: 0 0 5px 0 rgba(110, 110, 110, 0.21);
+        border-radius: 24px;
+        padding: 16px;
+        margin: 0 16px;
+
+        &__text {
+            font-size: 22px;
+        }
+    }
+}
+
+.new-lead-notification-wp {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+
+    .new-lead-notification {
+        margin: 0 16px;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        color: white;
+
+
+        &__left-icon-block {
+            border-radius: 20px;
+            min-width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        &__notification-ico {
+            display: inline-block;
+            cursor: pointer;
+            background-repeat: no-repeat;
+        }
+
+        &__message {
+            margin-top: 3px;
+            margin-left: 24px;
+            font-size: 22px;
+            color: black;
+            font-weight: normal;
+
+            a {
+                cursor: pointer;
+                color: #97c501;
+                text-decoration: underline;
+            }
+        }
+
+        &--success {
+            .new-lead-notification__notification-ico {
+                background-size: 40px 40px;
+                min-width: 40px;
+                min-height: 40px;
+                background-image: url('../../images/redesign_icons/circle-success.svg');
+            }
+        }
+
+        &--error {
+            .new-lead-notification__left-icon-block {
+                background-color: #ff203c;
+            }
+
+            .new-lead-notification__notification-ico {
+                background-size: 32px 32px;
+                min-width: 32px;
+                min-height: 32px;
+                background-image: url('../../images/redesign_icons/notification-alert.svg');
+                margin-bottom: 2px;
+            }
+        }
+    }
+}

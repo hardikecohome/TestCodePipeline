@@ -71,6 +71,11 @@
                         border-radius: 15px;
                         background-image: linear-gradient(111deg, #ff613c, #ff3258);
                         color: white;
+
+                        &:lang(fr) {
+                            right: 143px;
+                            width: 64px;
+                        }
                     }
                 }
             }

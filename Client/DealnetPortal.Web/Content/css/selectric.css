@@ -174,6 +174,42 @@
   overflow: auto;
 }
 
+.selectric-items .selectric-scroll li {
+    display: flex;
+    align-items: center;
+}
+
+.selectric-items .selectric-scroll li.deal-status-ico::before {
+    content: '';
+    margin-right: 10px;
+    background-size: 24px 24px;
+    min-width: 24px;
+    min-height: 24px;
+    display: inline-block;
+    cursor: pointer;
+    background-repeat: no-repeat;
+}
+
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--green::before {
+    background-image: url('../images/redesign_icons/info-green.svg');
+}
+
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--grey::before {
+    background-image: url('../../images/redesign_icons/info-grey.svg');
+}
+
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--yellow::before {
+    background-image: url('../images/redesign_icons/info-yellow.svg');
+}
+
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--red::before {
+    background-image: url('../images/redesign_icons/info-red.svg');
+}
+
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--grass::before {
+    background-image: url('../images/redesign_icons/info-grass.svg');
+}
+
 .selectric-above .selectric-items {
   top: auto;
   bottom: 100%;
