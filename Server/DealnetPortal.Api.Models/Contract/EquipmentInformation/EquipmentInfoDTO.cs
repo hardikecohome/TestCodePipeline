@@ -23,13 +23,13 @@ namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
 
         public DeferralType DeferralType { get; set; }
 
-        public double? CustomerRate { get; set; }
+        public decimal? CustomerRate { get; set; }
 
-        public double? AdminFee { get; set; }
+        public decimal? AdminFee { get; set; }
 
-        public double? DownPayment { get; set; }
+        public decimal? DownPayment { get; set; }
 
-        public double? ValueOfDeal { get; set; }
+        public decimal? ValueOfDeal { get; set; }
 
         public string SalesRep { get; set; }
 
@@ -54,6 +54,6 @@ namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
 
         public bool? IsClarityProgram { get; set; }
 
-        public double? DealerCost { get; set; }
+        public decimal? DealerCost { get; set; }
     }
 }

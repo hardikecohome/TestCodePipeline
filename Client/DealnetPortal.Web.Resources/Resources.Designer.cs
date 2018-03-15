@@ -4103,6 +4103,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MCO reduced by down payment.
+        /// </summary>
+        public static string MCOReducedDownPayment {
+            get {
+                return ResourceManager.GetString("MCOReducedDownPayment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Meter #.
         /// </summary>
         public static string MeterNumber {
@@ -6764,6 +6773,15 @@ namespace DealnetPortal.Web.Resources {
         public static string TotalForSelected {
             get {
                 return ResourceManager.GetString("TotalForSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total MCO reduced by down payment.
+        /// </summary>
+        public static string TotalMCOReducedDownPayment {
+            get {
+                return ResourceManager.GetString("TotalMCOReducedDownPayment", resourceCulture);
             }
         }
         

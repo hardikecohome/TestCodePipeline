@@ -112,10 +112,10 @@
   <ItemGroup>
     <Content Include="App.config" />
     <Content Include="JsTests\addressInformation.tests.js" />
+    <Content Include="JsTests\clarityCalculations.tests.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="chutzpah.json" />
-    <None Include="JsTests\.gitkeep" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -298,8 +298,8 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             Application = application
                         }
-                    };            
-                    
+                    };                   
+
                     var sendResult = await DoAspireRequestWithAnalyze(_aspireServiceAgent.DealUploadSubmission,
                         request, (r, c) => AnalyzeResponse(r, c), contract,
                         equipmentAnalyze).ConfigureAwait(false);
@@ -1483,7 +1483,11 @@ namespace DealnetPortal.Api.Integration.Services
 
                     int eqCount = contract.Equipment?.NewEquipment?.Count(ne => ne.IsDeleted != true) ?? 0;
                     eqCost = installPackagesCost.HasValue && eqCount > 0 ? equipment.MonthlyCost + (installPackagesCost.Value / eqCount) : equipment.MonthlyCost;
-                    var totalAmount = _contractRepository.GetContractPaymentsSummary(contract.Id, eqCost)?.TotalAmountFinanced;
+                    var totalAmount = (decimal?)_contractRepository.GetContractPaymentsSummary(contract.Id, eqCost)?.LoanDetails?.PriceOfEquipmentWithHst;
+                    if (isFirstEquipment && totalAmount.HasValue)
+                    {
+                        totalAmount = totalAmount - (decimal?) contract.Equipment?.DownPayment ?? 0.0m;
+                    }
                     eqCost = totalAmount;
                 }
                 else
@@ -1869,7 +1873,7 @@ namespace DealnetPortal.Api.Integration.Services
                             Name = AspireUdfFields.TotalObligation,
                             Value = paymentInfo.LoanDetails?.TotalObligation.ToString("F", CultureInfo.InvariantCulture) ?? "0.0"
                         });
-                        var dealerCostRate = contract.Equipment?.RateCard?.DealerCost ?? contract.Equipment?.DealerCost;
+                        var dealerCostRate = (decimal?)contract.Equipment?.RateCard?.DealerCost ?? contract.Equipment?.DealerCost;
                         udfList.Add(new UDF()
                         {
                             Name = AspireUdfFields.DealerRate,

@@ -243,7 +243,7 @@ namespace DealnetPortal.Api.App_Start
                         Id = 0,
                         LoanTerm = src.Term,
                         RequestedTerm = src.Term,
-                        ValueOfDeal = (double) src.AmountFinanced,
+                        ValueOfDeal = src.AmountFinanced,
                         AgreementType =
                             src.AgreementType == "RENTAL"
                                 ? AgreementType.RentalApplication

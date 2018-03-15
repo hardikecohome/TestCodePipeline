@@ -1,4 +1,4 @@
-﻿module.exports('rateCards.index', function(require) {
+﻿module.exports('rateCards.index', function (require) {
     var totalObligation = require('financial-functions').totalObligation;
     var totalRentalObligation = require('financial-functions').totalRentalObligation;
     var totalPrice = require('financial-functions').totalPrice;
@@ -15,31 +15,40 @@
     var yourCost = require('financial-functions').yourCost;
     var rentalYourCost = require('financial-functions').rentalYourCost;
     var tax = require('financial-functions').tax;
-    var notNaN = function (num) { return !isNaN(num); };
+    var notNaN = function (num) {
+        return !isNaN(num);
+    };
 
     var clarityCalculations = require('financial-functions.clarity');
     var state = require('rateCards.state').state;
     var constants = require('rateCards.state').constants;
 
-    var idToValue = function (obj) {
-        return function (id) {
-            return obj.hasOwnProperty(id) ? obj[id] : '';
-        };
-    };
-    
+    var idToValue = require('idToValue');
+
     var equipmentSum = function (equipments) {
         return Object.keys(equipments)
             .map(idToValue(equipments))
-            .map(function (equipment) { return parseFloat(equipment.cost); })
+            .map(function (equipment) {
+                return parseFloat(equipment.cost);
+            })
             .filter(notNaN)
-            .reduce(function (sum, cost) { return sum + cost; }, 0);
+            .reduce(function (sum, cost) {
+                return sum + cost;
+            }, 0);
     };
-    var getTotalAmountFinanced = function() {
-        return totalAmountFinanced($.extend({}, { equipmentSum: state.eSum, downPayment: state.downPayment }));
+    var getTotalAmountFinanced = function () {
+        return totalAmountFinanced($.extend({}, {
+            equipmentSum: state.eSum,
+            downPayment: state.downPayment
+        }));
     }
 
-    var init = function(ratecards) {
-        constants.rateCards.forEach(function (option) { state.rateCards[option.name] = $.grep(ratecards, function (card) { return card.CardType === option.id; }); });
+    var init = function (ratecards) {
+        constants.rateCards.forEach(function (option) {
+            state.rateCards[option.name] = $.grep(ratecards, function (card) {
+                return card.CardType === option.id;
+            });
+        });
     }
 
     var getRateCardOnSubmit = function (cardType, deferral, amortTerm, adminFee, customerRate) {
@@ -53,12 +62,17 @@
         })[0];
     }
 
-    var filterRateCard = function(dataObject) {
+    var filterRateCard = function (dataObject) {
         var totalCash = constants.minimumLoanValue;
-        var totalAmount = totalAmountFinanced($.extend({}, { equipmentSum: state.eSum, downPayment: state.downPayment }));
+        var totalAmount = totalAmountFinanced($.extend({}, {
+            equipmentSum: state.eSum,
+            downPayment: state.downPayment
+        }));
 
         if (state[dataObject.rateCardPlan] === undefined) {
-            state[dataObject.rateCardPlan] = $.extend({}, { totalAmountFinanced: totalAmount });
+            state[dataObject.rateCardPlan] = $.extend({}, {
+                totalAmountFinanced: totalAmount
+            });
         } else {
             state[dataObject.rateCardPlan].totalAmountFinanced = totalAmount;
         }
@@ -72,7 +86,7 @@
         return _filterRateCardByValues(dataObject, totalCash);
     }
 
-    var calculateTotalPrice = function(equipments, downPayment, regionTax) {
+    var calculateTotalPrice = function (equipments, downPayment, regionTax) {
         state.downPayment = downPayment;
         state.tax = regionTax;
 
@@ -81,42 +95,46 @@
 
         return {
             equipmentSum: eSum !== 0 ? eSum : '-',
-            tax: eSum !== 0 ? tax({ equipmentSum: eSum, tax: state.tax }) : '-',
-            totalPrice: eSum !== 0 ? totalPrice({ equipmentSum: eSum, tax: state.tax }) : '-'
+            tax: eSum !== 0 ? tax({
+                equipmentSum: eSum,
+                tax: state.tax
+            }) : '-',
+            totalPrice: eSum !== 0 ? totalPrice({
+                equipmentSum: eSum,
+                tax: state.tax
+            }) : '-'
         }
     }
 
-    var caclulateClarityBriefValues = function(data) {
-        return $.extend({}, data,
-            {
-               tax: clarityCalculations.tax(data),
-               totalMonthlyCostOfOwnership: clarityCalculations.totalMonthlyCostOfOwnership(data),
-               totalPriceOfEquipment: clarityCalculations.totalPriceOfEquipment(data)
-            });
+    var caclulateClarityBriefValues = function (data) {
+        return $.extend({}, data, {
+            tax: clarityCalculations.tax(data),
+            totalMonthlyCostOfOwnership: clarityCalculations.totalMonthlyCostOfOwnership(data),
+            totalPriceOfEquipment: clarityCalculations.totalPriceOfEquipment(data)
+        });
     }
 
-    var calculateClarityValuesForRender = function(data) {
-        return $.extend({}, data,
-            {
-                costOfBorrowing: clarityCalculations.totalBorrowingCost(data),
-                totalAmountFinanced: clarityCalculations.totalPriceOfEquipment(data),
-                totalMonthlyPayments: clarityCalculations.totalMonthlyPayments(data),
-                residualBalance: clarityCalculations.residualBalance(data),
-                totalObligation: clarityCalculations.totalObligation(data),
-                yourCost: clarityCalculations.yourCost(data),
-                loanTerm: data.LoanTerm,
-                amortTerm: data.AmortizationTerm,
-                customerRate: data.CustomerRate
-            });
+    var calculateClarityValuesForRender = function (data) {
+        return $.extend({}, data, {
+            costOfBorrowing: clarityCalculations.totalBorrowingCost(data),
+            totalAmountFinanced: clarityCalculations.totalAmountFinanced(data),
+            totalMonthlyPayments: clarityCalculations.totalMonthlyPayments(data),
+            residualBalance: clarityCalculations.residualBalance(data),
+            totalObligation: clarityCalculations.totalObligation(data),
+            yourCost: clarityCalculations.yourCost(data),
+            loanTerm: data.LoanTerm,
+            amortTerm: data.AmortizationTerm,
+            customerRate: data.CustomerRate,
+            totalMonthlyCostTaxDP: clarityCalculations.totalMonthlyPaymentsLessDownPayment(data)
+        });
     }
 
-    var calculateValuesForRender = function(data) {
-        data = $.extend({}, data,
-            {
-                equipmentSum: state.eSum,
-                downPayment: state.downPayment,
-                tax: state.tax
-            });
+    var calculateValuesForRender = function (data) {
+        data = $.extend({}, data, {
+            equipmentSum: state.eSum,
+            downPayment: state.downPayment,
+            tax: state.tax
+        });
 
         return $.extend({}, data,
             {

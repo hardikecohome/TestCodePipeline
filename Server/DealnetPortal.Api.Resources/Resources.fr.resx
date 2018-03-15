@@ -982,4 +982,10 @@
   <data name="Custom" xml:space="preserve">
     <value>Personnaliser</value>
   </data>
+  <data name="EqualPayments" xml:space="preserve">
+    <value>0% Egal Payments</value>
+  </data>
+  <data name="StandardRate" xml:space="preserve">
+    <value>Taux Standard</value>
+  </data>
 </root>

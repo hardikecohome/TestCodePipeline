@@ -426,7 +426,7 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 //var totalMp = _contractRepository.GetContractPaymentsSummary(c.Id);
                                 //totalSum += totalMp?.TotalAllMonthlyPayment ?? 0;
-                                totalSum += c.Equipment?.ValueOfDeal ?? 0;
+                                totalSum += (double)(c.Equipment?.ValueOfDeal ?? 0);
                             });
                             summary.Add(new FlowingSummaryItemDTO()
                             {
@@ -457,7 +457,7 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 //var totalMp = _contractRepository.GetContractPaymentsSummary(c.Id);
                                 //totalSum += totalMp?.TotalAllMonthlyPayment ?? 0;
-                                totalSum += c.Equipment?.ValueOfDeal ?? 0;
+                                totalSum += (double)(c.Equipment?.ValueOfDeal ?? 0);
                             });
 
                             summary.Add(new FlowingSummaryItemDTO()
@@ -483,7 +483,7 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 //var totalMp = _contractRepository.GetContractPaymentsSummary(c.Id);
                                 //totalSum += totalMp?.TotalAllMonthlyPayment ?? 0;
-                                totalSum += c.Equipment?.ValueOfDeal ?? 0;
+                                totalSum += (double)(c.Equipment?.ValueOfDeal ?? 0);
                             });
 
                             summary.Add(new FlowingSummaryItemDTO()

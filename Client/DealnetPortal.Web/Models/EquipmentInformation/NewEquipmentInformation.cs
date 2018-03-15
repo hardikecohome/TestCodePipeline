@@ -28,6 +28,9 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(ResourceType = typeof (Resources.Resources), Name = "MonthlyCost")]
         public double? MonthlyCost { get; set; }
 
+        [Display(ResourceType = typeof(Resources.Resources), Name = "MCOReducedDownPayment")]
+        public decimal? MonthlyCostLessDP { get; set; }
+
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "EstimatedRetailCost")]
         [RegularExpression(@"^[1-9]\d{0,11}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "EstimatedCostIncorrectFormat")]

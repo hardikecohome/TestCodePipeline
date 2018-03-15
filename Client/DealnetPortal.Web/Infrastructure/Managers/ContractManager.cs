@@ -293,9 +293,9 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                         LoanTerm = contract.Equipment?.LoanTerm ?? 0,
                         AmortizationTerm = contract.Equipment?.AmortizationTerm ?? 0,
                         PriceOfEquipment = (double)priceOfEquipment,
-                        AdminFee = contract.Equipment?.AdminFee ?? 0,
-                        DownPayment = contract.Equipment?.DownPayment ?? 0,
-                        CustomerRate = contract.Equipment?.CustomerRate ?? 0,
+                        AdminFee = (double)(contract.Equipment?.AdminFee ?? 0),
+                        DownPayment = (double)(contract.Equipment?.DownPayment ?? 0),
+                        CustomerRate = (double)(contract.Equipment?.CustomerRate ?? 0),
                         IsClarity = isClarity,
                         IsOldClarityDeal = isOldClarityDeal
                     };
@@ -945,9 +945,9 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                     LoanTerm = contract.Equipment.LoanTerm ?? 0,
                     AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
                     PriceOfEquipment = (double?)contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
-                    AdminFee = contract.Equipment.AdminFee ?? 0,
-                    DownPayment = contract.Equipment.DownPayment ?? 0,
-                    CustomerRate = contract.Equipment.CustomerRate ?? 0
+                    AdminFee = (double)(contract.Equipment.AdminFee ?? 0),
+                    DownPayment = (double)(contract.Equipment.DownPayment ?? 0),
+                    CustomerRate = (double)(contract.Equipment.CustomerRate ?? 0)
                 };
                 summary.LoanCalculatorOutput = loanCalculatorInput.AmortizationTerm > 0 ? LoanCalculator.Calculate(loanCalculatorInput) : new LoanCalculator.Output();
             }
