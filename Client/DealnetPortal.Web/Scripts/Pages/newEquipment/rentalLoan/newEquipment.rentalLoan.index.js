@@ -213,9 +213,10 @@
             var val = $input.val().toLowerCase() === 'true';
             $(settings.coveredByCustomerId).val(val);
             rateCardBlock.toggleIsAdminFeeCovered(val);
-            setters.setAdminFeeIsCovered(val);
             $input.prop('checked', true);
+            setters.setAdminFeeIsCovered(val);
         }
+
 
         function _toggleSalesRepErrors(show) {
             $.each($('#sales-rep-types').find('span.checkbox-icon'), function(i, el) {
