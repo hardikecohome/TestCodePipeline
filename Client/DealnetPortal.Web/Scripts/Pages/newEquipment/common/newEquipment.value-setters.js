@@ -62,6 +62,12 @@
         };
     };
 
+    var setAdminFeeIsCovered = function (isCovered) {
+        state.isCoveredByCustomer = isCovered;
+
+        settings.recalculateValuesAndRender();
+    };
+
     var setDeferralPeriod = function (optionKey) {
         return function (e) {
             state[optionKey].DeferralPeriod = Globalize.parseNumber(e.target.value);
@@ -147,6 +153,7 @@
         setAdminFee: setAdminFee,
         setDownPayment: setDownPayment,
         setRentalMPayment: setRentalMPayment,
-        setCustomYourCost: setCustomYourCost
+        setCustomYourCost: setCustomYourCost,
+        setAdminFeeIsCovered: setAdminFeeIsCovered
     };
 });

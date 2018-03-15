@@ -1,6 +1,7 @@
 ﻿module.exports('rate-cards-ui', function (require) {
 
     var state = require('state').state;
+    var constants = require('state').constants;
     var validateCustomCard = require('validation').validateCustomCard;
     var bill59 = require('bill59');
 
@@ -68,6 +69,15 @@
             });
             bill59.enableForAll();
         }
+    }
+    var toggleIsAdminFeeCovered = function (isCovered) {
+        if (isCovered == null) return;
+
+        constants.rateCards.forEach(function(option) {
+            $('#' + option.name + 'AFee').parent().removeClass('hidden');
+            var text = isCovered ? translations.coveredByCustomer : translations.coveredByDealer;
+            $('#' + option.name + 'AdminFeeHolder').text('(' + text + ')');
+        });
     }
 
     var setHeight = function () {
@@ -318,6 +328,7 @@
         toggle: toggleRateCardBlock,
         highlightCard: highlightCard,
         togglePromoLabel: togglePromoLabel,
-        highlightCardBySelector: highlightCardBySelector
+        highlightCardBySelector: highlightCardBySelector,
+        toggleIsAdminFeeCovered: toggleIsAdminFeeCovered
     };
 });

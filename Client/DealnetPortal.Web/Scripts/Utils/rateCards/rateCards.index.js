@@ -128,7 +128,8 @@
                 totalObligation: totalObligation(data),
                 yourCost: yourCost(data),
                 loanTerm: data.LoanTerm,
-                amortTerm: data.AmortizationTerm
+                amortTerm: data.AmortizationTerm,
+                adminFee: data.AdminFee
             });
     }
 

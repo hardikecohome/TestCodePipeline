@@ -87,17 +87,22 @@
         </div>
         <hr>
         <div class="row rate-card-details">
-          <div class="col-md-6 col-cards-md-12">
-            <div class="row form-group align-middle hidden">
-              <div class="col-xs-6">@Resources.CustomerFee</div>
-              <div class="col-xs-6 control-cell">
-                <div class="control-group has-addon-left">
-                  <div class="control-group-addon">$</div>
-                  <input type="text" class="form-control dealnet-input form-control-not-clear" name="CustomAFee" id="CustomAFee" value="@ViewBag.AdminFee" readonly>
-                  <span class="field-validation-error text-danger" data-valmsg-for="CustomAFee" data-valmsg-replace="true"></span>
-                </div>
+          <div class="col-md-7 col-cards-md-12">
+              @*<div class="row form-group align-middle hidden">
+                  <div class="col-xs-6">@Resources.CustomerFee <span id="CustomAdminFeeHolder"></span></div>
+
+                  <div class="col-xs-6 control-cell">
+                      <div class="control-group has-addon-left">
+                          <div class="control-group-addon">$</div>
+                          <input type="text" class="form-control dealnet-input form-control-not-clear" name="CustomAFee" id="CustomAFee" value="@ViewBag.AdminFee" readonly>
+                          <span class="field-validation-error text-danger" data-valmsg-for="CustomAFee" data-valmsg-replace="true"></span>
+                      </div>
+                  </div>
+              </div>*@
+              <div class="row form-group hidden">
+                  <div class="col-xs-8 text-stronger">@Resources.AdminFee <div id="CustomAdminFeeHolder"></div></div>
+                  <div class="col-xs-4 text-right text-stronger" id="CustomAFee">-</div>
               </div>
-            </div>
             <div class="row form-group">
               <div class="col-xs-6 text-stronger">@Resources.MonthlyPayment</div>
               <div class="col-xs-6 text-right text-stronger" id="CustomMPayment">-</div>

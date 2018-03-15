@@ -48,7 +48,8 @@
     @Html.HiddenFor(x => x.RateCardValid)
     @Html.HiddenFor(x => x.SalesRepInformation.IniatedContract, new { id = "initiated-contract"})
     @Html.HiddenFor(x => x.SalesRepInformation.NegotiatedAgreement, new { id = "negotiated-contract"})
-    @Html.HiddenFor(x => x.SalesRepInformation.ConcludedAgreement, new { id = "concluded-contract"})
+    @Html.HiddenFor(x => x.SalesRepInformation.NegotiatedAgreement, new { id = "negotiated-contract"})
+    @Html.HiddenFor(x => x.IsAdminFeePaidByCustomer, new { id = "isCoveredByCustomer"})
     <div class="form-container">
         <div class="form-section">
             @if(Model.CustomerComments != null && Model.CustomerComments.Any())

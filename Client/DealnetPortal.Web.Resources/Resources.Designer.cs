@@ -4850,6 +4850,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pass the administration fee to the customer.
+        /// </summary>
+        public static string PassAdminFeeToCustomer {
+            get {
+                return ResourceManager.GetString("PassAdminFeeToCustomer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I will pay the administration fee.
+        /// </summary>
+        public static string PassAdminFeeToDealer {
+            get {
+                return ResourceManager.GetString("PassAdminFeeToDealer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Password {

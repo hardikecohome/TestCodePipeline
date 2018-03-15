@@ -23,7 +23,8 @@
         contractId: 0,
         selectedCardId: null,
         isInitialized: false,
-        isNewContract: true
+        isNewContract: true,
+        isCoveredByCustomer: false
     };
 
     var constants = {

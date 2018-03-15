@@ -102,7 +102,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public double? ValueOfDeal { get; set; }
 
         public int? SelectedRateCardId { get; set; }
-
+	    [CustomRequired]
         public bool? IsAdminFeePaidByCustomer { get; set; }
 
         public TierViewModel DealerTier { get; set; }
