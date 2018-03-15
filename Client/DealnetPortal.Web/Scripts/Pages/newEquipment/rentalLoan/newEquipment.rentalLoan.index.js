@@ -38,6 +38,7 @@
             rateCardBlockId: '#rateCardsBlock',
             rentalMonthlyPaymentId: '#rentalTMPayment',
             dealProvinceId: '#DealProvince',
+            coveredByCustomerId: '#isCoveredByCustomer',
             applicationType: {
                 'loanApplication': '0',
                 'rentalApplicationHwt': '1',
@@ -67,7 +68,7 @@
 
             state.bill59Equipment = bill59Equipment;
             state.isOntario = $(settings.dealProvinceId).val().toLowerCase() == 'on';
-            state.isCoveredByCustomer = $('#isCoveredByCustomer').val().toLowerCase() === 'true';
+            state.isCoveredByCustomer = $(settings.coveredByCustomerId).val().toLowerCase() === 'true';
 
             _initHandlers();
             _initDatepickers();
@@ -87,9 +88,7 @@
             customRateCardInit();
             rateCardCalculationInit();
             rateCardBlock.init();
-
-            rateCardBlock.toggleIsAdminFeeCovered($('#isCoveredByCustomer').val() === '' ? null : state.isCoveredByCustomer);
-
+            rateCardBlock.toggleIsAdminFeeCovered($(settings.coveredByCustomerId).val() === '' ? null : state.isCoveredByCustomer);
 
             if (agreementType === settings.applicationType.loanApplication) {
                 recalculateValuesAndRender();
@@ -203,17 +202,19 @@
             $('#initiated-contract-checkbox').on('click', function(e) { $('#initiated-contract').val(e.target.checked); _toggleSalesRepErrors(false); });
             $('#negotiated-contract-checkbox').on('click', function(e) { $('#negotiated-contract').val(e.target.checked); _toggleSalesRepErrors(false); });
             $('#concluded-contract-checkbox').on('click', function(e) { $('#concluded-contract').val(e.target.checked);  _toggleSalesRepErrors(false); });
-            $('.custom-radio').on('click', function (e) {
-                var $this = $(this);
+            $('.custom-radio').on('click', _setAdminFeeCoveredBy);
+        }
 
-                $('.afee-is-covered').prop('checked', false);
-                var $input = $this.find('input');
-                var val = $input.val().toLowerCase() === 'true';
-                $('#isCoveredByCustomer').val(val);
-                rateCardBlock.toggleIsAdminFeeCovered(val);
-                setters.setAdminFeeIsCovered(val);
-                $input.prop('checked', true);
-            });
+        function _setAdminFeeCoveredBy() {
+            var $this = $(this);
+
+            $('.afee-is-covered').prop('checked', false);
+            var $input = $this.find('input');
+            var val = $input.val().toLowerCase() === 'true';
+            $(settings.coveredByCustomerId).val(val);
+            rateCardBlock.toggleIsAdminFeeCovered(val);
+            setters.setAdminFeeIsCovered(val);
+            $input.prop('checked', true);
         }
 
         function _toggleSalesRepErrors(show) {
