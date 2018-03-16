@@ -22,6 +22,8 @@
         public const string NewDesignLogin = "NewDesignLogin";
 
         public const string QuebecPostalCodesNameKey = "QuebecPostalCodes";
+
+        public const double ClarityFactor = 0.010257;
     }
 
     public static class ClaimContstants

@@ -90,12 +90,30 @@
                             {
                                 <div class="form-group">
                                     <div class="row">
-                                        @Html.Label(Resources.MonthlyCostOfOwnership, new
+                                        @*@Html.Label($"{Resources.MonthlyCostOfOwnership} ({Resources.TaxExcl})", new
                                         {
                                             @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
-                                        })
-                                        <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                        })*@
+                                        <div class="dealnet-field-caption col-xs-8 col-sm-9">
+                                            @Resources.MonthlyCostOfOwnership (@Resources.TaxExcl)
+                                        </div>
+                                        <div class="dealnet-field-holder col-xs-4 col-sm-3">
                                             @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new
+                                            {
+                                                id = "",
+                                                @readonly = "readonly",
+                                                @class = "dealnet-disabled-input has-cost-sign monthly-cost"
+                                            })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">                                        
+                                        <div class="dealnet-field-caption col-xs-8 col-sm-9">
+                                            @Resources.MCOReducedDownPayment (@Resources.TaxExcl)
+                                        </div>
+                                        <div class="dealnet-field-holder col-xs-4 col-sm-3">
+                                            @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCostLessDP, new
                                             {
                                                 id = "",
                                                 @readonly = "readonly",
@@ -296,7 +314,7 @@
         {
             if(Model.IsClarityDealer && !Model.IsOldClarityDeal)
             {
-                @Html.Partial("SummaryAndConfirmation/_ClarityDetailedPaymentInfo")
+                @Html.Partial("SummaryAndConfirmation/_ClarityDetailedPaymentInfo", Model)
             }
             else
             {
