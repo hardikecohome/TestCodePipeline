@@ -41,15 +41,6 @@
             }
         });
 
-        $('#' + option + '-customAFee').rules('add', {
-            regex: /(^[0]?|(^[1-9]\d{0,11}))([.,][0-9]{1,2})?$/,
-            number: true,
-            min: 0,
-            messages: {
-                regex: translations.adminFeeFormat
-            }
-        });
-
         $('#' + option + '-customAmortTerm').rules('add', {
             required: true,
             regex: /^[1-9]\d{0,2}?$/,

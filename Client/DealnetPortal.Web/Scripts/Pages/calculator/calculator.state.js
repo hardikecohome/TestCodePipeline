@@ -4,7 +4,8 @@
             equipments: {},
             plan: 0,
             downPayment: 0,
-            equipmentNextIndex: 0
+            equipmentNextIndex: 0,
+            includeAdminFee: false
         },
         tax: 0,
         description: translations.tax

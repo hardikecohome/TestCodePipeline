@@ -83,6 +83,11 @@
         }
     };
 
+    var setAdminFeeIsCovered = function(optionKey, val, callback) {
+        state[optionKey].includeAdminFee = val;
+        callback([optionKey]);
+    }
+
     var setRateCardPlan = function (optionKey, callback) {
         return function (e) {
             var planType = $.grep(constants.rateCards, function (c) {
@@ -292,6 +297,7 @@
         removeEquipment: removeEquipment,
         //setTax: setTax,
         setLoanTerm: setLoanTerm,
-        setAmortTerm: setAmortTerm
+        setAmortTerm: setAmortTerm,
+        setAdminFeeIsCovered: setAdminFeeIsCovered
     }
 });

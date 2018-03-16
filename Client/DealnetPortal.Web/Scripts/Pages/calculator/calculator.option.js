@@ -19,7 +19,8 @@
             '-tmPayments': 'totalMonthlyPayments',
             '-rBalance': 'residualBalance',
             '-tObligation': 'totalObligation',
-            '-yCost': 'yourCost'
+            '-yCost': 'yourCost',
+            '-aFee': 'adminFee'
         },
         totalPriceFields: {
             '-totalEquipmentPrice': 'equipmentSum',
@@ -46,6 +47,8 @@
         $('#' + option + '-customCRate').on('change', setters.setCustomerRate(option, callback));
         $('#' + option + '-customYCostVal').on('change', setters.setYourCost(option, callback));
         $('#' + option + '-customAFee').on('change', setters.setAdminFee(option, callback));
+        $('#' + option + '-customAFee').on('change', setters.setAdminFee(option, callback));
+        $('#' + option + '-aFeeOptionsHolder').find('.custom-radio').on('click', _setAdminFeeCoveredBy(option, callback));
 
         if (option === 'option1') {
             var nextIndex = state[option].equipmentNextIndex;
@@ -96,6 +99,29 @@
 
         validation.setValidationForOption(option);
     };
+
+    function _setAdminFeeCoveredBy(option, callback) {
+        return function() {
+            var $this = $(this);
+
+            $('#' + option + '-aFeeOptionsHolder').find('.afee-is-covered').prop('checked', false);
+            var $input = $this.find('input');
+            var val = $input.val().toLowerCase() === 'true';
+
+            $input.prop('checked', true);
+
+            _toggleIsAdminFeeCovered(option, val);
+            setters.setAdminFeeIsCovered(option, val, callback);
+        }
+    }
+
+    function _toggleIsAdminFeeCovered(option, isCovered) {
+        if (isCovered == null) return;
+
+        $('#' + option + '-aFee').parent().removeClass('hidden');
+        var text = isCovered ? translations.coveredByCustomer : translations.coveredByDealer;
+        $('#' + option + '-aFeeHolder').text('(' + text + ')');
+    }
 
     function _removeOption(callback) {
         var optionToDelete = $(this).parent().parent().attr('id').split('-')[0];
@@ -178,6 +204,14 @@
         optionContainer.attr('id', newOption + '-container');
         optionContainer.append(template);
         $('#options-container').append(optionContainer);
+
+        if ($('#' + optionToCopy + '-aFeeOptionsHolder').find('input:radio:checked').length) {
+            if (state[newOption].includeAdminFee) {
+                $('#' + newOption + '-radioWillPay').prop('checked', true);
+            } else {
+                $('#' + newOption + '-radioNotPay').prop('checked', true);
+            }
+        };
 
         $('#' + newOption + '-container')
             .find('.add-equip-link')
