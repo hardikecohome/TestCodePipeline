@@ -64,7 +64,6 @@
                 max: translations.loanTermMax
             }
         });
-
     }
 
     return {

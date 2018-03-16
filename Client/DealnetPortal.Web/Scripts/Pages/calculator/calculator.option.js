@@ -103,7 +103,7 @@
     function _setAdminFeeCoveredBy(option, callback) {
         return function() {
             var $this = $(this);
-
+            $('#' + option + '-errorAdminFee').addClass('hidden');
             $('#' + option + '-aFeeOptionsHolder').find('.afee-is-covered').prop('checked', false);
             var $input = $this.find('input');
             var val = $input.val().toLowerCase() === 'true';
@@ -161,6 +161,13 @@
 
         if (!$('#' + optionToCopy + '-container > form').valid()) {
             return;
+        }
+
+        if (!$('#' + optionToCopy + '-aFeeOptionsHolder').find('input:checked').length) {
+            $('#' + optionToCopy + '-errorAdminFee').removeClass('hidden');
+            return;
+        } else {
+            $('#' + optionToCopy + '-errorAdminFee').addClass('hidden');
         }
 
         var secondIndex = index + 1;
