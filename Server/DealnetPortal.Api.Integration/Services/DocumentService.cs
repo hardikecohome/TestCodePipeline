@@ -1826,16 +1826,7 @@ namespace DealnetPortal.Api.Integration.Services
                         case "ECO13": // Windows
                             othersEq.Add(eq);
                             break;
-                        case "ECO38": // Sunrooms
-                            othersEq.Add(eq);
-                            break;                       
-                        case "ECO42": // Flooring
-                            othersEq.Add(eq);
-                            break;
-                        case "ECO43": // Porch Enclosure
-                            othersEq.Add(eq);
-                            break;
-                        case "ECO44": // Water Treatment System
+                        case "ECO23": // Air/Water Filtration
                             if (!formFields.Exists(f => f.Name == PdfFormFields.IsWaterFiltration))
                             {
                                 formFields.Add(new FormField()
@@ -1861,6 +1852,18 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 othersEq.Add(eq);
                             }
+                            break;
+                        case "ECO38": // Sunrooms
+                            othersEq.Add(eq);
+                            break;                       
+                        case "ECO42": // Flooring
+                            othersEq.Add(eq);
+                            break;                        
+                        case "ECO43": // Porch Enclosure
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO44": // Water Treatment System
+                            othersEq.Add(eq);
                             break;
                         case "ECO45": // Heat Pump
                             othersEq.Add(eq);
