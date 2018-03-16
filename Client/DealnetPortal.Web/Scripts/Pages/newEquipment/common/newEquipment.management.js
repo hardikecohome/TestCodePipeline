@@ -188,7 +188,9 @@
         }
 
         var equipmentRow = $('#new-equipment-' + i);
+        state.equipments[i].template = equipmentRow;
         var equipSelect = equipmentRow.find('.equipment-select');
+
         equipSelect.on('change', updateType);
         if (!state.isClarity) {
             equipSelect.on('change', require('bill59').onEquipmentChange);
