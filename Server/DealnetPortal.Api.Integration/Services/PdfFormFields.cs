@@ -95,8 +95,8 @@ namespace DealnetPortal.Api.Integration.Services
         public static string TotalRetailPrice = "TotalRetailPrice";
 
         public static string MonthlyPayment = "MonthlyPayment";
-        public static string CustomerRate = "CustomerRate";
-        public static string CustomerRate2 = "CustomerRate2";
+        public static string CustomerRate = "CustomerRate"; //AnnualInterestRate
+        public static string CustomerRate2 = "CustomerRate2";//Annual Percentage Rate
         public static string TotalPayment = "TotalPayment";
         public static string TotalMonthlyPayment = "TotalMonthlyPayment";
         public static string Hst = "HST";
