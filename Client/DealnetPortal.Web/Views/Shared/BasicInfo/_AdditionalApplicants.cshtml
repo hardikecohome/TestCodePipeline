@@ -373,35 +373,39 @@
                 </div>
                 <div class="col-md-3 col-sm-12 form-group">
                     @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.AnnualSalary)
-                    <div class="control-group">
-                        <select class="form-control dealnet-input" name="@Html.NameFor(m => m.AdditionalApplicants[i].EmploymentInformation.AnnualSalary)" id="add@(i+1)-employment-annual">
-                            <option value=""></option>
-                            <option value="<20000" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.AnnualSalary == "<20000" ? "selected" : "")>@Resources.LessThan $20,000</option>
-                            @for(var j = 20000; j < 200000; j += 15000)
-                            {
-                                var val = $"{j}-{j + 15000}";
-                                <option value="@val" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.AnnualSalary == val ? "selected" : "")>$@($"{j:n0}") - $@($"{j + 15000:n0}")</option>
-                            }
-                            <option value="200000+" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.AnnualSalary == "200000+" ? "selected" : "")>$200,000+</option>
-                        </select>
-                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.AnnualSalary, "", new { @class = "text-danger" })
-                    </div>
+					<div class="control-group has-addon-left">
+						@*<select class="form-control dealnet-input" name="@Html.NameFor(m => m.AdditionalApplicants[i].EmploymentInformation.AnnualSalary)" id="add@(i+1)-employment-annual">
+			<option value=""></option>
+			<option value="<20000" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.AnnualSalary == "<20000" ? "selected" : "")>@Resources.LessThan $20,000</option>
+			@for(var j = 20000; j < 200000; j += 15000)
+			{
+				var val = $"{j}-{j + 15000}";
+				<option value="@val" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.AnnualSalary == val ? "selected" : "")>$@($"{j:n0}") - $@($"{j + 15000:n0}")</option>
+			}
+			<option value="200000+" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.AnnualSalary == "200000+" ? "selected" : "")>$200,000+</option>
+		</select>*@
+						<div class="control-group-addon">$</div>
+						@Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.AnnualSalary, new { @class = "form-control dealnet-input", id = $"add{i + 1}-employment-annual" })
+						@Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.AnnualSalary, "", new { @class = "text-danger" })
+					</div>
                 </div>
                 <div class="col-md-3 col-sm-12 form-group">
                     @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.HourlyRate)
-                    <div class="control-group">
-                        <select class="form-control dealnet-input" name="@Html.NameFor(m => m.AdditionalApplicants[i].EmploymentInformation.HourlyRate)" id="add@(i+1)-employment-hourly">
-                            <option value=""></option>
-                            <option value="<10" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.HourlyRate == "<10" ? "selected" : "")>@Resources.LessThan $10</option>
-                            @for(var j = 10; j < 80; j += 5)
-                            {
-                                var val = $"{j}-{j + 5}";
-                                <option value="@val" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.HourlyRate == val ? "selected" : "")>$@j - $@(j + 5)</option>
-                            }
-                            <option value="80+" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.HourlyRate == "80+" ? "selected" : "")>$80+</option>
-                        </select>
-                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.HourlyRate, "", new { @class = "text-danger" })
-                    </div>
+					<div class="control-group has-addon-left">
+						@*<select class="form-control dealnet-input" name="@Html.NameFor(m => m.AdditionalApplicants[i].EmploymentInformation.HourlyRate)" id="add@(i+1)-employment-hourly">
+			<option value=""></option>
+			<option value="<10" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.HourlyRate == "<10" ? "selected" : "")>@Resources.LessThan $10</option>
+			@for(var j = 10; j < 80; j += 5)
+			{
+				var val = $"{j}-{j + 5}";
+				<option value="@val" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.HourlyRate == val ? "selected" : "")>$@j - $@(j + 5)</option>
+			}
+			<option value="80+" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.HourlyRate == "80+" ? "selected" : "")>$80+</option>
+		</select>*@
+						<div class="control-group-addon">$</div>
+						@Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.HourlyRate, new { @class = "form-control dealnet-input", id = $"add{i + 1}-employment-hourly" })
+						@Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.HourlyRate, "", new { @class = "text-danger" })
+					</div>
                 </div>
                 <div class="col-md-2 col-sm-12 form-group">
                     <label>@Resources.LengthOfEmployment</label>
