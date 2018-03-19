@@ -1471,6 +1471,16 @@ if(equipment.EstimatedRetailCost.HasValue)
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                @Html.Label(Resources.MCOReducedDownPayment, new {
+                                               @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                                    @Html.DisplayFor(m => contract.EquipmentInfo.InstallationPackages[i].MonthlyCostLessDP, new {
+                                                   @readonly = "readonly", @class = "has-cost-sign reduce-monthly-cost", id = "" })
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             }

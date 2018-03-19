@@ -946,13 +946,26 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                     (decimal?)summary.ProvinceTaxRate?.Rate ?? 0.0m, summary.IsClarityDealer, summary.IsOldClarityDeal);                
                 summary.LoanCalculatorOutput = paymentSummary.LoanDetails;
 
-                if (summary.IsClarityDealer && !summary.IsOldClarityDeal)
+                if(summary.IsClarityDealer && !summary.IsOldClarityDeal)
                 {
-                    var reducedValue = ((double?)contract.Equipment?.DownPayment ?? 0.0) * PortalConstants.ClarityFactor /
-                                       (1.0 + (summary.ProvinceTaxRate?.Rate ?? 0)/ 100 / 12);
+                    var dpWithTax = ((double?)contract.Equipment?.DownPayment ?? 0.0) * PortalConstants.ClarityFactor /
+                                       (1.0 + (summary.ProvinceTaxRate?.Rate ?? 0) / 100);
+                    var total = (decimal?)summary.EquipmentInfo?.NewEquipment.Sum(ne => ne.MonthlyCost) + summary.EquipmentInfo?.InstallationPackages?.Sum(i => i.MonthlyCost);
 
-                    summary.EquipmentInfo?.NewEquipment?.ForEach(ne => ne.MonthlyCostLessDP = 
-                        ne.MonthlyCost.HasValue ? (decimal)Math.Round(ne.MonthlyCost.Value - reducedValue,2) : (decimal?)null);
+                    summary.EquipmentInfo?.NewEquipment?.ForEach(ne => {
+                        var percentageOfEqMonthlyCost = (ne.MonthlyCost * 100 / (double)total) / 100;
+                        var reducedValue = dpWithTax * percentageOfEqMonthlyCost;
+                        ne.MonthlyCostLessDP =
+                            ne.MonthlyCost.HasValue ? (decimal)Math.Round(ne.MonthlyCost.Value - reducedValue.Value, 2) : (decimal?)null;
+                    });
+
+                    summary.EquipmentInfo?.InstallationPackages?.ForEach(ne => {
+                        var percentageOfEqMonthlyCost = (ne.MonthlyCost * 100 / total) / 100;
+                        var reducedValue = (decimal)dpWithTax * percentageOfEqMonthlyCost;
+
+                        ne.MonthlyCostLessDP =
+                            ne.MonthlyCost.HasValue ? Math.Round(ne.MonthlyCost.Value - reducedValue.Value, 2) : (decimal?)null;
+                    });
                 }
             }
         }

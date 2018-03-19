@@ -153,22 +153,24 @@
     var _recalculateAndRenderMCOLessDownPayment = function (data) {
         var downPayment = state.downPayment;
         var dpTax = downPayment * constants.clarityPaymentFactor / (1 + state.tax / 100);
-        var totalMonthlyCost = data.equipmentSum;
+        var totalMonthlyCost = data.equipmentSum + data.packagesSum;
 
         for (var id in state.equipments) {
-            var percentageOfEqMonthlyCost = (state.equipments[id].monthlyCost * 100 / totalMonthlyCost ) / 100;
+            var percentageOfEqMonthlyCost = (state.equipments[id].monthlyCost * 100 / totalMonthlyCost) / 100;
             var percentageOfEqDpTax = dpTax * percentageOfEqMonthlyCost;
-            //var dpTaxPerEqItem = (dpTax / (state.equipments[id].monthlyCost / 100) * 10 || 0).toFixed(2);
+
             state.equipments[id].monthlyCostLessDp = state.equipments[id].monthlyCost - percentageOfEqDpTax;
-            state.equipments[id].template.find('.reduced-monthly-cost').val(state.equipments[id].monthlyCostLessDp.toFixed(2));
+            $('#NewEquipment_' + id + '__MonthlyCostLessDP')
+                .val(state.equipments[id].monthlyCostLessDp.toFixed(2));
         }
 
         for (var id in state.packages) {
-            var percentageOfPckMonthlyCost = (state.packages[id].monthlyCost * 100 / totalMonthlyCost ) / 100;
+            var percentageOfPckMonthlyCost = (state.packages[id].monthlyCost * 100 / totalMonthlyCost) / 100;
             var percentageOfPckDpTax = dpTax * percentageOfPckMonthlyCost;
-            //var dpTaxPerPackItem = (dpTax / (state.packages[id].monthlyCost / 100) * 10 || 0).toFixed(2);
+
             state.packages[id].monthlyCostLessDp = state.packages[id].monthlyCost - percentageOfPckDpTax;
-            state.packages[id].template.find('.reduced-monthly-cost').val(state.packages[id].monthlyCostLessDp.toFixed(2));
+            $('#InstallationPackages_' + id + '__MonthlyCostLessDP')
+                .val(state.packages[id].monthlyCostLessDp.toFixed(2));
         }
     }
 
