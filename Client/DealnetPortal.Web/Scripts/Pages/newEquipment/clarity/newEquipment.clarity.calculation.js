@@ -165,7 +165,7 @@
                 .val(state.equipments[id].monthlyCostLessDp.toFixed(2));
         }
 
-        for (var id in state.packages) {Д
+        for (var id in state.packages) {
             var percentageOfPckMonthlyCost = (state.packages[id].monthlyCost * 100 / totalMonthlyCost) / 100;
             var percentageOfPckDpTax = dpTax * percentageOfPckMonthlyCost;
 
