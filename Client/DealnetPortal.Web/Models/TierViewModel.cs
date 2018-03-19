@@ -11,6 +11,8 @@ namespace DealnetPortal.Web.Models
 
         public string Name { get; set; }
 
+        public bool PassAdminFee { get; set; }
+
         public List<RateCardViewModel> RateCards { get; set; }
     }
 }

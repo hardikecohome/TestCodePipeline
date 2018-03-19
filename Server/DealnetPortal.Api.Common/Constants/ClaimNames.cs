@@ -11,6 +11,5 @@
         public const string QuebecDealer = "QuebecDealer";
         public const string ClarityDealer = "ClarityDealer";
         public const string MortgageBroker = "MortgageBroker";
-        public const string DealerNotPaidFee = "DealerNotPaidFee";
     }
 }

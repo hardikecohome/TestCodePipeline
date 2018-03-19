@@ -170,7 +170,9 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<Tier, TierDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(s => s.Id))
                 .ForMember(x => x.Name, d => d.MapFrom(s => s.Name))
-                .ForMember(x => x.RateCards, d => d.MapFrom(s => s.RateCards));
+                .ForMember(x => x.RateCards, d => d.MapFrom(s => s.RateCards))
+                .ForMember(x => x.PassAdminFee, d => d.MapFrom(s => s.PassAdminFee ?? false))
+                ;
             mapperConfig.CreateMap<DealerEquipment, DealerEquipmentDTO>()
                 .ForMember(x => x.Equipment, d => d.MapFrom(src => src.Equipment))
                 .ForMember(x => x.ProfileId, d => d.MapFrom(src => src.ProfileId));
@@ -362,7 +364,6 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.ChannelType, s => s.Ignore())
                 .ForMember(d => d.Role, s => s.Ignore())
                 .ForMember(d => d.Ratecard, s => s.Ignore())
-                .ForMember(d => d.DealerNotPaidFee, s => s.Ignore())
                 .ForMember(d => d.EmploymentInfo, s => s.Ignore());
 
             mapperConfig.CreateMap<Aspire.Integration.Models.AspireDb.DealerRoleEntity, DealerDTO>()
@@ -374,7 +375,6 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.ChannelType, s => s.MapFrom(src => src.ChannelType))
                 .ForMember(d => d.Role, s => s.MapFrom(src => src.Role))
                 .ForMember(d => d.Ratecard, s => s.MapFrom(src => src.Ratecard))
-                .ForMember(d => d.DealerNotPaidFee, s => s.MapFrom(src => src.DealerNotPaidFee))
                 .ForMember(d => d.EmploymentInfo, s => s.Ignore());
         }
 

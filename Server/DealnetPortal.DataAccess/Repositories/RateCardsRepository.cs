@@ -19,6 +19,7 @@ namespace DealnetPortal.DataAccess.Repositories
             var dealer = _dbContext.Users
                 .Include(x => x.Tier)
                 .Include(x => x.Tier.RateCards)
+                .Include(x => x.Tier.PassAdminFee)
                 .SingleOrDefault(u => u.Id == dealerId);
             var date = validDate ?? DateTime.Now;
             dealer.Tier.RateCards = dealer.Tier.RateCards.Where(x =>
