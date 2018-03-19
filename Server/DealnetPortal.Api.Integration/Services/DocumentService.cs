@@ -24,6 +24,7 @@ using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Logging;
 using Unity.Interception.Utilities;
 using FormField = DealnetPortal.Api.Models.Signature.FormField;
+using Microsoft.VisualBasic;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -2019,22 +2020,41 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = PdfFormFields.DownPayment,
                     Value = contract.Equipment.DownPayment?.ToString("F", CultureInfo.InvariantCulture)
                 });
-                formFields.Add(new FormField()
+
+                if (contract.Equipment.IsFeePaidByCutomer.HasValue && contract.Equipment.IsFeePaidByCutomer.Value)
                 {
-                    FieldType = FieldType.Text,
-                    Name = PdfFormFields.AdmeenFee,
-                    Value = contract.Equipment.AdminFee?.ToString("F", CultureInfo.InvariantCulture)
-                });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.AdmeenFee,
+                        Value = contract.Equipment.AdminFee?.ToString("F", CultureInfo.InvariantCulture)
+                    });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.CustomerRate2,
+                        Value = (Financial.Rate(contract.Equipment.AmortizationTerm.Value,(double)-contract.Equipment.TotalMonthlyPayment.Value, paySummary.LoanDetails.TotalAmountFinanced -(double)contract.Equipment.AdminFee)*12).ToString("F", CultureInfo.InvariantCulture)
+                    });
+                }
+                else
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.AdmeenFee,
+                        Value = "n/a"
+                    });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.CustomerRate2,
+                        Value = contract.Equipment.CustomerRate?.ToString("F", CultureInfo.InvariantCulture)
+                    });
+                }
                 formFields.Add(new FormField()
                 {
                     FieldType = FieldType.Text,
                     Name = PdfFormFields.CustomerRate,
-                    Value = contract.Equipment.CustomerRate?.ToString("F", CultureInfo.InvariantCulture)
-                });
-                formFields.Add(new FormField()
-                {
-                    FieldType = FieldType.Text,
-                    Name = PdfFormFields.CustomerRate2,
                     Value = contract.Equipment.CustomerRate?.ToString("F", CultureInfo.InvariantCulture)
                 });
 
