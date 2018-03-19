@@ -1,6 +1,7 @@
 ﻿module.exports('newEquipment.clairty.calculation', function (require) {
     var rateCardsCalculator = require('rateCards.index');
     var state = require('state').state;
+    var constants = require('state').constants;
     var tax = require('financial-functions').tax;
     var totalRentalPrice = require('financial-functions').totalRentalPrice;
 
@@ -87,7 +88,7 @@
 
         _renderCalculatedInfo(data);
 
-        _recalculateAndRenderMCOLessDownPayment();
+        _recalculateAndRenderMCOLessDownPayment(briefData);
     }
 
     function _renderCalculatedInfo(data) {
@@ -149,24 +150,24 @@
         }
     }
 
-    var _recalculateAndRenderMCOLessDownPayment = function () {
+    var _recalculateAndRenderMCOLessDownPayment = function (data) {
         var downPayment = state.downPayment;
-        var numEquipment = countItems(state.equipments);
-        var numPackages = !$.isEmptyObject(state.packages) ? countItems(state.packages) : 0;
-
-        var clarityPaymentFactor = 0.010257;
-
-        var dpTax = downPayment * clarityPaymentFactor / (1 + state.tax / 100);
-
-        var dpTaxPerItem = (dpTax / (numEquipment + numPackages) || 0).toFixed(2);
+        var dpTax = downPayment * constants.clarityPaymentFactor / (1 + state.tax / 100);
+        var totalMonthlyCost = data.equipmentSum;
 
         for (var id in state.equipments) {
-            state.equipments[id].monthlyCostLessDp = state.equipments[id].monthlyCost - dpTaxPerItem;
+            var percentageOfEqMonthlyCost = (state.equipments[id].monthlyCost * 100 / totalMonthlyCost ) / 100;
+            var percentageOfEqDpTax = dpTax * percentageOfEqMonthlyCost;
+            //var dpTaxPerEqItem = (dpTax / (state.equipments[id].monthlyCost / 100) * 10 || 0).toFixed(2);
+            state.equipments[id].monthlyCostLessDp = state.equipments[id].monthlyCost - percentageOfEqDpTax;
             state.equipments[id].template.find('.reduced-monthly-cost').val(state.equipments[id].monthlyCostLessDp.toFixed(2));
         }
 
         for (var id in state.packages) {
-            state.packages[id].monthlyCostLessDp = state.packages[id].monthlyCost - dpTaxPerItem;
+            var percentageOfPckMonthlyCost = (state.packages[id].monthlyCost * 100 / totalMonthlyCost ) / 100;
+            var percentageOfPckDpTax = dpTax * percentageOfPckMonthlyCost;
+            //var dpTaxPerPackItem = (dpTax / (state.packages[id].monthlyCost / 100) * 10 || 0).toFixed(2);
+            state.packages[id].monthlyCostLessDp = state.packages[id].monthlyCost - percentageOfPckDpTax;
             state.packages[id].template.find('.reduced-monthly-cost').val(state.packages[id].monthlyCostLessDp.toFixed(2));
         }
     }

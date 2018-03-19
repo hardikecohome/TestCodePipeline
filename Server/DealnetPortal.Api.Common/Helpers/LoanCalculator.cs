@@ -33,6 +33,8 @@ namespace DealnetPortal.Api.Common.Helpers
             //TODO: why double, not decimal?
             //TODO: because methods from Financial class outputs value in double
             public double TotalMonthlyPayment { get; set; }
+            //Monthly cost of ownership - for clarity = MOC reduced by Down payment
+            public double TotalMCO { get; set; }
             public double TotalAllMonthlyPayments { get; set; }
             public double ResidualBalance { get; set; }
             public double TotalObligation { get; set; }
@@ -58,7 +60,7 @@ namespace DealnetPortal.Api.Common.Helpers
                         customerRate > 0 ? Math.Round(output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1), 2)
                             : output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1);
                     output.TotalAllMonthlyPayments = Math.Round(output.TotalMonthlyPayment, 2) * input.LoanTerm;
-                    mco = output.TotalMonthlyPayment;
+                    mco = output.TotalMonthlyPayment;                    
                 }
                 else
                 {
@@ -69,6 +71,7 @@ namespace DealnetPortal.Api.Common.Helpers
                     mco = output.TotalAmountFinanced * clarityPaymentFactor;
                     output.TotalAllMonthlyPayments = Math.Round(mco, 2) * input.LoanTerm;                    
                 }
+                output.TotalMCO = mco;
             }
             else
             {

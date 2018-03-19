@@ -1,4 +1,7 @@
-﻿<div class="row credit-check-info-hold no-top-margin">
+﻿@using DealnetPortal.Api.Common.Helpers;
+@model DealnetPortal.Web.Models.SummaryAndConfirmationViewModel
+
+<div class="row credit-check-info-hold no-top-margin">
     <div class="col-md-6 grid-column">
         <div class="dealnet-credit-check-section">
             <span id="equipment-cash-price" class="hidden">-</span>
@@ -83,49 +86,63 @@
     </div>
 </div>
 
-    <div class="summary-payment-info well">
-        <div class="row">
-            <div class="col-md-4 col-xs-12 summary-payment-info-item">
-                <div class="row">
-                    <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12 equal-height-label">
-                        <div>
-                            @Resources.TotalMonthlyCostOfOwnership (@Resources.TaxExcl)
-                        </div>
+<div class="summary-payment-info well">
+    <div class="row">
+        <div class="col-md-3 col-xs-12 summary-payment-info-item">
+            <div class="row">
+                <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12 equal-height-label">
+                    <div>
+                        @Resources.TotalMonthlyCostOfOwnership (@Resources.TaxExcl)
                     </div>
-                    <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                        <div class="inline-children">
-                            $<span id="totalMonthlyCostNoTax">-</span>
-                        </div>
+                </div>
+                <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                    <div class="inline-children">
+                        $@(Math.Round(Model.LoanCalculatorOutput.TotalMonthlyPayment - Model.LoanCalculatorOutput.Hst))
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-xs-12 summary-payment-info-item">
-                <div class="row">
-                    <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12 equal-height-label">
-                        <div>
-                            @Model.ProvinceTaxRate.Description
-                        </div>
+        </div>
+        <div class="col-md-3 col-xs-12 summary-payment-info-item">
+            <div class="row">
+                <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12 equal-height-label">
+                    <div>
+                        @Model.ProvinceTaxRate.Description
                     </div>
-                    <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                        <div class="inline-children">
-                            $<span id="total-hst">-</span>
-                        </div>
+                </div>
+                <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                    <div class="inline-children">
+                        $@(Math.Round(Model.LoanCalculatorOutput.Hst, 2))
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-xs-12 summary-payment-info-item">
-                <div class="row">
-                    <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12 equal-height-label">
-                        <div>
-                            @Resources.TotalMonthlyCostOfOwnership (@Resources.TaxIncl)
-                        </div>
+        </div>
+        <div class="col-md-3 col-xs-12 summary-payment-info-item">
+            <div class="row">
+                <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12 equal-height-label">
+                    <div>
+                        @Resources.TotalMonthlyCostOfOwnership (@Resources.TaxIncl)
                     </div>
-                    <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                        <div class="inline-children">
-                            $<span id="totalMonthlyCostTax">-</span>
-                        </div>
+                </div>
+                <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                    <div class="inline-children">
+                        $@(Math.Round(Model.LoanCalculatorOutput.TotalMonthlyPayment, 2))
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-xs-12 summary-payment-info-item">
+            <div class="row">
+                <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12 equal-height-label">
+                    <div>
+                        @Resources.TotalMCOReducedDownPayment (@Resources.TaxIncl)
+                    </div>
+                </div>
+                <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                    <div class="inline-children">
+                        $@(Math.Round(Model.LoanCalculatorOutput.TotalMCO, 2))
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
