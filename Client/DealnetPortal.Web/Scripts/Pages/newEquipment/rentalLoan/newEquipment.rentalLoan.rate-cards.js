@@ -123,12 +123,9 @@ module.exports('rate-cards', function (require) {
                 });
             }
 
-            var includeAdminFeeInCalc;
+            var includeAdminFeeInCalc = state.isCoveredByCustomer;
             if (option.name === 'Custom') {
                 customRateCard.setAdminFeeByEquipmentSum(eSumData.totalPrice !== "-" ? eSumData.totalPrice : 0);
-                includeAdminFeeInCalc = true;
-            } else {
-                includeAdminFeeInCalc = state.isCoveredByCustomer;
             }
 
             var data = rateCardsCalculator.calculateValuesForRender($.extend({ includeAdminFee: includeAdminFeeInCalc }, idToValue(state)(option.name)));

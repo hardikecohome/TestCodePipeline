@@ -322,9 +322,15 @@
                     var e = document.getElementById(option + '-amortDropdown');
                     e.selectedIndex = -1;
                 }
-                
-                rateCardsRenderEngine.renderDropdownValues({ rateCardPlan: state[option].plan, standaloneOption: option, totalAmountFinanced: rateCardsCalculator.getTotalAmountFinanced() });
+
+                rateCardsRenderEngine.renderDropdownValues({
+                    rateCardPlan: state[option].plan,
+                    standaloneOption: option,
+                    totalAmountFinanced: rateCardsCalculator.getTotalAmountFinanced()
+                });
                 state[option].AmortizationTerm = +$('#' + option + '-amortDropdown option:selected').val();
+            } else {
+                _setAdminFeeByEquipmentSum(option, eSumData.totalPrice !== "-" ? eSumData.totalPrice : 0);
             }
 
             var rateCard = rateCardsCalculator.filterRateCard({ rateCardPlan: state[option].plan, standaloneOption: option });
@@ -345,6 +351,19 @@
                 : '';
 
             rateCardsRenderEngine.renderOption(option, selectedRateCard, data);
+        });
+    }
+
+    function _setAdminFeeByEquipmentSum(option, eSum) {
+        if($.isEmptyObject(state.customRateCardBoundaires)) return;
+
+        Object.keys(state.customRateCardBoundaires).map(function(bound) {
+            var numbers = bound.split('-');
+            var lowBound = +numbers[0];
+            var highBound = +numbers[1];
+            if (lowBound <= eSum && highBound >= eSum) {
+                state[option].AdminFee = +state.customRateCardBoundaires[bound].adminFee;
+            }
         });
     }
 
