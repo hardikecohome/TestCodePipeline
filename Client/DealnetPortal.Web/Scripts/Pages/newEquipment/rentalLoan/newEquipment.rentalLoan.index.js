@@ -68,7 +68,7 @@
 
             state.bill59Equipment = bill59Equipment;
             state.isOntario = $(settings.dealProvinceId).val().toLowerCase() == 'on';
-            state.isCoveredByCustomer = $(settings.coveredByCustomerId).val().toLowerCase() === 'true';
+            state.isCoveredByCustomer = $(settings.coveredByCustomerId).val() !== '' ? $(settings.coveredByCustomerId).val().toLowerCase() === 'true' : undefined;
 
             _initHandlers();
             _initDatepickers();

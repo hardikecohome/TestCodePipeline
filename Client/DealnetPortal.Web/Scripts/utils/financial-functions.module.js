@@ -29,7 +29,8 @@
         };
 
         var yourCost = function (data) {
-            var yCost = data.DealerCost;
+            var includeAdminFeeForDealer = data.includeAdminFee !== undefined ? !data.includeAdminFee : false;
+            var yCost = includeAdminFeeForDealer ? data.DealerCost + data.AdminFee : data.DealerCost;
 
             return yCost * totalAmountFinanced(data) / 100;
         }

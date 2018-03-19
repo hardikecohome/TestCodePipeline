@@ -45,8 +45,19 @@
 
     var init = function (plans, rateCards, taxes) {
         _initRateCards(plans, rateCards, taxes);
+        _setCustomRateCardAdminFee(rateCards);
         calculatorJCourusel.init();
         calculatorOption.init();
+    }
+
+    function _setCustomRateCardAdminFee(cards) {
+        var customRcId = constants.rateCards.filter(function(card) { return card.name === 'Custom' })[0].id;
+        var customRateCards = cards.filter(function(card) { return card.CardType === customRcId });
+        if (!customRateCards.length) return;
+
+        $.grep(customRateCards, function(card) {
+            state.customRateCardBoundaires[card.LoanValueFrom + '-' + card.LoanValueTo] = { adminFee: card.AdminFee };
+        });
     }
 
     return { init: init };

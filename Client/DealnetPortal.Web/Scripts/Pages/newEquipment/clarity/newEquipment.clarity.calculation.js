@@ -153,7 +153,8 @@
     var _recalculateAndRenderMCOLessDownPayment = function (data) {
         var downPayment = state.downPayment;
         var dpTax = downPayment * constants.clarityPaymentFactor / (1 + state.tax / 100);
-        var totalMonthlyCost = data.equipmentSum;
+        var packageSum =  Object.keys(state.packages).reduce(function (acc, x) { return acc += state.packages[x].monthlyCost }, 0);
+        var totalMonthlyCost = data.equipmentSum + packageSum;
 
         for (var id in state.equipments) {
             var percentageOfEqMonthlyCost = (state.equipments[id].monthlyCost * 100 / totalMonthlyCost ) / 100;

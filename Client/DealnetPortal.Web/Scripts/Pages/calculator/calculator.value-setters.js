@@ -133,7 +133,6 @@
                     $('#' + optionKey + '-customAmortTerm').val('');
                     $('#' + optionKey + '-customCRate').val('');
                     $('#' + optionKey + '-customYCostVal').val('');
-                    $('#' + optionKey + '-customAFee').val('');
 
                     $('#' + optionKey + '-amortDropdown').closest('.row').removeClass('hidden');
                     $.grep(constants.inputsToHide, function (field) {
