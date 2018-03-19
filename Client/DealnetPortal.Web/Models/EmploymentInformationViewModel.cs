@@ -12,9 +12,11 @@ namespace DealnetPortal.Web.Models
         public IncomeType? IncomeType { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "AnnualSalaryIncome")]
+        [RegularExpression(@"^[1-9]\d{0,5}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "AnnualSalaryIncomeIncorrectFormat")]
         public string AnnualSalary { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "HourlyRate")]
+        [RegularExpression(@"^[1-9]\d{0,2}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "HourlyRateIncorrectFormat")]
         public string HourlyRate { get; set; }
 
         public string YearsOfEmployment { get; set; }

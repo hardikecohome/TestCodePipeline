@@ -610,6 +610,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Annual Salary/Income is in incorrect format.
+        /// </summary>
+        public static string AnnualSalaryIncomeIncorrectFormat {
+            get {
+                return ResourceManager.GetString("AnnualSalaryIncomeIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Estimated annual Sales is in incorrect format.
         /// </summary>
         public static string AnnualSalesIncorrectFormat {
@@ -3325,6 +3334,15 @@ namespace DealnetPortal.Web.Resources {
         public static string HourlyRate {
             get {
                 return ResourceManager.GetString("HourlyRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hourly Rate is in incorrect format.
+        /// </summary>
+        public static string HourlyRateIncorrectFormat {
+            get {
+                return ResourceManager.GetString("HourlyRateIncorrectFormat", resourceCulture);
             }
         }
         

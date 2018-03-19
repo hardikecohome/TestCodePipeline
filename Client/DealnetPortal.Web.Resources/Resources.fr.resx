@@ -2647,4 +2647,10 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
   <data name="Home" xml:space="preserve">
     <value>Page d’accueil</value>
   </data>
+  <data name="AnnualSalaryIncomeIncorrectFormat" xml:space="preserve">
+    <value>Le format du salaire annuel/revenue est incorrect</value>
+  </data>
+  <data name="HourlyRateIncorrectFormat" xml:space="preserve">
+    <value>Le format du Salaire Horaire est incorrect</value>
+  </data>
 </root>

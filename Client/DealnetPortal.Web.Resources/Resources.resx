@@ -2560,4 +2560,10 @@ changing contract terms or signing contract on paper.</value>
   <data name="SomeSpecialCharactersAreRestricted" xml:space="preserve">
     <value>Some special characters like ', &lt;, &gt;, &amp; are not allowed</value>
   </data>
+  <data name="AnnualSalaryIncomeIncorrectFormat" xml:space="preserve">
+    <value>Annual Salary/Income is in incorrect format</value>
+  </data>
+  <data name="HourlyRateIncorrectFormat" xml:space="preserve">
+    <value>Hourly Rate is in incorrect format</value>
+  </data>
 </root>
